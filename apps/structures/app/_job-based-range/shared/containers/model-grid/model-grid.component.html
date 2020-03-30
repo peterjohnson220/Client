@@ -72,6 +72,10 @@
   {{ dataRow.CompanyStructures_RangeGroup_AvgBaseSalary | rangeValue: (metaData$ | async)?.Rate }}
 </ng-template>
 
+<ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]">{{dataRow[fieldName]}}%</ng-container>
+</ng-template>
+
 <ng-template #gridGlobalActions>
   <button class="btn btn-secondary" (click)="handleAddJobsClicked()">Add Jobs</button>
   <pf-model-settings-btn [metadata]="metaData$ | async" (clicked)="handleModelSettingsClicked()"></pf-model-settings-btn>

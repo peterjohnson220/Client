@@ -10,6 +10,7 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
+import { JobRangeModelChartService } from '../../data';
 
 @Component({
   selector: 'pf-job-based-range-chart',
@@ -43,7 +44,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         this.currency = md.Currency;
         this.controlPointDisplay = md.ControlPointDisplay;
         this.chartLocale = getUserLocale();
-        this.chartOptions = StructuresHighchartsService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
+        this.chartOptions = JobRangeModelChartService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
       }
     });
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
@@ -89,15 +90,21 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addAverage(currentRow) {
-    this.averageSeriesData.push(currentRow.CompanyStructures_RangeGroup_AverageEEMRP);
+    this.averageSeriesData.push({
+      y: currentRow.CompanyStructures_RangeGroup_AverageEEMRP,
+      jobTitle: currentRow.CompanyJobs_Job_Title,
+      avgComparatio: currentRow.CompanyStructures_RangeGroup_AverageComparatio,
+      avgPositioninRange: currentRow.CompanyStructures_RangeGroup_AveragePositionInRange,
+      avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMRP)
+    });
   }
 
   private formatOutlierCount(min: boolean, count: number) {
     return `${count} ${count > 1 ? 'employees' : 'employee'} ${min ? 'below min' : 'above max'}`;
   }
 
-  private formatSalary(avgOutlier: number, avgCount: number) {
-    return `Average salary: ${StructuresHighchartsService.formatCurrency(avgOutlier, this.chartLocale, this.currency)}`;
+  private formatSalary(salary: number) {
+    return `Average ${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency)}`;
   }
 
   private formatDelta(min: boolean, delta: number) {
@@ -113,7 +120,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         y: currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier,
         count: currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier,
         countString: this.formatOutlierCount(true, currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier),
-        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier, currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier),
+        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier),
         delta: this.formatDelta(true, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMinOutliersAndMRP)
       });
 
@@ -124,7 +131,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         y: currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier,
         count: currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier,
         countString: this.formatOutlierCount(false, currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier),
-        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier, currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier),
+        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier),
         delta: this.formatDelta(false, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMaxOutliersAndMRP)
       });
   }
