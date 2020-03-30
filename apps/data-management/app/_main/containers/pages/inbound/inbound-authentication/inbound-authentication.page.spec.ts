@@ -85,17 +85,4 @@ describe('Data Management - Main - Inbound Authentication Page', () => {
     // assert
     expect(spy).toHaveBeenCalledWith(expectedAction);
   });
-
-  it('should navigate to field mappings on next', () => {
-    // arrange
-    const spy = jest.spyOn(router, 'navigate');
-    const mockCredsPackage = generateMockCredentialsPackage();
-    const expectedRoute = ['/transfer-data/inbound/field-mapping'];
-
-    // act
-    instance.next(mockCredsPackage);
-
-    // assert
-    expect(spy).toHaveBeenCalledWith(expectedRoute);
-  });
 });

@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-
+import { Router } from '@angular/router';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
+import { isEmpty, isNumber, isObject } from 'lodash';
 import { Observable, of } from 'rxjs';
-import { catchError, delay, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, delay, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import { isEmpty, isObject } from 'lodash';
-
-import { ConnectionsHrisApiService } from 'libs/data/payfactors-api/hris-api/connections';
-import { CredentialsPackage } from 'libs/models/hris-api/connection/request';
-import { ConnectionSummaryResponse, ValidateCredentialsResponse } from 'libs/models/hris-api/connection/response';
+import { LoadTypes } from 'libs/constants';
+import { ConnectionsHrisApiService, ConfigurationGroupApiService, LoaderSettingsApiService } from 'libs/data/payfactors-api';
+import { ConnectionSummaryResponse, CredentialsPackage, ValidateCredentialsResponse } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 
 import { PayfactorsApiModelMapper } from '../helpers';
@@ -70,9 +69,22 @@ export class HrisConnectionEffects {
           connectionSummary
         };
       }),
-      switchMap((obj) => {
-        const connectionPostModel =
-          PayfactorsApiModelMapper.createConnectionPostRequest(obj.action.payload, obj.userContext.CompanyId, obj.connectionSummary.provider.ProviderId);
+      switchMap(obj => this.loaderConfigurationGroupsApi.saveConfigurationGroup({
+          CompanyId: obj.userContext.CompanyId,
+          GroupName: 'HRIS Loader Config',
+          LoaderConfigurationGroupId: null,
+          LoadType: LoadTypes.Hris,
+        }).pipe(
+          map(configGroup => ({...obj, configGroup})),
+        ),
+      ),
+      switchMap(obj => {
+        const connectionPostModel = PayfactorsApiModelMapper.createConnectionPostRequest(
+          obj.action.payload,
+          obj.userContext.CompanyId,
+          obj.connectionSummary.provider.ProviderId,
+          obj.configGroup.LoaderConfigurationGroupId,
+        );
         if (obj.connectionSummary.connectionID) {
           connectionPostModel.connection.connection_ID = obj.connectionSummary.connectionID;
         }
@@ -90,6 +102,13 @@ export class HrisConnectionEffects {
             catchError(error => of(new fromHrisConnectionActions.CreateConnectionError()))
           );
       })
+    );
+
+  @Effect({dispatch: false})
+  createConnectionSuccess = this.actions$
+    .pipe(
+      ofType(fromHrisConnectionActions.CREATE_CONNECTION_SUCCESS),
+      tap(() => this.router.navigate(['/transfer-data/inbound/field-mapping'])),
     );
 
   @Effect()
@@ -129,6 +148,20 @@ export class HrisConnectionEffects {
           };
         }
       ),
+      switchMap(obj => this.connectionService.getSummary(obj.userContext)
+        .pipe(
+          map(connectionSummary => ({
+            ...obj,
+            connectionSummary: PayfactorsApiModelMapper.mapConnectionSummaryResponseToConnectionSummaryDto(connectionSummary)
+          })),
+        )
+      ),
+      tap(({ userContext, connectionSummary }) => {
+        if (isNumber(connectionSummary.loaderConfigurationGroupId)) {
+          const loaderSettingsDto = PayfactorsApiModelMapper.getDisabledLoaderSettingsDtoForConnection(userContext, connectionSummary);
+          this.loaderSettingsApiService.saveOrUpdate(loaderSettingsDto).subscribe();
+        }
+      }),
       switchMap((obj) => {
         return this.connectionService.delete(obj.userContext)
           .pipe(
@@ -181,6 +214,9 @@ export class HrisConnectionEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromHrisConnectionReducer.State>,
-    private connectionService: ConnectionsHrisApiService
+    private connectionService: ConnectionsHrisApiService,
+    private loaderConfigurationGroupsApi: ConfigurationGroupApiService,
+    private loaderSettingsApiService: LoaderSettingsApiService,
+    private router: Router,
   ) {}
 }
