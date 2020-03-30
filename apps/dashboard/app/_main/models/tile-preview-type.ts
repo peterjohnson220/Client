@@ -10,6 +10,7 @@ export class TilePreviewType {
   List = TilePreviewTypes.List;
   PlaceHolder = TilePreviewTypes.PlaceHolder;
   BasicList = TilePreviewTypes.BasicList;
+  Peer = TilePreviewTypes.Peer;
 
   constructor() {
     this.AllTypes = [
@@ -19,7 +20,8 @@ export class TilePreviewType {
       TilePreviewTypes.Icon,
       TilePreviewTypes.List,
       TilePreviewTypes.PlaceHolder,
-      TilePreviewTypes.BasicList
+      TilePreviewTypes.BasicList,
+      TilePreviewTypes.Peer
     ];
   }
 }

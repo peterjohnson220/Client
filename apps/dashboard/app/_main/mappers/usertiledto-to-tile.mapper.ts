@@ -1,7 +1,7 @@
 import {UserTileDto} from 'libs/models';
 
 import {Tile, TilePreviewChartTypes, TilePreviewTypes, TileTypes} from '../models';
-import { MarketingTileDescriptions } from '../models/marketing-tile-descriptions';
+import {MarketingTileDescriptions} from '../models/marketing-tile-descriptions';
 
 export class UserTileToTileMapper {
 
@@ -85,6 +85,8 @@ export class UserTileToTileMapper {
         return TilePreviewTypes.ChartWithList;
       case TileTypes.QuickPrice:
         return TilePreviewTypes.BasicList;
+      case TileTypes.Peer:
+        return TilePreviewTypes.Peer;
       default:
         return TilePreviewTypes.Icon;
     }
@@ -165,8 +167,19 @@ export class UserTileToTileMapper {
 
       case TileTypes.Peer:
         tile.CssClass = 'tile-blue';
+        tile.Size = 2;
         tile.MarketingDescription = MarketingTileDescriptions.Peer;
         tile.MarketingButtonText = 'EXPLORE';
+
+        if (tile.TilePreviewData == null || tile.TilePreviewData[ 0 ] == null) {
+          tile.PreviewType = TilePreviewTypes.Icon;
+        } else {
+          tile.IgnoreTileAnchorOverlay = true;
+          tile.ChartType = TilePreviewChartTypes.Pie;
+          tile.ChartLabel = 'Company Jobs';
+          tile.ShouldLimitLegendText = true;
+          this.SetChartLegendColors(tile, [ '#A3A3A3', '#264478', '#C79500' ]);
+        }
         break;
 
       case TileTypes.PricingProjects:

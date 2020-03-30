@@ -8,7 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { DragulaModule } from 'ng2-dragula';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbCarouselModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from './fa-icons';
 
@@ -40,7 +40,7 @@ import { UserVoiceIndicatorComponent } from './containers';
 import { DashboardTCModalComponent} from './containers';
 
 // Components
-import { TileComponent } from './components';
+import {TileComponent, TilePreviewPeerComponent} from './components';
 import { TilePreviewChartComponent } from './components';
 import { TilePreviewChartWithCalendarComponent } from './components';
 import { TilePreviewChartWithListComponent } from './components';
@@ -72,6 +72,7 @@ import { BasicListComponent } from './components';
     ChartsModule,
     DateInputsModule,
     FontAwesomeModule,
+    NgbCarouselModule,
     NgbModule.forRoot(),
 
     // Routing
@@ -96,6 +97,7 @@ import { BasicListComponent } from './components';
     TilePreviewIconComponent,
     TilePreviewListComponent,
     TilePreviewPlaceHolderComponent,
+    TilePreviewPeerComponent,
     TimelineActivityComponent,
     TileComponent,
     UserVoiceIndicatorComponent,
