@@ -9,9 +9,6 @@
   page-break-after: always;
 }
 
-.row.vertical-divider {
-  overflow: hidden;
-}
 .row.vertical-divider > div[class*="col-"] {
   border-left: 1px solid $trs-canvas-background-color;
   border-right: 1px solid $trs-canvas-background-color;
