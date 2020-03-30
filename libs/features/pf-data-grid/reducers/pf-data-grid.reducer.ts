@@ -585,7 +585,12 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       let clearSelectionsSelectedData = [];
       let clearSelectionsSelectAllState = SelectAllStatus.unchecked;
 
-      if (action.pageViewId && action.selectionsToClear && action.selectionsToClear.length > 0) {
+      if (action.pageViewId
+        && action.selectionsToClear
+        && action.selectionsToClear.length > 0
+        && state.grids[action.pageViewId].selectedKeys
+        && state.grids[action.pageViewId].selectedKeys.length > 0) {
+
         clearSelectionsSelectedKeys = cloneDeep(state.grids[action.pageViewId].selectedKeys);
         clearSelectionsSelectedData = cloneDeep(state.grids[action.pageViewId].selectedData);
         const clearSelectionsAllVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, state.grids[action.pageViewId].data.data);
