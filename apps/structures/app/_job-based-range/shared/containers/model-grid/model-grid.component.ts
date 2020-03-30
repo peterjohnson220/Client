@@ -26,6 +26,7 @@ export class ModelGridComponent implements AfterViewInit {
   @ViewChild('eeCount', {static: false}) eeCountColumn: ElementRef;
   @ViewChild('avgBaseSalary', {static: false}) avgBaseSalaryColumn: ElementRef;
   @ViewChild('mrpValue', {static: false}) mrpValueColumn: ElementRef;
+  @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @Input() singleRecordView: boolean;
   @Input() splitViewTemplate: TemplateRef<any>;
@@ -82,7 +83,9 @@ export class ModelGridComponent implements AfterViewInit {
       ['Max']: {Template: this.maxColumn},
       ['NumEmployees']: {Template: this.eeCountColumn},
       ['AvgBaseSalary']: {Template: this.avgBaseSalaryColumn},
-      ['MarketReferencePointValue']: {Template: this.mrpValueColumn}
+      ['MarketReferencePointValue']: {Template: this.mrpValueColumn},
+      ['AverageComparatio']: {Template: this.percentageColumn},
+      ['AveragePositionInRange']: {Template: this.percentageColumn}
     };
 
     this.fullGridActionBarConfig = {

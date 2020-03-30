@@ -13,7 +13,7 @@ import { appendOrdinalSuffix } from 'libs/core/functions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
-import { PricingsSalaryRangeChartOptionsService } from '../../data';
+import { PricingsSalaryRangeChartService } from '../../data';
 import { PricingMatchHelper } from '../../helpers';
 
 
@@ -56,7 +56,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.controlPointDisplay = md.ControlPointDisplay;
         this.chartLocale = getUserLocale();
         this.clearData();
-        this.chartOptions = PricingsSalaryRangeChartOptionsService.getPricingsRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
+        this.chartOptions = PricingsSalaryRangeChartService.getPricingsRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
       }
     });
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {

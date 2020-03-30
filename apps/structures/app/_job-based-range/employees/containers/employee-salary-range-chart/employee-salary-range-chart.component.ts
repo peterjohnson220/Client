@@ -11,6 +11,7 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
+import { EmployeeRangeChartService } from '../../data';
 
 @Component({
   selector: 'pf-employee-salary-range-chart',
@@ -27,6 +28,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   chartMax: number;
   employeeSeriesData: any;
   employeeSeriesOutlierData: any;
+  employeeAvgMrpSeriesData: any;
   chartLocale: string; // en-US
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
@@ -52,7 +54,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.controlPointDisplay = md.ControlPointDisplay;
         this.chartLocale = getUserLocale();
         this.clearData();
-        this.chartOptions = StructuresHighchartsService.getEmployeeRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
+        this.chartOptions = EmployeeRangeChartService.getEmployeeRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
       }
     });
 
@@ -107,8 +109,26 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     if (salary >= min && salary <= max) {
       this.employeeSeriesData.push({ x: xCoordinate, y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup, name: name});
     } else {
-      this.employeeSeriesOutlierData.push({ x: xCoordinate, y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup, name: name});
+      this.employeeSeriesOutlierData.push(
+        {
+          x: xCoordinate,
+          y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup,
+          empDisplay: name,
+          salaryDisplay: `${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency)}`
+        });
     }
+    
+    this.employeeAvgMrpSeriesData.push({
+      x: xCoordinate,
+      y: jobRangeData.CompanyStructures_RangeGroup_AverageEEMRP,
+      jobTitle: jobRangeData.CompanyJobs_Job_Title,
+      avgComparatio: jobRangeData.CompanyStructures_RangeGroup_AverageComparatio,
+      avgPositioninRange: jobRangeData.CompanyStructures_RangeGroup_AveragePositionInRange,
+      avgSalary: `
+        ${this.controlPointDisplay}:
+        ${StructuresHighchartsService.formatCurrency(jobRangeData.CompanyStructures_RangeGroup_AverageEEMRP, this.chartLocale, this.currency)}
+      `
+    });
   }
 
   private addMidpointLine() {
@@ -166,6 +186,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       this.employeeSeriesData = [];
       this.employeeSeriesOutlierData = [];
+      this.employeeAvgMrpSeriesData = [];
 
       this.setInitialMinMax(this.jobRangeData);
 
@@ -184,15 +205,15 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
         // add employee plot points
         this.addEmployee(i, currentRow, this.jobRangeData);
-
       }
 
       // set the min/max
       this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
 
       // set the series data (0 - salaryRange, 1 - midpoint, 2 - avg salary, 3 - outliers)
-      this.chartInstance.series[3].setData(this.employeeSeriesData, false);
-      this.chartInstance.series[4].setData(this.employeeSeriesOutlierData, true);
+      this.chartInstance.series[3].setData(this.employeeAvgMrpSeriesData, false);
+      this.chartInstance.series[4].setData(this.employeeSeriesData, false);
+      this.chartInstance.series[5].setData(this.employeeSeriesOutlierData, true);
       this.renameSeries();
 
       // store the plotLinesAndBands in one of the unused chart properties so we can access it

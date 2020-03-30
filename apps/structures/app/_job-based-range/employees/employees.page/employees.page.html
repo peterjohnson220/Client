@@ -2,6 +2,7 @@
   [title]="(metaData$ | async)?.StructureName"
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
+  [columnTemplates]="colTemplates"
   [pageViewId]="employeePageViewId"
   [gridContainerSplitViewWidth]="'60%'"
   [splitViewTemplate]="graph"
@@ -15,6 +16,10 @@
     <pf-employee-salary-range-chart
       [rangeId]="rangeId">
     </pf-employee-salary-range-chart>
+</ng-template>
+
+<ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]">{{dataRow[fieldName]}}%</ng-container>
 </ng-template>
 
 <ng-template #gridGlobalActions>

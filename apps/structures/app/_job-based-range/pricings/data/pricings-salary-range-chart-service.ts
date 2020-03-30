@@ -1,5 +1,5 @@
 // making this a bespoke service to keep the component.ts file from being overly long and avoid clutter
-export class PricingsSalaryRangeChartOptionsService {
+export class PricingsSalaryRangeChartService {
 
   static getPricingsRangeOptions(locale, currencyCode, controlPointDisplay) {
     const tooltipFormatter = new Intl.NumberFormat(locale, {
