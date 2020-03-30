@@ -36,12 +36,15 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   currency: string;
   controlPointDisplay: string;
   rate: string;
+  isCurrent: boolean;
 
   constructor(
     public store: Store<any>
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
+        this.isCurrent = md.IsCurrent;
+        this.rate = md.Rate;
         this.currency = md.Currency;
         this.controlPointDisplay = md.ControlPointDisplay;
         this.chartLocale = getUserLocale();
@@ -86,9 +89,30 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       xCoordinate, currentRow.CompanyStructures_Ranges_Min, currentRow.CompanyStructures_Ranges_Max));
   }
 
+  private formatMidPoint(isCurrent, midPointType, value) {
+    return isCurrent ? StructuresHighchartsService.formatMidPoint(midPointType, value, this.chartLocale, this.currency, this.rate) : null;
+  }
+
+  private formatMidPointDelta(currentRow) {
+    return this.isCurrent === false ? StructuresHighchartsService.formatDeltaInMidPointForExistingStruct(
+      currentRow.CompanyStructures_Ranges_Mid,
+      currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint,
+      this.chartLocale, this.currency, this.rate) : null;
+  }
+
   private addMidpoint(currentRow) {
-    this.midpointSeriesData.push(StructuresHighchartsService.calculateMidpoint(
-      currentRow.CompanyStructures_Ranges_Min, currentRow.CompanyStructures_Ranges_Max));
+    const delta = this.formatMidPointDelta(currentRow);
+
+    this.midpointSeriesData.push({
+      y: StructuresHighchartsService.calculateMidpoint(currentRow.CompanyStructures_Ranges_Min, currentRow.CompanyStructures_Ranges_Max),
+      jobTitle: currentRow.CompanyJobs_Job_Title,
+      midPoint: this.formatMidPoint(this.isCurrent, 'Midpoint', currentRow.CompanyStructures_Ranges_Mid),
+      currentMidPoint: this.formatMidPoint(!this.isCurrent, 'Current Mid', currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint),
+      newMidPoint: this.formatMidPoint(!this.isCurrent, 'New Mid', currentRow.CompanyStructures_Ranges_Mid),
+      delta: !!delta ? delta.message : delta,
+      icon: !!delta ? delta.icon : delta,
+      iconColor: !!delta ? delta.color : delta
+    });
   }
 
   private addAverage(currentRow) {
