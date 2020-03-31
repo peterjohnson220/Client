@@ -93,18 +93,11 @@ exports[`CommunityPollComponent should show poll 1`] = `
       </div>
     </div>
     <div
-      class="d-flex pt-3 justify-content-between"
+      class="d-flex pt-3 justify-content-end"
       ng-reflect-klass="d-flex pt-3"
       ng-reflect-ng-class="[object Object]"
     >
       
-      <div
-        class="poll-jump-to-results"
-        data-qa-id="cnt-submitJumpToResults"
-      >
-         Jump to results 
-        <fa-icon />
-      </div>
       <button
         class="btn btn-secondary submit-button-container"
         data-qa-id="btn-submitPollResponse"
