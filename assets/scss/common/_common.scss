@@ -40,6 +40,11 @@
   @extend %ellipsis-overflowing-text;
 }
 
+.ellipsis-overflowing-text-wrap {
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
 tr.row-disabled {
   @extend %disabled-row;
 }

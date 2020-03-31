@@ -29,8 +29,6 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   @Input() unPricedCount: number;
   @ViewChild('pricedDataPayMarketFilter', { static: false }) pricedDataPayMarketFilter: ElementRef;
   @ViewChild('payMarketColumn', { static: false }) payMarketColumn: ElementRef;
-  @ViewChild('baseMrpColumn', { static: false }) baseMrpColumn: ElementRef;
-  @ViewChild('baseTccColumn', { static: false }) baseTccColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
   @ViewChild('genericMrpColumn', { static: false }) genericMrpColumn: ElementRef;
 
