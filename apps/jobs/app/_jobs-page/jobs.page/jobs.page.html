@@ -72,7 +72,7 @@
   {{dataRow['CompanyJobs_JobStatus'] ? 'Active' : 'Inactive'}}
 </ng-template>
 <ng-template #hasPeerDataColumn let-dataRow="dataRow">
-        <fa-icon [id]="dataRow['CompanyJobs_CompanyJob_ID']" (mouseenter)="onToggle($event, dataRow['CompanyJobs_CompanyJob_ID'])"
+        <fa-icon [id]="dataRow['CompanyJobs_CompanyJob_ID']"  (click)="onToggle($event, null)" (mouseenter)="onToggle($event, dataRow['CompanyJobs_CompanyJob_ID'])"
                (mouseleave)="onToggle($event, null)"
                icon="exchange-alt" *ngIf="dataRow['CompanyJobs_Exchange_ID']"></fa-icon>
 </ng-template>
