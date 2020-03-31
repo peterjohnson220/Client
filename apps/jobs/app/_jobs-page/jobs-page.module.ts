@@ -39,6 +39,8 @@ import {
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
 import { PricingMatchesJobTitleComponent } from './grid-column-templates';
+import { PeerExchangeMatchesComponent } from './components/peer-exchange-matches/peer-exchange-matches.component';
+import {JobPeerMatchesEffects} from './effects/job-peer-matches.effects';
 
 @NgModule({
   imports: [
@@ -56,6 +58,7 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     EffectsModule.forFeature([
       JobsPageEffects,
       JobDescriptionEffects,
+      JobPeerMatchesEffects,
     ]),
     FontAwesomeModule,
     TooltipModule,
@@ -88,7 +91,9 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     ExportListPopoverComponent,
 
     // Column Templates
-    PricingMatchesJobTitleComponent
+    PricingMatchesJobTitleComponent,
+
+    PeerExchangeMatchesComponent
   ]
 })
 export class JobsPageModule {
