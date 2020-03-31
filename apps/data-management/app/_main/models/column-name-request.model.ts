@@ -1,4 +1,4 @@
-import {FileUploadHeaderRequestModel} from './file-upload-header-request.model';
+import {FileUploadHeaderRequestModel} from 'libs/features/org-data-loader/models';
 export interface ColumnNameRequestModel {
   columnNamesFile: FileUploadHeaderRequestModel;
   columnNames: string[];

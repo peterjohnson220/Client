@@ -5,4 +5,3 @@ export * from './visible-loader-option.model';
 export * from './file-upload-header-request.model';
 export * from './file-upload-data-request.model';
 export * from './entity-field-mapping-definition.model';
-export * from './column-name-request.model';
