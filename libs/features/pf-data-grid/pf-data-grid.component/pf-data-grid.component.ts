@@ -47,6 +47,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
   @Input() applyDefaultFilters: boolean;
+  @Input() applyUserDefaultCompensationFields: boolean;
   @Input() allowSort = true;
   @Input() showActionBar = false;
   @Input() actionBarClassName: string;
@@ -148,6 +149,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['applyUserDefaultCompensationFields']) {
+      this.store.dispatch(new fromActions.UpdateApplyUserDefaultCompensationFields(this.pageViewId,
+        changes['applyUserDefaultCompensationFields'].currentValue));
+    }
+
     if (changes['pageViewId']) {
       this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
       this.store.dispatch(new fromActions.LoadSavedViews(changes['pageViewId'].currentValue));
@@ -172,7 +178,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['applyDefaultFilters']) {
       this.store.dispatch(new fromActions.UpdateApplyDefaultFilters(this.pageViewId, changes['applyDefaultFilters'].currentValue));
     }
-
   }
 
   hasFilters(fields: ViewField[]): boolean {

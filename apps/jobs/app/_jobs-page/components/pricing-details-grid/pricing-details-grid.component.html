@@ -12,6 +12,7 @@
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [showActionBar]="true"
+  [applyUserDefaultCompensationFields]="true"
   [actionBarClassName]="'pricing-details-grid-action-bar ml-0 mt-1'"
   [gridGlobalFiltersTemplates]="pricedDataGlobalFilterTemplates"
   [gridGlobalActionsTemplate]="changeView"
@@ -41,6 +42,13 @@
       Location: {{dataRow['CompanyPayMarkets_Geo_Value'] || 'N/A'}}
     </em>
   </small>
+</ng-template>
+
+<ng-template #genericMrpColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <pf-pricing-details-mrp-column
+    [dataRow]="dataRow"
+    [fieldName]="fieldName"
+  ></pf-pricing-details-mrp-column>
 </ng-template>
 
 <ng-template #baseMrpColumn let-dataRow="dataRow">

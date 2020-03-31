@@ -34,7 +34,8 @@ import {
   ProjectDetailsComponent,
   PricingHistoryComponent,
   NotPricedPaymarketsComponent,
-  ExportListPopoverComponent
+  ExportListPopoverComponent,
+  PricingDetailsMrpColumnComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
@@ -89,6 +90,7 @@ import {JobPeerMatchesEffects} from './effects/job-peer-matches.effects';
     PricingHistoryComponent,
     NotPricedPaymarketsComponent,
     ExportListPopoverComponent,
+    PricingDetailsMrpColumnComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent,

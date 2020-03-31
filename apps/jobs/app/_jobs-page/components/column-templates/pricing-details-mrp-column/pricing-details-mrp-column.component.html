@@ -1,0 +1,8 @@
+<div class="ellipsis-overflowing-text">
+  <span [innerHTML]="dataRow['CompanyJobs_Pricings_' + category + 'MRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
+  <small *ngIf="dataRow['CompanyJobs_Pricings_' + category + 'MRP']">
+    <em class="text-muted">
+      ({{dataRow['CompanyJobs_Pricings_'+category+'_Reference_Point']}}{{percentileSuffix}})
+    </em>
+  </small>
+</div>
