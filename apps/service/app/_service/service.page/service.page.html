@@ -1,3 +1,20 @@
-<div class="page">
-  <span class="title">Service</span>
-</div>
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [title]="'Service'"
+  [selectionField]="'UserTicket_ID'"
+  [defaultSort]="defaultSort"
+  [actionBarConfig]="actionBarConfig"
+  [columnTemplates]="colTemplates">
+</pf-data-grid>
+
+<ng-template #statusColumn let-dataRow="dataRow">
+  <div class="status-column">
+    <fa-icon icon="circle" class="circle-icon"
+      [class.yellow]="dataRow['UserTickets_UserTicket_State'] === 'New'"
+      [class.green]="dataRow['UserTickets_UserTicket_State'] === 'Closed'"
+      [class.light-blue]="dataRow['UserTickets_UserTicket_State'] === 'Waiting for Response'"
+      [class.blue]="dataRow['UserTickets_UserTicket_State'] === 'In Progress'">
+    </fa-icon>
+    <span>{{dataRow['UserTickets_UserTicket_State']}}</span>
+  </div>
+</ng-template>
