@@ -8,7 +8,7 @@
              [href]="model.TileUrl"></a>
           <div class="exchange-metrics-container">
             <div class="chart-container" *ngIf="exchangePreviewModel.CompanyJobTileChartItems && exchangePreviewModel.CompanyJobTileChartItems.length > 0">
-              <div>Exchange Name: {{exchangePreviewModel.ExchangeName}} </div>
+              <div>Exchange: {{exchangePreviewModel.ExchangeName}} </div>
               <kendo-chart [transitions]="true">
                 <kendo-chart-area background="none" [height]="90"></kendo-chart-area>
                 <kendo-chart-series>
