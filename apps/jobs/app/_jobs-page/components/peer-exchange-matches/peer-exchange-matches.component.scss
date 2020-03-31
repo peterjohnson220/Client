@@ -1,0 +1,19 @@
+.peerExchangeMatches{
+  padding: 12px;
+  margin-left: 15px;
+  position: absolute;
+  background-color: #FFFFFF;
+  z-index: 10000;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+}
+
+.peerExchangeMatches i{
+  color: #595959;
+}
+
+.peerExchangeMatches ul{
+  padding-left: 17px;
+}

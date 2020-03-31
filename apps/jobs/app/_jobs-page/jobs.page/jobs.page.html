@@ -63,12 +63,18 @@
 
 </ng-template>
 
+<pf-peer-exchange-matches  *ngIf="show" [offset]="offset"  [jobId]="peerJobId">
+
+</pf-peer-exchange-matches>
+
+
 <ng-template #jobStatusColumn let-dataRow="dataRow">
   {{dataRow['CompanyJobs_JobStatus'] ? 'Active' : 'Inactive'}}
 </ng-template>
-
 <ng-template #hasPeerDataColumn let-dataRow="dataRow">
-  <fa-icon icon="exchange-alt" *ngIf="dataRow['CompanyJobs_Exchange_ID']"></fa-icon>
+        <fa-icon [id]="dataRow['CompanyJobs_CompanyJob_ID']" (mouseenter)="onToggle($event, dataRow['CompanyJobs_CompanyJob_ID'])"
+               (mouseleave)="onToggle($event, null)"
+               icon="exchange-alt" *ngIf="dataRow['CompanyJobs_Exchange_ID']"></fa-icon>
 </ng-template>
 
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">

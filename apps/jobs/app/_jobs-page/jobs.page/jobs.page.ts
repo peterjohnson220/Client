@@ -70,6 +70,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   filterTemplates = {};
   globalFilterTemplates = {};
 
+  show: boolean;
+  offset: {};
+  peerJobId: number;
+  target: string;
+
   filters = [{
     SourceName: 'JobStatus',
     Operator: '=',
@@ -312,5 +317,16 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this.store.dispatch(new fromJobsPageActions.ExportPricings(request));
+  }
+
+  onToggle(event, jobId) {
+    if (this.peerJobId !== jobId ) {
+      this.peerJobId = jobId;
+      this.show = !this.show;
+      if (this.show) {
+        this.offset = { left: event.clientX, top: event.clientY };
+      }
+    }
+
   }
 }
