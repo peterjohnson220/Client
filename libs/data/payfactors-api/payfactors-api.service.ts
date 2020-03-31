@@ -74,7 +74,6 @@ export class PayfactorsApiService implements OnDestroy {
       map((response: any) => {
         const blob = response.body;
         const fileName = this.getHeaderTokenValue(response.headers, 'filename', 'Content-Disposition');
-        debugger;
         return this.fileApiService.saveBlobAsFile(blob, fileName, openInNewTab);
       })
     );

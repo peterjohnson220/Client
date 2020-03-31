@@ -36,8 +36,9 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   mrpFields = ['AllowMRP', 'BaseMRP', 'BonusMRP', 'BonusPctMRP', 'BonusTargetMRP', 'BonusTargetPctMRP', 'FixedMRP', 'LTIPMRP', 'LTIPPctMRP', 'RemunMRP',
-    'SalesIncentiveActualMRP', 'SalesIncentiveActualPctMRP', 'SalesIncentiveTargetMRP', 'SalesIncentiveTargetPctMRP', 'TargetLTIPMRP', 'TargetTDCMRP', 'TCCMRP', 'TCCPlusAllowMRP',
-    'TCCPlusAllowNoCarMRP', 'TCCTargetMRP', 'TCCTargetPlusAllowMRP', 'TCCTargetPlusAllowNoCarMRP', 'TDCMRP', 'TGPMRP'];
+    'SalesIncentiveActualMRP', 'SalesIncentiveActualPctMRP', 'SalesIncentiveTargetMRP', 'SalesIncentiveTargetPctMRP',
+    'TargetLTIPMRP', 'TargetTDCMRP', 'TCCMRP', 'TCCPlusAllowMRP', 'TCCPlusAllowNoCarMRP', 'TCCTargetMRP', 'TCCTargetPlusAllowMRP',
+    'TCCTargetPlusAllowNoCarMRP', 'TDCMRP', 'TGPMRP'];
   payMarketOptions: any;
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -54,7 +55,6 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   pricedDataPayMarketField: ViewField;
   pricedDataFilteredPayMarketOptions: any;
   pricedDataSelectedPayMarket: any;
-  gridFields = [];
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
