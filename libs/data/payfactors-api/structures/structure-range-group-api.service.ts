@@ -30,4 +30,8 @@ export class StructureRangeGroupApiService {
       `${this.endpoint}(${updateCompanyStructureRangeGroupNameDto.CompanyStructuresRangeGroupId})/Default.UpdateNameAsync`,
       { RangeGroupName: updateCompanyStructureRangeGroupNameDto.RangeGroupName });
   }
+
+  publishStructureModel(companyStructureRangeGroupId: number): Observable<number> {
+    return this.payfactorsApiService.post<number>(`${this.endpoint}(${companyStructureRangeGroupId})/Default.Publish`);
+  }
 }

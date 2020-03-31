@@ -78,6 +78,7 @@
 
 <ng-template #gridGlobalActions>
   <button class="btn btn-secondary" (click)="handleAddJobsClicked()">Add Jobs</button>
+  <button *ngIf="!(metaData$ | async).IsCurrent" class="btn btn-secondary" (click)="handlePublishModelClicked()">Publish</button>
   <pf-model-settings-btn [metadata]="metaData$ | async" (clicked)="handleModelSettingsClicked()"></pf-model-settings-btn>
 </ng-template>
 

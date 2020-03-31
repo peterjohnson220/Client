@@ -34,6 +34,7 @@ export class ModelGridComponent implements AfterViewInit {
   @Input() rangeGroupId: number;
   @Input() page: Pages;
   @Output() addJobs = new EventEmitter();
+  @Output() publishModel = new EventEmitter();
   @Output() openModelSettings = new EventEmitter();
 
   metaData$: Observable<RangeGroupMetadata>;
@@ -69,6 +70,10 @@ export class ModelGridComponent implements AfterViewInit {
   // Events
   handleAddJobsClicked() {
     this.addJobs.emit();
+  }
+
+  handlePublishModelClicked() {
+    this.publishModel.emit();
   }
 
   handleModelSettingsClicked() {
