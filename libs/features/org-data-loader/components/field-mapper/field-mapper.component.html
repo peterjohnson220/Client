@@ -4,7 +4,7 @@
 
 <ng-template #content>
   <div class="container-fluid">
-    <div><span *ngIf="mappingErrorMessage" class="text-danger">Supplied Client fields do not match saved mapped fields. Please re-map.</span></div>
+    <div><span *ngIf="mappingErrorMessage && clientFields.length" class="text-danger">Supplied Client fields do not match saved mapped fields. Please re-map.</span></div>
     <div
       class="row mt-3"
       *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees || loaderType === templateReferenceConstants.LoaderType.StructureMapping">
