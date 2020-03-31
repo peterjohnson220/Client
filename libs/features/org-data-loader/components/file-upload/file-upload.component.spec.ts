@@ -6,7 +6,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 
 import { FileUploadComponent } from './file-upload.component';
-import * as fromFileUploadReducer from '../../reducers';
+import * as fromFileUploadReducer from '../../state/reducers';
 
 describe('FileUploadComponent', () => {
   let component: FileUploadComponent;

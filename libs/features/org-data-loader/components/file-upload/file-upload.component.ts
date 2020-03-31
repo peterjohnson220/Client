@@ -3,11 +3,10 @@ import { Component, EventEmitter, Input, Output, ViewChildren } from '@angular/c
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { FileUploadHeaderRequestModel } from 'libs/features/org-data-loader/models';
+import { FileUploadHeaderRequestModel, ColumnNameRequestModel } from 'libs/features/org-data-loader/models';
 
-import * as fromFileUploadReducer from '../../reducers';
-import * as fromFileUploadActions from '../../actions/file-upload.actions';
-import { ColumnNameRequestModel } from '../../models';
+import * as fromFileUploadReducer from '../../state/reducers';
+import * as fromFileUploadActions from '../../state/actions';
 
 @Component({
   selector: 'pf-file-upload',
