@@ -1,14 +1,9 @@
+import { StructuresHighchartsService } from '../../shared/services';
+
 // making this a bespoke service to keep the component.ts file from being overly long and avoid clutter
 export class PricingsSalaryRangeChartService {
 
-  static getPricingsRangeOptions(locale, currencyCode, controlPointDisplay) {
-    const tooltipFormatter = new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency: currencyCode,
-      minimumFractionDigits: 0,
-      useGrouping: true
-    });
-
+  static getPricingsRangeOptions(locale, currencyCode, controlPointDisplay, rate) {
     return {
 
       chart: {
@@ -35,31 +30,11 @@ export class PricingsSalaryRangeChartService {
       },
       tooltip: {
         useHTML: true,
-        backgroundColor: '#282625',
-        borderColor: '#000000',
-        className: 'pricingToolTip',
-        formatter: function() {
-          return `
-            <span style="color: white;">
-              <b>${this.point.vendor}</b><br/>
-              ${this.point.titleAndEffectiveDate}<br/>
-              ${controlPointDisplay} ${this.point.mrpReferencePoint}: <b>${tooltipFormatter.format(Math.round(this.y))}</b>
-            </span>`;
-        }
+        snap: 0,
+        backgroundColor: '#000000',
+        borderWidth: 0
       },
       yAxis: {
-        labels: {
-          formatter: function() {
-            const formatter = new Intl.NumberFormat(locale, {
-              style: 'currency',
-              currency: currencyCode,
-              minimumFractionDigits: 0,
-              useGrouping: false
-            });
-            const rawLabelValue = this.value / 1000;
-            return formatter.format(rawLabelValue) + 'k';
-          }
-        },
         opposite: true,
         gridLineWidth: 1,
         gridLineDashStyle: 'Dash',
@@ -123,6 +98,16 @@ export class PricingsSalaryRangeChartService {
           lineWidth: 2,
           lineColor: '#CD8C01',
           radius: 15
+        },
+        tooltip: {
+          backgroundColor: '#000000',
+          useHTML: true,
+          padding: 0,
+          headerFormat: '<div style="display: inline-block; background-color: black">',
+          pointFormat: '<div style="color: white; font-weight: bold">{point.vendor}</div>' +
+            '<div style="color: white">{point.titleAndEffectiveDate}</div>' +
+            '<div style="color: white">{point.mrpLabel}: {point.salary}</div>',
+          footerFormat: '</div>'
         },
         enableMouseTracking: true
       }]

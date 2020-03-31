@@ -35,6 +35,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   pageViewId = PageViewIds.Model;
   currency: string;
   controlPointDisplay: string;
+  rate: string;
 
   constructor(
     public store: Store<any>
@@ -44,7 +45,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         this.currency = md.Currency;
         this.controlPointDisplay = md.ControlPointDisplay;
         this.chartLocale = getUserLocale();
-        this.chartOptions = JobRangeModelChartService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
+        this.rate = md.Rate;
+        this.chartOptions = JobRangeModelChartService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate);
       }
     });
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
@@ -55,7 +57,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   formatRangeDelta(rawCurrency, low) {
-    return StructuresHighchartsService.formatCurrency(rawCurrency, this.chartLocale, this.currency)
+    return StructuresHighchartsService.formatCurrency(rawCurrency, this.chartLocale, this.currency, this.rate, true)
       + (low ? ' to bring to minimum' : ' over maximum');
   }
 
@@ -104,11 +106,11 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private formatSalary(salary: number) {
-    return `Average ${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency)}`;
+    return `Average ${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`;
   }
 
   private formatDelta(min: boolean, delta: number) {
-    return StructuresHighchartsService.formatCurrency(delta, this.chartLocale, this.currency)
+    return StructuresHighchartsService.formatCurrency(delta, this.chartLocale, this.currency, this.rate, true)
       + (min ? ' to bring all to minimum' : ' above the maximum');
   }
 
@@ -141,6 +143,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.midpointSeriesData = [];
     this.averageSeriesData = [];
     this.outlierSeriesData = [];
+    this.chartMin = 0;
+    this.chartMax = 0;
     for (let i = 0; i < data.data.length; i++) {
       const currentRow = data.data[i];
       // check for new min
