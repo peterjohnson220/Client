@@ -3,10 +3,9 @@ import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from 
 import { isObject } from 'lodash';
 
 import { ConfigurationGroup } from 'libs/models/data-loads';
-import { FileUploadComponent } from 'libs/features/org-data-loader/components/file-upload/';
 
 import { EntityChoice } from '../../models';
-
+import { FileUploadComponent } from '../file-upload/';
 
 @Component({
   selector: 'pf-entity-upload',
