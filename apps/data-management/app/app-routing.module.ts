@@ -12,8 +12,7 @@ export const routes: Routes = [
     path: '',
     component: AppWrapperComponent,
     children: [
-      { path: '', loadChildren: () => import('apps/data-management/app/_main/main.module').then(m => m.MainModule) },
-      { path: '', loadChildren: () => import('apps/data-management/app/_pricing-loader/pricing-loader.module').then(m => m.PricingLoaderModule) }
+      { path: '', loadChildren: () => import('apps/data-management/app/_main/main.module').then(m => m.MainModule) }
     ]
   },
   { path: 'access-denied', component: AccessDeniedPageComponent },

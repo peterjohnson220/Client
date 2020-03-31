@@ -29,6 +29,7 @@ import {
   PfCheckboxComponent,
   ProviderListComponent
 } from './components';
+import { FileUploadComponent } from './components/file-upload';
 import {
   CustomEmployeeIdentifierComponent,
   DataManagementHomePageComponent,
@@ -68,6 +69,7 @@ import {
   EntityIdentifiersEffects,
   EntitySelectionEffects,
   FieldMappingEffects,
+  FileUploadEffects,
   HrisConnectionEffects,
   OrganizationalDataPageEffects,
   OrgDataFieldMappingsEffects,
@@ -100,6 +102,7 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
       EntityIdentifiersEffects,
       EntitySelectionEffects,
       FieldMappingEffects,
+      FileUploadEffects,
       HrisConnectionEffects,
       OrganizationalDataPageEffects,
       OrgDataFieldMappingsEffects,
@@ -152,6 +155,7 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
     EntityUploadComponent,
     EntityMappingComponent,
     FileMappingComponent,
+    FileUploadComponent,
     FieldMappingCardComponent,
     HrisAuthenticationCardComponent,
     HrisIntegrationPanelComponent,

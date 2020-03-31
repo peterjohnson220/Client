@@ -1,42 +1,28 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import {StoreModule} from '@ngrx/store';
+import { LoaderSettingsEffects } from './state/effects/loader-settings.effects';
+import { FieldMapperComponent } from './components';
 import { PfCommonUIModule } from '../../ui/common';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { UploadModule } from '@progress/kendo-angular-upload';
-import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import { reducers } from './state/reducers';
-import { LoaderSettingsEffects, FileUploadEffects } from './state/effects';
-import { FieldMapperComponent, FileUploadComponent } from './components';
-import * as fromFaIcons from './fa-icons';
 
 @NgModule({
-  // 3rd Party
   imports: [
-    StoreModule.forFeature('feature_fileupload', reducers),
     EffectsModule.forFeature([
-      LoaderSettingsEffects,
-      FileUploadEffects
+      LoaderSettingsEffects
     ]),
-    // NG
+
     FormsModule,
     CommonModule,
-    // PF
     PfCommonUIModule,
     DropDownsModule,
-    UploadModule,
-    FontAwesomeModule
+    UploadModule
   ],
   declarations: [
-    FieldMapperComponent,
-    FileUploadComponent
+    FieldMapperComponent
   ],
-  exports: [FieldMapperComponent, FileUploadComponent]
+  exports: [FieldMapperComponent]
 })
-export class PfFieldMapperModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(...fromFaIcons.faIcons);
-  }
-}
+export class PfFieldMapperModule { }

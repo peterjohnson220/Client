@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import {ColumnNameRequestModel} from '../../models';
+import {ColumnNameRequestModel} from '../models';
 
 
 export const GET_COLUMN_NAMES = '[Data Management / File Upload Page] Get Column Names';
