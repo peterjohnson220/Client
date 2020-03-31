@@ -16,13 +16,13 @@
 </pf-data-grid>
 
 <ng-template #nameColumn let-dataRow="dataRow">
-  <div class="ellipsis-overflowing-text">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
     <span> {{dataRow['CompanyJobs_Structures_Structure_Name']}} <small> ({{dataRow['CompanyJobs_Structures_Structure_Code']}})</small>  </span>
   </div>
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <div class="ellipsis-overflowing-text">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
     <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Structures_Rate'] | emptyPlaceholder"></span>
   </div>
 </ng-template>

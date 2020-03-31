@@ -20,19 +20,17 @@
 
 <ng-template #jobTitleColumn let-dataRow="dataRow" let-hover="hover">
 
-  <div class="d-flex">
-
-    <div  class="ellipsis-overflowing-text" >{{dataRow['CompanyJobs_Job_Title']}}</div>
-    <div>
-      <div *ngIf="dataRow['CompanyJobs_JobAttachmentCount']>0 && !(selectedRecordId$ | async)" data-html="true" kendoTooltip
-           title="{{dataRow['CompanyJobs_JobAttachmentCount']}} Attachment(s)">
-          <fa-icon icon="paperclip"></fa-icon>
-      </div>
+  <div class="d-flex align-items-center">
+    <div pfEllipsisActive class="ellipsis-overflowing-text-wrap" >{{dataRow['CompanyJobs_Job_Title']}}</div>
+    <div *ngIf="dataRow['CompanyJobs_JobAttachmentCount']>0 && !(selectedRecordId$ | async)"
+      data-html="true" kendoTooltip class="pl-2"
+      title="{{dataRow['CompanyJobs_JobAttachmentCount']}} Attachment(s)">
+      <fa-icon icon="paperclip"></fa-icon>
     </div>
     <div
       *ngIf="!(selectedRecordId$ | async)"
       [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
-      class="ml-auto">
+      class="ml-auto pl-2">
 
       <div ngbDropdown #jobsActionsMenu="ngbDropdown" class="d-inline-block k-grid-ignore-click" placement="bottom-right">
         <button

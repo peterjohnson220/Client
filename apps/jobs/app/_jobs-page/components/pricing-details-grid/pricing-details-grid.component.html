@@ -51,28 +51,6 @@
   ></pf-pricing-details-mrp-column>
 </ng-template>
 
-<ng-template #baseMrpColumn let-dataRow="dataRow">
-  <div class="ellipsis-overflowing-text">
-    <span [innerHTML]="dataRow['CompanyJobs_Pricings_BaseMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
-    <small *ngIf="dataRow['CompanyJobs_Pricings_BaseMRP']">
-      <em class="text-muted">
-        ({{dataRow['CompanyJobs_Pricings_Base_reference_Point']}}th)
-      </em>
-    </small>
-  </div>
-</ng-template>
-
-<ng-template #baseTccColumn let-dataRow="dataRow">
-  <div class="ellipsis-overflowing-text">
-    <span [innerHTML]="dataRow['CompanyJobs_Pricings_TCCMRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
-    <small *ngIf="dataRow['CompanyJobs_Pricings_TCCMRP']">
-      <em class="text-muted">
-        ({{dataRow['CompanyJobs_Pricings_TCC_Reference_Point']}}th)
-      </em>
-    </small>
-  </div>
-</ng-template>
-
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div class=ellipsis-overflowing-text>
     <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>

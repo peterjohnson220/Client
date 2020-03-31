@@ -30,19 +30,19 @@
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <div class="ellipsis-overflowing-text">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
     <span [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>
   </div>
 </ng-template>
 
 <ng-template #wtgColumn let-dataRow="dataRow">
-  <div class="ellipsis-overflowing-text">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
     {{dataRow['CompanyJobs_PricingsMatches_Match_Weight'] | number: '1.2-2'}}
   </div>
 </ng-template>
 
 <ng-template #adjColumn let-dataRow="dataRow">
-  <div class="ellipsis-overflowing-text">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
     {{dataRow['CompanyJobs_PricingsMatches_Match_Adjustment'] | number: '1.2-2'}}
   </div>
 </ng-template>
