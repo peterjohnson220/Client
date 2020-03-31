@@ -1,11 +1,11 @@
-import {Component, OnInit, Input, ViewChild, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { AnyFn } from '@ngrx/store/src/selector';
 import 'quill-mention';
 import Quill from 'quill';
 
 import { RichTextControl } from '../../models';
-import {UpdateTitleRequest, UpdateStringPropertyRequest} from '../../models/request-models';
+import { UpdateTitleRequest, UpdateStringPropertyRequest } from '../../models/request-models';
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
 
@@ -16,7 +16,8 @@ Quill.register(font, true);
 @Component({
   selector: 'pf-trs-rich-text-control',
   templateUrl: './trs-rich-text-control.component.html',
-  styleUrls: ['./trs-rich-text-control.component.scss']
+  styleUrls: ['./trs-rich-text-control.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TrsRichTextControlComponent implements OnInit {
   @ViewChild('richText', { static: true }) richText: any;
@@ -48,6 +49,7 @@ export class TrsRichTextControlComponent implements OnInit {
       allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
       mentionDenotationChars: ['['],
       showDenotationChar: false,
+      onOpen: () => { this.onMentionDialogOpen(); },
       source: (searchTerm: string, renderList: AnyFn) => {
         if (searchTerm) {
           const matches = this.dataFields.filter(df => df.value.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -55,9 +57,6 @@ export class TrsRichTextControlComponent implements OnInit {
         } else {
           renderList(this.dataFields, searchTerm);
         }
-
-        // prevent bug where choosing a field, closing, then reopening with [ maintains the scroll position, since we always want to start at top
-        setTimeout(() => this.quillMentionContainer.scrollTop = 0, 0);
       },
     },
   };
@@ -143,4 +142,9 @@ export class TrsRichTextControlComponent implements OnInit {
       this.shouldEmitSave = false;
     }
   }
+  onMentionDialogOpen() {
+    // prevent bug where choosing a field, closing, then reopening with [ maintains the scroll position, since we always want to start at top
+    this.quillMentionContainer.scrollTop = 0;
+  }
+
 }

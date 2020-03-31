@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
@@ -17,7 +17,8 @@ import {
 @Component({
   selector: 'pf-total-rewards-statement',
   templateUrl: './total-rewards-statement.component.html',
-  styleUrls: ['./total-rewards-statement.component.scss']
+  styleUrls: ['./total-rewards-statement.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
 
@@ -40,12 +41,21 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   controlType = TotalRewardsControlEnum;
   statementModeEnum = StatementModeEnum;
 
-  companyColors = [
-    '#1f2f3d',
-    '#0883be',
-    '#ffb300',
-    '#dc1e34'
-  ];
+  // check statement.Settings.FontSize and return small-font | medium-font | large-font | ''
+  get fontSizeCssClass(): string {
+    if (this.statement && this.statement.Settings && this.statement.Settings.FontSize) {
+      return this.statement.Settings.FontSize.toLowerCase() + '-font-size';
+    }
+    return '';
+  }
+
+  // check statement.Settings.FontFamily and return 'arial-font-family', 'times-new-roman-font-family', etc
+  get fontFamilyCssClass(): string {
+    if (this.statement && this.statement.Settings && this.statement.Settings.FontFamily) {
+      return this.statement.Settings.FontFamily.toLowerCase().replace(/ /g, '-') + '-font-family';
+    }
+    return '';
+  }
 
   employeeData = [
     {

@@ -5,7 +5,8 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import { NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
+import {ColorPickerModule} from 'ngx-color-picker';
+import {NgbDropdownModule, NgbButtonsModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {PfCommonModule} from 'libs/core';
 import {PfCommonUIModule} from 'libs/ui/common';
@@ -16,6 +17,7 @@ import {StatementEditPageComponent} from './statement-edit.page';
 
 import {reducers} from './reducers';
 import {StatementEditPageEffects} from './effects/statement-edit.page.effects';
+import {SettingsPanelComponent} from './components/settings-panel/settings-panel.component';
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import {StatementEditPageEffects} from './effects/statement-edit.page.effects';
     EffectsModule.forFeature([ StatementEditPageEffects ]),
     FontAwesomeModule,
     NgbButtonsModule,
+    ColorPickerModule,
+    NgbDropdownModule,
 
     // Payfactors
     PfCommonModule,
@@ -34,7 +38,8 @@ import {StatementEditPageEffects} from './effects/statement-edit.page.effects';
     SharedModule
   ],
   declarations: [
-    StatementEditPageComponent
+    StatementEditPageComponent,
+    SettingsPanelComponent
   ],
   exports: [
     StatementEditPageComponent

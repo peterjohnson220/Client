@@ -5,6 +5,8 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { SaveSettingsRequest } from '../../../../apps/total-rewards/app/shared/models/request-models';
+import { Settings } from '../../../../apps/total-rewards/app/shared/models/';
 
 @Injectable()
 export class TotalRewardsApiService {
@@ -27,5 +29,13 @@ export class TotalRewardsApiService {
 
   saveStatement(statement: any): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/SaveStatement`, statement);
+  }
+
+  saveStatementSettings(request: SaveSettingsRequest): Observable<Settings> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/SaveStatementSettings`, request);
+  }
+
+  resetStatementSettings(statementId: string): Observable<Settings> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/ResetStatementSettings?statementId=${statementId}`);
   }
 }

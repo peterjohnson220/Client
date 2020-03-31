@@ -1,17 +1,18 @@
 import { Page } from './page';
-import {BaseControl, CalculationControl, ChartControl, ImageControl, RichTextControl} from './';
+import { BaseControl, CalculationControl, ChartControl, ImageControl, RichTextControl, Settings } from './';
 import { TotalRewardsControlEnum } from './total-rewards-control-enum';
-import {TitleControl} from './title-control';
+import { TitleControl } from './title-control';
 
 export interface Statement {
   StatementId: string;
   StatementName: string;
   TemplateId: string;
   TemplateName: string;
-  Pages: Page[];
   CreatedBy: string;
   CreatedById: number;
   CreatedDate: Date;
+  Pages: Page[];
+  Settings: Settings;
 }
 
 export function generateMockStatement(): Statement {
@@ -20,6 +21,13 @@ export function generateMockStatement(): Statement {
     StatementName: 'Name',
     TemplateId: '1',
     TemplateName: 'Template Name',
+    CreatedBy: 'CreatedBy',
+    CreatedDate: new Date('December 17, 2019 03:24:00'),
+    Settings: {
+      FontSize: 'Medium',
+      FontFamily: 'Default',
+      ChartColors: ['black', '#fff', 'rgb(34, 34, 34)'],
+    },
     Pages: [{
       Sections: [{
         Columns: [{
@@ -117,9 +125,7 @@ export function generateMockStatement(): Statement {
         }]
       }]
     }],
-    CreatedBy: 'CreatedBy',
     CreatedById: 1,
-    CreatedDate: new Date('December 17, 2019 03:24:00')
   };
 }
 

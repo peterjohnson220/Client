@@ -6,16 +6,9 @@ import { Observable, Subscription } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
-import * as fromEditStatementPageActions from '../actions/statement-edit.page.actions';
-import {
-  EmployeeRewardsData, generateMockEmployeeRewardsData,
-  Statement,
-  StatementModeEnum,
-  UpdateFieldOverrideNameRequest,
-  UpdateFieldVisibilityRequest,
-  UpdateStringPropertyRequest,
-  UpdateTitleRequest
-} from '../../../shared/models';
+import * as fromEditStatementPageActions from '../actions';
+import * as models from '../../../shared/models';
+import { FontSize, FontFamily } from '../../../shared/types';
 
 @Component({
   selector: 'pf-statement-edit.page',
@@ -25,7 +18,8 @@ import {
 export class StatementEditPageComponent implements OnDestroy, OnInit {
   pageTitle = 'Total Rewards Statements';
   statementNameMaxLength = 100;
-  statement$: Observable<Statement>;
+
+  statement$: Observable<models.Statement>;
   statementLoading$: Observable<boolean>;
   statementLoadingError$: Observable<boolean>;
   statementSaving$: Observable<boolean>;
@@ -33,18 +27,26 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   statementSavingError$: Observable<boolean>;
   cloningFromTemplate$: Observable<boolean>;
   cloningFromTemplateError$: Observable<boolean>;
-  mode$: Observable<StatementModeEnum>;
+  mode$: Observable<models.StatementModeEnum>;
 
-  urlParamSubscription: Subscription;
-  statementSubscription: Subscription;
-  modeSubscription: Subscription;
+  isSettingsPanelOpen$: Observable<boolean>;
+  settingsFontSize$: Observable<FontSize>;
+  settingsFontFamily$: Observable<FontFamily>;
+  settingsChartColors$: Observable<string[]>;
+  settingsSaving$: Observable<boolean>;
+  settingsSavingSuccess$: Observable<boolean>;
+  settingsSavingError$: Observable<boolean>;
 
-  statement: Statement;
+  urlParamSubscription = new Subscription();
+  statementSubscription = new Subscription();
+  modeSubscription = new Subscription();
+
+  statement: models.Statement;
   statementId: string;
   templateId: string;
-  employeeRewardsData: EmployeeRewardsData;
-  mode: StatementModeEnum;
-  modeEnum = StatementModeEnum;
+  employeeRewardsData: models.EmployeeRewardsData;
+  mode: models.StatementModeEnum;
+  modeEnum = models.StatementModeEnum;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,7 +54,8 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   ) { }
 
   ngOnInit() {
-    this.statement$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementState));
+    // STATEMENT
+    this.statement$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatement));
     this.statementLoading$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementLoading));
     this.statementLoadingError$ =  this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementLoadingError));
     this.statementSaving$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementSaving));
@@ -61,6 +64,17 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.cloningFromTemplate$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectCloningFromTemplate));
     this.cloningFromTemplateError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectCloningFromTemplateError));
     this.mode$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementMode));
+
+    // SETTINGS
+    this.isSettingsPanelOpen$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsPanelOpen));
+    this.settingsSaving$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaving));
+    this.settingsSavingSuccess$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaveSuccess));
+    this.settingsSavingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaveError));
+    this.settingsFontSize$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectSettingsFontSize));
+    this.settingsFontFamily$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectSettingsFontFamily));
+    this.settingsChartColors$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectSettingsChartColors));
+
+    // SUBSCRIPTIONS
     this.urlParamSubscription = this.route.params.subscribe(params => {
       if (params['id']) {
         this.statementId = params['id'];
@@ -78,8 +92,8 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
     this.modeSubscription = this.mode$.subscribe(e => {
       this.mode = e;
-      if (this.mode === StatementModeEnum.Preview) {
-        this.employeeRewardsData = generateMockEmployeeRewardsData();
+      if (this.mode === models.StatementModeEnum.Preview) {
+        this.employeeRewardsData = models.generateMockEmployeeRewardsData();
       }
     });
   }
@@ -112,37 +126,62 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   // CONTROL METHODS //
   // COMMON //
-  handleOnControlTitleChange(request: UpdateTitleRequest) {
+  handleOnControlTitleChange(request: models.UpdateTitleRequest) {
    this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(request));
   }
 
   // CALCULATION //
-  handleOnCalculationControlCompFieldTitleChange(request: UpdateFieldOverrideNameRequest) {
+  handleOnCalculationControlCompFieldTitleChange(request: models.UpdateFieldOverrideNameRequest) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateCalculationControlFieldTitle(request));
   }
 
-  handleOnCalculationControlSummaryTitleChange(request: UpdateTitleRequest) {
+  handleOnCalculationControlSummaryTitleChange(request: models.UpdateTitleRequest) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateCalculationControlSummaryTitle(request));
   }
 
-  handleOnCalculationControlCompFieldRemoved(request: UpdateFieldVisibilityRequest) {
+  handleOnCalculationControlCompFieldRemoved(request: models.UpdateFieldVisibilityRequest) {
    this.store.dispatch(new fromEditStatementPageActions.RemoveCalculationControlCompensationField(request));
   }
 
-  handleOnCalculationControlCompFieldAdded(request: UpdateFieldVisibilityRequest) {
+  handleOnCalculationControlCompFieldAdded(request: models.UpdateFieldVisibilityRequest) {
     this.store.dispatch(new fromEditStatementPageActions.AddCalculationControlCompensationField(request));
   }
 
   // RICH TEXT
-  handleOnRichTextControlContentChange(request: UpdateStringPropertyRequest) {
+  handleOnRichTextControlContentChange(request: models.UpdateStringPropertyRequest) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateRichTextControlContent(request));
   }
 
   toggleStatementEditMode() {
-    if (this.mode === StatementModeEnum.Edit) {
-      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(StatementModeEnum.Preview));
+    if (this.mode === models.StatementModeEnum.Edit) {
+      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Preview));
     } else {
-      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(StatementModeEnum.Edit));
+      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Edit));
     }
+  }
+
+  // SETTINGS
+  handleOpenSettingsClick() {
+    this.store.dispatch(new fromEditStatementPageActions.OpenSettings());
+  }
+
+  handleCloseSettingsClick() {
+    this.store.dispatch(new fromEditStatementPageActions.CloseSettings());
+  }
+
+  handleSettingsFontSizeChange(fontSize: FontSize) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsFontSize(fontSize));
+  }
+
+  handleSettingsFontFamilyChange(fontFamily: FontFamily) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsFontFamily(fontFamily));
+  }
+
+  handleSettingsChartColorChange(request: models.UpdateSettingsChartColorRequest) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateSettingsChartColor(request));
+  }
+
+  handleResetSettings() {
+    this.store.dispatch(new fromEditStatementPageActions.ResetSettings());
   }
 }
