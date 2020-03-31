@@ -125,6 +125,10 @@ export const getLoadingExportingStatus = (state: DataGridStoreState, pageViewId:
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
     case fromPfGridActions.LOAD_VIEW_CONFIG:
+      const gridState = state.grids[action.pageViewId];
+      const pagingOptions = gridState && gridState.pagingOptions
+        ? { From: 0, Count: gridState.pagingOptions.Count }
+        : DEFAULT_PAGING_OPTIONS;
       return {
         ...state,
         grids: {
@@ -133,7 +137,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             pageViewId: action.pageViewId,
             loading: true,
-            pagingOptions: DEFAULT_PAGING_OPTIONS,
+            pagingOptions: pagingOptions,
             expandedRows: [],
             selectAllState: SelectAllStatus.unchecked,
             data: null,
