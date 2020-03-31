@@ -1,6 +1,23 @@
 <div class="card mb-3 shadow-sm p-3">
   <div class="card-body">
-    <fa-icon icon="pencil-alt" size="lg" class="pencil-top-right blue" *ngIf="canEdit()" (click)="setEditMode()"></fa-icon>
+    <fa-icon icon="pencil-alt"
+            size="lg"
+            class="pencil-top-right blue"
+            *ngIf="canEdit()"
+            (click)="setEditMode()"
+            [class.hide-buttons]="editMode"
+            [ngbTooltip]="'Edit'"
+            placement="top">
+    </fa-icon>
+    <fa-icon icon="times"
+            size="lg"
+            class="pencil-top-right blue"
+            *ngIf="canEdit()"
+            (click)="setEditMode()"
+            [class.hide-buttons]="!editMode"
+            [ngbTooltip]="'Cancel'"
+            placement="top">
+    </fa-icon>
     <h4 class="card-title pb-3">{{ transferSchedule.entityMappingTypeName }}</h4>
     <pf-transfer-schedule-cron
       [id]="transferSchedule.entityMappingType_ID"
