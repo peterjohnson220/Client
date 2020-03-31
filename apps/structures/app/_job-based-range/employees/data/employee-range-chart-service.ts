@@ -144,7 +144,16 @@ export class EmployeeRangeChartService {
           // tslint:disable-next-line:max-line-length
           symbol: `url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxN3B4IiB2aWV3Qm94PSIwIDAgMTYgMTciIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDYxICg4OTU4MSkgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+QmFzZTY8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZyBpZD0iV29ya2luZyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9IkVtcGxveWVlLVZpZXciIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xNDIyLjAwMDAwMCwgLTczNi4wMDAwMDApIiBmaWxsPSIjMDg4M0JFIj4KICAgICAgICAgICAgPGcgaWQ9IkxlZ2VuZCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTI0NS4wMDAwMDAsIDQwMC40MTQwNjIpIj4KICAgICAgICAgICAgICAgIDxnIGlkPSJCYXNlLWlDT05TIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCwgMjMuMzg4NjcyKSI+CiAgICAgICAgICAgICAgICAgICAgPGcgaWQ9IkJhc2U2IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNzcuMDAwMDAwLCAzMTIuNDcyNjU2KSI+CiAgICAgICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUiIHg9IjAiIHk9IjAiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNS44NDkyNjQ3IiByeD0iNSI+PC9yZWN0PgogICAgICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+)`,
         },
-        enableMouseTracking: true
+        enableMouseTracking: true,
+        tooltip: {
+          backgroundColor: '#000000',
+          useHTML: true,
+          padding: 0,
+          headerFormat: '<div style="display: inline-block; background-color: black">',
+          pointFormat: '<div style="color: white; font-weight: bold">{point.empDisplay}</div>' +
+            '<div style="color: white">{point.salaryDisplay}</div>',
+          footerFormat: '</div>'
+        }
       }, {
         name: 'Employee ' + controlPointDisplay + ' -outliers',
         type: 'scatter',

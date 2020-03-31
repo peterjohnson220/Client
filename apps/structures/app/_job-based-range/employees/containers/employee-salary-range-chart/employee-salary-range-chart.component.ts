@@ -106,18 +106,19 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     const lname = currentRow.CompanyEmployees_Last_Name;
     const name = fname && fname.length > 0 && lname && lname.length > 0 ? currentRow.CompanyEmployees_First_Name + ' ' + currentRow.CompanyEmployees_Last_Name
       + ' (' + currentRow.CompanyEmployees_Employee_ID + ')' : currentRow.CompanyEmployees_Employee_ID;
+    const salaryTooltipInfo = {
+      x: xCoordinate,
+      y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup,
+      empDisplay: name,
+      salaryDisplay: `${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency)}`
+    };
+
     if (salary >= min && salary <= max) {
-      this.employeeSeriesData.push({ x: xCoordinate, y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup, name: name});
+      this.employeeSeriesData.push(salaryTooltipInfo);
     } else {
-      this.employeeSeriesOutlierData.push(
-        {
-          x: xCoordinate,
-          y: currentRow.CompanyEmployees_EEMRPForStructureRangeGroup,
-          empDisplay: name,
-          salaryDisplay: `${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency)}`
-        });
+      this.employeeSeriesOutlierData.push(salaryTooltipInfo);
     }
-    
+
     this.employeeAvgMrpSeriesData.push({
       x: xCoordinate,
       y: jobRangeData.CompanyStructures_RangeGroup_AverageEEMRP,
