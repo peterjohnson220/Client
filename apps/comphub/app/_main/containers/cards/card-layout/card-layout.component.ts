@@ -5,11 +5,13 @@ import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 import { WindowRef } from 'libs/core/services';
+import * as fromRootReducer from 'libs/state/state';
+import { UserContext } from 'libs/models/security';
+import { CompanyClientTypeConstants } from 'libs/constants';
 
 import { environment } from 'environments/environment';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-
 import { JobPricingLimitInfo, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 
@@ -28,6 +30,7 @@ export class CardLayoutComponent implements OnInit {
   @Input() backButtonEnabled: boolean;
   @Input() page: ComphubPages;
   @Input() workflowContext: WorkflowContext;
+  @Input() failsDojGuidelines: boolean;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
@@ -35,6 +38,7 @@ export class CardLayoutComponent implements OnInit {
   jobPricingBlocked$: Observable<boolean>;
   jobPricingLimitInfo: JobPricingLimitInfo;
   comphubPages = ComphubPages;
+  userContext$: Observable<UserContext>;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
@@ -43,7 +47,9 @@ export class CardLayoutComponent implements OnInit {
   ) {
     this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
     this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
+  readonly PEER_AND_ANALYSIS = CompanyClientTypeConstants.PEER_AND_ANALYSIS;
 
   get formattedLimit() {
     return `${this.jobPricingLimitInfo.Used} / ${this.jobPricingLimitInfo.Available}`;

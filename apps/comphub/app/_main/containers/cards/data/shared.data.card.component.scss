@@ -1,0 +1,11 @@
+@media all and (max-width: 1300px) {
+  .hide-when-medium {
+    display: none;
+  }
+}
+
+@media all and (max-width: 1200px) {
+  .hide-when-small {
+    display: none;
+  }
+}

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, debounceTime, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -8,6 +7,7 @@ import { of } from 'rxjs';
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { ExchangeJobSearchApiService} from 'libs/data/payfactors-api/search/peer/exchange-job-search-api.service';
+import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
@@ -79,7 +79,7 @@ export class JobsCardEffects {
           Prefix: data.action.payload,
           ExchangeId: data.dataSet.ExchangeId
         }).pipe(
-          map(response => {
+          map((response: ExchangeJobSearchOption[]) => {
             return new fromJobsCardActions.GetExchangeJobSearchOptionsSuccess(response);
           }),
           catchError((error) => of(new fromJobsCardActions.GetExchangeJobSearchOptionsError(),

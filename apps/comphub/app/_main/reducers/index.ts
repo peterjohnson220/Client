@@ -91,6 +91,11 @@ export const getJobSearchOptions = createSelector(
   fromJobsCardReducer.getJobSearchOptions
 );
 
+export const getExchangeJobSearchOptions = createSelector(
+  selectJobsCardState,
+  fromJobsCardReducer.getExchangeJobSearchOptions
+);
+
 export const getLoadingJobSearchOptions = createSelector(
   selectJobsCardState,
   fromJobsCardReducer.getLoadingJobSearchOptions
@@ -104,6 +109,11 @@ export const getLoadingJobSearchOptionsError = createSelector(
 export const getSelectedJob = createSelector(
   selectJobsCardState,
   fromJobsCardReducer.getSelectedJob
+);
+
+export const getSelectedExchangeJobIds = createSelector(
+  selectJobsCardState,
+  fromJobsCardReducer.getSelectedExchangeJobIds
 );
 
 // Comphub Page

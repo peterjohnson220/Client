@@ -21,7 +21,8 @@ import { DataCardHelper } from '../../../helpers';
 @Component({
   selector: 'pf-data-card',
   templateUrl: './data.card.component.html',
-  styleUrls: ['./data.card.component.scss']
+  styleUrls: ['./data.card.component.scss',
+              './shared.data.card.component.scss']
 })
 export class DataCardComponent implements OnInit, OnDestroy, OnChanges {
   @Input() workflowContext: WorkflowContext;

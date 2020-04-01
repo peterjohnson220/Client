@@ -1,8 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { DataCutValidationInfo } from 'libs/models/peer/';
+import { DataCutValidationInfo } from 'libs/models/peer';
 
-import * as fromDataCutValidationActions from '../actions/data-cut-validation.actions';
+import * as fromDataCutValidationActions from '../../actions/data-cut-validation.actions';
 
 // Extend Entity State
 export interface State extends EntityState<DataCutValidationInfo> {

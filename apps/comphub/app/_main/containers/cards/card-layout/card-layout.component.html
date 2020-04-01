@@ -30,6 +30,8 @@
       Next
     </button>
 
+    <pf-guidelines-badge *ngIf="(this.userContext$ | async).ClientType === PEER_AND_ANALYSIS && workflowContext.selectedPageId === comphubPages.Data && workflowContext.selectedPageIdDelayed === comphubPages.Data"></pf-guidelines-badge>
+
     <ng-content select="[custom-actions]"></ng-content>
 
     <button class="btn comphub-secondary-btn close-app-btn"
@@ -40,7 +42,6 @@
   </div>
 
 </div>
-
 
 <ng-template #modalContent let-modal>
   <div class="modal-header">

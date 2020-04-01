@@ -1,23 +1,18 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { take } from 'rxjs/operators';
 
-import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import { DataCutValidationInfo, ExchangeStatCompanyMakeup } from 'libs/models/peer';
 import { arraysEqual, checkArraysOneOff } from 'libs/core/functions';
-import { SettingsService } from 'libs/state/app-context/services';
-import { CompanySettingsEnum } from 'libs/models/company';
 import { WeightType } from 'libs/data/data-sets';
 
 import * as fromUpsertPeerDataReducers from '../reducers';
-import * as fromDataCutValidationActions from '../actions/data-cut-validation.actions';
-import { GuidelineLimits } from '../models';
+import * as fromDataCutValidationActions from '../../actions/data-cut-validation.actions';
+import { GuidelineLimits } from '../../models';
 
 @Injectable()
 export class DojGuidelinesService implements OnDestroy {
@@ -47,20 +42,10 @@ export class DojGuidelinesService implements OnDestroy {
 
   constructor(
     private store: Store<fromUpsertPeerDataReducers.State>,
-    private peerMapStore: Store<fromPeerMapReducers.State>,
     private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
-    private settingsService: SettingsService,
     private route: ActivatedRoute
   ) {
-    this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.PeerExchangeExplorerEnabled).pipe(
-      take(1)
-    ).subscribe((exchangeExplorerEnabled) => {
-          this.peerMapCompanies$ = exchangeExplorerEnabled
-            ? this.exchangeExplorerStore.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapCompaniesFromSummary))
-            : this.peerMapStore.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
-        }
-      );
-
+    this.peerMapCompanies$ = this.exchangeExplorerStore.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapCompaniesFromSummary));
     this.dataCutValidationInfo$ = this.store.pipe(select(fromUpsertPeerDataReducers.getDataCutValidationInfo));
     this.areEmployeesValid$ = this.store.pipe(select(fromUpsertPeerDataReducers.getEmployeeCheckPassed));
     this.weightingType$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getWeightingType));

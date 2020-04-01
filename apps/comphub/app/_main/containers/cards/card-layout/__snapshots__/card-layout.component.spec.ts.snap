@@ -2,6 +2,7 @@
 
 exports[`Comphub - Main - Card Layout should disable next button, when told to 1`] = `
 <pf-card-layout
+  PEER_AND_ANALYSIS={[Function String]}
   comphubPages={[Function Object]}
   hideNextButton="false"
   jobPricingBlocked$={[Function Store]}
@@ -15,6 +16,7 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
   pageSubTitle=""
   pageTitle={[Function String]}
   store={[Function Store]}
+  userContext$={[Function Observable]}
   window={[Function Object]}
 >
   <div
@@ -61,6 +63,7 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
       >
          Next 
       </button>
+      
       <button
         class="btn comphub-secondary-btn close-app-btn"
         data-qa-id="btn-close-Jobs"
@@ -74,6 +77,7 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
 
 exports[`Comphub - Main - Card Layout should hide the back button, when told to 1`] = `
 <pf-card-layout
+  PEER_AND_ANALYSIS={[Function String]}
   comphubPages={[Function Object]}
   hideBackButton={[Function Boolean]}
   jobPricingBlocked$={[Function Store]}
@@ -86,6 +90,7 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
   pageSubTitle=""
   pageTitle={[Function String]}
   store={[Function Store]}
+  userContext$={[Function Observable]}
   window={[Function Object]}
 >
   <div
@@ -125,6 +130,7 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
       >
          Next 
       </button>
+      
       <button
         class="btn comphub-secondary-btn close-app-btn"
         data-qa-id="btn-close-Jobs"
@@ -138,6 +144,7 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
 
 exports[`Comphub - Main - Card Layout should hide the next button, when told to 1`] = `
 <pf-card-layout
+  PEER_AND_ANALYSIS={[Function String]}
   comphubPages={[Function Object]}
   hideNextButton={[Function Boolean]}
   jobPricingBlocked$={[Function Store]}
@@ -150,6 +157,7 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
   pageSubTitle=""
   pageTitle={[Function String]}
   store={[Function Store]}
+  userContext$={[Function Observable]}
   window={[Function Object]}
 >
   <div
@@ -188,6 +196,7 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
       >
          Back 
       </button>
+      
       
       <button
         class="btn comphub-secondary-btn close-app-btn"

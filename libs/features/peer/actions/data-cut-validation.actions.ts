@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { DataCutValidationInfo } from 'libs/models/peer/';
+import { DataCutValidationInfo } from 'libs/models/peer';
 
 export const LOAD_DATA_CUT_VALIDATION = '[Legacy Content/Data Cut Validation] Load Data Cut Validation';
 export const LOAD_DATA_CUT_VALIDATION_SUCCESS = '[Legacy Content/Data Cut Validation] Load Data Cut Validation Success';

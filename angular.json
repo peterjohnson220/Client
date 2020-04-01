@@ -2068,7 +2068,9 @@
               "assets/scss/client.scss",
               "apps/comphub/styles.scss",
               "apps/comphub/outside-view-encapsulation.scss",
-              "apps/comphub/assets/css/flags.min.css"
+              "apps/comphub/assets/css/flags.min.css",
+              "node_modules/mapbox-gl/dist/mapbox-gl.css",
+              "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
               "assets/js/pendo.js"
