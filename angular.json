@@ -2464,7 +2464,8 @@
               "apps/data-insights/outside-view-encapsulation.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/tableau-2.2.0.min.js"
             ]
           },
           "configurations": {
@@ -2560,7 +2561,8 @@
             "polyfills": "apps/data-insights/polyfills.ts",
             "tsConfig": "apps/data-insights/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/tableau-2.2.0.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
