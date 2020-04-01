@@ -3980,6 +3980,199 @@
           }
         }
       }
+    },
+    "labs": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/labs",
+            "index": "apps/labs/index.html",
+            "main": "apps/labs/main.ts",
+            "tsConfig": "apps/labs/tsconfig.app.json",
+            "polyfills": "apps/labs/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/labs/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/labs/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/labs",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/labs",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/labs/styles.scss"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/labs/../../environments/environment.ts",
+                  "with": "apps/labs/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/labs/../../environments/environment.ts",
+                  "with": "apps/labs/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/labs/../../assets/js/new-relic.js",
+                  "with": "apps/labs/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/labs/../../environments/environment.ts",
+                  "with": "apps/labs/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/labs/../../assets/js/new-relic.js",
+                  "with": "apps/labs/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "labs:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "labs:build:staging"
+            },
+            "production": {
+              "browserTarget": "labs:build:production"
+            },
+            "sales": {
+              "browserTarget": "labs:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "labs:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/labs/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/labs/polyfills.ts",
+            "tsConfig": "apps/labs/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/labs/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/labs/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/labs",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/labs",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "admin",
