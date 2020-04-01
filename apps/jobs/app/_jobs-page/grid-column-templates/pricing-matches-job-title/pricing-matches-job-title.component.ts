@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked, HostListener, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'pf-pricing-matches-job-title',
   templateUrl: './pricing-matches-job-title.component.html',
-  styleUrls: ['./pricing-matches-job-title.component.scss']
+  styleUrls: ['./pricing-matches-job-title.component.scss'],
 })
 export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked {
 
@@ -15,17 +15,18 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   public isCollapsed = true;
   public isOverflow = false;
 
-  constructor() { }
+  @HostListener('window:resize') windowResize() {
+    this.ngAfterViewChecked();
+  }
+
+  constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnInit() {
   }
 
   ngAfterViewChecked(): void {
-    // The jobTitleText and the detailsText are templates and their content changes
-    // after ngIf directives on the containing template
-    // As a result we get the ExpressionChangedAfterItHasBeenCheckedError
-    // The solution is to wait for the dom to render and set a local isOverflow property to check if the text overflows
-      this.isOverflow = this.checkOverflow(this.jobTitleText.nativeElement) || this.checkOverflow(this.detailsText.nativeElement);
+    this.isOverflow = this.checkOverflow(this.jobTitleText.nativeElement) || this.checkOverflow(this.detailsText.nativeElement);
+    this.cdRef.detectChanges();
   }
 
   getJobTitle(): string {
@@ -46,7 +47,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     return this.getScope().length > 50;
   }
 
-  checkOverflow (element) {
+  checkOverflow(element) {
     // IE hack because IE calculates offsets differently
     return element.offsetHeight + 1 < element.scrollHeight || element.offsetWidth + 1 < element.scrollWidth;
   }

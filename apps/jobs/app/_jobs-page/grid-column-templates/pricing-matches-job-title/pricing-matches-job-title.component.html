@@ -6,16 +6,10 @@
     {{dataRow['CompanyJobs_PricingsMatches_Match_Adjustment'] | number: '1.2-2'}}
   </div>
   <div [class.collapsed]="isCollapsed" #jobTitleText>{{getJobTitle()}}</div>
-  <div class="ml-auto ellipsis-overflowing-text">{{dataRow['vw_PricingMatchesJobTitlesMerged_Effective_Date'] | date: 'MM/dd/yyyy'}}</div>
+  <div class="ellipsis-overflowing-text date-cmp ml-auto">{{dataRow['vw_PricingMatchesJobTitlesMerged_Effective_Date'] | date: 'MM/dd/yyyy'}}</div>
 </div>
-<div class="d-flex">
-  <div class="wtg-adj-cell">
-    &nbsp;
-  </div>
-  <div class="wtg-adj-cell">
-    &nbsp;
-  </div>
-  <div [class.collapsed]="isCollapsed" #detailsText>
+<div class="d-flex"> 
+  <div #detailsText [class.collapsed]="isCollapsed" style="padding-left: 100px">
     <small>
       <em class="text-muted">
         {{getSource()}}{{getScope()}}
@@ -23,7 +17,7 @@
     </small>
   </div>
   <div *ngIf="!isCollapsed || isOverflow" class="ml-auto">
-    <button type="button" class="btn btn-link btn-sm" (click)="isCollapsed = !isCollapsed">
+    <button type="button" class="btn btn-link btn-sm" (click)="isCollapsed = !isCollapsed; isOverflow = !isOverflow">
       <small>
         {{isCollapsed ? 'More' : 'Less'}}
       </small>
