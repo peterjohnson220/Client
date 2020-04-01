@@ -15,7 +15,7 @@ import { PfFormsModule } from 'libs/forms';
 
 import { GridContextComponent, ModelSettingsBtnComponent } from './components';
 import { ModelGridComponent, ModelSettingsModalComponent } from './containers';
-import { ModelSettingsModalEffects } from './effects/model-settings-modal.effects';
+import { ModelSettingsModalEffects, PublishModelModalEffects } from './effects';
 import { reducers } from './reducers';
 import { RangeValuePipe } from './pipes';
 import * as fromFaIcons from './fa-icons';
@@ -28,7 +28,7 @@ import * as fromFaIcons from './fa-icons';
 
     // 3rd Party
     StoreModule.forFeature('structures_jobBasedRange_shared', reducers),
-    EffectsModule.forFeature([ModelSettingsModalEffects]),
+    EffectsModule.forFeature([ModelSettingsModalEffects, PublishModelModalEffects]),
     FontAwesomeModule,
     NgbTabsetModule,
     AutoCompleteModule,

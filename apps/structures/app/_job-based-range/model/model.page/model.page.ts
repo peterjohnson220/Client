@@ -11,6 +11,7 @@ import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
+import * as fromPublishModelModalActions from '../../shared/actions/publish-model-modal.actions';
 import { AddJobsModalComponent } from '../containers/add-jobs-modal';
 import { JOB_BASED_RANGE_ADD_JOBS_MODAL_PAGE_WORKFLOW } from '../constants/add-jobs-modal.constants';
 import { RangeGroupMetadata } from '../../shared/models';
@@ -71,6 +72,10 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     };
 
     this.store.dispatch(new fromAddJobsPageActions.SetContext(jobBasedRangesAddJobsModalPageContext));
+  }
+
+  handlePublishModel() {
+    this.store.dispatch(new fromPublishModelModalActions.OpenModal());
   }
 
   // Lifecycle

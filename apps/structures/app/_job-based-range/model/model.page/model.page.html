@@ -4,10 +4,13 @@
   [rangeGroupId]="rangeGroupId"
   [splitViewTemplate]="graph"
   [page]="page"
-  (addJobs)="handleAddJobs()">
+  (addJobs)="handleAddJobs()"
+  (publishModel)="handlePublishModel()">
 </pf-model-grid>
 
 <pf-add-jobs-modal></pf-add-jobs-modal>
+
+<pf-publish-model-modal [rangeGroupId]="rangeGroupId"></pf-publish-model-modal>
 
 <ng-template #graph>
   <pf-job-based-range-chart></pf-job-based-range-chart>
