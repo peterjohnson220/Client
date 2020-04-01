@@ -17,11 +17,13 @@ import {
   ExchangeExplorerScopeResponseContext
 } from 'libs/models/payfactors-api/peer/exchange-data-filter/response';
 import { Filter } from 'libs/features/search/models';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
 import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import { ExchangeExplorerContextService } from '../services';
@@ -189,6 +191,15 @@ export class ExchangeScopeEffects {
     ),
     switchMap((request: UpsertExchangeExplorerScopeRequest) => this.exchangeScopeApiService.upsertExchangeExplorerScope(request).pipe(
       concatMap((exchangeScopeItem: ExchangeScopeItem) => {
+        if (!!request.ExchangeScopeDetails.IsDefault) {
+          this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting(
+            {
+              FeatureArea: FeatureAreaConstants.PeerManageScopes,
+              SettingName: UiPersistenceSettingConstants.PeerDefaultExchangeScopeId,
+              SettingValue: exchangeScopeItem.Id
+            }
+          ));
+        }
         return [
           new fromExchangeScopeActions.UpsertExchangeScopeSuccess(),
           new fromExchangeScopeActions.LoadExchangeScopesByExchange(

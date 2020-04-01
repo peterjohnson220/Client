@@ -1,8 +1,9 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { select, Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { CompanySetting, CompanySettingsEnum, GenericNameValueDto, UiPersistenceFeatureSettingsModel } from 'libs/models';
@@ -11,10 +12,12 @@ import { CompanySetting, CompanySettingsEnum, GenericNameValueDto, UiPersistence
 export class SettingsService {
   companySettings$: Observable<CompanySetting[]>;
   uiPersistenceSettings$: Observable<UiPersistenceFeatureSettingsModel[]>;
+  uiPersistenceSettingsLoading$: Observable<boolean>;
 
   constructor(private store: Store<fromRootState.State>) {
     this.companySettings$ = this.store.pipe(select(fromRootState.getCompanySettings));
     this.uiPersistenceSettings$ = this.store.pipe(select(fromRootState.getUiPersistenceSettings));
+    this.uiPersistenceSettingsLoading$ = this.store.pipe(select(fromRootState.getUiPersistenceSettingsLoading));
   }
 
   selectUiPersistenceFeatureSettings(featureName: string): Observable<GenericNameValueDto[]> {
@@ -33,20 +36,22 @@ export class SettingsService {
     settingName: string,
     type: 'boolean'|'number'|'string' = 'boolean'
   ): Observable<TValueType> {
-    return this.uiPersistenceSettings$.pipe(map(settings => {
-      if (!settings) {
-        return null;
-      }
-      const featureSettingsModel = settings.find(cs => cs.FeatureName === featureName);
-      if (!featureSettingsModel) {
-        return null;
-      }
-      const setting = featureSettingsModel.Settings.find(fs => fs.Key === settingName);
-      if (!setting) {
-        return null;
-      }
+    return combineLatest([this.uiPersistenceSettings$, this.uiPersistenceSettingsLoading$]).pipe(
+      filter(([settings, loading]) => !loading),
+      map(([settings, loading]) => {
+        if (!settings) {
+          return null;
+        }
+        const featureSettingsModel = settings.find(cs => cs.FeatureName === featureName);
+        if (!featureSettingsModel) {
+          return null;
+        }
+        const setting = featureSettingsModel.Settings.find(fs => fs.Key === settingName);
+        if (!setting) {
+          return null;
+        }
 
-      return this.getSettingValue<TValueType>(setting.Value, type);
+        return this.getSettingValue<TValueType>(setting.Value, type);
     }));
   }
 

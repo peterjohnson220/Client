@@ -65,7 +65,8 @@ export class ExchangeMapNewPageComponent implements OnInit, OnDestroy {
     this.peerMapStore.dispatch(new fromLibsPeerExchangeExplorerExchangeScopeActions.UpsertExchangeScope({
       ExchangeScopeGuid: null,
       ExchangeScopeName: scopeItem.Name,
-      ExchangeScopeDescription: scopeItem.Description
+      ExchangeScopeDescription: scopeItem.Description,
+      IsDefault: scopeItem.IsDefault
     }));
   }
 

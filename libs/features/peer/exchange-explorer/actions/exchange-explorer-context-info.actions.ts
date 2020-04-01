@@ -16,7 +16,11 @@ export const REFRESH_PAYMARKET_CONTEXT_ERROR = '[Features/Peer/ExchangeExplorer/
 export class LoadContextInfo implements Action {
   readonly type = LOAD_CONTEXT_INFO;
 
-  constructor(public payload: ComphubExchangeExplorerContextRequest | {companyJobId?: number, companyPayMarketId?: number}|{exchangeId: number}) {}
+  constructor(public payload:
+    ComphubExchangeExplorerContextRequest
+    | {companyJobId?: number, companyPayMarketId?: number}
+    | {exchangeId: number, defaultScopeId?: string}
+    ) {}
 }
 
 export class LoadContextInfoSuccess implements Action {
