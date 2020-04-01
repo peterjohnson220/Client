@@ -2,15 +2,15 @@
 
 exports[`TrsCalculationControlComponent should display the Add Field button if a field has been removed 1`] = `
 <pf-trs-calculation-control
-  addCompField={[Function EventEmitter]}
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   cp={[Function Object]}
-  removeCompField={[Function EventEmitter]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
   removedFields={[Function Array]}
-  updateCompFieldTitle={[Function EventEmitter]}
-  updateSummaryTitle={[Function EventEmitter]}
-  updateTitle={[Function EventEmitter]}
 >
   <div
     class="trs-calculation container py-2"
@@ -112,15 +112,15 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
 
 exports[`TrsCalculationControlComponent should render the supplied data fields 1`] = `
 <pf-trs-calculation-control
-  addCompField={[Function EventEmitter]}
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   cp={[Function Object]}
-  removeCompField={[Function EventEmitter]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
   removedFields={[Function Array]}
-  updateCompFieldTitle={[Function EventEmitter]}
-  updateSummaryTitle={[Function EventEmitter]}
-  updateTitle={[Function EventEmitter]}
 >
   <div
     class="trs-calculation container py-2"
@@ -267,15 +267,15 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
 
 exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
 <pf-trs-calculation-control
-  addCompField={[Function EventEmitter]}
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   cp={[Function Object]}
-  removeCompField={[Function EventEmitter]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
   removedFields={[Function Array]}
-  updateCompFieldTitle={[Function EventEmitter]}
-  updateSummaryTitle={[Function EventEmitter]}
-  updateTitle={[Function EventEmitter]}
 >
   <div
     class="trs-calculation container py-2"

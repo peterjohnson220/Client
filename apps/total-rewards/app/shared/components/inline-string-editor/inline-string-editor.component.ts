@@ -14,11 +14,11 @@ export class InlineStringEditorComponent implements OnDestroy, OnInit {
   @Input() placeholder: string;
   @Input() isEditable$: Observable<boolean>;
   @Input() icon = 'pencil';
+  @Input() value: string;
 
   @Output() valueChange = new EventEmitter<string>();
 
   isEditableSubscription: Subscription;
-  value: string;
   isEditable: boolean;
   isInEditState: boolean;
 
@@ -39,12 +39,22 @@ export class InlineStringEditorComponent implements OnDestroy, OnInit {
     }
   }
 
-  getValue(): string {
-    let value = this.placeholder;
+  getValueForInputControl(): string {
     if (this.value) {
-      value = this.value;
+      return this.value;
+    } else if (this.isIe()) {
+      return this.getValueForDisplay();
+    } else {
+      return '';
     }
-    return value;
+  }
+
+  getValueForDisplay(): string {
+    let returnValue = this.placeholder;
+    if (this.value) {
+      returnValue = this.value;
+    }
+    return returnValue;
   }
 
   enableEditState(): void {
@@ -59,5 +69,10 @@ export class InlineStringEditorComponent implements OnDestroy, OnInit {
   onChange(): void {
     this.value = this.textBox.nativeElement.value;
     this.valueChange.emit(this.value);
+  }
+
+   isIe(): boolean {
+    const agent = window.navigator.userAgent.toLowerCase();
+    return agent.indexOf('trident') > -1;
   }
 }

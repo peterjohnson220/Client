@@ -60,7 +60,7 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render a mock statement derived from template A', () => {
     // arrange
-    store.setState({ totalRewards_statementEdit: { page: statementEditReducer.initialState } } as any);
+    fixture.componentInstance.statement = statementEditReducer.initialState.statement.obj;
 
     // act
     fixture.detectChanges();
@@ -73,7 +73,7 @@ describe('TotalRewardsStatementComponent', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
     statementEditState.statement.obj.Pages = [{} as any, {} as any];
-    store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
+    fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
     fixture.detectChanges();
@@ -87,7 +87,7 @@ describe('TotalRewardsStatementComponent', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
     statementEditState.statement.obj.Pages = [{ Sections: [{}, {}, {}, {}, {}] }] as any;
-    store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
+    fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
     fixture.detectChanges();
@@ -101,7 +101,7 @@ describe('TotalRewardsStatementComponent', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
     statementEditState.statement.obj.Pages = [{ Sections: [{ Columns: [{}] } as any ] }];
-    store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
+    fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
     fixture.detectChanges();
@@ -115,7 +115,7 @@ describe('TotalRewardsStatementComponent', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
     statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.RichTextEditor);
-    store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
+    fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
     fixture.detectChanges();
@@ -129,7 +129,7 @@ describe('TotalRewardsStatementComponent', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
     statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Image);
-    store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
+    fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
     fixture.detectChanges();
@@ -143,7 +143,7 @@ describe('TotalRewardsStatementComponent', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
     statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Calculation);
-    store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
+    fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
     fixture.detectChanges();
@@ -157,7 +157,7 @@ describe('TotalRewardsStatementComponent', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
     statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Chart);
-    store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
+    fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
     fixture.detectChanges();
@@ -171,7 +171,7 @@ describe('TotalRewardsStatementComponent', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
     statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Title);
-    store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
+    fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
     fixture.detectChanges();
@@ -184,8 +184,8 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a summary control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Summary);
-    store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.CalculationSummary);
+    fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
     fixture.detectChanges();

@@ -3,21 +3,21 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
 
-import { Statement } from '../../../shared/models';
+import { StatementListViewModel } from '../../../shared/models';
 import * as fromStatementsActions from '../actions/statement-list.page.actions';
 
-export interface State extends EntityState<Statement> {
+export interface State extends EntityState<StatementListViewModel> {
   statementsTotal: number;
   statementsLoading: boolean;
   statementsLoadingError: boolean;
   searchTerm: string;
   isCreateNewStatementModalOpen: boolean;
-  openActionMenuStatementId: number;
+  openActionMenuStatementId: string;
 }
 
 // define our EntityAdapter of Statement type
-export const adapter: EntityAdapter<Statement> = createEntityAdapter<Statement>({
-  selectId: (statement: Statement) => statement.Id
+export const adapter: EntityAdapter<StatementListViewModel> = createEntityAdapter<StatementListViewModel>({
+  selectId: (statement: StatementListViewModel) => statement.Id
 });
 
 const initialState: State = adapter.getInitialState({
@@ -88,5 +88,4 @@ export const getStatementsLoading = (state: State) => state.statementsLoading;
 export const getStatementsLoadingError = (state: State) => state.statementsLoadingError;
 export const getSearchTerm = (state: State) => state.searchTerm;
 
-// export const getIsCreateNewStatementModalOpen = (state: State) => state.isCreateNewStatementModalOpen;
 export const getOpenActionMenuStatementId = (state: State) => state.openActionMenuStatementId;

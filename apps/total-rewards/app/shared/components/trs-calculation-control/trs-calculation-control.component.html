@@ -21,11 +21,12 @@
       <tr *ngFor="let listItem of controlData.DataFields" class="trs-calculation-row w-100">
         <td *ngIf="listItem.IsVisible" class="text-left">
           <pf-inline-string-editor
-            [placeholder]="( { override: listItem.OverrideName, default: listItem.DefaultName } | compensationField)"
+            [value]="listItem.OverrideName"
+            [placeholder]="listItem.DefaultName"
             [maxCharacters]="30"
             (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-inline-string-editor>
         </td>
-        <td *ngIf="listItem.IsVisible" class="text-right" >{{getEmployerContributionValue(listItem.DatabaseField)}}</td>
+        <td *ngIf="listItem.IsVisible" class="text-right" >{{getEmployerContributionValue(listItem.Id)}}</td>
         <td *ngIf="listItem.IsVisible">
           <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
             <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
@@ -35,7 +36,8 @@
       <tr class="trs-calculation-row w-100">
         <td class="text-left">
           <pf-inline-string-editor
-            [placeholder]="( { override: controlData.SummaryTitle, default: 'Total' } | compensationField)"
+            [value]="controlData.SummaryTitle"
+            [placeholder]="'Total'"
             [maxCharacters]="30"
             (valueChange)="onSummaryTitleChange($event)"></pf-inline-string-editor>
         </td>

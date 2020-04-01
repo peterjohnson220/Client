@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { BaseControl } from '../../models';
+import {TitleControl} from '../../models';
 
 @Component({
   selector: 'pf-trs-title-control',
@@ -9,7 +9,7 @@ import { BaseControl } from '../../models';
 })
 export class TrsTitleControlComponent implements OnInit {
 
-  @Input() controlData: BaseControl;
+  @Input() controlData: TitleControl;
 
   constructor() { }
 

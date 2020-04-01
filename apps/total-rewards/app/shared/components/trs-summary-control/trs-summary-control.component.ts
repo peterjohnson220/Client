@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { BaseControl } from '../../models';
+import {CalculationSummaryControl} from '../../models/calculation-summary-control';
 
 @Component({
   selector: 'pf-trs-summary-control',
@@ -9,7 +9,7 @@ import { BaseControl } from '../../models';
 })
 export class TrsSummaryControlComponent implements OnInit {
 
-  @Input() controlData: BaseControl;
+  @Input() controlData: CalculationSummaryControl;
 
   constructor() { }
 

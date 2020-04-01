@@ -1,36 +1,27 @@
 import { Page } from './page';
-import { BaseControl } from './base-control';
+import {BaseControl, CalculationControl, ChartControl, ImageControl, RichTextControl} from './';
 import { TotalRewardsControlEnum } from './total-rewards-control-enum';
+import {TitleControl} from './title-control';
 
 export interface Statement {
-  Id: number;
   StatementId: string;
+  StatementName: string;
   TemplateId: string;
-  Name: string;
-  CreatedBy: string;
-  CreatedDate: Date;
-  LastRunBy: string;
-  LastRunDate: Date;
-  Employees: number;
-  Status: 'Active' | 'Draft';
+  TemplateName: string;
   Pages: Page[];
+  CreatedBy: string;
+  CreatedById: number;
+  CreatedDate: Date;
 }
 
 export function generateMockStatement(): Statement {
   return {
-    Id: 1,
     StatementId: '1',
+    StatementName: 'Name',
     TemplateId: '1',
-    Name: 'Name',
-    CreatedBy: 'CreatedBy',
-    CreatedDate: new Date('December 17, 2019 03:24:00'),
-    LastRunBy: 'LastRunBy',
-    LastRunDate: new Date('December 17, 2019 03:24:00'),
-    Employees: 13,
-    Status: 'Active',
+    TemplateName: 'Template Name',
     Pages: [{
       Sections: [{
-        ColumnCount: 2,
         Columns: [{
           Layout: { Width: 6 },
           Controls: [{
@@ -38,7 +29,7 @@ export function generateMockStatement(): Statement {
             Title: 'Logo',
             Layout: { Width: 12 },
             ControlType: TotalRewardsControlEnum.Image
-          }]
+          } as ImageControl]
         }, {
           Layout: { Width: 6 },
           Controls: [{
@@ -46,10 +37,9 @@ export function generateMockStatement(): Statement {
             Title: 'Your Total Rewards Statement',
             Layout: { Width: 12 },
             ControlType: TotalRewardsControlEnum.Title
-          }]
+          } as TitleControl]
         }]
       }, {
-        ColumnCount: 2,
         Columns: [{
           Layout: { Width: 6 },
           Controls: [{
@@ -57,60 +47,75 @@ export function generateMockStatement(): Statement {
             Title: 'Statement Summary',
             Layout: { Width: 12 },
             Content: 'This is a rich text area.You can add a statement summary or welcome letter to your employees ' +
-                     'here.Use [ to find and insert existing employee or company fields into your text.',
+              'here.Use [ to find and insert existing employee or company fields into your text.',
             ControlType: TotalRewardsControlEnum.RichTextEditor
-          } as BaseControl, {
-            Id: '103',
+          } as RichTextControl, {
             Title: 'Your Total Rewards Breakdown',
             Layout: { Width: 12 },
             ControlType: TotalRewardsControlEnum.Chart,
             DataFields: []
-          } as BaseControl, {
-            Id: '104',
+          } as ChartControl, {
             Title: 'In addition, the company also provides:',
             Layout: { Width: 12 },
             Content: 'This is a rich text area.You can add a statement summary or welcome letter to your employees ' +
-                     'here.Use [ to find and insert existing employee or company fields into your text.',
+              'here.Use [ to find and insert existing employee or company fields into your text.',
             ControlType: TotalRewardsControlEnum.RichTextEditor
-          } as BaseControl]
+          } as RichTextControl]
         }, {
           Layout: { Width: 6 },
           Controls: [{
             Id: '105',
             Title: 'Cash Compensation',
+            ControlType: TotalRewardsControlEnum.Calculation,
             Layout: { Width: 12 },
             Category: 'Compensation',
-            DataFields: ['Base', 'Bonus', 'TCC'],
-            ControlType: TotalRewardsControlEnum.Calculation
-          } as BaseControl, {
-            Id: '106',
+            DataFields: [
+              { Id: '1', DatabaseField: 'Base', DefaultName: 'Base', OverrideName: '', IsVisible: true},
+              { Id: '2', DatabaseField: 'Bonus', DefaultName: 'Bonus', OverrideName: '', IsVisible: true},
+              { Id: '3', DatabaseField: 'TCC', DefaultName: 'TCC', OverrideName: '', IsVisible: true}
+            ],
+          } as CalculationControl, {
             Title: 'Retirement Savings',
             Layout: { Width: 12 },
             Category: 'Retirement',
-            DataFields: ['401K', 'Savings Match', 'Pension Plan'],
+            DataFields: [
+              { Id: '1', DatabaseField: '401K', DefaultName: '401K', OverrideName: '', IsVisible: true},
+              { Id: '2', DatabaseField: 'Savings Match', DefaultName: 'Savings Match', OverrideName: '', IsVisible: true},
+              { Id: '3', DatabaseField: 'Pension Plan', DefaultName: 'Pension Plan', OverrideName: '', IsVisible: true}
+            ],
             ControlType: TotalRewardsControlEnum.Calculation
-          } as BaseControl, {
-            Id: '107',
+          } as CalculationControl, {
             Title: 'Health & Wellness',
             Layout: { Width: 12 },
             Category: 'Insurance',
-            DataFields: ['Medical Insurance', 'Dental Insurance', 'Vision Insurance', 'Life Insurance', 'Long - Term Disability'],
+            DataFields: [
+              { Id: '1', DatabaseField: 'Medical Insurance', DefaultName: 'Medical Insurance', OverrideName: '', IsVisible: true},
+              { Id: '2', DatabaseField: 'Dental Insurance', DefaultName: 'Dental Insurance', OverrideName: '', IsVisible: true},
+              { Id: '3', DatabaseField: 'Vision Insurance', DefaultName: 'Vision Insurance', OverrideName: '', IsVisible: true},
+              { Id: '4', DatabaseField: 'Life Insurance', DefaultName: 'Life Insurance', OverrideName: '', IsVisible: true},
+              { Id: '5', DatabaseField: 'Long - Term Disability', DefaultName: 'Long - Term Disability', OverrideName: '', IsVisible: true}
+            ],
             ControlType: TotalRewardsControlEnum.Calculation
-          } as BaseControl, {
-            Id: '108',
+          } as CalculationControl, {
             Title: 'Additional',
             Layout: { Width: 12 },
-            DataFields: ['Tuition Reimbursement', 'Paid Time Off(PTO)', 'Other Allowances'],
+            DataFields: [
+              { Id: '1', DatabaseField: 'Tuition Reimbursement', DefaultName: 'Tuition Reimbursement', OverrideName: '', IsVisible: true},
+              { Id: '2', DatabaseField: 'Paid Time Off(PTO)', DefaultName: 'Paid Time Off(PTO)', OverrideName: '', IsVisible: true},
+              { Id: '3', DatabaseField: 'Other Allowances', DefaultName: 'Other Allowances', OverrideName: '', IsVisible: true}
+            ],
             ControlType: TotalRewardsControlEnum.Calculation
-          } as BaseControl, {
-            Id: '109',
+          } as CalculationControl, {
             Title: 'Your Total Rewards Value',
             Layout: { Width: 12 },
-            ControlType: TotalRewardsControlEnum.Summary
+            ControlType: TotalRewardsControlEnum.CalculationSummary
           } as BaseControl]
         }]
       }]
-    }]
+    }],
+    CreatedBy: 'CreatedBy',
+    CreatedById: 1,
+    CreatedDate: new Date('December 17, 2019 03:24:00')
   };
 }
 
