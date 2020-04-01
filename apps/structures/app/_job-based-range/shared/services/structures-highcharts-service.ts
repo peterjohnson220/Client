@@ -13,7 +13,7 @@ export class StructuresHighchartsService {
       };
   }
 
-  static formatCurrency(rawCurrency, locale, currencyCode, rate, useGrouping) {
+  static formatCurrency(rawCurrency, locale, currencyCode, rate, useGrouping?) {
     const formatter = new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: currencyCode,
@@ -37,5 +37,32 @@ export class StructuresHighchartsService {
     const rawLabelValue = rate === RateType.Hourly ? value : value / 1000;
     const formattedValue = StructuresHighchartsService.formatCurrency(rawLabelValue, locale, currencyCode, rate, false);
     return formattedValue + (rate === RateType.Hourly ? '' : 'k');
+  }
+
+  static formatMidPoint(midPointType, value, locale, currency, rate) {
+    return !!value ? `${midPointType}: ${StructuresHighchartsService.formatCurrency(value, locale, currency, rate)}` : null;
+  }
+
+  static formatDeltaInMidPointForExistingStruct(newValue, currentValue, locale, currency, rate) {
+    if (!!newValue && !!currentValue) {
+      if (Math.round(newValue) > Math.round(currentValue)) {
+        const percentChange = Math.round(((newValue - currentValue) / currentValue) * 100);
+        return {
+          message: `${StructuresHighchartsService.formatCurrency(newValue - currentValue, locale, currency, rate)}
+              (${percentChange}%) increase in mid`,
+          icon: '&#8593;',
+          color: '#6DD400'
+      };
+      } else if (Math.round(newValue) < Math.round(currentValue)) {
+        const percentChange = Math.round(((currentValue - newValue) / currentValue) * 100);
+        return {
+          message: `${StructuresHighchartsService.formatCurrency(currentValue - newValue, locale, currency, rate)}
+            (${percentChange}%) decrease in mid`,
+          icon: '&#8595;',
+          color: 'red'
+        };
+      }
+    }
+    return null;
   }
 }

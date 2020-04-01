@@ -29,6 +29,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   employeeSeriesData: any;
   employeeSeriesOutlierData: any;
   employeeAvgMrpSeriesData: any;
+  midPointSeries: any;
   chartLocale: string; // en-US
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
@@ -44,12 +45,15 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   prevControlPointDisplay: string;
   plotLinesAndBands: any;
   rate: string;
+  isCurrent: boolean;
 
   constructor(
     public store: Store<any>
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
+        this.isCurrent = md.IsCurrent;
+        this.rate = md.Rate;
         this.currency = md.Currency;
         this.prevControlPointDisplay = this.controlPointDisplay;
         this.controlPointDisplay = md.ControlPointDisplay;
@@ -99,6 +103,17 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     }
   }
 
+  private formatMidPoint(isCurrent, midPointType, value) {
+    return isCurrent ? StructuresHighchartsService.formatMidPoint(midPointType, value, this.chartLocale, this.currency, this.rate) : null;
+  }
+
+  private formatMidPointDelta(currentRow) {
+    return this.isCurrent === false ? StructuresHighchartsService.formatDeltaInMidPointForExistingStruct(
+      currentRow.CompanyStructures_Ranges_Mid,
+      currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint,
+      this.chartLocale, this.currency, this.rate) : null;
+  }
+
   private addEmployee(xCoordinate, currentRow, jobRangeData) {
     // if this employee falls within the salary range, add to employee series. else, add to outlier employee series
     const min = jobRangeData.CompanyStructures_Ranges_Min;
@@ -131,6 +146,21 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
         ${this.controlPointDisplay}:
         ${StructuresHighchartsService.formatCurrency(jobRangeData.CompanyStructures_RangeGroup_AverageEEMRP, this.chartLocale, this.currency, this.rate, true)}
       `
+    });
+
+    const delta = this.formatMidPointDelta(jobRangeData);
+
+    this.midPointSeries.push({
+      x: xCoordinate,
+      y: StructuresHighchartsService.calculateMidpoint(
+        this.jobRangeData.CompanyStructures_Ranges_Min, this.jobRangeData.CompanyStructures_Ranges_Max),
+      jobTitle: jobRangeData.CompanyJobs_Job_Title,
+      midPoint: this.formatMidPoint(this.isCurrent, 'Midpoint', jobRangeData.CompanyStructures_Ranges_Mid),
+      currentMidPoint: this.formatMidPoint(!this.isCurrent, 'Current Mid', jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint),
+      newMidPoint: this.formatMidPoint(!this.isCurrent, 'New Mid', jobRangeData.CompanyStructures_Ranges_Mid),
+      delta: !!delta ? delta.message : delta,
+      icon: !!delta ? delta.icon : delta,
+      iconColor: !!delta ? delta.color : delta
     });
   }
 
@@ -203,6 +233,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       this.employeeSeriesData = [];
       this.employeeSeriesOutlierData = [];
       this.employeeAvgMrpSeriesData = [];
+      this.midPointSeries = [];
 
       this.setInitialMinMax(this.jobRangeData);
 
@@ -228,10 +259,11 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       this.updateChartLabels();
 
-      // set the series data (0 - salaryRange, 1 - midpoint, 2 - avg salary, 3 - outliers)
-      this.chartInstance.series[3].setData(this.employeeAvgMrpSeriesData, false);
-      this.chartInstance.series[4].setData(this.employeeSeriesData, false);
-      this.chartInstance.series[5].setData(this.employeeSeriesOutlierData, true);
+      // set the series data
+      this.chartInstance.series[2].setData(this.midPointSeries, false);
+      this.chartInstance.series[4].setData(this.employeeAvgMrpSeriesData, false);
+      this.chartInstance.series[5].setData(this.employeeSeriesData, false);
+      this.chartInstance.series[6].setData(this.employeeSeriesOutlierData, true);
       this.renameSeries();
 
       // store the plotLinesAndBands in one of the unused chart properties so we can access it
@@ -268,5 +300,4 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     this.metadataSubscription.unsubscribe();
     this.jobDataSubscription.unsubscribe();
   }
-
 }

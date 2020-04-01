@@ -86,7 +86,19 @@ export class JobRangeModelChartService {
           lineColor: '#CD8C01',
           radius: 20
         },
-        enableMouseTracking: false
+        enableMouseTracking: true,
+        tooltip: {
+          backgroundColor: '#000000',
+          useHTML: true,
+          padding: 0,
+          headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
+          pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+            '<div>{point.midPoint}</div>' +
+            '<div>{point.currentMidPoint}</div>' +
+            '<div>{point.newMidPoint}</div>' +
+            '<div><span style="font-size:25px; color:{point.iconColor};">{point.icon}</span>{point.delta}</div>',
+          footerFormat: '</div>'
+        }
       }, {
         name: 'Average ' + controlPointDisplay ,
         type: 'scatter',
