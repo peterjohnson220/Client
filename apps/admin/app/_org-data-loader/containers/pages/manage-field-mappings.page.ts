@@ -11,6 +11,7 @@ import { NotificationRef, NotificationService, NotificationSettings } from '@pro
 import { environment } from 'environments/environment';
 import { LoaderTypes } from 'libs/constants/loader-types';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
+import { LoaderFileFormat } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
@@ -475,6 +476,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
+    newLoaderSettings.fileFormat = LoaderFileFormat.CSV;
 
     return OrgDataLoadHelper.getLoaderSettingsToSave(newLoaderSettings, this.existingCompanyLoaderSettings);
   }

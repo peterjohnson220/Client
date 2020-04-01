@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 
 import { ImportDataType, OrgDataEntityType, TransferMethodTypes} from 'libs/constants/hris-api';
-import { LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
+import { LoaderFileFormat, LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import {
   AuthenticationTypeResponse,
@@ -295,6 +295,7 @@ export class PayfactorsApiModelMapper {
     isPaymarketsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.PayMarkets),
     isStructuresLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Structures),
     isStructureMappingsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.StructureMappings),
+    fileFormat: LoaderFileFormat.JSON,
 
     // TODO: we need a UI to determine these settings
     isEmployeesFullReplace: false,

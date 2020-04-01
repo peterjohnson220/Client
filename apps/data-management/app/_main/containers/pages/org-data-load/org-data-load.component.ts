@@ -20,7 +20,7 @@ import { CompanySelectorItem } from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
 import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
-import { LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
+import { LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
 import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
@@ -722,6 +722,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
+    newLoaderSettings.fileFormat = LoaderFileFormat.CSV;
     newLoaderSettings.validateOnly = this.isValidateOnly;
 
     return OrgDataLoadHelper.getLoaderSettingsToSave(newLoaderSettings, this.existingLoaderSettings);
