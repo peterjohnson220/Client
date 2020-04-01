@@ -7,9 +7,11 @@ import {
   JobSearchPricingDataRequest,
   JobSearchPricingDataResponse,
   JobSearchRequest,
+  JobSearchRequestStructuresRangeGroup,
   JobSearchResponse,
   SearchFilter,
-  JobSearchAutocompleteRequest
+  JobSearchAutocompleteRequest,
+  JobBasedRangeJobSearchResponse
 } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
@@ -20,8 +22,8 @@ export class JobSearchApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getModelBasedJobResults(searchRequest: JobSearchRequest): Observable<JobSearchResponse> {
-    return this.payfactorsApiService.post(`${this.endpoint}/GetJobResults`, searchRequest);
+  getModelBasedJobResults(searchRequest: JobSearchRequestStructuresRangeGroup): Observable<JobBasedRangeJobSearchResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetStructureRangeGroupJobResults`, searchRequest);
   }
 
   getJobResults(searchRequest: JobSearchRequest): Observable<JobSearchResponse> {

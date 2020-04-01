@@ -3,12 +3,12 @@
   [inboundFilters]="filters"
   [rangeGroupId]="rangeGroupId"
   [splitViewTemplate]="graph"
+  (addJobs)="openAddJobsModal()"
   [page]="page"
-  (addJobs)="handleAddJobs()"
   (publishModel)="handlePublishModel()">
 </pf-model-grid>
 
-<pf-add-jobs-modal></pf-add-jobs-modal>
+<pf-add-jobs-modal [rangeGroupId]="rangeGroupId"></pf-add-jobs-modal>
 
 <pf-publish-model-modal [rangeGroupId]="rangeGroupId"></pf-publish-model-modal>
 

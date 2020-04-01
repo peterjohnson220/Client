@@ -1,5 +1,6 @@
 export interface RangeGroupMetadata {
   Paymarket: string;
+  PaymarketId: number;
   StructureName: string;
   ModelName: string;
   Currency: string;

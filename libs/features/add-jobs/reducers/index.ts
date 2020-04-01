@@ -5,7 +5,6 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromAddJobsPageReducer from './add-jobs-page.reducer';
-import * as fromModalReducer from './modal.reducer';
 import * as fromPaymarketsReducer from './paymarkets.reducer';
 import * as fromSearchResultsReducer from './search-results.reducer';
 
@@ -14,7 +13,6 @@ export interface AddJobsState {
   addJobsPage: fromAddJobsPageReducer.State;
   paymarkets: fromPaymarketsReducer.State;
   searchResults: fromSearchResultsReducer.State;
-  modal: fromModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -25,7 +23,6 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   addJobsPage: fromAddJobsPageReducer.reducer,
-  modal: fromModalReducer.reducer,
   paymarkets: fromPaymarketsReducer.reducer,
   searchResults: fromSearchResultsReducer.reducer
 };
@@ -37,11 +34,6 @@ export const selectFeatureAreaState = createFeatureSelector<AddJobsState>('addJo
 export const selectAddJobsPageState = createSelector(
   selectFeatureAreaState,
   (state: AddJobsState) => state.addJobsPage
-);
-
-export const selectModalState = createSelector(
-  selectFeatureAreaState,
-  (state: AddJobsState) => state.modal
 );
 
 export const selectPaymarketsState = createSelector(
@@ -60,6 +52,11 @@ export const getContext = createSelector(
   fromAddJobsPageReducer.getContext
 );
 
+export const getContextStructureRangeGroupId = createSelector(
+  selectAddJobsPageState,
+  fromAddJobsPageReducer.getContextStructureRangeGroupId
+);
+
 export const getAddingData = createSelector(
   selectAddJobsPageState,
   fromAddJobsPageReducer.getAddingData
@@ -73,37 +70,6 @@ export const getAddingDataError = createSelector(
 export const getAddingDataErrorMessage = createSelector(
   selectAddJobsPageState,
   fromAddJobsPageReducer.getAddingDataErrorMessage
-);
-
-// Modal Selectors
-export const getAddJobsModalIsOpen = createSelector(
-  selectModalState,
-  fromModalReducer.getAddJobsModalIsOpen
-);
-
-export const getCurrentModalPage = createSelector(
-  selectModalState,
-  fromModalReducer.getCurrentPage
-);
-
-export const getAddJobsModalIsWorkflow = createSelector(
-  selectModalState,
-  fromModalReducer.getAddJobsModalIsWorkflow
-);
-
-export const getHasNextPage = createSelector(
-  selectModalState,
-  fromModalReducer.getHasNextPage
-);
-
-export const getModalTitle = createSelector(
-  selectModalState,
-  fromModalReducer.getModalTitle
-);
-
-export const getNextPage = createSelector(
-  selectModalState,
-  fromModalReducer.getNextPage
 );
 
 // Paymarkets Selectors

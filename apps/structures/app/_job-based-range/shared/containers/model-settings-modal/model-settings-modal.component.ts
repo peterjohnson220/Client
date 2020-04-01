@@ -9,7 +9,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { Currency, RangeGroupMetadata, ControlPoint } from '../../models';
+import { Currency, ControlPoint, RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
 
 @Component({

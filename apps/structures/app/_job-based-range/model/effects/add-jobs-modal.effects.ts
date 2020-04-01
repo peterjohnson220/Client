@@ -6,19 +6,21 @@ import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/
 import { Store } from '@ngrx/store';
 
 import { WindowCommunicationService } from 'libs/core/services';
-import { ProjectApiService } from 'libs/data/payfactors-api/project';
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
-import * as fromAddJobsModalActions from 'libs/features/add-jobs/actions/modal.actions';
+import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
+import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
+
+import * as fromSharedReducer from '../../shared/reducers';
 
 @Injectable()
 export class AddJobsModalEffects {
   @Effect()
   setContext$ = this.actions$
     .pipe(
-      ofType(fromAddJobsPageActions.SET_CONTEXT),
+      ofType(fromAddJobsPageActions.SET_CONTEXT_STRUCTURES_RANGE_GROUP_ID),
       mergeMap(() =>
         [new fromUserFilterActions.Init()]
       ));
@@ -28,24 +30,21 @@ export class AddJobsModalEffects {
     .pipe(
       ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS),
       withLatestFrom(
-        this.store.select(fromAddJobsReducer.getContext),
+        this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
         this.store.select(fromAddJobsReducer.getSelectedPaymarkets),
         this.store.select(fromAddJobsReducer.getSelectedJobIds),
         this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes),
-        (action: fromAddJobsPageActions.AddSelectedJobs, context, payMarkets, selectedJobIds, selectedJobCodes) =>
-          ({action, context, payMarkets, selectedJobIds, selectedJobCodes})
+        this.store.select(fromSharedReducer.getMetadata),
+        (action: fromAddJobsPageActions.AddSelectedJobs, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata) =>
+          ({action, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata})
       ),
       switchMap((contextData) => {
           const companyJobIds = contextData.selectedJobIds.map(j => Number(j));
-          return this.projectApiService.addJobs(contextData.context.ProjectId, {
-            CompanyPayMarketIds: contextData.payMarkets,
-            CompanyJobIds: companyJobIds,
-            PayfactorsJobCodes: contextData.selectedJobCodes
-          })
+          return this.structureRangeGroupApiService.addJobsToRangeGroup(contextData.contextStructureRangeGroupId, { JobIds: companyJobIds, PaymarketId: contextData.metadata.PaymarketId })
             .pipe(
               mergeMap(() => [
                   new fromAddJobsPageActions.AddSelectedJobsSuccess(),
-                  new fromAddJobsModalActions.HandlePageComplete()
+                  new fromSearchPageActions.CloseSearchPage()
                 ]
               ),
               catchError(error => of(new fromAddJobsPageActions.AddSelectedJobsError(error)))
@@ -55,7 +54,7 @@ export class AddJobsModalEffects {
     );
 
   @Effect({dispatch: false})
-  addProjectJobsSuccess$ = this.actions$
+  addJobsSuccess$ = this.actions$
     .pipe(
       ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS_SUCCESS),
       tap((action: fromAddJobsPageActions.AddSelectedJobsSuccess) => {
@@ -67,7 +66,7 @@ export class AddJobsModalEffects {
   constructor(
     private actions$: Actions,
     private windowCommunicationService: WindowCommunicationService,
-    private projectApiService: ProjectApiService,
+    private structureRangeGroupApiService: StructureRangeGroupApiService,
     private store: Store<fromAddJobsReducer.State>
   ) {
   }

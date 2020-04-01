@@ -1,9 +1,11 @@
-import { SaveModelSettingsRequest, StructureRangeGroupResponse } from 'libs/models/payfactors-api/structures';
-
-import { Currency, RangeGroupMetadata } from '../models';
-import { ControlPoint } from '../models/control-point.model';
+import {
+  SaveModelSettingsRequest,
+  StructureRangeGroupResponse
+} from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
+
+import { ControlPoint, Currency, RangeGroupMetadata } from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -15,6 +17,7 @@ export class PayfactorsApiModelMapper {
       Currency: srgr.Currency,
       StructureName: srgr.StructureName,
       Paymarket: srgr.PayMarket,
+      PaymarketId: srgr.CompanyPayMarketId,
       Rate: srgr.Rate,
       ControlPoint: srgr.ControlPoint,
       ControlPointDisplay: this.getControlPointDisplayValue(srgr.ControlPoint),

@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { StructureRangeGroupResponse } from 'libs/models/payfactors-api/structures';
+import {
+  AddStructuresRangeGroupJobsRequest,
+  StructureRangeGroupResponse
+} from 'libs/models/payfactors-api/structures';
+import { AddStructuresRangeGroupJobsResponse } from 'libs/models/payfactors-api/structures/response/add-structures-range-group-jobs-response.model';
+import { CompanyStructureInfo } from 'libs/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { UpdateCompanyStructureRangeGroupNameDto } from '../../../models/structures/update-company-structure-range-group-name-dto.model';
-import { CompanyStructureInfo } from 'libs/models';
 
 @Injectable()
 export class StructureRangeGroupApiService {
@@ -15,20 +18,17 @@ export class StructureRangeGroupApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
+  addJobsToRangeGroup(companyStructuresRangeGroupId: number, request: AddStructuresRangeGroupJobsRequest): Observable<AddStructuresRangeGroupJobsResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${companyStructuresRangeGroupId})/Default.AddStructureRangeGroupJobBasedRanges`, request);
+  }
+
   getCompanyStructureRangeGroup(companyStructureRangeGroupId: number): Observable<StructureRangeGroupResponse> {
     return this.payfactorsApiService.get<StructureRangeGroupResponse>(`${this.endpoint}(${companyStructureRangeGroupId})`);
   }
 
   addJobStructureMapping(companyJobId: number, structures: CompanyStructureInfo[]): Observable<number> {
     return this.payfactorsApiService.post<number>(`${this.endpoint}/Default.AddJobStructureMapping`,
-      { CompanyJobId: companyJobId, StructureData: structures });
-  }
-
-  updateCompanyStructureRangeGroupName(updateCompanyStructureRangeGroupNameDto: UpdateCompanyStructureRangeGroupNameDto)
-    : Observable<StructureRangeGroupResponse> {
-    return this.payfactorsApiService.post<StructureRangeGroupResponse>(
-      `${this.endpoint}(${updateCompanyStructureRangeGroupNameDto.CompanyStructuresRangeGroupId})/Default.UpdateNameAsync`,
-      { RangeGroupName: updateCompanyStructureRangeGroupNameDto.RangeGroupName });
+      {CompanyJobId: companyJobId, StructureData: structures});
   }
 
   publishStructureModel(companyStructureRangeGroupId: number): Observable<number> {

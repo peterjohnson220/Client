@@ -10,8 +10,8 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
-import { RangeGroupMetadata } from '../../shared/models';
 import { Pages } from '../../shared/constants/pages';
+import { RangeGroupMetadata } from "../../shared/models";
 
 @Component({
   selector: 'pf-employees-page',

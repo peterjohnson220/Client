@@ -24,7 +24,8 @@
 
     <pf-job-search-results [canSelectJobs]="canSelectJobs"
                            [useSmallBizStyles]="isSmallBiz"
-                           [customSearchResultsStyle]="addJobsConfig?.enablePaymarkets ? {'width': '67%'} : {}">
+                           [customSearchResultsStyle]="addJobsConfig?.enablePaymarkets ? {'width': '67%'} : {}"
+                           [showJobBasedRangesJobMetadata]="addJobsConfig?.enableAssignedStructuresMetadata || false" >
     </pf-job-search-results>
 
     <pf-paymarkets *ngIf="addJobsConfig?.enablePaymarkets" [useSmallBizStyles]="isSmallBiz"></pf-paymarkets>

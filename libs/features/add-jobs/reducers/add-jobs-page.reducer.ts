@@ -2,6 +2,7 @@ import * as fromAddJobsPageActions from '../actions/add-jobs-page.actions';
 
 export interface State {
   context: { PayMarketId: number, ProjectId: number };
+  contextStructureRangeGroupId: number;
   addingData: boolean;
   addingDataError: boolean;
   addingDataErrorMessage: any;
@@ -9,6 +10,7 @@ export interface State {
 
 const initialState: State = {
   context: null,
+  contextStructureRangeGroupId: null,
   addingData: false,
   addingDataError: false,
   addingDataErrorMessage: null
@@ -24,6 +26,13 @@ export function reducer(state = initialState, action: fromAddJobsPageActions.Act
         context: action.payload
       };
     }
+    case fromAddJobsPageActions.SET_CONTEXT_STRUCTURES_RANGE_GROUP_ID: {
+      return {
+        ...state,
+        contextStructureRangeGroupId: action.payload
+      };
+    }
+
     case fromAddJobsPageActions.ADD_SELECTED_JOBS: {
       return {
         ...state,
@@ -56,6 +65,7 @@ export function reducer(state = initialState, action: fromAddJobsPageActions.Act
 
 // Selector functions
 export const getContext = (state: State) => state.context;
+export const getContextStructureRangeGroupId = (state: State) => state.contextStructureRangeGroupId;
 export const getAddingData = (state: State) => state.addingData;
 export const getAddingDataError = (state: State) => state.addingDataError;
 export const getAddingDataErrorMessage = (state: State) => state.addingDataErrorMessage;
