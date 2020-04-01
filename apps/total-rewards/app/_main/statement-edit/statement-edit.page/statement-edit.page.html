@@ -9,23 +9,37 @@
                         (reload)="handleStatementReload()">
       <div class="canvas">
         <div class="header-row">
-          <h3 class="w-100">
+          <h3 class="flex-fill">
             <pf-inline-string-editor
               [placeholder]="'New Statement Name'"
               [maxCharacters]="statementNameMaxLength"
               [value]="getStatementName()"
+              [inEditMode]="(mode === modeEnum.Edit)"
               (valueChange)="onStatementNameValueChange($event)"
             ></pf-inline-string-editor>
           </h3>
+          <span *ngIf="(mode === modeEnum.Preview)"
+               class="font-italic flex-grow-1 pt-1"
+          >
+            Canvas cannot be edited in preview mode
+          </span>
           <div class="header-row-save-status pb-2">
             <span *ngIf="!(statementSaving$ | async) && !(statementSavingSuccess$ | async) &&
                          !(statementSavingError$ | async) ">Unsaved</span>
             <span *ngIf="(statementSaving$ | async)">Saving</span>
             <span *ngIf="(statementSavingSuccess$ | async)">Saved</span>
           </div>
+          <div class="header-row-buttons ml-2">
+            <button ngbButton class="btn btn-outline-secondary"
+                    data-toggle="button"
+                    aria-pressed="false"
+                    (click)="toggleStatementEditMode()">{{(mode === modeEnum.Edit) ? 'Preview' : 'Edit'}}</button>
+          </div>
         </div>
         <pf-total-rewards-statement
           [statement]="statement"
+          [mode]="mode"
+          [employeeRewardsData]="employeeRewardsData"
           (onControlTitleChange)="handleOnControlTitleChange($event)"
           (onCalculationControlCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
           (onCalculationControlSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"

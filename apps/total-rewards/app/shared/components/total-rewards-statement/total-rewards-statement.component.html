@@ -24,6 +24,8 @@
               <div *ngIf="control.ControlType === controlType.Calculation">
                 <pf-trs-calculation-control
                   [controlData]="control"
+                  [mode]="mode"
+                  [employeeRewardsData]="employeeRewardsData"
                   (onTitleChange)="handleOnControlTitleChange($event)"
                   (onCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
                   (onUpdateSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"

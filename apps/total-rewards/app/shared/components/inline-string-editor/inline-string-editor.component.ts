@@ -1,24 +1,31 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output, SimpleChanges,
+  ViewChild
+} from '@angular/core';
 
 @Component({
   selector: 'pf-inline-string-editor',
   templateUrl: './inline-string-editor.component.html',
   styleUrls: ['./inline-string-editor.component.scss']
 })
-export class InlineStringEditorComponent implements OnDestroy, OnInit {
+export class InlineStringEditorComponent implements OnInit, OnChanges {
   constructor() {}
 
   @Input() minCharacters = 1;
   @Input() maxCharacters: number;
   @Input() placeholder: string;
-  @Input() isEditable$: Observable<boolean>;
+  @Input() inEditMode: boolean;
   @Input() icon = 'pencil';
   @Input() value: string;
 
   @Output() valueChange = new EventEmitter<string>();
 
-  isEditableSubscription: Subscription;
   isEditable: boolean;
   isInEditState: boolean;
 
@@ -26,16 +33,12 @@ export class InlineStringEditorComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.isInEditState = false;
-    if (this.isEditable$) {
-      this.isEditableSubscription = this.isEditable$.subscribe(isEditable => { this.isEditable = isEditable; });
-    } else {
-      this.isEditable = true;
-    }
+    this.isEditable = this.inEditMode !== false;
   }
 
-  ngOnDestroy(): void {
-    if (this.isEditableSubscription) {
-      this.isEditableSubscription.unsubscribe();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.inEditMode) {
+      this.isEditable = this.inEditMode;
     }
   }
 

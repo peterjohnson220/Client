@@ -222,13 +222,40 @@ pf-statement-edit {
 }
 
 pf-total-rewards-statement {
-  .trs-calculation-row {
-    .edit-icon {
-      visibility: hidden;
-    }
-    &:hover {
+  .edit-mode {
+    .trs-calculation-row {
       .edit-icon {
-        visibility: visible;
+        visibility: hidden;
+      }
+      &:hover {
+        .edit-icon {
+          visibility: visible;
+        }
+      }
+    }
+
+    .primary-control-heading {
+      .edit-icon {
+        visibility: hidden;
+      }
+      &:hover {
+        .edit-icon {
+          visibility: visible;
+        }
+      }
+    }
+  }
+
+  .preview-mode {
+    .trs-calculation-row {
+      .edit-icon {
+        visibility: hidden;
+      }
+    }
+
+    .primary-control-heading {
+      .edit-icon {
+        visibility: hidden;
       }
     }
   }

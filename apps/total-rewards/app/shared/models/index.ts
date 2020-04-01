@@ -15,3 +15,6 @@ export * from './rich-text-data-field';
 export * from './title-control';
 export * from './request-models';
 export * from './label-with-override';
+export * from './employee-rewards-data';
+export * from './statement-mode-enum';
+export * from './compensation-field';

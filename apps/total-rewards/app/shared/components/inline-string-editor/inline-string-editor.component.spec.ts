@@ -25,14 +25,14 @@ describe('InlineStringEditorComponent', () => {
   });
 
   it('should not allow editing when disabled', () => {
-    component.isEditable = false;
+    component.inEditMode = false;
     const createNewLink = fixture.debugElement.nativeElement.querySelector('span');
     createNewLink.click();
     expect(component.isInEditState).toBeFalsy();
   });
 
   it('should allow editing when enabled', () => {
-    component.isEditable = true;
+    component.inEditMode = true;
     expect(component.isInEditState).toBeFalsy();
     const createNewLink = fixture.debugElement.nativeElement.querySelector('.editable');
     createNewLink.click();

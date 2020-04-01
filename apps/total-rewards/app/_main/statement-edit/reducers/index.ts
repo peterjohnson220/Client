@@ -71,3 +71,7 @@ export const selectCloningFromTemplateError = createSelector(
   selectStatementEditPageState,
   (state: StatementEditState) => state.page.cloningFromTemplateError
 );
+export const selectStatementMode = createSelector(
+  selectStatementEditPageState,
+  (state: StatementEditState) => state.page.mode
+);

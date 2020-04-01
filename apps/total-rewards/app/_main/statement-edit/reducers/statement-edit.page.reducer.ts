@@ -2,7 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
-import { Statement } from '../../../shared/models';
+import { Statement, StatementModeEnum } from '../../../shared/models';
 import { TotalRewardsStatementService } from '../../../shared/services/total-rewards-statement.service';
 import * as fromEditStatementActions from '../actions/statement-edit.page.actions';
 
@@ -11,13 +11,15 @@ export interface State {
   cloningFromTemplate: boolean;
   cloningFromTemplateError: boolean;
   cloningFromTemplateSuccess: boolean;
+  mode: StatementModeEnum;
 }
 
 export const initialState: State = {
   statement: generateDefaultAsyncStateObj<Statement>(null),
   cloningFromTemplate: false,
   cloningFromTemplateError: false,
-  cloningFromTemplateSuccess: false
+  cloningFromTemplateSuccess: false,
+  mode: StatementModeEnum.Edit
 };
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
@@ -127,6 +129,11 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
           localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].Name.Override = null;
         }
       }
+      return localState;
+    }
+    case fromEditStatementActions.TOGGLE_STATEMENT_EDIT_MODE: {
+      const localState = cloneDeep(state);
+      localState.mode = action.payload;
       return localState;
     }
     default: {

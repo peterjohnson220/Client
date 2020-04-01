@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { CurrencyPipe} from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 
 import { TrsCalculationControlComponent } from './trs-calculation-control.component';
 import { CompensationFieldPipe } from '../../pipes/compensation-field-pipe';
-import {CalculationControl, CompensationField, LabelWithOverride} from '../../models';
+import {CalculationControl, CompensationField, LabelWithOverride, generateMockCalculationControl, generateMockEmployeeRewardsData, StatementModeEnum} from '../../models';
 import {InlineStringEditorComponent} from '../inline-string-editor';
 
 describe('TrsCalculationControlComponent', () => {
@@ -48,9 +48,10 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should render the supplied data fields', () => {
-    fixture.componentInstance.controlData = {
-      Title: { } as LabelWithOverride,
-      Summary: { } as LabelWithOverride,
+    component.mode = StatementModeEnum.Edit;
+    component.controlData = {
+      Title: {} as LabelWithOverride,
+      Summary: {} as LabelWithOverride,
       DataFields: [
         {
           DatabaseField: 'first',
@@ -67,7 +68,8 @@ describe('TrsCalculationControlComponent', () => {
           Name: { Default: 'Third' },
           IsVisible: true
         } as CompensationField] as CompensationField[]
-    } as any;
+    } as CalculationControl;
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
 
     fixture.detectChanges();
 
@@ -111,6 +113,40 @@ describe('TrsCalculationControlComponent', () => {
         }
       ]
     } as any;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display contribution values and total when in preview mode', () => {
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+    component.controlData = generateMockCalculationControl();
+    component.mode = StatementModeEnum.Preview;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should exclude fields in preview mode if employee data is null for a given field', () => {
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+    component.controlData = generateMockCalculationControl();
+    component.mode = StatementModeEnum.Preview;
+
+    component.employeeRewardsData.STI = null;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should include fields in preview mode if employee data is 0 for a given field', () => {
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+    component.controlData = generateMockCalculationControl();
+    component.mode = StatementModeEnum.Preview;
+
+    component.employeeRewardsData.STI = 0;
 
     fixture.detectChanges();
 
