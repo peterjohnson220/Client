@@ -79,7 +79,6 @@ export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
 
   next(creds: CredentialsPackage) {
     this.store.dispatch(new fromHrisConnectionActions.CreateConnection(creds));
-    this.router.navigate(['/transfer-data/inbound/field-mapping']);
   }
 
   validateCredentials(creds: CredentialsPackage) {

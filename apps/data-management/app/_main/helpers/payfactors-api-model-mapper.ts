@@ -1,19 +1,26 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import { isEmpty } from 'lodash';
 
 import { ImportDataType, OrgDataEntityType, TransferMethodTypes} from 'libs/constants/hris-api';
+import { LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
+import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import {
   AuthenticationTypeResponse,
   ConnectionPostRequest,
+  ConnectionSummaryResponse,
   CredentialsPackage,
+  FieldMappingsDTO,
+  LoaderSettingsDTO,
   MappingPackage,
+  MappingPayloadItem,
   PayfactorsEntityFieldsResponse,
   ProviderEntitiyFieldsResponse,
   ProviderResponse,
+  ProviderSupportedEntityDTO,
+  SyncScheduleDtoModel,
   TransferMethodResponse,
-  ProviderSupportedEntityDTO, TransferScheduleSummary, SyncScheduleDtoModel,
-  MappingPayloadItem,
-  ConnectionSummaryResponse
-} from 'libs/models/hris-api';
+  TransferScheduleSummary,
+  UserContext,
+} from 'libs/models';
 
 import {
   AuthenticationType,
@@ -103,12 +110,18 @@ export class PayfactorsApiModelMapper {
     }
   }
 
-  static createConnectionPostRequest(request: CredentialsPackage, companyId: number, providerId: number): ConnectionPostRequest {
+  static createConnectionPostRequest(
+    request: CredentialsPackage,
+    companyId: number,
+    providerId: number,
+    loaderConfigurationGroupId?: number
+  ): ConnectionPostRequest {
     return {
       connection: {
         company_ID: companyId,
         provider_ID: providerId,
-        active: true
+        active: true,
+        loaderConfigurationGroupId,
       },
       credentialsPackage: request
     };
@@ -155,7 +168,7 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static getMappingsForEntity(entityType: string , fields: EntityDataField[]): MappingPayloadItem {
+  static getMappingsForEntity(entityType: string, fields: EntityDataField[]): MappingPayloadItem {
     return {
       orgDataEntityType: entityType,
       mappings: fields.filter(field => field.AssociatedEntity && field.AssociatedEntity.length > 0)
@@ -171,6 +184,17 @@ export class PayfactorsApiModelMapper {
       }))
     };
   }
+
+  static getLoadersMappings = (companyId: number, connectionSummary: ConnectionSummary, mappings: EntityField): FieldMappingsDTO => ({
+    companyId,
+    mappings: Object.entries(mappings)
+      .filter(([entityType]) => entityType !== OrgDataEntityType.JobDescriptions)
+      .map(([entityType, fields]: [string, EntityDataField[]]) => ({
+        LoaderType: entityType,
+        Mappings: fields.filter(field => !isEmpty(field.AssociatedEntity)).map(field => `${field.FieldName}__${field.AssociatedEntity[0].FieldName}`),
+      })),
+    loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId
+  })
 
   static mapEntitySelectionResponseToEntitySelection(response: ProviderSupportedEntityDTO[]): EntityChoice[] {
     return response.map(p => {
@@ -241,7 +265,8 @@ export class PayfactorsApiModelMapper {
       canEditMappings: connectionSummary.canEditMappings,
       statuses: connectionSummary.statuses,
       selectedEntities: connectionSummary.selectedEntities.map(e => OrgDataEntityType[e]),
-      connectionID: connectionSummary.connection_ID
+      connectionID: connectionSummary.connection_ID,
+      loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId,
     };
   }
 
@@ -259,4 +284,37 @@ export class PayfactorsApiModelMapper {
       return e.dbName as OrgDataEntityType;
     });
   }
+
+  static getLoaderSettingsForConnection = (summary: ConnectionSummary): LoaderSettings => ({
+    isActive: true,
+    isCompanyOnAutoloader: false,
+    delimiter: null,
+    dateFormat: null,
+    isEmployeesLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Employees),
+    isJobsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Jobs),
+    isPaymarketsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.PayMarkets),
+    isStructuresLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Structures),
+    isStructureMappingsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.StructureMappings),
+
+    // TODO: we need a UI to determine these settings
+    isEmployeesFullReplace: false,
+    isStructureMappingsFullReplace: false,
+    validateOnly: false,
+  })
+
+  static getLoaderSettingsDtoForConnection = (userContext: UserContext, summary: ConnectionSummary): LoaderSettingsDTO => ({
+    companyId: userContext.CompanyId,
+    loaderConfigurationGroupId: summary.loaderConfigurationGroupId,
+    settings: OrgDataLoadHelper.getLoaderSettingsToSave(PayfactorsApiModelMapper.getLoaderSettingsForConnection(summary), []),
+  })
+
+  static getDisabledLoaderSettingsDtoForConnection = (userContext: UserContext, summary: ConnectionSummary): LoaderSettingsDTO => ({
+    companyId: userContext.CompanyId,
+    loaderConfigurationGroupId: summary.loaderConfigurationGroupId,
+    settings: [{
+      LoaderSettingsId: undefined,
+      KeyName: LoaderSettingsKeys.IsActive,
+      KeyValue: 'false',
+    }],
+  })
 }
