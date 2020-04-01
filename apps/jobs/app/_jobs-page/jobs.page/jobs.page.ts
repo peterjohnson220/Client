@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import {Observable, Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
@@ -46,6 +46,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   companyPayMarketsSubscription: Subscription;
   structureGradeNameSubscription: Subscription;
   selectedJobDataSubscription: Subscription;
+  companySettingsSubscription: Subscription;
 
   userContext$: Observable<UserContext>;
   selectedRecordId$: Observable<number>;
@@ -88,6 +89,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   disableExportPopover = true;
   selectedJobPricingCount = 0;
+  enablePageToggle = false;
 
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
@@ -161,6 +163,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.disableExportPopover = !(this.selectedPricingIds.length > 0);
         }
+      }
+    });
+
+    this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
+      if (cs) {
+        const setting = cs.find(x => x.Key === 'EnableJobsPageToggle');
+        this.enablePageToggle = setting && setting.Value === 'true'; // || true;
       }
     });
   }
@@ -255,6 +264,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.structureGradeNameSubscription.unsubscribe();
     this.selectedJobPayMarketSubscription.unsubscribe();
     this.selectedJobDataSubscription.unsubscribe();
+    this.companySettingsSubscription.unsubscribe();
   }
 
   closeSplitView() {

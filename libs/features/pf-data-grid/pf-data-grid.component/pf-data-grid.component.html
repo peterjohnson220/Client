@@ -1,12 +1,15 @@
-<pf-page-with-title-bar 
+<pf-page-with-title-bar
   [isFullHeader]="showTitle"
   [absoluteUrl]="navigationURL"
   [contentNoPadding]="contentNoPadding"
   [contentClassNamesOverrides]="contentClassNamesOverrides ? contentClassNamesOverrides : 'pb-0'">
 
   <ng-container page-title *ngIf="showTitle">
-    {{title | titlecase}}
+    <ng-container *ngIf="titleTemplate; else simpleTitle" [ngTemplateOutlet]="titleTemplate"></ng-container>
   </ng-container>
+  <ng-template #simpleTitle>
+    {{title | titlecase}}
+  </ng-template>
   <ng-container page-actions>
     <pf-action-bar
       class="flex-fill"
@@ -37,7 +40,7 @@
             </pf-data-grid-filter-pills>
           </div>
         </div>
-        <div *ngIf="gridActionsTemplate" class="d-flex justify-content-end grid-actions-container">         
+        <div *ngIf="gridActionsTemplate" class="d-flex justify-content-end grid-actions-container">
           <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
         </div>
       </div>
