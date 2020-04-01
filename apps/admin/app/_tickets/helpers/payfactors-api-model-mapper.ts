@@ -137,7 +137,7 @@ export class PayfactorsApiModelMapper {
   static mapUserTicketFilesToTicketAttachment(userTicketFiles: UserTicketFile[], fileState?: number): TicketAttachment[] {
     return userTicketFiles.map(utf => {
       return {
-        AttachmentId: utf.UserTicketsFileId,
+        AttachmentId: utf.Id,
         DisplayName: utf.DisplayName,
         FileName: utf.FileName,
         ExtensionType: getFileExtensionType(utf.DisplayName),
