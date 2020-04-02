@@ -20,7 +20,7 @@ import { PfSearchModule } from 'libs/features/search';
 
 import { AddJobsModalComponent, JobBasedRangeChartComponent, PublishModelModalComponent } from './containers';
 import { AddJobsUserFilterPopoverConfig, JobBasedRangeAddJobsConfig } from './data';
-import { AddJobsModalEffects, SearchResultsEffects } from './effects';
+import { AddJobsModalEffects, SearchPageEffects, SearchResultsEffects } from './effects';
 import { ModelPageComponent } from './model.page';
 import { ModelRoutingModule } from './model-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -35,6 +35,7 @@ import { SharedModule } from '../shared/shared.module';
     // 3rd Party
     EffectsModule.forFeature([
       AddJobsModalEffects,
+      SearchPageEffects,
       SearchResultsEffects
     ]),
     PerfectScrollbarModule,

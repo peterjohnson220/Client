@@ -14,6 +14,8 @@ import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
 
 import * as fromSharedReducer from '../../shared/reducers';
+import * as fromSharedActions from '../../shared/actions/shared.actions';
+import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
 
 @Injectable()
 export class AddJobsModalEffects {
@@ -35,14 +37,20 @@ export class AddJobsModalEffects {
         this.store.select(fromAddJobsReducer.getSelectedJobIds),
         this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes),
         this.store.select(fromSharedReducer.getMetadata),
-        (action: fromAddJobsPageActions.AddSelectedJobs, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata) =>
-          ({action, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata})
+        this.store.select(fromSharedReducer.getIsNewModelAddJobs),
+        (action: fromAddJobsPageActions.AddSelectedJobs, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, isNewModelAddJobs) =>
+          ({action, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, isNewModelAddJobs})
       ),
       switchMap((contextData) => {
           const companyJobIds = contextData.selectedJobIds.map(j => Number(j));
           return this.structureRangeGroupApiService.addJobsToRangeGroup(contextData.contextStructureRangeGroupId, { JobIds: companyJobIds, PaymarketId: contextData.metadata.PaymarketId })
             .pipe(
-              mergeMap(() => [
+              mergeMap(() => contextData.isNewModelAddJobs ? [
+                  new fromAddJobsPageActions.AddSelectedJobsSuccess(),
+                  new fromSearchPageActions.CloseSearchPage(),
+                  new fromSharedActions.SetIsNewModelModelSettings(true),
+                  new fromSharedModelSettingsActions.OpenModal(),
+                ] : [
                   new fromAddJobsPageActions.AddSelectedJobsSuccess(),
                   new fromSearchPageActions.CloseSearchPage()
                 ]

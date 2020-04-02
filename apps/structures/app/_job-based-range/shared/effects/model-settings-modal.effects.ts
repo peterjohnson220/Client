@@ -26,6 +26,13 @@ import { RangeGroupMetadata } from "../models";
 export class ModelSettingsModalEffects {
 
   @Effect()
+  closeModal$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromModelSettingsModalActions.CLOSE_MODAL),
+      map(() => new fromSharedActions.SetIsNewModelModelSettings(false))
+    );
+
+  @Effect()
   getCurrencies$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromModelSettingsModalActions.GET_CURRENCIES),

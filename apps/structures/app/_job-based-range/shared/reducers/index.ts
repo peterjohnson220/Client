@@ -53,6 +53,14 @@ export const getMetadata = createSelector(
   selectSharedState, fromSharedReducer.getMetadata
 );
 
+export const getIsNewModelAddJobs = createSelector(
+  selectSharedState, fromSharedReducer.getIsNewModelAddJobs
+);
+
+export const getIsNewModelModelSettings = createSelector(
+  selectSharedState, fromSharedReducer.getIsNewModelModelSettings
+);
+
 // Model Settings Modal
 export const getModelSettingsModalOpen = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getModalOpen

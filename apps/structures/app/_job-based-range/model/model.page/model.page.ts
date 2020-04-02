@@ -5,12 +5,12 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
+import * as fromSharedJobBasedRangeActions from '../../shared/actions/shared.actions';
 import * as fromPublishModelModalActions from '../../shared/actions/publish-model-modal.actions';
 import { AddJobsModalComponent } from '../containers/add-jobs-modal';
 import { Pages } from '../../shared/constants/pages';
@@ -31,8 +31,6 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   colTemplates = {};
   filter: PfDataGridFilter;
-
-  newJobRange: boolean;
 
   constructor(
     public store: Store<any>,
@@ -58,14 +56,13 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
         Value: '1'
       }
     ];
-    const url = route.snapshot.url;
-    this.newJobRange = url && url.length > 0 && url[0].path === 'new';
+
   }
 
   // Events
-  openAddJobsModal() {
+  openAddJobsModal(newJobRange = false) {
+    this.store.dispatch(new fromSharedJobBasedRangeActions.SetIsNewModelAddJobs(newJobRange));
     this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
-    this.store.dispatch(new fromSearchPageActions.ShowPage());
   }
 
   handlePublishModel() {
@@ -83,10 +80,11 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-      if (this.newJobRange) {
-      this.openAddJobsModal();
+    const url = this.route.snapshot.url;
+    const newJobRange = url && url.length > 0 && url[0].path === 'new';
+    if (newJobRange) {
+      this.openAddJobsModal(true);
     }
-    return;
   }
 
   ngOnDestroy(): void {
