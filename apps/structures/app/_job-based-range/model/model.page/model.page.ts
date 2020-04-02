@@ -51,6 +51,11 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
         SourceName: 'CompanyStructuresRanges_ID',
         Operator: 'notnull',
         Value: ''
+      },
+      {
+        SourceName: 'JobStatus',
+        Operator: '=',
+        Value: '1'
       }
     ];
     const url = route.snapshot.url;
