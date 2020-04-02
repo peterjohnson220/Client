@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
 
-import * as fromJobsPageReducer from '../../reducers';
+import * as fromJobsPageReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-export-list-popover',

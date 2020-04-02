@@ -2,48 +2,43 @@ import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnCh
 
 import { Store } from '@ngrx/store';
 
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
-import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
-import { Permissions } from 'libs/constants';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromJobsPageReducer from '../../../../reducers';
 
-import * as fromJobsPageActions from '../../actions';
-import * as fromJobsPageReducer from '../../reducers';
-import { PageViewIds } from '../../constants';
+import { PageViewIds } from '../../../../constants/';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+
 
 @Component({
-  selector: 'pf-pricing-history',
-  templateUrl: './pricing-history.component.html',
-  styleUrls: ['./pricing-history.component.scss']
+  selector: 'pf-employees-grid',
+  templateUrl: './employees-grid.component.html',
+  styleUrls: ['./employees-grid.component.scss']
 })
-export class PricingHistoryComponent implements AfterViewInit, OnDestroy, OnChanges {
+export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
+  @ViewChild('employeeColumn', { static: false }) employeeColumn: ElementRef;
+  @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
+  @ViewChild('percentMrpColumn', { static: false }) percentMrpColumn: ElementRef;
 
-  @ViewChild('createUserColumn', { static: false }) createUserColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
-  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
-  pageViewId = PageViewIds.PricingHistory;
-
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Employees'];
+  globalFilterTemplates = {};
   colTemplates = {};
-
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
-    field: 'CompanyPayMarkets_PayMarket'
+    field: 'CompanyEmployees_Employees'
   }];
-
-  deletePricingRequest: DeletePricingRequest;
-  pricingIdToBeDeleted$: Observable<number>;
-  _Permissions = null;
+  pageViewId = PageViewIds.Employees;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;
@@ -52,15 +47,13 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy, OnChan
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
 
-  constructor(private store: Store<fromJobsPageReducer.State>) {
-    this.pricingIdToBeDeleted$ = store.select(fromJobsPageReducer.getPricingIdToBeDeleted);
-    this._Permissions = Permissions;
-
+  constructor(private store: Store<fromPfGridReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
       });
+
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
@@ -82,7 +75,10 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy, OnChan
       }
     };
     this.colTemplates = {
-      'Create_User': { Template: this.createUserColumn }
+      'Employees': { Template: this.employeeColumn },
+      'BaseSalaryMarketIndex': { Template: this.percentMrpColumn },
+      'TotalCashCompensationMarketIndex': { Template: this.percentMrpColumn },
+      [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
 
@@ -91,26 +87,6 @@ export class PricingHistoryComponent implements AfterViewInit, OnDestroy, OnChan
       this.filters = cloneDeep(changes['filters'].currentValue)
         .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
     }
-  }
-
-  confirmDeletePricingModal(event: any) {
-    this.deletePricingRequest = {
-      CompanyJobPricingId: event['CompanyJobs_Pricings_CompanyJobPricing_ID'],
-      CompanyId: event['CompanyJobs_Pricings_Company_ID'],
-      CompanyJobId: event['CompanyJobs_Pricings_CompanyJob_ID'],
-      CompanyPayMarketId: event['CompanyJobs_Pricings_CompanyPayMarket_ID']
-    };
-
-    this.store.dispatch(new fromJobsPageActions.ConfirmDeletePricingFromGrid(this.deletePricingRequest));
-  }
-
-  cancelDeletePricing() {
-    this.store.dispatch(new fromJobsPageActions.CancelDeletePricing());
-    this.deletePricingRequest = undefined;
-  }
-
-  deletePricing() {
-    this.store.dispatch(new fromJobsPageActions.DeletePricingFromGrid(this.pageViewId, this.deletePricingRequest));
   }
 
   ngOnDestroy() {

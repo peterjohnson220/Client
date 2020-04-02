@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -8,47 +8,45 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromJobsPageReducer from '../../reducers';
 
-import { PageViewIds } from '../../constants/';
-import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import * as fromJobsPageReducer from '../../../../reducers';
 
+import { PageViewIds } from '../../../../constants';
 
 @Component({
-  selector: 'pf-employees-grid',
-  templateUrl: './employees-grid.component.html',
-  styleUrls: ['./employees-grid.component.scss']
+  selector: 'pf-structure-grid',
+  templateUrl: './structure-grid.component.html',
+  styleUrls: ['./structure-grid.component.scss']
 })
-export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChanges {
+export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestroy {
   @Input() filters: PfDataGridFilter[];
-  @ViewChild('employeeColumn', { static: false }) employeeColumn: ElementRef;
-  @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
-  @ViewChild('percentMrpColumn', { static: false }) percentMrpColumn: ElementRef;
 
+  @ViewChild('nameColumn', { static: false }) nameColumn: ElementRef;
+  @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
-  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Employees'];
-  globalFilterTemplates = {};
+  pageViewId = PageViewIds.Structures;
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   colTemplates = {};
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
-    field: 'CompanyEmployees_Employees'
+    field: 'CompanyJobs_Structures_Structure_Search'
   }];
-  pageViewId = PageViewIds.Employees;
   gridFieldSubscription: Subscription;
-  companyPayMarketsSubscription: Subscription;
+  companyPayMarketSubscription: Subscription;
   payMarketField: ViewField;
   filteredPayMarketOptions: any;
   payMarketOptions: any;
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
 
-  constructor(private store: Store<fromPfGridReducer.State>) {
-    this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
+  constructor(private store: Store<fromJobsPageReducer.State>) {
+    this.companyPayMarketSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
@@ -56,15 +54,27 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
 
     this.gridFieldSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
-        this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
+        this.payMarketField = fields.find(f => f.SourceName === 'PayMarket' && f.IsGlobalFilter);
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
-      ActionBarClassName: 'employee-grid-action-bar ml-0 mt-1'
+      ActionBarClassName: 'structure-grid-action-bar ml-0 mt-1'
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['filters']) {
+      const newFilter = [...this.filters].filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+      const jobFilter = newFilter.find(f => f.SourceName === 'CompanyJob_ID');
+      if (jobFilter) {
+        newFilter.splice(this.filters.indexOf(jobFilter), 1);
+        newFilter.push({ ...jobFilter, SourceName: 'CompanyJobId' });
+        this.filters = newFilter;
+      }
+    }
   }
 
   ngAfterViewInit() {
@@ -75,23 +85,13 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
       }
     };
     this.colTemplates = {
-      'Employees': { Template: this.employeeColumn },
-      'BaseSalaryMarketIndex': { Template: this.percentMrpColumn },
-      'TotalCashCompensationMarketIndex': { Template: this.percentMrpColumn },
+      'Structure_Search': { Template: this.nameColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['filters']) {
-      this.filters = cloneDeep(changes['filters'].currentValue)
-        .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
-    }
-  }
-
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
-    this.companyPayMarketsSubscription.unsubscribe();
+    this.companyPayMarketSubscription.unsubscribe();
   }
 
   handlePayMarketFilterChanged(value: any) {
@@ -108,6 +108,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
       this.store.dispatch(new fromPfGridActions.ClearFilter(this.pageViewId, field));
     }
   }
+
   handleFilter(value) {
     this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }

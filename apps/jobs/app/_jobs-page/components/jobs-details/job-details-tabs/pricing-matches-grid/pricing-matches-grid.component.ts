@@ -3,7 +3,7 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'li
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api';
-import { PageViewIds } from '../../constants';
+import { PageViewIds } from '../../../../constants';
 
 @Component({
   selector: 'pf-pricing-matches-grid',

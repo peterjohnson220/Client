@@ -15,9 +15,9 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
-import * as fromJobsPageActions from '../../actions';
-import * as fromJobsPageReducer from '../../reducers';
-import { PageViewIds } from '../../constants';
+import * as fromJobsPageActions from '../../../../actions';
+import * as fromJobsPageReducer from '../../../../reducers';
+import { PageViewIds } from '../../../../constants';
 
 @Component({
   selector: 'pf-pricing-details-grid',

@@ -14,16 +14,16 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
-import * as fromJobsPageActions from '../../actions';
-import * as fromJobsPageReducer from '../../reducers';
-import { PageViewIds } from '../../constants';
+import * as fromJobsPageActions from '../../../../actions';
+import * as fromJobsPageReducer from '../../../../reducers';
+import { PageViewIds } from '../../../../constants';
 
 @Component({
-  selector: 'pf-not-priced-paymarkets',
-  templateUrl: './not-priced-paymarkets.component.html',
-  styleUrls: ['./not-priced-paymarkets.component.scss']
+  selector: 'pf-not-priced-paymarkets-grid',
+  templateUrl: './not-priced-paymarkets-grid.component.html',
+  styleUrls: ['./not-priced-paymarkets-grid.component.scss']
 })
-export class NotPricedPaymarketsComponent implements AfterViewInit, OnDestroy, OnChanges {
+export class NotPricedPaymarketsGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
   @Input() pricedCount: number;
 

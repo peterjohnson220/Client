@@ -2,41 +2,48 @@ import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnCh
 
 import { Store } from '@ngrx/store';
 
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
+import { Permissions } from 'libs/constants';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 
-import * as fromJobsPageReducer from '../../reducers';
-import { PageViewIds } from '../../constants';
+import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+
+import * as fromJobsPageActions from '../../../../actions';
+import * as fromJobsPageReducer from '../../../../reducers';
+import { PageViewIds } from '../../../../constants';
 
 @Component({
-  selector: 'pf-project-details',
-  templateUrl: './project-details.component.html',
-  styleUrls: ['./project-details.component.scss']
+  selector: 'pf-pricing-history-grid',
+  templateUrl: './pricing-history-grid.component.html',
+  styleUrls: ['./pricing-history-grid.component.scss']
 })
-export class ProjectDetailsComponent implements AfterViewInit, OnDestroy, OnChanges {
+export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
-  @ViewChild('projectAccessColumn', { static: false }) projectAccessColumn: ElementRef;
-  @ViewChild('projectOwnerColumn', { static: false }) projectOwnerColumn: ElementRef;
+
+  @ViewChild('createUserColumn', { static: false }) createUserColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
-  pageViewId = PageViewIds.Projects;
+  pageViewId = PageViewIds.PricingHistory;
 
   colTemplates = {};
 
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
-    field: 'UserSessions_Session_Name'
+    field: 'CompanyPayMarkets_PayMarket'
   }];
 
+  deletePricingRequest: DeletePricingRequest;
+  pricingIdToBeDeleted$: Observable<number>;
+  _Permissions = null;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;
@@ -46,6 +53,9 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy, OnChan
   actionBarConfig: ActionBarConfig;
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
+    this.pricingIdToBeDeleted$ = store.select(fromJobsPageReducer.getPricingIdToBeDeleted);
+    this._Permissions = Permissions;
+
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
@@ -72,8 +82,7 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy, OnChan
       }
     };
     this.colTemplates = {
-      'HasProjectAccess': { Template: this.projectAccessColumn },
-      'Create_User': { Template: this.projectOwnerColumn }
+      'Create_User': { Template: this.createUserColumn }
     };
   }
 
@@ -84,10 +93,31 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy, OnChan
     }
   }
 
+  confirmDeletePricingModal(event: any) {
+    this.deletePricingRequest = {
+      CompanyJobPricingId: event['CompanyJobs_Pricings_CompanyJobPricing_ID'],
+      CompanyId: event['CompanyJobs_Pricings_Company_ID'],
+      CompanyJobId: event['CompanyJobs_Pricings_CompanyJob_ID'],
+      CompanyPayMarketId: event['CompanyJobs_Pricings_CompanyPayMarket_ID']
+    };
+
+    this.store.dispatch(new fromJobsPageActions.ConfirmDeletePricingFromGrid(this.deletePricingRequest));
+  }
+
+  cancelDeletePricing() {
+    this.store.dispatch(new fromJobsPageActions.CancelDeletePricing());
+    this.deletePricingRequest = undefined;
+  }
+
+  deletePricing() {
+    this.store.dispatch(new fromJobsPageActions.DeletePricingFromGrid(this.pageViewId, this.deletePricingRequest));
+  }
+
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
   }
+
   handlePayMarketFilterChanged(value: any) {
     const field = cloneDeep(this.payMarketField);
     field.FilterValue = value.Id;
@@ -105,5 +135,4 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy, OnChan
   handleFilter(value) {
     this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
-
 }

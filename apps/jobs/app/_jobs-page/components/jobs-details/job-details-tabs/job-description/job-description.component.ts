@@ -8,8 +8,8 @@ import { Subscription } from 'rxjs';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { Permissions } from 'libs/constants';
 
-import * as fromJobsPageReducer from '../../reducers';
-import * as fromJobDescriptionActions from '../../actions';
+import * as fromJobsPageReducer from '../../../../reducers';
+import * as fromJobDescriptionActions from '../../../../actions';
 
 @Component({
   selector: 'pf-job-description',

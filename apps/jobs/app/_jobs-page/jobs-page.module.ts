@@ -31,17 +31,17 @@ import {
   JobDescriptionComponent,
   StructureGridComponent,
   PricingMatchesGridComponent,
-  ProjectDetailsComponent,
-  PricingHistoryComponent,
-  NotPricedPaymarketsComponent,
+  ProjectDetailsGridComponent,
+  PricingHistoryGridComponent,
+  NotPricedPaymarketsGridComponent,
   ExportListPopoverComponent,
-  PricingDetailsMrpColumnComponent
+  PricingDetailsMrpColumnComponent,
+  PeerExchangeMatchesComponent,
+  PricingMatchesJobTitleComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects } from './effects';
-import { PricingMatchesJobTitleComponent } from './grid-column-templates';
-import { PeerExchangeMatchesComponent } from './components/peer-exchange-matches/peer-exchange-matches.component';
-import {JobPeerMatchesEffects} from './effects/job-peer-matches.effects';
+import { JobPeerMatchesEffects } from './effects/job-peer-matches.effects';
 
 @NgModule({
   imports: [
@@ -79,23 +79,24 @@ import {JobPeerMatchesEffects} from './effects/job-peer-matches.effects';
     // Pages
     JobsPageComponent,
 
-    // Components
-    JobsDetailsComponent,
-    EmployeesGridComponent,
-    PricingDetailsGridComponent,
-    PricingMatchesGridComponent,
-    JobDescriptionComponent,
-    StructureGridComponent,
-    ProjectDetailsComponent,
-    PricingHistoryComponent,
-    NotPricedPaymarketsComponent,
-    ExportListPopoverComponent,
-    PricingDetailsMrpColumnComponent,
-
-    // Column Templates
-    PricingMatchesJobTitleComponent,
-
-    PeerExchangeMatchesComponent
+     // Job Details Components
+     JobsDetailsComponent,
+     EmployeesGridComponent,
+     PricingDetailsGridComponent,
+     PricingMatchesGridComponent,
+     JobDescriptionComponent,
+     StructureGridComponent,
+     ProjectDetailsGridComponent,
+     PricingHistoryGridComponent,
+     NotPricedPaymarketsGridComponent,
+ 
+     // Column Templates
+     PricingMatchesJobTitleComponent,
+     PricingDetailsMrpColumnComponent,
+ 
+     // Jobs Grid Components
+     PeerExchangeMatchesComponent,
+     ExportListPopoverComponent
   ]
 })
 export class JobsPageModule {
