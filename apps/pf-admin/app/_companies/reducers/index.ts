@@ -6,11 +6,13 @@ import * as fromRoot from 'libs/state/state';
 import * as fromCompaniesReducer from './companies.reducer';
 import * as fromCompaniesGridReducer from './companies-grid.reducer';
 import * as fromCompanyPageReducer from './company-page.reducer';
+import * as fromCompanyNotesReducer from './company-notes.reducer';
 
 export interface CompanyManagementState {
   companies: fromCompaniesReducer.State;
   grid: fromCompaniesGridReducer.GridState;
   companyPage: fromCompanyPageReducer.State;
+  notes: fromCompanyNotesReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -20,7 +22,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   companies: fromCompaniesReducer.reducer,
   grid: fromCompaniesGridReducer.reducer,
-  companyPage: fromCompanyPageReducer.reducer
+  companyPage: fromCompanyPageReducer.reducer,
+  notes: fromCompanyNotesReducer.reducer
 };
 
 // Select Feature area
@@ -246,3 +249,12 @@ export const getEnableJobPricingLimiter = createSelector(
   selectCompanyPageState,
   fromCompanyPageReducer.getEnableJobPricingLimiter
 );
+
+// Notes
+export const selectCompanyNotesState = createSelector(
+  selectFeatureAreaState,
+  (state: CompanyManagementState) => state.notes
+);
+
+export const getCompanyNotes =
+    createSelector( selectCompanyNotesState, fromCompanyNotesReducer.getNotes);

@@ -7,3 +7,22 @@
   color: #495057 !important;
 }
 
+::ng-deep .k-dropdown-wrap .k-clear-value {
+  right: calc( 0.75rem + 17px + 6.5px);
+}
+
+::ng-deep .k-combobox.is-invalid {
+  .k-dropdown-wrap {
+    border-color: #dc3545;
+  }
+}
+
+.search-message {
+  margin-left: 1.5rem;
+  font-style: italic;
+  color: #9e9e9e;
+  .load-more {
+    font-style: normal;
+    margin-left: 2.5rem;
+  }
+}

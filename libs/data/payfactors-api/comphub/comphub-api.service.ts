@@ -9,6 +9,7 @@ import {
   AddCompletedPricingHistoryRequest
 } from '../../../models/payfactors-api/comphub';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { ExchangeDataSet } from '../../../../apps/comphub/app/_main/models';
 
 @Injectable()
 export class ComphubApiService {
@@ -40,6 +41,9 @@ export class ComphubApiService {
 
   getCountryDataSets(): Observable<CountryDataSetResponse[]> {
     return this.payfactorsApiService.get<CountryDataSetResponse[]>(`${this.endpoint}/GetCountryDataSets`);
+  }
+  getExchangeDataSets(): Observable<ExchangeDataSet[]> {
+    return this.payfactorsApiService.get<ExchangeDataSet[]>(`${this.endpoint}/GetExchangeDataSets`);
   }
 
   persistActiveCountryDataSet(countryCode: string): Observable<any> {

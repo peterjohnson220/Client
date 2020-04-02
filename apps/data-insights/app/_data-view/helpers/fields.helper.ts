@@ -79,15 +79,33 @@ export class FieldsHelper {
   static removeFiltersMatchingField(filters: Filter[], field: Field): Filter[] {
     switch (field.FieldType) {
       case FieldType.DataElement: {
-        return filters.filter(x => x.Field.DataElementId !== field.DataElementId);
+        return filters.filter(x => x.IsLocked || x.Field.DataElementId !== field.DataElementId);
       }
       case FieldType.Formula: {
-        return filters.filter(x => x.Field.FormulaId !== field.FormulaId);
+        return filters.filter(x => x.IsLocked || x.Field.FormulaId !== field.FormulaId);
       }
       default: {
         return filters;
       }
     }
+  }
+
+  static compareField(x: Field, y: Field): boolean {
+    if (x.FieldType !== y.FieldType) {
+      return false;
+    }
+    return x.FieldType === FieldType.DataElement
+      ? x.DataElementId === y.DataElementId
+      : x.FormulaId === y.FormulaId;
+  }
+
+  static updateFieldFormatInFilters(filters: Filter[], field: Field): Filter[] {
+    return filters.map(filter => {
+      if (FieldsHelper.compareField(filter.Field, field)) {
+        filter.Field.FieldFormat = field.FieldFormat;
+      }
+      return filter;
+    });
   }
 
   static buildUpdateDataViewFieldsRequest(fields: Field[], userDataView: UserDataView): UpdateDataViewFieldsRequest {
@@ -98,7 +116,7 @@ export class FieldsHelper {
         UserFormulasId: f.FormulaId,
         Order: index + 1,
         DisplayName: f.DisplayName,
-        Format: f.Format,
+        Format: f.FieldFormat && f.FieldFormat.Value ? f.FieldFormat.Value : null,
         SortDirection: f.SortDirection,
         SortOrder: f.SortOrder
       };

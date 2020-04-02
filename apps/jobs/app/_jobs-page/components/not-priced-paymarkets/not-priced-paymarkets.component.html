@@ -1,20 +1,14 @@
 <pf-data-grid
   [pageViewId]="notPricedDataPageViewId"
   [showTitle]="false"
-  [showColumnChooser] ="false"
-  [showFilterChooser] ="false"
-  [allowExport]="false"
   [selectionField]="'JobIdPayMarketId'"
   [enableSelection]="true"
   [columnTemplates]="notPricedDataColTemplates"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
-  [showActionBar]="true"
-  [gridGlobalFiltersTemplates]="notPricedDataGlobalFilterTemplates"
-  [gridGlobalActionsTemplate]="changeView"
-  [actionBarClassName]="'not-priced-grid-action-bar ml-0 mt-1'"
   [headerClassName]="'not-priced-grid-header'"
-  [noRecordsFound]="'All Pay Markets for this job have been priced. Click Priced Pay Markets above to view the details.'">
+  [noRecordsFound]="'All Pay Markets for this job have been priced. Click Priced Pay Markets above to view the details.'"
+  [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
 <ng-template #notPricedDataPayMarketFilter>

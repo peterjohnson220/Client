@@ -15,7 +15,8 @@
     (dataChangesDetected)="handleDataChangesDetected($event)"
     (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
     (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
-    [undoChanges$]="undoChanges$">
+    [undoChanges$]="undoChanges$" 
+    [replaceContents$]="replaceContents$">
   </pf-control-data-renderer>
 </ng-template>
 
@@ -47,7 +48,8 @@
         (dataChangesDetected)="handleDataChangesDetected($event)"
         (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
         (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
-        [undoChanges$]="undoChanges$">
+        [undoChanges$]="undoChanges$" 
+        [replaceContents$]="replaceContents$">
       </pf-control-data-renderer>
     </div>
   </div>
@@ -84,7 +86,8 @@
         (dataRowDeleted)="handledDataRowDeleted($event)"
         (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
         (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
-        [undoChanges$]="undoChanges$">
+        [undoChanges$]="undoChanges$" 
+        [replaceContents$]="replaceContents$">
       </pf-control-data-renderer>
     </div>
   </div>

@@ -7,7 +7,9 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField, CreateProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
+import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
+
 import { PageViewIds } from '../constants';
 
 import * as fromRootState from 'libs/state/state';
@@ -68,7 +70,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   colTemplates = {};
   filterTemplates = {};
-  globalFilterTemplates = {};
+
+  actionBarConfig: ActionBarConfig;
 
   show: boolean;
   offset: {};
@@ -96,7 +99,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('peerFilter', { static: false }) peerFilter: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
   @ViewChild('jobStatusFilter', { static: false }) jobStatusFilter: ElementRef;
+
+  @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('structureGradeFilter', { static: false }) structureGradeFilter: ElementRef;
+
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
 
@@ -150,6 +156,15 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
+    this.actionBarConfig = {
+      ShowActionBar: true,
+      ShowColumnChooser: true,
+      ShowFilterChooser: true,
+      AllowExport: false,
+      AllowSaveFilter: true,
+      ExportSourceName: '',
+      ColumnChooserType: ColumnChooserType.Column
+    };
 
     this.selectedJobDataSubscription = this.store.select(fromPfDataGridReducer.getSelectedData, this.pageViewId).subscribe(data => {
       if (data) {
@@ -176,7 +191,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.colTemplates = {
       'Job_Title': { Template: this.jobTitleColumn },
       'JobStatus': { Template: this.jobStatusColumn },
-      'Exchange_ID': { Template: this.hasPeerDataColumn }
+      'Peer': { Template: this.hasPeerDataColumn }
     };
 
     this.filterTemplates = {
@@ -184,8 +199,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       'Grade_Name': { Template: this.structureGradeFilter }
     };
 
-    this.globalFilterTemplates = {
-      'JobStatus': { Template: this.jobStatusFilter }
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate,
+      GlobalFiltersTemplates: {
+        'JobStatus': this.jobStatusFilter
+      }
     };
   }
 

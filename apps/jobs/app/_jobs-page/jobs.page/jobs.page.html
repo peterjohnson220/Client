@@ -3,19 +3,15 @@
   [title]="(userContext$ | async)?.CompanyName + ' - Jobs'"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
-  [gridGlobalActionsTemplate]="gridGlobalActions"
-  [gridGlobalFiltersTemplates]="globalFilterTemplates"
   [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
   [filterPanelTemplates]="filterTemplates"
   [inboundFilters]="filters"
-  [showFilterChooser]="true"
-  [allowExport]="false"
   [defaultSort]="defaultSort"
   [enableSelection]="true"
   [splitViewTemplate]="jobsDetails"
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
-  [showActionBar]="true">
+  [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
 <ng-template #jobTitleColumn let-dataRow="dataRow" let-hover="hover">
@@ -72,7 +68,7 @@
 <ng-template #hasPeerDataColumn let-dataRow="dataRow">
         <fa-icon [id]="dataRow['CompanyJobs_CompanyJob_ID']"  (click)="onToggle($event, null)" (mouseenter)="onToggle($event, dataRow['CompanyJobs_CompanyJob_ID'])"
                (mouseleave)="onToggle($event, null)"
-               icon="exchange-alt" *ngIf="dataRow['CompanyJobs_Exchange_ID']"></fa-icon>
+               icon="exchange-alt" *ngIf="dataRow['CompanyJobs_Peer']"></fa-icon>
 </ng-template>
 
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">

@@ -12,6 +12,9 @@ export const CLEAR_JOB_SEARCH_OPTIONS = '[Comphub/Jobs Card] Clear Job Search Op
 export const SET_SELECTED_JOB = '[Comphub/Jobs Card] Set Selected Job';
 export const CLEAR_SELECTED_JOB = '[Comphub/Jobs Card] Clear Selected Job';
 export const PERSIST_ACTIVE_COUNTRY_DATA_SET = '[Comphub/Jobs Card] Persist Active Country Data Set';
+export const GET_EXCHANGE_JOB_SEARCH_OPTIONS = '[Comphub/Jobs Card] Get Exchange Job Search Options';
+export const GET_EXCHANGE_JOB_SEARCH_OPTIONS_SUCCESS = '[Comphub/Jobs Card] Get Exchange Job Search Options Success';
+export const GET_EXCHANGE_JOB_SEARCH_OPTIONS_ERROR = '[Comphub/Jobs Card] Get Exchange Job Search Options Error';
 
 export class GetTrendingJobs implements Action {
   readonly type = GET_TRENDING_JOBS;
@@ -72,6 +75,23 @@ export class PersistActiveCountryDataSet implements Action {
 
   constructor() {}
 }
+export class GetExchangeJobSearchOptions implements Action {
+  readonly type = GET_EXCHANGE_JOB_SEARCH_OPTIONS;
+
+  constructor(public payload: string) {}
+}
+
+export class GetExchangeJobSearchOptionsSuccess implements Action {
+  readonly type = GET_EXCHANGE_JOB_SEARCH_OPTIONS_SUCCESS;
+
+  constructor(public payload: string[]) {}
+}
+
+export class GetExchangeJobSearchOptionsError implements Action {
+  readonly type = GET_EXCHANGE_JOB_SEARCH_OPTIONS_ERROR;
+
+  constructor() {}
+}
 
 export type Actions
   = GetTrendingJobs
@@ -82,4 +102,7 @@ export type Actions
   | GetJobSearchOptionsError
   | ClearJobSearchOptions
   | SetSelectedJob
-  | ClearSelectedJob;
+  | ClearSelectedJob
+  | GetExchangeJobSearchOptions
+  | GetExchangeJobSearchOptionsSuccess
+  | GetExchangeJobSearchOptionsError;

@@ -23,10 +23,26 @@
           [attr.data-qa-id]="'ddm-entities'"
           [data]="baseEntities"
           [popupSettings]="{appendTo: 'component'}"
+          (valueChange)="onEntityChanged($event)"
           textField="Name"
           valueField="Id"
           formControlName="entity">
         </kendo-dropdownlist>
+      </ng-container>
+
+      <ng-container additionalInfo>
+        <ng-container *ngIf="activeEntity?.RequiredInfo?.length">
+          <div class="form-group" *ngFor="let requiredInfo of activeEntity.RequiredInfo">
+            <label>{{requiredInfo.DisplayName}} <span class="text-danger">*</span></label>
+            <kendo-datepicker
+              class="form-control d-block w-50"
+              [max]="max"
+              formControlName="{{requiredInfo.FieldName}}"
+              [attr.data-qa-id]="'txt-' + requiredInfo.FieldName"
+              [format]="'MM/dd/yyyy'">
+            </kendo-datepicker>
+          </div>
+        </ng-container>
       </ng-container>
 
       <ng-container saveButtonName>

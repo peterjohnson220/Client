@@ -435,7 +435,16 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               <div
                 class="v"
                 data-qa-id="cnt-baseSalary"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -453,7 +462,16 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               <div
                 class="v"
                 data-qa-id="cnt-totalCashCompensation"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -909,7 +927,16 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       <div
                         class="v"
                         data-qa-id="cnt-baseSalary"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -927,7 +954,16 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       <div
                         class="v"
                         data-qa-id="cnt-totalCashCompensation"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -1418,7 +1454,16 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               <div
                 class="v"
                 data-qa-id="cnt-baseSalary"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -1436,7 +1481,16 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               <div
                 class="v"
                 data-qa-id="cnt-totalCashCompensation"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -1892,7 +1946,16 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       <div
                         class="v"
                         data-qa-id="cnt-baseSalary"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -1910,7 +1973,16 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       <div
                         class="v"
                         data-qa-id="cnt-totalCashCompensation"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -2401,7 +2473,16 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               <div
                 class="v"
                 data-qa-id="cnt-baseSalary"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -2419,7 +2500,16 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               <div
                 class="v"
                 data-qa-id="cnt-totalCashCompensation"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -2875,7 +2965,16 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       <div
                         class="v"
                         data-qa-id="cnt-baseSalary"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -2893,7 +2992,16 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       <div
                         class="v"
                         data-qa-id="cnt-totalCashCompensation"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -3384,7 +3492,16 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               <div
                 class="v"
                 data-qa-id="cnt-baseSalary"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -3402,7 +3519,16 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               <div
                 class="v"
                 data-qa-id="cnt-totalCashCompensation"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -3858,7 +3984,16 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       <div
                         class="v"
                         data-qa-id="cnt-baseSalary"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -3876,7 +4011,16 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       <div
                         class="v"
                         data-qa-id="cnt-totalCashCompensation"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -4367,7 +4511,16 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               <div
                 class="v"
                 data-qa-id="cnt-baseSalary"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -4385,7 +4538,16 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               <div
                 class="v"
                 data-qa-id="cnt-totalCashCompensation"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -4841,7 +5003,16 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       <div
                         class="v"
                         data-qa-id="cnt-baseSalary"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -4859,7 +5030,16 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       <div
                         class="v"
                         data-qa-id="cnt-totalCashCompensation"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -5350,7 +5530,16 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               <div
                 class="v"
                 data-qa-id="cnt-baseSalary"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -5368,7 +5557,16 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               <div
                 class="v"
                 data-qa-id="cnt-totalCashCompensation"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -5824,7 +6022,16 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       <div
                         class="v"
                         data-qa-id="cnt-baseSalary"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -5842,7 +6049,16 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       <div
                         class="v"
                         data-qa-id="cnt-totalCashCompensation"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -6333,7 +6549,16 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               <div
                 class="v"
                 data-qa-id="cnt-baseSalary"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -6351,7 +6576,16 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               <div
                 class="v"
                 data-qa-id="cnt-totalCashCompensation"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -6807,7 +7041,16 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       <div
                         class="v"
                         data-qa-id="cnt-baseSalary"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -6825,7 +7068,16 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       <div
                         class="v"
                         data-qa-id="cnt-totalCashCompensation"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -7325,7 +7577,16 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               <div
                 class="v"
                 data-qa-id="cnt-baseSalary"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -7343,7 +7604,16 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               <div
                 class="v"
                 data-qa-id="cnt-totalCashCompensation"
-              />
+              >
+                <span
+                  class="currency"
+                >
+                  
+                </span>
+                <span>
+                  
+                </span>
+              </div>
               <div
                 class="gr"
               >
@@ -7808,7 +8078,16 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       <div
                         class="v"
                         data-qa-id="cnt-baseSalary"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >
@@ -7826,7 +8105,16 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       <div
                         class="v"
                         data-qa-id="cnt-totalCashCompensation"
-                      />
+                      >
+                        <span
+                          class="currency"
+                        >
+                          
+                        </span>
+                        <span>
+                          
+                        </span>
+                      </div>
                       <div
                         class="gr"
                       >

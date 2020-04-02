@@ -12,7 +12,7 @@ exports[`User Menu should show homepage link, when provided 1`] = `
     
     <a
       class="navbar-brand mr-auto"
-      href="url"
+      href=""
     >
       <img
         class="logo-style"

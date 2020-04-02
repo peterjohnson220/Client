@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener, ElementRef, OnDestroy } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ControlTypeAttribute } from 'libs/models/common';
 
@@ -15,13 +16,15 @@ declare var Quill: any;
   styleUrls: [ './smart-list-editor.component.scss' ]
 })
 
-export class SmartListEditorComponent implements OnInit, OnChanges {
+export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   @Input() data: any[];
   @Input() attributes: ControlTypeAttribute[];
   @Input() readOnly: boolean;
   @Input() checkInheritedData: boolean;
   @Input() additionalProperties: any;
   @Input() undoChanges$: Observable<boolean>;
+  @Input() replaceContents$: Observable<boolean>;
+
 
   @Output() dataChangesDetected = new EventEmitter();
   @Output() smartEditorChangesDetected = new EventEmitter();
@@ -29,8 +32,9 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
 
   private rteData = '';
   private showDataTable = false;
-  private firstChange = true;
   private newDataFromLibraryIdentifierString = '========>FROM LIBRARY';
+  private unsubscribe$ = new Subject();
+  private replaceContent = false;
 
   constructor(
     private elRef: ElementRef
@@ -56,45 +60,57 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
         }
       });
     }
+
+    if (this.replaceContents$) {
+      this.replaceContents$.pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe((c) => {
+        this.replaceContent = c;
+      });
+    }
   }
 
   ngOnChanges(changes: any) {
-    if (this.firstChange) {
-      if (changes.data && changes.data.currentValue.length) {
-        const currentData = changes.data.currentValue;
-        const sourcedAttributeName = this.attributes.find(a => a.CanBeSourced).Name;
-        for (let i = 0; i < currentData.length; i++) {
-          const currentSourcedValue = currentData[i][sourcedAttributeName];
+    if (changes.data && changes.data.currentValue.length) {
+      const currentData = changes.data.currentValue;
+      const sourcedAttributeName = this.attributes.find(a => a.CanBeSourced).Name;
+      for (let i = 0; i < currentData.length; i++) {
+        const currentSourcedValue = currentData[i][sourcedAttributeName];
 
-          if (currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) {
-            currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
-            this.rebuildQuillHtmlFromSavedData();
-            this.focusRTE();
-          }
+        if ((currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) || this.replaceContent) {
+          currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
+          this.rebuildQuillHtmlFromSavedData();
+          this.focusRTE();
+          this.replaceContent = false;
         }
       }
     }
+  }
 
-    this.firstChange = false;
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   focusRTE() {
     const quillContainer = this.elRef.nativeElement.querySelector('.ui-editor-content');
-    const quillApi = Quill.find(quillContainer);
+    if (quillContainer) {
+      const quillApi = Quill.find(quillContainer);
 
-    quillApi.disable();
-    const currentSelection = quillApi.getSelection();
+      quillApi.disable();
+      const currentSelection = quillApi.getSelection();
 
-    setTimeout(() => {
+      setTimeout(() => {
 
-      if (currentSelection) {
-        quillApi.setSelection(currentSelection.index, 0);
-      } else if (this.rteData) {
-        quillApi.setSelection(this.rteData.length, 0);
-      }
+        if (currentSelection) {
+          quillApi.setSelection(currentSelection.index, 0);
+        } else if (this.rteData) {
+          quillApi.setSelection(this.rteData.length, 0);
+        }
 
-      quillApi.enable();
-    }, 0);
+        quillApi.enable();
+      }, 0);
+    }
   }
 
   rebuildQuillHtmlFromSavedData() {
@@ -253,6 +269,10 @@ export class SmartListEditorComponent implements OnInit, OnChanges {
 
     let currentData = this.rteData || '';
     this.rteData = currentData += newListString;
+
+    // Since "paste" with mouse right-click or ctrl-v doesn't trigger
+    // the OnTextChange event of the p-editor call this method
+    this.parseQuillHtmlIntoRealHtml(this.rteData);
 
     this.focusRTE();
   }

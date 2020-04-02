@@ -34,6 +34,7 @@
       <button type="button"
               class="btn"
               [ngClass]="primaryButtonClass"
+              [class.order-1]="flipPrimarySecondaryBtns"
               [disabled]="submitDisabled"
               (click)="submit()">
         <span *ngIf="submitting">

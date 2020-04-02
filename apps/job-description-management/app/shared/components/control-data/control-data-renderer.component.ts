@@ -20,6 +20,7 @@ export class ControlDataRendererComponent {
   @Input() additionalProperties: object;
   @Input() isCompare = false;
   @Input() undoChanges$: Observable<boolean>;
+  @Input() replaceContents$: Observable<boolean>;
 
   @Output() dataChangesDetected = new EventEmitter();
   @Output() dataRowDeleted = new EventEmitter();

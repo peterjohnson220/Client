@@ -1,0 +1,11 @@
+@import 'colors';
+@import 'libs/styles/ngbootstrap-tabset-overrides';
+
+:host ::ng-deep {
+  @include pf-tabset;
+
+  .modal-body {
+    padding: 0;
+  }
+}
+

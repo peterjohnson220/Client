@@ -12,6 +12,7 @@ import * as fromJobDescriptionManagementReducer from '../../reducers';
 import * as fromJobDescriptionSharedReducer from '../../../shared/reducers';
 import * as fromJobFamilyActions from '../../../shared/actions/job-family.actions';
 import * as fromCopyJobDescriptionModalActions from '../../actions/copy-job-description-modal.actions';
+import * as fromJobDescriptionActions from '../../actions/job-description.actions';
 import { JobDescriptionExtendedInfo, JobDescriptionSource } from '../../models';
 
 @Component({
@@ -119,6 +120,7 @@ export class CopyJobDescriptionModalComponent implements OnInit, OnDestroy {
   }
 
   replaceJobDescription(): void {
+    this.store.dispatch(new fromJobDescriptionActions.ResetReplaceJobDescriptionViaCopy());
     this.store.dispatch(new fromCopyJobDescriptionModalActions.ReplaceJobDescription({
       jobDescriptionId: this.jobDescription.JobDescriptionId,
       jobDescriptionIdToCopyFrom: this.selectedJobDescription.DescriptionId,

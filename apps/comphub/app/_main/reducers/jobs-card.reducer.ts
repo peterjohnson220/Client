@@ -87,6 +87,28 @@ export function reducer(state = initialState, action: fromJobsCardActions.Action
         selectedJob: null
       };
     }
+    case fromJobsCardActions.GET_EXCHANGE_JOB_SEARCH_OPTIONS: {
+      return {
+        ...state,
+        loadingJobSearchOptions: true,
+        loadingJobSearchOptionsError: false
+      };
+    }
+    case fromJobsCardActions.GET_EXCHANGE_JOB_SEARCH_OPTIONS_SUCCESS: {
+      return {
+        ...state,
+        loadingJobSearchOptions: false,
+        loadingJobSearchOptionsError: false,
+        jobSearchOptions: action.payload
+      };
+    }
+    case fromJobsCardActions.GET_EXCHANGE_JOB_SEARCH_OPTIONS_ERROR: {
+      return {
+        ...state,
+        loadingJobSearchOptions: false,
+        loadingJobSearchOptionsError: true
+      };
+    }
     default: {
       return state;
     }

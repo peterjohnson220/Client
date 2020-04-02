@@ -9,11 +9,11 @@ import {Observable, Subscription} from 'rxjs';
 export class InlineStringEditorComponent implements OnDestroy, OnInit {
   constructor() {}
 
-  @Input() minCharacters: number;
+  @Input() minCharacters = 1;
   @Input() maxCharacters: number;
   @Input() placeholder: string;
   @Input() isEditable$: Observable<boolean>;
-  @Input() icon: string;
+  @Input() icon = 'pencil';
 
   @Output() valueChange = new EventEmitter<string>();
 
@@ -44,12 +44,12 @@ export class InlineStringEditorComponent implements OnDestroy, OnInit {
     if (this.value) {
       value = this.value;
     }
-    return  value;
+    return value;
   }
 
   enableEditState(): void {
     this.isInEditState = true;
-    this.textBox.nativeElement.focus();
+    setTimeout(() => this.textBox.nativeElement.focus(), 0);
   }
 
   disableEditState(): void {

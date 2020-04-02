@@ -11,6 +11,7 @@ import { DataViewConfig, SimpleDataView } from 'libs/models/payfactors-api/index
 
 export class FilterChooserComponent implements OnChanges {
   @Input() disabled = false;
+  @Input() AllowSaveFilter: boolean;
   @Input() savedViews: SimpleDataView[] = [];
   @Input() viewDeleting = false;
   @Input() viewNameToBeDeleted: string;
@@ -20,7 +21,7 @@ export class FilterChooserComponent implements OnChanges {
   @Output() deleteViewEvent = new EventEmitter();
   @Output() cancelDeleteEvent = new EventEmitter();
 
-  @ViewChild('p', { static: true }) public p: any;
+  @ViewChild('p', { static: false }) public p: any;
 
   public filter: any;
 

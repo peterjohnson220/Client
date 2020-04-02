@@ -2,9 +2,9 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { CompanyJob } from 'libs/models/company';
 import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
+import { MessageHelper } from 'libs/core';
 
 import * as fromAddJobModalActions from '../actions/add-job-modal.actions';
-import { MessageHelper } from '../../shared/helpers/message-helper';
 
 export interface State {
   companyJob: CompanyJob;

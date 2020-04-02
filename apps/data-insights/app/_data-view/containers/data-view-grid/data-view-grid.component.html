@@ -19,20 +19,22 @@
                          [field]="field.KendoGridField"
                          [sortable]="field.IsSortable"
                          [title]="field.DisplayName"
-                         [columnMenu]="columnMenuEnabled(field)"
+                         [columnMenu]="field.KendoGridConfig.ColumnMenuEnabled"
                          [headerClass]="'grid-header'"
                          [headerStyle]="{'font-size': '14px', 'font-weight': '300'}"
                          width="150">
 
         <ng-template kendoGridColumnMenuTemplate let-service="service">
-          <ng-container *ngIf="isNumericDataType(field.DataType)">
-            <span class="highlight-format-action" *ngIf="!field.Format" (click)="handleNumberFormatModalClicked(field)">Field Formatting</span>
-            <ng-container *ngIf="field.Format">
-              <span class="highlight-format-action" (click)="handleNumberFormatModalClicked(field, field.Format)">Edit Formatting</span>
+          <ng-container *ngIf="field.FieldFormat">
+            <ng-container *ngIf="!!field.FieldFormat.Format; else newFieldFormat">
+              <span class="highlight-format-action" (click)="handleFieldFormatModalClicked(field)">Edit Formatting</span>
               <span class="highlight-format-action" (click)="handleClearFormatClicked(field)">Clear Formatting</span>
             </ng-container>
+            <ng-template #newFieldFormat>
+              <span class="highlight-format-action" (click)="handleFieldFormatModalClicked(field)">Field Formatting</span>
+            </ng-template>
           </ng-container>
-          <ng-container *ngIf="isFormulaField(field)">
+          <ng-container *ngIf="field.Is.Formula">
             <span class="highlight-format-action" (click)="handleEditFormulaClick(field)">
               <span *ngIf="field.IsEditable">Edit Formula</span>
               <span *ngIf="!field.IsEditable">View Formula</span>
@@ -41,7 +43,7 @@
         </ng-template>
 
         <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-          <div [class.text-align-right]="isNumericDataType(field.DataType)" class="ellipsis-text">
+          <div [class.text-align-right]="field.Is.Numeric" class="ellipsis-text">
             <fa-icon *ngIf="!!sortDesc?.length && sortDesc[0].field === column.field && sortDesc[0].dir === 'desc'"
               class="sort-icon" [icon]="['far', 'long-arrow-down']">
             </fa-icon>
@@ -53,13 +55,16 @@
         </ng-template>
 
         <ng-template kendoGridCellTemplate let-dataItem>
-          <div [class.text-align-right]="isNumericDataType(field.DataType)">
+          <div [class.text-align-right]="field.Is.Numeric">
             <span [ngSwitch]="true" *ngIf="dataItem[field.KendoGridField] !== null;else blankCellTemplate">
-              <ng-container *ngSwitchCase="field.DataType === dataTypes.Date">
-                {{dataItem[field.KendoGridField] | date: 'MM/dd/yyyy'}}
+              <ng-container *ngSwitchCase="field.Is.Date">
+                {{dataItem[field.KendoGridField] | date: !!field.FieldFormat.Format ? field.FieldFormat.Format : 'MM/dd/yyyy'}}
               </ng-container>
-              <ng-container *ngSwitchCase="isNumericDataTypeAndHasFormat(field.DataType, field.Format)">
-                {{dataItem[field.KendoGridField] | number: field.Format}}
+              <ng-container *ngSwitchCase="!!field.FieldFormat?.Format && field.FieldFormat.Type === formatTypes.Number">
+                {{dataItem[field.KendoGridField] | number: field.FieldFormat.Format}}
+              </ng-container>
+              <ng-container *ngSwitchCase="!!field.FieldFormat?.Format && field.FieldFormat.Type === formatTypes.Percent">
+                {{dataItem[field.KendoGridField] | percent: field.FieldFormat.Format}}
               </ng-container>
               <ng-template ngSwitchDefault>
                 {{dataItem[field.KendoGridField]}}
@@ -100,6 +105,11 @@
   #numericFieldFormattingModal
   (saveClicked)="handleSaveClicked($event)">
 </pf-numeric-field-formatting-modal>
+
+<pf-date-field-formatting-modal
+  #dateFieldFormattingModal
+  (saveClicked)="handleSaveClicked($event)">
+</pf-date-field-formatting-modal>
 
 <pf-formula-field-modal
   #editFormulaModal

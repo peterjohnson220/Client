@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api';
@@ -35,8 +35,14 @@ export class PricingMatchesGridComponent implements AfterViewInit, OnChanges {
     From: 0,
     Count: 500
   };
+  actionBarConfig: ActionBarConfig;
 
-  constructor() { }
+  constructor() {
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ShowActionBar: false
+    };
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes.pricingInfo) {

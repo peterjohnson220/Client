@@ -17,12 +17,6 @@ export const LOAD_PROVIDERS_SUCCESS = '[Data Management/Transfer Data Page] Load
 export const SET_SELECTED_TRANSFER_METHOD = '[Data Management/Transfer Data Page] Set Selected Transfer Method';
 export const SET_SELECTED_PROVIDER = '[Data Management/Transfer Data Page] Set Selected Provider';
 export const RESET_TRANSFER_DATA_PAGE_WORKFLOW = '[Data Management/Transfer Data Page] Reset Transfer Data Page Workflow';
-export const VALIDATE = '[Data Management/Transfer Data Page] Validate Credentials';
-export const VALIDATE_ERROR = '[Data Management/Transfer Data Page] Validate Credentials Error';
-export const VALIDATE_SUCCESS = '[Data Management/Transfer Data Page] Validate Credentials Success';
-export const CREATE_CONNECTION = '[Data Management/Transfer Data Page] Create Connection';
-export const CREATE_CONNECTION_ERROR = '[Data Management/Transfer Data Page] Create Connection Error';
-export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] Create Connection Success';
 export const PROCEED_TO_AUTHENTICATION = '[Data Management/Transfer Data Page] Proceed to Authentication';
 export const UPDATE_WORKFLOWSTEP = '[Data Management/Transfer Data Page] Update Workfow Step';
 
@@ -42,7 +36,6 @@ export const RESET_OUTBOUND_TRANSFER_DATA_PAGE_WORKFLOW = '[Data Management/Tran
 
 // Mock outbound JDM actions
 // TODO: delete these
-export const OUTBOUND_JDM_VALIDATE = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials';
 export const INIT_OUTBOUND_JDM_VIEW_SELECTION_PAGE = '[Data Management/Outbound/JDM View Selection Page] Init Outbound Jdm View Selection Page';
 export const LOAD_OUTBOUND_JDM_VIEWS = '[Data Management/Outbound/JDM View Selection Page] Load Outbound Jdm Views';
 export const LOAD_OUTBOUND_JDM_VIEWS_ERROR = '[Data Management/Outbound/JDM View Selection Page] Load Outbound Jdm Views Error';
@@ -114,40 +107,6 @@ export class ResetTransferDataPageWorkflow implements Action {
   readonly type = RESET_TRANSFER_DATA_PAGE_WORKFLOW;
 
   constructor() {}
-}
-
-export class Validate implements Action {
-  readonly type = VALIDATE;
-
-  constructor(public payload: CredentialsPackage) {}
-}
-export class ValidateError implements Action {
-  readonly type = VALIDATE_ERROR;
-
-  constructor(public payload: string[] = []) {}
-}
-export class ValidateSuccess implements Action {
-  readonly type = VALIDATE_SUCCESS;
-
-  constructor() {}
-}
-
-export class CreateConnection implements Action {
-  readonly type = CREATE_CONNECTION;
-
-  constructor(public payload: CredentialsPackage) {}
-}
-
-export class CreateConnectionError implements Action {
-  readonly type = CREATE_CONNECTION_ERROR;
-
-  constructor() {}
-}
-
-export class CreateConnectionSuccess implements Action {
-  readonly type = CREATE_CONNECTION_SUCCESS;
-
-  constructor(public payload: CredentialsPackage) {}
 }
 
 export class ProceedToAuthentication implements Action {
@@ -222,12 +181,6 @@ export class ResetOutboundTransferDataPageWorkflow implements Action {
 
 // mock outbound JDM actions
 // TODO: delete these
-export class OutboundJdmValidate implements Action {
-  readonly type = OUTBOUND_JDM_VALIDATE;
-
-  constructor(public payload: CredentialsPackage) {}
-}
-
 export class InitOutboundJdmViewSelectionPage implements Action {
   readonly type = INIT_OUTBOUND_JDM_VIEW_SELECTION_PAGE;
 }
@@ -255,9 +208,6 @@ export class UpdateOutboundJdmViewsSuccess implements Action {
 
 export type Actions
   = Init
-  | CreateConnection
-  | CreateConnectionError
-  | CreateConnectionSuccess
   | LoadAuthenticationForm
   | LoadAuthenticationFormError
   | LoadAuthenticationFormSuccess
@@ -270,9 +220,6 @@ export type Actions
   | SetSelectedTransferMethod
   | SetSelectedProvider
   | ResetTransferDataPageWorkflow
-  | Validate
-  | ValidateError
-  | ValidateSuccess
   | ProceedToAuthentication
   | UpdateWorkflowstep
   | LoadOutboundProviders
@@ -285,7 +232,6 @@ export type Actions
   | LoadOutboundTransferMethodsSuccess
   | UpdateOutboundWorkflowstep
   | ResetOutboundTransferDataPageWorkflow
-  | OutboundJdmValidate
   | InitOutboundJdmViewSelectionPage
   | LoadOutboundJdmViews
   | LoadOutboundJdmViewsError

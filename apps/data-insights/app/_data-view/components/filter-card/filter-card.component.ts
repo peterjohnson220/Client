@@ -6,7 +6,6 @@ import { Field, Filter, FilterOperator, GetFilterOptionsData,
   FieldDataType, validateFilter, getDefaultOperatorByDataType,
   getDefaultSelectedOptions, getDefaultIsValid
 } from '../../models';
-import { FieldsHelper } from '../../helpers';
 
 @Component({
   selector: 'pf-filter-card',
@@ -83,10 +82,6 @@ export class FilterCardComponent implements OnInit {
       this.filter.Field.DataType === this.fieldDataType.Int ||
       this.filter.Field.DataType === this.fieldDataType.Float
     );
-  }
-
-  public get selectedField(): Field {
-    return FieldsHelper.findField(this.fields, this.filter.Field);
   }
 
   private builGetFilterOptionsData(query: string): void {

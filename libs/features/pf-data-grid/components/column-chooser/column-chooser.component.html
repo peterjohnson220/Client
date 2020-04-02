@@ -7,14 +7,16 @@
       <pf-async-container [loading]="loading"></pf-async-container>
       <div *ngIf="!loading" class="list-group">
         <h5 *ngIf="!(listAreaColumns | filterArrayByName: filter : 'DisplayName').length">No Columns</h5>
-        <ng-container *ngFor="let col of listAreaColumns | filterArrayByName: filter : 'DisplayName'">
-          <div *ngIf="col.IsSelectable" class="px-2 py-1">
-            <input type="checkbox" [attr.data-qa-id]="'chk-' + col.SourceName" [(ngModel)]="col.IsSelected" [disabled]="col.IsLocked">
-            <span class="pl-2">
-              {{col.Group ? col.Group + ' ': ''}}
-              {{col.DisplayName}}
-            </span>
-          </div>
+        <ng-container *ngIf="columnChooserType === columnChooserTypes.Column; else columnGroupsTemplate">
+          <ng-container *ngFor="let col of listAreaColumns | filterArrayByName: filter : 'DisplayName'">
+            <div *ngIf="col.IsSelectable" class="px-2 py-1">
+              <input type="checkbox" [attr.data-qa-id]="'chk-' + col.SourceName" [(ngModel)]="col.IsSelected" [disabled]="col.IsLocked">
+              <span class="pl-2">
+                {{col.Group ? col.Group + ' ': ''}}
+                {{col.DisplayName}}
+              </span>
+            </div>
+          </ng-container>
         </ng-container>
       </div>
     </div>
@@ -27,3 +29,10 @@
   popoverTitle="Choose Columns" [ngbPopover]="popContent" (hidden)="onHidden()" [autoClose]="'outside'" [disabled]="disabled">
   <fa-icon icon="table"></fa-icon>
 </button>
+
+<ng-template #columnGroupsTemplate>
+  <pf-column-group-list #columnGroupList
+    [fields]="dataFields"
+    [searchTerm]="filter">
+  </pf-column-group-list>
+</ng-template>

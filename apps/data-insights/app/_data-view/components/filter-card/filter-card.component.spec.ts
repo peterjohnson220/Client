@@ -2,8 +2,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { FilterCardComponent } from './filter-card.component';
-import { Field, generateMockField, GetFilterOptionsData, generateMockFilter,
-  FieldDataType, Filter, getDefaultOperatorByDataType, validateFilter
+import {
+  DataViewAccessLevel,
+  Field,
+  FieldDataType,
+  FieldType,
+  Filter,
+  generateMockField,
+  generateMockFilter,
+  getDefaultOperatorByDataType,
+  GetFilterOptionsData,
+  validateFilter
 } from '../../models';
 
 describe('Data Insights - Filter Card Component', () => {
@@ -30,7 +39,8 @@ describe('Data Insights - Filter Card Component', () => {
       Operator: getDefaultOperatorByDataType(field),
       Options: [],
       SelectedOptions: [],
-      IsValid: false
+      IsValid: false,
+      IsLocked: false
     };
     spyOn(instance.filterChanged, 'emit');
 
@@ -99,7 +109,9 @@ describe('Data Insights - Filter Card Component', () => {
       IsSortable: true,
       Order: 1,
       SourceName: 'Effective_Date',
-      KendoGridField: 'CompanyJobs_Pricings.Effective_Date'
+      KendoGridField: 'CompanyJobs_Pricings.Effective_Date',
+      FieldType: FieldType.DataElement,
+      AccessLevel: DataViewAccessLevel.Owner
     };
     instance.filter = {
       ...generateMockFilter(),

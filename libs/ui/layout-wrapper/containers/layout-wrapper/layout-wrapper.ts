@@ -4,6 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
+import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
+
 import * as fromRootState from '../../../../state/state';
 import * as fromHeaderActions from '../../actions/header.actions';
 import { UserContext, NavigationLink, HomePageLink } from '../../../../models';
@@ -25,7 +29,8 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
   getGettingHomePageLink$: Observable<boolean>;
   getGettingHomePageLinkError$: Observable<boolean>;
   homePageLink$: Observable<HomePageLink>;
-
+  enableCoreJDMInClient$: Observable<boolean>;
+  enableCoreJDMInClientSubscription: Subscription;
   userContextSubscription: Subscription;
 
   @Input() displayRightSideBar: boolean;
@@ -35,10 +40,12 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
   @Input() centerContentScroll: boolean;
   leftSidebarToggle: boolean;
   leftSidebarToggleChangedSubject: Subject<boolean> = new Subject<boolean>();
+  enableCoreJdmInClient = false;
 
   constructor(
     private store: Store<fromRootState.State>,
-    private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>
+    private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>,
+    private settingsService: SettingsService,
   ) {
     this.userContext$ = store.select(fromRootState.getUserContext);
     this.currentYear = new Date().getFullYear();
@@ -56,10 +63,14 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
         this.leftSidebarToggle = value;
         this.updateUserVoicePosition(value);
       });
+    this.enableCoreJDMInClient$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.JDMCoreUseClient
+    );
   }
 
   ngOnInit() {
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
+      this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
       this.store.dispatch(new fromHeaderActions.GetHeaderUserHomePageLink({
         userId: userContext.UserId
       }));
@@ -67,12 +78,14 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
       }
     });
+    this.enableCoreJDMInClientSubscription = this.enableCoreJDMInClient$.subscribe((s) => this.enableCoreJdmInClient = s);
   }
 
   ngOnDestroy(): void {
     if (this.userContextSubscription) {
       this.userContextSubscription.unsubscribe();
     }
+    this.enableCoreJDMInClientSubscription.unsubscribe();
   }
 
   rightSidebarToggle(isOpen: boolean) {

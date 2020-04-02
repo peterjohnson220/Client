@@ -4,6 +4,7 @@ export interface UserDataViewResponse {
   DataView: DataViewResponse;
   Fields: DataViewField[];
   Filters: DataViewFilter[];
+  AvailableFields: DataViewField[];
 }
 
 export interface DataViewResponse {

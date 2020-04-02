@@ -1,3 +1,6 @@
+@import '_colors';
+@import 'common/common-variables';
+
 .pf-data-grid-header {
   font-weight: bold !important;
   text-align: left !important;
@@ -29,7 +32,17 @@
 }
 
 .k-grid {
-  border: 0;
+  border-width: 0;
+
+  // Temporary hack. Scroll mode of none will cause a differing dom structure and classes causing the thead
+  // to inherit its border color differently. Ensuring we have a consistent border-color here [BC]
+  thead {
+    border-color: rgba(0,0,0,0.03)
+  }
+
+  .k-grid-header th>.k-link>.k-icon {
+    display: none;
+  }
 }
 
 .k-grid .k-hierarchy-cell {
@@ -56,6 +69,29 @@ html .k-grid tr:hover {
   padding: 0 !important;
 }
 
+.k-drag-clue {
+  background-color: $pf-brand-secondary-color;
+}
+
+.k-header.k-drag-clue {
+  @extend %ellipsis-overflowing-text;
+  display: block;
+  padding-bottom: 30.75px !important
+}
+
+.k-grid-pager .k-pager-input .k-numerictextbox {
+  width: 3em !important;
+  margin: 0 7px !important;
+}
+
 .pf-grid-checkbox {
   text-overflow: clip !important;
+}
+
+.sort-icon {
+  margin-right: 0.5rem;
+}
+
+.ellipsis-text {
+  @extend %ellipsis-overflowing-text;
 }

@@ -3,15 +3,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { cloneDeep } from 'lodash';
 import { getUserLocale } from 'get-user-locale';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
-import * as fromJobBasedRangeReducer from '../../reducers';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
-import { JobBasedRangePageViewId } from '../../constants';
+import { PageViewIds } from '../../../shared/constants/page-view-ids';
 
 @Component({
   selector: 'pf-job-based-range-chart',
@@ -32,18 +30,20 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   chartLocale: string; // en-US
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
-  currencySubscription: Subscription;
-  pageViewId = JobBasedRangePageViewId;
+  metadataSubscription: Subscription;
+  pageViewId = PageViewIds.Model;
   currency: string;
+  controlPointDisplay: string;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>
+    public store: Store<any>
   ) {
-    this.currencySubscription = this.store.select(fromSharedJobBasedRangeReducer.getCurrency).subscribe(currency => {
-      if (currency) {
-        this.currency = currency;
+    this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
+      if (md) {
+        this.currency = md.Currency;
+        this.controlPointDisplay = md.ControlPointDisplay;
         this.chartLocale = getUserLocale();
-        this.chartOptions = StructuresHighchartsService.getRangeOptions(this.chartLocale, this.currency);
+        this.chartOptions = StructuresHighchartsService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
       }
     });
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
@@ -88,19 +88,25 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       currentRow.CompanyStructures_Ranges_Min, currentRow.CompanyStructures_Ranges_Max));
   }
 
+  private addAverage(currentRow) {
+    this.averageSeriesData.push(currentRow.CompanyStructures_RangeGroup_AverageEEMRP);
+  }
+
   private processAndAddOutliers(xCoordinate, currentRow) {
-    // this method is almost certainly going to change in the wake of the new style for outliers.
-    if (currentRow.Outliers && currentRow.Outliers.length > 0) {
-      for (let o = 0; o < currentRow.Outliers.length; o++) {
-        const currentOutlier = cloneDeep(currentRow.Outliers[o]);
-        // set the "x" value
-        currentOutlier.x = xCoordinate;
-        // format the data for the tooltip
-        currentOutlier.deltaString = this.formatRangeDelta(currentOutlier.delta, currentOutlier.low);
-        currentOutlier.valueString = StructuresHighchartsService.formatCurrency(currentOutlier.y, this.chartLocale, this.currency);
-        this.outlierSeriesData.push(currentOutlier);
-      }
-    }
+    // Min Outlier
+    this.outlierSeriesData.push(
+      {
+        x: xCoordinate,
+        y: currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier,
+        count: currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier
+      });
+    // Max Outlier
+    this.outlierSeriesData.push(
+      {
+        x: xCoordinate,
+        y: currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier,
+        count: currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier
+      });
   }
 
   private processChartData(data: any) {
@@ -123,11 +129,10 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       this.addMidpoint(currentRow);
 
       // add to average
-      // todo fix the average and outliers
-      // this.averageSeriesData.push(currentRow.JobRanges_Avg);
+      this.addAverage(currentRow);
 
       // add any outliers
-      // this.processAndAddOutliers(i, currentRow);
+      this.processAndAddOutliers(i, currentRow);
     }
 
     // set the min/max
@@ -148,7 +153,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
-    this.currencySubscription.unsubscribe();
+    this.metadataSubscription.unsubscribe();
   }
 
 }

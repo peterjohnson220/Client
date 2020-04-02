@@ -8,7 +8,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
@@ -28,6 +28,7 @@ export class NotPricedPaymarketsComponent implements AfterViewInit, OnDestroy, O
   @Input() pricedCount: number;
 
   @ViewChild('notPricedDataPayMarketFilter', { static: false }) notPricedDataPayMarketFilter: ElementRef;
+  @ViewChild('changeView', { static: false }) changeView: ElementRef;
   @ViewChild('sizeColumn', { static: false }) sizeColumn: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
@@ -37,6 +38,7 @@ export class NotPricedPaymarketsComponent implements AfterViewInit, OnDestroy, O
   }];
   selectedKeys: any[];
   payMarketOptions: any;
+  actionBarConfig: ActionBarConfig;
 
   companyPayMarketsSubscription: Subscription;
   notPricedDataPageViewId = PageViewIds.NotPricedPayMarkets;
@@ -62,15 +64,22 @@ export class NotPricedPaymarketsComponent implements AfterViewInit, OnDestroy, O
           { Value: this.notPricedDataPayMarketField.FilterValue, Id: this.notPricedDataPayMarketField.FilterValue } : null;
       }
     });
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ActionBarClassName: 'not-priced-grid-action-bar ml-0 mt-1'
+    };
   }
 
   ngAfterViewInit() {
-    this.notPricedDataGlobalFilterTemplates = {
-      'PayMarket': { Template: this.notPricedDataPayMarketFilter }
-    };
-
     this.notPricedDataColTemplates = {
       'Size_Value': { Template: this.sizeColumn }
+    };
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalFiltersTemplates: {
+        'PayMarket': this.notPricedDataPayMarketFilter
+      },
+      GlobalActionsTemplate: this.changeView
     };
   }
 

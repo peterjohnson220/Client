@@ -1,18 +1,13 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
   [showTitle]="false"
-  [showColumnChooser] ="false"
-  [showFilterChooser] ="false"
-  [allowExport]="false"
   [selectionField]="'Min'"
   [inboundFilters]="filters"
   [columnTemplates]="colTemplates"
   [noRecordsFound] = "'This job has not been added to any Salary Structures.'"
   [defaultSort]="defaultSort"
-  [showActionBar]="true"
-  [actionBarClassName]="'structure-grid-action-bar ml-0 mt-1'"
-  [gridGlobalFiltersTemplates]="globalFilterTemplates"
-  [headerClassName]="'structure-grid-header'">
+  [headerClassName]="'structure-grid-header'"
+  [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
 <ng-template #nameColumn let-dataRow="dataRow">

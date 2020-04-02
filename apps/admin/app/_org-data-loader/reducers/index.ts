@@ -115,6 +115,11 @@ export const getEmailRecipientsModalOpen = createSelector(
   fromOrgDataEmailRecipientsReducer.getEmailRecipientsModalOpen
 );
 
+export const getCreatedConfigurationGroup = createSelector(
+  selectEmailRecipientsState,
+  fromOrgDataEmailRecipientsReducer.getCreatedConfigurationGroup
+);
+
 export const {
   selectAll: getLoaderSettings
 } = fromLoaderSettingsReducer.adapter.getSelectors(selectLoaderSettingsState);

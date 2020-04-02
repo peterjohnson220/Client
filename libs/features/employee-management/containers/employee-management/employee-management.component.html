@@ -32,7 +32,7 @@
               <input data-qa-id="txt-employee-form-employee-id" type="text" class="form-control"
                      formControlName="EmployeeId"
                      [maxlength]="50"
-                     [ngClass]="{ 'is-invalid': !f.EmployeeId.valid && f.EmployeeId.touched }">
+                     [ngClass]="{ 'is-invalid': (!f.EmployeeId.valid && f.EmployeeId.touched) || employeeValidationFailed('EmployeeId') }">
               <span *ngIf="f.EmployeeId.errors?.required" class="invalid-feedback">Employee ID is required</span>
             </div>
             <label class="col-2 col-form-label">Manager Employee ID</label>
@@ -40,7 +40,7 @@
               <input data-qa-id="txt-employee-form-manager-employee-id" type="text" class="form-control"
                      formControlName="ManagerEmployeeId"
                      [maxlength]="50"
-                     [ngClass]="{ 'is-invalid': !f.ManagerEmployeeId.valid && f.ManagerEmployeeId.touched }">
+                     [ngClass]="{ 'is-invalid': (!f.ManagerEmployeeId.valid && f.ManagerEmployeeId.touched) || employeeValidationFailed('ManagerEmployeeId') }">
             </div>
           </div>
           <div class="form-group row">
@@ -83,15 +83,22 @@
                               data-qa-id="ddl-employee-form-job"
                               placeholder="Select a Job..."
                               formControlName="CompanyJobId"
-                              (valueChange)="onJobChanges()"
+                              (valueChange)="onJobChanges($event)"
                               [data]="(jobs$ | async)?.obj"
                               [loading]="(jobs$ | async)?.loading"
-                              [valueField]="'Value'"
-                              [textField]="'Name'"
+                              [valueField]="'CompanyJobId'"
+                              [textField]="'DisplayName'"
                               [valuePrimitive]="true"
                               [filterable]="true"
-                              [kendoDropDownFilter]="filterSettings"
-                              [ngClass]="{ 'is-invalid': !f.CompanyJobId.valid && f.CompanyJobId.touched }"></kendo-combobox>
+                              [virtual]="true"
+                              [ngClass]="{ 'is-invalid': (!f.CompanyJobId.valid && f.CompanyJobId.touched) || employeeValidationFailed('JobCode') }">
+                <ng-template *ngIf="(jobs$ | async)?.obj?.length" kendoDropDownListFooterTemplate>
+                  <span class="search-message">
+                    Search to find more jobs...
+                    <a *ngIf="moreJobsToLoad$ | async" class="load-more" href="javascript:void(0)" (click)="loadMoreJobs()">Load More</a>
+                  </span>
+                </ng-template>
+              </kendo-combobox>
               <span *ngIf="f.CompanyJobId.errors?.required" class="invalid-feedback">Job is required</span>
             </div>
             <label class="col-2 col-form-label">Work State</label>
@@ -117,6 +124,7 @@
                               [textField]="'Name'"
                               [valuePrimitive]="true"
                               [filterable]="true"
+                              [virtual]="true"
                               [kendoDropDownFilter]="filterSettings"
                               [ngClass]="{ 'is-invalid': !f.CompanyPayMarketId.valid && f.CompanyPayMarketId.touched }"></kendo-combobox>
               <span *ngIf="f.CompanyPayMarketId.errors?.required" class="invalid-feedback">Pay Market is required</span>
@@ -154,6 +162,7 @@
                               [textField]="'Name'"
                               [valuePrimitive]="true"
                               [filterable]="true"
+                              [virtual]="true"
                               [kendoDropDownFilter]="filterSettings"
                               [ngClass]="{ 'is-invalid': !f.Country.valid && f.Country.touched }"></kendo-combobox>
               <span *ngIf="f.Country.errors?.required" class="invalid-feedback">Country is required</span>
@@ -223,8 +232,10 @@
                               [data]="(departments$ | async)?.obj"
                               [loading]="(departments$ | async)?.loading"
                               [filterable]="true"
+                              [virtual]="true"
                               [kendoDropDownFilter]="filterSettings"
-                              [ngClass]="{ 'is-invalid': !f.Department.valid && f.Department.touched }"></kendo-combobox>
+                              [ngClass]="{ 'is-invalid': (!f.Department.valid && f.Department.touched) || employeeValidationFailed('Department') }">
+              </kendo-combobox>
             </div>
           </div>
           <div class="form-group row">
@@ -456,7 +467,7 @@
                     [attr.data-qa-id]="'txt-employee-form-' + udf.Key"
                     type="text"
                     class="form-control"
-                    [ngClass]="{ 'is-invalid': !f[udf.Key].valid && f[udf.Key].touched }"
+                    [ngClass]="{ 'is-invalid': (!f[udf.Key].valid && f[udf.Key].touched) || employeeValidationFailed(udf.Key) }"
                     [formControlName]="udf.Key"
                     [maxlength]="DEFAULT_MAX_LENGTH">
                 </div>

@@ -2,12 +2,14 @@
 
 exports[`ManageFieldMapperPageComponent should disable the save button when no delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
+  cdr={[Function ViewRef_]}
   companies$={[Function Store]}
-  companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter=""
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -25,6 +27,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -42,7 +45,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   savedConfigurationGroup$={[Function Store]}
-  selectedCompany={[Function Number]}
+  selectedCompany={[Function Object]}
+  selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   showLoaderMappingsSaveErrorToast={[Function Function]}
@@ -56,6 +60,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
@@ -73,7 +78,14 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
             Company
           </h3>
         </div>
-        <pf-company-selector />
+        <pf-company-selector>
+          <pf-async-container>
+            <kendo-combobox
+              class="form-control"
+              id="companySearch"
+            />
+          </pf-async-container>
+        </pf-company-selector>
       </div>
       
       <div
@@ -149,13 +161,17 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            disabled=""
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              disabled=""
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >
@@ -174,12 +190,14 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
 
 exports[`ManageFieldMapperPageComponent should disable the save button when not all mappings are complete 1`] = `
 <pf-autoloader-field-mapping-page
+  cdr={[Function ViewRef_]}
   companies$={[Function Store]}
-  companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -197,6 +215,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -214,7 +233,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   savedConfigurationGroup$={[Function Store]}
-  selectedCompany={[Function Number]}
+  selectedCompany={[Function Object]}
+  selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   showLoaderMappingsSaveErrorToast={[Function Function]}
@@ -228,6 +248,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
@@ -245,7 +266,14 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
             Company
           </h3>
         </div>
-        <pf-company-selector />
+        <pf-company-selector>
+          <pf-async-container>
+            <kendo-combobox
+              class="form-control"
+              id="companySearch"
+            />
+          </pf-async-container>
+        </pf-company-selector>
       </div>
       
       <div
@@ -321,13 +349,17 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            disabled=""
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              disabled=""
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >
@@ -346,14 +378,16 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
 
 exports[`ManageFieldMapperPageComponent should enable the save button when all mappings are complete AND a delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
+  cdr={[Function ViewRef_]}
   companies$={[Function Store]}
-  companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
-  emailRecipients$={[Function Store]}
+  emailRecipients$={[Function Observable]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
   emailRecipientsSavingError$={[Function Store]}
@@ -369,6 +403,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -386,7 +421,8 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   savedConfigurationGroup$={[Function Store]}
-  selectedCompany={[Function Number]}
+  selectedCompany={[Function Object]}
+  selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   showLoaderMappingsSaveErrorToast={[Function Function]}
@@ -400,6 +436,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
@@ -417,7 +454,14 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
             Company
           </h3>
         </div>
-        <pf-company-selector />
+        <pf-company-selector>
+          <pf-async-container>
+            <kendo-combobox
+              class="form-control"
+              id="companySearch"
+            />
+          </pf-async-container>
+        </pf-company-selector>
       </div>
       
       <div
@@ -493,12 +537,16 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >
@@ -517,12 +565,14 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
 
 exports[`ManageFieldMapperPageComponent should hide the field mapper when a company has not been selected 1`] = `
 <pf-autoloader-field-mapping-page
+  cdr={[Function ViewRef_]}
   companies$={[Function Store]}
-  companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -540,6 +590,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -558,6 +609,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   saveMappingsSuccess$={[Function Store]}
   savedConfigurationGroup$={[Function Store]}
   selectedCompany="undefined"
+  selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   showLoaderMappingsSaveErrorToast={[Function Function]}
@@ -571,6 +623,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
@@ -588,7 +641,14 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
             Company
           </h3>
         </div>
-        <pf-company-selector />
+        <pf-company-selector>
+          <pf-async-container>
+            <kendo-combobox
+              class="form-control"
+              id="companySearch"
+            />
+          </pf-async-container>
+        </pf-company-selector>
       </div>
       
       
@@ -600,12 +660,14 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
 
 exports[`ManageFieldMapperPageComponent should show the field mapper when a company has been selected 1`] = `
 <pf-autoloader-field-mapping-page
+  cdr={[Function ViewRef_]}
   companies$={[Function Store]}
-  companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
   companyMappingsLoading$={[Function Store]}
+  companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
+  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
@@ -623,6 +685,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
@@ -640,7 +703,8 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   savedConfigurationGroup$={[Function Store]}
-  selectedCompany={[Function Number]}
+  selectedCompany={[Function Object]}
+  selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   showLoaderMappingsSaveErrorToast={[Function Function]}
@@ -654,6 +718,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   structureMappingMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
+  unsubscribe$={[Function Subject]}
   visibleLoaderOptions={[Function Object]}
 >
   <pf-page-with-title-bar>
@@ -671,7 +736,14 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
             Company
           </h3>
         </div>
-        <pf-company-selector />
+        <pf-company-selector>
+          <pf-async-container>
+            <kendo-combobox
+              class="form-control"
+              id="companySearch"
+            />
+          </pf-async-container>
+        </pf-company-selector>
       </div>
       
       <div
@@ -747,12 +819,17 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
         <div
           class="float-right m-2"
         >
-          <button
-            class="btn btn-primary m-2"
-            type="button"
+          <div
+            class="d-inline"
           >
-            Update
-          </button>
+            <button
+              class="btn btn-primary m-2"
+              disabled=""
+              type="button"
+            >
+              Update
+            </button>
+          </div>
           <button
             class="btn btn-secondary"
           >

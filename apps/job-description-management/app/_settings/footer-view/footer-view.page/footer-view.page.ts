@@ -32,6 +32,14 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
   public loadingError = false;
   public placeholderText = '';
   public displayCustomTextWarning = false;
+  public dateFormatSelectedValue: any;
+  private DEFAULT_DATE_FORMAT = {'text' : 'Month DD, YYYY', 'value': 'MMMM dd, yyyy'};
+  public DATE_FORMATS = [
+    {'text' : 'Month DD, YYYY', 'value': 'MMMM dd, yyyy'},
+    {'text' : 'MM/DD/YYYY', 'value': 'MM/dd/yyyy'},
+    {'text' : 'DD/MM/YYYY', 'value': 'dd/MM/yyyy'},
+    {'text' : 'YYYY-MM-DD', 'value': 'yyyy-MM-dd'}];
+
 
   get createdByCheck() { return this.jdmFooterForm.controls['createdByCheck']; }
   get createdDateCheck() { return this.jdmFooterForm.controls['createdDateCheck']; }
@@ -95,6 +103,7 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
     return {
       CreatedByField: this.createdByCheck.value,
       CreatedDateField: this.createdDateCheck.value,
+      CreatedDateFormatField: this.dateFormatSelectedValue.value,
       VersionNumberField: this.versionNumberCheck.value,
       PageNumberField: this.pageNumberCheck.value,
       CustomTextField: this.customTextCheck.value,
@@ -110,6 +119,12 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
       this.pageNumberCheck.setValue(payload.PageNumberField);
       this.customTextCheck.setValue(payload.CustomTextField);
       this.customTextValue.setValue(payload.CustomTextValueField);
+
+      const payloadCreatedDateFormatField = this.DATE_FORMATS.find(p => p.value === payload.CreatedDateFormatField);
+
+      this.dateFormatSelectedValue = payloadCreatedDateFormatField == null ?
+        this.DEFAULT_DATE_FORMAT : payloadCreatedDateFormatField;
+
       this.placeholderText = payload.CustomTextValueField === '' ? 'Custom Text, Limit 250 Characters' : '';
     }
   }
@@ -134,5 +149,9 @@ export class FooterViewPageComponent implements OnInit, OnDestroy {
     } else {
         return null;
     }
+  }
+
+  handleDateFormatChanged(view: string): void {
+    this.dateFormatSelectedValue = view;
   }
 }

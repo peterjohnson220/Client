@@ -37,6 +37,9 @@ export function reducer(state: State = initialState, action: fromEntitySelection
     case fromEntitySelectionActions.UPDATE_ENTITY_SELECTIONS_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'updatedProviderSupportedEntitiesObj');
     }
+    case fromEntitySelectionActions.SET_ENTITY_SELECTION: {
+      return AsyncStateObjHelper.savingSuccess(state, 'updatedProviderSupportedEntitiesObj', action.payload);
+    }
     default:
       return state;
   }

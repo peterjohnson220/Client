@@ -7,9 +7,13 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
+import { HighchartsChartModule } from 'highcharts-angular';
+
 import { PricingsPageComponent } from './pricings.page/pricings.page';
 import { PricingsRoutingModule } from './pricings-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { PricingsSalaryRangeChartComponent } from './containers';
+
 
 @NgModule({
   imports: [
@@ -19,6 +23,7 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
 
     // 3rd Party
+    HighchartsChartModule,
 
     // Payfactors
     PfFormsModule,
@@ -33,6 +38,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule
   ],
   declarations: [
+    PricingsSalaryRangeChartComponent,
     PricingsPageComponent
   ]
 })

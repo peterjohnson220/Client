@@ -7,6 +7,7 @@ export interface Filter {
   Options: string[];
   SelectedOptions: string[];
   IsValid: boolean;
+  IsLocked: boolean;
 }
 
 export function generateDefaultFilter(field: Field): Filter {
@@ -15,7 +16,8 @@ export function generateDefaultFilter(field: Field): Filter {
     Operator: getDefaultOperatorByDataType(field),
     Options: [],
     SelectedOptions: [],
-    IsValid: false
+    IsValid: false,
+    IsLocked: false
   };
 }
 
@@ -46,7 +48,8 @@ export function generateMockFilter(): Filter {
     Operator: Equals,
     Options: [],
     SelectedOptions: [],
-    IsValid: false
+    IsValid: false,
+    IsLocked: false
   };
 }
 

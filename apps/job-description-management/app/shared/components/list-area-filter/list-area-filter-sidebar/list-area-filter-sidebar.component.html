@@ -34,8 +34,9 @@
       </div>
     </div>
     
-    <div *ngFor="let listAreaColumn of listAreaColumns; let i = index" class="form-group">
+    <div *ngFor="let listAreaColumn of listAreaColumns; let i = index">
       <ng-container *ngIf="listAreaColumn.Visible">
+        <div class="form-group">
         <label>{{ listAreaColumn.ColumnDisplayName }}:</label>
         <div [ngSwitch]="listAreaColumn.ColumnDataType">
           <ng-template [ngSwitchCase]="'text'">
@@ -62,6 +63,7 @@
               (filterChanged)="handleFilterChanged($event)">
             </pf-list-area-filter-boolean>
           </ng-template>
+        </div>
         </div>
       </ng-container>
     </div>
