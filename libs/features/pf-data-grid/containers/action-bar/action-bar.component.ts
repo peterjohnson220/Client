@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
-import {ViewField, SimpleDataView, DataViewFieldDataType} from 'libs/models/payfactors-api';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ViewField, SimpleDataView } from 'libs/models/payfactors-api';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -7,6 +7,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
+import { ActionBarConfig } from '../../models';
 
 @Component({
   selector: 'pf-action-bar',
@@ -14,17 +15,9 @@ import * as fromActions from '../../actions';
   styleUrls: ['./action-bar.component.scss'],
 })
 export class ActionBarComponent implements OnChanges {
-
-  @Input() showColumnChooser = true;
-  @Input() showFilterChooser = true;
-  @Input() allowExport = true;
-  @Input() exportSourceName: string;
+  @Input() actionBarConfig: ActionBarConfig;
   @Input() pageViewId: string;
-  @Input() globalFilterAlignment: string;
-  @Input() globalActionsTemplate: TemplateRef<any>;
-  @Input() globalFiltersTemplates: TemplateRef<any>;
   @Input() globalFilters: ViewField[];
-  @Input() showActionBar = false;
   @Output() onFilterSidebarToggle = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;
@@ -80,9 +73,6 @@ export class ActionBarComponent implements OnChanges {
     this.store.dispatch(new fromActions.CancelViewDelete(this.pageViewId));
   }
 
-  hasTemplate(globalFilter) {
-    return this.globalFiltersTemplates && this.globalFiltersTemplates[globalFilter.SourceName];
-  }
   trackByFn(index, item: ViewField) {
     return item.DataElementId;
   }
@@ -92,6 +82,6 @@ export class ActionBarComponent implements OnChanges {
   }
 
   handleExportClicked(): void {
-    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.exportSourceName));
+    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.actionBarConfig.ExportSourceName));
   }
 }

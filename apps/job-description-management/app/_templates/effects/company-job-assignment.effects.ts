@@ -9,9 +9,9 @@ import { SaveCompanyJobsJobDescriptionTemplateIdRequest } from 'libs/models/payf
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 import { CompanyJob } from 'libs/models/company';
+import { MessageHelper } from 'libs/core';
 
 import * as fromCompanyJobActions from '../actions';
-import { MessageHelper } from '../../shared';
 
 @Injectable()
 export class CompanyJobAssignmentEffects {

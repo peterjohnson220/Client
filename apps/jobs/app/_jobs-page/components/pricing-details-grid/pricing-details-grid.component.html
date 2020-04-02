@@ -2,21 +2,15 @@
   *ngIf="viewMode === 'Priced'"
   [pageViewId]="pricedDataPageViewId"
   [showTitle]="false"
-  [showColumnChooser] ="false"
-  [showFilterChooser] ="false"
-  [allowExport]="false"
   [selectionField]="'CompanyJobPricing_ID'"
   [enableSelection]="true"
   [columnTemplates]="pricedDataColTemplates"
   [expandedRowTemplate]="pricingMatchesGrid"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
-  [showActionBar]="true"
+  [actionBarConfig]="actionBarConfig"
+  [headerClassName]="'pricing-details-grid-header'"  
   [applyUserDefaultCompensationFields]="true"
-  [actionBarClassName]="'pricing-details-grid-action-bar ml-0 mt-1'"
-  [gridGlobalFiltersTemplates]="pricedDataGlobalFilterTemplates"
-  [gridGlobalActionsTemplate]="changeView"
-  [headerClassName]="'pricing-details-grid-header'"
   [noRecordsFound]="'No Pay Markets priced for this job. Click &quot;Pay Markets not Priced&quot; above to view and select Pay Markets to price.'">
 </pf-data-grid>
 

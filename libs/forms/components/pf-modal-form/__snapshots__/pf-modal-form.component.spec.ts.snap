@@ -13,6 +13,7 @@ exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
   modalService={[Function NgbModal]}
   onDismiss={[Function EventEmitter]}
   onSubmit={[Function EventEmitter]}
+  onSubmitAttempt={[Function EventEmitter]}
   primaryButtonClass={[Function String]}
   primaryButtonText={[Function String]}
   primaryButtonTextSubmitting={[Function String]}
@@ -47,6 +48,7 @@ exports[`Pf Modal Form should show subTitle in modal header if a subTitle is pro
   modalService={[Function NgbModal]}
   onDismiss={[Function EventEmitter]}
   onSubmit={[Function EventEmitter]}
+  onSubmitAttempt={[Function EventEmitter]}
   primaryButtonClass={[Function String]}
   primaryButtonText={[Function String]}
   primaryButtonTextSubmitting={[Function String]}

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { CompositeFieldResponse } from '../../../models/payfactors-api';
 
 @Injectable()
 export class CompositeFieldApiService {
@@ -11,14 +12,8 @@ export class CompositeFieldApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  // Field Names -> Standard Pay Elements
-  GetCompositeFieldsForStructures(): Observable<string[]> {
-    return this.payfactorsApiService.get<string[]>(
-      `${this.endpoint}/Default.GetControlPointsForStructures`);
-  }
-
-  GetCompositeFieldsForStructuresModel(): Observable<string[]> {
-    return this.payfactorsApiService.get<string[]>(
+  GetCompositeFieldsForStructuresModel(): Observable<CompositeFieldResponse[]> {
+    return this.payfactorsApiService.get<CompositeFieldResponse[]>(
       `${this.endpoint}/Default.GetControlPointsForStructuresModel`);
   }
 }

@@ -130,6 +130,8 @@
       <pf-email-recipients-modal class="float-right m-2"
                                  *ngIf="selectedCompany && stepIndex === stepEnum.FieldMapping"
                                  [companyId]="selectedCompany.CompanyId"
+                                 [loaderConfigurationGroupId]="loaderConfigGroup ? loaderConfigGroup.LoaderConfigurationGroupId : undefined"
+                                 [loadType]="loadType"
                                  [savingError$]="emailRecipientsSavingError$"
                                  [removingError$]="emailRecipientsRemovingError$"
                                  [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"

@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { ConfigurationGroup, EmailRecipientModel } from '../../../../models/data-loads';
 
 export const LOAD_EMAIL_RECIPIENTS = '[Org Data Loader/Email Recipients] Loading Recipients';
 export const LOAD_EMAIL_RECIPIENTS_ERROR = '[Org Data Loader/Email Recipients] Loading Recipients Error';
@@ -14,6 +15,8 @@ export const REMOVING_EMAIL_RECIPIENT_SUCCESS = '[Org Data Loader/Email Recipien
 
 export const OPEN_EMAIL_RECIPIENTS_MODAL = '[Org Data Loader/Email Recipients] Open Email Recipients Modal';
 export const CLOSE_EMAIL_RECIPIENTS_MODAL = '[Org Data Loader/Email Recipients] Close Email Recipients Modal';
+
+export const SET_CREATED_CONFIGURATION_GROUP = '[Org Data Loader/Email Recipients] Set created configuration group';
 
 export class LoadEmailRecipients implements Action {
   readonly type = LOAD_EMAIL_RECIPIENTS;
@@ -36,7 +39,7 @@ export class LoadEmailRecipientsSuccess implements Action {
 export class SavingEmailRecipient implements Action {
   readonly type = SAVING_EMAIL_RECIPIENT;
 
-  constructor(public payload: any) {}
+  constructor(public recipient: EmailRecipientModel, public configurationGroup: ConfigurationGroup) {}
 }
 
 export class SavingEmailRecipientError implements Action {
@@ -76,6 +79,12 @@ export class CloseEmailRecipientsModal implements Action {
   readonly type = CLOSE_EMAIL_RECIPIENTS_MODAL;
 }
 
+export class SetCreatedConfigurationGroup implements Action {
+  readonly type = SET_CREATED_CONFIGURATION_GROUP;
+
+  constructor(public configurationGroup: ConfigurationGroup) {}
+}
+
 export type Actions
   = LoadEmailRecipients
   | LoadEmailRecipientsError
@@ -87,4 +96,5 @@ export type Actions
   | RemovingEmailRecipientError
   | RemovingEmailRecipientSuccess
   | OpenEmailRecipientsModal
-  | CloseEmailRecipientsModal;
+  | CloseEmailRecipientsModal
+  | SetCreatedConfigurationGroup;

@@ -25,6 +25,7 @@ export interface DataViewField {
   FormulaId?: number;
   FieldType: DataViewFieldType;
   Format?: string;
+  FormatType?: FieldFormatType;
   Formula?: string;
   FormulaName?: string;
   SortOrder?: number;
@@ -45,6 +46,7 @@ export interface DataViewFilter extends BaseFilter {
   SourceName: string;
   Value?: string;
   DataElementId?: number;
+  IsLocked?: boolean;
 }
 
 export interface DataViewFilterIdentifier extends BaseFilter {
@@ -66,6 +68,12 @@ export enum DataViewFieldDataType {
 export enum DataViewFieldType {
   DataElement = 'dataElement',
   Formula = 'formula'
+}
+
+export enum FieldFormatType {
+  Date = 'date',
+  Number = 'number',
+  Percent = 'percent'
 }
 
 export function getMockDataViewFilter(): DataViewFilter {

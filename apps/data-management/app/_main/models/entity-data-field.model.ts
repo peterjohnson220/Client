@@ -7,11 +7,12 @@ export interface EntityDataField {
   DisplayName: string;
   DataType: ImportDataType;
   IsRequired?: boolean;
+  IsArray?: boolean;
   AssociatedEntity?: EntityDataField[];
   HasDescription?: boolean;
   Description?: string;
   HasAssociation?: boolean;
-  MetaData?: any;
+  Metadata?: any;
 }
 
 export function generateMockProviderEntityFields(entityType: OrgDataEntityType): EntityDataField[] {

@@ -1,6 +1,61 @@
-<div class="trs-calculation">
-  <p [ngStyle]="setDefaultStyling(sectionTitlesStyles)">{{controlData.Title}}</p>
-  <div *ngFor="let listItem of controlData.DataFields" >
-    <p class="text-left" [ngStyle]="setDefaultStyling(dataStyles)">{{listItem}}</p>
-  </div>
+<div class="trs-calculation container py-2">
+  <table class="table table-borderless table-sm mb-0 w-100">
+    <colgroup>
+      <col class="field-column">
+      <col class="contribution-column">
+      <col class="button-column">
+    </colgroup>
+    <thead>
+      <tr class="trs-calculation-row w-100">
+        <th class="text-left" scope="col">
+          <pf-inline-string-editor
+            [placeholder]="controlData.Title"
+            [maxCharacters]="30"
+            (valueChange)="onControlTitleChange($event)"></pf-inline-string-editor>
+        </th>
+        <th class="text-right" scope="col">Contribution</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let listItem of controlData.DataFields" class="trs-calculation-row w-100">
+        <td *ngIf="listItem.IsVisible" class="text-left">
+          <pf-inline-string-editor
+            [placeholder]="( { override: listItem.OverrideName, default: listItem.DefaultName } | compensationField)"
+            [maxCharacters]="30"
+            (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-inline-string-editor>
+        </td>
+        <td *ngIf="listItem.IsVisible" class="text-right" >{{getEmployerContributionValue(listItem.DatabaseField)}}</td>
+        <td *ngIf="listItem.IsVisible">
+          <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
+            <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
+          </button>
+        </td>
+      </tr>
+      <tr class="trs-calculation-row w-100">
+        <td class="text-left">
+          <pf-inline-string-editor
+            [placeholder]="( { override: controlData.SummaryTitle, default: 'Total' } | compensationField)"
+            [maxCharacters]="30"
+            (valueChange)="onSummaryTitleChange($event)"></pf-inline-string-editor>
+        </td>
+        <td class="text-right">{{getSummaryValue()}}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-container *ngIf="(removedFields?.length > 0)">
+    <div ngbDropdown class="d-inline-block">
+      <button ngbDropdownToggle class="btn btn-sm btn-outline-primary add-button" title="Add Field">
+        <fa-icon class="fa-sm" [icon]="'plus'"></fa-icon>
+      </button>
+      <div ngbDropdownMenu class="w-auto">
+        <div *ngFor="let removedField of removedFields;">
+          <a ngbDropdownItem class="add-comp-field-item" (click)="addField($event)">{{removedField.DefaultName}}</a>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
 </div>

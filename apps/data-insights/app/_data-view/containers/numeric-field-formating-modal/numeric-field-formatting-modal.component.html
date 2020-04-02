@@ -3,12 +3,27 @@
     <h4 class="modal-title" id="modal-title">Field Formatting - {{field.DisplayName}}</h4>
   </div>
   <div class="numeric-field-format-modal modal-body">
+    <div class="format-type-group">
+      <div class="custom-radio mb-3">
+        <input type="radio" name="select-format-type" class="custom-control-input"
+               id="formatTypeNumber"
+               value="{{formatTypes.Number}}"
+               [(ngModel)]="selectedFormatType" />
+        <label class="custom-control-label" for="formatTypeNumber">Number</label>
+      </div>
+      <div class="custom-radio">
+        <input type="radio" name="select-format-type" class="custom-control-input"
+               id="formatTypePercent"
+               value="{{formatTypes.Percent}}"
+               [(ngModel)]="selectedFormatType" />
+        <label class="custom-control-label" for="formatTypePercent">Percentage</label>
+      </div>
+    </div>
     <span>Decimal places: </span>
     <kendo-numerictextbox
       class="numeric-textbox"
-      (valueChange)="handleNumericValueChange($event)"
       [format]="'n0'"
-      [value]="value"
+      [(ngModel)]="decimals"
       [min]="0"
       [max]="3"
       [style.width]="'100px'"

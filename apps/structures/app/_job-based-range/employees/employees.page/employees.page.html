@@ -1,19 +1,29 @@
 <pf-data-grid
-  [title]="modelName$ | async"
+  [title]="(metaData$ | async)?.StructureName"
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
-  [allowExport]="false"
-  [showFilterChooser]="false"
-  [showActionBar]="true"
-  [pageViewId]="'44EE8EB2-AD8D-4153-9064-1D7F65884EBD'"
-  [gridContainerSplitViewWidth]="'70%'"
+  [pageViewId]="employeePageViewId"
+  [gridContainerSplitViewWidth]="'60%'"
   [splitViewTemplate]="graph"
   [splitOnSelection]="false"
-  [applyDefaultFilters]="false">
+  [applyDefaultFilters]="false"
+  [aboveGridTemplate]="aboveGridTemplate"
+  [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
 <ng-template #graph>
-  <div class="d-flex h-100 justify-content-center align-items-center">
-    Graph will go here
-  </div>
+    <pf-employee-salary-range-chart
+      [rangeId]="rangeId">
+    </pf-employee-salary-range-chart>
+</ng-template>
+
+<ng-template #gridGlobalActions>
+  <pf-model-settings-btn [metadata]="metaData$ | async" (clicked)="handleModelSettingsBtnClicked()"></pf-model-settings-btn>
+</ng-template>
+
+<ng-template #aboveGridTemplate>
+<div style="height: 150px">
+  <pf-grid-context [enableReturnBtn]="true" [metadata]="metaData$ | async"></pf-grid-context>
+  <pf-model-grid [inboundFilters]="[filter]" [rangeGroupId]="rangeGroupId" [singleRecordView]="true" [page]="page"></pf-model-grid>
+</div>
 </ng-template>

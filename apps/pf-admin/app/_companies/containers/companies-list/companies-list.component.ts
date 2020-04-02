@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import * as fromCompaniesGridActions from '../../actions/companies-grid.actions'
 import * as fromCompaniesGridReducer from '../../reducers';
 import { CompanyGridItem } from '../../models';
 import { CompaniesListViews } from '../../constants/companies-list-constants';
+import { CompanyNotesModalComponent } from '../company-notes-modal';
 
 @Component({
     selector: 'pf-companies-list',
@@ -26,6 +27,7 @@ export class CompaniesListComponent implements OnChanges {
     @Input() filter: string;
     @Input() handleCompaniesReload;
     @Input() view = CompaniesListViews.DEFAULT;
+    @ViewChild(CompanyNotesModalComponent, { static: true }) companyNotesModal: CompanyNotesModalComponent;
 
     gridSkipAmount$: Observable<number>;
     gridTakeAmount$: Observable<number>;
@@ -63,6 +65,11 @@ export class CompaniesListComponent implements OnChanges {
     public pageChange(event: PageChangeEvent): void {
         this.store.dispatch(new fromCompaniesGridActions.GetGridSkipAmount(event.skip));
         this.loadItems();
+    }
+
+    public openNotesModal($event: any, dataItem: any) {
+        $event.stopPropagation();
+        this.companyNotesModal.open(dataItem);
     }
 
     private loadItems(): void {

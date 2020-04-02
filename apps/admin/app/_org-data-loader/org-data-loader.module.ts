@@ -10,6 +10,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
 import { PfFormsModule } from 'libs/forms';
@@ -17,13 +18,14 @@ import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
 
 import * as fromFaIcons from './fa-icons';
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
 import { ManageFieldMappingsPageComponent } from './containers/pages';
 import { reducers } from './reducers';
 import { CompanySelectorEffects, OrgDataFieldMappingsEffects, LoaderConfigurationGroupsEffects } from './effects';
-import { CompanySelectorComponent, SftpAccountStatusComponent } from './containers';
+import { SftpAccountStatusComponent } from './containers';
 
 
 @NgModule({
@@ -46,6 +48,7 @@ import { CompanySelectorComponent, SftpAccountStatusComponent } from './containe
     LayoutModule,
     UploadModule,
     FontAwesomeModule,
+    NgbTooltipModule,
 
     // Routing
     OrgDataLoaderRoutingModule,
@@ -54,7 +57,8 @@ import { CompanySelectorComponent, SftpAccountStatusComponent } from './containe
     PfCommonUIModule,
     PfFormsModule,
     PfFieldMapperModule,
-    PfEmailRecipientsModule
+    PfEmailRecipientsModule,
+    PfCompanySelectorModule
   ],
   providers: [
     ConfigSettingsSelectorFactory
@@ -62,7 +66,6 @@ import { CompanySelectorComponent, SftpAccountStatusComponent } from './containe
   declarations: [
     // Components
     SftpAccountStatusComponent,
-    CompanySelectorComponent,
 
     // Pages
     ManageFieldMappingsPageComponent

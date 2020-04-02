@@ -41,7 +41,7 @@ export class FlsaQuestionnaireModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.flsaQuestionnaireSubscription = this.flsaQuestionnaireDetails$.subscribe(q => {
-      if (q.obj) {
+      if (!this.isObjectEmpty(q.obj)) {
         this.flsaQuestionnaireDetails = q.obj;
         if (q.obj.ExemptionAndQuestions) {
           this.flsaExemptionAndQuestions = this.flsaExemptionAndQuestions ?
@@ -76,6 +76,10 @@ export class FlsaQuestionnaireModalComponent implements OnInit, OnDestroy {
 
   selectQuestion(exemption: string, question: string, selected: boolean) {
     this.store.dispatch(new fromFlsaQuestionnaireActions.SelectFlsaQuestion({exemption, question, selected}));
+  }
+
+  isObjectEmpty(obj) {
+    return obj == null || Object.keys(obj).length === 0;
   }
 
   private loadFlsaQuestionnaire() {

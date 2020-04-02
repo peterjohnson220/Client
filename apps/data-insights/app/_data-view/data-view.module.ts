@@ -7,7 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { DragulaModule } from 'ng2-dragula';
@@ -22,11 +22,12 @@ import {
   FormulaEditorComponent, AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
   FieldGroupComponent, FilterCardComponent, BitFilterComponent, DateRangeFilterComponent, MultiSelectFilterComponent,
   NumericFilterComponent, TextFilterComponent, ReportFieldComponent, ShareReportModalComponent,
-  ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent
+  ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent, ViewInfoComponent
 } from './components';
 import {
   FormulaFieldModalComponent, DataViewGridComponent, DataViewPageComponent, FieldsComponent, FiltersComponent,
-  NumericFieldFormattingModalComponent, FormulasComponent, EditDataViewModalComponent, DuplicateDataViewModalComponent
+  NumericFieldFormattingModalComponent, FormulasComponent, EditDataViewModalComponent, DuplicateDataViewModalComponent,
+  DateFieldFormattingModalComponent
 } from './containers';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -62,6 +63,7 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
     DateInputsModule,
     NgbTooltipModule,
     NgbCollapseModule,
+    NgbAlertModule,
     PerfectScrollbarModule,
     SwitchModule,
 
@@ -79,13 +81,13 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
   declarations: [
     // Containers
     FormulaFieldModalComponent, DataViewGridComponent, DataViewPageComponent, FieldsComponent, FiltersComponent,
-    NumericFieldFormattingModalComponent, FormulasComponent, EditDataViewModalComponent, DuplicateDataViewModalComponent,
+    NumericFieldFormattingModalComponent, FormulasComponent, EditDataViewModalComponent, DuplicateDataViewModalComponent, DateFieldFormattingModalComponent,
 
     // Components
     FormulaEditorComponent, AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
     FieldGroupComponent, FilterCardComponent, BitFilterComponent, DateRangeFilterComponent, MultiSelectFilterComponent,
     NumericFilterComponent, TextFilterComponent, ReportFieldComponent, ShareReportModalComponent,
-    ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent
+    ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent, ViewInfoComponent
   ]
 })
 export class DataViewModule {

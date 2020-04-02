@@ -20,7 +20,8 @@ export class DataViewEffects {
         return this.dataViewApiService.saveUserDataView({
           BaseEntityId: action.payload.Entity.Id,
           Name: action.payload.Name,
-          Summary: action.payload.Summary
+          Summary: action.payload.Summary,
+          RequiredInfo: action.payload.RequiredInfo
         })
           .pipe(
             map((response) => {

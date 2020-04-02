@@ -1,20 +1,18 @@
 <pf-data-grid
+  [reorderable]="true"
   [pageViewId]="pageViewId"
   [title]="getPageTitle((userContext$ | async)?.CompanyName)"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyEmployee_ID'"
-  [showActionBar]="true"
-  [showColumnChooser]="true"
-  [showFilterChooser]="true"
   [filterPanelTemplates]="filterTemplates"
   [noRecordsFound]="'No records available.'"
   [enableSelection]="true"
   [gridActionsTemplate]="gridActions"
-  [gridGlobalActionsTemplate]="gridGlobalActions"
-  [allowExport]="true"
-  [exportSourceName]="'Employees'"
   [defaultSort]="defaultSort"
-  [defaultColumnWidth]="150">
+  [defaultColumnWidth]="150"
+  [saveSort]="true"
+  [useColumnGroups]="false"
+  [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
 <ng-template #gridActions>

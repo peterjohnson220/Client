@@ -1,0 +1,26 @@
+<div class="d-flex flex-row header" (click)="toggleShowFields()">
+  <div class="icon" [attr.data-qa-id]="'cnt-showFields'" title="Show Fields">
+    <fa-icon [ngClass]="!showFields ? '' : 'hidden'" icon="caret-right"></fa-icon>
+    <fa-icon [ngClass]="showFields ? '' : 'hidden'" icon="caret-down"></fa-icon>
+  </div>
+  <input #selectAllCheckbox type="checkbox" class="k-checkbox select-all-checkbox"
+    id="selectall-checkbox-{{columnGroup?.GroupIndex}}"
+    [attr.data-qa-id]="'chk-selectall'"
+    [disabled]="true">
+  <label class="k-checkbox-label" for="selectall-checkbox-{{columnGroup?.GroupIndex}}"></label>
+  <h6 class="title">{{columnGroup?.Title}}</h6>
+</div>
+<div *ngIf="!!columnGroup?.FilteredFields && showFields" class="d-flex flex-column fields">
+  <ng-container *ngFor="let field of columnGroup.FilteredFields; trackBy: trackByFn">
+    <div class="field d-flex"
+      [attr.data-qa-id]="'cnt-select-field'"
+      [class.disabled]="field.IsLocked"
+      (click)="handleFieldClicked(field)">
+      <input type="checkbox" class="k-checkbox"
+        [ngModel]="field.IsSelected"
+        [disabled]="field.IsLocked">
+      <label class="k-checkbox-label" for="field-checkbox-{{field.DataElementId}}"></label>
+      <div class="title">{{field.DisplayName}}</div>
+    </div>
+  </ng-container>
+</div>

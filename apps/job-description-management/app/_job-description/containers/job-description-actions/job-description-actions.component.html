@@ -57,7 +57,7 @@
 
     <button
       *ngIf="!(editingJobDescription$ | async) && !(inHistory$ | async) && jobDescription.JobDescriptionStatus !== 'In Review' && hasCanEditJobDescriptionPermission"
-      type="button" class="btn btn-secondary" [disabled]="hasFilteredView" (click)="handleEditClicked()">
+      type="button" class="btn btn-secondary" [disabled]="isFilteredView" (click)="handleEditClicked()">
       <fa-icon icon="pencil-alt" aria-hidden="true"></fa-icon> Edit
     </button>
 

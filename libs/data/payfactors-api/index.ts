@@ -28,3 +28,4 @@ export * from './total-rewards';
 export * from './pricings';
 export * from './currency';
 export * from './country';
+export * from './validation';

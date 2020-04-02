@@ -236,10 +236,9 @@
             <div class="h">
               Base Salary
             </div>
-            <div class="v" [attr.data-qa-id]="'cnt-baseSalary'" [innerHTML]="
-              calculateDataByRate(jobData?.Base50) |
-              currency: workflowContext?.activeCountryDataSet?.CurrencyCode: 'symbol-narrow' : (isHourly ? '1.2-2' : '1.0-0') |
-              wrapSubTextWithTag:0:1:'currency'">
+            <div class="v" [attr.data-qa-id]="'cnt-baseSalary'">
+              <span class="currency">{{currencySymbol}}</span>
+              <span>{{calculateDataByRate(jobData?.Base50) | number : (isHourly ? '1.2-2' : '1.0-0')}}</span>
             </div>
             <div class="gr">
               <pf-salary-bar-chart
@@ -255,10 +254,9 @@
             <div class="h">
               Total Cash Compensation
             </div>
-            <div class="v" [attr.data-qa-id]="'cnt-totalCashCompensation'" [innerHTML]="
-              calculateDataByRate(jobData?.Tcc50) |
-              currency: workflowContext?.activeCountryDataSet?.CurrencyCode: 'symbol-narrow' : (isHourly ? '1.2-2' : '1.0-0') |
-              wrapSubTextWithTag:0:1:'currency'">
+            <div class="v" [attr.data-qa-id]="'cnt-totalCashCompensation'">
+              <span class="currency">{{currencySymbol}}</span>
+              <span>{{calculateDataByRate(jobData?.Tcc50) | number : (isHourly ? '1.2-2' : '1.0-0')}}</span>
             </div>
             <div class="gr">
               <pf-salary-bar-chart

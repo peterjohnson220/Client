@@ -15,6 +15,7 @@ const initialState: State = {
     jdmFooterView: {
       CreatedByField: true,
       CreatedDateField: true,
+      CreatedDateFormatField: 'MMMM dd, yyyy',
       VersionNumberField: true,
       PageNumberField: false,
       CustomTextField: false,

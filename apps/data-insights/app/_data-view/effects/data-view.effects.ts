@@ -31,7 +31,8 @@ export class DataViewEffects {
             mergeMap((response) => {
               const userDataView = PayfactorsApiModelMapper.mapUserDataViewResponseToUserDataView(response);
               const selectedFields = PayfactorsApiModelMapper.mapDataViewFieldsToFields(response.Fields);
-              const filters = PayfactorsApiModelMapper.mapDataViewFiltersToFilters(response.Filters, response.Fields);
+              const availableFields = PayfactorsApiModelMapper.mapDataViewFieldsToFields(response.AvailableFields);
+              const filters = PayfactorsApiModelMapper.mapDataViewFiltersToFilters(response.Filters, response.AvailableFields);
               const sortedField = selectedFields.find(f => f.SortOrder >= 0);
               const sortDescriptor: SortDescriptor = !!sortedField ? {
                 field: sortedField.KendoGridField,
@@ -41,6 +42,7 @@ export class DataViewEffects {
                 new fromDataViewActions.GetUserDataViewSuccess(userDataView),
                 new fromDataViewGridActions.SetSortDescriptor(sortDescriptor),
                 new fromFieldsActions.SetSelectedFields(selectedFields),
+                new fromFieldsActions.GetReportFieldsSuccess(availableFields),
                 new fromFiltersActions.SetFilters(filters),
                 new fromDataViewGridActions.GetData(),
                 new fromDataViewGridActions.GetDataCount()

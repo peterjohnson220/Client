@@ -28,6 +28,10 @@ export class NotificationHelper {
         message = JobDescriptionBulkExportFormatter.getEventMessage(notification.Level, notification.Payload);
         break;
       }
+      case NotificationSource.JobDescriptionTemplatePublisher: {
+        message = JobDescriptionBulkExportFormatter.getEventMessage(notification.Level, notification.Payload);
+        break;
+      }
       default: {
         message = ReportBuilderMessageFormatter.getEventMessage(notification.Level, notification.Payload);
         break;
@@ -46,6 +50,12 @@ export class NotificationHelper {
         break;
       }
       case NotificationSource.JobDescriptionBulkExport: {
+        const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
+        message = JobDescriptionBulkExportFormatter.getProgressMessage(notification.Payload.Message);
+        message = message + progressBar;
+        break;
+      }
+      case NotificationSource.JobDescriptionTemplatePublisher: {
         const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
         message = JobDescriptionBulkExportFormatter.getProgressMessage(notification.Payload.Message);
         message = message + progressBar;

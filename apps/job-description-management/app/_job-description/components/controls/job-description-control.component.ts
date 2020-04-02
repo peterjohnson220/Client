@@ -37,6 +37,7 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
   changesSubject: Subject<any>;
   bulkChangesSubject: Subject<any>;
   undoChanges$: Observable<boolean>;
+  replaceContents$: Observable<boolean>;
 
   constructor(
     private sharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
@@ -44,6 +45,7 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
     this.changesSubject = new Subject();
     this.bulkChangesSubject = new Subject();
     this.undoChanges$ = this.store.select(fromJobDescriptionReducers.getUndoJobDescriptionChangesComplete);
+    this.replaceContents$ = this.store.select(fromJobDescriptionReducers.getReplaceJobDescriptionComplete);
   }
 
   ngOnInit() {

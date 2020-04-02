@@ -341,6 +341,11 @@ export const getUndoJobDescriptionChangesComplete = createSelector(
   fromJobDescriptionReducer.getUndoJobDescriptionChangesComplete
 );
 
+export const getReplaceJobDescriptionComplete = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getReplaceJobDescriptionComplete
+);
+
 export const getJobDescriptionExtendedInfo = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getJobDescriptionExtendedInfo

@@ -74,7 +74,8 @@ export class FieldsEffects {
     .pipe(
       ofType(
         fromFieldsActions.ADD_SELECTED_FIELD,
-        fromFieldsActions.SET_NUMBER_FORMAT_ON_SELECTED_FIELD,
+        fromFieldsActions.SET_FORMAT_ON_SELECTED_FIELD,
+        fromFieldsActions.CLEAR_FORMATING,
         fromFieldsActions.SAVE_UPDATED_FORMULA_FIELD),
       mergeMap(() => {
         return [

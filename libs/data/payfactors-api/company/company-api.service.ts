@@ -6,7 +6,7 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { CompanyDto, LegacyCompanySettingDto, CompanyFormData } from 'libs/models/company';
 import {
   SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesResponse,
-  CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields, JobPricingLimitInfoResponse
+  CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields, JobPricingLimitInfoResponse, CompanyNote
 } from 'libs/models/payfactors-api';
 import { Company, CompanyBaseInformation } from 'libs/models/company/company.model';
 import { SubsidiaryInfo } from 'libs/models/subsidiary';
@@ -94,5 +94,15 @@ export class CompanyApiService {
   getCompanySubsidiaryInfo(companyId: number): Observable<SubsidiaryInfo[]> {
     return this.payfactorsApiService.get<SubsidiaryInfo[]>(`${this.endpoint}/GetCompanySubsidiaryInfo`,
       { params: {companyId: companyId } });
+  }
+
+  getCompanyNotes(companyId: number): Observable<CompanyNote[]> {
+    return this.payfactorsApiService.get<CompanyNote[]>(`${this.endpoint}/GetCompanyNotes`,
+      {params: {companyId: companyId } });
+  }
+
+  saveCompanyNote(note: CompanyNote, action: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.SaveCompanyNote`,
+      {Note: note.Note, User: note.CreateUser, Date: note.CreateDate, Id: note.Id, CompanyId: note.CompanyId, Action: action});
   }
 }

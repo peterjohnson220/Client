@@ -3,15 +3,18 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { FieldFormatType } from 'libs/models/payfactors-api/reports';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Field, FieldDataType, FieldType, UserDataView, DataViewAccessLevel, FormulaFieldModalObj, Suggestion } from '../../models';
+import { Field, UserDataView, DataViewAccessLevel, FormulaFieldModalObj, Suggestion } from '../../models';
 import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
 import { FormulaFieldModalComponent } from '../formula-field-modal';
+import { DateFieldFormattingModalComponent } from '../date-field-formatting-modal';
 
 @Component({
   selector: 'pf-data-view-grid',
@@ -20,6 +23,7 @@ import { FormulaFieldModalComponent } from '../formula-field-modal';
 })
 export class DataViewGridComponent implements OnInit, OnDestroy {
   @ViewChild('numericFieldFormattingModal', { static: true }) public numericFieldFormattingModalComponent: NumericFieldFormattingModalComponent;
+  @ViewChild('dateFieldFormattingModal', { static: true }) public dateFieldFormattingModalComponent: DateFieldFormattingModalComponent;
   @ViewChild(FormulaFieldModalComponent, { static: true }) public formulaFieldModal: FormulaFieldModalComponent;
 
   fields$: Observable<Field[]>;
@@ -45,9 +49,9 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     mode: 'single'
   };
   sortDesc: SortDescriptor[];
-  dataTypes = FieldDataType;
   formulaFieldModalObj: FormulaFieldModalObj;
   dataViewAccessLevel: DataViewAccessLevel;
+  formatTypes = FieldFormatType;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>
@@ -113,34 +117,24 @@ export class DataViewGridComponent implements OnInit, OnDestroy {
     }
   }
 
-  isNumericDataType(fieldDataType: FieldDataType): boolean {
-    return !!fieldDataType && (
-      fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float);
-  }
-
-  isNumericDataTypeAndHasFormat(fieldDataType: FieldDataType, hasFormat: string): boolean {
-    return !!fieldDataType && (
-      fieldDataType === FieldDataType.Int || fieldDataType === FieldDataType.Float) && !!hasFormat;
-  }
-
-  handleNumberFormatModalClicked(field: Field, format?: string): void {
-    this.numericFieldFormattingModalComponent.open(field, format);
+  handleFieldFormatModalClicked(field: Field ): void {
+    if (field.Is.Numeric) {
+      this.numericFieldFormattingModalComponent.open(field);
+    } else {
+      this.dateFieldFormattingModalComponent.open(field);
+    }
   }
 
   handleSaveClicked(field: Field): void {
-    this.store.dispatch(new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: field.Format}));
+    this.store.dispatch(new fromFieldsActions.SetFormatOnSelectedField(field));
   }
 
   handleClearFormatClicked(field: Field): void {
-    this.store.dispatch(new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: null}));
-  }
-
-  columnMenuEnabled(field: Field): boolean {
-    return this.isNumericDataType(field.DataType) || this.isFormulaField(field);
-  }
-
-  isFormulaField(field: Field): boolean {
-    return field.FieldType === FieldType.Formula;
+    const fieldToUpdate: Field = cloneDeep(field);
+    fieldToUpdate.FieldFormat.Format = null;
+    fieldToUpdate.FieldFormat.Value = null;
+    fieldToUpdate.FieldFormat.KendoNumericFormat = fieldToUpdate.Is.Numeric ? 'n' : null;
+    this.store.dispatch(new fromFieldsActions.ClearFormating(fieldToUpdate));
   }
 
   handleEditFormulaClick(field: Field): void {

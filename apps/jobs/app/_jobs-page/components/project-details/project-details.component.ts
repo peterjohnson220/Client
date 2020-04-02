@@ -8,7 +8,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
@@ -30,7 +30,6 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy, OnChan
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   pageViewId = PageViewIds.Projects;
 
-  globalFilterTemplates = {};
   colTemplates = {};
 
   defaultSort: SortDescriptor[] = [{
@@ -44,6 +43,8 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy, OnChan
   filteredPayMarketOptions: any;
   payMarketOptions: any;
   selectedPayMarket: any;
+  actionBarConfig: ActionBarConfig;
+
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
@@ -57,11 +58,18 @@ export class ProjectDetailsComponent implements AfterViewInit, OnDestroy, OnChan
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ActionBarClassName: 'employee-grid-action-bar ml-0 mt-1'
+    };
   }
 
   ngAfterViewInit() {
-    this.globalFilterTemplates = {
-      'PayMarket': { Template: this.payMarketFilter }
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalFiltersTemplates: {
+        'PayMarket': this.payMarketFilter
+      }
     };
     this.colTemplates = {
       'HasProjectAccess': { Template: this.projectAccessColumn },

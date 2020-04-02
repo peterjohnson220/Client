@@ -10,7 +10,7 @@ export enum OrgDataEntityType {
 export function getOrgDataEntityTypeDisplayName(entity: OrgDataEntityType) {
   let name: string;
 
-  switch(entity) {
+  switch (entity) {
     case OrgDataEntityType.Employees:
       name = 'Employees';
       break;

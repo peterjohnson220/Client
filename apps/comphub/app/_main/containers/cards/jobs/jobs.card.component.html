@@ -16,25 +16,38 @@
 
     <div class="row">
       <div class="col-lg-12 col-xl-9">
-        <div class="data-set-selector" *ngIf="(countryDataSets$ | async)?.length > 1">
-          <kendo-dropdownlist
-            (valueChange)="handleCountryDataSetChanged($event)"
-            class="form-control"
-            textField="CountryCode"
-            valueField="CountryCode"
-            [data]="countryDataSets$ | async"
-            [valuePrimitive]="true"
-            [ngModel]="workflowContext?.activeCountryDataSet?.CountryCode">
 
-            <ng-template kendoDropDownListItemTemplate let-dataItem>
-              <img src="assets/images/blank.gif" class="flag flag-{{dataItem?.FlagCode}} mr-2" /> {{ dataItem?.CountryCode }}
-            </ng-template>
-            <ng-template kendoDropDownListValueTemplate let-dataItem>
-              <img src="assets/images/blank.gif" class="flag flag-{{dataItem?.FlagCode}} mr-2" /> {{ dataItem?.CountryCode }}
-            </ng-template>
+        <div class="data-set-selector" *ngIf="(countryDataSets$ | async)?.length > 1 && (userContext$ | async).ClientType !== PEER_AND_ANALYSIS">
+        <kendo-dropdownlist
+          (valueChange)="handleCountryDataSetChanged($event)"
+          class="form-control"
+          textField="CountryCode"
+          valueField="CountryCode"
+          [data]="countryDataSets$ | async"
+          [valuePrimitive]="true"
+          [ngModel]="workflowContext?.activeCountryDataSet?.CountryCode">
 
-          </kendo-dropdownlist>
-        </div>
+          <ng-template kendoDropDownListItemTemplate let-dataItem>
+            <img src="assets/images/blank.gif" class="flag flag-{{dataItem?.FlagCode | lowercase}} mr-2" /> {{ dataItem?.CountryCode }}
+          </ng-template>
+          <ng-template kendoDropDownListValueTemplate let-dataItem>
+            <img src="assets/images/blank.gif" class="flag flag-{{dataItem?.FlagCode | lowercase}} mr-2" /> {{ dataItem?.CountryCode }}
+          </ng-template>
+
+        </kendo-dropdownlist>
+      </div>
+      <div class="data-set-selector exchange-selector" *ngIf="(exchangeDataSets$ | async)?.length > 1 && (userContext$ | async).ClientType === PEER_AND_ANALYSIS">
+        <label class="exchange-dropdown-label">Peer Exchange: </label>
+        <kendo-dropdownlist
+          (valueChange)="handleExchangeDataSetChanged($event)"
+          class="form-control"
+          textField="ExchangeName"
+          valueField="ExchangeId"
+          [data]="exchangeDataSets$ | async"
+          [valuePrimitive]="true"
+          [ngModel]="workflowContext?.activeExchangeDataSet?.ExchangeId">
+        </kendo-dropdownlist>
+      </div>
 
         <kendo-autocomplete
           #jobSearch

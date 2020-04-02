@@ -118,7 +118,7 @@ describe('Comphub - Main - Markets Card Component', () => {
   it('should dispatch a SetSelectedPayMarket action, when handling a paymarket being checked', () => {
     spyOn(store, 'dispatch');
     const selectedPayMarket = generateMockPricingPaymarket();
-    const expectedAction = new fromMarketsCardActions.SetSelectedPaymarket(selectedPayMarket);
+    const expectedAction = new fromMarketsCardActions.SetSelectedPaymarket({paymarket: selectedPayMarket});
 
     instance.handlePaymarketChecked(selectedPayMarket);
 

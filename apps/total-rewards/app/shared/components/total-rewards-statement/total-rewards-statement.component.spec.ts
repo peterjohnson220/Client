@@ -11,8 +11,8 @@ import { generateDefaultAsyncStateObj } from 'libs/models';
 
 import * as statementEditReducer from '../../../_main/statement-edit/reducers/statement-edit.page.reducer';
 import * as fromTotalRewardsStatementEditReducer from '../../../_main/statement-edit/reducers';
-import { Statement, generateMockStatement, generateMockStatementWithSingleControl } from '../../models/statement';
-import { TotalRewardsControlEnum } from '../../models/total-rewards-control-enum';
+import { Statement, generateMockStatement, generateMockStatementWithSingleControl } from '../../models';
+import { TotalRewardsControlEnum } from '../../models';
 import { TotalRewardsStatementComponent } from './total-rewards-statement.component';
 
 describe('TotalRewardsStatementComponent', () => {
@@ -21,7 +21,7 @@ describe('TotalRewardsStatementComponent', () => {
   let activatedRoute: ActivatedRoute;
 
   const initialState = { totalRewards_statementEdit: { page: statementEditReducer.initialState } };
-  initialState.totalRewards_statementEdit.page.statementObject = generateDefaultAsyncStateObj<Statement>(generateMockStatement());
+  initialState.totalRewards_statementEdit.page.statement = generateDefaultAsyncStateObj<Statement>(generateMockStatement());
   let store: MockStore<fromTotalRewardsStatementEditReducer.State>;
 
   beforeEach(async(() => {
@@ -72,7 +72,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render the expected number of pages', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statementObject.obj.Pages = [{} as any, {} as any];
+    statementEditState.statement.obj.Pages = [{} as any, {} as any];
     store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
 
     // act
@@ -86,7 +86,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render the expected number of sections', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statementObject.obj.Pages = [{ Sections: [{}, {}, {}, {}, {}] }] as any;
+    statementEditState.statement.obj.Pages = [{ Sections: [{}, {}, {}, {}, {}] }] as any;
     store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
 
     // act
@@ -100,7 +100,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render the expected number of columns', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statementObject.obj.Pages = [{ Sections: [{ Columns: [{}] } as any ] }];
+    statementEditState.statement.obj.Pages = [{ Sections: [{ Columns: [{}] } as any ] }];
     store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
 
     // act
@@ -114,7 +114,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a rich text control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statementObject.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.RichTextEditor);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.RichTextEditor);
     store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
 
     // act
@@ -128,7 +128,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render an image control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statementObject.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Image);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Image);
     store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
 
     // act
@@ -142,7 +142,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a calculation control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statementObject.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Calculation);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Calculation);
     store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
 
     // act
@@ -156,7 +156,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a chart control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statementObject.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Chart);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Chart);
     store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
 
     // act
@@ -170,7 +170,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a title control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statementObject.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Title);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Title);
     store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
 
     // act
@@ -184,7 +184,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a summary control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statementObject.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Summary);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Summary);
     store.setState({ totalRewards_statementEdit: { page: statementEditState } } as any);
 
     // act

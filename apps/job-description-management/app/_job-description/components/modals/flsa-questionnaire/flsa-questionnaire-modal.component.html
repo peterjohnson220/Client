@@ -7,8 +7,8 @@
     </button>
   </div>
   <div class="modal-body">
-    <p *ngIf="!(flsaQuestionnaireDetails$ | async)?.loading && (flsaQuestionnaireDetails$ | async)?.obj" [innerHTML]="flsaQuestionnaireDetails?.Header"></p>
-    <div class="row" *ngIf="!(flsaQuestionnaireDetails$ | async)?.loading && (flsaQuestionnaireDetails$ | async)?.obj">
+    <p *ngIf="!(flsaQuestionnaireDetails$ | async)?.loading && !isObjectEmpty((flsaQuestionnaireDetails$ | async)?.obj)" [innerHTML]="flsaQuestionnaireDetails?.Header"></p>
+    <div class="row" *ngIf="!(flsaQuestionnaireDetails$ | async)?.loading && !isObjectEmpty((flsaQuestionnaireDetails$ | async)?.obj)">
       <div class="col-12">
         <div class="table-responsive">
           <table class="table">
