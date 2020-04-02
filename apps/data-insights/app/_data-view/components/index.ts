@@ -10,3 +10,4 @@ export * from './delete-user-workbook-modal';
 export * from './view-all-fields';
 export * from './share-report-modal';
 export * from './report-field';
+export * from './view-info';

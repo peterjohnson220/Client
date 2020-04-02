@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { CompanyJob, Match, CompanyJobToMapTo, LatestCompanyJob, JobInfoResponse, CompanyJobAttachment } from 'libs/models';
+import { CompanyJob, Match, CompanyJobToMapTo, LatestCompanyJob, JobInfoResponse, CompanyJobAttachment, ODataQuery, generateQueryObject } from 'libs/models';
 import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -90,10 +90,8 @@ export class CompanyJobApiService {
         {params: {jobFamily: jobFamily, templateId: templateId}});
   }
 
-  getAll(fields: string[]): Observable<CompanyJob[]> {
-    const fieldOptions = {
-      $select: fields.join()
-    };
+  getAll(query: ODataQuery): Observable<CompanyJob[]> {
+    const fieldOptions = generateQueryObject(query);
     return this.payfactorsApiService.get<CompanyJob[]>(`${this.endpoint}`, { params: fieldOptions });
   }
 }

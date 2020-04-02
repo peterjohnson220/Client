@@ -17,8 +17,6 @@ export function generateMockSelectionEvent(dataItem: any): SelectionEvent {
     selectedRows: [{dataItem: dataItem} as RowArgs],
     deselectedRows: [],
     ctrlKey: false,
-    index: 0,
-    selected: true,
     shiftKey: false
   };
 }

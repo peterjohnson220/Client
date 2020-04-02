@@ -5,22 +5,16 @@
   <ng-container page-actions>
     <pf-action-bar
       class="flex-fill"
-      [ngClass]="actionBarClassName != null ? actionBarClassName : ''"
+      [ngClass]="actionBarConfig?.ActionBarClassName != null ? actionBarConfig.ActionBarClassName : ''"
       [pageViewId]="pageViewId"
-      [showColumnChooser]="showColumnChooser"
-      [showFilterChooser]="showFilterChooser"
-      [allowExport]="allowExport"
-      [exportSourceName]="exportSourceName"
-      [globalFilters]= "globalFilterableFields"
-      [globalFilterAlignment]="showTitle?'Right':'Left'"
-      [globalActionsTemplate]="gridGlobalActionsTemplate"
-      [globalFiltersTemplates]="gridGlobalFiltersTemplates"
-      (onFilterSidebarToggle)="toggleFilterPanel()"
-      [showActionBar]="showActionBar">
+      [globalFilters]="globalFilterableFields"
+      [actionBarConfig]="actionBarConfig"
+      (onFilterSidebarToggle)="toggleFilterPanel()">
     </pf-action-bar>
   </ng-container>
   <ng-container page-content>
     <div class="d-flex h-100 flex-column">
+      <ng-container [ngTemplateOutlet]="aboveGridTemplate"></ng-container>
       <div *ngIf="gridActionsTemplate || userFilteredFields.length > 0"
            class="no-gutters d-flex justify-content-between border pl-2 gridActionTemplate">
         <div class="flex-fill p-1">
@@ -44,6 +38,7 @@
               <div class="full-size-wrapper">
                 <div [ngClass]="{'grid-container' : !compactGrid}">
                   <pf-grid
+                    [reorderable]="reorderable"
                     [pageViewId]="pageViewId"
                     [allowSplitView]="!!splitViewTemplate"
                     [columnTemplates]="columnTemplates"
@@ -53,11 +48,14 @@
                     [noRecordsFound]="noRecordsFound"
                     [selectedRecordId]="selectedRecordId"
                     [compactGrid]="compactGrid"
+                    [showHeaderWhenCompact]="showHeaderWhenCompact"
                     [backgroundColor]="backgroundColor"
 		                [allowSort]="allowSort"
                     [rowActionTemplate]="rowActionTemplate"
                     [customHeaderClass]="headerClassName"
-                    [defaultColumnWidth]="defaultColumnWidth">
+                    [defaultColumnWidth]="defaultColumnWidth"
+                    [saveSort]="saveSort"
+                    [useColumnGroups]="useColumnGroups">
                   </pf-grid>
                 </div>
               </div>
@@ -72,6 +70,7 @@
         </div>
         <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3 border border-top-1">
           <pf-filter-panel
+            [AllowSaveFilter]="actionBarConfig.AllowSaveFilter"
             [fields]="filterableFields$ | async"
             [filterTemplates]="filterPanelTemplates"
             (close)="closeFilterPanel()"

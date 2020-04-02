@@ -44,12 +44,18 @@ export const REPLACE_CONTROL_DATA = '[job-description-management / Job Descripti
 export const UPDATE_CONTROL_DATA = '[job-description-management / Job Description] Update Control Data';
 export const UPDATE_CONTROL_ADDITIONAL_PROPERTIES = '[job-description-management / Job Description] Update Control Additional Properties';
 export const REPLACE_JOB_DESCRIPTION_VIA_COPY = '[job-description-management / Job Description] Replace Job Description Via Copy';
+export const RESET_REPLACE_JOB_DESCRIPTION_VIA_COPY = '[job-description-management / Job Description] Reset Replace Job Description Via Copy';
 export const REORDER_CONTROL_DATA = '[job-description-management / Job Description] Reorder Control Data';
 export const ADD_SOURCE_DATA_TO_CONTROL = '[job-description-management / Job Description] Add Source Data to Control';
 export const DELETE_JOB_DESCRIPTION = '[job-description-management / Job Description] Delete Job Description';
 export const DELETE_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Delete Job Description Success';
 export const DELETE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Delete Job Description Error';
 export const UPDATE_JOB_DESCRIPTION_APPLIES_TO = '[job-description-management / Job Description Applies To] Update Job Description Applies To Values';
+export const SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED = '[job-description-management / Job Description Page] Set Workflow User Step To Is Being Viewed';
+export const SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_SUCCESS =
+  '[job-description-management / Job Description Page] Set Workflow User Step To Is Being Viewed Success';
+export const SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_ERROR =
+  '[job-description-management / Job Description Page] Set Workflow User Step To Is Being Viewed Error';
 
 export class GetJobDescription implements Action {
   readonly type = GET_JOB_DESCRIPTION;
@@ -243,6 +249,10 @@ export class ReplaceJobDescriptionViaCopy implements Action {
   constructor(public payload: JobDescription) {}
 }
 
+export class ResetReplaceJobDescriptionViaCopy implements Action {
+  readonly type = RESET_REPLACE_JOB_DESCRIPTION_VIA_COPY;
+}
+
 export class ReorderControlData implements Action {
   readonly type = REORDER_CONTROL_DATA;
 
@@ -273,6 +283,22 @@ export class UpdateJobDescriptionAppliesToValues implements Action {
   readonly type = UPDATE_JOB_DESCRIPTION_APPLIES_TO;
 
   constructor(public payload: JobDescriptionAppliesTo) {}
+}
+
+export class SetWorkflowUserStepToIsBeingViewed implements Action {
+  readonly type = SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED;
+
+  constructor(public payload: { jwt: string, isBeingViewed: boolean  }) {}
+}
+
+export class SetWorkflowUserStepToIsBeingViewedSuccess implements Action {
+  readonly type = SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_SUCCESS;
+
+  constructor(public payload) {}
+}
+
+export class SetWorkflowUserStepToIsBeingViewedError implements Action {
+  readonly type = SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_ERROR;
 }
 
 export type Actions
@@ -309,9 +335,13 @@ export type Actions
   | UpdateControlData
   | UpdateControlAdditionalProperties
   | ReplaceJobDescriptionViaCopy
+  | ResetReplaceJobDescriptionViaCopy
   | ReorderControlData
   | AddSourceDataToControl
   | DeleteJobDescription
   | DeleteJobDescriptionSuccess
   | DeleteJobDescriptionError
-  | UpdateJobDescriptionAppliesToValues;
+  | UpdateJobDescriptionAppliesToValues
+  | SetWorkflowUserStepToIsBeingViewed
+  | SetWorkflowUserStepToIsBeingViewedSuccess
+  | SetWorkflowUserStepToIsBeingViewedError;

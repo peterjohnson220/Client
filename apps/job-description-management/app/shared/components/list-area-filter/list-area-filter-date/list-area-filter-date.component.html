@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-6 p-0">
-    <kendo-dropdownlist
+    <kendo-dropdownlist  
       [data]="dropDownOptions"
       [textField]="'display'"
       [valueField]="'value'"
@@ -11,10 +11,11 @@
     </kendo-dropdownlist>
   </div>
   <div class="col-6 px-2">
-    <kendo-datepicker [value]="filter?.value"
-                      [disabled]="disableValue"
-                      [style.width]="'100%'"
-                      (valueChange)="handleFilterValueChanged($event)">
+    <kendo-datepicker 
+      [value]="filter?.value"
+      [disabled]="disableValue"
+      [style.width]="'100%'"
+      (valueChange)="handleFilterValueChanged($event)">
     </kendo-datepicker>
   </div>
 </div>

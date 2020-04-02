@@ -26,6 +26,7 @@ export interface State {
   companyAsync: AsyncStateObj<CompanyDto>;
   jobDescriptionViewsAsync: AsyncStateObj<string[]>;
   undoChangesComplete: boolean;
+  replaceJobDescriptionComplete: boolean;
   deleting: boolean;
   deletingError: boolean;
   deletingSuccess: boolean;
@@ -46,6 +47,7 @@ export const initialState: State = {
   companyAsync: generateDefaultAsyncStateObj<CompanyDto>(null),
   jobDescriptionViewsAsync: generateDefaultAsyncStateObj<string[]>([]),
   undoChangesComplete: false,
+  replaceJobDescriptionComplete: false,
   deleting: false,
   deletingError: false,
   deletingSuccess: false
@@ -222,7 +224,9 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     }
     case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION_SUCCESS: {
       const asyncStateObjClone = cloneDeep(state.jobDescriptionAsync);
-      asyncStateObjClone.obj = action.payload;
+      asyncStateObjClone.obj = cloneDeep(action.payload);
+      asyncStateObjClone.obj.Sections = cloneDeep(state.jobDescriptionAsync.obj.Sections);
+
       const recentChange = state.jobDescriptionAsync.obj;
       return {
         ...state,
@@ -383,13 +387,20 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionAsync: asyncStateObjClone
       };
     }
+    case fromJobDescriptionActions.RESET_REPLACE_JOB_DESCRIPTION_VIA_COPY: {
+      return {
+        ...state,
+        replaceJobDescriptionComplete: false
+      };
+    }
     case fromJobDescriptionActions.REPLACE_JOB_DESCRIPTION_VIA_COPY: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
       asyncStateObjClone.obj = action.payload;
 
       return {
         ...state,
-        jobDescriptionAsync: asyncStateObjClone
+        jobDescriptionAsync: asyncStateObjClone,
+        replaceJobDescriptionComplete: true
       };
     }
     case fromJobDescriptionActions.ADD_SOURCE_DATA_TO_CONTROL: {
@@ -464,4 +475,5 @@ export const getDeletingJobDescription = (state: State) => state.deleting;
 export const getDeletingJobDescriptionSuccess = (state: State) => state.deletingSuccess;
 export const getDeletingJobDescriptionError = (state: State) => state.deletingError;
 export const getJobDescriptionExtendedInfoAsync = (state: State) => state.GettingJobDescriptionExtendedInfoAsync;
+export const getReplaceJobDescriptionComplete = (state: State) => state.replaceJobDescriptionComplete;
 

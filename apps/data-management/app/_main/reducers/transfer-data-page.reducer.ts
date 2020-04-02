@@ -36,10 +36,11 @@ export const initialState: State = {
   selectedTransferMethod: null,
   selectedProvider: null,
   validationErrors: null,
-  workflowStep: null, // TransferDataWorkflowStep.SelectTransferMethod, // change back to first workflowstep
+  workflowStep: null,
   showAuthenticationModal: false,
   selectedEntities: [],
   activeConnection: null,
+
   // TODO: outbound stuff for sales demo, should be cleaned up when handling actual outbound integration
   outboundProviders: null,
   outboundSelectedProvider: null,
@@ -51,7 +52,6 @@ export const initialState: State = {
 
 export function reducer(state: State = initialState, action: fromTransferDataPageActions.Actions) {
   switch (action.type) {
-    case fromTransferDataPageActions.CREATE_CONNECTION_ERROR:
     case fromTransferDataPageActions.LOAD_AUTHENTICATION_FORM_ERROR:
     case fromTransferDataPageActions.LOAD_TRANSFER_METHODS_ERROR:
     case fromTransferDataPageActions.LOAD_PROVIDERS_ERROR: {
@@ -103,50 +103,6 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
       return {
         ...state,
         workflowStep: TransferDataWorkflowStep.Authentication
-      };
-    }
-    case fromTransferDataPageActions.OUTBOUND_JDM_VALIDATE:
-    case fromTransferDataPageActions.VALIDATE: {
-      return {
-        ...state,
-        showAuthenticationModal: true,
-      };
-    }
-    case fromTransferDataPageActions.VALIDATE_SUCCESS: {
-      return {
-        ...state,
-        validationErrors: null,
-        isValidCredentials: true,
-        workflowStep: TransferDataWorkflowStep.Validated,
-        showAuthenticationModal: false,
-      };
-    }
-    case fromTransferDataPageActions.VALIDATE_ERROR: {
-      if (action.payload) {
-        return {
-          ...state,
-          validationErrors: action.payload,
-          isValidCredentials: false,
-          showAuthenticationModal: false
-        };
-      }
-      return {
-        ...state,
-        loading: false,
-        loadingError: true
-      };
-    }
-    case fromTransferDataPageActions.CREATE_CONNECTION: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-    case fromTransferDataPageActions.CREATE_CONNECTION_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        activeConnection: action.payload
       };
     }
     case fromTransferDataPageActions.PROCEED_TO_AUTHENTICATION: {
@@ -232,9 +188,7 @@ export function reducer(state: State = initialState, action: fromTransferDataPag
   }
 }
 
-export const getValidationErrors = (state: State) => state.validationErrors;
 export const getWorkflowStep = (state: State) => state.workflowStep;
-export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
 export const getSelectedEntities = (state: State) => state.selectedEntities;
 export const getActiveConnection = (state: State) => state.activeConnection;
 

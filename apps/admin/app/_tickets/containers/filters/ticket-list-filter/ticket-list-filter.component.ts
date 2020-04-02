@@ -54,7 +54,7 @@ export class TicketListFilterComponent  extends BaseFilterCellComponent implemen
 
   public onChange(value: any): void {
     this.modifyFilter(value);
-    this.valueChange.emit();
+    this.valueChange.emit(this.filter);
   }
 
   public modifyFilter(value: any) {

@@ -8,7 +8,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
@@ -28,6 +28,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   @Input() filters: PfDataGridFilter[];
   @Input() unPricedCount: number;
   @ViewChild('pricedDataPayMarketFilter', { static: false }) pricedDataPayMarketFilter: ElementRef;
+  @ViewChild('changeView', { static: false }) changeView: ElementRef;
   @ViewChild('payMarketColumn', { static: false }) payMarketColumn: ElementRef;
   @ViewChild('baseMrpColumn', { static: false }) baseMrpColumn: ElementRef;
   @ViewChild('baseTccColumn', { static: false }) baseTccColumn: ElementRef;
@@ -40,6 +41,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     field: 'CompanyPayMarkets_PayMarket'
   }];
   selectedKeys: number[];
+  actionBarConfig: ActionBarConfig;
   viewMode = 'Priced';
   companyPayMarketsSubscription: Subscription;
 
@@ -65,9 +67,20 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
           { Value: this.pricedDataPayMarketField.FilterValue, Id: this.pricedDataPayMarketField.FilterValue } : null;
       }
     });
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig(),
+      ActionBarClassName: 'pricing-details-grid-action-bar ml-0 mt-1'
+    };
   }
 
   ngAfterViewInit() {
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalFiltersTemplates: {
+        'PayMarket': this.pricedDataPayMarketFilter
+      },
+      GlobalActionsTemplate: this.changeView
+    };
     this.pricedDataGlobalFilterTemplates = {
       'PayMarket': { Template: this.pricedDataPayMarketFilter }
     };

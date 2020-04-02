@@ -1,9 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { formatDefaultStyles } from 'libs/core/functions/format-default-styles';
-
-import { BaseControl, Styling } from '../../models';
-
+import { BaseControl } from '../../models';
 
 @Component({
   selector: 'pf-trs-title-control',
@@ -13,14 +10,9 @@ import { BaseControl, Styling } from '../../models';
 export class TrsTitleControlComponent implements OnInit {
 
   @Input() controlData: BaseControl;
-  @Input() titleStyles: Styling;
 
   constructor() { }
 
   ngOnInit() {
-  }
-
-  setDefaultStyling(style: Styling) {
-    return formatDefaultStyles(style);
   }
 }

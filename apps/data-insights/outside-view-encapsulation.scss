@@ -141,7 +141,9 @@
 .add-report-fields {
 
   .k-outer-group-header {
-    color: $icon-blue-color
+    font-weight: 100;
+    color: $icon-blue-color;
+    text-transform: uppercase;
   }
 
   .k-animation-container-shown {

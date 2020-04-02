@@ -1,0 +1,9 @@
+<div class="d-flex justify-content-between mb-2">
+  <div>
+    <button *ngIf="enableReturnBtn" routerLink="../../" class="btn btn-secondary">Return to ranges</button>
+    <h4 *ngIf="title">{{title}}</h4>
+  </div>
+  <div *ngIf="metadata">
+    <span class="text-muted">{{ metadata.Paymarket }}, {{ metadata.Rate }}, {{ metadata.Currency }}</span>
+  </div>
+</div>

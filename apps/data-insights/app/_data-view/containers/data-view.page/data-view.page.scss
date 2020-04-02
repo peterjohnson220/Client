@@ -32,7 +32,6 @@
 .actions {
   min-width: 185px;
   margin: 0.5rem 1rem 0.5rem 0.5rem;
-  justify-content: flex-end;
 
   .btn {
     margin-left: .75rem;
@@ -47,6 +46,14 @@
       font-size: 1.25rem;
     }
   }
+}
+.view-info {
+  margin-left: .5rem;
+  margin-top: .5rem;
+}
+
+.view-header {
+  justify-content: space-between;
 }
 
 .disabled-configure-btn {

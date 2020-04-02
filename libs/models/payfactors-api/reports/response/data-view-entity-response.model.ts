@@ -12,4 +12,12 @@ export interface DataViewEntityResponse {
   CreateUser: number;
   EditDate: Date;
   EditUser: number;
+  RequiredInfo: EntityData[];
+}
+
+export interface EntityData {
+  FieldName: string;
+  DisplayName: string;
+  Type: string;
+  Value: string;
 }

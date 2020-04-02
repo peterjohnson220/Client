@@ -66,10 +66,10 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
       };
     }
     case fromMarketsCardActions.SET_SELECTED_PAYMARKET: {
-      let selectedPaymarket = action.payload;
+      let selectedPaymarket = action.payload.paymarket;
 
-      // Replace with default if deselecting
-      if (action.payload.CompanyPayMarketId === state.selectedPaymarket.CompanyPayMarketId) {
+      // Replace with 'National' paymarket (system default) if deselecting
+      if (!action.payload.initialLoad && action.payload.paymarket.CompanyPayMarketId === state.selectedPaymarket.CompanyPayMarketId) {
         selectedPaymarket = MarketsCardHelper.buildDefaultPricingPayMarket();
       }
 

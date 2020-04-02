@@ -10,3 +10,4 @@ export * from './job-salary-trend.model';
 export * from './country-data.set';
 export * from './market-data-location';
 export * from './workflow-context';
+export * from './exchange-data.set';

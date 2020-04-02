@@ -11,13 +11,13 @@ import {
     ExchangeApiService, ExchangeCompanyApiService, ExchangeDataCutsApiService, ExchangeDataFilterApiService, ExchangeScopeApiService
 } from './peer';
 import { CompanySecurityApiService } from './security';
-import { ExchangeDataSearchApiService, JobSearchApiService, SurveySearchApiService } from './search';
+import { ExchangeDataSearchApiService, JobSearchApiService, SurveySearchApiService, ExchangeJobSearchApiService } from './search';
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService, CompanyEmployeeApiService, CompanyJobApiService } from './company';
 import {
     JobDescriptionApiService, JobDescriptionFooterViewApiService, JobDescriptionManagementApiService, JobDescriptionTemplateApiService,
-    JobDescriptionWorkflowApiService, JobDescriptionWorkflowTemplateApiService
+    JobDescriptionWorkflowApiService, JobDescriptionWorkflowTemplateApiService, JobDescriptionWorkflowStepUserApiService
 } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
 import { AppEnvironmentApiService } from './app-environment';
@@ -34,7 +34,7 @@ import { SurveyApiService } from './surveys';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
 import { DataViewApiService, ReportManagementApiService, TableauReportApiService, UserReportApiService } from './reports';
 import { NotificationsApiService } from './notifications';
-import { StructuresApiService, StructureRangeGroupApiService } from './structures';
+import { StructuresApiService, StructureRangeGroupApiService, StructureModelingApiService } from './structures';
 import {
   AuthenticationTypesHrisApiService,
   ConnectionsHrisApiService,
@@ -55,6 +55,7 @@ import { CurrencyApiService } from './currency';
 import { CompositeFieldApiService } from './composite-field';
 import { PricingApiService } from './pricings';
 import { CountryApiService } from './country';
+import { EntityKeysValidationApiService } from './validation';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -72,6 +73,7 @@ import { CountryApiService } from './country';
     JobDescriptionManagementApiService,
     JobDescriptionWorkflowApiService,
     JobDescriptionWorkflowTemplateApiService,
+    JobDescriptionWorkflowStepUserApiService,
     JobDescriptionTemplateApiService,
     UserProfileApiService,
     UserFilterApiService,
@@ -89,6 +91,7 @@ import { CountryApiService } from './country';
     CompanyJobPricingMatchApiService,
     DataLoadEmailRecipientsApiService,
     JobSearchApiService,
+    ExchangeJobSearchApiService,
     ProjectApiService,
     IntegrationApiService,
     ComphubApiService,
@@ -118,6 +121,8 @@ import { CountryApiService } from './country';
     PricingApiService,
     CountryApiService,
     CompanyEmployeeApiService,
+    EntityKeysValidationApiService,
+    StructureModelingApiService,
 
     // PEER
     ExchangeApiService,

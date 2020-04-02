@@ -235,8 +235,10 @@ export class TicketListComponent  implements OnInit, OnDestroy {
     this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
   }
 
-  filterChanged() {
+  filterChanged(f) {
     this.state.skip = 0;
+
+    if (f) {this.state.filter = f; }
     this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
   }
 

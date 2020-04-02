@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
@@ -13,14 +13,13 @@ import * as fromEditStatementPageActions from '../../../_main/statement-edit/act
   templateUrl: './total-rewards-statement.component.html',
   styleUrls: ['./total-rewards-statement.component.scss']
 })
-export class TotalRewardsStatementComponent implements OnInit {
+export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
 
   @Input() statementId: number;
 
   statement$: Observable<Statement>;
   statementLoading$: Observable<boolean>;
   statementLoadingError$: Observable<boolean>;
-
 
   controlType = TotalRewardsControlEnum;
 
@@ -45,10 +44,12 @@ export class TotalRewardsStatementComponent implements OnInit {
     {
       name: 'Employee 2',
       compensationData: [
-        { value: 40, category: 'Base' },
-        { value: 20, category: 'Bonus' },
-        { value: 20, category: 'Healthcare' },
-        { value: 20, category: '401K Match' }
+        { value: 40000, category: 'Base' },
+        { value: 20000, category: 'Bonus' },
+        { value: 5000, category: 'STI' },
+        { value: 10000, category: 'LTI' },
+        { value: 20000, category: 'Medical_Insurance' },
+        { value: 20000, category: '401K_Savings_Match' }
       ],
       logoPath: 'https://vignette.wikia.nocookie.net/theoffice/images/0/02/Michael_Scott.jpg/revision/latest?cb=20170701090332'
     }
@@ -77,6 +78,10 @@ export class TotalRewardsStatementComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.pageCountSubscription.unsubscribe();
+  }
+
   getColumnWidth(count) {
     return 'col-' + (12 / count) + ' column';
   }
@@ -87,5 +92,25 @@ export class TotalRewardsStatementComponent implements OnInit {
 
   handleStatementReload() {
     this.store.dispatch(new fromEditStatementPageActions.LoadStatement(this.statementId));
+  }
+
+  updateCalculationControlTitle(event) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(event));
+  }
+
+  updateCompFieldTitle(event) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateCalculationControlFieldTitle(event));
+  }
+
+  updateSummaryTitle(event) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateCalculationControlSummaryTitle(event));
+  }
+
+  removeCompField(event) {
+    this.store.dispatch(new fromEditStatementPageActions.RemoveCalculationControlCompensationField(event));
+  }
+
+  addCompField(event) {
+    this.store.dispatch(new fromEditStatementPageActions.AddCalculationControlCompensationField(event));
   }
 }

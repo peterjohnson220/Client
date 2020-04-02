@@ -15,7 +15,6 @@ import { CompanySelectorItem } from '../../models';
   styleUrls: ['./company-selector.component.scss']
 })
 export class CompanySelectorComponent implements OnInit, OnDestroy {
-
   selectedCompany: CompanySelectorItem;
 
   companies: CompanySelectorItem[];
@@ -24,6 +23,7 @@ export class CompanySelectorComponent implements OnInit, OnDestroy {
   private selectedCompany$: Observable<CompanySelectorItem>;
   private unsubscribe$ = new Subject();
   public isLoading$: Observable<boolean>;
+  public isDisabled: boolean;
 
   ngOnInit(): void {
     if (!this.companies || this.companies.length === 0) {
@@ -35,7 +35,7 @@ export class CompanySelectorComponent implements OnInit, OnDestroy {
     this.companies$ = store.select(fromCompanyReducer.getCompanies);
     this.isLoading$ = store.select(fromCompanyReducer.getCompaniesLoading);
     this.selectedCompany$ = store.select(fromCompanyReducer.getSelectedCompany);
-
+    this.isDisabled = false;
     this.selectedCompany$.subscribe(f => {
       this.selectedCompany = f;
     });

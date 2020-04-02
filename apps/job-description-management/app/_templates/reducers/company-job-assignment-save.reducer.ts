@@ -1,5 +1,6 @@
+import { MessageHelper } from 'libs/core';
+
 import * as fromCompanyJobActions from '../actions';
-import { MessageHelper } from '../../shared';
 
 export interface State {
     saving: boolean;

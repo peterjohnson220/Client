@@ -1,14 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+
+import * as fromRootReducer from 'libs/state/state';
+import { CompanyClientTypeConstants } from 'libs/constants';
+import { UserContext } from 'libs/models/security';
 
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
-import { PricingPaymarket, AddPayMarketFormData, MarketDataScope, CountryDataSet, MarketDataLocation,
-  WorkflowContext } from '../../../models';
+import { PricingPaymarket, AddPayMarketFormData, MarketDataScope, MarketDataLocation, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 
 @Component({
@@ -27,6 +31,7 @@ export class MarketsCardComponent implements OnInit {
   marketDataLocations$: Observable<MarketDataLocation[]>;
   selectedPaymarket$: Observable<PricingPaymarket>;
   paymarkets$: Observable<PricingPaymarket[]>;
+  userContext$: Observable<UserContext>;
 
   addPayMarketFormOpen$: Observable<boolean>;
   savingPayMarket$: Observable<boolean>;
@@ -53,6 +58,7 @@ export class MarketsCardComponent implements OnInit {
     this.loadingMarketDataScopes$ = this.store.select(fromComphubMainReducer.getMarketDataScopesLoading);
     this.loadingLocations$ = this.store.select(fromComphubMainReducer.getLoadingMarketDataLocations);
     this.marketDataLocations$ = this.store.select(fromComphubMainReducer.getMarketDataLocations);
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 
   ngOnInit() {
@@ -63,6 +69,29 @@ export class MarketsCardComponent implements OnInit {
     this.marketDataScope$ = this.store.select(fromComphubMainReducer.getMarketDataScope);
     this.infoBannerOpen$ = this.store.select(fromComphubMainReducer.getInfoBannerOpen);
     this.showSkipButton$ = this.store.select(fromComphubMainReducer.getShowSkipButton);
+
+    this.setupDefaultPayMarket();
+  }
+
+  setupDefaultPayMarket() {
+    forkJoin([this.getPayMarketsLoaded(), this.getUserContextLoaded()])
+      .subscribe(([payMarkets, userContext]) => {
+        this.setDefaultPayMarketSelection(payMarkets, userContext);
+      });
+  }
+
+  getPayMarketsLoaded(): Observable<PricingPaymarket[]> {
+    return this.paymarkets$.pipe(
+      filter(f => !!f && f.length > 0),
+      take(1)
+    );
+  }
+
+  getUserContextLoaded(): Observable<UserContext> {
+    return this.userContext$.pipe(
+      filter(f => !!f),
+      take(1)
+    );
   }
 
   handleSavePayMarket(formData: AddPayMarketFormData) {
@@ -82,7 +111,7 @@ export class MarketsCardComponent implements OnInit {
   }
 
   handlePaymarketChecked(checkedPayMarket: PricingPaymarket) {
-    this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(checkedPayMarket));
+    this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket({paymarket: checkedPayMarket}));
   }
 
   handleDismissInfoBanner() {
@@ -99,5 +128,17 @@ export class MarketsCardComponent implements OnInit {
 
   handleCancelAddPayMarket() {
     this.store.dispatch(new fromAddPayMarketFormActions.CloseForm());
+  }
+
+  setDefaultPayMarketSelection(paymarkets: PricingPaymarket[], userContext: UserContext) {
+    if (userContext.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS) {
+      this.store.dispatch(new fromMarketsCardActions.HideAddNewPaymarketButton());
+      for (const pp of paymarkets) {
+        if (pp.CompanyPayMarketId === userContext.DefaultPayMarketId) {
+          this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket({paymarket: pp, initialLoad: true}));
+          break;
+        }
+      }
+    }
   }
 }

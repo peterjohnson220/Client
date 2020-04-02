@@ -1,14 +1,14 @@
-import { cloneDeep, uniq, uniqBy } from 'lodash';
+import { cloneDeep, orderBy, uniq, uniqBy } from 'lodash';
 
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
-import { arraySortByString, SortDirection } from 'libs/core/functions';
-import { ViewField, PagingOptions, DataViewEntity, DataViewConfig, SimpleDataView } from 'libs/models/payfactors-api';
+import { arrayMoveMutate, arraySortByString, SortDirection } from 'libs/core/functions';
+import { DataViewConfig, DataViewEntity, DataViewType, PagingOptions, SimpleDataView, ViewField } from 'libs/models/payfactors-api';
 
 import * as fromPfGridActions from '../actions';
 import { PfDataGridFilter } from '../models';
-import { getHumanizedFilter, getDefaultFilterOperator, getUserFilteredFields } from '../components';
+import { getDefaultFilterOperator, getHumanizedFilter, getUserFilteredFields } from '../components';
 
 export interface DataGridState {
   pageViewId: string;
@@ -75,6 +75,13 @@ export const getPrimaryKey = (state: DataGridStoreState, pageViewId: string) => 
 };
 export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId]
   ? state.grids[pageViewId].fields : null;
+export const getVisibleOrderedFields = (state: DataGridStoreState, pageViewId: string) => {
+  if (!!state.grids[pageViewId].fields) {
+    return state.grids[pageViewId]
+      ? orderBy(state.grids[pageViewId].fields.filter(f => f.IsSelectable && f.IsSelected), 'Order')
+      : null;
+  }
+};
 export const getSelectableFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].fields
   ? state.grids[pageViewId].fields.filter(f => f.IsSelectable) : null;
 export const getGroupedFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].groupedFields : null;
@@ -141,6 +148,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const currSplitViewFilters = action.payload && action.payload.Fields ?
         action.payload.Fields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
           .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName)) : [];
+      const sorts = findSortDescriptor(action.payload.Fields);
       return {
         ...state,
         grids: {
@@ -152,7 +160,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             baseEntity: action.payload.Entity,
             loading: false,
             splitViewFilters: currSplitViewFilters,
-            exportViewId: action.payload.ExportViewId
+            exportViewId: action.payload.ExportViewId,
+            sortDescriptor: sorts.length ? sorts : state.grids[action.pageViewId].defaultSortDescriptor
           }
         }
       };
@@ -184,7 +193,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             data: {
               data: action.payload.Data,
-              total: getTotalCount(state.grids[action.pageViewId], action.payload.TotalCount)
+              total: action.payload.TotalCount
             },
             loading: false,
             selectAllState: loadDataSelectAllState
@@ -483,9 +492,11 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.SAVE_VIEW_SUCCESS:
-      const views = cloneDeep(state.grids[action.pageViewId].savedViews);
+      const views = cloneDeep(state.grids[action.pageViewId].savedViews) || [];
       // TODO: Refactor buildFiltersView so it can work with arrays and single objects
-      views.push(buildFiltersView([action.payload])[0]);
+      if (action.viewType === DataViewType.savedFilter) {
+        views.push(buildFiltersView([action.payload])[0]);
+      }
       return {
         ...state,
         grids: {
@@ -740,11 +751,29 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     }
+    case fromPfGridActions.RESET: {
+      return {
+        ...INITIAL_STATE
+      };
+    }
+    case fromPfGridActions.REORDER_COLUMNS: {
+      let clonedFields = cloneDeep(state.grids[action.pageViewId].fields);
+      clonedFields = reorderFields(clonedFields, action.oldIndex, action.newIndex);
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fields: clonedFields
+          }
+        }
+      };
+    }
     default:
       return state;
   }
 }
-
 
 export function buildGroupedFields(fields: ViewField[]): any[] {
   const groups = groupBy(fields, [{ field: 'Group' }]);
@@ -753,7 +782,8 @@ export function buildGroupedFields(fields: ViewField[]): any[] {
     .map(g => ({
       'Order': Math.min(...g.items.map(c => (c as ViewField).Order)),
       'Group': g.value,
-      'Fields': g.items
+      'Fields': g.items,
+      'HasSelection': g.items.some((i: any) => i.IsSelected)
     }));
 
   const result: any[] = (groups as Array<GroupResult>).filter(g => g.value == null)[0].items;
@@ -883,14 +913,27 @@ export function buildFiltersView(views: DataViewConfig[]): SimpleDataView[] {
   }));
 }
 
-export function getTotalCount(state: DataGridState, totalCount: number) {
-  if (state.pagingOptions && state.pagingOptions.From === 0) {
-    return totalCount;
-  } else if (state.data) {
-    return state.data.total;
-  } else {
-    return null;
+export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
+  const sortFields: ViewField[] = fields.filter(f => f.IsSelected && f.IsSelectable && f.SortOrder !== null && f.SortDirection !== null);
+  if (sortFields.length) {
+    return sortFields.map(f => {
+      return {
+        field: `${f.EntitySourceName}_${f.SourceName}`,
+        dir: f.SortDirection
+      };
+    });
   }
+  return [];
+}
+
+export function reorderFields(fields: ViewField[], oldIndex: number, newIndex: number): ViewField[] {
+  const notSelectedFields = fields.filter(f => !f.IsSelectable || !f.IsSelected);
+  const filteredFields = fields.filter(f => f.IsSelectable && f.IsSelected);
+
+  arrayMoveMutate(filteredFields, oldIndex, newIndex);
+  filteredFields.forEach((f, index) => f.Order = index);
+
+  return notSelectedFields.concat(filteredFields);
 }
 
 export function getVisibleFieldsIds(state: DataGridStoreState, pageViewId: string, data: any[]): number[] {

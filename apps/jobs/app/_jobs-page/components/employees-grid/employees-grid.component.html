@@ -1,17 +1,12 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
   [showTitle]="false"
-  [showColumnChooser] ="false"
-  [showFilterChooser] ="false"
-  [allowExport]="false"
+  [actionBarConfig]="actionBarConfig"
   [contentNoPadding]="true"
   [columnTemplates]="colTemplates"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
-  [showActionBar]="true"
-  [actionBarClassName]="'employee-grid-action-bar ml-0 mt-1'"
   [headerClassName]="'employee-grid-header'"
-  [gridGlobalFiltersTemplates]="globalFilterTemplates"
   [noRecordsFound]="'There are no employees in this Job.'">
 </pf-data-grid>
 

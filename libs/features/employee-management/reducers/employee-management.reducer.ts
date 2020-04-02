@@ -3,12 +3,13 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee } from 'libs/models';
 
 import * as fromEmployeeManagementActions from '../actions/employee-management.actions';
+import { EmployeeValidation, Job } from '../models';
 
 export interface State {
   errorMessage: string;
   showEmployeeForm: boolean;
   saving: boolean;
-  jobs: AsyncStateObj<KendoTypedDropDownItem[]>;
+  jobs: AsyncStateObj<Job[]>;
   paymarkets: AsyncStateObj<KendoTypedDropDownItem[]>;
   currencies: AsyncStateObj<KendoTypedDropDownItem[]>;
   countries: AsyncStateObj<KendoTypedDropDownItem[]>;
@@ -17,13 +18,15 @@ export interface State {
   structureNames: AsyncStateObj<KendoTypedDropDownItem[]>;
   employeesUserDefinedFields: AsyncStateObj<GenericKeyValue<string, string>[]>;
   employee: AsyncStateObj<CompanyEmployee>;
+  employeeValidation: AsyncStateObj<EmployeeValidation>;
+  moreJobsToLoad: boolean;
 }
 
 export const initialState: State = {
   errorMessage: '',
   showEmployeeForm: false,
   saving: false,
-  jobs: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
+  jobs: generateDefaultAsyncStateObj<Job[]>([]),
   paymarkets: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   currencies: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   countries: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
@@ -31,7 +34,9 @@ export const initialState: State = {
   structureGrades: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   structureNames: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   employeesUserDefinedFields: generateDefaultAsyncStateObj<GenericKeyValue<string, string>[]>([]),
-  employee: generateDefaultAsyncStateObj<CompanyEmployee>(null)
+  employee: generateDefaultAsyncStateObj<CompanyEmployee>(null),
+  employeeValidation: generateDefaultAsyncStateObj<EmployeeValidation>(null),
+  moreJobsToLoad: true
 };
 
 
@@ -41,6 +46,8 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
       return {
         ...state,
         showEmployeeForm: action.payload,
+        employeeValidation: generateDefaultAsyncStateObj<EmployeeValidation>(null),
+        errorMessage: null
       };
     }
     case fromEmployeeManagementActions.SAVE_EMPLOYEE:
@@ -66,6 +73,7 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
         errorMessage: action.payload
       };
     }
+    case fromEmployeeManagementActions.LOAD_COMPANYJOB_BY_ID:
     case fromEmployeeManagementActions.LOAD_COMPANYJOBS: {
       const jobsClone = cloneDeep(state.jobs);
       jobsClone.loading = true;
@@ -77,10 +85,21 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
     case fromEmployeeManagementActions.LOAD_COMPANYJOBS_SUCCESS: {
       const jobsClone = cloneDeep(state.jobs);
       jobsClone.loading = false;
-      jobsClone.obj = action.payload;
+      jobsClone.obj = action.payload.jobs;
       return {
         ...state,
-        jobs: jobsClone
+        jobs: jobsClone,
+        moreJobsToLoad: action.payload.moreData
+      };
+    }
+    case fromEmployeeManagementActions.LOAD_MORE_COMPANYJOBS_SUCCESS: {
+      const jobsClone = cloneDeep(state.jobs);
+      jobsClone.loading = false;
+      jobsClone.obj = jobsClone.obj.concat(action.payload.jobs);
+      return {
+        ...state,
+        jobs: jobsClone,
+        moreJobsToLoad: action.payload.moreData
       };
     }
     case fromEmployeeManagementActions.LOAD_COMPANYJOBS_ERROR: {
@@ -312,6 +331,40 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
         showEmployeeForm: true
       };
     }
+    case fromEmployeeManagementActions.VALIDATE_EMPLOYEE_KEYS: {
+      const validationClone: AsyncStateObj<EmployeeValidation> = cloneDeep(state.employeeValidation);
+      validationClone.loading = true;
+      validationClone.loadingError = false;
+      return {
+        ...state,
+        employeeValidation: validationClone,
+        saving: true,
+        errorMessage: null
+      };
+    }
+    case fromEmployeeManagementActions.VALIDATE_EMPLOYEE_KEYS_SUCCESS: {
+      const validationClone: AsyncStateObj<EmployeeValidation> = cloneDeep(state.employeeValidation);
+      validationClone.loading = false;
+      validationClone.obj = action.payload;
+      const message = action.payload.IsValid ? state.errorMessage : action.payload.Message;
+      return {
+        ...state,
+        employeeValidation: validationClone,
+        errorMessage: message,
+        saving: action.payload.IsValid
+      };
+    }
+    case fromEmployeeManagementActions.VALIDATE_EMPLOYEE_KEYS_ERROR: {
+      const validationClone: AsyncStateObj<EmployeeValidation> = cloneDeep(state.employeeValidation);
+      validationClone.loading = false;
+      validationClone.loadingError = true;
+      return {
+        ...state,
+        employeeValidation: validationClone,
+        errorMessage: action.payload,
+        saving: false
+      };
+    }
     default:
       return state;
   }
@@ -329,3 +382,5 @@ export const getStructureNames = (state: State) => state.structureNames;
 export const getEmployeesUserDefinedFields = (state: State) => state.employeesUserDefinedFields;
 export const getErrorMessage = (state: State) => state.errorMessage;
 export const getEmployeeAsync = (state: State) => state.employee;
+export const getEmployeeValidationAsync = (state: State) => state.employeeValidation;
+export const getMoreCompanyJobsToLoad = (state: State) => state.moreJobsToLoad;

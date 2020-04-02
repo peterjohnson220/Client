@@ -1,6 +1,5 @@
 export * from './statement';
 export * from './page';
-export * from './styling';
 export * from './total-rewards-control-enum';
 export * from './base-control';
 export * from './calculation-control';
@@ -10,3 +9,4 @@ export * from './image-control';
 export * from './layout';
 export * from './section';
 export * from './rich-text-control';
+export * from './rich-text-data-field';

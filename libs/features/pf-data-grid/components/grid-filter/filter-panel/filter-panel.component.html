@@ -2,7 +2,7 @@
   <div class="sidebar-header position-absolute d-flex justify-content-between align-items-center p-3">
     <strong>Filter</strong>
     <div class="filter-buttons row">
-      <div class="pr-2">
+      <div *ngIf="AllowSaveFilter" class="pr-2">
         <button [disabled]="!hasFilters()" (click)="saveFilter()" type="button" class="btn btn-secondary btn-sm"
           [attr.data-qa-id]="'save-filter-btn'">Save Filter</button>
       </div>

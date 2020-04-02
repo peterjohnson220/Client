@@ -102,4 +102,14 @@ export class UserApiService {
       }
     });
   }
+
+  jobPicker(searchTerm: string, jobId: number) {
+    return this.payfactorsApiService.get(this.endpoint + '/Default.JobPicker', {
+      params: {
+        search: searchTerm,
+        jobId: jobId
+      }
+    });
+  }
+
 }

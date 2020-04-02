@@ -4,6 +4,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api';
+
 import { Template } from '../../../models';
 import * as fromTemplateActions from '../../../actions';
 import * as fromTemplateReducers from '../../../reducers';
@@ -22,16 +24,25 @@ export class TemplatePageComponent implements OnInit, OnDestroy {
   public templateLoading$: Observable<boolean>;
   public templateLoadingError$: Observable<boolean>;
   private templateId: number;
+  private template: Template;
+  private templateSubscription: Subscription;
 
   constructor(
     private store: Store<fromTemplateReducers.State>,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private jobDescriptionApiService: JobDescriptionTemplateApiService) {
       this.template$ = this.store.select(fromTemplateReducers.getTemplate);
       this.templateLoading$ = this.store.select(fromTemplateReducers.getTemplateLoading);
       this.templateLoadingError$ = this.store.select(fromTemplateReducers.getTemplateLoadingError);
   }
 
   ngOnInit() {
+    this.templateSubscription = this.template$.subscribe(t => {
+      if (t) {
+        this.template = t;
+      }
+    });
+
     // subscribe to router event
     this.route.params.subscribe((params: Params) => {
       this.templateId = parseInt(params['id'], 10);
@@ -45,11 +56,15 @@ export class TemplatePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.templateSubscription.unsubscribe();
     this.store.dispatch(new fromTemplateActions.CleanTemplateState());
   }
 
   publishTemplateClick($event: any) {
-      // Will be implemented in ARCH-122
+      // Will need to be properly fixed in ARCH-122
+      return this.jobDescriptionApiService.publishAsync(this.templateId, this.template.TemplateName)
+            .map(payload => console.log(payload))
+            .subscribe(action => console.log(action));
   }
 
   beginEditing() {

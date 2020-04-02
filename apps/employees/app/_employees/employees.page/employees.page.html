@@ -1,28 +1,26 @@
 <pf-data-grid
+  [reorderable]="true"
   [pageViewId]="pageViewId"
   [title]="getPageTitle((userContext$ | async)?.CompanyName)"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyEmployee_ID'"
-  [showActionBar]="true"
-  [showColumnChooser]="true"
-  [showFilterChooser]="true"
   [filterPanelTemplates]="filterTemplates"
   [noRecordsFound]="'No records available.'"
   [enableSelection]="true"
   [gridActionsTemplate]="gridActions"
-  [gridGlobalActionsTemplate]="gridGlobalActions"
-  [allowExport]="true"
-  [exportSourceName]="'Employees'"
   [defaultSort]="defaultSort"
   [mainGridContainerClassName]="'pl-3 pr-3'"
-  [defaultColumnWidth]="150">
+  [defaultColumnWidth]="150"
+  [saveSort]="true"
+  [useColumnGroups]="false"
+  [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
 <ng-template #gridActions>
   <div class="grid-actions-container">
     <button
       type="button"
-      class="btn btn-secondary"
+      class="btn btn-secondary grid-action-btn"
       [pfSecuredResource]="permissions.NEW_PROJECT"
       [attr.data-qa-id]="'btn-priceJobs'"
       [disabled]="priceJobsDisabled"
@@ -36,7 +34,7 @@
       [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
       [disabled]="selectedCompanyEmployeeIds?.length !== 1"
       (click)="handleEditClicked()"
-      class="btn btn-secondary">
+      class="btn btn-secondary grid-action-btn">
       <fa-icon icon="edit"></fa-icon>
       Edit
     </button>
@@ -46,7 +44,7 @@
       [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE"
       [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
       (click)="showDeleteEmployeeModal.next(true)"
-      class="btn btn-secondary">
+      class="btn btn-secondary grid-action-btn">
       <fa-icon icon="trash-alt"></fa-icon>
       Delete
     </button>
@@ -55,7 +53,7 @@
       class="vertical-separator"></div>
     <button
       type="button"
-      class="btn btn-secondary btn-clear-selection"
+      class="btn btn-secondary btn-clear-selection grid-action-btn"
       [attr.data-qa-id]="'btn-clearSelection'"
       [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
       (click)="handleClearSelectionClicked()">

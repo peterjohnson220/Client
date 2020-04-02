@@ -35,7 +35,7 @@ describe('Data Insights - Numeric Field Formatting Modal Component', () => {
   it('should use the modal service to open the modal when open is called', () => {
     spyOn(ngbModal, 'open');
     const field = generateMockField();
-    instance.open(field, field.Format);
+    instance.open(field);
 
     expect(ngbModal.open).toHaveBeenCalled();
   });

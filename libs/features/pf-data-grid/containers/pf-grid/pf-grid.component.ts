@@ -3,8 +3,8 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
-import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent } from '@progress/kendo-angular-grid';
-import { ViewField, PagingOptions } from 'libs/models/payfactors-api';
+import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
+import { ViewField, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -12,7 +12,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
   selector: 'pf-grid',
   templateUrl: './pf-grid.component.html',
   styleUrls: ['./pf-grid.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -28,8 +28,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
   @Input() allowSort = true;
+  @Input() saveSort = false;
+  @Input() reorderable = false;
   @Input() customHeaderClass: string;
   @Input() defaultColumnWidth: number;
+  @Input() showHeaderWhenCompact: boolean;
+  @Input() useColumnGroups = true;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -41,9 +45,11 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   expandedRowsSubscription: Subscription;
   expandedRows: number[];
+  sortDescriptorSubscription: Subscription;
 
   dataSubscription: Subscription;
   data: GridDataResult;
+  sortDescriptor: SortDescriptor[];
 
   primaryKeySubscription: Subscription;
   primaryKey: string;
@@ -73,6 +79,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.expandedRowsSubscription = this.store.select(fromReducer.getExpandedRows, this.pageViewId).subscribe(expandedRows => {
       this.expandedRows = expandedRows;
     });
+    this.sortDescriptorSubscription = this.sortDescriptor$.subscribe(value => this.sortDescriptor = value);
 
     this.primaryKeySubscription = this.store.select(fromReducer.getPrimaryKey, this.pageViewId).subscribe(primaryKey => {
       this.primaryKey = primaryKey;
@@ -88,6 +95,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.dataSubscription.unsubscribe();
     this.primaryKeySubscription.unsubscribe();
     this.selectionFieldSubscription.unsubscribe();
+    this.sortDescriptorSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -97,12 +105,25 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       }
       this.gridState$ = this.store.select(fromReducer.getGrid, changes['pageViewId'].currentValue);
       this.loading$ = this.store.select(fromReducer.getLoading, changes['pageViewId'].currentValue);
-      this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
+      if (this.useColumnGroups) {
+        this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
+      } else {
+        this.dataFields$ = this.store.select(fromReducer.getVisibleOrderedFields , changes['pageViewId'].currentValue);
+      }
+
       this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
       this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
       this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
       this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
     }
+  }
+
+  onColumnReorder(value: ColumnReorderEvent) {
+    this.store.dispatch(new fromActions.ReorderColumns(
+      this.pageViewId,
+      value.oldIndex - 1,
+      value.newIndex - 1,
+    ));
   }
 
   getValue(row: any, colName: string[]): string[] {
@@ -124,6 +145,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   onSortChange(sortDescriptor: SortDescriptor[]): void {
     this.store.dispatch(new fromActions.UpdateSortDescriptor(this.pageViewId, sortDescriptor));
+    if (this.saveSort) {
+      this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));
+    }
   }
 
   onCellClick({ dataItem, rowIndex }) {
@@ -145,10 +169,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   getGridColumnHeaderClass(col: ViewField) {
-    const headerClass = this.compactGrid ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
+    const headerClass = (this.compactGrid && !this.showHeaderWhenCompact) ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
     let textAlignClass = !!col && !!col.TextAlign ? `text-align-${col.TextAlign}` : '';
-    // [GL] adding truthy check since the kendo action column does not have a ViewField bound to it, but it still calls this function
-    if (col && col.Group) {
+    if (col && col.Group && this.useColumnGroups) {
       textAlignClass = 'text-align-center';
     }
     return `${this.customHeaderClass || ''} ${headerClass} ${textAlignClass}`.trim();

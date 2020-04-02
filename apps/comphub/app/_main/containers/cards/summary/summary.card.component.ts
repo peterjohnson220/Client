@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, getCurrencySymbol } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -58,6 +58,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
   firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
   systemUserGroupNames = SystemUserGroupNames;
   comphubPages = ComphubPages;
+  currencySymbol: string;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>, public cp: CurrencyPipe
@@ -183,6 +184,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
       this.lastJobData = this.jobData;
       this.loadJobTrendChart();
       this.addNewCompletedPricingHistoryRecord();
+      this.currencySymbol = getCurrencySymbol(this.workflowContext.activeCountryDataSet.CurrencyCode, 'narrow');
     }
   }
 }

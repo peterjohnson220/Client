@@ -5,6 +5,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { generateMockUserContext } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import { LayoutWrapperComponent } from './layout-wrapper';
 import * as fromRootState from '../../../../state/state';
@@ -40,6 +41,7 @@ describe('Layout Wrapper', () => {
       declarations: [
         LayoutWrapperComponent, TestHostComponent
       ],
+      providers: [SettingsService],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });

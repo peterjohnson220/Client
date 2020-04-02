@@ -5,13 +5,13 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { ViewField, SimpleDataView, PagingOptions } from 'libs/models/payfactors-api';
+import { ViewField, SimpleDataView, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { AppNotification, NotificationLevel } from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
-import { PfDataGridFilter } from '../models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from '../models';
 import { getUserFilteredFields } from '../components';
 
 @Component({
@@ -25,17 +25,13 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() title: string;
   @Input() navigationURL: string;
   @Input() showTitle = true;
-  @Input() showColumnChooser = true;
-  @Input() allowExport = true;
-  @Input() showFilterChooser = true;
   @Input() contentNoPadding = false;
   @Input() selectionField: string;
   @Input() columnTemplates: any;
+  @Input() aboveGridTemplate: TemplateRef<any>;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
-  @Input() gridGlobalActionsTemplate: TemplateRef<any>;
-  @Input() gridGlobalFiltersTemplates: any;
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() rowActionTemplate: TemplateRef<any>;
   @Input() filterPanelTemplates: TemplateRef<any>;
@@ -48,14 +44,17 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() backgroundColor: string;
   @Input() applyDefaultFilters: boolean;
   @Input() allowSort = true;
-  @Input() showActionBar = false;
+  @Input() saveSort = false;
   @Input() actionBarClassName: string;
   @Input() headerClassName: string;
   @Input() gridContainerSplitViewWidth = '500px';
   @Input() splitOnSelection = true;
   @Input() mainGridContainerClassName: string;
-  @Input() exportSourceName: string;
   @Input() defaultColumnWidth: number;
+  @Input() showHeaderWhenCompact: boolean;
+  @Input() useColumnGroups = true;
+  @Input() actionBarConfig: ActionBarConfig = getDefaultActionBarConfig();
+  @Input() reorderable: boolean;
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;
@@ -150,7 +149,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
       this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
-      this.store.dispatch(new fromActions.LoadSavedViews(changes['pageViewId'].currentValue));
+      if (this.actionBarConfig.AllowSaveFilter) {
+        this.store.dispatch(new fromActions.LoadSavedViews(changes['pageViewId'].currentValue));
+      }
     }
 
     if (changes['selectionField']) {
@@ -208,7 +209,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   saveFilterHandler(filterName) {
-    this.store.dispatch(new fromActions.SaveView(this.pageViewId, filterName));
+    this.store.dispatch(new fromActions.SaveView(this.pageViewId, filterName, DataViewType.savedFilter));
   }
 
   isSplitView() {

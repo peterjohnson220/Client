@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions } from 'libs/models/payfactors-api';
+import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { PfDataGridFilter } from '../models';
@@ -52,6 +52,9 @@ export const EXPORTING_COMPLETE = '[PfDataGrid] Exporting Complete';
 export const GET_EXPORTING_STATUS = '[PfDataGrid] Get Exporting Status';
 export const GET_EXPORTING_STATUS_SUCCESS = '[PfDataGrid] Get Exporting Status Success';
 export const GET_EXPORTING_STATUS_ERROR = '[PfDataGrid] Get Exporting Status Error';
+export const RESET = '[PfDataGrid] Reset';
+export const REORDER_COLUMNS = '[PfDataGrid] Reorder Columns';
+export const REORDER_COLUMNS_SUCCESS = '[PfDataGrid] Reorder Columns Success';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -190,12 +193,12 @@ export class LoadSavedViewsError implements Action {
 
 export class SaveView implements Action {
   readonly type = SAVE_VIEW;
-  constructor(public pageViewId: string, public viewName: string) { }
+  constructor(public pageViewId: string, public viewName: string, public viewType: DataViewType) { }
 }
 
 export class SaveViewSuccess implements Action {
   readonly type = SAVE_VIEW_SUCCESS;
-  constructor(public pageViewId: string, public payload: DataViewConfig) { }
+  constructor(public pageViewId: string, public payload: DataViewConfig, public viewType: DataViewType) { }
 }
 
 export class SaveViewError implements Action {
@@ -294,6 +297,21 @@ export class GetExportingStatusError implements Action {
   constructor(public pageViewId: string) {}
 }
 
+export class Reset implements Action {
+  readonly type = RESET;
+}
+export class ReorderColumns implements Action {
+  readonly type = REORDER_COLUMNS;
+
+  constructor(public pageViewId: string, public oldIndex: number, public newIndex: number) {}
+}
+
+export class ReorderColumnsSuccess {
+  readonly type = REORDER_COLUMNS_SUCCESS;
+
+  constructor() {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -341,4 +359,7 @@ export type DataGridActions =
   | ExportingComplete
   | GetExportingStatus
   | GetExportingStatusSuccess
-  | GetExportingStatusError;
+  | GetExportingStatusError
+  | Reset
+  | ReorderColumns
+  | ReorderColumnsSuccess;

@@ -27,6 +27,8 @@
           </ng-container>
           <div class="text-danger mt-2" *ngIf="formReportName.value.length > 255">Report name must be no longer than 255 characters.</div>
         </div>
+        <ng-content select="[additionalInfo]"></ng-content>
+
         
         <div class="form-group">
           <label>Summary</label>

@@ -10,7 +10,8 @@ export class PayfactorsApiModelMapper {
       return {
         Id: e.EntityId,
         Name: e.Entity,
-        IsBaseEntity: e.IsBaseEntity
+        IsBaseEntity: e.IsBaseEntity,
+        RequiredInfo: e.RequiredInfo
       };
     });
   }
