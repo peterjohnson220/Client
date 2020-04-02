@@ -1,8 +1,8 @@
 <div class="col-12 printClass trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': isInvalid}">
   <h4 class="primary-control-heading">
     <pf-inline-string-editor
-      [value]="controlData.Title"
-      [placeholder]="controlData.Title"
+      [value]="controlData.Title.Override"
+      [placeholder]="controlData.Title.Default"
       [maxCharacters]="35"
       (valueChange)="onTitleChanged($event)"
     ></pf-inline-string-editor>

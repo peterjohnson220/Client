@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import {catchError, switchMap, map, withLatestFrom, mapTo} from 'rxjs/operators';
-import {Store, Action, select} from '@ngrx/store';
+import { catchError, switchMap, map, withLatestFrom, mapTo } from 'rxjs/operators';
+import { Store, Action, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import { TotalRewardsApiService} from 'libs/data/payfactors-api/total-rewards';
+import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromStatementEditActions from '../actions';
-import {Statement, TotalRewardsControlEnum} from '../../../shared/models';
-import {SaveStatement} from '../actions';
+import { Statement } from '../../../shared/models';
+import { SaveStatement } from '../actions';
 
 @Injectable()
 export class StatementEditPageEffects {
@@ -68,38 +68,4 @@ export class StatementEditPageEffects {
     private store: Store<fromTotalRewardsReducer.State>,
     private actions$: Actions,
     private totalRewardsApiService: TotalRewardsApiService) {}
-
-    map(statement: Statement): Statement {
-      statement.Pages.forEach(p => {
-        p.Sections.forEach(s => {
-          s.Columns.forEach(c => {
-            c.Controls.forEach( control => {
-              switch (control.ControlType) {
-                case TotalRewardsControlEnum.Calculation:
-                  control.$type = '$type":"Payfactors.Domain.TotalRewards.LayoutBuilder.Controls.TotalRewardsCalculationControlDto, Payfactors.Domain';
-                  break;
-                case TotalRewardsControlEnum.CalculationSummary:
-                  control.$type = '$type":"Payfactors.Domain.TotalRewards.LayoutBuilder.Controls.TotalRewardsCalculationSummaryControl, Payfactors.Domain';
-                  break;
-                case TotalRewardsControlEnum.Chart:
-                  control.$type = '$type":"Payfactors.Domain.TotalRewards.LayoutBuilder.Controls.TotalRewardsChartControlDto, Payfactors.Domain';
-                  break;
-                case TotalRewardsControlEnum.Image:
-                  control.$type = '$type":"Payfactors.Domain.TotalRewards.LayoutBuilder.Controls.TotalRewardsImageControlDto, Payfactors.Domain';
-                  break;
-                case TotalRewardsControlEnum.RichTextEditor:
-                  control.$type = '$type":"Payfactors.Domain.TotalRewards.LayoutBuilder.Controls.TotalRewardsRichTextControlDto, Payfactors.Domain';
-                  break;
-                case TotalRewardsControlEnum.Base:
-                case TotalRewardsControlEnum.Title:
-                default:
-                  control.$type = '$type":"Payfactors.Domain.TotalRewards.LayoutBuilder.Controls.TotalRewardsControlDto, Payfactors.Domain';
-                  break;
-              }
-            });
-          });
-        });
-      });
-      return statement;
-    }
 }

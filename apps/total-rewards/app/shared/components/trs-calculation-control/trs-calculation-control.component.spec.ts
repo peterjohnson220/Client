@@ -4,6 +4,8 @@ import { CurrencyPipe} from '@angular/common';
 
 import { TrsCalculationControlComponent } from './trs-calculation-control.component';
 import { CompensationFieldPipe } from '../../pipes/compensation-field-pipe';
+import {CalculationControl, CompensationField, LabelWithOverride} from '../../models';
+import {InlineStringEditorComponent} from '../inline-string-editor';
 
 describe('TrsCalculationControlComponent', () => {
   let component: TrsCalculationControlComponent;
@@ -13,17 +15,15 @@ describe('TrsCalculationControlComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TrsCalculationControlComponent, CompensationFieldPipe],
-      providers: [
-        {
+      declarations: [TrsCalculationControlComponent, CompensationFieldPipe, InlineStringEditorComponent],
+      providers: [{
           provide: CurrencyPipe,
           useValue: { transform: (x) => x }
         },
         {
           provide: CompensationFieldPipe,
           useValue: { transform: (x) => x }
-        }
-        ],
+        }],
       schemas: [NO_ERRORS_SCHEMA]
     });
   }));
@@ -37,8 +37,10 @@ describe('TrsCalculationControlComponent', () => {
 
   it('should create', () => {
     component.controlData = {
+      Title: { } as LabelWithOverride,
+      Summary: { } as LabelWithOverride,
       DataFields: []
-    } as any;
+    } as CalculationControl;
 
     fixture.detectChanges();
 
@@ -46,26 +48,25 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should render the supplied data fields', () => {
-    component.controlData = {
+    fixture.componentInstance.controlData = {
+      Title: { } as LabelWithOverride,
+      Summary: { } as LabelWithOverride,
       DataFields: [
         {
-          FieldInDatabase: 'first',
-          Placeholder: 'First',
-          Name: '',
+          DatabaseField: 'first',
+          Name: { Default: 'First' },
           IsVisible: true
-        },
+        } as CompensationField,
         {
-          FieldInDatabase: 'second',
-          Placeholder: 'Second',
-          Name: '',
+          DatabaseField: 'second',
+          Name: { Default: 'Second' },
           IsVisible: true
-        },
+        } as CompensationField,
         {
-          FieldInDatabase: 'third',
-          Placeholder: 'Third',
-          Name: '',
+          DatabaseField: 'third',
+          Name: { Default: 'Third' },
           IsVisible: true
-        } ]
+        } as CompensationField] as CompensationField[]
     } as any;
 
     fixture.detectChanges();
@@ -75,7 +76,20 @@ describe('TrsCalculationControlComponent', () => {
 
   it('should render the supplied title', () => {
     component.controlData = {
-      Title: 'test title',
+      Title: { Default: 'test title' } as LabelWithOverride,
+      Summary: {} as LabelWithOverride,
+      DataFields: []
+    } as CalculationControl;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should render the supplied Summary', () => {
+    component.controlData = {
+      Title: { Default: '' } as LabelWithOverride,
+      Summary: { Default: 'test summary'} as LabelWithOverride,
       DataFields: []
     } as any;
 
@@ -86,6 +100,8 @@ describe('TrsCalculationControlComponent', () => {
 
   it('should display the Add Field button if a field has been removed', () => {
     component.controlData = {
+      Title: { Default: '' } as LabelWithOverride,
+      Summary: { Default: 'test summary'} as LabelWithOverride,
       DataFields: [
         {
           FieldInDatabase: 'first',

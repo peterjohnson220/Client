@@ -73,7 +73,7 @@ export class TrsRichTextControlComponent implements OnInit {
 
   ngOnInit() {
     this.htmlContent = this.controlData.Content;
-    this.title = this.controlData.Title;
+    this.title = this.controlData.Title.Default;
   }
 
   onTitleChanged(newTitle: string) {

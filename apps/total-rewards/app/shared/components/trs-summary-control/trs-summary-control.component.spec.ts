@@ -18,7 +18,7 @@ describe('TrsSummaryControlComponent', () => {
   });
 
   it('should create', () => {
-    component.controlData = {} as any;
+    component.controlData = { Title: { Label: 'test title' } } as any;
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });

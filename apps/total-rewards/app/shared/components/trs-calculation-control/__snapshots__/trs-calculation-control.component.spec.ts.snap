@@ -37,7 +37,42 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
             class="text-left"
             scope="col"
           >
-            <pf-inline-string-editor />
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+              ng-reflect-placeholder=""
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder=""
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
           </th>
           <th
             class="text-right"
@@ -65,7 +100,42 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
           <td
             class="text-left"
           >
-            <pf-inline-string-editor />
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+              ng-reflect-placeholder="test summary"
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder="test summary"
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    test summary
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
           </td>
           <td
             class="text-right"
@@ -77,35 +147,150 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
       </tbody>
     </table>
     
-    
-    <div
-      class="d-inline-block"
-      ngbdropdown=""
+  </div>
+</pf-trs-calculation-control>
+`;
+
+exports[`TrsCalculationControlComponent should render the supplied Summary 1`] = `
+<pf-trs-calculation-control
+  compensationValuePlaceholder={[Function String]}
+  controlData={[Function Object]}
+  cp={[Function Object]}
+  onCompFieldAdded={[Function EventEmitter]}
+  onCompFieldRemoved={[Function EventEmitter]}
+  onCompFieldTitleChange={[Function EventEmitter]}
+  onTitleChange={[Function EventEmitter]}
+  onUpdateSummaryTitleChange={[Function EventEmitter]}
+  removedFields={[Function Array]}
+>
+  <div
+    class="trs-calculation container py-2"
+  >
+    <table
+      class="table table-borderless table-sm mb-0 w-100"
     >
-      <button
-        class="btn btn-sm btn-outline-primary add-button"
-        ngbdropdowntoggle=""
-        title="Add Field"
-      >
-        <fa-icon
-          class="fa-sm"
+      <colgroup>
+        <col
+          class="field-column"
         />
-      </button>
-      <div
-        class="w-auto"
-        ngbdropdownmenu=""
-      >
-        
-        <div>
-          <a
-            class="add-comp-field-item"
-            ngbdropdownitem=""
+        <col
+          class="contribution-column"
+        />
+        <col
+          class="button-column"
+        />
+      </colgroup>
+      <thead>
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <th
+            class="text-left"
+            scope="col"
           >
-            
-          </a>
-        </div>
-      </div>
-    </div>
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+              ng-reflect-placeholder=""
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder=""
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
+          </th>
+          <th
+            class="text-right"
+            scope="col"
+          >
+            Contribution
+          </th>
+          <th
+            scope="col"
+          />
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          class="trs-calculation-row w-100"
+        >
+          <td
+            class="text-left"
+          >
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+              ng-reflect-placeholder="test summary"
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder="test summary"
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    test summary
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
+          </td>
+          <td
+            class="text-right"
+          >
+            $---,---
+          </td>
+          <td />
+        </tr>
+      </tbody>
+    </table>
+    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -147,7 +332,41 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             class="text-left"
             scope="col"
           >
-            <pf-inline-string-editor />
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder=""
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
           </th>
           <th
             class="text-right"
@@ -169,7 +388,42 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           <td
             class="text-left"
           >
-            <pf-inline-string-editor />
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+              ng-reflect-placeholder="First"
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder="First"
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    First
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
           </td>
           
           <td
@@ -196,7 +450,42 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           <td
             class="text-left"
           >
-            <pf-inline-string-editor />
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+              ng-reflect-placeholder="Second"
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder="Second"
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    Second
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
           </td>
           
           <td
@@ -223,7 +512,42 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           <td
             class="text-left"
           >
-            <pf-inline-string-editor />
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+              ng-reflect-placeholder="Third"
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder="Third"
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    Third
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
           </td>
           
           <td
@@ -249,7 +573,41 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           <td
             class="text-left"
           >
-            <pf-inline-string-editor />
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder=""
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
           </td>
           <td
             class="text-right"
@@ -302,7 +660,42 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
             class="text-left"
             scope="col"
           >
-            <pf-inline-string-editor />
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+              ng-reflect-placeholder="test title"
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder="test title"
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    test title
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
           </th>
           <th
             class="text-right"
@@ -323,7 +716,41 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
           <td
             class="text-left"
           >
-            <pf-inline-string-editor />
+            <pf-inline-string-editor
+              ng-reflect-max-characters="30"
+            >
+              
+              <span>
+                <input
+                  class="input-text offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  ng-reflect-klass="input-text"
+                  ng-reflect-ng-class="offScreen"
+                  placeholder=""
+                  type="text"
+                />
+                
+                <span
+                  class="editable d-flex"
+                >
+                  <span
+                    class="edit-text"
+                  >
+                    
+                  </span>
+                  <span
+                    class="edit-icon"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </span>
+              </span>
+              
+            </pf-inline-string-editor>
           </td>
           <td
             class="text-right"
