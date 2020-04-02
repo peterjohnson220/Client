@@ -1,4 +1,5 @@
 import {
+  RecalcAndSaveRangeMinMaxRequest,
   SaveModelSettingsRequest,
   StructureRangeGroupResponse
 } from 'libs/models/payfactors-api/structures';
@@ -60,6 +61,16 @@ export class PayfactorsApiModelMapper {
       RangeSpreadMax: formValue.spreadMax,
       Rate: formValue.rate,
       StructureName: formValue.structureName
+    };
+  }
+
+  // tslint:disable-next-line:max-line-length
+  static mapUpdateRangeInputToRecalcAndSaveRangeMinMaxRequest(rangeGroupId: number, rangeId: number, mid: number, rowIndex: number): RecalcAndSaveRangeMinMaxRequest {
+    return {
+      RangeGroupId: rangeGroupId,
+      RangeId: rangeId,
+      RowIndex: rowIndex,
+      Mid: mid
     };
   }
 

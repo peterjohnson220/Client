@@ -36,10 +36,20 @@
   {{ dataRow.CompanyStructures_Ranges_Min | rangeValue: (metaData$ | async)?.Rate }}
 </ng-template>
 
-<ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName">
-  <input type="text"
-         class="form-control"
-         [value]="dataRow.CompanyStructures_Ranges_Mid | rangeValue: (metaData$ | async)?.Rate" />
+<ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
+  <kendo-numerictextbox  *ngIf="!(metaData$ | async).IsCurrent"
+                         class="form-control"
+                         [value]="dataRow.CompanyStructures_Ranges_Mid"
+                         [spinners]="false"
+                         [format]="(metaData$ | async)?.Rate.localeCompare('Annual', undefined, { sensitivity: 'accent' }) === 0 ? 'n0' : 'n2'"
+                         [decimals]="(metaData$ | async)?.Rate.localeCompare('Annual', undefined, { sensitivity: 'accent' }) === 0 ? 0 : 2"
+                         (change)="handleRangeOverrideOnBlur(dataRow, $event, rowIndex)"
+                         [min]="1"
+                         [step]="0"
+                         [max]="9999999999999999999999999"
+                         [autoCorrect]="true">
+  </kendo-numerictextbox>
+  <div class="staticMid" *ngIf="(metaData$ | async).IsCurrent">{{dataRow.CompanyStructures_Ranges_Mid | rangeValue: (metaData$ | async)?.Rate}}</div>
 </ng-template>
 
 <ng-template #max let-dataRow="dataRow" let-fieldName="fieldName">

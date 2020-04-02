@@ -55,6 +55,7 @@ export const GET_EXPORTING_STATUS_ERROR = '[PfDataGrid] Get Exporting Status Err
 export const RESET = '[PfDataGrid] Reset';
 export const REORDER_COLUMNS = '[PfDataGrid] Reorder Columns';
 export const REORDER_COLUMNS_SUCCESS = '[PfDataGrid] Reorder Columns Success';
+export const UPDATE_ROW = '[PfDataGrid] Update Data Row';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -312,6 +313,12 @@ export class ReorderColumnsSuccess {
   constructor() {}
 }
 
+export class UpdateRow {
+  readonly type = UPDATE_ROW;
+
+  constructor(public pageViewId: string, public rowIndex: number, public fieldNames: any[], public payload: any) {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -362,4 +369,5 @@ export type DataGridActions =
   | GetExportingStatusError
   | Reset
   | ReorderColumns
-  | ReorderColumnsSuccess;
+  | ReorderColumnsSuccess
+  | UpdateRow;
