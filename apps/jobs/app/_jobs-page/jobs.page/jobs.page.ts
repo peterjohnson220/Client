@@ -53,6 +53,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   showCreateProjectModal$: Observable<boolean>;
   creatingProject$: Observable<AsyncStateObj<boolean>>;
+  navigatingToOldPage$: Observable<AsyncStateObj<boolean>>;
 
   showJobStatusModal$: Observable<boolean>;
   changingJobStatus$: Observable<AsyncStateObj<boolean>>;
@@ -110,6 +111,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.changingJobStatus$ = this.store.select(fromJobsPageReducer.getChangingJobStatus);
     this.showDeleteJobModal$ = this.store.select(fromJobsPageReducer.getShowDeleteJobModal);
     this.deletingJob$ = this.store.select(fromJobsPageReducer.getDeletingJob);
+    this.navigatingToOldPage$ = this.store.select(fromJobsPageReducer.getNavigatingToOldPage);
 
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
@@ -337,6 +339,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.offset = { left: event.clientX, top: event.clientY };
       }
     }
+  }
 
+  jobsPageToggle() {
+    this.store.dispatch(new fromJobsPageActions.ToggleJobsPage());
   }
 }
