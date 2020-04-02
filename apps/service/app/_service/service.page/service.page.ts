@@ -24,7 +24,7 @@ export class ServicePageComponent implements AfterViewInit {
   constructor() {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
-      ShowActionBar: false,
+      ShowActionBar: true,
       AllowSaveFilter: false
     };
   }
