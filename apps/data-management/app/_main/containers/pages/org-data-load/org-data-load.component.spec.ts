@@ -6,14 +6,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { LoadTypes } from 'libs/constants';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
-import { generateMockUserContext } from 'libs/models';
+import { ConfigurationGroup, generateMockUserContext } from 'libs/models';
 
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
 import { EntityUploadComponent } from '../../../components';
-import { ConfigurationGroup, getEntityChoicesForOrgLoader } from '../../../models';
+import { getEntityChoicesForOrgLoader } from '../../../models';
 import { OrgDataLoadComponent } from './';
 
 describe('OrgDataLoadComponent', () => {
@@ -157,9 +158,14 @@ describe('OrgDataLoadComponent', () => {
   });
 
   it('should add and selected mapping correctly', () => {
-    const configGroupd: ConfigurationGroup = { GroupName: 'abc', CompanyId: 13, LoaderConfigurationGroupId: 34 };
-    instance.AddAndSetSelectedMapping(configGroupd);
-    expect(instance.selectedMapping.LoaderConfigurationGroupId).toEqual(configGroupd.LoaderConfigurationGroupId);
+    const configGroup: ConfigurationGroup = {
+      GroupName: 'abc',
+      CompanyId: 13,
+      LoaderConfigurationGroupId: 34,
+      LoadType: LoadTypes.Manual,
+    };
+    instance.AddAndSetSelectedMapping(configGroup);
+    expect(instance.selectedMapping.LoaderConfigurationGroupId).toEqual(configGroup.LoaderConfigurationGroupId);
   });
 
   it('should dispatch action on click with valid company', () => {
