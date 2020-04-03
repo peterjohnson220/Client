@@ -24,6 +24,9 @@ import * as fromHrisConnectionActions from '../../../../actions/hris-connection.
 export class OutboundAuthenticationPageComponent implements OnInit, OnDestroy {
   connectionSummary$: Observable<ConnectionSummary>;
   currentWorkflowStep$: Observable<TransferDataWorkflowStep>;
+  loading$: Observable<boolean>;
+  loadingError$: Observable<boolean>;
+
   private unsubscribe$ = new Subject();
 
   outboundJdmTransferMethod = TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION;
@@ -39,6 +42,8 @@ export class OutboundAuthenticationPageComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$),
     );
     this.currentWorkflowStep$ = this.store.select(fromDataManagementMainReducer.getWorkflowStep);
+    this.loading$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoading);
+    this.loadingError$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoadingError);
   }
 
   ngOnInit() {

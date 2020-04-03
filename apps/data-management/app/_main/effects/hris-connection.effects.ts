@@ -22,40 +22,6 @@ import { TransferDataWorkflowStep } from '../data';
 @Injectable()
 export class HrisConnectionEffects {
   @Effect()
-  authenticate$: Observable<Action> = this.actions$
-    .pipe(
-      ofType<fromHrisConnectionActions.Validate>(fromHrisConnectionActions.VALIDATE),
-      withLatestFrom(
-        this.store.pipe(select(fromRootState.getUserContext)),
-      (action, userContext) => {
-        return {
-          action,
-          userContext
-        };
-      }),
-      switchMap((obj) => {
-        let delayTime = 0;
-        if (obj.action.payload.providerCode === 'PFTEST') {
-          delayTime = 5000;
-        }
-        return this.connectionService.validateConnection(obj.userContext, obj.action.payload)
-          .pipe(
-            delay(delayTime),
-            mergeMap((response: ValidateCredentialsResponse) => {
-              if (!response.successful) {
-                return [new fromHrisConnectionActions.ValidateError(response.errors)];
-              }
-              return [
-                new fromHrisConnectionActions.ValidateSuccess(),
-                new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Validated)
-              ];
-            }),
-            catchError(error => of(new fromHrisConnectionActions.ValidateError()))
-          );
-      })
-    );
-
-  @Effect()
     createConnection$: Observable<Action> = this.actions$
     .pipe(
       ofType<fromHrisConnectionActions.CreateConnection>(fromHrisConnectionActions.CREATE_CONNECTION),
@@ -90,11 +56,11 @@ export class HrisConnectionEffects {
         }
         return this.connectionService.connect(obj.userContext, connectionPostModel)
           .pipe(
-            switchMap((response: any) => {
-              return this.connectionService.get(obj.userContext)
+            switchMap((connectionId: number) => {
+              return this.connectionService.getByConnectionId(obj.userContext, connectionId)
                 .pipe(
-                  map((newConnection: CredentialsPackage) => {
-                    return new fromHrisConnectionActions.CreateConnectionSuccess(newConnection);
+                  map((connection: CredentialsPackage) => {
+                    return new fromHrisConnectionActions.CreateConnectionSuccess({ credentials: connection, connectionId: connectionId });
                   }),
                   catchError(error => of(new fromHrisConnectionActions.CreateConnectionError()))
                 );
@@ -104,11 +70,35 @@ export class HrisConnectionEffects {
       })
     );
 
-  @Effect({dispatch: false})
+  @Effect()
   createConnectionSuccess = this.actions$
     .pipe(
-      ofType(fromHrisConnectionActions.CREATE_CONNECTION_SUCCESS),
-      tap(() => this.router.navigate(['/transfer-data/inbound/field-mapping'])),
+      ofType<fromHrisConnectionActions.CreateConnectionSuccess>(fromHrisConnectionActions.CREATE_CONNECTION_SUCCESS),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        this.store.pipe(select(fromReducers.getActiveConnectionId)),
+      (action, userContext, activeConnectionId) => {
+        return {
+          action,
+          userContext,
+          activeConnectionId
+        };
+      }),
+      switchMap((obj) => {
+        return this.connectionService.validateConnection(obj.userContext, obj.activeConnectionId)
+        .pipe(
+          mergeMap((response: ValidateCredentialsResponse) => {
+            if (!response.successful) {
+              return [new fromHrisConnectionActions.ValidateError(response.errors)];
+            }
+            return [
+              new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Validated),
+              new fromHrisConnectionActions.ValidateSuccess({success: response.successful, skipValidation: response.skipValidation})
+            ];
+          }),
+          catchError(error => of(new fromHrisConnectionActions.ValidateError()))
+        );
+      })
     );
 
   @Effect()

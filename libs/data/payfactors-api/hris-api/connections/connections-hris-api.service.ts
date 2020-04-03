@@ -18,19 +18,24 @@ export class ConnectionsHrisApiService {
 
   }
 
-  validateConnection(userContext: UserContext, credentials: CredentialsPackage) {
+  validateConnection(userContext: UserContext, connectionId: number) {
     const host = this.getHost(userContext);
-    return this.hrisApiService.post<ValidateCredentialsResponse>(`${host}${this.endpoint}/validate`, credentials);
+    return this.hrisApiService.get<ValidateCredentialsResponse>(`${host}${this.endpoint}/${userContext.CompanyId}/validate/${connectionId}`);
   }
 
   connect(userContext: UserContext, credentials: ConnectionPostRequest) {
     const host = this.getHost(userContext);
-    return this.hrisApiService.post<ValidateCredentialsResponse>(`${host}${this.endpoint}/${userContext.CompanyId}`, credentials);
+    return this.hrisApiService.post<any>(`${host}${this.endpoint}/${userContext.CompanyId}`, credentials);
   }
 
   get(userContext: UserContext) {
     const host = this.getHost(userContext);
     return this.hrisApiService.get<CredentialsPackage>(`${host}${this.endpoint}/${userContext.CompanyId}`);
+  }
+
+  getByConnectionId(userContext: UserContext, connectionId: number) {
+    const host = this.getHost(userContext);
+    return this.hrisApiService.get<CredentialsPackage>(`${host}${this.endpoint}/${userContext.CompanyId}/${connectionId}`);
   }
 
   delete(userContext: UserContext) {

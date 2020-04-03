@@ -27,19 +27,15 @@ export class HrisAuthenticationCardComponent implements OnDestroy {
   @Output() saveClicked = new EventEmitter<CredentialsPackage>();
   @Output() validateCredentials = new EventEmitter<CredentialsPackage>();
 
-  @ViewChild('authenticatingModal', {static: true}) authenticatingModal: ElementRef;
-
-  showModal = false;
-
-  showAuthenticatingModal$: Observable<boolean>;
   validationErrors$: Observable<string[]>;
+  showAuthWarning$: Observable<boolean>;
 
   private creds: CredentialsPackage = null;
   private unsubscribe$ = new Subject();
 
   constructor(private store: Store<fromDataManagementMainReducer.State>) {
     this.validationErrors$ = this.store.select(fromDataManagementMainReducer.getValidationErrors);
-    this.showAuthenticatingModal$ = this.store.select(fromDataManagementMainReducer.getShowAuthenticatingModal);
+    this.showAuthWarning$ = this.store.select(fromDataManagementMainReducer.getShowAuthenticationWarning);
   }
 
   submitFormEvent(event: any) {

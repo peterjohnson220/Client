@@ -14,8 +14,13 @@
           <li class="text-danger" *ngFor="let error of validationErrors$ | async">{{error}}</li>
         </ul>
       </div>
-      <div class="alert alert-success" *ngIf="validatedCredentials">
+      <div class="alert alert-success" *ngIf="validatedCredentials && !(showAuthWarning$ | async)">
         <h5 class="mb-0">Authentication Successful</h5>
+      </div>
+      <div class="alert alert-warning" *ngIf="validatedCredentials && (showAuthWarning$ | async)">
+        <h5>Authenticating Credentials</h5>
+        This may take a few minutes. Once the process is completed you will receive a confirmation email from Payfactors.
+        In the meantime, please follow the steps to set up your integration.
       </div>
 
       <ng-container [ngSwitch]="connectionSummary?.provider?.ProviderCode">
@@ -75,18 +80,3 @@
     </div>
   </div>
 </div>
-
-<pf-modal-form
-  [modalId]="'authenticatingModal'"
-  [size]="'md'"
-  [showFooter]="false"
-  [centered]="true"
-  [allowDismiss]="false"
-  [isOpen$]="showAuthenticatingModal$">
-  <ng-container basic-content>
-    <h6 style="text-align:center;" class="mb-4">Authenticating with your HRIS vendor. This may take a few moments.</h6>
-    <div class="progress">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-    </div>
-  </ng-container>
-</pf-modal-form>

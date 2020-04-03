@@ -1,3 +1,5 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
 import {CredentialsPackage} from 'libs/models/hris-api/connection/request';
 
 import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
@@ -12,7 +14,7 @@ export interface State {
   deleteCompleted: boolean;
   summary: ConnectionSummary;
   validationErrors: string[];
-  showAuthenticationModal: boolean;
+  showAuthenticationWarning: boolean;
 }
 
 export const initialState: State = {
@@ -24,7 +26,7 @@ export const initialState: State = {
   deleteCompleted: null,
   summary: null,
   validationErrors: null,
-  showAuthenticationModal: false,
+  showAuthenticationWarning: false,
 };
 
 export function reducer(state: State = initialState, action: fromHrisConnectionActions.Actions) {
@@ -96,28 +98,24 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
         loadingError: true
       };
     }
-    case fromHrisConnectionActions.OUTBOUND_JDM_VALIDATE:
-    case fromHrisConnectionActions.VALIDATE: {
-      return {
-        ...state,
-        showAuthenticationModal: true,
-      };
-    }
     case fromHrisConnectionActions.VALIDATE_SUCCESS: {
       return {
         ...state,
         validationErrors: null,
-        isValidCredentials: true,
-        showAuthenticationModal: false,
+        loading: false,
+        loadingError: false,
+        isValidCredentials: action.payload.success,
+        showAuthenticationWarning: action.payload.skipValidation
       };
     }
     case fromHrisConnectionActions.VALIDATE_ERROR: {
       if (action.payload) {
         return {
           ...state,
+          loading: false,
+          loadingError: false,
           validationErrors: action.payload,
           isValidCredentials: false,
-          showAuthenticationModal: false
         };
       }
       return {
@@ -126,17 +124,27 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
         loadingError: true
       };
     }
+    case fromHrisConnectionActions.OUTBOUND_JDM_VALIDATE:
     case fromHrisConnectionActions.CREATE_CONNECTION: {
       return {
         ...state,
         loading: true
       };
     }
-    case fromHrisConnectionActions.CREATE_CONNECTION_SUCCESS: {
+    case fromHrisConnectionActions.OUTBOUND_JDM_VALIDATE_SUCCESS: {
       return {
         ...state,
-        loading: false,
-        activeConnection: action.payload
+        loading: false
+      };
+    }
+    case fromHrisConnectionActions.CREATE_CONNECTION_SUCCESS: {
+      const connectionSummary = cloneDeep(state.summary);
+      connectionSummary.connectionID = action.payload.connectionId;
+
+      return {
+        ...state,
+        activeConnection: action.payload.credentials,
+        summary: connectionSummary
       };
     }
     case fromHrisConnectionActions.CREATE_CONNECTION_ERROR: {
@@ -158,5 +166,6 @@ export const getSaving = (state: State) => state.saving;
 export const getSavingError = (state: State) => state.savingError;
 export const getDeleteCompleted = (state: State) => state.deleteCompleted;
 export const getConnectionSummary = (state: State) => state.summary;
-export const getShowAuthenticatingModal = (state: State) => state.showAuthenticationModal;
+export const getShowAuthenticationWarning = (state: State) => state.showAuthenticationWarning;
 export const getValidationErrors = (state: State) => state.validationErrors;
+export const getActiveConnectionId = (state: State) => state.summary && state.summary.connectionID ? state.summary.connectionID : null;

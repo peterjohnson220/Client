@@ -25,6 +25,7 @@ export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] C
 
 // TODO: Delete this
 export const OUTBOUND_JDM_VALIDATE = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials';
+export const OUTBOUND_JDM_VALIDATE_SUCCESS = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials Success';
 
 export class GetCurrentHrisConnection implements Action {
   readonly type = GET_CURRENT_HRIS_CONNECTION;
@@ -73,7 +74,7 @@ export class ValidateError implements Action {
 export class ValidateSuccess implements Action {
   readonly type = VALIDATE_SUCCESS;
 
-  constructor() {}
+  constructor(public payload: {success: boolean, skipValidation: boolean}) {}
 }
 
 export class CreateConnection implements Action {
@@ -91,7 +92,7 @@ export class CreateConnectionError implements Action {
 export class CreateConnectionSuccess implements Action {
   readonly type = CREATE_CONNECTION_SUCCESS;
 
-  constructor(public payload: CredentialsPackage) {}
+  constructor(public payload: { credentials: CredentialsPackage, connectionId: number }) {}
 }
 
 
@@ -100,6 +101,11 @@ export class OutboundJdmValidate implements Action {
   readonly type = OUTBOUND_JDM_VALIDATE;
 
   constructor(public payload: CredentialsPackage) {}
+}
+export class OutboundJdmValidateSuccess implements Action {
+  readonly type = OUTBOUND_JDM_VALIDATE_SUCCESS;
+
+  constructor() {}
 }
 
 export type Actions
@@ -118,4 +124,5 @@ export type Actions
   | CreateConnection
   | CreateConnectionError
   | CreateConnectionSuccess
-  | OutboundJdmValidate;
+  | OutboundJdmValidate
+  | OutboundJdmValidateSuccess;
