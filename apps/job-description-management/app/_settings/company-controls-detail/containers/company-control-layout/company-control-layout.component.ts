@@ -247,6 +247,7 @@ export class CompanyControlLayoutComponent implements OnInit, OnDestroy, OnChang
         attribute.Type = attributeType;
         attribute.Name = 'Field ' + attributeNumber;
         attribute.DisplayName = attribute.Name;
+        attribute.RTEHeight = '200px';
         attribute.CanEditTemplateData = false;
         attribute.CanBeSourced = attributeCanBeSourced ? attributeCanBeSourced : false;
         attribute.WidthPct = this.getEqualWidth(attributeNumber);
@@ -287,6 +288,7 @@ export class CompanyControlLayoutComponent implements OnInit, OnDestroy, OnChang
             DisplayName: [attribute.DisplayName, [Validators.required, Validators.maxLength(100), Validators.minLength(1)]],
             Type: [attribute.Type, Validators.required],
             CanEditTemplateData: attribute.CanEditTemplateData,
+            RTEHeight: attribute.RTEHeight,
             CanBeSourced: attribute.CanBeSourced,
             WidthPct: attribute.WidthPct,
             Choices: choices
