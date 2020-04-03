@@ -72,7 +72,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     });
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
-      ActionBarClassName: 'pricing-details-grid-action-bar ml-0 mt-1'
+      ActionBarClassName: 'ml-0 mt-1'
     };
   }
 

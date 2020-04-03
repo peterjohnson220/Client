@@ -1,7 +1,6 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
   [showTitle]="false"
-  [selectionField]="'CompanyJobPricing_ID'"
   [columnTemplates]="colTemplates"
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
@@ -9,7 +8,7 @@
   [noRecordsFound]="'This job has not been priced and does not have any pricing history.'"
   [rowActionTemplate]="rowActions"
   [applyDefaultFilters]="false"
-  [headerClassName]="'employee-grid-header'"
+  [headerClassName]="'jobs-page-sub-grid-header'"
   [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
@@ -23,8 +22,14 @@
 </ng-template>
 
 <ng-template #rowActions let-dataRow="dataRow">
-  <div class="text-right pr-4" [pfSecuredResource]="_Permissions.PRICING_PROJECTS_DELETE" (click)="confirmDeletePricingModal(dataRow)">
-    <fa-icon icon="trash-alt"></fa-icon>
+  <div class="pr-4 text-right" [pfSecuredResource]="_Permissions.PRICING_PROJECTS_DELETE">
+    <button 
+      [attr.data-qa-id]="'btn-jobs-page-pricing-history-delete'"
+      type="button"
+      (click)="confirmDeletePricingModal(dataRow)"
+      class="btn btn-secondary pf-icon-btn-transparent">
+      <fa-icon icon="trash-alt"></fa-icon>
+    </button>    
   </div>
 </ng-template>
 

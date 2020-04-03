@@ -66,7 +66,7 @@ export class NotPricedPaymarketsGridComponent implements AfterViewInit, OnDestro
     });
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
-      ActionBarClassName: 'not-priced-grid-action-bar ml-0 mt-1'
+      ActionBarClassName: 'ml-0 mt-1'
     };
   }
 

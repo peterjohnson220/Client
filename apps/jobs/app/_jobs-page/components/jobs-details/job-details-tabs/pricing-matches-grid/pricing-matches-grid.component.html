@@ -1,6 +1,6 @@
 
 <pf-data-grid
-  [pageViewId]="getPageViewId()"
+  [pageViewId]="pageViewId + '_' + filter.Value"
   [showTitle]="false"
   [columnTemplates]="colTemplates"
   [customHeaderTemplate]="pricingMatchesHeader"
@@ -12,6 +12,7 @@
   [backgroundColor]="'#F7F7F9'"
   [noRecordsFound]="'This pricing has no data cuts.'"
   [actionBarConfig]="actionBarConfig"
+  [headerClassName]="'jobs-page-sub-grid-header'"
   [applyUserDefaultCompensationFields]="true">
 </pf-data-grid>
 

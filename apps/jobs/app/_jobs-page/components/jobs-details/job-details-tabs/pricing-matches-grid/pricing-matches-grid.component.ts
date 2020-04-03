@@ -19,6 +19,8 @@ export class PricingMatchesGridComponent implements AfterViewInit, OnChanges {
 
   colTemplates = {};
 
+  pageViewId = PageViewIds.PricingMatches;
+
   rate: string;
   filter: PfDataGridFilter = {
     SourceName: 'CompanyJobPricing_ID',
@@ -58,7 +60,4 @@ export class PricingMatchesGridComponent implements AfterViewInit, OnChanges {
     };
   }
 
-  getPageViewId() {
-    return this.filter ? `${PageViewIds.PricingMatches}_${this.filter.Value}` : null;
-  }
 }

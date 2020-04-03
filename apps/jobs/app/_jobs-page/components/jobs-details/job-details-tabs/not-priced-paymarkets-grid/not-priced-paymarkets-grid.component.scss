@@ -1,16 +1,6 @@
-@import 'jobs-page-colors';
+
 @import 'common/common';
-
-:host ::ng-deep .not-priced-grid-action-bar {
-  background-color: $sub-grid-action-bar-background-color;
-}
-
-:host ::ng-deep .not-priced-grid-header {
-  background-color: $sub-grid-header-color !important;
-  border: none;
-  color: $sub-grid-header-font-color;
-  font-weight: $sub-grid-header-font-weight !important;
-}
+@import "../../../../../../assets/pf-data-grid";
 
 .badge-primary {
   font-size: 100%;

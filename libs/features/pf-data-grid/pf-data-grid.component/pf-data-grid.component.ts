@@ -53,7 +53,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() splitOnSelection = true;
   @Input() contentClassNamesOverrides: string;
   @Input() exportSourceName: string;
-  @Input() defaultColumnWidth: number;
+  @Input() defaultColumnWidth = 200;
   @Input() showHeaderWhenCompact: boolean;
   @Input() useColumnGroups = true;
   @Input() actionBarConfig: ActionBarConfig = getDefaultActionBarConfig();

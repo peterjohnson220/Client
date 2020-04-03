@@ -2,17 +2,9 @@
 @import 'common/common-variables';
 
 .pf-data-grid-header {
-  font-weight: bold !important;
-  text-align: left !important;
+  font-weight: bold !important;  
   vertical-align: middle !important;
   background-color: white !important;
-
-  &.text-align-right {
-    text-align: right !important;
-  }
-  &.text-align-center {
-    text-align: center !important;
-  }
 }
 
 .pf-data-grid-no-header {
