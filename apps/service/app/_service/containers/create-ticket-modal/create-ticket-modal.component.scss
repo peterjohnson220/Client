@@ -1,0 +1,60 @@
+@import 'colors';
+
+::ng-deep .modal-lg {
+  min-width: 1000px;
+}
+
+::ng-deep .k-dropdown-wrap {
+  background-color: white;
+  color: #495057 !important;
+}
+
+::ng-deep .k-dropdown-wrap .k-clear-value {
+  right: calc( 0.75rem + 17px + 6.5px);
+}
+
+::ng-deep .k-combobox.is-invalid {
+  .k-dropdown-wrap {
+    border-color: #dc3545;
+  }
+}
+
+::ng-deep .popover-body {
+  padding: 0.5rem 0.75rem !important;
+}
+
+.search-message {
+  margin-left: 1.5rem;
+  font-style: italic;
+  color: #9e9e9e;
+  .load-more {
+    font-style: normal;
+    margin-left: 2.5rem;
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.ticket-details {
+  height: 200px;
+}
+
+::ng-deep .k-widget {
+  border: none;
+  background: none;
+}
+
+::ng-deep .k-upload.k-dropzone {
+  background: none;
+}
+
+::ng-deep .k-button.k-upload-button {
+  color: #292b2c;
+  background-color: $pf-secondary-background;
+  border-color: #ccc;
+  &:hover {
+    background-color: $pf-secondary-background-hover;
+  }
+}

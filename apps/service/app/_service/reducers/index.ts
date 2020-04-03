@@ -24,13 +24,14 @@ export const reducers = {
 export const selectFeatureAreaState = createFeatureSelector<ServiceMainState>('service_main');
 
 // Feature Selectors
-export const selectServicePageState = createSelector(
-  selectFeatureAreaState,
+export const selectServicePageState = createSelector(selectFeatureAreaState,
   (state: ServiceMainState) => state.servicePage
 );
 
 // Service Page
-export const getTicketTypeNames = createSelector(
-  selectServicePageState,
-  fromServicePageReducer.getTicketTypeNames
-);
+export const getTicketTypeNames = createSelector(selectServicePageState, fromServicePageReducer.getTicketTypeNames);
+export const getTicketTypes = createSelector(selectServicePageState, fromServicePageReducer.getTicketTypes);
+export const getShowNewTicketModal = createSelector(selectServicePageState, fromServicePageReducer.getShowNewTicketModal);
+export const getSavingUserTicket = createSelector(selectServicePageState, fromServicePageReducer.getSavingUserTicket);
+export const getSavingUserTicketError = createSelector(selectServicePageState, fromServicePageReducer.getSavingUserTicketError);
+export const getSavingUserTicketErrorMessage = createSelector(selectServicePageState, fromServicePageReducer.getSavingUserTicketErrorMessage);

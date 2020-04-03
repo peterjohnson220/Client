@@ -1,19 +1,29 @@
 // Import all exports from our feature's actions
 import * as cloneDeep from 'lodash.clonedeep';
 
-import * as fromServicePageActions from '../actions/service-page.actions';
+
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { UserTicketTypeResponse } from 'libs/models/payfactors-api/service/response';
+
+import { TicketType } from '../models';
+import * as fromServicePageActions from '../actions/service-page.actions';
 
 // Define our feature state
 export interface State {
-  ticketTypes: AsyncStateObj<UserTicketTypeResponse[]>;
+  ticketTypes: AsyncStateObj<TicketType[]>;
+  showNewTicketModal: boolean;
+  savingTicket: boolean;
+  savingTicketError: boolean;
+  savingTicketErrorMessage: string;
 }
 
 
 // Define our initial state
 const initialState: State = {
-  ticketTypes: generateDefaultAsyncStateObj<UserTicketTypeResponse[]>([])
+  ticketTypes: generateDefaultAsyncStateObj<TicketType[]>([]),
+  showNewTicketModal: false,
+  savingTicket: false,
+  savingTicketError: false,
+  savingTicketErrorMessage: null
 };
 
 
@@ -50,6 +60,34 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
         ticketTypes: ticketTypesClone
       };
     }
+    case fromServicePageActions.SHOW_NEW_TICKET_MODAL: {
+      return {
+        ...state,
+        showNewTicketModal: action.payload
+      };
+    }
+    case fromServicePageActions.CREATE_USER_TICKET: {
+      return {
+        ...state,
+        savingTicket: true,
+        savingTicketError: false
+      };
+    }
+    case fromServicePageActions.CREATE_USER_TICKET_ERROR: {
+      return {
+        ...state,
+        savingTicket: false,
+        savingTicketError: true,
+        savingTicketErrorMessage: action.payload
+      };
+    }
+    case fromServicePageActions.CREATE_USER_TICKET_SUCCESS: {
+      return {
+        ...state,
+        savingTicket: false,
+        savingTicketError: false
+      };
+    }
     default: {
       return state;
     }
@@ -57,10 +95,15 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
 }
 
 // Selector functions
+export const getTicketTypes = (state: State) => state.ticketTypes;
 export const getTicketTypeNames = (state: State) => {
   if (state.ticketTypes && state.ticketTypes.obj) {
     return Array.from(new Set(state.ticketTypes.obj.filter(t => !!t.TicketTypeName).map(t => t.TicketTypeName)));
   }
   return [];
 };
+export const getShowNewTicketModal = (state: State) => state.showNewTicketModal;
+export const getSavingUserTicket = (state: State) => state.savingTicket;
+export const getSavingUserTicketError = (state: State) => state.savingTicketError;
+export const getSavingUserTicketErrorMessage = (state: State) => state.savingTicketErrorMessage;
 

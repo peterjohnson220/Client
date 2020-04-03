@@ -31,5 +31,16 @@
     class="k-dropdown-white form-control">
   </kendo-dropdownlist>
 </ng-template>
+<ng-template #gridGlobalActions>
+  <button
+    [attr.data-qa-id]="'btn-newTicket'"
+    type="button"
+    (click)="addNewTicket()"
+    class="btn btn-primary">
+    New Ticket
+  </button>
+</ng-template>
+<pf-create-user-ticket></pf-create-user-ticket>
+
 
 <ng-template #gridActions></ng-template>

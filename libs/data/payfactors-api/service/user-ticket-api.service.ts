@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import {
   UserTicketAttachmentDeleteRequest,
   UserTicketSearchRequest,
-  UserTicketCommentRequest
+  UserTicketCommentRequest,
+  UserTicketCreateRequest
 } from 'libs/models/payfactors-api/service/request';
 import {
   UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse
@@ -21,7 +22,7 @@ export class UserTicketApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  createUserTicket(uploadData: any): Observable<any> {
+  createUserTicket(uploadData: UserTicketCreateRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/CreateUserTicket`,
       { UserTicket: uploadData.UserTicket, FileData: uploadData.FileData });
   }

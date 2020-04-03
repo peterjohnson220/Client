@@ -1,0 +1,113 @@
+<pf-modal-form
+  [modalId]="'au-modal-new-ticket'"
+  [isOpen$]="showUserTicketForm$"
+  [size]="'lg'"
+  [submitting]="saving$ | async"
+  [centered]="false"
+  [allowDismiss]="true"
+  [primaryButtonText]="'Save'"
+  [primaryButtonTextSubmitting]="'Saving'"
+  [title]="'New Ticket'"
+  [formGroup]="ticketForm"
+  (onDismiss)="onDismiss()"
+  (onSubmit)="onSubmit()">
+  <ng-container form-content>
+    <div class="container" [style.max-height]="'600px'" [style.overflow]="'auto'">
+        <form id="user-form" [formGroup]="ticketForm" autocomplete="nope">
+          <input type="hidden" formControlName="UserTicketState" />
+          <div class="form-group row">
+            <div class="w-100">
+              <label class="col-form-label">Ticket Type <span class="text-danger">*</span> </label>
+            </div>
+            <div class="w-100">
+              <kendo-dropdownlist  class="form-control k-dropdown-white"
+                                   data-qa-id="ddl-ticket-form-ticket-type"
+                                   placeholder="Select Type..."
+                                   [data]="(ticketTypes$ | async)?.obj"
+                                   [textField]="'TicketTypeDisplayName'"
+                                   [valueField]="'UserTicketTypeId'"
+                                   formControlName="TicketType"
+                                   [ngClass]="{ 'is-invalid': !f.TicketType.valid && f.TicketType.touched }"></kendo-dropdownlist>
+              <span *ngIf="f.TicketType.errors?.required" class="invalid-feedback">Ticket Type is required</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="w-100">
+              <label class="col-form-label">Ticket Title <span class="text-danger">*</span> </label>
+            </div>
+            <div class="w-100">
+              <input data-qa-id="txt-employee-form-zip" type="text" class="form-control"
+                     formControlName="TicketTitle"
+                     [maxlength]="50"
+                     [ngClass]="{ 'is-invalid': !f.TicketTitle.valid && f.TicketTitle.touched }">
+              <span *ngIf="f.TicketTitle.errors?.required" class="invalid-feedback">Ticket Title is required</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="w-100">
+              <label class="col-form-label">Ticket Details <span class="text-danger">*</span> </label>
+            </div>
+            <div class="w-100 ticket-details">
+              <quill-editor formControlName="UserTicket"
+                            [styles]="{height: '150px'}"
+                            [required]="true"
+                            [modules]="quillConfig"
+                            [ngClass]="{ 'is-invalid': !f.UserTicket.valid && f.UserTicket.touched }">
+              </quill-editor>
+              <span *ngIf="f.UserTicket.errors?.required" class="invalid-feedback">Ticket Details are required</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="public-private-switch">
+              <span
+                [ngbPopover]="publicSwitchContent"
+                placement="right"
+                triggers="mouseenter:mouseleave"
+                popoverTitle="Public vs Private">
+                <kendo-switch
+                  formControlName="IsPrivate"
+                  class="k-switch-lg"
+                  onLabel="Private"
+                  offLabel="Public">
+              </kendo-switch>
+              </span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="w-100">
+              <label class="col-form-label">Attachments </label>
+            </div>
+            <div class="w-100">
+              <kendo-upload [multiple]="true"
+                            [saveUrl]="uploadSaveUrl"
+                            [removeUrl]="uploadRemoveUrl"
+                            [restrictions]="uploadRestrictions"
+                            (select)="onFileSelect($event)"
+                            (upload)="uploadEventHandler($event)"
+                            (remove)="onFileRemove($event)"
+                            (success)="successEventHandler($event)"
+                            class="mb-2">
+                <kendo-upload-messages
+                  select="Browse">
+                </kendo-upload-messages>
+
+              </kendo-upload>
+              <ng-container *ngIf="uploadError">
+                <div *ngIf="uploadError" class="custom-control invalid-feedback">
+                  {{ errorMessage }}
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </form>
+    </div>
+  </ng-container>
+  <ng-container button-container-left>
+    <span class="text-danger">
+      {{(errorMessage$ | async)}}
+    </span>
+  </ng-container>
+</pf-modal-form>
+<ng-template #publicSwitchContent>
+  Private tickets can only be viewed by you. Public tickets will be accessible to all users at your company.
+</ng-template>

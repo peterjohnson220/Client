@@ -1,0 +1,155 @@
+import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { FileRestrictions, RemoveEvent, SelectEvent, SuccessEvent, UploadComponent, UploadEvent } from '@progress/kendo-angular-upload';
+
+import * as fromRootState from 'libs/state/state';
+import { PfValidators } from 'libs/forms/validators';
+import { UserContext, AsyncStateObj, UploadedFile, UserTicketDto } from 'libs/models';
+import { Files } from 'libs/constants';
+
+import * as fromServicesPageReducer from '../../reducers';
+import * as fromServicesPageActions from '../../actions/service-page.actions';
+import { TicketType, ServicePageConfig } from '../../models';
+
+@Component({
+  selector: 'pf-create-user-ticket',
+  templateUrl: './create-ticket-modal.component.html',
+  styleUrls: ['./create-ticket-modal.component.scss']
+})
+export class CreateTicketModalComponent {
+  @ViewChild(UploadComponent, { static: false }) uploadComponent: UploadComponent;
+
+  // observables
+  userContext$: Observable<UserContext>;
+  showUserTicketForm$: Observable<boolean>;
+  ticketTypes$: Observable<AsyncStateObj<TicketType[]>>;
+  saving$: Observable<boolean>;
+  errorMessage$: Observable<string>;
+
+  fileUploadMax = ServicePageConfig.MaxFileUploads;
+  ticketForm: FormGroup;
+  uploadSaveUrl = ServicePageConfig.UploadSaveUrl;
+  uploadRemoveUrl = ServicePageConfig.UploadRemoveUrl;
+  uploadedFilesData: UploadedFile[] = [];
+  errorMessage = '';
+  uploadError = false;
+
+  get f() { return this.ticketForm.controls; }
+  public uploadRestrictions: FileRestrictions = {
+    allowedExtensions: Files.VALID_FILE_EXTENSIONS,
+    maxFileSize: Files.MAX_SIZE_LIMIT
+  };
+
+  quillConfig = {
+    toolbar: {
+      container: [
+        [{ 'size': ['small', false, 'large'] }],
+        ['bold', 'italic', 'underline'],
+        [{ 'color': [] }],
+        [{ 'align': [] }],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ]
+    }
+  };
+
+  constructor(
+    private rootStore: Store<fromRootState.State>,
+    public store: Store<fromServicesPageReducer.State>,
+    private formBuilder: FormBuilder
+  ) {
+    this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
+    this.showUserTicketForm$ = this.store.pipe(select(fromServicesPageReducer.getShowNewTicketModal));
+    this.ticketTypes$ = this.store.pipe(select(fromServicesPageReducer.getTicketTypes));
+    this.saving$ = this.store.pipe(select(fromServicesPageReducer.getSavingUserTicket));
+    this.errorMessage$ = this.store.pipe(select(fromServicesPageReducer.getSavingUserTicketErrorMessage));
+    this.createForm();
+  }
+
+  onDismiss() {
+    this.store.dispatch(new fromServicesPageActions.ShowNewTicketModal(false));
+    this.resetForm();
+  }
+
+  onSubmit() {
+    const userTicket = this.getUserTicket();
+    this.store.dispatch(new fromServicesPageActions.CreateUserTicket({ticket: userTicket, fileData: this.uploadedFilesData}));
+  }
+
+  private createForm(): void {
+    this.ticketForm = this.formBuilder.group({
+      TicketTitle: ['', [
+        PfValidators.required,
+        PfValidators.maxLengthTrimWhitespace(50)]],
+      TicketType: [null, [Validators.required]],
+      UserTicket: ['', [PfValidators.required]],
+      IsPrivate: false,
+      UserTicketState: 'New'
+    });
+  }
+
+  // Upload events
+  uploadEventHandler(e: UploadEvent) {
+    this.resetError();
+    this.ticketForm.markAsTouched();
+  }
+
+  successEventHandler(e: SuccessEvent) {
+    if (e.operation === 'upload') {
+      const file: UploadedFile = {
+        DisplayName: e.files[0].name,
+        FileName: e.response.body.value[0].FileName
+      };
+      this.uploadedFilesData.push(file);
+    } else if (e.operation === 'remove') {
+      this.uploadedFilesData.forEach((arrayItem) => {
+        if (arrayItem.FileName === e.files[0].name) {
+          const index = this.uploadedFilesData.indexOf(arrayItem);
+          this.uploadedFilesData.splice(index, 1);
+        }
+      });
+    }
+  }
+
+  onFileRemove(e: RemoveEvent) {
+    this.uploadedFilesData.forEach((arrayItem) => {
+      if (arrayItem.DisplayName === e.files[0].name) {
+        e.files[0].name = arrayItem.FileName;
+      }
+    });
+    this.resetError();
+  }
+
+  onFileSelect(e: SelectEvent) {
+    if (e.files.length > this.fileUploadMax - this.uploadedFilesData.length) {
+      this.uploadError = true;
+      this.errorMessage = 'The maximum number of files is ' + this.fileUploadMax + '.';
+      e.preventDefault();
+    }
+  }
+
+  resetError(): void {
+    this.uploadError = false;
+    this.errorMessage = '';
+  }
+
+  private resetForm(): void {
+     this.resetError();
+     this.ticketForm.reset({
+       IsPrivate: false,
+       UserTicketState: 'New'
+     });
+    this.uploadedFilesData = [];
+    this.uploadComponent.clearFiles();
+  }
+
+  private getUserTicket(): UserTicketDto {
+    const userTicket: UserTicketDto = this.ticketForm.getRawValue();
+    const ticketType: TicketType = this.ticketForm.get('TicketType').value;
+    userTicket.UserTicketType = ticketType.TicketTypeName;
+    userTicket.FileType = ticketType.TicketSubTypeName;
+    return userTicket;
+  }
+}

@@ -7,7 +7,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { ServicePageViewId } from '../models';
+import { ServicePageConfig } from '../models';
 
 import * as fromServicePageActions from '../actions/service-page.actions';
 import * as fromServicePageReducer from '../reducers';
@@ -22,6 +22,7 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('statusColumn', { static: false }) statusColumn: ElementRef;
   @ViewChild('ticketType', { static: false }) ticketType: ElementRef;
+  @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
   ticketTypes$: Observable<string[]>;
 
@@ -30,7 +31,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     field: 'UserTickets_Create_Date'
   }];
   actionBarConfig: ActionBarConfig;
-  pageViewId = ServicePageViewId;
+  pageViewId = ServicePageConfig.ServicePageViewId;
   colTemplates = {};
   filterTemplates = {};
   ticketTypeField: ViewField;
@@ -65,6 +66,10 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.filterTemplates = {
       'UserTicket_Type': { Template: this.ticketType }
     };
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate
+    };
   }
 
   handleTicketTypeFilterChanged(value: string) {
@@ -84,5 +89,9 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
+  }
+
+  addNewTicket() {
+    this.store.dispatch(new fromServicePageActions.ShowNewTicketModal(true));
   }
 }
