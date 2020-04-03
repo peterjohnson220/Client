@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
-import { ViewField, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
+import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -61,6 +61,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   pagingBarConfig = null;
 
+  readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
+
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
 
   constructor(private store: Store<fromReducer.State>) { }
@@ -110,7 +112,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       if (this.useColumnGroups) {
         this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
       } else {
-        this.dataFields$ = this.store.select(fromReducer.getVisibleOrderedFields , changes['pageViewId'].currentValue);
+        this.dataFields$ = this.store.select(fromReducer.getVisibleOrderedFields, changes['pageViewId'].currentValue);
       }
 
       this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
@@ -168,7 +170,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  onCellClick({ dataItem, rowIndex }) {
+  onCellClick({ dataItem, rowIndex, originalEvent }) {
+
+    if (originalEvent.button !== 0) {
+      return;
+    }
+
     if (getSelection().toString()) {
       // User is highlighting text so we don't want to mark this as a click
     } else if (this.allowSplitView) {
@@ -186,13 +193,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  getGridColumnHeaderClass(col: ViewField) {
-    const headerClass = (this.compactGrid && !this.showHeaderWhenCompact) ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
-    let textAlignClass = !!col && !!col.TextAlign ? `text-align-${col.TextAlign}` : '';
-    if (col && col.Group && this.useColumnGroups) {
-      textAlignClass = 'text-align-center';
-    }
-    return `${this.customHeaderClass || ''} ${headerClass} ${textAlignClass}`.trim();
+  getColumnHeaderClass(): string {
+    return this.compactGrid && !this.showHeaderWhenCompact ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
   }
 
   getCheckboxHeaderClass() {
@@ -205,8 +207,21 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.primaryKey] === this.selectedRecordId)
   })
 
-  getColumnClasses(col: ViewField) {
-    return this.columnTemplates && this.columnTemplates[col.SourceName] && this.columnTemplates[col.SourceName].IsCompact ? 'pf-data-grid-compact-cell' : '';
+  getColumnClasses(col: ViewField): string {
+    return this.columnTemplates && this.columnTemplates[col.SourceName] && this.columnTemplates[col.SourceName].IsCompact
+      ? 'pf-data-grid-compact-cell' : '';
+  }
+
+  getColTextAlignClass(col: ViewField): string {
+    if (!col) {
+      return '';
+    } else if (col.TextAlign) {
+      return  `text-${col.TextAlign}`;
+    } else if (col.DataType === DataViewFieldDataType.Int || col.DataType === DataViewFieldDataType.Float) {
+      return 'text-right';
+    } else {
+      return 'text-left';
+    }
   }
 
   isSortable() {

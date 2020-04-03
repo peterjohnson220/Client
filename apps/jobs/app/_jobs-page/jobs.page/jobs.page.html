@@ -49,7 +49,7 @@
         <button
           ngbDropdownToggle
           [attr.data-qa-id]="'btn-jobs-page-inline-actions-' + dataRow['CompanyJobs_CompanyJob_ID']"
-          class="btn btn-secondary btn-sm hide-dropdown-arrow inline-menu-btn">
+          class="btn btn-secondary btn-sm hide-dropdown-arrow pf-icon-btn-transparent">
           <fa-icon icon="ellipsis-h"></fa-icon>
         </button>
         <div ngbDropdownMenu class="dropdown-menu dropdown-menu-left">
@@ -74,18 +74,19 @@
 
 </ng-template>
 
-<pf-peer-exchange-matches  *ngIf="show" [offset]="offset"  [jobId]="peerJobId">
-
-</pf-peer-exchange-matches>
-
+<pf-peer-exchange-matches *ngIf="show" [offset]="offset"  [jobId]="peerJobId"></pf-peer-exchange-matches>
 
 <ng-template #jobStatusColumn let-dataRow="dataRow">
   {{dataRow['CompanyJobs_JobStatus'] ? 'Active' : 'Inactive'}}
 </ng-template>
 <ng-template #hasPeerDataColumn let-dataRow="dataRow">
-        <fa-icon [id]="dataRow['CompanyJobs_CompanyJob_ID']"  (click)="onToggle($event, null)" (mouseenter)="onToggle($event, dataRow['CompanyJobs_CompanyJob_ID'])"
-               (mouseleave)="onToggle($event, null)"
-               icon="exchange-alt" *ngIf="dataRow['CompanyJobs_Peer']"></fa-icon>
+  <fa-icon  *ngIf="dataRow['CompanyJobs_Peer']"
+    icon="exchange-alt"
+    [id]="dataRow['CompanyJobs_CompanyJob_ID']"
+    (click)="onToggle($event, null)"
+    (mouseenter)="onToggle($event, dataRow['CompanyJobs_CompanyJob_ID'])"
+    (mouseleave)="onToggle($event, null)">
+  </fa-icon>
 </ng-template>
 
 <ng-template #jobsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">
@@ -111,8 +112,8 @@
     [disabledCustomExportTooltip]="'Select a pricing'"
     [disablePopover]="disableExportPopover"
     [disabledPopoverTooltip]="'Select a Priced Job'"
-    (exportEmitter)="exportPricings($event)"
-  ></pf-export-list-popover>
+    (exportEmitter)="exportPricings($event)">
+  </pf-export-list-popover>
 </ng-template>
 
 <ng-template #gridActions>
