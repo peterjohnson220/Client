@@ -40,12 +40,15 @@ import 'assets/js/new-relic.js';
 // import 'classlist.js';  // Run `npm install --save classlist.js`.
 
 /** IE10 and IE11 requires the following for the Reflect API. */
-// import 'core-js/es6/reflect';
+import 'core-js/es6/reflect';
 
 
 /** Evergreen browsers require these. **/
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
 import 'core-js/es7/reflect';
+
+/** Needed before Polyfills in order to avoid an infinite recursion issue */
+import 'core-js/es7/array';
 
 
 /**
@@ -76,7 +79,3 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * Need to import at least one locale-data with intl.
  */
 // import 'intl/locale-data/jsonp/en';
-
-// For ng2-dragula (https://github.com/valor-software/ng2-dragula/issues/849#issuecomment-385518621)
-// Add global to window, assigning the value of window itself.
-(window as any).global = window;
