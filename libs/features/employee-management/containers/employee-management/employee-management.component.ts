@@ -305,6 +305,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.workCountryCombobox.filterChange.emit('');
     this.departmentCombobox.filterChange.emit('');
     this.jobSearchTerm = '';
+    this.selectedStructure = null;
     this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobs({SearchTerm: '', Limit: this.PAGE_SIZE}));
     this.updateStructuresControl([]);
     this.updateGradeCodesControl([]);
@@ -427,10 +428,6 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   private updateStructuresControl(structures: Structure[]): void {
     const structuresControl = this.employeeForm.controls['StructureRangeGroupId'];
     this.selectedStructure = structures.length === 1 ? structures[0] : null;
-    if (!!this.employee && this.employee.StructureRangeGroupId &&
-        structures.some(s => s.RangeGroupId === this.employee.StructureRangeGroupId)) {
-      this.selectedStructure = structures.find(s => s.RangeGroupId === this.employee.StructureRangeGroupId);
-    }
     const selectedValue: number = this.selectedStructure ? this.selectedStructure.RangeGroupId : null;
     structuresControl.setValue(selectedValue);
     if (!structures.length || structures.length === 1) {
