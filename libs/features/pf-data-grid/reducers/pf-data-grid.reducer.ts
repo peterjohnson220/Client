@@ -211,6 +211,14 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_FIELDS:
+
+      // Remove the sort descriptors for columns which are no longer in the visible columns list 
+      let sortDescriptor = state.grids[action.pageViewId].sortDescriptor;
+      if (sortDescriptor) {
+        sortDescriptor = sortDescriptor.filter(s => action.fields.find(f => f.SourceName === s.field));
+        sortDescriptor = sortDescriptor.length ? sortDescriptor : state.grids[action.pageViewId].defaultSortDescriptor;
+      }
+
       return {
         ...state,
         grids: {
@@ -220,7 +228,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             fields: action.fields,
             groupedFields: buildGroupedFields(action.fields),
             selectedRecordId: null,
-            expandedRows: []
+            expandedRows: [],
+            sortDescriptor: sortDescriptor
           }
         }
       };
