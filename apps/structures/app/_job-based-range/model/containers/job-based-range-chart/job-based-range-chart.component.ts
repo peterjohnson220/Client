@@ -104,7 +104,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     const delta = this.formatMidPointDelta(currentRow);
 
     this.midpointSeriesData.push({
-      y: StructuresHighchartsService.calculateMidpoint(currentRow.CompanyStructures_Ranges_Min, currentRow.CompanyStructures_Ranges_Max),
+      y: currentRow.CompanyStructures_Ranges_Mid,
       jobTitle: currentRow.CompanyJobs_Job_Title,
       midPoint: this.formatMidPoint(this.isCurrent, 'Midpoint', currentRow.CompanyStructures_Ranges_Mid),
       currentMidPoint: this.formatMidPoint(!this.isCurrent, 'Current Mid', currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint),

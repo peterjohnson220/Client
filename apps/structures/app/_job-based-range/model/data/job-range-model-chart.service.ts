@@ -78,7 +78,7 @@ export class JobRangeModelChartService {
         color: 'rgba(36,134,210,0.45)',
         enableMouseTracking: false
       }, {
-        name: 'Mid-point',
+        name: 'Range Mid',
         type: 'scatter',
         marker: {
           symbol: 'vline',

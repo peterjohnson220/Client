@@ -25,10 +25,6 @@ export class StructuresHighchartsService {
     return formatter.format(rawCurrency);
   }
 
-  static calculateMidpoint(min, max) {
-    return (min + max) / 2;
-  }
-
   static formatColumnRange(xCoordinate, low, high) {
     return { x: xCoordinate, low: low, high: high };
   }
