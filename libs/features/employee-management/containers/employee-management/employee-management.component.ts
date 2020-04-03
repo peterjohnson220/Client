@@ -413,9 +413,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
 
   private updateGradeCodesControl(list: KendoTypedDropDownItem[]): void {
     const gradeCodesControl = this.employeeForm.controls['GradeCode'];
-    let selectedValue = !!list.length ? list[0].Value : null;
+    let selectedValue = list.length === 1 ? list[0].Value : null;
     if (!!this.employee && this.employee.GradeCode && list.some(x => x.Value === this.employee.GradeCode)) {
-        selectedValue = this.employee.GradeCode;
+      selectedValue = this.employee.GradeCode;
     }
     gradeCodesControl.setValue(selectedValue);
     if (!list.length || list.length === 1) {
@@ -428,6 +428,10 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   private updateStructuresControl(structures: Structure[]): void {
     const structuresControl = this.employeeForm.controls['StructureRangeGroupId'];
     this.selectedStructure = structures.length === 1 ? structures[0] : null;
+    if (!!this.employee && this.employee.StructureRangeGroupId &&
+      structures.some(s => s.RangeGroupId === this.employee.StructureRangeGroupId)) {
+      this.selectedStructure = structures.find(s => s.RangeGroupId === this.employee.StructureRangeGroupId);
+    }
     const selectedValue: number = this.selectedStructure ? this.selectedStructure.RangeGroupId : null;
     structuresControl.setValue(selectedValue);
     if (!structures.length || structures.length === 1) {
