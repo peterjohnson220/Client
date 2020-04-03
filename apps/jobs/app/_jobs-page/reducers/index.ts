@@ -47,6 +47,7 @@ export const getPricingIdToBeDeleted = createSelector(selectJobsPageState, fromJ
 export const getCompanyPayMarkets = createSelector(selectJobsPageState, fromJobsPageReducer.getCompanyPayMarkets);
 export const getPricingDetailsView = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingDetailsView);
 export const getExportOptions = createSelector(selectJobsPageState, fromJobsPageReducer.getExportOptions);
+export const getNavigatingToOldPage = createSelector(selectJobsPageState, fromJobsPageReducer.getNavigatingToOldPage);
 
 // Job Description Selectors
 export const selectJobDescriptionState =

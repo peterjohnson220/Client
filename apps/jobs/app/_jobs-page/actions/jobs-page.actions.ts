@@ -31,6 +31,9 @@ export const EXPORT_PRICINGS_SUCCESS = '[Jobs Page] Export Pricings Success';
 export const EXPORT_PRICINGS_ERROR = '[Jobs Page] Export Pricings Error';
 export const LOAD_CUSTOM_EXPORTS = '[Jobs Page] Load Custom Exports';
 export const LOAD_CUSTOM_EXPORTS_SUCCESS = '[Jobs Page] Load Custom Exports Success';
+export const TOGGLE_JOBS_PAGE = '[Jobs Page] Toggle Jobs Page';
+export const TOGGLE_JOBS_PAGE_SUCCESS = '[Jobs Page] Toggle Jobs Page Success';
+export const TOGGLE_JOBS_PAGE_ERROR = '[Jobs Page] Toggle Jobs Page Error';
 
 
 export class SetJobsPageId implements Action {
@@ -171,6 +174,21 @@ export class LoadCustomExportsSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class ToggleJobsPage implements Action {
+  readonly type = TOGGLE_JOBS_PAGE;
+  constructor() {}
+}
+
+export class ToggleJobsPageSuccess implements Action {
+  readonly type = TOGGLE_JOBS_PAGE_SUCCESS;
+  constructor() {}
+}
+
+export class ToggleJobsPageError implements Action {
+  readonly type = TOGGLE_JOBS_PAGE_ERROR;
+  constructor() {}
+}
+
 
 export type JobsPageActions
   = SetJobsPageId
@@ -201,4 +219,7 @@ export type JobsPageActions
   | ExportPricingsSuccess
   | ExportPricingsError
   | LoadCustomExports
-  | LoadCustomExportsSuccess;
+  | LoadCustomExportsSuccess
+  | ToggleJobsPage
+  | ToggleJobsPageSuccess
+  | ToggleJobsPageError;

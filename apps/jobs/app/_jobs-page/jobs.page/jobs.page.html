@@ -1,6 +1,6 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
-  [title]="(userContext$ | async)?.CompanyName + ' - Jobs'"
+  [titleTemplate]="titleTemplate"
   [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
   [gridActionsTemplate]="gridActions"
@@ -13,6 +13,23 @@
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
   [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
+
+<ng-template #titleTemplate>
+  {{(userContext$ | async)?.CompanyName + ' - Jobs' | titlecase}}
+  <button
+    *ngIf="enablePageToggle"
+    class="btn btn-secondary align-top ml-3"
+    [attr.data-qa-id]="'btn-toggle-jobs-page'"
+    [id]="'btn-toggle-jobs-page'"
+    (click)="jobsPageToggle()"
+  >
+    Back to old Jobs page
+    <div *ngIf="(navigatingToOldPage$ | async).loading" class="loading-icon-container ml-2">
+      <pf-loading-indicator
+      ></pf-loading-indicator>
+    </div>
+  </button>
+</ng-template>
 
 <ng-template #jobTitleColumn let-dataRow="dataRow" let-hover="hover">
 

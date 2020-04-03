@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import {Observable, Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
@@ -48,12 +48,14 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   companyPayMarketsSubscription: Subscription;
   structureGradeNameSubscription: Subscription;
   selectedJobDataSubscription: Subscription;
+  companySettingsSubscription: Subscription;
 
   userContext$: Observable<UserContext>;
   selectedRecordId$: Observable<number>;
 
   showCreateProjectModal$: Observable<boolean>;
   creatingProject$: Observable<AsyncStateObj<boolean>>;
+  navigatingToOldPage$: Observable<AsyncStateObj<boolean>>;
 
   showJobStatusModal$: Observable<boolean>;
   changingJobStatus$: Observable<AsyncStateObj<boolean>>;
@@ -91,6 +93,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   disableExportPopover = true;
   selectedJobPricingCount = 0;
+  enablePageToggle = false;
 
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
@@ -114,6 +117,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.changingJobStatus$ = this.store.select(fromJobsPageReducer.getChangingJobStatus);
     this.showDeleteJobModal$ = this.store.select(fromJobsPageReducer.getShowDeleteJobModal);
     this.deletingJob$ = this.store.select(fromJobsPageReducer.getDeletingJob);
+    this.navigatingToOldPage$ = this.store.select(fromJobsPageReducer.getNavigatingToOldPage);
 
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
@@ -176,6 +180,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.disableExportPopover = !(this.selectedPricingIds.length > 0);
         }
+      }
+    });
+
+    this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
+      if (cs) {
+        const setting = cs.find(x => x.Key === 'EnableJobsPageToggle');
+        this.enablePageToggle = setting && setting.Value === 'true'; // || true;
       }
     });
   }
@@ -274,6 +285,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.structureGradeNameSubscription.unsubscribe();
     this.selectedJobPayMarketSubscription.unsubscribe();
     this.selectedJobDataSubscription.unsubscribe();
+    this.companySettingsSubscription.unsubscribe();
   }
 
   closeSplitView() {
@@ -346,6 +358,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.offset = { left: event.clientX, top: event.clientY };
       }
     }
+  }
 
+  jobsPageToggle() {
+    this.store.dispatch(new fromJobsPageActions.ToggleJobsPage());
   }
 }

@@ -14,4 +14,5 @@ export class UiPersistenceSettingConstants {
   static readonly DashboardViewThumbnailEnabled = 'DashboardViewThumbnailEnabled';
   static readonly ExchangeDataCutsExportWeightingTypeSelection = 'ExchangeDataCutsExportWeightingTypeSelection';
   static readonly PeerAddDataModalWeightingTypeSelection = 'PeerAddDataModalWeightingTypeSelection';
+  static readonly JobsPagePreference = 'JobsPagePreference';
 }

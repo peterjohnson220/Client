@@ -23,6 +23,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() pageViewId: string;
   @Input() title: string;
+  @Input() titleTemplate: TemplateRef<any>;
   @Input() navigationURL: string;
   @Input() showTitle = true;
   @Input() contentNoPadding = false;
