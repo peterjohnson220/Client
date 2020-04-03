@@ -4,7 +4,8 @@
   [selectionField]="'UserTicket_ID'"
   [defaultSort]="defaultSort"
   [actionBarConfig]="actionBarConfig"
-  [columnTemplates]="colTemplates">
+  [columnTemplates]="colTemplates"
+  [filterPanelTemplates]="filterTemplates">
 </pf-data-grid>
 
 <ng-template #statusColumn let-dataRow="dataRow">
@@ -18,3 +19,15 @@
     <span>{{dataRow['UserTickets_UserTicket_State']}}</span>
   </div>
 </ng-template>
+
+<ng-template #ticketType>
+  <label>Type:</label>
+      <kendo-dropdownlist
+        [(ngModel)]="selectedTicketTypeField"
+        [data]="ticketTypes$ | async"
+        [defaultItem]="'All'"
+        (valueChange)="handleTicketTypeFilterChanged($event)"
+        class="k-dropdown-white form-control">
+      </kendo-dropdownlist>
+</ng-template>
+
