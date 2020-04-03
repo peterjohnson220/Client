@@ -177,6 +177,7 @@ export class TicketListComponent  implements OnInit, OnDestroy {
     if (u && queryParam.keys.length === 0) {
       this.defaultPfServiceRep = u.PfServicesRepId;
       this.serviceUserFilterComponent.modifyFilter(u.PfServicesRepId);
+      this.state.filter.filters.push({field: this.ticketFieldType.SERVICEUSER, value: this.defaultPfServiceRep, operator: 'contains'});
     }
     if (queryParam.keys.length > 0) {
       KendoGridFilterHelper.updateFilter('Created', null, this.state);
