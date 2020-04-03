@@ -30,7 +30,7 @@ export const selectServicePageState = createSelector(
 );
 
 // Service Page
-export const getTicketTypes = createSelector(
+export const getTicketTypeNames = createSelector(
   selectServicePageState,
-  fromServicePageReducer.getTicketTypes
+  fromServicePageReducer.getTicketTypeNames
 );
