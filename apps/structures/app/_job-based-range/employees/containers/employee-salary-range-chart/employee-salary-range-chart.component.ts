@@ -152,8 +152,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
     this.midPointSeries.push({
       x: xCoordinate,
-      y: StructuresHighchartsService.calculateMidpoint(
-        this.jobRangeData.CompanyStructures_Ranges_Min, this.jobRangeData.CompanyStructures_Ranges_Max),
+      y: this.jobRangeData.CompanyStructures_Ranges_Mid,
       jobTitle: jobRangeData.CompanyJobs_Job_Title,
       midPoint: this.formatMidPoint(this.isCurrent, 'Midpoint', jobRangeData.CompanyStructures_Ranges_Mid),
       currentMidPoint: this.formatMidPoint(!this.isCurrent, 'Current Mid', jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint),
@@ -165,7 +164,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addMidpointLine() {
-    this.chartInstance.yAxis[0].addPlotLine(this.plotLinesAndBands.find(plb => plb.id === 'Mid-point'));
+    this.chartInstance.yAxis[0].addPlotLine(this.plotLinesAndBands.find(plb => plb.id === 'Range Mid'));
   }
 
   private addAverageLine() {
@@ -208,10 +207,9 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       this.plotLinesAndBands = [
         {
           color: '#CD8C01',
-          id: 'Mid-point',
+          id: 'Range Mid',
           width: 2,
-          value: StructuresHighchartsService.calculateMidpoint(
-            this.jobRangeData.CompanyStructures_Ranges_Min, this.jobRangeData.CompanyStructures_Ranges_Max),
+          value: this.jobRangeData.CompanyStructures_Ranges_Mid,
           zIndex: 3
         },
         {
