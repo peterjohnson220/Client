@@ -9,12 +9,12 @@ import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter
 import { SystemFilter, CompanySettingsEnum, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
+import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 
 import * as fromUpsertDataCutPageActions from '../../../actions/upsert-data-cut-page.actions';
-import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
 import * as fromRequestPeerAccessActions from '../../../actions/request-peer-access.actions';
 import * as fromUpsertPeerDataReducers from '../../../reducers';
-import { DojGuidelinesService } from '../../../services/doj-guidelines.service';
 
 @Component({
   selector: 'pf-upsert-data-cut-page',

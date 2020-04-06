@@ -11,12 +11,12 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
+import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 
 import * as fromUpsertDataCutPageActions from '../../../actions/upsert-data-cut-page.actions';
-import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
 import * as fromRequestPeerAccessActions from '../../../actions/request-peer-access.actions';
 import * as fromUpsertPeerDataReducers from '../../../reducers';
-import { DojGuidelinesService } from '../../../services/doj-guidelines.service';
 
 @Component({
   selector: 'pf-upsert-data-cut-page-new',

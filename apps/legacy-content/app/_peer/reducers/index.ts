@@ -2,10 +2,10 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
+import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers/data-cut-validation.reducer';
 
 // Import feature reducers
 import * as fromUpsertDataCutPageReducer from './upsert-data-cut-page.reducer';
-import * as fromDataCutValidationReducer from './data-cut-validation.reducer';
 import * as fromAssociateCompanyJobReducer from './associate-company-job.reducer';
 import * as fromPaymarketExchangeScopeReducer from './paymarket-exchange-scope.reducer';
 import * as fromRequestPeerAccessReducer from './request-peer-access.reducer';
@@ -29,7 +29,6 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   upsertDataCutPage: fromUpsertDataCutPageReducer.reducer,
-  dataCutValidation: fromDataCutValidationReducer.reducer,
   associateCompanyJob: fromAssociateCompanyJobReducer.reducer,
   paymarketExchangeScope: fromPaymarketExchangeScopeReducer.reducer,
   requestPeerAccess: fromRequestPeerAccessReducer.reducer,

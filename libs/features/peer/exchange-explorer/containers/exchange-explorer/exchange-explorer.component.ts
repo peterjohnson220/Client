@@ -14,6 +14,7 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 import * as fromChildSearchFilterActions from 'libs/features/search/actions/child-filter.actions';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 
+import { ComphubExchangeExplorerContextRequest } from '../../../../../models/peer/requests/comphub-exchange-explorer-context-request.model';
 import * as fromExchangeExplorerReducer from '../../reducers';
 import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-explorer-context-info.actions';
 import * as fromExchangeFilterContextActions from '../../actions/exchange-filter-context.actions';
@@ -45,6 +46,7 @@ export class ExchangeExplorerComponent extends SearchBase {
   exchangeId: number;
   companyJobId: number;
   cutGuid: string;
+  exchangeJobIds: number[];
 
   constructor(
     private exchangeExplorerStore: Store<fromExchangeExplorerReducer.State>,
@@ -127,7 +129,19 @@ export class ExchangeExplorerComponent extends SearchBase {
     this.companyPayMarketId = payload.companyPayMarketId;
     if (payload.isExchangeSpecific) {
       this.exchangeId = payload.exchangeId;
-      this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({exchangeId: this.exchangeId}));
+      if (!!payload.exchangeJobIds) {
+        this.exchangeJobIds = payload.exchangeJobIds;
+        const request: ComphubExchangeExplorerContextRequest = {
+          ExchangeId : payload.exchangeId,
+          ExchangeJobIds : payload.exchangeJobIds,
+          CompanyPayMarketId : payload.companyPayMarketId
+        };
+        this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(
+          request));
+      } else {
+        this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(
+          {exchangeId: payload.exchangeId}));
+      }
     } else {
       const systemFilterRequest = {
         companyJobId: payload.companyJobId,

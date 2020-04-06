@@ -1,0 +1,4 @@
+<pf-data-card *ngIf="(userContext$ | async).ClientType != PEER_AND_ANALYSIS"
+              [workflowContext]="workflowContext"></pf-data-card>
+
+<pf-peer-data-card [workflowContext]="workflowContext"  *ngIf="(userContext$ | async).ClientType === PEER_AND_ANALYSIS"></pf-peer-data-card>

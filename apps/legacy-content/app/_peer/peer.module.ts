@@ -15,6 +15,8 @@ import {PfPeerMapModule, ExchangeSelectorComponent, ExchangeJobSelectorComponent
 import { CompanyJobApiService } from 'libs/data/payfactors-api/';
 import { PfCommonModule } from 'libs/core';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
+import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guidelines-badge.module';
+import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 
 import * as fromFaIcons from './fa-icons';
 import {
@@ -31,8 +33,6 @@ import {
   RequestPeerAccessEffects, UpsertDataCutPageEffects, TaggingEntitiesEffects
 } from './effects';
 import { reducers } from './reducers';
-import { GuidelinesBadgeComponent } from './components';
-import { DojGuidelinesService } from './services/doj-guidelines.service';
 
 @NgModule({
   imports: [
@@ -40,6 +40,7 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    GuidelinesBadgeModule,
 
     // 3rd party
     StoreModule.forFeature('legacy_upsertPeerData', reducers),
@@ -68,7 +69,6 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
   ],
   declarations: [
     // Components
-    GuidelinesBadgeComponent,
     JobInfoContainerComponent,
     ExchangeSelectorComponent,
     CompanyJobMapResultComponent,

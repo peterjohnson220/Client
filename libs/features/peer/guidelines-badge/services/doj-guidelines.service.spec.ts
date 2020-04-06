@@ -14,7 +14,7 @@ import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import { DojGuidelinesService } from './doj-guidelines.service';
-import * as fromLegacyAddPeerDataReducer from '../reducers';
+import * as fromDataCutValidationReducer from '../reducers';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   LngLatBounds: () => ({})
@@ -32,7 +32,7 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           feature_peerMap: combineReducers(fromPeerMapReducer.reducers),
-          legacy_upsertPeerData: combineReducers(fromLegacyAddPeerDataReducer.reducers)
+          legacy_upsertPeerData: combineReducers(fromDataCutValidationReducer.reducers)
         })
       ],
       providers: [

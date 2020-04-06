@@ -1,11 +1,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import { WindowRef } from 'libs/core/services';
 import * as fromRootState from 'libs/state/state';
 import { environment } from 'environments/environment';
+import { generateMockUserContext } from 'libs/models/security';
 
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -43,7 +44,7 @@ describe('Comphub - Main - Card Layout', () => {
 
     fixture = TestBed.createComponent(CardLayoutComponent);
     instance = fixture.componentInstance;
-
+    instance.userContext$ = of(generateMockUserContext());
     store = TestBed.get(Store);
     windowRef = TestBed.get(WindowRef);
     modalService = TestBed.get(NgbModal);

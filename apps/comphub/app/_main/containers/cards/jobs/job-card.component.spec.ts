@@ -12,6 +12,7 @@ import * as fromComphubMainReducer from '../../../reducers';
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
 import * as fromCompHubPageActions from '../../../actions/comphub-page.actions';
 import { generateMockWorkflowContext } from '../../../models';
+import { of } from 'rxjs';
 
 describe('Comphub - Main - Jobs Card Component', () => {
   let instance: JobsCardComponent;
@@ -37,6 +38,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
     store = TestBed.get(Store);
 
     instance.workflowContext = generateMockWorkflowContext();
+    instance.userContext$ = of(generateMockUserContext());
     fixture.detectChanges();
   });
 

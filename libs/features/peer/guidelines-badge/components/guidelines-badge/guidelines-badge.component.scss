@@ -1,6 +1,6 @@
-@import '~bootstrap/scss/_functions.scss';
-@import '~bootstrap/scss/_variables.scss';
-@import 'app-colors';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import 'colors';
 
 $warning-with-alpha: rgba($warning, .2);
 $danger-with-alpha: rgba($danger, .2);
@@ -60,7 +60,6 @@ fa-icon[icon="exclamation-circle"] {
 //Popover Overrides (Need to use important here since positioning styles get applied on the element dynamically)
 :host ::ng-deep .popover {
   max-width: 235px;
-  left: initial !important;
   right: 24px;
 }
 

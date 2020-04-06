@@ -109,17 +109,9 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
   max-width: 10vw;
 }
 
-@media all and (max-width: 1300px) {
-  .hide-when-medium {
-    display: none;
-  }
-}
+
 
 @media all and (max-width: 1200px) {
-  .hide-when-small {
-    display: none;
-  }
-
   .job-title-column {
     width: 40vw;
     max-width: 40vw;

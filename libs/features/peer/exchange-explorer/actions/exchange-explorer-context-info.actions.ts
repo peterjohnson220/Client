@@ -4,6 +4,7 @@ import { SearchFilterMappingDataObj } from '../../../search/models';
 import { ExchangeJobExchangeDetail } from '../../models';
 import { MapGeoData } from '../../../../models/peer';
 import { PayMarket } from '../../../../models/paymarket';
+import {ComphubExchangeExplorerContextRequest} from '../../../../models/peer/requests/comphub-exchange-explorer-context-request.model';
 
 export const LOAD_CONTEXT_INFO = '[Features/Peer/ExchangeExplorer/ContextInfo] Load Context Info';
 export const LOAD_CONTEXT_INFO_SUCCESS = '[Features/Peer/ExchangeExplorer/ContextInfo] Load Context Info Success';
@@ -15,7 +16,7 @@ export const REFRESH_PAYMARKET_CONTEXT_ERROR = '[Features/Peer/ExchangeExplorer/
 export class LoadContextInfo implements Action {
   readonly type = LOAD_CONTEXT_INFO;
 
-  constructor(public payload: {companyJobId?: number, companyPayMarketId?: number}|{exchangeId: number}) {}
+  constructor(public payload: ComphubExchangeExplorerContextRequest | {companyJobId?: number, companyPayMarketId?: number}|{exchangeId: number}) {}
 }
 
 export class LoadContextInfoSuccess implements Action {
