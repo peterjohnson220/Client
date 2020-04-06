@@ -28,7 +28,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
   @Input() allowSort = true;
-  @Input() saveSort = false;
   @Input() reorderable = false;
   @Input() customHeaderClass: string;
   @Input() defaultColumnWidth: number;
@@ -56,6 +55,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   selectionFieldSubscription: Subscription;
   selectionField: string;
+
+  saveSortSubscription: Subscription;
+  saveSort: boolean;
 
   selectAllStatus = SelectAllStatus;
 
@@ -92,6 +94,10 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.selectionFieldSubscription = this.store.select(fromReducer.getSelectionField, this.pageViewId).subscribe(selectionField => {
       this.selectionField = selectionField;
     });
+
+    this.saveSortSubscription = this.store.select(fromReducer.getSaveSort, this.pageViewId).subscribe(saveSort => {
+      this.saveSort = saveSort;
+    });
   }
 
   ngOnDestroy() {
@@ -100,6 +106,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.primaryKeySubscription.unsubscribe();
     this.selectionFieldSubscription.unsubscribe();
     this.sortDescriptorSubscription.unsubscribe();
+    this.saveSortSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {

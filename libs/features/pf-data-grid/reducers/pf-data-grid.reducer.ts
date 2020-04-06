@@ -25,6 +25,7 @@ export interface DataGridState {
   applyUserDefaultCompensationFields: boolean;
   defaultSortDescriptor: SortDescriptor[];
   sortDescriptor: SortDescriptor[];
+  saveSort: boolean;
   data: GridDataResult;
   selectedRecordId: number;
   // The Kendo grid does not provide api access to know which rows are expanded
@@ -101,6 +102,7 @@ export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: 
   return state.grids[pageViewId] ? state.grids[pageViewId].defaultSortDescriptor : null;
 };
 export const getSortDescriptor = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].sortDescriptor : null;
+export const getSaveSort = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].saveSort : null;
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
 export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].applyDefaultFilters : null;
@@ -148,7 +150,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             expandedRows: [],
             selectAllState: SelectAllStatus.unchecked,
             data: null,
-            applyDefaultFilters: true,
+            applyDefaultFilters: state.grids[action.pageViewId] ? state.grids[action.pageViewId].applyDefaultFilters : true,
+            saveSort: state.grids[action.pageViewId] ? state.grids[action.pageViewId].saveSort : false,
             splitViewFilters: [],
             selectedKeys: []
           }
@@ -212,10 +215,10 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       };
     case fromPfGridActions.UPDATE_FIELDS:
 
-      // Remove the sort descriptors for columns which are no longer in the visible columns list 
+      // Remove the sort descriptors for columns which are no longer in the visible columns list
       let sortDescriptor = state.grids[action.pageViewId].sortDescriptor;
       if (sortDescriptor) {
-        sortDescriptor = sortDescriptor.filter(s => action.fields.find(f => f.SourceName === s.field));
+        sortDescriptor = sortDescriptor.filter(s => action.fields.find(f => f.IsSelected && `${f.EntitySourceName}_${f.SourceName}` === s.field));
         sortDescriptor = sortDescriptor.length ? sortDescriptor : state.grids[action.pageViewId].defaultSortDescriptor;
       }
 
@@ -278,6 +281,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             sortDescriptor: action.sortDescriptor[0].dir ? action.sortDescriptor : state.grids[action.pageViewId].defaultSortDescriptor,
             loading: true
+          },
+        }
+      };
+    case fromPfGridActions.UPDATE_SAVE_SORT:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            saveSort: action.saveSort,
           },
         }
       };

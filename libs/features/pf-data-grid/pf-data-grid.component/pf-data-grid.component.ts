@@ -181,6 +181,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['applyDefaultFilters']) {
       this.store.dispatch(new fromActions.UpdateApplyDefaultFilters(this.pageViewId, changes['applyDefaultFilters'].currentValue));
     }
+
+    if (changes['saveSort']) {
+      this.store.dispatch(new fromActions.UpdateSaveSort(this.pageViewId, changes['saveSort'].currentValue));
+    }
   }
 
   hasFilters(fields: ViewField[]): boolean {
