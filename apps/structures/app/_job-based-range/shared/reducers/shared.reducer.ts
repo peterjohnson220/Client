@@ -1,12 +1,12 @@
 import * as fromSharedActions from '../actions/shared.actions';
-import { RangeGroupMetadata } from "../models";
+import { RangeGroupMetadata } from '../models';
 
 export interface State {
   metadata: RangeGroupMetadata;
 }
 
 const initialState: State = {
-  metadata: null
+  metadata: null,
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {

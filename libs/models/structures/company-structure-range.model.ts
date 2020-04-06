@@ -9,6 +9,9 @@ export interface CompanyStructureRange {
   Mid: number;
   Max: number;
   DispSeq: number;
+  CompanyJobId: number;
+  EditUser: number;
+  RangeOverride: boolean;
 }
 
 export function generateMockCompanyStructureRange(): CompanyStructureRange {
@@ -23,5 +26,8 @@ export function generateMockCompanyStructureRange(): CompanyStructureRange {
     Mid: 50.5,
     Max: 80.2,
     DispSeq: 1.0,
+    CompanyJobId: 1,
+    EditUser: -1,
+    RangeOverride: false
   };
 }

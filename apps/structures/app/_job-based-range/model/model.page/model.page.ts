@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -14,7 +14,7 @@ import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromPublishModelModalActions from '../../shared/actions/publish-model-modal.actions';
 import { AddJobsModalComponent } from '../containers/add-jobs-modal';
 import { Pages } from '../../shared/constants/pages';
-import { RangeGroupMetadata } from "../../shared/models";
+import { RangeGroupMetadata } from '../../shared/models';
 
 @Component({
   selector: 'pf-model-page',

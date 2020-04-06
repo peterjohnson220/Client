@@ -1,5 +1,4 @@
 import { cloneDeep, orderBy, uniq, uniqBy } from 'lodash';
-
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
@@ -121,6 +120,7 @@ export const getExportEventId = (state: DataGridStoreState, pageViewId: string) 
 export const getExportingGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportingGrid;
 export const getExportViewId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportViewId;
 export const getLoadingExportingStatus = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingExportingStatus;
+
 
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
@@ -770,6 +770,48 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     }
+    case fromPfGridActions.UPDATE_ROW:
+      const gridData = cloneDeep(state.grids[action.pageViewId].data);
+      if (gridData && gridData.data && gridData.data.length) {
+        // fetch correct row
+        const rowToUpdate = cloneDeep(gridData.data[action.rowIndex]);
+
+        if (!rowToUpdate) {
+          // no data found, return
+          return {
+            ...state
+          };
+        }
+
+        // loop through fields to update the cloned row
+        action.fieldNames.forEach(fieldName => {
+          rowToUpdate[fieldName.gridName] = action.payload[fieldName.dataName];
+        });
+
+        // replace the original row with the updated row
+        gridData.data[action.rowIndex] = rowToUpdate;
+
+        // update it in the state
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              data: {
+                data: gridData.data,
+                total: gridData.total
+              },
+              loading: false
+            }
+          }
+        };
+      } else {
+        // no data found, just return
+          return {
+            ...state
+          };
+      }
     default:
       return state;
   }
