@@ -257,7 +257,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            sortDescriptor: action.sortDescriptor[0].dir ? action.sortDescriptor : state.grids[action.pageViewId].defaultSortDescriptor,
+            sortDescriptor: action.sortDescriptor,
             loading: true
           },
         }

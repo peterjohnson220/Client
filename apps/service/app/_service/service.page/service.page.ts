@@ -34,7 +34,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   colTemplates = {};
   filterTemplates = {};
   ticketTypeField: ViewField;
-  selectedTicketTypeField: any;
+  selectedTicketTypeFilterValue: string;
 
   gridFieldSubscription: Subscription;
 
@@ -52,8 +52,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.ticketTypeField = fields.find(f => f.SourceName === 'UserTicket_Type');
-        this.selectedTicketTypeField = this.ticketTypeField.FilterValue !== null ?
-          { Value: this.ticketTypeField.FilterValue, Id: this.ticketTypeField.FilterValue } : null;
+        this.selectedTicketTypeFilterValue = this.ticketTypeField.FilterValue;
       }
     });
     this.store.dispatch(new fromServicePageActions.LoadTicketTypes());
@@ -68,14 +67,14 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     };
   }
 
-  handleTicketTypeFilterChanged(value: any) {
+  handleTicketTypeFilterChanged(value: string) {
     const field = cloneDeep(this.ticketTypeField);
     field.FilterValue = value !== 'All' ? value : null;
     field.FilterOperator = '=';
     this.updateField(field);
   }
 
-  updateField(field) {
+  updateField(field: ViewField) {
     if (field.FilterValue) {
       this.store.dispatch(new fromPfDataGridActions.UpdateFilter(this.pageViewId, field));
     } else {
