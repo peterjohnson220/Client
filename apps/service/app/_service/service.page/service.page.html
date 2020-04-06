@@ -5,7 +5,8 @@
   [defaultSort]="defaultSort"
   [actionBarConfig]="actionBarConfig"
   [columnTemplates]="colTemplates"
-  [filterPanelTemplates]="filterTemplates">
+  [filterPanelTemplates]="filterTemplates"
+  [gridActionsTemplate]="gridActions">
 </pf-data-grid>
 
 <ng-template #statusColumn let-dataRow="dataRow">
@@ -22,12 +23,13 @@
 
 <ng-template #ticketType>
   <label>Type:</label>
-      <kendo-dropdownlist
-        [(ngModel)]="selectedTicketTypeField"
-        [data]="ticketTypes$ | async"
-        [defaultItem]="'All'"
-        (valueChange)="handleTicketTypeFilterChanged($event)"
-        class="k-dropdown-white form-control">
-      </kendo-dropdownlist>
+  <kendo-dropdownlist
+    [(ngModel)]="selectedTicketTypeFilterValue"
+    [data]="ticketTypes$ | async"
+    [defaultItem]="'All'"
+    (valueChange)="handleTicketTypeFilterChanged($event)"
+    class="k-dropdown-white form-control">
+  </kendo-dropdownlist>
 </ng-template>
 
+<ng-template #gridActions></ng-template>

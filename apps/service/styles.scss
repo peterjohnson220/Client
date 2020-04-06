@@ -2,6 +2,10 @@
 pf-service-page {
   .k-grid {
     border: 1px solid #dee2e6;
-    margin: 0rem 1.5rem;
+  }
+
+  .gridActionTemplate {
+    border: none !important;
+    padding: 0 !important;
   }
 }

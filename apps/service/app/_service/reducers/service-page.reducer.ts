@@ -58,12 +58,9 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
 
 // Selector functions
 export const getTicketTypeNames = (state: State) => {
-  const ticketTypes = new Set;
-  state.ticketTypes.obj.filter(obj => {
-    if (!ticketTypes.has(obj.TicketTypeName)) {
-      ticketTypes.add(obj.TicketTypeName);
-    }
-  });
-  return Array.from(ticketTypes);
+  if (state.ticketTypes && state.ticketTypes.obj) {
+    return Array.from(new Set(state.ticketTypes.obj.filter(t => !!t.TicketTypeName).map(t => t.TicketTypeName)));
+  }
+  return [];
 };
 
