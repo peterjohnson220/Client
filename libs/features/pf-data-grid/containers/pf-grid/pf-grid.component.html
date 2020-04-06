@@ -34,6 +34,9 @@
             [title]="col.Group"
             [headerClass]="[customHeaderClass, 'text-center', getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
             [locked]="false">
+              <ng-template kendoGridHeaderTemplate let-column="column">
+                <div pfEllipsisActive class="ellipsis-text">{{column.title}}</div>
+              </ng-template>
               <ng-container *ngFor="let col of col.Fields; trackBy:trackByField">
                   <ng-container *ngIf="showColumn(col)">
                       <kendo-grid-column
