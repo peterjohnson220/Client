@@ -10,7 +10,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadTypes } from 'libs/constants';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
-import { ConfigurationGroup, generateMockUserContext } from 'libs/models';
+import { CompanySettingsEnum, ConfigurationGroup, generateMockUserContext } from 'libs/models';
 
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
 import { EntityUploadComponent } from '../../../components';
@@ -22,6 +22,10 @@ describe('OrgDataLoadComponent', () => {
   let fixture: ComponentFixture<OrgDataLoadComponent>;
   let store: Store<fromCompanyReducer.State>;
   const companies = [{ CompanyId: 1, CompanyName: 'Test1' }, { CompanyId: 2, CompanyName: 'abc2' }];
+  const companySetting_ManualOrgDataLoadLink_True = [
+    {Key: CompanySettingsEnum.ManualOrgDataLoadLink, DisplayName: 'Manual Org Data Load Link', Value: 'true', Visible: true, DataType: 'string'}];
+  const companySetting_ManualOrgDataLoadLink_False = [
+    {Key: CompanySettingsEnum.ManualOrgDataLoadLink, DisplayName: 'Manual Org Data Load Link', Value: 'false', Visible: true, DataType: 'string'}];
 
 
   beforeEach(() => {
@@ -96,7 +100,7 @@ describe('OrgDataLoadComponent', () => {
 
   it('should show company selector page for admins', () => {
     instance.userContext = generateMockUserContext();
-
+    instance.companySettings = companySetting_ManualOrgDataLoadLink_True;
     instance.setInitValues();
     expect(instance.stepIndex).toBe(1);
     expect(instance.selectedCompany).toBe(null);
@@ -109,9 +113,24 @@ describe('OrgDataLoadComponent', () => {
     instance.userContext = generateMockUserContext();
     instance.userContext.AccessLevel = 'User';
     instance.userContext.CompanyId = 2;
+    instance.companySettings = companySetting_ManualOrgDataLoadLink_True;
     instance.setInitValues();
     expect(instance.stepIndex).toBe(2);
     expect(instance.selectedCompany).toBe(companies[1]);
+  });
+
+  it('should show page when manualorgdataloadlink company setting is true for users', () => {
+    instance.userContext = generateMockUserContext();
+    instance.userContext.AccessLevel = 'User';
+    instance.companySettings = companySetting_ManualOrgDataLoadLink_True;
+    expect(instance.validateAccess()).toBe(false);
+  });
+
+  it('should not show page when manualorgdataloadlink company setting is false for users', () => {
+    instance.userContext = generateMockUserContext();
+    instance.userContext.AccessLevel = 'User';
+    instance.companySettings = companySetting_ManualOrgDataLoadLink_False;
+    expect(instance.validateAccess()).toBe(true);
   });
 
   it('should step back when clicking button', () => {
