@@ -54,13 +54,12 @@ export class ExchangeExplorerContextService {
             return x.Value.toString();
           });
         });
-
         const subsidiaryParentIdSelections = filters.filter((f: Filter) => f.BackingField === 'subsidiary_name').map((msf: MultiSelectFilter) => {
           return msf.Options.filter(o => o.Selected).map(x => JSON.parse(x.Value).ParentOptionValue);
         });
-
-        const selections = !!companyIdSelections[0] ? companyIdSelections[0].concat(subsidiaryParentIdSelections[0]) : subsidiaryParentIdSelections[0];
+        const selections = !!companyIdSelections[0] && companyIdSelections[0].length ? companyIdSelections[0].concat(subsidiaryParentIdSelections[0]) : subsidiaryParentIdSelections[0];
         const numberOfSelections = new Set(!!selections ? selections : []).size;
+
         return numberOfSelections;
       })
     );
