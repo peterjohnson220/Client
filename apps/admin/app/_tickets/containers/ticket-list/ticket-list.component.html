@@ -2,7 +2,7 @@
                     [loadingError]="ticketListLoadingError$ | async"
                     [loadingErrorMessage]="'Error Loading Tickets'"
                     (reload)="handleTicketGridReload()">
-  <kendo-grid class="row-click-navigates"
+  <kendo-grid *ngIf="initFilterComplete" class="row-click-navigates"
               #ticketGrid
               [data]="gridView"
               [filterable]="true"
