@@ -9,7 +9,8 @@
       <tr class="trs-calculation-row w-100">
         <th class="text-left" scope="col">
           <pf-inline-string-editor
-            [placeholder]="controlData.Title"
+            [value]="controlData.Title.Override"
+            [placeholder]="controlData.Title.Default"
             [maxCharacters]="30"
             (valueChange)="onControlTitleChange($event)"></pf-inline-string-editor>
         </th>
@@ -21,8 +22,8 @@
       <tr *ngFor="let listItem of controlData.DataFields" class="trs-calculation-row w-100">
         <td *ngIf="listItem.IsVisible" class="text-left">
           <pf-inline-string-editor
-            [value]="listItem.OverrideName"
-            [placeholder]="listItem.DefaultName"
+            [value]="listItem.Name.Override"
+            [placeholder]="listItem.Name.Default"
             [maxCharacters]="30"
             (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-inline-string-editor>
         </td>
@@ -36,8 +37,8 @@
       <tr class="trs-calculation-row w-100">
         <td class="text-left">
           <pf-inline-string-editor
-            [value]="controlData.SummaryTitle"
-            [placeholder]="'Total'"
+            [value]="controlData.Summary.Override"
+            [placeholder]="controlData.Summary.Default"
             [maxCharacters]="30"
             (valueChange)="onSummaryTitleChange($event)"></pf-inline-string-editor>
         </td>
@@ -54,7 +55,7 @@
       </button>
       <div ngbDropdownMenu class="w-auto">
         <div *ngFor="let removedField of removedFields;">
-          <a ngbDropdownItem class="add-comp-field-item" (click)="addField($event)">{{removedField.DefaultName}}</a>
+          <a ngbDropdownItem class="add-comp-field-item" (click)="addField($event)">{{removedField.Name.Default}}</a>
         </div>
       </div>
     </div>

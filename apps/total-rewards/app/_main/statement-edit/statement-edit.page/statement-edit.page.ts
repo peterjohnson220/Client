@@ -100,7 +100,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   }
 
   handleOnCalculationControlSummaryTitleChange(request: UpdateTitleRequest) {
-    this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(request));
+    this.store.dispatch(new fromEditStatementPageActions.UpdateCalculationControlSummaryTitle(request));
   }
 
   handleOnCalculationControlCompFieldRemoved(request: UpdateFieldVisibilityRequest) {

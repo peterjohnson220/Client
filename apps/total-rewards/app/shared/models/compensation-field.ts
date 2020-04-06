@@ -1,7 +1,8 @@
+import {LabelWithOverride} from './label-with-override';
+
 export interface CompensationField {
   Id: string;
   DatabaseField: string;
-  DefaultName: string;
-  OverrideName: string;
+  Name: LabelWithOverride;
   IsVisible: boolean;
 }

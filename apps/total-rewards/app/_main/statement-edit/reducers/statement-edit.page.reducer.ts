@@ -69,7 +69,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return AsyncStateObjHelper.saving(state, 'statement');
     }
     case fromEditStatementActions.SAVE_STATEMENT_SUCCESS: {
-      return AsyncStateObjHelper.savingSuccess(state, 'statement', action.payload);
+      return AsyncStateObjHelper.savingSuccess(state, 'statement');
     }
     case fromEditStatementActions.SAVE_STATEMENT_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'statement', action.payload);
@@ -82,7 +82,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.UPDATE_STATEMENT_CONTROL_TITLE: {
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
       const localState = cloneDeep(state);
-      localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].Title = action.payload.Title;
+      localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].Title.Override = action.payload.Title;
       return localState;
     }
     case fromEditStatementActions.UPDATE_CALCULATION_CONTROL_FIELD_TITLE: {
@@ -92,7 +92,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
         .Columns[Column].Controls[Control].DataFields;
       for (let i = 0; i < compFields.length; i++) {
         if (compFields[i].Id === action.payload.DataFieldId) {
-          localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].OverrideName = action.payload.NewName;
+          localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].Name.Override = action.payload.NewName;
         }
       }
       return localState;
@@ -100,7 +100,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.UPDATE_CALCULATION_CONTROL_SUMMARY_TITLE: {
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
       const localState = cloneDeep(state);
-      localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].SummaryTitle = action.payload.Title;
+      localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].Summary.Override = action.payload.Title;
       return localState;
     }
     case fromEditStatementActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD: {
@@ -124,7 +124,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
           localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].IsVisible = action.payload.IsVisible;
 
           // Removes override name so DefaultName displays if added back to the control.
-          localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].OverrideName = '';
+          localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].Name.Override = null;
         }
       }
       return localState;

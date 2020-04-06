@@ -1,22 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
-import {CurrencyPipe} from '@angular/common';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 
-import {CalculationControl} from '../../models';
-import {CompensationField} from '../../models/compensation-field';
-import {UpdateTitleRequest} from '../../models/request-models/update-title-request';
-import {UpdateFieldOverrideNameRequest} from '../../models/request-models/update-field-override-name-request';
-import {UpdateFieldVisibilityRequest} from '../../models/request-models/update-field-visibility-request';
-
-// import {UpdateCalculationControlRequest} from '../../models/request-models/update-calculction-control-request';
+import {CalculationControl, CompensationField, UpdateTitleRequest, UpdateFieldOverrideNameRequest, UpdateFieldVisibilityRequest} from '../../models';
 
 @Component({
   selector: 'pf-trs-calculation-control',
@@ -24,7 +9,7 @@ import {UpdateFieldVisibilityRequest} from '../../models/request-models/update-f
   styleUrls: ['./trs-calculation-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsCalculationControlComponent implements OnInit, OnChanges {
+export class TrsCalculationControlComponent implements OnChanges {
 
   @Input() controlData: CalculationControl;
   @Input() employeeData: any;
@@ -35,15 +20,11 @@ export class TrsCalculationControlComponent implements OnInit, OnChanges {
   @Output() onCompFieldRemoved: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
   @Output() onCompFieldAdded: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
 
-  removedFields: CompensationField[];
+  removedFields: CompensationField[] = this.getRemovedFields();
 
   compensationValuePlaceholder = '$---,---';
 
   constructor(public cp: CurrencyPipe) {
-  }
-
-  ngOnInit() {
-    this.removedFields = this.controlData.DataFields.filter(f => f.IsVisible === false);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -57,7 +38,7 @@ export class TrsCalculationControlComponent implements OnInit, OnChanges {
   }
 
   addField(event: any) {
-    const fieldToAdd = this.removedFields.find(f => f.DefaultName === event.target.text);
+    const fieldToAdd = this.removedFields.find(f => f.Name.Default === event.target.text);
     this.onCompFieldAdded.emit({ControlId: this.controlData.Id, DataFieldId: fieldToAdd.Id, IsVisible: true});
   }
 
@@ -98,4 +79,11 @@ export class TrsCalculationControlComponent implements OnInit, OnChanges {
     return this.compensationValuePlaceholder;
   }
 
+  getRemovedFields(): CompensationField[] {
+    if (this.controlData && this.controlData.DataFields) {
+      return this.controlData.DataFields.filter(df => df.IsVisible === false);
+    } else {
+      return [];
+    }
+  }
 }
