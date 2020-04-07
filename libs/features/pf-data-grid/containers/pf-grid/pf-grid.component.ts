@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
-import { ViewField, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
+import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -28,7 +28,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
   @Input() allowSort = true;
-  @Input() saveSort = false;
   @Input() reorderable = false;
   @Input() customHeaderClass: string;
   @Input() defaultColumnWidth: number;
@@ -57,7 +56,14 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   selectionFieldSubscription: Subscription;
   selectionField: string;
 
+  saveSortSubscription: Subscription;
+  saveSort: boolean;
+
   selectAllStatus = SelectAllStatus;
+
+  pagingBarConfig = null;
+
+  readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
 
@@ -88,6 +94,10 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.selectionFieldSubscription = this.store.select(fromReducer.getSelectionField, this.pageViewId).subscribe(selectionField => {
       this.selectionField = selectionField;
     });
+
+    this.saveSortSubscription = this.store.select(fromReducer.getSaveSort, this.pageViewId).subscribe(saveSort => {
+      this.saveSort = saveSort;
+    });
   }
 
   ngOnDestroy() {
@@ -96,6 +106,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.primaryKeySubscription.unsubscribe();
     this.selectionFieldSubscription.unsubscribe();
     this.sortDescriptorSubscription.unsubscribe();
+    this.saveSortSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -108,13 +119,29 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       if (this.useColumnGroups) {
         this.dataFields$ = this.store.select(fromReducer.getGroupedFields, changes['pageViewId'].currentValue);
       } else {
-        this.dataFields$ = this.store.select(fromReducer.getVisibleOrderedFields , changes['pageViewId'].currentValue);
+        this.dataFields$ = this.store.select(fromReducer.getVisibleOrderedFields, changes['pageViewId'].currentValue);
       }
 
       this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
       this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
       this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
       this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
+    }
+
+    if (changes['selectedRecordId']) {
+      this.pagingBarConfig = changes['selectedRecordId'].currentValue ?
+        {
+          info: true,
+          type: 'input',
+          pageSizes: false,
+          previousNext: true
+        } : {
+          buttonCount: 5,
+          info: true,
+          type: 'numeric',
+          pageSizes: [20, 50, 100, 250],
+          previousNext: true
+        };
     }
   }
 
@@ -150,7 +177,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  onCellClick({ dataItem, rowIndex }) {
+  onCellClick({ dataItem, rowIndex, originalEvent }) {
+
+    if (originalEvent.button !== 0) {
+      return;
+    }
+
     if (getSelection().toString()) {
       // User is highlighting text so we don't want to mark this as a click
     } else if (this.allowSplitView) {
@@ -168,13 +200,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  getGridColumnHeaderClass(col: ViewField) {
-    const headerClass = (this.compactGrid && !this.showHeaderWhenCompact) ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
-    let textAlignClass = !!col && !!col.TextAlign ? `text-align-${col.TextAlign}` : '';
-    if (col && col.Group && this.useColumnGroups) {
-      textAlignClass = 'text-align-center';
-    }
-    return `${this.customHeaderClass || ''} ${headerClass} ${textAlignClass}`.trim();
+  getColumnHeaderClass(): string {
+    return this.compactGrid && !this.showHeaderWhenCompact ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
   }
 
   getCheckboxHeaderClass() {
@@ -187,34 +214,25 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.primaryKey] === this.selectedRecordId)
   })
 
-  getColumnClasses(col: ViewField) {
-    return this.columnTemplates && this.columnTemplates[col.SourceName] && this.columnTemplates[col.SourceName].IsCompact ? 'pf-data-grid-compact-cell' : '';
+  getColumnClasses(col: ViewField): string {
+    return this.columnTemplates && this.columnTemplates[col.SourceName] && this.columnTemplates[col.SourceName].IsCompact
+      ? 'pf-data-grid-compact-cell' : '';
+  }
+
+  getColTextAlignClass(col: ViewField): string {
+    if (!col) {
+      return '';
+    } else if (col.TextAlign) {
+      return  `text-${col.TextAlign}`;
+    } else if (col.DataType === DataViewFieldDataType.Int || col.DataType === DataViewFieldDataType.Float) {
+      return 'text-right';
+    } else {
+      return 'text-left';
+    }
   }
 
   isSortable() {
     return this.allowSort ? this.selectedRecordId ? null : `{allowUnsort: 'true', mode: 'single'}` : null;
-  }
-
-  getPagingBarConfig(state: DataGridState) {
-    if (state && state.data && state.pagingOptions && (state.data.total / state.pagingOptions.Count) > 1) {
-      if (this.selectedRecordId) {
-        return {
-          info: true,
-          type: 'input',
-          pageSizes: false,
-          previousNext: true
-        };
-      } else {
-        return {
-          buttonCount: 5,
-          info: true,
-          type: 'numeric',
-          pageSizes: false,
-          previousNext: true
-        };
-      }
-    }
-    return false;
   }
 
   onSelectedKeysChange(selectedKey: number) {

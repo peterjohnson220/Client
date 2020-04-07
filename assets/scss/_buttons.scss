@@ -1,0 +1,28 @@
+.pf-btn-borderless {
+  border: 0;
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  fa-icon {
+    margin-right: 0.5rem;
+    color: #777;
+  }
+}
+
+.pf-icon-btn-transparent {
+  border-color: transparent;
+  background: transparent;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.pf-icon-btn-transparent:not(:disabled):not(.disabled):active,
+.pf-icon-btn-transparent:not(:disabled):not(.disabled).active,
+.show > .pf-icon-btn-transparent.dropdown-toggle {
+  background-color: transparent;
+  border-color: #adadad;
+}

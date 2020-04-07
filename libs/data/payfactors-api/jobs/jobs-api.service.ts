@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { AddToProjectRequest } from 'libs/models/payfactors-api';
+import { CreateProjectRequest } from 'libs/models/payfactors-api';
 
 @Injectable()
 export class JobsApiService {
@@ -10,7 +10,7 @@ export class JobsApiService {
   constructor(private payfactorsApiService: PayfactorsApiService
   ) { }
 
-  addToProject(request: AddToProjectRequest) {
+  createProject(request: CreateProjectRequest) {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddToProject`, request);
   }
 
