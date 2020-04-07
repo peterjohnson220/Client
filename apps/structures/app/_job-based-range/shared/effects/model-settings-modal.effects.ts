@@ -20,7 +20,7 @@ import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper
 import { PageViewIds } from '../constants/page-view-ids';
 import * as fromSharedReducer from '../reducers';
 import { Pages } from '../constants/pages';
-import { RangeGroupMetadata } from "../models";
+import { RangeGroupMetadata } from '../models';
 
 @Injectable()
 export class ModelSettingsModalEffects {

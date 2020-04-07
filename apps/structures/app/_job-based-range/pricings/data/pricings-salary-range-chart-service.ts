@@ -24,7 +24,7 @@ export class PricingsSalaryRangeChartService {
         layout: 'vertical',
         align: 'right',
         verticalAlign: 'top',
-        floating: true,
+        floating: false,
         y: 30,
         borderWidth: 1
       },

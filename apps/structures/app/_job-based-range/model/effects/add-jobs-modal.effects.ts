@@ -40,6 +40,7 @@ export class AddJobsModalEffects {
       ),
       switchMap((contextData) => {
           const companyJobIds = contextData.selectedJobIds.map(j => Number(j));
+        // tslint:disable-next-line:max-line-length
           return this.structureRangeGroupApiService.addJobsToRangeGroup(contextData.contextStructureRangeGroupId, { JobIds: companyJobIds, PaymarketId: contextData.metadata.PaymarketId })
             .pipe(
               mergeMap(() => [
