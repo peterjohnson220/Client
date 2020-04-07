@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
@@ -24,14 +24,15 @@ import { ComphubPages } from '../../../data';
   selector: 'pf-peer-data-card',
   templateUrl: './peer.data.card.component.html',
   styleUrls: ['./peer.data.card.component.scss',
-              './shared.data.card.component.scss']
+    './shared.data.card.component.scss']
 })
 
 export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
   @Input() workflowContext: WorkflowContext;
-  @ViewChild(MapComponent, { static: true }) map: MapComponent;
-  @ViewChild(ExchangeExplorerComponent, { static: true }) exchangeExplorer: ExchangeExplorerComponent;
+  @ViewChild(MapComponent, {static: true}) map: MapComponent;
+  @ViewChild(ExchangeExplorerComponent, {static: false}) exchangeExplorer: ExchangeExplorerComponent;
 
+  displayMap = false;
   jobTitle: string;
   comphubPages = ComphubPages;
 
@@ -66,7 +67,8 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private store: Store<fromComphubMainReducer.State>,
               public winRef: WindowRef,
-              public guidelinesService: DojGuidelinesService) {
+              public guidelinesService: DojGuidelinesService,
+              private changeDetectorRef: ChangeDetectorRef) {
     this.selectedJobTitle$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.selectedPayMarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.selectedExchange$ = this.store.select(fromComphubMainReducer.getActiveExchangeDataSet);
@@ -74,6 +76,11 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));
+  }
+
+  showMap() {
+    this.displayMap = true;
+    this.changeDetectorRef.detectChanges();
   }
 
   handleWeightingTypeChanged(item: KendoDropDownItem) {
@@ -112,25 +119,25 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
 
     if (changes.workflowContext.currentValue.selectedPageId === ComphubPages.Data &&
       changes.workflowContext.previousValue.selectedPageId !== ComphubPages.Data) {
+      this.showMap();
 
       this.store.dispatch(new fromDataCardActions.CardOpened());
-
-      if (!(this.validateMapData())) {
-        const setContextMessage: MessageEvent = {
-          data: {
-            payfactorsMessage: {
-              type: 'Set Context',
-              payload: {
-                exchangeId: this.selectedExchangeId,
-                exchangeJobIds: this.selectedExchangeJobIds,
-                isExchangeSpecific: true,
-                companyPayMarketId: this.selectedPayMarketId
+      if (!!this.exchangeExplorer && !(this.validateMapData())) {
+          const setContextMessage: MessageEvent = {
+            data: {
+              payfactorsMessage: {
+                type: 'Set Context',
+                payload: {
+                  exchangeId: this.selectedExchangeId,
+                  exchangeJobIds: this.selectedExchangeJobIds,
+                  isExchangeSpecific: true,
+                  companyPayMarketId: this.selectedPayMarketId
+                }
               }
             }
-          }
-        } as MessageEvent;
-        this.exchangeExplorer.onMessage(setContextMessage);
-        this.refreshMapData();
+          } as MessageEvent;
+          this.exchangeExplorer.onMessage(setContextMessage);
+          this.refreshMapData();
       }
     }
   }
@@ -161,7 +168,7 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
     return this.mapExchangeId === this.selectedExchangeId
       && this.mapPayMarketId === this.selectedPayMarketId
       && this.mapJobTitle === this.selectedJobTitle;
-    }
+  }
 
   refreshMapData() {
     this.mapJobTitle = this.selectedJobTitle;

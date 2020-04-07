@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { DojGuidelinesService } from '../../services/doj-guidelines.service';
 
@@ -8,6 +8,7 @@ import { DojGuidelinesService } from '../../services/doj-guidelines.service';
   styleUrls: ['./guidelines-badge.component.scss']
 })
 export class GuidelinesBadgeComponent {
+  @Input() IncludeSimilarityCheck = true;
   constructor(public guidelinesService: DojGuidelinesService) { }
 
   get dataDominanceMessage(): string {

@@ -29,3 +29,11 @@ export const getEmployeeCheckPassed = createSelector(selectDataCutValidationStat
   fromDataCutValidationReducer.getEmployeeSimilarityPassed);
 
 
+export const getDataCutValidationInfoLoading =
+  createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoading);
+export const getDataCutValidationInfoLoadingError
+  = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoadingError);
+export const getEmployeeSimilarityError
+  = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getEmployeeSimilarityError);
+export const getIsEmployeeSimilarityLoading = createSelector(selectDataCutValidationState,
+  fromDataCutValidationReducer.getValidatingEmployeeSimilarity);

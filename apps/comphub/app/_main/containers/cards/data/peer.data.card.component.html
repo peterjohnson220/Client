@@ -8,7 +8,7 @@
   [backButtonEnabled]="true">
 
   <ng-container page-content>
-    <pf-exchange-explorer
+    <pf-exchange-explorer *ngIf="displayMap"
       [shouldShowPayMarketBoundsFilter]="true"
       [shouldShowExchangeScopeSelector]="false">
       <ng-container map-footer>

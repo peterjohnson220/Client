@@ -28,7 +28,6 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
   peerInitialMapBounds: number[];
   peerInitialMapZoomLevel: number;
   initialMoveEnd = true;
-  isInitialized = false;
 
   peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
@@ -77,10 +76,6 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
     if (!this.map) {
       return [0, 0];
     }
-    if (!this.isInitialized && this.map.getCanvas().width < 500) {
-      this.isInitialized = !this.isInitialized;
-      this.map.resize();
-    }
     return this.map.getCenter();
   }
 
@@ -90,7 +85,6 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
 
   // Map events
   handleZoomEnd(e: any) {
-   if (this.map) {this.map.resize(); }
     this.peerMapInitialZoomComplete$.pipe(take(1)).subscribe(iz => {
       if (!iz) {
         this.store.dispatch(new fromMapActions.InitialZoomComplete());

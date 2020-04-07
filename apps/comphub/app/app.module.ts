@@ -19,7 +19,6 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     // Angular
     BrowserModule,
     BrowserAnimationsModule,
-    GuidelinesBadgeModule,
 
     // PF Modules
     PfApiModule,
@@ -28,6 +27,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     PfLayoutWrapperModule,
     PfSecurityModule,
     PfStateModule,
+    GuidelinesBadgeModule,
 
     // Routing
     AppRoutingModule,
