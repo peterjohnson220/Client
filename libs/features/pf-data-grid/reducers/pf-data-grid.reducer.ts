@@ -22,8 +22,10 @@ export interface DataGridState {
   filterPanelOpen: boolean;
   pagingOptions: PagingOptions;
   applyDefaultFilters: boolean;
+  applyUserDefaultCompensationFields: boolean;
   defaultSortDescriptor: SortDescriptor[];
   sortDescriptor: SortDescriptor[];
+  saveSort: boolean;
   data: GridDataResult;
   selectedRecordId: number;
   // The Kendo grid does not provide api access to know which rows are expanded
@@ -93,14 +95,20 @@ export const getFilterableFields = (state: DataGridStoreState, pageViewId: strin
     ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter && f.IsFilterable && (f.IsSelected || f.CustomFilterStrategy))
     : [];
 };
-export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].pagingOptions : null;
+export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] && state.grids[pageViewId].pagingOptions ? state.grids[pageViewId].pagingOptions : null;
+};
 export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].defaultSortDescriptor : null;
 };
 export const getSortDescriptor = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].sortDescriptor : null;
+export const getSaveSort = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].saveSort : null;
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
 export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].applyDefaultFilters : null;
+};
+export const getApplyUserDefaultCompensationFields = (state: DataGridStoreState, pageViewId: string) => {
+  return state.grids[pageViewId] ? state.grids[pageViewId].applyUserDefaultCompensationFields : null;
 };
 export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
@@ -126,6 +134,10 @@ export const getLoadingExportingStatus = (state: DataGridStoreState, pageViewId:
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
     case fromPfGridActions.LOAD_VIEW_CONFIG:
+      const gridState = state.grids[action.pageViewId];
+      const pagingOptions = gridState && gridState.pagingOptions
+        ? { From: 0, Count: gridState.pagingOptions.Count }
+        : DEFAULT_PAGING_OPTIONS;
       return {
         ...state,
         grids: {
@@ -134,11 +146,12 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             pageViewId: action.pageViewId,
             loading: true,
-            pagingOptions: DEFAULT_PAGING_OPTIONS,
+            pagingOptions: pagingOptions,
             expandedRows: [],
             selectAllState: SelectAllStatus.unchecked,
             data: null,
-            applyDefaultFilters: true,
+            applyDefaultFilters: state.grids[action.pageViewId] ? state.grids[action.pageViewId].applyDefaultFilters : true,
+            saveSort: state.grids[action.pageViewId] ? state.grids[action.pageViewId].saveSort : false,
             splitViewFilters: [],
             selectedKeys: []
           }
@@ -201,6 +214,14 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_FIELDS:
+
+      // Remove the sort descriptors for columns which are no longer in the visible columns list
+      let sortDescriptor = state.grids[action.pageViewId].sortDescriptor;
+      if (sortDescriptor) {
+        sortDescriptor = sortDescriptor.filter(s => action.fields.find(f => f.IsSelected && `${f.EntitySourceName}_${f.SourceName}` === s.field));
+        sortDescriptor = sortDescriptor.length ? sortDescriptor : state.grids[action.pageViewId].defaultSortDescriptor;
+      }
+
       return {
         ...state,
         grids: {
@@ -210,7 +231,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             fields: action.fields,
             groupedFields: buildGroupedFields(action.fields),
             selectedRecordId: null,
-            expandedRows: []
+            expandedRows: [],
+            sortDescriptor: sortDescriptor
           }
         }
       };
@@ -262,6 +284,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           },
         }
       };
+    case fromPfGridActions.UPDATE_SAVE_SORT:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            saveSort: action.saveSort,
+          },
+        }
+      };
     case fromPfGridActions.UPDATE_APPLY_DEFAULT_FILTERS:
       return {
         ...state,
@@ -270,6 +303,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             applyDefaultFilters: action.value,
+          },
+        }
+      };
+    case fromPfGridActions.UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            applyUserDefaultCompensationFields: action.value,
           },
         }
       };
@@ -579,7 +623,12 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       let clearSelectionsSelectedData = [];
       let clearSelectionsSelectAllState = SelectAllStatus.unchecked;
 
-      if (action.pageViewId && action.selectionsToClear && action.selectionsToClear.length > 0) {
+      if (action.pageViewId
+        && action.selectionsToClear
+        && action.selectionsToClear.length > 0
+        && state.grids[action.pageViewId].selectedKeys
+        && state.grids[action.pageViewId].selectedKeys.length > 0) {
+
         clearSelectionsSelectedKeys = cloneDeep(state.grids[action.pageViewId].selectedKeys);
         clearSelectionsSelectedData = cloneDeep(state.grids[action.pageViewId].selectedData);
         const clearSelectionsAllVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, state.grids[action.pageViewId].data.data);
@@ -783,7 +832,7 @@ export function buildGroupedFields(fields: ViewField[]): any[] {
       'Order': Math.min(...g.items.map(c => (c as ViewField).Order)),
       'Group': g.value,
       'Fields': g.items,
-      'HasSelection': g.items.some((i: any) => i.IsSelected)
+      'HasSelection': g.items.some((i: any) => i.IsSelected && i.IsSelectable)
     }));
 
   const result: any[] = (groups as Array<GroupResult>).filter(g => g.value == null)[0].items;

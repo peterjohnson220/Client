@@ -1,14 +1,14 @@
 import { Action } from '@ngrx/store';
 
-import { AddToProjectRequest, ChangeJobStatusRequest, DeletePricingRequest } from 'libs/models/payfactors-api';
+import { CreateProjectRequest, ChangeJobStatusRequest, DeletePricingRequest } from 'libs/models/payfactors-api';
 
 export const SET_JOBS_PAGE_ID = '[Jobs Page] Set Jobs PageID';
 // TODO: Removed HANDLE_API_ERROR and replace it with AsyncStateObj
 export const HANDLE_API_ERROR = '[Jobs Page] Handle API Error';
-export const SHOW_ADD_TO_PROJECT_MODAL = '[Jobs Page] Show Add To Project Modal';
-export const ADDING_TO_PROJECT = '[Jobs Page] Adding To Project';
-export const ADDING_TO_PROJECT_SUCCESS = '[Jobs Page] Adding To Project Success';
-export const ADDING_TO_PROJECT_ERROR = '[Jobs Page] Adding To Project Error';
+export const SHOW_CREATE_PROJECT_MODAL = '[Jobs Page] Show Create Project Modal';
+export const CREATING_PROJECT = '[Jobs Page] Creating Project';
+export const CREATING_PROJECT_SUCCESS = '[Jobs Page] Creating Project Success';
+export const CREATING_PROJECT_ERROR = '[Jobs Page] Creating Project Error';
 export const SHOW_JOB_STATUS_MODAL = '[Jobs Page] Show Job Status Modal';
 export const CHANGING_JOB_STATUS = '[Jobs Page] Changing Job Status';
 export const CHANGING_JOB_STATUS_SUCCESS = '[Jobs Page] Changing Job Status Success';
@@ -31,6 +31,9 @@ export const EXPORT_PRICINGS_SUCCESS = '[Jobs Page] Export Pricings Success';
 export const EXPORT_PRICINGS_ERROR = '[Jobs Page] Export Pricings Error';
 export const LOAD_CUSTOM_EXPORTS = '[Jobs Page] Load Custom Exports';
 export const LOAD_CUSTOM_EXPORTS_SUCCESS = '[Jobs Page] Load Custom Exports Success';
+export const TOGGLE_JOBS_PAGE = '[Jobs Page] Toggle Jobs Page';
+export const TOGGLE_JOBS_PAGE_SUCCESS = '[Jobs Page] Toggle Jobs Page Success';
+export const TOGGLE_JOBS_PAGE_ERROR = '[Jobs Page] Toggle Jobs Page Error';
 
 
 export class SetJobsPageId implements Action {
@@ -43,23 +46,23 @@ export class HandleApiError implements Action {
     constructor(public payload: string) { }
 }
 
-export class ShowAddToProjectModal implements Action {
-  readonly type = SHOW_ADD_TO_PROJECT_MODAL;
+export class ShowCreateProjectModal implements Action {
+  readonly type = SHOW_CREATE_PROJECT_MODAL;
   constructor(public payload: boolean) {}
 }
 
-export class AddingToProject implements Action {
-  readonly type = ADDING_TO_PROJECT;
-  constructor(public payload: AddToProjectRequest) {}
+export class CreatingProject implements Action {
+  readonly type = CREATING_PROJECT;
+  constructor(public payload: CreateProjectRequest) {}
 }
 
-export class AddingToProjectSuccess implements Action {
-  readonly type = ADDING_TO_PROJECT_SUCCESS;
+export class CreatingProjectSuccess implements Action {
+  readonly type = CREATING_PROJECT_SUCCESS;
   constructor() {}
 }
 
-export class AddingToProjectError implements Action {
-  readonly type = ADDING_TO_PROJECT_ERROR;
+export class CreatingProjectError implements Action {
+  readonly type = CREATING_PROJECT_ERROR;
   constructor(public error: any) {}
 }
 
@@ -171,14 +174,29 @@ export class LoadCustomExportsSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class ToggleJobsPage implements Action {
+  readonly type = TOGGLE_JOBS_PAGE;
+  constructor() {}
+}
+
+export class ToggleJobsPageSuccess implements Action {
+  readonly type = TOGGLE_JOBS_PAGE_SUCCESS;
+  constructor() {}
+}
+
+export class ToggleJobsPageError implements Action {
+  readonly type = TOGGLE_JOBS_PAGE_ERROR;
+  constructor() {}
+}
+
 
 export type JobsPageActions
   = SetJobsPageId
   | HandleApiError
-  | ShowAddToProjectModal
-  | AddingToProject
-  | AddingToProjectSuccess
-  | AddingToProjectError
+  | ShowCreateProjectModal
+  | CreatingProject
+  | CreatingProjectSuccess
+  | CreatingProjectError
   | ShowJobStatusModal
   | ChangingJobStatus
   | ChangingJobStatusSuccess
@@ -201,4 +219,7 @@ export type JobsPageActions
   | ExportPricingsSuccess
   | ExportPricingsError
   | LoadCustomExports
-  | LoadCustomExportsSuccess;
+  | LoadCustomExportsSuccess
+  | ToggleJobsPage
+  | ToggleJobsPageSuccess
+  | ToggleJobsPageError;

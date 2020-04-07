@@ -1,14 +1,14 @@
 import * as cloneDeep from 'lodash.clonedeep';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 import * as fromJobsPageActions from '../actions';
-import { AsyncStateObj, generateDefaultAsyncStateObj, CompanyDto } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
 
 
 export interface State {
   jobsPageId: string;
-  showAddToProjectModal: boolean;
-  addingToProject: AsyncStateObj<boolean>;
+  showCreateProjectModal: boolean;
+  creatingToProject: AsyncStateObj<boolean>;
   showJobStatusModal: boolean;
   changingJobStatus: AsyncStateObj<boolean>;
   showDeleteJobModal: boolean;
@@ -18,12 +18,13 @@ export interface State {
   structureGradeNames: any;
   pricingDetailsView: string;
   exportOptions: any;
+  navigatingToOldPage: AsyncStateObj<boolean>;
 }
 
 export const initialState: State = {
   jobsPageId: '',
-  showAddToProjectModal: false,
-  addingToProject: generateDefaultAsyncStateObj<boolean>(false),
+  showCreateProjectModal: false,
+  creatingToProject: generateDefaultAsyncStateObj<boolean>(false),
   showJobStatusModal: false,
   changingJobStatus: generateDefaultAsyncStateObj<boolean>(false),
   showDeleteJobModal: false,
@@ -50,7 +51,8 @@ export const initialState: State = {
     Custom: false,
     Exporting: generateDefaultAsyncStateObj<boolean>(false),
     ExportedReportExtension: undefined
-  }]
+  }],
+  navigatingToOldPage: generateDefaultAsyncStateObj<boolean>(false)
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -61,25 +63,25 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         jobsPageId: action.payload,
       };
     }
-    case fromJobsPageActions.SHOW_ADD_TO_PROJECT_MODAL: {
-      const addingToProjectClone = cloneDeep(state.addingToProject);
-      addingToProjectClone.loadingError = false;
-      addingToProjectClone.loadingErrorResponse = null;
+    case fromJobsPageActions.SHOW_CREATE_PROJECT_MODAL: {
+      const creatingToProjectClone = cloneDeep(state.creatingToProject);
+      creatingToProjectClone.loadingError = false;
+      creatingToProjectClone.loadingErrorResponse = null;
 
       return {
         ...state,
-        showAddToProjectModal: action.payload,
-        addingToProject: addingToProjectClone
+        showCreateProjectModal: action.payload,
+        creatingToProject: creatingToProjectClone
       };
     }
-    case fromJobsPageActions.ADDING_TO_PROJECT: {
-      return AsyncStateObjHelper.loading(state, 'addingToProject');
+    case fromJobsPageActions.CREATING_PROJECT: {
+      return AsyncStateObjHelper.loading(state, 'creatingToProject');
     }
-    case fromJobsPageActions.ADDING_TO_PROJECT_SUCCESS: {
-      return AsyncStateObjHelper.loadingSuccess(state, 'addingToProject');
+    case fromJobsPageActions.CREATING_PROJECT_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'creatingToProject');
     }
-    case fromJobsPageActions.ADDING_TO_PROJECT_ERROR: {
-      return AsyncStateObjHelper.loadingError(state, 'addingToProject', action.error);
+    case fromJobsPageActions.CREATING_PROJECT_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'creatingToProject', action.error);
     }
     case fromJobsPageActions.SHOW_JOB_STATUS_MODAL: {
       const changingJobStatusClone = cloneDeep(state.changingJobStatus);
@@ -207,6 +209,15 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         exportOptions: updatedExportOptions
       };
     }
+    case fromJobsPageActions.TOGGLE_JOBS_PAGE: {
+      return AsyncStateObjHelper.loading(state, 'navigatingToOldPage');
+    }
+    case fromJobsPageActions.TOGGLE_JOBS_PAGE_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'navigatingToOldPage');
+    }
+    case fromJobsPageActions.TOGGLE_JOBS_PAGE_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'navigatingToOldPage');
+    }
     default: {
       return state;
     }
@@ -214,8 +225,8 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
 }
 
 export const getJobsPageId = (state: State) => state.jobsPageId;
-export const getShowAddToProjectModal = (state: State) => state.showAddToProjectModal;
-export const getAddingToProject = (state: State) => state.addingToProject;
+export const getShowCreateProjectModal = (state: State) => state.showCreateProjectModal;
+export const getCreatingToProject = (state: State) => state.creatingToProject;
 export const getShowJobStatusModal = (state: State) => state.showJobStatusModal;
 export const getChangingJobStatus = (state: State) => state.changingJobStatus;
 export const getShowDeleteJobModal = (state: State) => state.showDeleteJobModal;
@@ -225,3 +236,4 @@ export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
 export const getPricingDetailsView = (state: State) => state.pricingDetailsView;
 export const getExportOptions = (state: State) => state.exportOptions;
+export const getNavigatingToOldPage = (state: State) => state.navigatingToOldPage;

@@ -1,20 +1,20 @@
 <ng-container *ngIf="getColumnType(field) === colType.dateTime">
-  <div class="ellipsis-overflowing-text">{{dataItem[fieldName] | date: 'MM/dd/yyyy'}}</div>
+  <div pfEllipsisActive class="ellipsis-overflowing-text">{{dataItem[fieldName] | date: 'MM/dd/yyyy'}}</div>
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.currency"
   [ngTemplateOutlet]="columnTemplates[colType.currency].Template"
   [ngTemplateOutletContext]="{dataRow: dataItem, fieldName: fieldName}">
 </ng-container>
-<ng-container *ngIf="getColumnType(field) === colType.template"
+<ng-container *ngIf="getColumnType(field) === colType.template" 
   [ngTemplateOutlet]="columnTemplates[field.SourceName].Template"
   [ngTemplateOutletContext]="{dataRow:dataItem, rowIndex: rowIndex, fieldName: fieldName}">
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.default">
-  <div class="ellipsis-overflowing-text">{{dataItem[fieldName]}}</div>  
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap">{{dataItem[fieldName]}}</div>  
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.bit">
   <ng-container *ngIf="dataItem[fieldName] !== null;else blankCellTemplate">
-    <div class="ellipsis-overflowing-text">
+    <div>
       {{ dataItem[fieldName] === true ? 'Yes' : 'No' }}
     </div>
   </ng-container>

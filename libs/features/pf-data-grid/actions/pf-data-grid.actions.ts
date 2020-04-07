@@ -14,7 +14,9 @@ export const UPDATE_SELECTION_FIELD = '[PfDataGrid] Update Selection Field';
 export const UPDATE_PAGING_OPTIONS = '[PfDataGrid] Update Paging Options';
 export const UPDATE_DEFAULT_SORT_DESCRIPTOR = '[PfDataGrid] Update Default Sort Descriptor';
 export const UPDATE_SORT_DESCRIPTOR = '[PfDataGrid] Update Sort Descriptor';
+export const UPDATE_SAVE_SORT = '[PfDataGrid] Update Save Sort';
 export const UPDATE_APPLY_DEFAULT_FILTERS = '[PfDataGrid] Update Apply Default Filters';
+export const UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS = '[PfDataGrid] Update Apply User Default Compensation Fields';
 export const UPDATE_INBOUND_FILTERS = '[PfDataGrid] Update Inbound Filters';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
 export const CLEAR_FILTER = '[PfDataGrid] Clear Filter';
@@ -81,9 +83,19 @@ export class UpdateSortDescriptor implements Action {
   constructor(public pageViewId: string, public sortDescriptor: SortDescriptor[]) { }
 }
 
+export class UpdateSaveSort implements Action {
+  readonly type = UPDATE_SAVE_SORT;
+  constructor(public pageViewId: string, public saveSort: boolean) { }
+}
+
 export class UpdateApplyDefaultFilters implements Action {
   readonly type = UPDATE_APPLY_DEFAULT_FILTERS;
   constructor(public pageViewId: string, public value: boolean) { }
+}
+
+export class UpdateApplyUserDefaultCompensationFields implements Action {
+  readonly type = UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS;
+  constructor(public pageViewId: string, public value: boolean) {}
 }
 
 export class LoadData implements Action {
@@ -318,7 +330,9 @@ export type DataGridActions =
   | UpdatePagingOptions
   | UpdateDefaultSortDescriptor
   | UpdateSortDescriptor
+  | UpdateSaveSort
   | UpdateApplyDefaultFilters
+  | UpdateApplyUserDefaultCompensationFields
   | LoadData
   | LoadDataSuccess
   | UpdateFields

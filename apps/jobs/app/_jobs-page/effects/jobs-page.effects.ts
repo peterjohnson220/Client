@@ -8,9 +8,9 @@ import { Observable, of } from 'rxjs';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { CompanyApiService, JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
+import { JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
-import { UserContext } from 'libs/models';
+import { UserContext, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromJobManagementActions from 'libs/features/job-management/actions';
@@ -40,21 +40,22 @@ export class JobsPageEffects {
     private pricingApiService: PricingApiService,
     private payMarketApiService: PayMarketApiService,
     private structureApiService: StructuresApiService,
+    private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService,
     private store: Store<fromJobsReducer.State>,
     private toastr: ToastrService
   ) { }
 
   @Effect()
-  addToProject$: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobsPageActions.ADDING_TO_PROJECT),
+  createProject$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.CREATING_PROJECT),
     switchMap((data: any) => {
-      return this.jobsApiService.addToProject(data.payload).pipe(
+      return this.jobsApiService.createProject(data.payload).pipe(
         mergeMap((projectId: number) => {
           window.location.href = `/marketdata/marketdata.asp?usersession_id=${projectId}`;
           // TODO: When we migrate the Projects page to Client we have to make sure the state is cleared if we return back to the Jobs page
           return [];
         }),
-        catchError(error => of(new fromJobsPageActions.AddingToProjectError(error)))
+        catchError(error => of(new fromJobsPageActions.CreatingProjectError(error)))
       );
     })
   );
@@ -183,13 +184,36 @@ export class JobsPageEffects {
     })
   );
 
+  @Effect()
+  toggleJobsPage$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsPageActions.TOGGLE_JOBS_PAGE),
+    switchMap((action: fromJobsPageActions.ToggleJobsPage) => {
+      return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
+        FeatureArea: FeatureAreaConstants.Jobs,
+        SettingName: UiPersistenceSettingConstants.JobsPagePreference,
+        SettingValue: 'Legacy'
+      }).pipe(
+          mergeMap(response => {
+            const me = this;
+            window.addEventListener('onunload', function() {
+               me.store.dispatch(new fromJobsPageActions.ToggleJobsPageSuccess());
+            });
+            window.location.href = `/marketdata/jobs.asp`;
+            return [];
+          }),
+          catchError(error => {
+            return this.handleError('Error saving Jobs page preference. Please contact Payfactors Support for assistance',
+              'Error', new fromJobsPageActions.ToggleJobsPageError());
+          })
+        );
+    })
+  );
+
   private handleError(message: string, title: string = 'Error', resultingAction: Action = new fromJobsPageActions.HandleApiError(message)): Observable<Action> {
     const toastContent = `
     <div class="message-container"><div class="alert-triangle-icon mr-3"></div>${message}</div>`;
     this.toastr.error(toastContent, title, this.toastrOverrides);
     return of(resultingAction);
   }
-
-
 }
 

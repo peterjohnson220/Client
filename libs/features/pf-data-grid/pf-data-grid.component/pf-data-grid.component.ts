@@ -23,6 +23,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() pageViewId: string;
   @Input() title: string;
+  @Input() titleTemplate: TemplateRef<any>;
   @Input() navigationURL: string;
   @Input() showTitle = true;
   @Input() contentNoPadding = false;
@@ -43,14 +44,16 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
   @Input() applyDefaultFilters: boolean;
+  @Input() applyUserDefaultCompensationFields: boolean;
   @Input() allowSort = true;
   @Input() saveSort = false;
   @Input() actionBarClassName: string;
   @Input() headerClassName: string;
   @Input() gridContainerSplitViewWidth = '500px';
   @Input() splitOnSelection = true;
-  @Input() mainGridContainerClassName: string;
-  @Input() defaultColumnWidth: number;
+  @Input() contentClassNamesOverrides: string;
+  @Input() exportSourceName: string;
+  @Input() defaultColumnWidth = 200;
   @Input() showHeaderWhenCompact: boolean;
   @Input() useColumnGroups = true;
   @Input() actionBarConfig: ActionBarConfig = getDefaultActionBarConfig();
@@ -147,6 +150,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['applyUserDefaultCompensationFields']) {
+      this.store.dispatch(new fromActions.UpdateApplyUserDefaultCompensationFields(this.pageViewId,
+        changes['applyUserDefaultCompensationFields'].currentValue));
+    }
+
     if (changes['pageViewId']) {
       this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
       if (this.actionBarConfig.AllowSaveFilter) {
@@ -174,6 +182,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       this.store.dispatch(new fromActions.UpdateApplyDefaultFilters(this.pageViewId, changes['applyDefaultFilters'].currentValue));
     }
 
+    if (changes['saveSort']) {
+      this.store.dispatch(new fromActions.UpdateSaveSort(this.pageViewId, changes['saveSort'].currentValue));
+    }
   }
 
   hasFilters(fields: ViewField[]): boolean {

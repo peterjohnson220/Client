@@ -39,18 +39,31 @@ export class PfDataGridEffects {
       ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG),
       groupBy((action: fromPfDataGridActions.LoadViewConfig) => action.pageViewId),
       mergeMap(pageViewIdGroup => pageViewIdGroup.pipe(
+        mergeMap((loadViewConfigAction: fromPfDataGridActions.LoadViewConfig) =>
+          of(loadViewConfigAction).pipe(
+            withLatestFrom(
+              this.store.pipe(select(fromPfDataGridReducer.getApplyUserDefaultCompensationFields, loadViewConfigAction.pageViewId)),
+              (action: fromPfDataGridActions.LoadViewConfig, applyUserDefaultCompensationFields) =>
+                ({ action, applyUserDefaultCompensationFields })
+            )
+          ),
+        ),
         switchMap(
-          (action: fromPfDataGridActions.LoadViewConfig) =>
-            this.dataViewApiService.getDataViewConfig(PfDataGridEffects.parsePageViewId(action.pageViewId), action.name).pipe(
+          (data) =>
+            this.dataViewApiService.getDataViewConfig(
+              PfDataGridEffects.parsePageViewId(data.action.pageViewId),
+              data.action.name,
+              data.applyUserDefaultCompensationFields
+            ).pipe(
               mergeMap((viewConfig: DataViewConfig) => {
                 return [
-                  new fromPfDataGridActions.LoadViewConfigSuccess(action.pageViewId, viewConfig),
-                  new fromPfDataGridActions.LoadData(action.pageViewId)
+                  new fromPfDataGridActions.LoadViewConfigSuccess(data.action.pageViewId, viewConfig),
+                  new fromPfDataGridActions.LoadData(data.action.pageViewId)
                 ];
               }),
               catchError(error => {
                 const msg = 'We encountered an error while loading the data fields.';
-                return of(new fromPfDataGridActions.HandleApiError(action.pageViewId, msg));
+                return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
               })
             )
         )))
@@ -117,8 +130,9 @@ export class PfDataGridEffects {
             withLatestFrom(
               this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, updateFieldsAction.pageViewId)),
               this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, updateFieldsAction.pageViewId)),
-              (action: fromPfDataGridActions.UpdateFields, baseEntity, sortDescriptor) =>
-                ({ action, baseEntity, sortDescriptor })
+              this.store.pipe(select(fromPfDataGridReducer.getSaveSort, updateFieldsAction.pageViewId)),
+              (action: fromPfDataGridActions.UpdateFields, baseEntity, sortDescriptor, saveSort) =>
+                ({ action, baseEntity, sortDescriptor, saveSort })
             )
           ),
         ),
@@ -128,7 +142,7 @@ export class PfDataGridEffects {
               PfDataGridEffects.parsePageViewId(data.action.pageViewId),
               data.baseEntity.Id,
               data.action.fields,
-              data.sortDescriptor,
+              data.saveSort ? data.sortDescriptor : null,
               null,
               DataViewType.userDefault))
             .pipe(
@@ -154,8 +168,9 @@ export class PfDataGridEffects {
             this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, saveFilterAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getFields, saveFilterAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, saveFilterAction.pageViewId)),
-            (action: fromPfDataGridActions.SaveView, baseEntity, fields, sortDescriptor) =>
-              ({ action, baseEntity, fields, sortDescriptor })
+            this.store.pipe(select(fromPfDataGridReducer.getSaveSort, saveFilterAction.pageViewId)),
+            (action: fromPfDataGridActions.SaveView, baseEntity, fields, sortDescriptor, saveSort) =>
+              ({ action, baseEntity, fields, sortDescriptor, saveSort })
           )
         )
       ),
@@ -164,7 +179,7 @@ export class PfDataGridEffects {
           PfDataGridEffects.parsePageViewId(data.action.pageViewId),
           data.baseEntity.Id,
           data.fields,
-          data.sortDescriptor,
+          data.saveSort ? data.sortDescriptor : null,
           data.action.viewName,
           data.action.viewType))
           .pipe(
@@ -190,8 +205,9 @@ export class PfDataGridEffects {
             this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, reorderColumnsAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getFields, reorderColumnsAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, reorderColumnsAction.pageViewId)),
-            (action: fromPfDataGridActions.ReorderColumns, baseEntity, fields, sortDescriptor) =>
-              ({ action, baseEntity, fields, sortDescriptor })
+            this.store.pipe(select(fromPfDataGridReducer.getSaveSort, reorderColumnsAction.pageViewId)),
+            (action: fromPfDataGridActions.ReorderColumns, baseEntity, fields, sortDescriptor, saveSort) =>
+              ({ action, baseEntity, fields, sortDescriptor, saveSort })
           )
         )
       ),
@@ -200,7 +216,7 @@ export class PfDataGridEffects {
           PfDataGridEffects.parsePageViewId(data.action.pageViewId),
           data.baseEntity.Id,
           data.fields,
-          data.sortDescriptor,
+          data.saveSort ? data.sortDescriptor : null,
           null,
           DataViewType.userDefault))
           .pipe(
@@ -244,10 +260,22 @@ export class PfDataGridEffects {
         fromPfDataGridActions.CLEAR_FILTER,
         fromPfDataGridActions.CLEAR_ALL_NON_GLOBAL_FILTERS,
         fromPfDataGridActions.UPDATE_SORT_DESCRIPTOR),
-      mergeMap((action: any) => {
+      mergeMap((filterChangsAction: any) =>
+        of(filterChangsAction).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, filterChangsAction.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getSaveSort, filterChangsAction.pageViewId)),
+            (action: any, pagingOptions: PagingOptions) => ({ action, pagingOptions })
+          )
+        )
+      ),
+      mergeMap((data) => {
         return [
-          new fromPfDataGridActions.CloseSplitView(action.pageViewId),
-          new fromPfDataGridActions.UpdatePagingOptions(action.pageViewId, fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS)
+          new fromPfDataGridActions.CloseSplitView(data.action.pageViewId),
+          new fromPfDataGridActions.UpdatePagingOptions(
+            data.action.pageViewId,
+            data.pagingOptions ? { From: 0, Count: data.pagingOptions.Count } : fromPfDataGridReducer.DEFAULT_PAGING_OPTIONS
+          ),
         ];
       })
     );
