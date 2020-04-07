@@ -34,6 +34,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   metadataSub: Subscription;
   modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
+  isNewModelSub: Subscription;
+
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
@@ -43,6 +45,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modelSettingsForm: FormGroup;
   attemptedSubmit: boolean;
   modelNameExistsFailure: boolean;
+  isNewModel: any;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>
@@ -54,6 +57,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getStructureNameSuggestionsAsyncObj));
     this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSavingModelSettingsAsyncObj));
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
+    this.isNewModelSub = this.store.pipe(select(fromSharedJobBasedRangeReducer.getIsNewModelModelSettings)).subscribe(isNewModel => {
+        this.isNewModel = isNewModel
+      });
   }
 
   get formControls() {
@@ -72,14 +78,23 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     return this.metadata.IsCurrent ? 'Creating Model...' : 'Saving...';
   }
 
+  get modelTabTitle() {
+    return this.metadata.IsCurrent || this.isNewModel ? 'Model Settings' : 'Current Model Settings'
+  }
+
   get modalTitle() {
-    return this.metadata.IsCurrent ? 'Create Model' : 'Edit Model';
+       return this.isNewModel ? 'New Model' :
+      this.metadata.IsCurrent ? 'Create Model' : 'Edit Model';
+  }
+
+  get structureInputIsDisabled() {
+    return this.metadata.IsCurrent || this.isNewModel;
   }
 
   buildForm() {
     this.modelSettingsForm = new FormGroup({
       'structureName': new FormControl(this.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
-      'modelName': new FormControl(!this.metadata.IsCurrent ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
+      'modelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
       'payMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
       'controlPoint': new FormControl(this.metadata.ControlPoint, [Validators.required]),
       'spreadMin': new FormControl(this.metadata.SpreadMin, [Validators.required]),
@@ -175,6 +190,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.metadataSub.unsubscribe();
     this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
+    this.isNewModelSub.unsubscribe();
   }
 
   private reset() {

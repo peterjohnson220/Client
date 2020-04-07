@@ -15,7 +15,7 @@
   <ng-container form-content>
     <div class="pt-3" *ngIf="modalOpen$ | async">
       <ngb-tabset [destroyOnHide]="false">
-        <ngb-tab [title]="metadata.IsCurrent ? 'Model Settings' : 'Current Model Settings'">
+        <ngb-tab [title]="modelTabTitle" >
           <ng-template ngbTabContent>
             <div class="p-3 pr-5">
               <div class="form-group">
@@ -29,7 +29,7 @@
                     (filterChange)="handleStructureNameChanged($event)"
                     (valueChange)="clearModelNameExistsFailure()"
                     [data]="(structureNameSuggestionsAsyncObj$ | async)?.obj"
-                    [disabled]="metadata.IsCurrent"
+                    [disabled]="structureInputIsDisabled"
                     [maxlength]="50">
                   </kendo-autocomplete>
                   <div class="invalid-feedback">
@@ -166,7 +166,7 @@
             Rounding content will go here
           </ng-template>
         </ngb-tab>
-        <ngb-tab title="Copy Model" [disabled]="true">
+        <ngb-tab title="Copy Model" [disabled]="true" *ngIf="!isNewModel">
           <ng-template ngbTabContent>
             Copy Model content will go here
           </ng-template>
