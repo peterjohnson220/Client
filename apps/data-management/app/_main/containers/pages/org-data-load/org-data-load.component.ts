@@ -27,6 +27,7 @@ import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/or
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';
+import {CompanySetting, CompanySettingsEnum} from 'libs/models/company';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
@@ -154,6 +155,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   };
   private gettingColumnNames: boolean;
   private createdConfigurationGroup$: Observable<ConfigurationGroup>;
+  private companySettings$: Observable<CompanySetting[]>;
+  companySettings: CompanySetting[];
 
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
@@ -181,6 +184,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.emailRecipientsRemovingError$ = this.mainStore.select(fromDataManagementMainReducer.getRemovingRecipientError);
     this.emailRecipientsModalOpen$ = this.mainStore.select(fromDataManagementMainReducer.getEmailRecipientsModalOpen);
     this.createdConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getCreatedConfigurationGroup);
+    this.companySettings$ = this.mainStore.select(fromRootState.getCompanySettings);
 
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$)
@@ -306,6 +310,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.AddAndSetSelectedMapping(configurationGroup);
     });
 
+    this.companySettings$.pipe(
+      filter(companySetting => !!companySetting),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(companySetting => {
+      this.companySettings = companySetting;
+    });
 
     const userSubscription = this.userContext$
       .pipe(
@@ -357,6 +367,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   setInitValues() {
+    if (this.validateAccess()) {
+      window.location.href = this.env.companyAdminUrl;
+      return;
+    }
     this.mainStore.dispatch(new fromCompanySelectorActions.SetSelectedCompany(null));
     if (this.userContext.AccessLevel === 'Admin') {
       this.stepIndex = OrgUploadStep.Company;
@@ -367,6 +381,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
     // reset any checked loads
     this.loadOptions = getEntityChoicesForOrgLoader();
+  }
+
+  validateAccess() {
+    return (this.userContext.AccessLevel !== 'Admin' &&
+      this.companySettings.find( cs => cs.Key === CompanySettingsEnum.ManualOrgDataLoadLink).Value !== 'true');
   }
 
   getPayfactorCustomFields(companyId) {

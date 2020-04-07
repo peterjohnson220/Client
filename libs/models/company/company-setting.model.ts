@@ -23,7 +23,8 @@ export enum CompanySettingsEnum {
   SessionTimeoutMinutes = 'SessionTimeoutMinutes',
   JDMCoreUseClient = 'JDMCoreUseClient',
   JDMSettingsUseClient = 'JDMSettingsUseClient',
-  JDMTemplatesUseClient = 'JDMTemplatesUseClient'
+  JDMTemplatesUseClient = 'JDMTemplatesUseClient',
+  ManualOrgDataLoadLink = 'ManualOrgDataLoadLink'
 }
 
 export interface CompanySetting {

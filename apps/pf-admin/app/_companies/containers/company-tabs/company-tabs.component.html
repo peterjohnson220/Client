@@ -78,7 +78,7 @@
                     <div class="checkbox" *ngIf="isConfigurableSetting(companySetting)">
                       <label>
                         <input type="checkbox" (change)="toggleCompanySetting(companySetting)" [disabled]="companySetting.Disabled" [checked]="companySetting.Value === 'true'">
-                        {{companySetting.Key}}
+                        {{companySetting.DisplayName}}
                       </label>
                     </div>
                     <div *ngIf="displayJobPricingLimiter(companySetting)" class="checkbox">
