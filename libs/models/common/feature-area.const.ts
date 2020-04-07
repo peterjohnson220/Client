@@ -6,4 +6,5 @@ export class FeatureAreaConstants {
   static readonly CompHub = 'CompHub';
   static readonly DataInsights = 'DataInsights';
   static readonly PeerDataCuts = 'PeerDataCuts';
+  static readonly Jobs = 'Jobs';
 }

@@ -1,8 +1,8 @@
 @import 'employees-page-styles';
-@import 'grid-actions';
 @import 'common/common';
 
-.header-bold, .page-content {
+.header-bold,
+.page-content {
   color: white;
 }
 
@@ -18,17 +18,3 @@
   background-color: $pf-brand-secondary-color;
 }
 
-.grid-actions-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  width: 100%;
-
-  .vertical-separator {
-    margin: 0.5rem;
-  }
-
-  .btn-clear-selection {
-    margin-left: 0;
-  }
-}

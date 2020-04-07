@@ -19,7 +19,7 @@ import { ValidationResultsComponent } from './validation';
 import { PfCommonModule, WindowRef } from '../../core';
 import { CardSelectorComponent } from './content/cards/card-selector';
 import { CardComponent } from './content/cards/card';
-import { AfterIfDirective, ClickElsewhereDirective } from './directives';
+import { AfterIfDirective, ClickElsewhereDirective, EllipsisActiveDirective } from './directives';
 import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
 import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
@@ -37,7 +37,7 @@ const components = [
   SimpleYesNoModalComponent,
 
   // Directives
-  ClickElsewhereDirective, AfterIfDirective,
+  ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective,
 
   // Error
   ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent, TokenExpirationPageComponent, ForbiddenPageComponent,

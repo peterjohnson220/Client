@@ -100,12 +100,16 @@ export class DataViewApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/RemoveSharePermission`, request);
   }
 
-  getDataViewConfig(pageViewId: string, name: string): Observable<DataViewConfig> {
+  getDataViewConfig(pageViewId: string, name: string, applyUserDefaultCompensationFields: boolean): Observable<DataViewConfig> {
     const params = {
       pageViewId: pageViewId
     };
     if (name) {
       params['viewName'] = name;
+    }
+
+    if (applyUserDefaultCompensationFields != null) {
+      params['applyUserDefaultCompensationFields'] = applyUserDefaultCompensationFields;
     }
     return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: params });
   }

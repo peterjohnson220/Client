@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
-import {Observable, Subscription} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { ViewField, AddToProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
+import { ViewField, CreateProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
 import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
@@ -48,12 +48,14 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   companyPayMarketsSubscription: Subscription;
   structureGradeNameSubscription: Subscription;
   selectedJobDataSubscription: Subscription;
+  companySettingsSubscription: Subscription;
 
   userContext$: Observable<UserContext>;
   selectedRecordId$: Observable<number>;
 
-  showAddToProjectModal$: Observable<boolean>;
-  addingToProject$: Observable<AsyncStateObj<boolean>>;
+  showCreateProjectModal$: Observable<boolean>;
+  creatingProject$: Observable<AsyncStateObj<boolean>>;
+  navigatingToOldPage$: Observable<AsyncStateObj<boolean>>;
 
   showJobStatusModal$: Observable<boolean>;
   changingJobStatus$: Observable<AsyncStateObj<boolean>>;
@@ -73,6 +75,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   actionBarConfig: ActionBarConfig;
 
+  show: boolean;
+  offset: {};
+  peerJobId: number;
+  target: string;
+
   filters = [{
     SourceName: 'JobStatus',
     Operator: '=',
@@ -86,6 +93,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   disableExportPopover = true;
   selectedJobPricingCount = 0;
+  enablePageToggle = false;
 
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
@@ -103,12 +111,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.pageViewId);
-    this.showAddToProjectModal$ = this.store.select(fromJobsPageReducer.getShowAddToProjectModal);
-    this.addingToProject$ = this.store.select(fromJobsPageReducer.getAddingToProject);
+    this.showCreateProjectModal$ = this.store.select(fromJobsPageReducer.getShowCreateProjectModal);
+    this.creatingProject$ = this.store.select(fromJobsPageReducer.getCreatingToProject);
     this.showJobStatusModal$ = this.store.select(fromJobsPageReducer.getShowJobStatusModal);
     this.changingJobStatus$ = this.store.select(fromJobsPageReducer.getChangingJobStatus);
     this.showDeleteJobModal$ = this.store.select(fromJobsPageReducer.getShowDeleteJobModal);
     this.deletingJob$ = this.store.select(fromJobsPageReducer.getDeletingJob);
+    this.navigatingToOldPage$ = this.store.select(fromJobsPageReducer.getNavigatingToOldPage);
 
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
@@ -173,6 +182,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     });
+
+    this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
+      if (cs) {
+        const setting = cs.find(x => x.Key === 'EnableJobsPageToggle');
+        this.enablePageToggle = setting && setting.Value === 'true'; // || true;
+      }
+    });
   }
 
   ngOnInit() {
@@ -214,12 +230,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.NotPricedPayMarkets));
   }
 
-  toggleAddToProjectModal(state: boolean) {
-    this.store.dispatch(new fromJobsPageActions.ShowAddToProjectModal(state));
+  toggleCreateProjectModal(state: boolean) {
+    this.store.dispatch(new fromJobsPageActions.ShowCreateProjectModal(state));
   }
 
-  addToProject() {
-    const payload: AddToProjectRequest = {
+  createProject() {
+    const payload: CreateProjectRequest = {
       JobIds: this.selectedJobIds,
       PricingIds: this.selectedPricingIds,
       JobPayMarketSelections: this.selectedJobPayMarketCombos.map(jpm => {
@@ -231,7 +247,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         };
       })
     };
-    this.store.dispatch(new fromJobsPageActions.AddingToProject(payload));
+    this.store.dispatch(new fromJobsPageActions.CreatingProject(payload));
   }
 
   toggleJobStatusModal(state: boolean) {
@@ -269,6 +285,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.structureGradeNameSubscription.unsubscribe();
     this.selectedJobPayMarketSubscription.unsubscribe();
     this.selectedJobDataSubscription.unsubscribe();
+    this.companySettingsSubscription.unsubscribe();
   }
 
   closeSplitView() {
@@ -331,5 +348,19 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this.store.dispatch(new fromJobsPageActions.ExportPricings(request));
+  }
+
+  onToggle(event, jobId) {
+    if (this.peerJobId !== jobId ) {
+      this.peerJobId = jobId;
+      this.show = !this.show;
+      if (this.show) {
+        this.offset = { left: event.clientX, top: event.clientY };
+      }
+    }
+  }
+
+  jobsPageToggle() {
+    this.store.dispatch(new fromJobsPageActions.ToggleJobsPage());
   }
 }

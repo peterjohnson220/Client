@@ -11,6 +11,8 @@ import { faEdit } from '@fortawesome/pro-solid-svg-icons/faEdit';
 import { faPaperclip } from '@fortawesome/pro-solid-svg-icons/faPaperclip';
 import { faDownload } from '@fortawesome/pro-solid-svg-icons/faDownload';
 import { faFileExcel } from '@fortawesome/pro-light-svg-icons/faFileExcel';
+import { faCalculator } from '@fortawesome/pro-regular-svg-icons/faCalculator';
+import { faBriefcase } from '@fortawesome/pro-regular-svg-icons/faBriefcase';
 
 export const faIcons = [
   falTimes,
@@ -25,6 +27,8 @@ export const faIcons = [
   faEdit,
   faPaperclip,
   faDownload,
-  faFileExcel
+  faFileExcel,
+  faCalculator,
+  faBriefcase
 ];
 

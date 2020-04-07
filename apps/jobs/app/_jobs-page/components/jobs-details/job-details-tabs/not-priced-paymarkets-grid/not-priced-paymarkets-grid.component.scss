@@ -1,0 +1,16 @@
+
+@import 'common/common';
+@import "../../../../../../assets/pf-data-grid";
+
+.badge-primary {
+  font-size: 100%;
+  background-color: $pf-brand-secondary-color;
+}
+
+.pricing-count-badge {
+  padding: 6px 1px;
+}
+
+.view-change {
+  cursor: pointer;
+}
