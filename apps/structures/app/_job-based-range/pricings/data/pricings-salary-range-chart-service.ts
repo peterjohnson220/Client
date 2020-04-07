@@ -1,7 +1,23 @@
-import { StructuresHighchartsService } from '../../shared/services';
+import { PricingsSalaryRangeChartSeries } from './pricings-salary-range-chart-series-constants';
 
 // making this a bespoke service to keep the component.ts file from being overly long and avoid clutter
 export class PricingsSalaryRangeChartService {
+
+  static getFormattedSeriesName(series: PricingsSalaryRangeChartSeries, controlPointDisplay: string = '') {
+    switch (series) {
+      case PricingsSalaryRangeChartSeries.SalaryRange: {
+        return 'Salary range';
+      }
+      case PricingsSalaryRangeChartSeries.Pricings: {
+        return 'Pricings ' + controlPointDisplay;
+      }
+      default: {
+        // should never happen, but in case someone adds a value later and forgets.
+        return '';
+      }
+
+    }
+  }
 
   static getPricingsRangeOptions(locale, currencyCode, controlPointDisplay, rate) {
     return {
@@ -54,7 +70,7 @@ export class PricingsSalaryRangeChartService {
         series: {
           events: {
             legendItemClick: function (event) {
-              const plotLinesOrBandsData = ['Salary range'];
+              const plotLinesOrBandsData = [PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRange)];
               // check to see if we need to remove or add a line/band OR we just want to perform the default function
               if (plotLinesOrBandsData.includes(event.target.userOptions.name)) {
                 // look for the line or band in question on the chart
@@ -84,14 +100,14 @@ export class PricingsSalaryRangeChartService {
         }
       },
       series: [{
-        name: 'Salary range',
+        name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRange),
         type: 'polygon',
         animation: false,
         color: 'rgba(36,134,210,0.45)',
         enableMouseTracking: false,
 
       }, {
-        name: 'Pricings ' + controlPointDisplay,
+        name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.Pricings, controlPointDisplay),
         type: 'scatter',
         marker: {
           symbol: 'vline',

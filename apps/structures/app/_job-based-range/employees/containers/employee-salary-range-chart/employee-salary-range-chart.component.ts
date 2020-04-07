@@ -11,7 +11,7 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
-import { EmployeeRangeChartService } from '../../data';
+import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
 
 @Component({
   selector: 'pf-employee-salary-range-chart',
@@ -164,22 +164,27 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addMidpointLine() {
-    this.chartInstance.yAxis[0].addPlotLine(this.plotLinesAndBands.find(plb => plb.id === 'Range Mid'));
+    this.chartInstance.yAxis[0].addPlotLine(this.plotLinesAndBands
+      .find(plb => plb.id === EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeMid)));
   }
 
   private addAverageLine() {
-    this.chartInstance.yAxis[0].addPlotLine(this.plotLinesAndBands.find(plb => plb.id === 'Average ' + this.controlPointDisplay));
+    this.chartInstance.yAxis[0].addPlotLine(this.plotLinesAndBands
+      .find(plb => plb.id === EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Average, this.controlPointDisplay)));
   }
 
   private addSalaryBand() {
-    this.chartInstance.yAxis[0].addPlotBand(this.plotLinesAndBands.find(plb => plb.id === 'Salary range'));
+    this.chartInstance.yAxis[0].addPlotBand(this.plotLinesAndBands.find(plb => plb.id === EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRange)));
   }
 
   private removeLinesAndBands() {
     if (this.plotLinesAndBands) {
-      this.chartInstance.yAxis[0].removePlotBand('Salary range');
-      this.chartInstance.yAxis[0].removePlotLine('Mid-point');
-      this.chartInstance.yAxis[0].removePlotLine('Average ' + this.prevControlPointDisplay);
+      this.chartInstance.yAxis[0]
+        .removePlotBand(EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRange));
+      this.chartInstance.yAxis[0]
+        .removePlotLine(EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeMid));
+      this.chartInstance.yAxis[0]
+        .removePlotLine(EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Average, this.controlPointDisplay));
     }
   }
 
@@ -207,20 +212,20 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       this.plotLinesAndBands = [
         {
           color: '#CD8C01',
-          id: 'Range Mid',
+          id: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeMid),
           width: 2,
           value: this.jobRangeData.CompanyStructures_Ranges_Mid,
           zIndex: 3
         },
         {
           color: '#6236FF',
-          id: 'Average ' + this.controlPointDisplay,
+          id: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Average, this.controlPointDisplay),
           width: 2,
           value: this.jobRangeData.CompanyStructures_RangeGroup_AverageEEMRP,
           zIndex: 3
         },
         {
-          id: 'Salary range',
+          id: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRange),
           from: this.jobRangeData.CompanyStructures_Ranges_Min,
           to: this.jobRangeData.CompanyStructures_Ranges_Max,
           color: 'rgba(36,134,210,0.45)',
@@ -258,10 +263,10 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       this.updateChartLabels();
 
       // set the series data
-      this.chartInstance.series[2].setData(this.midPointSeries, false);
-      this.chartInstance.series[4].setData(this.employeeAvgMrpSeriesData, false);
-      this.chartInstance.series[5].setData(this.employeeSeriesData, false);
-      this.chartInstance.series[6].setData(this.employeeSeriesOutlierData, true);
+      this.chartInstance.series[EmployeeSalaryRangeChartSeries.RangeMidHidden].setData(this.midPointSeries, false);
+      this.chartInstance.series[EmployeeSalaryRangeChartSeries.AverageHidden].setData(this.employeeAvgMrpSeriesData, false);
+      this.chartInstance.series[EmployeeSalaryRangeChartSeries.Employee].setData(this.employeeSeriesData, false);
+      this.chartInstance.series[EmployeeSalaryRangeChartSeries.EmployeeOutliers].setData(this.employeeSeriesOutlierData, true);
       this.renameSeries();
 
       // store the plotLinesAndBands in one of the unused chart properties so we can access it
@@ -275,9 +280,11 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   private renameSeries() {
     // 2 ==  'Average ' + controlPointDisplay
-    this.chartInstance.series[2].name = 'Average ' + this.controlPointDisplay;
+    this.chartInstance.series[EmployeeSalaryRangeChartSeries.Average].name =
+      EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Average, this.controlPointDisplay);
     // 3 ==  'Employee ' + controlPointDisplay
-    this.chartInstance.series[3].name = 'Employee ' + this.controlPointDisplay;
+    this.chartInstance.series[EmployeeSalaryRangeChartSeries.Employee].name =
+      EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Employee, this.controlPointDisplay);
   }
 
   private clearData(): void {

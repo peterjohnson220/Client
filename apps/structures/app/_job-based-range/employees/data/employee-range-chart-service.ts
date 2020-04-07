@@ -1,4 +1,37 @@
+import {EmployeeSalaryRangeChartSeries} from './employee-salary-range-chart-series-constants';
+
 export class EmployeeRangeChartService {
+
+  static getFormattedSeriesName(series: EmployeeSalaryRangeChartSeries, controlPointDisplay: string = '') {
+    switch (series) {
+      case EmployeeSalaryRangeChartSeries.SalaryRange: {
+        return 'Salary range';
+      }
+      case EmployeeSalaryRangeChartSeries.RangeMid: {
+        return 'Range Mid';
+      }
+      case EmployeeSalaryRangeChartSeries.RangeMidHidden: {
+        return 'Range Mid - hidden';
+      }
+      case EmployeeSalaryRangeChartSeries.Average: {
+        return 'Average ' + controlPointDisplay;
+      }
+      case EmployeeSalaryRangeChartSeries.AverageHidden: {
+        return 'Average ' + controlPointDisplay + ' -hidden';
+      }
+      case EmployeeSalaryRangeChartSeries.Employee: {
+        return 'Employee ' + controlPointDisplay;
+      }
+      case EmployeeSalaryRangeChartSeries.EmployeeOutliers: {
+        return 'Employee ' + controlPointDisplay + ' -outliers';
+      }
+      default: {
+        // should never happen, but in case someone adds a value later and forgets.
+        return '';
+      }
+
+    }
+  }
 
   static getEmployeeRangeOptions(locale, currencyCode, controlPointDisplay, rate) {
     return {
@@ -54,7 +87,11 @@ export class EmployeeRangeChartService {
         series: {
           events: {
             legendItemClick: function (event) {
-              const plotLinesOrBandsData = ['Average ' + controlPointDisplay, 'Mid-point', 'Salary range'];
+              const plotLinesOrBandsData = [
+                EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Average, controlPointDisplay),
+                EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeMid),
+                EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRange)
+              ];
               // check to see if we need to remove or add a line/band OR we just want to perform the default function
               if (plotLinesOrBandsData.includes(event.target.userOptions.name)) {
                 // look for the line or band in question on the chart
@@ -62,12 +99,12 @@ export class EmployeeRangeChartService {
                 // if we find one, remove it. else add it
                 if (lineOrBand) {
                   event.target.chart.yAxis[0].removePlotLine(event.target.userOptions.name);
-                  event.target.chart.yAxis[0].series[3].visible = false;
+                  event.target.chart.yAxis[0].series[EmployeeSalaryRangeChartSeries.Average].visible = false;
                 } else {
                   // find from static options and add
                   const options = event.target.chart.collectionsWithUpdate.find(plb => plb.id === event.target.userOptions.name);
                   event.target.chart.yAxis[0].addPlotLine(options);
-                  event.target.chart.yAxis[0].series[3].visible = true;
+                  event.target.chart.yAxis[0].series[EmployeeSalaryRangeChartSeries.Average].visible = true;
                 }
               } else {
                 return true;
@@ -86,21 +123,21 @@ export class EmployeeRangeChartService {
         }
       },
       series: [{
-        name: 'Salary range',
+        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRange),
         type: 'polygon',
         animation: false,
         color: 'rgba(36,134,210,0.45)',
         enableMouseTracking: false,
 
       }, {
-        name: 'Mid-point',
+        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeMid),
         type: 'line',
         color: '#CD8C01',
         marker: {
           enabled: false
         }
       }, {
-        name: 'Mid-point - hidden',
+        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeMidHidden, controlPointDisplay),
         type: 'scatter',
         color: 'transparent',
         showInLegend: false,
@@ -118,14 +155,14 @@ export class EmployeeRangeChartService {
           footerFormat: '</div>'
         }
       }, {
-        name: 'Average ' + controlPointDisplay,
+        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Average, controlPointDisplay),
         type: 'line',
         color: '#6236FF',
         marker: {
           enabled: false
         },
       }, {
-        name: 'Average ' + controlPointDisplay + '-hidden',
+        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.AverageHidden, controlPointDisplay),
         type: 'scatter',
         color: 'transparent',
         showInLegend: false,
@@ -142,7 +179,7 @@ export class EmployeeRangeChartService {
           footerFormat: '</div>'
         }
       }, {
-        name: 'Employee ' + controlPointDisplay,
+        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Employee, controlPointDisplay),
         type: 'scatter',
         marker: {
           enabled: true,
@@ -160,7 +197,7 @@ export class EmployeeRangeChartService {
           footerFormat: '</div>'
         }
       }, {
-        name: 'Employee ' + controlPointDisplay + ' -outliers',
+        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.EmployeeOutliers, controlPointDisplay),
         type: 'scatter',
         marker: {
           enabled: true,
