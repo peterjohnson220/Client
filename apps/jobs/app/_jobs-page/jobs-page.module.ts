@@ -89,11 +89,11 @@ import { JobPeerMatchesEffects } from './effects/job-peer-matches.effects';
      ProjectDetailsGridComponent,
      PricingHistoryGridComponent,
      NotPricedPaymarketsGridComponent,
- 
+
      // Column Templates
      PricingMatchesJobTitleComponent,
      PricingDetailsMrpColumnComponent,
- 
+
      // Jobs Grid Components
      PeerExchangeMatchesComponent,
      ExportListPopoverComponent
