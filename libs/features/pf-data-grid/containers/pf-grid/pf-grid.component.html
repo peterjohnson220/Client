@@ -28,7 +28,7 @@
                (click)="onSelectedKeysChange(dataItem[primaryKey])">
       </ng-template>
     </kendo-grid-checkbox-column>
-    <ng-container *ngFor="let col of (dataFields$ | async); trackBy:trackByField">
+    <ng-container *ngFor="let col of (dataFields$ | async)">
       <ng-container *ngIf="col.Group && col.HasSelection">
           <kendo-grid-column-group
             [title]="col.Group"

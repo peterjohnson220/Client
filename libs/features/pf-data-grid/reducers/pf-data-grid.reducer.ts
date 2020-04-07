@@ -970,7 +970,7 @@ export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
 
 export function reorderFields(fields: ViewField[], oldIndex: number, newIndex: number): ViewField[] {
   const notSelectedFields = fields.filter(f => !f.IsSelectable || !f.IsSelected);
-  const filteredFields = fields.filter(f => f.IsSelectable && f.IsSelected);
+  const filteredFields = orderBy(fields.filter(f => f.IsSelectable && f.IsSelected), 'Order');
 
   arrayMoveMutate(filteredFields, oldIndex, newIndex);
   filteredFields.forEach((f, index) => f.Order = index);
