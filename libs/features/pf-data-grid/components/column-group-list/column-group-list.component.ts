@@ -36,6 +36,7 @@ export class ColumnGroupListComponent implements OnChanges {
   handleFieldClicked(field: ViewField): void {
     const fieldToUpdate = this.allFields.find(f => f.DataElementId === field.DataElementId);
     fieldToUpdate.IsSelected = !fieldToUpdate.IsSelected;
+    fieldToUpdate.Order = null;
   }
 
   private initColumnGroupList(): void {

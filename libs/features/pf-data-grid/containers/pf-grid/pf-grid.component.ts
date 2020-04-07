@@ -225,6 +225,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.store.dispatch(new fromActions.SelectAll(this.pageViewId));
   }
 
+  // Note: We remove this function for dataFields$ in the template because it breaks the reorder column feature
+  // TODO: We could try built in trackBy from kendo grid to track changes in data rows instead
   trackByField(index, field: ViewField) {
     return field
       ? field.DataElementId ? field.DataElementId : field.Group

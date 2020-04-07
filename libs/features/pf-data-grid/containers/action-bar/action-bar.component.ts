@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as cloneDeep from 'lodash.clonedeep';
+import { orderBy } from 'lodash';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
@@ -42,7 +43,10 @@ export class ActionBarComponent implements OnChanges {
     }
   }
 
-  updateFields(updatedFields: ViewField[]) {
+  updateFields(fields: ViewField[]) {
+    const updatedFields = cloneDeep(fields);
+    const orderedVisibleFields = orderBy(updatedFields.filter(f => f.IsSelectable && f.IsSelected), ['Order', 'DisplayName'], ['asc']);
+    orderedVisibleFields.forEach((f, index) => f.Order = index);
     this.store.dispatch(new fromActions.UpdateFields(this.pageViewId, updatedFields));
     this.store.dispatch(new fromActions.LoadData(this.pageViewId));
   }
