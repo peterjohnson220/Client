@@ -11,7 +11,7 @@ import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { Pages } from '../../shared/constants/pages';
-import { RangeGroupMetadata } from "../../shared/models";
+import { RangeGroupMetadata } from '../../shared/models';
 
 @Component({
   selector: 'pf-pricings-page',

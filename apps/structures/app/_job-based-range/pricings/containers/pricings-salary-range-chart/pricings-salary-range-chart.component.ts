@@ -149,6 +149,22 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     }, false);
   }
 
+  private determineChartHeight(length) {
+    let extraHeight = 10;
+    switch (length) {
+      case 1: {
+        extraHeight = 65;
+        break;
+      }
+      case 2: {
+        extraHeight = 30;
+        break;
+      }
+    }
+
+      return (50 * this.pricingsData.data.length) + extraHeight;
+  }
+
   private processChartData() {
     this.removeLinesAndBands();
     // make sure all the proper data is present. If not present, don't do anything yet. this is because we can't control the order in which both datasets appear
@@ -198,8 +214,8 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
       // store the plotLinesAndBands in one of the unused chart properties so we can access it
       this.chartInstance.collectionsWithUpdate = this.plotLinesAndBands;
 
-      // this seemed like a pretty good way to get things to line up. 65 is a constant to account for gaps and headers, the rest is dynamic based on rows
-      this.chartInstance.setSize(null, (50 * this.pricingsData.data.length));
+      // chart height is calculated based on data size
+      this.chartInstance.setSize(null, this.determineChartHeight(this.pricingsData.data.length));
     }
   }
 

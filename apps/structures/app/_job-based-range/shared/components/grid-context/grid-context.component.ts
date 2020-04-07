@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { RangeGroupMetadata } from "../../models";
+import { RangeGroupMetadata } from '../../models';
 
 @Component({
   selector: 'pf-grid-context',

@@ -267,8 +267,9 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       // store the plotLinesAndBands in one of the unused chart properties so we can access it
       this.chartInstance.collectionsWithUpdate = this.plotLinesAndBands;
 
-      // this seemed like a pretty good way to get things to line up. 65 is a constant to account for gaps and headers, the rest is dynamic based on rows
-      this.chartInstance.setSize(null, (40 * this.employeeData.data.length) + 65);
+      // this seemed like a pretty good way to get things to line up. 65 is a constant to account for gaps and headers, the rest is dynamic based on row
+      // the one exception is when you have only one employee. We need a bit more padding in that scenario
+      this.chartInstance.setSize(null, (40 * this.employeeData.data.length) + (this.employeeData.data.length === 1 ? 95 : 65));
     }
   }
 
