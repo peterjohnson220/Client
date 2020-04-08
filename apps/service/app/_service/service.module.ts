@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
-import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { SwitchModule } from '@progress/kendo-angular-inputs';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { UploadModule } from '@progress/kendo-angular-upload';
+import { QuillModule } from 'ngx-quill';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -17,6 +21,7 @@ import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { ServicePageEffects } from './effects';
 import { ServicePageComponent } from './service.page';
+import { CreateTicketModalComponent } from './containers';
 import { ServiceRoutingModule } from './service-routing.module';
 
 @NgModule({
@@ -24,6 +29,7 @@ import { ServiceRoutingModule } from './service-routing.module';
     // Angular
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
 
     // Routing
     ServiceRoutingModule,
@@ -34,7 +40,11 @@ import { ServiceRoutingModule } from './service-routing.module';
       ServicePageEffects
     ]),
     FontAwesomeModule,
-    DropDownListModule,
+    DropDownsModule,
+    SwitchModule,
+    NgbPopoverModule,
+    UploadModule,
+    QuillModule.forRoot(),
 
     // Payfactors
     PfCommonModule,
@@ -44,7 +54,10 @@ import { ServiceRoutingModule } from './service-routing.module';
   ],
   declarations: [
     // Pages
-    ServicePageComponent
+    ServicePageComponent,
+
+    // Containers
+    CreateTicketModalComponent
   ],
   providers: [
     { provide: 'DataViewService', useClass: DataViewApiService }

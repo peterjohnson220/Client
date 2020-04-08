@@ -5,6 +5,8 @@ export interface UserTicketDto {
   UserTicketState: string;
   UserTicket: string;
   FileType: string;
+  IsPrivate?: boolean;
+  TicketTitle?: string;
 }
 
 export function generateMockUserTicketDto(): UserTicketDto {
