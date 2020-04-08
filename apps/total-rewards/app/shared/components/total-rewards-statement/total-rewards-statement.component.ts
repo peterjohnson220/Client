@@ -3,8 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import {Statement, TotalRewardsControlEnum, UpdateFieldOverrideNameRequest, UpdateFieldVisibilityRequest,
-  UpdateStringPropertyRequest, UpdateTitleRequest} from '../../models';
+import {
+  Statement,
+  TotalRewardsControlEnum,
+  UpdateFieldOverrideNameRequest,
+  UpdateFieldVisibilityRequest,
+  UpdateStringPropertyRequest,
+  UpdateTitleRequest,
+  EmployeeRewardsData,
+  StatementModeEnum
+} from '../../models';
 
 @Component({
   selector: 'pf-total-rewards-statement',
@@ -14,6 +22,8 @@ import {Statement, TotalRewardsControlEnum, UpdateFieldOverrideNameRequest, Upda
 export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
 
   @Input() statement: Statement;
+  @Input() mode: StatementModeEnum;
+  @Input() employeeRewardsData: EmployeeRewardsData;
 
   // Common Outputs
   @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
@@ -26,7 +36,9 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
 
   // Rich Text Outputs
   @Output() onRichTextControlContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter<UpdateStringPropertyRequest>();
+
   controlType = TotalRewardsControlEnum;
+  statementModeEnum = StatementModeEnum;
 
   companyColors = [
     '#1f2f3d',

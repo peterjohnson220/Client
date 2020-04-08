@@ -1,4 +1,4 @@
-<div class="trs-calculation container py-2">
+<div class="trs-calculation container py-2" [ngClass]="inEditMode ? 'edit-mode' : 'preview-mode'">
   <table class="table table-borderless table-sm mb-0 w-100">
     <colgroup>
       <col class="field-column">
@@ -12,6 +12,7 @@
             [value]="controlData.Title.Override"
             [placeholder]="controlData.Title.Default"
             [maxCharacters]="30"
+            [inEditMode]="inEditMode"
             (valueChange)="onControlTitleChange($event)"></pf-inline-string-editor>
         </th>
         <th class="text-right" scope="col">Contribution</th>
@@ -20,15 +21,16 @@
     </thead>
     <tbody>
       <tr *ngFor="let listItem of controlData.DataFields" class="trs-calculation-row w-100">
-        <td *ngIf="listItem.IsVisible" class="text-left">
+        <td *ngIf="displayFieldInTable(listItem)" class="text-left">
           <pf-inline-string-editor
             [value]="listItem.Name.Override"
             [placeholder]="listItem.Name.Default"
             [maxCharacters]="30"
+            [inEditMode]="inEditMode"
             (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-inline-string-editor>
         </td>
-        <td *ngIf="listItem.IsVisible" class="text-right" >{{getEmployerContributionValue(listItem.Id)}}</td>
-        <td *ngIf="listItem.IsVisible">
+        <td *ngIf="displayFieldInTable(listItem)" class="contribution-field text-right" >{{getEmployerContributionValue(listItem.DatabaseField)}}</td>
+        <td *ngIf="displayFieldInTable(listItem)">
           <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
             <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
           </button>
@@ -40,15 +42,16 @@
             [value]="controlData.Summary.Override"
             [placeholder]="controlData.Summary.Default"
             [maxCharacters]="30"
+            [inEditMode]="inEditMode"
             (valueChange)="onSummaryTitleChange($event)"></pf-inline-string-editor>
         </td>
-        <td class="text-right">{{getSummaryValue()}}</td>
+        <td class="contribution-field text-right">{{getSummaryValue()}}</td>
         <td></td>
       </tr>
     </tbody>
   </table>
 
-  <ng-container *ngIf="(removedFields?.length > 0)">
+  <ng-container *ngIf="(removedFields?.length > 0) && inEditMode">
     <div ngbDropdown class="d-inline-block">
       <button ngbDropdownToggle class="btn btn-sm btn-outline-primary add-button" title="Add Field">
         <fa-icon class="fa-sm" [icon]="'plus'"></fa-icon>

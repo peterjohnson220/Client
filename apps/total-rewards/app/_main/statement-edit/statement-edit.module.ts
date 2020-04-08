@@ -5,6 +5,7 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {PfCommonModule} from 'libs/core';
 import {PfCommonUIModule} from 'libs/ui/common';
@@ -23,8 +24,9 @@ import {StatementEditPageEffects} from './effects/statement-edit.page.effects';
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementEdit', reducers),
-    EffectsModule.forFeature([StatementEditPageEffects]),
+    EffectsModule.forFeature([ StatementEditPageEffects ]),
     FontAwesomeModule,
+    NgbButtonsModule,
 
     // Payfactors
     PfCommonModule,

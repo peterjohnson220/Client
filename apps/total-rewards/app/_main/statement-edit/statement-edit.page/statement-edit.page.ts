@@ -1,13 +1,21 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import {select, Store} from '@ngrx/store';
-import {Subscription, Observable} from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions/statement-edit.page.actions';
-import {Statement, UpdateFieldOverrideNameRequest, UpdateFieldVisibilityRequest, UpdateStringPropertyRequest, UpdateTitleRequest} from '../../../shared/models';
+import {
+  EmployeeRewardsData, generateMockEmployeeRewardsData,
+  Statement,
+  StatementModeEnum,
+  UpdateFieldOverrideNameRequest,
+  UpdateFieldVisibilityRequest,
+  UpdateStringPropertyRequest,
+  UpdateTitleRequest
+} from '../../../shared/models';
 
 @Component({
   selector: 'pf-statement-edit.page',
@@ -25,13 +33,18 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   statementSavingError$: Observable<boolean>;
   cloningFromTemplate$: Observable<boolean>;
   cloningFromTemplateError$: Observable<boolean>;
+  mode$: Observable<StatementModeEnum>;
 
   urlParamSubscription: Subscription;
   statementSubscription: Subscription;
+  modeSubscription: Subscription;
 
   statement: Statement;
   statementId: string;
   templateId: string;
+  employeeRewardsData: EmployeeRewardsData;
+  mode: StatementModeEnum;
+  modeEnum = StatementModeEnum;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,6 +60,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.statementSavingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementSavingError));
     this.cloningFromTemplate$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectCloningFromTemplate));
     this.cloningFromTemplateError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectCloningFromTemplateError));
+    this.mode$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementMode));
     this.urlParamSubscription = this.route.params.subscribe(params => {
       if (params['id']) {
         this.statementId = params['id'];
@@ -61,11 +75,19 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
         this.statement = cloneDeep(s);
       }
     });
+
+    this.modeSubscription = this.mode$.subscribe(e => {
+      this.mode = e;
+      if (this.mode === StatementModeEnum.Preview) {
+        this.employeeRewardsData = generateMockEmployeeRewardsData();
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.urlParamSubscription.unsubscribe();
     this.statementSubscription.unsubscribe();
+    this.modeSubscription.unsubscribe();
   }
 
   getStatementName(): string {
@@ -114,5 +136,13 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   // RICH TEXT
   handleOnRichTextControlContentChange(request: UpdateStringPropertyRequest) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateRichTextControlContent(request));
+  }
+
+  toggleStatementEditMode() {
+    if (this.mode === StatementModeEnum.Edit) {
+      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(StatementModeEnum.Preview));
+    } else {
+      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(StatementModeEnum.Edit));
+    }
   }
 }

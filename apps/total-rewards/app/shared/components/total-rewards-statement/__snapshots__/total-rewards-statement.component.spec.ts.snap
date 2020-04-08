@@ -16,6 +16,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   pageCountSubscription={[Function Subscriber]}
   route={[Function Object]}
   statement={[Function Object]}
+  statementModeEnum={[Function Object]}
 >
   <div
     class="container statement mt-4 mb-4 rounded"

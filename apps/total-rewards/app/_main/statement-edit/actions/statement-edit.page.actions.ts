@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Statement, UpdateStringPropertyRequest } from '../../../shared/models';
+import { Statement, StatementModeEnum, UpdateStringPropertyRequest } from '../../../shared/models';
 import { UpdateTitleRequest, UpdateFieldOverrideNameRequest, UpdateFieldVisibilityRequest } from '../../../shared/models/request-models';
 
 export const CLONE_STATEMENT_FROM_TEMPLATE = '[Total Rewards/Edit Statement] Clone Statement from Template';
@@ -18,6 +18,7 @@ export const UPDATE_CALCULATION_CONTROL_SUMMARY_TITLE = '[Total Rewards/Edit Sta
 export const ADD_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Add Calculation Control Compensation Field';
 export const REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Remove Calculation Control Compensation Field';
 export const UPDATE_RICH_TEXT_CONTROL_CONTENT = '[Total Rewards/Edit Statement] Update Rich Text Control Content';
+export const TOGGLE_STATEMENT_EDIT_MODE = '[Total Rewards/Edit Statement] Toggle Statement Edit Mode';
 
 export class CloneStatementFromTemplate implements Action {
   readonly type = CLONE_STATEMENT_FROM_TEMPLATE;
@@ -98,6 +99,11 @@ export class UpdateRichTextControlContent implements Action {
   constructor(public payload: UpdateStringPropertyRequest) {}
 }
 
+export class ToggleStatementEditMode implements Action {
+  readonly type = TOGGLE_STATEMENT_EDIT_MODE;
+  constructor(public payload: StatementModeEnum) {}
+}
+
 export type StatementEditPageActions =
   CloneStatementFromTemplate |
   CloneStatementFromTemplateSuccess |
@@ -114,4 +120,5 @@ export type StatementEditPageActions =
   UpdateCalculationControlSummaryTitle |
   AddCalculationControlCompensationField |
   RemoveCalculationControlCompensationField |
-  UpdateRichTextControlContent;
+  UpdateRichTextControlContent |
+  ToggleStatementEditMode;
