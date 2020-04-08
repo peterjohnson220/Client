@@ -157,6 +157,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private createdConfigurationGroup$: Observable<ConfigurationGroup>;
   private companySettings$: Observable<CompanySetting[]>;
   companySettings: CompanySetting[];
+  hideAccess: boolean;
 
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
@@ -310,12 +311,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.AddAndSetSelectedMapping(configurationGroup);
     });
 
-    this.companySettings$.pipe(
+    const companySettingSubscription =  this.companySettings$.pipe(
       filter(companySetting => !!companySetting),
+      take(1),
       takeUntil(this.unsubscribe$)
-    ).subscribe(companySetting => {
-      this.companySettings = companySetting;
-    });
+    );
 
     const userSubscription = this.userContext$
       .pipe(
@@ -329,8 +329,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       take(1),
       takeUntil(this.unsubscribe$));
 
-    forkJoin({ user: userSubscription, company: companiesSubscription })
+    forkJoin({ user: userSubscription, company: companiesSubscription, companySetting: companySettingSubscription })
       .subscribe(f => {
+        this.companySettings = f.companySetting;
         this.userContext = f.user;
         this.companies = f.company;
         this.setInitValues();
@@ -352,7 +353,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    this.hideAccess = true;
     this.mainStore.dispatch(new fromOrganizationalDataActions.GetOrganizationalHeadersLink());
     this.mainStore.dispatch(new fromCompanySelectorActions.GetCompanies());
   }
@@ -371,6 +372,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       window.location.href = this.env.companyAdminUrl;
       return;
     }
+    this.hideAccess = false;
     this.mainStore.dispatch(new fromCompanySelectorActions.SetSelectedCompany(null));
     if (this.userContext.AccessLevel === 'Admin') {
       this.stepIndex = OrgUploadStep.Company;
