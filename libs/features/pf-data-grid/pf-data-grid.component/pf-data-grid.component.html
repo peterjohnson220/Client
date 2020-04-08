@@ -46,8 +46,9 @@
               <div class="full-size-wrapper">
                 <div [ngClass]="{'grid-container' : !compactGrid}">
                   <pf-grid
-                    [reorderable]="reorderable"
+                    [attr.data-qa-id]="pageViewId"
                     [pageViewId]="pageViewId"
+                    [reorderable]="reorderable"
                     [allowSplitView]="!!splitViewTemplate"
                     [columnTemplates]="columnTemplates"
                     [expandedRowTemplate]="expandedRowTemplate"
