@@ -1,11 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 pf-service-page {
-  .k-grid {
-    border: 1px solid #dee2e6;
-  }
-
   .gridActionTemplate {
     border: none !important;
     padding: 0 !important;
+  }
+
+  .k-dropdown-wrap {
+    background-color: #ffffff !important;
+  }
+
+  .k-dropdown > :hover {
+    background: none !important;
+  }
+
+  .k-dropdown .k-state-focused {
+    box-shadow: none !important;
   }
 }

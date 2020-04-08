@@ -23,6 +23,8 @@ import { ServicePageEffects } from './effects';
 import { ServicePageComponent } from './service.page';
 import { CreateTicketModalComponent } from './containers';
 import { ServiceRoutingModule } from './service-routing.module';
+import { GridActionsComponent } from './containers';
+import { MultiSelectDropdownComponent, ItemGroupComponent } from './components';
 
 @NgModule({
   imports: [
@@ -57,7 +59,12 @@ import { ServiceRoutingModule } from './service-routing.module';
     ServicePageComponent,
 
     // Containers
-    CreateTicketModalComponent
+    CreateTicketModalComponent,
+    GridActionsComponent,
+
+    // Components
+    ItemGroupComponent,
+    MultiSelectDropdownComponent
   ],
   providers: [
     { provide: 'DataViewService', useClass: DataViewApiService }

@@ -4,8 +4,9 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
-import { TicketType } from '../models';
+import { TicketType, MultiSelectItemGroup } from '../models';
 import * as fromServicePageActions from '../actions/service-page.actions';
+import { TicketStateHelper } from '../helpers';
 
 // Define our feature state
 export interface State {
@@ -14,6 +15,8 @@ export interface State {
   savingTicket: boolean;
   savingTicketError: boolean;
   savingTicketErrorMessage: string;
+  ticketStates: AsyncStateObj<MultiSelectItemGroup[]>;
+  selectedTicketStates: string[];
 }
 
 
@@ -23,7 +26,9 @@ const initialState: State = {
   showNewTicketModal: false,
   savingTicket: false,
   savingTicketError: false,
-  savingTicketErrorMessage: null
+  savingTicketErrorMessage: null,
+  ticketStates: generateDefaultAsyncStateObj<MultiSelectItemGroup[]>([]),
+  selectedTicketStates: []
 };
 
 
@@ -88,6 +93,42 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
         savingTicketError: false
       };
     }
+    case fromServicePageActions.GET_TICKET_STATES: {
+      const ticketStatesClone: AsyncStateObj<MultiSelectItemGroup[]> = cloneDeep(state.ticketStates);
+      ticketStatesClone.loading = true;
+      ticketStatesClone.loadingError = false;
+      return {
+        ...state,
+        ticketStates: ticketStatesClone
+      };
+    }
+    case fromServicePageActions.GET_TICKET_STATES_SUCCESS: {
+      const ticketStatesClone: AsyncStateObj<MultiSelectItemGroup[]> = cloneDeep(state.ticketStates);
+      ticketStatesClone.loading = false;
+      ticketStatesClone.obj = action.payload;
+      return {
+        ...state,
+        ticketStates: ticketStatesClone
+      };
+    }
+    case fromServicePageActions.GET_TICKET_STATES_ERROR: {
+      const ticketStatesClone: AsyncStateObj<MultiSelectItemGroup[]> = cloneDeep(state.ticketStates);
+      ticketStatesClone.loading = true;
+      ticketStatesClone.loadingError = true;
+      return {
+        ...state,
+        ticketStates: ticketStatesClone
+      };
+    }
+    case fromServicePageActions.UPDATE_SELECTED_TICKET_STATES: {
+      const ticketStatesClone: AsyncStateObj<MultiSelectItemGroup[]> = cloneDeep(state.ticketStates);
+      ticketStatesClone.obj = action.payload;
+      return {
+        ...state,
+        ticketStates: ticketStatesClone,
+        selectedTicketStates: TicketStateHelper.getSelectedValues(action.payload)
+      };
+    }
     default: {
       return state;
     }
@@ -106,4 +147,6 @@ export const getShowNewTicketModal = (state: State) => state.showNewTicketModal;
 export const getSavingUserTicket = (state: State) => state.savingTicket;
 export const getSavingUserTicketError = (state: State) => state.savingTicketError;
 export const getSavingUserTicketErrorMessage = (state: State) => state.savingTicketErrorMessage;
+export const getTicketStates = (state: State) => state.ticketStates;
+export const getSelectedTicketStates = (state: State) => state.selectedTicketStates;
 

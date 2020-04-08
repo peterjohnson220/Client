@@ -35,3 +35,5 @@ export const getShowNewTicketModal = createSelector(selectServicePageState, from
 export const getSavingUserTicket = createSelector(selectServicePageState, fromServicePageReducer.getSavingUserTicket);
 export const getSavingUserTicketError = createSelector(selectServicePageState, fromServicePageReducer.getSavingUserTicketError);
 export const getSavingUserTicketErrorMessage = createSelector(selectServicePageState, fromServicePageReducer.getSavingUserTicketErrorMessage);
+export const getTicketStates = createSelector(selectServicePageState, fromServicePageReducer.getTicketStates);
+export const getSelectedTicketStates = createSelector(selectServicePageState, fromServicePageReducer.getSelectedTicketStates);

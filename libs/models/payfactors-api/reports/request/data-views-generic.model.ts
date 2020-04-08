@@ -61,6 +61,9 @@ export interface ViewField {
   SortDirection?: 'asc' | 'desc';
   GroupOrder?: number;
   SelectionOrder?: number;
+  // TODO: Replace FilterValue with FilterValues.
+  // Update filter builder and filter panel accordingly.
+  FilterValues?: string[];
 }
 
 export interface DataView {

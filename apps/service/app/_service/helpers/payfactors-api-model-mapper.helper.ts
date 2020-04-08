@@ -1,5 +1,7 @@
-import { TicketType } from '../models';
-import { UserTicketTypeResponse } from 'libs/models/payfactors-api/service/response';
+import { UserTicketTypeResponse, UserTicketStateResponse } from 'libs/models/payfactors-api/service/response';
+
+import { TicketType, MultiSelectItemGroup } from '../models';
+import { TicketStateHelper } from './ticket-state.helper';
 
 export class PayfactorsApiModelMapper {
 
@@ -16,5 +18,23 @@ export class PayfactorsApiModelMapper {
         TicketTypeName: t.TicketTypeName
       };
     });
+  }
+
+  static mapTicketStatesToMultiSelectItemGroups(response: UserTicketStateResponse[]): MultiSelectItemGroup[] {
+    const openState = TicketStateHelper.createOpenState();
+    const ticketStates: MultiSelectItemGroup[] = [ openState ];
+    const openStateValues = openState.Items.map(i => i.Value);
+    let groupIndex = openState.GroupIndex;
+    response.forEach(s => {
+      if (openStateValues.indexOf(s.TicketStateName) === -1) {
+        groupIndex += 1;
+        ticketStates.push({
+          GroupIndex: groupIndex,
+          Title: s.TicketStateName,
+          Items: [ { IsSelected: false, Value: s.TicketStateName } ]
+        });
+      }
+    });
+    return ticketStates;
   }
 }

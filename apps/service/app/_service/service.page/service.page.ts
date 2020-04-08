@@ -7,12 +7,12 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { ServicePageConfig } from '../models';
-
-import * as fromServicePageActions from '../actions/service-page.actions';
-import * as fromServicePageReducer from '../reducers';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+
+import { ServicePageConfig } from '../models';
+import * as fromServicePageActions from '../actions/service-page.actions';
+import * as fromServicePageReducer from '../reducers';
 
 @Component({
   selector: 'pf-service-page',
@@ -57,6 +57,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
       }
     });
     this.store.dispatch(new fromServicePageActions.LoadTicketTypes());
+    this.store.dispatch(new fromServicePageActions.GetTicketStates());
   }
 
   ngAfterViewInit(): void {
