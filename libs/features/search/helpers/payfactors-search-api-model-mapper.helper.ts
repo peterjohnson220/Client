@@ -44,8 +44,12 @@ export class PayfactorsSearchApiModelMapper {
       switch (mappingData.Type) {
         case FilterType.Multi:
           return this.mapSearchFilterToMultiFilter(searchFilter);
-        case FilterType.FilterableMulti:
+        case FilterType.FilterableMulti: {
+          if (searchFilter.IsParentWithoutChild) {
+            return this.mapSearchFilterToMultiFilter(searchFilter);
+          }
           return this.mapSearchFilterToFilterableMultiFilter(searchFilter);
+        }
         case FilterType.Range:
           return this.mapSearchFilterToRangeFilter(searchFilter);
         default:
@@ -196,7 +200,8 @@ export class PayfactorsSearchApiModelMapper {
       SaveDisabled: mappingData.SaveDisabled,
       Operator: mappingData.Operator,
       ParentBackingField : mappingData.ParentBackingField,
-      AggregateCount: searchFilter.AggregateCount
+      AggregateCount: searchFilter.AggregateCount,
+      IsChildWithoutParent: searchFilter.IsChildWithoutParent
     };
   }
 

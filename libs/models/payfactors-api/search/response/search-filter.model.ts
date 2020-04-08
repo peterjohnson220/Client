@@ -3,6 +3,8 @@ export interface SearchFilter {
   Options: SearchFilterOption[];
   DisplayName: string;
   AggregateCount?: number;
+  IsChildWithoutParent?: boolean;
+  IsParentWithoutChild?: boolean;
 }
 
 export interface SearchFilterOption {
