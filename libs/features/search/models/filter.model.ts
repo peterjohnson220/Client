@@ -21,6 +21,7 @@ export interface Filter {
   Operator?: OperatorEnum;
   ParentBackingField?: string;
   AggregateCount?: number;
+  IsChildWithoutParent?: boolean;
 }
 
 export interface TextFilter extends Filter {
