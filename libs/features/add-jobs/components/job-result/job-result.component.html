@@ -14,7 +14,7 @@
   </div>
 
   <div class="d-flex flex-column job-subtitle">
-    <div *ngIf="!showJobLevelFamilyDescription; else jobLevelFamilyDescription">{{job.Source}}</div>
+    <div *ngIf="showJobSourceOrTitle"><div *ngIf="!showJobLevelFamilyDescription; else jobLevelFamilyDescription">{{job.Source}}</div></div>
   </div>
 
   <div class="d-flex mt-2">

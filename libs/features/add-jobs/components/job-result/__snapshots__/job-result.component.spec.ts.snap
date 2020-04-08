@@ -7,6 +7,7 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
   jobDetailClicked={[Function EventEmitter]}
   showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
+  showJobSourceOrTitle={[Function Boolean]}
 >
   <div
     class="result job-result-row"
@@ -42,7 +43,10 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
     >
       
       <div>
-        PayFactors
+        
+        <div>
+          PayFactors
+        </div>
       </div>
     </div>
     <div
@@ -144,6 +148,7 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
   jobDetailClicked={[Function EventEmitter]}
   showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
+  showJobSourceOrTitle={[Function Boolean]}
 >
   <div
     class="result job-result-row"
@@ -179,7 +184,10 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
     >
       
       <div>
-        PayFactors
+        
+        <div>
+          PayFactors
+        </div>
       </div>
     </div>
     <div
@@ -203,6 +211,7 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
   jobDetailClicked={[Function EventEmitter]}
   showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
+  showJobSourceOrTitle={[Function Boolean]}
 >
   <div
     class="result job-result-row"
@@ -231,7 +240,10 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
     >
       
       <div>
-        PayFactors
+        
+        <div>
+          PayFactors
+        </div>
       </div>
     </div>
     <div

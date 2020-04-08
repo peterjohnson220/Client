@@ -17,6 +17,7 @@ import { UserFilterPopoverConfig } from 'libs/features/user-filter/models';
 import { AddJobsConfig } from 'libs/features/add-jobs/data';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSearchModule } from 'libs/features/search';
+import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
 import { AddJobsModalComponent, JobBasedRangeChartComponent, PublishModelModalComponent } from './containers';
 import { AddJobsUserFilterPopoverConfig, JobBasedRangeAddJobsConfig } from './data';
@@ -24,6 +25,7 @@ import { AddJobsModalEffects, SearchPageEffects, SearchResultsEffects } from './
 import { ModelPageComponent } from './model.page';
 import { ModelRoutingModule } from './model-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { StructuresSearchFilterMappingDataObj } from '../data';
 
 @NgModule({
   imports: [
@@ -66,6 +68,7 @@ import { SharedModule } from '../shared/shared.module';
   providers: [
     WindowRef,
     WindowCommunicationService,
+    { provide: SearchFilterMappingDataObj, useValue: StructuresSearchFilterMappingDataObj },
     { provide: UserFilterPopoverConfig, useValue: AddJobsUserFilterPopoverConfig },
     { provide: AddJobsConfig, useValue: JobBasedRangeAddJobsConfig },
   ]
