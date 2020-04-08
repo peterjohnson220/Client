@@ -384,6 +384,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   validateAccess() {
+    if (this.userContext === undefined || this.companySettings === undefined) {
+      return true;
+    }
     return (this.userContext.AccessLevel !== 'Admin' &&
       this.companySettings.find( cs => cs.Key === CompanySettingsEnum.ManualOrgDataLoadLink).Value !== 'true');
   }
