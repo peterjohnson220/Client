@@ -13,6 +13,7 @@ import { faDownload } from '@fortawesome/pro-solid-svg-icons/faDownload';
 import { faFileExcel } from '@fortawesome/pro-light-svg-icons/faFileExcel';
 import { faCalculator } from '@fortawesome/pro-regular-svg-icons/faCalculator';
 import { faBriefcase } from '@fortawesome/pro-regular-svg-icons/faBriefcase';
+import { faChartLine } from '@fortawesome/pro-regular-svg-icons/faChartLine';
 
 export const faIcons = [
   falTimes,
@@ -29,6 +30,7 @@ export const faIcons = [
   faDownload,
   faFileExcel,
   faCalculator,
-  faBriefcase
+  faBriefcase,
+  faChartLine
 ];
 

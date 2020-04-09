@@ -40,8 +40,7 @@ import {
   PricingMatchesJobTitleComponent
 } from './components';
 import { reducers } from './reducers';
-import { JobsPageEffects, JobDescriptionEffects } from './effects';
-import { JobPeerMatchesEffects } from './effects/job-peer-matches.effects';
+import { JobsPageEffects, JobDescriptionEffects, ModifyPricingsEffects, JobPeerMatchesEffects } from './effects';
 
 @NgModule({
   imports: [
@@ -60,6 +59,7 @@ import { JobPeerMatchesEffects } from './effects/job-peer-matches.effects';
       JobsPageEffects,
       JobDescriptionEffects,
       JobPeerMatchesEffects,
+      ModifyPricingsEffects
     ]),
     FontAwesomeModule,
     TooltipModule,

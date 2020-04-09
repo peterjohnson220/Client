@@ -118,6 +118,17 @@
 
 <ng-template #gridActions>
   <button
+    [pfSecuredResource]="permissions.MODIFY_PRICINGS"
+    [disabled]="!isActiveJobs() || !selectedPricingIds.length"
+    [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
+    (click)="modifyPricings()"
+    type="button"
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['far', 'chart-line']"></fa-icon>
+    Modify Pricings <span *ngIf="selectedPricingIds.length">({{selectedPricingIds.length}})</span>
+  </button>
+  <button
     [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-jobs-page-create-project'"
@@ -251,6 +262,35 @@
             We encountered a problem deleting your job. Please try again or contact your account representative.
           </b>
         </span>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>
+
+<pf-modal-form
+  [size]="'lg'"
+  [showFooter]="false"
+  [modalId]="'au-modal-jobs-page-multi-match'"
+  [isOpen$]="modifyingPricings$"
+  (onDismiss)="cancelModifyPricings()"
+>
+  <!--TODO: The multi match page itself handles the UI layout. This is for PoC/Initial work for modifying pricings -->
+  <ng-container basic-content>
+    <div class="multi-match-container">
+      <div class="row">
+        <div class="col-3">
+          Filters
+        </div>
+        <div class="col-6">
+          Results
+        </div>
+        <div class="col-3">
+          <div *ngFor="let pricing of pricingsToModify$ | async" [title]="pricing.Paymarket">
+            {{pricing.Job.Title}} ({{pricing.Job.Code}})
+            <br />
+            Show Cuts ({{pricing.DataCutsCount}}) | Show Job Detail
+          </div>
+        </div>
       </div>
     </div>
   </ng-container>
