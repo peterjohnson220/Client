@@ -90,6 +90,22 @@ export class ServicePageEffects {
       })
     );
 
+  @Effect()
+  loadSupportTeam$ = this.actions$
+  .pipe(
+    ofType(fromServicePageActions.LOAD_SUPPORT_TEAM),
+    switchMap((action: fromServicePageActions.LoadSupportTeam) => {
+      return this.userTicketApiService.getSupportTeam()
+        .pipe(
+          map((response) => {
+            const supportTeam = PayfactorsApiModelMapper.mapSupportTeamResponseToSupportTeamUser(response);
+            return new fromServicePageActions.LoadSupportTeamSuccess(supportTeam);
+          }),
+          catchError((error) => of(new fromServicePageActions.LoadSupportTeamError(error)))
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private userTicketApiService: UserTicketApiService,

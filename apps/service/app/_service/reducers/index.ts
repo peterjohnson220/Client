@@ -37,3 +37,4 @@ export const getSavingUserTicketError = createSelector(selectServicePageState, f
 export const getSavingUserTicketErrorMessage = createSelector(selectServicePageState, fromServicePageReducer.getSavingUserTicketErrorMessage);
 export const getTicketStates = createSelector(selectServicePageState, fromServicePageReducer.getTicketStates);
 export const getSelectedTicketStates = createSelector(selectServicePageState, fromServicePageReducer.getSelectedTicketStates);
+export const getSupportTeam = createSelector(selectServicePageState, fromServicePageReducer.getSupportTeam);

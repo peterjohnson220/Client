@@ -9,7 +9,7 @@ import {
   UserTicketCreateRequest
 } from 'libs/models/payfactors-api/service/request';
 import {
-  UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse
+  UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse, SupportTeamResponse
 } from 'libs/models/payfactors-api/service/response';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { GenericKeyValue } from 'libs/models';
@@ -73,6 +73,10 @@ export class UserTicketApiService {
 
   getUserDetail(userId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}/GetUserDetail/${userId}`);
+  }
+
+  getSupportTeam(): Observable<SupportTeamResponse[]> {
+    return this.payfactorsApiService.get<SupportTeamResponse[]>(`${this.endpoint}/GetSupportTeam`);
   }
 
 }

@@ -1,6 +1,6 @@
-import { UserTicketTypeResponse, UserTicketStateResponse } from 'libs/models/payfactors-api/service/response';
+import { SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse } from 'libs/models/payfactors-api/service/response';
 
-import { TicketType, MultiSelectItemGroup } from '../models';
+import { TicketType, MultiSelectItemGroup, SupportTeamUser } from '../models';
 import { TicketStateHelper } from './ticket-state.helper';
 
 export class PayfactorsApiModelMapper {
@@ -36,5 +36,19 @@ export class PayfactorsApiModelMapper {
       }
     });
     return ticketStates;
+  }
+
+  static mapSupportTeamResponseToSupportTeamUser(response: SupportTeamResponse[]): SupportTeamUser[] {
+    return response.map((user) => {
+      return {
+        UserId: user.UserId,
+        FirstName: user.FirstName,
+        LastName: user.LastName,
+        Title: user.JobTitle,
+        PhoneNumber: user.PhoneNumber,
+        EmailAddress: user.EmailAddress,
+        UserPicture: user.UserPicture
+      };
+    });
   }
 }

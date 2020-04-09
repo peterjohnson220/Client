@@ -1,16 +1,16 @@
 // Import all exports from our feature's actions
 import * as cloneDeep from 'lodash.clonedeep';
 
-
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
-import { TicketType, MultiSelectItemGroup } from '../models';
+import { TicketType, MultiSelectItemGroup, SupportTeamUser } from '../models';
 import * as fromServicePageActions from '../actions/service-page.actions';
 import { TicketStateHelper } from '../helpers';
 
 // Define our feature state
 export interface State {
   ticketTypes: AsyncStateObj<TicketType[]>;
+  supportTeam: AsyncStateObj<SupportTeamUser[]>;
   showNewTicketModal: boolean;
   savingTicket: boolean;
   savingTicketError: boolean;
@@ -23,6 +23,7 @@ export interface State {
 // Define our initial state
 const initialState: State = {
   ticketTypes: generateDefaultAsyncStateObj<TicketType[]>([]),
+  supportTeam: generateDefaultAsyncStateObj<SupportTeamUser[]>([]),
   showNewTicketModal: false,
   savingTicket: false,
   savingTicketError: false,
@@ -129,6 +130,35 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
         selectedTicketStates: TicketStateHelper.getSelectedValues(action.payload)
       };
     }
+    case fromServicePageActions.LOAD_SUPPORT_TEAM: {
+      const supportTeamClone = cloneDeep(state.supportTeam);
+
+      supportTeamClone.loading = true;
+      supportTeamClone.loadingError = false;
+      return {
+        ...state,
+        supportTeam: supportTeamClone
+      };
+    }
+    case fromServicePageActions.LOAD_SUPPORT_TEAM_SUCCESS: {
+      const supportTeamClone = cloneDeep(state.supportTeam);
+
+      supportTeamClone.loading = false;
+      supportTeamClone.obj = action.payload;
+      return {
+        ...state,
+        supportTeam: supportTeamClone
+      };
+    }
+    case fromServicePageActions.LOAD_SUPPORT_TEAM_ERROR: {
+      const supportTeamClone = cloneDeep(state.supportTeam);
+
+      supportTeamClone.loadingError = true;
+      return {
+        ...state,
+        supportTeam: supportTeamClone
+      };
+    }
     default: {
       return state;
     }
@@ -149,4 +179,4 @@ export const getSavingUserTicketError = (state: State) => state.savingTicketErro
 export const getSavingUserTicketErrorMessage = (state: State) => state.savingTicketErrorMessage;
 export const getTicketStates = (state: State) => state.ticketStates;
 export const getSelectedTicketStates = (state: State) => state.selectedTicketStates;
-
+export const getSupportTeam = (state: State) => state.supportTeam;

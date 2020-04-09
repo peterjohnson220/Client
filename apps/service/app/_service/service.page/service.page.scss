@@ -1,3 +1,5 @@
+@import 'libs/styles/perfect-scrollbar-overrides';
+
 .page {
   background-color: #ffffff;
   padding: 2rem;
@@ -31,4 +33,19 @@
   .light-blue {
     color: #4F95D5
   }
+}
+
+.ticket-type {
+  border: 1px solid red;
+}
+
+.service-dashboard-container {
+  position: relative;
+  margin-left: 11px !important;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 362px;
+  border: 0.5px solid rgba(188,193,198,0.77);
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.04);
 }

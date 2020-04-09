@@ -6,7 +6,9 @@
   [actionBarConfig]="actionBarConfig"
   [columnTemplates]="colTemplates"
   [filterPanelTemplates]="filterTemplates"
-  [gridActionsTemplate]="gridActions">
+  [gridActionsTemplate]="gridActions"
+  [rightGridTemplate]="serviceDashboard"
+  [gridContainerSplitViewWidth]="'1040px'">
 </pf-data-grid>
 
 <ng-template #statusColumn let-dataRow="dataRow">
@@ -46,3 +48,13 @@
 <ng-template #gridActions>
   <pf-service-grid-actions></pf-service-grid-actions>
 </ng-template>
+
+<ng-template #serviceDashboard >
+  <div class="d-flex flex-column">
+    <div perfectScrollbar class="service-dashboard-container h-50">
+      <pf-service-dashboard
+        [avatarUrl]="avatarUrl"
+        [supportTeam]="(supportTeam$ | async).obj">
+      </pf-service-dashboard>
+    </div>
+  </div>

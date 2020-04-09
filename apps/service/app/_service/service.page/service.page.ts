@@ -9,8 +9,13 @@ import { ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-dat
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromRootState from 'libs/state/state';
+import { AsyncStateObj } from 'libs/models/state';
+import { UserContext } from 'libs/models/security';
 
 import { ServicePageConfig } from '../models';
+import { SupportTeamUser } from '../models';
+
 import * as fromServicePageActions from '../actions/service-page.actions';
 import * as fromServicePageReducer from '../reducers';
 
@@ -25,6 +30,8 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
   ticketTypes$: Observable<string[]>;
+  supportTeam$: Observable<AsyncStateObj<SupportTeamUser[]>>;
+  identity$: Observable<UserContext>;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'desc',
@@ -36,10 +43,15 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   filterTemplates = {};
   ticketTypeField: ViewField;
   selectedTicketTypeFilterValue: string;
+  avatarUrl: string;
 
   gridFieldSubscription: Subscription;
+  identitySubscription: Subscription;
 
-  constructor(private store: Store<fromServicePageReducer.State>) {
+  constructor(
+    private store: Store<fromServicePageReducer.State>,
+    private userContextStore: Store<fromRootState.State>
+  ) {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: true,
@@ -47,6 +59,8 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
       ShowFilterChooser: true
     };
     this.ticketTypes$ = this.store.pipe(select(fromServicePageReducer.getTicketTypeNames));
+    this.supportTeam$ = this.store.pipe(select(fromServicePageReducer.getSupportTeam));
+    this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
   }
 
   ngOnInit(): void {
@@ -56,8 +70,14 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
         this.selectedTicketTypeFilterValue = this.ticketTypeField.FilterValue;
       }
     });
+    this.identitySubscription = this.identity$.subscribe(i => {
+      if (!!i) {
+        this.avatarUrl = i.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/avatars/';
+      }
+    });
     this.store.dispatch(new fromServicePageActions.LoadTicketTypes());
     this.store.dispatch(new fromServicePageActions.GetTicketStates());
+    this.store.dispatch(new fromServicePageActions.LoadSupportTeam());
   }
 
   ngAfterViewInit(): void {
@@ -90,6 +110,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
+    this.identitySubscription.unsubscribe();
   }
 
   addNewTicket() {
