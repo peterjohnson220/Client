@@ -4,7 +4,8 @@
   [textField]="'Value'"
   [valueField]="'Value'"
   [valuePrimitive]="true"
-  (close)="handleDropdownCloseEvent($event)">
+  (close)="handleDropdownCloseEvent($event)"
+  (open)="handleOpenDropdownEvent($event)">
 
   <ng-template kendoDropDownListItemTemplate let-dataItem>
     <pf-item-group
