@@ -1,3 +1,9 @@
+<kendo-dropdownlist *ngIf="!!userId"
+  class="mr-3"
+  [data]="ticketListModes"
+  [(ngModel)]="selectedTicketListMode"
+  (valueChange)="handleSelectedTicketListModeChanged($event)">
+</kendo-dropdownlist>
 <pf-multi-select-dropdown *ngIf="!!(ticketStates$ | async)?.obj?.length"
   [listItems]="(ticketStates$ | async)?.obj"
   [selectedValues]="(selectedTicketStates$ | async)"

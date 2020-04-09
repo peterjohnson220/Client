@@ -8,7 +8,8 @@
   [filterPanelTemplates]="filterTemplates"
   [gridActionsTemplate]="gridActions"
   [rightGridTemplate]="serviceDashboard"
-  [gridContainerSplitViewWidth]="'1040px'">
+  [gridContainerSplitViewWidth]="'1040px'"
+  [inboundFilters]="inboundFilters">
 </pf-data-grid>
 
 <ng-template #statusColumn let-dataRow="dataRow">
@@ -46,7 +47,9 @@
 
 
 <ng-template #gridActions>
-  <pf-service-grid-actions></pf-service-grid-actions>
+  <pf-service-grid-actions
+    [userId]="userId">
+  </pf-service-grid-actions>
 </ng-template>
 
 <ng-template #serviceDashboard >

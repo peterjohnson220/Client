@@ -4,3 +4,8 @@ export class ServicePageConfig {
   public static UploadRemoveUrl = '/odata/CloudFiles.DeleteUserTicketAttachments';
   public static MaxFileUploads = 25;
 }
+
+export enum TicketListMode {
+  MyTickets = 'My Tickets',
+  AllCompanyTickets = 'All Company Tickets'
+}
