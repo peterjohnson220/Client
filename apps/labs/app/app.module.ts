@@ -10,8 +10,6 @@ import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 
 import { AppRoutingModule } from './app-routing.module';
 
-
-
 @NgModule({
   imports: [
     // Angular
@@ -24,7 +22,6 @@ import { AppRoutingModule } from './app-routing.module';
     PfLayoutWrapperModule,
     PfSecurityModule,
     PfStateModule,
-
 
     // Routing
     AppRoutingModule
