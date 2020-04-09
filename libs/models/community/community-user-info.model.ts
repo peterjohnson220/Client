@@ -6,6 +6,12 @@ export interface CommunityUserInfo {
   CompanyName: string;
   AvatarSource: string;
   CompanyLogoSource: string;
+  Badges: CommunityUserBadges[];
+}
+
+export interface CommunityUserBadges {
+  BadgeId: string;
+  BadgeText: string;
 }
 
 export function generateMockCommunityUserInfo(): CommunityUserInfo {
@@ -16,6 +22,8 @@ export function generateMockCommunityUserInfo(): CommunityUserInfo {
     UserLastName: 'Testlastname',
     CompanyName: 'Company Name',
     AvatarSource: 'Avatar Source',
-    CompanyLogoSource: 'Company Logo Source'
+    CompanyLogoSource: 'Company Logo Source',
+    Badges: [ { BadgeId: '123', BadgeText: 'Comp Collective Member'}]
   };
 }
+

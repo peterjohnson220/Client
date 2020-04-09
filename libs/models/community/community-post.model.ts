@@ -42,7 +42,8 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     UserInfo:
       {
         UserId: 1, UserFirstName: 'Test', UserLastName: 'User', CompanyId: 2, CompanyName: 'Test Company', CompanyLogoSource: null,
-        AvatarSource: 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg'
+        AvatarSource: 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg',
+        Badges: [{BadgeId: '123', BadgeText: 'Comp Collective Member'}]
       },
     Time: new Date(),
     ElapsedTime: '3 minutes ago',
