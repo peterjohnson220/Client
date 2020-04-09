@@ -93,13 +93,16 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private reassessMinMax(currentRow) {
-    // if we somehow don't have a chart max OR this employees salary is higher than the current max, set it
-    if (!this.chartMax || (currentRow.CompanyEmployees_EEMRPForStructureRangeGroup > this.chartMax)) {
-      this.chartMax = currentRow.CompanyEmployees_EEMRPForStructureRangeGroup;
-    }
-    // same logic for min but reversed, obviously
-    if (!this.chartMin || (currentRow.CompanyEmployees_EEMRPForStructureRangeGroup < this.chartMin)) {
-      this.chartMin = currentRow.CompanyEmployees_EEMRPForStructureRangeGroup;
+    // only do this if currentRow.CompanyEmployees_EEMRPForStructureRangeGroup has a value
+    if (currentRow.CompanyEmployees_EEMRPForStructureRangeGroup) {
+      // if we somehow don't have a chart max OR this employees salary is higher than the current max, set it
+      if (!this.chartMax || (currentRow.CompanyEmployees_EEMRPForStructureRangeGroup > this.chartMax)) {
+        this.chartMax = currentRow.CompanyEmployees_EEMRPForStructureRangeGroup;
+      }
+      // same logic for min but reversed, obviously
+      if (!this.chartMin || (currentRow.CompanyEmployees_EEMRPForStructureRangeGroup < this.chartMin)) {
+        this.chartMin = currentRow.CompanyEmployees_EEMRPForStructureRangeGroup;
+      }
     }
   }
 
