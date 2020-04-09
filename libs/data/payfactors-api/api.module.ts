@@ -53,7 +53,8 @@ import { TotalRewardsApiService } from './total-rewards';
 import { SsoConfigApiService } from './sso';
 import { CurrencyApiService } from './currency';
 import { CompositeFieldApiService } from './composite-field';
-import { PricingApiService } from './pricings';
+import { PricingApiService } from './pricing';
+import { PricingLegacyApiService } from './pricing-legacy';
 import { CountryApiService } from './country';
 import { EntityKeysValidationApiService } from './validation';
 
@@ -118,6 +119,7 @@ import { EntityKeysValidationApiService } from './validation';
     SsoConfigApiService,
     CurrencyApiService,
     CompositeFieldApiService,
+    PricingLegacyApiService,
     PricingApiService,
     CountryApiService,
     CompanyEmployeeApiService,

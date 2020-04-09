@@ -21,12 +21,10 @@
     class="btn btn-secondary align-top ml-3"
     [attr.data-qa-id]="'btn-toggle-jobs-page'"
     [id]="'btn-toggle-jobs-page'"
-    (click)="jobsPageToggle()"
-  >
+    (click)="jobsPageToggle()">
     Back to old Jobs page
     <div *ngIf="(navigatingToOldPage$ | async).loading" class="loading-icon-container ml-2">
-      <pf-loading-indicator
-      ></pf-loading-indicator>
+      <pf-loading-indicator></pf-loading-indicator>
     </div>
   </button>
 </ng-template>
