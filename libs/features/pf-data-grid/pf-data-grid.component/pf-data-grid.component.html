@@ -70,6 +70,7 @@
             </div>
           </div>
         </div>
+        <ng-container *ngIf="!(displayFilterPanel$ | async)" [ngTemplateOutlet]="rightGridTemplate"></ng-container>
         <div *ngIf="isSplitView()" class="split-view-container border-left">
           <ng-container
             [ngTemplateOutlet]="splitViewTemplate"

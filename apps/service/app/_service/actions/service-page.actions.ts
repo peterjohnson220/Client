@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { UploadedFile, UserTicketDto } from 'libs/models/service';
 
-import { TicketType, MultiSelectItemGroup } from '../models';
+import { TicketType, MultiSelectItemGroup, SupportTeamUser } from '../models';
 
 export const LOAD_TICKET_TYPES  = '[Service / Service Page] Load Ticket Types';
 export const LOAD_TICKET_TYPES_SUCCESS  = '[Service / Service Page] Load Ticket Types Success';
@@ -15,6 +15,9 @@ export const GET_TICKET_STATES = '[Service / Service Page] Get Ticket States';
 export const GET_TICKET_STATES_SUCCESS = '[Service / Service Page] Get Ticket States Success';
 export const GET_TICKET_STATES_ERROR = '[Service / Service Page] Get Ticket States Error';
 export const UPDATE_SELECTED_TICKET_STATES = '[Service / Service Page] Update Selected Ticket States';
+export const LOAD_SUPPORT_TEAM = '[Service / Service Page] Get Support Team';
+export const LOAD_SUPPORT_TEAM_SUCCESS = '[Service / Service Page] Get Support Team Success';
+export const LOAD_SUPPORT_TEAM_ERROR = '[Service / Service Page] Get Support Team Error';
 
 export class LoadTicketTypes implements Action {
   readonly type = LOAD_TICKET_TYPES;
@@ -55,7 +58,25 @@ export class CreateUserTicketSuccess implements Action {
 export class CreateUserTicketError implements Action {
   readonly type = CREATE_USER_TICKET_ERROR;
 
-  constructor(public payload: string) {}
+  constructor(public payload: string) {
+  }
+}
+export class LoadSupportTeam implements Action {
+  readonly type = LOAD_SUPPORT_TEAM;
+
+  constructor() {}
+}
+
+export class LoadSupportTeamSuccess implements Action {
+  readonly type = LOAD_SUPPORT_TEAM_SUCCESS;
+
+  constructor(public payload: SupportTeamUser[]) {}
+}
+
+export class LoadSupportTeamError implements Action {
+  readonly type = LOAD_SUPPORT_TEAM_ERROR;
+
+  constructor(public payload: any) {}
 }
 
 export class GetTicketStates implements Action {
@@ -91,4 +112,7 @@ export type Actions
   | GetTicketStates
   | GetTicketStatesSuccess
   | GetTicketStatesError
-  | UpdateSelectedTicketStates;
+  | UpdateSelectedTicketStates
+  | LoadSupportTeam
+  | LoadSupportTeamSuccess
+  | LoadSupportTeamError;

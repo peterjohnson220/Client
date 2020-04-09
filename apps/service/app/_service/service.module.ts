@@ -10,6 +10,8 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { QuillModule } from 'ngx-quill';
+import { ImgFallbackModule } from 'ngx-img-fallback';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -22,6 +24,7 @@ import { reducers } from './reducers';
 import { ServicePageEffects } from './effects';
 import { ServicePageComponent } from './service.page';
 import { CreateTicketModalComponent } from './containers';
+import { ServiceDashboardComponent, SupportTeamComponent } from './components';
 import { ServiceRoutingModule } from './service-routing.module';
 import { GridActionsComponent } from './containers';
 import { MultiSelectDropdownComponent, ItemGroupComponent } from './components';
@@ -47,6 +50,8 @@ import { MultiSelectDropdownComponent, ItemGroupComponent } from './components';
     NgbPopoverModule,
     UploadModule,
     QuillModule.forRoot(),
+    ImgFallbackModule,
+    PerfectScrollbarModule,
 
     // Payfactors
     PfCommonModule,
@@ -64,7 +69,9 @@ import { MultiSelectDropdownComponent, ItemGroupComponent } from './components';
 
     // Components
     ItemGroupComponent,
-    MultiSelectDropdownComponent
+    MultiSelectDropdownComponent,
+    ServiceDashboardComponent,
+    SupportTeamComponent
   ],
   providers: [
     { provide: 'DataViewService', useClass: DataViewApiService }
