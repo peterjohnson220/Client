@@ -446,12 +446,12 @@ export class PfDataGridEffects {
 
   static mapFieldsToFiltersUseValuesProperty(fields: ViewField[]): DataViewFilter[] {
     return fields
-      .filter(field => field.FilterValue !== null || !isValueRequired(field))
+      .filter(field => (field.FilterValue !== null || !!field.FilterValues) || !isValueRequired(field))
       .map(field => <DataViewFilter>{
         EntitySourceName: field.EntitySourceName,
         SourceName: field.SourceName,
         Operator: field.FilterOperator,
-        Values: [field.FilterValue],
+        Values: field.FilterValues ? field.FilterValues : [field.FilterValue],
         DataType: field.DataType,
         FilterType: field.CustomFilterStrategy
       });

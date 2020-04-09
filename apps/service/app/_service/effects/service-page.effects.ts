@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { switchMap, catchError, map, mergeMap } from 'rxjs/operators';
+import { switchMap, catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
 
 import { UserTicketApiService } from 'libs/data/payfactors-api/index';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromServicePageActions from '../actions/service-page.actions';
-import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper.helper';
+import * as fromServicePageReducer from '../reducers';
+import { PayfactorsApiModelMapper, TicketStateHelper } from '../helpers';
 import { ServicePageConfig } from '../models';
 
 @Injectable()
@@ -52,8 +55,44 @@ export class ServicePageEffects {
         ])
     );
 
+  @Effect()
+  getTicketStates$ = this.actions$
+    .pipe(
+      ofType(fromServicePageActions.GET_TICKET_STATES),
+      switchMap((action: fromServicePageActions.GetTicketStates) => {
+        return this.userTicketApiService.getUserTicketStates()
+          .pipe(
+            map((response) => {
+              const ticketStates = PayfactorsApiModelMapper.mapTicketStatesToMultiSelectItemGroups(response);
+              return new fromServicePageActions.GetTicketStatesSuccess(ticketStates);
+            }),
+            catchError(() => of(new fromServicePageActions.GetTicketStatesError()))
+          );
+      })
+    );
+
+  @Effect()
+  updateSelectedTicketStates$ = this.actions$
+    .pipe(
+      ofType(fromServicePageActions.UPDATE_SELECTED_TICKET_STATES),
+      withLatestFrom(
+        this.store.pipe(select(fromPfDataGridReducer.getFields)),
+        this.store.pipe(select(fromServicePageReducer.getSelectedTicketStates)),
+        (action, fields, selectedTicketStates) => ({ action, fields, selectedTicketStates })
+      ),
+      map(data => {
+        const ticketStateField = TicketStateHelper.applySelectedTicketStatesToField(data.fields, data.selectedTicketStates);
+        if (data.selectedTicketStates && data.selectedTicketStates.length) {
+          return new fromPfDataGridActions.UpdateFilter(ServicePageConfig.ServicePageViewId, ticketStateField);
+        } else {
+          return new fromPfDataGridActions.ClearFilter(ServicePageConfig.ServicePageViewId, ticketStateField, true);
+        }
+      })
+    );
+
   constructor(
     private actions$: Actions,
-    private userTicketApiService: UserTicketApiService
+    private userTicketApiService: UserTicketApiService,
+    private store: Store<fromServicePageReducer.State>
   ) {}
 }

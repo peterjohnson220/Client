@@ -77,7 +77,7 @@ export const getPrimaryKey = (state: DataGridStoreState, pageViewId: string) => 
 export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId]
   ? state.grids[pageViewId].fields : null;
 export const getVisibleOrderedFields = (state: DataGridStoreState, pageViewId: string) => {
-  if (!!state.grids[pageViewId].fields) {
+  if (!!state.grids[pageViewId] && !!state.grids[pageViewId].fields) {
     return state.grids[pageViewId]
       ? orderBy(state.grids[pageViewId].fields.filter(f => f.IsSelectable && f.IsSelected), 'Order')
       : null;
@@ -338,6 +338,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const updatedField = updatedFields.find(f => f.DataElementId === action.payload.DataElementId);
 
       updatedField.FilterValue = action.payload.FilterValue;
+      updatedField.FilterValues = action.payload.FilterValues;
       updatedField.FilterOperator = action.payload.FilterOperator;
 
       const splitViewFilters = updatedFields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
@@ -363,6 +364,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       }
 
       clearedFilterField.FilterValue = null;
+      clearedFilterField.FilterValues = null;
       const svf = state.grids[action.pageViewId].splitViewFilters.filter(f => f.SourceName !== action.field.SourceName);
       return {
         ...state,
