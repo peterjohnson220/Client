@@ -92,6 +92,11 @@ export const getLoadingPfServicesReps = createSelector(
   fromCompanyPageReducer.getLoadingPfServicesReps
 );
 
+export const getPfAccountExecutives = createSelector(
+  selectCompanyPageState,
+  fromCompanyPageReducer.getPfAccountExecutives
+);
+
 export const getPfServicesReps = createSelector(
   selectCompanyPageState,
   fromCompanyPageReducer.getPfServicesReps

@@ -31,6 +31,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   companyForm: FormGroup;
   clientTypes: CompanyClientTypesReponse[];
   systemUserGroups: SystemUserGroupsResponse[];
+  pfAccountExecutives: UserResponse[];
   pfServicesReps: UserResponse[];
   pfJdmSrAssociates: UserResponse[];
   pfCustomerSuccessMgrs: UserResponse[];
@@ -69,6 +70,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     if (!!changes.companyFormContext && !!changes.companyFormContext.currentValue) {
       this.clientTypes = this.companyFormContext.clientTypes;
       this.systemUserGroups = this.companyFormContext.systemUserGroups;
+      this.pfAccountExecutives = this.companyFormContext.pfAccountExecutives;
       this.pfServicesReps = this.companyFormContext.pfServicesReps;
       this.pfJdmSrAssociates = this.companyFormContext.pfJdmSrAssociates;
       this.pfCustomerSuccessMgrs = this.companyFormContext.pfCustomerSuccessMgrs;
@@ -131,6 +133,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       companyName: ['', [Validators.required, Validators.maxLength(255)]],
       companyNameShort: ['', Validators.maxLength(50)],
       status: [''],
+      accountExecutive: [null],
       servicesRep: [null],
       jdmSrAssociate: [null],
       customerSuccessMgr: [null],
@@ -185,6 +188,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   buildFormData(): CompanyFormData {
+    const accountExecutiveUserId = this.companyForm.get('accountExecutive').value;
     const primarySupportUserId = this.companyForm.get('servicesRep').value;
     const jdmSrAssociatesUserId = this.companyForm.get('jdmSrAssociate').value;
     const customerSuccessMgrUserId = this.companyForm.get('customerSuccessMgr').value;
@@ -201,6 +205,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       Status: this.companyForm.get('status').value,
       Website: this.companyFormData.Website,
       Domain: this.companyFormData.Domain,
+      AccountExecutiveUserId: !!accountExecutiveUserId ? accountExecutiveUserId.toString() : null,
       PrimarySupportUserId: !!primarySupportUserId ? primarySupportUserId.toString() : null,
       JDMSeniorAssociateUserId: !!jdmSrAssociatesUserId ? jdmSrAssociatesUserId.toString() : null,
       SystemUserGroupsId: Number(this.repositoryControl.value),
@@ -320,6 +325,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.reset();
     this.setGroupFromIndustryValue(this.companyFormData.Industry);
 
+    const AccountExecutiveUserId = this.companyFormData.AccountExecutiveUserId ? Number(this.companyFormData.AccountExecutiveUserId) : null;
     const PrimarySupportUserId = this.companyFormData.PrimarySupportUserId ? Number(this.companyFormData.PrimarySupportUserId) : null;
     const CustomerSuccessMgrUserId = this.companyFormData.CustomerSuccessMgrUserId ? Number(this.companyFormData.CustomerSuccessMgrUserId) : null;
     const CompanyColor =   this.companyFormData.CompanyColor ? this.companyFormData.CompanyColor : '#2F6C94';
@@ -327,6 +333,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.get('companyName').setValue(this.companyFormData.CompanyName);
     this.companyForm.get('companyNameShort').setValue(this.companyFormData.CompanyNameShort);
     this.companyForm.get('status').setValue(this.companyFormData.Status);
+    this.companyForm.get('accountExecutive').setValue(AccountExecutiveUserId);
     this.companyForm.get('servicesRep').setValue(PrimarySupportUserId);
     this.companyForm.get('jdmSrAssociate').setValue(Number(this.companyFormData.JDMSeniorAssociateUserId));
     this.companyForm.get('customerSuccessMgr').setValue(CustomerSuccessMgrUserId);
