@@ -1,6 +1,7 @@
 .temp-link-color-override {
   &:not(.disabled) {
     color: #1872ae;
+    font-weight: bold;
 
     &:hover {
       text-decoration: underline;

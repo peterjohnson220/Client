@@ -42,7 +42,8 @@
 
 .ellipsis-overflowing-text-wrap {
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 tr.row-disabled {

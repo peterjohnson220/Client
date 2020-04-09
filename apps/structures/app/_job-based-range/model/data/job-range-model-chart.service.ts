@@ -72,7 +72,8 @@ export class JobRangeModelChartService {
         tickPixelInterval: 200,
         title: {
           text: undefined
-        }
+        },
+        offset: 20
       },
       xAxis: {
         visible: false
@@ -100,7 +101,8 @@ export class JobRangeModelChartService {
         type: 'columnrange',
         animation: false,
         color: 'rgba(36,134,210,0.45)',
-        enableMouseTracking: false
+        enableMouseTracking: false,
+        pointWidth: 42
       }, {
         name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.RangeMid),
         type: 'scatter',
@@ -147,22 +149,11 @@ export class JobRangeModelChartService {
       }, {
         name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.EmployeeOutliers, controlPointDisplay),
         type: 'scatter',
-        dataLabels: {
-          useHTML: true,
-          enabled: true,
-          formatter: function () {
-            const fontSize = this.point.count > 99 ? 65 : 90;
-            return `<span style="color: #fff; font-size: ${fontSize}%;">${this.point.count}</div>`;
-          },
-          defer: false,
-          x: -0.75,
-          y: 11.5
-        },
         enableMouseTracking: true,
         marker: {
           enabled: true,
           // tslint:disable-next-line:max-line-length
-          symbol: `url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxN3B4IiB2aWV3Qm94PSIwIDAgMTYgMTciIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDYxICg4OTU4MSkgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+QmFzZTU8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZyBpZD0iV29ya2luZyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9IkVtcGxveWVlLVZpZXciIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xMjQ1LjAwMDAwMCwgLTY3MC4wMDAwMDApIiBmaWxsPSIjRDk1MzRGIj4KICAgICAgICAgICAgPGcgaWQ9IkxlZ2VuZCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTI0NS4wMDAwMDAsIDQwMC40MTQwNjIpIj4KICAgICAgICAgICAgICAgIDxnIGlkPSJCYXNlLWlDT05TIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCwgMjMuMzg4NjcyKSI+CiAgICAgICAgICAgICAgICAgICAgPGcgaWQ9IkJhc2U1IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCwgMjQ2Ljk4NDM3NSkiPgogICAgICAgICAgICAgICAgICAgICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTYiIGhlaWdodD0iMTUuODQ5MjY0NyIgcng9IjUiPjwvcmVjdD4KICAgICAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==)`,
+          symbol: `url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTFweCIgaGVpZ2h0PSIxMXB4IiB2aWV3Qm94PSIwIDAgMTEgMTEiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDY0ICg5MzUzNykgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+bGFiZWwtZGFuZ2VyPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IldvcmtpbmciIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJTdHJ1Y3R1cmVzLS0tR2VuZXJhbCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0NDMuMDAwMDAwLCAtNjE5LjAwMDAwMCkiIGZpbGw9IiNEOTUzNEYiPgogICAgICAgICAgICA8ZyBpZD0ibGFiZWwtZGFuZ2VyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDQzLjAwMDAwMCwgNjE5LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHJlY3QgaWQ9IkJHIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTEiIGhlaWdodD0iMTEiIHJ4PSI1LjUiPjwvcmVjdD4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+)`,
         },
         tooltip: {
           backgroundColor: '#000000',

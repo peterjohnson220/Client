@@ -1,5 +1,6 @@
 <pf-data-grid
-  [title]="(metaData$ | async)?.StructureName"
+  [title]="(metaData$ | async)?.ModelName"
+  [subtitle]="'Structure: ' + (metaData$ | async)?.StructureName"
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
   [columnTemplates]="colTemplates"
@@ -9,7 +10,12 @@
   [splitOnSelection]="false"
   [applyDefaultFilters]="false"
   [aboveGridTemplate]="aboveGridTemplate"
-  [actionBarConfig]="actionBarConfig">
+  [actionBarConfig]="actionBarConfig"
+  [borders]="false"
+  [pageable]="false"
+  [contentClassNamesOverrides]="'py-3 px-4'"
+  [pageTheme]="'next-gen'"
+  [defaultColumnWidth]="135">
 </pf-data-grid>
 
 <ng-template #graph>
@@ -27,8 +33,8 @@
 </ng-template>
 
 <ng-template #aboveGridTemplate>
-<div style="height: 150px">
-  <pf-grid-context [enableReturnBtn]="true" [metadata]="metaData$ | async"></pf-grid-context>
-  <pf-model-grid [inboundFilters]="[filter]" [rangeGroupId]="rangeGroupId" [singleRecordView]="true" [page]="page"></pf-model-grid>
-</div>
+  <div class="mb-3">
+    <pf-grid-context [enableReturnBtn]="true" [metadata]="metaData$ | async"></pf-grid-context>
+    <pf-model-grid [inboundFilters]="[filter]" [rangeGroupId]="rangeGroupId" [singleRecordView]="true" [page]="page"></pf-model-grid>
+  </div>
 </ng-template>

@@ -23,6 +23,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() pageViewId: string;
   @Input() title: string;
+  @Input() subtitle: string;
   @Input() titleTemplate: TemplateRef<any>;
   @Input() navigationURL: string;
   @Input() showTitle = true;
@@ -59,6 +60,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() useColumnGroups = true;
   @Input() actionBarConfig: ActionBarConfig = getDefaultActionBarConfig();
   @Input() reorderable: boolean;
+  @Input() borders = true;
+  @Input() pageable = true;
+  @Input() autoFitColumnsToHeader = false;
+  @Input() pageTheme: 'default' | 'next-gen' = 'default';
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;

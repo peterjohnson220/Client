@@ -1,0 +1,29 @@
+::ng-deep {
+  .content-wrapper {
+    height: initial !important;
+    min-height: 100%;
+  }
+
+  .full-wrap {
+    border: 1px solid #D9DCDF;
+    flex-grow: 1;
+    background: white;
+    min-height: 100%;
+  }
+
+  .grid-container {
+    position: relative !important;
+  }
+
+  .main-grid-split {
+    overflow-x: scroll;
+  }
+
+  .k-grid {
+    tbody{
+      tr {
+        height: 50px;
+      }
+    }
+  }
+}
