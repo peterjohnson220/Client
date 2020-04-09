@@ -38,6 +38,7 @@ export class AddJobsModalEffects {
         this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes),
         this.store.select(fromSharedReducer.getMetadata),
         this.store.select(fromSharedReducer.getIsNewModelAddJobs),
+        // tslint:disable-next-line:max-line-length
         (action: fromAddJobsPageActions.AddSelectedJobs, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, isNewModelAddJobs) =>
           ({action, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, isNewModelAddJobs})
       ),
@@ -53,7 +54,8 @@ export class AddJobsModalEffects {
                   new fromSharedModelSettingsActions.OpenModal(),
                 ] : [
                   new fromAddJobsPageActions.AddSelectedJobsSuccess(),
-                  new fromSearchPageActions.CloseSearchPage()
+                  new fromSearchPageActions.CloseSearchPage(),
+                  new fromSharedActions.RecalculateRangesWithoutMid({rangeGroupId: contextData.contextStructureRangeGroupId}),
                 ]
               ),
               catchError(error => of(new fromAddJobsPageActions.AddSelectedJobsError(error)))

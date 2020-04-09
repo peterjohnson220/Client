@@ -6,7 +6,8 @@ import {
   SaveModelSettingsRequest,
   SaveModelSettingsResponse,
   RecalcAndSaveRangeMinMaxRequest,
-  RecalcAndSaveRangeMinMaxResponse
+  RecalcAndSaveRangeMinMaxResponse,
+  StructureRangeGroupResponse
 } from 'libs/models/payfactors-api/structures';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -30,5 +31,11 @@ export class StructureModelingApiService {
 
   recalculateRangeMinMax(request: RecalcAndSaveRangeMinMaxRequest): Observable<RecalcAndSaveRangeMinMaxResponse> {
     return this.payfactorsApiService.post<RecalcAndSaveRangeMinMaxResponse>(`${this.endpoint}/RecalculateRangeMinMax`, request);
+  }
+
+  recalculateRangesWithoutMid(rangeGroupId: number): Observable<StructureRangeGroupResponse> {
+    return this.payfactorsApiService.get<StructureRangeGroupResponse>(`${this.endpoint}/RecalculateRangesWithoutMid`, {
+      params: { rangeGroupId }
+    } );
   }
 }
