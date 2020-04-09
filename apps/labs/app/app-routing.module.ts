@@ -10,9 +10,7 @@ export const routes: Routes = [
     path: '',
     component: AppWrapperComponent,
     canActivate: [UserContextGuard, PfAdminGuard],
-    children: [
-      { path: '', loadChildren: () => import('apps/labs/app/_labs/labs-page.module').then(m => m.LabsPageModule) }
-    ]
+    loadChildren: () => import('apps/labs/app/_labs/labs-page.module').then(m => m.LabsPageModule)
   },
   { path: 'access-denied', component: AccessDeniedPageComponent },
   { path: 'not-found', component: NotFoundErrorPageComponent },
