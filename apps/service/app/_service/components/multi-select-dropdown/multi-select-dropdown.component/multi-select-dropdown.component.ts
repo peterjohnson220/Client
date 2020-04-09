@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 
 import { DropDownListComponent } from '@progress/kendo-angular-dropdowns';
 import { cloneDeep } from 'lodash';
@@ -10,7 +10,7 @@ import { MultiSelectItemGroup } from '../../../models';
   templateUrl: './multi-select-dropdown.component.html',
   styleUrls: ['./multi-select-dropdown.component.scss']
 })
-export class MultiSelectDropdownComponent implements OnChanges {
+export class MultiSelectDropdownComponent {
   @Input() listItems: MultiSelectItemGroup[];
   @Input() selectedValues: string[];
   @Input() placeholder: string;
@@ -19,10 +19,8 @@ export class MultiSelectDropdownComponent implements OnChanges {
   @ViewChild('dropdownList', { static: false }) dropdownList: DropDownListComponent;
   localListItems: MultiSelectItemGroup[];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes && changes.listItems && changes.listItems.currentValue) {
-      this.localListItems = cloneDeep(this.listItems);
-    }
+  handleOpenDropdownEvent(event: any): void {
+    this.localListItems = cloneDeep(this.listItems);
   }
 
   handleDropdownCloseEvent(event: any): void {
