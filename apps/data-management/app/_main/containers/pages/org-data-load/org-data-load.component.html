@@ -1,5 +1,5 @@
 <pf-async-container [loading]="isProcessingMapping$ | async">
-  <pf-page-with-title-bar *ngIf="!validateAccess()">
+  <pf-page-with-title-bar *ngIf="!hideAccess">
     <ng-container custom-button>
       <button class="btn btn-secondary px-3 mr-2"
               (click)="goBack()">
