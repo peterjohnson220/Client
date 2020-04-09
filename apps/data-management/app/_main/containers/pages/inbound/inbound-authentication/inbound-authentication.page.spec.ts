@@ -52,7 +52,7 @@ describe('Data Management - Main - Inbound Authentication Page', () => {
     // arrange
     const spy = jest.spyOn(store, 'dispatch');
     const mockCredsPackage = generateMockCredentialsPackage();
-    const expectedAction = new fromHrisConnectionActions.Validate(mockCredsPackage);
+    const expectedAction = new fromHrisConnectionActions.CreateConnection(mockCredsPackage);
 
     // act
     instance.validateCredentials(mockCredsPackage);
@@ -68,19 +68,6 @@ describe('Data Management - Main - Inbound Authentication Page', () => {
 
     // act
     instance.cancel();
-
-    // assert
-    expect(spy).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch an action on next', () => {
-    // arrange
-    const spy = jest.spyOn(store, 'dispatch');
-    const mockCredsPackage = generateMockCredentialsPackage();
-    const expectedAction = new fromHrisConnectionActions.CreateConnection(mockCredsPackage);
-
-    // act
-    instance.next(mockCredsPackage);
 
     // assert
     expect(spy).toHaveBeenCalledWith(expectedAction);

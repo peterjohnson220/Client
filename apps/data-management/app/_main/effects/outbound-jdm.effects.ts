@@ -94,7 +94,7 @@ export class OutboundJdmEffects {
       ofType<fromHrisConnectionActions.OutboundJdmValidate>(fromHrisConnectionActions.OUTBOUND_JDM_VALIDATE),
       delay(5000),
       switchMap(() => [
-          new fromHrisConnectionActions.ValidateSuccess(),
+          new fromHrisConnectionActions.OutboundJdmValidateSuccess(),
           new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Validated)
       ]),
     );

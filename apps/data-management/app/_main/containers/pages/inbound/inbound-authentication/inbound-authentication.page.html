@@ -1,9 +1,13 @@
-<pf-hris-authentication-card
-  [connectionSummary]="connectionSummary$ | async"
-  transferMethod="HRIS Integration"
-  [validatedCredentials]="(currentWorkflowStep$ | async) === workflowStep.Validated"
-  (backClicked)="back()"
-  (cancelClicked)="cancel()"
-  (saveClicked)="next($event)"
-  (validateCredentials)="validateCredentials($event)">
-</pf-hris-authentication-card>
+<pf-async-container [loading]="loading$ |async"
+                    [loadingError]="loadingError$ |async"
+                    [loadingErrorMessage]="'Error loading authentication page'">
+  <pf-hris-authentication-card
+    [connectionSummary]="connectionSummary$ | async"
+    transferMethod="HRIS Integration"
+    [validatedCredentials]="(currentWorkflowStep$ | async) === workflowStep.Validated"
+    (backClicked)="back()"
+    (cancelClicked)="cancel()"
+    (saveClicked)="next()"
+    (validateCredentials)="validateCredentials($event)">
+  </pf-hris-authentication-card>
+</pf-async-container>
