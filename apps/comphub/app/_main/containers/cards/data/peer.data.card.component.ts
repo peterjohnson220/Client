@@ -40,7 +40,7 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
   selectedJobTitle$: Observable<string>;
   selectedPayMarket$: Observable<PricingPaymarket>;
   selectedExchange$: Observable<ExchangeDataSet>;
-  selectedExchangeJobIds$: Observable<number[]>;
+  selectedExchangeJobId$: Observable<number>;
   selectedPageId$: Observable<string>;
   includeUntaggedIncumbents$: Observable<boolean>;
   untaggedIncumbentCount$: Observable<number>;
@@ -49,14 +49,14 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
   payMarketSubscription: Subscription;
   selectedPageIdSubscription: Subscription;
   selectedExchangeSubscription: Subscription;
-  selectedExchangeJobIdsSubscription: Subscription;
+  selectedExchangeJobIdSubscription: Subscription;
   untaggedIncumbentCountSubscription: Subscription;
   selectedJobTitleSubscription: Subscription;
 
   selectedExchangeId: number;
   selectedPayMarketId: number;
   selectedJobTitle: string;
-  selectedExchangeJobIds: number[];
+  selectedExchangeJobId: number;
 
   mapExchangeId: number;
   mapPayMarketId: number;
@@ -72,7 +72,7 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedJobTitle$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.selectedPayMarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.selectedExchange$ = this.store.select(fromComphubMainReducer.getActiveExchangeDataSet);
-    this.selectedExchangeJobIds$ = this.store.select(fromComphubMainReducer.getSelectedExchangeJobIds);
+    this.selectedExchangeJobId$ = this.store.select(fromComphubMainReducer.getSelectedExchangeJobId);
     this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));
@@ -102,7 +102,7 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
       }
     });
 
-    this.selectedExchangeJobIdsSubscription = this.selectedExchangeJobIds$.subscribe(ids => this.selectedExchangeJobIds = ids);
+    this.selectedExchangeJobIdSubscription = this.selectedExchangeJobId$.subscribe(ids => this.selectedExchangeJobId = ids);
 
     this.selectedPageIdSubscription = this.selectedPageId$.subscribe(id =>
       this.selectedPageId = id);
@@ -129,7 +129,7 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
                 type: 'Set Context',
                 payload: {
                   exchangeId: this.selectedExchangeId,
-                  exchangeJobIds: this.selectedExchangeJobIds,
+                  exchangeJobId: this.selectedExchangeJobId,
                   isExchangeSpecific: true,
                   companyPayMarketId: this.selectedPayMarketId
                 }
@@ -145,7 +145,7 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy(): void {
     this.selectedExchangeSubscription.unsubscribe();
     this.payMarketSubscription.unsubscribe();
-    this.selectedExchangeJobIdsSubscription.unsubscribe();
+    this.selectedExchangeJobIdSubscription.unsubscribe();
     this.untaggedIncumbentCountSubscription.unsubscribe();
   }
 

@@ -46,7 +46,7 @@ export class ExchangeExplorerComponent extends SearchBase {
   exchangeId: number;
   companyJobId: number;
   cutGuid: string;
-  exchangeJobIds: number[];
+  exchangeJobId: number;
 
   constructor(
     private exchangeExplorerStore: Store<fromExchangeExplorerReducer.State>,
@@ -129,11 +129,11 @@ export class ExchangeExplorerComponent extends SearchBase {
     this.companyPayMarketId = payload.companyPayMarketId;
     if (payload.isExchangeSpecific) {
       this.exchangeId = payload.exchangeId;
-      if (!!payload.exchangeJobIds) {
-        this.exchangeJobIds = payload.exchangeJobIds;
+      if (!!payload.exchangeJobId) {
+        this.exchangeJobId = payload.exchangeJobId;
         const request: ComphubExchangeExplorerContextRequest = {
           ExchangeId : payload.exchangeId,
-          ExchangeJobIds : payload.exchangeJobIds,
+          ExchangeJobId : payload.exchangeJobId,
           CompanyPayMarketId : payload.companyPayMarketId
         };
         this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(

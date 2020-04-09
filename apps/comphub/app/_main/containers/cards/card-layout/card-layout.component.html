@@ -23,8 +23,8 @@
       Back
     </button>
 
-    <div class="next-button-container">
-      <button *ngIf="!hideNextButton"
+    <div *ngIf="!hideNextButton" class="next-button-container">
+      <button
               class="btn comphub-primary-btn"
               [disabled]="!nextButtonEnabled"
               [attr.data-qa-id]="'btn-next-'+ pageTitle"

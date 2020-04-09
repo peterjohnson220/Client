@@ -111,9 +111,9 @@ export const getSelectedJob = createSelector(
   fromJobsCardReducer.getSelectedJob
 );
 
-export const getSelectedExchangeJobIds = createSelector(
+export const getSelectedExchangeJobId = createSelector(
   selectJobsCardState,
-  fromJobsCardReducer.getSelectedExchangeJobIds
+  fromJobsCardReducer.getSelectedExchangeJobId
 );
 
 // Comphub Page
