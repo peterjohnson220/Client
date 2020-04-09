@@ -37,17 +37,17 @@
     </kendo-grid-column>
     <kendo-grid-column field="requestTime" title="Requested">
       <ng-template kendoGridCellTemplate let-dataItem>
-        <div>{{ dataItem.requestTime | date: 'MM/dd/yyyy hh:mm a' }}</div>
+        <div>{{ dataItem.requestTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="processingStartTime" title="Started">
       <ng-template kendoGridCellTemplate let-dataItem>
-        <div>{{ dataItem.processingStartTime | date: 'MM/dd/yyyy hh:mm a' }}</div>
+        <div>{{ dataItem.processingStartTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="processingEndTime" title="Finished">
       <ng-template kendoGridCellTemplate let-dataItem>
-        <div>{{ dataItem.processingEndTime | date: 'MM/dd/yyyy hh:mm a' }}</div>
+        <div>{{ dataItem.processingEndTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
       </ng-template>
     </kendo-grid-column>
   </kendo-grid>
