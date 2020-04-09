@@ -1,6 +1,30 @@
-import { StructuresHighchartsService } from '../../shared/services';
+import {StructuresHighchartsService} from '../../shared/services';
+import { JobRangeModelChartSeries } from './job-range-model-chart-series-constants';
 
 export class JobRangeModelChartService {
+
+  static getFormattedSeriesName(series: JobRangeModelChartSeries, controlPointDisplay: string = '') {
+    switch (series) {
+      case JobRangeModelChartSeries.SalaryRange: {
+        return 'Salary range';
+      }
+      case JobRangeModelChartSeries.RangeMid: {
+        return 'Range Mid';
+      }
+      case JobRangeModelChartSeries.Average: {
+        return 'Average ' + controlPointDisplay;
+      }
+      case JobRangeModelChartSeries.EmployeeOutliers: {
+        return 'Outlier ' + controlPointDisplay;
+      }
+      default: {
+        // should never happen, but in case someone adds a value later and forgets.
+        return '';
+      }
+
+    }
+  }
+
   static getRangeOptions(locale, currencyCode, controlPointDisplay, rate) {
     return {
       chart: {
@@ -72,13 +96,13 @@ export class JobRangeModelChartService {
         }
       },
       series: [{
-        name: 'Salary range',
+        name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRange),
         type: 'columnrange',
         animation: false,
         color: 'rgba(36,134,210,0.45)',
         enableMouseTracking: false
       }, {
-        name: 'Range Mid',
+        name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.RangeMid),
         type: 'scatter',
         marker: {
           symbol: 'vline',
@@ -100,7 +124,7 @@ export class JobRangeModelChartService {
           footerFormat: '</div>'
         }
       }, {
-        name: 'Average ' + controlPointDisplay ,
+        name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.Average, controlPointDisplay),
         type: 'scatter',
         marker: {
           symbol: 'vline',
@@ -121,7 +145,7 @@ export class JobRangeModelChartService {
           footerFormat: '</div>'
         }
       }, {
-        name: 'Outlier ' + controlPointDisplay,
+        name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.EmployeeOutliers, controlPointDisplay),
         type: 'scatter',
         dataLabels: {
           useHTML: true,

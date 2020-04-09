@@ -4,13 +4,14 @@ import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
-import { JobRangeModelChartService } from '../../data';
+import { JobRangeModelChartService, JobRangeModelChartSeries } from '../../data';
 
 @Component({
   selector: 'pf-job-based-range-chart',
@@ -33,6 +34,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   dataSubscription: Subscription;
   metadataSubscription: Subscription;
   pageViewId = PageViewIds.Model;
+  jobRangeData: GridDataResult;
   currency: string;
   controlPointDisplay: string;
   rate: string;
@@ -49,12 +51,14 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         this.controlPointDisplay = md.ControlPointDisplay;
         this.chartLocale = getUserLocale();
         this.rate = md.Rate;
+        this.clearData();
         this.chartOptions = JobRangeModelChartService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate);
       }
     });
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
       if (data) {
-        this.processChartData(data);
+        this.jobRangeData = data;
+        this.processChartData();
       }
     });
   }
@@ -138,6 +142,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       + (min ? ' to bring all to minimum' : ' above the maximum');
   }
 
+  private clearData(): void {
+    if (this.jobRangeData) {
+      this.jobRangeData = {...this.jobRangeData, data: []};
+    }
+  }
+
   private processAndAddOutliers(xCoordinate, currentRow) {
     // Min Outlier
     this.outlierSeriesData.push(
@@ -162,15 +172,15 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       });
   }
 
-  private processChartData(data: any) {
+  private processChartData() {
     this.salaryRangeSeriesData = [];
     this.midpointSeriesData = [];
     this.averageSeriesData = [];
     this.outlierSeriesData = [];
     this.chartMin = 0;
     this.chartMax = 0;
-    for (let i = 0; i < data.data.length; i++) {
-      const currentRow = data.data[i];
+    for (let i = 0; i < this.jobRangeData.data.length; i++) {
+      const currentRow = this.jobRangeData.data[i];
       // check for new min
       this.determineChartMin(currentRow);
 
@@ -193,13 +203,13 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     // set the min/max
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
     // set the series data (0 - salaryRange, 1 - midpoint, 2 - avg salary, 3 - outliers)
-    this.chartInstance.series[0].setData(this.salaryRangeSeriesData, false);
-    this.chartInstance.series[1].setData(this.midpointSeriesData, false);
-    this.chartInstance.series[2].setData(this.averageSeriesData, false);
-    this.chartInstance.series[3].setData(this.outlierSeriesData, true);
+    this.chartInstance.series[JobRangeModelChartSeries.SalaryRange].setData(this.salaryRangeSeriesData, false);
+    this.chartInstance.series[JobRangeModelChartSeries.RangeMid].setData(this.midpointSeriesData, false);
+    this.chartInstance.series[JobRangeModelChartSeries.Average].setData(this.averageSeriesData, false);
+    this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
 
     // this seemed like a pretty good way to get things to line up. 65 is a constant to account for gaps and headers, the rest is dynamic based on rows
-    this.chartInstance.setSize(null, (50 * data.data.length) + 65);
+    this.chartInstance.setSize(null, (50 * this.jobRangeData.data.length) + 65);
   }
 
   ngOnInit(): void {

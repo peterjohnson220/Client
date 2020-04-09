@@ -13,7 +13,7 @@ import { appendOrdinalSuffix } from 'libs/core/functions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
-import { PricingsSalaryRangeChartService } from '../../data';
+import { PricingsSalaryRangeChartSeries, PricingsSalaryRangeChartService } from '../../data';
 import { PricingMatchHelper } from '../../helpers';
 
 
@@ -113,7 +113,8 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   private renameSeries() {
     // 1 ==  'Pricings ' + controlPointDisplay
-    this.chartInstance.series[1].name = 'Pricings ' + this.controlPointDisplay;
+    this.chartInstance.series[PricingsSalaryRangeChartSeries.Pricings].name =
+      PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.Pricings, this.controlPointDisplay);
   }
 
   private addPricingsMRP(xCoordinate, currentRow, jobRangeData) {
@@ -206,8 +207,8 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       this.updateChartLabels();
 
-      this.chartInstance.series[0].setData(this.salaryRangeSeriesData, false);
-      this.chartInstance.series[1].setData(this.pricingsSeriesData, true);
+      this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRange].setData(this.salaryRangeSeriesData, false);
+      this.chartInstance.series[PricingsSalaryRangeChartSeries.Pricings].setData(this.pricingsSeriesData, true);
 
       this.renameSeries();
 
@@ -221,7 +222,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   private removeLinesAndBands() {
     if (this.plotLinesAndBands) {
-      this.chartInstance.yAxis[0].removePlotBand('Salary range');
+      this.chartInstance.yAxis[0].removePlotBand(PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRange));
     }
   }
 
