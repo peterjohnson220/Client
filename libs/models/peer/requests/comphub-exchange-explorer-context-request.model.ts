@@ -1,5 +1,5 @@
 export interface ComphubExchangeExplorerContextRequest {
   ExchangeId: number;
-  ExchangeJobIds: number[];
+  ExchangeJobId: number;
   CompanyPayMarketId?: number;
 }
