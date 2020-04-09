@@ -49,7 +49,7 @@
       </small>
     </div>
 
-    <div class="guideline">
+    <div *ngIf="IncludeSimilarityCheck" class="guideline">
 
       <div class="guideline-status" [class.passing]="guidelinesService.validDataCut">
         <ng-container *ngTemplateOutlet="statusIndicator;context:{ passing: guidelinesService.validDataCut }"></ng-container>

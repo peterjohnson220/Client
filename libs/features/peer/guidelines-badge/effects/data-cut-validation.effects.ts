@@ -8,7 +8,7 @@ import { map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
 import { ExchangeDataCutsApiService } from 'libs/data/payfactors-api/peer';
 import { DataCutValidationInfo } from 'libs/models/peer';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
-import * as fromPeerMapReducers from 'libs/features/peer/map/reducers/';
+import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 
 @Injectable()

@@ -22,16 +22,18 @@
             (click)="handleBackButtonClicked()">
       Back
     </button>
-    <button *ngIf="!hideNextButton"
-            class="btn comphub-primary-btn"
-            [disabled]="!nextButtonEnabled"
-            [attr.data-qa-id]="'btn-next-'+ pageTitle"
-            (click)="handleNextButtonClicked()">
-      Next
-    </button>
 
-    <pf-guidelines-badge *ngIf="(this.userContext$ | async).ClientType === PEER_AND_ANALYSIS && workflowContext.selectedPageId === comphubPages.Data && workflowContext.selectedPageIdDelayed === comphubPages.Data"></pf-guidelines-badge>
+    <div class="next-button-container">
+      <button *ngIf="!hideNextButton"
+              class="btn comphub-primary-btn"
+              [disabled]="!nextButtonEnabled"
+              [attr.data-qa-id]="'btn-next-'+ pageTitle"
+              (click)="handleNextButtonClicked()">
+        Next
+      </button>
 
+      <pf-guidelines-badge [IncludeSimilarityCheck]="false" *ngIf="(this.userContext$ | async).ClientType === PEER_AND_ANALYSIS && workflowContext.selectedPageId === comphubPages.Data && workflowContext.selectedPageIdDelayed === comphubPages.Data"></pf-guidelines-badge>
+    </div>
     <ng-content select="[custom-actions]"></ng-content>
 
     <button class="btn comphub-secondary-btn close-app-btn"

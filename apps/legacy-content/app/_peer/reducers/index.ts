@@ -14,7 +14,6 @@ import * as fromTaggingEntitiesReducer from './tagging-entities.reducer';
 // Feature area state
 export interface UpsertPeerDataState {
   upsertDataCutPage: fromUpsertDataCutPageReducer.State;
-  dataCutValidation: fromDataCutValidationReducer.State;
   associateCompanyJob: fromAssociateCompanyJobReducer.State;
   paymarketExchangeScope: fromPaymarketExchangeScopeReducer.State;
   requestPeerAccess: fromRequestPeerAccessReducer.State;
@@ -42,8 +41,6 @@ export const selectUpsertPeerDataState =
 // Feature Selectors
 export const selectUpsertDataCutState =
   createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.upsertDataCutPage);
-export const selectDataCutValidationState =
-  createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.dataCutValidation);
 export const selectAssociateCompanyJobState =
   createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.associateCompanyJob);
 export const selectPaymarketExchangeState =
@@ -75,20 +72,7 @@ export const getUpsertDataCutLoadingDataCutError = createSelector(
   fromUpsertDataCutPageReducer.getLoadingDataCutDetailsError
 );
 
-// Data Cut Validation Selectors
-export const {
-  selectAll: getDataCutValidationInfo
-} = fromDataCutValidationReducer.adapter.getSelectors(selectDataCutValidationState);
-export const getDataCutValidationInfoLoading =
-  createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoading);
-export const getDataCutValidationInfoLoadingError
-  = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoadingError);
-export const getEmployeeSimilarityError
-  = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getEmployeeSimilarityError);
-export const getEmployeeCheckPassed = createSelector(selectDataCutValidationState,
-  fromDataCutValidationReducer.getEmployeeSimilarityPassed);
-export const getIsEmployeeSimilarityLoading = createSelector(selectDataCutValidationState,
-  fromDataCutValidationReducer.getValidatingEmployeeSimilarity);
+
 // Associate Company Job Selectors
 export const getExchangeSearchResult = createSelector(
   selectAssociateCompanyJobState,

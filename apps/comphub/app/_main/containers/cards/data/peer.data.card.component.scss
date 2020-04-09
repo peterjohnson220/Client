@@ -3,3 +3,7 @@ pf-exchange-explorer{
   height: 100%;
   margin-top:10px;
 }
+
+:host ::ng-deep .filters {
+  font-size: 13px;
+}
