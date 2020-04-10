@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { ActionBarConfig, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -13,8 +13,7 @@ import * as fromRootState from 'libs/state/state';
 import { AsyncStateObj } from 'libs/models/state';
 import { UserContext } from 'libs/models/security';
 
-import { ServicePageConfig } from '../models';
-import { SupportTeamUser } from '../models';
+import { ServicePageConfig, SupportTeamUser } from '../models';
 
 import * as fromServicePageActions from '../actions/service-page.actions';
 import * as fromServicePageReducer from '../reducers';
@@ -33,10 +32,14 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   supportTeam$: Observable<AsyncStateObj<SupportTeamUser[]>>;
   identity$: Observable<UserContext>;
 
+  gridFieldSubscription: Subscription;
+  identitySubscription: Subscription;
+
   defaultSort: SortDescriptor[] = [{
     dir: 'desc',
     field: 'UserTickets_Create_Date'
   }];
+  inboundFilters: PfDataGridFilter[];
   actionBarConfig: ActionBarConfig;
   pageViewId = ServicePageConfig.ServicePageViewId;
   colTemplates = {};
@@ -44,9 +47,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   ticketTypeField: ViewField;
   selectedTicketTypeFilterValue: string;
   avatarUrl: string;
-
-  gridFieldSubscription: Subscription;
-  identitySubscription: Subscription;
+  userId: number;
 
   constructor(
     private store: Store<fromServicePageReducer.State>,
@@ -73,6 +74,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.identitySubscription = this.identity$.subscribe(i => {
       if (!!i) {
         this.avatarUrl = i.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/avatars/';
+        this.createInboundFilters(i);
       }
     });
     this.store.dispatch(new fromServicePageActions.LoadTicketTypes());
@@ -93,6 +95,11 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     };
   }
 
+  ngOnDestroy() {
+    this.gridFieldSubscription.unsubscribe();
+    this.identitySubscription.unsubscribe();
+  }
+
   handleTicketTypeFilterChanged(value: string) {
     const field = cloneDeep(this.ticketTypeField);
     field.FilterValue = value !== 'All' ? value : null;
@@ -108,12 +115,21 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.gridFieldSubscription.unsubscribe();
-    this.identitySubscription.unsubscribe();
-  }
-
   addNewTicket() {
     this.store.dispatch(new fromServicePageActions.ShowNewTicketModal(true));
+  }
+
+  private createInboundFilters(userContext: UserContext): void {
+    if (!userContext) {
+      return;
+    }
+    this.userId = userContext.UserId;
+    this.inboundFilters = [
+      {
+        SourceName: 'User_ID',
+        Operator: '=',
+        Value: userContext.UserId ? userContext.UserId.toString() : null
+      }
+    ];
   }
 }
