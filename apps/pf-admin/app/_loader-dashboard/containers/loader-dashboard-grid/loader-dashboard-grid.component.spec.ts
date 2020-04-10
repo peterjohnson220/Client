@@ -2,6 +2,7 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import {GridModule} from '@progress/kendo-angular-grid';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -21,9 +22,12 @@ describe('LoaderDashboardGridComponent', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           loaderdashboard_main: combineReducers(fromLoaderDashboardPageReducer.reducers)
-        })
+        }),
+        GridModule
       ],
-      declarations: [ LoaderDashboardGridComponent ],
+      declarations: [
+        LoaderDashboardGridComponent
+      ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();

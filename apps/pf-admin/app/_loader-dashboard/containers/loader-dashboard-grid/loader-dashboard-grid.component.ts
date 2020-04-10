@@ -92,4 +92,8 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   downloadFile(externalId: string) {
     this.store.dispatch(new fromCompositeSummaryDownloadActions.CompositeSummaryDownload({ Id: externalId }));
   }
+
+  showIfLoadHasSummaries(dataItem: CompositeDataLoadViewResponse, index: number): boolean {
+    return dataItem && dataItem.entityLoadSummaries && dataItem.entityLoadSummaries.length > 0;
+  }
 }

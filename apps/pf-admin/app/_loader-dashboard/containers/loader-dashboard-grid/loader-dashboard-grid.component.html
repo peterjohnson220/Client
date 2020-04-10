@@ -9,7 +9,7 @@
     }"
     [sortable]="{
       allowUnsort: true,
-      mode: 'multiple'
+      mode: 'single'
     }"
     [sort]="sort"
     [pageSize]="pageSize"
@@ -52,5 +52,8 @@
         <div>{{ dataItem.processingEndTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
       </ng-template>
     </kendo-grid-column>
+    <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showIfLoadHasSummaries">
+      <pf-loader-dashboard-grid-detail [dataItem]="dataItem.entityLoadSummaries"></pf-loader-dashboard-grid-detail>
+    </ng-template>
   </kendo-grid>
 </div>

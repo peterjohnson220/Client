@@ -22,6 +22,7 @@ import { LoaderDashboardPageComponent } from './loader-dashboard.page';
 import { faIcons } from './fa-icons';
 
 import {CompositeSummaryDownloadEffects} from '../../../dashboard/app/_main/effects';
+import { LoaderDashboardGridDetailComponent } from './containers/loader-dashboard-grid-detail/loader-dashboard-grid-detail.component';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import {CompositeSummaryDownloadEffects} from '../../../dashboard/app/_main/effe
     LoaderDashboardPageComponent,
     // Containers
     LoaderDashboardFilterComponent,
-    LoaderDashboardGridComponent
+    LoaderDashboardGridComponent,
+    LoaderDashboardGridDetailComponent
   ]
 })
 export class LoaderDashboardPageModule {
