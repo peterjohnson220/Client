@@ -15,7 +15,7 @@
 </pf-data-grid>
 
 <ng-template #titleTemplate>
-  {{(userContext$ | async)?.CompanyName + ' - Jobs' | titlecase}}
+  {{(userContext$ | async)?.CompanyName + ' - Jobs'}}
   <button
     *ngIf="enablePageToggle"
     class="btn btn-secondary align-top ml-3"
