@@ -2,12 +2,11 @@ import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core'
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 import { WindowRef } from 'libs/core/services';
-import * as fromRootReducer from 'libs/state/state';
-import { UserContext } from 'libs/models/security';
-import { CompanyClientTypeConstants } from 'libs/constants';
+import { QuickPriceType } from 'libs/constants';
 
 import { environment } from 'environments/environment';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
@@ -29,16 +28,21 @@ export class CardLayoutComponent implements OnInit {
   @Input() nextButtonEnabled: boolean;
   @Input() backButtonEnabled: boolean;
   @Input() page: ComphubPages;
-  @Input() workflowContext: WorkflowContext;
   @Input() failsDojGuidelines: boolean;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
-  jobPricingLimitInfoSub: Subscription;
   jobPricingBlocked$: Observable<boolean>;
+  workflowContext$: Observable<WorkflowContext>;
+  selectedPageIdDelayed$: Observable<ComphubPages>;
+
+  jobPricingLimitInfoSub: Subscription;
+  workflowContextSub: Subscription;
+
   jobPricingLimitInfo: JobPricingLimitInfo;
+  workflowContext: WorkflowContext;
   comphubPages = ComphubPages;
-  userContext$: Observable<UserContext>;
+  quickPriceTypes = QuickPriceType;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
@@ -47,9 +51,9 @@ export class CardLayoutComponent implements OnInit {
   ) {
     this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
     this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
-    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
+    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
   }
-  readonly PEER_AND_ANALYSIS = CompanyClientTypeConstants.PEER_AND_ANALYSIS;
 
   get formattedLimit() {
     return `${this.jobPricingLimitInfo.Used} / ${this.jobPricingLimitInfo.Available}`;
@@ -57,6 +61,7 @@ export class CardLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.jobPricingLimitInfoSub = this.jobPricingLimitInfo$.subscribe(jpli => this.jobPricingLimitInfo = jpli);
+    this.workflowContextSub = this.workflowContext$.subscribe(wfc => this.workflowContext = wfc);
   }
 
   handleNextButtonClicked() {

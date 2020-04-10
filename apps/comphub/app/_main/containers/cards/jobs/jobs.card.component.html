@@ -4,7 +4,6 @@
   pageIconClass="user-circle"
   [hideBackButton]="true"
   [page]="comphubPages.Jobs"
-  [workflowContext]="workflowContext"
   [nextButtonEnabled]="
     (!(jobPricingBlocked$ | async) &&
     (selectedJob$ | async)?.length) &&
@@ -16,7 +15,7 @@
     <div class="row">
       <div class="col-lg-12 col-xl-9">
 
-        <div *ngIf="(userContext$ | async).ClientType !== PEER_AND_ANALYSIS">
+        <div *ngIf="workflowContext?.quickPriceType === quickPriceTypes.ENTERPRISE">
           <div class="data-set-selector" *ngIf="(countryDataSets$ | async)?.length > 1">
           <kendo-dropdownlist
             (valueChange)="handleCountryDataSetChanged($event)"
@@ -55,7 +54,7 @@
           </kendo-autocomplete>
 
       </div>
-        <div *ngIf="(userContext$ | async).ClientType === PEER_AND_ANALYSIS">
+        <div *ngIf="workflowContext?.quickPriceType === quickPriceTypes.PEER">
       <div class="data-set-selector exchange-selector" *ngIf="(exchangeDataSets$ | async)?.length > 1">
         <label class="exchange-dropdown-label">Peer Exchange: </label>
         <kendo-dropdownlist
@@ -94,7 +93,7 @@
       <div class="col-lg-12 col-xl-9">
 
         <div class="uppercase-header mt-5 mb-2">Trending Jobs</div>
-        <p class="mb-4">Check out these recently priced jobs that are trending across the Payfactors' universe!</p>
+        <p class="mb-4">Check out these recently priced jobs that are trending across the Payfactors universe!</p>
 
         <pf-async-container [loading]="loadingTrendingJobs$ | async">
           <div class="row" *ngIf="countryDataSetsLoaded$ | async">
@@ -102,7 +101,7 @@
               <div class="col-6" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
                 <pf-trending-job-group
                   [trendingJobGroup]="trendingJobGroup"
-                  [disabled]="(jobPricingBlocked$ | async) || workflowContext?.selectedPageId !== comphubPages.Jobs"
+                  [disabled]="(jobPricingBlocked$ | async) || workflowContext?.selectedPageId !== comphubPages.Jobs || workflowContext?.quickPriceType === quickPriceTypes.PEER"
                   (trendingJobClicked)="handleTrendingJobClicked($event)">
                 </pf-trending-job-group>
               </div>
@@ -121,7 +120,6 @@
 
       </div>
     </div>
-
 
   </ng-container>
 

@@ -22,6 +22,7 @@ export const ORDER_PAYMARKETS_WITH_SELECTED_FIRST = '[Comphub/Markets Card] Orde
 export const HIDE_ADD_NEW_PAYMARKETS_BUTTON = '[Comphub/Markets Card] Hide Add New Paymarket Button';
 export const DISPLAY_NATIONAL_AS_CARD = '[Comphub/Markets Card] Display National As Card';
 export const CLEAR_MD_LOCATIONS = '[Comphub/Markets Card] Clear MD Locations';
+export const SET_DEFAULT_PAYMARKET_AS_SELECTED = '[Comphub/Markets Card] Set Default Paymarket As Selected';
 
 export class InitMarketsCard implements Action {
   readonly type = INIT_MARKETS_CARD;
@@ -56,7 +57,7 @@ export class SetPaymarketFilter implements Action {
 export class SetSelectedPaymarket implements Action {
   readonly type = SET_SELECTED_PAYMARKET;
 
-  constructor(public payload: { paymarket: PricingPaymarket, initialLoad?: boolean, clientType?: string }) {}
+  constructor(public payload: { paymarket: PricingPaymarket, initialLoad?: boolean, quickPriceType?: string }) {}
 }
 
 export class SetToDefaultPaymarket implements Action {
@@ -121,6 +122,10 @@ export class ClearMarketDataLocations implements Action {
   readonly type = CLEAR_MD_LOCATIONS;
 }
 
+export class SetDefaultPaymarketAsSelected implements Action {
+  readonly type = SET_DEFAULT_PAYMARKET_AS_SELECTED;
+}
+
 export type Actions
   = InitMarketsCard
   | GetPaymarkets
@@ -139,4 +144,5 @@ export type Actions
   | GetMarketDataLocations
   | GetMarketDataLocationsSuccess
   | GetMarketDataLocationsError
-  | ClearMarketDataLocations;
+  | ClearMarketDataLocations
+  | SetDefaultPaymarketAsSelected;

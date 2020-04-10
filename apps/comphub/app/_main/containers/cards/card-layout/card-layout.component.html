@@ -5,7 +5,7 @@
   </div>
   <div>{{pageSubTitle}}</div>
 
-  <ng-content *ngIf="workflowContext?.selectedPageId === page || workflowContext?.selectedPageIdDelayed === page" select="[page-content]"></ng-content>
+  <ng-content *ngIf="workflowContext?.selectedPageId === page || (this.selectedPageIdDelayed$ | async) == page" select="[page-content]"></ng-content>
 
   <div class="smb-counter">
     <div *ngIf="!!jobPricingLimitInfo && (!(jobPricingBlocked$ | async) || workflowContext?.selectedPageId !== comphubPages.Jobs)">
@@ -32,7 +32,9 @@
         Next
       </button>
 
-      <pf-guidelines-badge [IncludeSimilarityCheck]="false" *ngIf="(this.userContext$ | async).ClientType === PEER_AND_ANALYSIS && workflowContext.selectedPageId === comphubPages.Data && workflowContext.selectedPageIdDelayed === comphubPages.Data"></pf-guidelines-badge>
+      <pf-guidelines-badge [IncludeSimilarityCheck]="false" *ngIf="workflowContext.quickPriceType === quickPriceTypes.PEER && workflowContext.selectedPageId === comphubPages.Data && (this.selectedPageIdDelayed$ | async) == comphubPages.Data">
+
+      </pf-guidelines-badge>
     </div>
     <ng-content select="[custom-actions]"></ng-content>
 

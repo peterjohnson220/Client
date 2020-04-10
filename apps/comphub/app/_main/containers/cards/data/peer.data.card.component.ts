@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
-import { WindowRef } from 'libs/core/services';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { KendoDropDownItem } from 'libs/models/kendo';
@@ -11,11 +11,7 @@ import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/servic
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 
-import {
-  ExchangeDataSet,
-  PricingPaymarket,
-  WorkflowContext
-} from '../../../models';
+import { ExchangeDataSet, PricingPaymarket, WorkflowContext } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { ComphubPages } from '../../../data';
@@ -26,9 +22,7 @@ import { ComphubPages } from '../../../data';
   styleUrls: ['./peer.data.card.component.scss',
     './shared.data.card.component.scss']
 })
-
-export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() workflowContext: WorkflowContext;
+export class PeerDataCardComponent implements OnInit, OnDestroy {
   @ViewChild(MapComponent, {static: true}) map: MapComponent;
   @ViewChild(ExchangeExplorerComponent, {static: false}) exchangeExplorer: ExchangeExplorerComponent;
 
@@ -44,6 +38,7 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
   selectedPageId$: Observable<string>;
   includeUntaggedIncumbents$: Observable<boolean>;
   untaggedIncumbentCount$: Observable<number>;
+  workflowContext$: Observable<WorkflowContext>;
 
   // Subscriptions
   payMarketSubscription: Subscription;
@@ -52,6 +47,7 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
   selectedExchangeJobIdSubscription: Subscription;
   untaggedIncumbentCountSubscription: Subscription;
   selectedJobTitleSubscription: Subscription;
+  workflowContextSubscription: Subscription;
 
   selectedExchangeId: number;
   selectedPayMarketId: number;
@@ -64,9 +60,9 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
   selectedPageId: string;
   selectedWeightingType: KendoDropDownItem = {Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc};
   untaggedIncumbentCount: number;
+  workflowContext: WorkflowContext;
 
   constructor(private store: Store<fromComphubMainReducer.State>,
-              public winRef: WindowRef,
               public guidelinesService: DojGuidelinesService,
               private changeDetectorRef: ChangeDetectorRef) {
     this.selectedJobTitle$ = this.store.select(fromComphubMainReducer.getSelectedJob);
@@ -76,6 +72,7 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));
+    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
   }
 
   showMap() {
@@ -102,25 +99,19 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
       }
     });
 
-    this.selectedExchangeJobIdSubscription = this.selectedExchangeJobId$.subscribe(ids => this.selectedExchangeJobId = ids);
-
-    this.selectedPageIdSubscription = this.selectedPageId$.subscribe(id =>
-      this.selectedPageId = id);
-
+    this.selectedExchangeJobIdSubscription = this.selectedExchangeJobId$.subscribe(id => this.selectedExchangeJobId = id);
+    this.selectedPageIdSubscription = this.selectedPageId$.subscribe(id => this.selectedPageId = id);
     this.untaggedIncumbentCountSubscription = this.untaggedIncumbentCount$.subscribe(uic => this.untaggedIncumbentCount = uic);
-
     this.selectedJobTitleSubscription = this.selectedJobTitle$.subscribe(jt => this.selectedJobTitle = jt);
+    this.workflowContextSubscription = this.workflowContext$.subscribe(wfc => {
+      this.workflowContext = wfc;
+      this.onWorkflowContextChanges(wfc);
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.workflowContext || !changes.workflowContext.currentValue || !changes.workflowContext.currentValue.selectedPageId) {
-      return;
-    }
-
-    if (changes.workflowContext.currentValue.selectedPageId === ComphubPages.Data &&
-      changes.workflowContext.previousValue.selectedPageId !== ComphubPages.Data) {
+  onWorkflowContextChanges(workflowContext: WorkflowContext): void {
+    if (workflowContext.selectedPageId === ComphubPages.Data) {
       this.showMap();
-
       this.store.dispatch(new fromDataCardActions.CardOpened());
       if (!!this.exchangeExplorer && !(this.validateMapData())) {
           const setContextMessage: MessageEvent = {
@@ -146,7 +137,10 @@ export class PeerDataCardComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedExchangeSubscription.unsubscribe();
     this.payMarketSubscription.unsubscribe();
     this.selectedExchangeJobIdSubscription.unsubscribe();
+    this.selectedPageIdSubscription.unsubscribe();
     this.untaggedIncumbentCountSubscription.unsubscribe();
+    this.selectedJobTitleSubscription.unsubscribe();
+    this.workflowContextSubscription.unsubscribe();
   }
 
   get untaggedIncumbentMessage(): string {

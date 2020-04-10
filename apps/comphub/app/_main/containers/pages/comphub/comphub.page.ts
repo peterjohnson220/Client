@@ -1,13 +1,16 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { debounceTime, map } from 'rxjs/operators';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+
+import { UserContext } from 'libs/models/security';
+import { CompanyClientTypeConstants, QuickPriceType } from 'libs/constants';
+import * as fromRootReducer from 'libs/state/state';
 
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { AccordionCard, ComphubPages } from '../../../data';
-import { CountryDataSet, JobData, PricingPaymarket, WorkflowContext, ExchangeDataSet } from '../../../models';
+import { WorkflowContext } from '../../../models';
 
 @Component({
   selector: 'pf-comphub-page',
@@ -20,32 +23,21 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   cardHeaderMargin = 8;
   enabledPages: ComphubPages[];
   cards: AccordionCard[];
-  activeCountryDataSet: CountryDataSet;
   resizeEventCompleteTimer: number;
   resizeEvent: boolean;
 
   cards$: Observable<AccordionCard[]>;
-  selectedPageId$: Observable<ComphubPages>;
-  selectedPageIdDelayed$: Observable<ComphubPages>;
-  selectedJob$: Observable<string>;
-  selectedPaymarket$: Observable<PricingPaymarket>;
-  selectedJobData$: Observable<JobData>;
   enabledPages$: Observable<ComphubPages[]>;
   accessedPages$: Observable<ComphubPages[]>;
-  activeCountryDataSet$: Observable<CountryDataSet>;
-  activeExchangeDataSet$: Observable<ExchangeDataSet>;
+  workflowContext$: Observable<WorkflowContext>;
+  userContext$: Observable<UserContext>;
 
   private enabledPagesSub: Subscription;
   private cardsSub: Subscription;
   private workflowContextSub: Subscription;
+  private userContextSub: Subscription;
 
-  workflowContext: WorkflowContext = {
-    selectedPageId: ComphubPages.Jobs,
-    selectedPageIdDelayed: ComphubPages.Jobs,
-    selectedPageIndex: 0,
-    activeCountryDataSet: null,
-    activeExchangeDataSet: null
-  };
+  workflowContext: WorkflowContext;
 
   private readonly cardHeaderWidth = 60;
   private readonly numberOfCardHeaders = 3;
@@ -53,15 +45,10 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<fromComphubMainReducer.State>) {
     this.cards$ = this.store.select(fromComphubMainReducer.getCards);
-    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
-    this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
-    this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
-    this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
-    this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.enabledPages$ = this.store.select(fromComphubMainReducer.getEnabledPages);
     this.accessedPages$ = this.store.select(fromComphubMainReducer.getPagesAccessed);
-    this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
-    this.activeExchangeDataSet$ = this.store.select(fromComphubMainReducer.getActiveExchangeDataSet);
+    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -81,24 +68,14 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.updateCardContentContainerWidth();
     this.enabledPagesSub = this.enabledPages$.subscribe(ep => this.enabledPages = ep);
     this.cardsSub = this.cards$.subscribe(cards => this.cards = cards);
-
-    // Build a workflow context object using the latest values from the store
-    this.workflowContextSub = combineLatest(
-      this.selectedPageId$,
-      this.selectedPageIdDelayed$,
-      this.activeCountryDataSet$,
-      this.activeExchangeDataSet$
-    ).pipe(
-      map(([selectedPageId, selectedPageIdDelayed, activeCountryDataSet, activeExchangeDataSet]) => {
-        return {
-          selectedPageId,
-          selectedPageIdDelayed,
-          selectedPageIndex: this.cards.findIndex(c => c.Id === selectedPageId),
-          activeCountryDataSet,
-          activeExchangeDataSet
-        };
-      })
-    ).subscribe((wc) => this.workflowContext = wc);
+    this.workflowContextSub = this.workflowContext$.subscribe(wfc => this.workflowContext = wfc);
+    this.userContextSub = this.userContext$.subscribe(uc => {
+      if (uc.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS || uc.ClientType === CompanyClientTypeConstants.PEER) {
+        this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.PEER));
+      } else {
+        this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.ENTERPRISE));
+      }
+    });
 
     this.store.dispatch(new fromComphubPageActions.Init());
     this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
@@ -109,6 +86,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.enabledPagesSub.unsubscribe();
     this.cardsSub.unsubscribe();
     this.workflowContextSub.unsubscribe();
+    this.userContextSub.unsubscribe();
   }
 
   trackById(index: number, card: AccordionCard) {

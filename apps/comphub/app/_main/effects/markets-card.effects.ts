@@ -210,6 +210,21 @@ export class MarketsCardEffects {
       )
     );
 
+  @Effect()
+  setDefaultPaymarketAsSelected$ = this.actions$
+    .pipe(
+      ofType(fromMarketsCardActions.SET_DEFAULT_PAYMARKET_AS_SELECTED),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getSelectedPaymarket),
+        (action: fromMarketsCardActions.SetDefaultPaymarketAsSelected, selectedPayMarket) => ({ action, selectedPayMarket })),
+        map((data) =>
+          new fromComphubPageActions.UpdateCardSubtitle({
+            cardId: ComphubPages.Markets,
+            subTitle: data.selectedPayMarket.PayMarketName
+          })
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,

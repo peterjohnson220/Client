@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { SortOption } from 'libs/models/payfactors-api/comphub/request';
+import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
@@ -59,6 +60,25 @@ export class DataCardEffects {
       ));
 
   @Effect()
+  getPeerQuickPriceData$ = this.actions$
+    .pipe(
+      ofType(fromDataCardActions.GET_PEER_QUICK_PRICE_DATA),
+      map((action: fromDataCardActions.GetPeerQuickPriceData) => action),
+      withLatestFrom(
+        this.exchangeExplorerContextService.selectFilterContext(),
+        (action, exchangeExplorerFilterContext) => ({action, exchangeExplorerFilterContext})
+      ),
+      switchMap((latest) => {
+        return this.comphubApiService.getPeerQuickPriceData(latest.exchangeExplorerFilterContext)
+          .pipe(
+            map((response) => new fromDataCardActions.GetPeerQuickPriceDataSuccess({jobData: response.JobData}),
+              catchError(() => of(new fromDataCardActions.GetPeerQuickPriceDataError()))
+            )
+          );
+      })
+  );
+
+  @Effect()
   setSelectedJobData$ = this.actions$
     .pipe(
       ofType(fromDataCardActions.SET_SELECTED_JOB_DATA),
@@ -108,6 +128,7 @@ export class DataCardEffects {
     private actions$: Actions,
     private store: Store<fromComphubReducer.State>,
     private comphubApiService: ComphubApiService,
+    private exchangeExplorerContextService: ExchangeExplorerContextService
   ) {
   }
 }

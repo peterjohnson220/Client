@@ -172,6 +172,11 @@ export const getActiveExchangeDataSet = createSelector(
   fromComphubPageReducer.getActiveExchangeDataSet
 );
 
+export const getWorkflowContext = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getWorkflowContext
+);
+
 // Markets Card
 export const getSelectedPaymarket = createSelector(
   selectMarketsCardState,
