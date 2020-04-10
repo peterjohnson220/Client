@@ -56,7 +56,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       }
     });
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
-      if (data) {
+      if (data && this.rate && this.currency) {
         this.jobRangeData = data;
         this.processChartData();
       }

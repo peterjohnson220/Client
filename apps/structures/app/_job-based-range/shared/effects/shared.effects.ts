@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, switchMap, mergeMap } from 'rxjs/operators';
+import { catchError, switchMap, mergeMap, map } from 'rxjs/operators';
 
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -18,7 +18,6 @@ import { Pages } from '../constants/pages';
 
 @Injectable()
 export class SharedEffects {
-
   @Effect()
   updateMid$: Observable<Action> = this.actions$
     .pipe(
@@ -39,6 +38,19 @@ export class SharedEffects {
               return actions;
             }),
             catchError(response => of(new fromSharedActions.UpdateMidError()))
+          );
+        }
+      ));
+
+  @Effect()
+  recalculateRangesWithoutMid$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.RECALCULATE_RANGES_WITHOUT_MID),
+      switchMap((action: fromSharedActions.RecalculateRangesWithoutMid) => {
+          return this.structureModelingApiService.recalculateRangesWithoutMid(action.payload.rangeGroupId).pipe(
+            map(() => {
+              return new pfDataGridActions.LoadData(PageViewIds.Model);
+            })
           );
         }
       ));

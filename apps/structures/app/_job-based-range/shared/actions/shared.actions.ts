@@ -8,6 +8,7 @@ export const UPDATE_MID = '[Structures - Job Based Range - Shared] Update Range 
 export const UPDATE_MID_ERROR = '[Structures - Job Based Range - Shared] Update Range Mid Error';
 export const SET_IS_NEW_MODEL_ADD_JOBS = '[Structures - Job Based Range - Shared] Set Is New Model Add Jobs';
 export const SET_IS_NEW_MODEL_MODEL_SETTINGS = '[Structures - Job Based Range - Shared] Set Is New Model Model Settings';
+export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -38,9 +39,16 @@ export class SetIsNewModelModelSettings implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class RecalculateRangesWithoutMid implements Action {
+  readonly type = RECALCULATE_RANGES_WITHOUT_MID;
+
+  constructor(public payload: {rangeGroupId: number}) {}
+}
+
 export type SharedActions
   = SetMetadata
   | UpdateMid
   | UpdateMidError
   | SetIsNewModelAddJobs
-  | SetIsNewModelModelSettings;
+  | SetIsNewModelModelSettings
+  | RecalculateRangesWithoutMid;
