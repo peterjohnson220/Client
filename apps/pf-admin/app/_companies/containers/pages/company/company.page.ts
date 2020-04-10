@@ -45,6 +45,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   userContext$: Observable<UserContext>;
   company$: Observable<CompanyDto>;
   systemUserGroups$: Observable<SystemUserGroupsResponse[]>;
+  pfAccountExecutives$: Observable<UserResponse[]>;
   pfServicesReps$: Observable<UserResponse[]>;
   pfJdmSrAssociates$: Observable<UserResponse[]>;
   pfCustomerSuccessMgrs$: Observable<UserResponse[]>;
@@ -67,6 +68,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     this.savingCompanyError$ = this.store.select(fromPfAdminMainReducer.getSavingCompanyError);
     this.company$ = this.store.select(fromPfAdminMainReducer.getCompany);
     this.systemUserGroups$ = this.store.select(fromPfAdminMainReducer.getSystemUserGroups);
+    this.pfAccountExecutives$ = this.store.select(fromPfAdminMainReducer.getPfAccountExecutives);
     this.pfServicesReps$ = this.store.select(fromPfAdminMainReducer.getPfServicesReps);
     this.pfJdmSrAssociates$ = this.store.select(fromPfAdminMainReducer.getPfJdmSrAssociates);
     this.pfCustomerSuccessMgrs$ = this.store.select(fromPfAdminMainReducer.getPfCustomerSuccessManagers);
@@ -85,15 +87,17 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     this.companyFormContextSubscription = combineLatest(
       this.clientTypes$,
       this.systemUserGroups$,
+      this.pfAccountExecutives$,
       this.pfServicesReps$,
       this.pfJdmSrAssociates$,
       this.pfCustomerSuccessMgrs$,
       this.industries$
     ).pipe(
-      map(([clientTypes, systemUserGroups, pfServicesReps, pfJdmSrAssociates, pfCustomerSuccessMgrs, industries]) => {
+      map(([clientTypes, systemUserGroups, pfAccountExecutives, pfServicesReps, pfJdmSrAssociates, pfCustomerSuccessMgrs, industries]) => {
         return {
           clientTypes,
           systemUserGroups,
+          pfAccountExecutives,
           pfServicesReps,
           pfJdmSrAssociates,
           pfCustomerSuccessMgrs,

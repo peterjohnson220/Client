@@ -134,6 +134,15 @@
         <span *ngIf="f.customerSuccessMgr.errors?.required" class="invalid-feedback">Customer Success Mgr is required</span>
       </div>
       <div class="form-group">
+        <label class="control-label" for="accountExecutive">Account Executive</label>
+        <select formControlName="accountExecutive" class="form-control" placeholder="Account Executive">
+          <option></option>
+          <option *ngFor="let accountExecutive of pfAccountExecutives" [ngValue]="accountExecutive.UserId">
+            {{accountExecutive.FirstName}} {{accountExecutive.LastName}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
         <label class="control-label" for="ftes"># FTEs</label>
         <input [readonly]="saving" formControlName="ftes" type="text" class="form-control" placeholder="# FTEs"
           [ngClass]="{ 'is-invalid': !f.ftes.valid && f.ftes.touched }">
