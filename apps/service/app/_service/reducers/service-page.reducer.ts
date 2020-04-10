@@ -1,5 +1,5 @@
 // Import all exports from our feature's actions
-import * as cloneDeep from 'lodash.clonedeep';
+import { orderBy, cloneDeep } from 'lodash';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
@@ -50,7 +50,7 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
       const ticketTypesClone = cloneDeep(state.ticketTypes);
 
       ticketTypesClone.loading = false;
-      ticketTypesClone.obj = action.payload;
+      ticketTypesClone.obj = orderBy(action.payload, ['TicketTypeDisplayName'], 'asc');
       return {
         ...state,
         ticketTypes: ticketTypesClone
@@ -169,7 +169,13 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
 export const getTicketTypes = (state: State) => state.ticketTypes;
 export const getTicketTypeNames = (state: State) => {
   if (state.ticketTypes && state.ticketTypes.obj) {
-    return Array.from(new Set(state.ticketTypes.obj.filter(t => !!t.TicketTypeName).map(t => t.TicketTypeName)));
+    return state.ticketTypes.obj.map(t => t.TicketTypeDisplayName);
+  }
+  return [];
+};
+export const getActiveTicketTypes = (state: State) => {
+  if (state.ticketTypes && state.ticketTypes.obj) {
+    return state.ticketTypes.obj.filter(t => t.Active);
   }
   return [];
 };

@@ -110,7 +110,7 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapUserTicketTypeResponseToTicketType(response: UserTicketTypeResponse[]): UserTicketType[] {
-    return response.map(utt => {
+    return response.filter(r => r.Active).map(utt => {
       return {
         UserTicketTypeId: utt.UserTicketTypeId,
         TicketFileTypeId: utt.TicketFileTypeId,
