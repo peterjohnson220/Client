@@ -24,6 +24,7 @@ export interface UserTicketResponse {
   UserTicketTypeId: number;
   TicketFileTypeId: number;
   UserTicketTypeSortOrder: number;
+  TicketTitle?: string;
 }
 
 export interface UserTicketFile {

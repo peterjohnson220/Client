@@ -3,7 +3,7 @@
                     [loadingErrorMessage]="'Error loading lookups'">
   <div class="row">
     <div class="col-sm-4">
-      <span class="detail-label"> Assigned To</span><br>
+      <div class="detail-label margin-bottom"> Assigned To</div>
       <pf-ticket-value-picker [data]="pfServicesReps"
                               [ticketId]="ticket.TicketId"
                               [textField]="'Name'"
@@ -13,7 +13,7 @@
       </pf-ticket-value-picker>
     </div>
     <div class="col-sm-4">
-      <span class="detail-label">Status</span><br>
+      <div class="detail-label margin-bottom">Status</div>
       <pf-ticket-value-picker [data]="userTicketStates"
                               [ticketId]="ticket.TicketId"
                               [textField]="'UserTicketState'"
@@ -23,7 +23,7 @@
       </pf-ticket-value-picker>
     </div>
     <div class="col-sm-4">
-      <span class="detail-label">Type</span><br>
+      <div class="detail-label margin-bottom">Type</div>
       <pf-ticket-value-picker [data]="userTicketTypes"
                               [ticketId]="ticket.TicketId"
                               [textField]="'TicketTypeDisplayName'"

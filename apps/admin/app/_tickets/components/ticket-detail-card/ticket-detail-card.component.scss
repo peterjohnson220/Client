@@ -1,6 +1,9 @@
 @import 'tickets-page';
 
-.action-item:hover {
-    cursor: pointer;
-    background-color: $selected-item-light-background-color;
-  }
+.card {
+  margin: 1rem 0;
+}
+
+.created-by {
+  flex: 1 1 auto;
+}

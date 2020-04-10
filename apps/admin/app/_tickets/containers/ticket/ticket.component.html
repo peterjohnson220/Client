@@ -6,16 +6,10 @@
        *ngIf="ticket">
     <div class="row">
       <div class="col-sm-8 pt-2">
-        <span class="detail-label">Description</span>
-        <h4 class="detail-text ">
-          <pf-ellipsis-view-more [content]="ticket.TicketInfo.Description"
-                                 [maxLength]="350">
-          </pf-ellipsis-view-more>
-        </h4>
         <pf-ticket-fields *ngIf="ticket.TicketInfo"
                           [ticket]="ticket.TicketInfo">
         </pf-ticket-fields>
-        <pf-ticket-detail-card [ticketDetail]="ticket.TicketInfo"></pf-ticket-detail-card>
+        <pf-ticket-detail-card *ngIf="!!ticket.TicketInfo" [ticketDetail]="ticket.TicketInfo"></pf-ticket-detail-card>
         <pf-ticket-comments-detail [ticketId]="ticket.TicketInfo.TicketId"
                                    [comments]="ticket.TicketInfo.Comments"></pf-ticket-comments-detail>
       </div>
