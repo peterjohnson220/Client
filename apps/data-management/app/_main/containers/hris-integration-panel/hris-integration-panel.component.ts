@@ -34,4 +34,7 @@ export class HrisIntegrationPanelComponent {
   createNewIntegration() {
     this.onCreateNewIntegrationClicked.emit(this.transferMethodType);
   }
+
+  openReAuthModal() {
+  }
 }
