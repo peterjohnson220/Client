@@ -7,7 +7,7 @@ import { FileRestrictions, RemoveEvent, SelectEvent, SuccessEvent, UploadCompone
 
 import * as fromRootState from 'libs/state/state';
 import { PfValidators } from 'libs/forms/validators';
-import { UserContext, AsyncStateObj, UploadedFile, UserTicketDto } from 'libs/models';
+import { UserContext, UploadedFile, UserTicketDto } from 'libs/models';
 import { Files } from 'libs/constants';
 
 import * as fromServicesPageReducer from '../../reducers';
@@ -25,7 +25,7 @@ export class CreateTicketModalComponent {
   // observables
   userContext$: Observable<UserContext>;
   showUserTicketForm$: Observable<boolean>;
-  ticketTypes$: Observable<AsyncStateObj<TicketType[]>>;
+  ticketTypes$: Observable<TicketType[]>;
   saving$: Observable<boolean>;
   errorMessage$: Observable<string>;
 
@@ -46,7 +46,6 @@ export class CreateTicketModalComponent {
   quillConfig = {
     toolbar: {
       container: [
-        [{ 'size': ['small', false, 'large'] }],
         ['bold', 'italic', 'underline'],
         [{ 'color': [] }],
         [{ 'align': [] }],
@@ -62,7 +61,7 @@ export class CreateTicketModalComponent {
   ) {
     this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.showUserTicketForm$ = this.store.pipe(select(fromServicesPageReducer.getShowNewTicketModal));
-    this.ticketTypes$ = this.store.pipe(select(fromServicesPageReducer.getTicketTypes));
+    this.ticketTypes$ = this.store.pipe(select(fromServicesPageReducer.getActiveTicketTypes));
     this.saving$ = this.store.pipe(select(fromServicesPageReducer.getSavingUserTicket));
     this.errorMessage$ = this.store.pipe(select(fromServicesPageReducer.getSavingUserTicketErrorMessage));
     this.createForm();

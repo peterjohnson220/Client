@@ -12,7 +12,7 @@ export class PayfactorsApiModelMapper {
         Active: t.Active,
         SortOrder: t.SortOrder,
         TicketFileTypeId: t.TicketFileTypeId,
-        TicketTypeDisplayName: t.TicketTypeDisplayName,
+        TicketTypeDisplayName: t.TicketSubTypeName ? t.TicketSubTypeName : t.TicketTypeName,
         UserTicketTypeId: t.UserTicketTypeId,
         TicketSubTypeName: t.TicketSubTypeName,
         TicketTypeName: t.TicketTypeName

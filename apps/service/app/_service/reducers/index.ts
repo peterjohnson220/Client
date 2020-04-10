@@ -31,6 +31,7 @@ export const selectServicePageState = createSelector(selectFeatureAreaState,
 // Service Page
 export const getTicketTypeNames = createSelector(selectServicePageState, fromServicePageReducer.getTicketTypeNames);
 export const getTicketTypes = createSelector(selectServicePageState, fromServicePageReducer.getTicketTypes);
+export const getActiveTicketTypes = createSelector(selectServicePageState, fromServicePageReducer.getActiveTicketTypes);
 export const getShowNewTicketModal = createSelector(selectServicePageState, fromServicePageReducer.getShowNewTicketModal);
 export const getSavingUserTicket = createSelector(selectServicePageState, fromServicePageReducer.getSavingUserTicket);
 export const getSavingUserTicketError = createSelector(selectServicePageState, fromServicePageReducer.getSavingUserTicketError);

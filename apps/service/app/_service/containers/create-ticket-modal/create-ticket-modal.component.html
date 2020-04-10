@@ -23,7 +23,7 @@
               <kendo-dropdownlist  class="form-control k-dropdown-white"
                                    data-qa-id="ddl-ticket-form-ticket-type"
                                    placeholder="Select Type..."
-                                   [data]="(ticketTypes$ | async)?.obj"
+                                   [data]="ticketTypes$ | async"
                                    [textField]="'TicketTypeDisplayName'"
                                    [valueField]="'UserTicketTypeId'"
                                    formControlName="TicketType"

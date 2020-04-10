@@ -66,7 +66,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   ngOnInit(): void {
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
-        this.ticketTypeField = fields.find(f => f.SourceName === 'UserTicket_Type');
+        this.ticketTypeField = fields.find(f => f.SourceName === 'TicketType_Display');
         this.selectedTicketTypeFilterValue = this.ticketTypeField.FilterValue;
       }
     });
@@ -85,7 +85,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
       'UserTicket_State': { Template: this.statusColumn }
     };
     this.filterTemplates = {
-      'UserTicket_Type': { Template: this.ticketType }
+      'TicketType_Display': { Template: this.ticketType }
     };
     this.actionBarConfig = {
       ...this.actionBarConfig,
