@@ -7,8 +7,11 @@ import {
   SaveModelSettingsResponse,
   RecalcAndSaveRangeMinMaxRequest,
   RecalcAndSaveRangeMinMaxResponse,
-  StructureRangeGroupResponse
-} from 'libs/models/payfactors-api/structures';
+  StructureRangeGroupResponse,
+  AddJobRangesRequest,
+  JobSearchRequestStructuresRangeGroup
+} from 'libs/models/payfactors-api';
+import { CompanyStructureRange } from 'libs/models/structures';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -37,5 +40,13 @@ export class StructureModelingApiService {
     return this.payfactorsApiService.get<StructureRangeGroupResponse>(`${this.endpoint}/RecalculateRangesWithoutMid`, {
       params: { rangeGroupId }
     } );
+  }
+
+  addJobsToRangeGroup(request: AddJobRangesRequest): Observable<CompanyStructureRange[]> {
+    return this.payfactorsApiService.post<CompanyStructureRange[]>(`${this.endpoint}/AddJobRanges`, request);
+  }
+
+  addJobsFromSearchToRangeGroup(request: JobSearchRequestStructuresRangeGroup): Observable<CompanyStructureRange[]> {
+    return this.payfactorsApiService.post<CompanyStructureRange[]>(`${this.endpoint}/AddAllJobRangesFromSearch`, request);
   }
 }

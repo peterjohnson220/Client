@@ -73,6 +73,7 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
       >
          Cancel 
       </button>
+      
     </span>
     
   </pf-search-layout>

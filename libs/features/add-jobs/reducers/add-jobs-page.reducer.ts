@@ -32,7 +32,7 @@ export function reducer(state = initialState, action: fromAddJobsPageActions.Act
         contextStructureRangeGroupId: action.payload
       };
     }
-
+    case fromAddJobsPageActions.ADD_ALL_JOBS:
     case fromAddJobsPageActions.ADD_SELECTED_JOBS: {
       return {
         ...state,
@@ -41,7 +41,7 @@ export function reducer(state = initialState, action: fromAddJobsPageActions.Act
         addingDataErrorMessage: null
       };
     }
-    case fromAddJobsPageActions.ADD_SELECTED_JOBS_SUCCESS: {
+    case fromAddJobsPageActions.ADD_JOBS_SUCCESS: {
       return {
         ...state,
         addingData: false,
@@ -49,7 +49,7 @@ export function reducer(state = initialState, action: fromAddJobsPageActions.Act
         addingDataErrorMessage: null
       };
     }
-    case fromAddJobsPageActions.ADD_SELECTED_JOBS_ERROR: {
+    case fromAddJobsPageActions.ADD_JOBS_ERROR: {
       return {
         ...state,
         addingData: false,
