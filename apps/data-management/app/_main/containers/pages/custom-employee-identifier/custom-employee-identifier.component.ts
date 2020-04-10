@@ -48,6 +48,7 @@ export class CustomEmployeeIdentifierComponent implements OnDestroy, OnInit {
   isFetchingData$: Observable<boolean>;
   hasFetchingError$: Observable<boolean>;
   employeeFields: EntityIdentifierViewModel[] = [];
+  employeeFieldsCopy: EntityIdentifierViewModel[] = [];
   customFields$: Observable<any>;
 
   initValues() {
@@ -106,6 +107,7 @@ export class CustomEmployeeIdentifierComponent implements OnDestroy, OnInit {
         this.isCustomField = true;
       }
       this.employeeFields = cloneDeep(response);
+      this.employeeFieldsCopy = cloneDeep(response);
     });
 
     this.selectedCompany$.pipe(
@@ -203,6 +205,7 @@ export class CustomEmployeeIdentifierComponent implements OnDestroy, OnInit {
   }
 
   goBack() {
+    this.employeeFields = cloneDeep(this.employeeFieldsCopy);
 
     if (this.step === EmployeeKeyStep.Company) {
       window.location.href = this.env.siteAdminUrl;
