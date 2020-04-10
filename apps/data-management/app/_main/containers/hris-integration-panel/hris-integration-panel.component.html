@@ -1,10 +1,15 @@
 <div class="card mb-3 shadow-sm">
   <div class="card-body">
     <div class="row" *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticated')">
-      <!-- TODO: When we support more statuses, this can probably live as its own component -->
       <span
         class="text-success d-inline-block text-right text-nowrap flex-shrink-0 flex-grow-0 col-12">
         Authenticated <fa-icon icon="check-circle"></fa-icon>
+      </span>
+    </div>
+    <div class="row" *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticating')">
+      <span
+        class="text-info d-inline-block text-right text-nowrap flex-shrink-0 flex-grow-0 col-12">
+        <i>Authenticating</i> <fa-icon icon="spinner" spin="true" class="p-2"></fa-icon>
       </span>
     </div>
     <div class="row">
@@ -13,6 +18,18 @@
           <span *ngIf="transferMethodType === inbound">Inbound HRIS Integration</span>
           <span *ngIf="transferMethodType === outboundJdm">Outbound Job Description Integration</span>
         </h4>
+      </div>
+    </div>
+    <div>
+      <div class="col-sm-12">
+        <div *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('AuthenticationError')" class="row">
+          <div class="alert alert-danger w-100" role="alert">
+            <h4 class="alert-heading">Authentication Required</h4>
+            <p>
+              Click <a href="javascript: void(0);" (click)="openReAuthModal()" class="alert-link">here</a> to verify your {{connectionSummary?.provider?.ProviderName}} credentials.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row">
