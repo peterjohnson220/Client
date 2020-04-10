@@ -61,8 +61,21 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Events
   openAddJobsModal(newJobRange = false) {
+    this.setSearchContext();
     this.store.dispatch(new fromSharedJobBasedRangeActions.SetIsNewModelAddJobs(newJobRange));
     this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
+  }
+
+  private setSearchContext() {
+    const setContextMessage: MessageEvent = {
+      data: {
+        payfactorsMessage: {
+          type: 'Set Context',
+          payload: {}
+        }
+      }
+    } as MessageEvent;
+    this.AddJobsModalComponent.onMessage(setContextMessage);
   }
 
   handlePublishModel() {

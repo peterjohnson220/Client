@@ -10,7 +10,6 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { Permissions, SystemUserGroupNames } from 'libs/constants';
 import { SearchBase } from 'libs/features/search/containers/search-base';
-import { staticFilters } from 'libs/features/add-jobs/data';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromRootState from 'libs/state/state';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
@@ -20,6 +19,8 @@ import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+
+import { staticFilters } from '../../../data';
 
 @Component({
   selector: 'pf-add-jobs-modal',
