@@ -8,7 +8,7 @@
     <ng-container *ngIf="titleTemplate; else simpleTitle" [ngTemplateOutlet]="titleTemplate"></ng-container>
   </ng-container>
   <ng-template #simpleTitle>
-    {{title | titlecase}}
+    {{title}}
   </ng-template>
   <ng-container page-actions>
     <pf-action-bar
