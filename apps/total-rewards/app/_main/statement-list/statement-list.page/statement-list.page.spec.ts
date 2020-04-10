@@ -1,56 +1,54 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromTotalRewardsActions from '../actions/statement-list.page.actions';
-import * as fromTotalRewardsReducer from '../reducers/statement-list.page.reducer';
+import * as fromReducers from '../reducers';
+
 import { StatementListPageComponent } from './statement-list.page';
+import {NgbTabsetModule} from '@ng-bootstrap/ng-bootstrap';
 
 describe('TotalRewardsPageComponent', () => {
-  let component: StatementListPageComponent;
+  let instance: StatementListPageComponent;
   let fixture: ComponentFixture<StatementListPageComponent>;
   let store: Store<fromRootState.State>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          totalRewards: combineReducers(fromTotalRewardsReducer.reducer)
+          totalRewards_statementList: combineReducers(fromReducers.reducers)
         }),
-        ReactiveFormsModule],
-      declarations: [ StatementListPageComponent ],
+        ReactiveFormsModule, NgbTabsetModule],
+      declarations: [StatementListPageComponent],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(StatementListPageComponent);
-    component = fixture.componentInstance;
+    instance = fixture.componentInstance;
     fixture.detectChanges();
+
+    store = TestBed.get(Store);
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(instance).toBeTruthy();
   });
 
   it('should show the grid component when statements are returned', () => {
-    component.statements$ = of([{} as any]);
-    fixture.detectChanges();
+    instance.statementsTotal$ = of(1);
     expect(fixture).toMatchSnapshot();
   });
 
   it('should show the create new banner when no statements are returned', () => {
-    component.statements$ = of([]);
-    component.loadingStatements$ = of(false);
-    component.searchTerm$ = of(null);
+    instance.statementsTotal$ = of(0);
+    instance.statementsLoadingError$ = of(false);
+    instance.statementsLoading$ = of(false);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

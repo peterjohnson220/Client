@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 
-import { StatementListViewModel } from '../../../shared/models';
-import * as fromTotalRewardsReducer from '../reducers';
-import * as fromTotalRewardsStatementsActions from '../actions/statement-list.page.actions';
+import * as fromStatementListReducers from '../reducers';
+import * as fromStatementListPageActions from '../actions/statement-list.page.actions';
+import * as fromStatementGridActions from '../actions/statement-grid.actions';
 
 @Component({
   selector: 'pf-total-rewards-statement-list-page',
@@ -14,22 +14,29 @@ import * as fromTotalRewardsStatementsActions from '../actions/statement-list.pa
 })
 export class StatementListPageComponent implements OnInit {
 
-  statements$: Observable<StatementListViewModel[]>;
-  searchTerm$: Observable<string>;
-  loadingStatements$: Observable<boolean>;
+  focusedTab$: Observable<'Statements' | 'Templates'>;
+  statementsLoading$: Observable<boolean>;
+  statementsLoadingError$: Observable<boolean>;
+  statementsSearchTerm$: Observable<string>;
+  statementsTotal$: Observable<number>;
 
-  constructor(private store: Store<fromTotalRewardsReducer.State>) { }
+  constructor(private store: Store<fromStatementListReducers.State>) { }
 
   ngOnInit() {
-    this.statements$ = this.store.pipe(select(fromTotalRewardsReducer.getStatements));
-    this.searchTerm$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementListSearchTerm));
-    this.loadingStatements$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsLoading));
-
-    this.store.dispatch(new fromTotalRewardsStatementsActions.LoadStatements());
+    this.focusedTab$ = this.store.pipe(select(fromStatementListReducers.getFocusedTab));
+    this.statementsLoading$ = this.store.pipe(select(fromStatementListReducers.getStatementsLoading));
+    this.statementsLoadingError$ = this.store.pipe(select(fromStatementListReducers.getStatementsLoadingError));
+    this.statementsTotal$ = this.store.pipe(select(fromStatementListReducers.getStatementsTotal));
+    this.statementsSearchTerm$ = this.store.pipe(select(fromStatementListReducers.getStatementsSearchTerm));
+    this.store.dispatch(new fromStatementGridActions.LoadStatements());
   }
 
   onSearchTermChange(searchTerm: string): void {
-    this.store.dispatch(new fromTotalRewardsStatementsActions.UpdateSearchTerm(searchTerm));
-    this.store.dispatch(new fromTotalRewardsStatementsActions.LoadStatements());
+    this.store.dispatch(new fromStatementGridActions.UpdateSearchTerm(searchTerm));
+    this.store.dispatch(new fromStatementGridActions.LoadStatements());
+  }
+
+  onTabChange() {
+    this.store.dispatch(new fromStatementListPageActions.ToggleTab());
   }
 }
