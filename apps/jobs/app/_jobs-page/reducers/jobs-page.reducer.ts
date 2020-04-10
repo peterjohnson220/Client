@@ -19,6 +19,7 @@ export interface State {
   pricingDetailsView: string;
   exportOptions: any;
   navigatingToOldPage: AsyncStateObj<boolean>;
+
 }
 
 export const initialState: State = {
@@ -52,7 +53,7 @@ export const initialState: State = {
     Exporting: generateDefaultAsyncStateObj<boolean>(false),
     ExportedReportExtension: undefined
   }],
-  navigatingToOldPage: generateDefaultAsyncStateObj<boolean>(false)
+  navigatingToOldPage: generateDefaultAsyncStateObj<boolean>(false),
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {
@@ -237,3 +238,4 @@ export const getStructureGradeNames = (state: State) => state.structureGradeName
 export const getPricingDetailsView = (state: State) => state.pricingDetailsView;
 export const getExportOptions = (state: State) => state.exportOptions;
 export const getNavigatingToOldPage = (state: State) => state.navigatingToOldPage;
+

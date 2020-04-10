@@ -14,50 +14,52 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
   matchesLoading$={[Function Store]}
   matchesModalAreaStore={[Function Store]}
   route={[Function Object]}
-  scroll={[Function AutoScroller]}
 >
-  <div
-    class="matches-modal-container"
-  >
+  <pf-async-container>
+    
     <div
-      class="matches-modal-content matches-modal-title"
+      class="matches-modal-container"
     >
-      
-      
+      <div
+        class="matches-modal-content matches-modal-title"
+      >
+        
+        
+      </div>
+      <div
+        class="matches-modal-content"
+      >
+         Use the survey participation function to determine which of your matches you would like to include in Survey Participation reports. Drag and drop your matches to the corresponding category to include or exclude them from participation. 
+      </div>
+      <div
+        class="matches-modal-content font-weight-bold"
+      >
+         Included in Participation - These matches will be included in your survey participation report 
+      </div>
+      <div
+        class="matches-modal-content matches-list-container dropzone"
+        dragula="matches-bag"
+        id="includeInParticipation"
+        ng-reflect-dragula="matches-bag"
+      >
+        
+        
+      </div>
+      <div
+        class="matches-modal-content font-weight-bold"
+      >
+         Excluded from Participation - These matches will be excluded from your survey participation report 
+      </div>
+      <div
+        class="matches-modal-content matches-list-container dropzone"
+        dragula="matches-bag"
+        id="excludeFromParticipation"
+        ng-reflect-dragula="matches-bag"
+      >
+        
+        
+      </div>
     </div>
-    <div
-      class="matches-modal-content"
-    >
-       Use the survey participation function to determine which of your matches you would like to include in Survey Participation reports. Drag and drop your matches to the corresponding category to include or exclude them from participation. 
-    </div>
-    <div
-      class="matches-modal-content font-weight-bold"
-    >
-       Included in Participation - These matches will be included in your survey participation report 
-    </div>
-    <div
-      class="matches-modal-content matches-list-container dropzone"
-      dragula="matches-bag"
-      id="includeInParticipation"
-      ng-reflect-dragula="matches-bag"
-    >
-      
-      
-    </div>
-    <div
-      class="matches-modal-content font-weight-bold"
-    >
-       Excluded from Participation - These matches will be excluded from your survey participation report 
-    </div>
-    <div
-      class="matches-modal-content matches-list-container dropzone"
-      dragula="matches-bag"
-      id="excludeFromParticipation"
-      ng-reflect-dragula="matches-bag"
-    >
-      
-      
-    </div>
-  </div>
+  </pf-async-container>
 </pf-survey-participation-page>
 `;
