@@ -36,8 +36,7 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   pageSizes = [
     { text: '10', value: 10},
     { text: '20', value: 20},
-    { text: '50', value: 50},
-    { text: 'All', value: 'all'},
+    { text: '50', value: 50}
   ];
 
   constructor(private store: Store<fromLoaderDashboardPageReducer.State>) { }
