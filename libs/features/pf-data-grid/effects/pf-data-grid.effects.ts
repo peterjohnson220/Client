@@ -79,6 +79,7 @@ export class PfDataGridEffects {
       groupBy((action: fromPfDataGridActions.LoadData) => action.pageViewId),
       mergeMap(pageViewIdGroup => pageViewIdGroup
         .pipe(
+          debounceTime(10),
           mergeMap((loadDataAction: fromPfDataGridActions.LoadData) =>
             of(loadDataAction).pipe(
               withLatestFrom(

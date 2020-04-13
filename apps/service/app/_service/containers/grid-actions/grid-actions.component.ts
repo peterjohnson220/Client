@@ -3,14 +3,11 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
 import { AsyncStateObj } from 'libs/models/state';
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 
 import * as fromServicePageActions from '../../actions/service-page.actions';
 import * as fromServicePageReducer from '../../reducers';
-import { MultiSelectItemGroup, TicketListMode, ServicePageConfig } from '../../models';
+import { MultiSelectItemGroup, TicketListMode } from '../../models';
 
 @Component({
   selector: 'pf-service-grid-actions',
@@ -26,8 +23,7 @@ export class GridActionsComponent {
   ticketListModes: string[] = [ TicketListMode.MyTickets, TicketListMode.AllCompanyTickets ];
 
   constructor(
-    private store: Store<fromServicePageReducer.State>,
-    private pfGridStore: Store<fromPfGridReducer.State>
+    private store: Store<fromServicePageReducer.State>
   ) {
     this.ticketStates$ = this.store.select(fromServicePageReducer.getTicketStates);
     this.selectedTicketStates$ = this.store.select(fromServicePageReducer.getSelectedTicketStates);
@@ -39,18 +35,10 @@ export class GridActionsComponent {
   }
 
   handleSelectedTicketListModeChanged(event: any): void {
-    let inboundFilters: PfDataGridFilter[] = [{
-      SourceName: 'User_ID',
-      Operator: '=',
-      Value: this.userId.toString()
-    }];
-    if (this.selectedTicketListMode === TicketListMode.AllCompanyTickets) {
-      inboundFilters = [{
-        SourceName: 'Is_Private',
-        Operator: '=',
-        Value: '0'
-      }];
-    }
-    this.pfGridStore.dispatch(new fromPfGridActions.UpdateInboundFilters(ServicePageConfig.ServicePageViewId, inboundFilters));
+    this.store.dispatch(new fromServicePageActions.SetTicketListMode({
+        listType: this.selectedTicketListMode,
+        userId: this.userId
+      }
+    ));
   }
 }
