@@ -48,7 +48,6 @@ export class CreateTicketModalComponent {
       container: [
         ['bold', 'italic', 'underline'],
         [{ 'color': [] }],
-        [{ 'align': [] }],
         [{ 'list': 'ordered'}, { 'list': 'bullet' }],
       ]
     }

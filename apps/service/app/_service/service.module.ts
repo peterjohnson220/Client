@@ -24,7 +24,7 @@ import { reducers } from './reducers';
 import { ServicePageEffects } from './effects';
 import { ServicePageComponent } from './service.page';
 import { CreateTicketModalComponent } from './containers';
-import { ServiceDashboardComponent, SupportTeamComponent } from './components';
+import { ServiceDashboardComponent, SupportTeamComponent, TicketsDetailsComponent } from './components';
 import { ServiceRoutingModule } from './service-routing.module';
 import { GridActionsComponent } from './containers';
 import { MultiSelectDropdownComponent, ItemGroupComponent } from './components';
@@ -71,7 +71,8 @@ import { MultiSelectDropdownComponent, ItemGroupComponent } from './components';
     ItemGroupComponent,
     MultiSelectDropdownComponent,
     ServiceDashboardComponent,
-    SupportTeamComponent
+    SupportTeamComponent,
+    TicketsDetailsComponent
   ],
   providers: [
     { provide: 'DataViewService', useClass: DataViewApiService }

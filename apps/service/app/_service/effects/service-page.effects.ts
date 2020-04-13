@@ -138,6 +138,21 @@ export class ServicePageEffects {
         ];
       })
     );
+  @Effect()
+    getUserTicket$ = this.actions$
+      .pipe(
+        ofType(fromServicePageActions.GET_USER_TICKET),
+        switchMap((action: fromServicePageActions.GetUserTicket) => {
+          return this.userTicketApiService.getUserTicketUserView(action.payload)
+            .pipe(
+              map((response) => {
+                const userTicket = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicket(response);
+                return new fromServicePageActions.GetUserTicketSuccess(userTicket);
+              }),
+              catchError((error) => of(new fromServicePageActions.LoadSupportTeamError(error)))
+            );
+        })
+      );
 
   constructor(
     private actions$: Actions,

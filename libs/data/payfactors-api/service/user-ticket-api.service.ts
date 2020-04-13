@@ -35,6 +35,9 @@ export class UserTicketApiService {
     return this.payfactorsApiService.get<UserTicketResponse>(`${this.endpoint}/GetUserTicket/${ticketId}`);
   }
 
+  getUserTicketUserView(ticketId: number): Observable<UserTicketResponse> {
+    return this.payfactorsApiService.get<UserTicketResponse>(`${this.endpoint}/GetUserTicketUserView/${ticketId}`);
+  }
   getCompanyDetails(companyId: number): Observable<UserTicketCompanyDetailResponse> {
     return this.payfactorsApiService
       .get<UserTicketCompanyDetailResponse>(`${this.endpoint}/GetUserTicketDetailsByCompany/${companyId}`);
