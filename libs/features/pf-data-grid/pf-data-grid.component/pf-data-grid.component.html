@@ -2,11 +2,17 @@
   [isFullHeader]="showTitle"
   [absoluteUrl]="navigationURL"
   [contentNoPadding]="contentNoPadding"
+  [theme]="pageTheme"
   [contentClassNamesOverrides]="contentClassNamesOverrides ? contentClassNamesOverrides : 'pb-0'">
 
   <ng-container page-title *ngIf="showTitle">
     <ng-container *ngIf="titleTemplate; else simpleTitle" [ngTemplateOutlet]="titleTemplate"></ng-container>
   </ng-container>
+
+  <ng-container page-subtitle *ngIf="showTitle">
+    {{subtitle}}
+  </ng-container>
+
   <ng-template #simpleTitle>
     {{title}}
   </ng-template>
@@ -21,7 +27,7 @@
     </pf-action-bar>
   </ng-container>
   <ng-container page-content>
-    <div class="d-flex h-100 flex-column">
+    <div class="d-flex flex-column h-100 content-wrapper">
       <ng-container [ngTemplateOutlet]="aboveGridTemplate"></ng-container>
       <div *ngIf="gridActionsTemplate || userFilteredFields.length > 0"
            class="no-gutters d-flex justify-content-between mb-2 sub-header">
@@ -38,7 +44,7 @@
           <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
         </div>
       </div>
-      <div class="d-flex h-100" [ngClass]="contentNoPadding ? '' : 'border'">
+      <div class="d-flex h-100 full-wrap" [ngClass]="(contentNoPadding || !borders) ? '' : 'border'">
         <div [ngClass]="isSplitView() ? 'main-grid-split' : 'main-grid-full'"
              [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
           <div class="flex-column-container">
@@ -63,7 +69,10 @@
                     [rowActionTemplate]="rowActionTemplate"
                     [customHeaderClass]="headerClassName"
                     [defaultColumnWidth]="defaultColumnWidth"
-                    [useColumnGroups]="useColumnGroups">
+                    [autoFitColumnsToHeader]="autoFitColumnsToHeader"
+                    [useColumnGroups]="useColumnGroups"
+                    [pageable]="pageable"
+                    [theme]="pageTheme">
                   </pf-grid>
                 </div>
               </div>
@@ -71,7 +80,7 @@
           </div>
         </div>
         <ng-container *ngIf="!(displayFilterPanel$ | async)" [ngTemplateOutlet]="rightGridTemplate"></ng-container>
-        <div *ngIf="isSplitView()" class="split-view-container border-left">
+        <div *ngIf="isSplitView()" class="split-view-container" [class.border-left]="borders">
           <ng-container
             [ngTemplateOutlet]="splitViewTemplate"
             [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter, splitViewFilters: splitViewFilters$ | async}">

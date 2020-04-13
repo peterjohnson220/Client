@@ -17,6 +17,7 @@ export class PageWithTitleBarComponent {
   @Input() absoluteUrl: string;
   @Input() contentNoPadding: boolean;
   @Input() contentClassNamesOverrides: boolean;
+  @Input() theme: 'default' | 'next-gen' = 'default';
 
   // Application will be reloaded when the goBackUsingBrowserHistory
   // is used to navigate back to the previous view

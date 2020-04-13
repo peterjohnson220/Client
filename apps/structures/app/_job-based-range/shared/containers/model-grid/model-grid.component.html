@@ -9,13 +9,16 @@
     [allowSort]="false"
     [applyDefaultFilters]="false"
     [columnTemplates]="colTemplates"
-    [actionBarConfig]="singleRecordActionBarConfig">
+    [pageTheme]="'next-gen'"
+    [actionBarConfig]="singleRecordActionBarConfig"
+    [defaultColumnWidth]="175">
   </pf-data-grid>
 </ng-container>
 
 <ng-template #fullGrid>
   <pf-data-grid
-    [title]="(metaData$ | async)?.StructureName"
+    [title]="(metaData$ | async)?.ModelName"
+    [subtitle]="'Structure: ' + (metaData$ | async)?.StructureName"
     [navigationURL]="'/marketdata/structures.asp'"
     [inboundFilters]="inboundFilters"
     [defaultSort]="defaultSort"
@@ -28,7 +31,12 @@
     [splitOnSelection]="false"
     [noRecordsFound]="'No ranges found.'"
     [applyDefaultFilters]="false"
-    [actionBarConfig]="fullGridActionBarConfig">
+    [actionBarConfig]="fullGridActionBarConfig"
+    [pageTheme]="'next-gen'"
+    [contentClassNamesOverrides]="'py-3 px-4'"
+    [pageable]="false"
+    [borders]="false"
+    [autoFitColumnsToHeader]="true">
   </pf-data-grid>
 </ng-template>
 
@@ -93,9 +101,7 @@
 </ng-template>
 
 <ng-template #aboveGridTemplate>
-  <div style="height: 50px">
-    <pf-grid-context [title]="'Job Ranges'" [metadata]="metaData$ | async"></pf-grid-context>
-  </div>
+  <pf-grid-context [title]="'Job Ranges'" [metadata]="metaData$ | async"></pf-grid-context>
 </ng-template>
 
 <ng-template #noValue>

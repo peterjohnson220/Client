@@ -208,8 +208,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.chartInstance.series[JobRangeModelChartSeries.Average].setData(this.averageSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
 
-    // this seemed like a pretty good way to get things to line up. 65 is a constant to account for gaps and headers, the rest is dynamic based on rows
-    this.chartInstance.setSize(null, (50 * this.jobRangeData.data.length) + 65);
+    // TODO: We need to find a better way to come up with the correct height (This is still off in certain data lengths)
+    this.chartInstance.setSize(null, (58.75 * this.jobRangeData.data.length) + 65);
   }
 
   ngOnInit(): void {

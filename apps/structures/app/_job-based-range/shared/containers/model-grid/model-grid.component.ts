@@ -16,11 +16,10 @@ import * as fromSharedActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 
-
 @Component({
   selector: 'pf-model-grid',
   templateUrl: './model-grid.component.html',
-  styleUrls: ['./model-grid.component.scss']
+  styleUrls: ['./model-grid.component.scss', '../../styles/pf-data-grid-styles.scss']
 })
 export class ModelGridComponent implements AfterViewInit {
   @ViewChild('min', {static: false}) minColumn: ElementRef;
@@ -45,7 +44,7 @@ export class ModelGridComponent implements AfterViewInit {
   modelPageViewId = PageViewIds.Model;
   defaultPagingOptions: PagingOptions = {
     From: 0,
-    Count: 10
+    Count: 9999
   };
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',

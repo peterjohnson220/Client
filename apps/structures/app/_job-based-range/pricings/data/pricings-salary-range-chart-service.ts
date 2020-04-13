@@ -58,7 +58,8 @@ export class PricingsSalaryRangeChartService {
         tickPixelInterval: 300,
         title: {
           text: undefined
-        }
+        },
+        offset: 25
       },
       xAxis: {
         visible: false,

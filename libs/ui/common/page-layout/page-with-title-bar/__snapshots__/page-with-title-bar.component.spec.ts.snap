@@ -7,9 +7,12 @@ exports[`Page With Title Bar should show no back button when no URL is provided 
   route={[Function ActivatedRoute]}
   routeTrackingService={[Function Object]}
   router={[Function Router]}
+  theme={[Function String]}
 >
   <div
-    class="flex-column-container"
+    class="flex-column-container default"
+    ng-reflect-klass="flex-column-container"
+    ng-reflect-ng-class="default"
   >
     <div
       class="d-flex justify-content-between align-items-center page-header"
@@ -18,13 +21,20 @@ exports[`Page With Title Bar should show no back button when no URL is provided 
     >
       
       <div
-        class="d-flex"
+        class="d-flex align-items-center"
       >
         
         
-        <h3
+        <div
           class="page-title"
-        />
+        >
+          <h3
+            class="mb-0"
+          />
+          <h6
+            class="subtitle mb-0"
+          />
+        </div>
       </div>
       <div
         class="d-flex space-out-children"
@@ -48,9 +58,12 @@ exports[`Page With Title Bar should show the back button, when provided a return
   route={[Function ActivatedRoute]}
   routeTrackingService={[Function Object]}
   router={[Function Router]}
+  theme={[Function String]}
 >
   <div
-    class="flex-column-container"
+    class="flex-column-container default"
+    ng-reflect-klass="flex-column-container"
+    ng-reflect-ng-class="default"
   >
     <div
       class="d-flex justify-content-between align-items-center page-header"
@@ -59,7 +72,7 @@ exports[`Page With Title Bar should show the back button, when provided a return
     >
       
       <div
-        class="d-flex"
+        class="d-flex align-items-center"
       >
         
         <button
@@ -71,9 +84,16 @@ exports[`Page With Title Bar should show the back button, when provided a return
           />
         </button>
         
-        <h3
+        <div
           class="page-title"
-        />
+        >
+          <h3
+            class="mb-0"
+          />
+          <h6
+            class="subtitle mb-0"
+          />
+        </div>
       </div>
       <div
         class="d-flex space-out-children"
@@ -97,9 +117,12 @@ exports[`Page With Title Bar should show the back button, when provided an absol
   route={[Function ActivatedRoute]}
   routeTrackingService={[Function Object]}
   router={[Function Router]}
+  theme={[Function String]}
 >
   <div
-    class="flex-column-container"
+    class="flex-column-container default"
+    ng-reflect-klass="flex-column-container"
+    ng-reflect-ng-class="default"
   >
     <div
       class="d-flex justify-content-between align-items-center page-header"
@@ -108,7 +131,7 @@ exports[`Page With Title Bar should show the back button, when provided an absol
     >
       
       <div
-        class="d-flex"
+        class="d-flex align-items-center"
       >
         
         
@@ -124,9 +147,16 @@ exports[`Page With Title Bar should show the back button, when provided an absol
             />
           </button>
         </a>
-        <h3
+        <div
           class="page-title"
-        />
+        >
+          <h3
+            class="mb-0"
+          />
+          <h6
+            class="subtitle mb-0"
+          />
+        </div>
       </div>
       <div
         class="d-flex space-out-children"
