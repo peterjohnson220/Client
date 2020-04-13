@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'common/common-variables';
 pf-service-page {
   .gridActionTemplate {
     border: none !important;
@@ -15,5 +16,39 @@ pf-service-page {
 
   .k-dropdown .k-state-focused {
     box-shadow: none !important;
+  }
+
+  .support-team-card {
+    display: flex;
+    padding: 0.5rem 1rem 1rem;
+
+    .avatar {
+      margin-top: 0.2rem;
+      margin-right: 1rem;
+    }
+
+    .icon-container {
+      width: 77px;
+      padding-left: 0.5rem;
+      .icon {
+        margin-right: 1rem;
+        font-size: 41px;
+        line-height: 2rem;
+      }
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+
+      .name {
+        @extend %ellipsis-overflowing-text;
+      }
+
+      .text {
+        @extend %ellipsis-overflowing-text;
+        color: #6c757d;
+      };
+    }
   }
 }

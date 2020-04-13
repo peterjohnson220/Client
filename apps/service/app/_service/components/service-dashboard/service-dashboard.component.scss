@@ -1,60 +1,11 @@
 @import 'common/common-variables';
 
-.title-text {
-  height: 22px;
-  color: #434950;
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 23px;
-  padding: 15px;
-}
+.title {
+  padding: 1rem 1rem 0 1rem;
 
-.info {
-  position: relative;
-  left: 17.5rem;
-  bottom: 19px;
-}
-
-
-.support-team-info-container {
-  margin: 12px 15px;
-
-  .static-support-team {
-    position: relative;
-    bottom: 20px;
-  }
-
-  .static-support-team-information {
-    position: relative;
-    display: inline-grid;
-    left: 21px;
-    bottom: 20px;
-  }
-  .static-support-team-icon {
-    position: relative;
-    left: 11px;
-    font-size: 41px;
-  }
-
-  .static-support-team-title {
-    height: 19px;
-    color: #434950;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 19px;
-    @extend %ellipsis-overflowing-text;
-  }
-
-  .static-support-team-email {
-    height: 16px;
-    opacity: 0.75;
-    color: #434950;
-    font-size: 14px;
-    letter-spacing: 0;
-    line-height: 16px;
-    @extend %ellipsis-overflowing-text;
+  .info {
+    margin-left: 1rem;
+    margin-top: 0.2rem;
   }
 }
 
