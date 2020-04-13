@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import {switchMap, map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Action} from '@ngrx/store';
-
-import {Observable} from 'rxjs';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 
 import { JobsApiService } from 'libs/data/payfactors-api';
 
@@ -28,4 +27,3 @@ export class ModifyPricingsEffects {
     })
   );
 }
-

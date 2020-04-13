@@ -1,22 +1,26 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/index';
+
 import { Store } from '@ngrx/store';
+
 import { SortDescriptor } from '@progress/kendo-data-query';
+
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField, CreateProjectRequest, ChangeJobStatusRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
 import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
-import { PageViewIds } from '../constants';
 
-import * as fromRootState from 'libs/state/state';
-import * as fromJobsPageActions from '../actions';
-import * as fromJobsPageReducer from '../reducers';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import {BehaviorSubject} from 'rxjs/index';
+import * as fromRootState from 'libs/state/state';
+
+import { PageViewIds } from '../constants';
+import * as fromJobsPageActions from '../actions';
+import * as fromJobsPageReducer from '../reducers';
 import * as fromModifyPricingsActions from '../actions';
 import * as fromModifyPricingsReducer from '../reducers';
 
@@ -384,7 +388,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-modifyPricings() {
+  modifyPricings() {
     this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(this.selectedPricingIds));
   }
 
