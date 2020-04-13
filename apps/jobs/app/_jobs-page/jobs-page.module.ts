@@ -23,6 +23,7 @@ import { JobManagementModule } from 'libs/features/job-management/job-management
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
+import { MatchesModalModule } from '../_matches-modal/matches-modal.module';
 
 import {
   JobsDetailsComponent,
@@ -73,7 +74,8 @@ import { JobPeerMatchesEffects } from './effects/job-peer-matches.effects';
     PfCommonUIModule,
     PfFormsModule,
     PfDataGridModule,
-    JobManagementModule
+    JobManagementModule,
+    MatchesModalModule
   ],
   declarations: [
     // Pages

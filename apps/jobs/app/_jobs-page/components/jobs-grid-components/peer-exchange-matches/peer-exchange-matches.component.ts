@@ -9,7 +9,9 @@ import {Subscription} from 'rxjs/Subscription';
   templateUrl: './peer-exchange-matches.component.html',
   styleUrls: ['./peer-exchange-matches.component.scss']
 })
+
 export class PeerExchangeMatchesComponent implements OnInit, OnChanges, OnDestroy {
+
   @Input() jobId: number;
   @Input() offset: any;
   loading: boolean;
