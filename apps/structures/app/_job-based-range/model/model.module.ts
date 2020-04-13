@@ -21,7 +21,7 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
 import { AddJobsModalComponent, JobBasedRangeChartComponent, PublishModelModalComponent } from './containers';
 import { AddJobsUserFilterPopoverConfig, JobBasedRangeAddJobsConfig } from './data';
-import { AddJobsModalEffects, SearchPageEffects, SearchResultsEffects } from './effects';
+import { AddJobsModalEffects, SearchPageEffects, SearchResultsEffects, SingledFilterEffects } from './effects';
 import { ModelPageComponent } from './model.page';
 import { ModelRoutingModule } from './model-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -38,7 +38,8 @@ import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType
     EffectsModule.forFeature([
       AddJobsModalEffects,
       SearchPageEffects,
-      SearchResultsEffects
+      SearchResultsEffects,
+      SingledFilterEffects
     ]),
     PerfectScrollbarModule,
     DropDownsModule,

@@ -11,7 +11,8 @@ import {
   JobSearchResponse,
   SearchFilter,
   JobSearchAutocompleteRequest,
-  JobBasedRangeJobSearchResponse
+  JobBasedRangeJobSearchResponse,
+  JobSearchStructuresAggregationRequest
 } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
@@ -28,6 +29,10 @@ export class JobSearchApiService {
 
   getJobResults(searchRequest: JobSearchRequest): Observable<JobSearchResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetJobResults`, searchRequest);
+  }
+
+  searchStructuresJobAggregations(searchRequest: JobSearchStructuresAggregationRequest): Observable<SearchFilter> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SearchJobAggregations`, searchRequest);
   }
 
   searchJobAggregations(searchRequest: JobSearchAggregationRequest): Observable<SearchFilter> {
