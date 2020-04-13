@@ -1,4 +1,3 @@
-<pf-data-card *ngIf="(userContext$ | async).ClientType != PEER_AND_ANALYSIS"
-              [workflowContext]="workflowContext"></pf-data-card>
+<pf-data-card *ngIf="(workflowContext$ | async).quickPriceType === quickPriceTypes.ENTERPRISE"></pf-data-card>
 
-<pf-peer-data-card [workflowContext]="workflowContext"  *ngIf="(userContext$ | async).ClientType === PEER_AND_ANALYSIS"></pf-peer-data-card>
+<pf-peer-data-card *ngIf="(workflowContext$ | async).quickPriceType === quickPriceTypes.PEER"></pf-peer-data-card>

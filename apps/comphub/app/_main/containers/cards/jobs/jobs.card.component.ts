@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { AutoCompleteComponent, PopupSettings } from '@progress/kendo-angular-dropdowns';
 
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
-import { CompanyClientTypeConstants, SystemUserGroupNames } from 'libs/constants';
+import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
 
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
@@ -22,7 +22,6 @@ import { ComphubPages } from '../../../data';
 export class JobsCardComponent implements OnInit, OnDestroy {
   @ViewChild('jobSearch', { static: false }) jobSearch: AutoCompleteComponent;
   @ViewChild('exchangeJobSearch', {static: false}) exchangeJobSearch: AutoCompleteComponent;
-  @Input() workflowContext: WorkflowContext;
 
   // Observables
   trendingJobGroups$: Observable<TrendingJobGroup[]>;
@@ -37,19 +36,21 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   loadingTrendingJobs$: Observable<boolean>;
   exchangeDataSets$: Observable<ExchangeDataSet[]>;
   exchangeJobSearchOptions$: Observable<ExchangeJobSearchOption[]>;
+  workflowContext$: Observable<WorkflowContext>;
 
   jobSearchOptionsSub: Subscription;
   exchangeJobSearchOptionsSub: Subscription;
   selectedJobSub: Subscription;
-  userContextSub: Subscription;
+  workflowContextSub: Subscription;
 
   potentialOptions: string[];
   selectedJob: string;
   userContext: UserContext;
   systemUserGroupNames = SystemUserGroupNames;
+  quickPriceTypes = QuickPriceType;
   popupSettings: PopupSettings;
   comphubPages = ComphubPages;
-  readonly PEER_AND_ANALYSIS = CompanyClientTypeConstants.PEER_AND_ANALYSIS;
+  workflowContext: WorkflowContext;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
@@ -67,6 +68,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
     this.exchangeDataSets$ = this.store.select(fromComphubMainReducer.getExchangeDataSets);
     this.exchangeJobSearchOptions$ = this.store.select(fromComphubMainReducer.getExchangeJobSearchOptions);
+    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.popupSettings = {
       appendTo: 'component'
     };
@@ -76,12 +78,12 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.jobSearchOptionsSub = this.jobSearchOptions$.subscribe(o => this.potentialOptions = o);
     this.exchangeJobSearchOptionsSub = this.exchangeJobSearchOptions$.subscribe(o => this.potentialOptions = o.map(x => x.JobTitleShort));
     this.selectedJobSub = this.selectedJob$.subscribe(sj => this.selectedJob = sj);
-    this.userContextSub = this.userContext$.subscribe(uc => this.userContext = uc);
+    this.workflowContextSub = this.workflowContext$.subscribe(wfc => this.workflowContext = wfc);
   }
 
   handleJobSearchFilterChange(searchTerm: string): void {
     if (searchTerm) {
-        this.userContext.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS ?
+        this.workflowContext.quickPriceType === QuickPriceType.PEER ?
         this.store.dispatch(new fromJobsCardActions.GetExchangeJobSearchOptions(searchTerm)) :
         this.store.dispatch(new fromJobsCardActions.GetJobSearchOptions(searchTerm));
     }
@@ -96,7 +98,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   }
 
   handleTrendingJobClicked(trendingJob: string) {
-    this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: trendingJob, navigateToNextCard: true }));
+    this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: trendingJob, navigateToNextCard: true}));
   }
 
   handleCountryDataSetChanged(countryCode: string) {
@@ -112,6 +114,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.jobSearchOptionsSub.unsubscribe();
     this.exchangeJobSearchOptionsSub.unsubscribe();
-    this.userContextSub.unsubscribe();
+    this.selectedJobSub.unsubscribe();
+    this.workflowContextSub.unsubscribe();
   }
 }

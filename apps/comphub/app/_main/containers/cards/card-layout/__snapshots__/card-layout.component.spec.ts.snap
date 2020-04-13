@@ -2,7 +2,6 @@
 
 exports[`Comphub - Main - Card Layout should disable next button, when told to 1`] = `
 <pf-card-layout
-  PEER_AND_ANALYSIS={[Function String]}
   comphubPages={[Function Object]}
   hideNextButton="false"
   jobPricingBlocked$={[Function Store]}
@@ -15,9 +14,13 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
   pageIconClass=""
   pageSubTitle=""
   pageTitle={[Function String]}
+  quickPriceTypes={[Function Function]}
+  selectedPageIdDelayed$={[Function Store]}
   store={[Function Store]}
-  userContext$={[Function Observable]}
   window={[Function Object]}
+  workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
 >
   <div
     class="comphub-page"
@@ -38,6 +41,7 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
     <div>
       
     </div>
+    
     
     <div
       class="smb-counter"
@@ -81,7 +85,6 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
 
 exports[`Comphub - Main - Card Layout should hide the back button, when told to 1`] = `
 <pf-card-layout
-  PEER_AND_ANALYSIS={[Function String]}
   comphubPages={[Function Object]}
   hideBackButton={[Function Boolean]}
   jobPricingBlocked$={[Function Store]}
@@ -93,9 +96,13 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
   pageIconClass=""
   pageSubTitle=""
   pageTitle={[Function String]}
+  quickPriceTypes={[Function Function]}
+  selectedPageIdDelayed$={[Function Store]}
   store={[Function Store]}
-  userContext$={[Function Observable]}
   window={[Function Object]}
+  workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
 >
   <div
     class="comphub-page"
@@ -116,6 +123,7 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
     <div>
       
     </div>
+    
     
     <div
       class="smb-counter"
@@ -152,7 +160,6 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
 
 exports[`Comphub - Main - Card Layout should hide the next button, when told to 1`] = `
 <pf-card-layout
-  PEER_AND_ANALYSIS={[Function String]}
   comphubPages={[Function Object]}
   hideNextButton={[Function Boolean]}
   jobPricingBlocked$={[Function Store]}
@@ -164,9 +171,13 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
   pageIconClass=""
   pageSubTitle=""
   pageTitle={[Function String]}
+  quickPriceTypes={[Function Function]}
+  selectedPageIdDelayed$={[Function Store]}
   store={[Function Store]}
-  userContext$={[Function Observable]}
   window={[Function Object]}
+  workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
 >
   <div
     class="comphub-page"
@@ -187,6 +198,7 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
     <div>
       
     </div>
+    
     
     <div
       class="smb-counter"

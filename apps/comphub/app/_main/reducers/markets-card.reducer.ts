@@ -1,6 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { CompanyClientTypeConstants } from 'libs/constants';
+import { QuickPriceType } from 'libs/constants';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import { PricingPaymarket, MarketDataScope, MarketDataLocation } from '../models';
@@ -18,6 +18,7 @@ export interface State {
   loadingScopes: boolean;
   loadingLocations: boolean;
   marketDataLocations: MarketDataLocation[];
+  userDefaultPaymarket: PricingPaymarket;
 }
 
 const initialState: State = {
@@ -31,7 +32,8 @@ const initialState: State = {
   displayNationalAsCard: false,
   loadingScopes: false,
   loadingLocations: false,
-  marketDataLocations: []
+  marketDataLocations: [],
+  userDefaultPaymarket: null
 };
 
 // Reducer function
@@ -72,11 +74,22 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
 
       // Replace with 'National' paymarket (system default) if deselecting, or empty peer paymarket if client is peer and analysis.
       if (!action.payload.initialLoad && action.payload.paymarket.CompanyPayMarketId === state.selectedPaymarket.CompanyPayMarketId) {
-        if (!!action.payload.clientType && action.payload.clientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS) {
+        if (!!action.payload.quickPriceType && action.payload.quickPriceType === QuickPriceType.PEER) {
           selectedPaymarket = MarketsCardHelper.buildEmptyPeerPricingPayMarket();
         } else {
           selectedPaymarket = MarketsCardHelper.buildDefaultPricingPayMarket();
         }
+      }
+
+      if (action.payload.initialLoad && !!action.payload.quickPriceType && action.payload.quickPriceType === QuickPriceType.PEER) {
+        if (action.payload.paymarket == null) {
+          selectedPaymarket = MarketsCardHelper.buildEmptyPeerPricingPayMarket();
+        }
+        return {
+          ...state,
+          selectedPaymarket: selectedPaymarket,
+          userDefaultPaymarket: selectedPaymarket
+        };
       }
 
       return {
@@ -159,6 +172,18 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
       return {
         ...state,
         marketDataLocations: []
+      };
+    }
+    case fromMarketsCardActions.SET_DEFAULT_PAYMARKET_AS_SELECTED: {
+      let defaultPaymarket = state.userDefaultPaymarket;
+
+      if (defaultPaymarket == null) {
+        defaultPaymarket = MarketsCardHelper.buildEmptyPeerPricingPayMarket();
+      }
+
+      return {
+        ...state,
+        selectedPaymarket: defaultPaymarket
       };
     }
     default: {

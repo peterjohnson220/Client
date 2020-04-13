@@ -13,6 +13,8 @@ export interface State {
   selectedRate: RateType;
   marketDataChange: boolean;
   peerBannerOpen: boolean;
+  loadingPeerJobData: boolean;
+  loadingPeerJobDataError: boolean;
 }
 
 const initialState: State = {
@@ -25,7 +27,9 @@ const initialState: State = {
   selectedJobData: null,
   selectedRate: RateType.Annual,
   marketDataChange: false,
-  peerBannerOpen: false
+  peerBannerOpen: false,
+  loadingPeerJobData: false,
+  loadingPeerJobDataError: false
 };
 
 // Reducer
@@ -92,6 +96,28 @@ export function reducer(state: State = initialState, action: fromDataCardActions
       return {
         ...state,
         jobResults: newJobResults
+      };
+    }
+    case fromDataCardActions.GET_PEER_QUICK_PRICE_DATA: {
+      return {
+        ...state,
+        loadingPeerJobData: true,
+        loadingPeerJobDataError: false
+      };
+    }
+    case fromDataCardActions.GET_PEER_QUICK_PRICE_DATA_SUCCESS: {
+      return {
+        ...state,
+        loadingPeerJobData: false,
+        loadingPeerJobDataError: false,
+        selectedJobData: action.payload.jobData
+      };
+    }
+    case fromDataCardActions.GET_PEER_QUICK_PRICE_DATA_ERROR: {
+      return {
+        ...state,
+        loadingPeerJobData: false,
+        loadingPeerJobDataError: true
       };
     }
     default: {

@@ -2,7 +2,7 @@
   <div class="card-container">
     <span class="hidden" data-qa-id="lbl-current-page">{{workflowContext?.selectedPageId}}</span>
     <span class="hidden" data-qa-id="lbl-accessible-pages">{{enabledPages.join(',')}}</span>
-    <ng-container *ngFor="let card of cards; let i=index; trackBy: trackById">
+    <ng-container *ngFor="let card of cards; let i = index; trackBy: trackById">
       <pf-comphub-card
         [hasCardHeader]="i !== 0"
         [card]="card"
@@ -17,13 +17,13 @@
 
         <ng-container card-content [ngSwitch]="card.Id">
 
-          <pf-jobs-card *ngSwitchCase="comphubPages.Jobs" [workflowContext]="workflowContext"></pf-jobs-card>
+          <pf-jobs-card *ngSwitchCase="comphubPages.Jobs"></pf-jobs-card>
 
-          <pf-markets-card *ngSwitchCase="comphubPages.Markets" [workflowContext]="workflowContext"></pf-markets-card>
+          <pf-markets-card *ngSwitchCase="comphubPages.Markets"></pf-markets-card>
 
-          <pf-parent-data-card *ngSwitchCase="comphubPages.Data" [workflowContext]="workflowContext"></pf-parent-data-card>
+          <pf-parent-data-card *ngSwitchCase="comphubPages.Data"></pf-parent-data-card>
 
-          <pf-summary-card *ngSwitchCase="comphubPages.Summary" [workflowContext]="workflowContext"></pf-summary-card>
+          <pf-summary-card *ngSwitchCase="comphubPages.Summary"></pf-summary-card>
 
         </ng-container>
 
