@@ -340,6 +340,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       updatedField.FilterValue = action.payload.FilterValue;
       updatedField.FilterValues = action.payload.FilterValues;
       updatedField.FilterOperator = action.payload.FilterOperator;
+      updatedField.IsFilterable = action.payload.IsFilterable;
 
       const splitViewFilters = updatedFields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
         .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName));

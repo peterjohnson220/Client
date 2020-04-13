@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { UploadedFile, UserTicketDto } from 'libs/models/service';
 
-import { TicketType, MultiSelectItemGroup, SupportTeamUser } from '../models';
+import { TicketType, MultiSelectItemGroup, SupportTeamUser, TicketListMode } from '../models';
 
 export const LOAD_TICKET_TYPES  = '[Service / Service Page] Load Ticket Types';
 export const LOAD_TICKET_TYPES_SUCCESS  = '[Service / Service Page] Load Ticket Types Success';
@@ -18,6 +18,7 @@ export const UPDATE_SELECTED_TICKET_STATES = '[Service / Service Page] Update Se
 export const LOAD_SUPPORT_TEAM = '[Service / Service Page] Get Support Team';
 export const LOAD_SUPPORT_TEAM_SUCCESS = '[Service / Service Page] Get Support Team Success';
 export const LOAD_SUPPORT_TEAM_ERROR = '[Service / Service Page] Get Support Team Error';
+export const SET_TICKET_LIST_MODE = '[Service / Service Page] Set Ticket List Mode';
 
 export class LoadTicketTypes implements Action {
   readonly type = LOAD_TICKET_TYPES;
@@ -101,6 +102,12 @@ export class UpdateSelectedTicketStates implements Action {
   constructor(public payload: MultiSelectItemGroup[]) {}
 }
 
+export class SetTicketListMode implements Action {
+  readonly type = SET_TICKET_LIST_MODE;
+
+  constructor(public payload: { listType: TicketListMode, userId: number }) {}
+}
+
 export type Actions
   = LoadTicketTypes
   | LoadTicketTypesSuccess
@@ -115,4 +122,5 @@ export type Actions
   | UpdateSelectedTicketStates
   | LoadSupportTeam
   | LoadSupportTeamSuccess
-  | LoadSupportTeamError;
+  | LoadSupportTeamError
+  | SetTicketListMode;
