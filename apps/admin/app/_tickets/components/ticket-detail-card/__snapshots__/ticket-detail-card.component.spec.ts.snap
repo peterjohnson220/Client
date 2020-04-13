@@ -5,59 +5,60 @@ exports[`Admin - Tickets - Ticket Detail Card Should display details about a tic
   ticketDetail={[Function Object]}
 >
   <div
-    class="pt-3"
-    title="Ticket Details"
+    class="card d-flex flex-column mb-3"
   >
     <div
-      class="row"
+      class="d-flex card-header"
     >
       <div
-        class="col-sm-5 action-item"
+        class="created-by"
       >
-        <div
-          class="
-           detail-label"
+        <span>
+          Created By 
+        </span>
+        <a
+          href="mailto:MockOpenedByUser?Subject=Payfactors%20Support%20Ticket%20#1"
         >
-          Opened By
-        </div>
-        <div
-          class="detail-text mb-2"
-        >
-          <a
-            href="mailto:MockOpenedByUser?Subject=Payfactors%20Support%20Ticket%20#1"
-          >
-             MockOpenedByUser
-          </a>
-        </div>
+           MockOpenedByUser
+        </a>
+         - Jan 1, 1990 
       </div>
-      <div
-        class="col-sm-3"
-      >
-        <div
-          class="detail-label"
-        >
-          Opened
-        </div>
-        <div
-          class="detail-text mb-2"
-        >
-          1/1/90
-        </div>
-      </div>
-      <div
-        class="col-sm-4"
-      >
-        <div
-          class="detail-label"
-        >
-          Last Updated
-        </div>
-        <div
-          class="detail-text mb-2"
+      <div>
+        <fa-icon />
+        <span
+          class="ml-2"
         >
           MockLastUpdatedText
-        </div>
+        </span>
       </div>
+    </div>
+    <div
+      class="card-body"
+    >
+      <h4
+        class="card-title"
+      >
+        
+        Description
+        
+      </h4>
+      <quill-view-html
+        ng-reflect-content="MockDescription"
+        ng-reflect-theme="snow"
+        theme="snow"
+      >
+        <div
+          class="ql-container ql-snow ngx-quill-view-html"
+          ng-reflect-klass="ql-container"
+          ng-reflect-ng-class="ql-snow ngx-quill-view-html"
+        >
+          <div
+            class="ql-editor"
+          >
+            MockDescription
+          </div>
+        </div>
+      </quill-view-html>
     </div>
   </div>
 </pf-ticket-detail-card>

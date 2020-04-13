@@ -62,6 +62,7 @@ export class PayfactorsApiModelMapper {
         TicketState: response.UserTicketState,
         LastUpdatedText: response.LastUpdatedText,
         Description: response.UserTicket,
+        TicketTitle: response.TicketTitle,
         UserTicketType: {
           UserTicketTypeId: response.UserTicketTypeId,
           TicketFileTypeId: response.TicketFileTypeId,

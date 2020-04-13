@@ -27,10 +27,11 @@
 }
 
 .detail-label {
-  font-family: 'Segoe UI';
-  font-weight: 400;
-  color: $detail-label;
-  font-size: 0.9231rem;
+  font-size: 13px;
+
+  &.margin-bottom {
+    margin-bottom: 0.5rem;
+  }
 }
 
 .detail-text {
@@ -44,7 +45,7 @@
   border-style: solid;
   border-color: rgba(204, 204, 204, 1);
   border-radius: 3px;
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 10px;
 }
 

@@ -140,9 +140,7 @@
                        [sortable]="false">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <div>
-          {{dataItem.Description.length > 150 ? dataItem.Description.substring(0,150) +  '...' : dataItem.Description}}
-        </div>
+        <div [innerHtml]="dataItem.Description | stripHtml | TruncateAfter:150"></div>
         <div class="pl-2 action-item text-underline"
              *ngFor="let attachment of dataItem.Attachments">
           <a href="/odata/CloudFiles.DownloadUserTicketAttachment?AttachmentId={{attachment.AttachmentId}}&TicketID={{dataItem.Id}}"
