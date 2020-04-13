@@ -33,6 +33,7 @@
       <ng-content select="[button-container-left]"></ng-content>
       <button type="button"
               class="btn"
+              *ngIf="showSubmit"
               [ngClass]="primaryButtonClass"
               [class.order-1]="flipPrimarySecondaryBtns"
               [disabled]="submitDisabled"
@@ -42,7 +43,7 @@
         </span>
         <span *ngIf="!submitting">{{primaryButtonText}}</span>
       </button>
-      <button type="button"
+      <button type="button" *ngIf="showDismiss"
               class="btn btn-secondary"
               [disabled]="!allowDismiss"
               (click)="dismiss()">{{secondaryButtonText }}</button>

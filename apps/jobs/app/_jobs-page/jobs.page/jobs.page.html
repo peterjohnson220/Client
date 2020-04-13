@@ -31,6 +31,12 @@
   </button>
 </ng-template>
 
+<ng-template #jobMatchCount let-dataRow="dataRow">
+  <span  (click)="dataRow['CompanyJobs_PricingMatchesCount'] > 0?toggleSurveyParticipationModal($event, true, dataRow['CompanyJobs_CompanyJob_ID']):null">
+   {{dataRow['CompanyJobs_PricingMatchesCount']}}
+  </span>
+</ng-template>
+
 <ng-template #jobTitleColumn let-dataRow="dataRow" let-hover="hover">
 
   <div class="d-flex align-items-center">
@@ -79,6 +85,7 @@
 <ng-template #jobStatusColumn let-dataRow="dataRow">
   {{dataRow['CompanyJobs_JobStatus'] ? 'Active' : 'Inactive'}}
 </ng-template>
+
 <ng-template #hasPeerDataColumn let-dataRow="dataRow">
   <fa-icon  *ngIf="dataRow['CompanyJobs_Peer']"
     icon="exchange-alt"
@@ -265,6 +272,26 @@
       </div>
     </div>
   </ng-container>
+</pf-modal-form>
+
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Matches'"
+  [submitEnabled]="false"
+  [showSubmit]="false"
+  [secondaryButtonText]="'Close'"
+  [centered]="true"
+  [showSpinner]="true"
+  [modalId]="'au-modal-jobs-page-matches'"
+  [allowDismiss]="true"
+  [isOpen$]="showSurveyParticipationModal$"
+  (onDismiss)="toggleSurveyParticipationModal(null, false, null)">
+  <ng-container basic-content>
+    <div class="maxPageHeight">
+      <pf-survey-participation-page *ngIf="matchJobId && showSurveyParticipationModal$ |  async" [jobId]= "matchJobId" ></pf-survey-participation-page>
+    </div>
+  </ng-container>
+
 </pf-modal-form>
 
 <pf-modal-form

@@ -16,9 +16,9 @@ import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import {BehaviorSubject} from 'rxjs/index';
 import * as fromModifyPricingsActions from '../actions';
 import * as fromModifyPricingsReducer from '../reducers';
-
 
 @Component({
   selector: 'pf-jobs-page',
@@ -99,7 +99,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedJobPricingCount = 0;
   enablePageToggle = false;
 
+  showSurveyParticipationModal = new BehaviorSubject<boolean>(false);
+  showSurveyParticipationModal$ = this.showSurveyParticipationModal.asObservable();
+  matchJobId: number;
+
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
+  @ViewChild('jobMatchCount', { static: false }) jobMatchCount: ElementRef;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
   @ViewChild('hasPeerDataColumn', { static: false }) hasPeerDataColumn: ElementRef;
 
@@ -208,7 +213,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.colTemplates = {
       'Job_Title': { Template: this.jobTitleColumn },
       'JobStatus': { Template: this.jobStatusColumn },
-      'Peer': { Template: this.hasPeerDataColumn }
+      'Peer': { Template: this.hasPeerDataColumn },
+      'PricingMatchesCount': { Template: this.jobMatchCount },
     };
 
     this.filterTemplates = {
@@ -370,7 +376,15 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromJobsPageActions.ToggleJobsPage());
   }
 
-  modifyPricings() {
+  toggleSurveyParticipationModal( event, value: boolean, jobId: number) {
+    this.matchJobId = jobId;
+    this.showSurveyParticipationModal.next(value);
+    if (event) {
+      event.stopPropagation();
+    }
+  }
+
+modifyPricings() {
     this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(this.selectedPricingIds));
   }
 
