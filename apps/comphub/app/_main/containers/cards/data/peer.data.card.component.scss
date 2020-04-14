@@ -4,6 +4,6 @@ pf-exchange-explorer{
   margin-top:10px;
 }
 
-:host ::ng-deep .filters {
+:host ::ng-deep .filters-sidebar, :host ::ng-deep .child-filters-sidebar {
   font-size: 13px;
 }
