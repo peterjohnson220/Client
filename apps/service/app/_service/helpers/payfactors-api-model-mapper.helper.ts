@@ -1,6 +1,8 @@
-import { SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse } from 'libs/models/payfactors-api/service/response';
+import {
+  SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse, UserTicketComment
+} from 'libs/models/payfactors-api/service/response';
 
-import { TicketType, MultiSelectItemGroup, SupportTeamUser } from '../models';
+import { TicketType, MultiSelectItemGroup, SupportTeamUser, TicketNote, NoteAccessLevel } from '../models';
 import { TicketStateHelper } from './ticket-state.helper';
 import { UserTicket } from '../models';
 
@@ -53,14 +55,29 @@ export class PayfactorsApiModelMapper {
     });
   }
 
-  static mapUserTicketResponseToUserTicket(response: UserTicketResponse): UserTicket {
+  static mapUserTicketResponseToUserTicket(userId: number, response: UserTicketResponse): UserTicket {
       return {
         TicketId: response.UserTicketId,
         TicketSummary: response.TicketTitle,
         TicketStatus: response.UserTicketState,
         TicketType: response.UserTicketType,
         TicketDetails: response.UserTicket,
-        Attachments: response.UserTicketFiles
+        Attachments: response.UserTicketFiles,
+        Notes: this.mapUserTicketCommentsToTicketNotes(response.UserTicketComments),
+        NoteAccessLevel: response.UserId === userId ? NoteAccessLevel.Owner : NoteAccessLevel.ReadOnly
       };
+  }
+
+  static mapUserTicketCommentsToTicketNotes(comments: UserTicketComment[]): TicketNote[] {
+    if (!comments || comments.length === 0) {
+      return [];
+    }
+    return comments.map((comment) => {
+      return {
+        Content: comment.Comments,
+        PostedDate: comment.CreateDate,
+        UserName: comment.UserFullName
+      };
+    });
   }
 }

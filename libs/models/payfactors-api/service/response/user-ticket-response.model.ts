@@ -32,6 +32,7 @@ export interface UserTicketFile {
   UserTicketId: number;
   DisplayName: string;
   FileName: string;
+  FileType?: string;
 }
 
 export interface UserTicketComment {

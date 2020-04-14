@@ -7,6 +7,27 @@ export interface UserTicket {
   TicketType: string;
   TicketDetails: string;
   Attachments?: UserTicketFile[];
+  Notes?: TicketNote[];
+  NoteAccessLevel?: NoteAccessLevel;
+}
+
+export interface TicketNote {
+  UserName: string;
+  Content: string;
+  PostedDate: Date;
+}
+
+export enum NoteAccessLevel {
+  ReadOnly = 'ReadOnly',
+  Owner = 'Owner'
+}
+
+export enum AttachmentFileType {
+  Word = 'Word',
+  Excel = 'Excel',
+  Pdf = 'Pdf',
+  Image = 'Image',
+  Unknown = 'Unknown'
 }
 
 export function generateMockUserTicket(): UserTicket {

@@ -3,6 +3,15 @@ export class ServicePageConfig {
   public static UploadSaveUrl = '/odata/CloudFiles.UploadUserTicketAttachment';
   public static UploadRemoveUrl = '/odata/CloudFiles.DeleteUserTicketAttachments';
   public static MaxFileUploads = 25;
+  public static quillConfig = {
+    toolbar: {
+      container: [
+        ['bold', 'italic', 'underline'],
+        [{ 'color': [] }],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ]
+    }
+  };
 }
 
 export enum TicketListMode {

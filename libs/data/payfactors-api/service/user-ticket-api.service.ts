@@ -9,7 +9,7 @@ import {
   UserTicketCreateRequest
 } from 'libs/models/payfactors-api/service/request';
 import {
-  UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse, SupportTeamResponse
+  UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse, SupportTeamResponse, UserTicketComment
 } from 'libs/models/payfactors-api/service/response';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { GenericKeyValue } from 'libs/models';
@@ -80,6 +80,11 @@ export class UserTicketApiService {
 
   getSupportTeam(): Observable<SupportTeamResponse[]> {
     return this.payfactorsApiService.get<SupportTeamResponse[]>(`${this.endpoint}/GetSupportTeam`);
+  }
+
+  addNote(request: UserTicketCommentRequest): Observable<UserTicketComment> {
+    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/AddNote/${request.UserTicketId}`,
+      JSON.stringify(request.Comments), this.headers);
   }
 
 }

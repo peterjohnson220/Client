@@ -1,63 +1,43 @@
 <div class="tickets-details-container container h-100 w-100" perfectScrollbar>
-  <div (click)="close()" class="close-btn">
-    <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
-  </div>
   <ng-container *ngIf="(ticket$ | async).loading; else content">
     <pf-loading-indicator></pf-loading-indicator>
   </ng-container>
   <ng-template #content>
-    <ng-container *ngIf="!!ticket?.TicketSummary">
-      <h5>{{ticket?.TicketSummary}}</h5>
-    </ng-container>
-    <div class="d-flex" [ngClass]="{'pt-5' : !(!!ticket?.TicketSummary)}">
-      <h6 class="ticket-labels">Status</h6>
+    <div class="d-flex">
+      <div class="ticket-title">
+        <ng-container *ngIf="!!ticket?.TicketSummary">
+          <h4>{{ticket?.TicketSummary}}</h4>
+        </ng-container>
+      </div>
+      <div (click)="close()" class="close-btn">
+        <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
+      </div>
+    </div>
+    <div class="d-flex pt-3">
+      <div class="ticket-labels"><h6>Status</h6></div>
       <span class="w-100">{{ticket?.TicketStatus}}</span>
     </div>
     <hr>
     <div class="d-flex">
-      <h6 class="ticket-labels">Ticket Type</h6>
+      <div class="ticket-labels"><h6>Ticket Type</h6></div>
       <span class="w-100">{{ticket?.TicketType}}</span>
     </div>
     <hr>
-    <div class="d-flex flex-column mh-50" perfectScrollbar>
-      <h6 class="ticket-labels">Ticket Details</h6>
-      <span class="w-100 mt-3">
-        <quill-view-html [content]="ticket?.TicketDetails" theme="snow"></quill-view-html>
+    <div class="d-flex">
+      <div class="ticket-labels"><h6>Ticket Details</h6></div>
+      <span class="w-100">
+        <quill-view-html class="view-only" [content]="ticket?.TicketDetails" theme="snow"></quill-view-html>
       </span>
     </div>
     <hr>
-    <div class="d-flex flex-column">
-      <span class="ticket-labels">Attachments</span>
-      <div class="attachments-container ml-3 w-100">
-        <kendo-upload [multiple]="true"
-                      [saveUrl]="uploadSaveUrl"
-                      [restrictions]="uploadRestrictions"
-                      (select)="onFileSelect($event)"
-                      [(ngModel)]="uploadedFilesData"
-                      class="mb-2 upload-btn mt-3">
-          <kendo-upload-messages
-            select="Browse">
-          </kendo-upload-messages>
-        </kendo-upload>
-        <ul class="attachments-list k-reset">
-          <li class="attachment" *ngFor="let attachment of ticket?.Attachments">
-            <span class="file-extension-wrapper">
-              <span class="file-extension" [ngClass]="{'long-extension' : getFileExtension(attachment.FileName).length >= 4}">{{getFileExtension(attachment.FileName) | uppercase }}</span>
-            </span>
-            <a href="/odata/CloudFiles.DownloadUserTicketAttachment?AttachmentId={{attachment.Id}}&TicketID={{attachment.UserTicketId}}">{{attachment.DisplayName}}</a>
-          </li>
-        </ul>
-        <ng-container *ngIf="uploadError">
-          <div *ngIf="uploadError" class="custom-control invalid-feedback">
-            {{ errorMessage }}
-          </div>
-        </ng-container>
-      </div>
-    </div>
-    <hr>
-    <div class="d-flex">
-      <h6 class="ticket-labels">Notes</h6>
-    </div>
+    <pf-ticket-attachments
+      [ticketId]="selectedTicketId"
+      [attachments]="ticket?.Attachments">
+    </pf-ticket-attachments>
+    <pf-ticket-notes
+      [ticketId]="selectedTicketId"
+      [canAddNote]="ticket.NoteAccessLevel === noteAccessLevel.Owner">
+    </pf-ticket-notes>
   </ng-template>
 </div>
 

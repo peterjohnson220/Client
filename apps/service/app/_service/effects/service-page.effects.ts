@@ -143,10 +143,10 @@ export class ServicePageEffects {
       .pipe(
         ofType(fromServicePageActions.GET_USER_TICKET),
         switchMap((action: fromServicePageActions.GetUserTicket) => {
-          return this.userTicketApiService.getUserTicketUserView(action.payload)
+          return this.userTicketApiService.getUserTicketUserView(action.payload.ticketId)
             .pipe(
               map((response) => {
-                const userTicket = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicket(response);
+                const userTicket = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicket(action.payload.userId, response);
                 return new fromServicePageActions.GetUserTicketSuccess(userTicket);
               }),
               catchError((error) => of(new fromServicePageActions.LoadSupportTeamError(error)))

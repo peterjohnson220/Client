@@ -16,6 +16,7 @@
 
 <ng-template #ticketsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">
   <pf-tickets-details
+    [userId]="userId"
     [jobDetailsFilters]="splitViewFilters"
     [selectedTicketId]="selectedTicketId$ | async"
     (onClose)="splitViewEmitter.emit('close')">

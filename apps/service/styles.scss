@@ -52,3 +52,15 @@ pf-service-page {
     }
   }
 }
+
+.view-only {
+  .ql-editor  {
+    padding: 0 !important;
+  }
+}
+
+.ticket-notes {
+  .ql-editor {
+    padding: 12px 15px;
+  }
+}
