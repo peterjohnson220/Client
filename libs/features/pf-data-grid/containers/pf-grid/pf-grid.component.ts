@@ -20,7 +20,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() columnTemplates: any;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() customHeaderTemplate: TemplateRef<any>;
-  @Input() rowActionTemplate: TemplateRef<any>;
   @Input() allowSplitView: boolean;
   @Input() selectedRecordId: number;
   @Input() enableSelection = false;

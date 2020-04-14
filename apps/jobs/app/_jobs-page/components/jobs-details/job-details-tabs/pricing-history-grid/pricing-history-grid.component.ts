@@ -29,6 +29,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('createUserColumn', { static: false }) createUserColumn: ElementRef;
+  @ViewChild('pricingActionsColumn', { static: false }) pricingActionsColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
@@ -87,7 +88,8 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
       }
     };
     this.colTemplates = {
-      'Create_User': { Template: this.createUserColumn }
+      'Create_User': { Template: this.createUserColumn },
+      'CompanyJobPricing_ID': { Template: this.pricingActionsColumn }
     };
   }
 

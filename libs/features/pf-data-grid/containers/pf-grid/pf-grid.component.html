@@ -106,12 +106,7 @@
           [ngTemplateOutletContext]="{dataRow: dataItem}">
         </ng-container>
       </div>
-    </div>
-    <kendo-grid-command-column *ngIf="rowActionTemplate" [headerClass]="[customHeaderClass, getColumnHeaderClass()].join(' ')">
-      <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-        <ng-container [ngTemplateOutlet]="rowActionTemplate" [ngTemplateOutletContext]="{dataRow: dataItem}"></ng-container>
-      </ng-template>
-    </kendo-grid-command-column>
+    </div>    
   </kendo-grid>
 </pf-async-container>
 
