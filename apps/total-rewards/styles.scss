@@ -1,15 +1,7 @@
 @import 'colors';
-
-$rich-text-height: 180px;
-
-$canvas-top: 114px; // 47px dark header + 67 light gray header
-$canvas-left: calc(7.5% + 60px); // canvas width is set to 85%, so shift left half the remainder (7.5%) with offset for the left nav
-$canvas-width: calc(85% - 81px); // 85% canvas minus left nav + padding/margin
-
-$canvas-left-expanded-left-nav: calc(7.5% + 193px); // same as above but we now have a 200px wide expanded left nav
-$canvas-width-expanded-left-nav: calc(85% - 203px);
-
-$left-nav-transition: left .3s, width .3s;
+@import 'total-rewards/statement-settings';
+@import 'total-rewards/statement-layout-variables';
+@import 'total-rewards/rich-text-editor';
 
 // adjust edit statement page's header dimenions when left side bar is expanded
 main.left-sidebar-expanded {
@@ -39,185 +31,41 @@ pf-total-rewards-statement-list-page {
     }
   }
 
+  // hide no records found message in the grid when loading
   .loading-blanket + .k-grid .k-grid-norecords {
     display: none;
   }
 }
 
-// statement edit page, quill rich text editor
-pf-statement-edit {
-  .header-row {
-    position: fixed;
-    z-index: 100;
-    top: $canvas-top;
-    transition: $left-nav-transition;
-    left: $canvas-left;
-    width: $canvas-width;
-  }
-
-  .primary-control-heading {
-    font-size: 1.5rem;
-    font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-  }
-
-  .trs-rich-text-control {
-    height: $rich-text-height;
-    .ql-toolbar {
-      text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: $left-nav-transition, opacity .3s ease-in-out;
-      background-color: #fff;
-      position: fixed;
-      z-index: 100;
-      top: 168px;
-      left: $canvas-left;
-      width: $canvas-width;
-
-      .ql-picker.ql-font {
-        width: 160px;
-      }
+pf-total-rewards-statement {
+  .trs-calculation-row {
+    .edit-icon {
+      visibility: hidden;
     }
-
-    &.active .ql-toolbar {
-      opacity: .95;
-      pointer-events: initial;
-    }
-
-    .ql-editor {
-      padding: 6px;
-      overflow-y: hidden;
-      .ql-size-large {
-        font-size: 1.4rem;
-      }
-      .ql-size-small {
-        font-size: .85rem;
-      }
-      &.ql-blank::before {
-        left: 8px;
-      }
-    }
-
-    .ql-container {
-      margin-left: -10px;
-      transition: border .6s ease-in-out, background-color .6s ease-in-out;
-      border: 2px dashed transparent;
-      height: $rich-text-height;
-      font-family: Arial, sans-serif;
-    }
-
     &:hover {
-      .ql-container {
-        border: 2px dashed rgba($link-color, .5);
-      }
-
-      .ql-toolbar.ql-snow + .ql-container.ql-snow {
-        border-top: 2px dashed rgba($link-color, .5);
+      .edit-icon {
+        visibility: visible;
       }
     }
+  }
+}
 
-    &.active {
-      .ql-container {
-        border: 2px dashed $link-color;
+pf-statement-edit {
+  .page-content {
+    // let settings panel hide out to the right
+    overflow-x: hidden;
+  }
+  a.settings {
+    svg {
+      color: white;
+      font-size: 1.8rem;
+      transition: transform .25s ease-in-out;
+      opacity: .8;
+      &:hover {
+        opacity: 1;
+        transform: rotate(45deg);
       }
-
-      .ql-toolbar.ql-snow + .ql-container.ql-snow {
-        border-top: 2px dashed $link-color;
-      }
     }
-
-    &.invalid {
-      .ql-toolbar.ql-snow + .ql-container.ql-snow {
-        border-color: darken(tomato, 10%);
-      }
-    }
-
-    .ql-toolbar.ql-snow + .ql-container.ql-snow {
-      border-top: 2px dashed transparent;
-    }
-  }
-
-  // left bracket data field/mention
-  .ql-mention-list-container {
-    z-index: 100;
-    background-color: white;
-    max-height: 140px;
-    width: 200px;
-    overflow-y: auto;
-    border: 1px solid #f0f0f0;
-    box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.08);
-  }
-
-  .ql-mention-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .ql-mention-list-item {
-    cursor: pointer;
-    padding: 2px 4px;
-    background-color: #fff;
-    text-align: left;
-    font-size: .9rem;
-
-    &.selected {
-      background-color: #D3E1EB;
-    }
-  }
-
-  .mention {
-    color: $link-color;
-    border-left: 2px solid lighten($link-color, 40%);
-    font-weight: 700;
-    text-transform: uppercase;
-    background-color: #D3E1EB;
-    padding: 2px;
-  }
-
-  // quill toolbar custom fonts
-  // Arial
-  .ql-font-Arial {
-    font-family: 'Arial', sans-serif;
-  }
-
-  .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Arial]::before,
-  .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Arial]::before {
-    content: 'Arial';
-    font-family: 'Arial', sans-serif;
-  }
-
-  // Georgia
-  .ql-font-Georgia {
-    font-family: 'Georgia', sans-serif;
-  }
-
-  .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Georgia]::before,
-  .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Georgia]::before {
-    content: 'Georgia';
-    font-family: 'Georgia', sans-serif;
-  }
-
-  // Times New Roman
-  .ql-font-TimesNewRoman {
-    font-family: 'Times New Roman', serif;
-  }
-
-  .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=TimesNewRoman]::before,
-  .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=TimesNewRoman]::before {
-    content: 'Times New Roman';
-    font-family: 'Times New Roman', serif;
-  }
-
-  // Verdana
-  .ql-font-Verdana {
-    font-family: 'Verdana', sans-serif;
-  }
-
-  .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Verdana]::before,
-  .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Verdana]::before {
-    content: 'Verdana';
-    font-family: 'Verdana', sans-serif;
   }
 }
 
@@ -257,6 +105,24 @@ pf-total-rewards-statement {
       .edit-icon {
         visibility: hidden;
       }
+    }
+  }
+}
+
+pf-settings-panel {
+  button.cp-ok-button-class {
+    width: 100%;
+    color: white;
+    background-color: #333;
+    height: 2.1rem;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    opacity: .8;
+    transition: opacity .3s ease-in-out;
+    outline: none;
+    &:hover {
+      opacity: 1;
     }
   }
 }

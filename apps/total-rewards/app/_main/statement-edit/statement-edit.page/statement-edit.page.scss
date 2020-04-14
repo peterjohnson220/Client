@@ -1,27 +1,40 @@
-@import "app-colors";
+@import 'app-colors';
+@import 'total-rewards/statement-layout-variables';
 
 .canvas {
-  margin-left: auto;
-  margin-right: auto;
   width: 85%;
   background: $trs-canvas-background-color;
-  height: 11.2in;
+  max-height: 11.2in;
 }
 
 .header-row {
   background-color: #434950;
   color: #D9DADC;
   padding: 12px 20px 5px 20px;
-  display: flex;
+  position: fixed;
+  z-index: 100;
+  top: $canvas-top;
+  transition: $left-nav-transition;
+  left: $canvas-left;
+  width: $canvas-width;
+
+  .mode-button {
+    top: -2px;
+  }
 }
 
 .header-row-save-status {
-  text-decoration: underline;
   color: white;
+  align-self: center;
   font-size: 1.3em;
   font-weight: 400;
+  text-decoration: underline;
 }
 
 h3 {
   font-weight: initial;
+}
+
+a.settings {
+  height: 2.2rem;
 }

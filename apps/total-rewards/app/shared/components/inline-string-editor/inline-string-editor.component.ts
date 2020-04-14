@@ -5,14 +5,17 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output, SimpleChanges,
-  ViewChild
+  Output,
+  SimpleChanges,
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 @Component({
   selector: 'pf-inline-string-editor',
   templateUrl: './inline-string-editor.component.html',
-  styleUrls: ['./inline-string-editor.component.scss']
+  styleUrls: ['./inline-string-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InlineStringEditorComponent implements OnInit, OnChanges {
   constructor() {}

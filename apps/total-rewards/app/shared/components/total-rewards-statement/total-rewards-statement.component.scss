@@ -1,8 +1,9 @@
 @import "app-colors";
+
 .statement {
   background: white;
   width: 8.5in;
-  height: 11in;
+  max-height: 11in;
 }
 
 .page-break {
@@ -20,12 +21,15 @@
   border-right: none;
 }
 
-@media print {
-  @page {
-    //margin: .25cm;
-  }
+section.trs-section:last-child {
+  padding-bottom: 2rem;
+}
 
-  .page-break	{ display: block; page-break-before: always; }
+@media print {
+  .page-break	{ 
+    display: block; 
+    page-break-before: always; 
+  }
 
   .container {
     border: none;
@@ -35,10 +39,11 @@
   .column {
     border: none;
   }
-
-
 }
 
 @media screen {
-  .page-break	{ display: block; page-break-before: always; }
+  .page-break	{ 
+    display: block; 
+    page-break-before: always; 
+  }
 }

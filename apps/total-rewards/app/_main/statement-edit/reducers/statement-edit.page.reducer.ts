@@ -1,10 +1,11 @@
 import * as cloneDeep from 'lodash.clonedeep';
+import { createSelector } from '@ngrx/store';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { Statement, StatementModeEnum } from '../../../shared/models';
 import { TotalRewardsStatementService } from '../../../shared/services/total-rewards-statement.service';
-import * as fromEditStatementActions from '../actions/statement-edit.page.actions';
+import * as fromEditStatementActions from '../actions';
 
 export interface State {
   statement: AsyncStateObj<Statement>;
@@ -12,6 +13,10 @@ export interface State {
   cloningFromTemplateError: boolean;
   cloningFromTemplateSuccess: boolean;
   mode: StatementModeEnum;
+  isSettingsPanelOpen: boolean;
+  settingsSaving: boolean;
+  settingsSaveSuccess: boolean;
+  settingsSaveError: boolean;
 }
 
 export const initialState: State = {
@@ -19,7 +24,11 @@ export const initialState: State = {
   cloningFromTemplate: false,
   cloningFromTemplateError: false,
   cloningFromTemplateSuccess: false,
-  mode: StatementModeEnum.Edit
+  mode: StatementModeEnum.Edit,
+  isSettingsPanelOpen: false,
+  settingsSaving: false,
+  settingsSaveSuccess: false,
+  settingsSaveError: false,
 };
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
@@ -136,8 +145,78 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       localState.mode = action.payload;
       return localState;
     }
+    // settings
+    case fromEditStatementActions.OPEN_SETTINGS: {
+      const localState: State = cloneDeep(state);
+      return {
+        ...localState,
+        isSettingsPanelOpen: true,
+      };
+    }
+    case fromEditStatementActions.CLOSE_SETTINGS: {
+      const localState: State = cloneDeep(state);
+      return {
+        ...localState,
+        isSettingsPanelOpen: false,
+      };
+    }
+    case fromEditStatementActions.RESET_SETTINGS:
+    case fromEditStatementActions.SAVE_SETTINGS: {
+      const localState: State = cloneDeep(state);
+      return {
+        ...localState,
+        settingsSaving: true,
+        settingsSaveError: false,
+      };
+    }
+    case fromEditStatementActions.SAVE_SETTINGS_SUCCESS: {
+      const localState: State = cloneDeep(state);
+      localState.statement.obj.Settings = action.payload;
+      return {
+        ...localState,
+        settingsSaving: false,
+        settingsSaveSuccess: true,
+        settingsSaveError: false,
+      };
+    }
+    case fromEditStatementActions.SAVE_SETTINGS_ERROR: {
+      const localState: State = cloneDeep(state);
+      return {
+        ...localState,
+        settingsSaving: false,
+        settingsSaveSuccess: false,
+        settingsSaveError: true,
+      };
+    }
+    case fromEditStatementActions.UPDATE_SETTINGS_FONT_FAMILY: {
+      const localState: State = cloneDeep(state);
+      localState.statement.obj.Settings.FontFamily = action.payload;
+      return localState;
+    }
+    case fromEditStatementActions.UPDATE_SETTINGS_FONT_SIZE: {
+      const localState: State = cloneDeep(state);
+      localState.statement.obj.Settings.FontSize = action.payload;
+      return localState;
+    }
+    case fromEditStatementActions.UPDATE_SETTINGS_CHART_COLOR: {
+      const localState: State = cloneDeep(state);
+      localState.statement.obj.Settings.ChartColors[action.payload.ColorIndex] = action.payload.Color;
+      return localState;
+    }
     default: {
       return state;
     }
   }
 }
+
+export const getStatementAsyncObj = (state: State) => state.statement;
+export const getStatement = createSelector(getStatementAsyncObj, (statementAsyncObj: AsyncStateObj<Statement>) => statementAsyncObj.obj);
+
+export const getStatementSettingsFontSize = createSelector(getStatement, (statement: Statement) => statement.Settings.FontSize);
+export const getStatementSettingsFontFamily = createSelector(getStatement, (statement: Statement) => statement.Settings.FontFamily);
+export const getStatementSettingsChartColors = createSelector(getStatement, (statement: Statement) => statement.Settings.ChartColors);
+
+export const getIsSettingsOpen = (state: State) => state.isSettingsPanelOpen;
+export const getIsSettingsSaving = (state: State) => state.settingsSaving;
+export const getIsSettingsSaveSuccess = (state: State) => state.settingsSaveSuccess;
+export const getIsSettingsSaveError = (state: State) => state.settingsSaveError;

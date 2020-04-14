@@ -2,7 +2,6 @@
 
 exports[`TotalRewardsStatementComponent should render a mock statement derived from template A 1`] = `
 <pf-total-rewards-statement
-  companyColors={[Function Array]}
   controlType={[Function Object]}
   employeeArray={[Function Array]}
   employeeData={[Function Array]}
@@ -19,7 +18,9 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   statementModeEnum={[Function Object]}
 >
   <div
-    class="container statement mt-4 mb-4 rounded"
+    class="container statement mt-4 mb-4 rounded medium-font-size default-font-family"
+    ng-reflect-klass="container statement mt-4 mb-4 "
+    ng-reflect-ng-class="medium-font-size default-font-"
   >
     
     <div>

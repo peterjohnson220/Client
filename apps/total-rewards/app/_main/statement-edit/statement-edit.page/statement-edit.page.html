@@ -5,10 +5,10 @@
   <ng-container page-content>
     <pf-async-container [loading]="(statementLoading$ | async) || (cloningFromTemplate$ | async)"
                         [loadingError]="(statementLoadingError$ | async) || (cloningFromTemplateError$ | async) ||
-                                        (statementSavingError$ | async)"
+                                        (statementSavingError$ | async) || (settingsSavingError$ | async)"
                         (reload)="handleStatementReload()">
-      <div class="canvas">
-        <div class="header-row">
+      <div class="canvas mx-auto pb-1">
+        <div class="header-row d-flex">
           <h3 class="flex-fill">
             <pf-inline-string-editor
               [placeholder]="'New Statement Name'"
@@ -18,23 +18,22 @@
               (valueChange)="onStatementNameValueChange($event)"
             ></pf-inline-string-editor>
           </h3>
-          <span *ngIf="(mode === modeEnum.Preview)"
-               class="font-italic flex-grow-1 pt-1"
-          >
+          <span *ngIf="(mode === modeEnum.Preview)" class="font-italic flex-grow-1 pt-1">
             Canvas cannot be edited in preview mode
           </span>
-          <div class="header-row-save-status pb-2">
+          <div class="header-row-save-status pb-2 mr-3">
             <span *ngIf="!(statementSaving$ | async) && !(statementSavingSuccess$ | async) &&
-                         !(statementSavingError$ | async) ">Unsaved</span>
-            <span *ngIf="(statementSaving$ | async)">Saving</span>
-            <span *ngIf="(statementSavingSuccess$ | async)">Saved</span>
+                          !(statementSavingError$ | async) && !(settingsSavingSuccess$ | async)">Unsaved</span>
+            <span *ngIf="(statementSaving$ | async) || (settingsSaving$ | async)">Saving</span>
+            <span *ngIf="((statementSavingSuccess$ | async) || (settingsSavingSuccess$ | async)) && !(settingsSaving$ | async)">Saved</span>
           </div>
-          <div class="header-row-buttons ml-2">
-            <button ngbButton class="btn btn-outline-secondary"
-                    data-toggle="button"
-                    aria-pressed="false"
-                    (click)="toggleStatementEditMode()">{{(mode === modeEnum.Edit) ? 'Preview' : 'Edit'}}</button>
-          </div>
+          <button ngbButton class="mode-button btn btn-outline-secondary position-relative mr-2"
+                  data-toggle="button"
+                  aria-pressed="false"
+                  (click)="toggleStatementEditMode()">{{(mode === modeEnum.Edit) ? 'Preview' : 'Edit'}}</button>
+          <a (click)="handleOpenSettingsClick()" href="javascript:void(0)" title="Settings" class="settings position-relative ml-2 pt-1">
+            <fa-icon [icon]="'cog'" aria-hidden="true"></fa-icon>
+          </a>
         </div>
         <pf-total-rewards-statement
           [statement]="statement"
@@ -49,5 +48,18 @@
         ></pf-total-rewards-statement>
       </div>
     </pf-async-container>
+    <pf-settings-panel 
+      *ngIf="statement && statement.Settings"
+      [isOpen]="isSettingsPanelOpen$ | async"
+      [fontSize]="settingsFontSize$ | async"
+      [fontFamily]="settingsFontFamily$ | async"
+      [chartColors]="settingsChartColors$ | async"
+      [isSavingError]="settingsSavingError$ | async"
+      (fontSizeChange)="handleSettingsFontSizeChange($event)"
+      (fontFamilyChange)="handleSettingsFontFamilyChange($event)"
+      (chartColorChange)="handleSettingsChartColorChange($event)"
+      (resetSettings)="handleResetSettings()"
+      (close)="handleCloseSettingsClick()"
+    ></pf-settings-panel>
   </ng-container>
 </pf-page-with-title-bar>
