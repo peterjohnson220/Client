@@ -45,12 +45,14 @@ export class LoaderDashboardFilterComponent implements OnInit, OnDestroy {
   getDefaultStartDate() {
     const date = new Date();
     date.setDate(date.getDate() - LoaderDashboardFilterComponent.DEFAULT_START_DAYS);
+    date.setHours(0, 0, 0, 0);
     return date;
   }
 
   getDefaultEndDate() {
     const date = new Date();
     date.setDate(date.getDate() + 1);
+    date.setHours(0, 0, 0, 0);
     return date;
   }
 

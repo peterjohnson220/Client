@@ -1,3 +1,5 @@
+import {EntityLoadSummaryView} from './entity-load-summary-view.model';
+
 export interface CompositeDataLoadViewResponse {
   CompositeDataLoadId: number;
   ExternalId: string;
@@ -6,6 +8,7 @@ export interface CompositeDataLoadViewResponse {
   Company_Name: string;
   ValidationErrorOutputUri: string;
   FixableDataConditionException: string;
+  entityLoadSummaries: EntityLoadSummaryView[];
   RequestTime?: Date;
   ProcessingStartTime?: Date;
   ProcessingEndTime?: Date;
