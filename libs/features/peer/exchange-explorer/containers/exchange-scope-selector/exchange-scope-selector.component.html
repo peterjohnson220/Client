@@ -12,16 +12,16 @@
           #p="ngbPopover">
 
     <span class="selector-caret">
+      <fa-icon title="Default Scope" *ngIf="selectedExchangeScopeItem?.IsDefault" [icon]="['fas', 'star']" class="action-icon solid-star"></fa-icon>
       <fa-icon *ngIf="isExchangeJobSpecific" icon="caret-right"></fa-icon>
       <fa-icon *ngIf="!isExchangeJobSpecific" icon="caret-down"></fa-icon>
     </span>
 
     <span class="selector-label text-muted">Exchange Scope:</span>
 
-    <span class="selection" [title]="(selectedExchangeScopeItem$ | async)?.Name || ''" [class.no-selection]="!(selectedExchangeScopeItem$ | async)">
-      {{(selectedExchangeScopeItem$ | async)?.Name || "No Selection"}}
+    <span class="selection" [title]="selectedExchangeScopeItem?.Name || ''" [class.no-selection]="!selectedExchangeScopeItem">
+      {{selectedExchangeScopeItem?.Name || "No Selection"}}
     </span>
-
   </button>
 
 </div>
@@ -55,15 +55,26 @@
                 {{(exchangeScopeItem.Description == "" || exchangeScopeItem.Description == null) ? "No Description Provided" : exchangeScopeItem.Description}}
               </div>
             </div>
-
-            <button *ngIf="!isExchangeJobSpecific"
-                    [title]="exchangeScopeItem.CanDelete ? 'Delete' : 'Exchange scope can not be deleted because it is linked to a Pay Market.'"
-                    class="btn btn-sm btn-secondary delete-btn mt-2"
-                    [disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)"
-                    (click)="enterDeleteScopeMode($event, exchangeScopeItem)"
-                    [class.disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)">
-              <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
-            </button>
+            <div class="action-buttons">
+              <button title="Make this your default scope"
+                      class="btn btn-sm btn-secondary favorite-button"
+                      *ngIf="!isExchangeJobSpecific && (!deleteMode || exchangeScopeItem?.IsDefault)"
+                      [disabled]="deleteMode"
+                      [ngClass]="{'is-default': exchangeScopeItem?.IsDefault}"
+                      [attr.data-qa-id]="'btn-favorite'"
+                      (click)="handleDefaultClicked(exchangeScopeItem.Id, $event)">
+                <fa-icon *ngIf="exchangeScopeItem.IsDefault" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
+                <fa-icon *ngIf="!exchangeScopeItem.IsDefault" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
+              </button>
+              <button *ngIf="!isExchangeJobSpecific"
+                      [title]="exchangeScopeItem.CanDelete ? 'Delete' : 'Exchange scope can not be deleted because it is linked to a Pay Market.'"
+                      class="btn btn-sm btn-secondary delete-btn"
+                      [disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)"
+                      (click)="enterDeleteScopeMode($event, exchangeScopeItem)"
+                      [class.disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)">
+                <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
+              </button>
+            </div>
           </div>
         </div>
       </ng-container>

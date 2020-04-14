@@ -4,6 +4,7 @@ export interface ExchangeScopeDetails {
   ExchangeScopeGuid: string;
   ExchangeScopeName: string;
   ExchangeScopeDescription: string;
+  IsDefault?: boolean;
 }
 
 export interface UpsertExchangeScopeRequest extends ExchangeScopeDetails {

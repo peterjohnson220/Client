@@ -4,6 +4,7 @@ export interface ExchangeScopeItem {
   Name: string;
   Description: string;
   CanDelete: boolean;
+  IsDefault: boolean;
 }
 
 export function generateMockExchangeScopeItem(): ExchangeScopeItem {
@@ -12,6 +13,7 @@ export function generateMockExchangeScopeItem(): ExchangeScopeItem {
     ExchangeId: 1,
     Name: 'MockExchangeScopeItemName',
     Description: 'MockExchangeScopeItemDescription',
-    CanDelete: true
+    CanDelete: true,
+    IsDefault: false
   };
 }
