@@ -4,7 +4,14 @@ import { CurrencyPipe } from '@angular/common';
 
 import { TrsCalculationControlComponent } from './trs-calculation-control.component';
 import { CompensationFieldPipe } from '../../pipes/compensation-field-pipe';
-import {CalculationControl, CompensationField, LabelWithOverride, generateMockCalculationControl, generateMockEmployeeRewardsData, StatementModeEnum} from '../../models';
+import {
+  CalculationControl,
+  CompensationField,
+  LabelWithOverride,
+  generateMockCalculationControl,
+  generateMockEmployeeRewardsData,
+  StatementModeEnum
+} from '../../models';
 import {InlineStringEditorComponent} from '../inline-string-editor';
 
 describe('TrsCalculationControlComponent', () => {
@@ -134,7 +141,7 @@ describe('TrsCalculationControlComponent', () => {
     component.controlData = generateMockCalculationControl();
     component.mode = StatementModeEnum.Preview;
 
-    component.employeeRewardsData.STI = null;
+    component.employeeRewardsData.EmployeeSTI = null;
 
     fixture.detectChanges();
 
@@ -146,7 +153,7 @@ describe('TrsCalculationControlComponent', () => {
     component.controlData = generateMockCalculationControl();
     component.mode = StatementModeEnum.Preview;
 
-    component.employeeRewardsData.STI = 0;
+    component.employeeRewardsData.EmployeeSTI = 0;
 
     fixture.detectChanges();
 

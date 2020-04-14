@@ -1,69 +1,69 @@
 export interface EmployeeRewardsData {
-  Employee_Id: number;
-  First_Name: string;
-  Last_Name: string;
-  City: string;
-  Country: string;
-  Job_Code: string;
-  Department: string;
-  DOB: Date;
-  DOH: Date;
-  Email_Address: string;
-  Employee_Status: string;
-  FLSA_Status: string;
-  FTE: number;
-  Location: string;
-  Manager_Employee_ID: string;
-  State: string;
-  Base: number;
-  Bonus: number;
-  STI: number;
-  LTI: number;
-  Savings_401K_Match: number;
-  Pension_Plan: number;
-  Medical_Insurance: number;
-  Dental_Insurance: number;
-  Vision_Insurance: number;
-  Life_Insurance: number;
-  Short_Term_Disability: number;
-  Long_Term_Disability: number;
-  Tuition_Reimbursement: number;
-  PTO: number;
-  Other_Allowances: number;
+  EmployeeId: number;
+  EmployeeFirstName: string;
+  EmployeeLastName: string;
+  EmployeeCity: string;
+  EmployeeCountry: string;
+  EmployeeJobCode: string;
+  EmployeeDepartment: string;
+  EmployeeDOB: Date;
+  EmployeeDOH: Date;
+  EmployeeEmailAddress: string;
+  EmployeeStatus: string;
+  EmployeeFLSAStatus: string;
+  EmployeeFTE: number;
+  EmployeeLocation: string;
+  EmployeeManagerEmployeeID: string;
+  EmployeeState: string;
+  EmployeeBase: number;
+  EmployeeBonus: number;
+  EmployeeSTI: number;
+  EmployeeLTI: number;
+  EmployeeSavings401KMatch: number;
+  EmployeePensionPlan: number;
+  EmployeeMedicalInsurance: number;
+  EmployeeDentalInsurance: number;
+  EmployeeVisionInsurance: number;
+  EmployeeLifeInsurance: number;
+  EmployeeShortTermDisability: number;
+  EmployeeLongTermDisability: number;
+  EmployeeTuitionReimbursement: number;
+  EmployeePTO: number;
+  EmployeeOtherAllowances: number;
 }
 
 export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
   return {
-    Employee_Id: 12345,
-    First_Name: 'John',
-    Last_Name: 'Smith',
-    City: 'Scranton',
-    Country: 'United States',
-    Job_Code: 'ACC456',
-    Department: 'Accounting',
-    DOB: new Date('04/03/80'),
-    DOH: new Date('08/12/19'),
-    Email_Address: 'john.smith@company.com',
-    Employee_Status: 'Full-Time',
-    FLSA_Status: 'Exempt',
-    FTE: 1,
-    Location: 'Scranton',
-    Manager_Employee_ID: 'ACC123',
-    State: 'MA',
-    Base: 150000,
-    Bonus: 10000,
-    STI: 5000,
-    LTI: 10000,
-    Savings_401K_Match: 1500,
-    Pension_Plan: 2500,
-    Medical_Insurance: 11500,
-    Dental_Insurance: 550,
-    Vision_Insurance: 120,
-    Life_Insurance: 350,
-    Short_Term_Disability: 2400,
-    Long_Term_Disability: 600,
-    Tuition_Reimbursement: 1200,
-    PTO: 5700,
-    Other_Allowances: 500
+    EmployeeId: 12345,
+    EmployeeFirstName: 'John',
+    EmployeeLastName: 'Smith',
+    EmployeeCity: 'Scranton',
+    EmployeeCountry: 'United States',
+    EmployeeJobCode: 'ACC456',
+    EmployeeDepartment: 'Accounting',
+    EmployeeDOB: new Date('04/03/80'),
+    EmployeeDOH: new Date('08/12/19'),
+    EmployeeEmailAddress: 'john.smith@company.com',
+    EmployeeStatus: 'Full-Time',
+    EmployeeFLSAStatus: 'Exempt',
+    EmployeeFTE: 1,
+    EmployeeLocation: 'Scranton',
+    EmployeeManagerEmployeeID: 'ACC123',
+    EmployeeState: 'MA',
+    EmployeeBase: 150000,
+    EmployeeBonus: 10000,
+    EmployeeSTI: 5000,
+    EmployeeLTI: 10000,
+    EmployeeSavings401KMatch: 1500,
+    EmployeePensionPlan: 2500,
+    EmployeeMedicalInsurance: 11500,
+    EmployeeDentalInsurance: 550,
+    EmployeeVisionInsurance: 120,
+    EmployeeLifeInsurance: 350,
+    EmployeeShortTermDisability: 2400,
+    EmployeeLongTermDisability: 600,
+    EmployeeTuitionReimbursement: 1200,
+    EmployeePTO: 5700,
+    EmployeeOtherAllowances: 500
   };
 }

@@ -1,9 +1,10 @@
-<div class="col-12 printClass trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': isInvalid}">
+<div class="col-12 printClass trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': isInvalid, 'edit-mode': (mode === statementModeEnum.Edit), 'preview-mode': (mode === statementModeEnum.Preview)}">
   <h4 class="primary-control-heading">
     <pf-inline-string-editor
       [value]="controlData.Title.Override"
       [placeholder]="controlData.Title.Default"
       [maxCharacters]="35"
+      [inEditMode]="mode === statementModeEnum.Edit"
       (valueChange)="onTitleChanged($event)"
     ></pf-inline-string-editor>
   </h4>
@@ -13,6 +14,7 @@
         #richText
         [(ngModel)]="htmlContent"
         [modules]="quillConfig"
+        [readOnly]="(mode !== statementModeEnum.Edit)"
         (onEditorCreated)="onEditorCreated($event)"
         (onContentChanged)="onContentChanged($event)"
         (onSelectionChanged)="onSelectionChanged($event)">

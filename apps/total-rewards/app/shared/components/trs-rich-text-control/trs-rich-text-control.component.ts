@@ -1,13 +1,25 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 
 import { AnyFn } from '@ngrx/store/src/selector';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'quill-mention';
 import Quill from 'quill';
+import { EmployeeRewardsData, RichTextControl, StatementModeEnum } from '../../models';
+import { UpdateStringPropertyRequest, UpdateTitleRequest } from '../../models/request-models';
 
-import { RichTextControl } from '../../models';
-import { UpdateTitleRequest, UpdateStringPropertyRequest } from '../../models/request-models';
+const cheerio = require('cheerio');
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
 
@@ -21,10 +33,13 @@ Quill.register(font, true);
   styleUrls: ['./trs-rich-text-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsRichTextControlComponent implements OnInit, OnDestroy {
+export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('richText', { static: true }) richText: any;
 
   @Input() controlData: RichTextControl;
+  @Input() mode: StatementModeEnum;
+  @Input() employeeRewardsData: EmployeeRewardsData;
+
   @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
   @Output() onContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter();
 
@@ -33,6 +48,7 @@ export class TrsRichTextControlComponent implements OnInit, OnDestroy {
   shouldEmitSave = false;
   htmlContent: string;
   title: string;
+  statementModeEnum = StatementModeEnum;
 
   quillMentionContainer: HTMLElement;
 
@@ -72,16 +88,28 @@ export class TrsRichTextControlComponent implements OnInit, OnDestroy {
 
   // quill mention requires options with a lower case `value`
   get dataFields(): { key: string, value: string }[] {
-    return this.controlData.DataFields.map(df => ({ key: df.Key, value: df.Value }));
+    if (this.mode === StatementModeEnum.Edit) {
+      return this.controlData.DataFields.map(df => ({ key: df.Key, value: df.Value }));
+    }
+    return [];
   }
 
   ngOnInit() {
-    this.htmlContent = this.controlData.Content;
     this.title = this.controlData.Title.Default;
     this.onContentChangedSubscription = this.onContentChangedSubject.pipe(
       debounceTime(500),
       distinctUntilChanged()
-    ).subscribe((update: UpdateStringPropertyRequest)  => this.onContentChange.emit(update));
+    ).subscribe((update: UpdateStringPropertyRequest)  => {
+      if (this.mode === StatementModeEnum.Edit) {
+        this.onContentChange.emit(update);
+      }
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.mode) {
+      this.bindEmployeeData();
+    }
   }
 
   ngOnDestroy() {
@@ -97,7 +125,7 @@ export class TrsRichTextControlComponent implements OnInit, OnDestroy {
     quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
       const ops = [];
       delta.ops.forEach(op => {
-        if (op.insert && typeof op.insert === 'string') {
+        if ((op.insert && typeof op.insert === 'string') || op.insert.mention) {
           ops.push({ insert: op.insert });
         }
       });
@@ -153,4 +181,22 @@ export class TrsRichTextControlComponent implements OnInit, OnDestroy {
     this.quillMentionContainer.scrollTop = 0;
   }
 
+  bindEmployeeData(): void {
+    if (this.mode === StatementModeEnum.Preview) {
+      const $ = cheerio.load('<div id=\'quillContent\'>' + this.controlData.Content + '</div>');
+      const spans = $('#quillContent span');
+      for (const span of spans) {
+        const dataIndex = span.attribs['data-index'];
+        if (dataIndex) {
+          const employeeField = this.controlData.DataFields.find(f => f.Value === span.attribs['data-value']);
+          const employeeDataValue = this.employeeRewardsData[employeeField.Key];
+          $('[data-index="' + dataIndex + '"]', '#quillContent').replaceWith(employeeDataValue);
+        }
+      }
+
+      this.htmlContent = $('#quillContent').html();
+    } else {
+      this.htmlContent = this.controlData.Content;
+    }
+  }
 }
