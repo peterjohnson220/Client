@@ -53,7 +53,7 @@ export const initialState: State = {
     Exporting: generateDefaultAsyncStateObj<boolean>(false),
     ExportedReportExtension: undefined
   }],
-  navigatingToOldPage: generateDefaultAsyncStateObj<boolean>(false),
+  navigatingToOldPage: generateDefaultAsyncStateObj<boolean>(false)
 };
 
 export function reducer(state = initialState, action: fromJobsPageActions.JobsPageActions): State {

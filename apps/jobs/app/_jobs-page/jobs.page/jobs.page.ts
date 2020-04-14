@@ -1,23 +1,28 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/index';
+
 import { Store } from '@ngrx/store';
+
 import { SortDescriptor } from '@progress/kendo-data-query';
+
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { ViewField, CreateProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
+import { ViewField, CreateProjectRequest, ChangeJobStatusRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
 import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
 
-import { PageViewIds } from '../constants';
-
-import * as fromRootState from 'libs/state/state';
-import * as fromJobsPageActions from '../actions';
-import * as fromJobsPageReducer from '../reducers';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import {BehaviorSubject} from 'rxjs/index';
+import * as fromRootState from 'libs/state/state';
+
+import { PageViewIds } from '../constants';
+import * as fromJobsPageActions from '../actions';
+import * as fromJobsPageReducer from '../reducers';
+import * as fromModifyPricingsActions from '../actions';
+import * as fromModifyPricingsReducer from '../reducers';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -59,7 +64,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   navigatingToOldPage$: Observable<AsyncStateObj<boolean>>;
 
   showJobStatusModal$: Observable<boolean>;
+  modifyingPricings$: Observable<boolean>;
   changingJobStatus$: Observable<AsyncStateObj<boolean>>;
+  pricingsToModify$: Observable<MatchedSurveyJob[]>;
 
   showDeleteJobModal$: Observable<boolean>;
   deletingJob$: Observable<AsyncStateObj<boolean>>;
@@ -124,6 +131,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showDeleteJobModal$ = this.store.select(fromJobsPageReducer.getShowDeleteJobModal);
     this.deletingJob$ = this.store.select(fromJobsPageReducer.getDeletingJob);
     this.navigatingToOldPage$ = this.store.select(fromJobsPageReducer.getNavigatingToOldPage);
+    this.modifyingPricings$ = this.store.select(fromModifyPricingsReducer.getIsModifyingPricings);
+    this.pricingsToModify$ = this.store.select(fromModifyPricingsReducer.getPricingsToModify);
 
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
@@ -377,5 +386,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (event) {
       event.stopPropagation();
     }
+  }
+
+  modifyPricings() {
+    this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(this.selectedPricingIds));
+  }
+
+  cancelModifyPricings() {
+    this.store.dispatch(new fromModifyPricingsActions.ModifyPricingsCancel());
   }
 }

@@ -58,6 +58,7 @@ export class Permissions {
   public static PEER_MANAGE_JOBS = 'Peer_Manage_Jobs';
   public static SECURITY_SETTINGS = 'Security Settings';
   public static DATA_MANAGEMENT = 'Data Management';
+  public static MODIFY_PRICINGS = 'Modify Pricings';
 
   // DKG: Note there are two similar Org Loader permissions for different tiles, one for Company-Admin and one for Data-Management
   public static DATAMANAGEMENT_ORG_DATA_LOAD = 'Load Organizational Data';
