@@ -76,7 +76,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.jobSearchOptionsSub = this.jobSearchOptions$.subscribe(o => this.potentialOptions = o);
-    this.exchangeJobSearchOptionsSub = this.exchangeJobSearchOptions$.subscribe(o => this.potentialOptions = o.map(x => x.JobTitleShort));
+    this.exchangeJobSearchOptionsSub = this.exchangeJobSearchOptions$.subscribe(o => this.potentialOptions = o.map(x => x.JobTitle));
     this.selectedJobSub = this.selectedJob$.subscribe(sj => this.selectedJob = sj);
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => this.workflowContext = wfc);
   }

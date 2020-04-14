@@ -1,4 +1,4 @@
 export interface ExchangeJobSearchOption {
-  JobTitleShort: string;
+  JobTitle: string;
   ExchangeJobId: number;
 }

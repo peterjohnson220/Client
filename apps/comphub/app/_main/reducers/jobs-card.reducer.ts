@@ -130,6 +130,6 @@ export const getLoadingJobSearchOptionsError = (state: State) => state.loadingJo
 export const getSelectedJob = (state: State) => state.selectedJob;
 export const getExchangeJobSearchOptions = (state: State) => state.exchangeJobSearchOptions;
 export const getSelectedExchangeJobId = (state: State) => state.selectedJob &&
-                                                           state.exchangeJobSearchOptions.find(x => x.JobTitleShort === state.selectedJob) ?
-                                                           state.exchangeJobSearchOptions.find(x => x.JobTitleShort === state.selectedJob).ExchangeJobId :
+                                                           state.exchangeJobSearchOptions.find(x => x.JobTitle === state.selectedJob) ?
+                                                           state.exchangeJobSearchOptions.find(x => x.JobTitle === state.selectedJob).ExchangeJobId :
                                                            null;
