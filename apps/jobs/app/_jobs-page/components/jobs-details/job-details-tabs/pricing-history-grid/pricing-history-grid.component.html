@@ -5,8 +5,7 @@
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [allowSort]="false"
-  [noRecordsFound]="'This job has not been priced and does not have any pricing history.'"
-  [rowActionTemplate]="rowActions"
+  [noRecordsFound]="'This job has not been priced and does not have any pricing history.'"  
   [applyDefaultFilters]="false"
   [headerClassName]="'jobs-page-sub-grid-header'"
   [actionBarConfig]="actionBarConfig">
@@ -21,8 +20,8 @@
   </ng-template>
 </ng-template>
 
-<ng-template #rowActions let-dataRow="dataRow">
-  <div class="pr-4 text-right" [pfSecuredResource]="_Permissions.PRICING_PROJECTS_DELETE">
+<ng-template #pricingActionsColumn let-dataRow="dataRow">
+  <div class="d-flex justify-content-end" [pfSecuredResource]="_Permissions.PRICING_PROJECTS_DELETE">
     <button 
       [attr.data-qa-id]="'btn-jobs-page-pricing-history-details'"
       type="button"
@@ -30,7 +29,6 @@
       class="btn btn-secondary mr-3">
       View Pricing
     </button>
-
     <button 
       [attr.data-qa-id]="'btn-jobs-page-pricing-history-delete'"
       type="button"
