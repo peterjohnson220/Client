@@ -31,6 +31,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   ticketTypes$: Observable<string[]>;
   supportTeam$: Observable<AsyncStateObj<SupportTeamUser[]>>;
   identity$: Observable<UserContext>;
+  selectedTicketId$: Observable<number>;
 
   gridFieldSubscription: Subscription;
   identitySubscription: Subscription;
@@ -62,6 +63,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.ticketTypes$ = this.store.pipe(select(fromServicePageReducer.getTicketTypeNames));
     this.supportTeam$ = this.store.pipe(select(fromServicePageReducer.getSupportTeam));
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
+    this.selectedTicketId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, ServicePageConfig.ServicePageViewId);
   }
 
   ngOnInit(): void {

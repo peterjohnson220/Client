@@ -1,7 +1,8 @@
-import { SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse } from 'libs/models/payfactors-api/service/response';
+import { SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse } from 'libs/models/payfactors-api/service/response';
 
 import { TicketType, MultiSelectItemGroup, SupportTeamUser } from '../models';
 import { TicketStateHelper } from './ticket-state.helper';
+import { UserTicket } from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -50,5 +51,16 @@ export class PayfactorsApiModelMapper {
         UserPicture: user.UserPicture
       };
     });
+  }
+
+  static mapUserTicketResponseToUserTicket(response: UserTicketResponse): UserTicket {
+      return {
+        TicketId: response.UserTicketId,
+        TicketSummary: response.TicketTitle,
+        TicketStatus: response.UserTicketState,
+        TicketType: response.UserTicketType,
+        TicketDetails: response.UserTicket,
+        Attachments: response.UserTicketFiles
+      };
   }
 }

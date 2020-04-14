@@ -79,13 +79,13 @@
             </div>
           </div>
         </div>
-        <ng-container *ngIf="!(displayFilterPanel$ | async)" [ngTemplateOutlet]="rightGridTemplate"></ng-container>
         <div *ngIf="isSplitView()" class="split-view-container" [class.border-left]="borders">
           <ng-container
             [ngTemplateOutlet]="splitViewTemplate"
             [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter, splitViewFilters: splitViewFilters$ | async}">
           </ng-container>
         </div>
+        <ng-container *ngIf="!(displayFilterPanel$ | async)" [ngTemplateOutlet]="rightGridTemplate"></ng-container>
         <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3 border-left">
           <pf-filter-panel
             [AllowSaveFilter]="actionBarConfig.AllowSaveFilter"

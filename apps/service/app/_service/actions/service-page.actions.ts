@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { UploadedFile, UserTicketDto } from 'libs/models/service';
 
-import { TicketType, MultiSelectItemGroup, SupportTeamUser, TicketListMode } from '../models';
+import { TicketType, MultiSelectItemGroup, SupportTeamUser, TicketListMode, UserTicket } from '../models';
 
 export const LOAD_TICKET_TYPES  = '[Service / Service Page] Load Ticket Types';
 export const LOAD_TICKET_TYPES_SUCCESS  = '[Service / Service Page] Load Ticket Types Success';
@@ -15,10 +15,13 @@ export const GET_TICKET_STATES = '[Service / Service Page] Get Ticket States';
 export const GET_TICKET_STATES_SUCCESS = '[Service / Service Page] Get Ticket States Success';
 export const GET_TICKET_STATES_ERROR = '[Service / Service Page] Get Ticket States Error';
 export const UPDATE_SELECTED_TICKET_STATES = '[Service / Service Page] Update Selected Ticket States';
-export const LOAD_SUPPORT_TEAM = '[Service / Service Page] Get Support Team';
-export const LOAD_SUPPORT_TEAM_SUCCESS = '[Service / Service Page] Get Support Team Success';
-export const LOAD_SUPPORT_TEAM_ERROR = '[Service / Service Page] Get Support Team Error';
+export const LOAD_SUPPORT_TEAM = '[Service / Service Page] Load Support Team';
+export const LOAD_SUPPORT_TEAM_SUCCESS = '[Service / Service Page] Load Support Team Success';
+export const LOAD_SUPPORT_TEAM_ERROR = '[Service / Service Page] Load Support Team Error';
 export const SET_TICKET_LIST_MODE = '[Service / Service Page] Set Ticket List Mode';
+export const GET_USER_TICKET = '[Service / Service Page] Get User Ticket';
+export const GET_USER_TICKET_SUCCESS = '[Service / Service Page] Get User Ticket Success';
+export const GET_USER_TICKET_ERROR = '[Service / Service Page] Get User Ticket Error';
 
 export class LoadTicketTypes implements Action {
   readonly type = LOAD_TICKET_TYPES;
@@ -108,6 +111,24 @@ export class SetTicketListMode implements Action {
   constructor(public payload: { listType: TicketListMode, userId: number }) {}
 }
 
+export class GetUserTicket implements Action {
+  readonly type = GET_USER_TICKET;
+
+  constructor(public payload: number) {}
+}
+
+export class GetUserTicketSuccess implements Action {
+  readonly type = GET_USER_TICKET_SUCCESS;
+
+  constructor(public payload: UserTicket) {}
+}
+
+export class GetUserTicketError implements Action {
+  readonly type = GET_USER_TICKET_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = LoadTicketTypes
   | LoadTicketTypesSuccess
@@ -123,4 +144,7 @@ export type Actions
   | LoadSupportTeam
   | LoadSupportTeamSuccess
   | LoadSupportTeamError
-  | SetTicketListMode;
+  | SetTicketListMode
+  | GetUserTicket
+  | GetUserTicketSuccess
+  | GetUserTicketError;

@@ -3,7 +3,7 @@ import { orderBy, cloneDeep } from 'lodash';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
-import { TicketType, MultiSelectItemGroup, SupportTeamUser } from '../models';
+import { TicketType, MultiSelectItemGroup, SupportTeamUser, UserTicket } from '../models';
 import * as fromServicePageActions from '../actions/service-page.actions';
 import { TicketStateHelper } from '../helpers';
 
@@ -17,6 +17,7 @@ export interface State {
   savingTicketErrorMessage: string;
   ticketStates: AsyncStateObj<MultiSelectItemGroup[]>;
   selectedTicketStates: string[];
+  selectedTicketDetails: AsyncStateObj<UserTicket>;
 }
 
 
@@ -29,7 +30,8 @@ const initialState: State = {
   savingTicketError: false,
   savingTicketErrorMessage: null,
   ticketStates: generateDefaultAsyncStateObj<MultiSelectItemGroup[]>([]),
-  selectedTicketStates: []
+  selectedTicketStates: [],
+  selectedTicketDetails: generateDefaultAsyncStateObj<UserTicket>(null)
 };
 
 
@@ -159,6 +161,36 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
         supportTeam: supportTeamClone
       };
     }
+    case fromServicePageActions.GET_USER_TICKET: {
+      const selectedTicketDetailsClone = cloneDeep(state.selectedTicketDetails);
+
+      selectedTicketDetailsClone.loading = true;
+      selectedTicketDetailsClone.loadingError = false;
+      return {
+        ...state,
+        selectedTicketDetails: selectedTicketDetailsClone
+      };
+    }
+    case fromServicePageActions.GET_USER_TICKET_SUCCESS: {
+      const selectedTicketDetailsClone = cloneDeep(state.selectedTicketDetails);
+
+      selectedTicketDetailsClone.loading = false;
+      selectedTicketDetailsClone.obj = action.payload;
+      return {
+        ...state,
+        selectedTicketDetails: selectedTicketDetailsClone
+      };
+    }
+    case fromServicePageActions.GET_USER_TICKET_ERROR: {
+      const selectedTicketDetailsClone = cloneDeep(state.selectedTicketDetails);
+
+      selectedTicketDetailsClone.loadingError = true;
+      selectedTicketDetailsClone.loading = false;
+      return {
+        ...state,
+        selectedTicketDetails: selectedTicketDetailsClone
+      };
+    }
     default: {
       return state;
     }
@@ -186,3 +218,4 @@ export const getSavingUserTicketErrorMessage = (state: State) => state.savingTic
 export const getTicketStates = (state: State) => state.ticketStates;
 export const getSelectedTicketStates = (state: State) => state.selectedTicketStates;
 export const getSupportTeam = (state: State) => state.supportTeam;
+export const getSelectedTicketDetails = (state: State) => state.selectedTicketDetails;
