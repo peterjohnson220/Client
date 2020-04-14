@@ -1,6 +1,8 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { AnyFn } from '@ngrx/store/src/selector';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'quill-mention';
 import Quill from 'quill';
 
@@ -19,7 +21,7 @@ Quill.register(font, true);
   styleUrls: ['./trs-rich-text-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsRichTextControlComponent implements OnInit {
+export class TrsRichTextControlComponent implements OnInit, OnDestroy {
   @ViewChild('richText', { static: true }) richText: any;
 
   @Input() controlData: RichTextControl;
@@ -33,6 +35,9 @@ export class TrsRichTextControlComponent implements OnInit {
   title: string;
 
   quillMentionContainer: HTMLElement;
+
+  onContentChangedSubject = new Subject();
+  onContentChangedSubscription = new Subscription();
 
   quillConfig = {
     toolbar: {
@@ -73,6 +78,14 @@ export class TrsRichTextControlComponent implements OnInit {
   ngOnInit() {
     this.htmlContent = this.controlData.Content;
     this.title = this.controlData.Title.Default;
+    this.onContentChangedSubscription = this.onContentChangedSubject.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe((update: UpdateStringPropertyRequest)  => this.onContentChange.emit(update));
+  }
+
+  ngOnDestroy() {
+    this.onContentChangedSubscription.unsubscribe();
   }
 
   onTitleChanged(newTitle: string) {
@@ -114,7 +127,7 @@ export class TrsRichTextControlComponent implements OnInit {
       setTimeout(() => this.isInvalid = false, 1000);
     } else {
       // change has occurred, so tell parent to save
-      this.shouldEmitSave = true;
+      this.onContentChangedSubject.next({ ControlId: this.controlData.Id, value: this.htmlContent });
     }
   }
 
@@ -133,15 +146,8 @@ export class TrsRichTextControlComponent implements OnInit {
 
   onClickElsewhere() {
     this.isFocused = false;
-    this.emitOnContentChange();
   }
 
-  emitOnContentChange(): void {
-    if (this.shouldEmitSave && !this.isFocused) {
-      this.onContentChange.emit({ControlId: this.controlData.Id, value: this.htmlContent});
-      this.shouldEmitSave = false;
-    }
-  }
   onMentionDialogOpen() {
     // prevent bug where choosing a field, closing, then reopening with [ maintains the scroll position, since we always want to start at top
     this.quillMentionContainer.scrollTop = 0;

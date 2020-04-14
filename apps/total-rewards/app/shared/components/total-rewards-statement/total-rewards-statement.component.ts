@@ -104,6 +104,11 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
     this.pageCountSubscription.unsubscribe();
   }
 
+  // track which item each ngFor is on, which no longer necessitates destroying/creating all components in state changes and improves perf significantly
+  trackByFn(index: number, item: any) {
+    return index;
+  }
+
   getColumnWidth(count) {
     return 'col-' + (12 / count) + ' column';
   }

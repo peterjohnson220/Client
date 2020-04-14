@@ -47,7 +47,7 @@ export class StatementEditPageEffects {
         fromStatementEditActions.UPDATE_CALCULATION_CONTROL_SUMMARY_TITLE,
         fromStatementEditActions.REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD,
-        // fromStatementEditActions.UPDATE_RICH_TEXT_CONTROL_CONTENT
+        fromStatementEditActions.UPDATE_RICH_TEXT_CONTROL_CONTENT
       ),
       mapTo(new SaveStatement())
     );
@@ -58,7 +58,7 @@ export class StatementEditPageEffects {
       ofType(fromStatementEditActions.SAVE_STATEMENT),
       withLatestFrom(this.store.pipe(select(fromTotalRewardsReducer.selectStatement)),
         (action, statement) => ({action, statement})),
-      switchMap((data) =>
+      concatMap((data) =>
         this.totalRewardsApiService.saveStatement(data.statement).pipe(
           map((statement: Statement) => new fromStatementEditActions.SaveStatementSuccess(statement)),
           catchError(error => of(new fromStatementEditActions.SaveStatementError(error)))
