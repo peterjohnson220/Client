@@ -13,7 +13,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { PfAddJobsModule } from 'libs/features/add-jobs';
 import { PfCommonModule, WindowCommunicationService, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
-import { UserFilterPopoverConfig } from 'libs/features/user-filter/models';
+import { UserFilterPopoverConfig, UserFilterTypeData } from 'libs/features/user-filter/models';
 import { AddJobsConfig } from 'libs/features/add-jobs/data';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSearchModule } from 'libs/features/search';
@@ -25,7 +25,7 @@ import { AddJobsModalEffects, SearchPageEffects, SearchResultsEffects } from './
 import { ModelPageComponent } from './model.page';
 import { ModelRoutingModule } from './model-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { StructuresSearchFilterMappingDataObj } from '../data';
+import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType } from '../data';
 
 @NgModule({
   imports: [
@@ -71,6 +71,7 @@ import { StructuresSearchFilterMappingDataObj } from '../data';
     { provide: SearchFilterMappingDataObj, useValue: StructuresSearchFilterMappingDataObj },
     { provide: UserFilterPopoverConfig, useValue: AddJobsUserFilterPopoverConfig },
     { provide: AddJobsConfig, useValue: JobBasedRangeAddJobsConfig },
+    { provide: UserFilterTypeData, useValue: StructuresJobSearchUserFilterType }
   ]
 })
 export class ModelModule {
