@@ -73,6 +73,7 @@ export class PricingInfoComponent {
         break;
     }
     mrp = this.pricingInfo.PricingDetails[refPt];
+    mrp = mrp ? mrp : '';
     returnVal = mrp + this.addMrpSuffix(mrp);
     return returnVal;
   }
