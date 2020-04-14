@@ -2,7 +2,7 @@ import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnCh
 
 import { Store } from '@ngrx/store';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -51,6 +51,11 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
   payMarketOptions: any;
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
+  pricingId: number;
+
+
+  showPricingDetails = new BehaviorSubject<boolean>(false);
+  showPricingDetails$ = this.showPricingDetails.asObservable();
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.pricingIdToBeDeleted$ = store.select(fromJobsPageReducer.getPricingIdToBeDeleted);

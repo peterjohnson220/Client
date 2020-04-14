@@ -202,6 +202,7 @@ export class JobManagementEffects {
     return updatedCompanyJob;
   }
 
+  // This should be extracted into a common interceptor of http errors
   private handleError(message: string, title: string = 'Error'): Observable<Action> {
     const toastContent = `
     <div class="message-container"><div class="alert-triangle-icon mr-3"></div>${message}</div>`;
@@ -209,7 +210,8 @@ export class JobManagementEffects {
     return of(new fromJobManagementActions.HandleApiError(message));
   }
 
-  private trimValues(job: CompanyJob) {
+  // This should be extracted into a common libs function
+  private trimValues(job: any) {
     Object.keys(job).forEach(key => { job[key] = typeof job[key] === 'string' || job[key] instanceof String ? job[key].trim() : job[key]; });
   }
 }

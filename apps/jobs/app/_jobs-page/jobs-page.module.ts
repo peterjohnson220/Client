@@ -18,8 +18,7 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
-import { JobManagementModule } from 'libs/features/job-management/job-management.module';
+import { PfDataGridModule, JobManagementModule, PricingDetailsModule } from 'libs/features';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
@@ -75,30 +74,31 @@ import { JobPeerMatchesEffects } from './effects/job-peer-matches.effects';
     PfFormsModule,
     PfDataGridModule,
     JobManagementModule,
-    MatchesModalModule
+    MatchesModalModule,
+    PricingDetailsModule
   ],
   declarations: [
     // Pages
     JobsPageComponent,
 
-     // Job Details Components
-     JobsDetailsComponent,
-     EmployeesGridComponent,
-     PricingDetailsGridComponent,
-     PricingMatchesGridComponent,
-     JobDescriptionComponent,
-     StructureGridComponent,
-     ProjectDetailsGridComponent,
-     PricingHistoryGridComponent,
-     NotPricedPaymarketsGridComponent,
+    // Job Details Components
+    JobsDetailsComponent,
+    EmployeesGridComponent,
+    PricingDetailsGridComponent,
+    PricingMatchesGridComponent,
+    JobDescriptionComponent,
+    StructureGridComponent,
+    ProjectDetailsGridComponent,
+    PricingHistoryGridComponent,
+    NotPricedPaymarketsGridComponent,
 
-     // Column Templates
-     PricingMatchesJobTitleComponent,
-     PricingDetailsMrpColumnComponent,
+    // Column Templates
+    PricingMatchesJobTitleComponent,
+    PricingDetailsMrpColumnComponent,
 
-     // Jobs Grid Components
-     PeerExchangeMatchesComponent,
-     ExportListPopoverComponent
+    // Jobs Grid Components
+    PeerExchangeMatchesComponent,
+    ExportListPopoverComponent
   ]
 })
 export class JobsPageModule {

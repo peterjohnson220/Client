@@ -6,6 +6,12 @@ body {
   background-color: #FFFFFF !important;
 }
 
+.modal-body {
+  min-height: 350px;
+  max-height: calc(90vh);
+  overflow-y: auto;
+}
+
 .matches-modal-content {
   padding: .5rem 0.85rem;
 }
