@@ -15,9 +15,9 @@ export class GridActionMenuComponent {
   @Output() open = new EventEmitter<string>();
   @Output() close = new EventEmitter();
 
+  @Output() previewClick = new EventEmitter<string>();
   @Output() editClick = new EventEmitter<string>();
-  @Output() runStatementClick = new EventEmitter<string>();
-  @Output() viewHistoryClick = new EventEmitter<string>();
+  @Output() generateStatementClick = new EventEmitter<string>();
   @Output() copyClick = new EventEmitter<string>();
   @Output() deleteClick = new EventEmitter<string>();
 
@@ -29,16 +29,16 @@ export class GridActionMenuComponent {
     }
   }
 
+  onPreviewClick(statementId: string) {
+    this.previewClick.emit(statementId);
+  }
+
   onEditClick(statementId: string) {
     this.editClick.emit(statementId);
   }
 
-  onRunStatementClick(statementId: string) {
-    this.runStatementClick.emit(statementId);
-  }
-
-  onViewHistoryClick(statementId: string) {
-    this.viewHistoryClick.emit(statementId);
+  onGenerateStatementClick(statementId: string) {
+    this.generateStatementClick.emit(statementId);
   }
 
   onCopyClick(statementId: string) {

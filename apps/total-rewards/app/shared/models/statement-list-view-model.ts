@@ -6,5 +6,6 @@ export interface StatementListViewModel {
   LastRunBy: string;
   LastRunDate: Date;
   Employees: number;
+  Jobs: number;
   Status: 'Active' | 'Draft';
 }

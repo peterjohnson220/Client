@@ -8,25 +8,25 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
 
-import * as fromStatementsActions from '../actions/statement-list.page.actions';
+import * as fromStatementGridActions from '../actions/statement-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
 
 @Injectable()
-export class StatementListPageEffects {
+export class StatementGridEffects {
 
   @Effect()
   loadStatements$: Observable<Action> = this.actions$.pipe(
-    ofType(fromStatementsActions.LOAD_STATEMENTS),
+    ofType(fromStatementGridActions.LOAD_STATEMENTS),
     withLatestFrom(
       this.store.pipe(
-        select(fromTotalRewardsReducer.getStatementListSearchTerm)),
+        select(fromTotalRewardsReducer.getStatementsSearchTerm)),
       (action, searchTerm: string) => searchTerm
     ),
     switchMap(searchTerm => this.totalRewardsApiService.getStatements(searchTerm).pipe(
       map((statements: GridDataResult) => {
-        return new fromStatementsActions.LoadStatementsSuccess(statements);
+        return new fromStatementGridActions.LoadStatementsSuccess(statements);
       }),
-      catchError(() => of(new fromStatementsActions.LoadStatementsError()))
+      catchError(() => of(new fromStatementGridActions.LoadStatementsError()))
       )
     ));
 

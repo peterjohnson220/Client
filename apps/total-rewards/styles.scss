@@ -19,18 +19,6 @@ pf-total-rewards-statement-list-page {
     }
   }
 
-  pf-statements-grid {
-    kendo-grid.k-grid {
-      td {
-        border: none;
-      }
-      th.k-header {
-        font-weight: 500;
-        text-transform: uppercase;
-      }
-    }
-  }
-
   // hide no records found message in the grid when loading
   .loading-blanket + .k-grid .k-grid-norecords {
     display: none;
