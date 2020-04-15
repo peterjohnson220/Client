@@ -125,8 +125,8 @@ export class TrsRichTextControlComponent implements OnInit, OnDestroy {
       quillContentChange.editor.setContents(quillContentChange.oldDelta.ops);
       this.isInvalid = true;
       setTimeout(() => this.isInvalid = false, 1000);
-    } else {
-      // change has occurred, so tell parent to save
+    } else if (quillContentChange.source === 'user') {
+      // change has occurred, so tell parent to save if the content changes was made by a user and not the initial load done programmatically
       this.onContentChangedSubject.next({ ControlId: this.controlData.Id, value: this.htmlContent });
     }
   }
