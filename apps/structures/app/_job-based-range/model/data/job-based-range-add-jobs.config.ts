@@ -4,5 +4,6 @@ export const JobBasedRangeAddJobsConfig: AddJobsConfig = {
   enableCreateNewJobs: false,
   enablePaymarkets: false,
   enableAssignedStructuresMetadata: true,
-  enabledJobSourceOrTitle: false
+  enabledJobSourceOrTitle: false,
+  enableAddAllJobs: true
 };

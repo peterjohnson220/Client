@@ -3,6 +3,7 @@ interface IAddJobsConfig {
   enablePaymarkets: boolean;
   enableAssignedStructuresMetadata: boolean;
   enabledJobSourceOrTitle: boolean;
+  enableAddAllJobs: boolean;
 }
 
 export abstract class AddJobsConfig implements IAddJobsConfig {
@@ -10,4 +11,5 @@ export abstract class AddJobsConfig implements IAddJobsConfig {
   enablePaymarkets: boolean;
   enableAssignedStructuresMetadata: boolean;
   enabledJobSourceOrTitle: boolean;
+  enableAddAllJobs: boolean;
 }
