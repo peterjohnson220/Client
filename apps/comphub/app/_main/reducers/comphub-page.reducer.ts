@@ -206,12 +206,13 @@ export const getCountryDataSets = (state: State) => state.countryDataSets;
 export const getExchangeDataSets = (state: State) => state.exchangeDataSets;
 export const getActiveCountryDataSet = (state: State) => state.countryDataSets.find(cds => cds.Active);
 export const getActiveExchangeDataSet = (state: State) => state.exchangeDataSets.find(eds => eds.Active);
+export const getWorkflowContext = (state: State) => state.workflowContext;
 export const getJobPricingBlocked = createSelector(
   getJobPricingLimitInfo,
   getActiveCountryDataSet,
-  (jobPricingLimitInfo: JobPricingLimitInfo, activeCountryDataSet: CountryDataSet) => {
+  getWorkflowContext,
+  (jobPricingLimitInfo: JobPricingLimitInfo, activeCountryDataSet: CountryDataSet, workflowContext: WorkflowContext) => {
     return ((!!jobPricingLimitInfo && jobPricingLimitInfo.Used >= jobPricingLimitInfo.Available)
-      || !activeCountryDataSet);
+      || (!activeCountryDataSet && workflowContext.quickPriceType === QuickPriceType.ENTERPRISE));
   }
 );
-export const getWorkflowContext = (state: State) => state.workflowContext;
