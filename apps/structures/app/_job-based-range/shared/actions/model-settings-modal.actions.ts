@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { ControlPoint, Currency } from '../models';
+import { ControlPoint, Currency, RoundingSettingsDataObj } from '../models';
 import { Pages } from '../constants/pages';
 
 export const OPEN_MODAL = '[Structures - Job Based Range - Model Settings] Open Modal';
@@ -76,7 +76,7 @@ export class GetStructureNameSuggestionsError implements Action {
 export class SaveModelSettings implements Action {
   readonly type = SAVE_MODEL_SETTINGS;
 
-  constructor(public payload: { rangeGroupId: number; formValue: any; fromPage: Pages }) {}
+  constructor(public payload: { rangeGroupId: number; formValue: any; fromPage: Pages, rounding: RoundingSettingsDataObj }) {}
 }
 
 export class SaveModelSettingsSuccess implements Action {

@@ -1,9 +1,6 @@
 import { RoundRangesRequest } from './round-ranges-request.model';
 
-export interface RecalcAndSaveRangeMinMaxRequest {
+export interface RecalculateRangesWithoutMidRequest {
   RangeGroupId: number;
-  RangeId: number;
-  Mid: number;
-  RowIndex: number;
   Rounding: RoundRangesRequest;
 }

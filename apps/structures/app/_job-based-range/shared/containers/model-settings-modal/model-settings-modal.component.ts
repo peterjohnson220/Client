@@ -8,8 +8,9 @@ import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
+import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { Currency, ControlPoint, RangeGroupMetadata } from '../../models';
+import { Currency, ControlPoint, RangeGroupMetadata, RoundingSettingsDataObj } from '../../models';
 import { Pages } from '../../constants/pages';
 
 @Component({
@@ -28,6 +29,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   structureNameSuggestionsAsyncObj$: Observable<AsyncStateObj<string[]>>;
   savingModelSettingsAsyncObj$: Observable<AsyncStateObj<null>>;
   modelNameExistsFailure$: Observable<boolean>;
+  roundingSettings$: Observable<RoundingSettingsDataObj>;
 
   controlPointsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
@@ -35,6 +37,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
   isNewModelSub: Subscription;
+  roundingSettingsSub: Subscription;
 
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
@@ -46,11 +49,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   attemptedSubmit: boolean;
   modelNameExistsFailure: boolean;
   isNewModel: any;
+  roundingSettings: RoundingSettingsDataObj;
+  activeTab: string;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
     this.modalOpen$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelSettingsModalOpen));
     this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCurrenciesAsyncObj));
     this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getControlPointsAsyncObj));
@@ -58,7 +64,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSavingModelSettingsAsyncObj));
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
     this.isNewModelSub = this.store.pipe(select(fromSharedJobBasedRangeReducer.getIsNewModelModelSettings)).subscribe(isNewModel => {
-        this.isNewModel = isNewModel
+        this.isNewModel = isNewModel;
       });
   }
 
@@ -79,7 +85,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   get modelTabTitle() {
-    return this.metadata.IsCurrent || this.isNewModel ? 'Model Settings' : 'Current Model Settings'
+    return this.metadata.IsCurrent || this.isNewModel ? 'Model Settings' : 'Current Model Settings';
   }
 
   get modalTitle() {
@@ -110,7 +116,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
         {
           rangeGroupId: this.rangeGroupId,
           formValue: this.modelSettingsForm.value,
-          fromPage: this.page
+          fromPage: this.page,
+          rounding: this.roundingSettings
         })
       );
       this.reset();
@@ -119,6 +126,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleModalSubmitAttempt() {
     this.attemptedSubmit = true;
+    if (!this.modelSettingsForm.valid) {
+      this.activeTab = 'modelTab';
+    }
   }
 
   handleModalDismiss() {
@@ -182,6 +192,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.metadataSub = this.metaData$.subscribe(md => this.metadata = md);
     this.modalOpenSub = this.modalOpen$.subscribe(mo => mo ? this.buildForm() : false);
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
+    this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
   }
 
   private unsubscribe() {
@@ -191,6 +202,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
     this.isNewModelSub.unsubscribe();
+    this.roundingSettingsSub.unsubscribe();
   }
 
   private reset() {

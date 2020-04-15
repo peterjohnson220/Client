@@ -14,8 +14,8 @@
 
   <ng-container form-content>
     <div class="pt-3" *ngIf="modalOpen$ | async">
-      <ngb-tabset [destroyOnHide]="false">
-        <ngb-tab [title]="modelTabTitle" >
+      <ngb-tabset [destroyOnHide]="false" [activeId]="activeTab" (tabChange)="activeTab = $event.nextId">
+        <ngb-tab [title]="modelTabTitle" id="modelTab" >
           <ng-template ngbTabContent>
             <div class="p-3 pr-5">
               <div class="form-group">
@@ -161,12 +161,12 @@
 
           </ng-template>
         </ngb-tab>
-        <ngb-tab title="Rounding" [disabled]="true">
+        <ngb-tab title="Rounding" id="roundingTab">
           <ng-template ngbTabContent>
-            Rounding content will go here
+            <pf-range-rounding></pf-range-rounding>
           </ng-template>
         </ngb-tab>
-        <ngb-tab title="Copy Model" [disabled]="true" *ngIf="!isNewModel">
+        <ngb-tab title="Copy Model" [disabled]="true" *ngIf="!isNewModel" id="copyTab">
           <ng-template ngbTabContent>
             Copy Model content will go here
           </ng-template>
