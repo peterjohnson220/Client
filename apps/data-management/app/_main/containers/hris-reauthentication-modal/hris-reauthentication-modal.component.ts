@@ -34,6 +34,10 @@ export class HrisReAuthenticationModalComponent implements OnDestroy {
     this.hrisAuthFormErrors$ = this.store.select(fromDataManagementMainReducer.getValidationErrors);
     this.selectedProviderSub = this.store.select(fromDataManagementMainReducer.getHrisConnectionSummary).subscribe(v => {
       if (v && v.provider) {
+        if (!this.hrisReAuthenticateForm) {
+          this.initForm();
+        }
+
         switch (v.provider.ProviderCode) {
           case 'WDMOCK':
           case 'PFTEST':
@@ -49,6 +53,7 @@ export class HrisReAuthenticationModalComponent implements OnDestroy {
         }
       }
     });
+
     this.initForm();
   }
 
