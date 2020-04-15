@@ -19,7 +19,7 @@
       </div>
       <div class="pr-5 py-1">
         <span class="pr-3"><b>Aging:</b></span>
-        <span class="">{{details.AgingFactor ? details.AgingFactor + '%' : 'N/A'}}</span>
+        <span class="">{{details.AgingFactor || details.AgingFactor !== '0' ? details.AgingFactor + '%' : 'N/A'}}</span>
       </div>
     </div>
     <div class="d-flex pt-3" *ngIf="pricingInfo.EnablePricingReview && pricingInfo.IsThisMostRecent">    
