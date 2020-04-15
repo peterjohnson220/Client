@@ -1,4 +1,8 @@
 ::ng-deep {
+  .split-view-container{
+    height: initial !important;
+  }
+
   .content-wrapper {
     height: initial !important;
     min-height: 100%;
@@ -13,6 +17,7 @@
 
   .grid-container {
     position: relative !important;
+    height: 100%;
   }
 
   .main-grid-split {
@@ -22,7 +27,7 @@
   .k-grid {
     tbody{
       tr {
-        height: 50px;
+        height: 51px;
       }
     }
   }

@@ -1,6 +1,6 @@
 <pf-data-grid
-  [title]="(metaData$ | async)?.ModelName"
-  [subtitle]="'Structure: ' + (metaData$ | async)?.StructureName"
+  [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
+  [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
   [columnTemplates]="colTemplates"
@@ -12,7 +12,7 @@
   [aboveGridTemplate]="aboveGridTemplate"
   [actionBarConfig]="actionBarConfig"
   [borders]="false"
-  [pageable]="false"
+  [pageable]="true"
   [contentClassNamesOverrides]="'py-3 px-4'"
   [pageTheme]="'next-gen'"
   [defaultColumnWidth]="135">

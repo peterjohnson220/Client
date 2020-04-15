@@ -17,8 +17,8 @@
 
 <ng-template #fullGrid>
   <pf-data-grid
-    [title]="(metaData$ | async)?.ModelName"
-    [subtitle]="'Structure: ' + (metaData$ | async)?.StructureName"
+    [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
+    [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
     [navigationURL]="'/marketdata/structures.asp'"
     [inboundFilters]="inboundFilters"
     [defaultSort]="defaultSort"
@@ -95,9 +95,12 @@
 </ng-template>
 
 <ng-template #gridGlobalActions>
-  <button class="btn btn-secondary" (click)="handleAddJobsClicked()">Add Jobs</button>
-  <button *ngIf="!(metaData$ | async).IsCurrent" class="btn btn-secondary" (click)="handlePublishModelClicked()">Publish</button>
-  <pf-model-settings-btn [metadata]="metaData$ | async" (clicked)="handleModelSettingsClicked()"></pf-model-settings-btn>
+  <pf-global-actions
+    [metadata]="metaData$ | async"
+    (addJobsClicked)="handleAddJobsClicked()"
+    (modelSettingsClicked)="handleModelSettingsClicked()"
+    (publishModelClicked)="handlePublishModelClicked()">
+  </pf-global-actions>
 </ng-template>
 
 <ng-template #aboveGridTemplate>

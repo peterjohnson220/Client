@@ -44,7 +44,8 @@ export class EmployeeRangeChartService {
         style: {
           fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
           "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`
-        }
+        },
+        spacing: [20, 10, 0, 10]
       },
       credits: {
         enabled: false
@@ -76,13 +77,15 @@ export class EmployeeRangeChartService {
         title: {
           text: undefined
         },
-        offset: 15
+        offset: 12
       },
       xAxis: {
         visible: false,
         // add categories to make the x-axis line up properly. Highcharts will extend the categories dynamically, so it doesn't matter that its hardcoded here
         type: 'category',
-        categories: ['0', '1']
+        categories: ['0', '1'],
+        minPadding: 0,
+        maxPadding: 0
       },
       plotOptions: {
         series: {

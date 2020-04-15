@@ -1,16 +1,16 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { RecalcAndSaveRangeMinMaxRequest } from 'libs/models/payfactors-api/structures/request';
 
 import { PageViewIds } from '../../constants/page-view-ids';
 import { RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
+import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
@@ -77,7 +77,7 @@ export class ModelGridComponent implements AfterViewInit {
   }
 
   handlePublishModelClicked() {
-    this.publishModel.emit();
+    this.store.dispatch(new fromPublishModelModalActions.OpenModal());
   }
 
   handleModelSettingsClicked() {

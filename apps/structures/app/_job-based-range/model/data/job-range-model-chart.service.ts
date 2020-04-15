@@ -36,7 +36,8 @@ export class JobRangeModelChartService {
         style: {
           fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
           "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`
-        }
+        },
+        spacing: [20, 10, 0, 10]
       },
       credits: {
         enabled: false
@@ -73,10 +74,12 @@ export class JobRangeModelChartService {
         title: {
           text: undefined
         },
-        offset: 20
+        offset: 12
       },
       xAxis: {
-        visible: false
+        visible: false,
+        maxPadding: 0,
+        minPadding: 0
       },
       plotOptions: {
         columnrange: {

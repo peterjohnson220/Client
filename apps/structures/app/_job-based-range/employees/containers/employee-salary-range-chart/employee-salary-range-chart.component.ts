@@ -12,6 +12,7 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
 import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
+import { GraphHelper } from '../../../shared/helpers/graph.helper';
 
 @Component({
   selector: 'pf-employee-salary-range-chart',
@@ -275,8 +276,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       // store the plotLinesAndBands in one of the unused chart properties so we can access it
       this.chartInstance.collectionsWithUpdate = this.plotLinesAndBands;
 
-      // TODO: We need to find a better way to come up with the correct height of the graph
-      this.chartInstance.setSize(null, this.employeeData.data.length > 1 ? (70 * this.employeeData.data.length) : 135);
+      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.employeeData.data));
     }
   }
 

@@ -1,6 +1,6 @@
 <pf-data-grid
-  [title]="(metaData$ | async)?.ModelName"
-  [subtitle]="'Structure: ' + (metaData$ | async)?.StructureName"
+  [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
+  [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
   [columnTemplates]="colTemplates"
@@ -11,7 +11,7 @@
   [aboveGridTemplate]="aboveGridTemplate"
   [applyDefaultFilters]="false"
   [actionBarConfig]="actionBarConfig"
-  [pageable]="false"
+  [pageable]="true"
   [borders]="false"
   [contentClassNamesOverrides]="'py-3 px-4'"
   [pageTheme]="'next-gen'"
@@ -35,11 +35,7 @@
 </ng-template>
 
 <ng-template #graph>
-  <div class="chartContainer">
-    <pf-pricings-salary-range-chart
-      [rangeId]="rangeId">
-    </pf-pricings-salary-range-chart>
-  </div>
+  <pf-pricings-salary-range-chart [rangeId]="rangeId"></pf-pricings-salary-range-chart>
 </ng-template>
 
 <ng-template #gridGlobalActions>
