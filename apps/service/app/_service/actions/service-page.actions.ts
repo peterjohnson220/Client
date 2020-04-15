@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { UploadedFile, UserTicketDto } from 'libs/models/service';
+import { UserTicketFile } from 'libs/models/payfactors-api/service/response';
 
 import { TicketType, MultiSelectItemGroup, SupportTeamUser, TicketListMode, UserTicket } from '../models';
 
@@ -22,6 +23,7 @@ export const SET_TICKET_LIST_MODE = '[Service / Service Page] Set Ticket List Mo
 export const GET_USER_TICKET = '[Service / Service Page] Get User Ticket';
 export const GET_USER_TICKET_SUCCESS = '[Service / Service Page] Get User Ticket Success';
 export const GET_USER_TICKET_ERROR = '[Service / Service Page] Get User Ticket Error';
+export const ADD_ATTACHMENTS_SUCCESS = '[Service / Service Page] Add Attachments Success';
 
 export class LoadTicketTypes implements Action {
   readonly type = LOAD_TICKET_TYPES;
@@ -114,7 +116,7 @@ export class SetTicketListMode implements Action {
 export class GetUserTicket implements Action {
   readonly type = GET_USER_TICKET;
 
-  constructor(public payload: number) {}
+  constructor(public payload: { userId: number, ticketId: number }) {}
 }
 
 export class GetUserTicketSuccess implements Action {
@@ -127,6 +129,12 @@ export class GetUserTicketError implements Action {
   readonly type = GET_USER_TICKET_ERROR;
 
   constructor() {}
+}
+
+export class AddAttachmentsSuccess implements Action {
+  readonly type = ADD_ATTACHMENTS_SUCCESS;
+
+  constructor(public payload: UserTicketFile[]) {}
 }
 
 export type Actions
@@ -147,4 +155,5 @@ export type Actions
   | SetTicketListMode
   | GetUserTicket
   | GetUserTicketSuccess
-  | GetUserTicketError;
+  | GetUserTicketError
+  | AddAttachmentsSuccess;

@@ -191,6 +191,14 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
         selectedTicketDetails: selectedTicketDetailsClone
       };
     }
+    case fromServicePageActions.ADD_ATTACHMENTS_SUCCESS: {
+      const selectedTicketDetailsClone: AsyncStateObj<UserTicket> = cloneDeep(state.selectedTicketDetails);
+      selectedTicketDetailsClone.obj.Attachments = selectedTicketDetailsClone.obj.Attachments.concat(action.payload);
+      return {
+        ...state,
+        selectedTicketDetails: selectedTicketDetailsClone
+      };
+    }
     default: {
       return state;
     }

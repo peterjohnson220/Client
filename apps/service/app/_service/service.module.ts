@@ -21,13 +21,14 @@ import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
-import { ServicePageEffects } from './effects';
+import { ServicePageEffects, TicketNotesEffects } from './effects';
 import { ServicePageComponent } from './service.page';
-import { CreateTicketModalComponent } from './containers';
-import { ServiceDashboardComponent, SupportTeamComponent, TicketsDetailsComponent } from './components';
+import { CreateTicketModalComponent, GridActionsComponent, TicketNotesComponent } from './containers';
+import {
+  ServiceDashboardComponent, SupportTeamComponent, TicketsDetailsComponent,
+  MultiSelectDropdownComponent, ItemGroupComponent, TicketAttachmentsComponent
+} from './components';
 import { ServiceRoutingModule } from './service-routing.module';
-import { GridActionsComponent } from './containers';
-import { MultiSelectDropdownComponent, ItemGroupComponent } from './components';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { MultiSelectDropdownComponent, ItemGroupComponent } from './components';
     // 3rd party
     StoreModule.forFeature('service_main', reducers),
     EffectsModule.forFeature([
-      ServicePageEffects
+      ServicePageEffects,
+      TicketNotesEffects
     ]),
     FontAwesomeModule,
     DropDownsModule,
@@ -66,13 +68,15 @@ import { MultiSelectDropdownComponent, ItemGroupComponent } from './components';
     // Containers
     CreateTicketModalComponent,
     GridActionsComponent,
+    TicketNotesComponent,
 
     // Components
     ItemGroupComponent,
     MultiSelectDropdownComponent,
     ServiceDashboardComponent,
     SupportTeamComponent,
-    TicketsDetailsComponent
+    TicketsDetailsComponent,
+    TicketAttachmentsComponent
   ],
   providers: [
     { provide: 'DataViewService', useClass: DataViewApiService }

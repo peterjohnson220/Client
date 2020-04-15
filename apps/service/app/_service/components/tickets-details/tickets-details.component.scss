@@ -1,79 +1,17 @@
 .tickets-details-container{
+  padding: 1rem;
   border-right: 1px solid #D1D5D8;
+
+  .ticket-title {
+    flex: 1 1 auto;
+  }
 
   .close-btn {
     cursor: pointer;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    z-index: 900;
-    font-size: 14px;
   }
 
   .ticket-labels {
     width: 10rem;
   }
 
-  .upload-btn {
-    right: 23px;
-  }
-
-  .attachments-list {
-    position: relative;
-    right: 23px;
-    padding-bottom: 0.5rem;
-    bottom: 18px;
-
-    .attachment {
-      padding: 0.75rem 0.75rem 1.45rem 0.75rem;
-      border: 0 solid #dee2e6;
-      border-bottom-width: 1px;
-      display: flex;
-      align-items: center;
-    }
-
-    .file-extension-wrapper {
-      position: relative;
-      display: inline-block;
-      color: #bababa;
-      top: 0.75rem;
-      right: 12px;
-      width: 24px;
-      height: 34px;
-      border: 2px solid #bababa;
-      vertical-align: top;
-      font-size: 0.57rem;
-      margin: 1px 0px 1px 11px;
-      box-sizing: content-box;
-
-      &:before {
-        position: relative;
-        content: '';
-        display: inline-block;
-        top: -1px;
-        right: -14px;
-        width: 0;
-        height: 0;
-        border: 6px solid;
-        margin-top: -1px;
-        margin-right: -1px;
-        background-color: white;
-        border-color: transparent transparent #bababa #bababa;
-      }
-      .file-extension {
-        position: relative;
-        right: 9px;
-        top: 20px;
-      }
-      .long-extension {
-        left: 2px !important;
-        top: 11px !important;
-      }
-    }
-  }
 }
-
-:host /deep/ .ql-editor  {
-  padding: 0 !important;
-}
-

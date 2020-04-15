@@ -4,10 +4,12 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 import * as fromServicePageReducer from './service-page.reducer';
+import * as fromTicketNotesReducer from './ticket-notes.reducer';
 
 // Feature area state
 export interface ServiceMainState {
   servicePage: fromServicePageReducer.State;
+  ticketNotes: fromTicketNotesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -17,7 +19,8 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  servicePage: fromServicePageReducer.reducer
+  servicePage: fromServicePageReducer.reducer,
+  ticketNotes: fromTicketNotesReducer.reducer
 };
 
 // Select Feature Area
@@ -26,6 +29,11 @@ export const selectFeatureAreaState = createFeatureSelector<ServiceMainState>('s
 // Feature Selectors
 export const selectServicePageState = createSelector(selectFeatureAreaState,
   (state: ServiceMainState) => state.servicePage
+);
+
+export const selectTicketNotesState = createSelector(
+  selectFeatureAreaState,
+  (state: ServiceMainState) => state.ticketNotes
 );
 
 // Service Page
@@ -40,3 +48,9 @@ export const getTicketStates = createSelector(selectServicePageState, fromServic
 export const getSelectedTicketStates = createSelector(selectServicePageState, fromServicePageReducer.getSelectedTicketStates);
 export const getSupportTeam = createSelector(selectServicePageState, fromServicePageReducer.getSupportTeam);
 export const getSelectedTicketDetails = createSelector(selectServicePageState, fromServicePageReducer.getSelectedTicketDetails);
+
+// Ticket Notes
+export const getTicketNotes = createSelector(selectTicketNotesState, fromTicketNotesReducer.getTicketNotes);
+export const getAddingNote = createSelector(selectTicketNotesState, fromTicketNotesReducer.getAddingNote);
+export const getAddingNoteError = createSelector(selectTicketNotesState, fromTicketNotesReducer.getAddingNoteError);
+
