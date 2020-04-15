@@ -21,13 +21,17 @@ export class PricingsSalaryRangeChartService {
 
   static getPricingsRangeOptions(locale, currencyCode, controlPointDisplay, rate) {
     return {
-
       chart: {
         inverted: true,
         animation: false,
         title: 'Pricings - Job Range',
         currency: currencyCode,
-        locale: locale
+        locale: locale,
+        style: {
+          fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
+          "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"`
+        },
+        spacing: [45, 10, 0, 10]
       },
       credits: {
         enabled: false
@@ -48,7 +52,9 @@ export class PricingsSalaryRangeChartService {
         useHTML: true,
         snap: 0,
         backgroundColor: '#000000',
-        borderWidth: 0
+        borderWidth: 0,
+        stickyTracking: false,
+        hideDelay: 250
       },
       yAxis: {
         opposite: true,
@@ -59,13 +65,15 @@ export class PricingsSalaryRangeChartService {
         title: {
           text: undefined
         },
-        offset: 25
+        offset: 32
       },
       xAxis: {
         visible: false,
         // add categories to make the x-axis line up properly. Highcharts will extend the categories dynamically, so it doesn't matter that its hardcoded here
         type: 'category',
-        categories: ['0', '1']
+        categories: ['0', '1'],
+        minPadding: 0,
+        maxPadding: 0
       },
       plotOptions: {
         series: {

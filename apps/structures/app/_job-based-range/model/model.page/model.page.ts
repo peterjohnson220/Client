@@ -78,10 +78,6 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.AddJobsModalComponent.onMessage(setContextMessage);
   }
 
-  handlePublishModel() {
-    this.store.dispatch(new fromPublishModelModalActions.OpenModal());
-  }
-
   // Lifecycle
   ngOnInit(): void {
     this.route.params.subscribe((params) => {

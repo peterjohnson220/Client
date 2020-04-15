@@ -12,6 +12,7 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
 import { JobRangeModelChartService, JobRangeModelChartSeries } from '../../data';
+import { GraphHelper } from '../../../shared/helpers/graph.helper';
 
 @Component({
   selector: 'pf-job-based-range-chart',
@@ -208,8 +209,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.chartInstance.series[JobRangeModelChartSeries.Average].setData(this.averageSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
 
-    // TODO: We need to find a better way to come up with the correct height (This is still off in certain data lengths)
-    this.chartInstance.setSize(null, (58.75 * this.jobRangeData.data.length) + 65);
+    this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.jobRangeData.data));
   }
 
   ngOnInit(): void {
@@ -220,5 +220,4 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.dataSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
   }
-
 }

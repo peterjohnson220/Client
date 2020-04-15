@@ -15,6 +15,7 @@ import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
 import { PricingsSalaryRangeChartSeries, PricingsSalaryRangeChartService } from '../../data';
 import { PricingMatchHelper } from '../../helpers';
+import { GraphHelper } from '../../../shared/helpers/graph.helper';
 
 
 @Component({
@@ -199,8 +200,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
       // store the plotLinesAndBands in one of the unused chart properties so we can access it
       this.chartInstance.collectionsWithUpdate = this.plotLinesAndBands;
 
-      // TODO: We need to find a better way to come up with the correct height of the graph
-      this.chartInstance.setSize(null, this.pricingsData.data.length > 1 ? (90 * this.pricingsData.data.length) : 114);
+      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.pricingsData.data, true));
     }
   }
 
@@ -217,8 +217,6 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         return ['M', x, y + width / 2, 'L', x + height, y + width / 2];
       };
   }
-
-
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();

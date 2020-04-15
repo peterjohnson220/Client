@@ -13,7 +13,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { PfDataGridModule } from 'libs/features/pf-data-grid';
 import { PfFormsModule } from 'libs/forms';
 
-import { GridContextComponent, ModelSettingsBtnComponent } from './components';
+import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
 import { ModelGridComponent, ModelSettingsModalComponent } from './containers';
 import { ModelSettingsModalEffects, PublishModelModalEffects } from './effects';
 import { SharedEffects } from './effects/shared.effects';
@@ -48,6 +48,7 @@ import * as fromFaIcons from './fa-icons';
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,
     RangeValuePipe,
+    GlobalActionsComponent
   ],
   exports: [
     ModelGridComponent,

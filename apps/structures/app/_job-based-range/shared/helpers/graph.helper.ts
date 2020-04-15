@@ -1,0 +1,14 @@
+export class GraphHelper {
+  static getChartHeight(data: any, multiLineHeader: boolean = false): number {
+    const defaultOffset = 56;
+    const multiLineHeaderOffset = 46;
+    const defaultSingleRecordHeight = 114;
+    const rowHeight = 59;
+
+    if (data.length > 1) {
+      return (rowHeight * data.length) + (multiLineHeader ? (multiLineHeaderOffset + defaultOffset) : defaultOffset);
+    } else {
+      return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight) : defaultSingleRecordHeight);
+    }
+  }
+}
