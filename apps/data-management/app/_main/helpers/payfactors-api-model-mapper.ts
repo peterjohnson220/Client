@@ -20,6 +20,7 @@ import {
   TransferMethodResponse,
   TransferScheduleSummary,
   UserContext,
+  PatchProperty,
 } from 'libs/models';
 
 import {
@@ -318,4 +319,11 @@ export class PayfactorsApiModelMapper {
       KeyValue: 'false',
     }],
   })
+
+  static getPatchPropertyListFromObject(obj: object): PatchProperty[] {
+    return Object.keys(obj).map(key => ({
+      PropertyName: key,
+      PropertyValue: obj[key],
+    }));
+  }
 }

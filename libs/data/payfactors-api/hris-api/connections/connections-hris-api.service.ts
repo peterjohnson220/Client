@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { UserContext } from 'libs/models/security';
 import {ValidateCredentialsResponse, CredentialsPackage,
-  ConnectionPostRequest, ConnectionSummaryResponse} from 'libs/models';
+  ConnectionPostRequest, ConnectionSummaryResponse, PatchProperty} from 'libs/models';
 
 import {OrgDataEntityType} from '../../../../constants/hris-api';
 
@@ -51,6 +51,11 @@ export class ConnectionsHrisApiService {
   updateSelectedEntities(userContext: UserContext, connectionId: number, entityTypes: OrgDataEntityType[]) {
     const host = this.getHost(userContext);
     return this.hrisApiService.post(`${host}${this.endpoint}/${userContext.CompanyId}/${connectionId}/entities`, entityTypes);
+  }
+
+  patchConnection(userContext: UserContext, connectionId: number, patchPropertyList: PatchProperty[]) {
+    const host = this.getHost(userContext);
+    return this.hrisApiService.patch(`${host}${this.endpoint}/${userContext.CompanyId}/${connectionId}`, patchPropertyList);
   }
 
   private getHost(userContext: UserContext): string {

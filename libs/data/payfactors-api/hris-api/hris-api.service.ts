@@ -24,6 +24,13 @@ export class HrisApiService {
     );
   }
 
+  patch<T>(url: string, body: any, options: any = {}): Observable<T> {
+    options = addJwtAuthInterceptorHeader(options);
+    return this.http.patch<T>(`${url}`, body, options).pipe(
+      map((response: any) => <T>response)
+    );
+  }
+
   delete<T>(url: string, options: any = {}): Observable<T> {
     options = addJwtAuthInterceptorHeader(options);
     return this.http.delete<T>(`${url}`, options).pipe(

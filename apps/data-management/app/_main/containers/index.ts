@@ -11,4 +11,5 @@ export * from './transfer-schedule-cron';
 export * from './hris-integration-panel';
 export * from './hris-integration-status';
 export * from './hris-integration-sidebar';
+export * from './hris-reauthentication-modal';
 export * from './outbound-transfer-schedule-summary';

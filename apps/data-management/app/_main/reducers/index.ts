@@ -325,9 +325,11 @@ export const getHrisActiveConnectionSaving = createSelector(selectHrisConnection
 export const getHrisActiveConnectionSavingError = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getSavingError);
 export const getHrisActiveConnectionDeleteCompleted = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getDeleteCompleted);
 export const getHrisConnectionSummary = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getConnectionSummary);
+export const getIsValidCredentials = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getIsValidCredentials);
 export const getValidationErrors = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getValidationErrors);
 export const getShowAuthenticationWarning = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getShowAuthenticationWarning);
 export const getActiveConnectionId = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getActiveConnectionId);
+export const getHrisReauthenticationModalOpen = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getReauthenticationModalOpen);
 
 // entity identifiers
 export const getEmployeeIdentifiers = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.GetEmployeeIdentifiers);

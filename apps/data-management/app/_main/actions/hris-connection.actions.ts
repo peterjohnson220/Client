@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import {CredentialsPackage} from 'libs/models/hris-api/connection/request';
+import {CredentialsPackage, PatchProperty} from 'libs/models/hris-api/connection/request';
 import {ConnectionSummary} from '../models';
 
 export const GET_CURRENT_HRIS_CONNECTION = '[Data Management/HRIS Connections] Get Current HRIS Connection';
@@ -22,6 +22,12 @@ export const VALIDATE_SUCCESS = '[Data Management/Transfer Data Page] Validate C
 export const CREATE_CONNECTION = '[Data Management/Transfer Data Page] Create Connection';
 export const CREATE_CONNECTION_ERROR = '[Data Management/Transfer Data Page] Create Connection Error';
 export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] Create Connection Success';
+
+export const OPEN_REAUTHENTICATION_MODAL = '[Data Management/Hris Connections] Open Re-authentication Modal';
+
+export const PATCH_CONNECTION = '[Data Management/Hris Connections] Patch Connection';
+export const PATCH_CONNECTION_ERROR = '[Data Management/Hris Connections] Patch Connection Error';
+export const PATCH_CONNECTION_SUCCESS = '[Data Management/Hris Connections] Patch Connection Success';
 
 // TODO: Delete this
 export const OUTBOUND_JDM_VALIDATE = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials';
@@ -95,6 +101,28 @@ export class CreateConnectionSuccess implements Action {
   constructor(public payload: { credentials: CredentialsPackage, connectionId: number }) {}
 }
 
+export class OpenReAuthenticationModal implements Action {
+  readonly type = OPEN_REAUTHENTICATION_MODAL;
+
+  constructor(public payload: boolean) {}
+}
+
+export class PatchConnection implements Action {
+  readonly type = PATCH_CONNECTION;
+
+  constructor(public payload: any) {}
+}
+export class PatchConnectionError implements Action {
+  readonly type = PATCH_CONNECTION_ERROR;
+
+  constructor() {}
+}
+export class PatchConnectionSuccess implements Action {
+  readonly type = PATCH_CONNECTION_SUCCESS;
+
+  constructor(public payload: number) {}
+}
+
 
 // TODO: Delete for outbound
 export class OutboundJdmValidate implements Action {
@@ -124,5 +152,9 @@ export type Actions
   | CreateConnection
   | CreateConnectionError
   | CreateConnectionSuccess
+  | OpenReAuthenticationModal
+  | PatchConnection
+  | PatchConnectionError
+  | PatchConnectionSuccess
   | OutboundJdmValidate
   | OutboundJdmValidateSuccess;

@@ -17,7 +17,6 @@ import { PfCommonModule } from 'libs/core';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
-import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -40,6 +39,7 @@ import {
   HrisIntegrationPanelComponent,
   HrisIntegrationSidebarComponent,
   HrisIntegrationStatusComponent,
+  HrisReAuthenticationModalComponent,
   OrgDataLoadComponent,
   PfTestAuthenticationComponent,
   ProviderCardComponent,
@@ -157,6 +157,7 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
     HrisIntegrationPanelComponent,
     HrisIntegrationSidebarComponent,
     HrisIntegrationStatusComponent,
+    HrisReAuthenticationModalComponent,
     OrgDataLoadComponent,
     PfCheckboxComponent,
     PfTestAuthenticationComponent,

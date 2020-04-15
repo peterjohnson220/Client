@@ -14,7 +14,9 @@ export interface State {
   deleteCompleted: boolean;
   summary: ConnectionSummary;
   validationErrors: string[];
+  isValidCredentials: boolean;
   showAuthenticationWarning: boolean;
+  openReauthenticationModal: boolean;
 }
 
 export const initialState: State = {
@@ -26,7 +28,9 @@ export const initialState: State = {
   deleteCompleted: null,
   summary: null,
   validationErrors: null,
+  isValidCredentials: false,
   showAuthenticationWarning: false,
+  openReauthenticationModal: false
 };
 
 export function reducer(state: State = initialState, action: fromHrisConnectionActions.Actions) {
@@ -105,7 +109,8 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
         loading: false,
         loadingError: false,
         isValidCredentials: action.payload.success,
-        showAuthenticationWarning: action.payload.skipValidation
+        showAuthenticationWarning: action.payload.skipValidation,
+        saving: false
       };
     }
     case fromHrisConnectionActions.VALIDATE_ERROR: {
@@ -116,6 +121,7 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
           loadingError: false,
           validationErrors: action.payload,
           isValidCredentials: false,
+          saving: false
         };
       }
       return {
@@ -154,6 +160,27 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
         loadingError: true
       };
     }
+    case fromHrisConnectionActions.OPEN_REAUTHENTICATION_MODAL: {
+      return {
+        ...state,
+        openReauthenticationModal: action.payload
+      };
+    }
+    case fromHrisConnectionActions.PATCH_CONNECTION: {
+      return {
+        ...state,
+        saving: true
+      };
+    }
+    case fromHrisConnectionActions.PATCH_CONNECTION_SUCCESS: {
+      const connectionSummary = cloneDeep(state.summary);
+      connectionSummary.connectionID = action.payload;
+
+      return {
+        ...state,
+        connectionSummary: connectionSummary
+      };
+    }
     default:
       return state;
   }
@@ -169,3 +196,5 @@ export const getConnectionSummary = (state: State) => state.summary;
 export const getShowAuthenticationWarning = (state: State) => state.showAuthenticationWarning;
 export const getValidationErrors = (state: State) => state.validationErrors;
 export const getActiveConnectionId = (state: State) => state.summary && state.summary.connectionID ? state.summary.connectionID : null;
+export const getReauthenticationModalOpen = (state: State) => state.openReauthenticationModal;
+export const getIsValidCredentials = (state: State) => state.isValidCredentials;
