@@ -58,7 +58,8 @@ export function getMockUserAssignedRoleWithPermissions(): UserAssignedRole {
         TileId: 1,
         IsParent: true,
         IsChecked: false,
-        ChildPermission: null
+        ChildPermission: null,
+        UiVisible: true
       },
       {
         SystemPermissionId: 2,
@@ -67,7 +68,8 @@ export function getMockUserAssignedRoleWithPermissions(): UserAssignedRole {
         TileId: 1,
         IsParent: true,
         IsChecked: false,
-        ChildPermission: null
+        ChildPermission: null,
+        UiVisible: true
       },
       {
         SystemPermissionId: 3,
@@ -76,7 +78,8 @@ export function getMockUserAssignedRoleWithPermissions(): UserAssignedRole {
         TileId: 1,
         IsParent: true,
         IsChecked: false,
-        ChildPermission: null
+        ChildPermission: null,
+        UiVisible: true
       }
     ],
     DataRestrictions: []
