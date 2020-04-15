@@ -12,6 +12,7 @@
   [defaultColumnWidth]="150"
   [saveSort]="true"
   [useColumnGroups]="false"
+  [columnTemplates]="colTemplates"
   [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
@@ -89,6 +90,13 @@
       </div>
     </div>
   </div>
+</ng-template>
+
+<ng-template #salaryColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  {{dataRow[fieldName] | number: '1.0-0'}}
+</ng-template>
+<ng-template #rateBasedSalaryColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  {{dataRow[fieldName] | comp: dataRow['CompanyEmployees_HiddenRate'] : 'full'}}
 </ng-template>
 
 <pf-modal-form
