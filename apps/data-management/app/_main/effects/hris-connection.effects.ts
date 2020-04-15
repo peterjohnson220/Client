@@ -201,6 +201,67 @@ export class HrisConnectionEffects {
       })
     );
 
+  @Effect()
+    patchHrisConnection$: Observable<Action> = this.actions$
+      .pipe(
+        ofType<fromHrisConnectionActions.PatchConnection>(fromHrisConnectionActions.PATCH_CONNECTION),
+        withLatestFrom(
+          this.store.pipe(select(fromRootState.getUserContext)),
+          this.store.pipe(select(fromReducers.getActiveConnectionId)),
+        (action, userContext, activeConnectionId) => {
+          return {
+            action,
+            userContext,
+            activeConnectionId
+          };
+        }),
+        switchMap((obj) => {
+          const patchRequest = PayfactorsApiModelMapper.getPatchPropertyListFromObject(obj.action.payload);
+          return this.connectionService.patchConnection(obj.userContext, obj.activeConnectionId, patchRequest)
+            .pipe(
+              map((response: number) => {
+                return new fromHrisConnectionActions.PatchConnectionSuccess(response);
+              }),
+              catchError(e => of(new fromHrisConnectionActions.PatchConnectionError()))
+          );
+      })
+    );
+
+    @Effect()
+    patchHrisConnectionSuccess$: Observable<Action> = this.actions$
+      .pipe(
+        ofType<fromHrisConnectionActions.PatchConnectionSuccess>(fromHrisConnectionActions.PATCH_CONNECTION_SUCCESS),
+        withLatestFrom(
+          this.store.pipe(select(fromRootState.getUserContext)),
+          this.store.pipe(select(fromReducers.getActiveConnectionId)),
+        (action, userContext, activeConnectionId) => {
+          return {
+            action,
+            userContext,
+            activeConnectionId
+          };
+        }),
+        switchMap((obj) => {
+          return this.connectionService.validateConnection(obj.userContext, obj.activeConnectionId)
+            .pipe(
+              mergeMap((response: ValidateCredentialsResponse) => {
+                if (!response.successful) {
+                  return [new fromHrisConnectionActions.ValidateError(response.errors)];
+                }
+                return [
+                  new fromHrisConnectionActions.ValidateSuccess({
+                    skipValidation: response.skipValidation,
+                    success: response.successful,
+                  }),
+                  new fromHrisConnectionActions.GetHrisConnectionSummary(),
+                  new fromHrisConnectionActions.OpenReAuthenticationModal(false)
+                ];
+              }),
+              catchError(e => of(new fromHrisConnectionActions.PatchConnectionError()))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromHrisConnectionReducer.State>,

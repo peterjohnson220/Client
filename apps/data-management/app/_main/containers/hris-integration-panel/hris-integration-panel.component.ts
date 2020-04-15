@@ -15,6 +15,7 @@ export class HrisIntegrationPanelComponent {
   @Input() connectionSummary: ConnectionSummary;
   @Output() onMappingButtonClicked = new EventEmitter();
   @Output() onCreateNewIntegrationClicked = new EventEmitter();
+  @Output() onReAuthClicked = new EventEmitter();
 
   public inbound = TransferMethodTypes.HRIS_INTEGRATION;
   public outboundJdm = TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION;
@@ -36,5 +37,6 @@ export class HrisIntegrationPanelComponent {
   }
 
   openReAuthModal() {
+    this.onReAuthClicked.emit();
   }
 }
