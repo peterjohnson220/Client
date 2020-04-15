@@ -43,6 +43,12 @@ export interface UserTicketComment {
   UserFullName: string;
   Comments?: string;
   CreateDate?: Date;
+  Level?: TicketCommentLevel;
+}
+
+export enum TicketCommentLevel {
+  Admin = 'Admin',
+  User = 'User'
 }
 
 export function generateMockUserTicketViewModel(): UserTicketResponse {
