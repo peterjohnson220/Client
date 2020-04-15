@@ -7,40 +7,40 @@ import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search';
 import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
-import { InfiniteScrollActionContext, InfiniteScrollEffectsService} from 'libs/features/infinite-scroll/services';
-import { SearchFilter, JobSearchAggregationType } from 'libs/models/payfactors-api';
+import { InfiniteScrollEffectsService } from 'libs/features/infinite-scroll/services';
+import { SearchFilter, JobSearchStructuresAggregationRequest, JobSearchAggregationType } from 'libs/models/payfactors-api';
 import { MultiSelectFilter } from 'libs/features/search/models';
-import { JobSearchAggregationRequest } from 'libs/models/payfactors-api';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
+
+import * as fromSharedReducer from '../../shared/reducers';
 
 @Injectable()
 export class SingledFilterEffects {
 
   @Effect()
-  searchSurveyAggregations = this.infiniteScrollEffectsService.infiniteScrollActions$(ScrollIdConstants.SEARCH_SINGLED_FILTER).pipe(
+  searchAggregations = this.infiniteScrollEffectsService.infiniteScrollActions$(ScrollIdConstants.SEARCH_SINGLED_FILTER).pipe(
       withLatestFrom(
         this.store.select(fromSearchReducer.getSingledFilter),
         this.store.select(fromSearchReducer.getParentFilters),
-        this.store.select(fromAddJobsReducer.getContext),
         this.store.select(fromSearchReducer.getSingledFilterSearchValue),
-        (infiniteScrollActionContext, singledFilter, filters, context, searchValue) => (
-          { infiniteScrollActionContext, singledFilter, filters, context, searchValue }
+        this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
+        this.store.select(fromSharedReducer.getMetadata),
+        (infiniteScrollActionContext, singledFilter, filters, searchValue, contextStructureRangeGroupId: number, metadata) => (
+          { infiniteScrollActionContext, singledFilter, filters, searchValue, contextStructureRangeGroupId, metadata }
         )),
       switchMap(data => {
-        const request: JobSearchAggregationRequest = {
+        const request: JobSearchStructuresAggregationRequest = {
           SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
           Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
-          ProjectId: data.context.ProjectId,
+          StructureRangeGroupId: data.contextStructureRangeGroupId,
           SearchField: data.singledFilter.BackingField,
           TextQuery: data.searchValue,
-          PayMarketId: data.context.PayMarketId,
-          Type: JobSearchAggregationType.ProjectJobSearch,
+          Type: JobSearchAggregationType.StructuresJobSearch,
           PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.infiniteScrollActionContext.pagingOptions)
         };
-
-        return this.jobSearchApiService.searchJobAggregations(request).pipe(
+        return this.jobSearchApiService.searchStructuresJobAggregations(request).pipe(
 
           map((response: SearchFilter) => {
             const matchingFilter = <MultiSelectFilter>data.filters.find(f => f.Id === data.singledFilter.Id);

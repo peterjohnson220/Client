@@ -5,4 +5,5 @@ export interface JobSearchAggregationRequest extends BaseJobSearchRequest, BaseS
   SearchField: string;
   TextQuery: string;
   AggregateCount?: number;
+  Type: string;
 }
