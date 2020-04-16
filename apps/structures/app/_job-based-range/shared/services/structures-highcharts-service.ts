@@ -1,5 +1,6 @@
 import * as Highcharts from 'highcharts';
 import { RateType } from 'libs/data/data-sets';
+import { RangeGroupMetadata } from '../models';
 
 export class StructuresHighchartsService {
 
@@ -33,6 +34,23 @@ export class StructuresHighchartsService {
     const rawLabelValue = rate === RateType.Hourly ? value : value / 1000;
     const formattedValue = StructuresHighchartsService.formatCurrency(rawLabelValue, locale, currencyCode, rate, false);
     return formattedValue + (rate === RateType.Hourly ? '' : 'k');
+  }
+
+  static formatCurrentMidPoint(hasCurrentStructure, midPointType, value, chartLocale, md: RangeGroupMetadata) {
+    return md.IsCurrent || hasCurrentStructure ?
+    StructuresHighchartsService.formatMidPoint(midPointType, value, chartLocale, md.Currency, md.Rate) : null;
+  }
+
+  static formatNewMidPoint(hasCurrentStructure, midPointType, value, chartLocale, md: RangeGroupMetadata) {
+    return !md.IsCurrent && !hasCurrentStructure ?
+      StructuresHighchartsService.formatMidPoint(midPointType, value, chartLocale, md.Currency, md.Rate) : null;
+  }
+
+  static formatMidPointDelta(hasCurrentStructure, currentRow, chartLocale, md: RangeGroupMetadata) {
+    return md.IsCurrent === false && !hasCurrentStructure ? StructuresHighchartsService.formatDeltaInMidPointForExistingStruct(
+      currentRow.CompanyStructures_Ranges_Mid,
+      currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint,
+      chartLocale, md.Currency, md.Rate) : null;
   }
 
   static formatMidPoint(midPointType, value, locale, currency, rate) {
