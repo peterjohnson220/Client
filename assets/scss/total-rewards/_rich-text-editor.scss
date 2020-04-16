@@ -19,11 +19,6 @@ $rich-text-height: 180px;
     }
   }
 
-  &.active .ql-toolbar {
-    opacity: .95;
-    pointer-events: initial;
-  }
-
   .ql-editor {
     padding: 6px;
     overflow-y: hidden;
@@ -47,30 +42,37 @@ $rich-text-height: 180px;
     font-size: inherit;
   }
 
-  // hover, active, invalid borders
-  &:hover {
-    .ql-container {
-      border: 2px dashed rgba($link-color, .5);
+  // hover, active, invalid borders in edit mode
+  &.edit-mode {
+    &:hover {
+      .ql-container {
+        border: 2px dashed rgba($link-color, .5);
+      }
+
+      .ql-toolbar.ql-snow + .ql-container.ql-snow {
+        border-top: 2px dashed rgba($link-color, .5);
+      }
     }
 
-    .ql-toolbar.ql-snow + .ql-container.ql-snow {
-      border-top: 2px dashed rgba($link-color, .5);
-    }
-  }
+    &.active {
+      .ql-container {
+        border: 2px dashed $link-color;
+      }
 
-  &.active {
-    .ql-container {
-      border: 2px dashed $link-color;
+      .ql-toolbar.ql-snow + .ql-container.ql-snow {
+        border-top: 2px dashed $link-color;
+      }
     }
 
-    .ql-toolbar.ql-snow + .ql-container.ql-snow {
-      border-top: 2px dashed $link-color;
+    &.active .ql-toolbar {
+      opacity: .95;
+      pointer-events: initial;
     }
-  }
 
-  &.invalid {
-    .ql-toolbar.ql-snow + .ql-container.ql-snow {
-      border-color: darken(tomato, 10%);
+    &.invalid {
+      .ql-toolbar.ql-snow + .ql-container.ql-snow {
+        border-color: darken(tomato, 10%);
+      }
     }
   }
 

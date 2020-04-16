@@ -8,6 +8,8 @@
               <div *ngIf="control.ControlType === controlType.RichTextEditor">
                 <pf-trs-rich-text-control
                   [controlData]="control"
+                  [mode]="mode"
+                  [employeeRewardsData]="employeeRewardsData"
                   (onTitleChange)="handleOnControlTitleChange($event)"
                   (onContentChange)="handleOnRichTextControlContentChange($event)"
                   class="p-1"></pf-trs-rich-text-control>
