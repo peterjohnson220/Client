@@ -208,5 +208,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   private reset() {
     this.attemptedSubmit = false;
+    // set active tab to model
+    this.activeTab = 'modelTab';
   }
 }
