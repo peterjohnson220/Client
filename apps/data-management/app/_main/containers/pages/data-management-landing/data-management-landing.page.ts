@@ -60,6 +60,36 @@ export class DataManagementLandingPageComponent implements OnInit {
     }
   }
 
+  goToTransferSchedulePage($event: TransferMethodTypes) {
+    switch ($event) {
+      case TransferMethodTypes.HRIS_INTEGRATION: {
+        this.router.navigate(['transfer-data/inbound/transfer-schedule']);
+        break;
+      }
+      case TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION: {
+        this.router.navigate(['transfer-data/outbound/transfer-schedule']);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  goToEntitySelectionPage($event: TransferMethodTypes) {
+    switch ($event) {
+      case TransferMethodTypes.HRIS_INTEGRATION: {
+        this.router.navigate(['transfer-data/inbound/entity-selection']);
+        break;
+      }
+      case TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION: {
+        this.router.navigate(['transfer-data/outbound/jdm-view-selection']);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
   createNewIntegration($event: TransferMethodTypes) {
     switch ($event) {
       case TransferMethodTypes.HRIS_INTEGRATION: {
