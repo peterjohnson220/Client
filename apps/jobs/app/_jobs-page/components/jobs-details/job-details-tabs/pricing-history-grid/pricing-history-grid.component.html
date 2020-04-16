@@ -21,7 +21,7 @@
 </ng-template>
 
 <ng-template #pricingActionsColumn let-dataRow="dataRow">
-  <div class="d-flex justify-content-end" [pfSecuredResource]="_Permissions.PRICING_PROJECTS_DELETE">
+  <div class="d-flex justify-content-end">
     <button 
       [attr.data-qa-id]="'btn-jobs-page-pricing-history-details'"
       type="button"
@@ -31,6 +31,7 @@
     </button>
     <button 
       [attr.data-qa-id]="'btn-jobs-page-pricing-history-delete'"
+      [pfSecuredResource]="permissions.PRICING_PROJECTS_DELETE"
       type="button"
       (click)="confirmDeletePricingModal(dataRow)"
       class="btn btn-secondary pf-icon-btn-transparent">
