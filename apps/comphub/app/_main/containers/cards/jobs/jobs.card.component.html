@@ -55,7 +55,7 @@
 
       </div>
         <div *ngIf="workflowContext?.quickPriceType === quickPriceTypes.PEER">
-      <div class="data-set-selector exchange-selector" *ngIf="(exchangeDataSets$ | async)?.length > 1">
+      <div class="data-set-selector exchange-selector">
         <label class="exchange-dropdown-label">Peer Exchange: </label>
         <kendo-dropdownlist
           (valueChange)="handleExchangeDataSetChanged($event)"
@@ -63,6 +63,7 @@
           textField="ExchangeName"
           valueField="ExchangeId"
           [data]="exchangeDataSets$ | async"
+          [disabled]="(exchangeDataSets$ | async)?.length <= 1"
           [valuePrimitive]="true"
           [ngModel]="workflowContext?.activeExchangeDataSet?.ExchangeId">
         </kendo-dropdownlist>
