@@ -65,7 +65,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   mapJobTitle: string;
   selectedPageId: string;
   selectedPageIdDelayed: string;
-  selectedWeightingType: KendoDropDownItem = {Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc};
+  selectedWeightingType: KendoDropDownItem = {Name: WeightTypeDisplayLabeled.Org, Value: WeightType.Org};
   untaggedIncumbentCount: number;
   workflowContext: WorkflowContext;
 
