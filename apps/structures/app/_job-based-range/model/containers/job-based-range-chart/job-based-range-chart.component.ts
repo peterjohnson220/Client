@@ -86,12 +86,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     // otherwise just use CompanyStructures_Ranges_Min
     let comparisonValue = currentRow.CompanyStructures_Ranges_Min;
     // first check the averageminoutlier
-    if (currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier &&
+    if (currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier >= 0 &&
       currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier < currentRow.CompanyStructures_Ranges_Min) {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier;
     }
     // next check the averageEEMRP
-    if (currentRow.CompanyStructures_RangeGroup_AverageEEMRP &&
+    if (currentRow.CompanyStructures_RangeGroup_AverageEEMRP >= 0 &&
       currentRow.CompanyStructures_RangeGroup_AverageEEMRP < comparisonValue) {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
     }
