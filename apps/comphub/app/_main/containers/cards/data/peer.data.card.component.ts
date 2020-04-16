@@ -130,6 +130,10 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
           this.exchangeExplorer.onMessage(setContextMessage);
           this.refreshMapData();
       }
+    } else {
+      if (this.displayMap) {
+        this.displayMap = false;
+      }
     }
   }
 
