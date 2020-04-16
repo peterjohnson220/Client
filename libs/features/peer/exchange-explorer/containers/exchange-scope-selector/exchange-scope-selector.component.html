@@ -56,13 +56,13 @@
               </div>
             </div>
             <div class="action-buttons">
-              <button title="Make this your default scope"
-                      class="btn btn-sm btn-secondary favorite-button"
+              <button class="btn btn-sm btn-secondary favorite-button"
                       *ngIf="!isExchangeJobSpecific && (!deleteMode || exchangeScopeItem?.IsDefault)"
+                      [title]="!exchangeScopeItem?.IsDefault ? 'Make this your default scope' : 'Clear default scope'"
                       [disabled]="deleteMode"
                       [ngClass]="{'is-default': exchangeScopeItem?.IsDefault}"
                       [attr.data-qa-id]="'btn-favorite'"
-                      (click)="handleDefaultClicked(exchangeScopeItem.Id, $event)">
+                      (click)="handleDefaultClicked(exchangeScopeItem, $event)">
                 <fa-icon *ngIf="exchangeScopeItem.IsDefault" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
                 <fa-icon *ngIf="!exchangeScopeItem.IsDefault" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
               </button>

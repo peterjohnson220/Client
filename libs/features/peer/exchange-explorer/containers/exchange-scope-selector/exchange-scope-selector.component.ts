@@ -48,6 +48,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   filteredExchangeScopeItems: ExchangeScopeItem[];
   selectedExchangeScopeItem: ExchangeScopeItem;
   scopeFilter: string;
+  defaultScopeToggled = false;
 
   constructor(
     private store: Store<fromLibsExchangeExplorerReducers.State>,
@@ -86,14 +87,17 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
 
     // Select the default exchange scope once the scopes have loaded
     combineLatest([selectedExchangeScopeItem$, this.exchangeScopeItems$, defaultExchangeScopeId$])
-      .pipe(filter(([selected, items, defaultId]) => !!defaultId), take(1)).subscribe(([selected, items, defaultId]) => {
-      if (!selected && !!items && items.length && !!defaultId) {
-        const defaultExchangeScopeItem = items.find(i => i.Id === defaultId);
-        if (!!defaultExchangeScopeItem) {
-          const itemToSelect = {...defaultExchangeScopeItem, IsDefault: true};
-          this.store.dispatch(new fromLibsExchangeFilterContextActions.SetExchangeScopeSelection(itemToSelect));
+      .pipe(
+        filter(([selected, items, defaultId]) => !!defaultId && !this.defaultScopeToggled),
+        take(1)
+      ).subscribe(([selected, items, defaultId]) => {
+        if (!selected && !!items && items.length && !!defaultId) {
+          const defaultExchangeScopeItem = items.find(i => i.Id === defaultId);
+          if (!!defaultExchangeScopeItem) {
+            const itemToSelect = {...defaultExchangeScopeItem, IsDefault: true};
+            this.store.dispatch(new fromLibsExchangeFilterContextActions.SetExchangeScopeSelection(itemToSelect));
+          }
         }
-      }
     });
   }
 
@@ -107,13 +111,14 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleDefaultClicked(id: string, buttonClickEvent$: any): void {
+  handleDefaultClicked(scope: ExchangeScopeItem, buttonClickEvent$: any): void {
     buttonClickEvent$.stopPropagation();
+    this.defaultScopeToggled = true;
     this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting(
       {
         FeatureArea: FeatureAreaConstants.PeerManageScopes,
         SettingName: UiPersistenceSettingConstants.PeerDefaultExchangeScopeId,
-        SettingValue: id
+        SettingValue: !scope.IsDefault ? scope.Id : null
       }
     ));
   }
