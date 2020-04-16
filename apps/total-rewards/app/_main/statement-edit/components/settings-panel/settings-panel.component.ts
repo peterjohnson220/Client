@@ -62,7 +62,7 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
 
   @HostListener('document:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (this.isOpen && event.key.toLowerCase() === 'escape') {
+    if (this.isOpen && (event.key.toLowerCase() === 'escape' || event.key.toLowerCase() === 'esc')) {
       this.close.emit();
     }
   }
