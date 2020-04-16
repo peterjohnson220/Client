@@ -33,6 +33,7 @@ export class ExchangeExplorerComponent extends SearchBase {
   @Input() shouldShowExcludeIndirectJobMatchesFilter = true;
   @Input() shouldShowExchangeScopeSelector = true;
   @Input() jobSelectorRequiresPayMarket = true;
+  @Input() exchangeJobSelectorStatic = false;
 
   // Observables
   pageShown$: Observable<boolean>;

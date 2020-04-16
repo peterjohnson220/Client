@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@ang
 
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
+import { debounceTime } from 'rxjs/operators';
 
 import { MapComponent } from 'libs/features/peer/map/containers/map';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
@@ -36,19 +37,24 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   selectedExchange$: Observable<ExchangeDataSet>;
   selectedExchangeJobId$: Observable<number>;
   selectedPageId$: Observable<string>;
+  selectedPageIdDelayed$: Observable<string>;
   includeUntaggedIncumbents$: Observable<boolean>;
   untaggedIncumbentCount$: Observable<number>;
   workflowContext$: Observable<WorkflowContext>;
+  forceRefresh$: Observable<boolean>;
 
   // Subscriptions
   payMarketSubscription: Subscription;
   selectedPageIdSubscription: Subscription;
+  selectedPageIdDelayedSubscription: Subscription;
   selectedExchangeSubscription: Subscription;
   selectedExchangeJobIdSubscription: Subscription;
   untaggedIncumbentCountSubscription: Subscription;
   selectedJobTitleSubscription: Subscription;
   workflowContextSubscription: Subscription;
+  forceRefreshSubscription: Subscription;
 
+  forceRefresh: boolean;
   selectedExchangeId: number;
   selectedPayMarketId: number;
   selectedJobTitle: string;
@@ -58,6 +64,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   mapPayMarketId: number;
   mapJobTitle: string;
   selectedPageId: string;
+  selectedPageIdDelayed: string;
   selectedWeightingType: KendoDropDownItem = {Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc};
   untaggedIncumbentCount: number;
   workflowContext: WorkflowContext;
@@ -73,6 +80,8 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapUntaggedIncumbentCount));
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.forceRefresh$ = this.store.select(fromComphubMainReducer.getForcePeerMapRefresh);
+    this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
   }
 
   showMap() {
@@ -107,6 +116,13 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
       this.workflowContext = wfc;
       this.onWorkflowContextChanges(wfc);
     });
+
+    this.forceRefreshSubscription = this.forceRefresh$.subscribe(r => this.forceRefresh = r);
+
+    this.selectedPageIdDelayedSubscription = this.selectedPageIdDelayed$.subscribe(id => {
+      this.selectedPageIdDelayed = id;
+      this.onSelectedPageIdDelayedChanges(this.workflowContext);
+    });
   }
 
   onWorkflowContextChanges(workflowContext: WorkflowContext): void {
@@ -131,9 +147,18 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
           this.refreshMapData();
       }
     } else {
-      if (this.displayMap) {
+      if (this.displayMap && this.selectedPageIdDelayed !== ComphubPages.Data) {
         this.displayMap = false;
       }
+    }
+  }
+
+  onSelectedPageIdDelayedChanges(workflowContext: WorkflowContext): void {
+    if (workflowContext.selectedPageId === ComphubPages.Data) {
+      this.showMap();
+    } else
+    if (this.displayMap && this.selectedPageIdDelayed !== ComphubPages.Data) {
+      this.displayMap = false;
     }
   }
 
@@ -145,6 +170,8 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.untaggedIncumbentCountSubscription.unsubscribe();
     this.selectedJobTitleSubscription.unsubscribe();
     this.workflowContextSubscription.unsubscribe();
+    this.forceRefreshSubscription.unsubscribe();
+    this.selectedPageIdDelayedSubscription.unsubscribe();
   }
 
   get untaggedIncumbentMessage(): string {
@@ -159,6 +186,11 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   }
 
   validateMapData() {
+    if (this.forceRefresh) {
+      this.store.dispatch(new fromDataCardActions.SetForceRefreshPeerMap(false));
+      return false;
+    }
+
     if ((!this.mapExchangeId || !this.mapJobTitle)) {
       return false;
     }
