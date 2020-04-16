@@ -1,5 +1,5 @@
 @import '_colors';
-@import 'styles';
+@import 'common/common-variables';
 
 kendo-chart {
   height: 100%;
@@ -100,6 +100,11 @@ kendo-chart {
     display: flex;
     flex-direction: column;
     width: 45%;
+
+    .chart-exchange-name {
+      @extend %ellipsis-overflowing-text;
+      z-index: 2;
+    }
   }
 
   .exchange-metrics {
