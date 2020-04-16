@@ -71,9 +71,13 @@ export class DataCardEffects {
       switchMap((latest) => {
         return this.comphubApiService.getPeerQuickPriceData(latest.exchangeExplorerFilterContext)
           .pipe(
-            map((response) => new fromDataCardActions.GetPeerQuickPriceDataSuccess({jobData: response.JobData}),
+            mergeMap((response) => {
+              return [
+                new fromDataCardActions.GetPeerQuickPriceDataSuccess({jobData: response.JobData}),
+                new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary])
+              ];
+              }),
               catchError(() => of(new fromDataCardActions.GetPeerQuickPriceDataError()))
-            )
           );
       })
   );
