@@ -19,6 +19,7 @@ export class ExchangeJobSelectorComponent {
   @Input() exchangeJobSelectorItems: ExchangeJobExchangeDetail[];
   @Input() shouldDisplayJobTitleShort: boolean;
   @Input() selectedExchangeJobId: number;
+  @Input() static = false;
   @Output() exchangeJobSelected = new EventEmitter();
 
   get selectorEnabled(): boolean {

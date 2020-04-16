@@ -183,6 +183,7 @@ export class SummaryCardEffects {
         new fromJobsCardActions.ClearSelectedJob(),
         new fromMarketsCardActions.SetDefaultPaymarketAsSelected(),
         new fromDataCardActions.ClearSelectedJobData(),
+        new fromDataCardActions.SetForceRefreshPeerMap(true),
         new fromSummaryCardActions.ResetCreateProjectStatus()
       ])
     );

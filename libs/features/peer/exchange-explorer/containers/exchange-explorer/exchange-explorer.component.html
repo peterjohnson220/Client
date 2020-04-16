@@ -12,6 +12,7 @@
             [shouldDisplayJobTitleShort]="!(excludeIndirectJobMatches$ | async)"
             [exchangeJobSelectorItems]="exchangeJobFilterOptions$ | async"
             [selectedExchangeJobId]="selectedExchangeJobId$ | async"
+            [static] = "exchangeJobSelectorStatic"
             (exchangeJobSelected)="handleExchangeJobSelected($event)">
           </pf-exchange-job-selector>
           <pf-pay-market-bounds-filter

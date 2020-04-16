@@ -15,6 +15,7 @@ export interface State {
   peerBannerOpen: boolean;
   loadingPeerJobData: boolean;
   loadingPeerJobDataError: boolean;
+  forceRefreshPeerMap: boolean;
 }
 
 const initialState: State = {
@@ -29,7 +30,8 @@ const initialState: State = {
   marketDataChange: false,
   peerBannerOpen: false,
   loadingPeerJobData: false,
-  loadingPeerJobDataError: false
+  loadingPeerJobDataError: false,
+  forceRefreshPeerMap: false
 };
 
 // Reducer
@@ -120,6 +122,12 @@ export function reducer(state: State = initialState, action: fromDataCardActions
         loadingPeerJobDataError: true
       };
     }
+    case fromDataCardActions.SET_FORCE_REFRESH_PEER_MAP: {
+      return{
+        ...state,
+        forceRefreshPeerMap: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -133,3 +141,4 @@ export const getSelectedJobData = (state: State) => state.selectedJobData;
 export const getSelectedRate = (state: State) => state.selectedRate;
 export const getMarketDataChange = (state: State) => state.marketDataChange;
 export const getPeerBannerOpen = (state: State) => state.peerBannerOpen;
+export const getForcePeerMapRefresh = (state: State) => state.forceRefreshPeerMap;

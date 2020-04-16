@@ -270,6 +270,11 @@ export const getSelectedRate = createSelector(
   fromDataCardReducer.getSelectedRate
 );
 
+export const getForcePeerMapRefresh = createSelector(
+  selectDataCardState,
+  fromDataCardReducer.getForcePeerMapRefresh
+);
+
 // Add Pay Market Form
 export const getAddPayMarketFormOpen = createSelector(
   selectAddPayMarketFormState,
