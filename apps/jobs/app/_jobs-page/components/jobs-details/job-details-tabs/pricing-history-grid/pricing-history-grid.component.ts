@@ -44,7 +44,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
 
   deletePricingRequest: DeletePricingRequest;
   pricingIdToBeDeleted$: Observable<number>;
-  _Permissions = null;
+  permissions = Permissions;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;
@@ -60,7 +60,6 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.pricingIdToBeDeleted$ = store.select(fromJobsPageReducer.getPricingIdToBeDeleted);
-    this._Permissions = Permissions;
 
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
