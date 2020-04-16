@@ -313,6 +313,7 @@ export class GetExportingStatusError implements Action {
 export class Reset implements Action {
   readonly type = RESET;
 }
+
 export class ReorderColumns implements Action {
   readonly type = REORDER_COLUMNS;
 
@@ -328,7 +329,7 @@ export class ReorderColumnsSuccess {
 export class UpdateRow {
   readonly type = UPDATE_ROW;
 
-  constructor(public pageViewId: string, public rowIndex: number, public fieldNames: any[], public payload: any) {}
+  constructor(public pageViewId: string, public rowIndex: number, public data: any, public fieldNames?: any[]) {}
 }
 
 export type DataGridActions =

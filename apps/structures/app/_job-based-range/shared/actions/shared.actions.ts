@@ -7,6 +7,7 @@ import { Pages } from '../constants/pages';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
 export const UPDATE_MID = '[Structures - Job Based Range - Shared] Update Range Mid';
+export const UPDATE_MID_SUCCESS = '[Structures - Job Based Range - Shared] Update Range Mid Success';
 export const UPDATE_MID_ERROR = '[Structures - Job Based Range - Shared] Update Range Mid Error';
 export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';
 export const UPDATE_ROUNDING_TYPE = '[Structures - Job Based Range - Shared] Update Rounding Type';
@@ -29,6 +30,12 @@ export class UpdateMid implements Action {
     Page: Pages
     RoundingSettings: RoundingSettingsDataObj
   }) {}
+}
+
+export class UpdateMidSuccess implements Action {
+  readonly type = UPDATE_MID_SUCCESS;
+
+  constructor(public payload: { rangeId: number, rowIndex: number }) {}
 }
 
 export class UpdateMidError implements Action {

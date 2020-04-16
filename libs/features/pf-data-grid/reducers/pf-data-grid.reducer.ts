@@ -846,10 +846,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           };
         }
 
-        // loop through fields to update the cloned row
-        action.fieldNames.forEach(fieldName => {
-          rowToUpdate[fieldName.gridName] = action.payload[fieldName.dataName];
-        });
+        if (action.fieldNames && action.fieldNames.length > 0) {
+          // loop through fields to update the cloned row
+          action.fieldNames.forEach(fieldName => {
+            rowToUpdate[fieldName.gridName] = action.data[fieldName.dataName];
+          });
+        } else {
+          Object.keys(rowToUpdate).forEach(key => {
+            rowToUpdate[key] = action.data[key];
+          });
+        }
+
 
         // replace the original row with the updated row
         gridData.data[action.rowIndex] = rowToUpdate;
