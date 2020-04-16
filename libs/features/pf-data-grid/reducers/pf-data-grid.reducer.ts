@@ -128,6 +128,17 @@ export const getExportEventId = (state: DataGridStoreState, pageViewId: string) 
 export const getExportingGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportingGrid;
 export const getExportViewId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportViewId;
 export const getLoadingExportingStatus = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingExportingStatus;
+export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: string) => {
+  let filterCount = 0;
+  if (!!state.grids[pageViewId] && !!state.grids[pageViewId].fields) {
+    state.grids[pageViewId].fields.forEach(f => {
+      if (!!f.FilterValue || !!f.FilterValues) {
+        filterCount++;
+      }
+    });
+  }
+  return filterCount
+};
 
 
 

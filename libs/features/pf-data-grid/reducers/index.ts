@@ -69,3 +69,4 @@ export const getExportEventId = createSelector(selectPfDataGridState, fromPfData
 export const getExportingGrid = createSelector(selectPfDataGridState, fromPfDataGridReducer.getExportingGrid);
 export const getExportViewId = createSelector(selectPfDataGridState, fromPfDataGridReducer.getExportViewId);
 export const getLoadingExportingStatus = createSelector(selectPfDataGridState, fromPfDataGridReducer.getLoadingExportingStatus);
+export const getFieldsFilterCount = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFieldsFilterCount);

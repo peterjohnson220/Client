@@ -46,3 +46,11 @@
   box-sizing: border-box;
   width: 362px;
 }
+
+:host ::ng-deep .k-grid-norecords {
+  background-color: white !important;
+}
+
+.img-container {
+  top: 63px;
+}
