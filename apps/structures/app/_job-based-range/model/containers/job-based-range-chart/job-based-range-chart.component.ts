@@ -78,14 +78,42 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private determineChartMin(currentRow) {
-    if (!this.chartMin || (currentRow.CompanyStructures_Ranges_Min < this.chartMin)) {
-      this.chartMin = currentRow.CompanyStructures_Ranges_Min;
+    // if we find average or avg outlier data AND its lower than CompanyStructures_Ranges_Min, use that value to check for new min.
+    // otherwise just use CompanyStructures_Ranges_Min
+    let comparisonValue = currentRow.CompanyStructures_Ranges_Min;
+    // first check the averageminoutlier
+    if (currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier &&
+      currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier < currentRow.CompanyStructures_Ranges_Min) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier;
+    }
+    // next check the averageEEMRP
+    if (currentRow.CompanyStructures_RangeGroup_AverageEEMRP &&
+      currentRow.CompanyStructures_RangeGroup_AverageEEMRP < comparisonValue) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
+    }
+
+    if (!this.chartMin || (comparisonValue < this.chartMin)) {
+      this.chartMin = comparisonValue;
     }
   }
 
   private determineChartMax(currentRow) {
-    if (!this.chartMax || (currentRow.CompanyStructures_Ranges_Max > this.chartMax)) {
-      this.chartMax = currentRow.CompanyStructures_Ranges_Max;
+    // if we find average or avg outlier data AND its higher than CompanyStructures_Ranges_Max, use that value to check for new max.
+    // otherwise just use CompanyStructures_Ranges_Max
+    let comparisonValue = currentRow.CompanyStructures_Ranges_Max;
+    // first check the averagemaxoutlier
+    if (currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier &&
+      currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier > currentRow.CompanyStructures_Ranges_Max) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier;
+    }
+    // next check the averageEEMRP
+    if (currentRow.CompanyStructures_RangeGroup_AverageEEMRP &&
+      currentRow.CompanyStructures_RangeGroup_AverageEEMRP > comparisonValue) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
+    }
+
+    if (!this.chartMax || (comparisonValue > this.chartMax)) {
+      this.chartMax = comparisonValue;
     }
   }
 
