@@ -1,25 +1,44 @@
-<div ngbDropdown class="d-inline-block float-right ml-1" *ngIf="(isCurrentUserPost || isUserAdmin()) && !hidePostActions">
+<div ngbDropdown class="d-inline-block float-right ml-1"
+     *ngIf="(isCurrentUserPost || isUserAdmin()) && !hidePostActions">
   <button class="btn m-0 p-1"
           data-qa-id="ddm-communityPostActions"
           ngbDropdownToggle><span>...</span></button>
   <div ngbDropdownMenu>
     <button *ngIf="!isReply" class="dropdown-item"
             data-qa-id="ddm-communityPostActionsEdit"
-            (click)="editPost()"><fa-icon icon="pencil"></fa-icon> Edit</button>
+            (click)="editPost()">
+      <fa-icon icon="pencil"></fa-icon>
+      Edit
+    </button>
     <button class="dropdown-item"
             data-qa-id="ddm-communityPostActionsDelete"
-            (click)="delete()"><fa-icon icon="trash-alt"></fa-icon> Delete</button>
+            (click)="delete()">
+      <fa-icon icon="trash-alt"></fa-icon>
+      Delete
+    </button>
     <button *ngIf="isUserPoll" class="dropdown-item"
             data-qa-id="ddm-communityPostActionsExport"
-            (click)="exportPollResults()"><fa-icon icon="file-excel"></fa-icon> Export Poll Results</button>
+            (click)="exportPollResults()">
+      <fa-icon icon="file-excel"></fa-icon>
+      Export Poll Results
+    </button>
   </div>
 </div>
 <div *ngIf="isInternalOnly"
      data-qa-id="lbl-communityInternal"
-     class="internal float-right pl-2 pr-2 community-border-radius">Internal</div>
+     class="internal float-right pl-2 pr-2 community-border-radius">Internal
+</div>
 <div *ngIf="isExpiredPoll"
      data-qa-id="lbl-communityIsExpired"
-     class="expired float-right pl-2 pr-2 community-border-radius">Poll Closed</div>
+     class="expired float-right pl-2 pr-2 community-border-radius">Poll Closed
+</div>
 <p class="m-0"><span class="community-user-name-text">{{user.UserFirstName}} {{user.UserLastName}}</span>
   <span class="community-sub-text"> @ {{user.CompanyName}} | {{time}}</span>
 </p>
+<div *ngIf="user.Badges.length">
+  <span *ngFor="let badge of user.Badges; let last = last">
+  <span class="community-badge-text">{{badge.BadgeText}}</span>
+    <span *ngIf="!last" class="community-badge-text"> | </span>
+  </span>
+</div>
+
