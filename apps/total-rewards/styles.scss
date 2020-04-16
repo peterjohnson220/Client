@@ -49,6 +49,9 @@ pf-statement-edit {
         transform: rotate(45deg);
       }
     }
+    &.preview-mode svg {
+      opacity: .5;
+    }
   }
 }
 
