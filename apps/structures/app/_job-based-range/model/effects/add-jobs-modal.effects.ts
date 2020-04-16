@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
 import { WindowCommunicationService } from 'libs/core/services';
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
@@ -19,6 +19,7 @@ import { JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api
 import * as fromSharedReducer from '../../shared/reducers';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
+import { UrlService } from '../../shared/services';
 
 @Injectable()
 export class AddJobsModalEffects {
@@ -40,42 +41,20 @@ export class AddJobsModalEffects {
         this.store.select(fromAddJobsReducer.getSelectedJobIds),
         this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes),
         this.store.select(fromSharedReducer.getMetadata),
-        this.store.select(fromSharedReducer.getIsNewModelAddJobs),
         this.store.select(fromSharedReducer.getRoundingSettings),
         (action: fromAddJobsPageActions.AddSelectedJobs,
-         contextStructureRangeGroupId,
-         payMarkets,
-         selectedJobIds,
-         selectedJobCodes,
-         metadata,
-         isNewModelAddJobs,
-         roundingSettings) =>
-          ({action,
-            contextStructureRangeGroupId,
-            payMarkets,
-            selectedJobIds,
-            selectedJobCodes,
-            metadata,
-            isNewModelAddJobs,
-            roundingSettings})),
+         contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings) =>
+          ({action, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings})),
       switchMap((contextData) => {
           const companyJobIds = contextData.selectedJobIds.map(j => Number(j));
-        // tslint:disable-next-line:max-line-length
-          return this.structureModelingApiService.addJobsToRangeGroup({ StructuresRangeGroupId: contextData.contextStructureRangeGroupId, JobIds: companyJobIds, PaymarketId: contextData.metadata.PaymarketId })
+
+          return this.structureModelingApiService.addJobsToRangeGroup({
+            StructuresRangeGroupId: contextData.contextStructureRangeGroupId,
+            JobIds: companyJobIds,
+            PaymarketId: contextData.metadata.PaymarketId
+          })
             .pipe(
-              mergeMap(() => contextData.isNewModelAddJobs ? [
-                  new fromAddJobsPageActions.AddJobsSuccess(),
-                  new fromSearchPageActions.CloseSearchPage(),
-                  new fromSharedActions.SetIsNewModelModelSettings(true),
-                  new fromSharedModelSettingsActions.OpenModal(),
-                ] : [
-                  new fromAddJobsPageActions.AddJobsSuccess(),
-                  new fromSearchPageActions.CloseSearchPage(),
-                  new fromSharedActions.RecalculateRangesWithoutMid
-                  ({rangeGroupId: contextData.contextStructureRangeGroupId,
-                    rounding: contextData.roundingSettings}),
-                ]
-              ),
+              mergeMap(() => this.getAddJobsSuccessActions(contextData)),
               catchError(error => of(new fromAddJobsPageActions.AddJobsError(error.error.Message)))
             );
         }
@@ -91,35 +70,24 @@ export class AddJobsModalEffects {
           this.store.select(fromSearchReducer.getNumberOfResultsOnServer),
           this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
           this.store.select(fromSharedReducer.getMetadata),
-          this.store.select(fromSharedReducer.getIsNewModelAddJobs),
           this.store.select(fromSharedReducer.getRoundingSettings),
-          (action: fromAddJobsPageActions.AddAllJobs, filters, numberResults, contextStructureRangeGroupId, metadata, isNewModelAddJobs, roundingSettings) =>
-            ({ action, filters, numberResults, contextStructureRangeGroupId, metadata, isNewModelAddJobs, roundingSettings })
+          (action: fromAddJobsPageActions.AddAllJobs, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings) =>
+            ({ action, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings })
         ),
         switchMap((data) => {
-          const searchRequest: JobSearchRequestStructuresRangeGroup = {
-            SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
-            Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
-            FilterOptions: { ReturnFilters: true, AggregateCount: 5 },
-            PagingOptions: { From: 0, Count: data.numberResults },
-            StructureRangeGroupId: data.contextStructureRangeGroupId,
-            PayMarketId: data.metadata.PaymarketId
-          };
-          return this.structureModelingApiService.addJobsFromSearchToRangeGroup(searchRequest)
-            .pipe(
-              mergeMap(() => data.isNewModelAddJobs ? [
-                  new fromAddJobsPageActions.AddJobsSuccess(),
-                  new fromSearchPageActions.CloseSearchPage(),
-                  new fromSharedActions.SetIsNewModelModelSettings(true),
-                  new fromSharedModelSettingsActions.OpenModal(),
-                ] : [
-                  new fromAddJobsPageActions.AddJobsSuccess(),
-                  new fromSearchPageActions.CloseSearchPage(),
-                  new fromSharedActions.RecalculateRangesWithoutMid({rangeGroupId: data.contextStructureRangeGroupId, rounding: data.roundingSettings}),
-                ]
-              ),
-              catchError(error => of(new fromAddJobsPageActions.AddJobsError(error.error.Message)))
-            );
+            const searchRequest: JobSearchRequestStructuresRangeGroup = {
+              SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
+              Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
+              FilterOptions: { ReturnFilters: true, AggregateCount: 5 },
+              PagingOptions: { From: 0, Count: data.numberResults },
+              StructureRangeGroupId: data.contextStructureRangeGroupId,
+              PayMarketId: data.metadata.PaymarketId
+            };
+            return this.structureModelingApiService.addJobsFromSearchToRangeGroup(searchRequest)
+              .pipe(
+                mergeMap(() => this.getAddJobsSuccessActions(data)),
+                catchError(error => of(new fromAddJobsPageActions.AddJobsError(error.error.Message)))
+              );
           }
         )
       );
@@ -134,11 +102,30 @@ export class AddJobsModalEffects {
       map(() => new fromCompanySettingsActions.LoadCompanySettings())
     );
 
+  private getAddJobsSuccessActions(data: any): Action[] {
+    const actions = [];
+
+    actions.push(new fromAddJobsPageActions.AddJobsSuccess());
+    actions.push(new fromSearchPageActions.CloseSearchPage());
+
+    if (this.urlService.isInNewStructureWorkflow()) {
+      actions.push(new fromSharedModelSettingsActions.OpenModal());
+    } else {
+      actions.push(new fromSharedActions.RecalculateRangesWithoutMid({
+        rangeGroupId: data.contextStructureRangeGroupId,
+        rounding: data.roundingSettings
+      }));
+    }
+
+    return actions;
+  }
+
   constructor(
     private actions$: Actions,
     private windowCommunicationService: WindowCommunicationService,
     private structureModelingApiService: StructureModelingApiService,
     private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
+    private urlService: UrlService,
     private store: Store<fromAddJobsReducer.State>
   ) {
   }

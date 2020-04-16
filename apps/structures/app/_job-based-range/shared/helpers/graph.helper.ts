@@ -2,7 +2,7 @@ export class GraphHelper {
   static getChartHeight(data: any, multiLineHeader: boolean = false): number {
     const defaultOffset = 56;
     const multiLineHeaderOffset = 46;
-    const defaultSingleRecordHeight = 114;
+    const defaultSingleRecordHeight = 120;
     const rowHeight = 59;
 
     if (data.length > 1) {

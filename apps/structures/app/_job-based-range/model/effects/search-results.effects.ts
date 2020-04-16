@@ -28,7 +28,7 @@ export class SearchResultsEffects {
   @Effect()
   getMoreResults$ = this.searchJobs(this.actions$.pipe(ofType(fromSearchResultsActions.GET_MORE_RESULTS)));
 
-  searchJobs(action$: Actions<Action>): Observable<Action> {
+  searchJobs(action$: Actions): Observable<Action> {
     return action$.pipe(
       withLatestFrom(
         this.store.select(fromSearchReducer.getParentFilters),

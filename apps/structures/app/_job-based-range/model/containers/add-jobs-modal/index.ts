@@ -1,1 +1,1 @@
-export * from './add-jobs-modal.component';
+export * from './add-jobs-modal-wrapper.component';

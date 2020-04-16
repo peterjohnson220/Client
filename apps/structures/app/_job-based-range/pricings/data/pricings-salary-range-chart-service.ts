@@ -52,9 +52,7 @@ export class PricingsSalaryRangeChartService {
         useHTML: true,
         snap: 0,
         backgroundColor: '#000000',
-        borderWidth: 0,
-        stickyTracking: false,
-        hideDelay: 250
+        borderWidth: 0
       },
       yAxis: {
         opposite: true,

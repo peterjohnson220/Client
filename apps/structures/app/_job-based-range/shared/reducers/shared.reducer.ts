@@ -1,21 +1,16 @@
-import * as fromSharedActions from '../actions/shared.actions';
-import { RangeGroupMetadata } from '../models';
-import { RoundingSettingsDataObj } from '../models/rounding-setting.model';
-
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 
+import * as fromSharedActions from '../actions/shared.actions';
+import { RangeGroupMetadata } from '../models';
+import { RoundingSettingsDataObj } from '../models';
 
 export interface State {
   metadata: RangeGroupMetadata;
-  isNewModelAddJobs: boolean;
-  isNewModelModelSettings: boolean;
   roundingSettings: RoundingSettingsDataObj;
 }
 
 const initialState: State = {
   metadata: null,
-  isNewModelAddJobs: false,
-  isNewModelModelSettings: false,
   roundingSettings: {
     'min': {
       RoundingType: RoundingTypes.Round,
@@ -39,18 +34,6 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         ...state,
         metadata: action.payload
       };
-    case fromSharedActions.SET_IS_NEW_MODEL_ADD_JOBS: {
-      return {
-        ...state,
-        isNewModelAddJobs: action.payload || false
-      };
-    }
-    case fromSharedActions.SET_IS_NEW_MODEL_MODEL_SETTINGS: {
-      return {
-        ...state,
-        isNewModelModelSettings: action.payload || false
-      };
-    }
     case fromSharedActions.UPDATE_ROUNDING_TYPE: {
       return {
         ...state,
@@ -81,6 +64,4 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
 }
 
 export const getMetadata = (state: State) => state.metadata;
-export const getIsNewModelAddJobs = (state: State) => state.isNewModelAddJobs;
-export const getIsNewModelModelSettings = (state: State) => state.isNewModelModelSettings;
 export const getRoundingSettings = (state: State) => state.roundingSettings;

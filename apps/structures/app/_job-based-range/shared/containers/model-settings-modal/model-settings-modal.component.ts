@@ -8,10 +8,10 @@ import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
-import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { Currency, ControlPoint, RangeGroupMetadata, RoundingSettingsDataObj } from '../../models';
 import { Pages } from '../../constants/pages';
+import { UrlService } from '../../services';
 
 @Component({
   selector: 'pf-model-settings-modal',
@@ -36,9 +36,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   metadataSub: Subscription;
   modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
-  isNewModelSub: Subscription;
   roundingSettingsSub: Subscription;
-
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
@@ -48,12 +46,13 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modelSettingsForm: FormGroup;
   attemptedSubmit: boolean;
   modelNameExistsFailure: boolean;
-  isNewModel: any;
+  isNewModel: boolean;
   roundingSettings: RoundingSettingsDataObj;
   activeTab: string;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>
+    private store: Store<fromJobBasedRangeReducer.State>,
+    private urlService: UrlService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
@@ -63,9 +62,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getStructureNameSuggestionsAsyncObj));
     this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSavingModelSettingsAsyncObj));
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
-    this.isNewModelSub = this.store.pipe(select(fromSharedJobBasedRangeReducer.getIsNewModelModelSettings)).subscribe(isNewModel => {
-        this.isNewModel = isNewModel;
-      });
   }
 
   get formControls() {
@@ -105,7 +101,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'controlPoint': new FormControl(this.metadata.ControlPoint, [Validators.required]),
       'spreadMin': new FormControl(this.metadata.SpreadMin, [Validators.required]),
       'spreadMax': new FormControl(this.metadata.SpreadMax, [Validators.required]),
-      'rate': new FormControl(this.metadata.Rate, [Validators.required]),
+      'rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
       'currency': new FormControl(this.metadata.Currency, [Validators.required])
     });
   }
@@ -132,6 +128,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   handleModalDismiss() {
+    this.store.dispatch(new fromModelSettingsModalActions.Cancel());
     this.store.dispatch(new fromModelSettingsModalActions.CloseModal());
     this.reset();
   }
@@ -190,7 +187,12 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     });
 
     this.metadataSub = this.metaData$.subscribe(md => this.metadata = md);
-    this.modalOpenSub = this.modalOpen$.subscribe(mo => mo ? this.buildForm() : false);
+    this.modalOpenSub = this.modalOpen$.subscribe(mo => {
+      if (mo) {
+        this.buildForm();
+        this.isNewModel = this.urlService.isInNewStructureWorkflow();
+      }
+    });
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
   }
@@ -201,7 +203,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.metadataSub.unsubscribe();
     this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
-    this.isNewModelSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
   }
 

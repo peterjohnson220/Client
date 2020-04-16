@@ -43,6 +43,7 @@ export abstract class SearchBase {
 
   handleCancelClicked() {
     this.store.dispatch(new fromSearchPageActions.CloseSearchPage());
+    this.store.dispatch(new fromSearchPageActions.Cancel());
   }
 
   private resetApp() {

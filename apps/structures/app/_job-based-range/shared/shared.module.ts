@@ -20,6 +20,7 @@ import { SharedEffects } from './effects/shared.effects';
 import { reducers } from './reducers';
 import { RangeValuePipe } from './pipes';
 import * as fromFaIcons from './fa-icons';
+import { UrlService } from './services';
 
 @NgModule({
   imports: [
@@ -57,6 +58,9 @@ import * as fromFaIcons from './fa-icons';
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,
     FontAwesomeModule
+  ],
+  providers: [
+    UrlService
   ]
 })
 export class SharedModule {
