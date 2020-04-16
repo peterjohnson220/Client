@@ -8,6 +8,7 @@ export const CLONE_STATEMENT_FROM_TEMPLATE_ERROR = '[Total Rewards/Edit Statemen
 export const LOAD_STATEMENT = '[Total Rewards/Edit Statement] Load Statement';
 export const LOAD_STATEMENT_SUCCESS = '[Total Rewards/Edit Statement] Load Statement Success';
 export const LOAD_STATEMENT_ERROR = '[Total Rewards/Edit Statement] Load Statement Error';
+export const RESET_STATEMENT = '[Total Rewards/Edit Statement] Reset Statement';
 export const SAVE_STATEMENT = '[Total Rewards/Edit Statement] Save Statement';
 export const SAVE_STATEMENT_SUCCESS = '[Total Rewards/Edit Statement] Save Statement Success';
 export const SAVE_STATEMENT_ERROR = '[Total Rewards/Edit Statement] Save Statement Error';
@@ -43,6 +44,10 @@ export class LoadStatementError implements Action {
   constructor(public payload: any) {}
 }
 
+export class ResetStatement implements Action {
+  readonly type = RESET_STATEMENT;
+}
+
 export class SaveStatement implements Action {
   readonly type = SAVE_STATEMENT;
   constructor() {}
@@ -71,6 +76,7 @@ export type StatementActions =
   LoadStatement |
   LoadStatementSuccess |
   LoadStatementError |
+  ResetStatement |
   SaveStatement |
   SaveStatementSuccess |
   SaveStatementError;
