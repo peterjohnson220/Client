@@ -93,6 +93,7 @@ export class HrisConnectionEffects {
             }
             return [
               new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Validated),
+              new fromHrisConnectionActions.GetHrisConnectionSummary(),
               new fromHrisConnectionActions.ValidateSuccess({success: response.successful, skipValidation: response.skipValidation})
             ];
           }),
