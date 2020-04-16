@@ -14,7 +14,7 @@ import { PfDataGridModule } from 'libs/features/pf-data-grid';
 import { PfFormsModule } from 'libs/forms';
 
 import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
-import { ModelGridComponent, ModelSettingsModalComponent } from './containers';
+import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent } from './containers';
 import { ModelSettingsModalEffects, PublishModelModalEffects } from './effects';
 import { SharedEffects } from './effects/shared.effects';
 import { reducers } from './reducers';
@@ -44,6 +44,7 @@ import * as fromFaIcons from './fa-icons';
   ],
   declarations: [
     ModelGridComponent,
+    RangeRoundingComponent,
     GridContextComponent,
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,

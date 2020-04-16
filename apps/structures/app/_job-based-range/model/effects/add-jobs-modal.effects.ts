@@ -41,10 +41,23 @@ export class AddJobsModalEffects {
         this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes),
         this.store.select(fromSharedReducer.getMetadata),
         this.store.select(fromSharedReducer.getIsNewModelAddJobs),
-        // tslint:disable-next-line:max-line-length
-        (action: fromAddJobsPageActions.AddSelectedJobs, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, isNewModelAddJobs) =>
-          ({action, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, isNewModelAddJobs})
-      ),
+        this.store.select(fromSharedReducer.getRoundingSettings),
+        (action: fromAddJobsPageActions.AddSelectedJobs,
+         contextStructureRangeGroupId,
+         payMarkets,
+         selectedJobIds,
+         selectedJobCodes,
+         metadata,
+         isNewModelAddJobs,
+         roundingSettings) =>
+          ({action,
+            contextStructureRangeGroupId,
+            payMarkets,
+            selectedJobIds,
+            selectedJobCodes,
+            metadata,
+            isNewModelAddJobs,
+            roundingSettings})),
       switchMap((contextData) => {
           const companyJobIds = contextData.selectedJobIds.map(j => Number(j));
         // tslint:disable-next-line:max-line-length
@@ -58,7 +71,9 @@ export class AddJobsModalEffects {
                 ] : [
                   new fromAddJobsPageActions.AddJobsSuccess(),
                   new fromSearchPageActions.CloseSearchPage(),
-                  new fromSharedActions.RecalculateRangesWithoutMid({rangeGroupId: contextData.contextStructureRangeGroupId}),
+                  new fromSharedActions.RecalculateRangesWithoutMid
+                  ({rangeGroupId: contextData.contextStructureRangeGroupId,
+                    rounding: contextData.roundingSettings}),
                 ]
               ),
               catchError(error => of(new fromAddJobsPageActions.AddJobsError(error.error.Message)))
@@ -77,8 +92,9 @@ export class AddJobsModalEffects {
           this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
           this.store.select(fromSharedReducer.getMetadata),
           this.store.select(fromSharedReducer.getIsNewModelAddJobs),
-          (action: fromAddJobsPageActions.AddAllJobs, filters, numberResults, contextStructureRangeGroupId, metadata, isNewModelAddJobs) =>
-            ({ action, filters, numberResults, contextStructureRangeGroupId, metadata, isNewModelAddJobs })
+          this.store.select(fromSharedReducer.getRoundingSettings),
+          (action: fromAddJobsPageActions.AddAllJobs, filters, numberResults, contextStructureRangeGroupId, metadata, isNewModelAddJobs, roundingSettings) =>
+            ({ action, filters, numberResults, contextStructureRangeGroupId, metadata, isNewModelAddJobs, roundingSettings })
         ),
         switchMap((data) => {
           const searchRequest: JobSearchRequestStructuresRangeGroup = {
@@ -99,7 +115,7 @@ export class AddJobsModalEffects {
                 ] : [
                   new fromAddJobsPageActions.AddJobsSuccess(),
                   new fromSearchPageActions.CloseSearchPage(),
-                  new fromSharedActions.RecalculateRangesWithoutMid({rangeGroupId: data.contextStructureRangeGroupId}),
+                  new fromSharedActions.RecalculateRangesWithoutMid({rangeGroupId: data.contextStructureRangeGroupId, rounding: data.roundingSettings}),
                 ]
               ),
               catchError(error => of(new fromAddJobsPageActions.AddJobsError(error.error.Message)))

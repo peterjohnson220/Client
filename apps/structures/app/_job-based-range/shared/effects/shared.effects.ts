@@ -24,7 +24,7 @@ export class SharedEffects {
       ofType(fromSharedActions.UPDATE_MID),
       switchMap((action: fromSharedActions.UpdateMid) => {
           return this.structureModelingApiService.recalculateRangeMinMax(PayfactorsApiModelMapper.mapUpdateRangeInputToRecalcAndSaveRangeMinMaxRequest(
-            action.payload.RangeGroupId, action.payload.RangeId, action.payload.Mid, action.payload.RowIndex)).pipe(
+            action.payload.RangeGroupId, action.payload.RangeId, action.payload.Mid, action.payload.RowIndex, action.payload.RoundingSettings)).pipe(
             mergeMap((response) => {
               const actions = [];
               actions.push(new pfDataGridActions.UpdateRow(PageViewIds.Model, response.RowIndex,
@@ -47,7 +47,10 @@ export class SharedEffects {
     .pipe(
       ofType(fromSharedActions.RECALCULATE_RANGES_WITHOUT_MID),
       switchMap((action: fromSharedActions.RecalculateRangesWithoutMid) => {
-          return this.structureModelingApiService.recalculateRangesWithoutMid(action.payload.rangeGroupId).pipe(
+          return this.structureModelingApiService.recalculateRangesWithoutMid(
+            PayfactorsApiModelMapper.mapRecalculateRangesWithoutMidInputToRecalculateRangesWithoutMidRequest(
+              action.payload.rangeGroupId, action.payload.rounding))
+            .pipe(
             map(() => {
               return new pfDataGridActions.LoadData(PageViewIds.Model);
             })

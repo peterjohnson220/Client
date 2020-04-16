@@ -1,0 +1,89 @@
+<div class="p-3 pr-5">
+  <div class="form-group rounding-group">
+    <label>Minimum</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="min-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.min.RoundingType"
+                            (valueChange)="handleTypeChange('min', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="min-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [defaultItem]=""
+                            [value]="roundingSettings.min.RoundingPoint"
+                            (valueChange)="handlePointChange('min', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+  <div class="form-group rounding-group">
+    <label>Mid</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="mid-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.mid.RoundingType"
+                            (valueChange)="handleTypeChange('mid', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="mid-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.mid.RoundingPoint"
+                            (valueChange)="handlePointChange('mid', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+  <div class="form-group rounding-group">
+    <label>Maximum</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="max-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.max.RoundingType"
+                            (valueChange)="handleTypeChange('max', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="max-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.max.RoundingPoint"
+                            (valueChange)="handlePointChange('max', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+
+</div>
+

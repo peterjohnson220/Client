@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -8,7 +8,7 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'li
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 
 import { PageViewIds } from '../../constants/page-view-ids';
-import { RangeGroupMetadata } from '../../models';
+import { RangeGroupMetadata, RoundingSettingsDataObj } from '../../models';
 import { Pages } from '../../constants/pages';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
@@ -21,7 +21,7 @@ import * as fromJobBasedRangeReducer from '../../reducers';
   templateUrl: './model-grid.component.html',
   styleUrls: ['./model-grid.component.scss', '../../styles/pf-data-grid-styles.scss']
 })
-export class ModelGridComponent implements AfterViewInit {
+export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('min', {static: false}) minColumn: ElementRef;
   @ViewChild('mid', {static: false}) midColumn: ElementRef;
   @ViewChild('max', {static: false}) maxColumn: ElementRef;
@@ -40,6 +40,9 @@ export class ModelGridComponent implements AfterViewInit {
   @Output() openModelSettings = new EventEmitter();
 
   metaData$: Observable<RangeGroupMetadata>;
+  roundingSettings$: Observable<RoundingSettingsDataObj>;
+  roundingSettingsSub: Subscription;
+  roundingSettings: RoundingSettingsDataObj;
   colTemplates = {};
   modelPageViewId = PageViewIds.Model;
   defaultPagingOptions: PagingOptions = {
@@ -58,6 +61,7 @@ export class ModelGridComponent implements AfterViewInit {
     public store: Store<fromJobBasedRangeReducer.State>
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
 
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
@@ -94,9 +98,11 @@ export class ModelGridComponent implements AfterViewInit {
       RangeGroupId: dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID,
       RowIndex: index,
       Mid: targetValue,
-      Page: this.page
+      Page: this.page,
+      RoundingSettings: this.roundingSettings
     };
 
+    // TODO - we really should be just persisting rounding settings rather than passing every time, but that is coming later.
     this.store.dispatch(new fromSharedActions.UpdateMid(payload));
   }
 
@@ -117,5 +123,13 @@ export class ModelGridComponent implements AfterViewInit {
       ...this.fullGridActionBarConfig,
       GlobalActionsTemplate: this.gridGlobalActionsTemplate
     };
+  }
+
+  ngOnInit(): void {
+    this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
+  }
+
+  ngOnDestroy(): void {
+    this.roundingSettingsSub.unsubscribe();
   }
 }

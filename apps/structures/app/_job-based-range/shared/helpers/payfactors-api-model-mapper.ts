@@ -1,12 +1,15 @@
 import {
   RecalcAndSaveRangeMinMaxRequest,
   SaveModelSettingsRequest,
-  StructureRangeGroupResponse
+  StructureRangeGroupResponse,
+  RoundRangesRequest,
+  RecalculateRangesWithoutMidRequest
 } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
 
-import { ControlPoint, Currency, RangeGroupMetadata } from '../models';
+import { ControlPoint, Currency, RangeGroupMetadata, RoundingSettingsDataObj, RoundingSetting } from '../models';
+
 
 export class PayfactorsApiModelMapper {
 
@@ -51,7 +54,7 @@ export class PayfactorsApiModelMapper {
   ///
   /// OUT
   ///
-  static mapModelSettingsModalFormToSaveSettingsRequest(rangeGroupId: number, formValue: any): SaveModelSettingsRequest {
+  static mapModelSettingsModalFormToSaveSettingsRequest(rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj): SaveModelSettingsRequest {
     return {
       RangeGroupId: rangeGroupId,
       ControlPoint: formValue.controlPoint,
@@ -60,17 +63,51 @@ export class PayfactorsApiModelMapper {
       RangeSpreadMin: formValue.spreadMin,
       RangeSpreadMax: formValue.spreadMax,
       Rate: formValue.rate,
-      StructureName: formValue.structureName
+      StructureName: formValue.structureName,
+      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
     };
   }
 
-  // tslint:disable-next-line:max-line-length
-  static mapUpdateRangeInputToRecalcAndSaveRangeMinMaxRequest(rangeGroupId: number, rangeId: number, mid: number, rowIndex: number): RecalcAndSaveRangeMinMaxRequest {
+  static mapUpdateRangeInputToRecalcAndSaveRangeMinMaxRequest
+  (rangeGroupId: number,
+   rangeId: number,
+   mid: number,
+   rowIndex: number,
+   rounding: RoundingSettingsDataObj): RecalcAndSaveRangeMinMaxRequest {
     return {
       RangeGroupId: rangeGroupId,
       RangeId: rangeId,
       RowIndex: rowIndex,
-      Mid: mid
+      Mid: mid,
+      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
+    };
+  }
+
+  static mapRecalculateRangesWithoutMidInputToRecalculateRangesWithoutMidRequest
+  (rangeGroupId: number,
+   rounding: RoundingSettingsDataObj): RecalculateRangesWithoutMidRequest {
+    return {
+      RangeGroupId: rangeGroupId,
+      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
+    };
+  }
+
+  static mapRoundingSettingsModalFormToRoundRangesRequest(roundingSettings: RoundingSettingsDataObj): RoundRangesRequest {
+    let min: RoundingSetting;
+    let mid: RoundingSetting;
+    let max: RoundingSetting;
+
+    min = roundingSettings['min'];
+    mid = roundingSettings['mid'];
+    max = roundingSettings['max'];
+
+    return {
+      MinRoundingType: min.RoundingType,
+      MinRoundingPoint: min.RoundingPoint,
+      MidRoundingType: mid.RoundingType,
+      MidRoundingPoint: mid.RoundingPoint,
+      MaxRoundingType: max.RoundingType,
+      MaxRoundingPoint: max.RoundingPoint
     };
   }
 

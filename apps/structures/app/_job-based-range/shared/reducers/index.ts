@@ -61,6 +61,10 @@ export const getIsNewModelModelSettings = createSelector(
   selectSharedState, fromSharedReducer.getIsNewModelModelSettings
 );
 
+export const getRoundingSettings = createSelector(
+  selectSharedState, fromSharedReducer.getRoundingSettings
+);
+
 // Model Settings Modal
 export const getModelSettingsModalOpen = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getModalOpen
