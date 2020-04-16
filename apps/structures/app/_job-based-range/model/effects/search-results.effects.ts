@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, withLatestFrom, mergeMap, catchError } from 'rxjs/operators';
+import { switchMap, withLatestFrom, mergeMap, catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
-import { JobBasedRangeJobSearchResponse, JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api/job-search';
+import { JobBasedRangeJobSearchResponse, JobSearchRequestStructuresRangeGroup, JobSearchPricingDataResponse, JobSearchContext } from 'libs/models/payfactors-api/job-search';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
@@ -28,7 +28,46 @@ export class SearchResultsEffects {
   @Effect()
   getMoreResults$ = this.searchJobs(this.actions$.pipe(ofType(fromSearchResultsActions.GET_MORE_RESULTS)));
 
-  searchJobs(action$: Actions): Observable<Action> {
+  @Effect()
+  loadPricingData$ = this.actions$
+    .pipe(
+      ofType(fromAddJobsSearchResultsActions.LOAD_JOB_PRICING_DATA),
+      withLatestFrom(
+        this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
+        (action: fromAddJobsSearchResultsActions.GetJobPricingData, contextStructureRangeGroupId) => (
+          { action, contextStructureRangeGroupId }
+        )),
+      mergeMap((data) => {
+        let jobCode = null;
+        let companyJobId = null;
+        const jobResult = data.action.payload;
+
+        if (jobResult.IsPayfactorsJob) {
+          jobCode = jobResult.Code;
+        } else {
+          companyJobId = jobResult.Id;
+        }
+        return this.jobSearchApiService.getStructureJobPricingData({
+          CompanyJobId: companyJobId,
+          PayfactorsJobCode: jobCode,
+          StructureRangeGroupId: data.contextStructureRangeGroupId,
+          Type: JobSearchContext.StructuresJobSearch
+        })
+          .pipe(
+            map((pricingDataResponse: JobSearchPricingDataResponse) =>
+              new fromAddJobsSearchResultsActions.GetJobPricingDataSuccess(
+                {
+                  jobId: jobResult.Id,
+                  data: pricingDataResponse
+                }
+              )
+            ),
+            catchError(() => of(new fromAddJobsSearchResultsActions.GetJobPricingDataError(jobResult.Id)))
+          );
+      }
+      ));
+
+  searchJobs(action$: Actions<Action>): Observable<Action> {
     return action$.pipe(
       withLatestFrom(
         this.store.select(fromSearchReducer.getParentFilters),

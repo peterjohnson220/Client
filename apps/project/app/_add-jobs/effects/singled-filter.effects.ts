@@ -8,7 +8,7 @@ import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search';
 import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
 import { InfiniteScrollActionContext, InfiniteScrollEffectsService} from 'libs/features/infinite-scroll/services';
-import { SearchFilter, JobSearchAggregationType } from 'libs/models/payfactors-api';
+import { SearchFilter, JobSearchContext } from 'libs/models/payfactors-api';
 import { MultiSelectFilter } from 'libs/features/search/models';
 import { JobSearchAggregationRequest } from 'libs/models/payfactors-api';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
@@ -36,7 +36,7 @@ export class SingledFilterEffects {
           SearchField: data.singledFilter.BackingField,
           TextQuery: data.searchValue,
           PayMarketId: data.context.PayMarketId,
-          Type: JobSearchAggregationType.ProjectJobSearch,
+          Type: JobSearchContext.ProjectJobSearch,
           PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.infiniteScrollActionContext.pagingOptions)
         };
 

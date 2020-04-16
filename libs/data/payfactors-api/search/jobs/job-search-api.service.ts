@@ -12,7 +12,9 @@ import {
   SearchFilter,
   JobSearchAutocompleteRequest,
   JobBasedRangeJobSearchResponse,
-  JobSearchStructuresAggregationRequest
+  JobSearchStructuresAggregationRequest,
+  ProjectJobSearchPricingDataRequest,
+  StructuresJobSearchPricingDataRequest
 } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
@@ -39,7 +41,11 @@ export class JobSearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchJobAggregations`, searchRequest);
   }
 
-  getJobPricingData(jobPriceRequest: JobSearchPricingDataRequest): Observable<JobSearchPricingDataResponse> {
+  getJobPricingData(jobPriceRequest: ProjectJobSearchPricingDataRequest): Observable<JobSearchPricingDataResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetJobPriceData`, jobPriceRequest);
+  }
+
+  getStructureJobPricingData(jobPriceRequest: StructuresJobSearchPricingDataRequest): Observable<JobSearchPricingDataResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetJobPriceData`, jobPriceRequest);
   }
 
