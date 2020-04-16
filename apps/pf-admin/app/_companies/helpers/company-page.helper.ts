@@ -151,6 +151,7 @@ export class CompanyPageHelper {
         case TileNames.Employees:
         case TileNames.NewCommunity:
         case TileNames.Peer:
+        case TileNames.QuickPrice:
         case TileNames.CompanyAdmin: {
           t.Checked = true;
           t.Disabled = false;
@@ -211,6 +212,7 @@ export class CompanyPageHelper {
         case TileNames.Employees:
         case TileNames.NewCommunity:
         case TileNames.Peer:
+        case TileNames.QuickPrice:
         case TileNames.CompanyAdmin: {
           t.Checked = true;
           t.Disabled = false;
@@ -239,6 +241,7 @@ export class CompanyPageHelper {
         case TileNames.Employees:
         case TileNames.NewCommunity:
         case TileNames.Peer:
+        case TileNames.QuickPrice:
         case TileNames.CompanyAdmin: {
           t.Disabled = false;
           return t;
