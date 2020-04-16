@@ -7,7 +7,7 @@ import * as fromRoot from 'libs/state/state';
 import * as fromPageReducer from './statement-edit.page.reducer';
 import { AsyncStateObj } from 'libs/models';
 
-import { Statement, Settings } from '../../../shared/models';
+import { Statement } from '../../../shared/models';
 
 // Feature area state
 export interface StatementEditState {
@@ -99,25 +99,6 @@ export const selectIsSettingsSaveError = createSelector(
   (state: fromPageReducer.State) => state.settingsSaveError
 );
 
-export const selectSettings = createSelector(
-  selectStatement,
-  (state: Statement) => state.Settings
-);
-
-export const selectSettingsFontSize = createSelector(
-  selectSettings,
-  (state: Settings) => state.FontSize
-);
-
-export const selectSettingsFontFamily = createSelector(
-  selectSettings,
-  (state: Settings) => state.FontFamily
-);
-
-export const selectSettingsChartColors = createSelector(
-  selectSettings,
-  (state: Settings) => state.ChartColors
-);
 export const selectStatementMode = createSelector(
   selectStatementEditPageState,
   (state: StatementEditState) => state.page.mode

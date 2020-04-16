@@ -48,12 +48,11 @@
         ></pf-total-rewards-statement>
       </div>
     </pf-async-container>
-    <pf-settings-panel 
-      *ngIf="statement && statement.Settings"
+    <pf-settings-panel
       [isOpen]="isSettingsPanelOpen$ | async"
-      [fontSize]="settingsFontSize$ | async"
-      [fontFamily]="settingsFontFamily$ | async"
-      [chartColors]="settingsChartColors$ | async"
+      [fontSize]="(statement$ | async)?.Settings.FontSize"
+      [fontFamily]="(statement$ | async)?.Settings.FontFamily"
+      [chartColors]="(statement$ | async)?.Settings.ChartColors"
       [isSavingError]="settingsSavingError$ | async"
       (fontSizeChange)="handleSettingsFontSizeChange($event)"
       (fontFamilyChange)="handleSettingsFontFamilyChange($event)"
