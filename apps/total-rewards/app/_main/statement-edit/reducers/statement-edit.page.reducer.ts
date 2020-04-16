@@ -76,6 +76,9 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.LOAD_STATEMENT_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'statement', action.payload);
     }
+    case fromEditStatementActions.RESET_STATEMENT: {
+      return initialState;
+    }
     case fromEditStatementActions.SAVE_STATEMENT: {
       return AsyncStateObjHelper.saving(state, 'statement');
     }

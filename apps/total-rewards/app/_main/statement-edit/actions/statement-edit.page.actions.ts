@@ -15,6 +15,7 @@ export type StatementEditPageActions =
   statementActions.LoadStatement |
   statementActions.LoadStatementSuccess |
   statementActions.LoadStatementError |
+  statementActions.ResetStatement |
   statementActions.SaveStatement |
   statementActions.SaveStatementSuccess |
   statementActions.SaveStatementError |

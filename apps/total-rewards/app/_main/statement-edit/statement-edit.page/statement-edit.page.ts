@@ -102,6 +102,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.urlParamSubscription.unsubscribe();
     this.statementSubscription.unsubscribe();
     this.modeSubscription.unsubscribe();
+    this.store.dispatch(new fromEditStatementPageActions.ResetStatement());
   }
 
   getStatementName(): string {
