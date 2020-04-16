@@ -53,14 +53,6 @@ export const getMetadata = createSelector(
   selectSharedState, fromSharedReducer.getMetadata
 );
 
-export const getIsNewModelAddJobs = createSelector(
-  selectSharedState, fromSharedReducer.getIsNewModelAddJobs
-);
-
-export const getIsNewModelModelSettings = createSelector(
-  selectSharedState, fromSharedReducer.getIsNewModelModelSettings
-);
-
 export const getRoundingSettings = createSelector(
   selectSharedState, fromSharedReducer.getRoundingSettings
 );

@@ -135,12 +135,15 @@
                                       [data]="['Annual', 'Hourly']"
                                       [valuePrimitive]="true">
                   </kendo-dropdownlist>
+                  <div class="invalid-feedback">
+                    Please provide a rate.
+                  </div>
                 </div>
                 <div class="form-group">
                   <label for="currency">Currency</label>
                   <kendo-combobox id="currency" class="form-control"
                                   formControlName="currency"
-                                  [ngClass]="{ 'is-invalid': !formControls.currency.valid }"
+                                  [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.currency.valid }"
                                   [loading]="currenciesAsyncObj.loading"
                                   [data]="currencies"
                                   [textField]="'CurrencyDisplay'"

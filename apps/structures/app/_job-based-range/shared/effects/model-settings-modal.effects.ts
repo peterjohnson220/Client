@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of, timer } from 'rxjs';
-import { catchError, debounce, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, debounce, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
 import { CompositeFieldApiService } from 'libs/data/payfactors-api/composite-field';
@@ -21,15 +21,20 @@ import { PageViewIds } from '../constants/page-view-ids';
 import * as fromSharedReducer from '../reducers';
 import { Pages } from '../constants/pages';
 import { RangeGroupMetadata } from '../models';
+import { UrlService } from '../services';
 
 @Injectable()
 export class ModelSettingsModalEffects {
 
   @Effect()
-  closeModal$: Observable<Action> = this.actions$
+  cancel$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromModelSettingsModalActions.CLOSE_MODAL),
-      map(() => new fromSharedActions.SetIsNewModelModelSettings(false))
+      ofType(fromModelSettingsModalActions.CANCEL),
+      filter(() => this.urlService.isInNewStructureWorkflow()),
+      map(() => {
+        this.urlService.removeNewStructureWorkflow();
+        return new fromDataGridActions.LoadData(PageViewIds.Model);
+      })
     );
 
   @Effect()
@@ -138,6 +143,8 @@ export class ModelSettingsModalEffects {
                 actions.push(new fromModelSettingsModalActions.SaveModelSettingsSuccess());
               }
 
+              this.urlService.removeNewStructureWorkflow();
+
               return actions;
             }
           ),
@@ -153,6 +160,7 @@ export class ModelSettingsModalEffects {
     private compositeFieldsApiService: CompositeFieldApiService,
     private structureModelingApiService: StructureModelingApiService,
     private router: Router,
+    private urlService: UrlService,
     private store: Store<fromSharedReducer.State>
   ) {
   }

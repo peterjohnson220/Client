@@ -19,7 +19,7 @@ export const SAVE_MODEL_SETTINGS_SUCCESS = '[Structures - Job Based Range - Mode
 export const SAVE_MODEL_SETTINGS_ERROR = '[Structures - Job Based Range - Model Settings] Save Model Settings Error';
 export const MODEL_NAME_EXISTS_FAILURE = '[Structures - Job Based Range - Model Settings] Model Name Exists Failure';
 export const CLEAR_MODEL_NAME_EXISTS_FAILURE = '[Structures - Job Based Range - Model Settings] Clear Name Exists Failure';
-
+export const CANCEL = '[Structures - Job Based Range - Model Settings] Cancel';
 
 export class OpenModal implements Action {
   readonly type = OPEN_MODAL;
@@ -95,6 +95,10 @@ export class ClearModelNameExistsFailure implements Action {
   readonly type = CLEAR_MODEL_NAME_EXISTS_FAILURE;
 }
 
+export class Cancel implements Action {
+  readonly type = CANCEL;
+}
+
 export type ModelSettingsModalActions
   = OpenModal
   | CloseModal
@@ -111,4 +115,5 @@ export type ModelSettingsModalActions
   | SaveModelSettingsSuccess
   | SaveModelSettingsError
   | ModelNameExistsFailure
-  | ClearModelNameExistsFailure;
+  | ClearModelNameExistsFailure
+  | Cancel;

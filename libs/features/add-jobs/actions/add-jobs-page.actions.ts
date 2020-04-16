@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { BaseSearchRequest } from 'libs/models/payfactors-api';
 
 export const SET_CONTEXT = '[Add Jobs/Add Jobs Page] Set Context';
 export const SET_CONTEXT_STRUCTURES_RANGE_GROUP_ID = '[Add Jobs/Add Jobs Page] Set Structures Range Group Id';

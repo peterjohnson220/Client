@@ -10,11 +10,10 @@ import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
-import * as fromSharedJobBasedRangeActions from '../../shared/actions/shared.actions';
-import * as fromPublishModelModalActions from '../../shared/actions/publish-model-modal.actions';
-import { AddJobsModalComponent } from '../containers/add-jobs-modal';
+import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
+import { UrlService } from '../../shared/services';
 
 @Component({
   selector: 'pf-model-page',
@@ -22,7 +21,7 @@ import { RangeGroupMetadata } from '../../shared/models';
   styleUrls: ['./model.page.scss']
 })
 export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(AddJobsModalComponent, {static: false}) public AddJobsModalComponent: AddJobsModalComponent;
+  @ViewChild(AddJobsModalWrapperComponent, {static: false}) public AddJobsModalComponent: AddJobsModalWrapperComponent;
 
   metaData$: Observable<RangeGroupMetadata>;
   filters: PfDataGridFilter[];
@@ -33,8 +32,9 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   filter: PfDataGridFilter;
 
   constructor(
-    public store: Store<any>,
-    private route: ActivatedRoute
+    private store: Store<any>,
+    private route: ActivatedRoute,
+    private urlService: UrlService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.rangeGroupId = this.route.snapshot.params.id;
@@ -60,9 +60,8 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // Events
-  openAddJobsModal(newJobRange = false) {
+  openAddJobsModal() {
     this.setSearchContext();
-    this.store.dispatch(new fromSharedJobBasedRangeActions.SetIsNewModelAddJobs(newJobRange));
     this.store.dispatch(new fromAddJobsPageActions.SetContextStructuresRangeGroupId(this.rangeGroupId));
   }
 
@@ -89,10 +88,8 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const url = this.route.snapshot.url;
-    const newJobRange = url && url.length > 0 && url[0].path === 'new';
-    if (newJobRange) {
-      this.openAddJobsModal(true);
+    if (this.urlService.isInNewStructureWorkflow()) {
+      this.openAddJobsModal();
     }
   }
 

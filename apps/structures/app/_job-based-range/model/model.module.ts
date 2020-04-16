@@ -19,7 +19,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSearchModule } from 'libs/features/search';
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
-import { AddJobsModalComponent, JobBasedRangeChartComponent, PublishModelModalComponent } from './containers';
+import { AddJobsModalWrapperComponent, JobBasedRangeChartComponent, PublishModelModalComponent } from './containers';
 import { AddJobsUserFilterPopoverConfig, JobBasedRangeAddJobsConfig } from './data';
 import { AddJobsModalEffects, SearchPageEffects, SearchResultsEffects, SingledFilterEffects } from './effects';
 import { ModelPageComponent } from './model.page';
@@ -62,7 +62,7 @@ import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType
   ],
   declarations: [
     ModelPageComponent,
-    AddJobsModalComponent,
+    AddJobsModalWrapperComponent,
     PublishModelModalComponent,
     JobBasedRangeChartComponent
   ],

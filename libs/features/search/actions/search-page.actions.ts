@@ -7,6 +7,7 @@ export const HIDE_FILTER_SEARCH = '[Search/Search Page] Hide Filter Search';
 export const HIDE_CHILD_FILTER_SEARCH = '[Search/Search Page] Hide Child Filter Search';
 export const HIDE_PAGE = '[Search/Search Page] Hide Page';
 export const SHOW_PAGE = '[Search/Search Page] Show Page';
+export const CANCEL = '[Search/Search Page] Cancel';
 
 export class CloseSearchPage implements Action {
   readonly type = CLOSE_SEARCH_PAGE;
@@ -46,6 +47,12 @@ export class HidePage implements Action {
 
 export class ToggleChildFilterSearch implements Action {
   readonly type = TOGGLE_CHILD_FILTER_SEARCH;
+
+  constructor() {}
+}
+
+export class Cancel implements Action {
+  readonly type = CANCEL;
 
   constructor() {}
 }
