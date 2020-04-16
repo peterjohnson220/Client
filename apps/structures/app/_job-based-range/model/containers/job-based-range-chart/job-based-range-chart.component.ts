@@ -13,6 +13,7 @@ import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
 import { JobRangeModelChartService, JobRangeModelChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
+import { RangeGroupMetadata } from '../../../shared/models';
 
 @Component({
   selector: 'pf-job-based-range-chart',
@@ -40,12 +41,15 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   controlPointDisplay: string;
   rate: string;
   isCurrent: boolean;
+  hasCurrentStructure: boolean;
+  metaData: RangeGroupMetadata;
 
   constructor(
     public store: Store<any>
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
+        this.metaData = md;
         this.isCurrent = md.IsCurrent;
         this.rate = md.Rate;
         this.currency = md.Currency;
@@ -122,26 +126,18 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       xCoordinate, currentRow.CompanyStructures_Ranges_Min, currentRow.CompanyStructures_Ranges_Max));
   }
 
-  private formatMidPoint(isCurrent, midPointType, value) {
-    return isCurrent ? StructuresHighchartsService.formatMidPoint(midPointType, value, this.chartLocale, this.currency, this.rate) : null;
-  }
-
-  private formatMidPointDelta(currentRow) {
-    return this.isCurrent === false ? StructuresHighchartsService.formatDeltaInMidPointForExistingStruct(
-      currentRow.CompanyStructures_Ranges_Mid,
-      currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint,
-      this.chartLocale, this.currency, this.rate) : null;
-  }
-
   private addMidpoint(currentRow) {
-    const delta = this.formatMidPointDelta(currentRow);
+    const delta = StructuresHighchartsService.formatMidPointDelta(this.hasCurrentStructure, currentRow, this.chartLocale, this.metaData);
 
     this.midpointSeriesData.push({
       y: currentRow.CompanyStructures_Ranges_Mid,
       jobTitle: currentRow.CompanyJobs_Job_Title,
-      midPoint: this.formatMidPoint(this.isCurrent, 'Midpoint', currentRow.CompanyStructures_Ranges_Mid),
-      currentMidPoint: this.formatMidPoint(!this.isCurrent, 'Current Mid', currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint),
-      newMidPoint: this.formatMidPoint(!this.isCurrent, 'New Mid', currentRow.CompanyStructures_Ranges_Mid),
+      midPoint: StructuresHighchartsService.formatCurrentMidPoint(this.hasCurrentStructure, 'Midpoint',
+        currentRow.CompanyStructures_Ranges_Mid, this.chartLocale, this.metaData),
+      currentMidPoint: StructuresHighchartsService.formatNewMidPoint(this.hasCurrentStructure, 'Current Mid',
+        currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint, this.chartLocale, this.metaData),
+      newMidPoint: StructuresHighchartsService.formatNewMidPoint(this.hasCurrentStructure, 'New Mid',
+        currentRow.CompanyStructures_Ranges_Mid, this.chartLocale, this.metaData),
       delta: !!delta ? delta.message : delta,
       icon: !!delta ? delta.icon : delta,
       iconColor: !!delta ? delta.color : delta
@@ -210,6 +206,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.chartMax = 0;
     for (let i = 0; i < this.jobRangeData.data.length; i++) {
       const currentRow = this.jobRangeData.data[i];
+      this.hasCurrentStructure = currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint === null;
       // check for new min
       this.determineChartMin(currentRow);
 

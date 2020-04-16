@@ -13,6 +13,7 @@ import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
 import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
+import { RangeGroupMetadata } from '../../../shared/models';
 
 @Component({
   selector: 'pf-employee-salary-range-chart',
@@ -47,12 +48,15 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   plotLinesAndBands: any;
   rate: string;
   isCurrent: boolean;
+  hasCurrentStructure: boolean;
+  metaData: RangeGroupMetadata;
 
   constructor(
     public store: Store<any>
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
+        this.metaData = md;
         this.isCurrent = md.IsCurrent;
         this.rate = md.Rate;
         this.currency = md.Currency;
@@ -107,17 +111,6 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     }
   }
 
-  private formatMidPoint(isCurrent, midPointType, value) {
-    return isCurrent ? StructuresHighchartsService.formatMidPoint(midPointType, value, this.chartLocale, this.currency, this.rate) : null;
-  }
-
-  private formatMidPointDelta(currentRow) {
-    return this.isCurrent === false ? StructuresHighchartsService.formatDeltaInMidPointForExistingStruct(
-      currentRow.CompanyStructures_Ranges_Mid,
-      currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint,
-      this.chartLocale, this.currency, this.rate) : null;
-  }
-
   private addEmployee(xCoordinate, currentRow, jobRangeData) {
     // if this employee falls within the salary range, add to employee series. else, add to outlier employee series
     const min = jobRangeData.CompanyStructures_Ranges_Min;
@@ -152,15 +145,20 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       `
     });
 
-    const delta = this.formatMidPointDelta(jobRangeData);
+    this.hasCurrentStructure = jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint === null;
+    const delta = StructuresHighchartsService.formatMidPointDelta(this.hasCurrentStructure, jobRangeData,
+      this.chartLocale, this.metaData);
 
     this.midPointSeries.push({
       x: xCoordinate,
       y: this.jobRangeData.CompanyStructures_Ranges_Mid,
       jobTitle: jobRangeData.CompanyJobs_Job_Title,
-      midPoint: this.formatMidPoint(this.isCurrent, 'Midpoint', jobRangeData.CompanyStructures_Ranges_Mid),
-      currentMidPoint: this.formatMidPoint(!this.isCurrent, 'Current Mid', jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint),
-      newMidPoint: this.formatMidPoint(!this.isCurrent, 'New Mid', jobRangeData.CompanyStructures_Ranges_Mid),
+      midPoint: StructuresHighchartsService.formatCurrentMidPoint(this.hasCurrentStructure, 'Midpoint',
+        jobRangeData.CompanyStructures_Ranges_Mid, this.chartLocale, this.metaData),
+      currentMidPoint: StructuresHighchartsService.formatNewMidPoint(this.hasCurrentStructure, 'Current Mid',
+        jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint, this.chartLocale, this.metaData),
+      newMidPoint: StructuresHighchartsService.formatNewMidPoint(this.hasCurrentStructure, 'New Mid',
+        jobRangeData.CompanyStructures_Ranges_Mid, this.chartLocale, this.metaData),
       delta: !!delta ? delta.message : delta,
       icon: !!delta ? delta.icon : delta,
       iconColor: !!delta ? delta.color : delta
