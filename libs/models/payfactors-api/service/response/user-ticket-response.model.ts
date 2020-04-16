@@ -25,6 +25,8 @@ export interface UserTicketResponse {
   TicketFileTypeId: number;
   UserTicketTypeSortOrder: number;
   TicketTitle?: string;
+  HasNotes: boolean;
+  UserModifiedDate?: Date;
 }
 
 export interface UserTicketFile {
@@ -67,7 +69,9 @@ export function generateMockUserTicketViewModel(): UserTicketResponse {
     LastUpdatedText: '5 seconds ago',
     UserTicketTypeId: 1,
     TicketFileTypeId: 1,
-    UserTicketTypeSortOrder: 1
+    UserTicketTypeSortOrder: 1,
+    HasNotes: false,
+    UserModifiedDate: new Date('01/01/2020')
   };
 }
 

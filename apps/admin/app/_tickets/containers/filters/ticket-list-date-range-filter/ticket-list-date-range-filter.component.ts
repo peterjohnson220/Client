@@ -28,7 +28,7 @@ export class TicketListDateRangeFilterComponent extends BaseFilterCellComponent 
 
   @Input() public filter: CompositeFilterDescriptor;
   @Input() public filterField: TicketFieldType;
-  @Input() public defaultValue: any;
+  @Input() public defaultValue: any = {start: '', end: ''};
   @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
 
   public show = false;

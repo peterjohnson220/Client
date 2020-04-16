@@ -15,6 +15,8 @@ export interface UserTicketGridItem {
   OpenedUserFullName: string;
   OpenedUserId: number;
   Attachments: TicketAttachment[];
+  HasNotes: boolean;
+  UserModifiedDate?: Date;
 }
 
 export function generateMockUserTicketGridItem(): UserTicketGridItem {
@@ -32,6 +34,8 @@ export function generateMockUserTicketGridItem(): UserTicketGridItem {
     TicketCssClass: 'MockTicketCssClass',
     OpenedUserFullName: 'MockOpenedUserFullName',
     OpenedUserId: 1,
-    Attachments: generateMockTicketAttachments()
+    Attachments: generateMockTicketAttachments(),
+    HasNotes: false,
+    UserModifiedDate: new Date('01/01/2020')
   };
 }

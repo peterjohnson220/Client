@@ -9,12 +9,10 @@ import { PfCommonModule } from 'libs/core';
 
 import { TicketListComponent } from './ticket-list.component';
 import * as fromTicketReducer from '../../reducers';
-import * as fromTicketLookupActions from '../../actions/ticket-lookup.actions';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketList from '../../actions/ticket.actions';
 
 import { generateMockUserTicketGridItem, UserTicketGridItem, UserTicketTabItem } from '../../models';
-import {FilterService} from '@progress/kendo-angular-grid';
 
 
 describe('Admin - Tickets - Ticket List', () => {
