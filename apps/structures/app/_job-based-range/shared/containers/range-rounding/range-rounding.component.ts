@@ -83,7 +83,7 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
       // 0 is the default for Annual
       let defaultPoint = 0;
 
-      if (this.metadata.Rate.toLowerCase() === 'hourly') {
+      if (this.metadata.Rate && this.metadata.Rate.toLowerCase() === 'hourly') {
         defaultPoint = 2;
       }
 
