@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
-import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
@@ -24,6 +24,7 @@ import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-pi
 import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
 import { SimpleYesNoModalComponent } from './simple-yes-no';
+import { LoadingProgressBarService } from './loading/service';
 
 const components = [
   // Content
@@ -61,6 +62,7 @@ const components = [
     RouterModule,
     PfCommonModule,
     NgbTooltipModule,
+    NgbProgressbarModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
@@ -71,7 +73,8 @@ const components = [
   declarations: components,
   exports: components,
   providers: [
-    WindowRef
+    WindowRef,
+    LoadingProgressBarService
   ]
 })
 export class PfCommonUIModule {
