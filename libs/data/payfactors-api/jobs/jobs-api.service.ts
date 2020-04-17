@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CreateProjectRequest } from 'libs/models/payfactors-api';
+import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
 
 @Injectable()
 export class JobsApiService {
@@ -20,7 +21,7 @@ export class JobsApiService {
       PricingIds: request.PricingIds,
       FileExtension: request.FileExtension,
       Name: request.Name
-    });
+    }, null, false, BaseUrlLocation.Default, true);
   }
 
   loadCustomExports() {
