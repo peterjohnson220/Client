@@ -30,9 +30,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   mode$: Observable<models.StatementModeEnum>;
 
   isSettingsPanelOpen$: Observable<boolean>;
-  settingsFontSize$: Observable<FontSize>;
-  settingsFontFamily$: Observable<FontFamily>;
-  settingsChartColors$: Observable<string[]>;
   settingsSaving$: Observable<boolean>;
   settingsSavingSuccess$: Observable<boolean>;
   settingsSavingError$: Observable<boolean>;
@@ -70,9 +67,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.settingsSaving$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaving));
     this.settingsSavingSuccess$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaveSuccess));
     this.settingsSavingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaveError));
-    this.settingsFontSize$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectSettingsFontSize));
-    this.settingsFontFamily$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectSettingsFontFamily));
-    this.settingsChartColors$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectSettingsChartColors));
 
     // SUBSCRIPTIONS
     this.urlParamSubscription = this.route.params.subscribe(params => {
