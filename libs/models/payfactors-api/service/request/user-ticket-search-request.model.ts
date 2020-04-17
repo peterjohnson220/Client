@@ -13,6 +13,8 @@ export interface UserTicketSearchRequest {
   Take: number;
   SortField: string;
   SortDirection: string;
+  ModifiedStartDate?: Date;
+  ModifiedEndDate?: Date;
 }
 
 export function generateMockUserTicketSearchRequest(): UserTicketSearchRequest {
