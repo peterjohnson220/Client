@@ -40,6 +40,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() defaultSort: SortDescriptor[];
   @Input() pagingOptions: PagingOptions;
   @Input() noRecordsFound: string;
+  @Input() fieldsExcludedFromExport: [];
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
   @Input() applyDefaultFilters: boolean;
@@ -183,6 +184,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     if (changes['saveSort']) {
       this.store.dispatch(new fromActions.UpdateSaveSort(this.pageViewId, changes['saveSort'].currentValue));
+    }
+    if (changes['fieldsExcludedFromExport']) {
+      this.store.dispatch(new fromActions.UpdateFieldsExcludedFromExport(this.pageViewId, changes['fieldsExcludedFromExport'].currentValue));
     }
   }
 
