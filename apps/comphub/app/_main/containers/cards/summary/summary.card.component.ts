@@ -63,6 +63,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   paymarket: PricingPaymarket;
   selectedRate: RateType;
   firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
+  currentDate: Date = new Date();
   systemUserGroupNames = SystemUserGroupNames;
   comphubPages = ComphubPages;
   currencySymbol: string;

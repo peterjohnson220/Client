@@ -11,6 +11,7 @@ import { WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
+import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
 
 import { ExchangeDataSet, PricingPaymarket, WorkflowContext } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
@@ -42,6 +43,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   untaggedIncumbentCount$: Observable<number>;
   workflowContext$: Observable<WorkflowContext>;
   forceRefresh$: Observable<boolean>;
+  mapFilter$: Observable<any>;
 
   // Subscriptions
   payMarketSubscription: Subscription;
@@ -53,6 +55,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   selectedJobTitleSubscription: Subscription;
   workflowContextSubscription: Subscription;
   forceRefreshSubscription: Subscription;
+  mapFilterSubscription: Subscription;
 
   forceRefresh: boolean;
   selectedExchangeId: number;
@@ -68,10 +71,12 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   selectedWeightingType: KendoDropDownItem = {Name: WeightTypeDisplayLabeled.Org, Value: WeightType.Org};
   untaggedIncumbentCount: number;
   workflowContext: WorkflowContext;
+  mapFilter: any;
 
   constructor(private store: Store<fromComphubMainReducer.State>,
               public guidelinesService: DojGuidelinesService,
-              private changeDetectorRef: ChangeDetectorRef) {
+              private changeDetectorRef: ChangeDetectorRef,
+              private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>) {
     this.selectedJobTitle$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.selectedPayMarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.selectedExchange$ = this.store.select(fromComphubMainReducer.getActiveExchangeDataSet);
@@ -82,6 +87,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.forceRefresh$ = this.store.select(fromComphubMainReducer.getForcePeerMapRefresh);
     this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
+    this.mapFilter$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapFilter);
   }
 
   showMap() {
@@ -114,7 +120,6 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.selectedJobTitleSubscription = this.selectedJobTitle$.subscribe(jt => this.selectedJobTitle = jt);
     this.workflowContextSubscription = this.workflowContext$.subscribe(wfc => {
       this.workflowContext = wfc;
-      this.onWorkflowContextChanges(wfc);
     });
 
     this.forceRefreshSubscription = this.forceRefresh$.subscribe(r => this.forceRefresh = r);
@@ -123,41 +128,34 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
       this.selectedPageIdDelayed = id;
       this.onSelectedPageIdDelayedChanges(this.workflowContext);
     });
-  }
 
-  onWorkflowContextChanges(workflowContext: WorkflowContext): void {
-    if (workflowContext.selectedPageId === ComphubPages.Data) {
-      this.showMap();
-      this.store.dispatch(new fromDataCardActions.CardOpened());
-      if (!!this.exchangeExplorer && !(this.validateMapData())) {
-          const setContextMessage: MessageEvent = {
-            data: {
-              payfactorsMessage: {
-                type: 'Set Context',
-                payload: {
-                  exchangeId: this.selectedExchangeId,
-                  exchangeJobId: this.selectedExchangeJobId,
-                  isExchangeSpecific: true,
-                  companyPayMarketId: this.selectedPayMarketId
-                }
-              }
-            }
-          } as MessageEvent;
-          this.exchangeExplorer.onMessage(setContextMessage);
-          this.refreshMapData();
-      }
-    } else {
-      if (this.displayMap && this.selectedPageIdDelayed !== ComphubPages.Data) {
-        this.displayMap = false;
-      }
-    }
+    this.mapFilterSubscription = this.mapFilter$.subscribe(f => this.mapFilter = f);
   }
 
   onSelectedPageIdDelayedChanges(workflowContext: WorkflowContext): void {
     if (workflowContext.selectedPageId === ComphubPages.Data) {
       this.showMap();
+      this.store.dispatch(new fromDataCardActions.CardOpened());
+      if (!!this.exchangeExplorer && !(this.validateMapData())) {
+        const setContextMessage: MessageEvent = {
+          data: {
+            payfactorsMessage: {
+              type: 'Set Context',
+              payload: {
+                exchangeId: this.selectedExchangeId,
+                exchangeJobId: this.selectedExchangeJobId,
+                isExchangeSpecific: true,
+                companyPayMarketId: this.selectedPayMarketId
+              }
+            }
+          }
+        } as MessageEvent;
+        this.exchangeExplorer.onMessage(setContextMessage);
+        this.refreshMapData();
+      }
     } else
     if (this.displayMap && this.selectedPageIdDelayed !== ComphubPages.Data) {
+      this.store.dispatch(new fromExchangeExplorerMapActions.SetPeerMapBounds({TopLeft: this.mapFilter.TopLeft, BottomRight: this.mapFilter.BottomRight, Centroid: null}));
       this.displayMap = false;
     }
   }
@@ -172,6 +170,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.workflowContextSubscription.unsubscribe();
     this.forceRefreshSubscription.unsubscribe();
     this.selectedPageIdDelayedSubscription.unsubscribe();
+    this.mapFilterSubscription.unsubscribe();
   }
 
   get untaggedIncumbentMessage(): string {
