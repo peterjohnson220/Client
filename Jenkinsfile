@@ -103,12 +103,12 @@ pipeline {
             } else {
               isPublishable = false
               env.buildConfig = '--configuration=staging'
-              
+
               branchShortName = env.BRANCH_NAME.replaceAll('[^a-zA-Z0-9 ]','')
               int subStrLen = branchShortName.length() < 13 ? branchShortName.length() : 13
               verDetails = "-" + branchShortName.substring(0,subStrLen)
-            }      
-            
+            }
+
             slackTitle = (isAutoDeployBranch) ? 'Build/Deploy' : 'Build'
 
             env.pkgFullName = pkgName + ".${env.pkgVersion}${suffix}${verDetails}"
@@ -146,20 +146,20 @@ pipeline {
               // f-build is dumping ground for the rest of branches.
               if (slackCh == null) {
                 slackCh = "f-build"
-              } 
-              
+              }
+
               echo "slackCh: ${slackCh}"
             }
 
-            sh 'npm install'
+            sh 'npm ci'
           }
         }
-        
+
         stash includes: 'CHANGES', name: 'changes'
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -184,7 +184,7 @@ pipeline {
           junit 'output/coverage/junit/junit.xml'
         }
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -205,7 +205,7 @@ pipeline {
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -226,7 +226,7 @@ pipeline {
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -247,7 +247,7 @@ pipeline {
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -283,7 +283,7 @@ pipeline {
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -292,7 +292,7 @@ pipeline {
   }
   post {
     success {
-      script { 
+      script {
         fullDur = (currentBuild.durationString).replace(' and counting',"")
         slackSend channel: slackCh, color: 'good', message: "<${env.buildurl}|*${slackTitle} Success*> - ${fullDur}\n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.BUILD_NUMBER} - ${env.pkgVersion} \nAuthor: ${env.lastAuthor}"
       }
@@ -332,7 +332,7 @@ def getGitChangeLog() {
   return gitchangelog
 }
 
-def sendSlackFail(gitAuthor, pkgVersion) { 
+def sendSlackFail(gitAuthor, pkgVersion) {
   fullDur = (currentBuild.durationString).replace(' and counting',"")
   slackSend channel: slackCh, color: 'danger', message: "<${env.buildurl}|*${slackTitle} Failure*> (Stage: ${STAGE_NAME}) - ${fullDur}\n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.BUILD_NUMBER} - ${pkgVersion} \nAuthor: ${gitAuthor}"
 }
