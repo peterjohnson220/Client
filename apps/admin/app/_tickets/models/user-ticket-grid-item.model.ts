@@ -1,4 +1,4 @@
-import { TicketAttachment, generateMockTicketAttachments } from './';
+import { TicketAttachment, generateMockTicketAttachments } from './ticket-attachment.model';
 
 export interface UserTicketGridItem {
   Id: number;

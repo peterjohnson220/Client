@@ -156,7 +156,8 @@ export class PayfactorsApiModelMapper {
         UserEmail: utf.UserEmail,
         UserFullName: utf.UserFullName,
         Comments: utf.Comments,
-        CreateDate: utf.CreateDate
+        CreateDate: utf.CreateDate,
+        Level: utf.Level
       };
     });
   }
