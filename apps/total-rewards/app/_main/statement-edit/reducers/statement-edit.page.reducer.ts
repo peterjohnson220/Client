@@ -152,11 +152,15 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.TOGGLE_STATEMENT_EDIT_MODE: {
       const localState = cloneDeep(state);
       localState.mode = action.payload;
+      localState.isSettingsPanelOpen = false;
       return localState;
     }
     // settings
     case fromEditStatementActions.OPEN_SETTINGS: {
       const localState: State = cloneDeep(state);
+      if (state.mode === StatementModeEnum.Preview) {
+        return localState;
+      }
       localState.isSettingsPanelOpen = true;
       return localState;
     }

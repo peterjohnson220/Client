@@ -37,4 +37,8 @@ h3 {
 
 a.settings {
   height: 2.2rem;
+
+  &.preview-mode {
+    pointer-events: none;
+  }
 }

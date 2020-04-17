@@ -31,9 +31,13 @@
                   data-toggle="button"
                   aria-pressed="false"
                   (click)="toggleStatementEditMode()">{{(mode === modeEnum.Edit) ? 'Preview' : 'Edit'}}</button>
-          <a (click)="handleOpenSettingsClick()" href="javascript:void(0)" title="Settings" class="settings position-relative ml-2 pt-1">
-            <fa-icon [icon]="'cog'" aria-hidden="true"></fa-icon>
-          </a>
+          <span [title]="mode === modeEnum.Preview ? 'Settings disabled in preview mode' : 'Settings'">
+            <a (click)="handleOpenSettingsClick()" href="javascript:void(0)"
+               class="settings position-relative ml-2 pt-1"
+               [ngClass]="{'preview-mode': mode === modeEnum.Preview}">
+              <fa-icon [icon]="'cog'" aria-hidden="true"></fa-icon>
+            </a>
+          </span>
         </div>
         <pf-total-rewards-statement
           [statement]="statement"
