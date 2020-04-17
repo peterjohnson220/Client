@@ -7,6 +7,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
@@ -1053,6 +1054,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
@@ -2099,6 +2101,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
@@ -3145,6 +3148,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
@@ -4191,6 +4195,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
@@ -5237,6 +5242,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
@@ -6283,6 +6289,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
@@ -7329,6 +7336,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
