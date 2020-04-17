@@ -67,7 +67,7 @@
 
   &:hover {
     .favorite-button {
-      opacity: 100%;
+      opacity: 100;
     }
     background: $selection-hover-background;
   }
@@ -135,7 +135,7 @@
 }
 
 .favorite-button {
-  display: flex;
+  display: inline-block;
   &:not(.is-default) {
     opacity: 0;
   }
