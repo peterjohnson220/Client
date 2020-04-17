@@ -76,8 +76,8 @@
 </ng-template>
 
 <ng-template #noRecords>
-  <div *ngIf="(fieldsFilterCount$ | async) === 1" class="text-center mt-5 pb-5 position-relative img-container">
-    <img class="img-fluid" width="400" src="/client/service/assets/images/NoTicketsCreated.png">
+  <div *ngIf="(fieldsFilterCount$ | async) === 1" class="text-center img-container">
+    <img width="400" src="/client/service/assets/images/NoTicketsCreated.png">
     <h2>No tickets created yet.</h2>
     <p>When you need assistance, our Support Team is here to help.</p>
   </div>
