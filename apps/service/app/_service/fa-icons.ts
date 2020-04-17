@@ -10,7 +10,9 @@ import { faFilePdf } from '@fortawesome/pro-solid-svg-icons/faFilePdf';
 import { faFileExcel } from '@fortawesome/pro-solid-svg-icons/faFileExcel';
 import { faFileImage } from '@fortawesome/pro-solid-svg-icons/faFileImage';
 import { faFile } from '@fortawesome/pro-solid-svg-icons/faFile';
+import { faChevronDoubleRight } from '@fortawesome/pro-solid-svg-icons/faChevronDoubleRight';
+import { faChevronDoubleLeft } from '@fortawesome/pro-solid-svg-icons/faChevronDoubleLeft';
 
 export const faIcons = [
   faCircle, faUpload, faCaretRight, faCaretDown, faExchangeAlt, faInfoCircle,
-  faFileWord, faFilePdf, faFileExcel, faFileImage, faFile ];
+  faFileWord, faFilePdf, faFileExcel, faFileImage, faFile, faChevronDoubleRight, faChevronDoubleLeft ];

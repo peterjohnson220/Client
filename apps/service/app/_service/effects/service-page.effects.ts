@@ -11,6 +11,8 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 import * as fromServicePageActions from '../actions/service-page.actions';
 import * as fromServicePageReducer from '../reducers';
@@ -153,6 +155,19 @@ export class ServicePageEffects {
             );
         })
       );
+
+  @Effect()
+  saveSupportTeamDashboardOpenSetting$ = this.actions$
+  .pipe(
+    ofType(fromServicePageActions.SAVE_SUPPORT_TEAM_DASHBOARD_OPEN),
+    map((action: fromServicePageActions.SaveSupportTeamDashboardOpenSetting) => {
+      return new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
+        FeatureArea: FeatureAreaConstants.Service,
+        SettingName: UiPersistenceSettingConstants.ServiceSupportTeamDashboardOpen,
+        SettingValue: action.payload.settingValue.toString()
+      });
+    })
+  );
 
   constructor(
     private actions$: Actions,

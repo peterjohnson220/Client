@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { SupportTeamUser } from '../../models';
+import { SupportTeamUser, SupportTeam } from '../../models';
 
 @Component({
   selector: 'pf-support-team',
@@ -9,4 +9,6 @@ import { SupportTeamUser } from '../../models';
 export class SupportTeamComponent {
   @Input() user: SupportTeamUser;
   @Input() avatarUrl: string;
+
+  supportTeam = SupportTeam;
 }
