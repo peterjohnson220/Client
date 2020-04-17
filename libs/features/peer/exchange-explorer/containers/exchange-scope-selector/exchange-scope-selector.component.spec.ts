@@ -41,7 +41,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
         },
         {
           provide: SettingsService,
-          useValue: { selectUiPersistenceSetting: of }
+          useValue: { selectUiPersistenceSettingFromDictionary: of }
         }
       ],
       // Shallow Testing
