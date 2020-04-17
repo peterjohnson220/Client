@@ -104,6 +104,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
       'currency': new FormControl(this.metadata.Currency, [Validators.required])
     });
+    // set active tab to model
+    this.activeTab = 'modelTab';
   }
   // Events
   handleModalSubmit() {
@@ -208,7 +210,5 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   private reset() {
     this.attemptedSubmit = false;
-    // set active tab to model
-    this.activeTab = 'modelTab';
   }
 }

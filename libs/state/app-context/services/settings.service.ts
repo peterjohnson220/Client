@@ -2,11 +2,17 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { select, Store } from '@ngrx/store';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
-import { CompanySetting, CompanySettingsEnum, GenericNameValueDto, UiPersistenceFeatureSettingsModel } from 'libs/models';
+import {
+  CompanySetting,
+  CompanySettingsEnum,
+  GenericNameValueDto,
+  UiPersistenceFeatureSettingsModel
+} from 'libs/models';
+import * as fromUiPersistenceSettingsActions from '../actions/ui-persistence-settings.actions';
 
 @Injectable()
 export class SettingsService {
@@ -31,10 +37,32 @@ export class SettingsService {
     }));
   }
 
+  selectUiPersistenceSettingFromDictionary<TValue>(featureName: string, settingName: string, key: string|number): Observable<TValue> {
+    const dictionary$ = this.selectUiPersistenceSetting<{ [dictionaryKey: string]: TValue}>(featureName, settingName, 'json');
+
+    return dictionary$.pipe(map(dictionary => !!dictionary ? dictionary[key.toString()] : null));
+  }
+
+  updateUiPersistenceSettingDictionary<TValue>(featureName: string, settingName: string, key: string|number, value: TValue) {
+    const dictionary$ = this.selectUiPersistenceSetting<{ [dictionaryKey: string]: TValue}>(featureName, settingName, 'json');
+
+    dictionary$.pipe(take(1)).subscribe((dictionary) => {
+      const newDictionary = {
+        ...dictionary,
+        [key]: value
+      };
+      this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
+          FeatureArea: featureName,
+          SettingName: settingName,
+          SettingValue: JSON.stringify(newDictionary)
+        }));
+    });
+  }
+
   selectUiPersistenceSetting<TValueType>(
     featureName: string,
     settingName: string,
-    type: 'boolean'|'number'|'string' = 'boolean'
+    type: 'boolean'|'number'|'string'|'json' = 'boolean'
   ): Observable<TValueType> {
     return combineLatest([this.uiPersistenceSettings$, this.uiPersistenceSettingsLoading$]).pipe(
       filter(([settings, loading]) => !loading),
@@ -80,6 +108,9 @@ export class SettingsService {
         break;
       case 'number':
         result = parseInt(value, null);
+        break;
+      case 'json':
+        result = JSON.parse(value);
         break;
       default:
         result = value;

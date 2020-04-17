@@ -30,7 +30,9 @@ export const ORG_DATA_PF_STRUCTURE_FIELDS = [
   'Rate',
   'Min',
   'Mid',
-  'Max'
+  'Max',
+  'RangeType',
+  'Job_Code'
 ];
 
 export const ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS = [

@@ -46,7 +46,6 @@ export class ExchangeExplorerComponent extends SearchBase {
   exchangeJobFilterOptions$: Observable<ExchangeJobExchangeDetail[]>;
   selectedExchangeJobId$: Observable<number>;
   searchingChildFilters$: Observable<boolean>;
-  defaultScopeId$: Observable<string>;
 
   exchangeId: number;
   companyJobId: number;
@@ -71,9 +70,6 @@ export class ExchangeExplorerComponent extends SearchBase {
     this.mapSummary$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getPeerMapSummary));
     this.exchangeJobFilterOptions$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getExchangeJobFilterOptions));
     this.selectedExchangeJobId$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getSelectedExchangeJobId));
-    this.defaultScopeId$ = this.settingsService.selectUiPersistenceSetting<string>(
-      FeatureAreaConstants.PeerManageScopes, UiPersistenceSettingConstants.PeerDefaultExchangeScopeId, 'string'
-    );
   }
 
   handleLimitToPayMarketToggled() {
@@ -145,7 +141,10 @@ export class ExchangeExplorerComponent extends SearchBase {
         };
         this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(request));
       } else {
-        this.defaultScopeId$.pipe(take(1)).subscribe(s => {
+        const defaultScopeId$ = this.settingsService.selectUiPersistenceSettingFromDictionary<string>(
+          FeatureAreaConstants.PeerManageScopes, UiPersistenceSettingConstants.PeerDefaultExchangeScopes, payload.exchangeId
+        );
+        defaultScopeId$.pipe(take(1)).subscribe(s => {
           if (!!s) {
             this.store.dispatch(new fromExchangeFilterContextActions.SetExchangeScopeSelection(<any>{Id: s, ExchangeId: payload.exchangeId, IsDefault: true}));
           }

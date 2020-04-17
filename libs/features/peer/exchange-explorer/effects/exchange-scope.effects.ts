@@ -195,7 +195,7 @@ export class ExchangeScopeEffects {
           this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting(
             {
               FeatureArea: FeatureAreaConstants.PeerManageScopes,
-              SettingName: UiPersistenceSettingConstants.PeerDefaultExchangeScopeId,
+              SettingName: UiPersistenceSettingConstants.PeerDefaultExchangeScopes,
               SettingValue: exchangeScopeItem.Id
             }
           ));
