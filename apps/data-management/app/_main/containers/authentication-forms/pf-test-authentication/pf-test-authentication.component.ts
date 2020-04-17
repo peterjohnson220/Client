@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class PfTestAuthenticationComponent implements OnInit {
 
   @Input() validated = false;
+  @Input() waitingForAuthentication = false;
 
   @Output() submitClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();
