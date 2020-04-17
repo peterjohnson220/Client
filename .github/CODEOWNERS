@@ -6,5 +6,5 @@
 
 /apps/admin/app/_org-data-loader/               @PayFactors/integration
 /libs/features/pf-data-grid/                    @Payfactors/normandy
-package.json                                    @Payfactors/Client Dependency Reviewers
-package-lock.json                               @Payfactors/Client Dependency Reviewers
+package.json                                    @Payfactors/client-dependency-reviewers
+package-lock.json                               @Payfactors/client-dependency-reviewers
