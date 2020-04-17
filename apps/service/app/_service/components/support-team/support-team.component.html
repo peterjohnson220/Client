@@ -1,9 +1,41 @@
 <div class="support-team-card">
   <img class="avatar rounded-circle" [src]="avatarUrl + user.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" width="64" height="63">
   <div class="user-info">
-    <h5 class="name" title="{{user.FirstName + ' ' + user.LastName}}">{{user.FirstName + ' ' + user.LastName}}</h5>
+    <div [ngSwitch]="user.Team" class="d-flex">
+      <span class="name">{{user.FirstName + ' ' + user.LastName}}</span>
+      <fa-icon *ngSwitchCase="supportTeam.ClientServices" icon="info-circle"
+                [ngbPopover]="clientServices" triggers="mouseenter:mouseleave"
+                container="body" placement="left" class="info-icon">
+      </fa-icon>
+      <fa-icon *ngSwitchCase="supportTeam.ClientSuccess" icon="info-circle"
+                [ngbPopover]="clientSuccess" triggers="mouseenter:mouseleave"
+                container="body" placement="left" class="info-icon">
+      </fa-icon>
+    </div>
     <span class="text" title="{{user.Title}}">{{user.Title}}</span>
     <a href="mailto:{{user.EmailAddress}}" title="{{user.EmailAddress}}" class="text">{{user.EmailAddress}}</a>
     <span class="text" title="{{user.PhoneNumber}}">{{user.PhoneNumber}}</span>
   </div>
 </div>
+
+<ng-template #clientServices>
+  <div class="pop-content">
+    <p><b>Contact Client Services For:</b></p>
+    <ul>
+      <li>File Uploads</li>
+      <li>General Questions</li>
+      <li>Product Issues</li>
+      <li>Surveys</li>
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #clientSuccess>
+  <div class="pop-content">
+    <p><b>Contact Client Success for:</b></p>
+    <ul>
+      <li>Contract or invoicing</li>
+      <li>Additional products or data sets beyond your current subscription</li>
+    </ul>
+  </div>
+</ng-template>

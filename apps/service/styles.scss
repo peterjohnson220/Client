@@ -42,6 +42,8 @@ pf-service-page {
       flex-direction: column;
 
       .name {
+        font-weight: 500;
+        font-size: 16px;
         @extend %ellipsis-overflowing-text;
       }
 
@@ -49,6 +51,11 @@ pf-service-page {
         @extend %ellipsis-overflowing-text;
         color: #6c757d;
       };
+
+      .info-icon {
+        color: grey;
+        padding-top: 0.2rem;
+      }
     }
   }
 }

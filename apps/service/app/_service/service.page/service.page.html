@@ -65,14 +65,10 @@
 </ng-template>
 
 <ng-template #serviceDashboard>
-  <div class="d-flex flex-column">
-    <div perfectScrollbar class="service-dashboard-container h-50">
-      <pf-service-dashboard
-        [avatarUrl]="avatarUrl"
-        [supportTeam]="(supportTeam$ | async).obj">
-      </pf-service-dashboard>
-    </div>
-  </div>
+  <pf-service-dashboard
+    [avatarUrl]="avatarUrl"
+    [supportTeamUsers]="(supportTeam$ | async).obj">
+  </pf-service-dashboard>
 </ng-template>
 
 <ng-template #noRecords>

@@ -39,14 +39,6 @@
   border: 1px solid red;
 }
 
-.service-dashboard-container {
-  position: relative;
-  margin-left: 11px !important;
-  overflow: hidden;
-  box-sizing: border-box;
-  width: 362px;
-}
-
 :host ::ng-deep .k-grid-norecords {
   background-color: white !important;
 }
