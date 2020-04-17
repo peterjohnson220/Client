@@ -82,7 +82,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return AsyncStateObjHelper.saving(state, 'statement');
     }
     case fromEditStatementActions.SAVE_STATEMENT_SUCCESS: {
-      return AsyncStateObjHelper.savingSuccess(state, 'statement');
+      return AsyncStateObjHelper.savingSuccess(state, 'statement', action.payload);
     }
     case fromEditStatementActions.SAVE_STATEMENT_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'statement', action.payload);
@@ -182,6 +182,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       localState.settingsSaving = false;
       localState.settingsSaveSuccess = true;
       localState.settingsSaveError = false;
+      localState.statement.obj.AuditRecord.EditedDateTime = new Date();
       return localState;
     }
     case fromEditStatementActions.SAVE_SETTINGS_ERROR: {
