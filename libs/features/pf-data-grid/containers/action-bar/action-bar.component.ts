@@ -8,6 +8,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { ActionBarConfig } from '../../models';
+import {GridDataResult} from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'pf-action-bar',
@@ -27,6 +28,7 @@ export class ActionBarComponent implements OnChanges {
   viewNameToBeDeleted$: Observable<string>;
   exporting$: Observable<boolean>;
   loadingExportingStatus$: Observable<boolean>;
+  data$: Observable<GridDataResult>;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -39,6 +41,7 @@ export class ActionBarComponent implements OnChanges {
       this.viewNameToBeDeleted$ = this.store.select(fromReducer.getViewNameToBeDeleted, this.pageViewId);
       this.exporting$ = this.store.select(fromReducer.getExportingGrid, this.pageViewId);
       this.loadingExportingStatus$ = this.store.select(fromReducer.getLoadingExportingStatus, this.pageViewId);
+      this.data$ = this.store.select(fromReducer.getData, this.pageViewId);
     }
   }
 

@@ -43,6 +43,7 @@ export interface DataGridState {
   exportingGrid: boolean;
   exportViewId: number;
   loadingExportingStatus: boolean;
+  fieldsExcludedFromExport: [];
 }
 
 export interface DataGridStoreState {
@@ -70,6 +71,8 @@ export const getGrid = (state: DataGridStoreState, pageViewId: string) => state.
 export const getLoading = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].loading : null;
 export const getBaseEntity = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].baseEntity : null;
 export const getSelectionField = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectionField : null;
+export const getFieldsExcludedForExport = (state: DataGridStoreState, pageViewId: string) =>
+  state.grids[pageViewId] ? state.grids[pageViewId].fieldsExcludedFromExport : [];
 export const getPrimaryKey = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] && state.grids[pageViewId].baseEntity
     ? `${state.grids[pageViewId].baseEntity.SourceName}_${state.grids[pageViewId].selectionField}`
@@ -292,6 +295,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             saveSort: action.saveSort,
+          },
+        }
+      };
+    case fromPfGridActions.UPDATE_FIELDS_EXCLUDED_FROM_EXPORT:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fieldsExcludedFromExport: action.fieldsExcludedFromExport,
           },
         }
       };
