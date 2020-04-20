@@ -110,7 +110,12 @@ export class SettingsService {
         result = parseInt(value, null);
         break;
       case 'json':
-        result = JSON.parse(value);
+        try {
+          result = JSON.parse(value);
+        } catch (e) {
+          result = null;
+        }
+
         break;
       default:
         result = value;
