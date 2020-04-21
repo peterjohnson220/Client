@@ -7,7 +7,7 @@ import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { IntegrationApiService } from 'libs/data/payfactors-api/integration';
-import {CompositeDataLoadViewResponse} from 'libs/models/admin/loader-dashboard/response';
+import {CompanyFilePackagesResponse, CompositeDataLoadViewResponse} from 'libs/models/admin/loader-dashboard/response';
 
 import * as fromLoaderDashboardPageActions from '../actions/loader-dashboard-page.actions';
 import {LoaderDashboardModelMappers} from '../helpers';
@@ -20,13 +20,24 @@ export class LoaderDashboardPageEffects {
     .pipe(
       ofType<fromLoaderDashboardPageActions.Init>(fromLoaderDashboardPageActions.INIT),
       switchMap((obj) => {
-        return [new fromLoaderDashboardPageActions.GetGridData(obj.payload)];
+        return [new fromLoaderDashboardPageActions.GetAllGridData(obj.payload)];
       })
     );
 
   @Effect()
-  getGridData$: Observable<Action> = this.actions$.pipe(
-    ofType<fromLoaderDashboardPageActions.GetGridData>(fromLoaderDashboardPageActions.GET_GRID_DATA),
+  getAllGridData$: Observable<Action> = this.actions$.pipe(
+    ofType<fromLoaderDashboardPageActions.GetAllGridData>(fromLoaderDashboardPageActions.GET_ALL_GRID_DATA),
+    switchMap(obj => {
+      return [
+        new fromLoaderDashboardPageActions.GetCompositeLoadGridData(obj.payload),
+        new fromLoaderDashboardPageActions.GetFilePackageGridData(obj.payload)
+      ];
+    })
+  );
+
+  @Effect()
+  getCompositeLoadGridData$: Observable<Action> = this.actions$.pipe(
+    ofType<fromLoaderDashboardPageActions.GetCompositeLoadGridData>(fromLoaderDashboardPageActions.GET_COMPOSITE_LOAD_GRID_DATA),
     withLatestFrom(
       this.store.pipe(select(fromRootState.getUserContext)),
       (action, userContext) => {
@@ -37,10 +48,28 @@ export class LoaderDashboardPageEffects {
       return this.integrationApiService.SearchCompositeDataLoads(obj.userContext, searchPayload,
         obj.action.payload.Company_ID).pipe(
           map((r: CompositeDataLoadViewResponse[]) => {
-            return new fromLoaderDashboardPageActions.GetGridDataSuccess(r);
+            return new fromLoaderDashboardPageActions.GetCompositeLoadGridDataSuccess(r);
           }),
-          catchError(e => of(new fromLoaderDashboardPageActions.GetGridDataError()))
+          catchError(e => of(new fromLoaderDashboardPageActions.GetCompositeLoadGridDataError()))
         );
+    })
+  );
+
+  @Effect()
+  getFilePackagesGridData$: Observable<Action> = this.actions$.pipe(
+    ofType<fromLoaderDashboardPageActions.GetFilePackageGridData>(fromLoaderDashboardPageActions.GET_FILE_PACKAGE_GRID_DATA),
+    withLatestFrom(
+      this.store.pipe(select(fromRootState.getUserContext)),
+      (action, userContext) => {
+        return { action, userContext };
+      }),
+    switchMap(obj => {
+      return this.integrationApiService.SearchCompanyFilePackages(obj.userContext, obj.action.payload.Company_ID).pipe(
+        map((r: CompanyFilePackagesResponse[]) => {
+          return new fromLoaderDashboardPageActions.GetFilePackageGridDataSuccess(r);
+        }),
+        catchError(e => of(new fromLoaderDashboardPageActions.GetFilePackageGridDataError()))
+      );
     })
   );
 
@@ -54,7 +83,7 @@ export class LoaderDashboardPageEffects {
           return {action, searchPayload};
         }),
       switchMap((obj) => {
-        return [new fromLoaderDashboardPageActions.GetGridData(obj.searchPayload)];
+        return [new fromLoaderDashboardPageActions.GetAllGridData(obj.searchPayload)];
       })
     );
 

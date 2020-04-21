@@ -51,6 +51,31 @@ export class IntegrationApiService {
     );
   }
 
+  SearchCompanyFilePackages(userContext: UserContext, companyId?: number) {
+    const host = this.getAPIBase(userContext);
+    let apiURL = '';
+    if (!companyId) {
+      apiURL = `${host}/admin/DashboardAdmin/files`;
+    } else {
+      apiURL = `${host}/company/${companyId}/Dashboard/files`;
+    }
+
+    return this.fetchAuthToken().pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        });
+        const options: any = {
+          headers,
+        };
+
+        return this.http.get(apiURL, options).pipe(
+          map((response: any) => response));
+      }),
+    );
+  }
+
   PutEntityIdentifiers(companyId: number, type: DBEntityType, userContext: UserContext, keyFields: string[]) {
     const host = this.getAPIBase(userContext);
     const apiURL = `${host}/company/${companyId}/LoaderConfig/${type.valueOf()}`;
