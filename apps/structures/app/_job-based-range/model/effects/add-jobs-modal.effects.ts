@@ -20,6 +20,7 @@ import * as fromSharedReducer from '../../shared/reducers';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
 import { UrlService } from '../../shared/services';
+import { Workflow } from '../../shared/constants/workflow';
 
 @Injectable()
 export class AddJobsModalEffects {
@@ -108,7 +109,7 @@ export class AddJobsModalEffects {
     actions.push(new fromAddJobsPageActions.AddJobsSuccess());
     actions.push(new fromSearchPageActions.CloseSearchPage());
 
-    if (this.urlService.isInNewStructureWorkflow()) {
+    if (this.urlService.isInWorkflow(Workflow.NewJobBasedRange)) {
       actions.push(new fromSharedModelSettingsActions.OpenModal());
     } else {
       actions.push(new fromSharedActions.RecalculateRangesWithoutMid({

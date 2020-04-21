@@ -14,6 +14,8 @@ import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
 import { UrlService } from '../../shared/services';
+import { Workflow } from '../../shared/constants/workflow';
+import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 
 @Component({
   selector: 'pf-model-page',
@@ -88,8 +90,12 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.urlService.isInNewStructureWorkflow()) {
+    if (this.urlService.isInWorkflow(Workflow.NewJobBasedRange)) {
       this.openAddJobsModal();
+    }
+
+    if (this.urlService.isInWorkflow(Workflow.CreateModel)) {
+      this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
     }
   }
 
