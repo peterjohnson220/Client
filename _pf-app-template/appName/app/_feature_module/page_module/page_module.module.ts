@@ -2,37 +2,27 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PfCommonModule } from 'libs/core';
-import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { AppNamePageComponent } from './containers';
-import { MainRoutingModule } from './main-routing.module';
-
+import { PageComponent } from './page_module.page';
+import { PageRoutingModule } from './page_module-routing';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
 
-    // Routing
-    MainRoutingModule,
+    // 3rd Party
 
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+
+    PageRoutingModule
   ],
   declarations: [
-    // Pages
-    AppNamePageComponent
-  ]
+    PageComponent
+  ],
+  exports: []
 })
-export class MainModule { }
-
-
-
-
-
-
-
-
+export class PageModule { }
