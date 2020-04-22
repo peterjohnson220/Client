@@ -7,9 +7,9 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import * as fromFaIcons from './fa-icons';
 import { DebounceClickDirective, DisableFormControlDirective, DragDropDirective } from './directives';
 import {
-    CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
-    JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag,
-  EmptyPlaceholderPipe, ValidationErrorsPipe
+  CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
+  JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag,
+  EmptyPlaceholderPipe, ValidationErrorsPipe, TimeElapsedPipe
 } from './pipes';
 import { DragulaHelperService } from './services';
 
@@ -34,7 +34,8 @@ const declarations = [
   StripHtmlPipe,
   CompPipe,
   EmptyPlaceholderPipe,
-  ValidationErrorsPipe
+  ValidationErrorsPipe,
+  TimeElapsedPipe
 ];
 
 const providers = [

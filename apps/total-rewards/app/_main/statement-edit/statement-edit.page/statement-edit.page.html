@@ -4,8 +4,10 @@
   </ng-container>
   <ng-container page-content>
     <pf-async-container [loading]="(statementLoading$ | async) || (cloningFromTemplate$ | async)"
-                        [loadingError]="(statementLoadingError$ | async) || (cloningFromTemplateError$ | async) ||
-                                        (statementSavingError$ | async) || (settingsSavingError$ | async)"
+                        [loadingError]="(statementLoadingError$ | async) || 
+                                        (cloningFromTemplateError$ | async) || 
+                                        (statementSavingError$ | async) || 
+                                        (settingsSavingError$ | async)"
                         (reload)="handleStatementReload()">
       <div class="canvas mx-auto pb-1">
         <div class="header-row d-flex">
@@ -21,11 +23,13 @@
           <span *ngIf="(mode === modeEnum.Preview)" class="font-italic flex-grow-1 pt-1">
             Canvas cannot be edited in preview mode
           </span>
-          <div class="header-row-save-status pb-2 mr-3">
-            <span *ngIf="!(statementSaving$ | async) && !(statementSavingSuccess$ | async) &&
-                          !(statementSavingError$ | async) && !(settingsSavingSuccess$ | async)">Unsaved</span>
+          <div class="header-row-save-status pb-2 mr-3 font-italic">
             <span *ngIf="(statementSaving$ | async) || (settingsSaving$ | async)">Saving</span>
-            <span *ngIf="((statementSavingSuccess$ | async) || (settingsSavingSuccess$ | async)) && !(settingsSaving$ | async)">Saved</span>
+            <span 
+              *ngIf="statement?.AuditRecord?.EditedDateTime || statement?.AuditRecord?.CreatedDateTime"
+              [title]="'Statement last saved on ' + ((statement?.AuditRecord?.EditedDateTime || statement?.AuditRecord?.CreatedDateTime) | date: 'MMM dd yyyy hh:mm:ss a')">
+              Saved {{ (statement?.AuditRecord?.EditedDateTime || statement?.AuditRecord?.CreatedDateTime) | TimeElapsedPipe }}
+            </span>
           </div>
           <button ngbButton class="mode-button btn btn-outline-secondary position-relative mr-2"
                   data-toggle="button"

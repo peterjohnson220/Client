@@ -18,4 +18,5 @@ export * from './label-with-override';
 export * from './employee-rewards-data';
 export * from './statement-mode-enum';
 export * from './compensation-field';
+export * from './audit-record';
 export * from './settings';

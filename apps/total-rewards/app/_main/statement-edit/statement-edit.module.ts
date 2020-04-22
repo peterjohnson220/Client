@@ -29,8 +29,8 @@ import {SettingsPanelComponent} from './components/settings-panel/settings-panel
     EffectsModule.forFeature([ StatementEditPageEffects ]),
     FontAwesomeModule,
     NgbButtonsModule,
-    ColorPickerModule,
     NgbDropdownModule,
+    ColorPickerModule,
 
     // Payfactors
     PfCommonModule,
