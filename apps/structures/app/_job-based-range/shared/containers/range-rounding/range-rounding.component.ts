@@ -8,7 +8,7 @@ import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { RangeGroupMetadata, RoundingPoint, RoundingType, RoundingSettingsDataObj} from '../../models';
 import { Pages } from '../../constants/pages';
-import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../../data';
+import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../data';
 
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 

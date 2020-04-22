@@ -1,4 +1,4 @@
-import { RoundingType } from '../shared/models/rounding-type.model';
+import { RoundingType } from '../models/rounding-type.model';
 
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 

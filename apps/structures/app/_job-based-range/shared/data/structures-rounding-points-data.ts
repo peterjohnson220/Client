@@ -1,4 +1,4 @@
-import { RoundingPoint } from '../shared/models';
+import { RoundingPoint } from '../models';
 
 export const StructuresRoundingPoints: RoundingPoint[] = [
   {

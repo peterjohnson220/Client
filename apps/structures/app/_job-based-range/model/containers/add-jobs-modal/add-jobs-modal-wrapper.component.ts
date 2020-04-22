@@ -12,7 +12,7 @@ import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 
-import { staticFilters } from '../../../data';
+import { staticFilters } from '../../../shared/data';
 
 @Component({
   selector: 'pf-add-jobs-modal-wrapper',
