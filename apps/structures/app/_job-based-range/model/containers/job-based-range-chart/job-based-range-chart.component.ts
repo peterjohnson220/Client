@@ -230,6 +230,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
     // set the series data (0 - salaryRange, 1 - midpoint, 2 - avg salary, 3 - outliers)
     this.chartInstance.series[JobRangeModelChartSeries.SalaryRange].setData(this.salaryRangeSeriesData, false);
+    this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeHidden].setData(this.salaryRangeSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.RangeMid].setData(this.midpointSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.Average].setData(this.averageSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
