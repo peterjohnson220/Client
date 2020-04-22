@@ -4,6 +4,14 @@
     Tickets
   </ng-container>
 
+  <ng-container page-actions>
+    <button type="button" title="Export" class="btn btn-secondary"
+            placement="bottom-right"
+            (click)="handleExportClicked()">
+      <fa-icon icon="download"></fa-icon>
+    </button>
+  </ng-container>
+
   <ng-container page-content>
 
     <ngb-tabset [destroyOnHide]="false"

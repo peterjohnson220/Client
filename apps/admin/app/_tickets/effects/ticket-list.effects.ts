@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, catchError, mergeMap, withLatestFrom, map } from 'rxjs/operators';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { UserTicketApiService } from 'libs/data/payfactors-api';
 
@@ -12,7 +13,6 @@ import * as fromTicketListActions from '../actions/ticket-list.actions';
 import * as fromTicketLookupActions from '../actions/ticket-lookup.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromReducers from '../reducers';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 
 @Injectable()
 export class TicketListEffects {
@@ -68,6 +68,19 @@ export class TicketListEffects {
           catchError(error => of(new fromTicketListActions.LoadTicketsError()))
         )
       )
+    );
+
+  @Effect()
+  exportTickets$ = this.actions$
+    .pipe(
+      ofType(fromTicketListActions.EXPORT_GRID),
+      switchMap((action: fromTicketListActions.ExportGrid) => {
+        return this.userTicketApiService.exportGrid(action.payload)
+          .pipe(
+            map(response => new fromTicketListActions.ExportGridSuccess()),
+            catchError(() => of(new fromTicketListActions.ExportGridError()))
+          );
+      })
     );
 
   constructor(

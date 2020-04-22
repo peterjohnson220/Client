@@ -87,4 +87,8 @@ export class UserTicketApiService {
       JSON.stringify(request.Comments), this.headers);
   }
 
+  exportGrid(request: UserTicketSearchRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ExportTickets`, request);
+  }
+
 }
