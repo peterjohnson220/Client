@@ -11,9 +11,20 @@
   [enableSelection]="true"
   [splitViewTemplate]="jobsDetails"
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
-  [actionBarConfig]="actionBarConfig">
+  [actionBarConfig]="actionBarConfig"
+  [gridRowActionsConfig] = "(!(selectedRecordId$ | async))? gridRowActionsConfig: null" >
 </pf-data-grid>
 
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+  <fa-icon [icon]="['far', 'edit']"  title="Edit Job"  *ngIf="(userContext$ | async)?.CompanyId !== 1401"
+           [attr.data-qa-id]="'btn-jobs-page-edit-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
+           [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+           (click)="editingJobId = dataRow['CompanyJobs_CompanyJob_ID']; showJobEditModal=true; $event.stopPropagation();" class="pr-2" [fixedWidth]="true"></fa-icon>
+  <fa-icon [icon]="['far', 'trash-alt']" title="Delete Job"
+           [attr.data-qa-id]="'btn-jobs-page-delete-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
+           [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+           (click)="openDeleteJobModal(dataRow['CompanyJobs_CompanyJob_ID'], dataRow['CompanyJobs_Job_Title']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
+</ng-template>
 <ng-template #titleTemplate>
   {{(userContext$ | async)?.CompanyName + ' - Jobs' | titlecase}}
   <button
@@ -48,34 +59,8 @@
       *ngIf="!(selectedRecordId$ | async)"
       [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
       class="ml-auto pl-2">
-
-      <div ngbDropdown #jobsActionsMenu="ngbDropdown" class="d-inline-block k-grid-ignore-click" placement="bottom-right">
-        <button
-          ngbDropdownToggle
-          [attr.data-qa-id]="'btn-jobs-page-inline-actions-' + dataRow['CompanyJobs_CompanyJob_ID']"
-          class="btn btn-secondary btn-sm hide-dropdown-arrow pf-icon-btn-transparent">
-          <fa-icon icon="ellipsis-h"></fa-icon>
-        </button>
-        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-left">
-          <button  *ngIf="(userContext$ | async)?.CompanyId !== 1401"
-            [attr.data-qa-id]="'btn-jobs-page-edit-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
-            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
-            class="dropdown-item"
-            (click)="editingJobId = dataRow['CompanyJobs_CompanyJob_ID']; showJobEditModal=true;">
-            <fa-icon icon="edit" class="pr-2" [fixedWidth]="true"></fa-icon> Edit Job
-          </button>
-          <button
-            [attr.data-qa-id]="'btn-jobs-page-delete-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
-            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
-            class="dropdown-item"
-            (click)="openDeleteJobModal(dataRow['CompanyJobs_CompanyJob_ID'], dataRow['CompanyJobs_Job_Title'])">
-            <fa-icon icon="trash-alt" class="pr-2" [fixedWidth]="true"></fa-icon> Delete Job
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
-
+  </div>
 </ng-template>
 
 <pf-peer-exchange-matches *ngIf="show" [offset]="offset"  [jobId]="peerJobId"></pf-peer-exchange-matches>

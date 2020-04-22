@@ -7,6 +7,7 @@ import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReo
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import {GridRowActionsConfig, PositionType} from '../../models';
 
 @Component({
   selector: 'pf-grid',
@@ -18,6 +19,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() pageViewId: string;
   @Input() columnTemplates: any;
+  @Input() gridRowActionsConfig: GridRowActionsConfig;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() allowSplitView: boolean;
@@ -61,6 +63,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   selectAllStatus = SelectAllStatus;
 
   pagingBarConfig = null;
+
+  positionType = PositionType;
 
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 

@@ -13,6 +13,8 @@ export interface ActionBarConfig {
   GlobalFiltersTemplates?: { [key: string]: ElementRef<any> };
 }
 
+
+
 export enum ColumnChooserType {
   Column,
   ColumnGroup
