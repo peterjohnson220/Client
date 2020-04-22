@@ -38,4 +38,8 @@ export class TotalRewardsApiService {
   resetStatementSettings(statementId: string): Observable<Settings> {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/ResetStatementSettings?statementId=${statementId}`);
   }
+
+  getTemplates(): Observable<any[]> {
+    return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetTemplates`);
+  }
 }

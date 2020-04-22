@@ -1,6 +1,7 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
+import {AsyncStateObj} from 'libs/models/state';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
@@ -9,11 +10,13 @@ import * as fromRoot from 'libs/state/state';
 import * as fromPageReducer from './statement-list.page.reducer';
 import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
 import * as fromStatementGridReducer from './statement-grid.reducer';
+import * as fromTemplateSelectorReducer from './template-selector.reducer';
 
 // Feature area state
 export interface StatementListState {
   page: fromPageReducer.State;
   statements: IFeatureGridState<fromStatementGridReducer.State>;
+  templateSelector: fromTemplateSelectorReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,7 +27,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   page: fromPageReducer.reducer,
-  statements: fromStatementGridReducer.reducer
+  statements: fromStatementGridReducer.reducer,
+  templateSelector: fromTemplateSelectorReducer.reducer
 };
 
 // Select Feature Area
@@ -65,4 +69,12 @@ export const getStatementsGridData = createSelector(
   getStatements,
   getStatementsTotal,
   (data, total) => ({ data, total })
+);
+
+// Templates
+export const getTemplates = createSelector(selectStatementListPageState, (state: StatementListState) => state.templateSelector.templates.obj);
+export const getTemplatesLoading = createSelector(selectStatementListPageState, (state: StatementListState) => state.templateSelector.templates.loading);
+export const getTemplatesLoadingError = createSelector(
+  selectStatementListPageState,
+  (state: StatementListState) => state.templateSelector.templates.loadingError
 );

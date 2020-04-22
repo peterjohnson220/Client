@@ -26,7 +26,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
     <div>
       
       <div
-        class="pt-4 pb-4 trs-page"
+        class="py-4 trs-page"
       >
         
         <section

@@ -21,14 +21,10 @@
   border-right: none;
 }
 
-section.trs-section:last-child {
-  padding-bottom: 2rem;
-}
-
 @media print {
-  .page-break	{ 
-    display: block; 
-    page-break-before: always; 
+  .page-break	{
+    display: block;
+    page-break-before: always;
   }
 
   .container {
@@ -42,8 +38,8 @@ section.trs-section:last-child {
 }
 
 @media screen {
-  .page-break	{ 
-    display: block; 
-    page-break-before: always; 
+  .page-break	{
+    display: block;
+    page-break-before: always;
   }
 }
