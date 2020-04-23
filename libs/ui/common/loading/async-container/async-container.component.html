@@ -5,7 +5,7 @@
   <div class="loading-blanket-center">
 
     <ng-container *ngIf="!loadingError && showSpinner">
-      <pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator>
+      <pf-loading-indicator [spinnerType]="spinnerType" [loadingProgress]="loadingProgress"></pf-loading-indicator>
     </ng-container>
 
     <ng-container *ngIf="loadingError">

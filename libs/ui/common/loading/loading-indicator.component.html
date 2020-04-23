@@ -1,3 +1,13 @@
 <span *ngIf="spinnerType === 'SVG'"><fa-icon icon="circle-notch" [spin]="true" aria-hidden="true"></fa-icon></span>
 <img *ngIf="spinnerType === 'GIF'" src="{{spinnerGifUrl}}"/>
+<span *ngIf="spinnerType === 'PROGRESS'">
+  <span>{{loadingProgress.title}}                    </span>
+  <ngb-progressbar
+        [type]= "'info'"
+        [value]="startValue"
+        [max]="100"
+        [animated]="loadingProgress.animated"
+        [striped]="loadingProgress.animated">
+  </ngb-progressbar>
+</span>
 {{message}}
