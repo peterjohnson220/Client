@@ -87,6 +87,8 @@ import { ClickInContentDirective } from './directives/click-in-content-directive
 import { CommunitySearchResultsPageComponent } from './containers/pages/community-search-results/community-search-results.page';
 import { CommunitySearchEffects } from './effects/community-search.effects';
 import { CommunitySearchApiService } from 'libs/data/payfactors-api/community/community-search-api.service';
+import { UploadModule } from '@progress/kendo-angular-upload';
+import { CommunityAttachmentComponent } from './components/community-attachment/community-attachment.component';
 
 const components = [
   ClickInContentDirective,
@@ -129,7 +131,8 @@ const components = [
   CommunitySearchResultModalComponent,
   CommunityPostComponent,
   CommunityPostEditComponent,
-  CommunityPollsAllPollsAnsweredComponent
+  CommunityPollsAllPollsAnsweredComponent,
+  CommunityAttachmentComponent
 ];
 
 @NgModule({
@@ -148,6 +151,7 @@ const components = [
     InfiniteScrollModule,
     ScrollingModule,
     ScrollDispatchModule,
+    UploadModule,
 
     StoreModule.forFeature('community', reducers),
     EffectsModule.forFeature([

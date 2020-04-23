@@ -12,9 +12,12 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
   communityPostReplyForm={[Function FormGroup]}
   formBuilder={[Function FormBuilder]}
   pfLinkifyService={[Function Object]}
+  removeAttachmentUrl={[Function String]}
   replyMaxLength={[Function Number]}
   replySubmitted={[Function EventEmitter]}
+  saveAttachmentUrl={[Function String]}
   store={[Function Store]}
+  uploadedFiles={[Function Array]}
 >
   <form
     class="ng-untouched ng-pristine ng-invalid"
