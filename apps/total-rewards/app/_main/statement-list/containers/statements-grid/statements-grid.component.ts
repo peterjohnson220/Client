@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -19,6 +19,8 @@ import * as fromTotalRewardsStatementGridActions from '../../actions/statement-g
 })
 export class StatementsGridComponent implements OnInit {
 
+  @Input() autoLoad = false;
+
   statementsGridData$: Observable<GridDataResult>;
   statementsGridState$: Observable<State>;
   statementsLoading$: Observable<boolean>;
@@ -34,6 +36,9 @@ export class StatementsGridComponent implements OnInit {
     this.statementsLoading$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsLoading));
     this.statementsLoadingError$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsLoadingError));
     this.openActionMenuStatementId$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsOpenActionMenuStatementId));
+    if (this.autoLoad) {
+      this.store.dispatch(new fromTotalRewardsStatementGridActions.LoadStatements());
+    }
   }
 
   onDataStateChange(state: DataStateChangeEvent): void {

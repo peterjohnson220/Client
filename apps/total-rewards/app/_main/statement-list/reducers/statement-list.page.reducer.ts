@@ -23,6 +23,12 @@ export function reducer(state = initialState, action: fromStatementListPageActio
         };
       }
     }
+    case fromStatementListPageActions.SET_TAB: {
+      return {
+        ...state,
+        FocusedTab: action.payload
+      };
+    }
     default: {
       return state;
     }

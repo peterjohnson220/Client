@@ -1,7 +1,7 @@
 <pf-page-with-title-bar>
 
   <ng-container page-title>
-    <fa-icon class="mr-2" [icon]="'dollar-sign'" aria-hidden="true"></fa-icon>Total Rewards Statements
+    <fa-icon class="mr-2" [icon]="'dollar-sign'" aria-hidden="true"></fa-icon>Total Rewards
   </ng-container>
 
   <ng-container page-actions>
@@ -18,9 +18,9 @@
 
   <ng-container page-content>
     <div class="d-flex flex-column h-100">
-      <div class="mh-100">
+      <div class="h-100">
 
-        <ngb-tabset #tabRef="ngbTabset"
+        <ngb-tabset #tabs
                     [destroyOnHide]="false"
                     (tabChange)="onTabChange()">
 
@@ -28,10 +28,10 @@
             <ng-template ngbTabContent >
               <div class="h-100" *ngIf="(statementsTotal$ | async) > 0 || (statementsLoading$ | async) ||
                               (statementsLoadingError$ | async); else doNotShowGrid">
-                <pf-statements-grid ></pf-statements-grid>
+                <pf-statements-grid></pf-statements-grid>
               </div>
               <ng-template #doNotShowGrid>
-                <pf-create-new-statement-banner (createNewClicked)="tabRef.select('Templates')">
+                <pf-create-new-statement-banner (createNewClicked)="onCreateNewClicked()">
                 </pf-create-new-statement-banner>
               </ng-template>
             </ng-template>
@@ -39,7 +39,8 @@
 
           <ngb-tab id="Templates" title="Templates">
             <ng-template ngbTabContent>
-              <h4>Templates will go here.</h4>
+              <pf-total-rewards-template-card-selector [autoLoad]="true">
+              </pf-total-rewards-template-card-selector>
             </ng-template>
           </ngb-tab>
         </ngb-tabset>

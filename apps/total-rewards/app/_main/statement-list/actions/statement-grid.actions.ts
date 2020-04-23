@@ -36,7 +36,7 @@ export class CloseActionMenu implements Action {
   readonly type = CLOSE_ACTION_MENU;
 }
 
-export type Actions =
+export type StatementGridActions =
   LoadStatements |
   LoadStatementsSuccess |
   LoadStatementsError |

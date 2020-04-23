@@ -1,6 +1,6 @@
 <div *ngIf="statement" class="container statement mt-4 mb-4 rounded" [ngClass]="fontSizeCssClass + ' ' + fontFamilyCssClass">
   <div *ngFor="let employee of employeeArray; trackBy: trackByFn">
-    <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pt-4 pb-4 trs-page">
+    <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="py-4 trs-page">
       <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section">
         <div *ngFor="let column of section.Columns; trackBy: trackByFn" [ngClass]="getColumnWidth(section.Columns.length)" class="trs-column">
           <div class="row columnRow">

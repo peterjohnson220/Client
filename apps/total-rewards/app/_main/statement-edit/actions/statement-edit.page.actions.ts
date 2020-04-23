@@ -1,8 +1,3 @@
-import { Action } from '@ngrx/store';
-import { Statement, StatementModeEnum, UpdateStringPropertyRequest, Settings } from '../../../shared/models';
-import * as requestModels from '../../../shared/models/request-models';
-import { FontSize, FontFamily } from '../../../shared/types';
-
 import * as statementActions from './statement.actions';
 import * as settingsActions from './settings.actions';
 import * as controlActions from './control.actions';
@@ -27,7 +22,6 @@ export type StatementEditPageActions =
   controlActions.AddCalculationControlCompensationField |
   controlActions.RemoveCalculationControlCompensationField |
   controlActions.UpdateRichTextControlContent |
-  controlActions.AddCalculationControlCompensationField |
 
   settingsActions.OpenSettings |
   settingsActions.CloseSettings |

@@ -15,9 +15,9 @@ import {PfFormsModule} from 'libs/forms';
 import {SharedModule} from '../../shared';
 
 import {reducers} from './reducers';
-import {StatementGridEffects} from './effects';
+import {StatementGridEffects, TemplateSelectorEffects} from './effects';
 import {StatementListPageComponent} from './statement-list.page';
-import {StatementsGridComponent} from './containers';
+import {StatementsGridComponent, TemplateCardSelectorComponent} from './containers';
 import {CreateNewStatementBannerComponent, GridActionMenuComponent} from './components';
 
 @NgModule({
@@ -27,7 +27,7 @@ import {CreateNewStatementBannerComponent, GridActionMenuComponent} from './comp
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementList', reducers),
-    EffectsModule.forFeature([StatementGridEffects]),
+    EffectsModule.forFeature([StatementGridEffects, TemplateSelectorEffects]),
     FontAwesomeModule,
     GridModule,
     NgbTabsetModule,
@@ -42,7 +42,8 @@ import {CreateNewStatementBannerComponent, GridActionMenuComponent} from './comp
     CreateNewStatementBannerComponent,
     GridActionMenuComponent,
     StatementListPageComponent,
-    StatementsGridComponent
+    StatementsGridComponent,
+    TemplateCardSelectorComponent
   ],
   exports: []
 })
