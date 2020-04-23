@@ -1,23 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
 
+import { Workflow } from '../constants/workflow';
+
 @Injectable()
 export class UrlService {
   readonly appName = 'structures/';
-  readonly newStructureWorkflowIdentifier = '/new';
 
   constructor(
     private location: Location
   ) {}
 
-  isInNewStructureWorkflow(): boolean {
-    return this.getUrl().includes(this.newStructureWorkflowIdentifier);
+  isInWorkflow(workflow: Workflow) {
+    return this.getUrl().includes(workflow);
   }
 
-  removeNewStructureWorkflow(): void {
-    if (this.isInNewStructureWorkflow()) {
-      this.location.replaceState(this.getUrl().replace(this.newStructureWorkflowIdentifier, ''));
+  removeWorkflow(workflow: Workflow): void {
+    if (this.isInWorkflow(workflow)) {
+      this.location.replaceState(this.getUrl().replace(workflow, ''));
     }
+  }
+
+  removeAllWorkflows(): void {
+    Object.values(Workflow).forEach((w) => this.removeWorkflow(w));
   }
 
   private getUrl(): string {
