@@ -29,7 +29,7 @@ export class PricingDetailsComponent implements OnChanges, OnDestroy {
 
   newStatus: string;
 
-  getLoading$: Observable<boolean>;
+  loading$: Observable<boolean>;
   pricingInfo$: Observable<AsyncStateObj<PricingInfo>>;
   addToNewProject$: Observable<AsyncStateObj<boolean>>;
   savingPricing$: Observable<AsyncStateObj<boolean>>;
@@ -38,7 +38,7 @@ export class PricingDetailsComponent implements OnChanges, OnDestroy {
   saveSuccessSubscription = new Subscription();
 
   constructor(private store: Store<fromPricingDetailsReducer.State>, private actionsSubject: ActionsSubject) {
-    this.getLoading$ = this.store.select(fromPricingDetailsReducer.getLoading);
+    this.loading$ = this.store.select(fromPricingDetailsReducer.getLoading);
     this.pricingInfo$ = this.store.select(fromPricingDetailsReducer.getPricingInfo);
     this.addToNewProject$ = this.store.select(fromPricingDetailsReducer.getAddingToNewProject);
     this.savingPricing$ = this.store.select(fromPricingDetailsReducer.getSavingPricing);
