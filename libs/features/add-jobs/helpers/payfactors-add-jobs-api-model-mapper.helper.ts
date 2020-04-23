@@ -1,4 +1,4 @@
-import { JobSearchResult, CreateNewProjectJobRequest } from 'libs/models/payfactors-api';
+import { JobSearchResult, CreateNewProjectJobRequest, JobBasedRangeJobSearchResult } from 'libs/models/payfactors-api';
 import { PayMarket } from 'libs/models/paymarket';
 
 import { JobPayMarket, JobResult } from '../models';
@@ -30,6 +30,33 @@ export class PayfactorsAddJobsApiModelMapper {
         PricingDataLoading: false,
         PricingDataLoaded: false,
         ShowJobDetail: false
+      };
+    });
+  }
+
+  static mapJobBasedRangeJobSearchResultsToJobResults(jobSearchResults: JobBasedRangeJobSearchResult[]): JobResult[] {
+    return jobSearchResults.map(jsr => {
+      return {
+        Id: jsr.Id,
+        Title: jsr.Title,
+        Code: jsr.Code,
+        Source: jsr.CompanyName,
+        BaseMRP: jsr.Base50Mrp,
+        TCCMRP: jsr.TccMrp,
+        IsMappedToPeerExchange: jsr.IsMappedInPeerExchange,
+        Family: jsr.Family,
+        Description: jsr.Description,
+        FLSAStatus: jsr.FLSAStatus,
+        Category: jsr.Category,
+        Level: jsr.Level,
+        EEO: jsr.EEO,
+        UdfFields: jsr.UdfFields,
+        IsSelected: false,
+        IsPayfactorsJob: jsr.IsPayfactorsJob,
+        PricingDataLoading: false,
+        PricingDataLoaded: false,
+        ShowJobDetail: false,
+        AssignedStructures: jsr.CompanyStructures
       };
     });
   }

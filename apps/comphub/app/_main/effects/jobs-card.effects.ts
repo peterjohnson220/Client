@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, debounceTime, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, debounceTime, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { ExchangeJobSearchApiService} from 'libs/data/payfactors-api/search/peer/exchange-job-search-api.service';
+import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
-import { ComphubPages } from '../data';
+import {ComphubPages, CountryCode} from '../data';
 import * as fromComphubMainReducer from '../reducers';
 
 @Injectable()
@@ -28,9 +28,9 @@ export class JobsCardEffects {
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
         (action: fromJobsCardActions.GetTrendingJobs, activeCountryDataSet) => ({ activeCountryDataSet })
       ),
-      filter((data) => !!data.activeCountryDataSet),
       switchMap((data) => {
-          return this.comphubApiService.getTrendingJobs(data.activeCountryDataSet.CountryCode)
+        const countryCode = !!data.activeCountryDataSet ? data.activeCountryDataSet.CountryCode : CountryCode.USA;
+          return this.comphubApiService.getTrendingJobs(countryCode)
             .pipe(
               map(response => {
                 const trendingJobGroups = PayfactorsApiModelMapper.mapTrendingJobGroupsResponseToTrendingJobGroups(response);
@@ -79,7 +79,7 @@ export class JobsCardEffects {
           Prefix: data.action.payload,
           ExchangeId: data.dataSet.ExchangeId
         }).pipe(
-          map(response => {
+          map((response: ExchangeJobSearchOption[]) => {
             return new fromJobsCardActions.GetExchangeJobSearchOptionsSuccess(response);
           }),
           catchError((error) => of(new fromJobsCardActions.GetExchangeJobSearchOptionsError(),

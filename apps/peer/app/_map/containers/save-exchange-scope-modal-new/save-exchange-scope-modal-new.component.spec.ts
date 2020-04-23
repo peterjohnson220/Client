@@ -76,7 +76,8 @@ describe('Peer - Map - Save Exchange Scope Modal New', () => {
 
     expect(instance.upsertExchangeScopeEvent.emit).toHaveBeenCalledWith({
       Name: mockUpsertExchangeScopeRequest.ExchangeScopeName,
-      Description: mockUpsertExchangeScopeRequest.ExchangeScopeDescription
+      Description: mockUpsertExchangeScopeRequest.ExchangeScopeDescription,
+      IsDefault: !!mockUpsertExchangeScopeRequest.IsDefault
     });
   });
 });

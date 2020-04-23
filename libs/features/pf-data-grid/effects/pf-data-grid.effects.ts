@@ -3,28 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError, withLatestFrom, mergeMap, groupBy, debounceTime } from 'rxjs/operators';
 
-import { SortDescriptor } from '@progress/kendo-data-query';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 
-import {
-  ViewField,
-  DataViewConfig,
-  DataViewField,
-  DataViewFilter,
-  DataViewEntityResponseWithCount,
-  PagingOptions,
-  DataViewFieldType,
-  DataViewType,
-  ExportGridRequest,
-  DataView
-} from 'libs/models/payfactors-api';
+import { DataViewConfig, DataViewEntityResponseWithCount, PagingOptions, DataViewType, ExportGridRequest, DataView } from 'libs/models/payfactors-api';
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridActions from '../actions';
 import * as fromPfDataGridReducer from '../reducers';
-import { isValueRequired } from '../components';
+import { DataGridToDataViewsHelper } from '../helpers';
 
 @Injectable()
 export class PfDataGridEffects {
@@ -79,6 +66,7 @@ export class PfDataGridEffects {
       groupBy((action: fromPfDataGridActions.LoadData) => action.pageViewId),
       mergeMap(pageViewIdGroup => pageViewIdGroup
         .pipe(
+          debounceTime(10),
           mergeMap((loadDataAction: fromPfDataGridActions.LoadData) =>
             of(loadDataAction).pipe(
               withLatestFrom(
@@ -95,10 +83,10 @@ export class PfDataGridEffects {
           switchMap((data) => {
             if (data.fields) {
               return this.dataViewApiService
-                .getDataWithCount(PfDataGridEffects.buildDataViewDataRequest(
+                .getDataWithCount(DataGridToDataViewsHelper.buildDataViewDataRequest(
                   data.baseEntity.Id,
                   data.fields,
-                  PfDataGridEffects.mapFieldsToFiltersUseValuesProperty(data.fields),
+                  DataGridToDataViewsHelper.mapFieldsToFiltersUseValuesProperty(data.fields),
                   data.pagingOptions,
                   data.sortDescriptor,
                   true,
@@ -137,7 +125,7 @@ export class PfDataGridEffects {
           ),
         ),
         switchMap((data) =>
-          this.dataViewApiService.updateDataView(PfDataGridEffects
+          this.dataViewApiService.updateDataView(DataGridToDataViewsHelper
             .buildDataView(
               PfDataGridEffects.parsePageViewId(data.action.pageViewId),
               data.baseEntity.Id,
@@ -175,7 +163,7 @@ export class PfDataGridEffects {
         )
       ),
       switchMap((data) =>
-        this.dataViewApiService.updateDataView(PfDataGridEffects.buildDataView(
+        this.dataViewApiService.updateDataView(DataGridToDataViewsHelper.buildDataView(
           PfDataGridEffects.parsePageViewId(data.action.pageViewId),
           data.baseEntity.Id,
           data.fields,
@@ -212,7 +200,7 @@ export class PfDataGridEffects {
         )
       ),
       switchMap((data) =>
-        this.dataViewApiService.updateDataView(PfDataGridEffects.buildDataView(
+        this.dataViewApiService.updateDataView(DataGridToDataViewsHelper.buildDataView(
           PfDataGridEffects.parsePageViewId(data.action.pageViewId),
           data.baseEntity.Id,
           data.fields,
@@ -325,8 +313,8 @@ export class PfDataGridEffects {
       ),
       switchMap((data) => {
         const selectableFields = data.fields.filter(f => f.IsSelectable);
-        const selectedFields = PfDataGridEffects.mapFieldsToDataViewFields(selectableFields, data.sortDescriptor);
-        const filters = PfDataGridEffects.getFiltersForExportView(data.fields, data.selectionField, data.selectedKeys);
+        const selectedFields = DataGridToDataViewsHelper.mapFieldsToDataViewFields(selectableFields, data.sortDescriptor);
+        const filters = DataGridToDataViewsHelper.getFiltersForExportView(data.fields, data.selectionField, data.selectedKeys);
         const dataView: DataView = {
           EntityId: data.baseEntity.Id,
           PageViewId: data.action.pageViewId,
@@ -366,126 +354,5 @@ export class PfDataGridEffects {
   // However this is a major refactor of the PfDataGrid which we are not ready to undertake at this time.
   static parsePageViewId(pageViewId: string) {
     return pageViewId.split('_')[0];
-  }
-
-  static buildDataView(pageViewId: string, baseEntityId: number,
-    fields: ViewField[], sortDescriptor: SortDescriptor[], name: string, type: DataViewType): DataView {
-    const selectedFields = PfDataGridEffects.mapFieldsToDataViewFields(fields, sortDescriptor);
-    // TODO: Change the way we save filters. This assumes we never save GlobalFilters and we never save filters for Named Views
-    const filterFields = fields.filter(f => !f.IsGlobalFilter && f.FilterValue !== null && name !== null);
-    return {
-      PageViewId: pageViewId,
-      EntityId: baseEntityId,
-      Name: name,
-      Type: type,
-      Elements: selectedFields,
-      Filters: PfDataGridEffects.mapFieldsToFiltersUseValueProperty(filterFields)
-    };
-  }
-
-  static buildDataViewDataRequest(
-    baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
-    pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean, applyDefaultFilters: boolean) {
-
-    return {
-      BaseEntityId: baseEntityId,
-      Fields: PfDataGridEffects.mapFieldsToDataViewFields(fields, sortDescriptor),
-      Filters: filters,
-      PagingOptions: pagingOptions,
-      WithCount: withCount,
-      ApplyDefaultFilters: applyDefaultFilters,
-    };
-  }
-
-  static mapFieldsToDataViewFilters(fields: ViewField[]) {
-    return fields.map(f => ({
-      DataElementId: f.DataElementId,
-      Operator: f.FilterOperator,
-      Value: f.FilterValue
-    }));
-  }
-
-  static mapFieldsToDataViewFields(fields: ViewField[], sortDescriptor: SortDescriptor[]): DataViewField[] {
-    return fields ? fields
-      .filter(f => f.IsSelected)
-      .map(f => {
-        const sortInfo = this.getSortInformation(f, sortDescriptor);
-        return {
-          EntityId: f.EntityId,
-          Entity: null,
-          EntitySourceName: f.EntitySourceName,
-          DataElementId: f.DataElementId,
-          SourceName: f.SourceName,
-          DisplayName: f.DisplayName,
-          DataType: f.DataType,
-          IsSelected: f.IsSelected,
-          IsSortable: false,
-          Order: f.Order,
-          FieldType: DataViewFieldType.DataElement,
-          SortOrder: !!sortInfo ? sortInfo.SortOrder : null,
-          SortDirection: !!sortInfo ? sortInfo.SortDirection : null
-        };
-      })
-      : [];
-  }
-
-  private static getSortInformation(field: ViewField, sortDescriptor: SortDescriptor[]) {
-    if (!!sortDescriptor && sortDescriptor.length > 0) {
-      const sortInfo = sortDescriptor.find(x => x.field === `${field.EntitySourceName}_${field.SourceName}`);
-      if (!!sortInfo) {
-        return {
-          SortDirection: sortInfo.dir,
-          SortOrder: sortDescriptor.indexOf(sortInfo)
-        };
-      } else {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  static mapFieldsToFiltersUseValuesProperty(fields: ViewField[]): DataViewFilter[] {
-    return fields
-      .filter(field => field.FilterValue !== null || !isValueRequired(field))
-      .map(field => <DataViewFilter>{
-        EntitySourceName: field.EntitySourceName,
-        SourceName: field.SourceName,
-        Operator: field.FilterOperator,
-        Values: [field.FilterValue],
-        DataType: field.DataType,
-        FilterType: field.CustomFilterStrategy
-      });
-  }
-
-  static mapFieldsToFiltersUseValueProperty(fields: ViewField[]): DataViewFilter[] {
-    return fields
-      .filter(field => field.FilterValue !== null || !isValueRequired(field))
-      .map(field => <DataViewFilter>{
-        EntitySourceName: field.EntitySourceName,
-        SourceName: field.SourceName,
-        Operator: field.FilterOperator,
-        Value: field.FilterValue,
-        DataType: field.DataType,
-        FilterType: field.CustomFilterStrategy,
-        DataElementId: field.DataElementId
-      });
-  }
-
-  static getFiltersForExportView(fields: ViewField[], selectionField: string, selectedKeys: number[]): DataViewFilter[] {
-    const filters = PfDataGridEffects.mapFieldsToFiltersUseValueProperty(fields);
-    if (!!selectedKeys && !!selectedKeys.length) {
-      const field: ViewField = fields.find(f => f.SourceName === selectionField);
-      for (const selectedKey of selectedKeys) {
-        const selectedKeysFilter: DataViewFilter = {
-          DataElementId: field.DataElementId,
-          EntitySourceName: field.EntitySourceName,
-          SourceName: field.SourceName,
-          Operator: '=',
-          Value: selectedKey.toString()
-        };
-        filters.push(selectedKeysFilter);
-      }
-    }
-    return filters;
   }
 }

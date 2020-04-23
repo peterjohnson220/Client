@@ -126,6 +126,9 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
   }
 
   showJumpToResults(votes: any) {
+    // FORT-332 - Hide jump to results button
+    return false;
+
     let sum = 0;
 
     if (votes) {

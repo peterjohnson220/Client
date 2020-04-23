@@ -40,6 +40,7 @@ export class SaveExchangeScopeModalNewComponent {
 
   get exchangeScopeNameControl() { return this.saveExchangeScopeForm.get('exchangeScopeName'); }
   get exchangeScopeDescriptionControl() { return this.saveExchangeScopeForm.get('exchangeScopeDescription'); }
+  get isDefaultScopeControl() { return this.saveExchangeScopeForm.get('isDefaultScope'); }
 
   get descriptionPlaceholder(): string {
     return `Add a brief description about the Exchange Scope you are creating...`;
@@ -48,13 +49,14 @@ export class SaveExchangeScopeModalNewComponent {
   createForm(): void {
     this.saveExchangeScopeForm = this.fb.group({
       'exchangeScopeName': ['', [PfValidators.required, Validators.minLength(3)], [this.exchangeScopeNameValidator()]],
-      'exchangeScopeDescription': ['']
+      'exchangeScopeDescription': [''],
+      'isDefaultScope': [false]
     });
   }
 
   handleFormSubmit(): void {
     this.upsertExchangeScopeEvent.emit({ Name: this.exchangeScopeNameControl.value,
-                                               Description: this.exchangeScopeDescriptionControl.value });
+                                               Description: this.exchangeScopeDescriptionControl.value, IsDefault: this.isDefaultScopeControl.value });
   }
 
   handleModalDismissed(): void {

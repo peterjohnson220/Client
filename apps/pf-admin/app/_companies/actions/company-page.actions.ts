@@ -12,6 +12,8 @@ export const GET_COMPANY_ERROR = '[Pf-Admin/Company Page] Get Company Error';
 export const GET_SYSTEM_USER_GROUPS = '[Pf-Admin/Company Page] Get System User Groups';
 export const GET_SYSTEM_USER_GROUPS_SUCCESS = '[Pf-Admin/Company Page] Get System User Groups Success';
 export const GET_SYSTEM_USER_GROUPS_ERROR = '[Pf-Admin/Company Page] Get System User Groups Error';
+export const GET_PF_ACCOUNT_EXECUTIVES = '[Pf-Admin/Company Page] Get Pf Account Executives';
+export const GET_PF_ACCOUNT_EXECUTIVES_SUCCESS = '[Pf-Admin/Company Page] Get Pf Account Executives Success';
 export const GET_PF_SERVICES_REPS = '[Pf-Admin/Company Page] Get Pf Services Reps';
 export const GET_PF_SERVICES_REPS_SUCCESS = '[Pf-Admin/Company Page] Get Pf Services Reps Success';
 export const GET_PF_SERVICES_REPS_ERROR = '[Pf-Admin/Company Page] Get Pf Services Reps Error';
@@ -112,6 +114,16 @@ export class GetSystemUserGroupsError implements Action {
   readonly type = GET_SYSTEM_USER_GROUPS_ERROR;
 
   constructor() {}
+}
+
+export class GetPfAccountExecutives implements Action {
+  readonly type = GET_PF_ACCOUNT_EXECUTIVES;
+}
+
+export class GetPfAccountExecutivesSuccess implements Action {
+  readonly type = GET_PF_ACCOUNT_EXECUTIVES_SUCCESS;
+
+  constructor( public payload: UserResponse[] ) {}
 }
 
 export class GetPfServicesReps implements Action {
@@ -463,6 +475,8 @@ export type Actions
   = GetSystemUserGroups
   | GetSystemUserGroupsSuccess
   | GetSystemUserGroupsError
+  | GetPfAccountExecutives
+  | GetPfAccountExecutivesSuccess
   | GetPfServicesReps
   | GetPfServicesRepsSuccess
   | GetPfServicesRepsError

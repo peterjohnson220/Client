@@ -1,34 +1,61 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import { Statement, TotalRewardsControlEnum } from '../../models';
-import { select, Store } from '@ngrx/store';
-import * as fromTotalRewardsEditReducer from '../../../_main/statement-edit/reducers';
-import * as fromEditStatementPageActions from '../../../_main/statement-edit/actions';
+import {
+  Statement,
+  TotalRewardsControlEnum,
+  UpdateFieldOverrideNameRequest,
+  UpdateFieldVisibilityRequest,
+  UpdateStringPropertyRequest,
+  UpdateTitleRequest,
+  EmployeeRewardsData,
+  StatementModeEnum
+} from '../../models';
 
 @Component({
   selector: 'pf-total-rewards-statement',
   templateUrl: './total-rewards-statement.component.html',
-  styleUrls: ['./total-rewards-statement.component.scss']
+  styleUrls: ['./total-rewards-statement.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
 
-  @Input() statementId: number;
+  @Input() statement: Statement;
+  @Input() mode: StatementModeEnum;
+  @Input() employeeRewardsData: EmployeeRewardsData;
 
-  statement$: Observable<Statement>;
-  statementLoading$: Observable<boolean>;
-  statementLoadingError$: Observable<boolean>;
+  // Common Outputs
+  @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
+
+  // Calculation Outputs
+  @Output() onCalculationControlCompFieldTitleChange: EventEmitter<UpdateFieldOverrideNameRequest> = new EventEmitter();
+  @Output() onCalculationControlSummaryTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
+  @Output() onCalculationControlCompFieldRemoved: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
+  @Output() onCalculationControlCompFieldAdded: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
+
+  // Rich Text Outputs
+  @Output() onRichTextControlContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter<UpdateStringPropertyRequest>();
 
   controlType = TotalRewardsControlEnum;
+  statementModeEnum = StatementModeEnum;
 
-  companyColors = [
-    '#1f2f3d',
-    '#0883be',
-    '#ffb300',
-    '#dc1e34'
-  ];
+  // check statement.Settings.FontSize and return small-font | medium-font | large-font | ''
+  get fontSizeCssClass(): string {
+    if (this.statement && this.statement.Settings && this.statement.Settings.FontSize) {
+      return this.statement.Settings.FontSize.toLowerCase() + '-font-size';
+    }
+    return '';
+  }
+
+  // check statement.Settings.FontFamily and return 'arial-font-family', 'times-new-roman-font-family', etc
+  get fontFamilyCssClass(): string {
+    if (this.statement && this.statement.Settings && this.statement.Settings.FontFamily) {
+      return this.statement.Settings.FontFamily.toLowerCase().replace(/ /g, '-') + '-font-family';
+    }
+    return '';
+  }
 
   employeeData = [
     {
@@ -59,16 +86,11 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   pageCount = 1;
   employeeArray = [];
 
-  constructor(private route: ActivatedRoute,
-              private store: Store<fromTotalRewardsEditReducer.State>) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.statement$ = this.store.pipe(select(fromTotalRewardsEditReducer.selectStatementState));
-    this.statementLoading$ = this.store.pipe(select(fromTotalRewardsEditReducer.selectStatementLoading));
-    this.statementLoadingError$ = this.store.pipe(select(fromTotalRewardsEditReducer.selectStatementLoadingError));
-
+    // This is for POC employees/pages
     this.pageCountSubscription = this.route.queryParams.subscribe(params => {
-      // This is for POC employees/pages
       if (params['pages']) {
         this.pageCount = params['pages'];
       }
@@ -82,6 +104,11 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
     this.pageCountSubscription.unsubscribe();
   }
 
+  // track which item each ngFor is on, which no longer necessitates destroying/creating all components in state changes and improves perf significantly
+  trackByFn(index: number, item: any) {
+    return index;
+  }
+
   getColumnWidth(count) {
     return 'col-' + (12 / count) + ' column';
   }
@@ -90,27 +117,30 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
     return 'col-' + width;
   }
 
-  handleStatementReload() {
-    this.store.dispatch(new fromEditStatementPageActions.LoadStatement(this.statementId));
+  // Common pass through methods
+  handleOnControlTitleChange(event) {
+    this.onControlTitleChange.emit(event);
   }
 
-  updateCalculationControlTitle(event) {
-    this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(event));
+  // Calculation pass through methods
+  handleOnCalculationControlCompFieldTitleChange(event) {
+    this.onCalculationControlCompFieldTitleChange.emit(event);
   }
 
-  updateCompFieldTitle(event) {
-    this.store.dispatch(new fromEditStatementPageActions.UpdateCalculationControlFieldTitle(event));
+  handleOnCalculationControlSummaryTitleChange(event) {
+    this.onCalculationControlSummaryTitleChange.emit(event);
   }
 
-  updateSummaryTitle(event) {
-    this.store.dispatch(new fromEditStatementPageActions.UpdateCalculationControlSummaryTitle(event));
+  handleOnCalculationControlCompFieldRemoved(event) {
+    this.onCalculationControlCompFieldRemoved.emit(event);
   }
 
-  removeCompField(event) {
-    this.store.dispatch(new fromEditStatementPageActions.RemoveCalculationControlCompensationField(event));
+  handleOnCalculationControlCompFieldAdded(event) {
+    this.onCalculationControlCompFieldAdded.emit(event);
   }
 
-  addCompField(event) {
-    this.store.dispatch(new fromEditStatementPageActions.AddCalculationControlCompensationField(event));
+  // Rich Text pass through methods
+  handleOnRichTextControlContentChange(event) {
+    this.onRichTextControlContentChange.emit(event);
   }
 }

@@ -1,2 +1,2 @@
-export * from './pricings-salary-range-chart-options-service';
-
+export * from './pricings-salary-range-chart-service';
+export * from './pricings-salary-range-chart-series-constants';

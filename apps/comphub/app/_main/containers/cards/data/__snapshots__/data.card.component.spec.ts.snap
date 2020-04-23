@@ -29,6 +29,8 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   store={[Function Store]}
   winRef={[Function Object]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSubscription={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="database"
@@ -276,6 +278,8 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   store={[Function Store]}
   winRef={[Function Object]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSubscription={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="database"

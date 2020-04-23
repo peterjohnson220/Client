@@ -1,5 +1,6 @@
 <pf-data-grid
-  [title]="(metaData$ | async)?.StructureName"
+  [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
+  [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
   [columnTemplates]="colTemplates"
@@ -9,27 +10,32 @@
   [splitOnSelection]="false"
   [aboveGridTemplate]="aboveGridTemplate"
   [applyDefaultFilters]="false"
-  [actionBarConfig]="actionBarConfig">
+  [actionBarConfig]="actionBarConfig"
+  [pageable]="true"
+  [borders]="false"
+  [contentClassNamesOverrides]="'py-3 px-4'"
+  [pageTheme]="'next-gen'"
+  [autoFitColumnsToHeader]="true">
 </pf-data-grid>
 
 <ng-template #jobTitleCode let-dataRow="dataRow" let-fieldName="fieldName">
-  {{ dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title'] }} ({{ dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code'] }})
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap">
+    {{ dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title'] }} ({{ dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code'] }})
+  </div>
 </ng-template>
 
 <ng-template #source let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap">
   {{ dataRow['vw_PricingMatchesJobTitlesMerged_Source'] }}
   {{ dataRow['vw_PricingMatchesJobTitlesMerged_Effective_Date'] ? ' - ' + (dataRow['vw_PricingMatchesJobTitlesMerged_Effective_Date'] | date: 'MM/dd/yyyy') : '' }}
   {{ dataRow['vw_PricingMatchesJobTitlesMerged_Scope1'] ? ' - ' + dataRow['vw_PricingMatchesJobTitlesMerged_Scope1'] : '' }}
   {{ dataRow['vw_PricingMatchesJobTitlesMerged_Scope2'] ? ' - ' + dataRow['vw_PricingMatchesJobTitlesMerged_Scope2'] : '' }}
   {{ dataRow['vw_PricingMatchesJobTitlesMerged_Scope3'] ? ' - ' + dataRow['vw_PricingMatchesJobTitlesMerged_Scope3'] : '' }}
+  </div>
 </ng-template>
 
 <ng-template #graph>
-  <div class="chartContainer">
-    <pf-pricings-salary-range-chart
-      [rangeId]="rangeId">
-    </pf-pricings-salary-range-chart>
-  </div>
+  <pf-pricings-salary-range-chart [rangeId]="rangeId"></pf-pricings-salary-range-chart>
 </ng-template>
 
 <ng-template #gridGlobalActions>
@@ -37,7 +43,7 @@
 </ng-template>
 
 <ng-template #aboveGridTemplate>
-  <div style="height: 150px">
+  <div class="mb-3">
     <pf-grid-context [enableReturnBtn]="true" [metadata]="metaData$ | async"></pf-grid-context>
     <pf-model-grid [inboundFilters]="[filter]" [rangeGroupId]="rangeGroupId" [singleRecordView]="true" [page]="page"></pf-model-grid>
   </div>

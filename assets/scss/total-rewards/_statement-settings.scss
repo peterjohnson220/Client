@@ -1,0 +1,35 @@
+// font families allowed in settings
+.arial-font-family {
+  font-family: Arial, sans-serif;
+}
+.georgia-font-family {
+  font-family: Georgia, serif;
+}
+.helvetica-font-family {
+  font-family: Helvetica, sans-serif;
+}
+.times-new-roman-font-family {
+  font-family: 'Times New Roman', serif;
+}
+.default-font-family {
+  font-family: inherit;
+  // default gets a different font family header  
+  .primary-control-heading {
+    font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+  }
+}
+
+// small/medium (default)/large font sizes allowed in settings
+.small-font-size {
+  font-size: .93rem;
+  .primary-control-heading {
+    font-size: 1.3rem;
+  }
+}
+
+.large-font-size {
+  font-size: 1.2rem;
+  .primary-control-heading {
+    font-size: 1.65rem;
+  }
+}

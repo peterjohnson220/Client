@@ -1,6 +1,6 @@
-import {Component, Input, Output, EventEmitter, HostListener, OnInit} from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
 
-import { Statement } from '../../../../shared/models';
+import { StatementListViewModel } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-grid-action-menu',
@@ -9,19 +9,19 @@ import { Statement } from '../../../../shared/models';
 })
 export class GridActionMenuComponent {
 
-  @Input() statement: Statement;
+  @Input() statement: StatementListViewModel;
   @Input() isOpen: boolean;
 
-  @Output() open = new EventEmitter<number>();
+  @Output() open = new EventEmitter<string>();
   @Output() close = new EventEmitter();
 
-  @Output() editClick = new EventEmitter<Statement>();
-  @Output() runStatementClick = new EventEmitter<Statement>();
-  @Output() viewHistoryClick = new EventEmitter<Statement>();
-  @Output() copyClick = new EventEmitter<Statement>();
-  @Output() deleteClick = new EventEmitter<Statement>();
+  @Output() previewClick = new EventEmitter<string>();
+  @Output() editClick = new EventEmitter<string>();
+  @Output() generateStatementClick = new EventEmitter<string>();
+  @Output() copyClick = new EventEmitter<string>();
+  @Output() deleteClick = new EventEmitter<string>();
 
-  onEllipsisClick(statementId: number) {
+  onEllipsisClick(statementId: string) {
     if (this.isOpen) {
       this.close.emit();
     } else {
@@ -29,24 +29,24 @@ export class GridActionMenuComponent {
     }
   }
 
-  onEditClick(statement: Statement) {
-    this.editClick.emit(statement);
+  onPreviewClick(statementId: string) {
+    this.previewClick.emit(statementId);
   }
 
-  onRunStatementClick(statement: Statement) {
-    this.runStatementClick.emit(statement);
+  onEditClick(statementId: string) {
+    this.editClick.emit(statementId);
   }
 
-  onViewHistoryClick(statement: Statement) {
-    this.viewHistoryClick.emit(statement);
+  onGenerateStatementClick(statementId: string) {
+    this.generateStatementClick.emit(statementId);
   }
 
-  onCopyClick(statement: Statement) {
-    this.copyClick.emit(statement);
+  onCopyClick(statementId: string) {
+    this.copyClick.emit(statementId);
   }
 
-  onDeleteClick(statement: Statement) {
-    this.deleteClick.emit(statement);
+  onDeleteClick(statementId: string) {
+    this.deleteClick.emit(statementId);
   }
 
   onClickElsewhere() {

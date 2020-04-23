@@ -23,6 +23,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() pageViewId: string;
   @Input() title: string;
+  @Input() subtitle: string;
   @Input() titleTemplate: TemplateRef<any>;
   @Input() navigationURL: string;
   @Input() showTitle = true;
@@ -30,12 +31,14 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() selectionField: string;
   @Input() columnTemplates: any;
   @Input() aboveGridTemplate: TemplateRef<any>;
+  @Input() rightGridTemplate: TemplateRef<any>;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() rowActionTemplate: TemplateRef<any>;
   @Input() filterPanelTemplates: TemplateRef<any>;
+  @Input() noRecordsFoundTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() enableSelection = false;
   @Input() defaultSort: SortDescriptor[];
@@ -58,6 +61,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() useColumnGroups = true;
   @Input() actionBarConfig: ActionBarConfig = getDefaultActionBarConfig();
   @Input() reorderable: boolean;
+  @Input() borders = true;
+  @Input() pageable = true;
+  @Input() autoFitColumnsToHeader = false;
+  @Input() pageTheme: 'default' | 'next-gen' = 'default';
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;

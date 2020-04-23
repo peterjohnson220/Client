@@ -18,14 +18,18 @@ import {
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
-import { PfCommonModule } from 'libs/core';
+import { PfCommonModule, WindowCommunicationService } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { JobLimitCounterComponent } from 'libs/features/smallbiz';
+import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guidelines-badge.module';
+import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
+import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+
 
 import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
-  SummaryCardComponent } from './containers';
+  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent } from './containers';
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
   SummaryCardEffects } from './effects';
 import { reducers } from './reducers';
@@ -35,43 +39,45 @@ import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
 
 @NgModule({
-  imports: [
-    // Angular
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    imports: [
+        // Angular
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
 
-    // 3rd Party
-    StoreModule.forFeature('comphub_main', reducers),
-    EffectsModule.forFeature([
-      JobsCardEffects,
-      DataCardEffects,
-      MarketsCardEffects,
-      AddPayMarketFormEffects,
-      ComphubPageEffects,
-      SummaryCardEffects
-    ]),
-    PerfectScrollbarModule,
-    PDFExportModule,
-    FontAwesomeModule,
+        // 3rd Party
+        StoreModule.forFeature('comphub_main', reducers),
+        EffectsModule.forFeature([
+            JobsCardEffects,
+            DataCardEffects,
+            MarketsCardEffects,
+            AddPayMarketFormEffects,
+            ComphubPageEffects,
+            SummaryCardEffects
+        ]),
+        PerfectScrollbarModule,
+        PDFExportModule,
+        FontAwesomeModule,
 
-    // Routing
-    MainRoutingModule,
+        // Routing
+        MainRoutingModule,
 
-    // 3rd Party
-    DropDownsModule,
-    GridModule,
-    ChartModule,
-    NgbPaginationModule,
-    NgbModalModule,
-    NgbProgressbarModule,
-    NgbTooltipModule,
+        // 3rd Party
+        DropDownsModule,
+        GridModule,
+        ChartModule,
+        NgbPaginationModule,
+        NgbModalModule,
+        NgbProgressbarModule,
+        NgbTooltipModule,
 
-    // Payfactors
-    PfCommonModule,
-    PfCommonUIModule,
-    PfFormsModule
-  ],
+        // Payfactors
+        PfCommonModule,
+        PfCommonUIModule,
+        PfFormsModule,
+        PfExchangeExplorerModule,
+        GuidelinesBadgeModule
+    ],
   declarations: [
     // Components
     TrendingJobGroupComponent,
@@ -90,11 +96,15 @@ import * as fromFaIcons from './fa-icons';
     CardLayoutComponent,
     DataCardComponent,
     SummaryCardComponent,
-    PaymarketCardsComponent
+    PaymarketCardsComponent,
+    PeerDataCardComponent,
+    ParentDataCardComponent
   ],
   providers: [
     WindowRef,
-    CurrencyPipe
+    CurrencyPipe,
+    WindowCommunicationService,
+    DojGuidelinesService
   ]
 })
 export class MainModule {

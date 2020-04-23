@@ -11,3 +11,4 @@ export * from './country-data.set';
 export * from './market-data-location';
 export * from './workflow-context';
 export * from './exchange-data.set';
+export * from './peer-quick-price-data.model';

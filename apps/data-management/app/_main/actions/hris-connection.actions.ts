@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import {CredentialsPackage} from 'libs/models/hris-api/connection/request';
+import {CredentialsPackage, PatchProperty} from 'libs/models/hris-api/connection/request';
 import {ConnectionSummary} from '../models';
 
 export const GET_CURRENT_HRIS_CONNECTION = '[Data Management/HRIS Connections] Get Current HRIS Connection';
@@ -23,8 +23,15 @@ export const CREATE_CONNECTION = '[Data Management/Transfer Data Page] Create Co
 export const CREATE_CONNECTION_ERROR = '[Data Management/Transfer Data Page] Create Connection Error';
 export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] Create Connection Success';
 
+export const OPEN_REAUTHENTICATION_MODAL = '[Data Management/Hris Connections] Open Re-authentication Modal';
+
+export const PATCH_CONNECTION = '[Data Management/Hris Connections] Patch Connection';
+export const PATCH_CONNECTION_ERROR = '[Data Management/Hris Connections] Patch Connection Error';
+export const PATCH_CONNECTION_SUCCESS = '[Data Management/Hris Connections] Patch Connection Success';
+
 // TODO: Delete this
 export const OUTBOUND_JDM_VALIDATE = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials';
+export const OUTBOUND_JDM_VALIDATE_SUCCESS = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials Success';
 
 export class GetCurrentHrisConnection implements Action {
   readonly type = GET_CURRENT_HRIS_CONNECTION;
@@ -73,7 +80,7 @@ export class ValidateError implements Action {
 export class ValidateSuccess implements Action {
   readonly type = VALIDATE_SUCCESS;
 
-  constructor() {}
+  constructor(public payload: {success: boolean, skipValidation: boolean}) {}
 }
 
 export class CreateConnection implements Action {
@@ -91,7 +98,29 @@ export class CreateConnectionError implements Action {
 export class CreateConnectionSuccess implements Action {
   readonly type = CREATE_CONNECTION_SUCCESS;
 
-  constructor(public payload: CredentialsPackage) {}
+  constructor(public payload: { credentials: CredentialsPackage, connectionId: number }) {}
+}
+
+export class OpenReAuthenticationModal implements Action {
+  readonly type = OPEN_REAUTHENTICATION_MODAL;
+
+  constructor(public payload: boolean) {}
+}
+
+export class PatchConnection implements Action {
+  readonly type = PATCH_CONNECTION;
+
+  constructor(public payload: any) {}
+}
+export class PatchConnectionError implements Action {
+  readonly type = PATCH_CONNECTION_ERROR;
+
+  constructor() {}
+}
+export class PatchConnectionSuccess implements Action {
+  readonly type = PATCH_CONNECTION_SUCCESS;
+
+  constructor(public payload: number) {}
 }
 
 
@@ -100,6 +129,11 @@ export class OutboundJdmValidate implements Action {
   readonly type = OUTBOUND_JDM_VALIDATE;
 
   constructor(public payload: CredentialsPackage) {}
+}
+export class OutboundJdmValidateSuccess implements Action {
+  readonly type = OUTBOUND_JDM_VALIDATE_SUCCESS;
+
+  constructor() {}
 }
 
 export type Actions
@@ -118,4 +152,9 @@ export type Actions
   | CreateConnection
   | CreateConnectionError
   | CreateConnectionSuccess
-  | OutboundJdmValidate;
+  | OpenReAuthenticationModal
+  | PatchConnection
+  | PatchConnectionError
+  | PatchConnectionSuccess
+  | OutboundJdmValidate
+  | OutboundJdmValidateSuccess;

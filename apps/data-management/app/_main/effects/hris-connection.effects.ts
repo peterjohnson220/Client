@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-
+import { Router } from '@angular/router';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
+import { isEmpty, isNumber, isObject } from 'lodash';
 import { Observable, of } from 'rxjs';
-import { catchError, delay, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, delay, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import { isEmpty, isObject } from 'lodash';
-
-import { ConnectionsHrisApiService } from 'libs/data/payfactors-api/hris-api/connections';
-import { CredentialsPackage } from 'libs/models/hris-api/connection/request';
-import { ConnectionSummaryResponse, ValidateCredentialsResponse } from 'libs/models/hris-api/connection/response';
+import { LoadTypes } from 'libs/constants';
+import { ConnectionsHrisApiService, ConfigurationGroupApiService, LoaderSettingsApiService } from 'libs/data/payfactors-api';
+import { ConnectionSummaryResponse, CredentialsPackage, ValidateCredentialsResponse } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 
 import { PayfactorsApiModelMapper } from '../helpers';
@@ -22,40 +21,6 @@ import { TransferDataWorkflowStep } from '../data';
 
 @Injectable()
 export class HrisConnectionEffects {
-  @Effect()
-  authenticate$: Observable<Action> = this.actions$
-    .pipe(
-      ofType<fromHrisConnectionActions.Validate>(fromHrisConnectionActions.VALIDATE),
-      withLatestFrom(
-        this.store.pipe(select(fromRootState.getUserContext)),
-      (action, userContext) => {
-        return {
-          action,
-          userContext
-        };
-      }),
-      switchMap((obj) => {
-        let delayTime = 0;
-        if (obj.action.payload.providerCode === 'PFTEST') {
-          delayTime = 5000;
-        }
-        return this.connectionService.validateConnection(obj.userContext, obj.action.payload)
-          .pipe(
-            delay(delayTime),
-            mergeMap((response: ValidateCredentialsResponse) => {
-              if (!response.successful) {
-                return [new fromHrisConnectionActions.ValidateError(response.errors)];
-              }
-              return [
-                new fromHrisConnectionActions.ValidateSuccess(),
-                new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Validated)
-              ];
-            }),
-            catchError(error => of(new fromHrisConnectionActions.ValidateError()))
-          );
-      })
-    );
-
   @Effect()
     createConnection$: Observable<Action> = this.actions$
     .pipe(
@@ -70,25 +35,69 @@ export class HrisConnectionEffects {
           connectionSummary
         };
       }),
-      switchMap((obj) => {
-        const connectionPostModel =
-          PayfactorsApiModelMapper.createConnectionPostRequest(obj.action.payload, obj.userContext.CompanyId, obj.connectionSummary.provider.ProviderId);
+      switchMap(obj => this.loaderConfigurationGroupsApi.saveConfigurationGroup({
+          CompanyId: obj.userContext.CompanyId,
+          GroupName: 'HRIS Loader Config',
+          LoaderConfigurationGroupId: null,
+          LoadType: LoadTypes.Hris,
+        }).pipe(
+          map(configGroup => ({...obj, configGroup})),
+        ),
+      ),
+      switchMap(obj => {
+        const connectionPostModel = PayfactorsApiModelMapper.createConnectionPostRequest(
+          obj.action.payload,
+          obj.userContext.CompanyId,
+          obj.connectionSummary.provider.ProviderId,
+          obj.configGroup.LoaderConfigurationGroupId,
+        );
         if (obj.connectionSummary.connectionID) {
           connectionPostModel.connection.connection_ID = obj.connectionSummary.connectionID;
         }
         return this.connectionService.connect(obj.userContext, connectionPostModel)
           .pipe(
-            switchMap((response: any) => {
-              return this.connectionService.get(obj.userContext)
+            switchMap((connectionId: number) => {
+              return this.connectionService.getByConnectionId(obj.userContext, connectionId)
                 .pipe(
-                  map((newConnection: CredentialsPackage) => {
-                    return new fromHrisConnectionActions.CreateConnectionSuccess(newConnection);
+                  map((connection: CredentialsPackage) => {
+                    return new fromHrisConnectionActions.CreateConnectionSuccess({ credentials: connection, connectionId: connectionId });
                   }),
                   catchError(error => of(new fromHrisConnectionActions.CreateConnectionError()))
                 );
             }),
             catchError(error => of(new fromHrisConnectionActions.CreateConnectionError()))
           );
+      })
+    );
+
+  @Effect()
+  createConnectionSuccess = this.actions$
+    .pipe(
+      ofType<fromHrisConnectionActions.CreateConnectionSuccess>(fromHrisConnectionActions.CREATE_CONNECTION_SUCCESS),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        this.store.pipe(select(fromReducers.getActiveConnectionId)),
+      (action, userContext, activeConnectionId) => {
+        return {
+          action,
+          userContext,
+          activeConnectionId
+        };
+      }),
+      switchMap((obj) => {
+        return this.connectionService.validateConnection(obj.userContext, obj.activeConnectionId)
+        .pipe(
+          mergeMap((response: ValidateCredentialsResponse) => {
+            if (!response.successful) {
+              return [new fromHrisConnectionActions.ValidateError(response.errors)];
+            }
+            return [
+              new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Validated),
+              new fromHrisConnectionActions.ValidateSuccess({success: response.successful, skipValidation: response.skipValidation})
+            ];
+          }),
+          catchError(error => of(new fromHrisConnectionActions.ValidateError()))
+        );
       })
     );
 
@@ -129,6 +138,20 @@ export class HrisConnectionEffects {
           };
         }
       ),
+      switchMap(obj => this.connectionService.getSummary(obj.userContext)
+        .pipe(
+          map(connectionSummary => ({
+            ...obj,
+            connectionSummary: PayfactorsApiModelMapper.mapConnectionSummaryResponseToConnectionSummaryDto(connectionSummary)
+          })),
+        )
+      ),
+      tap(({ userContext, connectionSummary }) => {
+        if (isNumber(connectionSummary.loaderConfigurationGroupId)) {
+          const loaderSettingsDto = PayfactorsApiModelMapper.getDisabledLoaderSettingsDtoForConnection(userContext, connectionSummary);
+          this.loaderSettingsApiService.saveOrUpdate(loaderSettingsDto).subscribe();
+        }
+      }),
       switchMap((obj) => {
         return this.connectionService.delete(obj.userContext)
           .pipe(
@@ -178,9 +201,73 @@ export class HrisConnectionEffects {
       })
     );
 
+  @Effect()
+    patchHrisConnection$: Observable<Action> = this.actions$
+      .pipe(
+        ofType<fromHrisConnectionActions.PatchConnection>(fromHrisConnectionActions.PATCH_CONNECTION),
+        withLatestFrom(
+          this.store.pipe(select(fromRootState.getUserContext)),
+          this.store.pipe(select(fromReducers.getActiveConnectionId)),
+        (action, userContext, activeConnectionId) => {
+          return {
+            action,
+            userContext,
+            activeConnectionId
+          };
+        }),
+        switchMap((obj) => {
+          const patchRequest = PayfactorsApiModelMapper.getPatchPropertyListFromObject(obj.action.payload);
+          return this.connectionService.patchConnection(obj.userContext, obj.activeConnectionId, patchRequest)
+            .pipe(
+              map((response: number) => {
+                return new fromHrisConnectionActions.PatchConnectionSuccess(response);
+              }),
+              catchError(e => of(new fromHrisConnectionActions.PatchConnectionError()))
+          );
+      })
+    );
+
+    @Effect()
+    patchHrisConnectionSuccess$: Observable<Action> = this.actions$
+      .pipe(
+        ofType<fromHrisConnectionActions.PatchConnectionSuccess>(fromHrisConnectionActions.PATCH_CONNECTION_SUCCESS),
+        withLatestFrom(
+          this.store.pipe(select(fromRootState.getUserContext)),
+          this.store.pipe(select(fromReducers.getActiveConnectionId)),
+        (action, userContext, activeConnectionId) => {
+          return {
+            action,
+            userContext,
+            activeConnectionId
+          };
+        }),
+        switchMap((obj) => {
+          return this.connectionService.validateConnection(obj.userContext, obj.activeConnectionId)
+            .pipe(
+              mergeMap((response: ValidateCredentialsResponse) => {
+                if (!response.successful) {
+                  return [new fromHrisConnectionActions.ValidateError(response.errors)];
+                }
+                return [
+                  new fromHrisConnectionActions.ValidateSuccess({
+                    skipValidation: response.skipValidation,
+                    success: response.successful,
+                  }),
+                  new fromHrisConnectionActions.GetHrisConnectionSummary(),
+                  new fromHrisConnectionActions.OpenReAuthenticationModal(false)
+                ];
+              }),
+              catchError(e => of(new fromHrisConnectionActions.PatchConnectionError()))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromHrisConnectionReducer.State>,
-    private connectionService: ConnectionsHrisApiService
+    private connectionService: ConnectionsHrisApiService,
+    private loaderConfigurationGroupsApi: ConfigurationGroupApiService,
+    private loaderSettingsApiService: LoaderSettingsApiService,
+    private router: Router,
   ) {}
 }

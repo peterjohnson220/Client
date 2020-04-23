@@ -6,11 +6,13 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromSharedReducer from './shared.reducer';
 import * as fromModelSettingsModalReducer from './model-settings-modal.reducer';
+import * as fromPublishModelModalReducer from './publish-model-modal.reducer';
 
 // Feature area state
 export interface JobBasedRangeSharedState {
   shared: fromSharedReducer.State;
   modelSettingsModal: fromModelSettingsModalReducer.State;
+  publishModelModal: fromPublishModelModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -21,7 +23,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   shared: fromSharedReducer.reducer,
-  modelSettingsModal: fromModelSettingsModalReducer.reducer
+  modelSettingsModal: fromModelSettingsModalReducer.reducer,
+  publishModelModal: fromPublishModelModalReducer.reducer
 };
 
 // Select Feature Area
@@ -40,9 +43,18 @@ export const selectModelSettingsModalState = createSelector(
   (state: JobBasedRangeSharedState) => state.modelSettingsModal
 );
 
+export const selectPublishModelModalState = createSelector(
+  selectFeatureAreaState,
+  (state: JobBasedRangeSharedState) => state.publishModelModal
+);
+
 // Shared
 export const getMetadata = createSelector(
   selectSharedState, fromSharedReducer.getMetadata
+);
+
+export const getRoundingSettings = createSelector(
+  selectSharedState, fromSharedReducer.getRoundingSettings
 );
 
 // Model Settings Modal
@@ -68,4 +80,13 @@ export const getSavingModelSettingsAsyncObj = createSelector(
 
 export const getModelNameExistsFailure = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getModelNameExistsFailure
+);
+
+// Publish Model Modal
+export const getPublishModelModalOpen = createSelector(
+  selectPublishModelModalState, fromPublishModelModalReducer.getModalOpen
+);
+
+export const getPublishingModelAsyncObj = createSelector(
+  selectPublishModelModalState, fromPublishModelModalReducer.getPublishingModelAsyncObj
 );

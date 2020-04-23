@@ -48,6 +48,19 @@ exports[`Peer - Map - Save Exchange Scope Modal New should show the form text an
       placeholder="Add a brief description about the Exchange Scope you are creating..."
       rows="5"
     />
+    
+    <label
+      for="is-default-scope"
+    >
+       Make this your default scope? 
+      <input
+        class="ng-untouched ng-pristine ng-valid"
+        formcontrolname="isDefaultScope"
+        id="is-default-scope"
+        ng-reflect-name="isDefaultScope"
+        type="checkbox"
+      />
+    </label>
   </pf-modal-form>
 </pf-save-exchange-scope-modal-new>
 `;

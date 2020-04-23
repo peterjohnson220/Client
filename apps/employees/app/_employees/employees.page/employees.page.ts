@@ -27,6 +27,8 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
   @ViewChild('pricingJobsMessage', { static: true }) public pricingJobsMessage: any;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
+  @ViewChild('salaryColumn', { static: false }) salaryColumn: ElementRef;
+  @ViewChild('rateBasedSalaryColumn', { static: false }) rateBasedSalaryColumn: ElementRef;
   permissions = Permissions;
   userContext$: Observable<UserContext>;
   pricingJobs$: Observable<boolean>;
@@ -46,6 +48,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   selectedCompanyEmployeeIds: number[];
   pricingJobs: boolean;
   filterTemplates = {};
+  colTemplates = {};
   actionBarConfig: ActionBarConfig;
 
   constructor(
@@ -80,6 +83,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.actionBarConfig = {
       ...this.actionBarConfig,
       GlobalActionsTemplate: this.gridGlobalActionsTemplate
+    };
+    this.colTemplates = {
+      'salary': { Template: this.salaryColumn },
+      'rateBasedSalary': { Template: this.rateBasedSalaryColumn }
     };
   }
 

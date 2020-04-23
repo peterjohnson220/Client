@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { PfCommonModule } from 'libs/core';
 
 import { TicketListComponent } from './ticket-list.component';
 import * as fromTicketReducer from '../../reducers';
@@ -30,7 +31,8 @@ describe('Admin - Tickets - Ticket List', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           ticketsAdminMain: combineReducers(fromTicketReducer.reducers),
-        })
+        }),
+        PfCommonModule
       ],
       declarations: [TicketListComponent],
       schemas: [NO_ERRORS_SCHEMA],

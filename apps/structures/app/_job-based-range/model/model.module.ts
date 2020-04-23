@@ -13,17 +13,19 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { PfAddJobsModule } from 'libs/features/add-jobs';
 import { PfCommonModule, WindowCommunicationService, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
-import { UserFilterPopoverConfig } from 'libs/features/user-filter/models';
+import { UserFilterPopoverConfig, UserFilterTypeData } from 'libs/features/user-filter/models';
 import { AddJobsConfig } from 'libs/features/add-jobs/data';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSearchModule } from 'libs/features/search';
+import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
-import { AddJobsModalComponent, JobBasedRangeChartComponent } from './containers';
+import { AddJobsModalWrapperComponent, JobBasedRangeChartComponent, PublishModelModalComponent } from './containers';
 import { AddJobsUserFilterPopoverConfig, JobBasedRangeAddJobsConfig } from './data';
-import { AddJobsModalEffects, JobBasedRangeModalEffects, SearchResultsEffects } from './effects';
+import { AddJobsModalEffects, SearchPageEffects, SearchResultsEffects, SingledFilterEffects } from './effects';
 import { ModelPageComponent } from './model.page';
 import { ModelRoutingModule } from './model-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType } from '../data';
 
 @NgModule({
   imports: [
@@ -35,8 +37,9 @@ import { SharedModule } from '../shared/shared.module';
     // 3rd Party
     EffectsModule.forFeature([
       AddJobsModalEffects,
-      JobBasedRangeModalEffects,
-      SearchResultsEffects
+      SearchPageEffects,
+      SearchResultsEffects,
+      SingledFilterEffects
     ]),
     PerfectScrollbarModule,
     DropDownsModule,
@@ -59,14 +62,17 @@ import { SharedModule } from '../shared/shared.module';
   ],
   declarations: [
     ModelPageComponent,
-    AddJobsModalComponent,
+    AddJobsModalWrapperComponent,
+    PublishModelModalComponent,
     JobBasedRangeChartComponent
   ],
   providers: [
     WindowRef,
     WindowCommunicationService,
+    { provide: SearchFilterMappingDataObj, useValue: StructuresSearchFilterMappingDataObj },
     { provide: UserFilterPopoverConfig, useValue: AddJobsUserFilterPopoverConfig },
     { provide: AddJobsConfig, useValue: JobBasedRangeAddJobsConfig },
+    { provide: UserFilterTypeData, useValue: StructuresJobSearchUserFilterType }
   ]
 })
 export class ModelModule {

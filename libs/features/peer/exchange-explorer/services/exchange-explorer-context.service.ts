@@ -12,6 +12,7 @@ import { Filter, MultiSelectFilter } from '../../../search/models';
 import { BaseExchangeDataSearchRequest } from '../../../../models/payfactors-api/peer/exchange-data-search/request';
 import { ExchangeDataSearchFilterContext } from '../../../../models/peer';
 import { PayfactorsSearchApiHelper } from '../../../search/helpers';
+
 @Injectable()
 export class ExchangeExplorerContextService {
 
@@ -48,18 +49,24 @@ export class ExchangeExplorerContextService {
 
     return searchFilters$.pipe(
       map((filters: Filter[]) => {
-
         const companyIdSelections = filters.filter((f: Filter) => f.BackingField === 'company_name').map((msf: MultiSelectFilter) => {
            return msf.Options.filter(o => o.Selected).map(x => {
             return x.Value.toString();
           });
-        });
-
-        const subsidiaryParentIdSelections = filters.filter((f: Filter) => f.ParentBackingField === 'company_name').map((msf: MultiSelectFilter) => {
+        })[0];
+        const subsidiaryParentIdSelections = filters.filter((f: Filter) => f.BackingField === 'subsidiary_name').map((msf: MultiSelectFilter) => {
           return msf.Options.filter(o => o.Selected).map(x => JSON.parse(x.Value).ParentOptionValue);
-        });
+        })[0];
 
-        return new Set(companyIdSelections[0].concat(subsidiaryParentIdSelections[0])).size;
+        const hasCompanySelections = !!companyIdSelections && companyIdSelections.length;
+        const hasSubsidiarySelections = !!subsidiaryParentIdSelections && subsidiaryParentIdSelections.length;
+
+        let selections = hasCompanySelections ? companyIdSelections : [];
+        if (hasSubsidiarySelections) {
+          selections = selections.concat(subsidiaryParentIdSelections);
+        }
+
+        return new Set(selections).size;
       })
     );
   }

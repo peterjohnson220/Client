@@ -54,6 +54,11 @@ export class UserApiService {
       });
   }
 
+  getPfAccountExecutives() {
+    return this.payfactorsApiService
+      .get<UserResponse[]>(`${this.endpoint}/Default.GetPfAccountExecutives`);
+  }
+
   getPfServicesReps() {
     return this.payfactorsApiService
       .get<UserResponse[]>(`${this.endpoint}/Default.GetPfServicesReps`);

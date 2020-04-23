@@ -61,11 +61,12 @@ export class ExchangeMapNewPageComponent implements OnInit, OnDestroy {
   }
 
   handleUpsertExchangeScopeEvent(scopeItem: any) {
-    // const zoomLevel = this.map.getZoomLevel(); TODO: Can we get this from the reducer instead?
     this.peerMapStore.dispatch(new fromLibsPeerExchangeExplorerExchangeScopeActions.UpsertExchangeScope({
+      ExchangeId: this.exchangeId,
       ExchangeScopeGuid: null,
       ExchangeScopeName: scopeItem.Name,
-      ExchangeScopeDescription: scopeItem.Description
+      ExchangeScopeDescription: scopeItem.Description,
+      IsDefault: scopeItem.IsDefault
     }));
   }
 

@@ -1,12 +1,16 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, ViewEncapsulation, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, ViewEncapsulation, TemplateRef, ViewChild, OnDestroy, NgZone } from '@angular/core';
+
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { SortDescriptor } from '@progress/kendo-data-query';
+import { filter, take } from 'rxjs/operators';
+import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
+
+import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
+
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
-import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
-import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
-import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-grid',
@@ -15,12 +19,12 @@ import { SortDescriptor } from '@progress/kendo-data-query';
   encapsulation: ViewEncapsulation.None
 })
 export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
-
   @Input() pageViewId: string;
   @Input() columnTemplates: any;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() rowActionTemplate: TemplateRef<any>;
+  @Input() noRecordsFoundTemplate: TemplateRef<any>;
   @Input() allowSplitView: boolean;
   @Input() selectedRecordId: number;
   @Input() enableSelection = false;
@@ -33,6 +37,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() defaultColumnWidth: number;
   @Input() showHeaderWhenCompact: boolean;
   @Input() useColumnGroups = true;
+  @Input() autoFitColumnsToHeader = false;
+  @Input() pageable = true;
+  @Input() theme: 'default' | 'next-gen' = 'default';
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -45,6 +52,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   expandedRowsSubscription: Subscription;
   expandedRows: number[];
   sortDescriptorSubscription: Subscription;
+  dataFieldsSubscription: Subscription;
 
   dataSubscription: Subscription;
   data: GridDataResult;
@@ -67,7 +75,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
 
-  constructor(private store: Store<fromReducer.State>) { }
+
+  constructor(private store: Store<fromReducer.State>, private ngZone: NgZone) { }
 
   ngOnInit() {
     this.dataSubscription = this.store.select(fromReducer.getData, this.pageViewId).subscribe(newData => {
@@ -98,6 +107,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.saveSortSubscription = this.store.select(fromReducer.getSaveSort, this.pageViewId).subscribe(saveSort => {
       this.saveSort = saveSort;
     });
+
+    this.dataFieldsSubscription = this.dataFields$.pipe(filter(df => !!df)).subscribe(df => {
+      if (this.autoFitColumnsToHeader) {
+        this.autoFitColumns(df.filter(d => d.IsSelected && d.IsSelectable && !d.Width).map(f => this.mappedFieldName(f)));
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -107,6 +122,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.selectionFieldSubscription.unsubscribe();
     this.sortDescriptorSubscription.unsubscribe();
     this.saveSortSubscription.unsubscribe();
+    this.dataFieldsSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -156,6 +172,18 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   getValue(row: any, colName: string[]): string[] {
     const values = colName.map(val => row[val]);
     return values;
+  }
+
+  getColWidth(col: any) {
+    let colWidth = col.Width;
+
+    if (this.selectedRecordId) {
+      colWidth = this.MIN_SPLIT_VIEW_COL_WIDTH;
+    } else if (!!this.defaultColumnWidth && !this.autoFitColumnsToHeader && !col.Width) {
+      colWidth = this.defaultColumnWidth;
+    }
+
+    return colWidth;
   }
 
   showColumn(col: ViewField) {
@@ -243,10 +271,19 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.store.dispatch(new fromActions.SelectAll(this.pageViewId));
   }
 
+  // Note: We remove this function for dataFields$ in the template because it breaks the reorder column feature
+  // TODO: We could try built in trackBy from kendo grid to track changes in data rows instead
   trackByField(index, field: ViewField) {
     return field
       ? field.DataElementId ? field.DataElementId : field.Group
       : index;
   }
 
+  private autoFitColumns(columnFieldNames: string[]) {
+    this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
+      this.grid.autoFitColumns(this.grid.columnList.filter((c: any) => columnFieldNames.some(col => {
+        return col === c.field;
+      })));
+    });
+  }
 }

@@ -8,7 +8,8 @@ const routes: Routes = [
   {
     path: '', component: StatementListPageComponent
   },
-  { path: 'statement/edit/:id', component: StatementEditPageComponent }
+  { path: 'statement/edit/:id', component: StatementEditPageComponent },
+  { path: 'statement/edit/clone/:templateId', component: StatementEditPageComponent }
 ];
 
 @NgModule({

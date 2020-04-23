@@ -14,8 +14,13 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
   pageIconClass=""
   pageSubTitle=""
   pageTitle={[Function String]}
+  quickPriceTypes={[Function Function]}
+  selectedPageIdDelayed$={[Function Store]}
   store={[Function Store]}
   window={[Function Object]}
+  workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
 >
   <div
     class="comphub-page"
@@ -37,6 +42,7 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
       
     </div>
     
+    
     <div
       class="smb-counter"
     >
@@ -54,13 +60,18 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
          Back 
       </button>
       
-      <button
-        class="btn comphub-primary-btn"
-        data-qa-id="btn-next-Jobs"
-        disabled=""
+      <div
+        class="next-button-container"
       >
-         Next 
-      </button>
+        <button
+          class="btn comphub-primary-btn"
+          data-qa-id="btn-next-Jobs"
+          disabled=""
+        >
+           Next 
+        </button>
+        
+      </div>
       <button
         class="btn comphub-secondary-btn close-app-btn"
         data-qa-id="btn-close-Jobs"
@@ -85,8 +96,13 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
   pageIconClass=""
   pageSubTitle=""
   pageTitle={[Function String]}
+  quickPriceTypes={[Function Function]}
+  selectedPageIdDelayed$={[Function Store]}
   store={[Function Store]}
   window={[Function Object]}
+  workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
 >
   <div
     class="comphub-page"
@@ -108,6 +124,7 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
       
     </div>
     
+    
     <div
       class="smb-counter"
     >
@@ -118,13 +135,18 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
     >
       
       
-      <button
-        class="btn comphub-primary-btn"
-        data-qa-id="btn-next-Jobs"
-        disabled=""
+      <div
+        class="next-button-container"
       >
-         Next 
-      </button>
+        <button
+          class="btn comphub-primary-btn"
+          data-qa-id="btn-next-Jobs"
+          disabled=""
+        >
+           Next 
+        </button>
+        
+      </div>
       <button
         class="btn comphub-secondary-btn close-app-btn"
         data-qa-id="btn-close-Jobs"
@@ -149,8 +171,13 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
   pageIconClass=""
   pageSubTitle=""
   pageTitle={[Function String]}
+  quickPriceTypes={[Function Function]}
+  selectedPageIdDelayed$={[Function Store]}
   store={[Function Store]}
   window={[Function Object]}
+  workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
 >
   <div
     class="comphub-page"
@@ -171,6 +198,7 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
     <div>
       
     </div>
+    
     
     <div
       class="smb-counter"

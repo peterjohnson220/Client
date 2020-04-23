@@ -9,13 +9,16 @@
     [allowSort]="false"
     [applyDefaultFilters]="false"
     [columnTemplates]="colTemplates"
-    [actionBarConfig]="singleRecordActionBarConfig">
+    [pageTheme]="'next-gen'"
+    [actionBarConfig]="singleRecordActionBarConfig"
+    [defaultColumnWidth]="175">
   </pf-data-grid>
 </ng-container>
 
 <ng-template #fullGrid>
   <pf-data-grid
-    [title]="(metaData$ | async)?.StructureName"
+    [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
+    [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
     [navigationURL]="'/marketdata/structures.asp'"
     [inboundFilters]="inboundFilters"
     [defaultSort]="defaultSort"
@@ -28,59 +31,84 @@
     [splitOnSelection]="false"
     [noRecordsFound]="'No ranges found.'"
     [applyDefaultFilters]="false"
-    [actionBarConfig]="fullGridActionBarConfig">
+    [actionBarConfig]="fullGridActionBarConfig"
+    [pageTheme]="'next-gen'"
+    [contentClassNamesOverrides]="'py-3 px-4'"
+    [pageable]="false"
+    [borders]="false"
+    [autoFitColumnsToHeader]="true">
   </pf-data-grid>
 </ng-template>
 
 <ng-template #min let-dataRow="dataRow" let-fieldName="fieldName">
-  {{ dataRow.CompanyStructures_Ranges_Min | rangeValue: (metaData$ | async)?.Rate }}
+  <ng-container *ngIf="dataRow.CompanyStructures_Ranges_Min; else noValue">
+    {{ dataRow.CompanyStructures_Ranges_Min | rangeValue: (metaData$ | async)?.Rate }}
+  </ng-container>
 </ng-template>
 
-<ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName">
-  <input type="text"
-         class="form-control"
-         [value]="dataRow.CompanyStructures_Ranges_Mid | rangeValue: (metaData$ | async)?.Rate" />
+<ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
+  <ng-container *ngIf="!!dataRow.CompanyStructures_Ranges_Mid; else noValue">
+    <kendo-numerictextbox  *ngIf="!(metaData$ | async).IsCurrent"
+                           class="form-control"
+                           [value]="dataRow.CompanyStructures_Ranges_Mid"
+                           [spinners]="false"
+                           [format]="(metaData$ | async)?.Rate.localeCompare('Annual', undefined, { sensitivity: 'accent' }) === 0 ? 'n0' : 'n2'"
+                           [decimals]="(metaData$ | async)?.Rate.localeCompare('Annual', undefined, { sensitivity: 'accent' }) === 0 ? 0 : 2"
+                           (change)="handleRangeOverrideOnBlur(dataRow, $event, rowIndex)"
+                           [min]="1"
+                           [step]="0"
+                           [max]="999999999999999"
+                           [autoCorrect]="true">
+    </kendo-numerictextbox>
+    <div class="staticMid" *ngIf="(metaData$ | async).IsCurrent">{{dataRow.CompanyStructures_Ranges_Mid | rangeValue: (metaData$ | async)?.Rate}}</div>
+  </ng-container>
 </ng-template>
 
 <ng-template #max let-dataRow="dataRow" let-fieldName="fieldName">
-  {{ dataRow.CompanyStructures_Ranges_Max | rangeValue: (metaData$ | async)?.Rate }}
+  <ng-container *ngIf="dataRow.CompanyStructures_Ranges_Max; else noValue">
+    {{ dataRow.CompanyStructures_Ranges_Max | rangeValue: (metaData$ | async)?.Rate }}
+  </ng-container>
 </ng-template>
 
 <ng-template #eeCount let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_NumEmployees as numEmployees; else noEmployees">
+  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_NumEmployees as numEmployees; else noValue">
     <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/{{rangeGroupId}}/employees/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
       {{ numEmployees }}
     </a>
   </ng-container>
-  <ng-template #noEmployees>
-    - -
-  </ng-template>
 </ng-template>
 
 <ng-template #mrpValue let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_MarketReferencePointValue as mrpValue; else noMRP">
+  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_MarketReferencePointValue as mrpValue; else noValue">
     <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/{{rangeGroupId}}/pricings/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
       {{ mrpValue | rangeValue: (metaData$ | async)?.Rate }}
     </a>
   </ng-container>
-  <ng-template #noMRP>
-    - -
-  </ng-template>
 </ng-template>
 
 <ng-template #avgBaseSalary let-dataRow="dataRow" let-fieldName="fieldName">
   {{ dataRow.CompanyStructures_RangeGroup_AvgBaseSalary | rangeValue: (metaData$ | async)?.Rate }}
 </ng-template>
 
+<ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]">{{dataRow[fieldName]}}%</ng-container>
+</ng-template>
+
 <ng-template #gridGlobalActions>
-  <button class="btn btn-secondary" (click)="handleAddJobsClicked()">Add Jobs</button>
-  <pf-model-settings-btn [metadata]="metaData$ | async" (clicked)="handleModelSettingsClicked()"></pf-model-settings-btn>
+  <pf-global-actions
+    [metadata]="metaData$ | async"
+    (addJobsClicked)="handleAddJobsClicked()"
+    (modelSettingsClicked)="handleModelSettingsClicked()"
+    (publishModelClicked)="handlePublishModelClicked()">
+  </pf-global-actions>
 </ng-template>
 
 <ng-template #aboveGridTemplate>
-  <div style="height: 50px">
-    <pf-grid-context [title]="'Job Ranges'" [metadata]="metaData$ | async"></pf-grid-context>
-  </div>
+  <pf-grid-context [title]="'Job Ranges'" [metadata]="metaData$ | async"></pf-grid-context>
+</ng-template>
+
+<ng-template #noValue>
+  - -
 </ng-template>
 
 <pf-model-settings-modal [rangeGroupId]="rangeGroupId" [page]="page"></pf-model-settings-modal>

@@ -1,6 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { WindowRef } from 'libs/core/services';
@@ -43,7 +42,6 @@ describe('Comphub - Main - Card Layout', () => {
 
     fixture = TestBed.createComponent(CardLayoutComponent);
     instance = fixture.componentInstance;
-
     store = TestBed.get(Store);
     windowRef = TestBed.get(WindowRef);
     modalService = TestBed.get(NgbModal);

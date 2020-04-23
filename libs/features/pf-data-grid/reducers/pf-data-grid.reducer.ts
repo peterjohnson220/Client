@@ -1,5 +1,4 @@
 import { cloneDeep, orderBy, uniq, uniqBy } from 'lodash';
-
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
@@ -78,7 +77,7 @@ export const getPrimaryKey = (state: DataGridStoreState, pageViewId: string) => 
 export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId]
   ? state.grids[pageViewId].fields : null;
 export const getVisibleOrderedFields = (state: DataGridStoreState, pageViewId: string) => {
-  if (!!state.grids[pageViewId].fields) {
+  if (!!state.grids[pageViewId] && !!state.grids[pageViewId].fields) {
     return state.grids[pageViewId]
       ? orderBy(state.grids[pageViewId].fields.filter(f => f.IsSelectable && f.IsSelected), 'Order')
       : null;
@@ -129,6 +128,18 @@ export const getExportEventId = (state: DataGridStoreState, pageViewId: string) 
 export const getExportingGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportingGrid;
 export const getExportViewId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportViewId;
 export const getLoadingExportingStatus = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingExportingStatus;
+export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: string) => {
+  let filterCount = 0;
+  if (!!state.grids[pageViewId] && !!state.grids[pageViewId].fields) {
+    state.grids[pageViewId].fields.forEach(f => {
+      if (!!f.FilterValue || !!f.FilterValues) {
+        filterCount++;
+      }
+    });
+  }
+  return filterCount
+};
+
 
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
@@ -279,7 +290,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            sortDescriptor: action.sortDescriptor[0].dir ? action.sortDescriptor : state.grids[action.pageViewId].defaultSortDescriptor,
+            sortDescriptor: action.sortDescriptor,
             loading: true
           },
         }
@@ -338,7 +349,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const updatedField = updatedFields.find(f => f.DataElementId === action.payload.DataElementId);
 
       updatedField.FilterValue = action.payload.FilterValue;
+      updatedField.FilterValues = action.payload.FilterValues;
       updatedField.FilterOperator = action.payload.FilterOperator;
+      updatedField.IsFilterable = action.payload.IsFilterable;
 
       const splitViewFilters = updatedFields.filter(f => f.IsFilterable && f.FilterValue !== null && f.FilterOperator)
         .map(f => buildExternalFilter(f.FilterValue, f.FilterOperator, f.SourceName));
@@ -363,6 +376,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       }
 
       clearedFilterField.FilterValue = null;
+      clearedFilterField.FilterValues = null;
       const svf = state.grids[action.pageViewId].splitViewFilters.filter(f => f.SourceName !== action.field.SourceName);
       return {
         ...state,
@@ -819,6 +833,55 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     }
+    case fromPfGridActions.UPDATE_ROW:
+      const gridData = cloneDeep(state.grids[action.pageViewId].data);
+      if (gridData && gridData.data && gridData.data.length) {
+        // fetch correct row
+        const rowToUpdate = cloneDeep(gridData.data[action.rowIndex]);
+
+        if (!rowToUpdate) {
+          // no data found, return
+          return {
+            ...state
+          };
+        }
+
+        if (action.fieldNames && action.fieldNames.length > 0) {
+          // loop through fields to update the cloned row
+          action.fieldNames.forEach(fieldName => {
+            rowToUpdate[fieldName.gridName] = action.data[fieldName.dataName];
+          });
+        } else {
+          Object.keys(rowToUpdate).forEach(key => {
+            rowToUpdate[key] = action.data[key];
+          });
+        }
+
+
+        // replace the original row with the updated row
+        gridData.data[action.rowIndex] = rowToUpdate;
+
+        // update it in the state
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              data: {
+                data: gridData.data,
+                total: gridData.total
+              },
+              loading: false
+            }
+          }
+        };
+      } else {
+        // no data found, just return
+          return {
+            ...state
+          };
+      }
     default:
       return state;
   }
@@ -977,7 +1040,7 @@ export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
 
 export function reorderFields(fields: ViewField[], oldIndex: number, newIndex: number): ViewField[] {
   const notSelectedFields = fields.filter(f => !f.IsSelectable || !f.IsSelected);
-  const filteredFields = fields.filter(f => f.IsSelectable && f.IsSelected);
+  const filteredFields = orderBy(fields.filter(f => f.IsSelectable && f.IsSelected), 'Order');
 
   arrayMoveMutate(filteredFields, oldIndex, newIndex);
   filteredFields.forEach((f, index) => f.Order = index);

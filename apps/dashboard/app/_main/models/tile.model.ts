@@ -20,6 +20,7 @@ export interface Tile {
   MarketingEnabled: boolean;
   MarketingDescription: string;
   MarketingButtonText: string;
+  IgnoreTileAnchorOverlay?: boolean;
 }
 
 export function generateMockChartTile(): Tile {

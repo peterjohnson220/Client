@@ -14,19 +14,19 @@ export class SearchRequestFilterMapper {
         model.SortField = 'ServicesUserFullName';
         break;
       case 'Status':
-        model.SortField = 'UserTicket_State';
+        model.SortField = 'UserTicketState';
         break;
       case 'Type':
-        model.SortField = 'UserTicket_Type';
+        model.SortField = 'UserTicketType';
         break;
       case 'CompanyName':
-        model.SortField = 'Company_Name';
+        model.SortField = 'CompanyName';
         break;
       case 'Id':
-        model.SortField = 'UserTicket_ID';
+        model.SortField = 'Id';
         break;
       case 'Created':
-        model.SortField = 'Create_Date';
+        model.SortField = 'CreateDate';
         break;
       case 'OpenedUserFullName':
         model.SortField = 'OpenedUserFullName';

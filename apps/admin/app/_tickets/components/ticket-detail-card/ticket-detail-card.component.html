@@ -1,21 +1,21 @@
-<div class="pt-3"
-     title="Ticket Details">
-  <div class="row">
-    <div class="col-sm-5 action-item">
-      <div class="
-         detail-label">Opened By</div>
-      <div class="detail-text mb-2">
-        <a href="mailto:{{ticketDetail.OpenedBy}}?Subject=Payfactors%20Support%20Ticket%20#{{ticketDetail.TicketId}}">
-          {{ticketDetail.OpenedBy}}</a>
-      </div>
+<div class="card d-flex flex-column mb-3">
+  <div class="d-flex card-header">
+    <div class="created-by">
+      <span>Created By </span>
+      <a href="mailto:{{ticketDetail.OpenedBy}}?Subject=Payfactors%20Support%20Ticket%20#{{ticketDetail.TicketId}}">
+        {{ticketDetail.OpenedBy}}</a>
+      - {{ticketDetail.CreateDate | date:'mediumDate'}}
     </div>
-    <div class="col-sm-3">
-      <div class="detail-label">Opened</div>
-      <div class="detail-text mb-2">{{ticketDetail.CreateDate | date:'shortDate'}}</div>
+    <div>
+      <fa-icon [icon]="['far', 'clock']"></fa-icon>
+      <span class="ml-2">{{ticketDetail.LastUpdatedText}}</span>
     </div>
-    <div class="col-sm-4">
-      <div class="detail-label">Last Updated</div>
-      <div class="detail-text mb-2">{{ticketDetail.LastUpdatedText}}</div>
-    </div>
+  </div>
+  <div class="card-body">
+    <h4 class="card-title">
+      <span *ngIf="!!ticketDetail?.TicketTitle?.length; else description">{{ticketDetail.TicketTitle}}</span>
+      <ng-template #description>Description</ng-template>
+    </h4>
+    <quill-view-html [content]="ticketDetail?.Description" theme="snow"></quill-view-html>
   </div>
 </div>

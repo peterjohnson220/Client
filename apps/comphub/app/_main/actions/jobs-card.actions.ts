@@ -1,6 +1,9 @@
 import { Action } from '@ngrx/store';
 
+import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
+
 import { TrendingJobGroup } from '../models';
+
 
 export const GET_TRENDING_JOBS = '[Comphub/Jobs Card] Get Trending Jobs';
 export const GET_TRENDING_JOBS_SUCCESS = '[Comphub/Jobs Card] Get Trending Jobs Success';
@@ -84,7 +87,7 @@ export class GetExchangeJobSearchOptions implements Action {
 export class GetExchangeJobSearchOptionsSuccess implements Action {
   readonly type = GET_EXCHANGE_JOB_SEARCH_OPTIONS_SUCCESS;
 
-  constructor(public payload: string[]) {}
+  constructor(public payload: ExchangeJobSearchOption[]) {}
 }
 
 export class GetExchangeJobSearchOptionsError implements Action {

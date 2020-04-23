@@ -1,3 +1,5 @@
+import { CompanyClientTypeConstants } from '../../constants';
+
 export interface UserContext {
   AccessLevel: string;
   CompanyId: number;
@@ -69,7 +71,7 @@ export function generateMockUserContext(): UserContext {
     IpAddress: '127.0.0.1',
     SessionId: '335f3387-77b2-4aca-95b6-2809c78c6c6a',
     RoleName: 'Company Administrator',
-    ClientType: 'Enterprise',
+    ClientType: CompanyClientTypeConstants.ENTERPRISE,
     DefaultPayMarketId: 1
   };
 }

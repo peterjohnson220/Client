@@ -18,14 +18,16 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
 import { CompanySelectorItem } from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
+import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
-import { LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
+import { LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
 import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';
+import {CompanySetting, CompanySettingsEnum} from 'libs/models/company';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
@@ -153,6 +155,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   };
   private gettingColumnNames: boolean;
   private createdConfigurationGroup$: Observable<ConfigurationGroup>;
+  private companySettings$: Observable<CompanySetting[]>;
+  companySettings: CompanySetting[];
+  hideAccess: boolean;
 
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
@@ -174,12 +179,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.fileUploadDataFailed$ = this.mainStore.select(fromDataManagementMainReducer.fileUploadDataFailed);
     this.isProcessingMapping$ = this.mainStore.select(fromDataManagementMainReducer.isProcessingMapping);
     this.savedConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getSavedConfigurationGroup);
-    this.gettingColumnNames$ = this.mainStore.select(fromDataManagementMainReducer.getGettingColumnNames);
+    this.gettingColumnNames$ = this.mainStore.select(fromFileUploadReducer.getGettingColumnNames);
     this.emailRecipients$ = this.mainStore.select(fromDataManagementMainReducer.getEmailRecipients);
     this.emailRecipientsSavingError$ = this.mainStore.select(fromDataManagementMainReducer.getSavingRecipientError);
     this.emailRecipientsRemovingError$ = this.mainStore.select(fromDataManagementMainReducer.getRemovingRecipientError);
     this.emailRecipientsModalOpen$ = this.mainStore.select(fromDataManagementMainReducer.getEmailRecipientsModalOpen);
     this.createdConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getCreatedConfigurationGroup);
+    this.companySettings$ = this.mainStore.select(fromRootState.getCompanySettings);
 
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$)
@@ -305,6 +311,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.AddAndSetSelectedMapping(configurationGroup);
     });
 
+    const companySettingSubscription =  this.companySettings$.pipe(
+      filter(companySetting => !!companySetting),
+      take(1),
+      takeUntil(this.unsubscribe$)
+    );
 
     const userSubscription = this.userContext$
       .pipe(
@@ -318,8 +329,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       take(1),
       takeUntil(this.unsubscribe$));
 
-    forkJoin({ user: userSubscription, company: companiesSubscription })
+    forkJoin({ user: userSubscription, company: companiesSubscription, companySetting: companySettingSubscription })
       .subscribe(f => {
+        this.companySettings = f.companySetting;
         this.userContext = f.user;
         this.companies = f.company;
         this.setInitValues();
@@ -341,7 +353,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    this.hideAccess = true;
     this.mainStore.dispatch(new fromOrganizationalDataActions.GetOrganizationalHeadersLink());
     this.mainStore.dispatch(new fromCompanySelectorActions.GetCompanies());
   }
@@ -356,6 +368,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   setInitValues() {
+    if (this.validateAccess()) {
+      window.location.href = this.env.companyAdminUrl;
+      return;
+    }
+    this.hideAccess = false;
     this.mainStore.dispatch(new fromCompanySelectorActions.SetSelectedCompany(null));
     if (this.userContext.AccessLevel === 'Admin') {
       this.stepIndex = OrgUploadStep.Company;
@@ -366,6 +383,14 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
     // reset any checked loads
     this.loadOptions = getEntityChoicesForOrgLoader();
+  }
+
+  validateAccess() {
+    if (this.userContext === undefined || this.companySettings === undefined) {
+      return true;
+    }
+    return (this.userContext.AccessLevel !== 'Admin' &&
+      this.companySettings.find( cs => cs.Key === CompanySettingsEnum.ManualOrgDataLoadLink).Value !== 'true');
   }
 
   getPayfactorCustomFields(companyId) {
@@ -721,6 +746,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
+    newLoaderSettings.fileFormat = LoaderFileFormat.CSV;
     newLoaderSettings.validateOnly = this.isValidateOnly;
 
     return OrgDataLoadHelper.getLoaderSettingsToSave(newLoaderSettings, this.existingLoaderSettings);

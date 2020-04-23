@@ -18,3 +18,4 @@ export * from './state';
 export * from './kendo';
 export * from './hris-api';
 export * from './subsidiary';
+export * from './data-loads';

@@ -1,0 +1,46 @@
+<div class="d-flex title" [ngbPopover]="moreInfo" triggers="mouseenter:mouseleave" container="body" placement="bottom">
+  <h4>Payfactors Support Team</h4>
+  <fa-icon class="info" icon="info-circle"></fa-icon>
+</div>
+<div class="support-team-info-container d-flex flex-column">
+  <ng-container *ngFor="let user of supportTeam">
+    <pf-support-team
+      [avatarUrl]="avatarUrl"
+      [user]="user">
+    </pf-support-team>
+  </ng-container>
+  <ng-container *ngFor="let team of staticSupportTeams">
+    <div class="support-team-card">
+      <div class="icon-container">
+        <fa-icon class="icon" icon="exchange-alt"></fa-icon>
+      </div>
+      <div class="user-info">
+        <h5 class="name" title="{{team.TeamName}}">{{team.TeamName}}</h5>
+        <a href="mailto:{{team.TeamEmail}}" title="{{team.TeamEmail}}" class="text">{{team.TeamEmail}}</a>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #moreInfo>
+  <div class="pop-content">
+    <p><b>Contact Client Services For:</b></p>
+    <ul>
+      <li>File Uploads</li>
+      <li>General Questions</li>
+      <li>Product Issues</li>
+      <li>Surveys</li>
+    </ul>
+    <p><b>Contact Client Success for:</b></p>
+    <ul>
+      <li>Contract or invoicing</li>
+      <li>Additional products or data sets beyond your current subscription</li>
+    </ul>
+    <p><b>Contact Data Operations for:</b></p>
+    <ul>
+      <li>Job Descriptions</li>
+      <li>Job Pricings</li>
+    </ul>
+    <p><b>Contact the Peer team</b> for all Peer related inquiries</p>
+  </div>
+</ng-template>

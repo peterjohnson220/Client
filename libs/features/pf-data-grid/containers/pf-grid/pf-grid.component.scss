@@ -2,7 +2,7 @@
 @import 'common/common-variables';
 
 .pf-data-grid-header {
-  font-weight: bold !important;  
+  font-weight: bold !important;
   vertical-align: middle !important;
   background-color: white !important;
 }
@@ -86,4 +86,40 @@ html .k-grid tr:hover {
 
 .ellipsis-text {
   @extend %ellipsis-overflowing-text;
+}
+
+.k-grid.next-gen {
+  height: auto;
+
+  .k-grid-header {
+    padding-right: 0 !important;
+
+    th {
+      text-transform: uppercase;
+      color: #5c5c5c;
+      font-size: 85%;
+    }
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 0 0.65rem;
+  }
+
+  tr, .k-alt:not(.k-state-selected) {
+    &:hover {
+      background-color: darken(#F3F3F4, 3%) !important;
+    }
+
+    background-color: #F3F3F4 !important;
+  }
+
+  .k-grid-content {
+    overflow-y: visible;
+  }
+
+  .k-widget.k-grid {
+    height: auto !important;
+    min-height: 100%;
+  }
 }

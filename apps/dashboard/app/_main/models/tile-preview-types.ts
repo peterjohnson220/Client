@@ -6,5 +6,6 @@ export enum TilePreviewTypes {
   Icon = 'Icon',
   List = 'List',
   PlaceHolder = 'PlaceHolder',
-  BasicList = 'BasicList'
+  BasicList = 'BasicList',
+  Peer = 'Peer'
 }

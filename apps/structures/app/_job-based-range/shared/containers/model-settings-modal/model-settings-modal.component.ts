@@ -9,8 +9,9 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { Currency, RangeGroupMetadata, ControlPoint } from '../../models';
+import { Currency, ControlPoint, RangeGroupMetadata, RoundingSettingsDataObj } from '../../models';
 import { Pages } from '../../constants/pages';
+import { UrlService } from '../../services';
 
 @Component({
   selector: 'pf-model-settings-modal',
@@ -28,12 +29,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   structureNameSuggestionsAsyncObj$: Observable<AsyncStateObj<string[]>>;
   savingModelSettingsAsyncObj$: Observable<AsyncStateObj<null>>;
   modelNameExistsFailure$: Observable<boolean>;
+  roundingSettings$: Observable<RoundingSettingsDataObj>;
 
   controlPointsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
   metadataSub: Subscription;
   modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
+  roundingSettingsSub: Subscription;
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
@@ -43,11 +46,16 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modelSettingsForm: FormGroup;
   attemptedSubmit: boolean;
   modelNameExistsFailure: boolean;
+  isNewModel: boolean;
+  roundingSettings: RoundingSettingsDataObj;
+  activeTab: string;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>
+    private store: Store<fromJobBasedRangeReducer.State>,
+    private urlService: UrlService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
     this.modalOpen$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelSettingsModalOpen));
     this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCurrenciesAsyncObj));
     this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getControlPointsAsyncObj));
@@ -72,21 +80,32 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     return this.metadata.IsCurrent ? 'Creating Model...' : 'Saving...';
   }
 
+  get modelTabTitle() {
+    return this.metadata.IsCurrent || this.isNewModel ? 'Model Settings' : 'Current Model Settings';
+  }
+
   get modalTitle() {
-    return this.metadata.IsCurrent ? 'Create Model' : 'Edit Model';
+       return this.isNewModel ? 'New Model' :
+      this.metadata.IsCurrent ? 'Create Model' : 'Edit Model';
+  }
+
+  get structureInputIsDisabled() {
+    return this.metadata.IsCurrent || this.isNewModel;
   }
 
   buildForm() {
     this.modelSettingsForm = new FormGroup({
       'structureName': new FormControl(this.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
-      'modelName': new FormControl(!this.metadata.IsCurrent ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
+      'modelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
       'payMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
       'controlPoint': new FormControl(this.metadata.ControlPoint, [Validators.required]),
       'spreadMin': new FormControl(this.metadata.SpreadMin, [Validators.required]),
       'spreadMax': new FormControl(this.metadata.SpreadMax, [Validators.required]),
-      'rate': new FormControl(this.metadata.Rate, [Validators.required]),
+      'rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
       'currency': new FormControl(this.metadata.Currency, [Validators.required])
     });
+    // set active tab to model
+    this.activeTab = 'modelTab';
   }
   // Events
   handleModalSubmit() {
@@ -95,7 +114,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
         {
           rangeGroupId: this.rangeGroupId,
           formValue: this.modelSettingsForm.value,
-          fromPage: this.page
+          fromPage: this.page,
+          rounding: this.roundingSettings
         })
       );
       this.reset();
@@ -104,9 +124,13 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleModalSubmitAttempt() {
     this.attemptedSubmit = true;
+    if (!this.modelSettingsForm.valid) {
+      this.activeTab = 'modelTab';
+    }
   }
 
   handleModalDismiss() {
+    this.store.dispatch(new fromModelSettingsModalActions.Cancel());
     this.store.dispatch(new fromModelSettingsModalActions.CloseModal());
     this.reset();
   }
@@ -165,8 +189,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     });
 
     this.metadataSub = this.metaData$.subscribe(md => this.metadata = md);
-    this.modalOpenSub = this.modalOpen$.subscribe(mo => mo ? this.buildForm() : false);
+    this.modalOpenSub = this.modalOpen$.subscribe(mo => {
+      if (mo) {
+        this.buildForm();
+        this.isNewModel = this.urlService.isInNewStructureWorkflow();
+      }
+    });
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
+    this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
   }
 
   private unsubscribe() {
@@ -175,6 +205,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.metadataSub.unsubscribe();
     this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
+    this.roundingSettingsSub.unsubscribe();
   }
 
   private reset() {

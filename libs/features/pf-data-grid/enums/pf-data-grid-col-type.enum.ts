@@ -3,5 +3,6 @@ export enum PfDataGridColType {
   dateTime = 'dateTime',
   currency = 'currency',
   template = 'template',
+  sharedTemplate = 'sharedTemplate',
   bit = 'bit'
 }

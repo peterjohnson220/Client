@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-sm-12 col-lg-6">
+    <pf-company-selector></pf-company-selector>
+  </div>
+  <div class="col-sm-12 col-lg-6 text-right">
+    <kendo-daterange>
+      <label>
+        <span class="label">Start</span>
+      </label>
+      <kendo-dateinput kendoDateRangeStartInput [(value)]="range.start" (valueChange)="changeDate($event, 'Start')"></kendo-dateinput>
+      <label>
+        <span class="label">End</span>
+      </label>
+      <kendo-dateinput kendoDateRangeEndInput [(value)]="range.end" (valueChange)="changeDate($event, 'End')"></kendo-dateinput>
+    </kendo-daterange>
+    <button class="btn btn-primary" (click)="refresh()">Refresh</button>
+  </div>
+</div>
+

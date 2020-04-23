@@ -71,4 +71,8 @@ export class DataManagementLandingPageComponent implements OnInit {
         break;
     }
   }
+
+  openReauthModal() {
+    this.store.dispatch(new fromHrisConnectionActions.OpenReAuthenticationModal(true));
+  }
 }

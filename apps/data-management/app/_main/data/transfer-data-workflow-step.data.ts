@@ -1,8 +1,8 @@
 export enum TransferDataWorkflowStep {
   SelectTransferMethod= 1,
   Authentication,
-  Validated,
   Connect,
+  Validated,
   Mappings,
   EntitySelection,
   OutboundProviders,

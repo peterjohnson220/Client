@@ -13,6 +13,7 @@ export interface State {
   loadingPublicTokenUrl: boolean;
   loadingPublicTokenUrlError: boolean;
   loadingSystemUserGroups: boolean;
+  loadingPfAccountExecutives: boolean;
   loadingPfServicesReps: boolean;
   loadingPfJdmSrAssociates: boolean;
   loadingPfCustomerSuccessManagers: boolean;
@@ -32,6 +33,7 @@ export interface State {
   savingCompanyError: boolean;
   tokenUrl: string;
   companyDataSetsEnabled: boolean;
+  pfAccountExecutives: UserResponse[];
   pfCustomerSuccessManagers: UserResponse[];
   pfServicesReps: UserResponse[];
   pfJdmSrAssociates: UserResponse[];
@@ -54,6 +56,7 @@ const initialState: State = {
   loadingPublicTokenUrl: false,
   loadingPublicTokenUrlError: false,
   loadingSystemUserGroups: false,
+  loadingPfAccountExecutives: false,
   loadingPfServicesReps: false,
   loadingPfJdmSrAssociates: false,
   loadingPfCustomerSuccessManagers: false,
@@ -73,6 +76,7 @@ const initialState: State = {
   savingCompanyError: false,
   tokenUrl: '',
   companyDataSetsEnabled: true,
+  pfAccountExecutives: [],
   pfCustomerSuccessManagers: [],
   pfServicesReps: [],
   pfJdmSrAssociates: [],
@@ -113,6 +117,22 @@ export function reducer(state = initialState, action: fromCompanyPageActions.Act
       return {
         ...state,
         loadingSystemUserGroups: false
+      };
+    }
+    case fromCompanyPageActions.GET_PF_ACCOUNT_EXECUTIVES: {
+      return {
+        ...state,
+        loadingPfAccountExecutives: true
+      };
+    }
+    case fromCompanyPageActions.GET_PF_ACCOUNT_EXECUTIVES_SUCCESS: {
+      const results = cloneDeep(action.payload)
+        .sort((a: UserResponse, b: UserResponse) =>
+          arraySortByString(a.FirstName, b.FirstName, SortDirection.Ascending));
+      return {
+        ...state,
+        loadingPfAccountExecutives: false,
+        pfAccountExecutives: results
       };
     }
     case fromCompanyPageActions.GET_PF_SERVICES_REPS: {
@@ -550,6 +570,7 @@ export const getTokenUrl = (state: State) => state.tokenUrl;
 export const getLoadingSystemUserGroups = (state: State) => state.loadingSystemUserGroups;
 export const getSystemUserGroups = (state: State) => state.systemUserGroups;
 export const getLoadingPfServicesReps = (state: State) => state.loadingPfServicesReps;
+export const getPfAccountExecutives = (state: State) => state.pfAccountExecutives;
 export const getPfServicesReps = (state: State) => state.pfServicesReps;
 export const getLoadingPfJdmSrAssociates = (state: State) => state.loadingPfJdmSrAssociates;
 export const getPfJdmSrAssociates = (state: State) => state.pfJdmSrAssociates;

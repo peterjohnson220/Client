@@ -15,7 +15,7 @@ import { AsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee
 import * as fromEmployeeManagementReducer from '../../reducers';
 import * as fromEmployeeManagementActions from '../../actions';
 import { EmployeeValidation } from '../../models/employee-validation.model';
-import { Job } from '../../models';
+import { Job, Structure } from '../../models';
 
 @Component({
   selector: 'pf-employee-management',
@@ -43,7 +43,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   departments$: Observable<AsyncStateObj<string[]>>;
   paymarkets$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   gradeCodes$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
-  structureNames$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
+  structures$: Observable<AsyncStateObj<Structure[]>>;
   employeesUserDefinedFields$: Observable<AsyncStateObj<GenericKeyValue<string, string>[]>>;
   employee$: Observable<AsyncStateObj<CompanyEmployee>>;
   employeeValidationAsync$: Observable<AsyncStateObj<EmployeeValidation>>;
@@ -82,6 +82,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   employee: CompanyEmployee;
   udfFields: GenericKeyValue<string, string>[];
   employeeValidationAsync: AsyncStateObj<EmployeeValidation>;
+  structures: Structure[];
+  selectedStructure: Structure;
 
   get f() { return this.employeeForm.controls; }
 
@@ -100,7 +102,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.countries$ = this.store.select(fromEmployeeManagementReducer.getCountries);
     this.departments$ = this.store.select(fromEmployeeManagementReducer.getDepartments);
     this.gradeCodes$ = this.store.select(fromEmployeeManagementReducer.getGradeCodes);
-    this.structureNames$ = this.store.select(fromEmployeeManagementReducer.getStructureNames);
+    this.structures$ = this.store.select(fromEmployeeManagementReducer.getStructures);
     this.employeesUserDefinedFields$ = this.store.select(fromEmployeeManagementReducer.getEmployeesUserDefinedFields);
     this.errorMessage$ = this.store.select(fromEmployeeManagementReducer.getErrorMessage);
     this.employee$ = this.store.select(fromEmployeeManagementReducer.getEmployee);
@@ -134,13 +136,13 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     });
     this.gradeCodesSubscription = this.gradeCodes$.subscribe(gradeCodesAsync => {
       if (!!gradeCodesAsync && !gradeCodesAsync.loading && !!gradeCodesAsync.obj) {
-        this.updateControl(gradeCodesAsync.obj, 'GradeCode');
+        this.updateGradeCodesControl(gradeCodesAsync.obj);
       }
     });
-    this.structuresSubscription = this.structureNames$.subscribe(structureNamesAsync => {
-      if (!!structureNamesAsync && !structureNamesAsync.loading && !!structureNamesAsync.obj) {
-        this.updateControl(structureNamesAsync.obj, 'StructureRangeGroupId');
-        this.loadGrades();
+    this.structuresSubscription = this.structures$.subscribe(structuresAsync => {
+      if (!!structuresAsync && !structuresAsync.loading && !!structuresAsync.obj) {
+        this.structures = structuresAsync.obj;
+        this.updateStructuresControl(structuresAsync.obj);
       }
     });
     this.employeeSubscription = this.employee$.subscribe(asyncObj => {
@@ -266,8 +268,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       TGP: 0,
       Remun: 0,
       Fixed: 0,
-      StructureRangeGroupId: [null, [Validators.required]],
-      GradeCode: [null, [Validators.required]]
+      StructureRangeGroupId: null,
+      GradeCode: null
     });
   }
 
@@ -303,9 +305,10 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.workCountryCombobox.filterChange.emit('');
     this.departmentCombobox.filterChange.emit('');
     this.jobSearchTerm = '';
+    this.selectedStructure = null;
     this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobs({SearchTerm: '', Limit: this.PAGE_SIZE}));
-    this.updateControl([], 'StructureRangeGroupId');
-    this.updateControl([], 'GradeCode');
+    this.updateStructuresControl([]);
+    this.updateGradeCodesControl([]);
   }
 
   private initializeDroplists() {
@@ -328,7 +331,11 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   public loadStructures() {
     const jobId = this.employeeForm.get('CompanyJobId').value || 0;
     const paymarketId = this.employeeForm.get('CompanyPayMarketId').value || 0;
-    this.store.dispatch(new fromEmployeeManagementActions.LoadStructures({ jobId: jobId, paymarketId: paymarketId }));
+    const employeeId = this.employee ? this.employee.CompanyEmployeeId : null;
+    if (jobId === 0 || paymarketId === 0) {
+      return;
+    }
+    this.store.dispatch(new fromEmployeeManagementActions.LoadStructures({ jobId, paymarketId, employeeId }));
   }
 
   public onJobChanges(companyJobId: number) {
@@ -347,8 +354,18 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     this.loadStructures();
   }
 
-  public onStructureChanges() {
-    this.loadGrades();
+  public onStructureChanges(rangeGroupId: number) {
+    if (!this.structures || !rangeGroupId) {
+      this.selectedStructure = null;
+      this.clearGradeCodeControlValue();
+      return;
+    }
+    this.selectedStructure = this.structures.find(s => s.RangeGroupId === rangeGroupId);
+    if (this.selectedStructure.Is.GradeRange) {
+      this.loadGrades();
+    } else {
+      this.clearGradeCodeControlValue();
+    }
   }
 
   public onCompChanges() {
@@ -394,16 +411,36 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     return employee;
   }
 
-  private updateControl(list: KendoTypedDropDownItem[], controlName: string): void {
-    let selectedValue = !!list.length ? list[0].Value : null;
-    if (!!this.employee && this.employee[controlName] && list.some(x => x.Value === this.employee[controlName])) {
-        selectedValue = this.employee[controlName];
+  private updateGradeCodesControl(list: KendoTypedDropDownItem[]): void {
+    const gradeCodesControl = this.employeeForm.controls['GradeCode'];
+    let selectedValue = list.length === 1 ? list[0].Value : null;
+    if (!!this.employee && this.employee.GradeCode && list.some(x => x.Value === this.employee.GradeCode)) {
+      selectedValue = this.employee.GradeCode;
     }
-    this.employeeForm.controls[controlName].setValue(selectedValue);
+    gradeCodesControl.setValue(selectedValue);
     if (!list.length || list.length === 1) {
-      this.employeeForm.controls[controlName].disable();
+      gradeCodesControl.disable();
     } else {
-      this.employeeForm.controls[controlName].enable();
+      gradeCodesControl.enable();
+    }
+  }
+
+  private updateStructuresControl(structures: Structure[]): void {
+    const structuresControl = this.employeeForm.controls['StructureRangeGroupId'];
+    this.selectedStructure = structures.length === 1 ? structures[0] : null;
+    if (!!this.employee && this.employee.StructureRangeGroupId &&
+      structures.some(s => s.RangeGroupId === this.employee.StructureRangeGroupId)) {
+      this.selectedStructure = structures.find(s => s.RangeGroupId === this.employee.StructureRangeGroupId);
+    }
+    const selectedValue: number = this.selectedStructure ? this.selectedStructure.RangeGroupId : null;
+    structuresControl.setValue(selectedValue);
+    if (!structures.length || structures.length === 1) {
+      structuresControl.disable();
+    } else {
+      structuresControl.enable();
+    }
+    if (this.selectedStructure && this.selectedStructure.Is.GradeRange) {
+      this.loadGrades();
     }
   }
 
@@ -472,5 +509,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
 
   private convertToDate(date: Date): Date {
     return date ? this.intlService.parseDate(date.toString()) : null;
+  }
+
+  private clearGradeCodeControlValue(): void {
+    this.employeeForm.controls['GradeCode'].setValue(null);
   }
 }

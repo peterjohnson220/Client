@@ -5,6 +5,7 @@ export interface PricingPaymarket {
   Location: string;
   Size: string;
   SizeLabel: string;
+  CurrencyCode: string;
 }
 
 export function generateMockPricingPaymarket(): PricingPaymarket {
@@ -14,6 +15,7 @@ export function generateMockPricingPaymarket(): PricingPaymarket {
     Industry: 'Software',
     Location: 'Boston, MA',
     Size: '100 - 500',
-    SizeLabel: 'Employees'
+    SizeLabel: 'Employees',
+    CurrencyCode: 'USD'
   };
 }

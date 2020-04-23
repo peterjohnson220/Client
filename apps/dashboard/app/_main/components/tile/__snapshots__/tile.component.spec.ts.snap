@@ -26,8 +26,9 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
         test tile
       </h4>
     </div>
+    
     <a
-      class="tile-anchor-overlay"
+      class="anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
@@ -35,6 +36,7 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
     <div>
       
       <pf-tile-preview-chart />
+      
       
       
       
@@ -73,8 +75,9 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
         test tile
       </h4>
     </div>
+    
     <a
-      class="tile-anchor-overlay"
+      class="anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
@@ -83,6 +86,7 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
       
       
       <pf-tile-preview-icon />
+      
       
       
       
@@ -120,8 +124,9 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
         test tile
       </h4>
     </div>
+    
     <a
-      class="tile-anchor-overlay"
+      class="anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
@@ -131,6 +136,7 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
       
       
       <pf-tile-preview-list />
+      
       
       
       
