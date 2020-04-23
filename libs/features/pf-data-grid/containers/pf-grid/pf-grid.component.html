@@ -28,6 +28,11 @@
                (click)="onSelectedKeysChange(dataItem[primaryKey])">
       </ng-template>
     </kendo-grid-checkbox-column>
+    <kendo-grid-command-column *ngIf="gridRowActionsConfig && gridRowActionsConfig.Position === positionType.Left" [title]="gridRowActionsConfig.Title" [width]="gridRowActionsConfig.Width">
+      <ng-template  kendoGridCellTemplate  let-dataItem="dataItem">
+        <ng-container [ngTemplateOutlet]="gridRowActionsConfig.ActionsTemplate"  [ngTemplateOutletContext]="{dataRow: dataItem}"></ng-container>
+      </ng-template>
+    </kendo-grid-command-column>
     <ng-container *ngFor="let col of (dataFields$ | async); trackBy:trackByField">
       <ng-container *ngIf="col.Group && col.HasSelection">
           <kendo-grid-column-group
@@ -43,7 +48,7 @@
                         [field]="mappedFieldName(col)"
                         [title]="col.DisplayName"
                         [headerClass]="['px-1', customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
-                        [style]="{                          
+                        [style]="{
                           'background-color': backgroundColor ? backgroundColor : '',
                           'overflow': 'inherit'}"
                         [class]="['px-1', getColumnClasses(col), getColTextAlignClass(col)].join(' ')"
@@ -73,7 +78,7 @@
           [field]="mappedFieldName(col)"
           [title]="col.DisplayName"
           [headerClass]="[customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
-          [style]="{            
+          [style]="{
             'background-color': backgroundColor ? backgroundColor : '',
             'overflow': 'inherit'}"
           [class]="[getColumnClasses(col), getColTextAlignClass(col)].join(' ')"
@@ -96,6 +101,11 @@
         </kendo-grid-column>
       </ng-container>
     </ng-container>
+    <kendo-grid-command-column *ngIf="gridRowActionsConfig && gridRowActionsConfig.Position === positionType.Right" [title]="gridRowActionsConfig.Title" [width]="gridRowActionsConfig.Width">
+      <ng-template  kendoGridCellTemplate  let-dataItem="dataItem">
+        <ng-container [ngTemplateOutlet]="gridRowActionsConfig.ActionsTemplate"  [ngTemplateOutletContext]="{dataRow: dataItem}"></ng-container>
+      </ng-template>
+    </kendo-grid-command-column>
     <ng-template *ngIf="noRecordsFound" kendoGridNoRecordsTemplate>
       <ng-container *ngIf="!(loading$ | async)">{{noRecordsFound}}</ng-container>
     </ng-template>
@@ -106,7 +116,7 @@
           [ngTemplateOutletContext]="{dataRow: dataItem}">
         </ng-container>
       </div>
-    </div>    
+    </div>
   </kendo-grid>
 </pf-async-container>
 

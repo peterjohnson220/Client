@@ -11,7 +11,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField, CreateProjectRequest, ChangeJobStatusRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
-import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
+import {ActionBarConfig, ColumnChooserType, getDefaultGridRowActionsConfig, GridRowActionsConfig} from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
 
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -81,6 +81,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   colTemplates = {};
   filterTemplates = {};
 
+  gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   actionBarConfig: ActionBarConfig;
 
   show: boolean;
@@ -107,6 +108,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showSurveyParticipationModal$ = this.showSurveyParticipationModal.asObservable();
   matchJobId: number;
 
+  @ViewChild('gridRowActionsTemplate', { static: false }) gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
   @ViewChild('jobMatchCount', { static: false }) jobMatchCount: ElementRef;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
@@ -185,6 +187,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ColumnChooserType: ColumnChooserType.Column
     };
 
+
+
     this.selectedJobDataSubscription = this.store.select(fromPfDataGridReducer.getSelectedData, this.pageViewId).subscribe(data => {
       if (data) {
         const pricingCount = data.map(d => d['CompanyJobs_Priced']);
@@ -232,6 +236,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       GlobalFiltersTemplates: {
         'JobStatus': this.jobStatusFilter
       }
+    };
+
+    this.gridRowActionsConfig = {
+      ...this.gridRowActionsConfig,
+      ActionsTemplate : this.gridRowActionsTemplate
     };
   }
 
