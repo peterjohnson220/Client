@@ -22,19 +22,26 @@ import * as fromSharedReducer from '../reducers';
 import { Pages } from '../constants/pages';
 import { RangeGroupMetadata } from '../models';
 import { UrlService } from '../services';
+import { Workflow } from '../constants/workflow';
 
 @Injectable()
 export class ModelSettingsModalEffects {
 
   @Effect()
-  cancel$: Observable<Action> = this.actions$
+  cancelInNewWorkflow$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromModelSettingsModalActions.CANCEL),
-      filter(() => this.urlService.isInNewStructureWorkflow()),
+      filter(() => this.urlService.isInWorkflow(Workflow.NewJobBasedRange)),
       map(() => {
-        this.urlService.removeNewStructureWorkflow();
         return new fromDataGridActions.LoadData(PageViewIds.Model);
       })
+    );
+
+  @Effect({dispatch: false})
+  cancel$ = this.actions$
+    .pipe(
+      ofType(fromModelSettingsModalActions.CANCEL),
+      map(() => this.urlService.removeAllWorkflows())
     );
 
   @Effect()
@@ -143,7 +150,7 @@ export class ModelSettingsModalEffects {
                 actions.push(new fromModelSettingsModalActions.SaveModelSettingsSuccess());
               }
 
-              this.urlService.removeNewStructureWorkflow();
+              this.urlService.removeAllWorkflows();
 
               return actions;
             }
