@@ -15,6 +15,10 @@ const routes: Routes = [
     canActivate: [RangeGroupExistsGuard],
     loadChildren: () => import('apps/structures/app/_job-based-range/model/model.module').then(m => m.ModelModule)
   },
+  { path: ':id/create-model',
+    canActivate: [RangeGroupExistsGuard],
+    loadChildren: () => import('apps/structures/app/_job-based-range/model/model.module').then(m => m.ModelModule)
+  },
   { path: ':id/employees',
     canActivate: [RangeGroupExistsGuard],
     loadChildren: () => import('apps/structures/app/_job-based-range/employees/employees.module').then(m => m.EmployeesModule)

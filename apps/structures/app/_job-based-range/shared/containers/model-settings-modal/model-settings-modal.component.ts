@@ -3,15 +3,17 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { Currency, ControlPoint, RangeGroupMetadata, RoundingSettingsDataObj } from '../../models';
+import { ControlPoint, Currency, RangeGroupMetadata, RoundingSettingsDataObj } from '../../models';
 import { Pages } from '../../constants/pages';
 import { UrlService } from '../../services';
+import { Workflow } from '../../constants/workflow';
 
 @Component({
   selector: 'pf-model-settings-modal',
@@ -56,7 +58,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
-    this.modalOpen$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelSettingsModalOpen));
+    // delay(0) to push this into the next VM turn to avoid expression changed errors
+    this.modalOpen$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelSettingsModalOpen), delay(0));
     this.currenciesAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCurrenciesAsyncObj));
     this.controlPointsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getControlPointsAsyncObj));
     this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getStructureNameSuggestionsAsyncObj));
@@ -192,7 +195,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modalOpenSub = this.modalOpen$.subscribe(mo => {
       if (mo) {
         this.buildForm();
-        this.isNewModel = this.urlService.isInNewStructureWorkflow();
+        this.isNewModel = this.urlService.isInWorkflow(Workflow.NewJobBasedRange);
       }
     });
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
