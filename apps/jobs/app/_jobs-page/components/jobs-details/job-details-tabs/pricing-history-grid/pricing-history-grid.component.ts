@@ -2,7 +2,7 @@ import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnCh
 
 import { Store } from '@ngrx/store';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -29,6 +29,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('createUserColumn', { static: false }) createUserColumn: ElementRef;
+  @ViewChild('pricingActionsColumn', { static: false }) pricingActionsColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
@@ -43,7 +44,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
 
   deletePricingRequest: DeletePricingRequest;
   pricingIdToBeDeleted$: Observable<number>;
-  _Permissions = null;
+  permissions = Permissions;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   payMarketField: ViewField;
@@ -51,10 +52,14 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
   payMarketOptions: any;
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
+  pricingId: number;
+
+
+  showPricingDetails = new BehaviorSubject<boolean>(false);
+  showPricingDetails$ = this.showPricingDetails.asObservable();
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.pricingIdToBeDeleted$ = store.select(fromJobsPageReducer.getPricingIdToBeDeleted);
-    this._Permissions = Permissions;
 
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
@@ -82,7 +87,8 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
       }
     };
     this.colTemplates = {
-      'Create_User': { Template: this.createUserColumn }
+      'Create_User': { Template: this.createUserColumn },
+      'CompanyJobPricing_ID': { Template: this.pricingActionsColumn }
     };
   }
 

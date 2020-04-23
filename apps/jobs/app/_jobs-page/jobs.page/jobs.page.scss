@@ -5,3 +5,13 @@
 .loading-icon-container {
   display: inline-block;
 }
+
+.maxPageHeight{
+  overflow: auto;
+  max-height: calc(100vh - 200px);
+  min-height: 200px;
+}
+
+.multi-match-container {
+  height: calc(100vh - 200px);
+}

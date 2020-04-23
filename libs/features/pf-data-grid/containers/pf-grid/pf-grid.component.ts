@@ -11,6 +11,7 @@ import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'l
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
+import {GridRowActionsConfig, PositionType} from '../../models';
 
 @Component({
   selector: 'pf-grid',
@@ -22,6 +23,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() pageViewId: string;
   @Input() columnTemplates: any;
   @Input() expandedRowTemplate: TemplateRef<any>;
+  @Input() gridRowActionsConfig: GridRowActionsConfig;
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() rowActionTemplate: TemplateRef<any>;
   @Input() noRecordsFoundTemplate: TemplateRef<any>;
@@ -70,6 +72,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   selectAllStatus = SelectAllStatus;
 
   pagingBarConfig = null;
+
+  positionType = PositionType;
 
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 

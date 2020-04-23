@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CreateProjectRequest } from 'libs/models/payfactors-api';
+import { CreateProjectRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
 
 @Injectable()
 export class JobsApiService {
@@ -25,5 +25,9 @@ export class JobsApiService {
 
   loadCustomExports() {
     return this.payfactorsApiService.get(`CustomExport.GetCustomExportData?pageName=Jobs`);
+  }
+
+  getPricingsToModify(pricingIds: number[]) {
+    return this.payfactorsApiService.post<MatchedSurveyJob[]>(`${this.endpoint}/GetPricingsToModify`, pricingIds);
   }
 }

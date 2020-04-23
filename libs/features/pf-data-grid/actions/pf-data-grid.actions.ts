@@ -58,7 +58,7 @@ export const RESET = '[PfDataGrid] Reset';
 export const REORDER_COLUMNS = '[PfDataGrid] Reorder Columns';
 export const REORDER_COLUMNS_SUCCESS = '[PfDataGrid] Reorder Columns Success';
 export const UPDATE_ROW = '[PfDataGrid] Update Data Row';
-
+export const UPDATE_FIELDS_EXCLUDED_FROM_EXPORT = '[PfDataGrid] Update Fields Excluded FromExport';
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
   constructor(public pageViewId: string, public name: string = null) { }
@@ -87,6 +87,11 @@ export class UpdateSortDescriptor implements Action {
 export class UpdateSaveSort implements Action {
   readonly type = UPDATE_SAVE_SORT;
   constructor(public pageViewId: string, public saveSort: boolean) { }
+}
+
+export class UpdateFieldsExcludedFromExport implements Action {
+  readonly type = UPDATE_FIELDS_EXCLUDED_FROM_EXPORT;
+  constructor(public pageViewId: string, public fieldsExcludedFromExport: []) { }
 }
 
 export class UpdateApplyDefaultFilters implements Action {
@@ -385,4 +390,5 @@ export type DataGridActions =
   | Reset
   | ReorderColumns
   | ReorderColumnsSuccess
+  | UpdateFieldsExcludedFromExport
   | UpdateRow;

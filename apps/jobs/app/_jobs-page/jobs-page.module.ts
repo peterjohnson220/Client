@@ -18,11 +18,11 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
-import { JobManagementModule } from 'libs/features/job-management/job-management.module';
+import { PfDataGridModule, JobManagementModule, PricingDetailsModule } from 'libs/features';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
+import { MatchesModalModule } from '../_matches-modal/matches-modal.module';
 
 import {
   JobsDetailsComponent,
@@ -40,8 +40,7 @@ import {
   PricingMatchesJobTitleComponent
 } from './components';
 import { reducers } from './reducers';
-import { JobsPageEffects, JobDescriptionEffects } from './effects';
-import { JobPeerMatchesEffects } from './effects/job-peer-matches.effects';
+import { JobsPageEffects, JobDescriptionEffects, ModifyPricingsEffects, JobPeerMatchesEffects } from './effects';
 
 @NgModule({
   imports: [
@@ -60,6 +59,7 @@ import { JobPeerMatchesEffects } from './effects/job-peer-matches.effects';
       JobsPageEffects,
       JobDescriptionEffects,
       JobPeerMatchesEffects,
+      ModifyPricingsEffects
     ]),
     FontAwesomeModule,
     TooltipModule,
@@ -73,30 +73,32 @@ import { JobPeerMatchesEffects } from './effects/job-peer-matches.effects';
     PfCommonUIModule,
     PfFormsModule,
     PfDataGridModule,
-    JobManagementModule
+    JobManagementModule,
+    MatchesModalModule,
+    PricingDetailsModule
   ],
   declarations: [
     // Pages
     JobsPageComponent,
 
-     // Job Details Components
-     JobsDetailsComponent,
-     EmployeesGridComponent,
-     PricingDetailsGridComponent,
-     PricingMatchesGridComponent,
-     JobDescriptionComponent,
-     StructureGridComponent,
-     ProjectDetailsGridComponent,
-     PricingHistoryGridComponent,
-     NotPricedPaymarketsGridComponent,
+    // Job Details Components
+    JobsDetailsComponent,
+    EmployeesGridComponent,
+    PricingDetailsGridComponent,
+    PricingMatchesGridComponent,
+    JobDescriptionComponent,
+    StructureGridComponent,
+    ProjectDetailsGridComponent,
+    PricingHistoryGridComponent,
+    NotPricedPaymarketsGridComponent,
 
-     // Column Templates
-     PricingMatchesJobTitleComponent,
-     PricingDetailsMrpColumnComponent,
+    // Column Templates
+    PricingMatchesJobTitleComponent,
+    PricingDetailsMrpColumnComponent,
 
-     // Jobs Grid Components
-     PeerExchangeMatchesComponent,
-     ExportListPopoverComponent
+    // Jobs Grid Components
+    PeerExchangeMatchesComponent,
+    ExportListPopoverComponent
   ]
 })
 export class JobsPageModule {

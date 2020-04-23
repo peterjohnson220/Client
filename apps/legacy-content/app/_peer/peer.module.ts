@@ -11,7 +11,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { WindowCommunicationService } from 'libs/core/services';
-import {PfPeerMapModule, ExchangeSelectorComponent, ExchangeJobSelectorComponent} from 'libs/features/peer/';
+import { PfPeerMapModule, ExchangeSelectorModule, ExchangeJobSelectorComponent } from 'libs/features/peer/';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/';
 import { PfCommonModule } from 'libs/core';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
@@ -66,12 +66,12 @@ import { reducers } from './reducers';
     PfCommonModule,
     PfFormsModule,
     PfPeerMapModule,
+    ExchangeSelectorModule,
     PfExchangeExplorerModule
   ],
   declarations: [
     // Components
     JobInfoContainerComponent,
-    ExchangeSelectorComponent,
     CompanyJobMapResultComponent,
     ApplyMappingButtonComponent,
 

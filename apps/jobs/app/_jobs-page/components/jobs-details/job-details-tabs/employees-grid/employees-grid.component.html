@@ -6,7 +6,8 @@
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [headerClassName]="'jobs-page-sub-grid-header'"
-  [noRecordsFound]="'There are no employees in this Job.'">
+  [noRecordsFound]="'There are no employees in this Job.'"
+  [fieldsExcludedFromExport] = fieldsExcludedFromExport>
 </pf-data-grid>
 
 <ng-template #employeeColumn let-dataRow="dataRow">

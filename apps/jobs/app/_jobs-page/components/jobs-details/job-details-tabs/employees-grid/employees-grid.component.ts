@@ -31,6 +31,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
 
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
+  fieldsExcludedFromExport = ['CompanyEmployee_ID', 'CompanyJob_ID', 'CompanyPayMarket_ID', 'Employees'];
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Employees'];
   globalFilterTemplates = {};
   colTemplates = {};
@@ -63,6 +64,8 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     });
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
+      AllowExport: true,
+      ExportSourceName: 'Employees',
       ActionBarClassName: 'ml-0 mt-1'
     };
   }

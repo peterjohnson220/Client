@@ -1,22 +1,28 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/index';
+
 import { Store } from '@ngrx/store';
+
 import { SortDescriptor } from '@progress/kendo-data-query';
+
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { ViewField, CreateProjectRequest, ChangeJobStatusRequest } from 'libs/models/payfactors-api';
+import { ViewField, CreateProjectRequest, ChangeJobStatusRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
-import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
+import {ActionBarConfig, ColumnChooserType, getDefaultGridRowActionsConfig, GridRowActionsConfig} from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
 
-import { PageViewIds } from '../constants';
-
-import * as fromRootState from 'libs/state/state';
-import * as fromJobsPageActions from '../actions';
-import * as fromJobsPageReducer from '../reducers';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromRootState from 'libs/state/state';
+
+import { PageViewIds } from '../constants';
+import * as fromJobsPageActions from '../actions';
+import * as fromJobsPageReducer from '../reducers';
+import * as fromModifyPricingsActions from '../actions';
+import * as fromModifyPricingsReducer from '../reducers';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -58,7 +64,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   navigatingToOldPage$: Observable<AsyncStateObj<boolean>>;
 
   showJobStatusModal$: Observable<boolean>;
+  modifyingPricings$: Observable<boolean>;
   changingJobStatus$: Observable<AsyncStateObj<boolean>>;
+  pricingsToModify$: Observable<MatchedSurveyJob[]>;
 
   showDeleteJobModal$: Observable<boolean>;
   deletingJob$: Observable<AsyncStateObj<boolean>>;
@@ -73,6 +81,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   colTemplates = {};
   filterTemplates = {};
 
+  gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   actionBarConfig: ActionBarConfig;
 
   show: boolean;
@@ -95,7 +104,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedJobPricingCount = 0;
   enablePageToggle = false;
 
+  showSurveyParticipationModal = new BehaviorSubject<boolean>(false);
+  showSurveyParticipationModal$ = this.showSurveyParticipationModal.asObservable();
+  matchJobId: number;
+
+  @ViewChild('gridRowActionsTemplate', { static: false }) gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
+  @ViewChild('jobMatchCount', { static: false }) jobMatchCount: ElementRef;
   @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
   @ViewChild('hasPeerDataColumn', { static: false }) hasPeerDataColumn: ElementRef;
 
@@ -118,6 +133,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showDeleteJobModal$ = this.store.select(fromJobsPageReducer.getShowDeleteJobModal);
     this.deletingJob$ = this.store.select(fromJobsPageReducer.getDeletingJob);
     this.navigatingToOldPage$ = this.store.select(fromJobsPageReducer.getNavigatingToOldPage);
+    this.modifyingPricings$ = this.store.select(fromModifyPricingsReducer.getIsModifyingPricings);
+    this.pricingsToModify$ = this.store.select(fromModifyPricingsReducer.getPricingsToModify);
 
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
@@ -170,6 +187,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ColumnChooserType: ColumnChooserType.Column
     };
 
+
+
     this.selectedJobDataSubscription = this.store.select(fromPfDataGridReducer.getSelectedData, this.pageViewId).subscribe(data => {
       if (data) {
         const pricingCount = data.map(d => d['CompanyJobs_Priced']);
@@ -202,7 +221,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.colTemplates = {
       'Job_Title': { Template: this.jobTitleColumn },
       'JobStatus': { Template: this.jobStatusColumn },
-      'Peer': { Template: this.hasPeerDataColumn }
+      'Peer': { Template: this.hasPeerDataColumn },
+      'PricingMatchesCount': { Template: this.jobMatchCount },
     };
 
     this.filterTemplates = {
@@ -216,6 +236,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       GlobalFiltersTemplates: {
         'JobStatus': this.jobStatusFilter
       }
+    };
+
+    this.gridRowActionsConfig = {
+      ...this.gridRowActionsConfig,
+      ActionsTemplate : this.gridRowActionsTemplate
     };
   }
 
@@ -362,5 +387,21 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   jobsPageToggle() {
     this.store.dispatch(new fromJobsPageActions.ToggleJobsPage());
+  }
+
+  toggleSurveyParticipationModal( event, value: boolean, jobId: number) {
+    this.matchJobId = jobId;
+    this.showSurveyParticipationModal.next(value);
+    if (event) {
+      event.stopPropagation();
+    }
+  }
+
+  modifyPricings() {
+    this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(this.selectedPricingIds));
+  }
+
+  cancelModifyPricings() {
+    this.store.dispatch(new fromModifyPricingsActions.ModifyPricingsCancel());
   }
 }

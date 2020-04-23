@@ -25,6 +25,8 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() primaryButtonTextSubmitting = this.primaryButtonText;
   @Input() secondaryButtonText = 'Cancel';
   @Input() showFooter = true;
+  @Input() showSubmit = true;
+  @Input() showDismiss = true;
   @Input() submitting: boolean;
   @Input() backdropClass: string;
   @Input() centered = false;

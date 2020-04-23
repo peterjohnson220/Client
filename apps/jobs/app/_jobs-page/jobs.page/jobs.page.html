@@ -11,9 +11,20 @@
   [enableSelection]="true"
   [splitViewTemplate]="jobsDetails"
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
-  [actionBarConfig]="actionBarConfig">
+  [actionBarConfig]="actionBarConfig"
+  [gridRowActionsConfig] = "(!(selectedRecordId$ | async))? gridRowActionsConfig: null" >
 </pf-data-grid>
 
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+  <fa-icon [icon]="['far', 'edit']"  title="Edit Job"  *ngIf="(userContext$ | async)?.CompanyId !== 1401"
+           [attr.data-qa-id]="'btn-jobs-page-edit-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
+           [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+           (click)="editingJobId = dataRow['CompanyJobs_CompanyJob_ID']; showJobEditModal=true; $event.stopPropagation();" class="pr-2" [fixedWidth]="true"></fa-icon>
+  <fa-icon [icon]="['far', 'trash-alt']" title="Delete Job"
+           [attr.data-qa-id]="'btn-jobs-page-delete-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
+           [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
+           (click)="openDeleteJobModal(dataRow['CompanyJobs_CompanyJob_ID'], dataRow['CompanyJobs_Job_Title']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
+</ng-template>
 <ng-template #titleTemplate>
   {{(userContext$ | async)?.CompanyName + ' - Jobs'}}
   <button
@@ -21,14 +32,18 @@
     class="btn btn-secondary align-top ml-3"
     [attr.data-qa-id]="'btn-toggle-jobs-page'"
     [id]="'btn-toggle-jobs-page'"
-    (click)="jobsPageToggle()"
-  >
+    (click)="jobsPageToggle()">
     Back to old Jobs page
     <div *ngIf="(navigatingToOldPage$ | async).loading" class="loading-icon-container ml-2">
-      <pf-loading-indicator
-      ></pf-loading-indicator>
+      <pf-loading-indicator></pf-loading-indicator>
     </div>
   </button>
+</ng-template>
+
+<ng-template #jobMatchCount let-dataRow="dataRow">
+  <span  (click)="dataRow['CompanyJobs_PricingMatchesCount'] > 0?toggleSurveyParticipationModal($event, true, dataRow['CompanyJobs_CompanyJob_ID']):null">
+   {{dataRow['CompanyJobs_PricingMatchesCount']}}
+  </span>
 </ng-template>
 
 <ng-template #jobTitleColumn let-dataRow="dataRow" let-hover="hover">
@@ -44,34 +59,8 @@
       *ngIf="!(selectedRecordId$ | async)"
       [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
       class="ml-auto pl-2">
-
-      <div ngbDropdown #jobsActionsMenu="ngbDropdown" class="d-inline-block k-grid-ignore-click" placement="bottom-right">
-        <button
-          ngbDropdownToggle
-          [attr.data-qa-id]="'btn-jobs-page-inline-actions-' + dataRow['CompanyJobs_CompanyJob_ID']"
-          class="btn btn-secondary btn-sm hide-dropdown-arrow pf-icon-btn-transparent">
-          <fa-icon icon="ellipsis-h"></fa-icon>
-        </button>
-        <div ngbDropdownMenu class="dropdown-menu dropdown-menu-left">
-          <button  *ngIf="(userContext$ | async)?.CompanyId !== 1401"
-            [attr.data-qa-id]="'btn-jobs-page-edit-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
-            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
-            class="dropdown-item"
-            (click)="editingJobId = dataRow['CompanyJobs_CompanyJob_ID']; showJobEditModal=true;">
-            <fa-icon icon="edit" class="pr-2" [fixedWidth]="true"></fa-icon> Edit Job
-          </button>
-          <button
-            [attr.data-qa-id]="'btn-jobs-page-delete-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
-            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
-            class="dropdown-item"
-            (click)="openDeleteJobModal(dataRow['CompanyJobs_CompanyJob_ID'], dataRow['CompanyJobs_Job_Title'])">
-            <fa-icon icon="trash-alt" class="pr-2" [fixedWidth]="true"></fa-icon> Delete Job
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
-
+  </div>
 </ng-template>
 
 <pf-peer-exchange-matches *ngIf="show" [offset]="offset"  [jobId]="peerJobId"></pf-peer-exchange-matches>
@@ -79,6 +68,7 @@
 <ng-template #jobStatusColumn let-dataRow="dataRow">
   {{dataRow['CompanyJobs_JobStatus'] ? 'Active' : 'Inactive'}}
 </ng-template>
+
 <ng-template #hasPeerDataColumn let-dataRow="dataRow">
   <fa-icon  *ngIf="dataRow['CompanyJobs_Peer']"
     icon="exchange-alt"
@@ -117,6 +107,17 @@
 </ng-template>
 
 <ng-template #gridActions>
+  <button
+    [pfSecuredResource]="permissions.MODIFY_PRICINGS"
+    [disabled]="!isActiveJobs() || !selectedPricingIds.length"
+    [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
+    (click)="modifyPricings()"
+    type="button"
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
+    Modify Pricings <span *ngIf="selectedPricingIds.length">({{selectedPricingIds.length}})</span>
+  </button>
   <button
     [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
@@ -251,6 +252,55 @@
             We encountered a problem deleting your job. Please try again or contact your account representative.
           </b>
         </span>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>
+
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Matches'"
+  [submitEnabled]="false"
+  [showSubmit]="false"
+  [secondaryButtonText]="'Close'"
+  [centered]="true"
+  [showSpinner]="true"
+  [modalId]="'au-modal-jobs-page-matches'"
+  [allowDismiss]="true"
+  [isOpen$]="showSurveyParticipationModal$"
+  (onDismiss)="toggleSurveyParticipationModal(null, false, null)">
+  <ng-container basic-content>
+    <div class="maxPageHeight">
+      <pf-survey-participation-page *ngIf="matchJobId && showSurveyParticipationModal$ |  async" [jobId]= "matchJobId" ></pf-survey-participation-page>
+    </div>
+  </ng-container>
+
+</pf-modal-form>
+
+<pf-modal-form
+  [size]="'lg'"
+  [showFooter]="false"
+  [modalId]="'au-modal-jobs-page-multi-match'"
+  [isOpen$]="modifyingPricings$"
+  (onDismiss)="cancelModifyPricings()"
+>
+  <!--TODO: The multi match page itself handles the UI layout. This is for PoC/Initial work for modifying pricings -->
+  <ng-container basic-content>
+    <div class="multi-match-container">
+      <div class="row">
+        <div class="col-3">
+          Filters
+        </div>
+        <div class="col-6">
+          Results
+        </div>
+        <div class="col-3">
+          <div *ngFor="let pricing of pricingsToModify$ | async" [title]="pricing.Paymarket">
+            {{pricing.Job.Title}} ({{pricing.Job.Code}})
+            <br />
+            Show Cuts ({{pricing.DataCutsCount}}) | Show Job Detail
+          </div>
+        </div>
       </div>
     </div>
   </ng-container>

@@ -35,7 +35,6 @@ export const TOGGLE_JOBS_PAGE = '[Jobs Page] Toggle Jobs Page';
 export const TOGGLE_JOBS_PAGE_SUCCESS = '[Jobs Page] Toggle Jobs Page Success';
 export const TOGGLE_JOBS_PAGE_ERROR = '[Jobs Page] Toggle Jobs Page Error';
 
-
 export class SetJobsPageId implements Action {
   readonly type = SET_JOBS_PAGE_ID;
   constructor(public payload: string) {}
@@ -188,7 +187,6 @@ export class ToggleJobsPageError implements Action {
   readonly type = TOGGLE_JOBS_PAGE_ERROR;
   constructor() {}
 }
-
 
 export type JobsPageActions
   = SetJobsPageId

@@ -25,7 +25,7 @@ import { FilterSidebarComponent, MapComponent, ScopeSelectorComponent } from './
 import { FilterSidebarEffects, MapEffects, ExchangeScopeEffects } from './effects';
 import { reducers } from './reducers';
 import * as fromFaIcons from './fa-icons';
-import {ExchangeJobSelectorComponent} from '../exchange-job-selector';
+import { ExchangeJobSelectorComponent } from '../exchange-job-selector';
 
 const declarations = [
   // Components
@@ -53,7 +53,7 @@ const declarations = [
       FilterSidebarEffects,
       ExchangeScopeEffects
     ]),
-    NgxMapboxGLModule.withConfig({accessToken: environment.mapboxAccessToken}),
+    NgxMapboxGLModule.withConfig({ accessToken: environment.mapboxAccessToken }),
     NgbPopoverModule,
     FontAwesomeModule
   ],
