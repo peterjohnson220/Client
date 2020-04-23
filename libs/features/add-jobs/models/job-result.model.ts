@@ -20,7 +20,7 @@ export interface JobResult {
   PricingDataLoading: boolean;
   PricingDataLoaded: boolean;
   ShowJobDetail: boolean;
-  AssignedStructures?: string[];
+  AssignedStructures?: string;
 }
 
 export function generateMockPayFactorsJobResult(): JobResult {
