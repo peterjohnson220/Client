@@ -15,11 +15,15 @@
     </div>
   
     <div *ngIf="!!selectedFields" class="fields-container">
-      <div perfectScrollbar class="fields" dragula="fields-bag" [(dragulaModel)]="selectedFields">
-        <pf-report-field *ngFor="let field of selectedFields; trackBy: trackByFn;"
+      <div perfectScrollbar class="fields" dragula="fields-bag" [dragulaModel]="selectedFields">
+        <pf-report-field *ngFor="let field of selectedFields"
+          id="report-fields"
+          [activeFieldsCount]="activeFields"
+          [class.selected]="field.IsActive"
           [field]="field"
           [removable]="selectedFields.length > 1"
           (fieldRemoved)="handleFieldRemoved($event)"
+          (fieldIsActive)="handlefieldIsActive($event)"
           (displayNameUpdated)="handleDisplayNameUpdated(field, $event)">
         </pf-report-field>
       </div>
