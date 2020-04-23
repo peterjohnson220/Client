@@ -7,11 +7,16 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
+  exchangeExplorerContextService={[Function Object]}
+  filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
+  isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
   maxPaymarketMinimumWage$={[Function Observable]}
+  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Observable]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -31,6 +36,8 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSubscription={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="file-alt"
@@ -40,11 +47,12 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
     
     
     <div
-      class="summary-container"
+      class="d-flex h-100 summary-container"
     >
       <div
         class="d-flex h-100"
       >
+        
         <div
           class="info-sidebar"
         >
@@ -187,6 +195,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
             </div>
           </div>
         </div>
+        
         <div
           class="summary"
         >
@@ -236,6 +245,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               </button>
             </div>
           </div>
+          
           <div
             class="info-horizontal"
           >
@@ -421,6 +431,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               </div>
             </div>
           </div>
+          
           <div
             class="graphs"
           >
@@ -478,6 +489,8 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                 <pf-salary-bar-chart />
               </div>
             </div>
+            
+            
             <div
               class="g"
             >
@@ -494,18 +507,22 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               </div>
             </div>
           </div>
-          
           <div
-            class="job-description"
+            class="job-description-wrapper"
           >
+            
             <div
-              class="h"
+              class="job-description"
             >
-              Job Description
+              <div
+                class="h"
+              >
+                Job Description
+              </div>
+              <div
+                class="v"
+              />
             </div>
-            <div
-              class="v"
-            />
           </div>
         </div>
       </div>
@@ -532,11 +549,12 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
             />
             
             <div
-              class="summary-container"
+              class="d-flex h-100 summary-container"
             >
               <div
                 class="d-flex h-100"
               >
+                
                 <div
                   class="info-sidebar"
                 >
@@ -679,6 +697,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                     </div>
                   </div>
                 </div>
+                
                 <div
                   class="summary"
                 >
@@ -728,6 +747,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       </button>
                     </div>
                   </div>
+                  
                   <div
                     class="info-horizontal"
                   >
@@ -913,6 +933,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       </div>
                     </div>
                   </div>
+                  
                   <div
                     class="graphs"
                   >
@@ -970,6 +991,8 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                         <pf-salary-bar-chart />
                       </div>
                     </div>
+                    
+                    
                     <div
                       class="g"
                     >
@@ -986,18 +1009,22 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       </div>
                     </div>
                   </div>
-                  
                   <div
-                    class="job-description"
+                    class="job-description-wrapper"
                   >
+                    
                     <div
-                      class="h"
+                      class="job-description"
                     >
-                      Job Description
+                      <div
+                        class="h"
+                      >
+                        Job Description
+                      </div>
+                      <div
+                        class="v"
+                      />
                     </div>
-                    <div
-                      class="v"
-                    />
                   </div>
                 </div>
               </div>
@@ -1012,6 +1039,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
+      disabled=""
     >
        Price New Job 
     </button>
@@ -1026,11 +1054,16 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
+  exchangeExplorerContextService={[Function Object]}
+  filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
+  isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
   maxPaymarketMinimumWage$={[Function Store]}
+  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -1050,6 +1083,8 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSubscription={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="file-alt"
@@ -1059,11 +1094,12 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
     
     
     <div
-      class="summary-container"
+      class="d-flex h-100 summary-container"
     >
       <div
         class="d-flex h-100"
       >
+        
         <div
           class="info-sidebar"
         >
@@ -1206,6 +1242,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
             </div>
           </div>
         </div>
+        
         <div
           class="summary"
         >
@@ -1255,6 +1292,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               </button>
             </div>
           </div>
+          
           <div
             class="info-horizontal"
           >
@@ -1440,6 +1478,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               </div>
             </div>
           </div>
+          
           <div
             class="graphs"
           >
@@ -1497,6 +1536,8 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                 <pf-salary-bar-chart />
               </div>
             </div>
+            
+            
             <div
               class="g"
             >
@@ -1513,18 +1554,22 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               </div>
             </div>
           </div>
-          
           <div
-            class="job-description"
+            class="job-description-wrapper"
           >
+            
             <div
-              class="h"
+              class="job-description"
             >
-              Job Description
+              <div
+                class="h"
+              >
+                Job Description
+              </div>
+              <div
+                class="v"
+              />
             </div>
-            <div
-              class="v"
-            />
           </div>
         </div>
       </div>
@@ -1551,11 +1596,12 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
             />
             
             <div
-              class="summary-container"
+              class="d-flex h-100 summary-container"
             >
               <div
                 class="d-flex h-100"
               >
+                
                 <div
                   class="info-sidebar"
                 >
@@ -1698,6 +1744,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                     </div>
                   </div>
                 </div>
+                
                 <div
                   class="summary"
                 >
@@ -1747,6 +1794,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       </button>
                     </div>
                   </div>
+                  
                   <div
                     class="info-horizontal"
                   >
@@ -1932,6 +1980,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       </div>
                     </div>
                   </div>
+                  
                   <div
                     class="graphs"
                   >
@@ -1989,6 +2038,8 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                         <pf-salary-bar-chart />
                       </div>
                     </div>
+                    
+                    
                     <div
                       class="g"
                     >
@@ -2005,18 +2056,22 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       </div>
                     </div>
                   </div>
-                  
                   <div
-                    class="job-description"
+                    class="job-description-wrapper"
                   >
+                    
                     <div
-                      class="h"
+                      class="job-description"
                     >
-                      Job Description
+                      <div
+                        class="h"
+                      >
+                        Job Description
+                      </div>
+                      <div
+                        class="v"
+                      />
                     </div>
-                    <div
-                      class="v"
-                    />
                   </div>
                 </div>
               </div>
@@ -2031,6 +2086,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
+      disabled=""
     >
        Price New Job 
     </button>
@@ -2045,11 +2101,16 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
+  exchangeExplorerContextService={[Function Object]}
+  filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
+  isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
   maxPaymarketMinimumWage$={[Function Store]}
+  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -2069,6 +2130,8 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSubscription={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="file-alt"
@@ -2078,11 +2141,12 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
     
     
     <div
-      class="summary-container"
+      class="d-flex h-100 summary-container"
     >
       <div
         class="d-flex h-100"
       >
+        
         <div
           class="info-sidebar"
         >
@@ -2225,6 +2289,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
             </div>
           </div>
         </div>
+        
         <div
           class="summary"
         >
@@ -2274,6 +2339,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               </button>
             </div>
           </div>
+          
           <div
             class="info-horizontal"
           >
@@ -2459,6 +2525,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               </div>
             </div>
           </div>
+          
           <div
             class="graphs"
           >
@@ -2516,6 +2583,8 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                 <pf-salary-bar-chart />
               </div>
             </div>
+            
+            
             <div
               class="g"
             >
@@ -2532,18 +2601,22 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               </div>
             </div>
           </div>
-          
           <div
-            class="job-description"
+            class="job-description-wrapper"
           >
+            
             <div
-              class="h"
+              class="job-description"
             >
-              Job Description
+              <div
+                class="h"
+              >
+                Job Description
+              </div>
+              <div
+                class="v"
+              />
             </div>
-            <div
-              class="v"
-            />
           </div>
         </div>
       </div>
@@ -2570,11 +2643,12 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
             />
             
             <div
-              class="summary-container"
+              class="d-flex h-100 summary-container"
             >
               <div
                 class="d-flex h-100"
               >
+                
                 <div
                   class="info-sidebar"
                 >
@@ -2717,6 +2791,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                     </div>
                   </div>
                 </div>
+                
                 <div
                   class="summary"
                 >
@@ -2766,6 +2841,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       </button>
                     </div>
                   </div>
+                  
                   <div
                     class="info-horizontal"
                   >
@@ -2951,6 +3027,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       </div>
                     </div>
                   </div>
+                  
                   <div
                     class="graphs"
                   >
@@ -3008,6 +3085,8 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                         <pf-salary-bar-chart />
                       </div>
                     </div>
+                    
+                    
                     <div
                       class="g"
                     >
@@ -3024,18 +3103,22 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       </div>
                     </div>
                   </div>
-                  
                   <div
-                    class="job-description"
+                    class="job-description-wrapper"
                   >
+                    
                     <div
-                      class="h"
+                      class="job-description"
                     >
-                      Job Description
+                      <div
+                        class="h"
+                      >
+                        Job Description
+                      </div>
+                      <div
+                        class="v"
+                      />
                     </div>
-                    <div
-                      class="v"
-                    />
                   </div>
                 </div>
               </div>
@@ -3050,6 +3133,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
+      disabled=""
     >
        Price New Job 
     </button>
@@ -3064,11 +3148,16 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
+  exchangeExplorerContextService={[Function Object]}
+  filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
+  isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
   maxPaymarketMinimumWage$={[Function Observable]}
+  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Observable]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -3088,6 +3177,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSubscription={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="file-alt"
@@ -3097,11 +3188,12 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
     
     
     <div
-      class="summary-container"
+      class="d-flex h-100 summary-container"
     >
       <div
         class="d-flex h-100"
       >
+        
         <div
           class="info-sidebar"
         >
@@ -3244,6 +3336,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
             </div>
           </div>
         </div>
+        
         <div
           class="summary"
         >
@@ -3293,6 +3386,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               </button>
             </div>
           </div>
+          
           <div
             class="info-horizontal"
           >
@@ -3478,6 +3572,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               </div>
             </div>
           </div>
+          
           <div
             class="graphs"
           >
@@ -3535,6 +3630,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                 <pf-salary-bar-chart />
               </div>
             </div>
+            
+            
             <div
               class="g"
             >
@@ -3551,18 +3648,22 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               </div>
             </div>
           </div>
-          
           <div
-            class="job-description"
+            class="job-description-wrapper"
           >
+            
             <div
-              class="h"
+              class="job-description"
             >
-              Job Description
+              <div
+                class="h"
+              >
+                Job Description
+              </div>
+              <div
+                class="v"
+              />
             </div>
-            <div
-              class="v"
-            />
           </div>
         </div>
       </div>
@@ -3589,11 +3690,12 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
             />
             
             <div
-              class="summary-container"
+              class="d-flex h-100 summary-container"
             >
               <div
                 class="d-flex h-100"
               >
+                
                 <div
                   class="info-sidebar"
                 >
@@ -3736,6 +3838,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                     </div>
                   </div>
                 </div>
+                
                 <div
                   class="summary"
                 >
@@ -3785,6 +3888,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       </button>
                     </div>
                   </div>
+                  
                   <div
                     class="info-horizontal"
                   >
@@ -3970,6 +4074,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       </div>
                     </div>
                   </div>
+                  
                   <div
                     class="graphs"
                   >
@@ -4027,6 +4132,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                         <pf-salary-bar-chart />
                       </div>
                     </div>
+                    
+                    
                     <div
                       class="g"
                     >
@@ -4043,18 +4150,22 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       </div>
                     </div>
                   </div>
-                  
                   <div
-                    class="job-description"
+                    class="job-description-wrapper"
                   >
+                    
                     <div
-                      class="h"
+                      class="job-description"
                     >
-                      Job Description
+                      <div
+                        class="h"
+                      >
+                        Job Description
+                      </div>
+                      <div
+                        class="v"
+                      />
                     </div>
-                    <div
-                      class="v"
-                    />
                   </div>
                 </div>
               </div>
@@ -4069,6 +4180,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
+      disabled=""
     >
        Price New Job 
     </button>
@@ -4083,11 +4195,16 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
+  exchangeExplorerContextService={[Function Object]}
+  filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
+  isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
   maxPaymarketMinimumWage$={[Function Observable]}
+  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Observable]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -4107,6 +4224,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSubscription={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="file-alt"
@@ -4116,11 +4235,12 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
     
     
     <div
-      class="summary-container"
+      class="d-flex h-100 summary-container"
     >
       <div
         class="d-flex h-100"
       >
+        
         <div
           class="info-sidebar"
         >
@@ -4263,6 +4383,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
             </div>
           </div>
         </div>
+        
         <div
           class="summary"
         >
@@ -4312,6 +4433,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               </button>
             </div>
           </div>
+          
           <div
             class="info-horizontal"
           >
@@ -4497,6 +4619,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               </div>
             </div>
           </div>
+          
           <div
             class="graphs"
           >
@@ -4554,6 +4677,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                 <pf-salary-bar-chart />
               </div>
             </div>
+            
+            
             <div
               class="g"
             >
@@ -4570,18 +4695,22 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               </div>
             </div>
           </div>
-          
           <div
-            class="job-description"
+            class="job-description-wrapper"
           >
+            
             <div
-              class="h"
+              class="job-description"
             >
-              Job Description
+              <div
+                class="h"
+              >
+                Job Description
+              </div>
+              <div
+                class="v"
+              />
             </div>
-            <div
-              class="v"
-            />
           </div>
         </div>
       </div>
@@ -4608,11 +4737,12 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
             />
             
             <div
-              class="summary-container"
+              class="d-flex h-100 summary-container"
             >
               <div
                 class="d-flex h-100"
               >
+                
                 <div
                   class="info-sidebar"
                 >
@@ -4755,6 +4885,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                     </div>
                   </div>
                 </div>
+                
                 <div
                   class="summary"
                 >
@@ -4804,6 +4935,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       </button>
                     </div>
                   </div>
+                  
                   <div
                     class="info-horizontal"
                   >
@@ -4989,6 +5121,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       </div>
                     </div>
                   </div>
+                  
                   <div
                     class="graphs"
                   >
@@ -5046,6 +5179,8 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                         <pf-salary-bar-chart />
                       </div>
                     </div>
+                    
+                    
                     <div
                       class="g"
                     >
@@ -5062,18 +5197,22 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       </div>
                     </div>
                   </div>
-                  
                   <div
-                    class="job-description"
+                    class="job-description-wrapper"
                   >
+                    
                     <div
-                      class="h"
+                      class="job-description"
                     >
-                      Job Description
+                      <div
+                        class="h"
+                      >
+                        Job Description
+                      </div>
+                      <div
+                        class="v"
+                      />
                     </div>
-                    <div
-                      class="v"
-                    />
                   </div>
                 </div>
               </div>
@@ -5088,6 +5227,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
+      disabled=""
     >
        Price New Job 
     </button>
@@ -5102,11 +5242,16 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
+  exchangeExplorerContextService={[Function Object]}
+  filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
+  isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
   maxPaymarketMinimumWage$={[Function Store]}
+  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -5126,6 +5271,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSubscription={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="file-alt"
@@ -5135,11 +5282,12 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     
     
     <div
-      class="summary-container"
+      class="d-flex h-100 summary-container"
     >
       <div
         class="d-flex h-100"
       >
+        
         <div
           class="info-sidebar"
         >
@@ -5200,7 +5348,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+              
             </div>
           </div>
           <div
@@ -5282,6 +5430,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
             </div>
           </div>
         </div>
+        
         <div
           class="summary"
         >
@@ -5331,6 +5480,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               </button>
             </div>
           </div>
+          
           <div
             class="info-horizontal"
           >
@@ -5412,7 +5562,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -5516,6 +5666,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               </div>
             </div>
           </div>
+          
           <div
             class="graphs"
           >
@@ -5573,6 +5724,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 <pf-salary-bar-chart />
               </div>
             </div>
+            
+            
             <div
               class="g"
             >
@@ -5589,18 +5742,22 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               </div>
             </div>
           </div>
-          
           <div
-            class="job-description"
+            class="job-description-wrapper"
           >
+            
             <div
-              class="h"
+              class="job-description"
             >
-              Job Description
+              <div
+                class="h"
+              >
+                Job Description
+              </div>
+              <div
+                class="v"
+              />
             </div>
-            <div
-              class="v"
-            />
           </div>
         </div>
       </div>
@@ -5627,11 +5784,12 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
             />
             
             <div
-              class="summary-container"
+              class="d-flex h-100 summary-container"
             >
               <div
                 class="d-flex h-100"
               >
+                
                 <div
                   class="info-sidebar"
                 >
@@ -5692,7 +5850,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                      
                     </div>
                   </div>
                   <div
@@ -5774,6 +5932,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     </div>
                   </div>
                 </div>
+                
                 <div
                   class="summary"
                 >
@@ -5823,6 +5982,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       </button>
                     </div>
                   </div>
+                  
                   <div
                     class="info-horizontal"
                   >
@@ -5904,7 +6064,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -6008,6 +6168,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       </div>
                     </div>
                   </div>
+                  
                   <div
                     class="graphs"
                   >
@@ -6065,6 +6226,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                         <pf-salary-bar-chart />
                       </div>
                     </div>
+                    
+                    
                     <div
                       class="g"
                     >
@@ -6081,18 +6244,22 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       </div>
                     </div>
                   </div>
-                  
                   <div
-                    class="job-description"
+                    class="job-description-wrapper"
                   >
+                    
                     <div
-                      class="h"
+                      class="job-description"
                     >
-                      Job Description
+                      <div
+                        class="h"
+                      >
+                        Job Description
+                      </div>
+                      <div
+                        class="v"
+                      />
                     </div>
-                    <div
-                      class="v"
-                    />
                   </div>
                 </div>
               </div>
@@ -6107,6 +6274,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
+      disabled=""
     >
        Price New Job 
     </button>
@@ -6121,11 +6289,16 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
+  exchangeExplorerContextService={[Function Object]}
+  filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
+  isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
   maxPaymarketMinimumWage$={[Function Store]}
+  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -6145,6 +6318,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSubscription={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="file-alt"
@@ -6154,11 +6329,12 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     
     
     <div
-      class="summary-container"
+      class="d-flex h-100 summary-container"
     >
       <div
         class="d-flex h-100"
       >
+        
         <div
           class="info-sidebar"
         >
@@ -6219,7 +6395,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+              
             </div>
           </div>
           <div
@@ -6301,6 +6477,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
             </div>
           </div>
         </div>
+        
         <div
           class="summary"
         >
@@ -6350,6 +6527,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               </button>
             </div>
           </div>
+          
           <div
             class="info-horizontal"
           >
@@ -6431,7 +6609,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -6535,6 +6713,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               </div>
             </div>
           </div>
+          
           <div
             class="graphs"
           >
@@ -6592,6 +6771,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 <pf-salary-bar-chart />
               </div>
             </div>
+            
+            
             <div
               class="g"
             >
@@ -6608,18 +6789,22 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               </div>
             </div>
           </div>
-          
           <div
-            class="job-description"
+            class="job-description-wrapper"
           >
+            
             <div
-              class="h"
+              class="job-description"
             >
-              Job Description
+              <div
+                class="h"
+              >
+                Job Description
+              </div>
+              <div
+                class="v"
+              />
             </div>
-            <div
-              class="v"
-            />
           </div>
         </div>
       </div>
@@ -6646,11 +6831,12 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
             />
             
             <div
-              class="summary-container"
+              class="d-flex h-100 summary-container"
             >
               <div
                 class="d-flex h-100"
               >
+                
                 <div
                   class="info-sidebar"
                 >
@@ -6711,7 +6897,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                      
                     </div>
                   </div>
                   <div
@@ -6793,6 +6979,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     </div>
                   </div>
                 </div>
+                
                 <div
                   class="summary"
                 >
@@ -6842,6 +7029,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       </button>
                     </div>
                   </div>
+                  
                   <div
                     class="info-horizontal"
                   >
@@ -6923,7 +7111,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -7027,6 +7215,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       </div>
                     </div>
                   </div>
+                  
                   <div
                     class="graphs"
                   >
@@ -7084,6 +7273,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                         <pf-salary-bar-chart />
                       </div>
                     </div>
+                    
+                    
                     <div
                       class="g"
                     >
@@ -7100,18 +7291,22 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       </div>
                     </div>
                   </div>
-                  
                   <div
-                    class="job-description"
+                    class="job-description-wrapper"
                   >
+                    
                     <div
-                      class="h"
+                      class="job-description"
                     >
-                      Job Description
+                      <div
+                        class="h"
+                      >
+                        Job Description
+                      </div>
+                      <div
+                        class="v"
+                      />
                     </div>
-                    <div
-                      class="v"
-                    />
                   </div>
                 </div>
               </div>
@@ -7126,6 +7321,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
+      disabled=""
     >
        Price New Job 
     </button>
@@ -7140,11 +7336,16 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   cp={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
+  currentDate={[Function Date]}
+  exchangeExplorerContextService={[Function Object]}
+  filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
+  isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
   maxPaymarketMinimumWage$={[Function Store]}
+  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -7164,6 +7365,8 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSubscription={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="file-alt"
@@ -7173,11 +7376,12 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
     
     
     <div
-      class="summary-container"
+      class="d-flex h-100 summary-container"
     >
       <div
         class="d-flex h-100"
       >
+        
         <div
           class="info-sidebar"
         >
@@ -7238,7 +7442,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+              
             </div>
           </div>
           <div
@@ -7320,6 +7524,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
             </div>
           </div>
         </div>
+        
         <div
           class="summary"
         >
@@ -7378,6 +7583,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               </button>
             </div>
           </div>
+          
           <div
             class="info-horizontal"
           >
@@ -7459,7 +7665,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -7563,6 +7769,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               </div>
             </div>
           </div>
+          
           <div
             class="graphs"
           >
@@ -7620,6 +7827,8 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                 <pf-salary-bar-chart />
               </div>
             </div>
+            
+            
             <div
               class="g"
             >
@@ -7636,18 +7845,22 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               </div>
             </div>
           </div>
-          
           <div
-            class="job-description"
+            class="job-description-wrapper"
           >
+            
             <div
-              class="h"
+              class="job-description"
             >
-              Job Description
+              <div
+                class="h"
+              >
+                Job Description
+              </div>
+              <div
+                class="v"
+              />
             </div>
-            <div
-              class="v"
-            />
           </div>
         </div>
       </div>
@@ -7674,11 +7887,12 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
             />
             
             <div
-              class="summary-container"
+              class="d-flex h-100 summary-container"
             >
               <div
                 class="d-flex h-100"
               >
+                
                 <div
                   class="info-sidebar"
                 >
@@ -7739,7 +7953,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                      
                     </div>
                   </div>
                   <div
@@ -7821,6 +8035,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                     </div>
                   </div>
                 </div>
+                
                 <div
                   class="summary"
                 >
@@ -7879,6 +8094,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       </button>
                     </div>
                   </div>
+                  
                   <div
                     class="info-horizontal"
                   >
@@ -7960,7 +8176,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -8064,6 +8280,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       </div>
                     </div>
                   </div>
+                  
                   <div
                     class="graphs"
                   >
@@ -8121,6 +8338,8 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                         <pf-salary-bar-chart />
                       </div>
                     </div>
+                    
+                    
                     <div
                       class="g"
                     >
@@ -8137,18 +8356,22 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       </div>
                     </div>
                   </div>
-                  
                   <div
-                    class="job-description"
+                    class="job-description-wrapper"
                   >
+                    
                     <div
-                      class="h"
+                      class="job-description"
                     >
-                      Job Description
+                      <div
+                        class="h"
+                      >
+                        Job Description
+                      </div>
+                      <div
+                        class="v"
+                      />
                     </div>
-                    <div
-                      class="v"
-                    />
                   </div>
                 </div>
               </div>
@@ -8163,6 +8386,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
+      disabled=""
     >
        Price New Job 
     </button>

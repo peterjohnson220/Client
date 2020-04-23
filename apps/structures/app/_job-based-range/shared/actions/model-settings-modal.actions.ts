@@ -1,9 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CurrencyDto } from 'libs/models/common';
-import { Control } from 'mapbox-gl';
-import { ControlPoint } from '../models/control-point.model';
-import { Currency } from '../models';
+import { ControlPoint, Currency, RoundingSettingsDataObj } from '../models';
 import { Pages } from '../constants/pages';
 
 export const OPEN_MODAL = '[Structures - Job Based Range - Model Settings] Open Modal';
@@ -22,6 +19,7 @@ export const SAVE_MODEL_SETTINGS_SUCCESS = '[Structures - Job Based Range - Mode
 export const SAVE_MODEL_SETTINGS_ERROR = '[Structures - Job Based Range - Model Settings] Save Model Settings Error';
 export const MODEL_NAME_EXISTS_FAILURE = '[Structures - Job Based Range - Model Settings] Model Name Exists Failure';
 export const CLEAR_MODEL_NAME_EXISTS_FAILURE = '[Structures - Job Based Range - Model Settings] Clear Name Exists Failure';
+export const CANCEL = '[Structures - Job Based Range - Model Settings] Cancel';
 
 export class OpenModal implements Action {
   readonly type = OPEN_MODAL;
@@ -78,7 +76,7 @@ export class GetStructureNameSuggestionsError implements Action {
 export class SaveModelSettings implements Action {
   readonly type = SAVE_MODEL_SETTINGS;
 
-  constructor(public payload: { rangeGroupId: number; formValue: any; fromPage: Pages }) {}
+  constructor(public payload: { rangeGroupId: number; formValue: any; fromPage: Pages, rounding: RoundingSettingsDataObj }) {}
 }
 
 export class SaveModelSettingsSuccess implements Action {
@@ -97,6 +95,10 @@ export class ClearModelNameExistsFailure implements Action {
   readonly type = CLEAR_MODEL_NAME_EXISTS_FAILURE;
 }
 
+export class Cancel implements Action {
+  readonly type = CANCEL;
+}
+
 export type ModelSettingsModalActions
   = OpenModal
   | CloseModal
@@ -113,4 +115,5 @@ export type ModelSettingsModalActions
   | SaveModelSettingsSuccess
   | SaveModelSettingsError
   | ModelNameExistsFailure
-  | ClearModelNameExistsFailure;
+  | ClearModelNameExistsFailure
+  | Cancel;

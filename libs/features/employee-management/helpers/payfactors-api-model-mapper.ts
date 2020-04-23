@@ -5,7 +5,8 @@ import { KendoTypedDropDownItem } from 'libs/models/kendo';
 import { CompanyEmployee, CompanyJob } from 'libs/models/company';
 import { EntityKeyFieldsResponse } from 'libs/models/payfactors-api/validation';
 
-import { EmployeeValidation, Job } from '../models';
+import { EmployeeValidation, Job, Structure, RangeType } from '../models';
+import { EmployeeModalStructuresResponse } from 'libs/models/payfactors-api';
 
 export class PayfactorsApiModelMapper {
 
@@ -24,6 +25,24 @@ export class PayfactorsApiModelMapper {
         };
       });
       return orderBy(dropListItems, ['Name'], 'asc');
+    }
+    return [];
+  }
+
+  static mapEmployeeModalStructuresReponsesToStructures(response: EmployeeModalStructuresResponse[]): Structure[] {
+    if (response && response.length) {
+      const structures: Structure[] = response.map(item => {
+        return {
+          Name: item.StructureName,
+          RangeGroupId: item.CompanyStructuresRangeGroupId,
+          RangeType: item.TypeId,
+          Is: {
+            GradeRange: item.TypeId === RangeType.Grade,
+            JobRange: item.TypeId === RangeType.Job
+          }
+        };
+      });
+      return orderBy(structures, ['Name'], 'asc');
     }
     return [];
   }

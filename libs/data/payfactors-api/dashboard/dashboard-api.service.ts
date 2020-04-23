@@ -57,4 +57,8 @@ export class DashboardApiService {
         tileType: tileName
       });
   }
+
+  getDriftUserId(pfAccountExecutiveUserId: number): Observable<any> {
+    return this.payfactorsApiService.get<number>(`${this.endpoint}.GetDriftUserId`, { params: { userId: pfAccountExecutiveUserId } });
+  }
 }

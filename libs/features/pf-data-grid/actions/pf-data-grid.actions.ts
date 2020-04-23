@@ -57,8 +57,7 @@ export const GET_EXPORTING_STATUS_ERROR = '[PfDataGrid] Get Exporting Status Err
 export const RESET = '[PfDataGrid] Reset';
 export const REORDER_COLUMNS = '[PfDataGrid] Reorder Columns';
 export const REORDER_COLUMNS_SUCCESS = '[PfDataGrid] Reorder Columns Success';
-export const UPDATE_FIELDS_EXCLUDED_FROM_EXPORT = '[PfDataGrid] Update Fields Excluded FromExport';
-
+export const UPDATE_ROW = '[PfDataGrid] Update Data Row';export const UPDATE_FIELDS_EXCLUDED_FROM_EXPORT = '[PfDataGrid] Update Fields Excluded FromExport';
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
   constructor(public pageViewId: string, public name: string = null) { }
@@ -318,6 +317,7 @@ export class GetExportingStatusError implements Action {
 export class Reset implements Action {
   readonly type = RESET;
 }
+
 export class ReorderColumns implements Action {
   readonly type = REORDER_COLUMNS;
 
@@ -328,6 +328,12 @@ export class ReorderColumnsSuccess {
   readonly type = REORDER_COLUMNS_SUCCESS;
 
   constructor() {}
+}
+
+export class UpdateRow {
+  readonly type = UPDATE_ROW;
+
+  constructor(public pageViewId: string, public rowIndex: number, public data: any, public fieldNames?: any[]) {}
 }
 
 export type DataGridActions =
@@ -383,4 +389,5 @@ export type DataGridActions =
   | Reset
   | ReorderColumns
   | ReorderColumnsSuccess
-  | UpdateFieldsExcludedFromExport;
+  | UpdateFieldsExcludedFromExport
+  | UpdateRow;

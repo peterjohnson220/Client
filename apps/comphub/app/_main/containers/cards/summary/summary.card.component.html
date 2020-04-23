@@ -3,7 +3,6 @@
   pageSubTitle="Let's review a summary of your pricing activity"
   pageIconClass="file-alt"
   [page]="comphubPages.Summary"
-  [workflowContext]="workflowContext"
   [hideNextButton]="true"
   [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Summary">
 
@@ -60,13 +59,10 @@
   (sendClick)="handleShareModalSendClicked($event)">
 </pf-share-pricing-summary-modal>
 
-
 <ng-template #summary>
-  <div class="summary-container">
-
+  <div class="d-flex h-100 summary-container">
     <div class="d-flex h-100">
-
-      <div class="info-sidebar">
+      <div class="info-sidebar" *ngIf="!isPeerQuickPriceType">
         <div class="item">
           <div class="h">Rate</div>
           <div class="v" [attr.data-qa-id]="'cnt-selectedRate'">{{selectedRate}}</div>
@@ -111,6 +107,40 @@
         </div>
       </div>
 
+      <!--Peer Sidebar -->
+      <div class="info-sidebar" *ngIf="isPeerQuickPriceType">
+          <div class="item">
+            <div class="h">Rate</div>
+            <div class="v" [attr.data-qa-id]="'cnt-selectedRate'">{{selectedRate}}</div>
+          </div>
+          <div class="item">
+            <div class="h">Effective Date</div>
+            <div class="v" [attr.data-qa-id]="'cnt-effectiveDate'">{{currentDate | date:'MM/dd/yyyy'}}</div>
+          </div>
+          <div class="item">
+            <div class="h">FLSA</div>
+            <div class="v" [attr.data-qa-id]="'cnt-FLSAStatus'">{{jobData?.FLSAStatus || '-'}}</div>
+          </div>
+          <div class="item">
+            <div class="h">Currency</div>
+            <div class="v" [attr.data-qa-id]="'cnt-currency'">{{paymarket?.CurrencyCode || '-'}}</div>
+          </div>
+          <div class="item">
+            <div class="h">Market</div>
+            <div class="v" [attr.data-qa-id]="'cnt-payMarketName'">{{paymarket?.PayMarketName || '-'}}</div>
+          </div>
+          <div class="item">
+            <div class="f">Filters</div>
+          </div>
+          <div class="item" *ngIf="!filterContextHasFilters">
+            <div class="h">No filters selected</div>
+          </div>
+          <div class="item" *ngFor="let filter of (filterContext$ | async)?.Filters">
+            <div class="h">{{filter?.DisplayName}}</div>
+            <div class="v">{{getFilterString(filter?.Options)}}</div>
+          </div>
+      </div>
+
       <div class="summary">
         <div class="header">
           <div class="job-title" [attr.data-qa-id]="'cnt-jobTitle'">
@@ -135,7 +165,8 @@
                     *ngIf="(canAccessProjectsTile$ | async) &&
                    paymarket?.CompanyPayMarketId &&
                    !(creatingProject$ | async) &&
-                   !(creatingProjectError$ | async)"
+                   !(creatingProjectError$ | async) &&
+                   !isPeerQuickPriceType"
                     [attr.data-qa-id]="'btn-create-project'"
                     (click)="handleCreateProjectClicked()"
                     ngbTooltip="Create Project">
@@ -160,7 +191,7 @@
           </div>
         </div>
 
-        <div class="info-horizontal">
+        <div class="info-horizontal" *ngIf="!isPeerQuickPriceType">
           <div class="container">
             <div class="row">
               <div class="col">
@@ -231,6 +262,74 @@
           </div>
         </div>
 
+        <div class="info-horizontal" *ngIf="isPeerQuickPriceType">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="item">
+                  <div class="h">Rate</div>
+                  <div class="v">{{selectedRate}}</div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="item">
+                  <div class="h">Effective Date</div>
+                  <div class="v">{{currentDate | date:'MM/dd/yyyy'}}</div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="item">
+                  <div class="h">FLSA</div>
+                  <div class="v">{{jobData?.FLSAStatus || '-'}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="item">
+                  <div class="h">Currency</div>
+                  <div class="v">{{paymarket?.CurrencyCode || '-'}}</div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="item">
+                  <div class="h">Market</div>
+                  <div class="v">{{paymarket?.PayMarketName || '-'}}</div>
+                </div>
+              </div>
+              <div class="col" *ngIf="!filterContextHasFilters">
+                <div class="item">
+                  <div class="h">Filters</div>
+                  <div class="v">No Filters Selected</div>
+                </div>
+              </div>
+              <div class="col" *ngIf="filterContextHasFilters">
+                <div class="item">
+                  <!-- Empty element to help keep shape. -->
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="filterContextHasFilters">
+              <div class="col">
+                <div class="item">
+                  <div class="f">Filters</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div *ngFor="let filter of (filterContext$ | async)?.Filters; let i = index">
+                <div *ngIf="i % 3 == 0"></div>
+                <div class="col">
+                  <div class="item">
+                    <div class="h">{{filter?.DisplayName}}</div>
+                    <div class="v">{{getFilterString(filter?.Options)}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="graphs">
           <div class="g">
             <div class="h">
@@ -243,7 +342,10 @@
             <div class="gr">
               <pf-salary-bar-chart
                 [isHourly]="isHourly"
-                [currencyCode]="workflowContext?.activeCountryDataSet?.CurrencyCode"
+                [currencyCode]="
+                !isPeerQuickPriceType ?
+                workflowContext?.activeCountryDataSet?.CurrencyCode :
+                paymarket?.CurrencyCode"
                 [salary25]="jobData?.Base25"
                 [salary50]="jobData?.Base50"
                 [salary75]="jobData?.Base75">
@@ -261,14 +363,23 @@
             <div class="gr">
               <pf-salary-bar-chart
                 [isHourly]="isHourly"
-                [currencyCode]="workflowContext?.activeCountryDataSet?.CurrencyCode"
+                [currencyCode]="
+                !isPeerQuickPriceType ?
+                workflowContext?.activeCountryDataSet?.CurrencyCode :
+                paymarket?.CurrencyCode"
                 [salary25]="jobData?.Tcc25"
                 [salary50]="jobData?.Tcc50"
                 [salary75]="jobData?.Tcc75">
               </pf-salary-bar-chart>
             </div>
           </div>
-          <div class="g">
+
+          <!-- If PEER user show the Map, if not then show the trend graph. -->
+          <div class="map" *ngIf="isPeerQuickPriceType">
+            <img height='225px' width='225px' alt='Peer Data Map' [src]="getPeerMapSrcString()">
+          </div>
+
+          <div class="g" *ngIf="!isPeerQuickPriceType">
             <div class="h">
               Salary Trend
               <small *ngIf="jobSalaryTrendData?.Data">
@@ -286,20 +397,22 @@
           </div>
         </div>
 
-        <div class="skills" *ngIf="jobData?.Skills.length">
-          <div class="h">
-            Top Skills
+        <div class="job-description-wrapper">
+          <div class="skills" *ngIf="jobData?.Skills.length">
+            <div class="h">
+              Top Skills
+            </div>
+
+            <div class="d-flex flex-wrap">
+              <span *ngFor="let skill of jobData.Skills" class="badge">{{skill}}</span>
+            </div>
           </div>
 
-          <div class="d-flex flex-wrap">
-            <span *ngFor="let skill of jobData.Skills" class="badge">{{skill}}</span>
+          <div class="job-description">
+            <div class="h">Job Description</div>
+
+            <div class="v" [innerHTML]="jobData?.JobDescription | jobDescriptionParser"></div>
           </div>
-        </div>
-
-        <div class="job-description">
-          <div class="h">Job Description</div>
-
-          <div class="v" [innerHTML]="jobData?.JobDescription | jobDescriptionParser"></div>
         </div>
       </div>
     </div>

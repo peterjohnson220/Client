@@ -1,0 +1,88 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [title]="'Service'"
+  [selectionField]="'UserTicket_ID'"
+  [defaultSort]="defaultSort"
+  [actionBarConfig]="actionBarConfig"
+  [columnTemplates]="colTemplates"
+  [filterPanelTemplates]="filterTemplates"
+  [gridActionsTemplate]="gridActions"
+  [rightGridTemplate]="serviceDashboard"
+  [noRecordsFoundTemplate]="noRecords"
+  [gridContainerSplitViewWidth]="'347px'"
+  [inboundFilters]="inboundFilters"
+  [splitViewTemplate]="ticketsDetails">
+</pf-data-grid>
+
+
+<ng-template #ticketsDetails let-splitViewEmitter="splitViewEmitter" let-splitViewFilters="splitViewFilters">
+  <pf-tickets-details
+    [userId]="userId"
+    [jobDetailsFilters]="splitViewFilters"
+    [selectedTicketId]="selectedTicketId$ | async"
+    (onClose)="splitViewEmitter.emit('close')">
+  </pf-tickets-details>
+</ng-template>
+
+<ng-template #statusColumn let-dataRow="dataRow">
+  <div class="status-column">
+    <fa-icon icon="circle" class="circle-icon"
+      [class.yellow]="dataRow['UserTickets_UserTicket_State'] === 'New'"
+      [class.green]="dataRow['UserTickets_UserTicket_State'] === 'Closed'"
+      [class.light-blue]="dataRow['UserTickets_UserTicket_State'] === 'Waiting for Response'"
+      [class.blue]="dataRow['UserTickets_UserTicket_State'] === 'In Progress'">
+    </fa-icon>
+    <span>{{dataRow['UserTickets_UserTicket_State']}}</span>
+  </div>
+</ng-template>
+
+<ng-template #ticketType>
+  <label>Type:</label>
+  <kendo-dropdownlist
+    [(ngModel)]="selectedTicketTypeFilterValue"
+    [data]="ticketTypes$ | async"
+    [defaultItem]="'All'"
+    (valueChange)="handleTicketTypeFilterChanged($event)"
+    class="k-dropdown-white form-control">
+  </kendo-dropdownlist>
+</ng-template>
+<ng-template #gridGlobalActions>
+  <button
+    [attr.data-qa-id]="'btn-newTicket'"
+    type="button"
+    (click)="addNewTicket()"
+    class="btn btn-primary">
+    New Ticket
+  </button>
+</ng-template>
+<pf-create-user-ticket></pf-create-user-ticket>
+
+
+<ng-template #gridActions>
+  <pf-service-grid-actions
+    [userId]="userId">
+  </pf-service-grid-actions>
+</ng-template>
+
+<ng-template #serviceDashboard>
+  <div class="d-flex flex-column">
+    <div perfectScrollbar class="service-dashboard-container h-50">
+      <pf-service-dashboard
+        [avatarUrl]="avatarUrl"
+        [supportTeam]="(supportTeam$ | async).obj">
+      </pf-service-dashboard>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #noRecords>
+  <div *ngIf="(fieldsFilterCount$ | async) === 1" class="text-center mt-5 pb-5 position-relative img-container">
+    <img class="img-fluid" width="400" src="/client/service/assets/images/NoTicketsCreated.png">
+    <h2>No tickets created yet.</h2>
+    <p>When you need assistance, our Support Team is here to help.</p>
+  </div>
+  <ng-container *ngIf="(fieldsFilterCount$ | async) !== 1">
+    No records available.
+  </ng-container>
+</ng-template>
+

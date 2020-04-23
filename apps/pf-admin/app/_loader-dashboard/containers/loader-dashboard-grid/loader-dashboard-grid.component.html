@@ -1,0 +1,59 @@
+<div>
+  <h3>Composite Data Loads</h3>
+
+  <kendo-grid
+    [data]="gridView"
+    [loading]="(gridDataObj$ | async).loading"
+    [pageable]="{
+      pageSizes: pageSizes
+    }"
+    [sortable]="{
+      allowUnsort: true,
+      mode: 'single'
+    }"
+    [sort]="sort"
+    [pageSize]="pageSize"
+    [skip]="skip"
+    (pageChange)="pageChange($event)"
+    (sortChange)="sortChange($event)"
+    [rowClass]="rowCallback"
+  >
+    <kendo-grid-column field="compositeDataLoadId" title="Load ID"></kendo-grid-column>
+    <!-- TODO: Show this when we have different loader types (e.g. pricings) -->
+    <!--<kendo-grid-column field="compositeLoaderType" title="Load Type"></kendo-grid-column> -->
+    <kendo-grid-column field="company_ID" title="CID"></kendo-grid-column>
+    <kendo-grid-column field="company_Name" title="Company"></kendo-grid-column>
+    <kendo-grid-column field="validationErrorOutputUri" title="Error(s)">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div *ngIf="dataItem.validationErrorOutputUri || dataItem.fixableDataConditionException">
+          <button
+            *ngIf="dataItem.validationErrorOutputUri"
+            class="btn btn-secondary" (click)="downloadFile(dataItem.externalId)">Download</button>
+          <fa-icon *ngIf="dataItem.fixableDataConditionException"
+                   icon="exclamation-triangle"
+                   [title]="dataItem.fixableDataConditionException"
+                   class="pl-2"
+          ></fa-icon>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="requestTime" title="Requested">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>{{ dataItem.requestTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="processingStartTime" title="Started">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>{{ dataItem.processingStartTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="processingEndTime" title="Finished">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>{{ dataItem.processingEndTime | date: 'MM/dd/yyyy hh:mm a' : 'UTC' }}</div>
+      </ng-template>
+    </kendo-grid-column>
+    <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showIfLoadHasSummaries">
+      <pf-loader-dashboard-grid-detail [dataItem]="dataItem.entityLoadSummaries"></pf-loader-dashboard-grid-detail>
+    </ng-template>
+  </kendo-grid>
+</div>

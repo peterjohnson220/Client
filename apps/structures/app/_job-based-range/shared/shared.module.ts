@@ -13,12 +13,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { PfDataGridModule } from 'libs/features/pf-data-grid';
 import { PfFormsModule } from 'libs/forms';
 
-import { GridContextComponent, ModelSettingsBtnComponent } from './components';
-import { ModelGridComponent, ModelSettingsModalComponent } from './containers';
-import { ModelSettingsModalEffects } from './effects/model-settings-modal.effects';
+import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
+import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent } from './containers';
+import { ModelSettingsModalEffects, PublishModelModalEffects } from './effects';
+import { SharedEffects } from './effects/shared.effects';
 import { reducers } from './reducers';
 import { RangeValuePipe } from './pipes';
 import * as fromFaIcons from './fa-icons';
+import { UrlService } from './services';
 
 @NgModule({
   imports: [
@@ -28,7 +30,7 @@ import * as fromFaIcons from './fa-icons';
 
     // 3rd Party
     StoreModule.forFeature('structures_jobBasedRange_shared', reducers),
-    EffectsModule.forFeature([ModelSettingsModalEffects]),
+    EffectsModule.forFeature([ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects]),
     FontAwesomeModule,
     NgbTabsetModule,
     AutoCompleteModule,
@@ -43,10 +45,12 @@ import * as fromFaIcons from './fa-icons';
   ],
   declarations: [
     ModelGridComponent,
+    RangeRoundingComponent,
     GridContextComponent,
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,
     RangeValuePipe,
+    GlobalActionsComponent
   ],
   exports: [
     ModelGridComponent,
@@ -54,6 +58,9 @@ import * as fromFaIcons from './fa-icons';
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,
     FontAwesomeModule
+  ],
+  providers: [
+    UrlService
   ]
 })
 export class SharedModule {

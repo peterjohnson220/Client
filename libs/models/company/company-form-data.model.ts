@@ -8,6 +8,7 @@ export interface CompanyFormData {
   Status: string;
   Website: string;
   Domain: string;
+  AccountExecutiveUserId?: string;
   PrimarySupportUserId?: string;
   JDMSeniorAssociateUserId?: string;
   SystemUserGroupsId: number;

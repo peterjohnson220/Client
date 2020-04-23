@@ -12,6 +12,7 @@
   [defaultColumnWidth]="150"
   [saveSort]="true"
   [useColumnGroups]="false"
+  [columnTemplates]="colTemplates"
   [actionBarConfig]="actionBarConfig">
 </pf-data-grid>
 
@@ -91,6 +92,13 @@
   </div>
 </ng-template>
 
+<ng-template #salaryColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  {{dataRow[fieldName] | number: '1.0-0'}}
+</ng-template>
+<ng-template #rateBasedSalaryColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  {{dataRow[fieldName] | comp: dataRow['CompanyEmployees_HiddenRate'] : 'rounded'}}
+</ng-template>
+
 <pf-modal-form
   [size]="'md'"
   [title]="'Delete Employees'"
@@ -104,5 +112,5 @@
   <ng-container basic-content>
     <p>Are you sure you want to delete the <b>{{selectedCompanyEmployeeIds?.length}}</b> selected employee<span *ngIf="selectedCompanyEmployeeIds?.length > 1">s</span>?</p>
   </ng-container>
-</pf-modal-form>
 
+</pf-modal-form>

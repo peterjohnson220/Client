@@ -60,6 +60,8 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
   private requiredAppliesToValueFilledIn: boolean;
   private searchColumnName: string;
   private publicViewOptions = JobDescriptionViewConstants.PUBLIC_VIEW_OPTIONS;
+  private jobDescriptionAppliesToValuesSubscription: Subscription;
+  private virtual;
 
   constructor(
     private modalService: NgbModal,
@@ -72,10 +74,16 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
     this.jobDescriptionAppliesToValues$ = this.store.select(fromJobDescriptionAppliesToReducers.getJobDescriptionAppliesToValues);
     this.jobDescriptionAppliesToValuesLoading$ = this.store.select(fromJobDescriptionAppliesToReducers.getJobDescriptionAppliesToValuesLoading);
     this.appliesToAttributesExist$ = this.store.select(fromJobDescriptionAppliesToReducers.getAppliesToAttributesExist);
+
+    this.virtual = {
+      itemHeight: 28
+    };
+
   }
 
   ngOnDestroy(): void {
     this.appliesToAttributesExistSubscription.unsubscribe();
+    this.jobDescriptionAppliesToValuesSubscription.unsubscribe();
   }
 
   open(jobDescriptionId: number, companyJobId: number, appliesTo?: JobDescriptionAppliesTo) {
@@ -160,7 +168,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
 
   ngOnInit() {
     this.buildForm();
-    this.jobDescriptionAppliesToValues$.subscribe(values => {
+    this.jobDescriptionAppliesToValuesSubscription = this.jobDescriptionAppliesToValues$.subscribe(values => {
       if (values) {
         this.source = values;
         this.data = this.source.slice();

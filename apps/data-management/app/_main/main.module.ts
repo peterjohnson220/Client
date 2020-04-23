@@ -17,7 +17,6 @@ import { PfCommonModule } from 'libs/core';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
-import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -29,7 +28,6 @@ import {
   PfCheckboxComponent,
   ProviderListComponent
 } from './components';
-import { FileUploadComponent } from './components/file-upload';
 import {
   CustomEmployeeIdentifierComponent,
   DataManagementHomePageComponent,
@@ -41,6 +39,7 @@ import {
   HrisIntegrationPanelComponent,
   HrisIntegrationSidebarComponent,
   HrisIntegrationStatusComponent,
+  HrisReAuthenticationModalComponent,
   OrgDataLoadComponent,
   PfTestAuthenticationComponent,
   ProviderCardComponent,
@@ -69,7 +68,6 @@ import {
   EntityIdentifiersEffects,
   EntitySelectionEffects,
   FieldMappingEffects,
-  FileUploadEffects,
   HrisConnectionEffects,
   OrganizationalDataPageEffects,
   OrgDataFieldMappingsEffects,
@@ -102,7 +100,6 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
       EntityIdentifiersEffects,
       EntitySelectionEffects,
       FieldMappingEffects,
-      FileUploadEffects,
       HrisConnectionEffects,
       OrganizationalDataPageEffects,
       OrgDataFieldMappingsEffects,
@@ -155,12 +152,12 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
     EntityUploadComponent,
     EntityMappingComponent,
     FileMappingComponent,
-    FileUploadComponent,
     FieldMappingCardComponent,
     HrisAuthenticationCardComponent,
     HrisIntegrationPanelComponent,
     HrisIntegrationSidebarComponent,
     HrisIntegrationStatusComponent,
+    HrisReAuthenticationModalComponent,
     OrgDataLoadComponent,
     PfCheckboxComponent,
     PfTestAuthenticationComponent,

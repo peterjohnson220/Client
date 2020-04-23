@@ -101,13 +101,15 @@
         </kendo-grid-column>
       </ng-container>
     </ng-container>
+
     <kendo-grid-command-column *ngIf="gridRowActionsConfig && gridRowActionsConfig.Position === positionType.Right" [title]="gridRowActionsConfig.Title" [width]="gridRowActionsConfig.Width">
       <ng-template  kendoGridCellTemplate  let-dataItem="dataItem">
         <ng-container [ngTemplateOutlet]="gridRowActionsConfig.ActionsTemplate"  [ngTemplateOutletContext]="{dataRow: dataItem}"></ng-container>
       </ng-template>
     </kendo-grid-command-column>
-    <ng-template *ngIf="noRecordsFound" kendoGridNoRecordsTemplate>
-      <ng-container *ngIf="!(loading$ | async)">{{noRecordsFound}}</ng-container>
+    <ng-template *ngIf="noRecordsFound || noRecordsFoundTemplate" kendoGridNoRecordsTemplate>
+      <ng-container *ngIf="!(loading$ | async) && noRecordsFound">{{noRecordsFound}}</ng-container>
+      <ng-container *ngIf="!(loading$ | async) && noRecordsFoundTemplate" [ngTemplateOutlet]="noRecordsFoundTemplate"></ng-container>
     </ng-template>
     <div *ngIf="expandedRowTemplate">
       <div *kendoGridDetailTemplate="let dataItem">

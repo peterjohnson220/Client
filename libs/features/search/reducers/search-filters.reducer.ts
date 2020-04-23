@@ -127,7 +127,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const newSingleFilter = ClientServerFilterHelper.mergeNewFiltersWithSingleFilter(
         {
           singledFilter: singleFilter,
-          subFilters: newMultiSelectFilters.filter(f => f.ParentBackingField !== null)
+          subFilters: newMultiSelectFilters.filter(f => f.ParentBackingField !== null && !f.IsChildWithoutParent)
         }
       );
 
@@ -277,6 +277,6 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
 }
 
 // Selector functions
-export const getParentFilters = (state: State) => state.filters.filter(f => f.ParentBackingField == null);
-export const getChildFilters = (state: State) => state.filters.filter(f => f.ParentBackingField !== null);
+export const getParentFilters = (state: State) => state.filters.filter(f => !f.ParentBackingField || !!f.IsChildWithoutParent);
+export const getChildFilters = (state: State) => state.filters.filter(f => !!f.ParentBackingField && !f.IsChildWithoutParent);
 export const getAllFilters = (state: State) => state.filters;

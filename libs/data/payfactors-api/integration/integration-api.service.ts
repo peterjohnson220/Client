@@ -9,6 +9,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { UserContext } from 'libs/models';
 
 import { CompositeSummaryDownloadRequest } from '../../../models/dashboard';
+import {CompositeDataLoadSearchCriteria, CompositeDataLoadViewResponse} from '../../../models/admin/loader-dashboard';
 import { FileApiService } from '../file';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -23,6 +24,32 @@ export class IntegrationApiService {
     private payfactorsApiService: PayfactorsApiService,
     private http: HttpClient,
   ) { }
+
+  SearchCompositeDataLoads(userContext: UserContext, payload: CompositeDataLoadSearchCriteria,
+                           companyId?: number): Observable<CompositeDataLoadViewResponse[]> {
+    const host = this.getAPIBase(userContext);
+    let apiURL = '';
+    if (!companyId) {
+      apiURL = `${host}/admin/DashboardAdmin`;
+    } else {
+      apiURL = `${host}/company/${companyId}/Dashboard`;
+    }
+
+    return this.fetchAuthToken().pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        });
+
+        const options: any = {
+          headers,
+        };
+
+        return this.http.post(apiURL, payload, options).pipe(
+          map((response: any) => response));
+      }),
+    );
+  }
 
   PutEntityIdentifiers(companyId: number, type: DBEntityType, userContext: UserContext, keyFields: string[]) {
     const host = this.getAPIBase(userContext);

@@ -24,6 +24,7 @@ export enum CompanySettingsEnum {
   JDMCoreUseClient = 'JDMCoreUseClient',
   JDMSettingsUseClient = 'JDMSettingsUseClient',
   JDMTemplatesUseClient = 'JDMTemplatesUseClient',
+  ManualOrgDataLoadLink = 'ManualOrgDataLoadLink',
   EnableJobsPageToggle = 'EnableJobsPageToggle'
 }
 

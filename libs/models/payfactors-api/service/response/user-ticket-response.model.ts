@@ -24,13 +24,15 @@ export interface UserTicketResponse {
   UserTicketTypeId: number;
   TicketFileTypeId: number;
   UserTicketTypeSortOrder: number;
+  TicketTitle?: string;
 }
 
 export interface UserTicketFile {
-  UserTicketsFileId: number;
+  Id: number;
   UserTicketId: number;
   DisplayName: string;
   FileName: string;
+  FileType?: string;
 }
 
 export interface UserTicketComment {
@@ -65,7 +67,7 @@ export function generateMockUserTicketViewModel(): UserTicketResponse {
 
 export function generateMockUserTicketsFile(): UserTicketFile {
   return {
-    UserTicketsFileId: 1,
+    Id: 1,
     UserTicketId: 1,
     DisplayName: 'my.pdf',
     FileName: 'my.pdf'

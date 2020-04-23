@@ -12,5 +12,6 @@ export enum TileNames {
   NewCommunity = 'New Community',
   CompanyAdmin = 'Company Admin',
   JobDescriptions = 'Job Descriptions',
-  InternationalData = 'International Data'
+  InternationalData = 'International Data',
+  QuickPrice = 'Quick Price'
 }

@@ -5,7 +5,7 @@
   </div>
   <div>{{pageSubTitle}}</div>
 
-  <ng-content *ngIf="workflowContext?.selectedPageId === page || workflowContext?.selectedPageIdDelayed === page" select="[page-content]"></ng-content>
+  <ng-content *ngIf="workflowContext?.selectedPageId === page || (this.selectedPageIdDelayed$ | async) == page" select="[page-content]"></ng-content>
 
   <div class="smb-counter">
     <div *ngIf="!!jobPricingLimitInfo && (!(jobPricingBlocked$ | async) || workflowContext?.selectedPageId !== comphubPages.Jobs)">
@@ -22,14 +22,20 @@
             (click)="handleBackButtonClicked()">
       Back
     </button>
-    <button *ngIf="!hideNextButton"
-            class="btn comphub-primary-btn"
-            [disabled]="!nextButtonEnabled"
-            [attr.data-qa-id]="'btn-next-'+ pageTitle"
-            (click)="handleNextButtonClicked()">
-      Next
-    </button>
 
+    <div *ngIf="!hideNextButton" class="next-button-container">
+      <button
+              class="btn comphub-primary-btn"
+              [disabled]="!nextButtonEnabled"
+              [attr.data-qa-id]="'btn-next-'+ pageTitle"
+              (click)="handleNextButtonClicked()">
+        Next
+      </button>
+
+      <pf-guidelines-badge [IncludeSimilarityCheck]="false" *ngIf="workflowContext.quickPriceType === quickPriceTypes.PEER && workflowContext.selectedPageId === comphubPages.Data && (this.selectedPageIdDelayed$ | async) == comphubPages.Data">
+
+      </pf-guidelines-badge>
+    </div>
     <ng-content select="[custom-actions]"></ng-content>
 
     <button class="btn comphub-secondary-btn close-app-btn"
@@ -40,7 +46,6 @@
   </div>
 
 </div>
-
 
 <ng-template #modalContent let-modal>
   <div class="modal-header">

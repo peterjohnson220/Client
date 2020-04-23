@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -21,11 +21,9 @@ import { DataCardHelper } from '../../../helpers';
 @Component({
   selector: 'pf-data-card',
   templateUrl: './data.card.component.html',
-  styleUrls: ['./data.card.component.scss']
+  styleUrls: ['./data.card.component.scss', './shared.data.card.component.scss']
 })
-export class DataCardComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() workflowContext: WorkflowContext;
-
+export class DataCardComponent implements OnInit, OnDestroy {
   jobTitle: string;
   paymarketId?: number;
   jobDataSelection: JobData;
@@ -41,6 +39,7 @@ export class DataCardComponent implements OnInit, OnDestroy, OnChanges {
   rates: KendoDropDownItem[] = Rates;
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
   marketDataChange: boolean;
+  workflowContext: WorkflowContext;
   comphubPages = ComphubPages;
 
   // Observables
@@ -52,6 +51,7 @@ export class DataCardComponent implements OnInit, OnDestroy, OnChanges {
   selectedJobData$: Observable<JobData>;
   marketDataChange$: Observable<boolean>;
   peerBannerOpen$: Observable<boolean>;
+  workflowContext$: Observable<WorkflowContext>;
 
   // Subscriptions
   jobTitleSubscription: Subscription;
@@ -59,6 +59,7 @@ export class DataCardComponent implements OnInit, OnDestroy, OnChanges {
   selectedPageIdSubscription: Subscription;
   selectedJobSubscription: Subscription;
   marketDataChangeSubscription: Subscription;
+  workflowContextSubscription: Subscription;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
@@ -72,6 +73,7 @@ export class DataCardComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.marketDataChange$ = this.store.select(fromComphubMainReducer.getMarketDataChange);
     this.peerBannerOpen$ = this.store.select(fromComphubMainReducer.getPeerBannerOpen);
+    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
 
     this.firstDayOfMonth = DataCardHelper.firstDayOfMonth();
   }
@@ -86,6 +88,10 @@ export class DataCardComponent implements OnInit, OnDestroy, OnChanges {
 
     this.marketDataChangeSubscription = this.marketDataChange$.subscribe(isChanged => this.marketDataChange = isChanged);
     this.selectedJobSubscription = this.selectedJobData$.subscribe(j => this.jobDataSelection = j);
+    this.workflowContextSubscription = this.workflowContext$.subscribe(wfc => {
+      this.workflowContext = wfc;
+      this.onWorkflowContextChanges(wfc);
+    });
   }
 
   handlePageChange(newPageNumber: number): void {
@@ -186,14 +192,11 @@ export class DataCardComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedPageIdSubscription.unsubscribe();
     this.selectedJobSubscription.unsubscribe();
     this.marketDataChangeSubscription.unsubscribe();
+    this.workflowContextSubscription.unsubscribe();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.workflowContext || !changes.workflowContext.currentValue) {
-      return;
-    }
-
-    if (changes.workflowContext.currentValue.selectedPageId === ComphubPages.Data) {
+  onWorkflowContextChanges(workflowContext: WorkflowContext): void {
+    if (workflowContext.selectedPageId === ComphubPages.Data) {
       this.store.dispatch(new fromDataCardActions.CardOpened());
 
       if (this.marketDataChange) {

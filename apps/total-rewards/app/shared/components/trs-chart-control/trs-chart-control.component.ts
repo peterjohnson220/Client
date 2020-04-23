@@ -1,22 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { ChartControl } from '../../models/';
 
 @Component({
   selector: 'pf-trs-chart-control',
   templateUrl: './trs-chart-control.component.html',
-  styleUrls: ['./trs-chart-control.component.scss']
+  styleUrls: ['./trs-chart-control.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsChartControlComponent implements OnInit {
+export class TrsChartControlComponent {
 
   @Input() controlData: ChartControl;
-  @Input() companyColors;
+  @Input() chartColors: string[];
   @Input() employee;
 
-  constructor() { }
-
-  ngOnInit() {
-  }
   public labelContent(e: any): string {
     return e.value + 'k';
   }

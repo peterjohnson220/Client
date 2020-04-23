@@ -172,6 +172,22 @@ export class SummaryCardEffects {
     })
   );
 
+  @Effect()
+  priceNewPeerJob$ = this.actions$
+    .pipe(
+      ofType(fromSummaryCardActions.PRICE_NEW_PEER_JOB),
+      mergeMap(() => [
+        new fromComphubPageActions.NavigateToCard({ cardId: ComphubPages.Jobs }),
+        new fromComphubPageActions.ResetAccessiblePages(),
+        new fromComphubPageActions.ResetPagesAccessed(),
+        new fromJobsCardActions.ClearSelectedJob(),
+        new fromMarketsCardActions.SetDefaultPaymarketAsSelected(),
+        new fromDataCardActions.ClearSelectedJobData(),
+        new fromDataCardActions.SetForceRefreshPeerMap(true),
+        new fromSummaryCardActions.ResetCreateProjectStatus()
+      ])
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,

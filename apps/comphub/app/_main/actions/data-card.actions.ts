@@ -14,6 +14,10 @@ export const CLEAR_SELECTED_JOB_DATA  = '[Comphub/Data Card] Clear Selected Job 
 export const SET_MARKET_DATA_CHANGE = '[Comphub/Data Card] Set Market Data Change';
 export const SHOW_PEER_BANNER = '[Comphub/Data Card] Show Peer Banner';
 export const TOGGLE_JOB_DESCRIPTION = '[Comphub/Data Card] Toggle Job Description';
+export const GET_PEER_QUICK_PRICE_DATA = '[Comphub/Data Card] Get Peer Quick Price Data';
+export const GET_PEER_QUICK_PRICE_DATA_SUCCESS = '[Comphub/Data Card] Get Peer Quick Price Data Success';
+export const GET_PEER_QUICK_PRICE_DATA_ERROR = '[Comphub/Data Card] Get Peer Quick Price Data Error';
+export const SET_FORCE_REFRESH_PEER_MAP = '[Comphub/Data Card] Set Force Refresh Peer Map'
 
 export class CardOpened implements Action {
   readonly type = CARD_OPENED;
@@ -71,6 +75,26 @@ export class ToggleJobDescription implements Action {
   constructor(public payload: { jobId: number }) {}
 }
 
+export class GetPeerQuickPriceData implements Action {
+  readonly type = GET_PEER_QUICK_PRICE_DATA;
+}
+
+export class GetPeerQuickPriceDataSuccess implements Action {
+  readonly type = GET_PEER_QUICK_PRICE_DATA_SUCCESS;
+
+  constructor(public payload: {jobData: JobData}) {}
+}
+
+export class GetPeerQuickPriceDataError implements Action {
+  readonly type = GET_PEER_QUICK_PRICE_DATA_ERROR;
+}
+
+export class SetForceRefreshPeerMap implements Action {
+  readonly type = SET_FORCE_REFRESH_PEER_MAP;
+
+  constructor(public payload: boolean) {}
+}
+
 export type Actions
   = CardOpened
   | GetQuickPriceMarketData
@@ -81,4 +105,8 @@ export type Actions
   | ClearSelectedJobData
   | SetMarketDataChange
   | ShowPeerBanner
-  | ToggleJobDescription;
+  | ToggleJobDescription
+  | GetPeerQuickPriceData
+  | GetPeerQuickPriceDataSuccess
+  | GetPeerQuickPriceDataError
+  | SetForceRefreshPeerMap;

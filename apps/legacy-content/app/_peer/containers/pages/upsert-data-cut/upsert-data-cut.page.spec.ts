@@ -13,11 +13,11 @@ import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockExchangeMapResponse, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
 import { SettingsService } from 'libs/state/app-context/services';
+import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 
 import * as fromUpsertDataCutActions from '../../../actions/upsert-data-cut-page.actions';
-import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
 import * as fromLegacyAddPeerDataReducer from '../../../reducers';
-import { DojGuidelinesService } from '../../../services/doj-guidelines.service';
 import { UpsertDataCutPageComponent } from './upsert-data-cut.page';
 import * as fromRequestPeerAccessActions from '../../../actions/request-peer-access.actions';
 

@@ -3,7 +3,6 @@
   pageSubTitle="Let's find the most timely and relevant data sources for pricing your job"
   pageIconClass="database"
   [page]="comphubPages.Data"
-  [workflowContext]="workflowContext"
   [nextButtonEnabled]="!!(selectedJobData$ | async) && workflowContext?.selectedPageId === comphubPages.Data"
   [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Data">
 
@@ -90,8 +89,8 @@
                   </td>
                   <td class="number-column">
                     {{
-                      calculateDataByRate(job.Tcc50) |
-                      currency:workflowContext?.activeCountryDataSet?.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'
+                        calculateDataByRate(job.Tcc50) |
+                        currency:workflowContext?.activeCountryDataSet?.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'
                     }}
                   </td>
                   <td class="text-center">

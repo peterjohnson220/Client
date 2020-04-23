@@ -26,7 +26,7 @@
            (click)="openDeleteJobModal(dataRow['CompanyJobs_CompanyJob_ID'], dataRow['CompanyJobs_Job_Title']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
 </ng-template>
 <ng-template #titleTemplate>
-  {{(userContext$ | async)?.CompanyName + ' - Jobs' | titlecase}}
+  {{(userContext$ | async)?.CompanyName + ' - Jobs'}}
   <button
     *ngIf="enablePageToggle"
     class="btn btn-secondary align-top ml-3"

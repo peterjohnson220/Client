@@ -62,6 +62,7 @@ export class PayfactorsApiModelMapper {
         TicketState: response.UserTicketState,
         LastUpdatedText: response.LastUpdatedText,
         Description: response.UserTicket,
+        TicketTitle: response.TicketTitle,
         UserTicketType: {
           UserTicketTypeId: response.UserTicketTypeId,
           TicketFileTypeId: response.TicketFileTypeId,
@@ -110,7 +111,7 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapUserTicketTypeResponseToTicketType(response: UserTicketTypeResponse[]): UserTicketType[] {
-    return response.map(utt => {
+    return response.filter(r => r.Active).map(utt => {
       return {
         UserTicketTypeId: utt.UserTicketTypeId,
         TicketFileTypeId: utt.TicketFileTypeId,
@@ -137,7 +138,7 @@ export class PayfactorsApiModelMapper {
   static mapUserTicketFilesToTicketAttachment(userTicketFiles: UserTicketFile[], fileState?: number): TicketAttachment[] {
     return userTicketFiles.map(utf => {
       return {
-        AttachmentId: utf.UserTicketsFileId,
+        AttachmentId: utf.Id,
         DisplayName: utf.DisplayName,
         FileName: utf.FileName,
         ExtensionType: getFileExtensionType(utf.DisplayName),

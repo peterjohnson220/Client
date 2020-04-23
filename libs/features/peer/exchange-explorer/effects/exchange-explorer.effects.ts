@@ -20,7 +20,7 @@ export class ExchangeExplorerEffects {
   loadExchangeExplorerContextInfo$: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeExplorerContextInfoActions.LOAD_CONTEXT_INFO),
     map((action: fromExchangeExplorerContextInfoActions.LoadContextInfo) => action.payload),
-    switchMap((payload) =>
+    switchMap((payload: any) =>
       this.exchangeDataSearchApiService.getExchangeExplorerContextInfo(payload).pipe(
         mergeMap((response) => {
           const actions: any[] = [
@@ -31,7 +31,7 @@ export class ExchangeExplorerEffects {
               searchFilterMappingDataObj: response.SearchFilterMappingData
             }),
             new fromExchangeExplorerMapActions.SetPeerMapBounds(response.InitialMapGeoData),
-            new fromExchangeFilterContextActions.SetFilterContext(response.FilterContext)
+            new fromExchangeFilterContextActions.SetFilterContext(response.FilterContext, payload.defaultScopeId)
           ];
           const hasNoInitialMapGeoData = response.InitialMapGeoData.TopLeft.Lat === null ||
             response.InitialMapGeoData.BottomRight.Lat === null;

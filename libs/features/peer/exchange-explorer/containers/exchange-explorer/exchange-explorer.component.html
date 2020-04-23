@@ -8,10 +8,11 @@
 
         <div class="d-flex flex-column">
           <pf-exchange-job-selector
-            *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowPayMarketBoundsFilter && !!(exchangeJobFilterOptions$ | async)?.length"
+            *ngIf="(!jobSelectorRequiresPayMarket || ((payMarket$ | async)?.CompanyPayMarketId)) && shouldShowPayMarketBoundsFilter && !!(exchangeJobFilterOptions$ | async)?.length"
             [shouldDisplayJobTitleShort]="!(excludeIndirectJobMatches$ | async)"
             [exchangeJobSelectorItems]="exchangeJobFilterOptions$ | async"
             [selectedExchangeJobId]="selectedExchangeJobId$ | async"
+            [static] = "exchangeJobSelectorStatic"
             (exchangeJobSelected)="handleExchangeJobSelected($event)">
           </pf-exchange-job-selector>
           <pf-pay-market-bounds-filter

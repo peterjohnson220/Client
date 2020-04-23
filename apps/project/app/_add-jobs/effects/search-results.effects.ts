@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
-import { JobSearchPricingDataResponse, JobSearchRequest, JobSearchResponse } from 'libs/models/payfactors-api/job-search';
+import { JobSearchPricingDataResponse, JobSearchRequest, JobSearchResponse, JobSearchContext } from 'libs/models/payfactors-api/job-search';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
@@ -48,7 +48,8 @@ export class SearchResultsEffects {
         return this.jobSearchApiService.getJobPricingData({
           ProjectId: data.context.ProjectId,
           CompanyJobId: companyJobId,
-          PayfactorsJobCode: jobCode
+          PayfactorsJobCode: jobCode,
+          Type: JobSearchContext.ProjectJobSearch
         })
           .pipe(
             map((pricingDataResponse: JobSearchPricingDataResponse) =>

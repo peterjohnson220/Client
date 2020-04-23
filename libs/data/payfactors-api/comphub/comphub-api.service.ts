@@ -8,8 +8,9 @@ import {
   PayMarketDataResponse, SharePricingSummaryRequest, CreateQuickPriceProjectRequest, CountryDataSetResponse,
   AddCompletedPricingHistoryRequest
 } from '../../../models/payfactors-api/comphub';
+import { BaseExchangeDataSearchRequest } from '../../../models/payfactors-api/peer/exchange-data-search/request';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { ExchangeDataSet } from '../../../../apps/comphub/app/_main/models';
+import { ExchangeDataSet, PeerQuickPriceData } from '../../../../apps/comphub/app/_main/models';
 
 @Injectable()
 export class ComphubApiService {
@@ -24,6 +25,10 @@ export class ComphubApiService {
 
   getQuickPriceData(request: QuickPriceRequest): Observable<QuickPriceResponse>  {
     return this.payfactorsApiService.post<QuickPriceResponse>(`${this.endpoint}/GetQuickPriceData`, request);
+  }
+
+  getPeerQuickPriceData(context: BaseExchangeDataSearchRequest): Observable<PeerQuickPriceData> {
+    return this.payfactorsApiService.post<PeerQuickPriceData>(`${this.endpoint}/GetPeerQuickPriceData`, context);
   }
 
   getJobPricingLimitInfo(): Observable<JobPricingLimitInfoResponse>  {

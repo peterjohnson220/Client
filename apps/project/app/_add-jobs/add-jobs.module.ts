@@ -25,7 +25,6 @@ import { reducers } from './reducers';
 import {
   AddJobsPageEffects,
   CreateNewJobPageEffects,
-  ProjectsAddJobsModalEffects,
   SearchFiltersEffects,
   SearchResultsEffects,
   SingledFilterEffects
@@ -43,7 +42,6 @@ import { AddJobsUserFilterPopoverConfig } from './data';
     EffectsModule.forFeature([
       AddJobsPageEffects,
       CreateNewJobPageEffects,
-      ProjectsAddJobsModalEffects,
       SearchFiltersEffects,
       SearchResultsEffects,
       SingledFilterEffects

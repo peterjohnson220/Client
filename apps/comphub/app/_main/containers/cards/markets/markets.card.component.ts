@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRootReducer from 'libs/state/state';
-import { CompanyClientTypeConstants } from 'libs/constants';
+import { QuickPriceType } from 'libs/constants';
 import { UserContext } from 'libs/models/security';
 
 import * as fromComphubMainReducer from '../../../reducers';
@@ -21,8 +21,6 @@ import { ComphubPages } from '../../../data';
   styleUrls: ['./markets.card.component.scss']
 })
 export class MarketsCardComponent implements OnInit {
-  @Input() workflowContext: WorkflowContext;
-
   visiblePaymarkets$: Observable<PricingPaymarket[]>;
   loadingPaymarkets$: Observable<boolean>;
   loadingPaymarketsError$: Observable<boolean>;
@@ -31,8 +29,6 @@ export class MarketsCardComponent implements OnInit {
   marketDataLocations$: Observable<MarketDataLocation[]>;
   selectedPaymarket$: Observable<PricingPaymarket>;
   paymarkets$: Observable<PricingPaymarket[]>;
-  userContext$: Observable<UserContext>;
-
   addPayMarketFormOpen$: Observable<boolean>;
   savingPayMarket$: Observable<boolean>;
   savingPayMarketConflict$: Observable<boolean>;
@@ -42,7 +38,12 @@ export class MarketsCardComponent implements OnInit {
   showSkipButton$: Observable<boolean>;
   hideNewPaymarketButton$: Observable<boolean>;
   payMarketsFilter$: Observable<string>;
+  userContext$: Observable<UserContext>;
+  workflowContext$: Observable<WorkflowContext>;
 
+  workflowContextSub: Subscription;
+
+  workflowContext: WorkflowContext;
   comphubPages = ComphubPages;
 
   constructor(
@@ -59,6 +60,7 @@ export class MarketsCardComponent implements OnInit {
     this.loadingLocations$ = this.store.select(fromComphubMainReducer.getLoadingMarketDataLocations);
     this.marketDataLocations$ = this.store.select(fromComphubMainReducer.getMarketDataLocations);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
+    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
   }
 
   ngOnInit() {
@@ -70,13 +72,15 @@ export class MarketsCardComponent implements OnInit {
     this.infoBannerOpen$ = this.store.select(fromComphubMainReducer.getInfoBannerOpen);
     this.showSkipButton$ = this.store.select(fromComphubMainReducer.getShowSkipButton);
 
+    this.workflowContextSub = this.workflowContext$.subscribe(wfc => this.workflowContext = wfc);
+
     this.setupDefaultPayMarket();
   }
 
   setupDefaultPayMarket() {
-    forkJoin([this.getPayMarketsLoaded(), this.getUserContextLoaded()])
-      .subscribe(([payMarkets, userContext]) => {
-        this.setDefaultPayMarketSelection(payMarkets, userContext);
+    forkJoin([this.getPayMarketsLoaded(), this.getUserContextLoaded(), this.getWorkflowContextLoaded()])
+      .subscribe(([payMarkets, userContext, workflowContext]) => {
+        this.setDefaultPayMarketSelection(payMarkets, userContext, workflowContext);
       });
   }
 
@@ -89,6 +93,13 @@ export class MarketsCardComponent implements OnInit {
 
   getUserContextLoaded(): Observable<UserContext> {
     return this.userContext$.pipe(
+      filter(f => !!f),
+      take(1)
+    );
+  }
+
+  getWorkflowContextLoaded(): Observable<WorkflowContext> {
+    return this.workflowContext$.pipe(
       filter(f => !!f),
       take(1)
     );
@@ -111,7 +122,8 @@ export class MarketsCardComponent implements OnInit {
   }
 
   handlePaymarketChecked(checkedPayMarket: PricingPaymarket) {
-    this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket({paymarket: checkedPayMarket}));
+    this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(
+                              {paymarket: checkedPayMarket, initialLoad: false, quickPriceType: this.workflowContext.quickPriceType}));
   }
 
   handleDismissInfoBanner() {
@@ -130,14 +142,21 @@ export class MarketsCardComponent implements OnInit {
     this.store.dispatch(new fromAddPayMarketFormActions.CloseForm());
   }
 
-  setDefaultPayMarketSelection(paymarkets: PricingPaymarket[], userContext: UserContext) {
-    if (userContext.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS) {
+  setDefaultPayMarketSelection(paymarkets: PricingPaymarket[], userContext: UserContext, workflowContext: WorkflowContext) {
+    if (workflowContext.quickPriceType === QuickPriceType.PEER) {
       this.store.dispatch(new fromMarketsCardActions.HideAddNewPaymarketButton());
+      let userDefaultPaymarketSet = false;
       for (const pp of paymarkets) {
         if (pp.CompanyPayMarketId === userContext.DefaultPayMarketId) {
-          this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket({paymarket: pp, initialLoad: true}));
+          this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(
+            {paymarket: pp, initialLoad: true, quickPriceType: workflowContext.quickPriceType}));
+          userDefaultPaymarketSet = true;
           break;
         }
+      }
+      if (!userDefaultPaymarketSet) {
+        this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(
+          {paymarket: null, initialLoad: true, quickPriceType: workflowContext.quickPriceType}));
       }
     }
   }

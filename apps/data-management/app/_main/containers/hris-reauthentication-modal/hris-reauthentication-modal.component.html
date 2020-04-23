@@ -1,0 +1,53 @@
+<pf-modal-form
+  [title]="'Authenticate'"
+  [size]="'md'"
+  [modalId]="'hris-reauth-modal'"
+  [resetFormOnClose]="true"
+  [centered]="true"
+  [alwaysEnabledSubmit]="true"
+  [flipPrimarySecondaryBtns]="true"
+  [submitting]="submitted"
+  [primaryButtonText]="'Save'"
+  [primaryButtonTextSubmitting]="'Saving...'"
+  [isOpen$]="hrisReAuthenticateFormOpen$"
+  [formGroup]="hrisReAuthenticateForm"
+  (onSubmitAttempt)="handleFormSubmitAttempt()"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+  <ng-container form-content>
+    <div class="error-group mb-3" *ngIf="hrisAuthFormErrors$ | async">
+      <div class="alert alert-danger">
+        <h5 class="mb-0">Authentication Failed</h5>
+      </div>
+      <h5>Error(s):</h5>
+      <ul>
+        <li class="text-danger" *ngFor="let error of hrisAuthFormErrors$ | async">{{error}}</li>
+      </ul>
+    </div>
+    <div class="form-group">
+      <input type="text"
+        class="form-control"
+        placeholder="Username*"
+        formControlName="username"
+        id="username" pfFocus
+        [ngClass]="{ 'is-invalid': attemptedSubmit && hrisReAuthenticateForm.controls.username.errors }"
+        [pfDisableFormControl]="hrisAuthFormSaving$ | async">
+      <div *ngIf="attemptedSubmit && hrisReAuthenticateForm.controls.username.errors" class="invalid-feedback">
+        <div *ngIf="hrisReAuthenticateForm.controls.username.errors.required">Username is required</div>
+        <div *ngIf="hrisReAuthenticateForm.controls.username.errors.pattern">Username is not in correct format</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="password"
+       class="form-control" 
+       placeholder="Password*" 
+       formControlName="password" 
+       id="password"
+       [ngClass]="{ 'is-invalid': attemptedSubmit && hrisReAuthenticateForm.controls.password.errors }"
+       [pfDisableFormControl]="hrisAuthFormSaving$ | async">
+      <div *ngIf="attemptedSubmit && hrisReAuthenticateForm.controls.password.errors" class="invalid-feedback">
+        <div *ngIf="hrisReAuthenticateForm.controls.password.errors.required">Password is required</div>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>

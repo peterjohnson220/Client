@@ -1,61 +1,63 @@
-<pf-async-container [loading]="statementLoading$ | async" [loadingError]="statementLoadingError$ | async" (reload)="handleStatementReload()">
+<div *ngIf="statement" class="container statement mt-4 mb-4 rounded" [ngClass]="fontSizeCssClass + ' ' + fontFamilyCssClass">
+  <div *ngFor="let employee of employeeArray; trackBy: trackByFn">
+    <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pt-4 pb-4 trs-page">
+      <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section">
+        <div *ngFor="let column of section.Columns; trackBy: trackByFn" [ngClass]="getColumnWidth(section.Columns.length)" class="trs-column">
+          <div class="row columnRow">
+            <div *ngFor="let control of column.Controls; trackBy: trackByFn" [ngClass]="getControlWidth(control.Layout.Width)">
+              <div *ngIf="control.ControlType === controlType.RichTextEditor">
+                <pf-trs-rich-text-control
+                  [controlData]="control"
+                  [mode]="mode"
+                  [employeeRewardsData]="employeeRewardsData"
+                  (onTitleChange)="handleOnControlTitleChange($event)"
+                  (onContentChange)="handleOnRichTextControlContentChange($event)"
+                  class="p-1"></pf-trs-rich-text-control>
+              </div>
 
-  <div class="container statement mt-4 mb-4 rounded" *ngIf="(statement$ | async)">
-    <div *ngFor="let employee of employeeArray">
-      <div *ngFor="let page of (statement$ | async)?.Pages" class="pt-4 pb-4 trs-page">
-        <section *ngFor="let section of page.Sections" class="row vertical-divider trs-section">
-          <div *ngFor="let column of section.Columns" [ngClass]="getColumnWidth(section.ColumnCount)" class="trs-column">
-            <div class="row columnRow" >
-              <div *ngFor="let control of column.Controls" [ngClass]="getControlWidth(control.Layout.Width)">
-                <div *ngIf="control.ControlType === controlType.RichTextEditor" >
-                  <pf-trs-rich-text-control
-                    [controlData]="control"
-                    class="p-1"></pf-trs-rich-text-control>
-                </div>
+              <div *ngIf="control.ControlType === controlType.Image">
+                <pf-trs-image-control
+                  [controlData]="control"
+                  [employee]="employee"
+                  class="p-1"></pf-trs-image-control>
+              </div>
 
-                <div *ngIf="control.ControlType === controlType.Image">
-                  <pf-trs-image-control
-                    [controlData]="control"
-                    [employee]="employee"
-                    class="p-1"></pf-trs-image-control>
-                </div>
+              <div *ngIf="control.ControlType === controlType.Calculation">
+                <pf-trs-calculation-control
+                  [controlData]="control"
+                  [mode]="mode"
+                  [employeeRewardsData]="employeeRewardsData"
+                  (onTitleChange)="handleOnControlTitleChange($event)"
+                  (onCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
+                  (onUpdateSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"
+                  (onCompFieldRemoved)="handleOnCalculationControlCompFieldRemoved($event)"
+                  (onCompFieldAdded)="handleOnCalculationControlCompFieldAdded($event)"></pf-trs-calculation-control>
+              </div>
 
-                <div *ngIf="control.ControlType === controlType.Calculation">
-                  <pf-trs-calculation-control
-                    [controlData]="control"
-                    (updateTitle)="updateCalculationControlTitle($event)"
-                    (updateCompFieldTitle)="updateCompFieldTitle($event)"
-                    (updateSummaryTitle)="updateSummaryTitle($event)"
-                    (removeCompField)="removeCompField($event)"
-                    (addCompField)="addCompField($event)"></pf-trs-calculation-control>
-                </div>
+              <div *ngIf="control.ControlType === controlType.Chart">
+                <pf-trs-chart-control
+                  [controlData]="control"
+                  [chartColors]="statement.Settings.ChartColors"
+                  [employee]="employee"
+                  class="p-1"></pf-trs-chart-control>
+              </div>
 
-                <div *ngIf="control.ControlType === controlType.Chart">
-                  <pf-trs-chart-control
-                    [controlData]="control"
-                    [companyColors]="companyColors"
-                    [employee]="employee"
-                    class="p-1"></pf-trs-chart-control>
-                </div>
+              <div *ngIf="control.ControlType === controlType.Title">
+                <pf-trs-title-control
+                  [controlData]="control"
+                  class="p-1"></pf-trs-title-control>
+              </div>
 
-                <div *ngIf="control.ControlType === controlType.Title">
-                  <pf-trs-title-control
-                    [controlData]="control"
-                    class="p-1"></pf-trs-title-control>
-                </div>
-
-                <div *ngIf="control.ControlType === controlType.Summary">
-                  <pf-trs-summary-control
-                    [controlData]="control"
-                    class="p-1"></pf-trs-summary-control>
-                </div>
+              <div *ngIf="control.ControlType === controlType.CalculationSummary">
+                <pf-trs-summary-control
+                  [controlData]="control"
+                  class="p-1"></pf-trs-summary-control>
               </div>
             </div>
           </div>
-        </section>
-      </div>
-      <div class="page-break"></div>
+        </div>
+      </section>
     </div>
-
+    <div class="page-break"></div>
   </div>
-</pf-async-container>
+</div>

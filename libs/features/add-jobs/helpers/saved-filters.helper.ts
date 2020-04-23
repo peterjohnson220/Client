@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 
-import { SavedFilterType, UserFilterUpsertRequest } from 'libs/models/payfactors-api';
-import { SaveFilterModalData } from 'libs/features/user-filter/models';
+import { UserFilterUpsertRequest } from 'libs/models/payfactors-api';
+import { SaveFilterModalData, UserFilterTypeData } from 'libs/features/user-filter/models';
 import { SavedFilter } from 'libs/features/user-filter/models';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 
 @Injectable()
 export class SavedFiltersHelper {
 
-  constructor(private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper) { }
+  constructor(
+    private userFilterTypeData: UserFilterTypeData,
+    private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper) { }
 
   buildUpsertRequest(modalData: SaveFilterModalData): UserFilterUpsertRequest {
     const id = modalData.SavedFilter ? modalData.SavedFilter.Id : null;
@@ -17,7 +19,7 @@ export class SavedFiltersHelper {
       ? null
       : this.payfactorsSearchApiModelMapper.mapMultiSelectFiltersToSearchFilters(modalData.SearchFiltersToSave);
     const request = {
-      Type: SavedFilterType.JobSearch,
+      Type: this.userFilterTypeData.Type,
       SavedFilter: {
         Name: modalData.Name,
         MetaInfo: {

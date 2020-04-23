@@ -11,12 +11,13 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
+import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
+import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers';
 
 import * as fromUpsertDataCutPageActions from '../../../actions/upsert-data-cut-page.actions';
-import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
 import * as fromRequestPeerAccessActions from '../../../actions/request-peer-access.actions';
 import * as fromUpsertPeerDataReducers from '../../../reducers';
-import { DojGuidelinesService } from '../../../services/doj-guidelines.service';
 
 @Component({
   selector: 'pf-upsert-data-cut-page-new',
@@ -72,8 +73,8 @@ export class UpsertDataCutNewPageComponent implements OnInit, OnDestroy {
     this.upsertingDataCutError$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCutError));
     this.upsertDataCutPageInViewInIframe$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutPageInViewInIframe));
     this.requestingPeerAccess$ = this.store.pipe(select(fromUpsertPeerDataReducers.getRequestingPeerAccess));
-    this.employeesValid$ = this.store.pipe(select(fromUpsertPeerDataReducers.getEmployeeCheckPassed));
-    this.isEmployeeCheckLoading$ = this.store.pipe(select(fromUpsertPeerDataReducers.getIsEmployeeSimilarityLoading));
+    this.employeesValid$ = this.store.pipe(select(fromDataCutValidationReducer.getEmployeeCheckPassed));
+    this.isEmployeeCheckLoading$ = this.store.pipe(select(fromDataCutValidationReducer.getIsEmployeeSimilarityLoading));
 
     this.peerMapCompanies$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getPeerMapCompaniesFromSummary));
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromLibsPeerExchangeExplorerReducers.getFilterContextIncludeUntaggedIncumbents));

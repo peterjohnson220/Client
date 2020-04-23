@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CurrencyPipe, getCurrencySymbol } from '@angular/common';
 
 import { Store } from '@ngrx/store';
@@ -9,26 +9,29 @@ import { pdf } from '@progress/kendo-drawing';
 const { exportPDF } = pdf;
 import * as isEqual from 'lodash.isequal';
 
-import { SharePricingSummaryRequest } from 'libs/models/payfactors-api';
+import { SearchFilterOption, SharePricingSummaryRequest } from 'libs/models/payfactors-api';
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
-import { SystemUserGroupNames } from 'libs/constants';
+import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
 import { RateType } from 'libs/data/data-sets';
+import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
+import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
+
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-summary-card',
   templateUrl: './summary.card.component.html',
   styleUrls: ['./summary.card.component.scss']
 })
-export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
+export class SummaryCardComponent implements OnInit, OnDestroy {
   @ViewChild('pdf', { static: true }) pdf: PDFExportComponent;
-  @Input() workflowContext: WorkflowContext;
 
   selectedJobData$: Observable<JobData>;
   selectedPaymarket$: Observable<PricingPaymarket>;
@@ -44,11 +47,15 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
   glossaryOpen$: Observable<boolean>;
   minPaymarketMinimumWage$: Observable<number>;
   maxPaymarketMinimumWage$: Observable<number>;
+  filterContext$: Observable<any>;
+  workflowContext$: Observable<WorkflowContext>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
   selectedRateSubscription: Subscription;
   salaryTrendSubscription: Subscription;
+  filterContextSubscription: Subscription;
+  workflowContextSubscription: Subscription;
 
   jobData: JobData;
   lastJobData: JobData;
@@ -56,12 +63,21 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
   paymarket: PricingPaymarket;
   selectedRate: RateType;
   firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
+  currentDate: Date = new Date();
   systemUserGroupNames = SystemUserGroupNames;
   comphubPages = ComphubPages;
   currencySymbol: string;
+  filterContext: any;
+  workflowContext: WorkflowContext;
+  isPeerQuickPriceType = false;
+  filterContextHasFilters = false;
+
+  private mbAccessToken = environment.mapboxAccessToken;
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>, public cp: CurrencyPipe
+    private store: Store<fromComphubMainReducer.State>,
+    private exchangeExplorerContextService: ExchangeExplorerContextService,
+    public cp: CurrencyPipe
   ) {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
@@ -77,6 +93,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
     this.minPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMinPaymarketMinimumWage);
     this.maxPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMaxPaymarketMinimumWage);
+    this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
   }
 
   ngOnInit() {
@@ -86,17 +103,29 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
     this.salaryTrendSubscription = this.salaryTrendData$.subscribe(trendData => {
       this.jobSalaryTrendData = cloneDeep(trendData);
     });
+    this.workflowContextSubscription = this.workflowContext$.subscribe(wfc => {
+      this.workflowContext = wfc;
+      this.isPeerQuickPriceType = wfc.quickPriceType === QuickPriceType.PEER;
+      this.onWorkflowContextChanges(wfc);
+    });
   }
 
   ngOnDestroy() {
     this.selectedJobDataSubscription.unsubscribe();
     this.selectedPaymarketSubscription.unsubscribe();
     this.selectedRateSubscription.unsubscribe();
+    this.salaryTrendSubscription.unsubscribe();
+    this.filterContextSubscription.unsubscribe();
+    this.workflowContextSubscription.unsubscribe();
   }
 
   handlePriceNewJobClicked() {
     this.lastJobData = null;
-    this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
+    if (this.isPeerQuickPriceType) {
+      this.store.dispatch(new fromSummaryCardActions.PriceNewPeerJob());
+    } else {
+      this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
+    }
   }
 
   handleDownloadPdfClicked() {
@@ -163,6 +192,10 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
     this.store.dispatch(new fromSummaryCardActions.GetNationalJobTrendData(this.jobData));
   }
 
+  private loadPeerQuickPriceData() {
+    this.store.dispatch(new fromDataCardActions.GetPeerQuickPriceData());
+  }
+
   private addNewCompletedPricingHistoryRecord() {
     this.store.dispatch(new fromSummaryCardActions.AddCompletedPricingHistory(this.jobData));
   }
@@ -175,16 +208,65 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
     return (!!this.jobData && !isEqual(this.jobData, this.lastJobData));
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.workflowContext || !changes.workflowContext.currentValue) {
-      return;
+  getPeerMapSrcString() {
+    const style = 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/';
+    const htmlEncodedHashTag = '%23';
+    const geoJson = {
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: this.calculatePolygonCoordinates()
+      },
+      properties: {
+        stroke: htmlEncodedHashTag + '3f8845',
+        fill: htmlEncodedHashTag + '3f8845',
+        'fill-opacity': 0.1
+      }
+    };
+    return style + 'geojson(' + JSON.stringify(geoJson) + ')/auto/600x600?access_token=' + this.mbAccessToken;
+  }
+
+  calculatePolygonCoordinates() {
+    // Default to the largest coordinates the map can expand to.
+    let polygonCoordinates = [[[-180, 90], [-180, -90], [180, -90], [180, 90], [-180, 90]]];
+    if (!!this.filterContext && !!this.filterContext.FilterContext
+      && !!this.filterContext.FilterContext.TopLeft && !!this.filterContext.FilterContext.BottomRight) {
+      const topLeft = this.filterContext.FilterContext.TopLeft;
+      const bottomRight = this.filterContext.FilterContext.BottomRight;
+
+      polygonCoordinates = [[[topLeft.Lon, topLeft.Lat],
+        [topLeft.Lon, bottomRight.Lat],
+        [bottomRight.Lon, bottomRight.Lat],
+        [bottomRight.Lon, topLeft.Lat],
+        [topLeft.Lon, topLeft.Lat]]];
     }
-    if (changes.workflowContext.currentValue.selectedPageId === this.comphubPages.Summary &&
-      this.jobDataHasChanged()) {
+
+    return polygonCoordinates;
+  }
+
+  getFilterString(options: SearchFilterOption[]): string {
+    let optionsStr = '';
+    for (const option of options) {
+      optionsStr += option.Name + ', ';
+    }
+    return optionsStr.replace(/,\s*$/, '');
+  }
+
+  onWorkflowContextChanges(workflowContext: WorkflowContext): void {
+    if (workflowContext.selectedPageId === this.comphubPages.Summary && this.jobDataHasChanged() && !this.isPeerQuickPriceType) {
       this.lastJobData = this.jobData;
       this.loadJobTrendChart();
       this.addNewCompletedPricingHistoryRecord();
       this.currencySymbol = getCurrencySymbol(this.workflowContext.activeCountryDataSet.CurrencyCode, 'narrow');
+    } else if (workflowContext.selectedPageId === this.comphubPages.Summary && this.isPeerQuickPriceType) {
+      this.lastJobData = this.jobData;
+      this.loadPeerQuickPriceData();
+      this.filterContext$ = this.exchangeExplorerContextService.selectFilterContext();
+      this.filterContextSubscription = this.filterContext$.subscribe(fc => {
+        this.filterContext = fc;
+        this.filterContextHasFilters = fc.Filters.length > 0;
+      });
+      this.currencySymbol = getCurrencySymbol(this.paymarket.CurrencyCode, 'narrow');
     }
   }
 }

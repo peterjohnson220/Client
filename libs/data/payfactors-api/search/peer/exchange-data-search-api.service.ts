@@ -13,6 +13,7 @@ import {
   ExchangeDataSearchResponse
 } from 'libs/models/payfactors-api/peer/exchange-data-search';
 import { ExchangeJobExchangeDetail } from '../../../../features/peer/models';
+import { ComphubExchangeExplorerContextRequest } from '../../../../models/peer/requests/comphub-exchange-explorer-context-request.model';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
 
@@ -31,8 +32,16 @@ export class ExchangeDataSearchApiService {
     });
   }
 
-  getExchangeExplorerContextInfo(payload: {companyJobId?: number, companyPayMarketId?: number}|{exchangeId: number}):
+  getExchangeExplorerContextInfo(
+    payload: ComphubExchangeExplorerContextRequest |
+    { companyJobId?: number, companyPayMarketId?: number } |
+    { exchangeId: number }):
     Observable<ExchangeExplorerContextInfo> {
+    const request: ComphubExchangeExplorerContextRequest = payload as ComphubExchangeExplorerContextRequest;
+    if (request && request.ExchangeJobId) {
+      return this.payfactorsApiService.post(`${this.endpoint}/GetExchangeExplorerContextInfo`, request);
+    }
+
     return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfo`, {
       params: payload
     });

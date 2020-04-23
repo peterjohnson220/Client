@@ -10,7 +10,7 @@ import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromTotalRewardsReducer from './../../reducers';
-import * as fromTotalRewardsStatementsActions from '../../actions/statement-list.page.actions';
+import * as fromTotalRewardsStatementGridActions from '../../actions/statement-grid.actions';
 
 @Component({
   selector: 'pf-statements-grid',
@@ -24,7 +24,7 @@ export class StatementsGridComponent implements OnInit {
   statementsLoading$: Observable<boolean>;
   statementsLoadingError$: Observable<boolean>;
 
-  openActionMenuStatementId$: Observable<number>;
+  openActionMenuStatementId$: Observable<string>;
 
   constructor(private store: Store<fromTotalRewardsReducer.State>, private router: Router) { }
 
@@ -36,41 +36,40 @@ export class StatementsGridComponent implements OnInit {
     this.openActionMenuStatementId$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsOpenActionMenuStatementId));
   }
 
-  onDataStateChange(state: DataStateChangeEvent) {
+  onDataStateChange(state: DataStateChangeEvent): void {
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsStatements, state));
-    this.store.dispatch(new fromTotalRewardsStatementsActions.LoadStatements());
+    this.store.dispatch(new fromTotalRewardsStatementGridActions.LoadStatements());
   }
 
-  onActionMenuOpen(statementId: number) {
-    this.store.dispatch(new fromTotalRewardsStatementsActions.OpenActionMenu(statementId));
+  onActionMenuOpen(statementId: string): void {
+    this.store.dispatch(new fromTotalRewardsStatementGridActions.OpenActionMenu(statementId));
   }
 
-  onActionMenuClose() {
-    this.store.dispatch(new fromTotalRewardsStatementsActions.CloseActionMenu());
+  onActionMenuClose(): void {
+    this.store.dispatch(new fromTotalRewardsStatementGridActions.CloseActionMenu());
   }
 
-  onActionMenuRunStatementClick(statement: any) {
-    console.log('onActionMenuRunStatementClick', statement);
+  onActionMenuPreviewClick(statementId: string): void {
+    console.log('onActionMenuEditClick', statementId);
   }
 
-  onActionMenuEditClick(statement: any) {
-    console.log('onActionMenuEditClick', statement);
-    this.navigateToStatementEdit(statement.Id);
+  onActionMenuGenerateStatementClick(statementId: string): void {
+    console.log('onActionMenuGenerateStatementClick', statementId);
   }
 
-  onActionMenuCopyClick(statement: any) {
-    console.log('onActionMenuCopyClick', statement);
+  onActionMenuEditClick(statementId: string): void {
+    this.navigateToStatementEdit(statementId);
   }
 
-  onActionMenuViewHistoryClick(statement: any) {
-    console.log('onActionMenuViewHistoryClick', statement);
+  onActionMenuCopyClick(statementId: string): void {
+    console.log('onActionMenuCopyClick', statementId);
   }
 
-  onActionMenuDeleteClick(statement: any) {
-    console.log('onActionMenuDeleteClick', statement);
+  onActionMenuDeleteClick(statementId: string): void {
+    console.log('onActionMenuDeleteClick', statementId);
   }
 
-  navigateToStatementEdit(id: any) {
-    this.router.navigate(['/statement/edit/', id]).then();
+  navigateToStatementEdit(statementId: string): void {
+    this.router.navigate(['/statement/edit/', statementId]).then();
   }
 }

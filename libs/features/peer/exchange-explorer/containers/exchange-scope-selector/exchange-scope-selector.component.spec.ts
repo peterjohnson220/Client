@@ -2,11 +2,12 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { StoreModule, combineReducers } from '@ngrx/store';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 
 import { generateMockExchangeScopeItem } from 'libs/models/peer/exchange-scope';
+import { SettingsService } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
 import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
 
@@ -19,8 +20,6 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
 describe('Features - Peer - Exchange Scope Selector Component', () => {
   let fixture: ComponentFixture<ExchangeScopeSelectorComponent>;
   let instance: ExchangeScopeSelectorComponent;
-  let store: Store<fromLibsPeerMapReducer.State>;
-  let router: Router;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -39,19 +38,22 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
         {
           provide: Router,
           useValue: { navigate: jest.fn() },
+        },
+        {
+          provide: SettingsService,
+          useValue: { selectUiPersistenceSettingFromDictionary: of }
         }
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
-
     fixture = TestBed.createComponent(ExchangeScopeSelectorComponent);
     instance = fixture.componentInstance;
 
     instance.exchangeScopeItems$ = of([generateMockExchangeScopeItem()]);
+
+    fixture.detectChanges();
   });
   // TODO: Add Tests
   it('does not have tests yet', () => {

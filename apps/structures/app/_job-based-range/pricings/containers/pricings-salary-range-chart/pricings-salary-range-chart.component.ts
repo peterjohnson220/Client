@@ -1,5 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
@@ -7,11 +8,14 @@ import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import { appendOrdinalSuffix } from 'libs/core/functions';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
-import { PricingsSalaryRangeChartOptionsService } from '../../data';
+import { PricingsSalaryRangeChartSeries, PricingsSalaryRangeChartService } from '../../data';
+import { PricingMatchHelper } from '../../helpers';
+import { GraphHelper } from '../../../shared/helpers/graph.helper';
 
 
 @Component({
@@ -42,6 +46,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   jobRangeData: any;
   controlPointDisplay: string;
   plotLinesAndBands: any;
+  rate: string;
 
   constructor(
     public store: Store<any>,
@@ -51,9 +56,10 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
       if (md) {
         this.currency = md.Currency;
         this.controlPointDisplay = md.ControlPointDisplay;
+        this.rate = md.Rate;
         this.chartLocale = getUserLocale();
         this.clearData();
-        this.chartOptions = PricingsSalaryRangeChartOptionsService.getPricingsRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
+        this.chartOptions = PricingsSalaryRangeChartService.getPricingsRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate);
       }
     });
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
@@ -108,16 +114,41 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   private renameSeries() {
     // 1 ==  'Pricings ' + controlPointDisplay
-    this.chartInstance.series[1].name = 'Pricings ' + this.controlPointDisplay;
+    this.chartInstance.series[PricingsSalaryRangeChartSeries.Pricings].name =
+      PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.Pricings, this.controlPointDisplay);
   }
 
   private addPricingsMRP(xCoordinate, currentRow, jobRangeData) {
-    this.pricingsSeriesData.push({ x: xCoordinate, y: currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup});
+    const {vendor, title} = PricingMatchHelper.splitPricingMatchSource(currentRow.vw_PricingMatchesJobTitlesMerged_Source);
+    const formattedDate = formatDate(currentRow.vw_PricingMatchesJobTitlesMerged_Effective_Date, 'MM/dd/yyyy', this.chartLocale);
+    const mrpLabel = `${this.controlPointDisplay} ${appendOrdinalSuffix(currentRow.CompanyStructures_RangeGroup_MRPRefPtStructureRangeGroup)}`;
+    this.pricingsSeriesData.push({
+      x: xCoordinate,
+      y: currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup,
+      salary: StructuresHighchartsService.formatCurrency(currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup,
+        this.chartLocale, this.currency, this.rate, true),
+      vendor: vendor,
+      titleAndEffectiveDate: (title ? title + ' - ' : '') + formattedDate,
+      mrpLabel: mrpLabel
+    });
 
   }
 
   private addSalaryBand() {
     this.chartInstance.yAxis[0].addPlotBand(this.plotLinesAndBands.find(plb => plb.id === 'Salary range'));
+  }
+
+  private updateChartLabels() {
+    const locale = this.chartLocale;
+    const currencyCode = this.currency;
+    const rate = this.rate;
+    this.chartInstance.yAxis[0].update({
+      labels: {
+        formatter: function() {
+          return StructuresHighchartsService.formatYAxisLabel(this.value, locale, currencyCode, rate);
+        }
+      }
+    }, false);
   }
 
   private processChartData() {
@@ -158,22 +189,24 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       // set the min/max
       this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
-      this.chartInstance.series[0].setData(this.salaryRangeSeriesData, false);
-      this.chartInstance.series[1].setData(this.pricingsSeriesData, true);
+
+      this.updateChartLabels();
+
+      this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRange].setData(this.salaryRangeSeriesData, false);
+      this.chartInstance.series[PricingsSalaryRangeChartSeries.Pricings].setData(this.pricingsSeriesData, true);
 
       this.renameSeries();
 
       // store the plotLinesAndBands in one of the unused chart properties so we can access it
       this.chartInstance.collectionsWithUpdate = this.plotLinesAndBands;
 
-      // this seemed like a pretty good way to get things to line up. 65 is a constant to account for gaps and headers, the rest is dynamic based on rows
-      this.chartInstance.setSize(null, (50 * this.pricingsData.data.length));
+      this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.pricingsData.data, true));
     }
   }
 
   private removeLinesAndBands() {
     if (this.plotLinesAndBands) {
-      this.chartInstance.yAxis[0].removePlotBand('Salary range');
+      this.chartInstance.yAxis[0].removePlotBand(PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRange));
     }
   }
 
@@ -184,8 +217,6 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         return ['M', x, y + width / 2, 'L', x + height, y + width / 2];
       };
   }
-
-
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
