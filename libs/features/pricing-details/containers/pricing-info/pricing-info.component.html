@@ -78,7 +78,7 @@
       </td>
       <td pfEllipsisActive>{{pricingInfo.PricingDetails["PayMarket"]}}</td>
       <td *ngFor="let field of pricingInfo.DefaultFields" class="comp-cell text-right">
-        {{pricingInfo.PricingDetails[field.FieldName] | comp: pricingInfo.PricingDetails.Rate : false | emptyPlaceholder}}
+        {{pricingInfo.PricingDetails[field.FieldName] | comp: pricingInfo.PricingDetails.Rate : 'full' | emptyPlaceholder}}
       </td>
     </tr>
     <tr>
@@ -103,7 +103,7 @@
       </td>
       <td pfEllipsisActive>{{cut["Source"]}}</td>
       <td *ngFor="let field of pricingInfo.DefaultFields" class="comp-cell text-right">
-        {{cut[field.FieldName] | comp: pricingInfo.PricingDetails.Rate : false | emptyPlaceholder}}
+        {{cut[field.FieldName] | comp: pricingInfo.PricingDetails.Rate : 'full' | emptyPlaceholder}}
       </td>
     </tr>
   </table>

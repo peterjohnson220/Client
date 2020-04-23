@@ -57,7 +57,8 @@ export const GET_EXPORTING_STATUS_ERROR = '[PfDataGrid] Get Exporting Status Err
 export const RESET = '[PfDataGrid] Reset';
 export const REORDER_COLUMNS = '[PfDataGrid] Reorder Columns';
 export const REORDER_COLUMNS_SUCCESS = '[PfDataGrid] Reorder Columns Success';
-export const UPDATE_ROW = '[PfDataGrid] Update Data Row';export const UPDATE_FIELDS_EXCLUDED_FROM_EXPORT = '[PfDataGrid] Update Fields Excluded FromExport';
+export const UPDATE_ROW = '[PfDataGrid] Update Data Row';
+export const UPDATE_FIELDS_EXCLUDED_FROM_EXPORT = '[PfDataGrid] Update Fields Excluded FromExport';
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
   constructor(public pageViewId: string, public name: string = null) { }

@@ -140,7 +140,7 @@ export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: stri
       }
     });
   }
-  return filterCount
+  return filterCount;
 };
 
 
