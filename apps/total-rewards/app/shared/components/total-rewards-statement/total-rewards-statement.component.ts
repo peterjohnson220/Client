@@ -41,7 +41,7 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   controlType = TotalRewardsControlEnum;
   statementModeEnum = StatementModeEnum;
 
-  // check statement.Settings.FontSize and return small-font | medium-font | large-font | ''
+  // check statement.Settings.FontSize and return small-font-size | medium-font-size | large-font-size | ''
   get fontSizeCssClass(): string {
     if (this.statement && this.statement.Settings && this.statement.Settings.FontSize) {
       return this.statement.Settings.FontSize.toLowerCase() + '-font-size';
@@ -49,7 +49,7 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  // check statement.Settings.FontFamily and return 'arial-font-family', 'times-new-roman-font-family', etc
+  // check statement.Settings.FontFamily and return 'arial-font-family' | 'times-new-roman-font-family', etc
   get fontFamilyCssClass(): string {
     if (this.statement && this.statement.Settings && this.statement.Settings.FontFamily) {
       return this.statement.Settings.FontFamily.toLowerCase().replace(/ /g, '-') + '-font-family';
@@ -107,14 +107,6 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   // track which item each ngFor is on, which no longer necessitates destroying/creating all components in state changes and improves perf significantly
   trackByFn(index: number, item: any) {
     return index;
-  }
-
-  getColumnWidth(count) {
-    return 'col-' + (12 / count) + ' column';
-  }
-
-  getControlWidth(width) {
-    return 'col-' + width;
   }
 
   // Common pass through methods

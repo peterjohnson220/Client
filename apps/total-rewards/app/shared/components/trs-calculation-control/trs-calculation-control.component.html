@@ -7,21 +7,23 @@
     </colgroup>
     <thead>
       <tr class="trs-calculation-row w-100">
-        <th class="text-left" scope="col">
-          <pf-inline-string-editor
-            [value]="controlData.Title.Override"
-            [placeholder]="controlData.Title.Default"
-            [maxCharacters]="30"
-            [inEditMode]="inEditMode"
-            (valueChange)="onControlTitleChange($event)"></pf-inline-string-editor>
+        <th class="text-left font-weight-normal" scope="col">
+          <h4 class="primary-control-heading mb-1">
+            <pf-inline-string-editor
+              [value]="controlData.Title.Override"
+              [placeholder]="controlData.Title.Default"
+              [maxCharacters]="30"
+              [inEditMode]="inEditMode"
+              (valueChange)="onControlTitleChange($event)"></pf-inline-string-editor>
+          </h4>
         </th>
-        <th class="text-right" scope="col">Contribution</th>
+        <th class="text-right pb-3" scope="col" class="secondary-header align-middle text-right font-weight-normal">Contribution</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let listItem of controlData.DataFields" class="trs-calculation-row w-100">
-        <td *ngIf="displayFieldInTable(listItem)" class="text-left">
+      <tr *ngFor="let listItem of controlData.DataFields; let i = index " class="trs-calculation-row w-100">
+        <td *ngIf="displayFieldInTable(listItem)" class="text-left" [class.last-before-summary]="controlData.DataFields.length - 1 === i">
           <pf-inline-string-editor
             [value]="listItem.Name.Override"
             [placeholder]="listItem.Name.Default"
@@ -37,7 +39,7 @@
         </td>
       </tr>
       <tr class="trs-calculation-row w-100">
-        <td class="text-left">
+        <td class="summary text-left">
           <pf-inline-string-editor
             [value]="controlData.Summary.Override"
             [placeholder]="controlData.Summary.Default"
@@ -45,7 +47,7 @@
             [inEditMode]="inEditMode"
             (valueChange)="onSummaryTitleChange($event)"></pf-inline-string-editor>
         </td>
-        <td class="contribution-field text-right">{{getSummaryValue()}}</td>
+        <td class="contribution-field summary text-right">{{getSummaryValue()}}</td>
         <td></td>
       </tr>
     </tbody>

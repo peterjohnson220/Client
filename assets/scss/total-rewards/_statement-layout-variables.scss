@@ -1,8 +1,2 @@
-$canvas-top: 114px; // 47px dark header + 67 light gray header
-$canvas-left: calc(7.5% + 60px); // canvas width is set to 85%, so shift left half the remainder (7.5%) with offset for the left nav
-$canvas-width: calc(85% - 81px); // 85% canvas minus left nav + padding/margin
-
-$canvas-left-expanded-left-nav: calc(7.5% + 193px); // same as above but we now have a 200px wide expanded left nav
-$canvas-width-expanded-left-nav: calc(85% - 203px);
-
+$canvas-width: 860px;
 $left-nav-transition: left .3s, width .3s;

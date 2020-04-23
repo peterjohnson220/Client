@@ -40,24 +40,28 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left"
+            class="text-left font-weight-normal"
             scope="col"
           >
-            <pf-inline-string-editor
-              ng-reflect-in-edit-mode="false"
-              ng-reflect-max-characters="30"
-              ng-reflect-placeholder="Cash Compensation"
-              ng-reflect-value=""
+            <h4
+              class="primary-control-heading mb-1"
             >
-              
-              <span>
-                Cash Compensation
-              </span>
-              
-            </pf-inline-string-editor>
+              <pf-inline-string-editor
+                ng-reflect-in-edit-mode="false"
+                ng-reflect-max-characters="30"
+                ng-reflect-placeholder="Cash Compensation"
+                ng-reflect-value=""
+              >
+                
+                <span>
+                  Cash Compensation
+                </span>
+                
+              </pf-inline-string-editor>
+            </h4>
           </th>
           <th
-            class="text-right"
+            class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
             Contribution
@@ -150,7 +154,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
         >
           
           <td
-            class="text-left"
+            class="text-left last-before-summary"
           >
             <pf-inline-string-editor
               ng-reflect-in-edit-mode="false"
@@ -187,7 +191,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           class="trs-calculation-row w-100"
         >
           <td
-            class="text-left"
+            class="summary text-left"
           >
             <pf-inline-string-editor
               ng-reflect-in-edit-mode="false"
@@ -203,7 +207,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
             </pf-inline-string-editor>
           </td>
           <td
-            class="contribution-field text-right"
+            class="contribution-field summary text-right"
           >
             165000
           </td>
@@ -254,23 +258,27 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left"
+            class="text-left font-weight-normal"
             scope="col"
           >
-            <pf-inline-string-editor
-              ng-reflect-in-edit-mode="false"
-              ng-reflect-max-characters="30"
-              ng-reflect-placeholder=""
+            <h4
+              class="primary-control-heading mb-1"
             >
-              
-              <span>
+              <pf-inline-string-editor
+                ng-reflect-in-edit-mode="false"
+                ng-reflect-max-characters="30"
+                ng-reflect-placeholder=""
+              >
                 
-              </span>
-              
-            </pf-inline-string-editor>
+                <span>
+                  
+                </span>
+                
+              </pf-inline-string-editor>
+            </h4>
           </th>
           <th
-            class="text-right"
+            class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
             Contribution
@@ -293,7 +301,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
           class="trs-calculation-row w-100"
         >
           <td
-            class="text-left"
+            class="summary text-left"
           >
             <pf-inline-string-editor
               ng-reflect-in-edit-mode="false"
@@ -308,7 +316,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
             </pf-inline-string-editor>
           </td>
           <td
-            class="contribution-field text-right"
+            class="contribution-field summary text-right"
           >
             $---,---
           </td>
@@ -361,24 +369,28 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left"
+            class="text-left font-weight-normal"
             scope="col"
           >
-            <pf-inline-string-editor
-              ng-reflect-in-edit-mode="false"
-              ng-reflect-max-characters="30"
-              ng-reflect-placeholder="Cash Compensation"
-              ng-reflect-value=""
+            <h4
+              class="primary-control-heading mb-1"
             >
-              
-              <span>
-                Cash Compensation
-              </span>
-              
-            </pf-inline-string-editor>
+              <pf-inline-string-editor
+                ng-reflect-in-edit-mode="false"
+                ng-reflect-max-characters="30"
+                ng-reflect-placeholder="Cash Compensation"
+                ng-reflect-value=""
+              >
+                
+                <span>
+                  Cash Compensation
+                </span>
+                
+              </pf-inline-string-editor>
+            </h4>
           </th>
           <th
-            class="text-right"
+            class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
             Contribution
@@ -477,7 +489,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <td
-            class="text-left"
+            class="summary text-left"
           >
             <pf-inline-string-editor
               ng-reflect-in-edit-mode="false"
@@ -493,7 +505,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             </pf-inline-string-editor>
           </td>
           <td
-            class="contribution-field text-right"
+            class="contribution-field summary text-right"
           >
             160000
           </td>
@@ -546,24 +558,28 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left"
+            class="text-left font-weight-normal"
             scope="col"
           >
-            <pf-inline-string-editor
-              ng-reflect-in-edit-mode="false"
-              ng-reflect-max-characters="30"
-              ng-reflect-placeholder="Cash Compensation"
-              ng-reflect-value=""
+            <h4
+              class="primary-control-heading mb-1"
             >
-              
-              <span>
-                Cash Compensation
-              </span>
-              
-            </pf-inline-string-editor>
+              <pf-inline-string-editor
+                ng-reflect-in-edit-mode="false"
+                ng-reflect-max-characters="30"
+                ng-reflect-placeholder="Cash Compensation"
+                ng-reflect-value=""
+              >
+                
+                <span>
+                  Cash Compensation
+                </span>
+                
+              </pf-inline-string-editor>
+            </h4>
           </th>
           <th
-            class="text-right"
+            class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
             Contribution
@@ -656,7 +672,7 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
         >
           
           <td
-            class="text-left"
+            class="text-left last-before-summary"
           >
             <pf-inline-string-editor
               ng-reflect-in-edit-mode="false"
@@ -693,7 +709,7 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
           class="trs-calculation-row w-100"
         >
           <td
-            class="text-left"
+            class="summary text-left"
           >
             <pf-inline-string-editor
               ng-reflect-in-edit-mode="false"
@@ -709,7 +725,7 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
             </pf-inline-string-editor>
           </td>
           <td
-            class="contribution-field text-right"
+            class="contribution-field summary text-right"
           >
             160000
           </td>
@@ -760,23 +776,27 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left"
+            class="text-left font-weight-normal"
             scope="col"
           >
-            <pf-inline-string-editor
-              ng-reflect-in-edit-mode="false"
-              ng-reflect-max-characters="30"
-              ng-reflect-placeholder=""
+            <h4
+              class="primary-control-heading mb-1"
             >
-              
-              <span>
+              <pf-inline-string-editor
+                ng-reflect-in-edit-mode="false"
+                ng-reflect-max-characters="30"
+                ng-reflect-placeholder=""
+              >
                 
-              </span>
-              
-            </pf-inline-string-editor>
+                <span>
+                  
+                </span>
+                
+              </pf-inline-string-editor>
+            </h4>
           </th>
           <th
-            class="text-right"
+            class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
             Contribution
@@ -792,7 +812,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
           class="trs-calculation-row w-100"
         >
           <td
-            class="text-left"
+            class="summary text-left"
           >
             <pf-inline-string-editor
               ng-reflect-in-edit-mode="false"
@@ -807,7 +827,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
             </pf-inline-string-editor>
           </td>
           <td
-            class="contribution-field text-right"
+            class="contribution-field summary text-right"
           >
             $---,---
           </td>
@@ -860,48 +880,52 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left"
+            class="text-left font-weight-normal"
             scope="col"
           >
-            <pf-inline-string-editor
-              ng-reflect-in-edit-mode="true"
-              ng-reflect-max-characters="30"
+            <h4
+              class="primary-control-heading mb-1"
             >
-              
-              <span>
-                <input
-                  class="input-text offScreen"
-                  maxlength="30"
-                  minlength="1"
-                  ng-reflect-klass="input-text"
-                  ng-reflect-ng-class="offScreen"
-                  placeholder=""
-                  type="text"
-                />
+              <pf-inline-string-editor
+                ng-reflect-in-edit-mode="true"
+                ng-reflect-max-characters="30"
+              >
                 
-                <span
-                  class="editable d-flex"
-                >
+                <span>
+                  <input
+                    class="input-text offScreen"
+                    maxlength="30"
+                    minlength="1"
+                    ng-reflect-klass="input-text"
+                    ng-reflect-ng-class="offScreen"
+                    placeholder=""
+                    type="text"
+                  />
+                  
                   <span
-                    class="edit-text"
+                    class="editable d-flex"
                   >
-                    
-                  </span>
-                  <span
-                    class="edit-icon"
-                  >
-                    <fa-icon
-                      aria-hidden="true"
-                      class="fa-xs ml-2"
-                    />
+                    <span
+                      class="edit-text"
+                    >
+                      
+                    </span>
+                    <span
+                      class="edit-icon"
+                    >
+                      <fa-icon
+                        aria-hidden="true"
+                        class="fa-xs ml-2"
+                      />
+                    </span>
                   </span>
                 </span>
-              </span>
-              
-            </pf-inline-string-editor>
+                
+              </pf-inline-string-editor>
+            </h4>
           </th>
           <th
-            class="text-right"
+            class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
             Contribution
@@ -1044,7 +1068,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
         >
           
           <td
-            class="text-left"
+            class="text-left last-before-summary"
           >
             <pf-inline-string-editor
               ng-reflect-in-edit-mode="true"
@@ -1106,7 +1130,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           class="trs-calculation-row w-100"
         >
           <td
-            class="text-left"
+            class="summary text-left"
           >
             <pf-inline-string-editor
               ng-reflect-in-edit-mode="true"
@@ -1146,7 +1170,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             </pf-inline-string-editor>
           </td>
           <td
-            class="contribution-field text-right"
+            class="contribution-field summary text-right"
           >
             $---,---
           </td>
@@ -1197,23 +1221,27 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
           class="trs-calculation-row w-100"
         >
           <th
-            class="text-left"
+            class="text-left font-weight-normal"
             scope="col"
           >
-            <pf-inline-string-editor
-              ng-reflect-in-edit-mode="false"
-              ng-reflect-max-characters="30"
-              ng-reflect-placeholder="test title"
+            <h4
+              class="primary-control-heading mb-1"
             >
-              
-              <span>
-                test title
-              </span>
-              
-            </pf-inline-string-editor>
+              <pf-inline-string-editor
+                ng-reflect-in-edit-mode="false"
+                ng-reflect-max-characters="30"
+                ng-reflect-placeholder="test title"
+              >
+                
+                <span>
+                  test title
+                </span>
+                
+              </pf-inline-string-editor>
+            </h4>
           </th>
           <th
-            class="text-right"
+            class="secondary-header align-middle text-right font-weight-normal"
             scope="col"
           >
             Contribution
@@ -1229,7 +1257,7 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
           class="trs-calculation-row w-100"
         >
           <td
-            class="text-left"
+            class="summary text-left"
           >
             <pf-inline-string-editor
               ng-reflect-in-edit-mode="false"
@@ -1243,7 +1271,7 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
             </pf-inline-string-editor>
           </td>
           <td
-            class="contribution-field text-right"
+            class="contribution-field summary text-right"
           >
             $---,---
           </td>

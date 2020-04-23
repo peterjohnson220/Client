@@ -16,7 +16,6 @@ import { FontSize, FontFamily } from '../../../shared/types';
   styleUrls: ['./statement-edit.page.scss']
 })
 export class StatementEditPageComponent implements OnDestroy, OnInit {
-  pageTitle = 'Total Rewards Statements';
   statementNameMaxLength = 35;
 
   statement$: Observable<models.Statement>;
