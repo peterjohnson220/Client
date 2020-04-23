@@ -19,6 +19,7 @@ export interface State {
   pricingDetailsView: string;
   exportOptions: any;
   navigatingToOldPage: AsyncStateObj<boolean>;
+
 }
 
 export const initialState: State = {
@@ -237,3 +238,4 @@ export const getStructureGradeNames = (state: State) => state.structureGradeName
 export const getPricingDetailsView = (state: State) => state.pricingDetailsView;
 export const getExportOptions = (state: State) => state.exportOptions;
 export const getNavigatingToOldPage = (state: State) => state.navigatingToOldPage;
+

@@ -11,7 +11,12 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from '../models';
+import {
+  PfDataGridFilter,
+  ActionBarConfig,
+  getDefaultActionBarConfig,
+  GridRowActionsConfig
+} from '../models';
 import { getUserFilteredFields } from '../components';
 
 @Component({
@@ -35,8 +40,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
+  @Input() gridRowActionsConfig: GridRowActionsConfig;
   @Input() customHeaderTemplate: TemplateRef<any>;
-  @Input() rowActionTemplate: TemplateRef<any>;
   @Input() filterPanelTemplates: TemplateRef<any>;
   @Input() noRecordsFoundTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -44,6 +49,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() defaultSort: SortDescriptor[];
   @Input() pagingOptions: PagingOptions;
   @Input() noRecordsFound: string;
+  @Input() fieldsExcludedFromExport: [];
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
   @Input() applyDefaultFilters: boolean;
@@ -88,11 +94,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   userFilteredFields: ViewField[];
   selectedRecordId: number;
   exportEventId = null;
-
   constructor(
     private store: Store<fromReducer.State>,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.splitViewEmitter.subscribe(res => {
@@ -191,6 +196,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     if (changes['saveSort']) {
       this.store.dispatch(new fromActions.UpdateSaveSort(this.pageViewId, changes['saveSort'].currentValue));
+    }
+    if (changes['fieldsExcludedFromExport']) {
+      this.store.dispatch(new fromActions.UpdateFieldsExcludedFromExport(this.pageViewId, changes['fieldsExcludedFromExport'].currentValue));
     }
   }
 

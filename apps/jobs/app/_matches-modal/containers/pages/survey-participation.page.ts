@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -20,6 +20,7 @@ import * as fromMatchesModalAreaReducer from '../../reducers';
 })
 
 export class SurveyParticipationPageComponent implements OnInit, OnDestroy {
+  @Input() jobId: number;
   companyJobLoading$: Observable<boolean>;
   matchesLoading$: Observable<boolean>;
   matches$: Observable<Match[]>;
@@ -61,8 +62,11 @@ export class SurveyParticipationPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const companyJobId = parseInt(this.route.snapshot.queryParams.companyJobId, 10);
-
+    let companyJobId = this.jobId;
+    /// remove after old job page deprecated
+    if (this.route.snapshot.queryParams.companyJobId) {
+      companyJobId = parseInt(this.route.snapshot.queryParams.companyJobId, 10);
+    }
     this.matchesModalAreaStore.dispatch(new fromCompanyJobActions.Loading(companyJobId));
     this.companyJob$.subscribe(companyJob => {
       if (companyJob) {
@@ -81,17 +85,20 @@ export class SurveyParticipationPageComponent implements OnInit, OnDestroy {
       }
     });
 
+    /// remove after old job page deprecated
     const that = this;
-    this.scroll = autoScroll(
-      document.querySelector('.matches-modal-container'),
-      {
-        margin: 30,
-        maxSpeed: 25,
-        scrollWhenOutside: true,
-        autoScroll: function() {
-          return this.down && that.isDragging;
-        }
-      });
+    if (document.querySelector('.matches-modal-container')) {
+      this.scroll = autoScroll(
+        document.querySelector('.matches-modal-container'),
+        {
+          margin: 30,
+          maxSpeed: 25,
+          scrollWhenOutside: true,
+          autoScroll: function () {
+            return this.down && that.isDragging;
+          }
+        });
+    }
   }
 
   private configureDragEvents(): void {
@@ -140,5 +147,6 @@ export class SurveyParticipationPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dragMatches.unsubscribe();
+    this.dragulaService.destroy('matches-bag');
   }
 }

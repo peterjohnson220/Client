@@ -8,55 +8,55 @@
         <h5><small class="text-muted">{{subTitle}}</small></h5>
       </ng-container>
     </div>
-    <button *ngIf="allowDismiss"
-            type="button"
-            class="close"
-            aria-label="Close"
-            (click)="dismiss()">
+    <button 
+      *ngIf="allowDismiss"
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <ng-container *ngIf="formGroup"
-                  [ngTemplateOutlet]="formContent">
-    </ng-container>
-    <ng-container *ngIf="!formGroup"
-                  [ngTemplateOutlet]="basicContent">
-    </ng-container>
+    <ng-container *ngIf="formGroup" [ngTemplateOutlet]="formContent"></ng-container>
+    <ng-container *ngIf="!formGroup" [ngTemplateOutlet]="basicContent"></ng-container>
   </div>
-  <div *ngIf="showFooter"
-       class="modal-footer d-flex justify-content-between">
+  <div *ngIf="showFooter" class="modal-footer d-flex justify-content-between">
     <div>
       <ng-content select="[footer-left]"></ng-content>
     </div>
     <div class="flex-grow-1 d-flex justify-content-end space-out-children">
       <ng-content select="[button-container-left]"></ng-content>
-      <button type="button"
-              class="btn"
-              [ngClass]="primaryButtonClass"
-              [class.order-1]="flipPrimarySecondaryBtns"
-              [disabled]="submitDisabled"
-              (click)="submit()">
+      <button 
+        *ngIf="showSubmit"
+        type="button"
+        class="btn"
+        [ngClass]="primaryButtonClass"
+        [class.order-1]="flipPrimarySecondaryBtns"
+        [disabled]="submitDisabled"
+        (click)="submit()">        
         <span *ngIf="submitting">
           <pf-loading-indicator *ngIf="showSpinner"></pf-loading-indicator> {{primaryButtonTextSubmitting}}
         </span>
         <span *ngIf="!submitting">{{primaryButtonText}}</span>
       </button>
-      <button type="button"
-              class="btn btn-secondary"
-              [disabled]="!allowDismiss"
-              (click)="dismiss()">{{secondaryButtonText }}</button>
+      <button
+        *ngIf="showDismiss" 
+        type="button"
+        class="btn btn-secondary"
+        [disabled]="!allowDismiss"
+        (click)="dismiss()">
+        {{secondaryButtonText }}
+      </button>
     </div>
   </div>
 </ng-template>
 <ng-template #formContent>
-  <form [formGroup]="formGroup"
-        (ngSubmit)="submit()">
+  <form [formGroup]="formGroup" (ngSubmit)="submit()">
     <ng-content select="[form-content]"></ng-content>
   </form>
 </ng-template>
 <ng-template #basicContent>
   <ng-content select="[basic-content]"></ng-content>
 </ng-template>
-<div [id]="modalId"
-     class="modal-container"></div>
+<div [id]="modalId" class="modal-container"></div>

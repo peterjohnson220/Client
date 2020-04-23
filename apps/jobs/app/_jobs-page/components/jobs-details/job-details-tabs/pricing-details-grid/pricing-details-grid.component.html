@@ -46,7 +46,7 @@
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <div class=ellipsis-overflowing-text>
+  <div class="ellipsis-overflowing-text">
     <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
   </div>
 </ng-template>

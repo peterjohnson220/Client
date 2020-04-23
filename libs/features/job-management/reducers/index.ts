@@ -22,12 +22,12 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectJobManagementState =
+export const selectJobManagementFeature =
   createFeatureSelector<JobManagementState>('feature_job_management');
 
 // View Selectors
 export const selectJobDataState =
-  createSelector(selectJobManagementState, (state: JobManagementState) => state.jobData);
+  createSelector(selectJobManagementFeature, (state: JobManagementState) => state.jobData);
 
 // Company Info
 export const getState = createSelector(selectJobDataState, fromJobManagementReducer.getState);

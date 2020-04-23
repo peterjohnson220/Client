@@ -1,44 +1,46 @@
-<div class="matches-modal-container">
-  <div class="matches-modal-content matches-modal-title">
-    <span *ngIf="companyJobLoading$ | async">
-      <pf-loading-indicator></pf-loading-indicator>
-    </span>
-    <span *ngIf="companyJob">
-      {{companyJob.JobTitle}} - {{companyJob.JobCode}}
-    </span>
-  </div>
+<pf-async-container [loading]="matchesLoading$ | async">
+  <div class="matches-modal-container" *ngIf="!(matchesLoading$ | async)">
+    <div class="matches-modal-content matches-modal-title">
+      <span *ngIf="companyJobLoading$ | async">
+        <pf-loading-indicator></pf-loading-indicator>
+      </span>
+      <span *ngIf="companyJob">
+        {{companyJob.JobTitle}} - {{companyJob.JobCode}}
+      </span>
+    </div>
 
-  <div class="matches-modal-content">
-    Use the survey participation function to determine which of your matches you would like to include in Survey Participation reports. Drag and drop your matches to the corresponding category to include or exclude them from participation.
-  </div>
+    <div class="matches-modal-content">
+      Use the survey participation function to determine which of your matches you would like to include in Survey Participation reports. Drag and drop your matches to the corresponding category to include or exclude them from participation.
+    </div>
 
-  <div class="matches-modal-content font-weight-bold">
-    Included in Participation - These matches will be included in your survey participation report
-  </div>
+    <div class="matches-modal-content font-weight-bold">
+      Included in Participation - These matches will be included in your survey participation report
+    </div>
 
-  <div id="includeInParticipation" class="matches-modal-content matches-list-container dropzone" dragula="matches-bag" [class.dropzoneContainer]="isDragging">
-    <span *ngIf="(matchesLoading$ | async)">
-      <pf-loading-indicator></pf-loading-indicator> Loading...
-    </span>
-    <div *ngFor="let match of matchesIncludedInParticipation" class="matches-list-item {{ (match.Type.toUpperCase() !== 'PEER' && match.Type.toUpperCase() !== 'SLOTTED') ? 'draggable' : '' }}" [class.dragging]="isDragging$ | async" [attr.data-match-job-id]="match.JobId">
-      <pf-match-details
-        [match]="match">
-      </pf-match-details>
+    <div id="includeInParticipation" class="matches-modal-content matches-list-container dropzone" dragula="matches-bag" [class.dropzoneContainer]="isDragging">
+      <span *ngIf="(matchesLoading$ | async)">
+        <pf-loading-indicator></pf-loading-indicator> Loading...
+      </span>
+      <div *ngFor="let match of matchesIncludedInParticipation" class="matches-list-item {{ (match.Type.toUpperCase() !== 'PEER' && match.Type.toUpperCase() !== 'SLOTTED') ? 'draggable' : '' }}" [class.dragging]="isDragging$ | async" [attr.data-match-job-id]="match.JobId">
+        <pf-match-details
+          [match]="match">
+        </pf-match-details>
+      </div>
+    </div>
+
+    <div class="matches-modal-content font-weight-bold">
+      Excluded from Participation - These matches will be excluded from your survey participation report
+    </div>
+
+    <div id="excludeFromParticipation" class="matches-modal-content matches-list-container dropzone" dragula="matches-bag" [class.dropzoneContainer]="isDragging">
+      <span *ngIf="(matchesLoading$ | async)">
+        <pf-loading-indicator></pf-loading-indicator> Loading...
+      </span>
+      <div *ngFor="let match of matchesExcludedFromParticipation" class="matches-list-item {{ (match.Type.toUpperCase() !== 'PEER' && match.Type.toUpperCase() !== 'SLOTTED') ? 'draggable' : '' }}" [class.dragging]="isDragging$ | async" [attr.data-match-job-id]="match.JobId">
+        <pf-match-details
+          [match]="match">
+        </pf-match-details>
+      </div>
     </div>
   </div>
-
-  <div class="matches-modal-content font-weight-bold">
-    Excluded from Participation - These matches will be excluded from your survey participation report
-  </div>
-
-  <div id="excludeFromParticipation" class="matches-modal-content matches-list-container dropzone" dragula="matches-bag" [class.dropzoneContainer]="isDragging">
-    <span *ngIf="(matchesLoading$ | async)">
-      <pf-loading-indicator></pf-loading-indicator> Loading...
-    </span>
-    <div *ngFor="let match of matchesExcludedFromParticipation" class="matches-list-item {{ (match.Type.toUpperCase() !== 'PEER' && match.Type.toUpperCase() !== 'SLOTTED') ? 'draggable' : '' }}" [class.dragging]="isDragging$ | async" [attr.data-match-job-id]="match.JobId">
-      <pf-match-details
-        [match]="match">
-      </pf-match-details>
-    </div>
-  </div>
-</div>
+</pf-async-container>
