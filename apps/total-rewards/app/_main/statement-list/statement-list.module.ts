@@ -6,6 +6,7 @@ import {EffectsModule} from '@ngrx/effects';
 
 import { GridModule } from '@progress/kendo-angular-grid';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {NgbTabsetModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {PfCommonModule} from 'libs/core';
 import {PfCommonUIModule} from 'libs/ui/common';
@@ -14,10 +15,10 @@ import {PfFormsModule} from 'libs/forms';
 import {SharedModule} from '../../shared';
 
 import {reducers} from './reducers';
-import {StatementListPageEffects} from './effects/statement-list.page.effects';
+import {StatementGridEffects} from './effects';
 import {StatementListPageComponent} from './statement-list.page';
-import {StatementsGridComponent} from './containers/statements-grid';
-import {GridActionMenuComponent} from './components/grid-action-menu/grid-action-menu.component';
+import {StatementsGridComponent} from './containers';
+import {CreateNewStatementBannerComponent, GridActionMenuComponent} from './components';
 
 @NgModule({
   imports: [
@@ -26,9 +27,10 @@ import {GridActionMenuComponent} from './components/grid-action-menu/grid-action
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementList', reducers),
-    EffectsModule.forFeature([StatementListPageEffects]),
+    EffectsModule.forFeature([StatementGridEffects]),
     FontAwesomeModule,
     GridModule,
+    NgbTabsetModule,
 
     // Payfactors
     PfCommonModule,
@@ -37,14 +39,12 @@ import {GridActionMenuComponent} from './components/grid-action-menu/grid-action
     SharedModule,
   ],
   declarations: [
-    StatementListPageComponent,
-    StatementsGridComponent,
+    CreateNewStatementBannerComponent,
     GridActionMenuComponent,
-  ],
-  exports: [
     StatementListPageComponent,
     StatementsGridComponent
-  ]
+  ],
+  exports: []
 })
 export class StatementListModule {
   constructor() {}

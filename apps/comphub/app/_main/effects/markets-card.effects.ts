@@ -8,7 +8,7 @@ import { catchError, debounceTime, map, mergeMap, switchMap, withLatestFrom } fr
 import { ComphubApiService, MarketDataScopeApiService } from 'libs/data/payfactors-api';
 import { AddPayMarketRequest, PayMarketDataResponse, MDLocationsRequest } from 'libs/models/payfactors-api';
 import * as fromRootState from 'libs/state/state';
-import { CompanyClientTypeConstants } from 'libs/constants';
+import { QuickPriceType } from 'libs/constants';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
@@ -28,15 +28,16 @@ export class MarketsCardEffects {
     ofType(fromMarketsCardActions.INIT_MARKETS_CARD),
     withLatestFrom(
       this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
-      this.store.select(fromRootState.getUserContext),
-      (action: fromMarketsCardActions.InitMarketsCard, countryDataSet, userContext ) => ({ action, countryDataSet, userContext })
+      this.store.select(fromComphubMainReducer.getWorkflowContext),
+      (action: fromMarketsCardActions.InitMarketsCard, countryDataSet, workflowContext ) =>
+        ({ action, countryDataSet, workflowContext })
     ),
     mergeMap((data) => {
       const actions = [];
-      if (!data.countryDataSet) {
+      if (!data.countryDataSet && data.workflowContext.quickPriceType === QuickPriceType.ENTERPRISE) {
         return actions;
       }
-      if (data.userContext.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS) {
+      if (data.workflowContext.quickPriceType === QuickPriceType.PEER) {
         actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: 'All' }));
       } else {
         actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: data.countryDataSet.CountryCode }));
@@ -207,6 +208,21 @@ export class MarketsCardEffects {
       ofType(fromAddPayMarketFormActions.CLOSE_FORM),
       map(() =>
         new fromMarketsCardActions.ClearMarketDataLocations()
+      )
+    );
+
+  @Effect()
+  setDefaultPaymarketAsSelected$ = this.actions$
+    .pipe(
+      ofType(fromMarketsCardActions.SET_DEFAULT_PAYMARKET_AS_SELECTED),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getSelectedPaymarket),
+        (action: fromMarketsCardActions.SetDefaultPaymarketAsSelected, selectedPayMarket) => ({ action, selectedPayMarket })),
+        map((data) =>
+          new fromComphubPageActions.UpdateCardSubtitle({
+            cardId: ComphubPages.Markets,
+            subTitle: data.selectedPayMarket.PayMarketName
+          })
       )
     );
 

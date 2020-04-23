@@ -6,13 +6,12 @@ import {Observable, Subscription} from 'rxjs';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
-import { RangeGroupMetadata } from '../../shared/models';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { Pages } from '../../shared/constants/pages';
+import { RangeGroupMetadata } from '../../shared/models';
 
 @Component({
   selector: 'pf-pricings-page',

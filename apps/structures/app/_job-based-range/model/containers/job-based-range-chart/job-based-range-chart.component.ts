@@ -4,12 +4,16 @@ import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
+import { JobRangeModelChartService, JobRangeModelChartSeries } from '../../data';
+import { GraphHelper } from '../../../shared/helpers/graph.helper';
+import { RangeGroupMetadata } from '../../../shared/models';
 
 @Component({
   selector: 'pf-job-based-range-chart',
@@ -32,29 +36,40 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   dataSubscription: Subscription;
   metadataSubscription: Subscription;
   pageViewId = PageViewIds.Model;
+  jobRangeData: GridDataResult;
   currency: string;
   controlPointDisplay: string;
+  rate: string;
+  isCurrent: boolean;
+  hasCurrentStructure: boolean;
+  metaData: RangeGroupMetadata;
 
   constructor(
     public store: Store<any>
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
+        this.metaData = md;
+        this.isCurrent = md.IsCurrent;
+        this.rate = md.Rate;
         this.currency = md.Currency;
         this.controlPointDisplay = md.ControlPointDisplay;
         this.chartLocale = getUserLocale();
-        this.chartOptions = StructuresHighchartsService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay);
+        this.rate = md.Rate;
+        this.clearData();
+        this.chartOptions = JobRangeModelChartService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate);
       }
     });
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
-      if (data) {
-        this.processChartData(data);
+      if (data && this.rate && this.currency) {
+        this.jobRangeData = data;
+        this.processChartData();
       }
     });
   }
 
   formatRangeDelta(rawCurrency, low) {
-    return StructuresHighchartsService.formatCurrency(rawCurrency, this.chartLocale, this.currency)
+    return StructuresHighchartsService.formatCurrency(rawCurrency, this.chartLocale, this.currency, this.rate, true)
       + (low ? ' to bring to minimum' : ' over maximum');
   }
 
@@ -67,14 +82,42 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private determineChartMin(currentRow) {
-    if (!this.chartMin || (currentRow.CompanyStructures_Ranges_Min < this.chartMin)) {
-      this.chartMin = currentRow.CompanyStructures_Ranges_Min;
+    // if we find average or avg outlier data AND its lower than CompanyStructures_Ranges_Min, use that value to check for new min.
+    // otherwise just use CompanyStructures_Ranges_Min
+    let comparisonValue = currentRow.CompanyStructures_Ranges_Min;
+    // first check the averageminoutlier
+    if (currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier >= 0 &&
+      currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier < currentRow.CompanyStructures_Ranges_Min) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier;
+    }
+    // next check the averageEEMRP
+    if (currentRow.CompanyStructures_RangeGroup_AverageEEMRP >= 0 &&
+      currentRow.CompanyStructures_RangeGroup_AverageEEMRP < comparisonValue) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
+    }
+
+    if (!this.chartMin || (comparisonValue < this.chartMin)) {
+      this.chartMin = comparisonValue;
     }
   }
 
   private determineChartMax(currentRow) {
-    if (!this.chartMax || (currentRow.CompanyStructures_Ranges_Max > this.chartMax)) {
-      this.chartMax = currentRow.CompanyStructures_Ranges_Max;
+    // if we find average or avg outlier data AND its higher than CompanyStructures_Ranges_Max, use that value to check for new max.
+    // otherwise just use CompanyStructures_Ranges_Max
+    let comparisonValue = currentRow.CompanyStructures_Ranges_Max;
+    // first check the averagemaxoutlier
+    if (currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier &&
+      currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier > currentRow.CompanyStructures_Ranges_Max) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier;
+    }
+    // next check the averageEEMRP
+    if (currentRow.CompanyStructures_RangeGroup_AverageEEMRP &&
+      currentRow.CompanyStructures_RangeGroup_AverageEEMRP > comparisonValue) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
+    }
+
+    if (!this.chartMax || (comparisonValue > this.chartMax)) {
+      this.chartMax = comparisonValue;
     }
   }
 
@@ -84,12 +127,50 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addMidpoint(currentRow) {
-    this.midpointSeriesData.push(StructuresHighchartsService.calculateMidpoint(
-      currentRow.CompanyStructures_Ranges_Min, currentRow.CompanyStructures_Ranges_Max));
+    const delta = StructuresHighchartsService.formatMidPointDelta(this.hasCurrentStructure, currentRow, this.chartLocale, this.metaData);
+
+    this.midpointSeriesData.push({
+      y: currentRow.CompanyStructures_Ranges_Mid,
+      jobTitle: currentRow.CompanyJobs_Job_Title,
+      midPoint: StructuresHighchartsService.formatCurrentMidPoint(this.hasCurrentStructure, 'Midpoint',
+        currentRow.CompanyStructures_Ranges_Mid, this.chartLocale, this.metaData),
+      currentMidPoint: StructuresHighchartsService.formatNewMidPoint(this.hasCurrentStructure, 'Current Mid',
+        currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint, this.chartLocale, this.metaData),
+      newMidPoint: StructuresHighchartsService.formatNewMidPoint(this.hasCurrentStructure, 'New Mid',
+        currentRow.CompanyStructures_Ranges_Mid, this.chartLocale, this.metaData),
+      delta: !!delta ? delta.message : delta,
+      icon: !!delta ? delta.icon : delta,
+      iconColor: !!delta ? delta.color : delta
+    });
   }
 
   private addAverage(currentRow) {
-    this.averageSeriesData.push(currentRow.CompanyStructures_RangeGroup_AverageEEMRP);
+    this.averageSeriesData.push({
+      y: currentRow.CompanyStructures_RangeGroup_AverageEEMRP,
+      jobTitle: currentRow.CompanyJobs_Job_Title,
+      avgComparatio: currentRow.CompanyStructures_RangeGroup_AverageComparatio,
+      avgPositioninRange: currentRow.CompanyStructures_RangeGroup_AveragePositionInRange,
+      avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMRP)
+    });
+  }
+
+  private formatOutlierCount(min: boolean, count: number) {
+    return `${count} ${count > 1 ? 'employees' : 'employee'} ${min ? 'below min' : 'above max'}`;
+  }
+
+  private formatSalary(salary: number) {
+    return `Average ${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`;
+  }
+
+  private formatDelta(min: boolean, delta: number) {
+    return StructuresHighchartsService.formatCurrency(delta, this.chartLocale, this.currency, this.rate, true)
+      + (min ? ' to bring all to minimum' : ' above the maximum');
+  }
+
+  private clearData(): void {
+    if (this.jobRangeData) {
+      this.jobRangeData = {...this.jobRangeData, data: []};
+    }
   }
 
   private processAndAddOutliers(xCoordinate, currentRow) {
@@ -98,24 +179,34 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       {
         x: xCoordinate,
         y: currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier,
-        count: currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier
+        count: currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier,
+        countString: this.formatOutlierCount(true, currentRow.CompanyStructures_RangeGroup_CountEEMinOutlier),
+        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier),
+        delta: this.formatDelta(true, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMinOutliersAndMRP)
       });
+
     // Max Outlier
     this.outlierSeriesData.push(
       {
         x: xCoordinate,
         y: currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier,
-        count: currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier
+        count: currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier,
+        countString: this.formatOutlierCount(false, currentRow.CompanyStructures_RangeGroup_CountEEMaxOutlier),
+        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier),
+        delta: this.formatDelta(false, currentRow.CompanyStructures_RangeGroup_SumOfDeltaBetweenMaxOutliersAndMRP)
       });
   }
 
-  private processChartData(data: any) {
+  private processChartData() {
     this.salaryRangeSeriesData = [];
     this.midpointSeriesData = [];
     this.averageSeriesData = [];
     this.outlierSeriesData = [];
-    for (let i = 0; i < data.data.length; i++) {
-      const currentRow = data.data[i];
+    this.chartMin = 0;
+    this.chartMax = 0;
+    for (let i = 0; i < this.jobRangeData.data.length; i++) {
+      const currentRow = this.jobRangeData.data[i];
+      this.hasCurrentStructure = currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint === null;
       // check for new min
       this.determineChartMin(currentRow);
 
@@ -138,13 +229,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     // set the min/max
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
     // set the series data (0 - salaryRange, 1 - midpoint, 2 - avg salary, 3 - outliers)
-    this.chartInstance.series[0].setData(this.salaryRangeSeriesData, false);
-    this.chartInstance.series[1].setData(this.midpointSeriesData, false);
-    this.chartInstance.series[2].setData(this.averageSeriesData, false);
-    this.chartInstance.series[3].setData(this.outlierSeriesData, true);
+    this.chartInstance.series[JobRangeModelChartSeries.SalaryRange].setData(this.salaryRangeSeriesData, false);
+    this.chartInstance.series[JobRangeModelChartSeries.RangeMid].setData(this.midpointSeriesData, false);
+    this.chartInstance.series[JobRangeModelChartSeries.Average].setData(this.averageSeriesData, false);
+    this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
 
-    // this seemed like a pretty good way to get things to line up. 65 is a constant to account for gaps and headers, the rest is dynamic based on rows
-    this.chartInstance.setSize(null, (50 * data.data.length) + 65);
+    this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.jobRangeData.data));
   }
 
   ngOnInit(): void {
@@ -155,5 +245,4 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.dataSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
   }
-
 }

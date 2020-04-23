@@ -31,7 +31,7 @@ export class PayfactorsSearchApiModelMapper {
     if (mappingDataObject !== null) {
       this.searchFilterMappingData = mappingDataObject;
     }
-    return searchFilters.map(sf => this.mapSearchFilterToFilter(sf));
+    return searchFilters.map(sf => this.mapSearchFilterToFilter(sf)).filter(ft => !!ft);
   }
 
    mapSearchFiltersToMultiSelectFilters(searchFilters: SearchFilter[], mappingDataObject: SearchFilterMappingDataObj = null): MultiSelectFilter[] {
@@ -39,15 +39,22 @@ export class PayfactorsSearchApiModelMapper {
   }
 
    mapSearchFilterToFilter(searchFilter: SearchFilter): Filter {
-    switch (this.getMappingData(searchFilter.Name).Type) {
-      case FilterType.Multi:
-        return this.mapSearchFilterToMultiFilter(searchFilter);
-      case FilterType.FilterableMulti:
-        return this.mapSearchFilterToFilterableMultiFilter(searchFilter);
-      case FilterType.Range:
-        return this.mapSearchFilterToRangeFilter(searchFilter);
-      default:
-        return null;
+    const mappingData = this.getMappingData(searchFilter.Name);
+    if (!!mappingData) {
+      switch (mappingData.Type) {
+        case FilterType.Multi:
+          return this.mapSearchFilterToMultiFilter(searchFilter);
+        case FilterType.FilterableMulti: {
+          if (searchFilter.IsParentWithoutChild) {
+            return this.mapSearchFilterToMultiFilter(searchFilter);
+          }
+          return this.mapSearchFilterToFilterableMultiFilter(searchFilter);
+        }
+        case FilterType.Range:
+          return this.mapSearchFilterToRangeFilter(searchFilter);
+        default:
+          return null;
+      }
     }
   }
 
@@ -193,7 +200,8 @@ export class PayfactorsSearchApiModelMapper {
       SaveDisabled: mappingData.SaveDisabled,
       Operator: mappingData.Operator,
       ParentBackingField : mappingData.ParentBackingField,
-      AggregateCount: searchFilter.AggregateCount
+      AggregateCount: searchFilter.AggregateCount,
+      IsChildWithoutParent: searchFilter.IsChildWithoutParent
     };
   }
 

@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import { PfCommonModule } from 'libs/core';
 
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
@@ -25,7 +26,8 @@ describe('Employees - Employees Page', () => {
           ...fromRootState.reducers,
           employees_main: combineReducers(fromEmployeesReducer.reducers),
           pfDataGrids: combineReducers(fromPfGridReducer.reducers)
-        })
+        }),
+        PfCommonModule
       ],
       declarations: [ EmployeesPageComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],

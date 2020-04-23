@@ -33,10 +33,10 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
     DragulaModule.forRoot(),
     QuillModule.forRoot(),
     FontAwesomeModule,
+    NgbDropdownModule,
 
     // Payfactors
     PfCommonUIModule,
-    NgbDropdownModule,
   ],
   declarations: [
     InlineStringEditorComponent,

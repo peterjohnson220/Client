@@ -1,0 +1,9 @@
+<div class="support-team-card">
+  <img class="avatar rounded-circle" [src]="avatarUrl + user.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" width="64" height="63">
+  <div class="user-info">
+    <h5 class="name" title="{{user.FirstName + ' ' + user.LastName}}">{{user.FirstName + ' ' + user.LastName}}</h5>
+    <span class="text" title="{{user.Title}}">{{user.Title}}</span>
+    <a href="mailto:{{user.EmailAddress}}" title="{{user.EmailAddress}}" class="text">{{user.EmailAddress}}</a>
+    <span class="text" title="{{user.PhoneNumber}}">{{user.PhoneNumber}}</span>
+  </div>
+</div>

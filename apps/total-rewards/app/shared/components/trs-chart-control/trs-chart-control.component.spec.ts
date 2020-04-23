@@ -26,8 +26,8 @@ describe('TrsChartControlComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render the supplied title', () => {
-    component.controlData = { Title: 'test title' } as any;
+  it('should render the default title', () => {
+    component.controlData = { Title: { Default: 'test title' } } as any;
     component.employee = { compensationData: [] };
     fixture.detectChanges();
     expect(fixture.nativeElement.textContent.includes('test title')).toBeTruthy();

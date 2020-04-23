@@ -39,6 +39,18 @@ export class DashboardEffects {
       )
     );
 
+  @Effect()
+  getDriftUserId$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromDashboardActions.GETTING_DRIFT_USER_ID),
+      switchMap((action: fromDashboardActions.GettingDriftUserId) =>
+        this.dashboardApiService.getDriftUserId(action.payload).pipe(
+          map((response) => new fromDashboardActions.GettingDriftUserIdSuccess(response)),
+          catchError(error => of (new fromDashboardActions.GettingDriftUserIdError(error)))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private dashboardApiService: DashboardApiService

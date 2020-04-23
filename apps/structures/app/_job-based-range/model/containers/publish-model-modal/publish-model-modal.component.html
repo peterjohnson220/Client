@@ -1,0 +1,25 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Publish Model'"
+  [modalId]="'publish-model-modal-form'"
+  [attr.data-qa-id]="'publish-model-modal'"
+  [isOpen$]="modalOpen$"
+  [submitting]="(publishingModelAsyncObj$ | async)?.saving"
+  [primaryButtonText]="'Yes'"
+  [primaryButtonTextSubmitting]="'Yes'"
+  [secondaryButtonText]="'No'"
+  (onSubmit)="handlePublish()"
+  (onDismiss)="handleDismiss()">
+
+  <ng-container basic-content>
+    <div class="p-3">
+      Publishing this model will overwrite the existing structure for this pay market.  Would you like to continue?
+    </div>
+  </ng-container>
+
+  <ng-container footer-left>
+    <div *ngIf="(publishingModelAsyncObj$ | async)?.savingError" class="invalid-feedback d-block">
+      Error publishing model
+    </div>
+  </ng-container>
+</pf-modal-form>

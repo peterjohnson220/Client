@@ -39,7 +39,7 @@ export class ClearExchangeScopeSelection implements Action {
 export class SetFilterContext implements Action {
   readonly type = SET_FILTER_CONTEXT;
 
-  constructor(public payload: ExchangeDataSearchFilterContext) {}
+  constructor(public payload: ExchangeDataSearchFilterContext, public defaultScopeId?: string) {}
 }
 
 export class SetExchangeJobSelection implements Action {

@@ -5,5 +5,5 @@ export enum TotalRewardsControlEnum {
   Calculation,
   Chart,
   Title,
-  Summary
+  CalculationSummary
 }

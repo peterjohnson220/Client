@@ -1,6 +1,7 @@
 <div class="exchange-job-selector-container custom-modal-popover custom-modal-arrow">
   <button type="button"
-          class="btn btn-secondary selector"
+          [ngClass]="{'static': this.static}"
+          class="btn btn-secondary selector static"
           popoverTitle="Select an Exchange Job"
           placement="right"
           [disabled]="!selectorEnabled"

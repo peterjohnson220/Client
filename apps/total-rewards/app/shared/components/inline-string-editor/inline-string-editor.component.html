@@ -3,13 +3,14 @@
          class="input-text"
          type="text"
          placeholder="{{placeholder}}"
+         [value]="getValueForInputControl()"
          [minLength]="minCharacters"
          [maxLength]="maxCharacters"
          (blur)="disableEditState()"
          (change)="onChange()"
          [ngClass]="isInEditState ? '' : 'offScreen'">
   <span *ngIf="isInEditState == false" (click)="enableEditState()" class="editable d-flex">
-    <span class="edit-text">{{getValue()}}</span>
+    <span class="edit-text">{{getValueForDisplay()}}</span>
     <span class="edit-icon">
       <fa-icon class="fa-xs ml-2" [icon]="icon" aria-hidden="true"></fa-icon>
     </span>
@@ -17,5 +18,5 @@
 </span>
 
 <ng-template #isNotEditable>
-  <span>{{getValue()}}</span>
+  <span>{{getValueForDisplay()}}</span>
 </ng-template>

@@ -18,8 +18,16 @@ exports[`TransferScheduleCardComponent should show a saveable form if the summar
     >
       
       <fa-icon
-        class="pencil-top-right blue"
+        class="pencil-top-right blue hide-buttons"
         icon="pencil-alt"
+        placement="top"
+        size="lg"
+      />
+      
+      <fa-icon
+        class="pencil-top-right blue"
+        icon="times"
+        placement="top"
         size="lg"
       />
       <h4
@@ -78,6 +86,7 @@ exports[`TransferScheduleCardComponent should show an empty form if summary has 
     <div
       class="card-body"
     >
+      
       
       <h4
         class="card-title pb-3"

@@ -17,6 +17,7 @@ export class CompanyPageHelper {
       Website: null,
       Domain: null,
       Status: 'Active',
+      AccountExecutiveUserId: null,
       PrimarySupportUserId: null,
       JDMSeniorAssociateUserId: null,
       SystemUserGroupsId: systemUserGroupsId,
@@ -59,6 +60,7 @@ export class CompanyPageHelper {
       Status: company.Status,
       Website: company.Website,
       Domain: company.Domain,
+      AccountExecutiveUserId: !!company.AccountExecutiveUserId ? company.AccountExecutiveUserId.toString() : '',
       PrimarySupportUserId: !!company.PrimarySupportUserId ? company.PrimarySupportUserId.toString() : '',
       JDMSeniorAssociateUserId: !!company.JDMSeniorAssociateUserId ? company.JDMSeniorAssociateUserId.toString() : '',
       SystemUserGroupsId: company.SystemUserGroupsId,
@@ -149,6 +151,7 @@ export class CompanyPageHelper {
         case TileNames.Employees:
         case TileNames.NewCommunity:
         case TileNames.Peer:
+        case TileNames.QuickPrice:
         case TileNames.CompanyAdmin: {
           t.Checked = true;
           t.Disabled = false;
@@ -209,6 +212,7 @@ export class CompanyPageHelper {
         case TileNames.Employees:
         case TileNames.NewCommunity:
         case TileNames.Peer:
+        case TileNames.QuickPrice:
         case TileNames.CompanyAdmin: {
           t.Checked = true;
           t.Disabled = false;
@@ -237,6 +241,7 @@ export class CompanyPageHelper {
         case TileNames.Employees:
         case TileNames.NewCommunity:
         case TileNames.Peer:
+        case TileNames.QuickPrice:
         case TileNames.CompanyAdmin: {
           t.Disabled = false;
           return t;

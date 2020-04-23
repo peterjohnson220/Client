@@ -1,122 +1,136 @@
 import { Page } from './page';
-import { BaseControl } from './base-control';
+import { BaseControl, CalculationControl, ChartControl, ImageControl, RichTextControl, Settings } from './';
 import { TotalRewardsControlEnum } from './total-rewards-control-enum';
+import { TitleControl } from './title-control';
 
 export interface Statement {
-  Id: number;
   StatementId: string;
+  StatementName: string;
   TemplateId: string;
-  Name: string;
+  TemplateName: string;
   CreatedBy: string;
+  CreatedById: number;
   CreatedDate: Date;
-  LastRunBy: string;
-  LastRunDate: Date;
-  Employees: number;
-  Status: 'Active' | 'Draft';
   Pages: Page[];
+  Settings: Settings;
 }
 
 export function generateMockStatement(): Statement {
   return {
-    Id: 1,
     StatementId: '1',
+    StatementName: 'Name',
     TemplateId: '1',
-    Name: 'Name',
+    TemplateName: 'Template Name',
     CreatedBy: 'CreatedBy',
     CreatedDate: new Date('December 17, 2019 03:24:00'),
-    LastRunBy: 'LastRunBy',
-    LastRunDate: new Date('December 17, 2019 03:24:00'),
-    Employees: 13,
-    Status: 'Active',
+    Settings: {
+      FontSize: 'Medium',
+      FontFamily: 'Default',
+      ChartColors: ['black', '#fff', 'rgb(34, 34, 34)'],
+    },
     Pages: [{
       Sections: [{
-        ColumnCount: 2,
         Columns: [{
           Layout: { Width: 6 },
           Controls: [{
             Id: '100',
-            Title: 'Logo',
+            Title: { Default: 'Logo', Override: null },
             Layout: { Width: 12 },
             ControlType: TotalRewardsControlEnum.Image
-          }]
+          } as ImageControl]
         }, {
           Layout: { Width: 6 },
           Controls: [{
             Id: '101',
-            Title: 'Your Total Rewards Statement',
+            Title: { Default: 'Your Total Rewards Statement', Override: null },
             Layout: { Width: 12 },
             ControlType: TotalRewardsControlEnum.Title
-          }]
+          } as TitleControl]
         }]
       }, {
-        ColumnCount: 2,
         Columns: [{
           Layout: { Width: 6 },
           Controls: [{
             Id: '102',
-            Title: 'Statement Summary',
+            Title: { Default: 'Statement Summary', Override: null },
             Layout: { Width: 12 },
             Content: 'This is a rich text area.You can add a statement summary or welcome letter to your employees ' +
-                     'here.Use [ to find and insert existing employee or company fields into your text.',
+              'here.Use [ to find and insert existing employee or company fields into your text.',
             ControlType: TotalRewardsControlEnum.RichTextEditor
-          } as BaseControl, {
-            Id: '103',
-            Title: 'Your Total Rewards Breakdown',
+          } as RichTextControl, {
+            Title: { Default: 'Your Total Rewards Breakdown', Override: null },
             Layout: { Width: 12 },
             ControlType: TotalRewardsControlEnum.Chart,
             DataFields: []
-          } as BaseControl, {
-            Id: '104',
-            Title: 'In addition, the company also provides:',
+          } as ChartControl, {
+            Title: { Default: 'In addition, the company also provides:', Override: null },
             Layout: { Width: 12 },
             Content: 'This is a rich text area.You can add a statement summary or welcome letter to your employees ' +
-                     'here.Use [ to find and insert existing employee or company fields into your text.',
+              'here.Use [ to find and insert existing employee or company fields into your text.',
             ControlType: TotalRewardsControlEnum.RichTextEditor
-          } as BaseControl]
+          } as RichTextControl]
         }, {
           Layout: { Width: 6 },
           Controls: [{
             Id: '105',
-            Title: 'Cash Compensation',
+            Title: { Default: 'Cash Compensation', Override: null },
+            ControlType: TotalRewardsControlEnum.Calculation,
             Layout: { Width: 12 },
             Category: 'Compensation',
-            DataFields: ['Base', 'Bonus', 'TCC'],
-            ControlType: TotalRewardsControlEnum.Calculation
-          } as BaseControl, {
-            Id: '106',
-            Title: 'Retirement Savings',
+            Summary: { Default: 'Total', Override: null },
+            DataFields: [
+              { Id: '1', DatabaseField: 'Base', Name: { Default: 'Base' }, IsVisible: true},
+              { Id: '2', DatabaseField: 'Bonus', Name: { Default: 'Bonus' }, IsVisible: true},
+              { Id: '3', DatabaseField: 'TCC', Name: { Default: 'TCC' }, IsVisible: true}
+            ],
+          } as CalculationControl, {
+            Title: { Default: 'Retirement Savings', Override: null },
             Layout: { Width: 12 },
             Category: 'Retirement',
-            DataFields: ['401K', 'Savings Match', 'Pension Plan'],
+            DataFields: [
+              { Id: '1', DatabaseField: '401K', Name: { Default: '401K' }, IsVisible: true},
+              { Id: '2', DatabaseField: 'Savings Match', Name: { Default: 'Savings Match' }, IsVisible: true},
+              { Id: '3', DatabaseField: 'Pension Plan', Name: { Default: 'Pension Plan' }, IsVisible: true}
+            ],
+            Summary: { Default: 'Total', Override: null },
             ControlType: TotalRewardsControlEnum.Calculation
-          } as BaseControl, {
-            Id: '107',
-            Title: 'Health & Wellness',
+          } as CalculationControl, {
+            Title: { Default: 'Health & Wellness', Override: null },
             Layout: { Width: 12 },
             Category: 'Insurance',
-            DataFields: ['Medical Insurance', 'Dental Insurance', 'Vision Insurance', 'Life Insurance', 'Long - Term Disability'],
+            Summary: { Default: 'Total', Override: null },
+            DataFields: [
+              { Id: '1', DatabaseField: 'Medical Insurance', Name: { Default: 'Medical Insurance' }, IsVisible: true},
+              { Id: '2', DatabaseField: 'Dental Insurance', Name: { Default: 'Dental Insurance' }, IsVisible: true},
+              { Id: '3', DatabaseField: 'Vision Insurance', Name: { Default: 'Vision Insurance' }, IsVisible: true},
+              { Id: '4', DatabaseField: 'Life Insurance', Name: { Default: 'Life Insurance' }, IsVisible: true},
+              { Id: '5', DatabaseField: 'Long - Term Disability', Name: { Default: 'Long - Term Disability' }, IsVisible: true}
+            ],
             ControlType: TotalRewardsControlEnum.Calculation
-          } as BaseControl, {
-            Id: '108',
-            Title: 'Additional',
+          } as CalculationControl, {
+            Title: { Default: 'Additional', Override: null },
             Layout: { Width: 12 },
-            DataFields: ['Tuition Reimbursement', 'Paid Time Off(PTO)', 'Other Allowances'],
+            Summary: { Default: 'Total', Override: null },
+            DataFields: [
+              { Id: '1', DatabaseField: 'Tuition Reimbursement',  Name: { Default: 'Tuition Reimbursement' }, IsVisible: true},
+              { Id: '2', DatabaseField: 'Paid Time Off(PTO)',  Name: { Default: 'Paid Time Off(PTO)' }, IsVisible: true},
+              { Id: '3', DatabaseField: 'Other Allowances',  Name: { Default: 'Other Allowances' }, IsVisible: true}
+            ],
             ControlType: TotalRewardsControlEnum.Calculation
-          } as BaseControl, {
-            Id: '109',
-            Title: 'Your Total Rewards Value',
+          } as CalculationControl, {
+            Title: { Default: 'Your Total Rewards Value', Override: null },
             Layout: { Width: 12 },
-            ControlType: TotalRewardsControlEnum.Summary
+            ControlType: TotalRewardsControlEnum.CalculationSummary
           } as BaseControl]
         }]
       }]
-    }]
+    }],
+    CreatedById: 1,
   };
 }
 
 export function generateMockStatementWithSingleControl(controlType: TotalRewardsControlEnum): Statement {
   const statement = generateMockStatement();
-
   statement.Pages = [{
     Sections: [
       { Columns: [
@@ -127,6 +141,5 @@ export function generateMockStatementWithSingleControl(controlType: TotalRewards
       } as any
     ]
   }];
-
   return statement;
 }

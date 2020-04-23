@@ -1,0 +1,9 @@
+:host ::ng-deep .actions-container {
+  position: static !important;
+  height: auto !important;
+  padding: .85rem .5rem .25rem;
+
+  .buttons {
+    height: 29px;
+  }
+}

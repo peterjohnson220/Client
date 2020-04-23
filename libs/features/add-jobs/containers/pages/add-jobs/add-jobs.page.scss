@@ -1,5 +1,7 @@
 @import '../../../../search/styles/shared-variables';
 @import '../../../../search/styles/shared-styles';
+//TODO: Create a non legacy version of this modal and apply these styles conditionally
+@import 'legacy/legacy-styles';
 
 .page {
   height: 100%;

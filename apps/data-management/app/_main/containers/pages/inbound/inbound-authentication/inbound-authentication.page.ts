@@ -25,12 +25,14 @@ import * as fromEntitySelectionActions from '../../../../actions/entity-selectio
 export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
   connectionSummary$: Observable<ConnectionSummary>;
   currentWorkflowStep$: Observable<TransferDataWorkflowStep>;
+  loading$: Observable<boolean>;
+  loadingError$: Observable<boolean>;
+
   private unsubscribe$ = new Subject();
 
   workflowStep = TransferDataWorkflowStep;
 
   constructor(
-    private location: Location,
     private store: Store<fromDataManagementMainReducer.State>,
     private router: Router,
   ) {
@@ -39,6 +41,8 @@ export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$),
     );
     this.currentWorkflowStep$ = this.store.select(fromDataManagementMainReducer.getWorkflowStep);
+    this.loading$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoading);
+    this.loadingError$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoadingError);
   }
 
   ngOnInit() {
@@ -77,12 +81,11 @@ export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['/']);
   }
 
-  next(creds: CredentialsPackage) {
-    this.store.dispatch(new fromHrisConnectionActions.CreateConnection(creds));
+  next() {
     this.router.navigate(['/transfer-data/inbound/field-mapping']);
   }
 
   validateCredentials(creds: CredentialsPackage) {
-    this.store.dispatch(new fromHrisConnectionActions.Validate(creds));
+    this.store.dispatch(new fromHrisConnectionActions.CreateConnection(creds));
   }
 }

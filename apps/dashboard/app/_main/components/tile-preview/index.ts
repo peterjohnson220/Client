@@ -5,3 +5,4 @@ export * from './icon';
 export * from './list';
 export * from './place-holder';
 export * from './basic-list';
+export * from './peer';

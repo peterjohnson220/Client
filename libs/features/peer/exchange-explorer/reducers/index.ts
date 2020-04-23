@@ -193,7 +193,21 @@ export const getExchangeScopes = createSelector(
     return scopes.filter(s => s.ExchangeId === selectedExchangeJobExchangeDetail.ExchangeId);
   }
 );
+export const getHasDefaultScope = createSelector(
+  selectFilterContextState,
+  fromExchangeFilterContextReducer.getHasDefaultScope
+);
+export const getFilterContextHasDefaultScope = createSelector(
+  getHasDefaultScope,
+  getFilterContext,
+  getExchangeScopes,
+  (hasDefaultScope, filterContext, scopes) => {
+    if (!hasDefaultScope) {
+      return false;
+    }
 
+    return !!filterContext && !!scopes && scopes.length && scopes.findIndex(s => s.Id === filterContext.ScopeGUID) > -1;
+});
 
 export const getFilterContextScopeSelection = createSelector(
   getExchangeScopes,

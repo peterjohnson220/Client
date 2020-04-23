@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of, timer } from 'rxjs';
-import { catchError, debounce, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, debounce, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
 import { CompositeFieldApiService } from 'libs/data/payfactors-api/composite-field';
@@ -18,12 +18,24 @@ import * as fromModelSettingsModalActions from '../actions/model-settings-modal.
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import { PageViewIds } from '../constants/page-view-ids';
-import { RangeGroupMetadata } from '../models';
 import * as fromSharedReducer from '../reducers';
 import { Pages } from '../constants/pages';
+import { RangeGroupMetadata } from '../models';
+import { UrlService } from '../services';
 
 @Injectable()
 export class ModelSettingsModalEffects {
+
+  @Effect()
+  cancel$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromModelSettingsModalActions.CANCEL),
+      filter(() => this.urlService.isInNewStructureWorkflow()),
+      map(() => {
+        this.urlService.removeNewStructureWorkflow();
+        return new fromDataGridActions.LoadData(PageViewIds.Model);
+      })
+    );
 
   @Effect()
   getCurrencies$: Observable<Action> = this.actions$
@@ -87,7 +99,7 @@ export class ModelSettingsModalEffects {
       ),
       switchMap((data) => {
         return this.structureModelingApiService.saveModelSettings(
-          PayfactorsApiModelMapper.mapModelSettingsModalFormToSaveSettingsRequest(data.action.payload.rangeGroupId, data.action.payload.formValue)
+          PayfactorsApiModelMapper.mapModelSettingsModalFormToSaveSettingsRequest(data.action.payload.rangeGroupId, data.action.payload.formValue, data.action.payload.rounding)
         ).pipe(
           mergeMap((r) => {
               const actions = [];
@@ -131,6 +143,8 @@ export class ModelSettingsModalEffects {
                 actions.push(new fromModelSettingsModalActions.SaveModelSettingsSuccess());
               }
 
+              this.urlService.removeNewStructureWorkflow();
+
               return actions;
             }
           ),
@@ -146,6 +160,7 @@ export class ModelSettingsModalEffects {
     private compositeFieldsApiService: CompositeFieldApiService,
     private structureModelingApiService: StructureModelingApiService,
     private router: Router,
+    private urlService: UrlService,
     private store: Store<fromSharedReducer.State>
   ) {
   }

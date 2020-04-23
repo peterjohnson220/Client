@@ -96,6 +96,7 @@ export const getPuttingCompanySettingsError =
  */
 export const getUiPersistenceSettingsState =
   createFeatureSelector<fromUiPersistenceSettingsReducer.State>('uiPersistenceSettings');
+export const getUiPersistenceSettingsLoading = createSelector(getUiPersistenceSettingsState, fromUiPersistenceSettingsReducer.getLoading);
 export const getUiPersistenceSettings =
   createSelector(getUiPersistenceSettingsState, fromUiPersistenceSettingsReducer.getUiPersistenceSettings);
 export const getUiPersistenceSettingsSaving =

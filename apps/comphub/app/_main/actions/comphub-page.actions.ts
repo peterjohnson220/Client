@@ -23,6 +23,7 @@ export const UPDATE_ACTIVE_COUNTRY_DATA_SET = '[Comphub/Comphub Page] Update Act
 export const GET_EXCHANGE_DATA_SETS = '[Comphub/Comphub Page] Get Exchange Data Sets';
 export const GET_EXCHANGE_DATA_SETS_SUCCESS = '[Comphub/Comphub Page] Get Exchange Data Sets Success';
 export const UPDATE_ACTIVE_EXCHANGE_DATA_SET = '[Comphub/Comphub Page] Update Active Exchange Data Set';
+export const SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT = '[Comphub/Comphub Page] Set Quick Price Type In Workflow Context';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -128,6 +129,12 @@ export class UpdateActiveExchangeDataSet implements Action {
   constructor(public payload: number) { }
 }
 
+export class SetQuickPriceTypeInWorkflowContext implements Action {
+  readonly type = SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT;
+
+  constructor(public payload: string) {}
+}
+
 export type Actions
   = Init
   | NavigateToCard
@@ -146,4 +153,5 @@ export type Actions
   | HandleApiError
   | GetExchangeDataSets
   | GetExchangeDataSetsSuccess
-  | UpdateActiveExchangeDataSet;
+  | UpdateActiveExchangeDataSet
+  | SetQuickPriceTypeInWorkflowContext;

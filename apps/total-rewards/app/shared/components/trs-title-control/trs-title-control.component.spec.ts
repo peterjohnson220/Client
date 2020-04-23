@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TrsTitleControlComponent } from './trs-title-control.component';
+import {TitleControl} from '../../models';
 
 describe('TrsTitleControlComponent', () => {
   let component: TrsTitleControlComponent;
@@ -18,7 +19,9 @@ describe('TrsTitleControlComponent', () => {
   });
 
   it('should create', () => {
-    component.controlData = {} as any;
+    component.controlData = {
+      Title: {}
+    } as TitleControl;
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });

@@ -2,6 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import { QuillModule } from 'ngx-quill';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -23,7 +24,8 @@ describe('Admin - Tickets - Ticket Detail Card', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           ticketsAdminMain: combineReducers(fromTicketReducer.reducers),
-        })
+        }),
+        QuillModule.forRoot()
       ],
       declarations: [ TicketDetailCardComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]

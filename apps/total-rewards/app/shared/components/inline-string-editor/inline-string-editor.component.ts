@@ -1,24 +1,34 @@
-import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
 @Component({
   selector: 'pf-inline-string-editor',
   templateUrl: './inline-string-editor.component.html',
-  styleUrls: ['./inline-string-editor.component.scss']
+  styleUrls: ['./inline-string-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InlineStringEditorComponent implements OnDestroy, OnInit {
+export class InlineStringEditorComponent implements OnInit, OnChanges {
   constructor() {}
 
   @Input() minCharacters = 1;
   @Input() maxCharacters: number;
   @Input() placeholder: string;
-  @Input() isEditable$: Observable<boolean>;
+  @Input() inEditMode: boolean;
   @Input() icon = 'pencil';
+  @Input() value: string;
 
   @Output() valueChange = new EventEmitter<string>();
 
-  isEditableSubscription: Subscription;
-  value: string;
   isEditable: boolean;
   isInEditState: boolean;
 
@@ -26,25 +36,31 @@ export class InlineStringEditorComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.isInEditState = false;
-    if (this.isEditable$) {
-      this.isEditableSubscription = this.isEditable$.subscribe(isEditable => { this.isEditable = isEditable; });
-    } else {
-      this.isEditable = true;
+    this.isEditable = this.inEditMode !== false;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.inEditMode) {
+      this.isEditable = this.inEditMode;
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.isEditableSubscription) {
-      this.isEditableSubscription.unsubscribe();
-    }
-  }
-
-  getValue(): string {
-    let value = this.placeholder;
+  getValueForInputControl(): string {
     if (this.value) {
-      value = this.value;
+      return this.value;
+    } else if (this.isIe()) {
+      return this.getValueForDisplay();
+    } else {
+      return '';
     }
-    return value;
+  }
+
+  getValueForDisplay(): string {
+    let returnValue = this.placeholder;
+    if (this.value) {
+      returnValue = this.value;
+    }
+    return returnValue;
   }
 
   enableEditState(): void {
@@ -59,5 +75,10 @@ export class InlineStringEditorComponent implements OnDestroy, OnInit {
   onChange(): void {
     this.value = this.textBox.nativeElement.value;
     this.valueChange.emit(this.value);
+  }
+
+   isIe(): boolean {
+    const agent = window.navigator.userAgent.toLowerCase();
+    return agent.indexOf('trident') > -1;
   }
 }

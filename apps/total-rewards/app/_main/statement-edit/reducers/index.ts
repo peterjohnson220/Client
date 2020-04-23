@@ -5,6 +5,9 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromPageReducer from './statement-edit.page.reducer';
+import { AsyncStateObj } from 'libs/models';
+
+import { Statement, Settings } from '../../../shared/models';
 
 // Feature area state
 export interface StatementEditState {
@@ -26,17 +29,96 @@ export const selectStatementEditPageState =
   createFeatureSelector<StatementEditState>('totalRewards_statementEdit');
 
 // Feature Selectors
-export const selectStatementState = createSelector(
+export const selectPageState = createSelector(
   selectStatementEditPageState,
-  (state: StatementEditState) => state.page.statement.obj
+  (state: StatementEditState) => state.page
+);
+
+export const selectAsyncStatementObj = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.statement
+);
+
+export const selectStatement = createSelector(
+  selectAsyncStatementObj,
+  (state: AsyncStateObj<Statement>) => state.obj
 );
 
 export const selectStatementLoading = createSelector(
-  selectStatementEditPageState,
-  (state: StatementEditState) => state.page.statement.loading
+  selectAsyncStatementObj,
+  (state: AsyncStateObj<Statement>) => state.loading
 );
 
 export const selectStatementLoadingError = createSelector(
+  selectAsyncStatementObj,
+  (state: AsyncStateObj<Statement>) => state.loadingError
+);
+
+export const selectStatementSaving = createSelector(
+  selectAsyncStatementObj,
+  (state: AsyncStateObj<Statement>) => state.saving
+);
+
+export const selectStatementSavingSuccess = createSelector(
+  selectAsyncStatementObj,
+  (state: AsyncStateObj<Statement>) => state.savingSuccess
+);
+
+export const selectStatementSavingError = createSelector(
+  selectAsyncStatementObj,
+  (state: AsyncStateObj<Statement>) => state.savingError
+);
+
+export const selectCloningFromTemplate = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.cloningFromTemplate
+);
+
+export const selectCloningFromTemplateError = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.cloningFromTemplateError
+);
+
+export const selectIsSettingsPanelOpen = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.isSettingsPanelOpen
+);
+
+export const selectIsSettingsSaving = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.settingsSaving
+);
+
+export const selectIsSettingsSaveSuccess = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.settingsSaveSuccess
+);
+
+export const selectIsSettingsSaveError = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.settingsSaveError
+);
+
+export const selectSettings = createSelector(
+  selectStatement,
+  (state: Statement) => state.Settings
+);
+
+export const selectSettingsFontSize = createSelector(
+  selectSettings,
+  (state: Settings) => state.FontSize
+);
+
+export const selectSettingsFontFamily = createSelector(
+  selectSettings,
+  (state: Settings) => state.FontFamily
+);
+
+export const selectSettingsChartColors = createSelector(
+  selectSettings,
+  (state: Settings) => state.ChartColors
+);
+export const selectStatementMode = createSelector(
   selectStatementEditPageState,
-  (state: StatementEditState) => state.page.statement.loadingError
+  (state: StatementEditState) => state.page.mode
 );

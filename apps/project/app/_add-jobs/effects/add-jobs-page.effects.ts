@@ -45,11 +45,11 @@ export class AddJobsPageEffects {
           })
             .pipe(
               mergeMap(() => [
-                  new fromAddJobsPageActions.AddSelectedJobsSuccess(),
+                  new fromAddJobsPageActions.AddJobsSuccess(),
                   new fromSearchPageActions.CloseSearchPage()
                 ]
               ),
-              catchError(error => of(new fromAddJobsPageActions.AddSelectedJobsError(error)))
+              catchError(error => of(new fromAddJobsPageActions.AddJobsError(error)))
             );
         }
       )
@@ -58,8 +58,8 @@ export class AddJobsPageEffects {
   @Effect({dispatch: false})
   addProjectJobsSuccess$ = this.actions$
     .pipe(
-      ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS_SUCCESS),
-      tap((action: fromAddJobsPageActions.AddSelectedJobsSuccess) => {
+      ofType(fromAddJobsPageActions.ADD_JOBS_SUCCESS),
+      tap((action: fromAddJobsPageActions.AddJobsSuccess) => {
         this.windowCommunicationService.postMessage(action.type);
       }),
       map(() => new fromCompanySettingsActions.LoadCompanySettings())

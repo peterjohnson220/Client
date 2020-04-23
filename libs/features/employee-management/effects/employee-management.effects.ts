@@ -159,10 +159,11 @@ export class EmployeeManagementEffects {
     .pipe(
       ofType(fromEmployeeManagementActions.LOAD_STRUCTURES),
       switchMap((action: fromEmployeeManagementActions.LoadStructures) => {
-          return this.companyEmployeeApiService.getStructureNames(action.payload.jobId, action.payload.paymarketId).pipe(
+        return this.companyEmployeeApiService.getStructureNames(action.payload.jobId, action.payload.paymarketId, action.payload.employeeId)
+          .pipe(
             map((response) => {
               return new fromEmployeeManagementActions.LoadStructuresSuccess(
-                PayfactorsApiModelMapper.mapToDropdownList(response, 'Value', 'Text')
+                PayfactorsApiModelMapper.mapEmployeeModalStructuresReponsesToStructures(response)
               );
             }),
             catchError(() => of(new fromEmployeeManagementActions.LoadStructuresError()))

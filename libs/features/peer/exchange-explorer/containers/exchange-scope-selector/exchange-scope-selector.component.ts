@@ -2,9 +2,11 @@ import { Component, ViewChild, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/internal/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/internal/operators';
 
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { SettingsService } from 'libs/state/app-context/services';
 import { ExchangeScopeItem } from 'libs/models/peer/exchange-scope';
 
 import * as fromLibsExchangeExplorerReducers from '../../reducers';
@@ -30,23 +32,27 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   exchangeScopeItems$: Observable<ExchangeScopeItem[]>;
   selectedExchangeScopeItem$: Observable<ExchangeScopeItem>;
   inDeleteScopeMode$: Observable<boolean>;
+  defaultExchangeScopeId$: Observable<string>;
 
   inDeleteModeSubscription: Subscription;
   scopeToDeleteSubscription: Subscription;
   systemFilterLoadedSubscription: Subscription;
   exchangeScopeItemsSubscription: Subscription;
+  selectedExchangeScopeItemSubscription: Subscription;
 
   deleteMode = false;
   scopeToDelete$: Observable<ExchangeScopeItem>;
   scopeToDelete: ExchangeScopeItem = null;
   exchangeScopeItems: ExchangeScopeItem[];
   filteredExchangeScopeItems: ExchangeScopeItem[];
+  selectedExchangeScopeItem: ExchangeScopeItem;
   scopeFilter: string;
+  defaultScopeToggled = false;
 
   constructor(
-    private store: Store<fromLibsExchangeExplorerReducers.State>
+    private store: Store<fromLibsExchangeExplorerReducers.State>,
+    private settingsService: SettingsService
   ) {
-    this.exchangeScopeItems$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getExchangeScopes));
     this.exchangeScopeItemsLoading$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getExchangeScopesLoadingByJobs));
     this.systemFilterLoaded$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getHasAppliedFilterContext));
     this.selectedExchangeScopeItem$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getFilterContextScopeSelection));
@@ -63,6 +69,17 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
     } else {
       buttonClickEvent.stopPropagation();
     }
+  }
+
+  handleDefaultClicked(scope: ExchangeScopeItem, buttonClickEvent$: any): void {
+    buttonClickEvent$.stopPropagation();
+    this.defaultScopeToggled = true;
+    this.settingsService.updateUiPersistenceSettingDictionary(
+      FeatureAreaConstants.PeerManageScopes,
+      UiPersistenceSettingConstants.PeerDefaultExchangeScopes,
+      this.exchangeId,
+      !scope.IsDefault ? scope.Id : null
+      );
   }
 
   itemSelected(exchangeScopeItem: ExchangeScopeItem) {
@@ -125,6 +142,47 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
 
   // Lifecycle
   ngOnInit() {
+
+    const defaultExchangeScopeId$ = this.settingsService.selectUiPersistenceSettingFromDictionary<string>(
+      FeatureAreaConstants.PeerManageScopes, UiPersistenceSettingConstants.PeerDefaultExchangeScopes, this.exchangeId
+    );
+    const exchangeScopeItems$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getExchangeScopes));
+    const selectedExchangeScopeItem$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getFilterContextScopeSelection));
+
+    this.defaultExchangeScopeId$ = defaultExchangeScopeId$;
+
+    this.exchangeScopeItems$ = combineLatest([exchangeScopeItems$, defaultExchangeScopeId$]).pipe(
+      map(([exchangeScopeItems, defaultExchangeScopeId]) => {
+        return exchangeScopeItems.map(esi => {
+          const esiCopy = {...esi};
+          esiCopy.IsDefault = esi.Id === defaultExchangeScopeId;
+          return esiCopy;
+        });
+      }));
+    this.selectedExchangeScopeItem$ = combineLatest([selectedExchangeScopeItem$, defaultExchangeScopeId$])
+      .pipe(map(([selectedItem, defaultId]) => {
+        if (!!selectedItem) {
+          return  {...selectedItem, IsDefault: selectedItem.Id === defaultId};
+        }
+
+        return null;
+      }));
+
+    // Select the default exchange scope once the scopes have loaded
+    combineLatest([selectedExchangeScopeItem$, this.exchangeScopeItems$, defaultExchangeScopeId$])
+      .pipe(
+        filter(([selected, items, defaultId]) => !!defaultId && !this.defaultScopeToggled),
+        take(1)
+      ).subscribe(([selected, items, defaultId]) => {
+      if (!selected && !!items && items.length && !!defaultId) {
+        const defaultExchangeScopeItem = items.find(i => i.Id === defaultId);
+        if (!!defaultExchangeScopeItem) {
+          const itemToSelect = {...defaultExchangeScopeItem, IsDefault: true};
+          this.store.dispatch(new fromLibsExchangeFilterContextActions.SetExchangeScopeSelection(itemToSelect));
+        }
+      }
+    });
+
     this.systemFilterLoadedSubscription = this.systemFilterLoaded$.subscribe(loaded => {
       if (loaded) {
         if (this.isExchangeJobSpecific) {
@@ -140,6 +198,9 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
       this.exchangeScopeItems = esi;
       this.applyFilterToScopeList();
     });
+    this.selectedExchangeScopeItemSubscription = this.selectedExchangeScopeItem$.subscribe(sesi => {
+      this.selectedExchangeScopeItem = sesi;
+    });
   }
 
   ngOnDestroy() {
@@ -147,6 +208,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
     this.inDeleteModeSubscription.unsubscribe();
     this.scopeToDeleteSubscription.unsubscribe();
     this.exchangeScopeItemsSubscription.unsubscribe();
+    this.selectedExchangeScopeItemSubscription.unsubscribe();
     this.scopeFilter = '';
   }
 }

@@ -7,11 +7,13 @@ import * as fromExchangeExplorerActions from '../actions/exchange-filter-context
 export interface State extends Partial<ExchangeDataSearchFilterContext> {
   hasBeenSet: boolean;
   selectedScope: ExchangeScopeItem;
+  hasDefaultScope: boolean;
 }
 
 // Initial State
 export const initialState: State = {
   hasBeenSet: false,
+  hasDefaultScope: false,
   selectedScope: null,
   ExchangeId: 0,
   ExchangeJobId: 0,
@@ -31,10 +33,15 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
   switch (action.type) {
     case fromExchangeExplorerActions.SET_FILTER_CONTEXT: {
       const filterContext: ExchangeDataSearchFilterContext = action.payload;
+      const defaultScopeId = (<any>action).defaultScopeId;
+      const hasDefaultScope = state.ScopeGUID === defaultScopeId;
+      const scopeGuid = hasDefaultScope ? defaultScopeId : filterContext.ScopeGUID;
       return {
         ...state,
         ...filterContext,
-        hasBeenSet: true
+        hasBeenSet: true,
+        hasDefaultScope: hasDefaultScope,
+        ScopeGUID: scopeGuid
       };
     }
     case fromExchangeExplorerActions.TOGGLE_LIMIT_TO_PAYMARKET: {
@@ -59,6 +66,7 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
       return {
         ...state,
         selectedScope: action.payload,
+        hasDefaultScope: action.payload.IsDefault,
         ScopeGUID: action.payload.Id
       };
     }
@@ -120,3 +128,4 @@ export const getFilterContext = (state: State) => {
   return filterContext;
 };
 export const getWeightingType = (state: State) => state.WeightingType;
+export const getHasDefaultScope = (state: State) => state.hasDefaultScope;

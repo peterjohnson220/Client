@@ -14,7 +14,7 @@
   </div>
 
   <div class="d-flex flex-column job-subtitle">
-    <div *ngIf="!showJobLevelFamilyDescription; else jobLevelFamilyDescription">{{job.Source}}</div>
+    <div *ngIf="showJobSourceOrTitle"><div *ngIf="!showJobLevelFamilyDescription; else jobLevelFamilyDescription">{{job.Source}}</div></div>
   </div>
 
   <div class="d-flex mt-2">
@@ -44,6 +44,12 @@
           <tr>
             <th>Job Family:</th>
             <td>{{job.Family || '-'}}</td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="showJobBasedRangesJobMetadata">
+          <tr>
+            <th>Structures:</th>
+            <td>{{job?.AssignedStructures?.join(',') || '-'}}</td>
           </tr>
         </ng-container>
         <tr>

@@ -2,9 +2,11 @@
 
 exports[`TotalRewardsPageComponent should show the create new banner when no statements are returned 1`] = `
 <pf-total-rewards-statement-list-page
-  loadingStatements$={[Function Observable]}
-  searchTerm$={[Function Observable]}
-  statements$={[Function Observable]}
+  focusedTab$={[Function Store]}
+  statementsLoading$={[Function Observable]}
+  statementsLoadingError$={[Function Observable]}
+  statementsSearchTerm$={[Function Store]}
+  statementsTotal$={[Function Observable]}
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
@@ -19,16 +21,100 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
       class="mr-2"
     />
     
-    <pf-statements-grid />
+    <div
+      class="d-flex flex-column h-100"
+    >
+      <div
+        class="mh-100"
+      >
+        <ngb-tabset
+          ng-reflect-destroy-on-hide="false"
+        >
+          <ul
+            class="nav nav-tabs justify-content-start"
+            role="tablist"
+          >
+            
+            <li
+              class="nav-item"
+            >
+              <a
+                aria-controls="Statements-panel"
+                aria-disabled="false"
+                aria-expanded="true"
+                class="nav-link active"
+                href=""
+                id="Statements"
+                role="tab"
+              >
+                 Statements
+                
+              </a>
+            </li>
+            <li
+              class="nav-item"
+            >
+              <a
+                aria-controls="Templates-panel"
+                aria-disabled="false"
+                aria-expanded="false"
+                class="nav-link"
+                href=""
+                id="Templates"
+                role="tab"
+              >
+                 Templates
+                
+              </a>
+            </li>
+          </ul>
+          <div
+            class="tab-content"
+          >
+            
+            
+            <div
+              aria-expanded="true"
+              aria-labelledby="Statements"
+              class="tab-pane active"
+              id="Statements-panel"
+              role="tabpanel"
+            >
+              
+              
+              <pf-create-new-statement-banner />
+              
+            </div>
+            
+            
+            <div
+              aria-expanded="false"
+              aria-labelledby="Templates"
+              class="tab-pane "
+              id="Templates-panel"
+              role="tabpanel"
+            >
+              
+              <h4>
+                Templates will go here.
+              </h4>
+            </div>
+            
+          </div>
+        </ngb-tabset>
+      </div>
+    </div>
   </pf-page-with-title-bar>
 </pf-total-rewards-statement-list-page>
 `;
 
 exports[`TotalRewardsPageComponent should show the grid component when statements are returned 1`] = `
 <pf-total-rewards-statement-list-page
-  loadingStatements$={[Function Store]}
-  searchTerm$={[Function Store]}
-  statements$={[Function Observable]}
+  focusedTab$={[Function Store]}
+  statementsLoading$={[Function Store]}
+  statementsLoadingError$={[Function Store]}
+  statementsSearchTerm$={[Function Store]}
+  statementsTotal$={[Function Observable]}
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
@@ -43,7 +129,93 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
       class="mr-2"
     />
     
-    <pf-statements-grid />
+    <div
+      class="d-flex flex-column h-100"
+    >
+      <div
+        class="mh-100"
+      >
+        <ngb-tabset
+          ng-reflect-destroy-on-hide="false"
+        >
+          <ul
+            class="nav nav-tabs justify-content-start"
+            role="tablist"
+          >
+            
+            <li
+              class="nav-item"
+            >
+              <a
+                aria-controls="Statements-panel"
+                aria-disabled="false"
+                aria-expanded="true"
+                class="nav-link active"
+                href=""
+                id="Statements"
+                role="tab"
+              >
+                 Statements
+                
+              </a>
+            </li>
+            <li
+              class="nav-item"
+            >
+              <a
+                aria-controls="Templates-panel"
+                aria-disabled="false"
+                aria-expanded="false"
+                class="nav-link"
+                href=""
+                id="Templates"
+                role="tab"
+              >
+                 Templates
+                
+              </a>
+            </li>
+          </ul>
+          <div
+            class="tab-content"
+          >
+            
+            
+            <div
+              aria-expanded="true"
+              aria-labelledby="Statements"
+              class="tab-pane active"
+              id="Statements-panel"
+              role="tabpanel"
+            >
+              
+              
+              <div
+                class="h-100"
+              >
+                <pf-statements-grid />
+              </div>
+              
+            </div>
+            
+            
+            <div
+              aria-expanded="false"
+              aria-labelledby="Templates"
+              class="tab-pane "
+              id="Templates-panel"
+              role="tabpanel"
+            >
+              
+              <h4>
+                Templates will go here.
+              </h4>
+            </div>
+            
+          </div>
+        </ngb-tabset>
+      </div>
+    </div>
   </pf-page-with-title-bar>
 </pf-total-rewards-statement-list-page>
 `;

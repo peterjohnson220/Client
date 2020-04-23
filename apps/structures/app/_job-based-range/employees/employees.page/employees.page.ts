@@ -10,8 +10,8 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
-import { RangeGroupMetadata } from '../../shared/models';
 import { Pages } from '../../shared/constants/pages';
+import { RangeGroupMetadata } from '../../shared/models';
 
 @Component({
   selector: 'pf-employees-page',
@@ -20,8 +20,10 @@ import { Pages } from '../../shared/constants/pages';
 })
 export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
+  @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
 
   metaData$: Observable<RangeGroupMetadata>;
+  colTemplates = {};
   filter: PfDataGridFilter;
   employeePageViewId = PageViewIds.Employees;
   page = Pages.Employees;
@@ -59,6 +61,11 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit(): void {
+    this.colTemplates = {
+      ['ComparatioStructureRangeGroup']: {Template: this.percentageColumn},
+      ['PositionInRangeStructureRangeGroup']: {Template: this.percentageColumn}
+    };
+
     this.actionBarConfig = {
       ...this.actionBarConfig,
       GlobalActionsTemplate: this.gridGlobalActionsTemplate

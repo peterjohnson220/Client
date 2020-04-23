@@ -2,7 +2,7 @@ import { isObject } from 'lodash';
 
 import { LoaderSetting } from 'libs/models/data-loads';
 
-import { LoaderSettingsKeys } from '../constants/';
+import { LoaderFileFormat, LoaderSettingsKeys } from '../constants/';
 
 export interface ILoadSettings {
     isActive: boolean;
@@ -16,7 +16,7 @@ export interface ILoadSettings {
     isStructureMappingsLoadEnabled: boolean;
     isEmployeesFullReplace: boolean;
     isStructureMappingsFullReplace: boolean;
-
+    fileFormat: string;
 }
 export class LoaderSettings implements ILoadSettings {
     isActive: boolean;
@@ -30,6 +30,7 @@ export class LoaderSettings implements ILoadSettings {
     isStructureMappingsLoadEnabled: boolean;
     isEmployeesFullReplace: boolean;
     isStructureMappingsFullReplace: boolean;
+    fileFormat: string;
     validateOnly: boolean;
 }
 
@@ -46,57 +47,63 @@ export class OrgDataLoadHelper {
 
     static parseSettingResponse(response: LoaderSetting[]): LoaderSettings {
 
-        const loadSettings = new LoaderSettings;
+      const loadSettings = new LoaderSettings;
 
-        loadSettings.isActive = this.getLoaderSettingValueIfSet<boolean>(
-            response,
-            LoaderSettingsKeys.IsActive,
-            true,
-            this.stringSettingToBooleanTransform,
-        );
-        loadSettings.isCompanyOnAutoloader = this.getLoaderSettingValueIfSet<boolean>(
-            response,
-            LoaderSettingsKeys.IsActive,
-            false,
-            this.stringSettingToBooleanTransform
-        );
-        loadSettings.delimiter = this.getLoaderSettingValueIfSet<string>(response, LoaderSettingsKeys.Delimiter, null, this.noopStringTransform);
-        loadSettings.dateFormat = this.getLoaderSettingValueIfSet<string>(response, LoaderSettingsKeys.DateFormat, null, this.noopStringTransform);
-        loadSettings.isEmployeesLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
-            LoaderSettingsKeys.IsEmployeesLoadEnabled,
-            false,
-            this.stringSettingToBooleanTransform,
-        );
-        loadSettings.isJobsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
-            LoaderSettingsKeys.IsJobsLoadEnabled,
-            false,
-            this.stringSettingToBooleanTransform,
-        );
-        loadSettings.isPaymarketsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
-            LoaderSettingsKeys.IsPaymarketsLoadEnabled,
-            false,
-            this.stringSettingToBooleanTransform,
-        );
-        loadSettings.isStructuresLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
-            LoaderSettingsKeys.IsStructuresLoadEnabled,
-            false,
-            this.stringSettingToBooleanTransform,
-        );
-        loadSettings.isStructureMappingsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
-            LoaderSettingsKeys.IsStructureMappingsLoadEnabled,
-            false,
-            this.stringSettingToBooleanTransform,
-        );
-        loadSettings.isEmployeesFullReplace = this.getLoaderSettingValueIfSet<boolean>(response,
-            LoaderSettingsKeys.IsEmployeesFullReplace,
-            true,
-            this.stringSettingToBooleanTransform,
-        );
-        loadSettings.isStructureMappingsFullReplace = this.getLoaderSettingValueIfSet<boolean>(response,
-            LoaderSettingsKeys.IsStructureMappingsFullReplace,
-            true,
-            this.stringSettingToBooleanTransform,
-        );
+      loadSettings.isActive = this.getLoaderSettingValueIfSet<boolean>(
+        response,
+        LoaderSettingsKeys.IsActive,
+        true,
+        this.stringSettingToBooleanTransform,
+      );
+      loadSettings.isCompanyOnAutoloader = this.getLoaderSettingValueIfSet<boolean>(
+        response,
+        LoaderSettingsKeys.IsActive,
+        false,
+        this.stringSettingToBooleanTransform
+      );
+      loadSettings.delimiter = this.getLoaderSettingValueIfSet<string>(response, LoaderSettingsKeys.Delimiter, null, this.noopStringTransform);
+      loadSettings.dateFormat = this.getLoaderSettingValueIfSet<string>(response, LoaderSettingsKeys.DateFormat, null, this.noopStringTransform);
+      loadSettings.isEmployeesLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
+        LoaderSettingsKeys.IsEmployeesLoadEnabled,
+        false,
+        this.stringSettingToBooleanTransform,
+      );
+      loadSettings.isJobsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
+        LoaderSettingsKeys.IsJobsLoadEnabled,
+        false,
+        this.stringSettingToBooleanTransform,
+      );
+      loadSettings.isPaymarketsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
+        LoaderSettingsKeys.IsPaymarketsLoadEnabled,
+        false,
+        this.stringSettingToBooleanTransform,
+      );
+      loadSettings.isStructuresLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
+        LoaderSettingsKeys.IsStructuresLoadEnabled,
+        false,
+        this.stringSettingToBooleanTransform,
+      );
+      loadSettings.isStructureMappingsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(response,
+        LoaderSettingsKeys.IsStructureMappingsLoadEnabled,
+        false,
+        this.stringSettingToBooleanTransform,
+      );
+      loadSettings.isEmployeesFullReplace = this.getLoaderSettingValueIfSet<boolean>(response,
+        LoaderSettingsKeys.IsEmployeesFullReplace,
+        true,
+        this.stringSettingToBooleanTransform,
+      );
+      loadSettings.isStructureMappingsFullReplace = this.getLoaderSettingValueIfSet<boolean>(response,
+        LoaderSettingsKeys.IsStructureMappingsFullReplace,
+        true,
+        this.stringSettingToBooleanTransform,
+      );
+      loadSettings.fileFormat = this.getLoaderSettingValueIfSet<string>(
+        response,
+        LoaderSettingsKeys.FileFormat,
+        LoaderFileFormat.CSV,
+        this.noopStringTransform
+      );
       loadSettings.validateOnly = this.getLoaderSettingValueIfSet<boolean>(
         response,
         LoaderSettingsKeys.ValidateOnly,
@@ -152,10 +159,15 @@ export class OrgDataLoadHelper {
           existingLoaderSettings
         ),
         this.getSettingIfChanged(
+          LoaderSettingsKeys.FileFormat,
+          newLoaderSettings.fileFormat,
+          existingLoaderSettings
+        ),
+        this.getSettingIfChanged(
           LoaderSettingsKeys.ValidateOnly,
           this.booleanSettingToStringTransform(newLoaderSettings.validateOnly),
           existingLoaderSettings
-        )
+        ),
       ].filter(setting => isObject(setting));
     }
 

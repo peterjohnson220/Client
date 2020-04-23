@@ -18,6 +18,10 @@
   background-color: $pf-brand-secondary-color;
 }
 
+.k-checkbox:focus + .k-checkbox-label::before {
+  box-shadow: none;
+}
+
 .k-checkbox:checked + .k-checkbox-label::after {
   font-size: 12px;
   width: 15px;
