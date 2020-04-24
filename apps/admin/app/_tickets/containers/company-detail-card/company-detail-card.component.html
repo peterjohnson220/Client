@@ -1,4 +1,4 @@
-<div class="detail-card" title="Company Details" *ngIf="companyDetail">
+<div class="detail-card" *ngIf="companyDetail">
   <div class="row">
     <div class="col-sm">
       <span class="ticket-header">COMPANY DETAILS</span>
@@ -37,8 +37,7 @@
     <div class="col-sm mt-3">
       <div class="card-subtitle mb-1 detail-label">Recent Tickets</div>
       <div *ngFor="let ticketId of companyDetail.RecentTicketIds">
-        <a style="font-weight: 600" href="javascript:void(0)" (click)="openTicket(ticketId)"
-          title="{{ticketId.Title}}">{{ticketId.UserTicketId}}</a>
+        <a style="font-weight: 600" href="javascript:void(0)" (click)="openTicket(ticketId)">{{ticketId.UserTicketId}}</a>
       </div>
     </div>
   </div>
