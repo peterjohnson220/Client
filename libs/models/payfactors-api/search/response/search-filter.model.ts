@@ -5,6 +5,7 @@ export interface SearchFilter {
   AggregateCount?: number;
   IsChildWithoutParent?: boolean;
   IsParentWithoutChild?: boolean;
+  IsCollapsedByDefault?: boolean;
 }
 
 export interface SearchFilterOption {
