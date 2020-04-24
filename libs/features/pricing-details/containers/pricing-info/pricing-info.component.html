@@ -52,8 +52,7 @@
 </div>
 <hr>
 
-<div *ngIf="pricingInfo" class="pr-3" 
-  [ngClass]="pricingInfo.EnablePricingReview && pricingInfo.IsThisMostRecent ? 'container-two-line-header' : 'container-one-line-header'">
+<div *ngIf="pricingInfo" class="pr-3 pb-3" style="overflow: auto; max-height: calc(100vh - 360px);">
   <table id="pricingDetailTable">
     <tr class="table-header text-center">
       <td colspan="4"></td>

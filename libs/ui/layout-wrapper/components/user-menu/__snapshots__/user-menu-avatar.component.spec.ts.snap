@@ -7,7 +7,7 @@ exports[`User Menu Avatar should show the user avatar when one exists 1`] = `
 >
   <img
     class="pf-avatar"
-    src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/avatars/FakePicture.Jpg"
+    src="https://qa00filestore001.blob.core.windows.net/publicfiles/avatars/FakePicture.Jpg"
   />
 </pf-layout-wrapper-user-menu-avatar>
 `;

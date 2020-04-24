@@ -29,7 +29,10 @@ export class PricingDetailsEffects {
       switchMap(
         (action: fromPricingDetailsActions.GetPricingInfo) =>
           this.pricingLegacyApiService.getPricingInfo(action.payload).pipe(
-            map((pricingInfo: PricingInfo) => new fromPricingDetailsActions.GetPricingInfoSuccess(pricingInfo)),
+            map((pricingInfo: PricingInfo) => {
+              pricingInfo.Notes.sort((a, b) => b.CompanyJobPricingNoteId - a.CompanyJobPricingNoteId);
+              return new fromPricingDetailsActions.GetPricingInfoSuccess(pricingInfo);
+            }),
             catchError(response => of(new fromPricingDetailsActions.GetPricingInfoError()))
           )
       )

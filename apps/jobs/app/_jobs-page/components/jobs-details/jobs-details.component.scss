@@ -3,10 +3,6 @@
 
 .close-btn {
   cursor: pointer;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 900;
 }
 
 .close-btn:hover {
@@ -26,8 +22,26 @@
   padding: 0.75rem 1.0rem;
 }
 
-@include pf-tabset;
-
-.job-details-container {
-  background-color: #ffffff;
+.job-details-bottom-border {
+  border-bottom: 2px solid #dee2e6;
 }
+
+.job-title-code {
+  white-space: nowrap;
+  max-width: 350px;
+  display: block;
+}
+
+@media only screen and (max-width: 1360px) {
+  .hide-sm {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 1550px) {
+  .job-title-code {
+    max-width: 190px !important;
+  }
+}
+
+@include pf-tabset;
