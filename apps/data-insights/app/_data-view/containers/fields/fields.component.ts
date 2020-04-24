@@ -48,6 +48,7 @@ export class FieldsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.selectedFieldsSub.unsubscribe();
+    this.destroyDragula();
   }
 
   handleFieldAdded(fieldToAdd: Field): void {
@@ -104,6 +105,11 @@ export class FieldsComponent implements OnInit, OnDestroy {
         return handle.classList.contains('active-report-fields');
       }
     });
+  }
+
+  private destroyDragula() {
+    this.dragulaSub.unsubscribe();
+    this.dragulaService.destroy('fields-bag');
   }
 
 }
