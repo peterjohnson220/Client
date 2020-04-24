@@ -25,14 +25,17 @@
 </ng-template>
 
 <ng-template #statusColumn let-dataRow="dataRow">
-  <div class="status-column">
-    <fa-icon icon="circle" class="circle-icon"
-      [class.yellow]="dataRow['UserTickets_UserTicket_State'] === 'New'"
-      [class.green]="dataRow['UserTickets_UserTicket_State'] === 'Closed'"
-      [class.light-blue]="dataRow['UserTickets_UserTicket_State'] === 'Waiting for Response'"
-      [class.blue]="dataRow['UserTickets_UserTicket_State'] === 'In Progress'">
-    </fa-icon>
-    <span>{{dataRow['UserTickets_UserTicket_State']}}</span>
+  <div class="status-column d-flex">
+    <div class="flex-fill ellipsis-text">
+      <fa-icon icon="circle" class="circle-icon"
+        [class.yellow]="dataRow['UserTickets_UserTicket_State'] === 'New'"
+        [class.green]="dataRow['UserTickets_UserTicket_State'] === 'Closed'"
+        [class.light-blue]="dataRow['UserTickets_UserTicket_State'] === 'Waiting for Response'"
+        [class.blue]="dataRow['UserTickets_UserTicket_State'] === 'In Progress'">
+      </fa-icon>
+      <span>{{dataRow['UserTickets_UserTicket_State']}}</span>
+    </div>
+    <span *ngIf="!!dataRow['UserTickets_Is_Private']" class="badge badge-pill badge-private">Private</span>
   </div>
 </ng-template>
 

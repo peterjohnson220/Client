@@ -29,13 +29,15 @@ export class ServiceDashboardComponent implements OnInit, OnDestroy {
   staticSupportTeams = [
     {
       TeamName: 'Compensation Team',
-      TeamEmail: 'peer.services@payfactors.com',
-      Team: SupportTeam.Compensation
+      TeamEmail: 'compensationteam@payfactors.com',
+      Team: SupportTeam.Compensation,
+      IconClass: ['far', 'calculator']
     },
     {
       TeamName: 'Peer Team',
       TeamEmail: 'peer.services@payfactors.com',
-      Team: SupportTeam.Peer
+      Team: SupportTeam.Peer,
+      IconClass: ['far', 'exchange-alt']
     }
   ];
 
