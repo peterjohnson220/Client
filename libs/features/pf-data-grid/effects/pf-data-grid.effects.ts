@@ -313,7 +313,8 @@ export class PfDataGridEffects {
         )
       ),
       switchMap((data) => {
-        const selectableFields = data.fields.filter(f => f.IsSelected && data.fieldsExcludedFromExport.indexOf(f.SourceName) === -1);
+        const selectableFields = data.fields.filter(f =>
+          f.IsSelected && (!data.fieldsExcludedFromExport || data.fieldsExcludedFromExport.indexOf(f.SourceName) === -1));
         const selectedFields = DataGridToDataViewsHelper.mapFieldsToDataViewFields(selectableFields, data.sortDescriptor);
         const filters = DataGridToDataViewsHelper.getFiltersForExportView(data.fields, data.selectionField, data.selectedKeys);
         const dataView: DataView = {
