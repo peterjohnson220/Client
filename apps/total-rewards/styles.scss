@@ -141,6 +141,80 @@ pf-settings-panel {
   }
 }
 
+pf-trs-image-control {
+  .edit-mode {
+    border: 2px dashed $trs-canvas-background-color;
+    border-radius: 5px;
+  }
+  .edit-mode.show-image {
+    border: 2px dashed transparent;
+    transition: border .6s ease-in-out;
+    &:hover{
+      border: 2px dashed rgba($link-color, .5);
+    }
+  }
+
+  // Custom CSS to adjust Kendo Upload component
+  .trs-image {
+    svg {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .help-text {
+      font-size: .9rem;
+      bottom: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      display: inline-block;
+    }
+    .k-widget {
+      height: inherit;
+      max-height: 80px;
+      border: none;
+      .k-header {
+        border: none;
+      }
+      .k-dropzone {
+        padding-top: 4px;
+        height: 80px;
+        background: $trs-edit-statement-page-background-color;
+
+        .k-button.k-upload-button {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+      .k-upload-files {
+        position: relative;
+        padding: 0;
+        border: none;
+        top: -20px;
+        font-size: 1rem;
+        color: $color-danger;
+      }
+      .k-file {
+        padding: 0;
+        background: $trs-edit-statement-page-background-color;
+        border: none;
+      }
+      .k-file-extension-wrapper, .k-file-size, .k-file-invalid-extension-wrapper, .k-file-name {
+        display: none;
+      }
+      .k-upload-status {
+        padding: 0;
+        margin: 0;
+        font-size: 0;
+      }
+      .k-file-name-size-wrapper {
+        margin: 0;
+      }
+    }
+  }
+}
+
 @media print {
   @page {
     size: letter portrait;

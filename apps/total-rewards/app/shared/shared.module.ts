@@ -9,6 +9,7 @@ import { ChartModule } from '@progress/kendo-angular-charts';
 import { DragulaModule } from 'ng2-dragula';
 import 'hammerjs';
 import { QuillModule } from 'ngx-quill';
+import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -34,6 +35,7 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
     QuillModule.forRoot(),
     FontAwesomeModule,
     NgbDropdownModule,
+    UploadModule,
 
     // Payfactors
     PfCommonUIModule,

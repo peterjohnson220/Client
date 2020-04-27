@@ -18,7 +18,10 @@
               <div *ngIf="control.ControlType === controlType.Image">
                 <pf-trs-image-control
                   [controlData]="control"
-                  [employee]="employee"
+                  [statementId]="statement.StatementId"
+                  [mode]="mode"
+                  (saveImage)="handleSaveImage($event)"
+                  (removeImage)="handleRemoveImage($event)"
                   class="p-1"></pf-trs-image-control>
               </div>
 
