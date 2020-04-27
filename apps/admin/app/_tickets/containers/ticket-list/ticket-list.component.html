@@ -54,10 +54,15 @@
                                 [pickerType]="ticketFieldType.TYPE"
                                 [selectedValue]="getSelectedUserType(dataItem.Type)"
                                 [pickerOnly]="false">
-          <ng-container beside-label *ngIf="dataItem.HasNotes">
-            <span class="text-info" title="Client Note Added">
-              <fa-icon icon="comment-alt-exclamation"></fa-icon>
-            </span>
+          <ng-container beside-label>
+            <div class="state-icons" *ngIf="dataItem.HasNewAttachments || dataItem.HasNotes">
+              <span class="text-info" title="New Attachment Added" *ngIf="dataItem.HasNewAttachments">
+                <fa-icon icon="paperclip"></fa-icon>
+              </span>
+              <span class="text-info" title="Client Note Added" *ngIf="dataItem.HasNotes">
+                <fa-icon icon="comment-alt-exclamation"></fa-icon>
+              </span>
+            </div>
           </ng-container>
         </pf-ticket-value-picker>
       </ng-template>
