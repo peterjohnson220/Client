@@ -1,7 +1,7 @@
 <div class="dashboard-container" [ngClass]="isOpen ? 'opened' : 'closed'">
 
-  <div class="header" [class.closed]="!isOpen" (click)="toggle()">
-    <span>
+  <div class="header" [class.closed]="!isOpen">
+    <span (click)="toggle()">
       <fa-icon *ngIf="isOpen" class="icon open-icon" icon="chevron-double-right" size="lg"></fa-icon>
       <fa-icon *ngIf="!isOpen" class="icon close-icon" icon="chevron-double-left" size="lg"></fa-icon>
     </span>
@@ -19,7 +19,7 @@
       <ng-container *ngFor="let user of staticSupportTeams">
         <div class="support-team-card">
           <div class="icon-container">
-            <fa-icon class="icon" icon="exchange-alt"></fa-icon>
+            <fa-icon class="icon" [icon]="user.IconClass"></fa-icon>
           </div>
           <div class="user-info">
             <div [ngSwitch]="user.Team" class="d-flex">
