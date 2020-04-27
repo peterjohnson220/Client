@@ -4,6 +4,8 @@
   [textField]="'Value'"
   [valueField]="'Value'"
   [valuePrimitive]="true"
+  pfClickElsewhere
+  (clickElsewhere)="handleCloseClicked()"
   (close)="handleDropdownCloseEvent($event)"
   (open)="handleOpenDropdownEvent($event)">
 

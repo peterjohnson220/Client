@@ -4,10 +4,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { MultiSelectItemGroup } from 'libs/ui/common';
 
 import * as fromServicePageActions from '../../actions/service-page.actions';
 import * as fromServicePageReducer from '../../reducers';
-import { MultiSelectItemGroup, TicketListMode } from '../../models';
+import { TicketListMode } from '../../models';
 
 @Component({
   selector: 'pf-service-grid-actions',

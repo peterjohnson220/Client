@@ -2,8 +2,9 @@ import { Action } from '@ngrx/store';
 
 import { UploadedFile, UserTicketDto } from 'libs/models/service';
 import { UserTicketFile } from 'libs/models/payfactors-api/service/response';
+import { MultiSelectItemGroup } from 'libs/ui/common';
 
-import { TicketType, MultiSelectItemGroup, SupportTeamUser, TicketListMode, UserTicket } from '../models';
+import { TicketType, SupportTeamUser, TicketListMode, UserTicket } from '../models';
 
 export const LOAD_TICKET_TYPES  = '[Service / Service Page] Load Ticket Types';
 export const LOAD_TICKET_TYPES_SUCCESS  = '[Service / Service Page] Load Ticket Types Success';

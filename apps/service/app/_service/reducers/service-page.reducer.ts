@@ -2,8 +2,9 @@
 import { orderBy, cloneDeep } from 'lodash';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { MultiSelectItemGroup } from 'libs/ui/common';
 
-import { TicketType, MultiSelectItemGroup, SupportTeamUser, UserTicket } from '../models';
+import { TicketType, SupportTeamUser, UserTicket } from '../models';
 import * as fromServicePageActions from '../actions/service-page.actions';
 import { TicketStateHelper } from '../helpers';
 

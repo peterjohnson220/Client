@@ -1,8 +1,9 @@
 import {
   SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse, UserTicketComment
 } from 'libs/models/payfactors-api/service/response';
+import { MultiSelectItemGroup } from 'libs/ui/common';
 
-import { TicketType, MultiSelectItemGroup, SupportTeamUser, TicketNote, NoteAccessLevel, SupportTeam } from '../models';
+import { TicketType, SupportTeamUser, TicketNote, NoteAccessLevel, SupportTeam } from '../models';
 import { TicketStateHelper } from './ticket-state.helper';
 import { UserTicket } from '../models';
 

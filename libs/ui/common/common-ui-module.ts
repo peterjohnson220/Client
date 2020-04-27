@@ -7,6 +7,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgbModule, NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import * as fromFaIcons from './fa-icons';
 import { EllipsisViewMoreComponent, NavigationLinksComponent } from './content';
@@ -25,6 +26,7 @@ import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
 import { SimpleYesNoModalComponent } from './simple-yes-no';
 import { LoadingProgressBarService } from './loading/service';
+import { MultiSelectDropdownComponent, ItemGroupComponent } from './multi-select-dropdown';
 
 const components = [
   // Content
@@ -36,6 +38,8 @@ const components = [
   NavigationLinksComponent,
   PeerAssociationColorBlockComponent,
   SimpleYesNoModalComponent,
+  MultiSelectDropdownComponent,
+  ItemGroupComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective,
@@ -68,7 +72,8 @@ const components = [
     NgbModule,
     ImgFallbackModule,
     FontAwesomeModule,
-    ScrollingModule
+    ScrollingModule,
+    DropDownsModule
   ],
   declarations: components,
   exports: components,
