@@ -1,0 +1,49 @@
+@import 'colors';
+@import 'styles';
+
+.container {
+    border: 1px solid;
+    border-radius: 5px;
+    height: 40px;
+    width: 175px;
+    margin: auto;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 5px;
+    font-size: 0.9rem;
+}
+
+.icon {
+    float: left;
+    margin-right: 0.5rem;
+
+    &.word {
+      color: $community-word-badge-color;
+    }
+    &.pdf {
+      color: $community-pdf-badge-color;
+    }
+    &.excel {
+      color: $community-excel-badge-color;
+    }
+    &.image {
+      color: $community-image-badge-color;
+    }
+    &.file {
+      color: $community-attachment-link-color;
+    }
+  }
+
+.attachment-info {
+    float: left;
+    line-height: 0.35em;
+}
+
+a:link {
+    color: $community-attachment-link-color;
+}
+
+a:hover {
+    color: $community-attachment-link-hover-color;
+}
+

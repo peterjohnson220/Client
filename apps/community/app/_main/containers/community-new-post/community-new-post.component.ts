@@ -9,6 +9,9 @@ import { CommunityAddPost, CommunityPost, CommunityTopic } from 'libs/models';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import { SelectEvent, RemoveEvent, UploadEvent } from '@progress/kendo-angular-upload';
+import { mapFileInfoToCommunityAddAttachment } from '../../helpers/model-mapping.helper';
+import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
 
 @Component({
   selector: 'pf-community-new-post',
@@ -25,6 +28,10 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
 
   communityTopics$: Observable<CommunityTopic[]>;
   selectedTopicId: string;
+
+  uploadedFiles: CommunityAttachment[] = [];
+  saveAttachmentUrl = '/odata/CloudFiles.UploadCommunityAttachment';
+  removeAttachmentUrl = '/odata/CloudFiles.DeleteCommunityAttachment';
 
   public defaultTopic: CommunityTopic = { TopicName: 'Select a Topic to start your discussion...', Id: null };
 
@@ -70,7 +77,8 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
       PostText: this.context.value,
       IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value,
       Links: this.pfLinkifyService.getLinks(this.context.value),
-      TopicId: this.topic.value
+      TopicId: this.topic.value,
+      Attachments: this.uploadedFiles
     };
 
     this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
@@ -79,5 +87,24 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
 
   public onOpenTopicsList(): void {
     this.defaultTopic = null;
+  }
+
+  uploadAttachmentEventHandler(e: UploadEvent) {
+    // this method is called one file at a time
+    const file = e.files[0];
+    const cloudFileName = `${file.uid}_${file.name}`;
+    e.data = {CloudFileName: cloudFileName};
+    this.uploadedFiles.push(mapFileInfoToCommunityAddAttachment(file, cloudFileName));
+  }
+
+  removeAttachmentEventHandler(e: RemoveEvent) {
+    // this method is called one file at a time
+    const file = e.files[0];
+    file.name = `${file.uid}_${file.name}`;
+
+    const index = this.uploadedFiles.findIndex(f => f.CloudFileName === file.name);
+    if ( index >= 0 ) {
+      this.uploadedFiles.splice(index, 1);
+    }
   }
 }

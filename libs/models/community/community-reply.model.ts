@@ -1,4 +1,5 @@
 import { CommunityUserInfo, generateMockCommunityUserInfo } from './community-user-info.model';
+import { CommunityAttachment } from './community-attachment.model';
 
 export interface CommunityReply {
   Id: string;
@@ -13,6 +14,7 @@ export interface CommunityReply {
   IsCurrentUserReply: boolean;
   IsOnlyPostReply: boolean;
   UserLikes: CommunityUserInfo[];
+  Attachments: CommunityAttachment[];
 }
 
 export function generateMockCommunityReply(): CommunityReply {
@@ -28,6 +30,7 @@ export function generateMockCommunityReply(): CommunityReply {
     TimeTicks: 300,
     IsCurrentUserReply: false,
     IsOnlyPostReply: false,
-    UserLikes: []
+    UserLikes: [],
+    Attachments: []
   };
 }
