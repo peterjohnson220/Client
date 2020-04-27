@@ -1,6 +1,6 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
-  [showTitle]="false"  
+  [showTitle]="false"
   [inboundFilters]="filters"
   [columnTemplates]="colTemplates"
   [noRecordsFound] = "'This job has not been added to any Salary Structures.'"
@@ -11,13 +11,13 @@
 
 <ng-template #nameColumn let-dataRow="dataRow">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
-    <span> {{dataRow['CompanyJobs_Structures_Structure_Name']}} <small> ({{dataRow['CompanyJobs_Structures_Structure_Code']}})</small>  </span>
+    <span> {{dataRow['vw_CompanyJobsStructureInfo_Structure_Name']}} <small> ({{dataRow['vw_CompanyJobsStructureInfo_Structure_Code']}})</small>  </span>
   </div>
 </ng-template>
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
-    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Structures_Rate'] | emptyPlaceholder"></span>
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['vw_CompanyJobsStructureInfo_Rate'] | emptyPlaceholder"></span>
   </div>
 </ng-template>
 

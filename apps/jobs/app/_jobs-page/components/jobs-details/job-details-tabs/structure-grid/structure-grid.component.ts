@@ -23,7 +23,7 @@ import { PageViewIds } from '../../../../constants';
   templateUrl: './structure-grid.component.html',
   styleUrls: ['./structure-grid.component.scss']
 })
-export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestroy {
+export class StructureGridComponent implements AfterViewInit, OnDestroy {
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('nameColumn', { static: false }) nameColumn: ElementRef;
@@ -35,7 +35,7 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
   colTemplates = {};
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
-    field: 'CompanyJobs_Structures_Structure_Search'
+    field: 'vw_CompanyJobsStructureInfo_Structure_Search'
   }];
   gridFieldSubscription: Subscription;
   companyPayMarketSubscription: Subscription;
@@ -63,18 +63,6 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'structure-grid-action-bar ml-0 mt-1'
     };
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filters']) {
-      const newFilter = [...this.filters].filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
-      const jobFilter = newFilter.find(f => f.SourceName === 'CompanyJob_ID');
-      if (jobFilter) {
-        newFilter.splice(this.filters.indexOf(jobFilter), 1);
-        newFilter.push({ ...jobFilter, SourceName: 'CompanyJobId' });
-        this.filters = newFilter;
-      }
-    }
   }
 
   ngAfterViewInit() {
