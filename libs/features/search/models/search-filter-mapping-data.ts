@@ -12,6 +12,7 @@ export interface SearchFilterMappingData {
   Operator?: OperatorEnum;
   ParentBackingField?: string;
   AggregateCount?: number;
+  IsCollapsedByDefault?: boolean;
 }
 
 interface ISearchFilterMappingDataObj {

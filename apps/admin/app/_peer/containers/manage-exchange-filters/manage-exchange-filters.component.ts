@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { Exchange, ExchangeSearchFilterAggregate } from 'libs/models/peer';
+import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
 
 import { GridHelperService } from '../../services';
 import * as fromPeerAdminReducer from '../../reducers';
@@ -28,6 +29,7 @@ export class ManageExchangeFiltersComponent implements OnInit, OnDestroy {
   exchangeFilterPuttingError$: Observable<boolean>;
   exchangeFilters$: Observable<ExchangeSearchFilterAggregate[]>;
 
+
   exchangeId: number;
   searchString = '';
   exchangeFilters: ExchangeSearchFilterAggregate[];
@@ -37,7 +39,8 @@ export class ManageExchangeFiltersComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
     private route: ActivatedRoute,
-    private gridHelperService: GridHelperService
+    private gridHelperService: GridHelperService,
+    private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService
   ) {
     this.exchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchange));
     this.exchangeFiltersLoading$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeFiltersLoading));
@@ -64,6 +67,12 @@ export class ManageExchangeFiltersComponent implements OnInit, OnDestroy {
   handleSwitchToggled(exchangeFilter: ExchangeSearchFilterAggregate) {
     const updatedExchangeFilter = {...exchangeFilter};
     updatedExchangeFilter.IsDisabled = !updatedExchangeFilter.IsDisabled;
+    this.store.dispatch(new fromExchangeFiltersActions.PutFilter(updatedExchangeFilter));
+  }
+
+  handleCollapsedSwitchToggled(exchangeFilter: ExchangeSearchFilterAggregate) {
+    const updatedExchangeFilter = {...exchangeFilter};
+    updatedExchangeFilter.IsCollapsedByDefault = !updatedExchangeFilter.IsCollapsedByDefault;
     this.store.dispatch(new fromExchangeFiltersActions.PutFilter(updatedExchangeFilter));
   }
 
