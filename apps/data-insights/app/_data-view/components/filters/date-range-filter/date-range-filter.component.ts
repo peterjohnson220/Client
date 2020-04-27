@@ -4,7 +4,7 @@ import { SelectionRange } from '@progress/kendo-angular-dateinputs';
 import { IntlService } from '@progress/kendo-angular-intl';
 import { addDays, isEqualDate } from '@progress/kendo-date-math';
 
-import { FilterOperator, Between, IsBefore, IsAfter, Is } from '../../../models';
+import { FilterOperator, Between, IsBefore, IsAfter, Is, Field } from '../../../models';
 
 @Component({
   selector: 'pf-date-range-filter',
@@ -17,6 +17,7 @@ export class DateRangeFilterComponent {
   @Input() endDate: string;
   @Input() locked: boolean;
   @Input() dateFormat: string;
+  @Input() field: Field;
   @Output() selectedOptionsChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() selectedOperatorChanged: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
 
@@ -36,6 +37,10 @@ export class DateRangeFilterComponent {
 
   public get selectedDate(): Date {
     return (this.startDate ? this.intlService.parseDate(this.startDate) : null);
+  }
+
+  public get capDate(): boolean {
+    return this.field && this.field.EntitySourceName === 'vw_EmployeeHistory' && this.field.KendoGridField === 'vw_EmployeeHistory_Load_Date';
   }
 
   handleOperatorSelectionChanged(operator: FilterOperator): void {
