@@ -31,7 +31,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
 
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
-  fieldsExcludedFromExport = ['CompanyEmployee_ID', 'CompanyJob_ID', 'CompanyPayMarket_ID', 'Employees'];
+  fieldsExcludedFromExport = ['CompanyEmployee_ID', 'CompanyJob_ID', 'CompanyPayMarket_ID', 'Employees', 'HiddenRate'];
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Employees'];
   globalFilterTemplates = {};
   colTemplates = {};
