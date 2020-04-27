@@ -15,6 +15,7 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
+import { ColumnTemplateService } from '../../services';
 
 @Component({
   selector: 'pf-model-grid',
@@ -26,7 +27,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('mid', {static: false}) midColumn: ElementRef;
   @ViewChild('max', {static: false}) maxColumn: ElementRef;
   @ViewChild('eeCount', {static: false}) eeCountColumn: ElementRef;
-  @ViewChild('avgBaseSalary', {static: false}) avgBaseSalaryColumn: ElementRef;
+  @ViewChild('rangeValue', {static: false}) rangeValueColumn: ElementRef;
   @ViewChild('mrpValue', {static: false}) mrpValueColumn: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
@@ -108,16 +109,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   // Lifecycle
   ngAfterViewInit() {
-    this.colTemplates = {
-      ['Min']: {Template: this.minColumn},
-      ['Mid']: {Template: this.midColumn},
-      ['Max']: {Template: this.maxColumn},
-      ['NumEmployees']: {Template: this.eeCountColumn},
-      ['AvgBaseSalary']: {Template: this.avgBaseSalaryColumn},
-      ['MarketReferencePointValue']: {Template: this.mrpValueColumn},
-      ['AverageComparatio']: {Template: this.percentageColumn},
-      ['AveragePositionInRange']: {Template: this.percentageColumn}
-    };
+    this.colTemplates = ColumnTemplateService.configureJobRangeTemplates(this.minColumn, this.midColumn, this.maxColumn, this.eeCountColumn,
+      this.rangeValueColumn, this.percentageColumn, this.mrpValueColumn);
 
     this.fullGridActionBarConfig = {
       ...this.fullGridActionBarConfig,
