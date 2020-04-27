@@ -39,6 +39,15 @@
   </div>
 </ng-template>
 
+<ng-template #summaryColumn let-dataRow="dataRow">
+  <div class="summary-column d-flex">
+    <div class="flex-fill ellipsis-text">
+      <span>{{dataRow['UserTickets_Summary']}}</span>
+    </div>
+    <fa-icon *ngIf="dataRow['UserTickets_CountAttachments'] > 0" [icon]="['far', 'paperclip']"></fa-icon>
+  </div>
+</ng-template>
+
 <ng-template #ticketType>
   <label>Type:</label>
   <kendo-dropdownlist
