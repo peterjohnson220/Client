@@ -15,8 +15,9 @@ import { faChevronDoubleLeft } from '@fortawesome/pro-solid-svg-icons/faChevronD
 // Regular
 import { faCalculator } from '@fortawesome/pro-regular-svg-icons/faCalculator';
 import { faExchangeAlt } from '@fortawesome/pro-regular-svg-icons/faExchangeAlt';
+import { faPaperclip } from '@fortawesome/pro-regular-svg-icons/faPaperclip';
 
 export const faIcons = [
   faCircle, faUpload, faCaretRight, faCaretDown, faExchangeAlt, faInfoCircle,
   faFileWord, faFilePdf, faFileExcel, faFileImage, faFile, faChevronDoubleRight, faChevronDoubleLeft,
-  faCalculator ];
+  faCalculator, faPaperclip ];

@@ -25,6 +25,7 @@ import * as fromServicePageReducer from '../reducers';
 })
 export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('statusColumn', { static: false }) statusColumn: ElementRef;
+  @ViewChild('summaryColumn', { static: false }) summaryColumn: ElementRef;
   @ViewChild('ticketType', { static: false }) ticketType: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
@@ -88,7 +89,8 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.colTemplates = {
-      'UserTicket_State': { Template: this.statusColumn }
+      'UserTicket_State': { Template: this.statusColumn },
+      'Summary': { Template: this.summaryColumn }
     };
     this.filterTemplates = {
       'TicketType_Display': { Template: this.ticketType }
