@@ -36,6 +36,7 @@ export class CreateTicketModalComponent {
   uploadedFilesData: UploadedFile[] = [];
   errorMessage = '';
   uploadError = false;
+  selectedTicketType: string;
 
   get f() { return this.ticketForm.controls; }
   public uploadRestrictions: FileRestrictions = {
@@ -66,8 +67,13 @@ export class CreateTicketModalComponent {
     this.createForm();
   }
 
+  handleSelectionChange(ticketType: TicketType) {
+    this.selectedTicketType = ticketType.TicketTypeDisplayName;
+  }
+
   onDismiss() {
     this.store.dispatch(new fromServicesPageActions.ShowNewTicketModal(false));
+    this.selectedTicketType = '';
     this.resetForm();
   }
 

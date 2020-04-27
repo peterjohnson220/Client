@@ -27,8 +27,14 @@
                                    [textField]="'TicketTypeDisplayName'"
                                    [valueField]="'UserTicketTypeId'"
                                    formControlName="TicketType"
+                                   (selectionChange)="handleSelectionChange($event)"
                                    [ngClass]="{ 'is-invalid': !f.TicketType.valid && f.TicketType.touched }"></kendo-dropdownlist>
               <span *ngIf="f.TicketType.errors?.required" class="invalid-feedback">Ticket Type is required</span>
+              <span *ngIf="selectedTicketType === 'Survey Data'" class="ticket-type">
+                *Please be sure to fill out the
+                <a class="pf-link-underline" href="/client/service/assets/files/SurveyReconciliation.xlsx" download>Survey Reconciliation Form</a>
+                prior to uploading survey data.
+              </span>
             </div>
           </div>
           <div class="form-group row">
