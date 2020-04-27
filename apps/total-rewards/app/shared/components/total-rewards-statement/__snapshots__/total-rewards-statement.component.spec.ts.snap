@@ -18,15 +18,15 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   statementModeEnum={[Function Object]}
 >
   <div
-    class="container statement mt-4 mb-4 rounded medium-font-size default-font-family"
-    ng-reflect-klass="container statement mt-4 mb-4 "
+    class="container statement mb-4 rounded medium-font-size default-font-family"
+    ng-reflect-klass="container statement mb-4 round"
     ng-reflect-ng-class="medium-font-size default-font-"
   >
     
     <div>
       
       <div
-        class="py-4 trs-page"
+        class="pb-4 trs-page"
       >
         
         <section
@@ -34,17 +34,17 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         >
           
           <div
-            class="trs-column col-6 column"
+            class="trs-column col-6"
             ng-reflect-klass="trs-column"
-            ng-reflect-ng-class="col-6 column"
+            ng-reflect-ng-class="col-6"
           >
             <div
               class="row columnRow"
             >
               
               <div
-                class="col-12"
-                ng-reflect-ng-class="col-12"
+                class="col-12 control-type-2"
+                ng-reflect-ng-class="col-12 control-type-2"
               >
                 
                 
@@ -61,17 +61,17 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
             </div>
           </div>
           <div
-            class="trs-column col-6 column"
+            class="trs-column col-6"
             ng-reflect-klass="trs-column"
-            ng-reflect-ng-class="col-6 column"
+            ng-reflect-ng-class="col-6"
           >
             <div
               class="row columnRow"
             >
               
               <div
-                class="col-12"
-                ng-reflect-ng-class="col-12"
+                class="col-12 control-type-5"
+                ng-reflect-ng-class="col-12 control-type-5"
               >
                 
                 
@@ -93,17 +93,17 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         >
           
           <div
-            class="trs-column col-6 column"
+            class="trs-column col-6"
             ng-reflect-klass="trs-column"
-            ng-reflect-ng-class="col-6 column"
+            ng-reflect-ng-class="col-6"
           >
             <div
               class="row columnRow"
             >
               
               <div
-                class="col-12"
-                ng-reflect-ng-class="col-12"
+                class="col-12 control-type-1"
+                ng-reflect-ng-class="col-12 control-type-1"
               >
                 
                 <div>
@@ -118,8 +118,8 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
                 
               </div>
               <div
-                class="col-12"
-                ng-reflect-ng-class="col-12"
+                class="col-12 control-type-4"
+                ng-reflect-ng-class="col-12 control-type-4"
               >
                 
                 
@@ -134,8 +134,8 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
                 
               </div>
               <div
-                class="col-12"
-                ng-reflect-ng-class="col-12"
+                class="col-12 control-type-1"
+                ng-reflect-ng-class="col-12 control-type-1"
               >
                 
                 <div>
@@ -152,17 +152,17 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
             </div>
           </div>
           <div
-            class="trs-column col-6 column"
+            class="trs-column col-6"
             ng-reflect-klass="trs-column"
-            ng-reflect-ng-class="col-6 column"
+            ng-reflect-ng-class="col-6"
           >
             <div
               class="row columnRow"
             >
               
               <div
-                class="col-12"
-                ng-reflect-ng-class="col-12"
+                class="col-12 control-type-3"
+                ng-reflect-ng-class="col-12 control-type-3"
               >
                 
                 
@@ -175,8 +175,8 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
                 
               </div>
               <div
-                class="col-12"
-                ng-reflect-ng-class="col-12"
+                class="col-12 control-type-3"
+                ng-reflect-ng-class="col-12 control-type-3"
               >
                 
                 
@@ -189,8 +189,8 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
                 
               </div>
               <div
-                class="col-12"
-                ng-reflect-ng-class="col-12"
+                class="col-12 control-type-3"
+                ng-reflect-ng-class="col-12 control-type-3"
               >
                 
                 
@@ -203,8 +203,8 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
                 
               </div>
               <div
-                class="col-12"
-                ng-reflect-ng-class="col-12"
+                class="col-12 control-type-3"
+                ng-reflect-ng-class="col-12 control-type-3"
               >
                 
                 
@@ -217,8 +217,8 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
                 
               </div>
               <div
-                class="col-12"
-                ng-reflect-ng-class="col-12"
+                class="col-12 control-type-6"
+                ng-reflect-ng-class="col-12 control-type-6"
               >
                 
                 

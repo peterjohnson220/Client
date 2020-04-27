@@ -1,15 +1,9 @@
-@import "app-colors";
+@import 'app-colors';
 @import 'colors';
 
 .trs-calculation {
   table {
     table-layout: fixed;
-    empty-cells: show;
-    tr{
-      td {
-        height: 8px;
-      }
-    }
     .field-column {
       width: 65%;
     }
@@ -22,12 +16,25 @@
   }
 }
 
+.table-sm td {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .trs-calculation-row {
   .remove-btn {
     visibility: hidden;
     margin: 0;
     padding: .2rem;
     line-height: 1;
+  }
+  .last-before-summary {
+    padding-bottom: .5rem;
+  }
+  td.summary {
+    font-weight: 500;
+    border-top: 1px solid $trs-soft-border-color;
+    padding-top: .3rem;
   }
 }
 
@@ -44,7 +51,11 @@
 
 .add-button {
   border: none;
-  color: $trs-canvas-background-color;
+  color: inherit;
+  opacity: .6;
+  &:hover {
+    color: white;
+  }
 }
 
 .add-comp-field-item:hover {

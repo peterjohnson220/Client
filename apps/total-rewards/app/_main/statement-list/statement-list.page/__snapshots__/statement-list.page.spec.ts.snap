@@ -12,11 +12,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
 >
   <pf-page-with-title-bar>
     
-    <fa-icon
-      aria-hidden="true"
-      class="mr-2"
-    />
-    Total Rewards 
+    Total Rewards
     
     <pf-input-debounce
       class="mr-2"
@@ -119,11 +115,7 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
 >
   <pf-page-with-title-bar>
     
-    <fa-icon
-      aria-hidden="true"
-      class="mr-2"
-    />
-    Total Rewards 
+    Total Rewards
     
     <pf-input-debounce
       class="mr-2"

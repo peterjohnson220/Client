@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'app-colors';
 @import 'total-rewards/statement-settings';
 @import 'total-rewards/statement-layout-variables';
 @import 'total-rewards/rich-text-editor';
@@ -39,47 +40,24 @@
   }
 }
 
-// adjust edit statement page's header dimenions when left side bar is expanded
-main.left-sidebar-expanded {
-  pf-statement-edit .header-row, .trs-rich-text-control.active .ql-toolbar {
-    left: $canvas-left-expanded-left-nav;
-    width: $canvas-width-expanded-left-nav;
-  }
-}
-
-// statement list page
 pf-total-rewards-statement-list-page {
-  .page-title {
-    svg {
-      color: $pf-brand-primary-color;
-    }
-  }
-
-  // hide no records found message in the grid when loading
   .loading-blanket + .k-grid .k-grid-norecords {
-    display: none;
+    display: none; // hide no records found message in the grid when loading
   }
 }
 
-pf-total-rewards-statement {
-  .trs-calculation-row {
-    .edit-icon {
-      visibility: hidden;
-    }
-  }
-}
-
-pf-statement-edit {
+pf-statement-edit.page {
   .page-content {
-    // let settings panel hide out to the right
-    overflow-x: hidden;
+    overflow-x: hidden; // let settings panel hide out to the right
+    background-color: $trs-edit-statement-page-background-color !important;
   }
   a.settings {
+    top: 4px;
+    color: inherit;
     svg {
-      color: white;
       font-size: 1.8rem;
-      transition: transform .25s ease-in-out;
-      opacity: .8;
+      transition: all .25s ease-in-out;
+      opacity: .65;
       &:hover {
         opacity: 1;
         transform: rotate(45deg);
@@ -128,6 +106,11 @@ pf-total-rewards-statement {
         visibility: hidden;
       }
     }
+  }
+
+  // when we have a group of calculation controls together, hide all but the first secondary header, ie Contribution column header
+  .control-type-3 ~ .control-type-3 .secondary-header {
+    display: none;
   }
 }
 

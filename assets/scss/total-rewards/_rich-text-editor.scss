@@ -2,18 +2,20 @@ $rich-text-height: 180px;
 
 .trs-rich-text-control {
   height: $rich-text-height;
+  top: -10px; // compensate for the relocated editor ribbon
   .ql-toolbar {
     text-align: center;
     opacity: 0;
+    transform: scaleY(0);
     pointer-events: none;
-    transition: $left-nav-transition, opacity .3s ease-in-out;
+    transition: $left-nav-transition, opacity .3s ease-in-out, transform .25s ease-in-out;
     background-color: #fff;
     position: fixed;
     z-index: 100;
-    top: 164px;
-    left: $canvas-left;
+    margin-left: -53px;
+    top: 179px;
     width: $canvas-width;
-
+    border-color: $trs-soft-border-color;
     .ql-picker.ql-font {
       width: 160px;
     }
@@ -45,30 +47,22 @@ $rich-text-height: 180px;
   // hover, active, invalid borders in edit mode
   &.edit-mode {
     &:hover {
-      .ql-container {
-        border: 2px dashed rgba($link-color, .5);
-      }
-
       .ql-toolbar.ql-snow + .ql-container.ql-snow {
-        border-top: 2px dashed rgba($link-color, .5);
+        border: 2px dashed rgba($link-color, .5);
       }
     }
 
     &.active {
-      .ql-container {
+      .ql-toolbar.ql-snow + .ql-container.ql-snow {
         border: 2px dashed $link-color;
       }
-
-      .ql-toolbar.ql-snow + .ql-container.ql-snow {
-        border-top: 2px dashed $link-color;
+      .ql-toolbar {
+        opacity: .95;
+        transform: scaleY(1);
+        pointer-events: initial;
       }
     }
-
-    &.active .ql-toolbar {
-      opacity: .95;
-      pointer-events: initial;
-    }
-
+    
     &.invalid {
       .ql-toolbar.ql-snow + .ql-container.ql-snow {
         border-color: darken(tomato, 10%);
