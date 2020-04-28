@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunitySearchResultContentComponent should display 1`] = `
+<pf-community-search-result-attachment
+  attachmentType={[Function String]}
+  attachments={[Function Array]}
+  searchTerm={[Function String]}
+>
+  <span
+    class="attachment-result-header-text "
+  >
+    Attachments
+  </span>
+</pf-community-search-result-attachment>
+`;

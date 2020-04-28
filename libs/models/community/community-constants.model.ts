@@ -19,7 +19,8 @@ export enum CommunitySearchResultTypeEnum {
   Discussion = 'Discussion',
   Reply = 'Reply',
   Poll = 'Poll',
-  Podcast = 'Podcast'
+  Podcast = 'Podcast',
+  Attachment = 'Attachment'
 }
 
 export enum CommunitySearchDurationEnum {
