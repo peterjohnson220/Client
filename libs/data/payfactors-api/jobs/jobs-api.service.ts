@@ -7,6 +7,7 @@ import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-loca
 @Injectable()
 export class JobsApiService {
   private endpoint = 'Jobs';
+  private frontEndExportEndpoint = 'Pricing';
 
   constructor(private payfactorsApiService: PayfactorsApiService
   ) { }
@@ -15,16 +16,13 @@ export class JobsApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddToProject`, request);
   }
 
-  // TODO: I was able to successfully export from legacy page against stage/pfi utilities boxes
-  // I have a feeling the null value for the headers param (which is the default value on downloadFile) may be a contributing factor
-  // if nothing else, test this change and compare the network requests to see which headers/values are needed
   exportPricings(request: any) {
-    return this.payfactorsApiService.downloadFile(`${this.endpoint}/${request.Endpoint}`, {
+    return this.payfactorsApiService.downloadFile(`${this.frontEndExportEndpoint}/${request.Endpoint}`, {
       CompanyJobIds: request.CompanyJobIds,
       PricingIds: request.PricingIds,
       FileExtension: request.FileExtension,
       Name: request.Name
-    }, null, false, BaseUrlLocation.Default, true);
+    }, null, false, BaseUrlLocation.FrontEnd, true, true);
   }
 
   loadCustomExports() {
