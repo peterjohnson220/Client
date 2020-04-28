@@ -1,18 +1,24 @@
 <pf-async-container [loading]="(loading$ | async)" [loadingError]="(loadingError$ | async)" (reload)="reload()">
-  <h4>Select a template to create a new statement.</h4>
+  <p class="info p-0 m-0">Select a template to create a new statement.</p>
   <ul class="m-0 p-0 list-unstyled d-flex" >
-    <li class="m-3" *ngFor="let template of (templates$ | async)">
-      <a href="javascript:void(0);" class="py-3 px-4" (click)="onCreate(template.id)">
-        <img class="img-thumbnail" src="{{template.thumbnailUrl}}" *ngIf="template.thumbnailUrl; else displayPlaceHolder" />
-        <ng-template #displayPlaceHolder>
-          <div class="text-center img-placeholder">
-            <fa-icon [icon]="'image'" aria-hidden="true" class="fa-8x"></fa-icon>
-          </div>
-        </ng-template>
-        <h5 class="mt-4">{{template.name}}</h5>
-        <p class="p-0 m-0" >{{template.description}}</p>
+    <li class="card m-3" *ngFor="let template of (templates$ | async)">
+      <a href="javascript:void(0);" (click)="onCreate(template.id)">
+        <div class="p-3">
+          <img *ngIf="template.thumbnailUrl; else displayPlaceHolder"
+             class="mw-100 img-thumbnail card-img" src="{{template.thumbnailUrl}}" alt="{{template.name}} thumbnail"  />
+          <ng-template #displayPlaceHolder>
+            <div class="text-center img-placeholder">
+              <fa-icon [icon]="'image'" aria-hidden="true" class="fa-10x p-0 m-0"></fa-icon>
+            </div>
+          </ng-template>
+        </div>
+        <div class="card-body pt-1">
+          <h5 class="card-title">{{template.name}}</h5>
+          <p class="card-text">{{template.description}}</p>
+        </div>
       </a>
-      <div class="py-3 px-4 text-right">
+      <!-- This <div> is here so the buttons aren't apart of the <a> above -->
+      <div class="card-body pt-0 pb-3 text-center">
         <button class="btn btn-trs btn-trs-secondary-btn mx-2" (click)="onPreview(template.id)">
           <fa-icon [icon]="'search'" aria-hidden="true"></fa-icon> Preview
         </button>
