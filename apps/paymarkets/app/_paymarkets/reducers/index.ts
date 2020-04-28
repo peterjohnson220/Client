@@ -39,3 +39,5 @@ export const selectGridActionsBarState = createSelector(selectFeatureAreaState,
 // Grid Actions Bar
 export const getCompanyScopeSizes = createSelector(selectGridActionsBarState, fromGridActionsBarReducer.getCompanyScopeSizes);
 export const getSelectedSizes = createSelector(selectGridActionsBarState, fromGridActionsBarReducer.getSelectedSizes);
+export const getCompanyIndustries = createSelector(selectGridActionsBarState, fromGridActionsBarReducer.getCompanyIndustries);
+export const getSelectedIndustries = createSelector(selectGridActionsBarState, fromGridActionsBarReducer.getSelectedIndustries);

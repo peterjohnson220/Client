@@ -52,6 +52,39 @@ export class GridActionsBarEffects {
       })
     );
 
+   @Effect()
+  getCompanyIndustries$ = this.actions$
+    .pipe(
+      ofType(fromGridActionsBarActions.GET_COMPANY_INDUSTRIES),
+      switchMap((action: fromGridActionsBarActions.GetCompanyIndustries) => {
+        return this.marketDataScopeApiService.getDistinctIndustries()
+          .pipe(
+            map((response) => new fromGridActionsBarActions.GetCompanyIndustriesSuccess(response)),
+            catchError(() => of(new fromGridActionsBarActions.GetCompanyIndustriesError()))
+          );
+      })
+    );
+
+  @Effect()
+  setSelectedIndustries = this.actions$
+    .pipe(
+      ofType(fromGridActionsBarActions.SET_SELECTED_INDUSTRIES),
+      withLatestFrom(
+        this.store.pipe(select(fromPfDataGridReducer.getFields)),
+        this.store.pipe(select(fromPayMarketsPageReducer.getSelectedIndustries)),
+        (action, fields, selectedIndustries) => ({ action, fields, selectedIndustries })
+      ),
+      map(data => {
+        const industryField = PayfactorsApiModelMapper.applySelectedItemsToField(data.fields, 'Industry_Value', data.selectedIndustries);
+        if (data.selectedIndustries && data.selectedIndustries.length) {
+          return new fromPfDataGridActions.UpdateFilter(PayMarketsPageViewId, industryField);
+        } else {
+          return new fromPfDataGridActions.ClearFilter(PayMarketsPageViewId, industryField, true);
+        }
+      })
+    );
+
+
   constructor(
     private actions$: Actions,
     private marketDataScopeApiService: MarketDataScopeApiService,

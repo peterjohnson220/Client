@@ -6,10 +6,11 @@ import { faLongArrowAltLeft } from '@fortawesome/pro-solid-svg-icons/faLongArrow
 import { faInfoCircle } from '@fortawesome/pro-solid-svg-icons/faInfoCircle';
 import { faExclamationTriangle } from '@fortawesome/pro-solid-svg-icons/faExclamationTriangle';
 import { faExclamationCircle } from '@fortawesome/pro-solid-svg-icons/faExclamationCircle';
+import { faCaretDown } from '@fortawesome/pro-solid-svg-icons/faCaretDown';
 
 import { faExclamationTriangle as farExclamationTriangle} from '@fortawesome/pro-regular-svg-icons/faExclamationTriangle';
 import { faCheckCircle} from '@fortawesome/pro-regular-svg-icons/faCheckCircle';
 import { faTable} from '@fortawesome/pro-regular-svg-icons/faTable';
 
 export const faIcons = [faTimes, faAngleDown, faSearch, faCircleNotch, faLongArrowAltLeft, faInfoCircle, faExclamationTriangle,
-  faExclamationCircle, farExclamationTriangle, faCheckCircle, faTable];
+  faExclamationCircle, farExclamationTriangle, faCheckCircle, faTable, faCaretDown];

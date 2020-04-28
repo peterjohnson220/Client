@@ -54,8 +54,16 @@ export const FilterOperatorOptions = {
 
 export function isValueRequired(field: ViewField) {
   return field.DataType && FilterOperatorOptions[field.DataType] ?
-  FilterOperatorOptions[field.DataType].filter(o => field.FilterOperator === o.value)[0].requiresValue
-  : true;
+    getFilterOperatorRequiresValue(field.DataType, field.FilterOperator)
+    : true;
+}
+
+function getFilterOperatorRequiresValue(dataType: string, filterOperator: string) {
+  const filterOperatorOptions: FilterOperator = FilterOperatorOptions[dataType].find(o => filterOperator === o.value);
+  if (filterOperatorOptions) {
+    return filterOperatorOptions.requiresValue;
+  }
+  return true;
 }
 
 export function getDefaultFilterOperator(field: ViewField) {
