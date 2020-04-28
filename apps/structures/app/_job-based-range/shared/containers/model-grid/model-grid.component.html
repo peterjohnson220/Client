@@ -86,8 +86,8 @@
   </ng-container>
 </ng-template>
 
-<ng-template #avgBaseSalary let-dataRow="dataRow" let-fieldName="fieldName">
-  {{ dataRow.CompanyStructures_RangeGroup_AvgBaseSalary | rangeValue: (metaData$ | async)?.Rate }}
+<ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
 </ng-template>
 
 <ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
