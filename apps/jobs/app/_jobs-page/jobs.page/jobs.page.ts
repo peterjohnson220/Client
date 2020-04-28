@@ -205,7 +205,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
       if (cs) {
         const setting = cs.find(x => x.Key === 'EnableJobsPageToggle');
-        this.enablePageToggle = setting && setting.Value === 'true'; // || true;
+        this.enablePageToggle = setting && setting.Value === 'true';
       }
     });
   }
