@@ -1,7 +1,7 @@
-import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { MultiSelectItemGroup } from '../models';
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import { MultiSelectItemGroup } from 'libs/ui/common';
 
 export class TicketStateHelper {
 

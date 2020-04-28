@@ -25,8 +25,7 @@ import { ServicePageEffects, TicketNotesEffects } from './effects';
 import { ServicePageComponent } from './service.page';
 import { CreateTicketModalComponent, GridActionsComponent, TicketNotesComponent } from './containers';
 import {
-  ServiceDashboardComponent, SupportTeamComponent, TicketsDetailsComponent,
-  MultiSelectDropdownComponent, ItemGroupComponent, TicketAttachmentsComponent
+  ServiceDashboardComponent, SupportTeamComponent, TicketsDetailsComponent, TicketAttachmentsComponent
 } from './components';
 import { ServiceRoutingModule } from './service-routing.module';
 
@@ -71,8 +70,6 @@ import { ServiceRoutingModule } from './service-routing.module';
     TicketNotesComponent,
 
     // Components
-    ItemGroupComponent,
-    MultiSelectDropdownComponent,
     ServiceDashboardComponent,
     SupportTeamComponent,
     TicketsDetailsComponent,

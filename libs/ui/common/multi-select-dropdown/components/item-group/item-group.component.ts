@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, After
 
 import { cloneDeep } from 'lodash';
 
-import { MultiSelectItemGroup, MultiSelectItem } from '../../../models';
+import { MultiSelectItemGroup, MultiSelectItem } from '../../models';
 
 @Component({
   selector: 'pf-item-group',

@@ -3,7 +3,7 @@ import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core
 import { DropDownListComponent } from '@progress/kendo-angular-dropdowns';
 import { cloneDeep } from 'lodash';
 
-import { MultiSelectItemGroup } from '../../../models';
+import { MultiSelectItemGroup } from '../../models';
 
 @Component({
   selector: 'pf-multi-select-dropdown',
