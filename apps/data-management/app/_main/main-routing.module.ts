@@ -41,7 +41,6 @@ const routes: Routes = [
     component: DataManagementHomePageComponent,
     canActivate: [AuthorizationGuard],
     data: { Permissions: [Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any },
-    // TODO: Need to determine subpermissions and consolidate pages
     children: [
       {
         path: '',
@@ -54,6 +53,8 @@ const routes: Routes = [
         children: [
           {
             path: 'inbound',
+            canActivateChild: [AuthorizationGuard],
+            data: { Permissions: [Permissions.HRIS_INBOUND_INTEGRATION], Check: PermissionCheckEnum.Any },
             children: [
               {
                 path: 'vendor',
@@ -80,6 +81,8 @@ const routes: Routes = [
           },
           {
             path: 'outbound',
+            canActivateChild: [AuthorizationGuard],
+            data: { Permissions: [Permissions.HRIS_OUTBOUND_INTEGRATION], Check: PermissionCheckEnum.Any },
             children: [
               {
                 path: 'vendor',
