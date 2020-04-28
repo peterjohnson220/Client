@@ -2,8 +2,9 @@ import {
   SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse, UserTicketComment
 } from 'libs/models/payfactors-api/service/response';
 import { MultiSelectItemGroup } from 'libs/ui/common';
+import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 
-import { TicketType, SupportTeamUser, TicketNote, NoteAccessLevel, SupportTeam } from '../models';
+import { TicketType, SupportTeamUser, TicketNote, NoteAccessLevel, SupportTeam, TicketListMode } from '../models';
 import { TicketStateHelper } from './ticket-state.helper';
 import { UserTicket } from '../models';
 
@@ -91,5 +92,21 @@ export class PayfactorsApiModelMapper {
         UserName: comment.UserFullName
       };
     });
+  }
+
+  // OUT
+  static buildInboundFiltersByTicketListMode(listType: TicketListMode, userId: number): PfDataGridFilter[] {
+    if (listType === TicketListMode.AllCompanyTickets) {
+      return [{
+        SourceName: 'Is_Private',
+        Operator: '=',
+        Value: '0'
+      }];
+    }
+    return [{
+      SourceName: 'User_ID',
+      Operator: '=',
+      Value: userId ? userId.toString() : null
+    }];
   }
 }
