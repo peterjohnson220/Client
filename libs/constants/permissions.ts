@@ -59,6 +59,8 @@ export class Permissions {
   public static SECURITY_SETTINGS = 'Security Settings';
   public static DATA_MANAGEMENT = 'Data Management';
   public static MODIFY_PRICINGS = 'Modify Pricings';
+  public static HRIS_INBOUND_INTEGRATION = 'HRIS Inbound Integration';
+  public static HRIS_OUTBOUND_INTEGRATION = 'HRIS Outbound Integration';
 
   // DKG: Note there are two similar Org Loader permissions for different tiles, one for Company-Admin and one for Data-Management
   public static DATAMANAGEMENT_ORG_DATA_LOAD = 'Load Organizational Data';

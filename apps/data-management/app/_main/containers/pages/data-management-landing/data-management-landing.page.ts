@@ -1,17 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {Store} from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
 
-import {Observable} from 'rxjs';
+import { Router } from '@angular/router';
 
-import {TransferMethodTypes} from 'libs/constants/hris-api';
-import {AsyncStateObj} from 'libs/models/state';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { Permissions } from 'libs/constants';
+import { TransferMethodTypes } from 'libs/constants/hris-api';
+import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
 import * as fromOutboundJdmActions from '../../../actions/outbound-jdm.actions';
-import {ConnectionSummary} from '../../../models';
-import {TransferDataWorkflowStep} from '../../../data';
+import { ConnectionSummary } from '../../../models';
+import { TransferDataWorkflowStep } from '../../../data';
 import * as fromDataManagementMainReducer from '../../../reducers';
 
 @Component({
@@ -22,6 +24,8 @@ import * as fromDataManagementMainReducer from '../../../reducers';
 export class DataManagementLandingPageComponent implements OnInit {
   public inbound = TransferMethodTypes.HRIS_INTEGRATION;
   public outboundjdm = TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION;
+
+  public permissions = Permissions;
 
   // TODO:  Turn this into an AsyncStateObj
   connectionSummary$: Observable<ConnectionSummary>;
