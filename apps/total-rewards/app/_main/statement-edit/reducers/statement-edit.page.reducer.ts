@@ -101,8 +101,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.UPDATE_CALCULATION_CONTROL_FIELD_TITLE: {
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
       const localState = cloneDeep(state);
-      const compFields = localState.statement.obj.Pages[Page].Sections[Section]
-        .Columns[Column].Controls[Control].DataFields;
+      const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
       for (let i = 0; i < compFields.length; i++) {
         if (compFields[i].Id === action.payload.DataFieldId) {
           localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].Name.Override = action.payload.NewName;
@@ -119,8 +118,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD: {
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
       const localState = cloneDeep(state);
-      const compFields = localState.statement.obj.Pages[Page].Sections[Section]
-        .Columns[Column].Controls[Control].DataFields;
+      const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
       for (let i = 0; i < compFields.length; i++) {
         if (compFields[i].Id === action.payload.DataFieldId) {
           localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].IsVisible = action.payload.IsVisible;
@@ -156,7 +154,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return localState;
     }
     // settings
-    case fromEditStatementActions.OPEN_SETTINGS: {
+    case fromEditStatementActions.OPEN_SETTINGS_PANEL: {
       const localState: State = cloneDeep(state);
       if (state.mode === StatementModeEnum.Preview) {
         return localState;
@@ -164,9 +162,18 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       localState.isSettingsPanelOpen = true;
       return localState;
     }
-    case fromEditStatementActions.CLOSE_SETTINGS: {
+    case fromEditStatementActions.CLOSE_SETTINGS_PANEL: {
       const localState: State = cloneDeep(state);
       localState.isSettingsPanelOpen = false;
+      return localState;
+    }
+    case fromEditStatementActions.TOGGLE_SETTINGS_PANEL: {
+      const localState: State = cloneDeep(state);
+      // bail if we're trying to open settings while in in preview mode
+      if (state.mode === StatementModeEnum.Preview && !localState.isSettingsPanelOpen) {
+        return localState;
+      }
+      localState.isSettingsPanelOpen = !localState.isSettingsPanelOpen;
       return localState;
     }
     case fromEditStatementActions.RESET_SETTINGS:

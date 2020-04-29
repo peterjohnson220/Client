@@ -1,14 +1,29 @@
-<div class="px-3">
-  <h4 class="primary-control-heading mb-1">{{controlData.Title.Default}}</h4>
-  <kendo-chart [transitions]="false" [seriesColors]="chartColors" style="height: 250px">
-    <kendo-chart-area background=""></kendo-chart-area>
+<div class="trs-chart px-3 " [ngClass]="inEditMode ? 'edit-mode' : 'preview-mode'">
+  <div class="d-flex">
+    <h4 class="primary-control-heading mb-1 flex-grow-2">
+      <pf-inline-string-editor
+        [value]="controlData.Title.Override"
+        [placeholder]="controlData.Title.Default"
+        [maxCharacters]="30"
+        [inEditMode]="inEditMode"
+        (valueChange)="onControlTitleChange($event)"></pf-inline-string-editor>
+    </h4>
+    <a href="javascript:void(0)" (click)="onSettingsClick()" class="settings position-relative" title="Chart Settings">
+      <fa-icon [icon]="'cog'" aria-hidden="true"></fa-icon>
+    </a>
+  </div>
+  <kendo-chart [transitions]="!inEditMode" [seriesColors]="chartColors" (legendItemClick)="onLegendItemClick($event)">
+    <kendo-chart-legend 
+      position="bottom">
+    </kendo-chart-legend>
     <kendo-chart-series>
       <kendo-chart-series-item
-        [autoFit]="true"
         type="donut"
-        [data]="employee.compensationData"
         categoryField="category"
-        field="value">
+        field="value"
+        [data]="(inEditMode) ? chartEditData : chartPreviewData"
+        [autoFit]="true"
+        [highlight]="false">
         <kendo-chart-series-item-labels
           position="outsideEnd"
           color="#333333"

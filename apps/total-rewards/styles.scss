@@ -112,6 +112,11 @@ pf-total-rewards-statement {
     }
   }
 
+  // disable mouse interaction for the chart so the legend cannot be clicked
+  .trs-chart .k-widget svg {
+    pointer-events: none;
+  }
+
   // when we have a group of calculation controls together, hide all but the first secondary header, ie Contribution column header
   .control-type-3 ~ .control-type-3 .secondary-header {
     display: none;

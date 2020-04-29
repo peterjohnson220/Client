@@ -37,8 +37,12 @@
               <div *ngIf="control.ControlType === controlType.Chart">
                 <pf-trs-chart-control
                   [controlData]="control"
+                  [mode]="mode"
+                  [employeeRewardsData]="employeeRewardsData"
+                  [calculationControls]="calculationControls"
                   [chartColors]="statement.Settings.ChartColors"
-                  [employee]="employee"
+                  (onTitleChange)="handleOnControlTitleChange($event)"
+                  (settingsClick)="handleChartControlSettingsClick()"
                   class="p-1"></pf-trs-chart-control>
               </div>
 
