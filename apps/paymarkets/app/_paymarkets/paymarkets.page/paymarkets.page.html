@@ -1,3 +1,25 @@
-<div class="page">
-  <span class="title">Pay Markets</span>
-</div>
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [title]="'Pay Markets'"
+  [selectionField]="'PayMarket'"
+  [defaultSort]="defaultSort"
+  [actionBarConfig]="actionBarConfig"
+  [columnTemplates]="colTemplates"
+  [gridRowActionsConfig]="gridRowActionsConfig">
+</pf-data-grid>
+
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+  <fa-icon icon="ellipsis-h"></fa-icon>
+</ng-template>
+
+<ng-template #payMarketSizeColumn let-dataRow="dataRow" let-hover="hover">
+  <span *ngIf="dataRow['CompanyPayMarkets_Size_Value'] !== 'All'">{{dataRow['CompanyPayMarkets_Size_Label']}} </span>{{dataRow['CompanyPayMarkets_Size_Value']}}
+</ng-template>
+
+<ng-template #defaultScopesColumn let-dataRow="dataRow" let-hover="hover">
+  <div class="flex">
+    <h5 *ngIf="!!dataRow['CompanyPayMarkets_SurveyScopesCount']" class="badge gray-badge mr-2">{{dataRow['CompanyPayMarkets_SurveyScopesCount']}} Survey</h5>
+    <h5 *ngIf="!!dataRow['CompanyPayMarkets_ExchangeScopesCount']" class="badge gray-badge">{{dataRow['CompanyPayMarkets_ExchangeScopesCount']}} Exchanges</h5>
+  </div>
+</ng-template>
+
