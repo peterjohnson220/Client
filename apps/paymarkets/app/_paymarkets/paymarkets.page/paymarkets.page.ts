@@ -31,7 +31,7 @@ export class PayMarketsPageComponent implements AfterViewInit {
   constructor() {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
-      ShowActionBar: false,
+      ShowActionBar: true,
       AllowSaveFilter: false
     };
   }
