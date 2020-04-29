@@ -24,6 +24,8 @@ export class CommunitySearchResultContentComponent {
       return this.details.Question;
     } else if (this.type === CommunitySearchResultTypeEnum.Podcast) {
       return this.details.Title;
+    } else if (this.type === CommunitySearchResultTypeEnum.Attachment) {
+      return this.details.Name;
     }
   }
 
