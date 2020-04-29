@@ -84,7 +84,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   private determineChartMin(currentRow) {
     // if we find average or avg outlier data AND its lower than CompanyStructures_Ranges_Min, use that value to check for new min.
     // otherwise just use CompanyStructures_Ranges_Min
-    let comparisonValue = currentRow.CompanyStructures_Ranges_Min;
+    // also make sure the comparison value is at least zero, aka not NULL. This is to prevent negative y-axis values
+    let comparisonValue = currentRow.CompanyStructures_Ranges_Min == null ? 0 : currentRow.CompanyStructures_Ranges_Min;
     // first check the averageminoutlier
     if (!!currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier &&
       currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier < comparisonValue) {
