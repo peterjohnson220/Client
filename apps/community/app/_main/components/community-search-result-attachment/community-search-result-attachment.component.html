@@ -1,8 +1,10 @@
-<span class="attachment-result-header-text ">Attachments</span>
-<div *ngFor="let attachment of attachments">
-  <pf-community-search-result-content
-    [type]="attachmentType"
-    [details]="attachment"
-    [searchTerm]="searchTerm">
-  </pf-community-search-result-content>
+<div class="attachment-container">
+  <span class="attachment-result-header-text">Attachments</span>
+  <div *ngFor="let attachment of attachments">
+    <pf-community-search-result-content
+      [type]="attachmentType"
+      [details]="attachment"
+      [searchTerm]="searchTerm">
+    </pf-community-search-result-content>
+  </div>
 </div>

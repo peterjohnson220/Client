@@ -6,10 +6,15 @@ exports[`CommunitySearchResultContentComponent should display 1`] = `
   attachments={[Function Array]}
   searchTerm={[Function String]}
 >
-  <span
-    class="attachment-result-header-text "
+  <div
+    class="attachment-container"
   >
-    Attachments
-  </span>
+    <span
+      class="attachment-result-header-text"
+    >
+      Attachments
+    </span>
+    
+  </div>
 </pf-community-search-result-attachment>
 `;
