@@ -48,19 +48,22 @@
 
 <ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container *ngIf="!!dataRow.CompanyStructures_Ranges_Mid; else noValue">
-    <kendo-numerictextbox  *ngIf="!(metaData$ | async).IsCurrent"
-                           class="form-control"
-                           [value]="dataRow.CompanyStructures_Ranges_Mid"
-                           [spinners]="false"
-                           [format]="(metaData$ | async)?.Rate.localeCompare('Annual', undefined, { sensitivity: 'accent' }) === 0 ? 'n0' : 'n2'"
-                           [decimals]="(metaData$ | async)?.Rate.localeCompare('Annual', undefined, { sensitivity: 'accent' }) === 0 ? 0 : 2"
-                           (change)="handleRangeOverrideOnBlur(dataRow, $event, rowIndex)"
-                           [min]="1"
-                           [step]="0"
-                           [max]="999999999999999"
-                           [autoCorrect]="true">
-    </kendo-numerictextbox>
-    <div class="staticMid" *ngIf="(metaData$ | async).IsCurrent">{{dataRow.CompanyStructures_Ranges_Mid | rangeValue: (metaData$ | async)?.Rate}}</div>
+    <pf-midpoint-editor
+      [pageViewId]="modelPageViewId"
+      [rangeGroupType]="rangeGroupType"
+      [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
+      [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
+      [rate]="(metaData$ | async)?.Rate"
+      [mid]="dataRow.CompanyStructures_Ranges_Mid"
+      [currentStructure]="(metaData$ | async)?.IsCurrent"
+      [dataRow]="dataRow"
+      [rowIndex]="rowIndex"
+      [roundingSettings]="roundingSettings"
+      [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
+      [updateMetaInfo]="{ page: page }"
+      [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
+      [readonlyValueTemplate]="midReadOnly">
+    </pf-midpoint-editor>
   </ng-container>
 </ng-template>
 
@@ -109,6 +112,10 @@
 
 <ng-template #noValue>
   - -
+</ng-template>
+
+<ng-template #midReadOnly let-mid="mid">
+  {{mid | rangeValue: (metaData$ | async)?.Rate }}
 </ng-template>
 
 <pf-model-settings-modal [rangeGroupId]="rangeGroupId" [page]="page"></pf-model-settings-modal>

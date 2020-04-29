@@ -13,10 +13,11 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'li
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-
-import * as fromJobsPageReducer from '../../../../reducers';
+import { RangeType } from 'libs/features/employee-management/models';
 
 import { PageViewIds } from '../../../../constants';
+import * as fromJobsPageReducer from '../../../../reducers';
+
 
 @Component({
   selector: 'pf-structure-grid',
@@ -27,11 +28,12 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('nameColumn', { static: false }) nameColumn: ElementRef;
+  @ViewChild('midColumn', { static: false }) midColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
   pageViewId = PageViewIds.Structures;
-  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
+  rangeTypeIds = RangeType;
   colTemplates = {};
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -74,6 +76,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     };
     this.colTemplates = {
       'Structure_Search': { Template: this.nameColumn },
+      'Mid': {Template: this.midColumn},
       [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
@@ -99,5 +102,14 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
 
   handleFilter(value) {
     this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+  }
+
+  getRefreshFilter(dataRow: any) {
+    return {
+      EntitySourceName: 'vw_CompanyJobsStructureInfo',
+      SourceName: 'CompanyStructuresRanges_ID',
+      Operator: '=',
+      Values: [dataRow.vw_CompanyJobsStructureInfo_CompanyStructuresRanges_ID]
+    };
   }
 }

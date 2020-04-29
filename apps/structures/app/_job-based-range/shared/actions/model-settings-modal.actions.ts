@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { ControlPoint, Currency, RoundingSettingsDataObj } from '../models';
+import { RoundingSettingsDataObj } from 'libs/models/structures';
+
+import { ControlPoint, Currency } from '../models';
 import { Pages } from '../constants/pages';
 
 export const OPEN_MODAL = '[Structures - Job Based Range - Model Settings] Open Modal';

@@ -1,8 +1,8 @@
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
+import { RoundingSettingsDataObj } from 'libs/models/structures';
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { RangeGroupMetadata } from '../models';
-import { RoundingSettingsDataObj } from '../models';
 
 export interface State {
   metadata: RangeGroupMetadata;

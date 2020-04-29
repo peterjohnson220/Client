@@ -1,0 +1,21 @@
+<kendo-numerictextbox  *ngIf="editable"
+                       class="form-control"
+                       [ngClass]="textAlign"
+                       [value]="value"
+                       [spinners]="false"
+                       [format]="format"
+                       [decimals]="decimals"
+                       (change)="handleValueChange(dataRow, $event, rowIndex)"
+                       (blur)="handleBlur()"
+                       (focus)="handleFocus()"
+                       [min]="1"
+                       [step]="0"
+                       [max]="999999999999999"
+                       [autoCorrect]="true">
+</kendo-numerictextbox>
+
+<ng-container
+  *ngIf="!editable"
+  [ngTemplateOutlet]="readonlyValueTemplate"
+  [ngTemplateOutletContext]="{dataRow: dataRow, mid: mid}">
+</ng-container>
