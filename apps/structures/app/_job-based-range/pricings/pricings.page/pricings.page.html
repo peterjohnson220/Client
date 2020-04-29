@@ -34,6 +34,10 @@
   </div>
 </ng-template>
 
+<ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+</ng-template>
+
 <ng-template #graph>
   <pf-pricings-salary-range-chart [rangeId]="rangeId"></pf-pricings-salary-range-chart>
 </ng-template>

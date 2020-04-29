@@ -122,10 +122,23 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
   }
 
+
+
+  getColumnTemplates() {
+    return {
+      'min': this.minColumn,
+      'mid': this.midColumn,
+      'max': this.maxColumn,
+      'eeCount': this.eeCountColumn,
+      'rangeValue': this.rangeValueColumn,
+      'mrpValue': this.mrpValueColumn,
+      'percentage': this.percentageColumn
+    };
+  }
+
   // Lifecycle
   ngAfterViewInit() {
-    this.colTemplates = ColumnTemplateService.configureJobRangeTemplates(this.minColumn, this.midColumn, this.maxColumn, this.eeCountColumn,
-      this.rangeValueColumn, this.percentageColumn, this.mrpValueColumn);
+    this.colTemplates = ColumnTemplateService.configureJobRangeTemplates(this.getColumnTemplates());
 
     this.fullGridActionBarConfig = {
       ...this.fullGridActionBarConfig,

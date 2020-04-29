@@ -12,6 +12,7 @@ import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
+import { ColumnTemplateService } from '../../shared/services';
 
 @Component({
   selector: 'pf-employees-page',
@@ -21,6 +22,7 @@ import { RangeGroupMetadata } from '../../shared/models';
 export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
+  @ViewChild('rangeValue', { static: false }) rangeValueColumn: ElementRef;
 
   metaData$: Observable<RangeGroupMetadata>;
   colTemplates = {};
@@ -60,11 +62,15 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     return;
   }
 
-  ngAfterViewInit(): void {
-    this.colTemplates = {
-      ['ComparatioStructureRangeGroup']: {Template: this.percentageColumn},
-      ['PositionInRangeStructureRangeGroup']: {Template: this.percentageColumn}
+  getColumnTemplates() {
+    return {
+      'rangeValue': this.rangeValueColumn,
+      'percentage': this.percentageColumn
     };
+  }
+
+  ngAfterViewInit(): void {
+    this.colTemplates = ColumnTemplateService.configureEmployeeTemplates(this.getColumnTemplates());
 
     this.actionBarConfig = {
       ...this.actionBarConfig,

@@ -28,6 +28,10 @@
   <ng-container *ngIf="dataRow[fieldName]">{{dataRow[fieldName]}}%</ng-container>
 </ng-template>
 
+<ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+</ng-template>
+
 <ng-template #gridGlobalActions>
   <pf-model-settings-btn [metadata]="metaData$ | async" (clicked)="handleModelSettingsBtnClicked()"></pf-model-settings-btn>
 </ng-template>
