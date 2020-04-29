@@ -20,6 +20,7 @@ export class ActionBarComponent implements OnChanges {
   @Input() actionBarConfig: ActionBarConfig;
   @Input() pageViewId: string;
   @Input() globalFilters: ViewField[];
+  @Input() reorderable: boolean;
   @Output() onFilterSidebarToggle = new EventEmitter();
 
   dataFields$: Observable<ViewField[]>;
@@ -48,8 +49,10 @@ export class ActionBarComponent implements OnChanges {
 
   updateFields(fields: ViewField[]) {
     const updatedFields = cloneDeep(fields);
-    const orderedVisibleFields = orderBy(updatedFields.filter(f => f.IsSelectable && f.IsSelected), ['Order', 'DisplayName'], ['asc']);
-    orderedVisibleFields.forEach((f, index) => f.Order = index);
+    if (this.reorderable) {
+      const orderedVisibleFields = orderBy(updatedFields.filter(f => f.IsSelectable && f.IsSelected), ['Order', 'DisplayName'], ['asc']);
+      orderedVisibleFields.forEach((f, index) => f.Order = index);
+    }
     this.store.dispatch(new fromActions.UpdateFields(this.pageViewId, updatedFields));
     this.store.dispatch(new fromActions.LoadData(this.pageViewId));
   }
