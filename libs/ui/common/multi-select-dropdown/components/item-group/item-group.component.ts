@@ -36,7 +36,7 @@ export class ItemGroupComponent implements OnChanges, AfterViewInit {
   handleItemClicked(item: MultiSelectItem): void {
     item.IsSelected = !item.IsSelected;
     this.itemClicked.emit(this.localItemGroup);
-    if (this.localItemGroup.Items.length > 1) {
+    if (this.localItemGroup.Items.length > 1 || !!this.localItemGroup.GroupName) {
       this.updateSelectAllState();
     }
   }

@@ -45,6 +45,19 @@ pf-item-group {
 }
 
 .value-template {
-  width: 150px;
   @extend %ellipsis-overflowing-text;
+}
+
+::ng-deep {
+  .k-dropdown-wrap {
+    background-color: #ffffff !important;
+  }
+
+  .k-dropdown > :hover {
+    background: none !important;
+  }
+
+  .k-dropdown .k-state-focused {
+    box-shadow: none !important;
+  }
 }

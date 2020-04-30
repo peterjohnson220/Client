@@ -1,0 +1,9 @@
+<div class="d-flex">
+  <pf-multi-select-dropdown *ngIf="!!(sizes$ | async)?.obj?.length"
+    [listItems]="(sizes$ | async)?.obj"
+    [selectedValues]="(selectedSizes$ | async)"
+    [placeholder]="'All'"
+    [title]="'Size'"
+    (listItemsUpdated)="handleSelectedSizesChanged($event)">
+  </pf-multi-select-dropdown>
+</div>

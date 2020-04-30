@@ -4,10 +4,12 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 import * as fromPayMarketsPageReducer from './paymarkets-page.reducer';
+import * as fromGridActionsBarReducer from './grid-actions-bar.reducer';
 
 // Feature area state
 export interface PayMarketsMainState {
   paymarketsPage: fromPayMarketsPageReducer.State;
+  gridActionsBar: fromGridActionsBarReducer.State;
 }
 
 // Extend root state with feature area state
@@ -18,6 +20,7 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   paymarketsPage: fromPayMarketsPageReducer.reducer,
+  gridActionsBar: fromGridActionsBarReducer.reducer
 };
 
 // Select Feature Area
@@ -28,4 +31,11 @@ export const selectPayMarketsPageState = createSelector(selectFeatureAreaState,
   (state: PayMarketsMainState) => state.paymarketsPage
 );
 
+export const selectGridActionsBarState = createSelector(selectFeatureAreaState,
+  (state: PayMarketsMainState) => state.gridActionsBar);
+
 // PayMarkets Page
+
+// Grid Actions Bar
+export const getCompanyScopeSizes = createSelector(selectGridActionsBarState, fromGridActionsBarReducer.getCompanyScopeSizes);
+export const getSelectedSizes = createSelector(selectGridActionsBarState, fromGridActionsBarReducer.getSelectedSizes);

@@ -1,6 +1,6 @@
-<ng-container *ngIf="localItemGroup?.Items?.length > 1; else singleItemTemplate">
+<ng-container *ngIf="localItemGroup?.Items?.length > 1 || localItemGroup?.GroupName?.length; else singleItemTemplate">
   <div class="d-flex flex-row header" (click)="toggleShowItems()">
-    <div [class.hidden]="localItemGroup?.Items?.length === 1" class="icon" [attr.data-qa-id]="'cnt-showItems'" title="Show Items">
+    <div class="icon" [attr.data-qa-id]="'cnt-showItems'" title="Show Items">
       <fa-icon [ngClass]="!showItems ? '' : 'hidden'" icon="caret-right"></fa-icon>
       <fa-icon [ngClass]="showItems ? '' : 'hidden'" icon="caret-down"></fa-icon>
     </div>
@@ -11,7 +11,7 @@
     <label class="k-checkbox-label" for="selectall-checkbox-{{localItemGroup?.GroupIndex}}"></label>
     <div class="title">{{localItemGroup?.Title}}</div>
   </div>
-  <div *ngIf="localItemGroup?.Items?.length > 1 && showItems" class="d-flex flex-column items">
+  <div *ngIf="localItemGroup?.Items?.length && showItems" class="d-flex flex-column items">
     <ng-container *ngFor="let item of localItemGroup.Items; trackBy: trackByFn">
       <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{item: item}"></ng-container>
     </ng-container>
@@ -32,6 +32,6 @@
     <input type="checkbox" class="k-checkbox"
       [ngModel]="item.IsSelected">
     <label class="k-checkbox-label" for="item-checkbox-{{item.GroupIndex}}"></label>
-    <div class="title">{{item.Value}}</div>
+    <div class="title">{{item.Name}}</div>
   </div>
 </ng-template>
