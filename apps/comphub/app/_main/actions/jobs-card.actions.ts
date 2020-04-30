@@ -64,7 +64,7 @@ export class ClearJobSearchOptions implements Action {
 export class SetSelectedJob implements Action {
   readonly type = SET_SELECTED_JOB;
 
-  constructor(public payload: { jobTitle: string, navigateToNextCard?: boolean }) {}
+  constructor(public payload: { jobTitle: string, exchangeJobId?: number, navigateToNextCard?: boolean }) {}
 }
 
 export class ClearSelectedJob implements Action {

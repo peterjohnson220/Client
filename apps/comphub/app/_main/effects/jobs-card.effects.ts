@@ -8,13 +8,14 @@ import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { ExchangeJobSearchApiService} from 'libs/data/payfactors-api/search/peer/exchange-job-search-api.service';
 import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
+import { QuickPriceType } from 'libs/constants';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
-import {ComphubPages, CountryCode} from '../data';
+import { ComphubPages, CountryCode } from '../data';
 import * as fromComphubMainReducer from '../reducers';
 
 @Injectable()
@@ -26,11 +27,27 @@ export class JobsCardEffects {
       ofType(fromJobsCardActions.GET_TRENDING_JOBS),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
-        (action: fromJobsCardActions.GetTrendingJobs, activeCountryDataSet) => ({ activeCountryDataSet })
+        this.store.select(fromComphubMainReducer.getActiveExchangeDataSet),
+        this.store.select(fromComphubMainReducer.getQuickPriceType),
+        (action: fromJobsCardActions.GetTrendingJobs, activeCountryDataSet, activeExchangeDataSet, qpType) => ({
+          activeCountryDataSet,
+          activeExchangeDataSet,
+          qpType
+        })
       ),
       switchMap((data) => {
-        const countryCode = !!data.activeCountryDataSet ? data.activeCountryDataSet.CountryCode : CountryCode.USA;
-          return this.comphubApiService.getTrendingJobs(countryCode)
+        let trendingJobs$ = of(null);
+        if (data.qpType === QuickPriceType.ENTERPRISE) {
+          const countryCode = !!data.activeCountryDataSet ? data.activeCountryDataSet.CountryCode : CountryCode.USA;
+          trendingJobs$ = this.comphubApiService.getTrendingJobs(countryCode);
+        }
+
+        if (data.qpType === QuickPriceType.PEER && !!data.activeExchangeDataSet) {
+          const exchangeId = data.activeExchangeDataSet.ExchangeId;
+          trendingJobs$ = this.comphubApiService.getTrendingExchangeJobs(exchangeId);
+        }
+
+          return trendingJobs$
             .pipe(
               map(response => {
                 const trendingJobGroups = PayfactorsApiModelMapper.mapTrendingJobGroupsResponseToTrendingJobGroups(response);
