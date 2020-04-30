@@ -23,6 +23,7 @@ export class FilterSectionComponent implements OnInit {
   @Output() clear: EventEmitter<string> = new EventEmitter();
   @Output() search: EventEmitter<Filter> = new EventEmitter();
   @Output() showMore: EventEmitter<Filter> = new EventEmitter();
+  @Output() showLess: EventEmitter<Filter> = new EventEmitter();
   @Output() searchValueChanged: EventEmitter<string> = new EventEmitter();
 
   protected cssReplacementRegex = /[\s]/g;
@@ -114,6 +115,10 @@ export class FilterSectionComponent implements OnInit {
     return (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter)) && this.optionCount + this.selectionCount < this.filter.AggregateCount;
   }
 
+  get displayShowLess(): boolean {
+    return (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter)) && this.filter.AggregateCount != null && this.filter.AggregateCount !== 5;
+  }
+
   toggle(updatePersistenceSettings = true) {
     if (!this.singled) {
       this.collapsed = !this.collapsed;
@@ -142,6 +147,12 @@ export class FilterSectionComponent implements OnInit {
   handleShowMoreClicked(filter: Filter) {
     if (this.allowedToSearch && !this.disableShowMore) {
       this.showMore.emit(filter);
+    }
+  }
+
+  handleShowLessClicked(filter: Filter) {
+    if (this.allowedToSearch) {
+      this.showLess.emit(filter);
     }
   }
 

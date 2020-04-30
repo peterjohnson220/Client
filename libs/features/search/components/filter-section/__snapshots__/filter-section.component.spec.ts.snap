@@ -13,6 +13,7 @@ exports[`Search Feature - Filter Section should display the given title in the h
   search={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
   settingsService={[Function Object]}
+  showLess={[Function EventEmitter]}
   showMore={[Function EventEmitter]}
 >
   <div
@@ -139,6 +140,7 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
   search={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
   settingsService={[Function Object]}
+  showLess={[Function EventEmitter]}
   showMore={[Function EventEmitter]}
 >
   <div
@@ -205,6 +207,7 @@ exports[`Search Feature - Filter Section should show a search icon and show more
   search={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
   settingsService={[Function Object]}
+  showLess={[Function EventEmitter]}
   showMore={[Function EventEmitter]}
   singled="false"
 >
@@ -260,9 +263,14 @@ exports[`Search Feature - Filter Section should show a search icon and show more
       >
         
         <div
-          class="show-more-link"
+          class="d-flex"
         >
-          Show More
+          <div
+            class="show-more-or-less-link"
+          >
+            Show More
+          </div>
+          
         </div>
       </div>
     </div>

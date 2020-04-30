@@ -84,6 +84,10 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleSectionShowLess(filter: Filter) {
+    this.filterShowLess(filter);
+  }
+
   // Lifecycle
   ngOnInit() {
     this.pageShowSub = this.pageShown$.subscribe(ps => {
@@ -104,6 +108,10 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
 
   private filterShowMore(filter: Filter): void {
     this.store.dispatch(new fromSearchFiltersActions.ShowMore({backingField: filter.BackingField}));
+  }
+
+  private filterShowLess(filter: Filter): void {
+    this.store.dispatch(new fromSearchFiltersActions.ShowLess({backingField: filter.BackingField}));
   }
 }
 

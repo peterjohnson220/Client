@@ -1,4 +1,11 @@
-import { isRangeFilter, FilterableMultiSelectFilter, FilterableMultiSelectOption, MultiSelectFilter, MultiSelectOption, RangeFilter } from '../models';
+import {
+  isRangeFilter,
+  FilterableMultiSelectFilter,
+  FilterableMultiSelectOption,
+  MultiSelectFilter,
+  MultiSelectOption,
+  RangeFilter
+} from '../models';
 import * as cloneDeep from 'lodash.clonedeep';
 
 export interface MultiSelectFiltersMergeParams {
@@ -172,6 +179,18 @@ export class ClientServerFilterHelper {
     }));
 
     return mergedOptions;
+  }
+
+  static removeNonSelectedMultiSelectFilterOptionsToMatchAggregateCount(multiSelectFilter: MultiSelectFilter) {
+    const selectedOptions = multiSelectFilter.Options.filter(o => o.Selected);
+    const nonSelectedOptions = multiSelectFilter.Options.filter(o => !o.Selected);
+    if (selectedOptions.length >= multiSelectFilter.AggregateCount) {
+      multiSelectFilter.Options = selectedOptions;
+      return;
+    }
+    const newOptions = selectedOptions.concat(nonSelectedOptions);
+    newOptions.length = multiSelectFilter.AggregateCount;
+    multiSelectFilter.Options = newOptions.sort((a, b) => b.Count - a.Count);
   }
 
   // Fill in the remainder option spots with current unselected client options
