@@ -7,8 +7,8 @@
   </pf-community-avatar>
 
   <div class="post-offset">
-    <select class="w-25 ml-2 border float-right mb-2" [(ngModel)]="selectedItem">
-      <option *ngIf="!selectedItem" value="undefined" hidden disabled selected>Select a Topic</option>
+    <select class="w-25 ml-2 border float-right mb-2" [(ngModel)]="selectedTopic">
+      <option *ngIf="!selectedTopic" value="undefined" hidden disabled selected>Select a Topic</option>
       <option *ngFor="let topic of communityTopics$ | async" [ngValue]="topic">{{topic.TopicName}}</option>
     </select>
 
@@ -27,6 +27,14 @@
       <pf-community-post-content class="mt-2 mb-2"
                                  [content]="post.Content">
       </pf-community-post-content>
+      <div *ngIf="!!communityAttachments" class="d-flex flex-wrap pt-3">
+        <div class="pr-2 py-1" *ngFor="let attachment of communityAttachments">
+          <pf-community-attachment-edit 
+            [attachment]="attachment" 
+            (attachmentRemoved)="onAttachmentRemoved($event)">
+          </pf-community-attachment-edit>
+        </div>
+      </div>
       <div class="url-preview-card p-1" *ngIf="post?.UrlPreviewData.PreviewTitle">
         <a [href]="post.UrlPreviewData.PreviewUrl" target="_blank">
           <div class="url-preview-card-image-container mr-2">

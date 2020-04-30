@@ -94,7 +94,7 @@ export class CommunityPostEffects {
     .pipe(
       ofType(fromCommunityPostActions.SAVING_COMMUNITY_POST_EDIT),
       switchMap((action: fromCommunityPostActions.SavingCommunityPostEdit) =>
-        this.communityPostService.updatePost({'postId': action.payload.postId, 'topicId': action.payload.topic.Id}).pipe(
+        this.communityPostService.updatePost(action.payload).pipe(
           map(() => {
             return new fromCommunityPostActions.SavingCommunityPostEditSuccess(action.payload);
           }),

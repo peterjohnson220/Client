@@ -65,9 +65,7 @@ import { CommunityPostComponent } from './components/community-post/community-po
 import { CommunityPostEditComponent } from './components/community-post-edit/community-post-edit.component';
 import { CommunitySearchResultModalComponent } from './containers/community-search-result-modal/community-search-result-modal.component';
 import { CommunityPollsAllPollsAnsweredComponent } from './components/community-polls-all-polls-answered';
-import { CommunityAttachmentComponent } from './components/community-attachment/community-attachment.component';
 import { CommunitySearchResultAttachmentComponent } from './components/community-search-result-attachment';
-
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
 import { CommunityIndustryEffects, CommunityCompanySizeEffects, CommunityTopicEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
@@ -91,6 +89,8 @@ import { CommunitySearchResultsPageComponent } from './containers/pages/communit
 import { CommunitySearchEffects } from './effects/community-search.effects';
 import { CommunitySearchApiService } from 'libs/data/payfactors-api/community/community-search-api.service';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { CommunityAttachmentComponent } from './components/community-attachment/community-attachment.component';
+import { CommunityAttachmentEditComponent } from './components/community-attachment-edit/community-attachment-edit.component';
 
 const components = [
   ClickInContentDirective,
@@ -135,7 +135,8 @@ const components = [
   CommunityPostEditComponent,
   CommunityPollsAllPollsAnsweredComponent,
   CommunityAttachmentComponent,
-  CommunitySearchResultAttachmentComponent
+  CommunitySearchResultAttachmentComponent,
+  CommunityAttachmentEditComponent
 ];
 
 @NgModule({
