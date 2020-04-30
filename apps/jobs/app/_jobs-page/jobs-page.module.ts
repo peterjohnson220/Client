@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -47,6 +47,8 @@ import { JobsPageEffects, JobDescriptionEffects, ModifyPricingsEffects, JobPeerM
     // Angular
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+
 
     // 3rd Party
     LayoutModule,

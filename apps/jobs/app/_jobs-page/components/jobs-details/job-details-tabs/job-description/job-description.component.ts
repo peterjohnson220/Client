@@ -1,75 +1,75 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, OnDestroy, ViewChild } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, ActionsSubject } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
 
+import { JobDescriptionSummaryEditorComponent } from 'libs/forms';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import { Permissions } from 'libs/constants';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import * as fromJobDescriptionActions from '../../../../actions';
+
+import { JobDescriptionSummary, AsyncStateObj } from 'libs/models';
+import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'pf-job-description',
   templateUrl: './job-description.component.html',
   styleUrls: ['./job-description.component.scss']
 })
-export class JobDescriptionComponent implements OnInit, OnChanges, OnDestroy {
+export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
-  currentJobId: number;
-  jobDescription$: Observable<string>;
-  jobDescriptionUpdated$: Observable<boolean>;
-  jobDescriptionManagementEnabled$: Observable<boolean>;
-  saving$: Observable<boolean>;
-  jobDescriptionLoaded$: Observable<boolean>;
-  updatedJobDescription: string = null;
-  jobDescriptionId: number;
-  jobDescriptionIdSubscription: Subscription;
-  permissions = Permissions;
 
-  constructor(private store: Store<fromJobsPageReducer.State>) {
-    this.jobDescriptionManagementEnabled$ = store.select(fromJobsPageReducer.getJobDescriptionManagementEnabled);
-    this.jobDescription$ = store.select(fromJobsPageReducer.getJobDescription);
-    this.jobDescriptionUpdated$ = store.select(fromJobsPageReducer.getJobDescriptionUpdated);
-    this.jobDescriptionLoaded$ = store.select(fromJobsPageReducer.getJobDescriptionLoaded);
-    this.saving$ = store.select(fromJobsPageReducer.getSavingState);
-    this.jobDescriptionIdSubscription = store.select(fromJobsPageReducer.getJobDescriptionId).subscribe(id => {
-      this.jobDescriptionId = id;
-    });
-  }
+  @ViewChild('jobDescriptionEditor', { static: true }) jobDescriptionEditor: JobDescriptionSummaryEditorComponent;
+
+  readonly JOB_SUMMARY_MIN_LENGTH = 10;
+
+  loading$: Observable<boolean>;
+  jobDescriptionSummary$: Observable<AsyncStateObj<JobDescriptionSummary>>;
+  updatedJobDescription$: Observable<string>;
+
+  loadJobDescriptionSuccessSubscription: Subscription;
+
+  jobDescriptionSummary: JobDescriptionSummary;
+
+  constructor(
+    private store: Store<fromJobsPageReducer.State>,
+    private actionsSubject: ActionsSubject) { }
 
   ngOnInit() {
+    this.loadJobDescriptionSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_SUCCESS))
+      .subscribe((action: fromJobDescriptionActions.LoadJobDescriptionSuccess) => {
+        this.jobDescriptionSummary = action.payload;
+      });
+
+    this.loading$ = this.store.select(fromJobsPageReducer.getLoading);
+    this.jobDescriptionSummary$ = this.store.select(fromJobsPageReducer.getJobDescriptionSummary);
+    this.updatedJobDescription$ = this.store.select(fromJobsPageReducer.getUpdatedJobDescription);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filters']) {
+      this.jobDescriptionSummary = null;
       const companyJobIdFilter = changes['filters'].currentValue.find(i => i.SourceName === 'CompanyJob_ID').Value;
-      this.currentJobId = (<any>companyJobIdFilter) as number;
-      this.store.dispatch(new fromJobDescriptionActions.LoadJobDescription(this.currentJobId));
+      this.store.dispatch(new fromJobDescriptionActions.LoadJobDescription((<any>companyJobIdFilter) as number));
     }
   }
 
-  ngOnDestroy() {
-    this.jobDescriptionIdSubscription.unsubscribe();
+  jobDescriptionChanged(newJobDescription: string) {
+    this.store.dispatch(new fromJobDescriptionActions.ChangeJobDescription(newJobDescription));
   }
 
-  changeJobDescription(event) {
-    this.updatedJobDescription = event.currentTarget.value;
-    this.store.dispatch(new fromJobDescriptionActions.ChangeJobDescription(this.updatedJobDescription));
+  ngOnDestroy() {
+    this.loadJobDescriptionSuccessSubscription.unsubscribe();
   }
 
   saveJobDescription() {
-    this.store.dispatch(new fromJobDescriptionActions.SaveJobDescription({ jobId: this.currentJobId, jobDescription: this.updatedJobDescription }));
-  }
-
-  exportJobDescription(docType: string) {
-    const htmlDocument: any = document;
-
-    htmlDocument.exportForm.elements['export-uid'].value = Date.now();
-    htmlDocument.exportForm.elements['export-type'].value = docType;
-    htmlDocument.exportForm.submit();
+    if (this.jobDescriptionEditor.jobDescriptionForm.valid) {
+      this.store.dispatch(new fromJobDescriptionActions.SaveJobDescription());
+    }
   }
 
 }

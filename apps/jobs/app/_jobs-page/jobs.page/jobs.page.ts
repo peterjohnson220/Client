@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } fr
 import { Observable, Subscription } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/index';
 
-import { Store } from '@ngrx/store';
+import { Store} from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -11,12 +11,13 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField, CreateProjectRequest, ChangeJobStatusRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
-import {ActionBarConfig, ColumnChooserType, getDefaultGridRowActionsConfig, GridRowActionsConfig} from 'libs/features/pf-data-grid/models';
+import { ActionBarConfig, ColumnChooserType, getDefaultGridRowActionsConfig, GridRowActionsConfig } from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
+
+import * as fromRootState from 'libs/state/state';
 
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromRootState from 'libs/state/state';
 
 import { PageViewIds } from '../constants';
 import * as fromJobsPageActions from '../actions';
@@ -73,9 +74,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   jobIdToDelete: number;
   jobNameToDelete: string;
 
-  showJobEditModal = false;
-  editingJobId: number = null;
-
   inlineMenuHideBorders = true;
 
   colTemplates = {};
@@ -107,6 +105,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showSurveyParticipationModal = new BehaviorSubject<boolean>(false);
   showSurveyParticipationModal$ = this.showSurveyParticipationModal.asObservable();
   matchJobId: number;
+
+  showJobManagementModal = new BehaviorSubject<boolean>(false);
+  showJobManagementModal$ = this.showJobManagementModal.asObservable();
+  editingJobId: number;
+
 
   @ViewChild('gridRowActionsTemplate', { static: false }) gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
@@ -240,7 +243,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.gridRowActionsConfig = {
       ...this.gridRowActionsConfig,
-      ActionsTemplate : this.gridRowActionsTemplate
+      ActionsTemplate: this.gridRowActionsTemplate
     };
   }
 
@@ -358,9 +361,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.jobStatusField ? this.jobStatusField.FilterValue : true;
   }
 
-  closeJobManagmentModal() {
-    this.showJobEditModal = false;
-    this.editingJobId = null;
+  toggleJobManagmentModal(toggle: boolean, jobId: number = null, event= null) {
+    this.editingJobId = jobId;
+    this.showJobManagementModal.next(toggle);
+    if (event) {
+      event.stopPropagation();
+    }
   }
 
   exportPricings(exportRequest: any) {
@@ -376,7 +382,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onToggle(event, jobId) {
-    if (this.peerJobId !== jobId ) {
+    if (this.peerJobId !== jobId) {
       this.peerJobId = jobId;
       this.show = !this.show;
       if (this.show) {
@@ -389,7 +395,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new fromJobsPageActions.ToggleJobsPage());
   }
 
-  toggleSurveyParticipationModal( event, value: boolean, jobId: number) {
+  toggleSurveyParticipationModal(event, value: boolean, jobId: number) {
     this.matchJobId = jobId;
     this.showSurveyParticipationModal.next(value);
     if (event) {

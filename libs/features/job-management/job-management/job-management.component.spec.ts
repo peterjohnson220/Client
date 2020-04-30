@@ -51,23 +51,10 @@ describe('Job Management Feature - Job Management', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('Should dispatch the ShowJobModal action when the showJobForm is set to true', () => {
-    const expectedAction = new fromActions.ShowJobModal(true);
-
-    instance.showJobModal = true;
-    instance.ngOnChanges({
-      showJobModal: new SimpleChange(null, true, true)
-    });
-
-    fixture.detectChanges();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it('Should reset the DuplicateJobCodeError and emit cancel changes on cancel', () => {
     spyOn(instance.cancelChanges, 'emit');
 
-    const expectedAction = new fromActions.SetDuplicateJobCodeError(false);
+    const expectedAction = new fromActions.ResetState();
 
     instance.onCancelChanges();
     fixture.detectChanges();

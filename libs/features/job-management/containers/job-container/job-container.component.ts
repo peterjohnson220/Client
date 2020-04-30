@@ -1,17 +1,20 @@
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
-import { Store } from '@ngrx/store';
+import { Store, ActionsSubject } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { JobFormComponent } from '../job-form/job-form.component';
+import { CompanyJobUdf } from 'libs/models';
 
 import * as fromJobManagementActions from '../../actions';
 import * as fromJobManagementReducer from '../../reducers';
+
+import { StandardFieldsComponent } from '../standard-fields/standard-fields.component';
 import { JobAttachmentsComponent } from '../job-attachments/job-attachments.component';
-import { JobStructuresComponent } from '../job-structures/job-structures.component';
+import { ofType } from '@ngrx/effects';
 
 enum JobManagementTabs {
-  JobFields = 'JobFields',
+  StandardFields = 'StandardFields',
+  UserDefinedFields = 'UserDefinedFields',
   Attachments = 'Attachments',
   Structures = 'Structures'
 }
@@ -23,27 +26,30 @@ enum JobManagementTabs {
 })
 export class JobContainerComponent implements OnInit, OnDestroy {
 
-  @ViewChild('jobFormComponent', { static: false }) jobFormComponent: JobFormComponent;
+  @ViewChild('standardFieldsComponent', { static: false }) standardFieldsComponent: StandardFieldsComponent;
   @ViewChild('attachmentsComponent', { static: false }) attachmentsComponent: JobAttachmentsComponent;
-  @ViewChild('structuresComponent', { static: false }) structuresComponent: JobStructuresComponent;
   @ViewChild('jobsTabs', { static: false }) jobsTabs: NgbTabset;
 
   loading$: Observable<boolean>;
-  showJobModal$: Observable<boolean>;
+  jobUserDefinedFields$: Observable<CompanyJobUdf[]>;
 
   onShowFormSubscription: Subscription;
+  resetStateSubscription: Subscription;
 
   jobManagementTabs = JobManagementTabs;
 
-  constructor(private store: Store<fromJobManagementReducer.State>) {
-    this.loading$ = this.store.select(fromJobManagementReducer.getLoading);
-    this.showJobModal$ = this.store.select(fromJobManagementReducer.getShowJobModal);
-  }
+
+  constructor(private store: Store<fromJobManagementReducer.State>, private actionsSubject: ActionsSubject) { }
 
   ngOnInit() {
-    this.onShowFormSubscription = this.showJobModal$.subscribe(value => {
+    this.loading$ = this.store.select(fromJobManagementReducer.getLoading);
+    this.jobUserDefinedFields$ = this.store.select(fromJobManagementReducer.getCompanyJobUdfs);
+
+    this.resetStateSubscription = this.actionsSubject
+    .pipe(ofType(fromJobManagementActions.RESET_STATE))
+    .subscribe(data => {
       if (this.jobsTabs) {
-        this.jobsTabs.select(JobManagementTabs.JobFields);
+        this.jobsTabs.select(JobManagementTabs.StandardFields);
       }
     });
   }
@@ -57,12 +63,12 @@ export class JobContainerComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.jobFormComponent.jobForm.markAllAsTouched();
+    this.standardFieldsComponent.jobForm.markAllAsTouched();
 
-    if (!this.jobFormComponent.jobForm.valid) {
-      this.jobsTabs.select(JobManagementTabs.JobFields);
-    } else {
+    if (this.standardFieldsComponent.isValid()) {
       this.store.dispatch(new fromJobManagementActions.SaveCompanyJob());
+    } else {
+      this.jobsTabs.select(JobManagementTabs.StandardFields);
     }
   }
 
