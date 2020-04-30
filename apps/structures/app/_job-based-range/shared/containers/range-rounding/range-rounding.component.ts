@@ -3,15 +3,15 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { RoundingTypes } from 'libs/constants/structures/rounding-type';
+
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { RangeGroupMetadata, RoundingPoint, RoundingType, RoundingSettingsDataObj} from '../../models';
+import { RangeGroupMetadata, RoundingPoint, RoundingType } from '../../models';
 import { Pages } from '../../constants/pages';
 import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../data';
-
-import { RoundingTypes } from 'libs/constants/structures/rounding-type';
-
 
 @Component({
   selector: 'pf-range-rounding',
