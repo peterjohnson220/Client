@@ -51,6 +51,12 @@
   </ng-container>
 </ng-template>
 
+<ng-template #comparatioColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <span *ngIf="dataRow.vw_CompanyJobsStructureInfo_AvgEEComparatio else noValue;">
+    {{dataRow.vw_CompanyJobsStructureInfo_AvgEEComparatio}}
+  </span>
+</ng-template>
+
 <ng-template #noValue>
   - -
 </ng-template>

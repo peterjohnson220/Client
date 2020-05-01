@@ -18,7 +18,6 @@ import { RangeType } from 'libs/features/employee-management/models';
 import { PageViewIds } from '../../../../constants';
 import * as fromJobsPageReducer from '../../../../reducers';
 
-
 @Component({
   selector: 'pf-structure-grid',
   templateUrl: './structure-grid.component.html',
@@ -29,6 +28,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('nameColumn', { static: false }) nameColumn: ElementRef;
   @ViewChild('midColumn', { static: false }) midColumn: ElementRef;
+  @ViewChild('comparatioColumn', { static: false }) comparatioColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
@@ -77,6 +77,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     this.colTemplates = {
       'Structure_Search': { Template: this.nameColumn },
       'Mid': {Template: this.midColumn},
+      'AvgEEComparatio': {Template: this.comparatioColumn},
       [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
