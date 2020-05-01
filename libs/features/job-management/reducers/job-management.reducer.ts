@@ -25,11 +25,20 @@ export interface State {
   selectedStructureId: number;
   companyFlsaStatuses: string[];
   jobFamilies: string[];
+  isJdmEnabled: boolean;
   companyJobUdfs: CompanyJobUdf[];
   structuresList: CompanyStructure[];
   paymarketGradeList: CompanyStructurePaymarketGrade[];
   duplicateJobCodeError: boolean;
   errorMessage: string;
+}
+
+export const defaultJobDescriptionSummary: JobDescriptionSummary = {
+  JobDescriptionId: null,
+  JobSummary: null,
+  JobDescriptionManagementEnabled: false,
+  CompanyJobCode: null,
+  CompanyJobId: null
 }
 
 export const initialState: State = {
@@ -40,12 +49,13 @@ export const initialState: State = {
   saving: false,
   jobId: null,
   jobFormData: null,
-  jobDescriptionSummary: null,
+  jobDescriptionSummary: defaultJobDescriptionSummary,
   attachments: [],
   structures: [],
   selectedStructureId: null,
   companyFlsaStatuses: [],
   jobFamilies: [],
+  isJdmEnabled: false,
   companyJobUdfs: [],
   structuresList: [],
   paymarketGradeList: [],
@@ -102,7 +112,8 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
         companyFlsaStatuses: action.companyFlsaStatuses.filter(e => e.length > 0),
         companyJobUdfs: action.companyJobUdfs,
         structuresList: action.structures,
-        selectedStructureId: action.structures && action.structures.length > 0 ? action.structures[0].CompanyStructuresId : null
+        isJdmEnabled: action.isJdmEnabled,
+        selectedStructureId: action.structures && action.structures.length > 0 ? action.structures[0].CompanyStructuresId : null,
       };
     case fromJobManagementActions.LOAD_STRUCTURE_PAYMARKET_GRADE:
       return {
@@ -243,6 +254,7 @@ export const getStructures = (state: State) => state.structures;
 export const getSelectedStructureId = (state: State) => state.selectedStructureId;
 export const getCompanyFlsaStatuses = (state: State) => state.companyFlsaStatuses;
 export const getJobFamilies = (state: State) => state.jobFamilies;
+export const getIsJdmEnabled = (state: State) => state.isJdmEnabled;
 export const getCompanyJobUdfs = (state: State) => state.companyJobUdfs;
 export const getStructuresList = (state: State) => state.structuresList;
 export const getPaymarketGradeList = (state: State) => state.paymarketGradeList;

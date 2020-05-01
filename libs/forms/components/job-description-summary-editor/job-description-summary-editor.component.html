@@ -38,11 +38,12 @@
 <ng-template #jobDescriptionTextBox>
   <form id="jobs-page-job-description-form" [formGroup]="jobDescriptionForm" autocomplete="nope">
     <textarea
+      #jobDescriptionTextArea
       data-qa-id="txt-jobs-page-job-description"
       class="form-control"
       [attr.rows]="rows"
       formControlName="JobDescription"                
-      [readonly]="!(jobDescriptionSummary | editableJobDescription)"
+      [readonly]="!(jobDescriptionSummary | editableJobDescription : isJdmEnabled)"
       [placeholder]="'There is no Job Description loaded for this Job.'"
       [pfValidatable]="true">
     </textarea>              
@@ -53,7 +54,6 @@
   name="exportForm"
   method="POST"
   [action]="'/odata/JobDescription(' + jobDescriptionSummary?.JobDescriptionId + ')/Default.Export'">
-  
   <input type="hidden" name="export-uid" />
   <input type="hidden" name="export-type" />
 </form>

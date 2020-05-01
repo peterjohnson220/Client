@@ -86,6 +86,7 @@
       #jobDescriptionEditor
       [layout]="'simple'"      
       [jobDescriptionSummary]="jobDescriptionSummary"
+      [isJdmEnabled]="isJdmEnabled$ | async"
       (jobDescriptionChanged)="jobDescriptionChanged($event)">
     </pf-job-description-summary-editor>    
   </div>

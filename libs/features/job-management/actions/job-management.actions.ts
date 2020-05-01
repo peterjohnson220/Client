@@ -68,7 +68,8 @@ export class LoadJobOptionsSuccess implements Action {
     public jobFamilies: string[],
     public companyFlsaStatuses: string[],
     public companyJobUdfs: CompanyJobUdf[],
-    public structures: CompanyStructure[]) { }
+    public structures: CompanyStructure[],
+    public isJdmEnabled: boolean) { }
 }
 
 export class LoadStructurePaymarketGrade implements Action {

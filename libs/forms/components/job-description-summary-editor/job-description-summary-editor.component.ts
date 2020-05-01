@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
@@ -20,8 +20,11 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
   @Input() layout: 'card' | 'simple' = 'simple';
   @Input() rows = 9;
   @Input() jobDescriptionSummary: JobDescriptionSummary;
+  @Input() isJdmEnabled = true;
 
   @Output() jobDescriptionChanged: EventEmitter<string> = new EventEmitter<string>();
+
+  @ViewChild('jobDescriptionTextArea', { static: false }) jobDescriptionTextArea: ElementRef;
 
   readonly JOB_SUMMARY_MIN_LENGTH = 10;
 
@@ -49,7 +52,9 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['jobDescriptionSummary'] && this.jobDescriptionForm) {
       this.jobDescriptionForm.reset();
-      this.jobDescriptionForm.patchValue({ JobDescription: changes['jobDescriptionSummary'].currentValue.JobSummary });
+      if (changes['jobDescriptionSummary'].currentValue) {
+        this.jobDescriptionForm.patchValue({ JobDescription: changes['jobDescriptionSummary'].currentValue.JobSummary });
+      }
     }
   }
 
@@ -67,6 +72,10 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
 
   isValid(): boolean {
     return this.jobDescriptionForm.valid;
+  }
+
+  reset() {
+    this.jobDescriptionTextArea.nativeElement.style = '';
   }
 
 }

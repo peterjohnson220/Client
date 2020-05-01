@@ -41,6 +41,7 @@ export const getAttachments = createSelector(selectJobDataState, fromJobManageme
 export const getStructures = createSelector(selectJobDataState, fromJobManagementReducer.getStructures);
 export const getSelectedStructureId = createSelector(selectJobDataState, fromJobManagementReducer.getSelectedStructureId);
 export const getJobFamilies = createSelector(selectJobDataState, fromJobManagementReducer.getJobFamilies);
+export const getIsJdmEnabled = createSelector(selectJobDataState, fromJobManagementReducer.getIsJdmEnabled);
 export const getCompanyFlsaStatuses = createSelector(selectJobDataState, fromJobManagementReducer.getCompanyFlsaStatuses);
 export const getCompanyJobUdfs = createSelector(selectJobDataState, fromJobManagementReducer.getCompanyJobUdfs);
 export const getSaving = createSelector(selectJobDataState, fromJobManagementReducer.getSaving);

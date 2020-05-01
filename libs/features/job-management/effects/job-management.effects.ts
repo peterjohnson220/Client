@@ -6,15 +6,19 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
-import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
+import { EditableJobDescriptionPipe } from 'libs/core';
 import { CompanyJob, CompanyJobAttachment, UserContext, JobDescriptionSummary } from 'libs/models';
-import * as fromRootState from 'libs/state/state';
+import {
+  CompanyJobApiService,
+  StructuresApiService,
+  StructureRangeGroupApiService,
+  DashboardApiService } from 'libs/data/payfactors-api';
 
+import * as fromRootState from 'libs/state/state';
 import * as fromJobManagementReducer from '../reducers';
 import * as fromJobManagementActions from '../actions';
+
 import { ToastrService } from 'ngx-toastr';
-import { StructuresApiService, StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
-import { EditableJobDescriptionPipe } from 'libs/core';
 
 @Injectable()
 export class JobManagementEffects {
@@ -37,6 +41,7 @@ export class JobManagementEffects {
     private companyJobApiService: CompanyJobApiService,
     private structuresApiService: StructuresApiService,
     private structuresRangeGroupApiService: StructureRangeGroupApiService,
+    private dashboardApiService: DashboardApiService,
     private rootStore: Store<fromRootState.State>,
     private store: Store<fromJobManagementReducer.State>,
     private toastr: ToastrService,
@@ -51,10 +56,11 @@ export class JobManagementEffects {
           this.companyJobApiService.getJobFamilies(),
           this.companyJobApiService.getCompanyFLSAStatuses(),
           this.companyJobApiService.getJobUserDefinedFields(),
-          this.structuresApiService.getCurrentStructuresWithValidPaymarkets())
+          this.structuresApiService.getCurrentStructuresWithValidPaymarkets(),
+          this.dashboardApiService.getIsJdmEnabled())
           .pipe(
             mergeMap((options) => [
-              new fromJobManagementActions.LoadJobOptionsSuccess(options[0], options[1], options[2], options[3]),
+              new fromJobManagementActions.LoadJobOptionsSuccess(options[0], options[1], options[2], options[3], options[4]),
               new fromJobManagementActions.LoadStructurePaymarketGrade()
             ]),
             catchError(response => this.handleError('There was an error loading the job information'))

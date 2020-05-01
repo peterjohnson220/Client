@@ -27,6 +27,7 @@ export class StandardFieldsComponent implements OnInit, OnDestroy {
   jobFamilies$: Observable<string[]>;
   jobFlsaStatuses$: Observable<string[]>;
   jobDescriptionSummary$: Observable<JobDescriptionSummary>;
+  isJdmEnabled$: Observable<boolean>;
 
   formChangesSubscription: Subscription;
   duplicateJobCodeErrorSubscription: Subscription;
@@ -59,6 +60,7 @@ export class StandardFieldsComponent implements OnInit, OnDestroy {
     this.jobFamilies$ = this.store.select(fromJobManagementReducer.getJobFamilies);
     this.jobFlsaStatuses$ = this.store.select(fromJobManagementReducer.getCompanyFlsaStatuses);
     this.jobDescriptionSummary$ = this.store.select(fromJobManagementReducer.getJobDescriptionSummary);
+    this.isJdmEnabled$ = this.store.select(fromJobManagementReducer.getIsJdmEnabled);
 
     this.jobForm = this.formBuilder.group({
       JobCode: ['', [
@@ -83,7 +85,8 @@ export class StandardFieldsComponent implements OnInit, OnDestroy {
       .pipe(ofType(fromJobManagementActions.RESET_STATE))
       .subscribe(data => {
         this.jobForm.reset();
-        this.jobDescriptionEditor.jobDescriptionForm.reset();
+        this.jobDescriptionEditor.reset();
+        this.jobDescriptionSummary = null;
         this.store.dispatch(new fromJobManagementActions.SetDuplicateJobCodeError(false));
       });
 

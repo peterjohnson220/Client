@@ -11,6 +11,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   filterSettings={[Function Object]}
   formBuilder={[Function FormBuilder]}
   formChangesSubscription={[Function Subscriber]}
+  isJdmEnabled$={[Function Store]}
   jobDescriptionEditor={[Function JobDescriptionSummaryEditorComponent]}
   jobDescriptionSummary$={[Function Store]}
   jobFamilies$={[Function Store]}

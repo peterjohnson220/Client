@@ -7,6 +7,8 @@ import { Store, ActionsSubject } from '@ngrx/store';
 import { CompanyJobUdf } from 'libs/models';
 import { PfValidators } from 'libs/forms';
 
+import * as fromRootState from 'libs/state/state';
+
 import * as fromJobManagementActions from '../../actions';
 import * as fromJobManagementReducer from '../../reducers';
 import { ofType } from '@ngrx/effects';
