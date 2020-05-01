@@ -12,6 +12,7 @@ import { PageViewIds } from '../../shared/constants/page-view-ids';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
+import { ColumnTemplateService } from '../../shared/services';
 
 @Component({
   selector: 'pf-pricings-page',
@@ -21,6 +22,7 @@ import { RangeGroupMetadata } from '../../shared/models';
 export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('source', {static: false}) sourceColumn: ElementRef;
   @ViewChild('jobTitleCode', {static: false}) jobTitleCode: ElementRef;
+  @ViewChild('rangeValue', {static: false}) rangeValueColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
 
   metaData$: Observable<RangeGroupMetadata>;
@@ -60,11 +62,16 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     return;
   }
 
-  ngAfterViewInit(): void {
-    this.colTemplates = {
-      ['Source']: {Template: this.sourceColumn},
-      ['Job_Title']: {Template: this.jobTitleCode}
+  getColumnTemplates() {
+    return {
+      'source': this.sourceColumn,
+      'jobTitleCode': this.jobTitleCode,
+      'rangeValue': this.rangeValueColumn
     };
+  }
+
+  ngAfterViewInit(): void {
+    this.colTemplates = ColumnTemplateService.configurePricingsTemplates(this.getColumnTemplates());
 
     this.actionBarConfig = {
       ...this.actionBarConfig,

@@ -58,7 +58,8 @@ import * as fromFaIcons from './fa-icons';
     GridContextComponent,
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,
-    FontAwesomeModule
+    FontAwesomeModule,
+    RangeValuePipe
   ],
   providers: [
     UrlService
