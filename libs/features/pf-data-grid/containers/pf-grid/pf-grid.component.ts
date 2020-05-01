@@ -166,10 +166,19 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onColumnReorder(value: ColumnReorderEvent) {
+    // Why do we subtract 1 from each index:
+    //
+    // Hung Huynh:
+    // If I remember correctly the -1 is there to take into account the selection checkbox which is at index 0.
+    // We wanted to save the order of the columns starting at 0 and not 1.
+    // For example, the first column of the grid is the selection checkbox(index: 0), second column which is the first field is at the second index(index: 1).
+    // Instead of saving it as 1, I subtracted one so it is saved as 0 in the database
+    //
     this.store.dispatch(new fromActions.ReorderColumns(
       this.pageViewId,
       value.oldIndex - 1,
       value.newIndex - 1,
+      value.column.level
     ));
   }
 
