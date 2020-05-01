@@ -15,7 +15,6 @@ import { PayMarketsPageViewId } from '../models';
 })
 export class PayMarketsPageComponent implements AfterViewInit {
   @ViewChild('gridRowActionsTemplate', { static: false }) gridRowActionsTemplate: ElementRef;
-  @ViewChild('payMarketSizeColumn', { static: false }) payMarketSizeColumn: ElementRef;
   @ViewChild('defaultScopesColumn', { static: false }) defaultScopesColumn: ElementRef;
 
   defaultSort: SortDescriptor[] = [{
@@ -43,7 +42,6 @@ export class PayMarketsPageComponent implements AfterViewInit {
       Position: PositionType.Right
     };
     this.colTemplates = {
-      'Size_Value': { Template: this.payMarketSizeColumn },
       'Default_Scope': { Template: this.defaultScopesColumn}
     };
   }

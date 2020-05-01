@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { EffectsModule } from '@ngrx/effects';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -15,7 +16,8 @@ import { reducers } from './reducers';
 
 import { PayMarketsPageComponent } from './paymarkets.page';
 import { PayMarketsRoutingModule } from './paymarkets-routing.module';
-
+import { GridActionsComponent } from './containers';
+import { GridActionsBarEffects } from './effects';
 
 @NgModule({
   imports: [
@@ -27,6 +29,9 @@ import { PayMarketsRoutingModule } from './paymarkets-routing.module';
 
     // 3rd party
     StoreModule.forFeature('paymarkets_main', reducers),
+    EffectsModule.forFeature([
+      GridActionsBarEffects
+    ]),
     FontAwesomeModule,
 
     // Payfactors
@@ -37,7 +42,10 @@ import { PayMarketsRoutingModule } from './paymarkets-routing.module';
   ],
   declarations: [
     // Pages
-    PayMarketsPageComponent
+    PayMarketsPageComponent,
+
+    // Containers
+    GridActionsComponent
   ],
   providers: [
     { provide: 'DataViewService', useClass: DataViewApiService}

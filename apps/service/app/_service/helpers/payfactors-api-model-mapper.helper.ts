@@ -36,7 +36,7 @@ export class PayfactorsApiModelMapper {
         ticketStates.push({
           GroupIndex: groupIndex,
           Title: s.TicketStateName,
-          Items: [ { IsSelected: false, Value: s.TicketStateName } ]
+          Items: [ { IsSelected: false, Name: s.TicketStateName, Value: s.TicketStateName } ]
         });
       }
     });

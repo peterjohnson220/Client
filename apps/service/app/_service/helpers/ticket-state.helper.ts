@@ -6,18 +6,6 @@ import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 
 export class TicketStateHelper {
 
-  static getSelectedValues(ticketStates: MultiSelectItemGroup[]): string[] {
-    const selectedValues: string[] = [];
-    ticketStates.forEach(group => {
-      group.Items.forEach(item => {
-        if (item.IsSelected) {
-          selectedValues.push(item.Value);
-        }
-      });
-    });
-    return selectedValues;
-  }
-
   static applySelectedTicketStatesToField(fields: ViewField[], selectedValues: string[]): ViewField {
     const ticketStateField: ViewField = fields.find((f: ViewField) => f.SourceName === 'UserTicket_State');
     const updatedField: ViewField = cloneDeep(ticketStateField);
@@ -33,11 +21,13 @@ export class TicketStateHelper {
       Items: [
         {
           IsSelected: false,
-          Value: 'In Progress'
+          Value: 'In Progress',
+          Name: 'In Progress'
         },
         {
           IsSelected: false,
-          Value: 'Waiting for Response'
+          Value: 'Waiting for Response',
+          Name: 'Waiting for Response'
         }
       ]
     };

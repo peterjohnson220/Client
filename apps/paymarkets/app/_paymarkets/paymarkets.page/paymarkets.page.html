@@ -5,15 +5,12 @@
   [defaultSort]="defaultSort"
   [actionBarConfig]="actionBarConfig"
   [columnTemplates]="colTemplates"
-  [gridRowActionsConfig]="gridRowActionsConfig">
+  [gridRowActionsConfig]="gridRowActionsConfig"
+  [gridActionsTemplate]="gridActions">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
   <fa-icon icon="ellipsis-h"></fa-icon>
-</ng-template>
-
-<ng-template #payMarketSizeColumn let-dataRow="dataRow" let-hover="hover">
-  <span *ngIf="dataRow['CompanyPayMarkets_Size_Value'] !== 'All'">{{dataRow['CompanyPayMarkets_Size_Label']}} </span>{{dataRow['CompanyPayMarkets_Size_Value']}}
 </ng-template>
 
 <ng-template #defaultScopesColumn let-dataRow="dataRow" let-hover="hover">
@@ -25,5 +22,9 @@
       {{dataRow['CompanyPayMarkets_ExchangeScopesCount']}} Exchange<span *ngIf="dataRow['CompanyPayMarkets_ExchangeScopesCount'] > 1">s</span>
     </h5>
   </div>
+</ng-template>
+
+<ng-template #gridActions>
+  <pf-paymarkets-grid-actions></pf-paymarkets-grid-actions>
 </ng-template>
 
