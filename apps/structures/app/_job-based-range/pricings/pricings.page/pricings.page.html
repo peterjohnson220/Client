@@ -40,7 +40,9 @@
 </ng-template>
 
 <ng-template #noFormatting let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{dataRow[fieldName]}}</ng-container>
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap" *ngIf="dataRow[fieldName]; else noValue">
+    {{dataRow[fieldName]}}
+  </div>
 </ng-template>
 
 <ng-template #graph>
