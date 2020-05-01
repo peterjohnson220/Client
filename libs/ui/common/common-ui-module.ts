@@ -8,6 +8,8 @@ import { NgbModule, NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap
 import { ImgFallbackModule } from 'ngx-img-fallback';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { TreeViewModule } from '@progress/kendo-angular-treeview';
+import { PopupModule } from '@progress/kendo-angular-popup';
 
 import * as fromFaIcons from './fa-icons';
 import { EllipsisViewMoreComponent, NavigationLinksComponent } from './content';
@@ -27,6 +29,7 @@ import { PeerAssociationColorBlockComponent } from './content/peer-association-c
 import { SimpleYesNoModalComponent } from './simple-yes-no';
 import { LoadingProgressBarService } from './loading/service';
 import { MultiSelectDropdownComponent, ItemGroupComponent } from './multi-select-dropdown';
+import { MultiSelectTreeViewComponent } from './multi-select-treeview';
 
 const components = [
   // Content
@@ -40,6 +43,7 @@ const components = [
   SimpleYesNoModalComponent,
   MultiSelectDropdownComponent,
   ItemGroupComponent,
+  MultiSelectTreeViewComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective,
@@ -73,7 +77,9 @@ const components = [
     ImgFallbackModule,
     FontAwesomeModule,
     ScrollingModule,
-    DropDownsModule
+    DropDownsModule,
+    TreeViewModule,
+    PopupModule
   ],
   declarations: components,
   exports: components,

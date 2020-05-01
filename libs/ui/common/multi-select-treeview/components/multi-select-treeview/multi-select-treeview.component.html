@@ -1,0 +1,60 @@
+<ng-container *ngIf="!!data && !!data.length">
+  <div class="d-flex flex-column multi-select-treeview-container"
+       pfClickElsewhere
+       (clickElsewhere)="handleCloseClicked()">
+    <span *ngIf="!!label" class="mb-2">{{label}}</span>
+    <button #anchor (click)="toggleDropdown()" class="k-button anchor-button" [style.width.px]="anchorWidth">
+      <span class="d-flex w-100 align-items-start">
+        <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex flex-fill anchor-label">
+          <span class="value-template">{{ appliedNames[0] }}</span>
+          <span *ngIf="appliedNames.length > 1">
+            & {{appliedNames.length - 1}} MORE
+          </span>
+        </span>
+        <fa-icon icon="caret-down" class="anchor-icon"></fa-icon>
+      </span>
+      <ng-template #placeholderTemplate>
+        <span class="flex-fill anchor-label">{{placeholder}}</span>
+      </ng-template>
+    </button>
+    <kendo-popup *ngIf="show"
+      [anchor]="anchor"
+      [anchorAlign]="anchorAlign"
+      [popupAlign]="popupAlign"
+      (anchorViewportLeave)="show = false">
+      <div class="d-flex flex-column popup-container" [style.width.px]="anchorWidth - 2">
+        <div class="treeview-container">
+          <kendo-treeview
+            kendoTreeViewExpandable
+            [nodes]="data"
+            [children]="children"
+            [hasChildren]="hasChildren"
+            [textField]="textField"
+            [kendoTreeViewCheckable]="checkableSettings"
+            [checkBy]="checkByKey"
+            [isChecked]="isChecked"
+            [(checkedKeys)]="checkedKeys">
+
+            <ng-template kendoTreeViewNodeTemplate let-dataItem>
+              <span class="item-name" [title]="dataItem.Name">{{dataItem.Name}}</span>
+            </ng-template>
+
+          </kendo-treeview>
+        </div>
+
+        <div class="d-flex justify-content-end treeview-footer space-out-children">
+          <button type="button"
+            (click)="handleCloseClicked()"
+            class="btn btn-secondary">
+            Close
+          </button>
+          <button type="button"
+            (click)="handleApplyClicked()"
+            class="btn light-blue-btn">
+            Apply
+          </button>
+        </div>
+      </div>
+    </kendo-popup>
+  </div>
+</ng-container>
