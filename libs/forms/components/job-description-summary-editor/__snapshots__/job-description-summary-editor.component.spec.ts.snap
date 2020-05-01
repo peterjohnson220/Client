@@ -7,8 +7,10 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   errorMessageClass={[Function String]}
   formBuilder={[Function FormBuilder]}
   formChangesSubscription={[Function Subscriber]}
+  isJdmEnabled={[Function Boolean]}
   jobDescriptionChanged={[Function EventEmitter]}
   jobDescriptionForm={[Function FormGroup]}
+  jobDescriptionTextArea={[Function ElementRef]}
   layout={[Function String]}
   permissions={[Function Function]}
   rows={[Function Number]}
@@ -52,6 +54,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
           formcontrolname="JobDescription"
           ng-reflect-name="JobDescription"
           placeholder="There is no Job Description loaded for this Job."
+          readonly=""
           rows="9"
         >
               

@@ -10,9 +10,9 @@ export const MULTIPLE_JOB_DESCRIPTIONS =
 })
 export class EditableJobDescriptionPipe implements PipeTransform {
   constructor() { }
-  transform(jobDescriptionSummary: JobDescriptionSummary): boolean {
+  transform(jobDescriptionSummary: JobDescriptionSummary, isJdmEnabled: boolean = true): boolean {
     if (!jobDescriptionSummary) {
-      return true;
+      return !isJdmEnabled;
     } else if (jobDescriptionSummary.JobDescriptionManagementEnabled) {
       return false;
     } else if (!jobDescriptionSummary.JobSummary) {
