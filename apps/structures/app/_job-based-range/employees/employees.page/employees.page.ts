@@ -23,6 +23,8 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('rangeValue', { static: false }) rangeValueColumn: ElementRef;
+  @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
+  @ViewChild('date', {static: true}) dateColumn: ElementRef;
 
   metaData$: Observable<RangeGroupMetadata>;
   colTemplates = {};
@@ -65,7 +67,9 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   getColumnTemplates() {
     return {
       'rangeValue': this.rangeValueColumn,
-      'percentage': this.percentageColumn
+      'percentage': this.percentageColumn,
+      'noFormatting': this.noFormattingColumn,
+      'date': this.dateColumn
     };
   }
 

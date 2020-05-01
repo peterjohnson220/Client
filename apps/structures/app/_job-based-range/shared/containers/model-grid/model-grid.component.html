@@ -40,12 +40,6 @@
   </pf-data-grid>
 </ng-template>
 
-<ng-template #min let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow.CompanyStructures_Ranges_Min; else noValue">
-    {{ dataRow.CompanyStructures_Ranges_Min | rangeValue: (metaData$ | async)?.Rate }}
-  </ng-container>
-</ng-template>
-
 <ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container *ngIf="!!dataRow.CompanyStructures_Ranges_Mid; else noValue">
     <pf-midpoint-editor
@@ -67,12 +61,6 @@
   </ng-container>
 </ng-template>
 
-<ng-template #max let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow.CompanyStructures_Ranges_Max; else noValue">
-    {{ dataRow.CompanyStructures_Ranges_Max | rangeValue: (metaData$ | async)?.Rate }}
-  </ng-container>
-</ng-template>
-
 <ng-template #eeCount let-dataRow="dataRow" let-fieldName="fieldName">
   <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_NumEmployees as numEmployees; else noValue">
     <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/{{rangeGroupId}}/employees/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
@@ -90,11 +78,15 @@
 </ng-template>
 
 <ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow[fieldName]">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
 </ng-template>
 
 <ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow[fieldName]">{{dataRow[fieldName]}}%</ng-container>
+  <ng-container *ngIf="dataRow[fieldName] || dataRow[fieldName] === 0; else noValue">{{dataRow[fieldName]}}%</ng-container>
+</ng-template>
+
+<ng-template #noFormatting let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{dataRow[fieldName]}}</ng-container>
 </ng-template>
 
 <ng-template #gridGlobalActions>

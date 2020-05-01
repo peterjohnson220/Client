@@ -26,11 +26,10 @@ import { ColumnTemplateService } from '../../services';
   styleUrls: ['./model-grid.component.scss', '../../styles/pf-data-grid-styles.scss']
 })
 export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('min', {static: false}) minColumn: ElementRef;
   @ViewChild('mid', {static: false}) midColumn: ElementRef;
-  @ViewChild('max', {static: false}) maxColumn: ElementRef;
   @ViewChild('eeCount', {static: false}) eeCountColumn: ElementRef;
   @ViewChild('rangeValue', {static: false}) rangeValueColumn: ElementRef;
+  @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
   @ViewChild('mrpValue', {static: false}) mrpValueColumn: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
@@ -126,9 +125,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   getColumnTemplates() {
     return {
-      'min': this.minColumn,
       'mid': this.midColumn,
-      'max': this.maxColumn,
+      'noFormatting': this.noFormattingColumn,
       'eeCount': this.eeCountColumn,
       'rangeValue': this.rangeValueColumn,
       'mrpValue': this.mrpValueColumn,

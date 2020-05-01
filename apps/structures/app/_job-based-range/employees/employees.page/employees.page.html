@@ -25,11 +25,23 @@
 </ng-template>
 
 <ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow[fieldName]">{{dataRow[fieldName]}}%</ng-container>
+  <ng-container *ngIf="dataRow[fieldName] || dataRow[fieldName] === 0; else noValue">{{dataRow[fieldName]}}%</ng-container>
 </ng-template>
 
 <ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow[fieldName]">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+</ng-template>
+
+<ng-template #noFormatting let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{dataRow[fieldName]}}</ng-container>
+</ng-template>
+
+<ng-template #date let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{dataRow[fieldName] | date: 'MM/dd/yyyy'}}</ng-container>
+</ng-template>
+
+<ng-template #noValue>
+  - -
 </ng-template>
 
 <ng-template #gridGlobalActions>
