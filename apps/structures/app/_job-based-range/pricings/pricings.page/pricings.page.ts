@@ -24,6 +24,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('jobTitleCode', {static: false}) jobTitleCode: ElementRef;
   @ViewChild('rangeValue', {static: false}) rangeValueColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
+  @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
 
   metaData$: Observable<RangeGroupMetadata>;
   filter: PfDataGridFilter;
@@ -66,7 +67,8 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     return {
       'source': this.sourceColumn,
       'jobTitleCode': this.jobTitleCode,
-      'rangeValue': this.rangeValueColumn
+      'rangeValue': this.rangeValueColumn,
+      'noFormatting': this.noFormattingColumn
     };
   }
 
