@@ -47,7 +47,7 @@ export class HandleApiError implements Action {
 
 export class ShowCreateProjectModal implements Action {
   readonly type = SHOW_CREATE_PROJECT_MODAL;
-  constructor(public payload: boolean) {}
+  constructor() {}
 }
 
 export class CreatingProject implements Action {
@@ -67,7 +67,7 @@ export class CreatingProjectError implements Action {
 
 export class ShowJobStatusModal implements Action {
   readonly type = SHOW_JOB_STATUS_MODAL;
-  constructor(public payload: boolean) {}
+  constructor() {}
 }
 
 export class ChangingJobStatus implements Action {
@@ -87,7 +87,7 @@ export class ChangingJobStatusError implements Action {
 
 export class ShowDeleteJobModal implements Action {
   readonly type = SHOW_DELETE_JOB_MODAL;
-  constructor(public payload: boolean) {}
+  constructor() {}
 }
 
 export class DeletingJob implements Action {

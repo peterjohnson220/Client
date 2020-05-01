@@ -39,11 +39,8 @@ export const selectJobsPageState =
   createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.jobsPage);
 
 export const getJobsPageId = createSelector(selectJobsPageState, fromJobsPageReducer.getJobsPageId);
-export const getShowCreateProjectModal = createSelector(selectJobsPageState, fromJobsPageReducer.getShowCreateProjectModal);
 export const getCreatingToProject = createSelector(selectJobsPageState, fromJobsPageReducer.getCreatingToProject);
-export const getShowJobStatusModal = createSelector(selectJobsPageState, fromJobsPageReducer.getShowJobStatusModal);
 export const getChangingJobStatus = createSelector(selectJobsPageState, fromJobsPageReducer.getChangingJobStatus);
-export const getShowDeleteJobModal = createSelector(selectJobsPageState, fromJobsPageReducer.getShowDeleteJobModal);
 export const getDeletingJob = createSelector(selectJobsPageState, fromJobsPageReducer.getDeletingJob);
 export const getStructureGradeNames = createSelector(selectJobsPageState, fromJobsPageReducer.getStructureGradeNames);
 export const getPricingIdToBeDeleted = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingIdToBeDeleted);
@@ -73,4 +70,3 @@ export const selectModifyPricingsState =
   createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.modifyPricings);
 
 export const getPricingsToModify = createSelector(selectModifyPricingsState, fromModifyPricingsReducer.getPricingsToModify);
-export const getIsModifyingPricings = createSelector(selectModifyPricingsState, fromModifyPricingsReducer.getIsModifyingPricings);

@@ -37,7 +37,9 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
 	    As a Payfactors standalone page
     Replace all Add Job modals & componenets with the generic job-management-component
   */
-  constructor(private store: Store<fromJobManagementReducer.State>, private actionsSubject: ActionsSubject) {
+  constructor(private store: Store<fromJobManagementReducer.State>, private actionsSubject: ActionsSubject) { }
+
+  ngOnInit() {
     this.loading$ = this.store.select(fromJobManagementReducer.getLoading);
     this.saving$ = this.store.select(fromJobManagementReducer.getSaving);
     this.jobFormDataSubscription = this.store.select(fromJobManagementReducer.getJobFormData)
@@ -45,14 +47,12 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
         this.jobFormData = value;
       });
 
-    this.saveSuccessSubscription = actionsSubject
+    this.saveSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromJobManagementActions.SAVE_COMPANY_JOB_SUCCESS))
       .subscribe(data => {
         this.saveSuccess.emit();
       });
-  }
 
-  ngOnInit() {
     this.store.dispatch(new fromJobManagementActions.LoadJobOptions());
   }
 
