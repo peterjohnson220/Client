@@ -45,4 +45,32 @@ export class PayMarketsPageComponent implements AfterViewInit {
       'Default_Scope': { Template: this.defaultScopesColumn}
     };
   }
+
+  customSortOptions = (sortDescriptor: SortDescriptor[]): SortDescriptor[] => {
+    if (sortDescriptor && sortDescriptor.length > 0) {
+      const sizeSortInfo = sortDescriptor.find(s => s.field === 'CompanyPayMarkets_ScopeSize');
+      if (!sizeSortInfo) {
+        return sortDescriptor;
+      }
+      return this.getSizeColumnSort(sizeSortInfo);
+    }
+    return sortDescriptor;
+  }
+
+  private getSizeColumnSort(sizeSortInfo: SortDescriptor): SortDescriptor[] {
+    return [
+      {
+        field: 'CompanyPayMarkets_Size_Label',
+        dir: sizeSortInfo.dir
+      },
+      {
+        field: 'CompanyPayMarkets_Size_Id',
+        dir: sizeSortInfo.dir
+      },
+      {
+        field: 'CompanyPayMarkets_ScopeSize',
+        dir: sizeSortInfo.dir
+      }
+    ];
+  }
 }

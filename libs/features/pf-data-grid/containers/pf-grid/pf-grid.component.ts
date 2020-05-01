@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { filter, take } from 'rxjs/operators';
-import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent, ColumnComponent } from '@progress/kendo-angular-grid';
 
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
@@ -42,6 +42,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() autoFitColumnsToHeader = false;
   @Input() pageable = true;
   @Input() theme: 'default' | 'next-gen' = 'default';
+  @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -212,6 +213,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onSortChange(sortDescriptor: SortDescriptor[]): void {
+    if (this.customSortOptions != null) {
+      sortDescriptor = this.customSortOptions(sortDescriptor);
+    }
     this.store.dispatch(new fromActions.UpdateSortDescriptor(this.pageViewId, sortDescriptor));
     if (this.saveSort) {
       this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));

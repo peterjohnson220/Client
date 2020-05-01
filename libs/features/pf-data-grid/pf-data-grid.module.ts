@@ -37,6 +37,7 @@ import {
   ColumnGroupComponent,
   ColumnGroupListComponent
 } from './components';
+import { IsSortedPipe } from './pipes';
 
 @NgModule({
   imports: [
@@ -75,7 +76,10 @@ import {
     PfDataGridSaveViewModalComponent,
     ColumnChooserComponent,
     ColumnGroupComponent,
-    ColumnGroupListComponent
+    ColumnGroupListComponent,
+
+    // Pipes
+    IsSortedPipe
   ],
   exports: [
     PfDataGridComponent
