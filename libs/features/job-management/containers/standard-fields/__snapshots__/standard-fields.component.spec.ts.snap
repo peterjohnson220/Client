@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Job Management Feature - Job Form Should display form 1`] = `
-<pf-job-form
+<pf-standard-fields
   DEFAULT_MAX_LENGTH={[Function Number]}
   JOB_CODE_FLSA_MAX_LENGTH={[Function Number]}
   actionsSubject={[Function ActionsSubject]}
@@ -11,24 +11,19 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   filterSettings={[Function Object]}
   formBuilder={[Function FormBuilder]}
   formChangesSubscription={[Function Subscriber]}
+  jobDescriptionEditor={[Function JobDescriptionSummaryEditorComponent]}
+  jobDescriptionSummary$={[Function Store]}
   jobFamilies$={[Function Store]}
   jobFlsaStatuses$={[Function Store]}
   jobForm={[Function FormGroup]}
-  jobUserDefinedFields$={[Function Store]}
   loadJobSuccessSubscription={[Function Subscriber]}
-  onShowFormSubscription={[Function Subscriber]}
-  showJobModal$={[Function Store]}
+  resetStateSubscription={[Function Subscriber]}
   store={[Function MockStore]}
-  udfsSubscription={[Function Subscriber]}
 >
   <form
     autocomplete="nope"
-    id="user-form"
+    id="job-management-standard-fields-form"
   >
-    <h5>
-      Standard Fields
-    </h5>
-    <br />
     <div
       class="d-flex flex-wrap"
     >
@@ -52,8 +47,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             class="form-control"
             data-qa-id="txt-job-form-job-code"
             formcontrolname="JobCode"
-            ng-reflect-klass="form-control"
-            ng-reflect-ng-class="[object Object]"
+            ng-reflect-pf-validatable="true"
             type="text"
           />
           
@@ -114,8 +108,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             class="form-control"
             data-qa-id="ddm-job-form-job-family"
             formcontrolname="JobFamily"
-            ng-reflect-klass="form-control"
-            ng-reflect-ng-class="[object Object]"
+            ng-reflect-pf-validatable="true"
           />
           
         </div>
@@ -135,8 +128,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             class="form-control"
             data-qa-id="txt-job-form-job-level"
             formcontrolname="JobLevel"
-            ng-reflect-klass="form-control"
-            ng-reflect-ng-class="[object Object]"
+            ng-reflect-pf-validatable="true"
             type="text"
           />
           
@@ -157,69 +149,86 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             class="form-control"
             data-qa-id="ddm-job-form-flsa-status"
             formcontrolname="FLSAStatus"
-            ng-reflect-klass="form-control"
-            ng-reflect-ng-class="[object Object]"
+            ng-reflect-pf-validatable="true"
           />
           
         </div>
       </div>
     </div>
-    
-    <div>
-      <br />
+    <div
+      class="pr-3"
+    >
       <hr />
-      <h5>
-        Custom Fields
-      </h5>
-      <br />
-      <div
-        class="d-flex flex-wrap"
+      <pf-job-description-summary-editor
+        ng-reflect-layout="simple"
       >
+        <div
+          ng-reflect-ng-class="[object Object]"
+        >
+          <div
+            class="pb-3"
+            ng-reflect-ng-class="[object Object]"
+          >
+            
+            <div
+              class="d-flex"
+            >
+              <div>
+                <b
+                  class="align-middle"
+                >
+                  Job Description
+                </b>
+              </div>
+              
+            </div>
+          </div>
+          <div
+            ng-reflect-ng-class="[object Object]"
+          >
+            
+            <form
+              autocomplete="nope"
+              class="ng-untouched ng-pristine ng-valid"
+              id="jobs-page-job-description-form"
+              ng-reflect-form="[object Object]"
+              novalidate=""
+            >
+              <textarea
+                class="form-control ng-untouched ng-pristine ng-valid"
+                data-qa-id="txt-jobs-page-job-description"
+                formcontrolname="JobDescription"
+                ng-reflect-name="JobDescription"
+                ng-reflect-pf-validatable="true"
+                placeholder="There is no Job Description loaded for this Job."
+                rows="9"
+              >
+                    
+              </textarea>
+            </form>
+          </div>
+        </div>
         
-        <div
-          class="form-group col-6 row no-gutters"
+        
+        
+        <form
+          action="/odata/JobDescription(null)/Default.Export"
+          class="ng-untouched ng-pristine ng-valid"
+          method="POST"
+          name="exportForm"
+          novalidate=""
         >
-          <label
-            class="col-4 col-form-label"
-          >
-            UDF1
-          </label>
-          <div
-            class="col-8"
-          >
-            <input
-              class="form-control"
-              data-qa-id="txt-job-form-UDF1"
-              ng-reflect-klass="form-control"
-              ng-reflect-ng-class="[object Object]"
-              type="text"
-            />
-            
-          </div>
-        </div>
-        <div
-          class="form-group col-6 row no-gutters"
-        >
-          <label
-            class="col-4 col-form-label"
-          >
-            UDF2
-          </label>
-          <div
-            class="col-8"
-          >
-            <input
-              class="form-control"
-              data-qa-id="txt-job-form-UDF2"
-              ng-reflect-klass="form-control"
-              ng-reflect-ng-class="[object Object]"
-              type="text"
-            />
-            
-          </div>
-        </div>
-      </div>
+          <input
+            name="export-uid"
+            type="hidden"
+          />
+          <input
+            name="export-type"
+            type="hidden"
+          />
+        </form>
+      </pf-job-description-summary-editor>
     </div>
   </form>
-</pf-job-form>
+</pf-standard-fields>
 `;

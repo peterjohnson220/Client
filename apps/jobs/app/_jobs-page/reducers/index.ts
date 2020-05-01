@@ -56,13 +56,10 @@ export const getNavigatingToOldPage = createSelector(selectJobsPageState, fromJo
 export const selectJobDescriptionState =
   createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.jobDescription);
 
-export const getJobDescription = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescription);
-export const getJobDescriptionManagementEnabled = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionManagementEnabled);
-export const getJobDescriptionUpdated = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionUpdated);
-export const getSavingState = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getSavingState);
-export const getJobDescriptionLoaded = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionLoaded);
-export const getJobDescriptionId = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionId);
-
+  export const getJobId = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobId);
+  export const getLoading = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getLoading);
+  export const getJobDescriptionSummary = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getJobDescriptionSummary);
+  export const getUpdatedJobDescription = createSelector(selectJobDescriptionState, fromJobDescriptionReducer.getUpdatedJobDescription);
 
 // Job Peer Matches
 export const selectJobPeerMatchesState =

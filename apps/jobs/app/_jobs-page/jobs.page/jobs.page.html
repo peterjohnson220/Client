@@ -19,7 +19,7 @@
   <fa-icon [icon]="['far', 'edit']"  title="Edit Job"  *ngIf="(userContext$ | async)?.CompanyId !== 1401"
            [attr.data-qa-id]="'btn-jobs-page-edit-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
-           (click)="editingJobId = dataRow['CompanyJobs_CompanyJob_ID']; showJobEditModal=true; $event.stopPropagation();" class="pr-2" [fixedWidth]="true"></fa-icon>
+           (click)="toggleJobManagmentModal(true, dataRow['CompanyJobs_CompanyJob_ID'], $event)" class="pr-2" [fixedWidth]="true"></fa-icon>
   <fa-icon [icon]="['far', 'trash-alt']" title="Delete Job"
            [attr.data-qa-id]="'btn-jobs-page-delete-job-' + dataRow['CompanyJobs_CompanyJob_ID']"
            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
@@ -92,7 +92,7 @@
     [attr.data-qa-id]="'btn-jobs-page-new-job'"
     type="button"
     title="Add Job"
-    (click)="showJobEditModal = true"
+    (click)="toggleJobManagmentModal(true)"
     class="btn btn-primary">
     New Job
   </button>
@@ -307,10 +307,10 @@
 </pf-modal-form>
 
 <pf-job-management
-  [showJobModal]="showJobEditModal"
+  [showModal$]="showJobManagementModal$"
   [jobId]="editingJobId"
-  (cancelChanges)="closeJobManagmentModal()"
-  (saveSuccess)="closeJobManagmentModal()">
+  (cancelChanges)="toggleJobManagmentModal(false)"
+  (saveSuccess)="toggleJobManagmentModal(false)">
 </pf-job-management>
 
 <ng-template #payMarketFilter>

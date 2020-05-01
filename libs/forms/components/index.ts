@@ -4,3 +4,4 @@ export * from './input-debounce';
 export * from './location-search';
 export * from './action-button';
 export * from './typeahead';
+export * from './job-description-summary-editor';

@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Job Management Feature - Job Form Should display form 1`] = `
+<pf-job-description-summary-editor
+  JOB_SUMMARY_MIN_LENGTH={[Function Number]}
+  actionIconSize={[Function String]}
+  errorMessageClass={[Function String]}
+  formBuilder={[Function FormBuilder]}
+  formChangesSubscription={[Function Subscriber]}
+  jobDescriptionChanged={[Function EventEmitter]}
+  jobDescriptionForm={[Function FormGroup]}
+  layout={[Function String]}
+  permissions={[Function Function]}
+  rows={[Function Number]}
+  title={[Function String]}
+>
+  <div
+    ng-reflect-ng-class="[object Object]"
+  >
+    <div
+      class="pb-3"
+      ng-reflect-ng-class="[object Object]"
+    >
+      
+      <div
+        class="d-flex"
+      >
+        <div>
+          <b
+            class="align-middle"
+          >
+            Job Description
+          </b>
+        </div>
+        
+      </div>
+    </div>
+    <div
+      ng-reflect-ng-class="[object Object]"
+    >
+      
+      <form
+        autocomplete="nope"
+        class="ng-untouched ng-pristine ng-valid"
+        id="jobs-page-job-description-form"
+        ng-reflect-form="[object Object]"
+        novalidate=""
+      >
+        <textarea
+          class="form-control ng-untouched ng-pristine ng-valid"
+          data-qa-id="txt-jobs-page-job-description"
+          formcontrolname="JobDescription"
+          ng-reflect-name="JobDescription"
+          placeholder="There is no Job Description loaded for this Job."
+          rows="9"
+        >
+              
+        </textarea>
+      </form>
+    </div>
+  </div><form
+    action="/odata/JobDescription(null)/Default.Export"
+    class="ng-untouched ng-pristine ng-valid"
+    method="POST"
+    name="exportForm"
+    novalidate=""
+  >
+    <input
+      name="export-uid"
+      type="hidden"
+    />
+    <input
+      name="export-type"
+      type="hidden"
+    />
+  </form>
+</pf-job-description-summary-editor>
+`;
