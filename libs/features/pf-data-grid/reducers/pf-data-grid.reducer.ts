@@ -834,15 +834,22 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       };
     }
     case fromPfGridActions.REORDER_COLUMNS: {
-      let clonedFields = cloneDeep(state.grids[action.pageViewId].fields);
-      clonedFields = reorderFields(clonedFields, action.oldIndex, action.newIndex);
+      // We add 1 to each index because we subtract 1 at onColumnReorder event pf-grid.component.ts
+      const oldIndex = action.oldIndex + 1;
+      const newIndex = action.newIndex + 1;
+
+      const clonedGroupedFields = cloneDeep(state.grids[action.pageViewId].groupedFields);
+      const clonedFields = reorderFields(clonedGroupedFields, oldIndex, newIndex, action.level);
+      const groupedFields = buildGroupedFields(clonedFields);
+
       return {
         ...state,
         grids: {
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: clonedFields
+            fields: clonedFields,
+            groupedFields: groupedFields
           }
         }
       };
@@ -1052,16 +1059,71 @@ export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
   return [];
 }
 
-export function reorderFields(fields: ViewField[], oldIndex: number, newIndex: number): ViewField[] {
-  const notSelectedFields = fields.filter(f => !f.IsSelectable || !f.IsSelected);
-  const filteredFields = orderBy(fields.filter(f => f.IsSelectable && f.IsSelected), 'Order');
+export function reorderFields(groupedFields: any[], oldIndex: number, newIndex: number, level: number): ViewField[] {
+  const groupedFilteredFields =
+    orderBy(groupedFields.filter(f => f.DataElementId !== undefined && f.IsSelectable && f.IsSelected ||
+                                      f.Fields !== undefined && f.HasSelection), 'Order');
+  // Each level has it's own indices
+  if (level === 0) {
+    arrayMoveMutate(groupedFilteredFields, oldIndex, newIndex);
+  } else if (level === 1) {
+    // If column reorders under the column group then the level = 1 and the first column in this level has index = 0
+    let groupStartIdx = 0, groupEndIdx = 0;
+    for (const groupedFilteredField of groupedFilteredFields) {
+      if (groupedFilteredField.Fields !== undefined) {
+        // We still can have not selected fields, as group specifies only general HasSelection property
+        const groupedSelectedFields = groupedFilteredField.Fields.filter(f => f.IsSelectable && f.IsSelected);
+        groupEndIdx = groupStartIdx + groupedSelectedFields.length - 1;
 
-  arrayMoveMutate(filteredFields, oldIndex, newIndex);
-  filteredFields.forEach((f, index) => f.Order = index);
+        if (oldIndex >= groupStartIdx && oldIndex <= groupEndIdx && newIndex >= groupStartIdx && newIndex <= groupEndIdx) {
+          arrayMoveMutate(groupedSelectedFields, oldIndex - groupStartIdx, newIndex - groupStartIdx);
+          const groupedNotSelectedFields = groupedFilteredField.Fields.filter(f => !f.IsSelectable || !f.IsSelected);
+          groupedFilteredField.Fields = groupedNotSelectedFields.concat(groupedSelectedFields);
+          break;
+        }
 
-  return notSelectedFields.concat(filteredFields);
+        groupStartIdx += groupedSelectedFields.length;
+      }
+    }
+  }
+
+  const notSelectedFields = getViewFieldsFromGroupedFields(groupedFields, false);
+  const selectedFields = getViewFieldsFromGroupedFields(groupedFilteredFields, true);
+
+  // Update the Order for each selected field
+  selectedFields.forEach((f, index) => f.Order = index);
+
+  return notSelectedFields.concat(selectedFields);
 }
 
 export function getVisibleFieldsIds(state: DataGridStoreState, pageViewId: string, data: any[]): number[] {
   return data.map((item) => item[getPrimaryKey(state, pageViewId)]);
+}
+
+export function getViewFieldsFromGroupedFields(groupedFields: any[], isSelectedOnly: boolean): ViewField[] {
+  const result: ViewField[] = [];
+
+  groupedFields.forEach(function (groupedField) {
+    // Fields at level 0
+    if (groupedField.DataElementId !== undefined) {
+      if (isSelectedOnly && groupedField.IsSelectable && groupedField.IsSelected ||
+            !isSelectedOnly && (!groupedField.IsSelectable || !groupedField.IsSelected)) {
+          result.push(groupedField);
+      }
+    }
+
+    // Fields at level 1
+    if (groupedField.Fields !== undefined) {
+      groupedField.Fields.forEach(function (field) {
+        if (field.DataElementId !== undefined) {
+          if (isSelectedOnly && field.IsSelectable && field.IsSelected ||
+                !isSelectedOnly && (!field.IsSelectable || !field.IsSelected)) {
+            result.push(field);
+          }
+        }
+      });
+    }
+  });
+
+  return result;
 }

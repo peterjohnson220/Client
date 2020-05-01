@@ -35,6 +35,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() rangeGroupId: number;
   @Input() page: Pages;
+  @Input() reorderable: boolean;
   @Output() addJobs = new EventEmitter();
   @Output() publishModel = new EventEmitter();
   @Output() openModelSettings = new EventEmitter();
