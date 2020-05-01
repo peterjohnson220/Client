@@ -7,11 +7,8 @@ import { AsyncStateObjHelper } from 'libs/core';
 
 export interface State {
   jobsPageId: string;
-  showCreateProjectModal: boolean;
   creatingToProject: AsyncStateObj<boolean>;
-  showJobStatusModal: boolean;
   changingJobStatus: AsyncStateObj<boolean>;
-  showDeleteJobModal: boolean;
   deletingJob: AsyncStateObj<boolean>;
   pricingIdToBeDeleted: number;
   companyPayMarkets: any;
@@ -24,11 +21,8 @@ export interface State {
 
 export const initialState: State = {
   jobsPageId: '',
-  showCreateProjectModal: false,
   creatingToProject: generateDefaultAsyncStateObj<boolean>(false),
-  showJobStatusModal: false,
   changingJobStatus: generateDefaultAsyncStateObj<boolean>(false),
-  showDeleteJobModal: false,
   deletingJob: generateDefaultAsyncStateObj<boolean>(false),
   pricingIdToBeDeleted: undefined,
   companyPayMarkets: [],
@@ -65,14 +59,13 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       };
     }
     case fromJobsPageActions.SHOW_CREATE_PROJECT_MODAL: {
-      const creatingToProjectClone = cloneDeep(state.creatingToProject);
-      creatingToProjectClone.loadingError = false;
-      creatingToProjectClone.loadingErrorResponse = null;
-
       return {
         ...state,
-        showCreateProjectModal: action.payload,
-        creatingToProject: creatingToProjectClone
+        creatingToProject: {
+          ...state.creatingToProject,
+          loadingError: false,
+          loadingErrorResponse: null
+        }
       };
     }
     case fromJobsPageActions.CREATING_PROJECT: {
@@ -85,14 +78,13 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       return AsyncStateObjHelper.loadingError(state, 'creatingToProject', action.error);
     }
     case fromJobsPageActions.SHOW_JOB_STATUS_MODAL: {
-      const changingJobStatusClone = cloneDeep(state.changingJobStatus);
-      changingJobStatusClone.loadingError = false;
-      changingJobStatusClone.loadingErrorResponse = null;
-
       return {
         ...state,
-        showJobStatusModal: action.payload,
-        changingJobStatus: changingJobStatusClone
+        changingJobStatus: {
+          ...state.changingJobStatus,
+          loadingError: false,
+          loadingErrorResponse: null
+        }
       };
     }
     case fromJobsPageActions.CHANGING_JOB_STATUS: {
@@ -105,14 +97,13 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       return AsyncStateObjHelper.loadingError(state, 'changingJobStatus', action.error);
     }
     case fromJobsPageActions.SHOW_DELETE_JOB_MODAL: {
-      const deletingJobClone = cloneDeep(state.deletingJob);
-      deletingJobClone.loadingError = false;
-      deletingJobClone.loadingErrorResponse = null;
-
       return {
         ...state,
-        showDeleteJobModal: action.payload,
-        deletingJob: deletingJobClone
+        deletingJob: {
+          ...state.deletingJob,
+          loadingError: false,
+          loadingErrorResponse: null
+        }
       };
     }
     case fromJobsPageActions.DELETING_JOB: {
@@ -226,11 +217,8 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
 }
 
 export const getJobsPageId = (state: State) => state.jobsPageId;
-export const getShowCreateProjectModal = (state: State) => state.showCreateProjectModal;
 export const getCreatingToProject = (state: State) => state.creatingToProject;
-export const getShowJobStatusModal = (state: State) => state.showJobStatusModal;
 export const getChangingJobStatus = (state: State) => state.changingJobStatus;
-export const getShowDeleteJobModal = (state: State) => state.showDeleteJobModal;
 export const getDeletingJob = (state: State) => state.deletingJob;
 export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDeleted;
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;

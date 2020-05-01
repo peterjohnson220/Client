@@ -25,6 +25,7 @@
            [pfSecuredResource]="permissions.JOBS_ADD_EDIT_DELETE"
            (click)="openDeleteJobModal(dataRow['CompanyJobs_CompanyJob_ID'], dataRow['CompanyJobs_Job_Title']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
 </ng-template>
+
 <ng-template #titleTemplate>
   {{(userContext$ | async)?.CompanyName + ' - Jobs'}}
   <button
@@ -41,13 +42,13 @@
 </ng-template>
 
 <ng-template #jobMatchCount let-dataRow="dataRow">
-  <span  (click)="dataRow['CompanyJobs_PricingMatchesCount'] > 0?toggleSurveyParticipationModal($event, true, dataRow['CompanyJobs_CompanyJob_ID']):null">
+  <span  
+    (click)="openSurveyParticipationModal(dataRow['CompanyJobs_PricingMatchesCount'], dataRow['CompanyJobs_CompanyJob_ID'], $event)">
    {{dataRow['CompanyJobs_PricingMatchesCount']}}
   </span>
 </ng-template>
 
 <ng-template #jobTitleColumn let-dataRow="dataRow" let-hover="hover">
-
   <div class="d-flex align-items-center">
     <div pfEllipsisActive class="ellipsis-overflowing-text-wrap" >{{dataRow['CompanyJobs_Job_Title']}}</div>
     <div *ngIf="dataRow['CompanyJobs_JobAttachmentCount']>0 && !(selectedRecordId$ | async)"
@@ -106,6 +107,7 @@
   </pf-export-list-popover>
 </ng-template>
 
+
 <ng-template #gridActions>
   <button
     [pfSecuredResource]="permissions.MODIFY_PRICINGS"
@@ -113,8 +115,7 @@
     [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
     (click)="modifyPricings()"
     type="button"
-    class="btn btn-secondary pf-btn-borderless"
-  >
+    class="btn btn-secondary pf-btn-borderless">
     <fa-icon [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
     Modify Pricings <span *ngIf="selectedPricingIds.length">({{selectedPricingIds.length}})</span>
   </button>
@@ -123,7 +124,7 @@
     [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-jobs-page-create-project'"
     type="button"
-    (click)="toggleCreateProjectModal(true)"
+    (click)="openCreateProjectModal()"
     [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-secondary pf-btn-borderless">
     <fa-icon [icon]="['far', 'calculator']"></fa-icon>
@@ -137,7 +138,7 @@
     [pfSecuredResource]="permissions.JOBS_INACTIVATE_ACTIVATE"
     [attr.data-qa-id]="'btn-jobs-page-inactivate-activate-jobs'"
     type="button"
-    (click)="toggleJobStatusModal(true)"
+    (click)="openJobStatusModal()"
     [title]="!selectedJobIds.length ? 'No Jobs Selected' : ''"
     class="btn btn-secondary pf-btn-borderless">
     <fa-icon [icon]="['far', 'briefcase']"></fa-icon>
@@ -162,156 +163,6 @@
   </button>
 </ng-template>
 
-<pf-modal-form
-  [size]="'md'"
-  [title]="'Create Project'"
-  [primaryButtonText]="'Create'"
-  [primaryButtonTextSubmitting]="'Creating'"
-  [modalId]="'au-modal-jobs-page-create-project'"
-  [submitting]="(creatingProject$ | async).loading"
-  [allowDismiss]="!(creatingProject$ | async).loading"
-  [isOpen$]="showCreateProjectModal$"
-  (onSubmit)="createProject()"
-  (onDismiss)="toggleCreateProjectModal(false)">
-
-  <ng-container basic-content>
-    The following will be used to create a new project:
-    <div>
-      &bull; Job Count: {{selectedJobIds.length}}
-    </div>
-    <div>
-      &bull; Pricing Count: {{selectedPricingIds.length}}
-    </div>
-    <div>
-      &bull; Job:Pay Market Associations: {{selectedJobPayMarketCombos.length}}
-    </div>
-    <div *ngIf="(creatingProject$ | async).loadingError">
-      <br>
-      <span class="text-danger">
-        <b>We encountered a problem creating your project. Please try again or contact your account representative.</b>
-      </span>
-    </div>
-  </ng-container>
-</pf-modal-form>
-
-<pf-modal-form
-  [size]="'md'"
-  [title]="(isActiveJobs() ? 'Inactivate' : 'Activate') + ' Jobs'"
-  [primaryButtonText]="(isActiveJobs() ? 'Inactivate' : 'Activate')"
-  [primaryButtonTextSubmitting]="isActiveJobs() ? 'Inactivating' : 'Activating'"
-  [modalId]="'au-modal-jobs-page-inactivate-activate-jobs'"
-  [submitting]="(changingJobStatus$ | async).loading"
-  [allowDismiss]="!(changingJobStatus$ | async).loading"
-  [isOpen$]="showJobStatusModal$"
-  (onSubmit)="changingJobStatus()"
-  (onDismiss)="toggleJobStatusModal(false)">
-
-  <ng-container basic-content>
-    You are about to make {{selectedJobIds.length}} job{{selectedJobIds.length > 1 ? 's' : ''}}
-    {{isActiveJobs() ? 'Inactive' : 'Active'}}.
-    <br><br>
-    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}}
-    for use throughout the system. Would you like to continue?
-    <div *ngIf="(changingJobStatus$ | async).loadingError">
-      <br>
-      <span class="text-danger">
-        <b>
-          We encountered a problem {{isActiveJobs() ? 'Inactivating' : 'Activating'}} the jobs you selected.
-          Please try again or contact your account representative.
-        </b>
-      </span>
-    </div>
-  </ng-container>
-</pf-modal-form>
-
-<pf-modal-form
-  [size]="'md'"
-  [title]="'Delete a Job - ' + jobNameToDelete"
-  [primaryButtonText]="'Delete'"
-  [primaryButtonClass]="'btn-danger'"
-  [primaryButtonTextSubmitting]="'Deleting'"
-  [modalId]="'au-modal-jobs-page-delete-a-job'"
-  [submitting]="(deletingJob$ | async).loading"
-  [allowDismiss]="!(deletingJob$ | async).loading"
-  [isOpen$]="showDeleteJobModal$"
-  (onSubmit)="deleteJob()"
-  (onDismiss)="closeDeleteJobModal()">
-
-  <ng-container basic-content>
-    You are about to delete the <b>{{jobNameToDelete}}</b> job and all of the associated pricings, slotted job matches, structures and employees.
-    <br><br>
-    This cannot be undone. Are you sure?
-    <div *ngIf="deletingJob$ | async as deletingJob">
-      <div *ngIf="deletingJob.loadingError">
-        <br>
-        <span class="text-danger">
-          <b *ngIf="deletingJob.loadingErrorResponse.status === 409">
-            {{deletingJob.loadingErrorResponse.error.value}}
-          </b>
-          <b *ngIf="deletingJob.loadingErrorResponse.status !== 409">
-            We encountered a problem deleting your job. Please try again or contact your account representative.
-          </b>
-        </span>
-      </div>
-    </div>
-  </ng-container>
-</pf-modal-form>
-
-<pf-modal-form
-  [size]="'lg'"
-  [title]="'Matches'"
-  [submitEnabled]="false"
-  [showSubmit]="false"
-  [secondaryButtonText]="'Close'"
-  [centered]="true"
-  [showSpinner]="true"
-  [modalId]="'au-modal-jobs-page-matches'"
-  [allowDismiss]="true"
-  [isOpen$]="showSurveyParticipationModal$"
-  (onDismiss)="toggleSurveyParticipationModal(null, false, null)">
-  <ng-container basic-content>
-    <div class="maxPageHeight">
-      <pf-survey-participation-page *ngIf="matchJobId && showSurveyParticipationModal$ |  async" [jobId]= "matchJobId" ></pf-survey-participation-page>
-    </div>
-  </ng-container>
-
-</pf-modal-form>
-
-<pf-modal-form
-  [size]="'lg'"
-  [showFooter]="false"
-  [modalId]="'au-modal-jobs-page-multi-match'"
-  [isOpen$]="modifyingPricings$"
-  (onDismiss)="cancelModifyPricings()"
->
-  <!--TODO: The multi match page itself handles the UI layout. This is for PoC/Initial work for modifying pricings -->
-  <ng-container basic-content>
-    <div class="multi-match-container">
-      <div class="row">
-        <div class="col-3">
-          Filters
-        </div>
-        <div class="col-6">
-          Results
-        </div>
-        <div class="col-3">
-          <div *ngFor="let pricing of pricingsToModify$ | async" [title]="pricing.Paymarket">
-            {{pricing.Job.Title}} ({{pricing.Job.Code}})
-            <br />
-            Show Cuts ({{pricing.DataCutsCount}}) | Show Job Detail
-          </div>
-        </div>
-      </div>
-    </div>
-  </ng-container>
-</pf-modal-form>
-
-<pf-job-management
-  [showModal$]="showJobManagementModal$"
-  [jobId]="editingJobId"
-  (cancelChanges)="toggleJobManagmentModal(false)"
-  (saveSuccess)="toggleJobManagmentModal(false)">
-</pf-job-management>
 
 <ng-template #payMarketFilter>
   <div>
@@ -361,3 +212,156 @@
     (click)="clearFiltersAndSelections()">
   </kendo-switch>
 </ng-template>
+
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Create Project'"
+  [primaryButtonText]="'Create'"
+  [primaryButtonTextSubmitting]="'Creating'"
+  [modalId]="'au-modal-jobs-page-create-project'"
+  [submitting]="(creatingProject$ | async).loading"
+  [allowDismiss]="!(creatingProject$ | async).loading"
+  [isOpen$]="showCreateProjectModal$"
+  (onSubmit)="createProject()"
+  (onDismiss)="showCreateProjectModal.next(false);">
+
+  <ng-container basic-content>
+    The following will be used to create a new project:
+    <div>
+      &bull; Job Count: {{selectedJobIds.length}}
+    </div>
+    <div>
+      &bull; Pricing Count: {{selectedPricingIds.length}}
+    </div>
+    <div>
+      &bull; Job:Pay Market Associations: {{selectedJobPayMarketCombos.length}}
+    </div>
+    <div *ngIf="(creatingProject$ | async).loadingError">
+      <br>
+      <span class="text-danger">
+        <b>We encountered a problem creating your project. Please try again or contact your account representative.</b>
+      </span>
+    </div>
+  </ng-container>
+</pf-modal-form>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="(isActiveJobs() ? 'Inactivate' : 'Activate') + ' Jobs'"
+  [primaryButtonText]="(isActiveJobs() ? 'Inactivate' : 'Activate')"
+  [primaryButtonTextSubmitting]="isActiveJobs() ? 'Inactivating' : 'Activating'"
+  [modalId]="'au-modal-jobs-page-inactivate-activate-jobs'"
+  [submitting]="(changingJobStatus$ | async).loading"
+  [allowDismiss]="!(changingJobStatus$ | async).loading"
+  [isOpen$]="showJobStatusModal$"
+  (onSubmit)="changingJobStatus()"
+  (onDismiss)="showJobStatusModal.next(false)">
+
+  <ng-container basic-content>
+    You are about to make {{selectedJobIds.length}} job{{selectedJobIds.length > 1 ? 's' : ''}}
+    {{isActiveJobs() ? 'Inactive' : 'Active'}}.
+    <br><br>
+    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}}
+    for use throughout the system. Would you like to continue?
+    <div *ngIf="(changingJobStatus$ | async).loadingError">
+      <br>
+      <span class="text-danger">
+        <b>
+          We encountered a problem {{isActiveJobs() ? 'Inactivating' : 'Activating'}} the jobs you selected.
+          Please try again or contact your account representative.
+        </b>
+      </span>
+    </div>
+  </ng-container>
+</pf-modal-form>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Delete a Job - ' + jobNameToDelete"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonClass]="'btn-danger'"
+  [primaryButtonTextSubmitting]="'Deleting'"
+  [modalId]="'au-modal-jobs-page-delete-a-job'"
+  [submitting]="(deletingJob$ | async).loading"
+  [allowDismiss]="!(deletingJob$ | async).loading"
+  [isOpen$]="showDeleteJobModal$"
+  (onSubmit)="deleteJob()"
+  (onDismiss)="showDeleteJobModal.next(false)">
+
+  <ng-container basic-content>
+    You are about to delete the <b>{{jobNameToDelete}}</b> job and all of the associated pricings, slotted job matches, structures and employees.
+    <br><br>
+    This cannot be undone. Are you sure?
+    <div *ngIf="deletingJob$ | async as deletingJob">
+      <div *ngIf="deletingJob.loadingError">
+        <br>
+        <span class="text-danger">
+          <b *ngIf="deletingJob.loadingErrorResponse.status === 409">
+            {{deletingJob.loadingErrorResponse.error.value}}
+          </b>
+          <b *ngIf="deletingJob.loadingErrorResponse.status !== 409">
+            We encountered a problem deleting your job. Please try again or contact your account representative.
+          </b>
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>
+
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Matches'"
+  [submitEnabled]="false"
+  [showSubmit]="false"
+  [secondaryButtonText]="'Close'"
+  [centered]="true"
+  [showSpinner]="true"
+  [modalId]="'au-modal-jobs-page-matches'"
+  [allowDismiss]="true"
+  [isOpen$]="showSurveyParticipationModal$"
+  (onDismiss)="showSurveyParticipationModal.next(false)">
+  <ng-container basic-content>
+    <div class="survey-participation-modal-container">
+      <pf-survey-participation-page *ngIf="matchJobId && showSurveyParticipationModal$ | async" [jobId]= "matchJobId" ></pf-survey-participation-page>
+    </div>
+  </ng-container>
+
+</pf-modal-form>
+
+<pf-modal-form
+  [size]="'lg'"
+  [showFooter]="false"
+  [modalId]="'au-modal-jobs-page-multi-match'"
+  [isOpen$]="showModifyingPricings$"
+  (onDismiss)="showModifyingPricings.next(false)">
+  <!--TODO: The multi match page itself handles the UI layout. This is for PoC/Initial work for modifying pricings -->
+  <ng-container basic-content>
+    <pf-async-container [loading]="(pricingsToModify$ | async)?.loading">
+      <div class="multi-match-container">
+        <div class="row">
+          <div class="col-3">
+            Filters
+          </div>
+          <div class="col-6">
+            Results
+          </div>
+          <div class="col-3">
+            <div *ngFor="let pricing of (pricingsToModify$ | async)?.obj" [title]="pricing.Paymarket">
+              {{pricing.Job.Title}} ({{pricing.Job.Code}})
+              <br />
+              Show Cuts ({{pricing.DataCutsCount}}) | Show Job Detail
+            </div>
+          </div>
+        </div>
+      </div>
+    </pf-async-container>
+  </ng-container>
+</pf-modal-form>
+
+<pf-job-management
+  [showModal$]="showJobManagementModal$"
+  [jobId]="editingJobId"
+  (cancelChanges)="toggleJobManagmentModal(false)"
+  (saveSuccess)="toggleJobManagmentModal(false)">
+</pf-job-management>
