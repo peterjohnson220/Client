@@ -1,23 +1,22 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import {StoreModule} from '@ngrx/store';
-import {EffectsModule} from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {ColorPickerModule} from 'ngx-color-picker';
-import {NgbDropdownModule, NgbButtonsModule} from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { NgbDropdownModule, NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
 
-import {PfCommonModule} from 'libs/core';
-import {PfCommonUIModule} from 'libs/ui/common';
+import { PfCommonModule} from 'libs/core';
+import { PfCommonUIModule} from 'libs/ui/common';
 
-import {SharedModule} from '../../shared';
-
-import {StatementEditPageComponent} from './statement-edit.page';
-
-import {reducers} from './reducers';
-import {StatementEditPageEffects} from './effects/statement-edit.page.effects';
-import {SettingsPanelComponent} from './components/settings-panel/settings-panel.component';
+import { SharedModule } from '../../shared';
+import { StatementEditRoutingModule } from './statement-edit-routing.module';
+import { StatementEditPageComponent } from './statement-edit.page';
+import { FooterBarComponent, SettingsPanelComponent } from './components';
+import { reducers } from './reducers';
+import { StatementEditPageEffects } from './effects/statement-edit.page.effects';
 
 @NgModule({
   imports: [
@@ -35,14 +34,15 @@ import {SettingsPanelComponent} from './components/settings-panel/settings-panel
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    SharedModule
+    SharedModule,
+
+    // Routing
+    StatementEditRoutingModule
   ],
   declarations: [
     StatementEditPageComponent,
+    FooterBarComponent,
     SettingsPanelComponent
-  ],
-  exports: [
-    StatementEditPageComponent
   ]
 })
 export class StatementEditModule {

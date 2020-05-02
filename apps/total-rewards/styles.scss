@@ -4,6 +4,10 @@
 @import 'total-rewards/statement-layout-variables';
 @import 'total-rewards/rich-text-editor';
 
+.left-sidebar {
+  z-index: 1040;
+}
+
 .btn-trs {
   font-size: 1.1rem;
 }

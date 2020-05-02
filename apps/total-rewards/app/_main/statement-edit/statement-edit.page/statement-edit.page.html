@@ -2,9 +2,9 @@
   <ng-container page-title>Total Rewards Statement</ng-container>
   <ng-container page-content>
     <pf-async-container [loading]="(statementLoading$ | async) || (cloningFromTemplate$ | async)"
-                        [loadingError]="(statementLoadingError$ | async) || 
-                                        (cloningFromTemplateError$ | async) || 
-                                        (statementSavingError$ | async) || 
+                        [loadingError]="(statementLoadingError$ | async) ||
+                                        (cloningFromTemplateError$ | async) ||
+                                        (statementSavingError$ | async) ||
                                         (settingsSavingError$ | async)"
                         (reload)="handleStatementReload()">
       <div class="canvas mx-auto pb-1 mt-2">
@@ -76,5 +76,7 @@
       (resetSettings)="handleResetSettings()"
       (close)="handleCloseSettingsClick()"
     ></pf-settings-panel>
+    <pf-footer-bar (assignEmployeesButtonClick)="handleAssignEmployeesButtonClick()">
+    </pf-footer-bar>
   </ng-container>
 </pf-page-with-title-bar>

@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 
 import * as fromTotalRewardsReducer from './../../reducers';
 import * as fromTemplateSelectorActions from '../../actions/template-selector.actions';
+
 import {Template} from '../../../../shared/models';
 import {Router} from '@angular/router';
 
