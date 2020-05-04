@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { MDScopeResponse, MDLocationsRequest, MDLocationResponse } from 'libs/models/payfactors-api';
 import { GroupedListItem } from 'libs/models';
-import { TreeViewItem } from 'libs/ui/common/multi-select-treeview/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -28,7 +27,7 @@ export class MarketDataScopeApiService {
     return this.payfactorsApiService.get<GroupedListItem[]>(`${this.endpoint}/GetCompanyScopeSizes`);
   }
 
-  getDistinctIndustries(): Observable<TreeViewItem[]> {
-    return this.payfactorsApiService.get<TreeViewItem[]>(`${this.endpoint}/GetDistinctIndustries`);
+  getDistinctIndustries(): Observable<GroupedListItem[]> {
+    return this.payfactorsApiService.get<GroupedListItem[]>(`${this.endpoint}/GetDistinctIndustries`);
   }
 }

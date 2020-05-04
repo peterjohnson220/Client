@@ -1,12 +1,12 @@
 <div class="d-flex">
-  <pf-multi-select-dropdown *ngIf="!!(sizes$ | async)?.obj?.length"
-    [listItems]="(sizes$ | async)?.obj"
-    [selectedValues]="(selectedSizes$ | async)"
+  <pf-multi-select-treeview
+    *ngIf="!!(sizes$ | async)?.obj?.length"
+    [data]="(sizes$ | async)?.obj"
+    [label]="'Size'"
     [placeholder]="'All'"
-    [title]="'Size'"
     class="filter"
-    (listItemsUpdated)="handleSelectedSizesChanged($event)">
-  </pf-multi-select-dropdown>
+    (applyClicked)="handleSelectedSizesChanged($event)">
+  </pf-multi-select-treeview>
   <pf-multi-select-treeview
     *ngIf="!!(industries$ | async)?.obj && !! !!(industries$ | async)?.obj?.length"
     [data]="(industries$ | async).obj"

@@ -3,9 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { TreeViewItem } from 'libs/ui/common/multi-select-treeview/models';
+import { GroupedListItem } from 'libs/models';
 import { AsyncStateObj } from 'libs/models/state';
-import { MultiSelectItemGroup } from 'libs/ui/common/multi-select-dropdown';
 
 import * as fromPayMarketsMainReducer from '../../reducers';
 import * as fromGridActionsBarActions from '../../actions/grid-actions-bar.actions';
@@ -16,8 +15,8 @@ import * as fromGridActionsBarActions from '../../actions/grid-actions-bar.actio
   styleUrls: ['./grid-actions.component.scss']
 })
 export class GridActionsComponent implements OnInit {
-  industries$: Observable<AsyncStateObj<TreeViewItem[]>>;
-  sizes$: Observable<AsyncStateObj<MultiSelectItemGroup[]>>;
+  industries$: Observable<AsyncStateObj<GroupedListItem[]>>;
+  sizes$: Observable<AsyncStateObj<GroupedListItem[]>>;
   selectedSizes$: Observable<string[]>;
 
   constructor(
@@ -33,7 +32,7 @@ export class GridActionsComponent implements OnInit {
     this.store.dispatch(new fromGridActionsBarActions.GetCompanyIndustries());
   }
 
-  handleSelectedSizesChanged(sizesStates: MultiSelectItemGroup[]): void {
+  handleSelectedSizesChanged(sizesStates: string[]): void {
     this.store.dispatch(new fromGridActionsBarActions.UpdateSelectedSizes(sizesStates));
   }
 

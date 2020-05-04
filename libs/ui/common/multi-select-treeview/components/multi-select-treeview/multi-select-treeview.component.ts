@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { CheckableSettings, CheckedState } from '@progress/kendo-angular-treeview';
+import { CheckableSettings } from '@progress/kendo-angular-treeview';
 import { Align } from '@progress/kendo-angular-popup';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { TreeViewItem } from '../../models';
+import { GroupedListItem } from 'libs/models';
 
 @Component({
   selector: 'pf-multi-select-treeview',
@@ -15,7 +15,7 @@ import { TreeViewItem } from '../../models';
 export class MultiSelectTreeViewComponent {
   @Input() label: string;
   @Input() placeholder: string;
-  @Input() data: TreeViewItem[];
+  @Input() data: GroupedListItem[];
   @Input() checkableSettings: CheckableSettings = {
     enabled: true,
     mode: 'multiple',
@@ -56,53 +56,22 @@ export class MultiSelectTreeViewComponent {
     }
   }
 
-  // https://www.telerik.com/kendo-angular-ui/components/treeview/checkboxes/#toc-multiple-check-by-item-field
-  // Custom logic handling Indeterminate state when custom data item property is persisted
-  public isChecked = (dataItem: TreeViewItem, index: string): CheckedState => {
-    if (this.containsItem(dataItem)) { return 'checked'; }
-
-    if (this.isIndeterminate(dataItem)) { return 'indeterminate'; }
-
-    return 'none';
-  }
-
-  private containsItem(item: TreeViewItem): boolean {
-      return this.checkedKeys.indexOf(item[this.checkByKey]) > -1;
-  }
-
-  private isIndeterminate(item: TreeViewItem): boolean {
-    if (!item.Children || item.Children.length === 0) {
-      return false;
-    }
-    let idx = 0;
-    let childItem: TreeViewItem;
-
-    while (childItem = item.Children[idx]) {
-      if (childItem && (this.containsItem(childItem) || this.isIndeterminate(childItem))) {
-        return true;
-      }
-
-      idx += 1;
-    }
-
-    return false;
-  }
-
   // Kendo treeview
-  public children = (dataItem: TreeViewItem): Observable<TreeViewItem[]> => of(dataItem.Children);
-  public hasChildren = (dataItem: TreeViewItem): boolean => !!dataItem.Children && dataItem.Children.length > 0;
+  public children = (dataItem: GroupedListItem): Observable<GroupedListItem[]> => of(dataItem.Children);
+  public hasChildren = (dataItem: GroupedListItem): boolean => !!dataItem.Children && dataItem.Children.length > 0;
 
   private getAppliedItemsValues(): {text: string, value: string}[] {
     const selectedNames = [];
     this.data.forEach(item => {
-      this.pluckRecursiveValues(item, selectedNames, (contextItem: TreeViewItem): boolean => {
-        return this.appliedKeys.indexOf(contextItem[this.checkByKey]) > -1;
+      this.pluckRecursiveValues(item, selectedNames, (contextItem: GroupedListItem): boolean => {
+        return this.appliedKeys.indexOf(contextItem[this.checkByKey]) > -1 && !contextItem.IgnoreValue;
       });
     });
     return selectedNames;
   }
 
-  private pluckRecursiveValues(dataItem: TreeViewItem, valuesList: {text: string, value: string}[], selectionValidFn: (contextItem: TreeViewItem) => boolean) {
+  private pluckRecursiveValues(dataItem: GroupedListItem, valuesList: {text: string, value: string}[],
+                               selectionValidFn: (contextItem: GroupedListItem) => boolean) {
     if (selectionValidFn(dataItem)) {
       valuesList.push({text: dataItem[this.textField], value: dataItem[this.checkByKey]});
       if (this.compressChildValues) {
