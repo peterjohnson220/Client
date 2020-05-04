@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -17,7 +18,7 @@ import { reducers } from './reducers';
 import { PayMarketsPageComponent } from './paymarkets.page';
 import { PayMarketsRoutingModule } from './paymarkets-routing.module';
 import { GridActionsComponent } from './containers';
-import { GridActionsBarEffects } from './effects';
+import { GridActionsBarEffects, PayMarketsPageEffects } from './effects';
 
 @NgModule({
   imports: [
@@ -30,9 +31,11 @@ import { GridActionsBarEffects } from './effects';
     // 3rd party
     StoreModule.forFeature('paymarkets_main', reducers),
     EffectsModule.forFeature([
-      GridActionsBarEffects
+      GridActionsBarEffects,
+      PayMarketsPageEffects
     ]),
     FontAwesomeModule,
+    NgbPopoverModule,
 
     // Payfactors
     PfCommonModule,

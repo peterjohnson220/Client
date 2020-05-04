@@ -1,12 +1,28 @@
 import { Action } from '@ngrx/store';
 
-export const LOAD_PAYMARKETS  = '[PayMarkets / PayMarkets Page] Load PayMarkets';
+export const SET_DEFAULT_PAYMARKET  = '[PayMarkets / PayMarkets Page] Set Default PayMarket';
+export const SET_DEFAULT_PAYMARKET_SUCCESS  = '[PayMarkets / PayMarkets Page] Set Default PayMarket Success';
+export const SET_DEFAULT_PAYMARKET_ERROR  = '[PayMarkets / PayMarkets Page] Set Default PayMarket Error';
 
-export class LoadPayMarkets implements Action {
-  readonly type = LOAD_PAYMARKETS;
+export class SetDefaultPayMarket implements Action {
+  readonly type = SET_DEFAULT_PAYMARKET;
+
+  constructor(public payload: number) {}
+}
+
+export class SetDefaultPayMarketSuccess implements Action {
+  readonly type = SET_DEFAULT_PAYMARKET_SUCCESS;
+
+  constructor() {}
+}
+
+export class SetDefaultPayMarketError implements Action {
+  readonly type = SET_DEFAULT_PAYMARKET_ERROR;
 
   constructor() {}
 }
 
 export type Actions
-  = LoadPayMarkets;
+  = SetDefaultPayMarket
+  | SetDefaultPayMarketSuccess
+  | SetDefaultPayMarketError;
