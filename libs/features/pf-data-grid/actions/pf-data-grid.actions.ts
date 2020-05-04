@@ -322,7 +322,7 @@ export class Reset implements Action {
 export class ReorderColumns implements Action {
   readonly type = REORDER_COLUMNS;
 
-  constructor(public pageViewId: string, public oldIndex: number, public newIndex: number, public level: number) {}
+  constructor(public pageViewId: string, public oldIndex: number, public newIndex: number, public level: number, public isSelectionEnabled: boolean) {}
 }
 
 export class ReorderColumnsSuccess {

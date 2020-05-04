@@ -834,12 +834,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       };
     }
     case fromPfGridActions.REORDER_COLUMNS: {
-      // We add 1 to each index because we subtract 1 at onColumnReorder event pf-grid.component.ts
-      const oldIndex = action.oldIndex + 1;
-      const newIndex = action.newIndex + 1;
-
       const clonedGroupedFields = cloneDeep(state.grids[action.pageViewId].groupedFields);
-      const clonedFields = reorderFields(clonedGroupedFields, oldIndex, newIndex, action.level);
+      const clonedFields = reorderFields(clonedGroupedFields, action.oldIndex, action.newIndex, action.level, action.isSelectionEnabled);
       const groupedFields = buildGroupedFields(clonedFields);
 
       return {
@@ -1059,7 +1055,13 @@ export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
   return [];
 }
 
-export function reorderFields(groupedFields: any[], oldIndex: number, newIndex: number, level: number): ViewField[] {
+export function reorderFields(groupedFields: any[], oldIndex: number, newIndex: number, level: number, isSelectionEnabled: boolean): ViewField[] {
+  // If selection is enabled and level = 0 then we need to subtract 1 from both indices
+  if (isSelectionEnabled && level === 0) {
+    oldIndex--;
+    newIndex--;
+  }
+
   const groupedFilteredFields =
     orderBy(groupedFields.filter(f => f.DataElementId !== undefined && f.IsSelectable && f.IsSelected ||
                                       f.Fields !== undefined && f.HasSelection), 'Order');
