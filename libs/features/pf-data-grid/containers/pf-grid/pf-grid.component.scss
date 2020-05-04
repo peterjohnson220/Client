@@ -35,6 +35,10 @@
   .k-grid-header th>.k-link>.k-icon {
     display: none;
   }
+
+  .k-grid-header th>.k-link>.k-sort-order {
+    display: none;
+  }
 }
 
 .k-grid .k-hierarchy-cell {

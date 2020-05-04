@@ -71,6 +71,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() pageable = true;
   @Input() autoFitColumnsToHeader = false;
   @Input() pageTheme: 'default' | 'next-gen' = 'default';
+  @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;
