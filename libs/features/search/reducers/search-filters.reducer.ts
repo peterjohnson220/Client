@@ -252,6 +252,22 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: filtersCopy
       };
     }
+    case fromSearchFiltersActions.SHOW_LESS: {
+      const filtersCopy = cloneDeep(state.filters);
+      const showLessFilter = filtersCopy.find(f => f.BackingField === action.payload.backingField);
+      if (showLessFilter.AggregateCount != null && showLessFilter.AggregateCount !== 5) {
+        showLessFilter.AggregateCount -= 10;
+
+        if (isMultiFilter(showLessFilter) || isFilterableMultiFilter(showLessFilter)) {
+          ClientServerFilterHelper.removeNonSelectedMultiSelectFilterOptionsToMatchAggregateCount(showLessFilter);
+        }
+      }
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
     case fromSearchFiltersActions.ADD_FILTER_OPTIONS: {
       const filtersCopy = cloneDeep(state.filters);
       const updateFilter = filtersCopy.find(f => f.BackingField === action.payload.backingField && (isMultiFilter(f) || isFilterableMultiFilter(f)));
@@ -263,7 +279,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       updateFilter.Options = finalOptions.map(o => {
         o.Selected = action.payload.currentSelections.some(so => so.Value === o.Value);
         return o;
-      });
+      }).sort((a, b) => b.Count - a.Count);
 
       return {
         ...state,
