@@ -17,6 +17,7 @@ import { CommunityCategoryEnum } from 'libs/models/community/community-category.
 import * as fromCommunityPostFilterOptionsReducer from '../reducers';
 import * as fromCommunityPostActions from '../actions/community-post.actions';
 import * as fromCommunityCategoriesActions from '../actions/community-categories.actions';
+import * as fromCommunityAttachmentActions from '../actions/community-attachment.actions';
 
 import { CommunityPostEffectsService } from '../services/community-post-effects-service';
 
@@ -39,7 +40,8 @@ export class CommunityPostEffects {
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.Unanswered }),
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
-                  { communityCategory: CommunityCategoryEnum.Internal })
+                  { communityCategory: CommunityCategoryEnum.Internal }),
+                new fromCommunityAttachmentActions.ClearCommunityAttachmentsState()
               ];
             }  else {
               return [
@@ -47,7 +49,8 @@ export class CommunityPostEffects {
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.MyPosts }),
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
-                  { communityCategory: CommunityCategoryEnum.Unanswered })
+                  { communityCategory: CommunityCategoryEnum.Unanswered }),
+                new fromCommunityAttachmentActions.ClearCommunityAttachmentsState()
               ];
             }
           }),
