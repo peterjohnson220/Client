@@ -1,10 +1,17 @@
-<pf-async-container [loading]="loading$ | async" [showSpinner]="true">
+<pf-async-container [loading]="loading$ | async">
   <div class="px-3">
     <ngb-tabset #jobsTabs [destroyOnHide]="false" (tabChange)="tabChange($event)">
-      <ngb-tab [title]="'Job Fields'" [id]="jobManagementTabs.JobFields">
+      <ngb-tab [title]="'Standard Fields'" [id]="jobManagementTabs.StandardFields">
         <ng-template ngbTabContent>
           <perfect-scrollbar class="mt-4 tab-content overflow-hidden">
-            <pf-job-form #jobFormComponent></pf-job-form>
+            <pf-standard-fields #standardFieldsComponent></pf-standard-fields>
+          </perfect-scrollbar>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab *ngIf="(jobUserDefinedFields$ | async).length" [title]="'User Defined Fields'" [id]="jobManagementTabs.UserDefinedFields">
+        <ng-template ngbTabContent>
+          <perfect-scrollbar class="mt-4 tab-content overflow-hidden">
+            <pf-user-defined-fields #userDefinedFieldsComponent></pf-user-defined-fields>
           </perfect-scrollbar>
         </ng-template>
       </ngb-tab>

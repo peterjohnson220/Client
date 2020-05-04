@@ -20,6 +20,7 @@ export class AsyncContainerComponent implements OnChanges {
   @Input() showSpinner = true;
   @Input() opacityLevel = 0.8;
   @Input() loadingProgress: LoadingProgressBarModel;
+  @Input() fullScreenLoadingMask = false;
 
   @Output() reload = new EventEmitter();
 

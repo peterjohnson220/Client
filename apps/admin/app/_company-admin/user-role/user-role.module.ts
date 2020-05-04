@@ -28,6 +28,7 @@ import { DataAccessService, UserRoleService, UserRoleValidationService } from '.
 import { UserRolePageComponent } from './user-role.page/user-role.page';
 import { AddCompanyRoleModalComponent, UserRoleDataAccessTabComponent, UserRoleFunctionTabComponent, UserRoleUsersTabComponent } from './containers';
 import { DataFieldFilterComponent } from './components';
+import { VisiblePermissionsPipe } from './pipes/visible-permissions.pipe';
 
 @NgModule({
   imports: [
@@ -63,7 +64,10 @@ import { DataFieldFilterComponent } from './components';
     AddCompanyRoleModalComponent,
 
     // Components
-    DataFieldFilterComponent
+    DataFieldFilterComponent,
+
+    // Pipes
+    VisiblePermissionsPipe
   ],
   providers: [
     UserRoleService,

@@ -1,7 +1,7 @@
 <pf-modal-form
   [modalId]="'au-modal-new-job'"
-  [title]="!jobId ? 'Add New Job' : 'Edit Job - ' + ((jobFormData$ | async)?.JobTitle || '')"
-  [isOpen$]="showJobModal$"
+  [title]="!jobId ? 'Add New Job' : 'Edit Job - ' + (jobFormData?.JobTitle || '')"
+  [isOpen$]="showModal$"
   [size]="'lg'"
   [submitting]="loading$ | async"
   [centered]="false"
