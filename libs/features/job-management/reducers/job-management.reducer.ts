@@ -204,10 +204,10 @@ export function updateStandardFields(curCompanyJob: CompanyJob, newCompanyJob: C
   let updatedCompanyJob: CompanyJob = cloneDeep(curCompanyJob);
   if (updatedCompanyJob) {
     updatedCompanyJob.JobCode = newCompanyJob.JobCode;
-    updatedCompanyJob.JobFamily = newCompanyJob.JobFamily;
+    updatedCompanyJob.JobFamily = newCompanyJob.JobFamily ? newCompanyJob.JobFamily : '';
     updatedCompanyJob.JobTitle = newCompanyJob.JobTitle;
     updatedCompanyJob.JobLevel = newCompanyJob.JobLevel;
-    updatedCompanyJob.FLSAStatus = newCompanyJob.FLSAStatus;
+    updatedCompanyJob.FLSAStatus = newCompanyJob.FLSAStatus ? newCompanyJob.FLSAStatus : '';
     updatedCompanyJob.JobStatus = newCompanyJob.JobStatus;
     updatedCompanyJob.JobDescription = newCompanyJob.JobDescription;
   } else {
