@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { Action, Store, select } from '@ngrx/store';
+import { catchError, map, switchMap, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { CompanyJobApiService } from 'libs/data/payfactors-api';
 
 import * as fromJobDescriptionActions from '../actions';
+import * as fromJobDescriptionReducer from '../reducers';
+
 import { CompanyJob } from 'libs/models';
 
 
@@ -17,6 +19,7 @@ export class JobDescriptionEffects {
   constructor(
     private actions$: Actions,
     private companyJobApiService: CompanyJobApiService,
+    private store: Store<fromJobDescriptionReducer.State>,
   ) { }
 
   @Effect()
@@ -25,10 +28,7 @@ export class JobDescriptionEffects {
     switchMap((data: any) => {
       return this.companyJobApiService.getJobSummary(data.payload).pipe(
         map((result: any) => new fromJobDescriptionActions.LoadJobDescriptionSuccess(result)),
-        catchError(error => {
-          const msg = 'We encountered an error while loading your company data';
-          return of(new fromJobDescriptionActions.HandleApiError(msg));
-        })
+        catchError(error => of(new fromJobDescriptionActions.LoadJobDescriptionError()))
       );
     })
   );
@@ -36,18 +36,24 @@ export class JobDescriptionEffects {
   @Effect()
   saveJobDescription$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobDescriptionActions.SAVE_JOB_DESCRIPTION),
+    mergeMap((saveJobDescriptionAction: fromJobDescriptionActions.SaveJobDescription) =>
+        of(saveJobDescriptionAction).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromJobDescriptionReducer.getJobId)),
+            this.store.pipe(select(fromJobDescriptionReducer.getUpdatedJobDescription)),
+            (action: fromJobDescriptionActions.SaveJobDescription, jobId, updatedJobDescription) =>
+              ({ action, jobId, updatedJobDescription })
+          )
+        ),
+      ),
     switchMap((data: any) => {
-      const job = { CompanyJobId: data.payload.jobId, JobDescription: data.payload.jobDescription } as CompanyJob;
+      const job = { CompanyJobId: data.jobId, JobDescription: data.updatedJobDescription } as CompanyJob;
       return this.companyJobApiService.patchCompanyJob(job).pipe(
         map(() => new fromJobDescriptionActions.SaveJobDescriptionSuccess()),
-        catchError(error => {
-          const msg = 'We encountered an error while creating a project';
-          return of(new fromJobDescriptionActions.HandleApiError(msg));
-        })
+        catchError(error => of(new fromJobDescriptionActions.SaveJobDescriptionError()))
       );
     })
   );
-
 
 }
 

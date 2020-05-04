@@ -1,6 +1,6 @@
 import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, ActionsSubject } from '@ngrx/store';
 
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 
@@ -16,9 +16,12 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
+import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
+
 import * as fromJobsPageActions from '../../../../actions';
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
+import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'pf-pricing-history-grid',
@@ -58,7 +61,9 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
   showPricingDetails = new BehaviorSubject<boolean>(false);
   showPricingDetails$ = this.showPricingDetails.asObservable();
 
-  constructor(private store: Store<fromJobsPageReducer.State>) {
+  getPricingDetailsSuccessSubscription: Subscription;
+
+  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
     this.pricingIdToBeDeleted$ = store.select(fromJobsPageReducer.getPricingIdToBeDeleted);
 
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -73,6 +78,15 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
     });
+
+    // We show the NotesModal only after the Notes have loaded. This way we ensure the modal height doesn't jump around but is dynamic
+    this.getPricingDetailsSuccessSubscription = actionsSubject
+      .pipe(ofType(fromPricingDetailsActions.GET_PRICING_INFO_SUCCESS) || ofType(fromPricingDetailsActions.GET_PRICING_INFO_ERROR))
+      .subscribe(data => {
+        this.showPricingDetails.next(true);
+      });
+
+
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'employee-grid-action-bar ml-0 mt-1'
@@ -122,6 +136,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
+    this.getPricingDetailsSuccessSubscription.unsubscribe();
   }
 
   handlePayMarketFilterChanged(value: any) {

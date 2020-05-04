@@ -68,7 +68,6 @@ export class JobsPageEffects {
         mergeMap(() =>
           [
             new fromJobsPageActions.ChangingJobStatusSuccess(),
-            new fromJobsPageActions.ShowJobStatusModal(false),
             new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails),
             new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs),
             new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
@@ -88,7 +87,6 @@ export class JobsPageEffects {
           [
             new fromJobsPageActions.DeletingJobSuccess(),
             new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs, [data.payload]),
-            new fromJobsPageActions.ShowDeleteJobModal(false),
             new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
           ]),
         catchError(error => of(new fromJobsPageActions.DeletingJobError(error)))

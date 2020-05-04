@@ -13,3 +13,4 @@ export * from './strip-html.pipe';
 export * from './comp.pipe';
 export * from './empty-placeholder.pipe';
 export * from './validation-error-results.pipe';
+export * from './editable-job-description.pipe';

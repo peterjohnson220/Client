@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Job Management Feature - Job Form Should display form 1`] = `
+<pf-user-defined-fields
+  DEFAULT_MAX_LENGTH={[Function Number]}
+  actionsSubject={[Function ActionsSubject]}
+  formBuilder={[Function FormBuilder]}
+  formChangesSubscription={[Function Subscriber]}
+  jobUserDefinedFields$={[Function Observable]}
+  loadJobSuccessSubscription={[Function Subscriber]}
+  resetStateSubscription={[Function Subscriber]}
+  store={[Function MockStore]}
+  udfsForm={[Function FormGroup]}
+  udfsSubscription={[Function Subscriber]}
+>
+  <form
+    autocomplete="nope"
+    id="user-form"
+  >
+    <div
+      class="d-flex flex-wrap"
+    >
+      
+      <div
+        class="form-group col-6 row no-gutters"
+      >
+        <label
+          class="col-4 col-form-label"
+        >
+          UDF1
+        </label>
+        <div
+          class="col-8"
+        >
+          <input
+            class="form-control"
+            data-qa-id="txt-job-form-UDF1"
+            ng-reflect-pf-validatable="true"
+            type="text"
+          />
+          
+        </div>
+      </div>
+      <div
+        class="form-group col-6 row no-gutters"
+      >
+        <label
+          class="col-4 col-form-label"
+        >
+          UDF2
+        </label>
+        <div
+          class="col-8"
+        >
+          <input
+            class="form-control"
+            data-qa-id="txt-job-form-UDF2"
+            ng-reflect-pf-validatable="true"
+            type="text"
+          />
+          
+        </div>
+      </div>
+    </div>
+  </form>
+</pf-user-defined-fields>
+`;

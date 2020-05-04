@@ -6,17 +6,24 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
-import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
-import { CompanyJob, CompanyJobAttachment, UserContext } from 'libs/models';
-import * as fromRootState from 'libs/state/state';
+import { EditableJobDescriptionPipe } from 'libs/core';
+import { CompanyJob, CompanyJobAttachment, UserContext, JobDescriptionSummary } from 'libs/models';
+import {
+  CompanyJobApiService,
+  StructuresApiService,
+  StructureRangeGroupApiService,
+  DashboardApiService } from 'libs/data/payfactors-api';
 
+import * as fromRootState from 'libs/state/state';
 import * as fromJobManagementReducer from '../reducers';
 import * as fromJobManagementActions from '../actions';
+
 import { ToastrService } from 'ngx-toastr';
-import { StructuresApiService, StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
 
 @Injectable()
 export class JobManagementEffects {
+
+  editableJobDescription = new EditableJobDescriptionPipe();
 
   private readonly toastrOverrides = {
     positionClass: 'toast-top-center',
@@ -34,6 +41,7 @@ export class JobManagementEffects {
     private companyJobApiService: CompanyJobApiService,
     private structuresApiService: StructuresApiService,
     private structuresRangeGroupApiService: StructureRangeGroupApiService,
+    private dashboardApiService: DashboardApiService,
     private rootStore: Store<fromRootState.State>,
     private store: Store<fromJobManagementReducer.State>,
     private toastr: ToastrService,
@@ -48,10 +56,11 @@ export class JobManagementEffects {
           this.companyJobApiService.getJobFamilies(),
           this.companyJobApiService.getCompanyFLSAStatuses(),
           this.companyJobApiService.getJobUserDefinedFields(),
-          this.structuresApiService.getCurrentStructuresWithValidPaymarkets())
+          this.structuresApiService.getCurrentStructuresWithValidPaymarkets(),
+          this.dashboardApiService.getIsJdmEnabled())
           .pipe(
             mergeMap((options) => [
-              new fromJobManagementActions.LoadJobOptionsSuccess(options[0], options[1], options[2], options[3]),
+              new fromJobManagementActions.LoadJobOptionsSuccess(options[0], options[1], options[2], options[3], options[4]),
               new fromJobManagementActions.LoadStructurePaymarketGrade()
             ]),
             catchError(response => this.handleError('There was an error loading the job information'))
@@ -63,6 +72,7 @@ export class JobManagementEffects {
   loadStructurePaymarketGrade$: Observable<Action> = this.actions$
     .pipe(
       ofType(
+        fromJobManagementActions.RESET_STATE,
         fromJobManagementActions.LOAD_STRUCTURE_PAYMARKET_GRADE,
         fromJobManagementActions.SET_SELECTED_STRUCTURE_ID),
       mergeMap((loadStructurePaymarketGradeAction: fromJobManagementActions.LoadStructurePaymarketGrade) =>
@@ -121,17 +131,23 @@ export class JobManagementEffects {
         of(saveCompanyJobAction).pipe(
           withLatestFrom(
             this.rootStore.pipe(select(fromRootState.getUserContext)),
+            this.store.pipe(select(fromJobManagementReducer.getJobDescriptionSummary)),
             this.store.pipe(select(fromJobManagementReducer.getJobFormData)),
             this.store.pipe(select(fromJobManagementReducer.getAttachments)),
             this.store.pipe(select(fromJobManagementReducer.getJobId)),
-            (action: fromJobManagementActions.SaveCompanyJob, userContext, jobFormData, attachments, jobId) =>
-              ({ action, userContext, jobFormData, attachments, jobId })
+            (action: fromJobManagementActions.SaveCompanyJob, userContext, jobDescriptionSummary, jobFormData, attachments, jobId) =>
+              ({ action, userContext, jobDescriptionSummary, jobFormData, attachments, jobId })
           )
         ),
       ),
       switchMap((data) => {
         const updatedCompanyJob: CompanyJob =
-          this.buildCompanyJobRequest(data.userContext, cloneDeep(data.jobFormData), cloneDeep(data.attachments), data.jobId);
+          this.buildCompanyJobRequest(
+            data.userContext,
+            cloneDeep(data.jobDescriptionSummary),
+            cloneDeep(data.jobFormData),
+            cloneDeep(data.attachments),
+            data.jobId);
 
         return this.companyJobApiService
           .saveCompanyJob(updatedCompanyJob)
@@ -180,8 +196,18 @@ export class JobManagementEffects {
           );
       }));
 
-  private buildCompanyJobRequest(userContext: UserContext, updatedCompanyJob: CompanyJob, attachments: CompanyJobAttachment[], jobId: number): CompanyJob {
+  private buildCompanyJobRequest(
+    userContext: UserContext,
+    jobDescriptionSummary: JobDescriptionSummary,
+    updatedCompanyJob: CompanyJob,
+    attachments: CompanyJobAttachment[],
+    jobId: number): CompanyJob {
+
     updatedCompanyJob.CompanyId = userContext.CompanyId;
+
+    if (!this.editableJobDescription.transform(jobDescriptionSummary)) {
+      delete updatedCompanyJob.JobDescription;
+    }
 
     if (jobId) {
       updatedCompanyJob.CompanyJobId = jobId;

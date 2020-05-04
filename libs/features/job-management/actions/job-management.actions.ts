@@ -10,6 +10,7 @@ import {
   CompanyStructureInfo
 } from 'libs/models';
 
+export const RESET_STATE = '[JobManagement] Reset State';
 export const SHOW_JOB_MODAL = '[JobManagement] Show Job Modal';
 export const SAVE_COMPANY_JOB = '[JobManagement] Save Company Job';
 export const SAVE_COMPANY_JOB_SUCCESS = '[JobManagement] Save Company Job Success';
@@ -26,13 +27,15 @@ export const ADD_STRUCTURE_MAPPING = '[JobManagement] Add Structure Mapping';
 export const DELETE_STRUCTURE_MAPPING = '[JobManagement] Delete Structure Mapping';
 export const SAVE_STRUCTURE_MAPPINGS = '[JobManagement] Save Structure Mappings';
 export const SET_DUPLICATE_JOB_CODE_ERROR = '[JobManagement] Set Duplicate Job Code Error';
-export const UPDATE_COMPANY_JOB = '[JobManagement] Update Company Job';
+export const UPDATE_STANDARD_FIELDS = '[JobManagement] Update Standard Fields';
+export const UPDATE_JOB_DESCRIPTION = '[JobManagement] Update Job Description';
+export const UPDATE_USER_DEFINED_FIELDS = '[JobManagement] Update User Defined Fields';
 export const REMOVE_ATTACHMENT = '[JobManagement] Remove Attachment';
 export const HANDLE_API_ERROR = '[JobManagement] Handle API Error';
 
-export class ShowJobModal implements Action {
-  readonly type = SHOW_JOB_MODAL;
-  constructor(public payload: boolean) { }
+export class ResetState implements Action {
+  readonly type = RESET_STATE;
+  constructor() { }
 }
 
 export class SaveCompanyJob implements Action {
@@ -65,7 +68,8 @@ export class LoadJobOptionsSuccess implements Action {
     public jobFamilies: string[],
     public companyFlsaStatuses: string[],
     public companyJobUdfs: CompanyJobUdf[],
-    public structures: CompanyStructure[]) { }
+    public structures: CompanyStructure[],
+    public isJdmEnabled: boolean) { }
 }
 
 export class LoadStructurePaymarketGrade implements Action {
@@ -111,10 +115,21 @@ export class SetDuplicateJobCodeError implements Action {
   constructor(public payload: boolean) { }
 }
 
-export class UpdateCompanyJob implements Action {
-  readonly type = UPDATE_COMPANY_JOB;
+export class UpdateStandardFields implements Action {
+  readonly type = UPDATE_STANDARD_FIELDS;
   constructor(public payload: CompanyJob) { }
 }
+
+export class UpdateJobDescription implements Action {
+  readonly type = UPDATE_JOB_DESCRIPTION;
+  constructor(public payload: string) { }
+}
+
+export class UpdateUserDefinedFields implements Action {
+  readonly type = UPDATE_USER_DEFINED_FIELDS;
+  constructor(public payload: CompanyJob) { }
+}
+
 
 export class RemoveAttachment implements Action {
   readonly type = REMOVE_ATTACHMENT;
@@ -127,7 +142,7 @@ export class HandleApiError implements Action {
 }
 
 export type Actions
-  = ShowJobModal
+  = ResetState
   | SaveCompanyJob
   | SaveCompanyJobSuccess
   | UploadAttachments
@@ -143,6 +158,8 @@ export type Actions
   | DeleteStructureMapping
   | SaveStructureMappings
   | SetDuplicateJobCodeError
-  | UpdateCompanyJob
+  | UpdateStandardFields
+  | UpdateJobDescription
+  | UpdateUserDefinedFields
   | RemoveAttachment
   | HandleApiError;

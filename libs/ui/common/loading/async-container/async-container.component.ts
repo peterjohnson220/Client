@@ -18,6 +18,7 @@ export class AsyncContainerComponent implements OnChanges {
   @Input() spinnerType = 'SVG';
   @Input() showSpinner = true;
   @Input() opacityLevel = 0.8;
+  @Input() fullScreenLoadingMask = false;
 
   @Output() reload = new EventEmitter();
 

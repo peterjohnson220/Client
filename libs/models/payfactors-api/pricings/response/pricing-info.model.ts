@@ -7,14 +7,30 @@ export interface PricingInfo {
   DistinctCategories: string[];
   PricingDetails: PricingDetails;
   Matches: PricingMatches[];
-  Notes: any[];
+  Notes: PricingNote[];
 }
-
 
 export interface PricingInfoDefaultField {
   Category: string;
   DisplayName: string;
   FieldName: string;
+}
+
+export interface PricingNote {
+  CompanyJobPricingNoteId:  number;
+  CompanyJobPricingId:  number;
+  CompanyJobId:  number;
+  CompanyId:  number;
+  CompanyPayMarketId:  number;
+  Note:  string;
+  UserId:  number;
+  UserPicture:  string;
+  FirstName:  number;
+  LastName:  number;
+  CreateDate:  Date;
+  CreateUser:  Date;
+  EditDate:  Date;
+  EditUser:  Date;
 }
 
 export interface PricingDetails {

@@ -7,6 +7,7 @@ export * from './peer';
 export * from './security';
 export * from './settings';
 export * from './search';
+export * from './structures';
 export * from './api.module';
 export * from './user';
 export * from './terms-conditions';

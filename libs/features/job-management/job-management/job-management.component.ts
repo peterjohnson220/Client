@@ -15,18 +15,20 @@ import { CompanyJob } from 'libs/models';
 })
 export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() showJobModal = false;
-  @Input() jobId;
+  @Input() showModal$: Observable<boolean>;
+  @Input() jobId: number;
 
   @Output() cancelChanges = new EventEmitter();
   @Output() saveSuccess = new EventEmitter();
 
-  showJobModal$: Observable<boolean>;
   loading$: Observable<boolean>;
   saving$: Observable<boolean>;
-  jobFormData$: Observable<CompanyJob>;
 
   saveSuccessSubscription = new Subscription();
+  showModalSubscription = new Subscription();
+  jobFormDataSubscription = new Subscription();
+
+  jobFormData: CompanyJob;
 
   /* TODO
     This component can be extended with a display-type property which determines how to show the AddJob form
@@ -35,20 +37,22 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
 	    As a Payfactors standalone page
     Replace all Add Job modals & componenets with the generic job-management-component
   */
-  constructor(private store: Store<fromJobManagementReducer.State>, private actionsSubject: ActionsSubject) {
-    this.showJobModal$ = this.store.select(fromJobManagementReducer.getShowJobModal);
+  constructor(private store: Store<fromJobManagementReducer.State>, private actionsSubject: ActionsSubject) { }
+
+  ngOnInit() {
     this.loading$ = this.store.select(fromJobManagementReducer.getLoading);
     this.saving$ = this.store.select(fromJobManagementReducer.getSaving);
-    this.jobFormData$ = this.store.select(fromJobManagementReducer.getJobFormData);
+    this.jobFormDataSubscription = this.store.select(fromJobManagementReducer.getJobFormData)
+      .subscribe(value => {
+        this.jobFormData = value;
+      });
 
-    this.saveSuccessSubscription = actionsSubject
-      .pipe(ofType('SAVE_COMPANY_JOB_SUCCESS'))
+    this.saveSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromJobManagementActions.SAVE_COMPANY_JOB_SUCCESS))
       .subscribe(data => {
         this.saveSuccess.emit();
       });
-  }
 
-  ngOnInit() {
     this.store.dispatch(new fromJobManagementActions.LoadJobOptions());
   }
 
@@ -56,21 +60,15 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
     if (changes['jobId'] && changes['jobId'].currentValue) {
       this.store.dispatch(new fromJobManagementActions.LoadJob(changes['jobId'].currentValue));
     }
-
-    if (changes['showJobModal']) {
-      this.store.dispatch(new fromJobManagementActions.ShowJobModal(changes['showJobModal'].currentValue));
-      if (changes['showJobModal'].currentValue) {
-        this.store.dispatch(new fromJobManagementActions.LoadStructurePaymarketGrade());
-      }
-    }
   }
 
   ngOnDestroy() {
     this.saveSuccessSubscription.unsubscribe();
+    this.showModalSubscription.unsubscribe();
   }
 
   onCancelChanges() {
-    this.store.dispatch(new fromJobManagementActions.SetDuplicateJobCodeError(false));
+    this.store.dispatch(new fromJobManagementActions.ResetState());
     this.cancelChanges.emit();
   }
 

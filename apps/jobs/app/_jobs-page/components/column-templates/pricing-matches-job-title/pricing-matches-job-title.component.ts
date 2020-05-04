@@ -49,7 +49,9 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   checkOverflow(element) {
     // IE hack because IE calculates offsets differently
-    return element.offsetHeight + 1 < element.scrollHeight || element.offsetWidth + 1 < element.scrollWidth;
+    const agent = window.navigator.userAgent.toLowerCase();
+    const IEOffsetModifier = agent.indexOf('trident') || agent.indexOf('edge') > -1 ? 1 : 0;
+    return element.offsetHeight + IEOffsetModifier < element.scrollHeight || element.offsetWidth + IEOffsetModifier < element.scrollWidth;
   }
 
 }
