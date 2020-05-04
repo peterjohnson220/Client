@@ -13,6 +13,7 @@
     [label]="'Industry'"
     [placeholder]="'All'"
      class="filter"
+    [compressChildValues]="true"
     (applyClicked)="handleIndustryFilterChanged($event)">
   </pf-multi-select-treeview>
 </div>
