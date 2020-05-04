@@ -1,14 +1,15 @@
+<pf-async-container [loading]="(pricingInfo$ | async)?.loading" [fullScreenLoadingMask]="true" [smartLoadingMask]="true"></pf-async-container>  
 <pf-modal-form
   [modalId]="'au-modal-pricing-details'"
   [title]="'Pricing Details'"
   [isOpen$]="showModal$"
   [size]="'lg'"
-  [submitting]="(getLoading$ | async) || !(newStatus$ | async)"
+  [submitting]="(loading$ | async) || !(newStatus$ | async)"
   [centered]="false"
   [showSpinner]="false"
   [showFooter]="true"
   [showSubmit]="(pricingInfo$ | async)?.obj?.EnablePricingReview && (pricingInfo$ | async)?.obj?.IsThisMostRecent"
-  [allowDismiss]="!(getLoading$ | async)"
+  [allowDismiss]="!(loading$ | async)"
   [primaryButtonText]="'Save'"
   [primaryButtonTextSubmitting]="'Save'"
   [windowClass]="'modal-xlg'"
@@ -16,27 +17,25 @@
   (onSubmit)="savePricing()">
   
   <ng-container basic-content>
-    <pf-async-container [loading]="getLoading$ | async" [showSpinner]="true">
-      <div class="px-3" style="height: calc(100vh - 260px)">
+    <pf-async-container [loading]="loading$ | async" [showSpinner]="true">
+      <div class="px-3 pb-3">
         <pf-pricing-info></pf-pricing-info>        
       </div>
     </pf-async-container>
   </ng-container>
   <ng-container button-container-left>
-    <div *ngIf="!(pricingInfo$ | async).loadingError" class="mr-auto row no-gutters">
-      <div class="text-danger pl-3 m-auto">
-        <strong>
-          <span *ngIf="(savingPricing$ | async)?.loadingError">
-            We encountered a problem while saving your pricing. Please try again or contact your account representative.
-          </span>
-          <span *ngIf="(addToNewProject$ | async)?.loadingError">
-            We encountered a problem creating your project. Please try again or contact your account representative.
-          </span>
-          <span *ngIf="(pricingInfo$ | async)?.loadingError">
-            We encountered a problem loading your pricing information. Please close the popup window and try again.
-          </span>
-        </strong>
-      </div>
+    <div class="mr-auto my-auto text-danger pl-3">
+      <strong>
+        <div *ngIf="(savingPricing$ | async)?.loadingError">
+          We encountered a problem while saving your pricing. Please try again or contact your account representative.
+        </div>
+        <div *ngIf="(addToNewProject$ | async)?.loadingError">
+          We encountered a problem creating your project. Please try again or contact your account representative.
+        </div>
+        <div *ngIf="(pricingInfo$ | async)?.loadingError">
+          We encountered a problem loading your pricing information. Please close the popup window and try again.
+        </div>
+      </strong>
     </div>
   </ng-container>
 </pf-modal-form>

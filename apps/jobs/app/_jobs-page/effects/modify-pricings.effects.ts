@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -22,7 +22,8 @@ export class ModifyPricingsEffects {
     ofType(fromModifyPricingsActions.GET_PRICINGS_TO_MODIFY),
     switchMap((action: any) => {
       return this.jobsApiService.getPricingsToModify(action.payload).pipe(
-        map(response => new fromModifyPricingsActions.GetPricingsToModifySuccess(response))
+        map(response => new fromModifyPricingsActions.GetPricingsToModifySuccess(response)),
+        catchError(error => of(new fromModifyPricingsActions.GetPricingsToModifyError()))
       );
     })
   );

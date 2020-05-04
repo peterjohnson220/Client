@@ -2,7 +2,7 @@ import { CompanyStructureInfo } from '../structures';
 
 export class JobInfoResponse {
   JobInfo: CompanyJob;
-  JobSummaryObj: any;
+  JobSummaryObj: JobDescriptionSummary;
   StructureInfo: CompanyStructureInfo[];
 }
 
@@ -14,7 +14,7 @@ export interface CompanyJob {
   JobFamily: string;
   JobCode: string;
   JobDescription: string;
-  FSLAStatus: string;
+  FLSAStatus: string;
   JobStatus?: boolean;
   CompanyJobDescriptionTemplateId: number;
   TemplateName: string;
@@ -76,6 +76,14 @@ export interface CompanyJob {
   UdfChar50: string;
 }
 
+export interface JobDescriptionSummary {
+  JobDescriptionId: number;
+  JobSummary: string;
+  JobDescriptionManagementEnabled: boolean;
+  CompanyJobCode: string;
+  CompanyJobId: number;
+}
+
 export interface CompanyJobAttachment {
   CompanyJobAttachments_ID: number;
   CompanyJobID: number;
@@ -95,7 +103,7 @@ export function generateMockCompanyJob(): CompanyJob {
     JobFamily: 'MockJobFamily',
     JobCode: 'MockCompanyJobCode',
     JobDescription: 'MockJobDescription',
-    FSLAStatus: 'MockFSLAStatus',
+    FLSAStatus: 'MockFSLAStatus',
     JobStatus: true,
     CompanyJobDescriptionTemplateId: 1,
     TemplateName: 'MockTemplateName',

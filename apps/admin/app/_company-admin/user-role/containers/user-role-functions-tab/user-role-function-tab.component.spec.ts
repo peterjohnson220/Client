@@ -9,6 +9,7 @@ import * as fromRootState from 'libs/state/state';
 
 import { UserRoleFunctionTabComponent } from './user-role-function-tab.component';
 import * as fromUserRoleViewReducer from '../../reducers';
+import { VisiblePermissionsPipe } from '../../pipes/visible-permissions.pipe';
 
 describe('UserRoleFunctionTabComponent', () => {
   let fixture, component;
@@ -22,7 +23,7 @@ describe('UserRoleFunctionTabComponent', () => {
         }),
       ],
       providers: [RolesApiService],
-      declarations: [UserRoleFunctionTabComponent],
+      declarations: [UserRoleFunctionTabComponent, VisiblePermissionsPipe],
       schemas: [NO_ERRORS_SCHEMA]
     });
     store = TestBed.get(Store);

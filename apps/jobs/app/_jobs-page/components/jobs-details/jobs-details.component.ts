@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, ViewEncapsulation, Input, OnDestroy, O
 
 import { Store } from '@ngrx/store';
 
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -48,7 +48,11 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
 
   pageViewIds = PageViewIds;
 
+  selectedRow$: Observable<any>;
+
   constructor(private store: Store<fromPfGridReducer.State>) {
+    this.selectedRow$ = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs);
+
     this.selectedRecordSubscription = this.store.select(fromPfGridReducer.getSelectedRecordId, PageViewIds.Jobs).subscribe(() => {
       // When changing jobs, pricing details tab should be configured for priced pay markets. ONLY do this if NOT currently looking at pricing details tab
       this.tabStatusLoaded = {};

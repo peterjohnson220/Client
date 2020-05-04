@@ -27,6 +27,7 @@ export interface DataGridState {
   saveSort: boolean;
   data: GridDataResult;
   selectedRecordId: number;
+  selectedRow: any;
   // The Kendo grid does not provide api access to know which rows are expanded
   // We need to keep track of the expandedRows separately from the Kendo Grid to in order to trigger collapse of a row by clicking on it
   expandedRows: number[];
@@ -115,6 +116,7 @@ export const getApplyUserDefaultCompensationFields = (state: DataGridStoreState,
 export const getInboundFilters = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
 export const getFilterPanelDisplay = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].filterPanelOpen;
 export const getSelectedRecordId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedRecordId : null;
+export const getSelectedRow = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedRow : null;
 export const getExpandedRows = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].expandedRows : null;
 export const getSplitViewFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].splitViewFilters : null;
@@ -245,6 +247,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             fields: action.fields,
             groupedFields: buildGroupedFields(action.fields),
             selectedRecordId: null,
+            selectedRow: null,
             expandedRows: [],
             sortDescriptor: sortDescriptor
           }
@@ -436,6 +439,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state.grids[action.pageViewId],
             filterPanelOpen: !state.grids[action.pageViewId].filterPanelOpen,
             selectedRecordId: null,
+            selectedRow: null,
             fields: resetOperatorsForEmptyFilters(state, action.pageViewId)
           }
         }
@@ -453,11 +457,12 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       };
     case fromPfGridActions.UPDATE_SELECTED_RECORD_ID: {
       const curSelectionField = getSelectionField(state, action.pageViewId);
-      const newSplitViewFilters = [...state.grids[action.pageViewId].splitViewFilters]
-        .filter(f => f.SourceName !== curSelectionField);
+      const newSplitViewFilters = [...state.grids[action.pageViewId].splitViewFilters].filter(f => f.SourceName !== curSelectionField);
+      let newSelectedRow = null;
 
       if (action.recordId) {
         newSplitViewFilters.push(buildExternalFilter(action.recordId.toString(), action.operator, curSelectionField));
+        newSelectedRow = state.grids[action.pageViewId].data.data.find(r => r[getPrimaryKey(state, action.pageViewId)] === action.recordId);
       }
       return {
         ...state,
@@ -466,6 +471,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             selectedRecordId: action.recordId,
+            selectedRow: newSelectedRow,
             filterPanelOpen: false,
             splitViewFilters: newSplitViewFilters
           }
@@ -689,7 +695,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectedRecordId: null
+            selectedRecordId: null,
+            selectedRow: null
           }
         }
       };

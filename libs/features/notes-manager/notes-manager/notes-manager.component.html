@@ -1,0 +1,50 @@
+<pf-async-container [loading]="(pricingNotes$ | async)?.loading" [fullScreenLoadingMask]="true" [smartLoadingMask]="true"></pf-async-container>  
+<pf-modal-form
+  [modalId]="'au-modal-notes-manager'"
+  [title]="title"
+  [isOpen$]="showModal$"
+  [size]="'lg'"
+  [centered]="false"
+  [showSpinner]="false"
+  [showFooter]="true"
+  [showSubmit]="false"
+  [allowDismiss]="!(loading$ | async)"
+  [secondaryButtonText]="'Close'"
+  (onDismiss)="onCancelChanges()">
+
+  <ng-container basic-content>    
+    <pf-async-container [loading]="loading$ | async" [showSpinner]="true">
+      <div class="d-flex">
+        <ng-container [ngTemplateOutlet]="pricingNotesHeader"></ng-container>        
+      </div>
+      <hr>
+      <div style="overflow: auto; max-height: calc(100vh - 250px)">
+        <div *ngFor="let note of (pricingNotes$ | async)?.obj" class="d-flex">
+          <div>
+            <img style="height: 45px; width: 45px;" class="mr-3"
+             [attr.src]="avatarUrl + (note.UserPicture ? note.UserPicture : defaultUserImage)">
+          </div>
+          <div class="card mb-3 flex-fill">
+            <div class="card-header d-flex">
+              <span class="mr-auto">{{note.FirstName}} {{note.LastName}}</span>
+              <span class="align">{{note.CreateDate | date: 'MM/dd/yyyy'}}</span>
+            </div>
+            <div class="card-body">
+              {{note.Note}}
+            </div>          
+          </div>
+        </div>
+      </div>
+    </pf-async-container>
+  </ng-container>
+  <ng-container button-container-left>
+    <div class="mr-auto my-auto text-danger pl-3">
+      <strong>
+        <div *ngIf="(pricingNotes$ | async)?.loadingError">
+          We encountered a problem loading your notes. Please close the popup window and try again.
+        </div>
+      </strong>
+    </div>
+  </ng-container>
+
+</pf-modal-form>  

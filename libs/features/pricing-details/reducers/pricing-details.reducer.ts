@@ -4,7 +4,6 @@ import { PricingInfo } from 'libs/models/payfactors-api';
 import { AsyncStateObjHelper } from 'libs/core';
 
 export interface State {
-  loading: boolean;
   newStatus: string;
   pricingInfo: AsyncStateObj<PricingInfo>;
   addingToNewProject: AsyncStateObj<boolean>;
@@ -12,7 +11,6 @@ export interface State {
 }
 
 export const initialState: State = {
-  loading: true,
   newStatus: null,
   pricingInfo: generateDefaultAsyncStateObj<PricingInfo>(null),
   addingToNewProject: generateDefaultAsyncStateObj<boolean>(false),

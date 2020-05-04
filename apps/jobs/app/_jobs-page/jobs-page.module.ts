@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -18,7 +18,7 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfDataGridModule, JobManagementModule, PricingDetailsModule, RangeEditorModule } from 'libs/features';
+import { PfDataGridModule, JobManagementModule, PricingDetailsModule, RangeEditorModule, NotesManagerModule } from 'libs/features';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
@@ -48,6 +48,8 @@ import { JobsPageEffects, JobDescriptionEffects, ModifyPricingsEffects, JobPeerM
     // Angular
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+
 
     // 3rd Party
     LayoutModule,
@@ -77,7 +79,8 @@ import { JobsPageEffects, JobDescriptionEffects, ModifyPricingsEffects, JobPeerM
     JobManagementModule,
     MatchesModalModule,
     PricingDetailsModule,
-    RangeEditorModule
+    RangeEditorModule,
+    NotesManagerModule
   ],
   declarations: [
     // Pages

@@ -49,17 +49,20 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   dataFields$: Observable<any[]>;
   pagingOptions$: Observable<PagingOptions>;
   sortDescriptor$: Observable<SortDescriptor[]>;
+  defaultSortDescriptor$: Observable<SortDescriptor[]>;
   selectAllState$: Observable<string>;
   selectedKeys$: Observable<number[]>;
 
   expandedRowsSubscription: Subscription;
   expandedRows: number[];
   sortDescriptorSubscription: Subscription;
+  defaultSortDescriptorSubscription: Subscription;
   dataFieldsSubscription: Subscription;
 
   dataSubscription: Subscription;
   data: GridDataResult;
   sortDescriptor: SortDescriptor[];
+  defaultSortDescriptor: SortDescriptor[];
 
   primaryKeySubscription: Subscription;
   primaryKey: string;
@@ -100,6 +103,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       this.expandedRows = expandedRows;
     });
     this.sortDescriptorSubscription = this.sortDescriptor$.subscribe(value => this.sortDescriptor = value);
+    this.defaultSortDescriptorSubscription = this.defaultSortDescriptor$.subscribe(value => this.defaultSortDescriptor = value);
 
     this.primaryKeySubscription = this.store.select(fromReducer.getPrimaryKey, this.pageViewId).subscribe(primaryKey => {
       this.primaryKey = primaryKey;
@@ -126,6 +130,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.primaryKeySubscription.unsubscribe();
     this.selectionFieldSubscription.unsubscribe();
     this.sortDescriptorSubscription.unsubscribe();
+    this.defaultSortDescriptorSubscription.unsubscribe();
     this.saveSortSubscription.unsubscribe();
     this.dataFieldsSubscription.unsubscribe();
   }
@@ -145,6 +150,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
       this.pagingOptions$ = this.store.select(fromReducer.getPagingOptions, changes['pageViewId'].currentValue);
       this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
+      this.defaultSortDescriptor$ = this.store.select(fromReducer.getDefaultSortDescriptor, changes['pageViewId'].currentValue);
       this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
       this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
     }
@@ -212,11 +218,19 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.store.dispatch(new fromActions.UpdatePagingOptions(this.pageViewId, { From: event.skip, Count: event.take }));
   }
 
+  // TODO: Kendo sorts the grids asc -> desc -> none in that order, rather than dir -> !dir -> none regardless of direction
+  // If the default sort for a grid is to be ordered desc, there would be no way to order that column asc so we have to make the addt'l check
+  // Achieving the 2nd sort direction logic requires additional effort
   onSortChange(sortDescriptor: SortDescriptor[]): void {
+    let descriptorToDispatch = !sortDescriptor[0].dir ?
+      this.defaultSortDescriptor :
+      sortDescriptor;
+
     if (this.customSortOptions != null) {
-      sortDescriptor = this.customSortOptions(sortDescriptor);
+      descriptorToDispatch = this.customSortOptions(descriptorToDispatch);
     }
-    this.store.dispatch(new fromActions.UpdateSortDescriptor(this.pageViewId, sortDescriptor));
+
+    this.store.dispatch(new fromActions.UpdateSortDescriptor(this.pageViewId, descriptorToDispatch));
     if (this.saveSort) {
       this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));
     }
@@ -274,10 +288,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       return 'text-left';
     }
-  }
-
-  isSortable() {
-    return this.allowSort ? this.selectedRecordId ? null : `{allowUnsort: 'true', mode: 'single'}` : null;
   }
 
   onSelectedKeysChange(selectedKey: number) {

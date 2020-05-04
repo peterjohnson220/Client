@@ -1,38 +1,43 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, AbstractControl } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-import { Store, ActionsSubject } from '@ngrx/store';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 
-import { CompanyJobUdf } from 'libs/models';
+import { Observable, Subscription } from 'rxjs';
+import { ofType } from '@ngrx/effects';
+
+import { Store, ActionsSubject } from '@ngrx/store';
+import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 
 import * as fromJobManagementActions from '../../actions';
 import * as fromJobManagementReducer from '../../reducers';
-import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
-import { PfValidators } from 'libs/forms';
-import { ofType } from '@ngrx/effects';
+
+import { PfValidators, JobDescriptionSummaryEditorComponent } from 'libs/forms';
+import { JobDescriptionSummary } from 'libs/models';
 
 @Component({
-  selector: 'pf-job-form',
-  templateUrl: './job-form.component.html',
-  styleUrls: ['./job-form.component.scss'],
+  selector: 'pf-standard-fields',
+  templateUrl: './standard-fields.component.html',
+  styleUrls: ['./standard-fields.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class JobFormComponent implements OnInit, OnDestroy {
+export class StandardFieldsComponent implements OnInit, OnDestroy {
 
-  showJobModal$: Observable<boolean>;
+  @ViewChild('jobDescriptionEditor', { static: true }) jobDescriptionEditor: JobDescriptionSummaryEditorComponent;
+
   duplicateJobCodeError$: Observable<boolean>;
   jobFamilies$: Observable<string[]>;
   jobFlsaStatuses$: Observable<string[]>;
-  jobUserDefinedFields$: Observable<CompanyJobUdf[]>;
+  jobDescriptionSummary$: Observable<JobDescriptionSummary>;
+  isJdmEnabled$: Observable<boolean>;
 
-  udfsSubscription: Subscription;
   formChangesSubscription: Subscription;
-  onShowFormSubscription: Subscription;
   duplicateJobCodeErrorSubscription: Subscription;
   loadJobSuccessSubscription: Subscription;
+  resetStateSubscription: Subscription;
 
   jobForm: FormGroup;
   duplicateJobCodeError = false;
+
+  jobDescriptionSummary: JobDescriptionSummary;
 
   readonly JOB_CODE_FLSA_MAX_LENGTH = 50;
   readonly DEFAULT_MAX_LENGTH = 255;
@@ -48,15 +53,16 @@ export class JobFormComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromJobManagementReducer.State>,
     private formBuilder: FormBuilder,
-    private actionsSubject: ActionsSubject
-  ) {
-    this.showJobModal$ = this.store.select(fromJobManagementReducer.getShowJobModal);
+    private actionsSubject: ActionsSubject) { }
+
+  ngOnInit() {
     this.duplicateJobCodeError$ = this.store.select(fromJobManagementReducer.getDuplicateJobCodeError);
     this.jobFamilies$ = this.store.select(fromJobManagementReducer.getJobFamilies);
     this.jobFlsaStatuses$ = this.store.select(fromJobManagementReducer.getCompanyFlsaStatuses);
-    this.jobUserDefinedFields$ = this.store.select(fromJobManagementReducer.getCompanyJobUdfs);
+    this.jobDescriptionSummary$ = this.store.select(fromJobManagementReducer.getJobDescriptionSummary);
+    this.isJdmEnabled$ = this.store.select(fromJobManagementReducer.getIsJdmEnabled);
 
-    this.jobForm = formBuilder.group({
+    this.jobForm = this.formBuilder.group({
       JobCode: ['', [
         PfValidators.required,
         PfValidators.maxLengthTrimWhitespace(this.JOB_CODE_FLSA_MAX_LENGTH),
@@ -65,40 +71,33 @@ export class JobFormComponent implements OnInit, OnDestroy {
       JobTitle: ['', [PfValidators.required, PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)]],
       JobLevel: ['', PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)],
       FLSAStatus: ['', PfValidators.maxLengthTrimWhitespace(this.JOB_CODE_FLSA_MAX_LENGTH)],
-      JobStatus: true,
+      JobStatus: true
     });
 
-     this.loadJobSuccessSubscription = actionsSubject
+    this.loadJobSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromJobManagementActions.LOAD_JOB_SUCCESS))
       .subscribe((action: fromJobManagementActions.LoadJobSuccess) => {
         this.jobForm.patchValue(action.payload.JobInfo);
+        this.jobDescriptionSummary = action.payload.JobSummaryObj;
       });
-  }
 
-  ngOnInit() {
-    const me = this;
-
-    this.udfsSubscription = this.jobUserDefinedFields$.subscribe(userDefinedFields => {
-      for (const userDefinedField of userDefinedFields) {
-        this.jobForm.addControl(
-          userDefinedField.ColumnName,
-          new FormControl('', PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)));
-      }
-    });
+    this.resetStateSubscription = this.actionsSubject
+      .pipe(ofType(fromJobManagementActions.RESET_STATE))
+      .subscribe(data => {
+        this.jobForm.reset();
+        this.jobDescriptionEditor.reset();
+        this.jobDescriptionSummary = null;
+        this.store.dispatch(new fromJobManagementActions.SetDuplicateJobCodeError(false));
+      });
 
     this.formChangesSubscription = this.jobForm.valueChanges.subscribe(value => {
-      this.store.dispatch(new fromJobManagementActions.UpdateCompanyJob(value));
-    });
-
-    this.onShowFormSubscription = this.showJobModal$.subscribe(value => {
-      this.jobForm.reset();
-      this.store.dispatch(new fromJobManagementActions.SetDuplicateJobCodeError(false));
+      this.store.dispatch(new fromJobManagementActions.UpdateStandardFields(value));
     });
 
     this.duplicateJobCodeErrorSubscription = this.duplicateJobCodeError$.subscribe(value => {
       this.duplicateJobCodeError = value;
       if (value) {
-        me.f.JobCode.updateValueAndValidity();
+        this.f.JobCode.updateValueAndValidity();
       }
     });
 
@@ -110,14 +109,21 @@ export class JobFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.udfsSubscription.unsubscribe();
     this.formChangesSubscription.unsubscribe();
-    this.onShowFormSubscription.unsubscribe();
     this.duplicateJobCodeErrorSubscription.unsubscribe();
     this.loadJobSuccessSubscription.unsubscribe();
+    this.resetStateSubscription.unsubscribe();
+  }
+
+  jobDescriptionChanged(newJobDescription: string) {
+    this.store.dispatch(new fromJobManagementActions.UpdateJobDescription(newJobDescription));
   }
 
   validateDuplicateJobCode(control: AbstractControl) {
     return this.duplicateJobCodeError ? { duplicateJobCode: true } : null;
+  }
+
+  isValid(): boolean {
+    return this.jobForm.valid && this.jobDescriptionEditor.isValid();
   }
 }
