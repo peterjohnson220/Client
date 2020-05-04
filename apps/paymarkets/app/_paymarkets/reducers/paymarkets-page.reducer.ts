@@ -1,4 +1,3 @@
-
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
 
 // Define our feature state
@@ -14,11 +13,6 @@ const initialState: State = {
 // Reducer function
 export function reducer(state = initialState, action: fromPayMarketsPageActions.Actions): State {
   switch (action.type) {
-    case fromPayMarketsPageActions.LOAD_PAYMARKETS: {
-      return {
-        ...state,
-      };
-    }
     default: {
       return state;
     }
