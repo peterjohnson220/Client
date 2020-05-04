@@ -26,6 +26,7 @@ export class MultiSelectTreeViewComponent {
   @Input() anchorWidth = 250;
   @Input() checkByKey = 'Value';
   @Input() textField = 'Name';
+  @Input() compressChildValues = false;
   @Output() applyClicked: EventEmitter<string[]> = new EventEmitter();
 
   checkedKeys: string[] = [];
@@ -43,8 +44,9 @@ export class MultiSelectTreeViewComponent {
   handleApplyClicked(): void {
     this.appliedKeys = cloneDeep(this.checkedKeys);
     this.show = false;
-    this.appliedNames = this.getDisplayVauesForSelectedKeys();
-    this.applyClicked.emit(this.appliedKeys);
+    const appliedValues = this.getAppliedItemsValues();
+    this.appliedNames = appliedValues.map(x => x.text);
+    this.applyClicked.emit(appliedValues.map(x => x.value));
   }
 
   toggleDropdown(): void {
@@ -90,24 +92,27 @@ export class MultiSelectTreeViewComponent {
   public children = (dataItem: TreeViewItem): Observable<TreeViewItem[]> => of(dataItem.Children);
   public hasChildren = (dataItem: TreeViewItem): boolean => !!dataItem.Children && dataItem.Children.length > 0;
 
-  private getDisplayVauesForSelectedKeys(): string[] {
-    if (this.checkByKey === this.textField) {
-      return this.appliedKeys;
-    }
+  private getAppliedItemsValues(): {text: string, value: string}[] {
     const selectedNames = [];
     this.data.forEach(item => {
-      this.pluckRecursiveValues(item, selectedNames, this.textField, this.appliedKeys.indexOf(item[this.checkByKey]) > -1 );
+      this.pluckRecursiveValues(item, selectedNames, (contextItem: TreeViewItem): boolean => {
+        return this.appliedKeys.indexOf(contextItem[this.checkByKey]) > -1;
+      });
     });
     return selectedNames;
   }
 
-  private pluckRecursiveValues(dataItem: TreeViewItem, valuesList: string[], property: string, condition: boolean = true) {
-    if (condition) {
-      valuesList.push(dataItem[property]);
+  private pluckRecursiveValues(dataItem: TreeViewItem, valuesList: {text: string, value: string}[], selectionValidFn: (contextItem: TreeViewItem) => boolean) {
+    if (selectionValidFn(dataItem)) {
+      valuesList.push({text: dataItem[this.textField], value: dataItem[this.checkByKey]});
+      if (this.compressChildValues) {
+        // ignore child values when parent selected and compressing children
+        return;
+      }
     }
     if (dataItem.Children && dataItem.Children.length) {
       dataItem.Children.forEach(childItem => {
-        this.pluckRecursiveValues(childItem, valuesList, property, this.appliedKeys.indexOf(childItem[this.checkByKey]) > -1 );
+        this.pluckRecursiveValues(childItem, valuesList, selectionValidFn);
       });
     }
   }
@@ -115,5 +120,4 @@ export class MultiSelectTreeViewComponent {
   private resetSelections() {
     this.checkedKeys = cloneDeep(this.appliedKeys);
   }
-
 }

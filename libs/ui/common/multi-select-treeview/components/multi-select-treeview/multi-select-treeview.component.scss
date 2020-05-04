@@ -30,9 +30,6 @@
 
 ::ng-deep .k-treeview-item {
 
-  @extend %ellipsis-overflowing-text;
-  padding-right: .5rem;
-
   .k-checkbox-label {
     margin-top: 0.4rem;
   }
@@ -68,6 +65,13 @@
 
   .k-icon {
     margin-top: 0.4rem;
+  }
+
+  .k-in {
+    @extend %ellipsis-overflowing-text;
+    .item-name {
+      @extend %ellipsis-overflowing-text;
+    }
   }
 }
 
