@@ -106,7 +106,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'spreadMin': new FormControl(this.metadata.SpreadMin, [Validators.required]),
       'spreadMax': new FormControl(this.metadata.SpreadMax, [Validators.required]),
       'rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
-      'currency': new FormControl(this.metadata.Currency, [Validators.required])
+      'currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required])
     });
     // set active tab to model
     this.activeTab = 'modelTab';
