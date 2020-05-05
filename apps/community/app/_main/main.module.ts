@@ -34,7 +34,7 @@ import { CommunityCategoriesComponent } from './containers/community-categories'
 import { CommunityFiltersComponent } from './containers/community-filters';
 import { CommunityFiltersDropdownComponent } from './components/community-filters-dropdown/community-filters-dropdown.component';
 
-import { CommunityPostRepliesComponent } from './components/community-post-replies';
+import { CommunityPostRepliesComponent } from './containers/community-post-replies';
 import { CommunityPostReplyComponent } from './components/community-post-reply';
 import { CommunityPostAddReplyViewComponent } from './containers/community-post-add-reply-view';
 import { CommunityPostFilteredReplyViewComponent } from './containers/community-post-filtered-reply-view';
@@ -91,6 +91,7 @@ import { CommunitySearchApiService } from 'libs/data/payfactors-api/community/co
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { CommunityAttachmentComponent } from './components/community-attachment/community-attachment.component';
 import { CommunityAttachmentEditComponent } from './components/community-attachment-edit/community-attachment-edit.component';
+import { CommunityReplyEditComponent } from './components/community-reply-edit/community-reply-edit.component';
 
 const components = [
   ClickInContentDirective,
@@ -133,6 +134,7 @@ const components = [
   CommunitySearchResultModalComponent,
   CommunityPostComponent,
   CommunityPostEditComponent,
+  CommunityReplyEditComponent,
   CommunityPollsAllPollsAnsweredComponent,
   CommunityAttachmentComponent,
   CommunitySearchResultAttachmentComponent,

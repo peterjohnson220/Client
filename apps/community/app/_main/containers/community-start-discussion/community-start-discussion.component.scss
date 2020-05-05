@@ -1,18 +1,15 @@
 @import 'colors';
 @import 'styles';
 
-$post-avatar-width: 50px;
-$post-avatar-height: 50px;
-
 .start-discussion-body {
   display: flex;
   width: 100%;
 }
 
 #discussion-avatar {
-  width: $post-avatar-width;
-  min-width: $post-avatar-width;
-  height: $post-avatar-height;
+  width: $community-post-avatar-size;
+  min-width: $community-post-avatar-size;
+  height: $community-post-avatar-size;
   align-self: start;
 }
 

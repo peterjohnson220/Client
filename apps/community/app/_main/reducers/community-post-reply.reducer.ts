@@ -11,6 +11,7 @@ export interface State extends EntityState<CommunityReply> {
   addingReply: boolean;
   addingReplyError: boolean;
   addingReplySuccess: boolean;
+  editedReplyId: string;
 }
 
 function sortByTime(a: CommunityReply, b: CommunityReply) {
@@ -29,7 +30,8 @@ export const initialState: State = adapter.getInitialState({
   updatingLikeError: false,
   addingReply: false,
   addingReplyError: false,
-  addingReplySuccess: false
+  addingReplySuccess: false,
+  editedReplyId: null
 });
 
 export function reducer(
@@ -111,6 +113,42 @@ export function reducer(
         ...adapter.removeOne(replyId, state)
       };
     }
+    case communityPostReplyActions.EDITING_COMMUNITY_POST_REPLY: {
+      const postId = action.payload;
+
+      return {
+        ...state,
+        editedReplyId: postId
+      };
+    }
+    case communityPostReplyActions.CANCEL_EDITING_COMMUNITY_POST_REPLY: {
+      return {
+        ...state,
+        editedReplyId: null
+      };
+    }
+    case communityPostReplyActions.SAVING_COMMUNITY_POST_REPLY_EDIT: {
+      return {
+        ...state
+      };
+    }
+    case communityPostReplyActions.SAVING_COMMUNITY_POST_REPLY_EDIT_SUCCESS: {
+      return {...adapter.updateOne(
+        {
+          id: action.payload.ReplyId, changes: {
+            Attachments: action.payload.Attachments
+          }
+        },
+          state),
+        editedReplyId: null
+      };
+    }
+    case communityPostReplyActions.SAVING_COMMUNITY_POST_REPLY_EDIT_ERROR: {
+      return {
+        ...state,
+        editedReplyId: null
+      };
+    }
     default: {
       return state;
     }
@@ -123,4 +161,6 @@ export const getGettingCommunityPostRepliesError = (state: State) => state.loadi
 export const getAddingCommunityPostReply = (state: State) => state.addingReply;
 export const getAddingCommunityPostReplyError = (state: State) => state.addingReplyError;
 export const getAddingCommunityPostReplySuccess = (state: State ) => state.addingReplySuccess;
+
+export const getCommunityReplyEdited = (state: State) => state.editedReplyId;
 

@@ -99,6 +99,20 @@ export class CommunityPostReplyEffects {
       )
     );
 
+  @Effect()
+  savingCmmunityPostReplyEdit$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCommunityPostReplyActions.SAVING_COMMUNITY_POST_REPLY_EDIT),
+      switchMap((action: fromCommunityPostReplyActions.SavingCommunityPostReplyEdit) =>
+        this.communityPostService.updateReply(action.payload).pipe(
+          map(() => {
+            return new fromCommunityPostReplyActions.SavingCommunityPostReplyEditSuccess(action.payload);
+          }),
+          catchError(error => of(new fromCommunityPostReplyActions.SavingCommunityPostReplyEditError()))
+        )
+      )
+    );
+
 
   constructor(
     private actions$: Actions,

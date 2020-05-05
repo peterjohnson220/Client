@@ -363,6 +363,11 @@ export const getAddingCommunityPostReplySuccess = createSelector(
   fromCommunityPostReplyReducer.getAddingCommunityPostReplySuccess
 );
 
+export const getCommunityReplyEdited = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getCommunityReplyEdited
+);
+
 // Community Post Add Reply View selector
 export const getCommunityPostAddReplyView = createSelector(
   selectFromCommunityPostAddReplyViewState,

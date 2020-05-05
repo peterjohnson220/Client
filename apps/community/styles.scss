@@ -29,7 +29,6 @@ $community-post-button: #0099cc;
 $community-post-button-hover: #1F2F3D;
 $community-post-button-focus: #1F2F3D;
 $community-avatar-background: #BFBFBF;
-$community-border-radius: 4px;
 $community-badge-color: #0099cc;
 $community-attachment-link-color: #99A0A4;
 $community-attachment-link-hover-color: #28435a;
@@ -38,6 +37,9 @@ $community-word-badge-color: #4d82B8;
 $community-excel-badge-color: #76A797;
 $community-image-badge-color: #D65532;
 $community-search-result-color: #99A0A4;
+$community-border-radius: 4px;
+$community-post-avatar-size: 50px;
+$community-reply-avatar-size: 35px;
 
 .k-checkbox {
   &:checked + .k-checkbox-label {
