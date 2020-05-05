@@ -4,7 +4,7 @@
     <pf-input-debounce
       #titleSearchComponent
       [(ngModel)]="titleSearchTerm"
-      [placeholderText]="'Search for a Job Title...'" 
+      [placeholderText]="'Search for a Job Title...'"
       [automationClassName]="'au-txt-exchange-job-title-search'"
       (valueChanged)="handleTitleSearchChanged($event)"
       class="w-50 mr-3">
@@ -18,7 +18,7 @@
     </pf-input-debounce>
   </div>
   <div class="loading-container position-relative">
-    <pf-async-container 
+    <pf-async-container
       [loading]="(loadingExchangeJobs$ | async) || (savingAssociation$ | async)"
       [loadingError]="(loadingExchangeJobsError$ | async) || (savingAssociationError$ | async)"
       [loadingErrorMessage]="'Unexpected Error Occurred'"
