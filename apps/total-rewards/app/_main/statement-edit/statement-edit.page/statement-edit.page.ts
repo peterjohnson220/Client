@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -46,6 +46,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private store: Store<fromTotalRewardsStatementEditReducer.State>
   ) { }
 
@@ -116,6 +117,11 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     } else if (this.templateId) {
       this.store.dispatch(new fromEditStatementPageActions.CloneStatementFromTemplate(this.templateId));
     }
+  }
+
+  // FOOTER METHODS
+  handleAssignEmployeesButtonClick() {
+    this.router.navigate(['statement/edit/' + this.statementId + '/assignments'], { queryParams: { openModal: 1 } } ).then();
   }
 
   // CONTROL METHODS //

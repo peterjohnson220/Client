@@ -1,0 +1,12 @@
+<pf-modal-form
+  [modalId]="'statement-assignment-modal'"
+  [title]="'Employees'"
+  [isOpen$]="isOpen$"
+  [size]="'md'"
+  [primaryButtonText]="'Assign'"
+  [submitting]="false"
+  [backdrop]="true"
+  [resetFormOnClose]="true"
+  (onSubmit)="onCloseModal('save')"
+  (onDismiss)="onCloseModal('discard')"
+></pf-modal-form>

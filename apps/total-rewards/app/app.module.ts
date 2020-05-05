@@ -11,7 +11,6 @@ import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { JwtQueryStringAuthInterceptor } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
-import { SharedModule } from './shared';
 
 @NgModule({
   imports: [
@@ -25,7 +24,6 @@ import { SharedModule } from './shared';
     PfLayoutWrapperModule,
     PfSecurityModule,
     PfStateModule,
-    SharedModule,
 
     // Routing
     AppRoutingModule
