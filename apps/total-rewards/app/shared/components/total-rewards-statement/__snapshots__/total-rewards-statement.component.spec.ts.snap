@@ -9,6 +9,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   onCalculationControlCompFieldRemoved={[Function EventEmitter]}
   onCalculationControlCompFieldTitleChange={[Function EventEmitter]}
   onCalculationControlSummaryTitleChange={[Function EventEmitter]}
+  onChartControlToggleSettingsPanelClick={[Function EventEmitter]}
   onControlTitleChange={[Function EventEmitter]}
   onRichTextControlContentChange={[Function EventEmitter]}
   pageCount={[Function Number]}

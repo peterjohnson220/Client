@@ -119,6 +119,14 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     }
   }
 
+  toggleStatementEditMode() {
+    if (this.mode === models.StatementModeEnum.Edit) {
+      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Preview));
+    } else {
+      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Edit));
+    }
+  }
+
   // FOOTER METHODS
   handleAssignEmployeesButtonClick() {
     this.router.navigate(['statement/edit/' + this.statementId + '/assignments'], { queryParams: { openModal: 1 } } ).then();
@@ -127,7 +135,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   // CONTROL METHODS //
   // COMMON //
   handleOnControlTitleChange(request: models.UpdateTitleRequest) {
-   this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(request));
+    this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(request));
   }
 
   // CALCULATION //
@@ -152,21 +160,18 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.UpdateRichTextControlContent(request));
   }
 
-  toggleStatementEditMode() {
-    if (this.mode === models.StatementModeEnum.Edit) {
-      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Preview));
-    } else {
-      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Edit));
-    }
+  // CHART
+  handleOnChartControlToggleSettingsPanelClick() {
+    this.store.dispatch(new fromEditStatementPageActions.ToggleSettingsPanel());
   }
 
   // SETTINGS
-  handleOpenSettingsClick() {
-    this.store.dispatch(new fromEditStatementPageActions.OpenSettings());
+  handleToggleSettingsPanelClick() {
+    this.store.dispatch(new fromEditStatementPageActions.ToggleSettingsPanel());
   }
 
   handleCloseSettingsClick() {
-    this.store.dispatch(new fromEditStatementPageActions.CloseSettings());
+    this.store.dispatch(new fromEditStatementPageActions.CloseSettingsPanel());
   }
 
   handleSettingsFontSizeChange(fontSize: FontSize) {

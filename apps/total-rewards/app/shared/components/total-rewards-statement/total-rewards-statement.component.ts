@@ -11,7 +11,8 @@ import {
   UpdateStringPropertyRequest,
   UpdateTitleRequest,
   EmployeeRewardsData,
-  StatementModeEnum
+  StatementModeEnum,
+  CalculationControl
 } from '../../models';
 
 @Component({
@@ -38,6 +39,9 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   // Rich Text Outputs
   @Output() onRichTextControlContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter<UpdateStringPropertyRequest>();
 
+  // Chart Control Outputs
+  @Output() onChartControlToggleSettingsPanelClick = new EventEmitter();
+
   controlType = TotalRewardsControlEnum;
   statementModeEnum = StatementModeEnum;
 
@@ -55,6 +59,21 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
       return this.statement.Settings.FontFamily.toLowerCase().replace(/ /g, '-') + '-font-family';
     }
     return '';
+  }
+
+  get calculationControls(): CalculationControl[] {
+    if (!this.statement) {
+      return [];
+    }
+
+    const calcControls = [];
+    this.statement.Pages.forEach(p => p.Sections.forEach(s => s.Columns.forEach(c => c.Controls.forEach(control => {
+      if (control.ControlType === TotalRewardsControlEnum.Calculation) {
+        calcControls.push(control);
+      }
+    }))));
+
+    return calcControls;
   }
 
   employeeData = [
@@ -134,5 +153,10 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   // Rich Text pass through methods
   handleOnRichTextControlContentChange(event) {
     this.onRichTextControlContentChange.emit(event);
+  }
+
+  // Chart pass through methods
+  handleChartControlSettingsClick() {
+    this.onChartControlToggleSettingsPanelClick.emit();
   }
 }

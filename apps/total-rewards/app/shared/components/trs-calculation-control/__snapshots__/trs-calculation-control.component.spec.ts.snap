@@ -4,17 +4,14 @@ exports[`TrsCalculationControlComponent should display contribution values and t
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  controlSum={[Function EventEmitter]}
   cp={[Function Object]}
   employeeRewardsData={[Function Object]}
-  inEditMode="false"
   mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
   onTitleChange={[Function EventEmitter]}
   onUpdateSummaryTitleChange={[Function EventEmitter]}
-  removedFields={[Function Array]}
 >
   <div
     class="trs-calculation container py-2 preview-mode"
@@ -224,15 +221,12 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  controlSum={[Function EventEmitter]}
   cp={[Function Object]}
-  inEditMode="false"
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
   onTitleChange={[Function EventEmitter]}
   onUpdateSummaryTitleChange={[Function EventEmitter]}
-  removedFields={[Function Array]}
 >
   <div
     class="trs-calculation container py-2 preview-mode"
@@ -333,17 +327,14 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  controlSum={[Function EventEmitter]}
   cp={[Function Object]}
   employeeRewardsData={[Function Object]}
-  inEditMode="false"
   mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
   onTitleChange={[Function EventEmitter]}
   onUpdateSummaryTitleChange={[Function EventEmitter]}
-  removedFields={[Function Array]}
 >
   <div
     class="trs-calculation container py-2 preview-mode"
@@ -522,17 +513,14 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  controlSum={[Function EventEmitter]}
   cp={[Function Object]}
   employeeRewardsData={[Function Object]}
-  inEditMode="false"
   mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
   onTitleChange={[Function EventEmitter]}
   onUpdateSummaryTitleChange={[Function EventEmitter]}
-  removedFields={[Function Array]}
 >
   <div
     class="trs-calculation container py-2 preview-mode"
@@ -742,15 +730,12 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  controlSum={[Function EventEmitter]}
   cp={[Function Object]}
-  inEditMode="false"
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
   onTitleChange={[Function EventEmitter]}
   onUpdateSummaryTitleChange={[Function EventEmitter]}
-  removedFields={[Function Array]}
 >
   <div
     class="trs-calculation container py-2 preview-mode"
@@ -844,17 +829,14 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  controlSum={[Function EventEmitter]}
   cp={[Function Object]}
   employeeRewardsData={[Function Object]}
-  inEditMode={[Function Boolean]}
   mode="0"
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
   onTitleChange={[Function EventEmitter]}
   onUpdateSummaryTitleChange={[Function EventEmitter]}
-  removedFields={[Function Array]}
 >
   <div
     class="trs-calculation container py-2 edit-mode"
@@ -1187,15 +1169,12 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  controlSum={[Function EventEmitter]}
   cp={[Function Object]}
-  inEditMode="false"
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
   onTitleChange={[Function EventEmitter]}
   onUpdateSummaryTitleChange={[Function EventEmitter]}
-  removedFields={[Function Array]}
 >
   <div
     class="trs-calculation container py-2 preview-mode"

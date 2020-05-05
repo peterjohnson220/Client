@@ -23,8 +23,9 @@ export type StatementEditPageActions =
   controlActions.RemoveCalculationControlCompensationField |
   controlActions.UpdateRichTextControlContent |
 
-  settingsActions.OpenSettings |
-  settingsActions.CloseSettings |
+  settingsActions.OpenSettingsPanel |
+  settingsActions.CloseSettingsPanel |
+  settingsActions.ToggleSettingsPanel |
   settingsActions.SaveSettings |
   settingsActions.SaveSettingsSuccess |
   settingsActions.SaveSettingsError |

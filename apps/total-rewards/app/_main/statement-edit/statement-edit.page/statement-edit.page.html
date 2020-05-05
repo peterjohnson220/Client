@@ -43,7 +43,7 @@
                     {{(mode === modeEnum.Edit) ? 'Preview' : 'Edit'}}
             </button>
             <span [title]="mode === modeEnum.Preview ? 'Settings disabled in preview mode' : 'Settings'">
-              <a (click)="handleOpenSettingsClick()" href="javascript:void(0)"
+              <a (click)="handleToggleSettingsPanelClick()" href="javascript:void(0)"
                 class="settings position-relative ml-2 pt-1"
                 [ngClass]="{'preview-mode': mode === modeEnum.Preview}">
                 <fa-icon [icon]="'cog'" aria-hidden="true"></fa-icon>
@@ -61,6 +61,7 @@
           (onCalculationControlCompFieldRemoved)="handleOnCalculationControlCompFieldRemoved($event)"
           (onCalculationControlCompFieldAdded)="handleOnCalculationControlCompFieldAdded($event)"
           (onRichTextControlContentChange)="handleOnRichTextControlContentChange($event)"
+          (onChartControlToggleSettingsPanelClick)="handleOnChartControlToggleSettingsPanelClick()"
         ></pf-total-rewards-statement>
       </div>
     </pf-async-container>

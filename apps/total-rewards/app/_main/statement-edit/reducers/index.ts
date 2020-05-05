@@ -7,7 +7,7 @@ import * as fromRoot from 'libs/state/state';
 import * as fromPageReducer from './statement-edit.page.reducer';
 import { AsyncStateObj } from 'libs/models';
 
-import { Statement } from '../../../shared/models';
+import { Statement, TotalRewardsControlEnum, EmployeeRewardsData, CalculationControl, BaseControl } from '../../../shared/models';
 
 // Feature area state
 export interface StatementEditState {

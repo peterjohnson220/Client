@@ -1,25 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
-import {
-  CalculationControl,
-  CompensationField,
-  UpdateTitleRequest,
-  UpdateFieldOverrideNameRequest,
-  UpdateFieldVisibilityRequest,
-  EmployeeRewardsData,
-  StatementModeEnum
-} from '../../models';
-
+import * as models from '../../models';
+import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
 @Component({
   selector: 'pf-trs-calculation-control',
@@ -27,41 +10,31 @@ import {
   styleUrls: ['./trs-calculation-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsCalculationControlComponent implements OnInit, OnChanges {
+export class TrsCalculationControlComponent {
 
-  @Input() controlData: CalculationControl;
-  @Input() employeeRewardsData: EmployeeRewardsData;
-  @Input() mode: StatementModeEnum;
+  @Input() controlData: models.CalculationControl;
+  @Input() employeeRewardsData: models.EmployeeRewardsData;
+  @Input() mode: models.StatementModeEnum;
 
-  @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
-  @Output() onCompFieldTitleChange: EventEmitter<UpdateFieldOverrideNameRequest> = new EventEmitter();
-  @Output() onUpdateSummaryTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
-  @Output() onCompFieldRemoved: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
-  @Output() onCompFieldAdded: EventEmitter<UpdateFieldVisibilityRequest> = new EventEmitter();
-  @Output() controlSum: EventEmitter<number> = new EventEmitter();
-
-  removedFields: CompensationField[] = this.getRemovedFields();
-  inEditMode: boolean;
+  @Output() onTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
+  @Output() onCompFieldTitleChange: EventEmitter<models.UpdateFieldOverrideNameRequest> = new EventEmitter();
+  @Output() onUpdateSummaryTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
+  @Output() onCompFieldRemoved: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
+  @Output() onCompFieldAdded: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
 
   compensationValuePlaceholder = '$---,---';
 
-  constructor(public cp: CurrencyPipe) {
+  get inEditMode(): boolean {
+    return this.mode === models.StatementModeEnum.Edit;
   }
 
-  ngOnInit() {
-    this.inEditMode = (this.mode === StatementModeEnum.Edit);
+  get removedFields(): models.CompensationField[] {
+    return this.controlData.DataFields.filter(f => f.IsVisible === false);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.controlData) {
-      this.removedFields = this.controlData.DataFields.filter(f => f.IsVisible === false);
-    }
-    if (changes.mode) {
-      this.inEditMode = (this.mode === StatementModeEnum.Edit);
-    }
-  }
+  constructor(public cp: CurrencyPipe) { }
 
-  removeField(field: CompensationField) {
+  removeField(field: models.CompensationField) {
     this.onCompFieldRemoved.emit({ControlId: this.controlData.Id, DataFieldId: field.Id, IsVisible: false});
   }
 
@@ -70,7 +43,7 @@ export class TrsCalculationControlComponent implements OnInit, OnChanges {
     this.onCompFieldAdded.emit({ControlId: this.controlData.Id, DataFieldId: fieldToAdd.Id, IsVisible: true});
   }
 
-  onCompFieldNameChange(field: CompensationField, name: string) {
+  onCompFieldNameChange(field: models.CompensationField, name: string) {
     this.onCompFieldTitleChange.emit({ControlId: this.controlData.Id, NewName: name, DataFieldId: field.Id});
   }
 
@@ -83,7 +56,7 @@ export class TrsCalculationControlComponent implements OnInit, OnChanges {
   }
 
   getEmployerContributionValue(field: string) {
-    if (this.employeeRewardsData && (this.mode !== StatementModeEnum.Edit)) {
+    if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
       if (this.employeeRewardsData[field] || this.employeeRewardsData[field] === 0) {
         return this.cp.transform(this.employeeRewardsData[field], 'USD', 'symbol-narrow', '1.0');
       }
@@ -92,20 +65,15 @@ export class TrsCalculationControlComponent implements OnInit, OnChanges {
   }
 
   getSummaryValue() {
-    if (this.employeeRewardsData && (this.mode !== StatementModeEnum.Edit)) {
-      const fieldsToSum = this.controlData.DataFields.filter(d => d.IsVisible === true);
-      let sum = 0;
-      for (let f = 0; f < fieldsToSum.length; f++) {
-        sum += this.employeeRewardsData[fieldsToSum[f].DatabaseField];
-      }
-      this.controlSum.emit(sum);
+    if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
+      const sum = TotalRewardsStatementService.sumCalculationControl(this.controlData, this.employeeRewardsData);
       return this.cp.transform(sum, 'USD', 'symbol-narrow', '1.0');
     }
 
     return this.compensationValuePlaceholder;
   }
 
-  getRemovedFields(): CompensationField[] {
+  getRemovedFields(): models.CompensationField[] {
     if (this.controlData && this.controlData.DataFields) {
       return this.controlData.DataFields.filter(df => df.IsVisible === false);
     } else {
@@ -113,12 +81,12 @@ export class TrsCalculationControlComponent implements OnInit, OnChanges {
     }
   }
 
-  displayFieldInTable(compField: CompensationField): boolean {
+  displayFieldInTable(compField: models.CompensationField): boolean {
     if (compField.IsVisible) {
       if (this.inEditMode) {
         return true;
       }
-      return this.employeeRewardsData[ compField.DatabaseField ] !== null;
+      return this.employeeRewardsData[compField.DatabaseField] !== null;
     }
     return false;
   }
