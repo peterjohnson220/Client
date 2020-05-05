@@ -11,12 +11,14 @@ import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'l
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
-import {GridRowActionsConfig, PositionType} from '../../models';
+import { GridRowActionsConfig, PositionType } from '../../models';
+import { MappedFieldNamePipe } from '../../pipes';
 
 @Component({
   selector: 'pf-grid',
   templateUrl: './pf-grid.component.html',
   styleUrls: ['./pf-grid.component.scss'],
+  providers: [MappedFieldNamePipe],
   encapsulation: ViewEncapsulation.None
 })
 export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
@@ -28,6 +30,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() rowActionTemplate: TemplateRef<any>;
   @Input() noRecordsFoundTemplate: TemplateRef<any>;
   @Input() allowSplitView: boolean;
+  @Input() splitViewDisplayFields = [];
   @Input() selectedRecordId: number;
   @Input() enableSelection = false;
   @Input() noRecordsFound: string;
@@ -83,7 +86,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild(GridComponent, { static: false }) grid: GridComponent;
 
 
-  constructor(private store: Store<fromReducer.State>, private ngZone: NgZone) { }
+  constructor(private store: Store<fromReducer.State>, private ngZone: NgZone, private mappedFieldName: MappedFieldNamePipe) { }
 
   ngOnInit() {
     this.dataSubscription = this.store.select(fromReducer.getData, this.pageViewId).subscribe(newData => {
@@ -118,7 +121,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
     this.dataFieldsSubscription = this.dataFields$.pipe(filter(df => !!df)).subscribe(df => {
       if (this.autoFitColumnsToHeader) {
-        this.autoFitColumns(df.filter(d => d.IsSelected && d.IsSelectable && !d.Width).map(f => this.mappedFieldName(f)));
+        this.autoFitColumns(df.filter(d => d.IsSelected && d.IsSelectable && !d.Width).map(f => this.mappedFieldName.transform(f)));
       }
     });
   }
@@ -179,11 +182,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     ));
   }
 
-  getValue(row: any, colName: string[]): string[] {
-    const values = colName.map(val => row[val]);
-    return values;
-  }
-
   getColWidth(col: any) {
     let colWidth = col.Width;
 
@@ -194,14 +192,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     return colWidth;
-  }
-
-  showColumn(col: ViewField) {
-    return (!this.selectedRecordId || col.IsLocked) && col.IsSelectable && col.IsSelected;
-  }
-
-  mappedFieldName(col: ViewField): string {
-    return (col.EntitySourceName ? col.EntitySourceName + '_' : '') + col.SourceName;
   }
 
   onPageChange(event: PageChangeEvent): void {
@@ -267,7 +257,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     if (!col) {
       return '';
     } else if (col.TextAlign) {
-      return  `text-${col.TextAlign}`;
+      return `text-${col.TextAlign}`;
     } else if (col.DataType === DataViewFieldDataType.Int || col.DataType === DataViewFieldDataType.Float) {
       return 'text-right';
     } else {
