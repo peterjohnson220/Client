@@ -13,6 +13,7 @@ import * as fromPayMarketsPageReducer from '../reducers';
 import * as fromGridActionsBarActions from '../actions/grid-actions-bar.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { PayMarketsPageViewId } from '../models';
+import { autoGenerateListGroupValues } from 'libs/models/list/grouped-list-item.model';
 
 @Injectable()
 export class GridActionsBarEffects {
@@ -25,8 +26,7 @@ export class GridActionsBarEffects {
         return this.marketDataScopeApiService.getCompanyScopeSizes()
           .pipe(
             map((response) => {
-              const multiSelectItemGroups = PayfactorsApiModelMapper.mapGroupedListItemsToMultiSelectItemGroups(response);
-              return new fromGridActionsBarActions.GetCompanyScopeSizesSuccess(multiSelectItemGroups);
+              return new fromGridActionsBarActions.GetCompanyScopeSizesSuccess(autoGenerateListGroupValues(response));
             }),
             catchError(() => of(new fromGridActionsBarActions.GetCompanyScopeSizesError()))
           );

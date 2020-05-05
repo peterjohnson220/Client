@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { MultiSelectItemGroup } from 'libs/ui/common';
-import { TreeViewItem } from 'libs/ui/common/multi-select-treeview/models';
+import { GroupedListItem } from 'libs/models';
 
 export const GET_COMPANY_SCOPE_SIZES = '[PayMarkets / Grid Actions Bar] Get Company Scope Sizes';
 export const GET_COMPANY_SCOPE_SIZES_SUCCESS = '[PayMarkets / Grid Actions Bar] Get Company Scope Sizes Success';
@@ -20,7 +20,7 @@ export class GetCompanyScopeSizes implements Action {
 export class GetCompanyScopeSizesSuccess implements Action {
   readonly type = GET_COMPANY_SCOPE_SIZES_SUCCESS;
 
-  constructor(public payload: MultiSelectItemGroup[]) {}
+  constructor(public payload: GroupedListItem[]) {}
 }
 
 export class GetCompanyScopeSizesError implements Action {
@@ -31,7 +31,7 @@ export class GetCompanyScopeSizesError implements Action {
 export class UpdateSelectedSizes implements Action {
   readonly type = UPDATE_SELECTED_SIZES;
 
-  constructor(public payload: MultiSelectItemGroup[]) {}
+  constructor(public payload: string[]) {}
 }
 
 export class GetCompanyIndustries implements Action {
@@ -43,7 +43,7 @@ export class GetCompanyIndustries implements Action {
 export class GetCompanyIndustriesSuccess implements Action {
   readonly type = GET_COMPANY_INDUSTRIES_SUCCESS;
 
-  constructor(public payload: TreeViewItem[]) {}
+  constructor(public payload: GroupedListItem[]) {}
 }
 
 export class GetCompanyIndustriesError implements Action {

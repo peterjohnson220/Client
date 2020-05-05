@@ -3,17 +3,15 @@ import { cloneDeep } from 'lodash';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { MultiSelectItemGroup } from 'libs/ui/common';
 import { MultiSelectDropdownHelper } from 'libs/ui/common/multi-select-dropdown/helpers';
-import { TreeViewItem } from 'libs/ui/common/multi-select-treeview/models';
-
+import { GroupedListItem } from 'libs/models';
 
 import * as fromGridActionsBarActions from '../actions/grid-actions-bar.actions';
 
 export interface State {
-  sizes: AsyncStateObj<MultiSelectItemGroup[]>;
+  sizes: AsyncStateObj<GroupedListItem[]>;
   selectedSizes: string[];
-  industries: AsyncStateObj<TreeViewItem[]>;
+  industries: AsyncStateObj<GroupedListItem[]>;
   selectedIndustries: string[];
-
 }
 
 const initialState: State = {
@@ -26,7 +24,7 @@ const initialState: State = {
 export function reducer(state = initialState, action: fromGridActionsBarActions.Actions): State {
   switch (action.type) {
     case fromGridActionsBarActions.GET_COMPANY_SCOPE_SIZES: {
-      const sizesClone: AsyncStateObj<MultiSelectItemGroup[]> = cloneDeep(state.sizes);
+      const sizesClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.sizes);
       sizesClone.loading = true;
       sizesClone.loadingError = false;
 
@@ -36,7 +34,7 @@ export function reducer(state = initialState, action: fromGridActionsBarActions.
       };
     }
     case fromGridActionsBarActions.GET_COMPANY_SCOPE_SIZES_SUCCESS: {
-      const sizesClone: AsyncStateObj<MultiSelectItemGroup[]> = cloneDeep(state.sizes);
+      const sizesClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.sizes);
       sizesClone.loading = false;
       sizesClone.obj = action.payload;
 
@@ -46,7 +44,7 @@ export function reducer(state = initialState, action: fromGridActionsBarActions.
       };
     }
     case fromGridActionsBarActions.GET_COMPANY_SCOPE_SIZES_ERROR: {
-      const sizesClone: AsyncStateObj<MultiSelectItemGroup[]> = cloneDeep(state.sizes);
+      const sizesClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.sizes);
       sizesClone.loading = false;
       sizesClone.loadingError = true;
 
@@ -56,16 +54,14 @@ export function reducer(state = initialState, action: fromGridActionsBarActions.
       };
     }
     case fromGridActionsBarActions.UPDATE_SELECTED_SIZES: {
-      const sizesClone: AsyncStateObj<MultiSelectItemGroup[]> = cloneDeep(state.sizes);
-      sizesClone.obj = action.payload;
+
       return {
         ...state,
-        selectedSizes: MultiSelectDropdownHelper.getSelectedValues(action.payload),
-        sizes: sizesClone
+        selectedSizes: action.payload
       };
     }
     case fromGridActionsBarActions.GET_COMPANY_INDUSTRIES: {
-      const industriesClone: AsyncStateObj<TreeViewItem[]> = cloneDeep(state.industries);
+      const industriesClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.industries);
       industriesClone.loading = true;
       industriesClone.loadingError = false;
 
@@ -75,7 +71,7 @@ export function reducer(state = initialState, action: fromGridActionsBarActions.
       };
     }
     case fromGridActionsBarActions.GET_COMPANY_INDUSTRIES_SUCCESS: {
-      const industriesClone: AsyncStateObj<TreeViewItem[]> = cloneDeep(state.industries);
+      const industriesClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.industries);
       industriesClone.loading = false;
       industriesClone.obj = action.payload;
 
@@ -85,7 +81,7 @@ export function reducer(state = initialState, action: fromGridActionsBarActions.
       };
     }
     case fromGridActionsBarActions.GET_COMPANY_INDUSTRIES_ERROR: {
-      const industriesClone: AsyncStateObj<TreeViewItem[]> = cloneDeep(state.industries);
+      const industriesClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.industries);
       industriesClone.loading = false;
       industriesClone.loadingError = true;
 
