@@ -16,8 +16,13 @@ export class IsSortablePipe implements PipeTransform {
       return null;
     }
 
+    let unsort = true;
+    if (defaultSortDescriptor && defaultSortDescriptor[0]) {
+      unsort = defaultSortDescriptor[0].dir === 'asc';
+    }
+
     return {
-      allowUnsort: defaultSortDescriptor[0].dir === 'asc',
+      allowUnsort: unsort,
       mode: 'single'
     };
   }
