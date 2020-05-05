@@ -177,6 +177,11 @@ export const getWorkflowContext = createSelector(
   fromComphubPageReducer.getWorkflowContext
 );
 
+export const getQuickPriceType = createSelector(
+  getWorkflowContext,
+  (context) => context.quickPriceType
+);
+
 // Markets Card
 export const getSelectedPaymarket = createSelector(
   selectMarketsCardState,

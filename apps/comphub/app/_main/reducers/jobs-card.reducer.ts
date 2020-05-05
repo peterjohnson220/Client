@@ -14,6 +14,7 @@ export interface State {
   jobSearchOptions: string[];
   loadingJobSearchOptionsError: boolean;
   selectedJob: string;
+  selectedExchangeJobId?: number;
   exchangeJobSearchOptions: ExchangeJobSearchOption[];
 }
 
@@ -25,6 +26,7 @@ const initialState: State = {
   loadingJobSearchOptions: false,
   loadingJobSearchOptionsError: false,
   selectedJob: null,
+  selectedExchangeJobId: null,
   exchangeJobSearchOptions: []
 };
 
@@ -83,7 +85,8 @@ export function reducer(state = initialState, action: fromJobsCardActions.Action
     case fromJobsCardActions.SET_SELECTED_JOB: {
       return {
         ...state,
-        selectedJob: action.payload.jobTitle
+        selectedJob: action.payload.jobTitle,
+        selectedExchangeJobId: action.payload.exchangeJobId
       };
     }
     case fromJobsCardActions.CLEAR_SELECTED_JOB: {
@@ -129,7 +132,13 @@ export const getLoadingJobSearchOptions = (state: State) => state.loadingJobSear
 export const getLoadingJobSearchOptionsError = (state: State) => state.loadingJobSearchOptionsError;
 export const getSelectedJob = (state: State) => state.selectedJob;
 export const getExchangeJobSearchOptions = (state: State) => state.exchangeJobSearchOptions;
-export const getSelectedExchangeJobId = (state: State) => state.selectedJob &&
-                                                           state.exchangeJobSearchOptions.find(x => x.JobTitle === state.selectedJob) ?
-                                                           state.exchangeJobSearchOptions.find(x => x.JobTitle === state.selectedJob).ExchangeJobId :
-                                                           null;
+export const getSelectedExchangeJobId = (state: State) => {
+  if (!!state.selectedExchangeJobId) {
+    return state.selectedExchangeJobId;
+  }
+
+  return state.selectedJob &&
+  state.exchangeJobSearchOptions.find(x => x.JobTitle === state.selectedJob) ?
+    state.exchangeJobSearchOptions.find(x => x.JobTitle === state.selectedJob).ExchangeJobId :
+    null;
+};

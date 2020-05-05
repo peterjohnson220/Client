@@ -1,7 +1,7 @@
 export interface TrendingJobGroup {
   Name: string;
   Group: string;
-  Jobs: string[];
+  Jobs: any[];
   Order: number;
 }
 

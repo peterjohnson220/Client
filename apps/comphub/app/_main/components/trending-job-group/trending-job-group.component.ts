@@ -13,7 +13,7 @@ import { TrendingJobGroup } from '../../models';
 export class TrendingJobGroupComponent {
   @Input() trendingJobGroup: TrendingJobGroup;
   @Input() disabled: boolean;
-  @Output() trendingJobClicked = new EventEmitter<string>();
+  @Output() trendingJobClicked = new EventEmitter<any>();
 
   constructor(public winRef: WindowRef) {}
 
@@ -25,7 +25,7 @@ export class TrendingJobGroupComponent {
       return this.trendingJobGroup.Name || this.trendingJobGroup.Group;
   }
 
-  handleTrendingJobClicked(trendingJob: string) {
+  handleTrendingJobClicked(trendingJob: any) {
     // Don't emit when highlighting text
     if (this.winRef.nativeWindow.getSelection().toString().length === 0 && !this.disabled) {
       this.trendingJobClicked.emit(trendingJob);
