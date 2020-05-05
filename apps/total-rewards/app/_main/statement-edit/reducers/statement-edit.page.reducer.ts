@@ -2,7 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
-import { Statement, StatementModeEnum } from '../../../shared/models';
+import { ImageControl, Statement, StatementModeEnum } from '../../../shared/models';
 import { TotalRewardsStatementService } from '../../../shared/services/total-rewards-statement.service';
 import * as fromEditStatementActions from '../actions';
 
@@ -212,6 +212,22 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.UPDATE_SETTINGS_CHART_COLOR: {
       const localState: State = cloneDeep(state);
       localState.statement.obj.Settings.ChartColors[action.payload.ColorIndex] = action.payload.Color;
+      return localState;
+    }
+    case fromEditStatementActions.SAVE_IMAGE_CONTROL_IMAGE: {
+      const localState = cloneDeep(state);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const control: ImageControl = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control] as ImageControl;
+      control.FileName = action.payload.FileName;
+      control.FileUrl = action.payload.FileUrl;
+      return localState;
+    }
+    case fromEditStatementActions.REMOVE_IMAGE_CONTROL_IMAGE: {
+      const localState = cloneDeep(state);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.Id);
+      const control: ImageControl = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control] as ImageControl;
+      control.FileName = '';
+      control.FileUrl = '';
       return localState;
     }
     default: {

@@ -6,3 +6,5 @@ export * from './update-string-property-request';
 export * from './update-title-request';
 export * from './update-settings-chart-color-request';
 export * from './save-settings-request';
+export * from './save-image-request';
+export * from './delete-image-request';

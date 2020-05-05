@@ -189,4 +189,13 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   handleResetSettings() {
     this.store.dispatch(new fromEditStatementPageActions.ResetSettings());
   }
+
+  // IMAGE CONTROL
+  handleSaveImage(saveImageRequest) {
+    this.store.dispatch(new fromEditStatementPageActions.SaveImageControlImage(saveImageRequest));
+  }
+
+  handleRemoveImage(deleteImageRequest) {
+    this.store.dispatch(new fromEditStatementPageActions.RemoveImageControlImage(deleteImageRequest));
+  }
 }

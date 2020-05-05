@@ -22,6 +22,8 @@ export type StatementEditPageActions =
   controlActions.AddCalculationControlCompensationField |
   controlActions.RemoveCalculationControlCompensationField |
   controlActions.UpdateRichTextControlContent |
+  controlActions.SaveImageControlImage |
+  controlActions.RemoveImageControlImage |
 
   settingsActions.OpenSettingsPanel |
   settingsActions.CloseSettingsPanel |

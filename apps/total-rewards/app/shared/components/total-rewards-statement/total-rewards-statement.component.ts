@@ -12,7 +12,9 @@ import {
   UpdateTitleRequest,
   EmployeeRewardsData,
   StatementModeEnum,
-  CalculationControl
+  CalculationControl,
+  SaveImageRequest,
+  DeleteImageRequest
 } from '../../models';
 
 @Component({
@@ -41,6 +43,10 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
 
   // Chart Control Outputs
   @Output() onChartControlToggleSettingsPanelClick = new EventEmitter();
+
+  // Image Control Outputs
+  @Output() onSaveImage: EventEmitter<SaveImageRequest> = new EventEmitter();
+  @Output() onRemoveImage: EventEmitter<DeleteImageRequest> = new EventEmitter();
 
   controlType = TotalRewardsControlEnum;
   statementModeEnum = StatementModeEnum;
@@ -158,5 +164,14 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   // Chart pass through methods
   handleChartControlSettingsClick() {
     this.onChartControlToggleSettingsPanelClick.emit();
+  }
+
+  // Image pass though methods
+  handleSaveImage(event) {
+    this.onSaveImage.emit(event);
+  }
+
+  handleRemoveImage(deleteImageRequest) {
+    this.onRemoveImage.emit(deleteImageRequest);
   }
 }
