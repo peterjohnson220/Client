@@ -1,7 +1,7 @@
 <pf-async-container [loading]="(loading$ | async)" [loadingError]="(loadingError$ | async)" (reload)="reload()">
   <p class="info p-0 m-0">Select a template to create a new statement.</p>
   <ul class="m-0 p-0 list-unstyled d-flex" >
-    <li class="card m-3" *ngFor="let template of (templates$ | async)">
+    <li class="card m-3 d-inline" *ngFor="let template of (templates$ | async)">
       <a href="javascript:void(0);" (click)="onCreate(template.id)">
         <div class="p-3">
           <img *ngIf="template.thumbnailUrl; else displayPlaceHolder"
