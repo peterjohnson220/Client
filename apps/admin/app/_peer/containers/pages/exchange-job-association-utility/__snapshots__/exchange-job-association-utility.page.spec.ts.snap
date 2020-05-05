@@ -8,7 +8,7 @@ exports[`Admin - Exchange Job Association Utility Page should NOT display 'Run' 
   
   
   <span>
-    Run
+    Run Auto Match
   </span>
 </button>
 `;
@@ -22,7 +22,7 @@ exports[`Admin - Exchange Job Association Utility Page should display 'Run' butt
   
   
   <span>
-    Run
+    Run Auto Match
   </span>
 </button>
 `;

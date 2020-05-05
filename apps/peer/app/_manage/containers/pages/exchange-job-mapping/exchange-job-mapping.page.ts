@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
@@ -16,14 +16,17 @@ import { ExchangeJobMappingService } from '../../../services';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
+import {ExchangeJobAssociationEntityTypes} from 'libs/constants/peer/exchange-job-association-entity-types';
+import * as fromAssociateJobsActions from 'libs/features/peer/job-association-match/actions/associate-jobs.actions';
+import * as fromRootState from 'libs/state/state';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
-import * as fromGridActions from 'libs/core/actions/grid.actions';
 import * as companyJobsActions from '../../../actions/company-jobs.actions';
 import * as fromPeerManagementReducer from '../../../reducers';
-import * as fromRootState from 'libs/state/state';
 import * as fromImportRequestActions from '../../../actions/import.actions';
+
 
 @Component({
     selector: 'pf-exchange-job-mapping-page',
@@ -146,4 +149,8 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobMapping));
         this.store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(null));
     }
+
+  handleExportButtonClick() {
+    this.store.dispatch(new fromAssociateJobsActions.DownloadAssociations({entityId: this.exchangeId, entityType: ExchangeJobAssociationEntityTypes.EXCHANGE}));
+  }
 }

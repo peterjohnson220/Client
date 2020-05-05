@@ -11,6 +11,7 @@ import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfFormsModule } from 'libs/forms/forms.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
+import { JobAssociationMatchModule } from 'libs/features/peer/job-association-match';
 
 import { AppRoutingModule } from './app-routing.module';
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,6 +29,7 @@ import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform
     NgbTabsetModule,
     LayoutModule,
     NotificationModule,
+    JobAssociationMatchModule,
 
     // PF Modules
     PfCommonUIModule,
