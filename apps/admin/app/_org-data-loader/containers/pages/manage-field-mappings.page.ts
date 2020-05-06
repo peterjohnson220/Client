@@ -1,11 +1,9 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import { delay, isNumber, isObject } from 'lodash';
-
+import { delay, isNumber, isObject, cloneDeep } from 'lodash';
 import { Store } from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {filter, take, takeUntil} from 'rxjs/operators';
-
 import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
 
 import { environment } from 'environments/environment';
@@ -20,26 +18,29 @@ import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import {
   ConfigurationGroup,
-  EmailRecipientModel,
-  LoaderFieldSet,
+  EmailRecipientModel, LoaderFieldSet,
   LoaderSaveCoordination,
-  LoaderSetting,
-  MappingModel
+  LoaderSetting, MappingModel
 } from 'libs/models/data-loads';
 import { LoadTypes } from 'libs/constants';
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
 import { CompanySelectorItem } from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
 import {CompanySelectorComponent} from 'libs/features/company/components';
+import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
+import { SftpUserModel } from 'libs/models/Sftp';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import * as fromConfigurationGroupsActions from '../../actions/configuration-groups.actions';
+import * as fromOrgDataConfigurationActions from '../../actions/org-data-loader-configuration.actions';
+import * as fromSftpUserActions from '../../actions/sftp-user.actions';
 import {
     LoaderType, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
     ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
 } from '../../constants';
 import { OrgDataFilenamePatternSet } from '../../models';
+import { ACCEPTED_FILE_EXTENSIONS } from '../../constants/public-key-filename-constants';
 
 
 @Component({
@@ -66,8 +67,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   mappings: MappingModel[];
   companyMappings$: Observable<LoaderFieldSet[]>;
   companyMappingsLoading$: Observable<boolean>;
-  saveMappingsSuccess$: Observable<boolean>;
-  saveMappingsError$: Observable<boolean>;
   emailRecipients$: Observable<EmailRecipientModel[]>;
   isActive: boolean;
   isCompanyOnAutoloader: boolean;
@@ -82,8 +81,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   isStructureMappingsFullReplace: boolean;
   loaderSettings$: Observable<LoaderSetting[]>;
   loaderSettingsLoading$: Observable<boolean>;
-  saveLoaderSettingsSuccess$: Observable<boolean>;
-  saveLoaderSettingsError$: Observable<boolean>;
   existingCompanyLoaderSettings: LoaderSetting[];
   orgDataFilenamePatternSet$: Observable<OrgDataFilenamePatternSet>;
   templateReferenceConstants = {
@@ -97,11 +94,16 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   emailRecipientsModalOpen$: Observable<boolean>;
   private configurationGroups$: Observable<ConfigurationGroup[]>;
   selectedConfigGroup: ConfigurationGroup;
-  private savedConfigurationGroup$: Observable<ConfigurationGroup>;
   private unsubscribe$ = new Subject();
   loadType = LoadTypes.Sftp;
-  createdConfigurationGroup$: Observable<ConfigurationGroup>;
-
+  sftpUserName$: Observable<string>;
+  sftpPublicKey$: Observable<File>;
+  private sftpUserName: string;
+  private sftpPublicKey: File;
+  saveConfigurationSuccess$: Observable<boolean>;
+  saveConfigurationError$: Observable<boolean>;
+  sftpUser$: Observable<SftpUserModel>;
+  sftpUser: SftpUserModel;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -121,11 +123,13 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       icon: true,
     },
   };
+  private acceptedFileExtensions = ACCEPTED_FILE_EXTENSIONS;
+
 
   private get toastSuccessOptions(): NotificationSettings {
     return {
       ...this.toastOptions,
-      content: 'Mappings have been saved and autoloader will begin processing this client\'s files when they become available.',
+      content: 'Configuration has been saved and autoloader will begin processing this client\'s files when they become available.',
       cssClass: 'alert-success',
     };
   }
@@ -133,7 +137,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   private get toastErrorOptions(): NotificationSettings {
     return {
       ...this.toastOptions,
-      content: 'Error saving field mappings.',
+      content: 'Error saving configuration.',
       cssClass: 'alert-error',
       type: {
         ...this.toastOptions.type,
@@ -175,25 +179,24 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.selectedCompany$ = this.store.select(fromCompanyReducer.getSelectedCompany);
     this.companyMappings$ = this.store.select(fromOrgDataAutoloaderReducer.getFieldMappings);
     this.companyMappingsLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingFieldMappings);
-    this.saveMappingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsSuccess);
-    this.saveMappingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsError);
     this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
     this.emailRecipientsSavingError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingRecipientError);
     this.emailRecipientsRemovingError$ = this.store.select(fromOrgDataAutoloaderReducer.getRemovingRecipientError);
     this.emailRecipientsModalOpen$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipientsModalOpen);
     this.loaderSettings$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettings);
     this.loaderSettingsLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettings);
-    this.saveLoaderSettingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettingsSavingSuccess);
-    this.saveLoaderSettingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettingsError);
     this.orgDataFilenamePatternSet$ = this.store.select(fromOrgDataAutoloaderReducer.getOrgDataFilenamePatternSet);
     this.configurationGroups$ = this.store.select(fromOrgDataAutoloaderReducer.getConfigurationGroups);
-    this.savedConfigurationGroup$ = this.store.select(fromOrgDataAutoloaderReducer.getSavedConfigurationGroup);
+    this.sftpUserName$ = this.store.select(fromOrgDataAutoloaderReducer.getSftpUserName);
+    this.sftpPublicKey$ = this.store.select(fromOrgDataAutoloaderReducer.getSftpPublicKey);
+    this.saveConfigurationSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingConfigurationSuccess);
+    this.saveConfigurationError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingConfigurationError);
+    this.sftpUser$ = this.store.select(fromOrgDataAutoloaderReducer.getSftpUser);
 
     const sftpDomainConfigSelector = this.configSettingsSelectorFactory.getConfigSettingsSelector('SftpDomain');
     const sftpPortConfigSelector = this.configSettingsSelectorFactory.getConfigSettingsSelector('SftpPort');
     this.sftpDomainConfig$ = this.store.select(sftpDomainConfigSelector);
     this.sftpPortConfig$ = this.store.select(sftpPortConfigSelector);
-    this.createdConfigurationGroup$ = this.store.select(fromOrgDataAutoloaderReducer.getCreatedConfigurationGroup);
 
     this.mappings = [];
     this.isActive = true;
@@ -230,21 +233,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromCompanySelectorActions.SetSelectedCompany(null));
     });
 
-    this.saveMappingsSuccess$
-      .pipe(
-        filter(success => success),
-      )
-      .subscribe(success => {
-        this.showLoaderMappingsSaveSuccessToast();
-        this.mappings = [];
-      });
-
-    this.saveMappingsError$
-      .pipe(
-        filter(error => error),
-      )
-      .subscribe(this.showLoaderMappingsSaveErrorToast);
-
     this.loaderSettings$
       .pipe(
         filter(settings => settings.length > 0),
@@ -269,21 +257,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
         this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
       });
 
-    this.saveLoaderSettingsSuccess$
-      .pipe(
-        filter(success => success),
-      )
-      .subscribe(() => {
-        this.showLoaderSettingsSaveSuccessToast();
-        this.reloadLoaderSettings();
-      });
-
-    this.saveLoaderSettingsError$
-      .pipe(
-        filter(error => error),
-      )
-      .subscribe(this.showLoaderSettingsSaveErrorToast);
-
     this.configurationGroups$
       .pipe(
         filter(configGroups => !!configGroups)
@@ -304,21 +277,37 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.savedConfigurationGroup$
-      .pipe(
-        filter(configGroup => !!configGroup)
-      ).subscribe(configGroup => {
-        this.selectedConfigGroup = configGroup;
-
-        this.saveLoaderSettings();
-        this.saveFieldMappings();
+    this.sftpUserName$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(userName => {
+      this.sftpUserName = userName;
     });
 
-    this.createdConfigurationGroup$.pipe(
+    this.sftpPublicKey$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(key => {
+      this.sftpPublicKey = key;
+    });
+
+    this.saveConfigurationSuccess$.pipe(
       takeUntil(this.unsubscribe$),
-      filter(configurationGroup => !!configurationGroup)
-    ).subscribe(configurationGroup => {
-      this.selectedConfigGroup = configurationGroup;
+      filter(success => success)
+    ).subscribe(() => {
+      this.mappings = [];
+      this.getConfigurationGroups();
+      this.showSaveSuccessToast();
+    });
+
+    this.saveConfigurationError$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(error => error)
+    ).subscribe(this.showSaveErrorToast);
+
+    this.sftpUser$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(user => !!user)
+    ).subscribe(user => {
+      this.sftpUser = user;
     });
   } // end constructor
 
@@ -387,57 +376,45 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       });
     });
 
+    this.getConfigurationGroups();
+
+    this.store.dispatch(new fromSftpUserActions.GetSftpUser(this.selectedCompany.CompanyId));
+  }
+
+  private getConfigurationGroups() {
     this.store.dispatch(new fromConfigurationGroupsActions.LoadingConfigurationGroups({
       CompanyId: this.selectedCompany.CompanyId,
       LoadType: LoadTypes.Sftp
     }));
   }
 
-  SaveMappings() {
-    const loaderSettingsToSave = this.getLoaderSettingsToSave();
+  SaveConfiguration() {
+      const loaderSettingsToSave = this.getLoaderSettingsToSave();
+      const sftpUser = this.getSftpUserToSave();
 
-    this.loaderSaveCoordination = {
-      mappingsSaveComplete: false,
-      mappingsSaved: this.mappings.length > 0,
-      settingsSaveComplete: false,
-      settingsSaved: loaderSettingsToSave.length > 0,
-    };
-
-    if (!this.selectedConfigGroup && (this.loaderSaveCoordination.settingsSaved || this.loaderSaveCoordination.mappingsSaved)) {
-      const newConfigurationGroup: ConfigurationGroup = {
-        LoaderConfigurationGroupId: null,
+      const request: OrgDataLoaderConfigurationSaveRequest = {
+        LoaderSettings: loaderSettingsToSave,
+        LoaderFieldMappings: this.mappings,
+        SftpUser: sftpUser,
+        LoaderConfigurationGroupId: this.selectedConfigGroup ? this.selectedConfigGroup.LoaderConfigurationGroupId : null,
         CompanyId: this.selectedCompany.CompanyId,
-        GroupName: 'Sftp Saved Mappings',
         LoadType: LoadTypes.Sftp
       };
-
-      this.store.dispatch(new fromConfigurationGroupsActions.SavingConfigurationGroup(newConfigurationGroup));
-    } else {
-      this.saveLoaderSettings();
-      this.saveFieldMappings();
-    }
+      if ((this.sftpPublicKey && this.userConfirmation()) || !this.sftpPublicKey) {
+        this.store.dispatch(new fromOrgDataConfigurationActions.SaveConfiguration({request: request, publicKey: this.sftpPublicKey}));
+      }
   }
 
-  private saveFieldMappings() {
-    if (this.loaderSaveCoordination.mappingsSaved) {
-      this.store.dispatch(new fromOrgDataFieldMappingsActions.SavingFieldMappings({
-        companyId: this.selectedCompany.CompanyId,
-        mappings: this.mappings,
-        loaderConfigurationGroupId: this.selectedConfigGroup.LoaderConfigurationGroupId
-      }));
-    }
+  private userConfirmation() {
+    return confirm('You are about to upload ' + this.sftpPublicKey.name + ' as the public key for ' + this.selectedCompany.CompanyName + '. Are you sure?');
   }
 
-  private saveLoaderSettings() {
-    const loaderSettingsToSave = this.getLoaderSettingsToSave();
-
-    if (this.loaderSaveCoordination.settingsSaved) {
-      this.store.dispatch(new fromLoaderSettingsActions.SavingLoaderSettings({
-        companyId: this.selectedCompany.CompanyId,
-        settings: loaderSettingsToSave,
-        loaderConfigurationGroupId: this.selectedConfigGroup.LoaderConfigurationGroupId
-      }));
+  private isValidExtension(file: File) {
+    if (file) {
+      return (new RegExp('(' + this.acceptedFileExtensions.join('|').replace(/\./g, '\\.') + ')$', 'i')).test(file.name);
     }
+
+    return true;
   }
 
   private reloadLoaderSettings() {
@@ -481,53 +458,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     return OrgDataLoadHelper.getLoaderSettingsToSave(newLoaderSettings, this.existingCompanyLoaderSettings);
   }
 
-  /**
-   * toast notifications for saving field mappings and settings are somewhat complex
-   *
-   *                       | settings save success | settings save failure | settings not saved    |
-   * ----------------------|-----------------------------------------------------------------------|
-   * mappings save success | show success toast    | show error toast      | show success toast    |
-   * mappings save failure | show error toast      | show error toast      | show error toast      |
-   * mappings not saved    | show success toast    | show error toast      | n/a                   |
-   *
-   * use this.loaderSaveCoordination to coordinate, since saving mappings and saving settings are separate async operations
-   */
-  private showLoaderMappingsSaveSuccessToast = () => {
-    this.loaderSaveCoordination.mappingsSaveComplete = true;
-    this.loaderSaveCoordination.mappingsSaveSuccess = true;
-
-    if (!this.loaderSaveCoordination.settingsSaved || this.loaderSaveCoordination.settingsSaveSuccess) {
-      this.showSaveSuccessToast();
-    }
-  }
-
-  private showLoaderMappingsSaveErrorToast = () => {
-    this.loaderSaveCoordination.mappingsSaveComplete = true;
-    this.loaderSaveCoordination.mappingsSaveSuccess = false;
-
-    if (!this.loaderSaveCoordination.settingsSaved || this.loaderSaveCoordination.settingsSaveComplete) {
-      this.showSaveErrorToast();
-    }
-  }
-
-  private showLoaderSettingsSaveSuccessToast = () => {
-    this.loaderSaveCoordination.settingsSaveComplete = true;
-    this.loaderSaveCoordination.settingsSaveSuccess = true;
-
-    if (!this.loaderSaveCoordination.mappingsSaved || this.loaderSaveCoordination.mappingsSaveSuccess) {
-      this.showSaveSuccessToast();
-    }
-  }
-
-  private showLoaderSettingsSaveErrorToast = () => {
-    this.loaderSaveCoordination.settingsSaveComplete = true;
-    this.loaderSaveCoordination.settingsSaveSuccess = false;
-
-    if (!this.loaderSaveCoordination.mappingsSaved || this.loaderSaveCoordination.mappingsSaveComplete) {
-      this.showSaveErrorToast();
-    }
-  }
-
   private showSaveSuccessToast = () => {
     this.showToast(this.toastSuccessOptions);
   }
@@ -557,5 +487,27 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
   openEmailRecipientsModal() {
     this.store.dispatch(new fromEmailRecipientsActions.OpenEmailRecipientsModal());
+  }
+
+  private getSftpUserToSave() {
+    let sftpUser: SftpUserModel = cloneDeep(this.sftpUser);
+
+    if (!sftpUser) {
+      sftpUser = {
+        CompanyId: this.selectedCompany.CompanyId,
+        UserId: null,
+        UserName: this.sftpUserName,
+        FileName: this.sftpPublicKey ? this.sftpPublicKey.name : null
+      };
+    } else {
+      if (this.sftpUserName) {
+        sftpUser.UserName = this.sftpUserName;
+      }
+
+      if (this.sftpPublicKey) {
+        sftpUser.FileName = this.sftpPublicKey.name;
+      }
+    }
+    return sftpUser;
   }
 }
