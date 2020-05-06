@@ -23,7 +23,7 @@
 
 <ng-template #payMarketNameColumn let-dataRow="dataRow" let-hover="hover">
   <div class="d-flex">
-    <span class="w-100" *ngIf="!!dataRow['CompanyPayMarkets_PayMarket']">{{dataRow['CompanyPayMarkets_PayMarket']}} </span>
+    <span pfEllipsisActive class="w-100 ellipsis-overflowing-text-wrap" *ngIf="!!dataRow['CompanyPayMarkets_PayMarket']">{{dataRow['CompanyPayMarkets_PayMarket']}} </span>
     <span *ngIf="dataRow['CompanyPayMarkets_IsDefaultPayMarket'] === 1" class="badge default-badge btn flex-shrink-1 pl-2 pr-2">Default</span>
   </div>
 </ng-template>
