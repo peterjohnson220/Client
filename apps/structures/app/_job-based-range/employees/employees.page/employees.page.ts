@@ -6,9 +6,10 @@ import { Observable } from 'rxjs';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import { Permissions } from 'libs/constants';
 
-import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
+import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
@@ -34,6 +35,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   rangeGroupId: any;
   rangeId: number;
   actionBarConfig: ActionBarConfig;
+  _Permissions = null;
 
   constructor(
      private store: Store<fromSharedJobBasedRangeReducer.State>,
@@ -52,6 +54,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       ShowColumnChooser: true,
       ShowFilterChooser: false
     };
+    this._Permissions = Permissions;
   }
 
   // Events

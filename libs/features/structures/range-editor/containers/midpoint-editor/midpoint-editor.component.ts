@@ -8,6 +8,8 @@ import { RoundingSettingsDataObj } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
 import { DataViewFilter } from 'libs/models/payfactors-api';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { PermissionService } from 'libs/core/services';
 
 import * as fromMidpointActions from '../../actions/midpoint-edit.actions';
 
@@ -59,9 +61,11 @@ export class MidpointEditorComponent implements OnChanges {
   canEditCurrentStructureRanges: boolean;
   value: number;
   focused: boolean;
+  hasCanCreateEditModelStructurePermission: boolean;
 
   get editable() {
-    return this.rangeGroupType === RangeGroupType.Job &&
+    return this.hasCanCreateEditModelStructurePermission &&
+      this.rangeGroupType === RangeGroupType.Job &&
       ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure);
   }
 
@@ -83,10 +87,13 @@ export class MidpointEditorComponent implements OnChanges {
 
   constructor(
     private store: Store<any>,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private permissionService: PermissionService
   ) {
     this.settingsService.selectCompanySetting<boolean>(CompanySettingsEnum.CanEditCurrentStructureRanges)
       .subscribe(s => this.canEditCurrentStructureRanges = s);
+    this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
+      PermissionCheckEnum.Single);
   }
 
   handleFocus() {
