@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Directive, OnDestroy, OnInit, Input, Output, EventEmitter, NgZone, OnChanges } from '@angular/core';
-import {  TreeViewComponent,  CheckableSettings,  CheckedState,  TreeItemLookup,  TreeItem } from '@progress/kendo-angular-treeview';
+import {  TreeViewComponent,  CheckableSettings,  CheckedState,  TreeItemLookup } from '@progress/kendo-angular-treeview';
 import { Subscription } from 'rxjs';
 
 import { GroupedListItem } from 'libs/models/list';
@@ -172,7 +172,7 @@ export class TreeViewCheckDirective implements OnInit, OnDestroy, OnChanges {
     const childItems: TreeItemLookup[] = [];
     dataItem.Children.forEach((childItem, index) => {
       childItems.push({
-        parent: null,
+        parent: node,
         children: [],
         item: {
           dataItem: childItem,
@@ -181,9 +181,6 @@ export class TreeViewCheckDirective implements OnInit, OnDestroy, OnChanges {
       });
     });
     node.children = childItems;
-    node.children.forEach(childItem => {
-      childItem.parent = node;
-    });
   }
 
   private childrenNotLoaded(node: TreeItemLookup): boolean {
