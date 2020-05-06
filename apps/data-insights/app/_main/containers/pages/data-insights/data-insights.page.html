@@ -25,7 +25,9 @@
     </div>
   </div>
 
-  <div class="featured-header d-flex flex-end align-items-center">
+  <div class="featured-header flex-end align-items-center" *ngIf="!(standardReports$ | async)?.loading"
+        [class.d-flex]="(standardReports$ | async)?.obj?.length > 0"
+        [class.d-none]="(standardReports$ | async)?.obj?.length === 0">
 
     <div (click)="toggleStandardReportsDisplay()" class="toggle-featured-btn" data-qa-id="cnt-showHideFeaturedSection">
       <fa-icon class="icon" icon="analytics"></fa-icon>
