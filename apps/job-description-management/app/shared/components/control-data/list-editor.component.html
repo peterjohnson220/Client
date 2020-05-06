@@ -30,7 +30,7 @@
           </td>
 
           <!--Attribute Cells-->
-          <td width="{{(attribute.WidthPct/106) * 100 + '%'}}"
+          <td width="{{attribute.WidthPct + '%'}}"
               *ngFor="let attribute of attributes; trackBy: trackByAttributeFn">
             <pf-control-data-attribute-renderer
               [editable]="canEditAttribute(dataRow, attribute)"
