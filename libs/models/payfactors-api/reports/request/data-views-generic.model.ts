@@ -64,6 +64,7 @@ export interface ViewField {
   // TODO: Replace FilterValue with FilterValues.
   // Update filter builder and filter panel accordingly.
   FilterValues?: string[];
+  IsSortable: boolean;
 }
 
 export interface DataView {
@@ -114,7 +115,8 @@ export function generateMockViewField(mockNumber: number = 1): ViewField {
     CustomFilterStrategy: null,
     FilterPlaceholder: null,
     FilterValue: null,
-    FilterOperator: null
+    FilterOperator: null,
+    IsSortable: true
   };
 }
 
