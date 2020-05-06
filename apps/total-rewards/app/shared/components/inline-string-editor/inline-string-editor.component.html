@@ -1,6 +1,6 @@
 <span *ngIf="isEditable; else isNotEditable">
   <input #textBox
-         class="input-text"
+         class="input-text w-100"
          type="text"
          placeholder="{{placeholder}}"
          [value]="getValueForInputControl()"
@@ -9,7 +9,8 @@
          (blur)="disableEditState()"
          (change)="onChange()"
          [ngClass]="isInEditState ? '' : 'offScreen'">
-  <span *ngIf="isInEditState == false" (click)="enableEditState()" class="editable d-flex">
+  <span *ngIf="isInEditState == false" (click)="enableEditState()" class="editable"
+        [ngClass]="showIcon === 'onHover' ? 'show-icon-on-hover' : '' ">
     <span class="edit-text">{{getValueForDisplay()}}</span>
     <span class="edit-icon">
       <fa-icon class="fa-xs ml-2" [icon]="icon" aria-hidden="true"></fa-icon>

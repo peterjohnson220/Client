@@ -1,5 +1,6 @@
 @import 'app-colors';
 @import 'colors';
+@import 'total-rewards/control-common';
 
 .trs-calculation {
   table {
@@ -68,19 +69,6 @@
     .remove-btn {
       visibility: visible;
       position: relative;
-    }
-  }
-}
-
-.preview-mode {
-  .contribution-field {
-    animation: ease-out;
-    animation-duration: 2s;
-    animation-name: preview-text;
-
-    @keyframes preview-text {
-      0% {color: #ffb300}
-      100% {color: inherit}
     }
   }
 }

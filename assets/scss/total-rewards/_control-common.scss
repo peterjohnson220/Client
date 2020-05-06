@@ -1,0 +1,12 @@
+@media screen {
+  .preview-mode-animation {
+    animation: ease-out;
+    animation-duration: 2s;
+    animation-name: preview-text;
+
+    @keyframes preview-text {
+      0% {color: $pf-brand-primary-color}
+      100% {color: inherit}
+    }
+  }
+}

@@ -26,6 +26,7 @@ export class InlineStringEditorComponent implements OnInit, OnChanges {
   @Input() inEditMode: boolean;
   @Input() icon = 'pencil';
   @Input() value: string;
+  @Input() showIcon: 'always' | 'never' | 'onHover' = 'onHover';
 
   @Output() valueChange = new EventEmitter<string>();
 

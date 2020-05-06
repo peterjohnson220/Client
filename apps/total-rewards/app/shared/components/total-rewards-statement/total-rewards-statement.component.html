@@ -57,7 +57,11 @@
 
               <div *ngIf="control.ControlType === controlType.CalculationSummary">
                 <pf-trs-summary-control
+                  [mode]="mode"
                   [controlData]="control"
+                  [employeeRewardsData]="employeeRewardsData"
+                  [calculationControls]="calculationControls"
+                  (onTitleChange)="handleOnControlTitleChange($event)"
                   class="p-1"></pf-trs-summary-control>
               </div>
             </div>

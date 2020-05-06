@@ -4,7 +4,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  cp={[Function Object]}
+  currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
   mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
@@ -92,9 +92,11 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           </td>
           
           <td
-            class="contribution-field text-right"
+            class="contribution-field text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            150000
+             150000 
           </td>
           
           <td>
@@ -130,9 +132,11 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           </td>
           
           <td
-            class="contribution-field text-right"
+            class="contribution-field text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            10000
+             10000 
           </td>
           
           <td>
@@ -168,9 +172,11 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           </td>
           
           <td
-            class="contribution-field text-right"
+            class="contribution-field text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            5000
+             5000 
           </td>
           
           <td>
@@ -204,9 +210,11 @@ exports[`TrsCalculationControlComponent should display contribution values and t
             </pf-inline-string-editor>
           </td>
           <td
-            class="contribution-field summary text-right"
+            class="contribution-field summary text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field summary tex"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            165000
+             165000 
           </td>
           <td />
         </tr>
@@ -221,7 +229,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  cp={[Function Object]}
+  currencyPipe={[Function Object]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
@@ -229,9 +237,9 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2 preview-mode"
+    class="trs-calculation container py-2"
     ng-reflect-klass="trs-calculation container py-2"
-    ng-reflect-ng-class="preview-mode"
+    ng-reflect-ng-class=""
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -311,8 +319,10 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
           </td>
           <td
             class="contribution-field summary text-right"
+            ng-reflect-klass="contribution-field summary tex"
+            ng-reflect-ng-class=""
           >
-            $---,---
+             $---,--- 
           </td>
           <td />
         </tr>
@@ -327,7 +337,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  cp={[Function Object]}
+  currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
   mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
@@ -415,9 +425,11 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           </td>
           
           <td
-            class="contribution-field text-right"
+            class="contribution-field text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            150000
+             150000 
           </td>
           
           <td>
@@ -453,9 +465,11 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           </td>
           
           <td
-            class="contribution-field text-right"
+            class="contribution-field text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            10000
+             10000 
           </td>
           
           <td>
@@ -496,9 +510,11 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             </pf-inline-string-editor>
           </td>
           <td
-            class="contribution-field summary text-right"
+            class="contribution-field summary text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field summary tex"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            160000
+             160000 
           </td>
           <td />
         </tr>
@@ -513,7 +529,7 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  cp={[Function Object]}
+  currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
   mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
@@ -601,9 +617,11 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
           </td>
           
           <td
-            class="contribution-field text-right"
+            class="contribution-field text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            150000
+             150000 
           </td>
           
           <td>
@@ -639,9 +657,11 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
           </td>
           
           <td
-            class="contribution-field text-right"
+            class="contribution-field text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            10000
+             10000 
           </td>
           
           <td>
@@ -677,9 +697,11 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
           </td>
           
           <td
-            class="contribution-field text-right"
+            class="contribution-field text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            0
+             0 
           </td>
           
           <td>
@@ -713,9 +735,11 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
             </pf-inline-string-editor>
           </td>
           <td
-            class="contribution-field summary text-right"
+            class="contribution-field summary text-right preview-mode-animation"
+            ng-reflect-klass="contribution-field summary tex"
+            ng-reflect-ng-class="preview-mode-animation"
           >
-            160000
+             160000 
           </td>
           <td />
         </tr>
@@ -730,7 +754,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  cp={[Function Object]}
+  currencyPipe={[Function Object]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
@@ -738,9 +762,9 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2 preview-mode"
+    class="trs-calculation container py-2"
     ng-reflect-klass="trs-calculation container py-2"
-    ng-reflect-ng-class="preview-mode"
+    ng-reflect-ng-class=""
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -813,8 +837,10 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
           </td>
           <td
             class="contribution-field summary text-right"
+            ng-reflect-klass="contribution-field summary tex"
+            ng-reflect-ng-class=""
           >
-            $---,---
+             $---,--- 
           </td>
           <td />
         </tr>
@@ -829,7 +855,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  cp={[Function Object]}
+  currencyPipe={[Function Object]}
   employeeRewardsData={[Function Object]}
   mode="0"
   onCompFieldAdded={[Function EventEmitter]}
@@ -875,17 +901,19 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                 
                 <span>
                   <input
-                    class="input-text offScreen"
+                    class="input-text w-100 offScreen"
                     maxlength="30"
                     minlength="1"
-                    ng-reflect-klass="input-text"
+                    ng-reflect-klass="input-text w-100"
                     ng-reflect-ng-class="offScreen"
                     placeholder=""
                     type="text"
                   />
                   
                   <span
-                    class="editable d-flex"
+                    class="editable show-icon-on-hover"
+                    ng-reflect-klass="editable"
+                    ng-reflect-ng-class="show-icon-on-hover"
                   >
                     <span
                       class="edit-text"
@@ -934,17 +962,19 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
               <span>
                 <input
-                  class="input-text offScreen"
+                  class="input-text w-100 offScreen"
                   maxlength="30"
                   minlength="1"
-                  ng-reflect-klass="input-text"
+                  ng-reflect-klass="input-text w-100"
                   ng-reflect-ng-class="offScreen"
                   placeholder="First"
                   type="text"
                 />
                 
                 <span
-                  class="editable d-flex"
+                  class="editable show-icon-on-hover"
+                  ng-reflect-klass="editable"
+                  ng-reflect-ng-class="show-icon-on-hover"
                 >
                   <span
                     class="edit-text"
@@ -967,8 +997,10 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           
           <td
             class="contribution-field text-right"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class=""
           >
-            $---,---
+             $---,--- 
           </td>
           
           <td>
@@ -997,17 +1029,19 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
               <span>
                 <input
-                  class="input-text offScreen"
+                  class="input-text w-100 offScreen"
                   maxlength="30"
                   minlength="1"
-                  ng-reflect-klass="input-text"
+                  ng-reflect-klass="input-text w-100"
                   ng-reflect-ng-class="offScreen"
                   placeholder="Second"
                   type="text"
                 />
                 
                 <span
-                  class="editable d-flex"
+                  class="editable show-icon-on-hover"
+                  ng-reflect-klass="editable"
+                  ng-reflect-ng-class="show-icon-on-hover"
                 >
                   <span
                     class="edit-text"
@@ -1030,8 +1064,10 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           
           <td
             class="contribution-field text-right"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class=""
           >
-            $---,---
+             $---,--- 
           </td>
           
           <td>
@@ -1060,17 +1096,19 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
               <span>
                 <input
-                  class="input-text offScreen"
+                  class="input-text w-100 offScreen"
                   maxlength="30"
                   minlength="1"
-                  ng-reflect-klass="input-text"
+                  ng-reflect-klass="input-text w-100"
                   ng-reflect-ng-class="offScreen"
                   placeholder="Third"
                   type="text"
                 />
                 
                 <span
-                  class="editable d-flex"
+                  class="editable show-icon-on-hover"
+                  ng-reflect-klass="editable"
+                  ng-reflect-ng-class="show-icon-on-hover"
                 >
                   <span
                     class="edit-text"
@@ -1093,8 +1131,10 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           
           <td
             class="contribution-field text-right"
+            ng-reflect-klass="contribution-field text-right"
+            ng-reflect-ng-class=""
           >
-            $---,---
+             $---,--- 
           </td>
           
           <td>
@@ -1121,17 +1161,19 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
               <span>
                 <input
-                  class="input-text offScreen"
+                  class="input-text w-100 offScreen"
                   maxlength="30"
                   minlength="1"
-                  ng-reflect-klass="input-text"
+                  ng-reflect-klass="input-text w-100"
                   ng-reflect-ng-class="offScreen"
                   placeholder=""
                   type="text"
                 />
                 
                 <span
-                  class="editable d-flex"
+                  class="editable show-icon-on-hover"
+                  ng-reflect-klass="editable"
+                  ng-reflect-ng-class="show-icon-on-hover"
                 >
                   <span
                     class="edit-text"
@@ -1153,8 +1195,10 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           </td>
           <td
             class="contribution-field summary text-right"
+            ng-reflect-klass="contribution-field summary tex"
+            ng-reflect-ng-class=""
           >
-            $---,---
+             $---,--- 
           </td>
           <td />
         </tr>
@@ -1169,7 +1213,7 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
-  cp={[Function Object]}
+  currencyPipe={[Function Object]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
@@ -1177,9 +1221,9 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2 preview-mode"
+    class="trs-calculation container py-2"
     ng-reflect-klass="trs-calculation container py-2"
-    ng-reflect-ng-class="preview-mode"
+    ng-reflect-ng-class=""
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -1251,8 +1295,10 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
           </td>
           <td
             class="contribution-field summary text-right"
+            ng-reflect-klass="contribution-field summary tex"
+            ng-reflect-ng-class=""
           >
-            $---,---
+             $---,--- 
           </td>
           <td />
         </tr>

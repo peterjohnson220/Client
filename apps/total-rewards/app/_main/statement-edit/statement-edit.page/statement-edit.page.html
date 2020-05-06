@@ -16,6 +16,7 @@
                 [maxCharacters]="statementNameMaxLength"
                 [value]="getStatementName()"
                 [inEditMode]="(mode === modeEnum.Edit)"
+                [showIcon]="'always'"
                 (valueChange)="onStatementNameValueChange($event)"
               ></pf-inline-string-editor>
             </h3>
