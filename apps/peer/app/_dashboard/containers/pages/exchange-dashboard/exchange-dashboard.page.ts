@@ -14,7 +14,6 @@ import * as fromExchangeRequestActions from '../../../../shared/actions/exchange
 import * as fromPeerDashboardReducer from '../../../reducers';
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
 
-
 @Component({
   selector: 'pf-exchange-dashboard-page',
   templateUrl: './exchange-dashboard.page.html',
@@ -28,6 +27,7 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
   exchange$: Observable<Exchange>;
   exchangeSubscription: Subscription;
   permissions = Permissions;
+  exchangeId: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -71,15 +71,20 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromUploadOrgDataAction.UploadFile(uploadData));
   }
 
+  exportExchangeJobs(): void {
+    this.store.dispatch(new fromExchangeDashboardActions.ExportExchangeJobs({exchangeId: this.exchangeId}));
+  }
+
   // Lifecycle
   ngOnInit() {
     this.store.dispatch(new fromCompanyContextActions.GetCompanyContext());
 
     this.store.dispatch(new fromExchangeDashboardActions.CloseSidebar());
 
-    this.exchangeSubscription = this.exchange$.subscribe(ex =>
-      this.store.dispatch(new fromExchangeDashboardActions.LoadMapCount(ex.ExchangeId))
-    );
+    this.exchangeSubscription = this.exchange$.subscribe(ex => {
+        this.store.dispatch(new fromExchangeDashboardActions.LoadMapCount(ex.ExchangeId));
+        this.exchangeId = ex.ExchangeId;
+    });
   }
 
   ngOnDestroy() {
