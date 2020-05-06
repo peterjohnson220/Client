@@ -44,7 +44,7 @@
         <div class="treeview-container">
           <kendo-treeview #treeView
             kendoTreeViewExpandable
-            [nodes]="data"
+            [nodes]="filteredData"
             [children]="children"
             [hasChildren]="hasChildren"
             [textField]="textField"
@@ -55,10 +55,7 @@
             [(expandedKeys)]="expandedKeys">
 
             <ng-template kendoTreeViewNodeTemplate let-dataItem>
-              <span class="item-name" [title]="dataItem.Name"
-                [class.hidden-item]="searchTerm?.length !== 0 && valuesToShow.indexOf(dataItem.Value) === -1">
-                {{dataItem.Name}}
-              </span>
+              <span class="item-name" [title]="dataItem.Name">{{dataItem.Name}}</span>
             </ng-template>
 
           </kendo-treeview>

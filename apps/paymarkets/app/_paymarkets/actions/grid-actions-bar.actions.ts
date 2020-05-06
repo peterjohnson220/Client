@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { MultiSelectItemGroup } from 'libs/ui/common';
 import { GroupedListItem } from 'libs/models';
 
 export const GET_COMPANY_SCOPE_SIZES = '[PayMarkets / Grid Actions Bar] Get Company Scope Sizes';
@@ -10,7 +9,10 @@ export const GET_COMPANY_INDUSTRIES = '[PayMarkets / PayMarkets Page] Get Compan
 export const GET_COMPANY_INDUSTRIES_SUCCESS = '[PayMarkets / PayMarkets Page] Get Company Industries Success';
 export const GET_COMPANY_INDUSTRIES_ERROR = '[PayMarkets / PayMarkets Page] Get Company Industries Error';
 export const SET_SELECTED_INDUSTRIES = '[PayMarkets / PayMarkets Page] Set Selected Industries';
-
+export const GET_LOCATIONS = '[PayMarkets / Grid Actions Bar] Get Locations';
+export const GET_LOCATIONS_SUCCESS = '[PayMarkets / Grid Actions Bar] Get Locations Success';
+export const GET_LOCATIONS_ERROR = '[PayMarkets / Grid Actions Bar] Get Locations Error';
+export const SET_SELECTED_LOCATIONS = '[PayMarkets / Grid Actions Bar] Set Selected Locations';
 
 export class GetCompanyScopeSizes implements Action {
   readonly type = GET_COMPANY_SCOPE_SIZES;
@@ -58,7 +60,29 @@ export class SetSelectedIndustries implements Action {
   constructor(public payload: string[]) {}
 }
 
+export class GetLocations implements Action {
+  readonly type = GET_LOCATIONS;
 
+  constructor() {}
+}
+
+export class GetLocationsSuccess implements Action {
+  readonly type = GET_LOCATIONS_SUCCESS;
+
+  constructor(public payload: GroupedListItem[]) {}
+}
+
+export class GetLocationsError implements Action {
+  readonly type = GET_LOCATIONS_ERROR;
+
+  constructor() {}
+}
+
+export class SetSelectedLocations implements Action {
+  readonly type = SET_SELECTED_LOCATIONS;
+
+  constructor(public payload: string[]) {}
+}
 
 export type Actions
   = GetCompanyScopeSizes
@@ -68,4 +92,8 @@ export type Actions
   | GetCompanyIndustries
   | GetCompanyIndustriesSuccess
   | GetCompanyIndustriesError
-  | SetSelectedIndustries;
+  | SetSelectedIndustries
+  | GetLocations
+  | GetLocationsSuccess
+  | GetLocationsError
+  | SetSelectedLocations;

@@ -17,19 +17,20 @@ import * as fromGridActionsBarActions from '../../actions/grid-actions-bar.actio
 export class GridActionsComponent implements OnInit {
   industries$: Observable<AsyncStateObj<GroupedListItem[]>>;
   sizes$: Observable<AsyncStateObj<GroupedListItem[]>>;
-  selectedSizes$: Observable<string[]>;
+  locations$: Observable<AsyncStateObj<GroupedListItem[]>>;
 
   constructor(
     private store: Store<fromPayMarketsMainReducer.State>
   ) {
     this.sizes$ = this.store.select(fromPayMarketsMainReducer.getCompanyScopeSizes);
-    this.selectedSizes$ = this.store.select(fromPayMarketsMainReducer.getSelectedSizes);
     this.industries$ = this.store.select(fromPayMarketsMainReducer.getCompanyIndustries);
+    this.locations$ = this.store.select(fromPayMarketsMainReducer.getLocations);
   }
 
   ngOnInit(): void {
     this.store.dispatch(new fromGridActionsBarActions.GetCompanyScopeSizes());
     this.store.dispatch(new fromGridActionsBarActions.GetCompanyIndustries());
+    this.store.dispatch(new fromGridActionsBarActions.GetLocations());
   }
 
   handleSelectedSizesChanged(sizesStates: string[]): void {
@@ -38,6 +39,10 @@ export class GridActionsComponent implements OnInit {
 
    handleIndustryFilterChanged(values: string[]) {
     this.store.dispatch(new fromGridActionsBarActions.SetSelectedIndustries(values));
+  }
+
+  handleLocationFilterChanged(values: string[]): void {
+    this.store.dispatch(new fromGridActionsBarActions.SetSelectedLocations(values));
   }
 
 }

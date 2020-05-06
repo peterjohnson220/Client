@@ -20,4 +20,15 @@
     [searchPlaceholder]="'Search for an industry...'"
     (applyClicked)="handleIndustryFilterChanged($event)">
   </pf-multi-select-treeview>
+  <pf-multi-select-treeview
+    *ngIf="!!(locations$ | async)?.obj && !! !!(locations$ | async)?.obj?.length"
+    [data]="(locations$ | async).obj"
+    [label]="'Location'"
+    [placeholder]="'All'"
+    class="filter"
+    [compressChildValues]="true"
+    [filterable]="true"
+    [searchPlaceholder]="'Search for a location...'"
+    (applyClicked)="handleLocationFilterChanged($event)">
+  </pf-multi-select-treeview>
 </div>
