@@ -26,7 +26,7 @@
 .treeview-container {
   padding: 0 1rem;
   overflow-y: auto;
-
+  max-height: 300px;
 }
 
 ::ng-deep .k-treeview-item {
