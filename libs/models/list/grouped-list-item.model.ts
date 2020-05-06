@@ -6,6 +6,12 @@ export interface GroupedListItem {
   IgnoreValue?: boolean;
 }
 
+export interface ListItemSearchResult {
+  IsMatch: boolean;
+  IsParentMatch: boolean;
+  Value: string;
+}
+
 export function autoGenerateListGroupValues(list: GroupedListItem[], parentIdx = null): GroupedListItem[] {
   if (!list || list.length === 0) {
     return list;

@@ -23,8 +23,26 @@
       [popupAlign]="popupAlign"
       (anchorViewportLeave)="show = false">
       <div class="d-flex flex-column popup-container" [style.width.px]="anchorWidth - 2">
+        <div *ngIf="filterable" class="p-3">
+          <div class="input-group">
+            <input class="form-control"
+              [attr.data-qa-id]="'txt-searchItem'"
+              [placeholder]="searchPlaceholder"
+              [(ngModel)]="searchTerm"
+              (keyup)="handleFilterChanged()">
+            <div (click)="clearSearchTerm()" class="input-group-append">
+              <span class="input-group-text">
+                <fa-icon icon="times" aria-hidden="true"></fa-icon>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="p-3" *ngIf="filterable && noSearchResults">
+          <span>No Results</span>
+        </div>
+
         <div class="treeview-container">
-          <kendo-treeview
+          <kendo-treeview #treeView
             kendoTreeViewExpandable
             [nodes]="data"
             [children]="children"
@@ -32,10 +50,15 @@
             [textField]="textField"
             [pfTreeViewCheckable]="checkableSettings"
             [checkBy]="checkByKey"
-            [(checkedKeys)]="checkedKeys">
+            [(checkedKeys)]="checkedKeys"
+            expandBy="Value"
+            [(expandedKeys)]="expandedKeys">
 
             <ng-template kendoTreeViewNodeTemplate let-dataItem>
-              <span class="item-name" [title]="dataItem.Name">{{dataItem.Name}}</span>
+              <span class="item-name" [title]="dataItem.Name"
+                [class.hidden-item]="searchTerm?.length !== 0 && valuesToShow.indexOf(dataItem.Value) === -1">
+                {{dataItem.Name}}
+              </span>
             </ng-template>
 
           </kendo-treeview>
