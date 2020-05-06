@@ -76,6 +76,7 @@
       </ng-container>
       <ng-container *ngIf="showColumn(col)">
         <kendo-grid-column
+          [sortable]="col.IsSortable"
           [field]="mappedFieldName(col)"
           [title]="col.DisplayName"
           [headerClass]="[customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
@@ -129,6 +130,6 @@
       <fa-icon *ngIf="sortDescriptor[0].dir === 'desc'" class="sort-icon" [icon]="['far', 'long-arrow-down']"></fa-icon>
       <fa-icon *ngIf="sortDescriptor[0].dir === 'asc'" class="sort-icon" [icon]="['far', 'long-arrow-up']"></fa-icon>
     </ng-container>
-    <span class="k-link">{{column.title}}</span>
+    <span [class.default-cursor]="!column.sortable" class="k-link">{{column.title}}</span>
   </div>
 </ng-template>

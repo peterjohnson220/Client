@@ -92,6 +92,10 @@ html .k-grid tr:hover {
   @extend %ellipsis-overflowing-text;
 }
 
+.default-cursor {
+  cursor: default !important;
+}
+
 .k-grid.next-gen {
   height: auto;
 
