@@ -99,7 +99,7 @@ export class MidpointEditorComponent implements OnChanges {
     this.value = this.formatNumber(this.value);
   }
 
-  handleValueChange(dataRow: any, event: any, index: number) {
+  handleValueChange(event: any, index: number) {
     // kendo should be ensuring that only numbers make it this far
     const targetValue = parseFloat(event.target.value);
 
@@ -124,7 +124,7 @@ export class MidpointEditorComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes.mid && !!changes.mid.currentValue) {
-      this.value = this.formatNumber(this.mid);
+      this.value = this.formatNumber(changes.mid.currentValue);
     }
   }
 
