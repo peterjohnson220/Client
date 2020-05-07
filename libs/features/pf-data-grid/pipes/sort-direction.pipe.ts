@@ -4,12 +4,14 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { ColumnComponent } from '@progress/kendo-angular-grid';
 
 @Pipe({
-  name: 'isSorted',
+  name: 'sortDirection',
   pure: true
 })
 
-export class IsSortedPipe implements PipeTransform {
+export class SortDirectionPipe implements PipeTransform {
   transform(column: ColumnComponent, sortDescriptor: SortDescriptor[]) {
-    return !!column && !!sortDescriptor && !!sortDescriptor.length && sortDescriptor.some(s => s.field === column.field);
+    return (!!column && !!sortDescriptor && !!sortDescriptor.length && sortDescriptor.some(s => s.field === column.field)) ?
+      sortDescriptor.find(s => s.field === column.field).dir
+      : null;
   }
 }
