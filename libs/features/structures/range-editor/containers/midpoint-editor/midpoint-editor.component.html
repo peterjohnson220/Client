@@ -5,7 +5,7 @@
                        [spinners]="false"
                        [format]="format"
                        [decimals]="decimals"
-                       (change)="handleValueChange(dataRow, $event, rowIndex)"
+                       (change)="handleValueChange($event, rowIndex)"
                        (blur)="handleBlur()"
                        (focus)="handleFocus()"
                        [min]="1"
