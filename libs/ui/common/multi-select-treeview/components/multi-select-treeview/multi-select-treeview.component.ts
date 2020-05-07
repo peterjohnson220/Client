@@ -69,6 +69,7 @@ export class MultiSelectTreeViewComponent implements OnInit, OnDestroy {
 
   handleCloseClicked(): void {
     this.show = false;
+    this.noSearchResults = false;
     this.resetSelections();
     this.clearSearchTerm();
     this.expandedKeys = [];
