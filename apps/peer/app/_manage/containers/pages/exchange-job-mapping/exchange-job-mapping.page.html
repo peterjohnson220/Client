@@ -28,11 +28,11 @@
     </div>
     <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">{{ showCompanyJobs ? 'Request Exchange Job' : 'Request Job' }}</button>
 
-    <a href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId={{exchangeId}}">
-      <button type="button" title="Export to Excel" id="export-popover-btn" class="btn btn-secondary" placement="bottom">
-        <fa-icon icon="download" aria-hidden="true"></fa-icon>
-      </button>
-    </a>
+    <button type="button" title="Export to Excel" id="export-popover-btn" class="btn btn-secondary" placement="bottom"
+            (click)="handleExportButtonClick()">
+      <fa-icon icon="download" aria-hidden="true"></fa-icon>
+    </button>
+
 
     <button (click)="importAssociationClick()" [pfSecuredResource]="_Permissions.PEER_IMPORT_ASSOCIATIONS" type="button" title="Import Matches" id="import-popover-btn"
       class="btn btn-secondary" placement="bottom">

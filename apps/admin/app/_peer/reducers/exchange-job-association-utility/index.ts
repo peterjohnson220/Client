@@ -1,5 +1,4 @@
 import { combineReducers } from '@ngrx/store';
-
 // Import feature reducers
 import * as fromExchangeOptionsReducer from './exchange-options.reducer';
 import * as fromCompanyOptionsReducer from './company-options.reducer';
@@ -15,7 +14,7 @@ export interface State {
 const reducers = {
   companyOptions: fromCompanyOptionsReducer.reducer,
   exchangeOptions: fromExchangeOptionsReducer.reducer,
-  associateJobs: fromAssociateJobsReducer.reducer
+  associateJobs: fromAssociateJobsReducer.reducer,
 };
 
 export const reducersCombined = combineReducers(reducers);
