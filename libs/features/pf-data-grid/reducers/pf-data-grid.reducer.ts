@@ -867,8 +867,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: fields,
-            groupedFields: buildGroupedFields(fields)
+            fields: applyNewOrdering(cloneDeep(state.grids[action.pageViewId].fields), fields),
+            groupedFields: applyNewOrdering(cloneDeep(state.grids[action.pageViewId].groupedFields), buildGroupedFields(fields))
           }
         }
       };
@@ -1114,6 +1114,34 @@ export function reorderFieldsColumnGroup(groupedFields: any[], oldIndex: number,
   selectedFields.forEach((f, index) => f.Order = index);
 
   return notSelectedFields.concat(selectedFields);
+}
+
+export function applyNewOrdering(existingFields: any[], orderedFields: any[]): ViewField[] {
+  const fields: ViewField[] = [];
+
+  existingFields.forEach((existingField) => {
+    if (existingField.DataElementId !== undefined) {
+
+      const orderedField = orderedFields.find(oField => oField.DataElementId === existingField.DataElementId);
+      if (orderedField && orderedField.Order) {
+        existingField.Order = orderedField.Order;
+      }
+
+      fields.push(existingField);
+
+    } else if (!!existingField.Fields) {
+      const orderedGroupFields = orderedFields.find(oField => oField.Group === existingField.Group).Fields;
+      existingField.Fields.forEach((existingSubField) => {
+        const orderedGroupField = orderedGroupFields.find(oGroupField => oGroupField.DataElementId === existingSubField.DataElementId);
+        existingSubField.Order = orderedGroupField.Order;
+      });
+
+      fields.push(existingField);
+    }
+
+  });
+
+  return fields;
 }
 
 export function reorderFieldsNoColumnGroup(fields: ViewField[], oldIndex: number, newIndex: number): ViewField[] {
