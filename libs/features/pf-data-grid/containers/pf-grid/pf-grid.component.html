@@ -126,9 +126,9 @@
 
 <ng-template #columnHeaderTemplate let-column="column">
   <div *ngIf="column" pfEllipsisActive class="ellipsis-text">
-    <ng-container *ngIf="column | isSorted:sortDescriptor">
-      <fa-icon *ngIf="sortDescriptor[0].dir === 'desc'" class="sort-icon" [icon]="['far', 'long-arrow-down']"></fa-icon>
-      <fa-icon *ngIf="sortDescriptor[0].dir === 'asc'" class="sort-icon" [icon]="['far', 'long-arrow-up']"></fa-icon>
+    <ng-container *ngIf="(column | sortDirection:sortDescriptor) !== null">
+      <fa-icon *ngIf="(column | sortDirection:sortDescriptor) === 'desc'" class="sort-icon" [icon]="['far', 'long-arrow-down']"></fa-icon>
+      <fa-icon *ngIf="(column | sortDirection:sortDescriptor) === 'asc'" class="sort-icon" [icon]="['far', 'long-arrow-up']"></fa-icon>
     </ng-container>
     <span [class.default-cursor]="!column.sortable" class="k-link">{{column.title}}</span>
   </div>

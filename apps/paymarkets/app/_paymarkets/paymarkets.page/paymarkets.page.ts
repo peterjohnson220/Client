@@ -31,10 +31,16 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   identity$: Observable<UserContext>;
   identitySubscription: Subscription;
 
-  defaultSort: SortDescriptor[] = [{
-    dir: 'asc',
-    field: 'CompanyPayMarkets_PayMarket'
-  }];
+  defaultSort: SortDescriptor[] = [
+    {
+      dir: 'desc',
+      field: 'CompanyPayMarkets_IsDefaultPayMarket'
+    },
+    {
+      dir: 'asc',
+      field: 'CompanyPayMarkets_PayMarket'
+    }
+  ];
   actionBarConfig: ActionBarConfig;
   pageViewId = PayMarketsPageViewId;
   colTemplates = {};
@@ -83,10 +89,15 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   customSortOptions = (sortDescriptor: SortDescriptor[]): SortDescriptor[] => {
     if (sortDescriptor && sortDescriptor.length > 0) {
       const sizeSortInfo = sortDescriptor.find(s => s.field === 'CompanyPayMarkets_ScopeSize');
-      if (!sizeSortInfo) {
-        return sortDescriptor;
+      if (sizeSortInfo) {
+        sortDescriptor = this.getSizeColumnSort(sizeSortInfo);
       }
-      return this.getSizeColumnSort(sizeSortInfo);
+      if (!sortDescriptor.some(s => s.field === 'CompanyPayMarkets_IsDefaultPayMarket')) {
+        sortDescriptor.unshift({
+          dir: 'desc',
+          field: 'CompanyPayMarkets_IsDefaultPayMarket'
+        });
+      }
     }
     return sortDescriptor;
   }
