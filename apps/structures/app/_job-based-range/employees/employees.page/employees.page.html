@@ -48,7 +48,7 @@
 </ng-template>
 
 <ng-template #gridGlobalActions>
-  <pf-model-settings-btn [metadata]="metaData$ | async" (clicked)="handleModelSettingsBtnClicked()"></pf-model-settings-btn>
+  <pf-model-settings-btn [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" [metadata]="metaData$ | async" (clicked)="handleModelSettingsBtnClicked()"></pf-model-settings-btn>
 </ng-template>
 
 <ng-template #aboveGridTemplate>
