@@ -28,10 +28,6 @@
           <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
 
           <div *ngIf="submitVisible" class="p-0">
-            <button *ngIf="this.postType === this.CommunityPostTypes.Discussion" class="attachment-button float-left" (click)="openAttachmentsModal()">
-              <fa-icon icon="paperclip" size="lg" class="icon community-paperclip"></fa-icon>
-              Attachments <span *ngIf="(communityPostAttachmentsCount$ | async) > 0" class="attachment-count-text">({{communityPostAttachmentsCount$ | async}})</span>
-            </button>
             <button id="start-discussion-post-button" [disabled]="!submitEnabled"
                     data-qa-id="btn-startDiscussionPost"
                     (click)="submitContent()" class="btn btn-primary float-right shadow-none">Post
