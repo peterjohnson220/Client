@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 import {CompanySelectorComponent} from 'libs/features/company/components';
+import { LoaderFileFormat, LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
 import { LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { generateMockConfigurationGroup, GenerateMockEmailRecipient, MappingModel } from 'libs/models/data-loads';
@@ -404,5 +405,455 @@ describe('ManageFieldMapperPageComponent', () => {
 
       expect(component.mappings).toEqual([expectedValue]);
     });
+
+  it('should call SavingFieldMappings action when SaveMappings has been called', () => {
+    component.mappings = [{ LoaderType: 'Employees', Mappings: ['Base__Salary'] }];
+    component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+    component.selectedConfigGroup = generateMockConfigurationGroup();
+    const expectedPayload = {
+      mappings: component.mappings,
+      companyId: component.selectedCompany.CompanyId,
+      loaderConfigurationGroupId: 1
+    };
+
+    spyOn(fromOrgDataFieldMappingsActions, 'SavingFieldMappings');
+
+    component.SaveMappings();
+
+    fixture.detectChanges();
+
+    expect(fromOrgDataFieldMappingsActions.SavingFieldMappings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should not call SavingFieldMappings action when there are no mappings', () => {
+    component.mappings = [];
+
+    fixture.detectChanges();
+
+    spyOn(fromOrgDataFieldMappingsActions, 'SavingFieldMappings');
+    component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+    component.SaveMappings();
+
+    expect(fromOrgDataFieldMappingsActions.SavingFieldMappings).not.toHaveBeenCalled();
+  });
+
+  it('should add the delimiter to loaderSettingsToSave array on Save when company setting does not exist' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.delimiter = '|';
+      component.isEmployeesFullReplace = true;
+      component.isStructureMappingsFullReplace = true;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.Delimiter, KeyValue: '|' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the delimiter to loaderSettingsToSave array on Save when the delimiter is different from the company setting' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.Delimiter, KeyValue: ',' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.delimiter = '|';
+      component.isEmployeesFullReplace = true;
+      component.isStructureMappingsFullReplace = true;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.Delimiter, KeyValue: '|' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the dateFormat to loaderSettingsToSave array on Save when company setting does not exist' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.delimiter = '';
+      component.dateFormat = 'MM/dd/yyyy';
+      component.isEmployeesFullReplace = true;
+      component.isStructureMappingsFullReplace = true;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.DateFormat, KeyValue: 'MM/dd/yyyy' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the dateFormat to loaderSettingsToSave array on Save when the dateFormat is different from the company setting' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.DateFormat, KeyValue: 'MM-dd-yyyy' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.dateFormat = 'MM/dd/yyyy';
+      component.delimiter = '';
+      component.isEmployeesFullReplace = true;
+      component.isStructureMappingsFullReplace = true;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.DateFormat, KeyValue: 'MM/dd/yyyy' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the IsEmployeesFullReplace to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.delimiter = '';
+      component.isEmployeesFullReplace = false;
+      component.isStructureMappingsFullReplace = true;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'false' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the IsStructureMappingsFullReplace to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.delimiter = '';
+      component.isEmployeesFullReplace = true;
+      component.isStructureMappingsFullReplace = false;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'false' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the IsEmployeesLoadEnabled to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.delimiter = '';
+      component.isEmployeesLoadEnabled = true;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'true' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the IsJobsLoadEnabled to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.delimiter = '';
+      component.isJobsLoadEnabled = true;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'true' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the IsPaymarketsLoadEnabled to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.delimiter = '';
+      component.isPaymarketsLoadEnabled = true;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'true' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the IsStructuresLoadEnabled to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.delimiter = '';
+      component.isStructuresLoadEnabled = true;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'true' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the IsStructureMappingsLoadEnabled to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+        { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+      ];
+      component.delimiter = '';
+      component.isStructureMappingsLoadEnabled = true;
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'true' }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should add the FileFormat to loaderSettingsToSave array on Save when company setting changes' +
+    ' and dispatch SavingLoaderSettings action', () => {
+      component.existingCompanyLoaderSettings = [
+        { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+        { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+        { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+        { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+      ];
+      component.delimiter = '';
+      component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+      component.selectedConfigGroup = generateMockConfigurationGroup();
+      fixture.detectChanges();
+
+      const expectedPayload = {
+        settings: [{ LoaderSettingsId: undefined, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV }],
+        companyId: 13,
+        loaderConfigurationGroupId: 1,
+      };
+      spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+      component.SaveMappings();
+
+      expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+    });
+
+  it('should not dispatch SavingLoaderSettings when there are no settings to be saved', () => {
+    component.existingCompanyLoaderSettings = [
+      { LoaderSettingsId: 1, KeyName: LoaderSettingsKeys.Delimiter, KeyValue: ',' },
+      { LoaderSettingsId: 2, KeyName: LoaderSettingsKeys.IsEmployeesFullReplace, KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsStructureMappingsFullReplace, KeyValue: 'true' },
+      { LoaderSettingsId: 3, KeyName: LoaderSettingsKeys.IsEmployeesLoadEnabled, KeyValue: 'false' },
+      { LoaderSettingsId: 4, KeyName: LoaderSettingsKeys.IsJobsLoadEnabled, KeyValue: 'false' },
+      { LoaderSettingsId: 5, KeyName: LoaderSettingsKeys.IsPaymarketsLoadEnabled, KeyValue: 'false' },
+      { LoaderSettingsId: 6, KeyName: LoaderSettingsKeys.IsStructuresLoadEnabled, KeyValue: 'false' },
+      { LoaderSettingsId: 7, KeyName: LoaderSettingsKeys.IsStructureMappingsLoadEnabled, KeyValue: 'false' },
+      { LoaderSettingsId: 8, KeyName: LoaderSettingsKeys.IsActive, KeyValue: 'true' },
+      { LoaderSettingsId: 9, KeyName: LoaderSettingsKeys.ValidateOnly, KeyValue: 'false' },
+      { LoaderSettingsId: 10, KeyName: LoaderSettingsKeys.FileFormat, KeyValue: LoaderFileFormat.CSV },
+    ];
+    component.delimiter = ',';
+    component.isEmployeesFullReplace = true;
+    component.isStructureMappingsFullReplace = true;
+    component.selectedConfigGroup = generateMockConfigurationGroup();
+    fixture.detectChanges();
+
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).not.toHaveBeenCalled();
+  });
 
 });

@@ -1,23 +1,22 @@
+<div class="d-flex justify-content-between" data-qa-id='sftp-account-status-component'>
+  <dl class="row">
+    <dt class="col-3 col-sm-3 text-right">Host</dt>
+    <dd class="col-9 col-sm-9">{{SftpDomain}}</dd>
 
-<div class="row mb-2">
-  <div class="col-1 text-right font-weight-bold">Host</div>
-  <div class="col-4">{{SftpDomain}}</div>
-</div>
-<div class="row mb-2">
-  <div class="col-1 text-right font-weight-bold">Port</div>
-  <div class="col-4">{{SftpPort}}</div>
-</div>
-<div class="row mb-2">
-  <div class="col-1 text-right font-weight-bold">Status</div>
-  <div class="col-4">
-    <div *ngIf="LoadingLoadersettings; else ftpStatus">
-      <fa-icon icon="spinner" [spin]="true"></fa-icon>
-    </div>
-    <ng-template #ftpStatus>
-      <span *ngIf="CompanyAutoloaderStatus else notCreated"><fa-icon icon="check-circle" class="text-success"></fa-icon> Active </span>
-      <ng-template #notCreated>
-        <fa-icon icon="times-circle" class="text-danger"></fa-icon> Not Active
+    <dt class="col-3 col-sm-3 text-right">Port</dt>
+    <dd class="col-9 col-sm-9">{{SftpPort}}</dd>
+
+    <dt class="col-3 col-sm-3 text-right">Status</dt>
+    <dd class="col-9 col-sm-9">
+      <div *ngIf="LoadingLoadersettings; else ftpStatus">
+        <fa-icon icon="spinner" [spin]="true"></fa-icon>
+      </div>
+      <ng-template #ftpStatus>
+        <span *ngIf="CompanyAutoloaderStatus else notCreated"><fa-icon icon="check-circle" class="text-success"></fa-icon> Active </span>
+        <ng-template #notCreated>
+          <fa-icon icon="times-circle" class="text-danger"></fa-icon> Not Active
+        </ng-template>
       </ng-template>
-    </ng-template>
-  </div>
+    </dd>
+  </dl>
 </div>

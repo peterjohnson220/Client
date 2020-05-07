@@ -24,13 +24,8 @@ import * as fromFaIcons from './fa-icons';
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
 import { ManageFieldMappingsPageComponent } from './containers/pages';
 import { reducers } from './reducers';
-import {
-  CompanySelectorEffects,
-  OrgDataFieldMappingsEffects,
-  LoaderConfigurationGroupsEffects,
-  OrgDataConfigurationEffects, SftpUserEffects
-} from './effects';
-import { PublicKeyAuthComponent, SftpAccountStatusComponent } from './containers';
+import { CompanySelectorEffects, OrgDataFieldMappingsEffects, LoaderConfigurationGroupsEffects } from './effects';
+import { SftpAccountStatusComponent } from './containers';
 
 
 @NgModule({
@@ -47,10 +42,7 @@ import { PublicKeyAuthComponent, SftpAccountStatusComponent } from './containers
       CompanySelectorEffects,
       OrgDataFieldMappingsEffects,
       LoaderSettingsEffects,
-      LoaderConfigurationGroupsEffects,
-      OrgDataConfigurationEffects,
-      SftpUserEffects
-    ]),
+      LoaderConfigurationGroupsEffects]),
 
     // 3rd Party
     LayoutModule,
@@ -74,7 +66,6 @@ import { PublicKeyAuthComponent, SftpAccountStatusComponent } from './containers
   declarations: [
     // Components
     SftpAccountStatusComponent,
-    PublicKeyAuthComponent,
 
     // Pages
     ManageFieldMappingsPageComponent
