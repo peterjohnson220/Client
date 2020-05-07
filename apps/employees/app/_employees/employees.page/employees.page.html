@@ -43,7 +43,7 @@
     [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
     (click)="showDeleteEmployeeModal.next(true)"
     class="btn btn-secondary pf-btn-borderless">
-    <fa-icon icon="trash-alt"></fa-icon>
+    <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
     Delete
   </button>
   <div
