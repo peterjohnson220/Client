@@ -24,12 +24,7 @@ import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
 import { RolesApiService, BulkAddUsersApiService } from './company-admin';
-import {
-  DataLoadEmailRecipientsApiService,
-  LoaderFieldMappingsApiService,
-  LoaderSettingsApiService,
-  OrgDataLoaderConfigurationApiService, SftpUserApiService
-} from './data-loads';
+import { DataLoadEmailRecipientsApiService, LoaderFieldMappingsApiService, LoaderSettingsApiService } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
 import { ComphubApiService } from './comphub';
@@ -130,8 +125,6 @@ import { EntityKeysValidationApiService } from './validation';
     CompanyEmployeeApiService,
     EntityKeysValidationApiService,
     StructureModelingApiService,
-    OrgDataLoaderConfigurationApiService,
-    SftpUserApiService,
 
     // PEER
     ExchangeApiService,

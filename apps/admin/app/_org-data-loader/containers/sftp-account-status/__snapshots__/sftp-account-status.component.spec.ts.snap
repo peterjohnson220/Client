@@ -5,52 +5,51 @@ exports[`SftpAccountStatusComponent should show Sftp information when LoadingLoa
   LoadingLoadersettings="false"
 >
   <div
-    class="row mb-2"
+    class="d-flex justify-content-between"
+    data-qa-id="sftp-account-status-component"
   >
-    <div
-      class="col-1 text-right font-weight-bold"
+    <dl
+      class="row"
     >
-      Host
-    </div>
-    <div
-      class="col-4"
-    >
-      
-    </div>
-  </div><div
-    class="row mb-2"
-  >
-    <div
-      class="col-1 text-right font-weight-bold"
-    >
-      Port
-    </div>
-    <div
-      class="col-4"
-    >
-      
-    </div>
-  </div><div
-    class="row mb-2"
-  >
-    <div
-      class="col-1 text-right font-weight-bold"
-    >
-      Status
-    </div>
-    <div
-      class="col-4"
-    >
-      
-      
-      <fa-icon
-        class="text-danger"
-        icon="times-circle"
-      />
-       Not Active 
-      
-      
-    </div>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Host
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+      </dd>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Port
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+      </dd>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Status
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+        
+        <fa-icon
+          class="text-danger"
+          icon="times-circle"
+        />
+         Not Active 
+        
+        
+      </dd>
+    </dl>
   </div>
 </pf-sftp-account-status>
 `;
@@ -60,50 +59,49 @@ exports[`SftpAccountStatusComponent should show a spinner when LoadingLoaderSett
   LoadingLoadersettings={[Function Boolean]}
 >
   <div
-    class="row mb-2"
+    class="d-flex justify-content-between"
+    data-qa-id="sftp-account-status-component"
   >
-    <div
-      class="col-1 text-right font-weight-bold"
+    <dl
+      class="row"
     >
-      Host
-    </div>
-    <div
-      class="col-4"
-    >
-      
-    </div>
-  </div><div
-    class="row mb-2"
-  >
-    <div
-      class="col-1 text-right font-weight-bold"
-    >
-      Port
-    </div>
-    <div
-      class="col-4"
-    >
-      
-    </div>
-  </div><div
-    class="row mb-2"
-  >
-    <div
-      class="col-1 text-right font-weight-bold"
-    >
-      Status
-    </div>
-    <div
-      class="col-4"
-    >
-      
-      <div>
-        <fa-icon
-          icon="spinner"
-        />
-      </div>
-      
-    </div>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Host
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+      </dd>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Port
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+      </dd>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Status
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+        <div>
+          <fa-icon
+            icon="spinner"
+          />
+        </div>
+        
+      </dd>
+    </dl>
   </div>
 </pf-sftp-account-status>
 `;
@@ -114,54 +112,53 @@ exports[`SftpAccountStatusComponent should show an active status if CompanyAutol
   LoadingLoadersettings="false"
 >
   <div
-    class="row mb-2"
+    class="d-flex justify-content-between"
+    data-qa-id="sftp-account-status-component"
   >
-    <div
-      class="col-1 text-right font-weight-bold"
+    <dl
+      class="row"
     >
-      Host
-    </div>
-    <div
-      class="col-4"
-    >
-      
-    </div>
-  </div><div
-    class="row mb-2"
-  >
-    <div
-      class="col-1 text-right font-weight-bold"
-    >
-      Port
-    </div>
-    <div
-      class="col-4"
-    >
-      
-    </div>
-  </div><div
-    class="row mb-2"
-  >
-    <div
-      class="col-1 text-right font-weight-bold"
-    >
-      Status
-    </div>
-    <div
-      class="col-4"
-    >
-      
-      
-      <span>
-        <fa-icon
-          class="text-success"
-          icon="check-circle"
-        />
-         Active 
-      </span>
-      
-      
-    </div>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Host
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+      </dd>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Port
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+      </dd>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Status
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+        
+        <span>
+          <fa-icon
+            class="text-success"
+            icon="check-circle"
+          />
+           Active 
+        </span>
+        
+        
+      </dd>
+    </dl>
   </div>
 </pf-sftp-account-status>
 `;
@@ -172,52 +169,51 @@ exports[`SftpAccountStatusComponent should show an inactive status if CompanyAut
   LoadingLoadersettings="false"
 >
   <div
-    class="row mb-2"
+    class="d-flex justify-content-between"
+    data-qa-id="sftp-account-status-component"
   >
-    <div
-      class="col-1 text-right font-weight-bold"
+    <dl
+      class="row"
     >
-      Host
-    </div>
-    <div
-      class="col-4"
-    >
-      
-    </div>
-  </div><div
-    class="row mb-2"
-  >
-    <div
-      class="col-1 text-right font-weight-bold"
-    >
-      Port
-    </div>
-    <div
-      class="col-4"
-    >
-      
-    </div>
-  </div><div
-    class="row mb-2"
-  >
-    <div
-      class="col-1 text-right font-weight-bold"
-    >
-      Status
-    </div>
-    <div
-      class="col-4"
-    >
-      
-      
-      <fa-icon
-        class="text-danger"
-        icon="times-circle"
-      />
-       Not Active 
-      
-      
-    </div>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Host
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+      </dd>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Port
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+      </dd>
+      <dt
+        class="col-3 col-sm-3 text-right"
+      >
+        Status
+      </dt>
+      <dd
+        class="col-9 col-sm-9"
+      >
+        
+        
+        <fa-icon
+          class="text-danger"
+          icon="times-circle"
+        />
+         Not Active 
+        
+        
+      </dd>
+    </dl>
   </div>
 </pf-sftp-account-status>
 `;
