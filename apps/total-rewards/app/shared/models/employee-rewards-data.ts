@@ -6,6 +6,7 @@ export interface EmployeeRewardsData {
   EmployeeCountry: string;
   EmployeeJobCode: string;
   EmployeeDepartment: string;
+  EmployeeDepartmentCode: string;
   EmployeeDOB: Date;
   EmployeeDOH: Date;
   EmployeeEmailAddress: string;
@@ -41,6 +42,7 @@ export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
     EmployeeCountry: 'United States',
     EmployeeJobCode: 'ACC456',
     EmployeeDepartment: 'Accounting',
+    EmployeeDepartmentCode: 'ACC',
     EmployeeDOB: new Date('04/03/80'),
     EmployeeDOH: new Date('08/12/19'),
     EmployeeEmailAddress: 'john.smith@company.com',
