@@ -182,10 +182,13 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
     this.store.dispatch(new fromActions.ReorderColumns(
       this.pageViewId,
-      value.oldIndex,
-      value.newIndex,
-      value.column.level,
-      this.enableSelection
+      {
+        OldIndex: value.oldIndex,
+        NewIndex: value.newIndex,
+        Level: value.column.level,
+        IsUseColumnGroupsEnabled: this.useColumnGroups,
+        IsSelectionEnabled: this.enableSelection
+      },
     ));
   }
 

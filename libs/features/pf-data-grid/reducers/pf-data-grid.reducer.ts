@@ -841,9 +841,25 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       };
     }
     case fromPfGridActions.REORDER_COLUMNS: {
-      const clonedGroupedFields = cloneDeep(state.grids[action.pageViewId].groupedFields);
-      const clonedFields = reorderFields(clonedGroupedFields, action.oldIndex, action.newIndex, action.level, action.isSelectionEnabled);
-      const groupedFields = buildGroupedFields(clonedFields);
+      let oldIndex = action.payload.OldIndex, newIndex = action.payload.NewIndex;
+
+      // If selection is enabled and level = 0 then we need to subtract 1 from both indices
+      if (action.payload.IsSelectionEnabled && action.payload.Level === 0) {
+        oldIndex--;
+        newIndex--;
+      }
+
+      // We have two different scenarios:
+      // 1. Grid has ColumnGroups - we use 'groupedFields'
+      // 2. Grid doesn't have ColumnGroups - we use 'fields'
+      let fields;
+      if (action.payload.IsUseColumnGroupsEnabled) {
+        const groupedFields = cloneDeep(state.grids[action.pageViewId].groupedFields);
+        fields = reorderFieldsColumnGroup(groupedFields, oldIndex, newIndex, action.payload.Level);
+      } else {
+        const clonedFields = cloneDeep(state.grids[action.pageViewId].fields);
+        fields = reorderFieldsNoColumnGroup(clonedFields, oldIndex, newIndex);
+      }
 
       return {
         ...state,
@@ -851,8 +867,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: clonedFields,
-            groupedFields: groupedFields
+            fields: fields,
+            groupedFields: buildGroupedFields(fields)
           }
         }
       };
@@ -1062,16 +1078,11 @@ export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
   return [];
 }
 
-export function reorderFields(groupedFields: any[], oldIndex: number, newIndex: number, level: number, isSelectionEnabled: boolean): ViewField[] {
-  // If selection is enabled and level = 0 then we need to subtract 1 from both indices
-  if (isSelectionEnabled && level === 0) {
-    oldIndex--;
-    newIndex--;
-  }
-
+export function reorderFieldsColumnGroup(groupedFields: any[], oldIndex: number, newIndex: number, level: number): ViewField[] {
   const groupedFilteredFields =
     orderBy(groupedFields.filter(f => f.DataElementId !== undefined && f.IsSelectable && f.IsSelected ||
                                       f.Fields !== undefined && f.HasSelection), 'Order');
+
   // Each level has it's own indices
   if (level === 0) {
     arrayMoveMutate(groupedFilteredFields, oldIndex, newIndex);
@@ -1105,6 +1116,16 @@ export function reorderFields(groupedFields: any[], oldIndex: number, newIndex: 
   return notSelectedFields.concat(selectedFields);
 }
 
+export function reorderFieldsNoColumnGroup(fields: ViewField[], oldIndex: number, newIndex: number): ViewField[] {
+  const notSelectedFields = fields.filter(f => !f.IsSelectable || !f.IsSelected);
+  const filteredFields = orderBy(fields.filter(f => f.IsSelectable && f.IsSelected), 'Order');
+
+  arrayMoveMutate(filteredFields, oldIndex, newIndex);
+  filteredFields.forEach((f, index) => f.Order = index);
+
+  return notSelectedFields.concat(filteredFields);
+}
+
 export function getVisibleFieldsIds(state: DataGridStoreState, pageViewId: string, data: any[]): number[] {
   return data.map((item) => item[getPrimaryKey(state, pageViewId)]);
 }
@@ -1117,7 +1138,7 @@ export function getViewFieldsFromGroupedFields(groupedFields: any[], isSelectedO
     if (groupedField.DataElementId !== undefined) {
       if (isSelectedOnly && groupedField.IsSelectable && groupedField.IsSelected ||
             !isSelectedOnly && (!groupedField.IsSelectable || !groupedField.IsSelected)) {
-          result.push(groupedField);
+        result.push(groupedField);
       }
     }
 

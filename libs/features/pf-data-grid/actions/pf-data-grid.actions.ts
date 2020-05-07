@@ -3,6 +3,7 @@ import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptio
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { PfDataGridFilter } from '../models';
+import { ColumnReorder } from '../models';
 
 export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
 export const LOAD_VIEW_CONFIG_SUCCESS = '[PfDataGrid] Load View Config Success';
@@ -322,7 +323,7 @@ export class Reset implements Action {
 export class ReorderColumns implements Action {
   readonly type = REORDER_COLUMNS;
 
-  constructor(public pageViewId: string, public oldIndex: number, public newIndex: number, public level: number, public isSelectionEnabled: boolean) {}
+  constructor(public pageViewId: string, public payload: ColumnReorder) {}
 }
 
 export class ReorderColumnsSuccess {
