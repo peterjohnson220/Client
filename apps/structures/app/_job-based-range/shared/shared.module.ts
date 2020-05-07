@@ -13,6 +13,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { PfDataGridModule } from 'libs/features/pf-data-grid';
 import { PfFormsModule } from 'libs/forms';
 import { RangeEditorModule } from 'libs/features/structures';
+import { PfCommonUIModule } from 'libs/ui/common';
 
 import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
 import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent } from './containers';
@@ -42,7 +43,8 @@ import * as fromFaIcons from './fa-icons';
     NumericTextBoxModule,
     DropDownListModule,
     ReactiveFormsModule,
-    RangeEditorModule
+    RangeEditorModule,
+    PfCommonUIModule
   ],
   declarations: [
     ModelGridComponent,
