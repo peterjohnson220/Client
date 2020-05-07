@@ -10,6 +10,7 @@ import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { RateType } from 'libs/data/data-sets';
 import { generateMockRoundingSettingsDataObj } from 'libs/models/structures/ranges';
 import { getMockDataViewFilter } from 'libs//models/payfactors-api/reports/request';
+import { PermissionService } from 'libs/core/services';
 
 import * as fromMidpointActions from '../../actions/midpoint-edit.actions';
 import { MidpointEditorComponent } from './midpoint-editor.component';
@@ -27,6 +28,10 @@ describe('Features - Structures - Midpoint Editor', () => {
         {
           provide: SettingsService,
           useValue: { selectCompanySetting: () => of(true) }
+        },
+        {
+          provide: PermissionService,
+          useValue: { CheckPermission: jest.fn() }
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -37,13 +42,21 @@ describe('Features - Structures - Midpoint Editor', () => {
     store = TestBed.get(Store);
   });
 
+  it('should not be editable when the user does not have the correct permissions', () => {
+    instance.hasCanCreateEditModelStructurePermission = false;
+
+    expect(instance.editable).toBe(false);
+  });
+
   it('should not be editable when the rangeGroupType is not Job', () => {
+    instance.hasCanCreateEditModelStructurePermission = true;
     instance.rangeGroupType = RangeGroupType.Grade;
 
     expect(instance.editable).toBe(false);
   });
 
   it('should not be editable when it is the current structure but we cant edit current structure ranges', () => {
+    instance.hasCanCreateEditModelStructurePermission = true;
     instance.rangeGroupType = RangeGroupType.Job;
     instance.currentStructure = true;
     instance.canEditCurrentStructureRanges = false;
@@ -52,6 +65,7 @@ describe('Features - Structures - Midpoint Editor', () => {
   });
 
   it('should be editable when it is not the current structure', () => {
+    instance.hasCanCreateEditModelStructurePermission = true;
     instance.rangeGroupType = RangeGroupType.Job;
     instance.currentStructure = false;
 
