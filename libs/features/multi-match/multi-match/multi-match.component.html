@@ -1,0 +1,35 @@
+<pf-search-layout [resultsCount]="numberOfResults$ | async">
+  <ng-container sidebar>
+    <pf-search-filters
+      [defaultFocusedFilterId]="'jobTitleCode'"
+      [visible]="!(searchingFilter$ | async)">
+    </pf-search-filters>
+
+    <pf-single-filter
+      *ngIf="searchingFilter$ | async">
+    </pf-single-filter>
+  </ng-container>
+
+  <ng-container content>
+    <pf-results-header *ngIf="pageShown$ | async" [userFilterDefaultLabel]="'PayMarket Default'"></pf-results-header>
+    <pf-survey-search-results [cutsDraggable]="true"></pf-survey-search-results>
+    <pf-jobs-to-price-container></pf-jobs-to-price-container>
+  </ng-container>
+
+  <ng-container action-buttons>
+    <button [disabled]="!changesToSave || (savingChanges$ | async)" (click)="handleSaveClicked()" class="btn btn-sm legacy-primary-btn mr-3">
+      <ng-container *ngIf="!(savingChanges$ | async); else savingChanges">
+        Save
+      </ng-container>
+    </button>
+
+    <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3">
+      Cancel
+    </button>
+  </ng-container>
+
+ </pf-search-layout>
+
+<ng-template #savingChanges>
+  Saving...
+</ng-template>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MultiMatchPageComponent } from './containers/pages';
+import {MultiMatchPageComponent} from './multi-match-page/multi-match-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'multi-match', pathMatch: 'full' },
