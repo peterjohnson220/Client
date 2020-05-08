@@ -36,9 +36,9 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
         >
           
           <div
-            class="trs-column col-6"
+            class="trs-column col-3"
             ng-reflect-klass="trs-column"
-            ng-reflect-ng-class="col-6"
+            ng-reflect-ng-class="col-3"
           >
             <div
               class="row columnRow"
@@ -63,9 +63,9 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
             </div>
           </div>
           <div
-            class="trs-column col-6"
+            class="trs-column col-9"
             ng-reflect-klass="trs-column"
-            ng-reflect-ng-class="col-6"
+            ng-reflect-ng-class="col-9"
           >
             <div
               class="row columnRow"
