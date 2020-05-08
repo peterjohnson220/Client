@@ -15,10 +15,10 @@ import { AnyFn } from '@ngrx/store/src/selector';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'quill-mention';
-import Quill from 'quill';
 import { EmployeeRewardsData, RichTextControl, StatementModeEnum } from '../../models';
 import { UpdateStringPropertyRequest, UpdateTitleRequest } from '../../models/request-models';
 
+const Quill = require('quill');
 const cheerio = require('cheerio');
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
@@ -87,9 +87,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   // quill mention requires options with a lower case `value`
-  get dataFields(): { key: string, value: string }[] {
+  get dataFields(): { id: string, value: string }[] {
     if (this.mode === StatementModeEnum.Edit) {
-      return this.controlData.DataFields.map(df => ({ key: df.Key, value: df.Value }));
+      return this.controlData.DataFields.map(df => ({ id: df.Key, value: df.Value }));
     }
     return [];
   }
@@ -184,19 +184,26 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   bindEmployeeData(): void {
     if (this.mode === StatementModeEnum.Preview) {
       const $ = cheerio.load('<div id=\'quillContent\'>' + this.controlData.Content + '</div>');
-      const spans = $('#quillContent span');
+      const spans = $('#quillContent span.mention');
       for (const span of spans) {
-        const dataIndex = span.attribs['data-index'];
-        if (dataIndex) {
-          const employeeField = this.controlData.DataFields.find(f => f.Value === span.attribs['data-value']);
-          const employeeDataValue = this.employeeRewardsData[employeeField.Key];
-          $('[data-index="' + dataIndex + '"]', '#quillContent').replaceWith(employeeDataValue);
-        }
+        const employeeDataValue = this.employeeRewardsData[span.attribs['data-id']];
+        $('[data-id="' + span.attribs['data-id'] + '"]', '#quillContent').replaceWith(this.formatDataFieldValue(employeeDataValue));
       }
 
       this.htmlContent = $('#quillContent').html();
     } else {
       this.htmlContent = this.controlData.Content;
     }
+  }
+
+  formatDataFieldValue(value: any): string {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    if (typeof value === 'number') {
+      return value.toString();
+    } else if (typeof value.getMonth === 'function' && typeof value.getDate === 'function' && typeof value.getFullYear === 'function') {
+      return months[value.getMonth()] + ' ' + value.getDate() + ' ' + value.getFullYear();
+    }
+    return value;
   }
 }
