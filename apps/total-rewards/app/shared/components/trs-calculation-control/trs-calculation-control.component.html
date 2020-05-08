@@ -1,4 +1,4 @@
-<div class="trs-calculation container py-2" [ngClass]="inEditMode ? 'edit-mode' : 'preview-mode'">
+<div class="trs-calculation container py-2" [ngClass]="inEditMode ? 'edit-mode' : inPreviewMode ? 'preview-mode' : ''">
   <table class="table table-borderless table-sm mb-0 w-100">
     <colgroup>
       <col class="field-column">
@@ -31,7 +31,10 @@
             [inEditMode]="inEditMode"
             (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-inline-string-editor>
         </td>
-        <td *ngIf="displayFieldInTable(listItem)" class="contribution-field text-right" >{{getEmployerContributionValue(listItem.DatabaseField)}}</td>
+        <td *ngIf="displayFieldInTable(listItem)"
+            class="contribution-field text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
+          {{getEmployerContributionValue(listItem.DatabaseField)}}
+        </td>
         <td *ngIf="displayFieldInTable(listItem)">
           <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
             <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
@@ -47,13 +50,15 @@
             [inEditMode]="inEditMode"
             (valueChange)="onSummaryTitleChange($event)"></pf-inline-string-editor>
         </td>
-        <td class="contribution-field summary text-right">{{getSummaryValue()}}</td>
+        <td class="contribution-field summary text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
+          {{getSummaryValue()}}
+        </td>
         <td></td>
       </tr>
     </tbody>
   </table>
 
-  <ng-container *ngIf="(removedFields?.length > 0) && inEditMode">
+  <ng-container *ngIf="inEditMode && (removedFields?.length > 0)">
     <div ngbDropdown class="d-inline-block">
       <button ngbDropdownToggle class="btn btn-sm btn-outline-primary add-button" title="Add Field">
         <fa-icon class="fa-sm" [icon]="'plus'"></fa-icon>

@@ -74,44 +74,6 @@ pf-statement-edit.page {
 }
 
 pf-total-rewards-statement {
-  .edit-mode {
-    .trs-calculation-row {
-      .edit-icon {
-        visibility: hidden;
-      }
-      &:hover {
-        .edit-icon {
-          visibility: visible;
-        }
-      }
-    }
-
-    .primary-control-heading {
-      .edit-icon {
-        visibility: hidden;
-      }
-      &:hover {
-        .edit-icon {
-          visibility: visible;
-        }
-      }
-    }
-  }
-
-  .preview-mode {
-    .trs-calculation-row {
-      .edit-icon {
-        visibility: hidden;
-      }
-    }
-
-    .primary-control-heading {
-      .edit-icon {
-        visibility: hidden;
-      }
-    }
-  }
-
   // disable mouse interaction for the chart so the legend cannot be clicked
   .trs-chart .k-widget svg {
     pointer-events: none;
@@ -137,6 +99,18 @@ pf-settings-panel {
     outline: none;
     &:hover {
       opacity: 1;
+    }
+  }
+}
+
+pf-trs-calculation-control {
+  .edit-mode {
+    .trs-calculation-row {
+      &:hover {
+        .edit-icon {
+          visibility: visible;
+        }
+      }
     }
   }
 }

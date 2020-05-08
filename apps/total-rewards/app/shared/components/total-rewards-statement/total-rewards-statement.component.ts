@@ -49,7 +49,6 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   @Output() onRemoveImage: EventEmitter<DeleteImageRequest> = new EventEmitter();
 
   controlType = TotalRewardsControlEnum;
-  statementModeEnum = StatementModeEnum;
 
   // check statement.Settings.FontSize and return small-font-size | medium-font-size | large-font-size | ''
   get fontSizeCssClass(): string {

@@ -11,7 +11,6 @@ input[type=text] {
   outline: none;
   background-color: transparent; // inherit should work here but doesn't for IE 11, so make transparent as a workaround
   color: inherit;
-  width: 100%;
   // standardize to chrome's default selection styling so the input's bg color doesn't go white, which looks off for a dark background input
   &::selection {
     background-color: #3297FD;
@@ -20,18 +19,26 @@ input[type=text] {
 }
 
 .editable {
+
   cursor: pointer;
 }
 
 .edit-text {
-  display: block;
-  width: inherit;
   max-width: 95%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .edit-icon {
+  position: absolute;
   max-width: 5%;
+}
+
+.show-icon-on-hover {
+  .edit-icon {
+    visibility: hidden;
+  }
+  &:hover {
+    .edit-icon {
+      visibility: visible;
+    }
+  }
 }
