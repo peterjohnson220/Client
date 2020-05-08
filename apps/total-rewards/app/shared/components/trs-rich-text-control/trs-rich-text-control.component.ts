@@ -135,6 +135,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
     // get a handle to the quill mention container that holds the data fields
     this.quillMentionContainer = quill.getModule('mention').mentionContainer;
+
+    // prevent the tab key from adding a tab in the editor, so it instead allows nav to the next element in the page
+    delete quill.getModule('keyboard').bindings['9'];
   }
 
   onContentChanged(quillContentChange: any) {
