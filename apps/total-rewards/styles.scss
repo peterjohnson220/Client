@@ -195,4 +195,15 @@ pf-trs-image-control {
     margin-left: .1in;
     margin-right: .1in;
   }
+
+  html {
+    font-size: 18px;
+  }
+
+  .container {
+    border: none;
+    background: white;
+    max-width: 100% !important;
+    min-width: 100% !important;
+  }
 }

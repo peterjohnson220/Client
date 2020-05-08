@@ -13,7 +13,7 @@
 }
 .default-font-family {
   font-family: inherit;
-  // default gets a different font family header  
+  // default gets a different font family header
   .primary-control-heading {
     font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
   }
@@ -24,6 +24,13 @@
   font-size: .93rem;
   .primary-control-heading {
     font-size: 1.3rem;
+  }
+}
+
+.medium-font-size {
+  font-size: 1rem;
+  .primary-control-heading {
+    font-size: 1.475rem;
   }
 }
 

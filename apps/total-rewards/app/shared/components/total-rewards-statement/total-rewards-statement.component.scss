@@ -1,10 +1,12 @@
 @import "app-colors";
 
-.statement {
-  background: white;
-  width: 8.5in;
-  max-height: 11in;
-  margin-top: 50px;
+@media screen {
+  .statement {
+    background: white;
+    width: 8.5in;
+    max-height: 11in;
+    margin-top: 50px;
+  }
 }
 
 .page-break {
@@ -25,11 +27,6 @@
   .page-break	{
     display: block;
     page-break-before: always;
-  }
-
-  .container {
-    border: none;
-    background: white;
   }
 
   .column {
