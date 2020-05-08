@@ -1,7 +1,7 @@
 <aside class="settings-panel position-absolute p-3 pl-4" [ngClass]="isOpen ? 'expanded' : 'collapsed'">
   <div class="mb-4 d-flex">
     <h2 class="primary text-uppercase flex-grow-2">Statement Settings</h2>
-    <a href="javascript:void(0)" (click)="onCloseClick()" class="close ml-4" aria-label="Close">
+    <a href="javascript:void(0)" (click)="onCloseClick()" class="close ml-4" aria-label="Close" [attr.tabindex]="isOpen ? 0 : -1">
       <fa-icon [icon]="'times'" aria-hidden="true"></fa-icon>
     </a>
   </div>
@@ -11,26 +11,42 @@
         <h3 class="my-4">Text</h3>
         <h4 class="mb-3">Font Family</h4>
         <div ngbDropdown class="font-family-container d-inline-block mb-4">
-          <button ngbDropdownToggle class="btn btn-outline-primary">
+          <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
             {{ fontFamily }}
           </button>
           <div ngbDropdownMenu class="w-auto">
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Default')" class="default-font-family d-block p-2">Default</a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Arial')" class="arial-font-family d-block p-2">Arial</a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Georgia')" class="georgia-font-family d-block p-2">Georgia</a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Times New Roman')" class="times-new-roman-font-family d-block p-2">Times New Roman</a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Helvetica')" class="helvetica-font-family d-block p-2">Helvetica</a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Default')" class="default-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+              Default
+            </a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Arial')" class="arial-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+              Arial
+            </a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Georgia')" class="georgia-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+              Georgia
+            </a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Times New Roman')" class="times-new-roman-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+              Times New Roman
+            </a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Helvetica')" class="helvetica-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+              Helvetica
+            </a>
           </div>
         </div>
         <h4 class="mb-3">Font Size</h4>
         <div ngbDropdown class="font-size-container d-inline-block mb-4">
-          <button ngbDropdownToggle class="btn btn-outline-primary">
+          <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
             {{ fontSize }}
           </button>
           <div ngbDropdownMenu class="w-auto">
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontSizeChange('Small')" class="small d-block p-2">Small</a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontSizeChange('Medium')" class="medium d-block p-2">Medium</a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontSizeChange('Large')" class="large d-block p-2">Large</a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontSizeChange('Small')" class="small d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+              Small
+            </a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontSizeChange('Medium')" class="medium d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+              Medium
+            </a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontSizeChange('Large')" class="large d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+              Large
+            </a>
           </div>
         </div>
         <h3 class="my-4">Charts</h3>
@@ -44,12 +60,13 @@
               [cpPosition]="'left'"
               [style.background]="chartColor" 
               [style.caretColor]="chartColor" 
-              class="d-block w-100" />
+              class="d-block w-100"
+              [attr.tabindex]="isOpen ? 0 : -1" />
             <label title="{{ chartColor }}" class="w-100">{{ chartColor }}</label>
           </div>
         </div>
       </div>
-      <a href="javascript:void(0)" (click)="onResetSettings()" class="reset-settings mx-auto mb-1 d-table text-center">
+      <a href="javascript:void(0)" (click)="onResetSettings()" class="reset-settings mx-auto mb-1 d-table text-center" [attr.tabindex]="isOpen ? 0 : -1">
         Reset Settings
       </a>
     </pf-async-container>
