@@ -130,7 +130,7 @@
               <button
                 type="button"
                 class="btn btn-primary m-2"
-                [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete) || delimiter === '' || (emailRecipients$ | async).length === 0 || !isValidExtension(sftpPublicKey)"
+                [disabled]="shouldDisableBtn()"
                 (click)="SaveConfiguration()"
               >Update</button>
             </div>

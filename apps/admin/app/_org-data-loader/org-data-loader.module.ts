@@ -9,7 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { UploadModule } from '@progress/kendo-angular-upload';
+import { FileSelectModule, UploadModule } from '@progress/kendo-angular-upload';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
@@ -57,6 +57,7 @@ import { PublicKeyAuthComponent, SftpAccountStatusComponent } from './containers
     UploadModule,
     FontAwesomeModule,
     NgbTooltipModule,
+    FileSelectModule,
 
     // Routing
     OrgDataLoaderRoutingModule,
