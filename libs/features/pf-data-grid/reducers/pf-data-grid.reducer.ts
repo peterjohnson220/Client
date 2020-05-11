@@ -1,4 +1,4 @@
-import { cloneDeep, orderBy, uniq, uniqBy } from 'lodash';
+import { cloneDeep, orderBy, uniq, uniqBy, isNumber } from 'lodash';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
@@ -1140,7 +1140,7 @@ export function applyNewOrdering(existingFields: any[], orderedFields: any[]): V
     if (existingField.DataElementId !== undefined) {
 
       const orderedField = orderedFields.find(oField => oField.DataElementId === existingField.DataElementId);
-      if (orderedField && orderedField.Order) {
+      if (orderedField && isNumber(orderedField.Order)) {
         existingField.Order = orderedField.Order;
       }
 
