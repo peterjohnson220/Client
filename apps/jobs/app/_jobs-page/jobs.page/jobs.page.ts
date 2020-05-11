@@ -118,6 +118,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showJobManagementModal$ = this.showJobManagementModal.asObservable();
   editingJobId: number;
 
+  loadViewConfigSuccessSubscription = new Subscription;
+
   @ViewChild('gridRowActionsTemplate', { static: false }) gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
   @ViewChild('jobMatchCount', { static: false }) jobMatchCount: ElementRef;
@@ -215,6 +217,16 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(ofType(fromJobsPageActions.DELETING_JOB_SUCCESS))
       .subscribe(data => {
         this.showDeleteJobModal.next(false);
+      });
+
+    // clears selections upon selecting a saved filter
+    this.loadViewConfigSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG_SUCCESS))
+      .subscribe((action: fromPfDataGridActions.LoadViewConfigSuccess) => {
+        if (action.pageViewId === PageViewIds.Jobs) {
+          this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails));
+          this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.NotPricedPayMarkets));
+        }
       });
 
     this.actionBarConfig = {
@@ -328,6 +340,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.companySettingsSubscription.unsubscribe();
     this.changingJobStatusSuccessSubscription.unsubscribe();
     this.deletingJobSuccessSubscription.unsubscribe();
+    this.loadViewConfigSuccessSubscription.unsubscribe();
   }
 
   closeSplitView() {
