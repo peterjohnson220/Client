@@ -49,6 +49,7 @@ import {
   SyncScheduleHrisApiService,
   TransferMethodsHrisApiService
 } from './hris-api';
+import { ExchangeSignupFormApiService } from './form';
 import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
@@ -62,6 +63,8 @@ import { PricingApiService } from './pricing';
 import { PricingLegacyApiService } from './pricing-legacy';
 import { CountryApiService } from './country';
 import { EntityKeysValidationApiService } from './validation';
+import { CaptchaApiService } from './captcha';
+import { ECommerceApiService } from './ecommerce';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -132,6 +135,9 @@ import { EntityKeysValidationApiService } from './validation';
     StructureModelingApiService,
     OrgDataLoaderConfigurationApiService,
     SftpUserApiService,
+    CaptchaApiService,
+    ExchangeSignupFormApiService,
+    ECommerceApiService,
 
     // PEER
     ExchangeApiService,

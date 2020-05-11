@@ -4568,6 +4568,204 @@
           }
         }
       }
+    },
+    "form": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/form",
+            "index": "apps/form/index.html",
+            "main": "apps/form/main.ts",
+            "tsConfig": "apps/form/tsconfig.app.json",
+            "polyfills": "apps/form/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/form/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/form/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/form",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/form",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/form/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/form/../../environments/environment.ts",
+                  "with": "apps/form/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/form/../../environments/environment.ts",
+                  "with": "apps/form/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/form/../../assets/js/new-relic.js",
+                  "with": "apps/form/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/form/../../environments/environment.ts",
+                  "with": "apps/form/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/form/../../assets/js/new-relic.js",
+                  "with": "apps/form/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "form:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "form:build:staging"
+            },
+            "production": {
+              "browserTarget": "form:build:production"
+            },
+            "sales": {
+              "browserTarget": "form:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "form:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/form/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/form/polyfills.ts",
+            "tsConfig": "apps/form/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/form/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/form/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/form",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/form",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "admin",
