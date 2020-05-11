@@ -8,7 +8,8 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  HostListener
 } from '@angular/core';
 
 import { AnyFn } from '@ngrx/store/src/selector';
@@ -54,6 +55,8 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   onContentChangedSubject = new Subject();
   onContentChangedSubscription = new Subscription();
+
+  lastMouseDownElement: HTMLElement;
 
   quillConfig = {
     toolbar: {
@@ -172,10 +175,6 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     }
   }
 
-  onClickElsewhere() {
-    this.isFocused = false;
-  }
-
   onMentionDialogOpen() {
     // prevent bug where choosing a field, closing, then reopening with [ maintains the scroll position, since we always want to start at top
     this.quillMentionContainer.scrollTop = 0;
@@ -199,11 +198,33 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   formatDataFieldValue(value: any): string {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    if (typeof value === 'number') {
+    if (typeof value === 'string') {
+      return value;
+    } else if (typeof value === 'number') {
       return value.toString();
-    } else if (typeof value.getMonth === 'function' && typeof value.getDate === 'function' && typeof value.getFullYear === 'function') {
+    } else if (value && typeof value === 'object' && typeof value.getMonth === 'function') {
       return months[value.getMonth()] + ' ' + value.getDate() + ' ' + value.getFullYear();
     }
-    return value;
+
+    // if not a string, number or date, unclear how to format, so return empty string
+    return '';
+  }
+
+  @HostListener('document:mousedown', ['$event'])
+  public onDocumentMouseDown(event: MouseEvent): void {
+    // focus the editor if the mousedown target is the quill editor
+    if (this.richTextNode.contains(event.target as HTMLElement)) {
+      this.isFocused = true;
+    }
+    this.lastMouseDownElement = event.target as HTMLElement;
+  }
+
+  @HostListener('document:mouseup', ['$event'])
+  public onDocumentMouseUp(event: MouseEvent): void {
+    // bail if the mousedown target is the quill editor, since clicking + dragging + releasing outside should maintain focus
+    if (this.richTextNode.contains(this.lastMouseDownElement)) {
+      return;
+    }
+    this.isFocused = false;
   }
 }

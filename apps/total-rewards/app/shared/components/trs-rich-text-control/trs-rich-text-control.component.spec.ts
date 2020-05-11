@@ -181,4 +181,33 @@ describe('TrsChartControlComponent', () => {
     expect(component.htmlContent.indexOf(component.formatDataFieldValue(employeeRewardsData.EmployeeDOH))).toBeGreaterThan(0);
     expect(component.htmlContent.indexOf(employeeRewardsData.EmployeeFirstName)).toBeGreaterThan(0);
   });
+
+  it('formatDataFieldValue should return an empty string for non string, number or date values', () => {
+    // arrange, act, assert
+    expect(component.formatDataFieldValue(undefined)).toBe('');
+    expect(component.formatDataFieldValue({})).toBe('');
+    expect(component.formatDataFieldValue(null)).toBe('');
+    expect(component.formatDataFieldValue([])).toBe('');
+  });
+
+  it('formatDataFieldValue should return numbers as a string', () => {
+    // arrange, act, assert
+    expect(component.formatDataFieldValue(12)).toBe('12');
+    expect(component.formatDataFieldValue(99999)).toBe('99999');
+    expect(component.formatDataFieldValue(0)).toBe('0');
+  });
+
+  it('formatDataFieldValue should return dates in format MMM dd yyyy', () => {
+    // arrange, act, assert
+    expect(component.formatDataFieldValue(new Date('5/8/2020'))).toBe('May 8 2020');
+    expect(component.formatDataFieldValue(new Date('1/22/1981'))).toBe('Jan 22 1981');
+    expect(component.formatDataFieldValue(new Date('11/1/2082'))).toBe('Nov 1 2082');
+  });
+
+  it('formatDataFieldValue should return strings as is', () => {
+    // arrange, act, assert
+    expect(component.formatDataFieldValue('')).toBe('');
+    expect(component.formatDataFieldValue('string with spaces')).toBe('string with spaces');
+    expect(component.formatDataFieldValue('nospaces')).toBe('nospaces');
+  });
 });
