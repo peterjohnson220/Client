@@ -12,7 +12,7 @@
           </pf-company-selector>
         </div>
 
-        <div class="list-group-item" *ngIf="selectedCompany">
+        <div class="list-group-item position-relative" *ngIf="selectedCompany">
           <h3>SFTP</h3>
           <div class="container-fluid">
             <pf-sftp-account-status
@@ -20,6 +20,17 @@
             [SftpPort]="(sftpPortConfig$ | async)?.Value"
             [LoadingLoadersettings]="loaderSettingsLoading$ | async"
             [CompanyAutoloaderStatus]="isCompanyOnAutoloader"></pf-sftp-account-status>
+          </div>
+        </div>
+
+        <div class="list-group-item" *ngIf="selectedCompany">
+          <h3>Public Key Authentication</h3>
+          <div class="container-fluid">
+            <pf-public-key-auth
+              [SftpUser]="sftpUser"
+              [CompanyId]="selectedCompany.CompanyId">
+
+            </pf-public-key-auth>
           </div>
         </div>
 
@@ -113,12 +124,14 @@
 
           <div class="float-right m-2">
             <div class="d-inline"
-              [ngbTooltip]="(emailRecipients$ | async).length === 0 ? 'Please enter an email recipient to receive the results of this load.' : ''">
+              [ngbTooltip]="(emailRecipients$ | async).length === 0
+                  ? 'Please enter an email recipient to receive the results of this load.'
+                  : !this.isValidExtension(sftpPublicKey) ? 'Invalid Public key File format. Please upload a file in these formats: ' + acceptedFileExtensions.join(', ') : ''">
               <button
                 type="button"
                 class="btn btn-primary m-2"
-                [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete) || delimiter === '' || (emailRecipients$ | async).length === 0"
-                (click)="SaveMappings()"
+                [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete) || delimiter === '' || (emailRecipients$ | async).length === 0 || !isValidExtension(sftpPublicKey)"
+                (click)="SaveConfiguration()"
               >Update</button>
             </div>
             <button class="btn btn-secondary" (click)="openEmailRecipientsModal()">Email Recipients</button>
