@@ -18,7 +18,7 @@
 
   <ng-template [ngIf]="attribute.Type === 'RadioButton'">
     <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices">
-      <label class="form-check-label form-check-label-disabled">
+      <label class="form-check-label form-check-label-disabled pl-0">
         <input type="radio"
                class="form-check-input"
                [value]="choice.value"
