@@ -11,6 +11,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
   delimiter=""
+  emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
@@ -51,6 +52,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   sftpUser$={[Function Store]}
   sftpUserName="null"
   sftpUserName$={[Function Store]}
+  sftpUserNameIsValid$={[Function Store]}
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
@@ -210,6 +212,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
   delimiter={[Function String]}
+  emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
@@ -250,6 +253,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   sftpUser$={[Function Store]}
   sftpUserName="null"
   sftpUserName$={[Function Store]}
+  sftpUserNameIsValid$={[Function Store]}
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
@@ -409,6 +413,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
   delimiter={[Function String]}
+  emailRecipients={[Function Array]}
   emailRecipients$={[Function Observable]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
@@ -449,6 +454,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   sftpUser$={[Function Store]}
   sftpUserName="null"
   sftpUserName$={[Function Store]}
+  sftpUserNameIsValid$={[Function Store]}
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
@@ -575,6 +581,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           >
             <button
               class="btn btn-primary m-2"
+              disabled=""
               type="button"
             >
               Update
@@ -607,6 +614,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
   delimiter={[Function String]}
+  emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
@@ -647,6 +655,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   sftpUser$={[Function Store]}
   sftpUserName="null"
   sftpUserName$={[Function Store]}
+  sftpUserNameIsValid$={[Function Store]}
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
@@ -701,6 +710,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
   delimiter={[Function String]}
+  emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
@@ -741,6 +751,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   sftpUser$={[Function Store]}
   sftpUserName="null"
   sftpUserName$={[Function Store]}
+  sftpUserNameIsValid$={[Function Store]}
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}

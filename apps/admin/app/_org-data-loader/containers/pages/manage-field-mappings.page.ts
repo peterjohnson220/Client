@@ -104,6 +104,9 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   saveConfigurationError$: Observable<boolean>;
   sftpUser$: Observable<SftpUserModel>;
   sftpUser: SftpUserModel;
+  sftpUserNameIsValid$: Observable<boolean>;
+  private emailRecipients: EmailRecipientModel[];
+  private sftpUserNameIsValid: boolean;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -197,6 +200,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     const sftpPortConfigSelector = this.configSettingsSelectorFactory.getConfigSettingsSelector('SftpPort');
     this.sftpDomainConfig$ = this.store.select(sftpDomainConfigSelector);
     this.sftpPortConfig$ = this.store.select(sftpPortConfigSelector);
+    this.sftpUserNameIsValid$ = this.store.select(fromOrgDataAutoloaderReducer.getIsUserNameValid);
 
     this.mappings = [];
     this.isActive = true;
@@ -308,6 +312,20 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       filter(user => !!user)
     ).subscribe(user => {
       this.sftpUser = user;
+    });
+
+    this.emailRecipients$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(recipients => !!recipients)
+    ).subscribe(recipients => {
+      this.emailRecipients = recipients;
+    });
+
+    this.sftpUserNameIsValid$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(isValid => !!isValid)
+    ).subscribe(isValid => {
+      this.sftpUserNameIsValid = isValid;
     });
   } // end constructor
 
@@ -490,24 +508,45 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   }
 
   private getSftpUserToSave() {
-    let sftpUser: SftpUserModel = cloneDeep(this.sftpUser);
+    let sftpUser: SftpUserModel = null;
 
-    if (!sftpUser) {
+    if (this.sftpUserName || this.sftpPublicKey) {
+      const userName = this.sftpUserName ? this.sftpUserName.trim() : this.sftpUser ? this.sftpUser.UserName : null;
+      const fileName = this.sftpPublicKey ? this.sftpPublicKey.name : this.sftpUser ? this.sftpUser.FileName : null;
+
       sftpUser = {
         CompanyId: this.selectedCompany.CompanyId,
-        UserId: null,
-        UserName: this.sftpUserName,
-        FileName: this.sftpPublicKey ? this.sftpPublicKey.name : null
+        UserName: userName,
+        FileName: fileName,
+        UserId: null
       };
-    } else {
-      if (this.sftpUserName) {
-        sftpUser.UserName = this.sftpUserName;
-      }
-
-      if (this.sftpPublicKey) {
-        sftpUser.FileName = this.sftpPublicKey.name;
-      }
     }
     return sftpUser;
+  }
+
+  isPublicKeyAuthInfoComplete() {
+    if (this.sftpUserName || this.sftpPublicKey) {
+      return ((this.sftpUserName.length > 0 && (this.sftpPublicKey || (this.sftpUser && this.sftpUser.FileName.length > 0)))
+        || (this.sftpPublicKey && (this.sftpUserName.length > 0 || (this.sftpUser && this.sftpUser.UserName.length > 0))));
+    } else if (this.sftpUserName === '') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  shouldDisableBtn() {
+    let part1 = (!this.paymarketMappingComplete
+      || !this.jobMappingComplete
+      || !this.structureMappingComplete
+      || !this.structureMappingMappingComplete
+      || !this.employeeMappingComplete);
+    let part2 = this.delimiter === '';
+    let part3 = this.emailRecipients.length === 0;
+    let part4 = !this.isValidExtension(this.sftpPublicKey);
+    let part5 = this.sftpUserNameIsValid === false;
+    let part6 = !this.isPublicKeyAuthInfoComplete();
+
+    return part1 || part2 || part3 || part4 || part5 || part6;
   }
 }
