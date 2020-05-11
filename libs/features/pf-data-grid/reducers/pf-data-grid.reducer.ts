@@ -25,6 +25,7 @@ export interface DataGridState {
   defaultSortDescriptor: SortDescriptor[];
   sortDescriptor: SortDescriptor[];
   saveSort: boolean;
+  preserveSelectionsOnGetConfig: boolean;
   data: GridDataResult;
   selectedRecordId: number;
   selectedRow: any;
@@ -106,6 +107,8 @@ export const getDefaultSortDescriptor = (state: DataGridStoreState, pageViewId: 
 };
 export const getSortDescriptor = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].sortDescriptor : null;
 export const getSaveSort = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].saveSort : null;
+export const getPreserveSelectionsOnGetConfig = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId]
+  ? state.grids[pageViewId].preserveSelectionsOnGetConfig : null;
 export const getData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].data : null;
 export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].applyDefaultFilters : null;
@@ -169,7 +172,10 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             applyDefaultFilters: state.grids[action.pageViewId] ? state.grids[action.pageViewId].applyDefaultFilters : true,
             saveSort: state.grids[action.pageViewId] ? state.grids[action.pageViewId].saveSort : false,
             splitViewFilters: [],
-            selectedKeys: []
+            selectedKeys:
+              (state.grids[action.pageViewId] && state.grids[action.pageViewId].preserveSelectionsOnGetConfig && state.grids[action.pageViewId].selectedKeys)
+                  ? state.grids[action.pageViewId].selectedKeys
+                  : []
           }
         }
       };
@@ -320,6 +326,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             fieldsExcludedFromExport: action.fieldsExcludedFromExport,
+          },
+        }
+      };
+    case fromPfGridActions.UPDATE_PRESERVE_SELECTIONS_ON_GET_CONFIG:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            preserveSelectionsOnGetConfig: action.preserveSelectionsOnGetConfig,
           },
         }
       };
