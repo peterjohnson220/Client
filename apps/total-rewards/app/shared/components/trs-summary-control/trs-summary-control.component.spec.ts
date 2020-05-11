@@ -3,7 +3,12 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
 import { TrsSummaryControlComponent } from './trs-summary-control.component';
-import { generateMockCalculationControl, generateMockEmployeeRewardsData, StatementModeEnum } from '../../models';
+import {
+  generateMockCalculationControl,
+  generateMockEmployeeRewardsData,
+  LabelWithOverride,
+  StatementModeEnum
+} from '../../models';
 
 describe('TrsSummaryControlComponent', () => {
   let component: TrsSummaryControlComponent;
@@ -29,7 +34,7 @@ describe('TrsSummaryControlComponent', () => {
 
   it('should create', () => {
     component.controlData = {
-      Title: { Label: '' }
+      Title: { Default: 'Your Total Rewards Value', Override: '' } as LabelWithOverride
     } as any;
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -37,7 +42,7 @@ describe('TrsSummaryControlComponent', () => {
 
   it('should display in edit mode', () => {
     component.controlData = {
-      Title: { Label: '' }
+      Title: { Default: 'Your Total Rewards Value', Override: '' } as LabelWithOverride
     } as any;
     component.mode = StatementModeEnum.Edit;
     fixture.detectChanges();
@@ -46,7 +51,7 @@ describe('TrsSummaryControlComponent', () => {
 
   it('should display in preview mode', () => {
     component.controlData = {
-      Title: { Label: '' }
+      Title: { Default: 'Your Total Rewards Value', Override: '' } as LabelWithOverride
     } as any;
     component.mode = StatementModeEnum.Preview;
     fixture.detectChanges();
@@ -55,7 +60,7 @@ describe('TrsSummaryControlComponent', () => {
 
   it('should display in preview mode w/ data', () => {
     component.controlData = {
-      Title: { Label: '' }
+      Title: { Default: 'Your Total Rewards Value', Override: '' } as LabelWithOverride
     } as any;
     component.mode = StatementModeEnum.Preview;
     component.calculationControls = [generateMockCalculationControl()];

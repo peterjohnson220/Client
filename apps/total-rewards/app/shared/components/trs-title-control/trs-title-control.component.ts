@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 
-import {TitleControl} from '../../models';
+import { StatementModeEnum, TitleControl, UpdateTitleRequest } from '../../models';
 
 @Component({
   selector: 'pf-trs-title-control',
@@ -11,9 +11,18 @@ import {TitleControl} from '../../models';
 export class TrsTitleControlComponent implements OnInit {
 
   @Input() controlData: TitleControl;
+  @Input() mode: StatementModeEnum;
+
+  @Output() titleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
+
+  modeEnum = StatementModeEnum;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onTitleChange(title) {
+    this.titleChange.emit({ControlId: this.controlData.Id, Title: title});
   }
 }

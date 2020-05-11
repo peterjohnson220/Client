@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TrsTitleControlComponent should show in edit mode 1`] = `
+<pf-trs-title-control
+  controlData={[Function Object]}
+  mode="0"
+  modeEnum={[Function Object]}
+  titleChange={[Function EventEmitter]}
+>
+  <div
+    class="col-12 h-100 position-relative edit-mode"
+    ng-reflect-klass="col-12 h-100 position-relative"
+    ng-reflect-ng-class="[object Object]"
+  >
+    <h2
+      class="my-auto trs-statement-title"
+    >
+      <pf-inline-string-editor />
+    </h2>
+  </div>
+</pf-trs-title-control>
+`;
+
+exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
+<pf-trs-title-control
+  controlData={[Function Object]}
+  mode={[Function Number]}
+  modeEnum={[Function Object]}
+  titleChange={[Function EventEmitter]}
+>
+  <div
+    class="col-12 h-100 position-relative"
+    ng-reflect-klass="col-12 h-100 position-relative"
+    ng-reflect-ng-class="[object Object]"
+  >
+    <h2
+      class="my-auto trs-statement-title"
+    >
+      <pf-inline-string-editor />
+    </h2>
+  </div>
+</pf-trs-title-control>
+`;

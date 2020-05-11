@@ -1,6 +1,6 @@
-import {BaseControl} from './base-control';
-import {TotalRewardsControlEnum, Layout} from './';
-import {LabelWithOverride} from './label-with-override';
+import { BaseControl } from './base-control';
+import { Layout, TotalRewardsControlEnum } from './';
+import { LabelWithOverride } from './label-with-override';
 
 export class TitleControl implements BaseControl {
   $type: string;
@@ -8,4 +8,19 @@ export class TitleControl implements BaseControl {
   Title: LabelWithOverride;
   ControlType: TotalRewardsControlEnum;
   Layout: Layout;
+}
+
+export function generateMockTitleControl(): TitleControl {
+  return {
+    Id: '34654',
+    $type: 'TotalRewardsTitleControlDto',
+    Title: {
+      Default: 'Your Total Rewards Statement',
+      Override: null
+    },
+    ControlType: TotalRewardsControlEnum.Title,
+    Layout: {
+      Width: 12
+    }
+  };
 }

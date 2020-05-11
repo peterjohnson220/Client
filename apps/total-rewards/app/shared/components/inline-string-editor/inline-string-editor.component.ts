@@ -10,6 +10,7 @@ import {
   ViewChild,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'pf-inline-string-editor',
@@ -24,7 +25,7 @@ export class InlineStringEditorComponent implements OnInit, OnChanges {
   @Input() maxCharacters: number;
   @Input() placeholder: string;
   @Input() inEditMode: boolean;
-  @Input() icon = 'pencil';
+  @Input() icon: IconProp = 'pencil';
   @Input() value: string;
   @Input() showIcon: 'always' | 'never' | 'onHover' = 'onHover';
 
