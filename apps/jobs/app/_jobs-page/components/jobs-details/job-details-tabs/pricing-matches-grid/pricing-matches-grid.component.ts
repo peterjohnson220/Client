@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
@@ -10,12 +10,13 @@ import { PageViewIds } from '../../../../constants';
   templateUrl: './pricing-matches-grid.component.html',
   styleUrls: ['./pricing-matches-grid.component.scss']
 })
-export class PricingMatchesGridComponent implements AfterViewInit, OnChanges {
+export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() pricingInfo: any[];
 
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
+  @ViewChild('pricingInfoColumn', { static: false }) pricingInfoColumn: ElementRef;
 
   colTemplates = {};
 
@@ -39,7 +40,9 @@ export class PricingMatchesGridComponent implements AfterViewInit, OnChanges {
   };
   actionBarConfig: ActionBarConfig;
 
-  constructor() {
+  constructor() { }
+
+  ngOnInit(): void {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -56,7 +59,8 @@ export class PricingMatchesGridComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit() {
     this.colTemplates = {
       'Job_Title': { Template: this.jobTitleColumn },
-      [PfDataGridColType.currency]: { Template: this.currencyColumn }
+      [PfDataGridColType.currency]: { Template: this.currencyColumn },
+      [PfDataGridColType.pricingInfo]: { Template: this.pricingInfoColumn }
     };
   }
 

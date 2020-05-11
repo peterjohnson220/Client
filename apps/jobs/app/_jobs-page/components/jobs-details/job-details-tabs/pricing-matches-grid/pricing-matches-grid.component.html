@@ -33,3 +33,9 @@
     <span [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>
   </div>
 </ng-template>
+
+<ng-template #pricingInfoColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | humanizeNumber | emptyPlaceholder"></span>
+  </div>
+</ng-template>
