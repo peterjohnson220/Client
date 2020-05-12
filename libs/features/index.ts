@@ -12,3 +12,4 @@ export * from './job-management';
 export * from './pricing-details';
 export * from './structures';
 export * from './notes-manager';
+export * from './paymarket-management';
