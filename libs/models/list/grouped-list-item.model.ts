@@ -4,6 +4,7 @@ export interface GroupedListItem {
   Value: any;
   Children?: GroupedListItem[];
   IgnoreValue?: boolean;
+  TotalChildren?: number;
 }
 
 export interface ListItemSearchResult {

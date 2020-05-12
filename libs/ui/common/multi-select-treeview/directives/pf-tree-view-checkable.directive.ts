@@ -3,6 +3,7 @@ import {  TreeViewComponent,  CheckableSettings,  CheckedState,  TreeItemLookup 
 import { Subscription } from 'rxjs';
 
 import { GroupedListItem } from 'libs/models/list';
+import { filter, tap, switchMap, take } from 'rxjs/operators';
 
 /**
  * A directive which manages the node in-memory checked state of the TreeView.
@@ -31,7 +32,17 @@ export class TreeViewCheckDirective implements OnInit, OnDestroy, OnChanges {
   clickSubscription: Subscription;
   checkActions: any;
   constructor(protected treeView: TreeViewComponent, private cdr: ChangeDetectorRef, private zone: NgZone) {
-
+    let expandedItems = [];
+    this.subscriptions.add(this.treeView.childrenLoaded
+      .pipe(filter(() => this.options.checkChildren), tap(item => expandedItems.push(item)), switchMap(() => this.zone.onStable.pipe(take(1))))
+      .subscribe(() => {
+      const rootItemKey = expandedItems[0] && this.itemKey(expandedItems[0].item);
+      const checkChildren = this.isPresent(rootItemKey) && this.checkedKeys.some(key => key === rootItemKey);
+      if (checkChildren) {
+        this.checkChildren(expandedItems);
+      }
+      expandedItems = [];
+    }));
   }
 
   ngOnInit(): void {
@@ -194,7 +205,8 @@ export class TreeViewCheckDirective implements OnInit, OnDestroy, OnChanges {
     while (currentParent) {
       const parentKey = this.itemKey(currentParent.item);
       const parentIndex = this.checkedKeys.indexOf(parentKey);
-      if (this.allChildrenSelected(currentParent.children)) {
+      const childrenSelectedCount = this.countChildrenSelected(currentParent.children);
+      if (childrenSelectedCount === currentParent.TotalChildren) {
         if (parentIndex === -1) {
           this.checkedKeys.push(parentKey);
         }
@@ -205,13 +217,37 @@ export class TreeViewCheckDirective implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private allChildrenSelected(children: any[]): boolean {
-    const isCheckedReducer = (acc, item) => (acc && this.isItemChecked(item.dataItem, item.index) === 'checked');
-    return children.reduce(isCheckedReducer, true);
+  private countChildrenSelected(children: any[]): number {
+    const isCheckedReducer = (acc: number, item) => {
+      if (this.isItemChecked(item.dataItem, item.index) === 'checked') {
+        acc = acc + 1;
+      }
+      return acc;
+    };
+    return children.reduce(isCheckedReducer, 0);
   }
 
   private notify(): void {
     this.checkedKeysChange.emit(this.checkedKeys.slice());
+  }
+
+  private checkChildren(items): void {
+    const pendingCheck = items.reduce((keys, item) => keys = keys.concat(this.getUncheckedChildrenKeys(item)), []);
+    if (pendingCheck.length > 0) {
+      this.checkedKeys = this.checkedKeys.concat(pendingCheck);
+      this.zone.run(() => this.notify());
+    }
+  }
+
+  private getUncheckedChildrenKeys(item): void {
+    return item.children.reduce((acc, childItem) => {
+      const itemKey = this.itemKey(childItem);
+      const existingKey = this.checkedKeys.find(key => itemKey === key);
+      if (!existingKey) {
+        acc.push(itemKey);
+      }
+      return acc;
+    }, []);
   }
 
   private isPresent(value): boolean {
@@ -251,7 +287,7 @@ export class TreeViewCheckDirective implements OnInit, OnDestroy, OnChanges {
   }
 
   private isIndeterminate(item: GroupedListItem): boolean {
-    if (!item.Children || item.Children.length === 0) {
+    if (!item.Children || item.TotalChildren === 0) {
       return false;
     }
     let idx = 0;
