@@ -13,4 +13,16 @@ export class NavigationLinksComponent implements OnInit {
 
     constructor() { }
     ngOnInit() { }
+
+  handleClick($event) {
+    const linkName = $event.target.innerText;
+    const url = $event.target.href;
+
+    if (linkName === 'Download Organizational Data') {
+      const xmlHttp = new XMLHttpRequest();
+      xmlHttp.open('GET', url, true);
+      xmlHttp.send();
+      $event.preventDefault();
+    }
+  }
 }

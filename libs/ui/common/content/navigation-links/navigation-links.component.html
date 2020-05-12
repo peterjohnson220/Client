@@ -2,7 +2,7 @@
     <div class="link-group-header"> {{ navigationGroupLink.GroupName }} </div>
     <ul class="link-group">
         <li *ngFor="let link of navigationGroupLink.Links ">
-            <a *ngIf="!link.NgAppLink" href="{{ link.Url }}">{{ link.Name }} </a>
+            <a *ngIf="!link.NgAppLink" href="{{ link.Url }}" (click)="handleClick($event)">{{ link.Name }} </a>
             <a *ngIf="link.NgAppLink" [routerLink]="['/' + link.Url]">{{ link.Name }} </a>
         </li>
     </ul>
