@@ -1,5 +1,6 @@
 import { BaseControl } from './base-control';
-import { Layout, TotalRewardsControlEnum } from './';
+import { Layout } from './';
+import { TotalRewardsControlEnum } from '../models/total-rewards-control-enum';
 import { LabelWithOverride } from './label-with-override';
 
 export class TitleControl implements BaseControl {
@@ -18,7 +19,7 @@ export function generateMockTitleControl(): TitleControl {
       Default: 'Your Total Rewards Statement',
       Override: null
     },
-    ControlType: 5, // avoid circular dependency
+    ControlType: TotalRewardsControlEnum.Title,
     Layout: {
       Width: 12
     }
