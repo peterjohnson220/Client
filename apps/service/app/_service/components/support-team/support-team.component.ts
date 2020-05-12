@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { SupportTeamUser, SupportTeam } from '../../models';
+
+import { SupportTeam } from 'libs/models/payfactors-api/service/response';
+
+import { SupportTeamUser } from '../../models';
 
 @Component({
   selector: 'pf-support-team',

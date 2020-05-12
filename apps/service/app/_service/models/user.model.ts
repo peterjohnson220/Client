@@ -1,3 +1,5 @@
+import { SupportTeam } from 'libs/models/payfactors-api/service/response';
+
 export interface SupportTeamUser {
   UserId: number;
   FirstName: string;
@@ -7,13 +9,6 @@ export interface SupportTeamUser {
   EmailAddress?: string;
   UserPicture?: string;
   Team?: SupportTeam;
-}
-
-export enum SupportTeam {
-  ClientServices = 'Client Services',
-  ClientSuccess = 'Client Success',
-  Compensation = 'Compensation',
-  Peer = 'Peer'
 }
 
 export function generateMockSupportTeamUser(): SupportTeamUser {
