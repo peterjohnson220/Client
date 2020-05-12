@@ -20,7 +20,9 @@ export class ToastsEffects {
     .pipe(
       ofType(fromAppNotificationsActions.ADD_NOTIFICATION),
       tap((action: fromAppNotificationsActions.AddNotification) => {
-        this.handleReceiveNotification(action.payload);
+        if (!action.payload.SuppressNotificationPopup) {
+          this.handleReceiveNotification(action.payload);
+        }
       })
     );
 
