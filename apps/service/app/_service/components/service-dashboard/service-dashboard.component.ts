@@ -5,10 +5,11 @@ import { Observable, Subscription } from 'rxjs';
 
 import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { SupportTeam } from 'libs/models/payfactors-api/service/response';
 
 import * as fromServicePageReducer from '../../reducers';
 import * as fromServicePageActions from '../../actions/service-page.actions';
-import { SupportTeamUser, SupportTeam } from '../../models';
+import { SupportTeamUser } from '../../models';
 
 @Component({
   selector: 'pf-service-dashboard',
