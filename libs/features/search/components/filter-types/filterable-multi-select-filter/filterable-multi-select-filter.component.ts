@@ -16,6 +16,7 @@ import * as fromSearchPageActions from 'libs/features/search/actions/search-page
 import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 
 import { MultiSelectFilterComponent } from '../multi-select-filter';
+import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 
 @Component({
   selector: 'pf-filterable-multi-select-filter',
@@ -97,5 +98,24 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
 
   optionValuesAreEquivalent(optionValueA: any, optionValueB: any) {
     return (optionValueA && optionValueB) && optionValueA === optionValueB;
+  }
+
+  onOptionCheck(event$: MouseEvent, option, filter) {
+
+    if (this.optionDisabled(option)) {
+      return;
+    }
+
+    if (option.SubAggregationCount > 0 && option.SelectionsCount > 0) {
+      let subFilters = null;
+      this.subFilters$.pipe(take(1)).subscribe(x => {
+        subFilters = x;
+      });
+      const selectedChildFilter = subFilters.find(x => x.ParentBackingField === filter.BackingField);
+      this.store.dispatch(new fromSearchFiltersActions.ClearFilter({filterId: selectedChildFilter.Id, parentOptionValue: option.Value}));
+      this.store.dispatch(new fromChildFilterActions.ClearSelections());
+    } else {
+      this.optionSelected.emit({ filterId: filter.Id , option });
+    }
   }
 }

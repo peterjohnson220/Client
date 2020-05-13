@@ -6,10 +6,10 @@
          [class.selected]="option.Selected"
          [class.disabled]="optionDisabled(option)"
          [class.locked]="filter.Locked"
-         (click)="handleOptionSelected(filter.Id, option)"
+         (click)="onOptionCheck($event, option, filter)"
          [ngClass]="{'child-selected': option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField}">
       <div class="option-check">
-        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" /> {{option.Name}}
+        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" [pfIndeterminateDirective]="option.SubAggregationCount > 0 && option.SelectionsCount > 0"/> {{option.Name}}
       </div>
 
       <div *ngIf="!filter.OptionCountDisabled" class="option-count">
