@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { DecimalPipe } from '@angular/common';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
