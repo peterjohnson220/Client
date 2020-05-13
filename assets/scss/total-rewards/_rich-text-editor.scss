@@ -1,8 +1,18 @@
-$rich-text-height: 180px;
+$rich-text-height: 200px;
 
 .trs-rich-text-control {
   height: $rich-text-height;
   top: -10px; // compensate for the relocated editor ribbon
+  label.info {
+    color: $link-color;
+    font-size: 1.2rem;
+    margin-right: -15px;
+    transition: opacity .3s ease-in-out;
+  }
+  &.preview-mode label.info {
+    opacity: 0;
+    pointer-events: none;
+  }
   .ql-toolbar {
     text-align: center;
     opacity: 0;
@@ -22,7 +32,7 @@ $rich-text-height: 180px;
   }
 
   .ql-editor {
-    padding: 6px;
+    padding: 4px 6px;
     overflow-y: hidden;
     .ql-size-large {
       font-size: 1.4rem;
@@ -37,14 +47,14 @@ $rich-text-height: 180px;
 
   .ql-container {
     margin-left: -10px;
-    transition: border .6s ease-in-out, background-color .6s ease-in-out;
+    transition: border .6s ease-in-out;
     border: 2px dashed transparent;
     height: $rich-text-height;
     font-family: inherit;
     font-size: inherit;
   }
 
-  // hover, active, invalid borders in edit mode
+  // hover, active, invalid borders/misc in edit mode
   &.edit-mode {
     &:hover {
       .ql-toolbar.ql-snow + .ql-container.ql-snow {

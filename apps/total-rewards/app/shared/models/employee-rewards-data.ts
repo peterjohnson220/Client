@@ -1,5 +1,6 @@
 export interface EmployeeRewardsData {
-  EmployeeId: number;
+  CompanyName: string;
+  EmployeeId: string;
   EmployeeFirstName: string;
   EmployeeLastName: string;
   EmployeeCity: string;
@@ -31,11 +32,13 @@ export interface EmployeeRewardsData {
   EmployeeTuitionReimbursement: number;
   EmployeePTO: number;
   EmployeeOtherAllowances: number;
+  CurrentYear: number;
 }
 
 export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
   return {
-    EmployeeId: 12345,
+    CompanyName: 'Rotherham Refurbs Ltd.',
+    EmployeeId: '12345',
     EmployeeFirstName: 'John',
     EmployeeLastName: 'Smith',
     EmployeeCity: 'Scranton',
@@ -66,6 +69,7 @@ export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
     EmployeeLongTermDisability: 600,
     EmployeeTuitionReimbursement: 1200,
     EmployeePTO: 5700,
-    EmployeeOtherAllowances: 500
+    EmployeeOtherAllowances: 500,
+    CurrentYear: new Date().getFullYear()
   };
 }

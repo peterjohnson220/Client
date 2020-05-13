@@ -18,7 +18,7 @@ export function generateMockTitleControl(): TitleControl {
       Default: 'Your Total Rewards Statement',
       Override: null
     },
-    ControlType: TotalRewardsControlEnum.Title,
+    ControlType: 5, // avoid circular dependency
     Layout: {
       Width: 12
     }
