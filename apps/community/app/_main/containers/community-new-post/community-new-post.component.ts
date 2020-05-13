@@ -1,20 +1,14 @@
-import * as cloneDeep from 'lodash.clonedeep';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { PfLinkifyService } from '../../services/pf-linkify-service';
 
-import { CommunityAddPost, CommunityPost, CommunityTopic } from 'libs/models';
+import { CommunityAddPost, CommunityPost, CommunityTopic, CommunityAttachment } from 'libs/models';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
-import * as fromCommunityAttachmentActions from '../../actions/community-attachment.actions';
-
-import { SelectEvent, RemoveEvent, UploadEvent } from '@progress/kendo-angular-upload';
-import { mapFileInfoToCommunityAddAttachment } from '../../helpers/model-mapping.helper';
-import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
 
 @Component({
   selector: 'pf-community-new-post',
@@ -22,7 +16,6 @@ import { CommunityAttachment } from 'libs/models/community/community-attachment.
   styleUrls: ['./community-new-post.component.scss']
 })
 export class CommunityNewPostComponent implements OnInit, OnDestroy {
-
   submittingCommunityPostSuccess$: Observable<CommunityPost>;
   submittingCommunityPostSuccessSubscription: Subscription;
 
@@ -30,10 +23,7 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
   textMaxLength = 2000;
 
   communityTopics$: Observable<CommunityTopic[]>;
-  communityAttachments$: Observable<CommunityAttachment[]>;
   selectedTopicId: string;
-
-  uploadedFiles: CommunityAttachment[] = [];
 
   public defaultTopic: CommunityTopic = { TopicName: 'Select a Topic to start your discussion...', Id: null };
 
@@ -46,7 +36,6 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
     public pfLinkifyService: PfLinkifyService) {
       this.submittingCommunityPostSuccess$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPostsSuccess);
       this.communityTopics$ = this.store.select(fromCommunityPostReducer.getTopics);
-      this.communityAttachments$ = this.store.select(fromCommunityPostReducer.getCommunityAttachments);
       this.buildForm();
     }
 
@@ -54,12 +43,6 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
     this.submittingCommunityPostSuccessSubscription = this.submittingCommunityPostSuccess$.subscribe((response) => {
       if (response) {
           this.communityDiscussionForm.reset({ value: 'formState', isInternalOnly: false});
-      }
-    });
-
-    this.communityAttachments$.subscribe((response) => {
-      if (response) {
-        this.uploadedFiles = cloneDeep(response);
       }
     });
   }
@@ -77,7 +60,7 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
 
   }
 
-  submit() {
+  submit(uploadedFiles: CommunityAttachment[]) {
     if (!this.communityDiscussionForm.valid) {
       return;
     }
@@ -87,7 +70,7 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
       IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value,
       Links: this.pfLinkifyService.getLinks(this.context.value),
       TopicId: this.topic.value,
-      Attachments: this.uploadedFiles
+      Attachments: uploadedFiles
     };
 
     this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
@@ -97,24 +80,5 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
 
   public onOpenTopicsList(): void {
     this.defaultTopic = null;
-  }
-
-  uploadAttachmentEventHandler(e: UploadEvent) {
-    // this method is called one file at a time
-    const file = e.files[0];
-    const cloudFileName = `${file.uid}_${file.name}`;
-    e.data = {CloudFileName: cloudFileName};
-    this.uploadedFiles.push(mapFileInfoToCommunityAddAttachment(file, cloudFileName));
-  }
-
-  removeAttachmentEventHandler(e: RemoveEvent) {
-    // this method is called one file at a time
-    const file = e.files[0];
-    file.name = `${file.uid}_${file.name}`;
-
-    const index = this.uploadedFiles.findIndex(f => f.CloudFileName === file.name);
-    if ( index >= 0 ) {
-      this.uploadedFiles.splice(index, 1);
-    }
   }
 }

@@ -6,9 +6,10 @@ import { Store } from '@ngrx/store';
 import * as fromCommunityAttachmentsReducer from '../../reducers';
 import * as fromCommunityAttachmentsActions from '../../actions/community-attachment.actions';
 import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
-import { FileRestrictions, RemoveEvent, SuccessEvent, UploadEvent } from '@progress/kendo-angular-upload';
+import { FileRestrictions, RemoveEvent, SuccessEvent, UploadEvent, FileInfo } from '@progress/kendo-angular-upload';
 import { mapFileInfoToCommunityAddAttachment } from '../../helpers/model-mapping.helper';
 import { CommunityFiles } from '../../constants/community-files';
+import { CommunityAttachmentModalState } from 'libs/models';
 
 @Component({
   selector: 'pf-community-attachment-modal',
@@ -16,14 +17,16 @@ import { CommunityFiles } from '../../constants/community-files';
   styleUrls: [ './community-attachment-modal.component.scss' ]
 })
 export class CommunityAttachmentModalComponent implements OnInit {
-  communityAttachmentModalOpen$: Observable<any>;
-  communityAttachments$: Observable<CommunityAttachment[]>;
+  currentAttachmentModalState$: Observable<CommunityAttachmentModalState>;
+  currentAttachmentModalOpen$: Observable<boolean>;
+
+  uploadedFilesKendo: Array<FileInfo>;
   uploadedFiles: CommunityAttachment[] = [];
-  uploadedFilesKendo: any;
   saveAttachmentUrl = '/odata/CloudFiles.UploadCommunityAttachment';
   removeAttachmentUrl = '/odata/CloudFiles.DeleteCommunityAttachment';
   maxFileCount = 5;
   showFileCountWarning = false;
+  currentCommunityAttachmentModal: CommunityAttachmentModalState;
 
   public uploadRestrictions: FileRestrictions = {
     allowedExtensions: CommunityFiles.VALID_FILE_EXTENSIONS,
@@ -31,25 +34,31 @@ export class CommunityAttachmentModalComponent implements OnInit {
   };
 
   constructor(public store: Store<fromCommunityAttachmentsReducer.State>) {
-    this.communityAttachmentModalOpen$ = this.store.select(fromCommunityAttachmentsReducer.getShowCommunityAttachmentsModal);
-    this.communityAttachments$ = this.store.select(fromCommunityAttachmentsReducer.getCommunityAttachments);
+    this.currentAttachmentModalState$ = this.store.select(fromCommunityAttachmentsReducer.getCurrentAttachmentModalState);
+    this.currentAttachmentModalOpen$ = this.store.select(fromCommunityAttachmentsReducer.getCurrentAttachmentModalOpen);
   }
 
   ngOnInit() {
-    this.communityAttachments$.subscribe((response) => {
+    this.currentAttachmentModalState$.subscribe((response) => {
       if (response) {
-        this.uploadedFiles = cloneDeep(response);
+        this.currentCommunityAttachmentModal = response;
+        this.uploadedFiles = cloneDeep(response.Attachments);
+      }
+    });
 
-        if (response.length === 0) {
-          this.uploadedFilesKendo = null;
-        }
+    this.currentAttachmentModalOpen$.subscribe((response) => {
+      if (response) {
+        this.uploadedFilesKendo = [];
+        this.uploadedFiles.forEach(file => {
+          this.uploadedFilesKendo.push({name: file.Name, size: file.Size});
+        });
       }
     });
   }
 
   handleModalDismissed() {
     this.showFileCountWarning = false;
-    this.store.dispatch(new fromCommunityAttachmentsActions.CloseCommunityAttachmentsModal());
+    this.store.dispatch(new fromCommunityAttachmentsActions.CloseCommunityAttachmentsModal(this.currentCommunityAttachmentModal.Id));
   }
 
   uploadAttachmentEventHandler(e: UploadEvent) {
@@ -67,9 +76,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
 
   removeAttachmentEventHandler(e: RemoveEvent) {
     const file = e.files[ 0 ];
-    file.name = `${file.uid}_${file.name}`;
-
-    const index = this.uploadedFiles.findIndex(f => f.CloudFileName === file.name);
+    const index = this.uploadedFiles.findIndex(f => f.Name === file.name && f.Size === file.size);
     if (index >= 0) {
       this.uploadedFiles.splice(index, 1);
       this.showFileCountWarning = false;
@@ -79,7 +86,8 @@ export class CommunityAttachmentModalComponent implements OnInit {
   successEventHandler(e: SuccessEvent) {
     // successEventHandler gets fired multiple times for the remove operation with the latest call having a response.type of 4
     if (e.operation === 'upload' || (e.operation === 'remove' && e.response.type === 4)) {
-      this.store.dispatch(new fromCommunityAttachmentsActions.SaveCommunityAttachmentsState(this.uploadedFiles));
+      this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
+      this.store.dispatch(new fromCommunityAttachmentsActions.SaveCommunityAttachmentsState(this.currentCommunityAttachmentModal));
     }
   }
 

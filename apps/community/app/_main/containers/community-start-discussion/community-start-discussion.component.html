@@ -30,7 +30,7 @@
           <div *ngIf="submitVisible" class="p-0">
             <button *ngIf="this.postType === this.CommunityPostTypes.Discussion" class="attachment-button float-left" (click)="openAttachmentsModal()">
               <fa-icon icon="paperclip" size="lg" class="icon community-paperclip"></fa-icon>
-              Attachments <span *ngIf="(communityPostAttachmentsCount$ | async) > 0" class="attachment-count-text">({{communityPostAttachmentsCount$ | async}})</span>
+              Attachments <span *ngIf="communityPostAttachments?.length > 0" class="attachment-count-text">({{communityPostAttachments.length}})</span>
             </button>
             <button id="start-discussion-post-button" [disabled]="!submitEnabled"
                     data-qa-id="btn-startDiscussionPost"

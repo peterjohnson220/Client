@@ -9,17 +9,11 @@
       textPlaceholder="Add Reply..."
       [postId]="postId">
     </pf-community-text-area>
-    
-    <!--TODO: FORT-337
-    <kendo-upload #uploadFile
-      [saveUrl]="saveAttachmentUrl"
-      [removeUrl]="removeAttachmentUrl"
-      [concurrent]="false"
-      [multiple]="true"
-      (upload)="uploadAttachmentEventHandler($event)"
-      (remove)="removeAttachmentEventHandler($event)">
-    </kendo-upload>-->
 
+    <button class="attachment-button float-left" (click)="openAttachmentsModal()">
+      <fa-icon icon="paperclip" size="lg" class="icon community-paperclip"></fa-icon>
+      Attachments <span *ngIf="communityPostAttachments?.length > 0" class="attachment-count-text">({{communityPostAttachments.length}})</span>
+    </button>
     <div class="text-right">
       <button id="reply" type="button" class="btn-sm community-btn mr-2"
               data-qa-id="btn-reply"

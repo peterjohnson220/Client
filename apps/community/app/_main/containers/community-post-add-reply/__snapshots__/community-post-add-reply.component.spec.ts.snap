@@ -9,15 +9,14 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
   addingCommunityPostReply$={[Function Store]}
   addingCommunityPostReplySuccess$={[Function Store]}
   addingCommunityPostReplySuccessSubscription={[Function Subscriber]}
+  attachmentModalId={[Function String]}
   communityPostReplyForm={[Function FormGroup]}
+  currentAttachmentModalState$={[Function Store]}
   formBuilder={[Function FormBuilder]}
   pfLinkifyService={[Function Object]}
-  removeAttachmentUrl={[Function String]}
   replyMaxLength={[Function Number]}
   replySubmitted={[Function EventEmitter]}
-  saveAttachmentUrl={[Function String]}
   store={[Function Store]}
-  uploadedFiles={[Function Array]}
 >
   <form
     class="ng-untouched ng-pristine ng-invalid"
@@ -29,6 +28,17 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
       class="reply-text-area"
       textplaceholder="Add Reply..."
     />
+    <button
+      class="attachment-button float-left"
+    >
+      <fa-icon
+        class="icon community-paperclip"
+        icon="paperclip"
+        size="lg"
+      />
+       Attachments 
+      
+    </button>
     <div
       class="text-right"
     >

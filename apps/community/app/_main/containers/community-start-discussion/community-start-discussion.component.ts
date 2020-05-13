@@ -10,11 +10,11 @@ import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityJobReducer from '../../reducers';
 import * as fromCommunityAttachmentsReducer from '../../reducers';
 
-import { CommunityPostTypeStatusEnum } from 'libs/models/community/community-constants.model';
+import { CommunityPostTypeStatusEnum, CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 import { CommunityNewPostComponent } from '../community-new-post/community-new-post.component';
 import { CommunityNewPollComponent } from '../community-new-poll/community-new-poll.component';
 import { CommunityNewJobComponent } from '../community-new-job/community-new-job.component';
-import { CommunityJob } from 'libs/models';
+import { CommunityJob, CommunityAttachmentModalState, CommunityAttachment } from 'libs/models';
 
 @Component({
   selector: 'pf-community-start-discussion',
@@ -26,12 +26,13 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
 
   submittingCommunityPost$: Observable<boolean>;
   submittingCommunityJobSuccess$: Observable<CommunityJob>;
-  communityPostAttachmentsCount$: Observable<number>;
+  currentAttachmentModalState$: Observable<CommunityAttachmentModalState>;
+  creatingUserPoll$: Observable<boolean>;
 
   submittingCommunityJobSuccessSubscription: Subscription;
   showPostJobButton = true;
-
-  creatingUserPoll$: Observable<boolean>;
+  attachmentModalId: string;
+  communityPostAttachments: CommunityAttachment[];
 
   get CommunityPostTypes() { return CommunityPostTypeStatusEnum; }
 
@@ -44,16 +45,23 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
 
     this.submittingCommunityPost$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPosts);
     this.submittingCommunityJobSuccess$ = this.store.select(fromCommunityJobReducer.getSubmittingCommunityJobsSuccess);
-    this.communityPostAttachmentsCount$ = this.store.select(fromCommunityAttachmentsReducer.getCommunityAttachmentsCount);
+    this.currentAttachmentModalState$ = this.store.select(fromCommunityAttachmentsReducer.getCurrentAttachmentModalState);
   }
 
   ngOnInit() {
+    this.attachmentModalId = CommunitySearchResultTypeEnum.Discussion;
     this.submittingCommunityJobSuccessSubscription = this.submittingCommunityJobSuccess$.subscribe((response) => {
       this.showPostJobButton = response ? false : true;
     });
 
     this.route.queryParams.subscribe(params => {
       if ( params['type'] === 'poll') {this.postType = CommunityPostTypeStatusEnum.Question; }
+  });
+
+  this.currentAttachmentModalState$.subscribe((state) => {
+    if (state && state.Id === this.attachmentModalId) {
+        this.communityPostAttachments = state.Attachments;
+    }
   });
   }
 
@@ -87,7 +95,7 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
 
   submitContent() {
     if ( this.postType === this.CommunityPostTypes.Discussion &&  this.newPostComponent ) {
-      this.newPostComponent.submit();
+      this.newPostComponent.submit(this.communityPostAttachments);
     } else if ( this.postType === this.CommunityPostTypes.Question && this.newPollComponent) {
       this.newPollComponent.submit();
     } else if ( this.postType === this.CommunityPostTypes.Job && this.newJobComponent) {
@@ -96,6 +104,6 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   }
 
   openAttachmentsModal() {
-    this.store.dispatch(new fromCommunityAttachmentActions.OpenCommunityAttachmentsModal());
+    this.store.dispatch(new fromCommunityAttachmentActions.OpenCommunityAttachmentsModal(this.attachmentModalId));
   }
 }

@@ -7,13 +7,14 @@ import { Observable, Subscription } from 'rxjs';
 import { PfLinkifyService } from '../../services/pf-linkify-service';
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
-import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
-import { CommunityAddReply } from 'libs/models/community';
-import { CommunityReply } from 'libs/models/community';
-import { SelectEvent, RemoveEvent, UploadEvent } from '@progress/kendo-angular-upload';
-import { mapFileInfoToCommunityAddAttachment } from '../../helpers/model-mapping.helper';
-import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
+import * as fromCommunityAttachmentsReducer from '../../reducers';
+
+import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
+import * as fromCommunityAttachmentActions from '../../actions/community-attachment.actions';
+
+import { CommunityAddReply, CommunityAttachment, CommunityReply, CommunityAttachmentModalState } from 'libs/models/community';
+import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 
 @Component({
   selector: 'pf-community-post-add-reply',
@@ -25,18 +26,19 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   @Input() maximumReplies: number;
   @Input() replyCount: number;
   @Output() replySubmitted = new EventEmitter<boolean>();
-  communityPostReplyForm: FormGroup;
-  replyMaxLength = 2000;
+
   addingCommunityPostReply$: Observable<boolean>;
   addedReplyView$: Observable<CommunityReply[]>;
   addingCommunityPostReplySuccess$: Observable<boolean>;
   addingCommunityPostReplySuccessSubscription: Subscription;
+  currentAttachmentModalState$: Observable<CommunityAttachmentModalState>;
+
+  communityPostReplyForm: FormGroup;
+  replyMaxLength = 2000;
   addedRepliesSubscription: Subscription;
   addedRepliesCount = 0;
-
-  uploadedFiles: CommunityAttachment[] = [];
-  saveAttachmentUrl = '/odata/CloudFiles.UploadCommunityAttachment';
-  removeAttachmentUrl = '/odata/CloudFiles.DeleteCommunityAttachment';
+  attachmentModalId: string;
+  communityPostAttachments: CommunityAttachment[];
 
   constructor(public store: Store<fromCommunityPostReplyReducer.State>,
               public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>,
@@ -47,6 +49,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
     this.addingCommunityPostReply$ = this.store.select(fromCommunityPostReplyReducer.getAddingCommunityPostReply);
     this.addingCommunityPostReplySuccess$ = this.store.select(fromCommunityPostReplyReducer.getAddingCommunityPostReplySuccess);
     this.addedReplyView$ = this.addReplyViewStore.select(fromCommunityPostAddReplyViewReducer.getFilteredCommunityPostAddReplyView);
+    this.currentAttachmentModalState$ = this.store.select(fromCommunityAttachmentsReducer.getCurrentAttachmentModalState);
   }
 
   buildForm() {
@@ -56,6 +59,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit()  {
+    this.attachmentModalId = `${CommunitySearchResultTypeEnum.Reply}_${this.postId}`;
     this.addingCommunityPostReplySuccessSubscription = this.addingCommunityPostReplySuccess$.subscribe((response) => {
         if (response) {
           this.communityPostReplyForm.reset();
@@ -64,6 +68,11 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
     this.addedRepliesSubscription = this.addedReplyView$.subscribe(results => {
       this.addedRepliesCount = results.filter(x => x.PostId === this.postId).length;
     });
+
+    this.currentAttachmentModalState$.subscribe((state) => {
+      if (state && state.Id === this.attachmentModalId) {
+        this.communityPostAttachments = state.Attachments;
+    }});
   }
 
   ngOnDestroy() {
@@ -85,29 +94,14 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
         PostId: this.postId,
         ReplyText: replyText,
         Links: this.pfLinkifyService.getLinks(replyText),
-        Attachments: this.uploadedFiles
+        Attachments:  this.communityPostAttachments
       };
       this.store.dispatch(new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply));
       this.replySubmitted.emit();
     }
   }
 
-  uploadAttachmentEventHandler(e: UploadEvent) {
-    // this method is called one file at a time
-    const file = e.files[0];
-    const cloudFileName = `${file.uid}_${file.name}`;
-    e.data = {CloudFileName: cloudFileName};
-    this.uploadedFiles.push(mapFileInfoToCommunityAddAttachment(file, cloudFileName));
-  }
-
-  removeAttachmentEventHandler(e: RemoveEvent) {
-    // this method is called one file at a time
-    const file = e.files[0];
-    file.name = `${file.uid}_${file.name}`;
-
-    const index = this.uploadedFiles.findIndex(f => f.CloudFileName === file.name);
-    if ( index >= 0 ) {
-      this.uploadedFiles.splice(index, 1);
-    }
+  openAttachmentsModal() {
+    this.store.dispatch(new fromCommunityAttachmentActions.OpenCommunityAttachmentsModal(this.attachmentModalId));
   }
 }

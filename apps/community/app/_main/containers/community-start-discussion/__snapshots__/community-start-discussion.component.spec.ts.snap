@@ -2,7 +2,7 @@
 
 exports[`CommunityStartDiscussionComponent should show community start discussion 1`] = `
 <pf-community-start-discussion
-  communityPostAttachmentsCount$={[Function Store]}
+  currentAttachmentModalState$={[Function Store]}
   postType="0"
   route={[Function Object]}
   showPostJobButton={[Function Boolean]}
@@ -48,7 +48,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
 
 exports[`CommunityStartDiscussionComponent should show community start poll 1`] = `
 <pf-community-start-discussion
-  communityPostAttachmentsCount$={[Function Store]}
+  currentAttachmentModalState$={[Function Store]}
   postType={[Function Number]}
   route={[Function Object]}
   showPostJobButton={[Function Boolean]}
