@@ -39,7 +39,7 @@ describe('Custom Survey Title Component', () => {
     };
     component.SurveyTitleId = 1;
     fixture.detectChanges();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
   });
 

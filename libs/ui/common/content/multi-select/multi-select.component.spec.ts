@@ -43,6 +43,7 @@ describe('UI/Common/Content - Multi Select', () => {
     RoleName: string;
     ClientType: string;
     DefaultPayMarketId: number;
+    MapboxAccessToken: string;
   };
 
   const initialState = { userContext: userContext };

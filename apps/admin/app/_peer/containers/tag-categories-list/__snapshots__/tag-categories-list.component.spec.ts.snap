@@ -19,8 +19,6 @@ exports[`Tag Categories List (the page) should match the snapshot 1`] = `
   >
     <kendo-grid
       class="no-wrap-ellipsis-values"
-      ng-reflect-klass="no-wrap-ellipsis-values"
-      ng-reflect-ng-class="[object Object]"
     >
       <kendo-grid-column
         field="DisplayName"

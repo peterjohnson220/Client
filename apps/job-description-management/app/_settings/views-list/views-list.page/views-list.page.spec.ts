@@ -7,6 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { FilterArrayByName } from 'libs/core/pipes';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
+import { SimpleYesNoModalComponent } from 'libs/ui/common/simple-yes-no';
 
 import { JobDescriptionViewConstants } from '../../../shared/constants';
 import * as fromViewListActions from '../actions/views-list.actions';
@@ -22,7 +23,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewsListPageComponent, FilterArrayByName ],
+      declarations: [ ViewsListPageComponent, FilterArrayByName , SimpleYesNoModalComponent],
       providers: [
         provideMockStore({}),
         {
@@ -42,23 +43,19 @@ describe('Job Description Management - Settings - Views List Page', () => {
     fixture = TestBed.createComponent(ViewsListPageComponent);
     instance = fixture.componentInstance;
 
-    instance.deleteViewConfirmationModal = {
-      open: jest.fn()
-    };
-
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
   });
 
   it('should dispatch an action to the store to load the views upon init', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const expectedAction = new fromViewListActions.LoadJobDescriptionViews();
 
     // Init
     fixture.detectChanges();
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should track the views by their name', () => {
@@ -76,38 +73,38 @@ describe('Job Description Management - Settings - Views List Page', () => {
   });
 
   it('should dispatch an action to the store to delete the view with the name, when handling a delete confirmation', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const deletedViewName = 'View To Be Deleted';
     const expectedAction = new fromViewListActions.DeleteView({ viewName: deletedViewName });
 
     instance.handleViewDeleteConfirmed(deletedViewName);
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should dispatch an action to the store to edit the view with the name, when handling a view clicked', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const viewToEdit = 'View To Be Edited';
     const expectedAction = new fromViewEditActions.EditView({ viewName: viewToEdit });
 
     instance.handleViewClicked(viewToEdit);
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should tell the router to navigate to the edit page relative to this route, when handling a view clicked', () => {
-    spyOn(instance.router, 'navigate');
+    spyOn(router, 'navigate');
 
     instance.handleViewClicked('View To Be Edited');
 
-    expect(instance.router.navigate).toHaveBeenCalledWith(['edit'], { relativeTo: route });
+    expect(router.navigate).toHaveBeenCalledWith(['edit'], { relativeTo: route });
   });
 
   it('should stop propagation on the mouse event, when handling a delete view click', () => {
     const mouseEvent = new MouseEvent('click');
     spyOn(mouseEvent, 'stopPropagation');
 
-    instance.handleDeleteViewClicked('View to Delete', mouseEvent);
+    instance.handleDeleteViewClicked('Default', mouseEvent);
 
     expect(mouseEvent.stopPropagation).toHaveBeenCalled();
   });

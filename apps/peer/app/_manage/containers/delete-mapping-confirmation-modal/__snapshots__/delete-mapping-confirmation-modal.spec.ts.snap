@@ -2,7 +2,6 @@
 
 exports[`Peer - Manage - Delete Confirmation Modal should match snapshot on init 1`] = `
 <pf-delete-mapping-confirmation-modal
-  currentCompanyJob={[Function Object]}
   deleteMappingConfirmationModalOpen$={[Function Store]}
   deletingMapping$={[Function Store]}
   deletingMappingError$={[Function Store]}

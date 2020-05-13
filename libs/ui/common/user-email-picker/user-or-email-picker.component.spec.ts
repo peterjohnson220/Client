@@ -37,7 +37,7 @@ describe('UserOrEmailPickerComponent', () => {
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(UserOrEmailPickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

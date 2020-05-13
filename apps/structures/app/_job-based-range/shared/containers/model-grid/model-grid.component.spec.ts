@@ -46,8 +46,8 @@ describe('Job Range Structures - Model page', () => {
 
     fixture = TestBed.createComponent(ModelGridComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
-    ngbModal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    ngbModal = TestBed.inject(NgbModal);
     instance.roundingSettingsSub = of({}).subscribe();
   });
 

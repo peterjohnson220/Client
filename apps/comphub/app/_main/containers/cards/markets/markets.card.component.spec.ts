@@ -41,7 +41,7 @@ describe('Comphub - Main - Markets Card Component', () => {
     fixture = TestBed.createComponent(MarketsCardComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     instance.workflowContext = {
       ...generateMockWorkflowContext(),

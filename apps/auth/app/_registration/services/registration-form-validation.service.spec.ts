@@ -8,7 +8,7 @@ let service: RegistrationFormValidationService;
 describe('RegistrationFormValidationService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ providers: [ RegistrationFormValidationService ] });
-    service = TestBed.get(RegistrationFormValidationService);
+    service = TestBed.inject(RegistrationFormValidationService);
   });
 
   it('should be created', () => {

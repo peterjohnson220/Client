@@ -15,7 +15,7 @@ import { WorkbookCardComponent } from '../workbook-card';
 export class TableauWorkbookCardComponent {
   @Input() workbook: Workbook;
 
-  @ViewChild(WorkbookCardComponent, { static: false }) public workbookCard: WorkbookCardComponent;
+  @ViewChild(WorkbookCardComponent) public workbookCard: WorkbookCardComponent;
   showingViewPopover = false;
 
   constructor(

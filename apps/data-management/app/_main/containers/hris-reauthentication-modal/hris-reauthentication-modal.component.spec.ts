@@ -33,7 +33,7 @@ describe('Data Management - Main - Hris Re-Authentication Modal', () => {
     })
     .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(HrisReAuthenticationModalComponent);
     instance = fixture.componentInstance;

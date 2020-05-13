@@ -98,7 +98,7 @@ export function reducer(
     }
     case communityPostActions.GETTING_COMMUNITY_POSTS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload.Posts, state),
+        ...adapter.setAll(action.payload.Posts, state),
         loading: false,
         totalResultsOnServer: action.payload.Paging.TotalRecordCount,
         maximumReplies: action.payload.Paging.MaximumReplies
@@ -222,7 +222,7 @@ export function reducer(
 
     case communityPostActions.GETTING_BACK_TO_TOP_COMMUNITY_POSTS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload.Posts,
+        ...adapter.setAll(action.payload.Posts,
           state),
         loading: false
       };

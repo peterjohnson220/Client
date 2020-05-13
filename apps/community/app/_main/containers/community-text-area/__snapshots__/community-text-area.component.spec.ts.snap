@@ -20,12 +20,9 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
 >
   <div
     class="form-group ng-untouched ng-pristine ng-valid"
-    ng-reflect-form="[object Object]"
   >
     <div
       class="textAreaContainerScrollable"
-      ng-reflect-klass="textAreaContainerScrollable"
-      ng-reflect-ng-class="[object Object]"
       style="min-height: 75px; max-height: 75px;"
     >
       <div
@@ -40,8 +37,6 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
           data-qa-id="txt-communityDiscussionTextArea"
           formcontrolname="content"
           id="discussionTextArea"
-          ng-reflect-maxlength=""
-          ng-reflect-name="content"
           placeholder=""
           spellcheck="false"
         >

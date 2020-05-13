@@ -21,7 +21,7 @@ describe('CommunityPostsComponent', () => {
   let fixture: ComponentFixture<CommunityPostsComponent>;
   let instance: CommunityPostsComponent;
   let store: Store<fromRootState.State>;
-  let route: ActivatedRouteStub;
+  let route: ActivatedRoute;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -48,8 +48,8 @@ describe('CommunityPostsComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    route = TestBed.inject(ActivatedRoute);
 
     spyOn(store, 'dispatch');
 

@@ -76,7 +76,7 @@ export function reducer(
     }
     case communityJobActions.GETTING_COMMUNITY_JOBS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload.CommunityJobResults, state),
+        ...adapter.setAll(action.payload.CommunityJobResults, state),
         loading: false,
         totalResultsOnServer: action.payload.Paging.TotalRecordCount
       };

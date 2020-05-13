@@ -15,7 +15,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should not show t
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="Authenticate"
   >
     
@@ -27,9 +26,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should not show t
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="username"
         id="username"
-        ng-reflect-klass="form-control"
-        ng-reflect-name="username"
-        ng-reflect-ng-class="[object Object]"
         pffocus=""
         placeholder="Username*"
         type="text"
@@ -43,9 +39,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should not show t
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="password"
         id="password"
-        ng-reflect-klass="form-control"
-        ng-reflect-name="password"
-        ng-reflect-ng-class="[object Object]"
         placeholder="Password*"
         type="password"
       />
@@ -70,7 +63,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should show the f
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="Authenticate"
   >
     
@@ -82,9 +74,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should show the f
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="username"
         id="username"
-        ng-reflect-klass="form-control"
-        ng-reflect-name="username"
-        ng-reflect-ng-class="[object Object]"
         pffocus=""
         placeholder="Username*"
         type="text"
@@ -98,9 +87,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should show the f
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="password"
         id="password"
-        ng-reflect-klass="form-control"
-        ng-reflect-name="password"
-        ng-reflect-ng-class="[object Object]"
         placeholder="Password*"
         type="password"
       />

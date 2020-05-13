@@ -29,7 +29,7 @@ describe('Pf-Admin - Companies - Companies List Page', () => {
         fixture = TestBed.createComponent(CompaniesListPageComponent);
         instance = fixture.componentInstance;
 
-        store = TestBed.get(Store);
+        store = TestBed.inject(Store);
     });
 
     it('Should dispatch a LoadCompanies Action when the page is loaded', () => {

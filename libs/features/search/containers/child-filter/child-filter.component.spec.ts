@@ -29,7 +29,7 @@ describe('Search Feature Child Filter', () => {
 
     fixture = TestBed.createComponent(ChildFilterComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
   });
 

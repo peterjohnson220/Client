@@ -5,12 +5,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromCommunityPollRequestReducer from '../../reducers';
-import * as fromCommunityPollRequestActions from '../../actions/community-poll-request.actions';
-import * as fromCommunityPollResponseActions from '../../actions/community-poll-response.actions';
+import { CommunityPollResponse, generateMockCommunityPollResponse } from 'libs/models/community/community-poll-response.model';
 
+import * as fromCommunityPollRequestReducer from '../../reducers';
 import { CommunityPollsComponent } from './community-polls.component';
-import { CommunityPollResponse } from 'libs/models/community/community-poll-response.model';
 
 describe('ItemFormControlComponent', () => {
   let fixture: ComponentFixture<CommunityPollsComponent>;
@@ -34,7 +32,7 @@ describe('ItemFormControlComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
 
@@ -57,7 +55,7 @@ describe('ItemFormControlComponent', () => {
     const communityPollId = '99';
     const responseId = 1;
     const userSubmittedResponses: CommunityPollResponse[] =
-      [ { CommunityPollId: communityPollId, ResponsePercents: [ 2, 3, 4 ] } ];
+      [ { ...generateMockCommunityPollResponse(), CommunityPollId: communityPollId, ResponsePercents: [ 2, 3, 4 ] } ];
 
     instance.userSubmittedResponses = userSubmittedResponses;
 

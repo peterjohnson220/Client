@@ -35,7 +35,7 @@ describe('Left Sidebar', () => {
     schemas: [ NO_ERRORS_SCHEMA ],
     providers: [SettingsService],
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(LeftSidebarComponent);
     instance = fixture.componentInstance;

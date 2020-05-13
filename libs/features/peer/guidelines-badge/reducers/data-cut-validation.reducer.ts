@@ -40,7 +40,7 @@ export function reducer(state = initialState, action: fromDataCutValidationActio
     case fromDataCutValidationActions.LOAD_DATA_CUT_VALIDATION_SUCCESS: {
       const info: DataCutValidationInfo[] = action.payload;
       return {
-        ...adapter.addAll(info, state),
+        ...adapter.setAll(info, state),
         loading: false,
         loadingError: false
       };

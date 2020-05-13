@@ -84,7 +84,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
-  @ViewChild(GridComponent, { static: false }) grid: GridComponent;
+  @ViewChild(GridComponent) grid: GridComponent;
 
 
   constructor(private store: Store<fromReducer.State>, private ngZone: NgZone, private mappedFieldName: MappedFieldNamePipe) { }

@@ -14,8 +14,6 @@ exports[`Features - Peer - Filter Aggregate Group Component should apply the col
 >
   <div
     class="aggregate-group collapsed"
-    ng-reflect-klass="aggregate-group"
-    ng-reflect-ng-class="[object Object]"
   >
     <div
       class="aggregate-group-header"
@@ -82,8 +80,6 @@ exports[`Features - Peer - Filter Aggregate Group Component should show the Opti
 >
   <div
     class="aggregate-group"
-    ng-reflect-klass="aggregate-group"
-    ng-reflect-ng-class="[object Object]"
   >
     <div
       class="aggregate-group-header"
@@ -116,8 +112,6 @@ exports[`Features - Peer - Filter Aggregate Group Component should show the Opti
         
         <div
           class="search au-btn-search-MockId"
-          ng-reflect-klass="search"
-          ng-reflect-ng-class="au-btn-search-MockId"
         >
           <fa-icon />
         </div>

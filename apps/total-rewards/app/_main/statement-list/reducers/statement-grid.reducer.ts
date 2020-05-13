@@ -41,7 +41,7 @@ export function reducer(state, action) {
         }
         case fromStatementGridActions.LOAD_STATEMENTS_SUCCESS: {
           return {
-            ...adapter.addAll(featureAction.payload.data, featureState),
+            ...adapter.setAll(featureAction.payload.data, featureState),
             statementsTotal: featureAction.payload.total,
             statementsLoading: false,
             statementsLoadingError: false

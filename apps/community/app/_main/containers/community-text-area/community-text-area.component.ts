@@ -40,7 +40,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   @ViewChild('textAreaContainer', { static: true }) textAreaContainer: ElementRef;
   @ViewChild('textAreaContainerScrollable', { static: true }) textAreaContainerScrollable: ElementRef;
 
-  @ViewChild('suggestTagsContainer', { static: false }) suggestTagsContainer: ElementRef;
+  @ViewChild('suggestTagsContainer') suggestTagsContainer: ElementRef;
 
   get content() { return this.parentForm.get('content'); }
 

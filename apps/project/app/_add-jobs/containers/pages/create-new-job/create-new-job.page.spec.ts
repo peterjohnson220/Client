@@ -43,8 +43,8 @@ describe('Project - Add Jobs - Create New Job Page', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    location = TestBed.get(Location);
+    store = TestBed.inject(Store);
+    location = TestBed.inject(Location);
 
     fixture = TestBed.createComponent(CreateNewJobPageComponent);
     instance = fixture.componentInstance;

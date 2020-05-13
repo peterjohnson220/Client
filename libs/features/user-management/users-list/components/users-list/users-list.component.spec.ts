@@ -42,9 +42,9 @@ describe('Admin - Company Admin - Users List Component', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
 
     fixture = TestBed.createComponent(UsersListComponent);
     instance = fixture.componentInstance;

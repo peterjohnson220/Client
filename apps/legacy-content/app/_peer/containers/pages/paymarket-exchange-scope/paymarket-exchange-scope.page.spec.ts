@@ -16,7 +16,7 @@ describe('Legacy Content - Peer - PayMarket Exchange Scope', () => {
   let fixture: ComponentFixture<PaymarketExchangeScopeComponent>;
   let instance: PaymarketExchangeScopeComponent;
   let store: Store<fromRootState.State>;
-  let route: ActivatedRouteStub;
+  let route: ActivatedRoute;
   const queryStringParams = { companyPayMarketId: 12345 };
 
   beforeEach( () => {
@@ -41,8 +41,8 @@ describe('Legacy Content - Peer - PayMarket Exchange Scope', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    route = TestBed.inject(ActivatedRoute);
 
     spyOn(store, 'dispatch');
 

@@ -23,9 +23,9 @@ import { PageViewIds } from '../../../../constants';
 })
 export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
-  @ViewChild('projectAccessColumn', { static: false }) projectAccessColumn: ElementRef;
-  @ViewChild('projectOwnerColumn', { static: false }) projectOwnerColumn: ElementRef;
-  @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
+  @ViewChild('projectAccessColumn') projectAccessColumn: ElementRef;
+  @ViewChild('projectOwnerColumn') projectOwnerColumn: ElementRef;
+  @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   pageViewId = PageViewIds.Projects;

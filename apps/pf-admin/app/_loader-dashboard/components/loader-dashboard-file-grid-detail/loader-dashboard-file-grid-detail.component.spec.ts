@@ -29,7 +29,7 @@ describe('LoaderDashboardFileGridDetailComponent', () => {
 
     fixture = TestBed.createComponent(LoaderDashboardFileGridDetailComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   }));
 

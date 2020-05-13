@@ -36,8 +36,8 @@ describe('UserRolePageComponent', () => {
       declarations: [UserRolePageComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
-    store = TestBed.get(Store);
-    userRoleService = TestBed.get(UserRoleService);
+    store = TestBed.inject(Store);
+    userRoleService = TestBed.inject(UserRoleService);
 
     spyOn(store, 'dispatch');
 

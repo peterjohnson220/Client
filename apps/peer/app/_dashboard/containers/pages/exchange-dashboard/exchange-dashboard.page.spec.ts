@@ -46,9 +46,9 @@ describe('Peer - Exchange Dashboard', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    activatedRoute = TestBed.inject(ActivatedRoute);
 
     fixture = TestBed.createComponent(ExchangeDashboardPageComponent);
     instance = fixture.componentInstance;

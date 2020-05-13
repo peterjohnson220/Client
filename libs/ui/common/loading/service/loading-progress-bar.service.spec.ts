@@ -19,7 +19,7 @@ describe('LoadingProgressBarService', () => {
         LoadingProgressBarService
       ]
     });
-    service = TestBed.get(LoadingProgressBarService);
+    service = TestBed.inject(LoadingProgressBarService);
   });
 
   it('should be created', () => {

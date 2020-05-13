@@ -28,7 +28,7 @@ describe('TransferScheduleSummaryComponent', () => {
     })
       .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(TransferScheduleSummaryComponent);
     component = fixture.componentInstance;
   }));

@@ -42,8 +42,8 @@ describe('Job Description Management - Templates - Template List',
     fixture = TestBed.createComponent(TemplateListComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
   });
 
     it('should emit openDeleteModal', () => {

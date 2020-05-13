@@ -61,9 +61,9 @@ describe('Peer - Exchange Job Mapping Page', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
-    exchangeJobMappingService = TestBed.get(ExchangeJobMappingService);
+    store = TestBed.inject(Store);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    exchangeJobMappingService = TestBed.inject(ExchangeJobMappingService);
 
     fixture = TestBed.createComponent(ExchangeJobMappingPageComponent);
     instance = fixture.componentInstance;

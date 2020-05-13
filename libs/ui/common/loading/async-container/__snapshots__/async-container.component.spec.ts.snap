@@ -40,8 +40,6 @@ exports[`Async Container should show the pf-error-indicator and no reload button
 >
   <div
     class="loading-blanket loading-blanket-container no-opacity"
-    ng-reflect-klass="loading-blanket"
-    ng-reflect-ng-class="loading-blanket-container"
     style="opacity: 0.8;"
   >
     <div
@@ -79,8 +77,6 @@ exports[`Async Container should show the pf-error-indicator and reload button, w
 >
   <div
     class="loading-blanket loading-blanket-container no-opacity"
-    ng-reflect-klass="loading-blanket"
-    ng-reflect-ng-class="loading-blanket-container"
     style="opacity: 0.8;"
   >
     <div
@@ -124,8 +120,6 @@ exports[`Async Container should show the pf-loading-indicator, when we are loadi
 >
   <div
     class="loading-blanket loading-blanket-container"
-    ng-reflect-klass="loading-blanket"
-    ng-reflect-ng-class="loading-blanket-container"
     style="opacity: 0.8;"
   >
     <div

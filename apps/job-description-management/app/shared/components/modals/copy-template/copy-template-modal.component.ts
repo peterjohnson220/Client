@@ -14,12 +14,12 @@ export class CopyTemplateModalComponent implements OnInit {
   @ViewChild('copyTemplateModal', { static: true }) public copyTemplateModal: any;
   @Output() copyTemplateComplete = new EventEmitter();
 
-  private modalRef: NgbModalRef;
-  private templateNameForm: FormGroup;
-  private submitted = false;
-  private modalContext: any;
-  private invalidTemplateName = false;
-  private templateName = '';
+  modalRef: NgbModalRef;
+  templateNameForm: FormGroup;
+  submitted = false;
+  modalContext: any;
+  invalidTemplateName = false;
+  templateName = '';
 
   constructor(
     private formBuilder: FormBuilder,

@@ -54,7 +54,6 @@ exports[`Auth - Login should disable and show correct login button text when log
     >
       <form
         class="ng-untouched ng-pristine ng-invalid"
-        ng-reflect-form="[object Object]"
         novalidate=""
       >
         <div
@@ -82,7 +81,6 @@ exports[`Auth - Login should disable and show correct login button text when log
               formcontrolname="email"
               id="Email"
               name="email"
-              ng-reflect-name="email"
               type="email"
             />
           </div>
@@ -100,7 +98,6 @@ exports[`Auth - Login should disable and show correct login button text when log
               formcontrolname="password"
               id="password"
               name="password"
-              ng-reflect-name="password"
               type="password"
             />
           </div>
@@ -204,7 +201,6 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
     >
       <form
         class="ng-untouched ng-pristine ng-invalid"
-        ng-reflect-form="[object Object]"
         novalidate=""
       >
         <div
@@ -232,7 +228,6 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
               formcontrolname="email"
               id="Email"
               name="email"
-              ng-reflect-name="email"
               type="email"
             />
           </div>
@@ -250,7 +245,6 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
               formcontrolname="password"
               id="password"
               name="password"
-              ng-reflect-name="password"
               type="password"
             />
           </div>
@@ -354,7 +348,6 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
     >
       <form
         class="ng-untouched ng-pristine ng-invalid"
-        ng-reflect-form="[object Object]"
         novalidate=""
       >
         <div
@@ -382,7 +375,6 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
               formcontrolname="email"
               id="Email"
               name="email"
-              ng-reflect-name="email"
               type="email"
             />
           </div>
@@ -400,7 +392,6 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
               formcontrolname="password"
               id="password"
               name="password"
-              ng-reflect-name="password"
               type="password"
             />
           </div>
@@ -504,7 +495,6 @@ exports[`Auth - Login should show password expired notification on submitError 1
     >
       <form
         class="ng-untouched ng-pristine ng-invalid"
-        ng-reflect-form="[object Object]"
         novalidate=""
       >
         <div
@@ -539,7 +529,6 @@ exports[`Auth - Login should show password expired notification on submitError 1
               formcontrolname="email"
               id="Email"
               name="email"
-              ng-reflect-name="email"
               type="email"
             />
           </div>
@@ -557,7 +546,6 @@ exports[`Auth - Login should show password expired notification on submitError 1
               formcontrolname="password"
               id="password"
               name="password"
-              ng-reflect-name="password"
               type="password"
             />
           </div>

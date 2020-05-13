@@ -38,8 +38,8 @@ describe('Pf-Admin - Utilities - Select Company Page', () => {
     fixture = TestBed.createComponent(SelectCompanyPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
   });
 
   it('Should dispatch a LoadCompaniesListIfEmpty action upon Init', () => {

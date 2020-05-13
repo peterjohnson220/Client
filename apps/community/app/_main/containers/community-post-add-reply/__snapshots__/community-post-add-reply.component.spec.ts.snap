@@ -25,7 +25,6 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
 >
   <form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     novalidate=""
   >
     

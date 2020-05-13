@@ -33,22 +33,4 @@ describe('Right Sidebar', () => {
 
     expect(hostComponent).toMatchSnapshot();
   });
-
-  it('Should apply the correct visibility styles and classes when rightSidebarToggle is true', () => {
-
-    instance.rightSidebarToggle = true;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('Should apply the correct visibility styles and classes when rightSidebarToggle is false', () => {
-
-    instance.rightSidebarToggle = false;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
 });

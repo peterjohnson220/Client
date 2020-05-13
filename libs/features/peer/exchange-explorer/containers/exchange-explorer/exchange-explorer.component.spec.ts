@@ -49,9 +49,9 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
 
     fixture = TestBed.createComponent(ExchangeExplorerComponent);
     instance = fixture.componentInstance;

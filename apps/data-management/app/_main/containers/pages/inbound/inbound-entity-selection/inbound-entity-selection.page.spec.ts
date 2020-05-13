@@ -47,8 +47,8 @@ describe('InboundEntitySelectionPageComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(MockStore);
+    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(InboundEntitySelectionPageComponent);
     component = fixture.componentInstance;
   }));

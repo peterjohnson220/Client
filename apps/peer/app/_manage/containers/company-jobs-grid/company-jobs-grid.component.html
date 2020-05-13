@@ -1,11 +1,11 @@
-<div 
-  class="company-jobs-grid-container position-relative k-tooltip-container {{ (selectedCompanyJob$ | async) ? 'short' : 'h-100' }}" 
-  kendoTooltip 
-  showOn="none" 
-  filter=".k-grid td" 
-  [tooltipTemplate]="template" 
+<div
+  class="company-jobs-grid-container position-relative k-tooltip-container {{ (selectedCompanyJob$ | async) ? 'short' : 'h-100' }}"
+  kendoTooltip
+  showOn="none"
+  filter=".k-grid td"
+  [tooltipTemplate]="template"
   (mouseover)="showGridTooltip($event)">
-  <pf-async-container 
+  <pf-async-container
     [loading]="loadingGrid$ | async"
     [loadingError]="loadingGridError$ | async"
     [loadingErrorMessage]="loadingGridErrorMessage$ | async"
@@ -45,15 +45,12 @@
           </ng-template>
 
           <ng-template kendoGridCellTemplate let-dataItem>
-            <ng-template let-statusLabel [ngTemplateOutletContext]="{ $implicit: ' ' }" [ngTemplateOutlet]="t" #t>
-              <pf-peer-association-color-block class="status-color-block"
+              <pf-peer-association-color-block
                 [isAssociated]="dataItem.IsAssociated"
                 [isApproved]="dataItem.IsApproved"
                 [isExchangeSpecific]="true"
-                (statusLabel)="statusLabel = $event"
-              ></pf-peer-association-color-block>
-              <div class="status-label">{{statusLabel}}</div>
-            </ng-template>
+                [showStatusLabel]="true">
+              </pf-peer-association-color-block>
           </ng-template>
         </kendo-grid-column>
 

@@ -49,9 +49,9 @@ describe('Job Based Range Employees - Employees Page', () => {
 
     fixture = TestBed.createComponent(EmployeesPageComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
-    ngbModal = TestBed.get(NgbModal);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    ngbModal = TestBed.inject(NgbModal);
+    route = TestBed.inject(ActivatedRoute);
   });
 
   it('should dispatch the openModal action when handleModelSettingsClicked is called', () => {

@@ -30,7 +30,7 @@ describe('Data Insights - Tableau Workbook Card', () => {
 
     fixture = TestBed.createComponent(TableauWorkbookCardComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });

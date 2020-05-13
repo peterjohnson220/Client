@@ -28,8 +28,8 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
   @ViewChild('pricingJobsMessage', { static: true }) public pricingJobsMessage: any;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
-  @ViewChild('salaryColumn', { static: false }) salaryColumn: ElementRef;
-  @ViewChild('rateBasedSalaryColumn', { static: false }) rateBasedSalaryColumn: ElementRef;
+  @ViewChild('salaryColumn') salaryColumn: ElementRef;
+  @ViewChild('rateBasedSalaryColumn') rateBasedSalaryColumn: ElementRef;
   permissions = Permissions;
   userContext$: Observable<UserContext>;
   pricingJobs$: Observable<boolean>;

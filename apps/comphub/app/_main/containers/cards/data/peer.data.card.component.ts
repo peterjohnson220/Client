@@ -26,7 +26,7 @@ import { ComphubPages } from '../../../data';
 })
 export class PeerDataCardComponent implements OnInit, OnDestroy {
   @ViewChild(MapComponent, {static: true}) map: MapComponent;
-  @ViewChild(ExchangeExplorerComponent, {static: false}) exchangeExplorer: ExchangeExplorerComponent;
+  @ViewChild(ExchangeExplorerComponent) exchangeExplorer: ExchangeExplorerComponent;
 
   displayMap = false;
   jobTitle: string;

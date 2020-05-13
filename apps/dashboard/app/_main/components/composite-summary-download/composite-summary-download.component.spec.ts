@@ -46,7 +46,7 @@ describe('Dashboard - Main - Composite Summary Download', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CompositeSummaryDownloadComponent);

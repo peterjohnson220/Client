@@ -16,8 +16,8 @@ import { GeneralFormComponent } from '../general-form';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PayMarketModalComponent implements OnInit, OnDestroy {
-  @ViewChild(GeneralFormComponent, { static: false }) public generalForm: GeneralFormComponent;
-  @ViewChild('payMarketTabs', { static: false }) payMarketTabs: NgbTabset;
+  @ViewChild(GeneralFormComponent) public generalForm: GeneralFormComponent;
+  @ViewChild('payMarketTabs') payMarketTabs: NgbTabset;
   modalOpen$: Observable<boolean>;
   payMarketModalTabs = PayMarketModalTabs;
 

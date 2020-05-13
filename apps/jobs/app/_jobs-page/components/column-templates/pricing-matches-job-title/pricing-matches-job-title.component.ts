@@ -9,8 +9,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   @Input() dataRow: any[];
 
-  @ViewChild('jobTitleText', { static: false }) jobTitleText: ElementRef;
-  @ViewChild('detailsText', { static: false }) detailsText: ElementRef;
+  @ViewChild('jobTitleText') jobTitleText: ElementRef;
+  @ViewChild('detailsText') detailsText: ElementRef;
 
   public isCollapsed = true;
   public isOverflow = false;

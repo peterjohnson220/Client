@@ -29,7 +29,7 @@ describe('LoaderDashboardFilterComponent', () => {
 
     fixture = TestBed.createComponent(LoaderDashboardFilterComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   }));
 

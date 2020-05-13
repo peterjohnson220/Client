@@ -57,7 +57,7 @@ describe('Auth - Login', () => {
       'password' : ['mypassword']
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
   });
 

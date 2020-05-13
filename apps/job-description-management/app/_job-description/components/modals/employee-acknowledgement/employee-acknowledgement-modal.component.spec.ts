@@ -36,7 +36,7 @@ describe('Job Description Management - Job Description - Employee Acknowledgemen
 
     instance.signatureForm = new FormGroup({});
 
-    modal = TestBed.get(NgbModal);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should open acknowledgement modal, when calling open', () => {

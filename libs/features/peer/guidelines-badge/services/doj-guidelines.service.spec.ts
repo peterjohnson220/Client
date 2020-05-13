@@ -45,9 +45,9 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
       ]
     });
 
-    store = TestBed.get(Store);
-    service = TestBed.get(DojGuidelinesService);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(DojGuidelinesService);
+    activatedRoute = TestBed.inject(ActivatedRoute);
   });
 
   it('should return false for hasMinimumCompanies when receiving less than the minCompanies', () => {

@@ -38,8 +38,8 @@ describe('TotalRewardsStatementComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(MockStore);
+    activatedRoute = TestBed.inject(ActivatedRoute);
   }));
 
   beforeEach(() => {

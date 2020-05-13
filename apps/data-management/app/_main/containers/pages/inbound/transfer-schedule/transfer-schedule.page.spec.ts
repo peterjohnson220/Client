@@ -39,7 +39,7 @@ describe('TransferSchedulePageComponent', () => {
     })
     .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(TransferSchedulePageComponent);
     instance = fixture.componentInstance;
   });

@@ -31,8 +31,6 @@ exports[`Exchange Job Requests should match snapshot 1`] = `
     <pf-manage-exchange-section-header />
     <div
       class="d-flex job-request-grid-container no-collapse"
-      ng-reflect-klass="d-flex job-request-grid-contai"
-      ng-reflect-ng-class="no-collapse"
     >
       <pf-async-container
         class="flex-grow-1"

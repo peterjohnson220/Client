@@ -21,7 +21,7 @@ import * as fromLibsExchangeScopeActions from '../../actions/exchange-scope.acti
 })
 
 export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
-  @ViewChild('p', {static: false }) popover: NgbPopover;
+  @ViewChild('p') popover: NgbPopover;
 
   @Input() isExchangeJobSpecific: boolean;
   @Input() exchangeId: number;

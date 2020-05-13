@@ -36,12 +36,11 @@ describe('Peer - Manage - Delete Confirmation Modal', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(DeleteMappingConfirmationModalComponent);
     instance = fixture.componentInstance;
     instance.selectedExchangeJobTitle = mockExchangeJobMapping.ExchangeJobTitle;
-    instance.currentCompanyJob = mockExchangeJobMapping.CompanyJobMappings[0];
 
     spyOn(store, 'dispatch');
 

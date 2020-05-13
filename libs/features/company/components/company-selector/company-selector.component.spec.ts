@@ -26,7 +26,7 @@ describe('CompanySelectorComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(CompanySelectorComponent);
     instance = fixture.componentInstance;
 

@@ -53,7 +53,7 @@ export function reducer(state, action) {
         case fromExchangeCompaniesActions.LOADING_EXCHANGE_COMPANIES_SUCCESS: {
           const companies: ExchangeCompany[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(companies, featureState),
+            ...adapter.setAll(companies, featureState),
             loading: false,
             total: action.payload.total,
           };

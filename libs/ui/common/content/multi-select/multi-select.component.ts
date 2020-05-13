@@ -12,7 +12,7 @@ import {RemoteDataSourceService} from 'libs/core/services';
   styleUrls: ['./multi-select.component.scss']
 })
 export class MultiSelectComponent implements OnInit, OnDestroy {
-  @ViewChild(TooltipDirective, { static: false }) public tooltipDir: TooltipDirective;
+  @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
 
   @Input() options: GenericMenuItem[];
   @Input() selectedOptions: GenericMenuItem[] = [];

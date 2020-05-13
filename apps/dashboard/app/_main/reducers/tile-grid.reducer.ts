@@ -34,7 +34,7 @@ export function reducer(
       }
       case fromTileGridActions.LOADING_TILES_SUCCESS: {
         return {
-          ...adapter.addAll(action.payload, state),
+          ...adapter.setAll(action.payload, state),
           loading: false
         };
       }
@@ -71,7 +71,7 @@ export function reducer(
       }
       case fromTileGridActions.REORDER_TILES_SUCCESS : {
         return {
-          ...adapter.addAll(action.payload, state)
+          ...adapter.setAll(action.payload, state)
         };
       }
       default: {

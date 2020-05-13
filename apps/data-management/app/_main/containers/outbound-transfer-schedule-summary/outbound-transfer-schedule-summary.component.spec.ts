@@ -34,7 +34,7 @@ describe('OutboundTransferScheduleSummaryComponent', () => {
     })
       .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(OutboundTransferScheduleSummaryComponent);
     component = fixture.componentInstance;
   }));

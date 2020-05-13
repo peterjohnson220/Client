@@ -21,7 +21,7 @@ import { ConfirmDeleteJobDescriptionsModalComponent } from '../../../components/
 
 })
 export class JobDescriptionLoaderPageComponent implements OnInit {
-  @ViewChild(ConfirmDeleteJobDescriptionsModalComponent, { static: false })
+  @ViewChild(ConfirmDeleteJobDescriptionsModalComponent)
   public confirmDeleteJobDescriptionsModalComponent: ConfirmDeleteJobDescriptionsModalComponent;
 
   public isMappingCollapsed = false;

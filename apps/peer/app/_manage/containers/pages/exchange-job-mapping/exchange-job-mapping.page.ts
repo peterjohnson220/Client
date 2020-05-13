@@ -142,7 +142,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.selectedExchangeJobMappingSubscription.unsubscribe();
         this.showCompanyJobsSubscription.unsubscribe();
         this.exchangeIdSubscription.unsubscribe();
-        if (this.showCompanyJobs) {
+        if (this.companyJobsSearchTermSubscription) {
           this.companyJobsSearchTermSubscription.unsubscribe();
         }
 

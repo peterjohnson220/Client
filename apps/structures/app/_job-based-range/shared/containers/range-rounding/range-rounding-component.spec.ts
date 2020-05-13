@@ -44,8 +44,8 @@ describe('Job Based Ranges - Rounding Settings', () => {
 
     fixture = TestBed.createComponent(RangeRoundingComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
-    ngbModal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    ngbModal = TestBed.inject(NgbModal);
 
 
     instance.ngOnInit();

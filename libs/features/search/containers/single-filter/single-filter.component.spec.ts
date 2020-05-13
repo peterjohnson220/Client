@@ -33,7 +33,7 @@ describe('Search Feature - Single Filter', () => {
 
     fixture = TestBed.createComponent(SingleFilterComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should dispatch a SearchAggregation action upon init', () => {

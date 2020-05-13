@@ -121,7 +121,6 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       class="omni-box"
     >
       <pf-input-debounce
-        class=""
         id="company-job-search-box"
       />
       <pf-input-debounce

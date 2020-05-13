@@ -40,7 +40,7 @@ export function reducer(
       }
       case fromDashboardActions.LOADING_FEATURES_SUCCESS: {
         return {
-          ...adapter.addAll(action.payload, state),
+          ...adapter.setAll(action.payload, state),
           loading: false
         };
       }

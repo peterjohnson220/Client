@@ -43,14 +43,10 @@ exports[`Admin - Tickets - Ticket Detail Card Should display details about a tic
         
       </h4>
       <quill-view-html
-        ng-reflect-content="MockDescription"
-        ng-reflect-theme="snow"
         theme="snow"
       >
         <div
           class="ql-container ql-snow ngx-quill-view-html"
-          ng-reflect-klass="ql-container"
-          ng-reflect-ng-class="ql-snow ngx-quill-view-html"
         >
           <div
             class="ql-editor"

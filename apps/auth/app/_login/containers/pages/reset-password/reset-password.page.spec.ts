@@ -18,7 +18,7 @@ describe('Auth - Reset Password', () => {
   let fixture: ComponentFixture<ResetPasswordPageComponent>;
   let instance: ResetPasswordPageComponent;
   let store: Store<fromReducers.State>;
-  let route: ActivatedRouteStub;
+  let route: ActivatedRoute;
   const queryStringParams = { tk: 'testToken' };
 
   // Configure Testing Module for before each test
@@ -45,8 +45,8 @@ describe('Auth - Reset Password', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    route = TestBed.inject(ActivatedRoute);
 
     spyOn(store, 'dispatch');
 

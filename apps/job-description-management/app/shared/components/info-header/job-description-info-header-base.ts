@@ -1,4 +1,4 @@
-import { Input, OnInit, OnChanges } from '@angular/core';
+import { Input, OnInit, OnChanges, Directive } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -13,6 +13,7 @@ import * as fromJobDescriptionAppliesToReducers from '../../reducers/index';
 import * as fromJobDescriptionAppliesToActions from '../../actions/job-description-appliesto.actions';
 import { JobDescriptionAppliesToItem } from '../../models';
 
+@Directive()
 export abstract class JobDescriptionInfoHeaderBase implements OnInit, OnChanges {
   jobInfoFieldRows: any;
 

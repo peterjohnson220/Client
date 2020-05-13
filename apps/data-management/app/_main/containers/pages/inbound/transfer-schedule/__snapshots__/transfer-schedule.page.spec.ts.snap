@@ -92,9 +92,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
       >
          Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time. 
       </div>
-      <div
-        class=""
-      >
+      <div>
         <button
           class="btn btn-primary px-4 float-right"
         >
@@ -198,9 +196,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
       >
          Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time. 
       </div>
-      <div
-        class=""
-      >
+      <div>
         <button
           class="btn btn-primary px-4 float-right"
         >

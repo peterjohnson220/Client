@@ -23,7 +23,7 @@ describe('PricingLoadersComponent', () => {
     });
 
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(PricingLoadersComponent);
     instance = fixture.componentInstance;
     spyOn(store, 'dispatch');
