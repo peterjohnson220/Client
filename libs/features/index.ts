@@ -11,3 +11,5 @@ export * from './employee-management';
 export * from './job-management';
 export * from './pricing-details';
 export * from './notes-manager';
+export * from './survey-search';
+export * from './multi-match';
