@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import { delay, isNumber, isObject, cloneDeep } from 'lodash';
+import { delay, isNumber, isObject, isEmpty } from 'lodash';
 import { Store } from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {filter, take, takeUntil} from 'rxjs/operators';
@@ -526,8 +526,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
   isPublicKeyAuthInfoComplete() {
     if (this.sftpUserName || this.sftpPublicKey) {
-      return ((this.sftpUserName.length > 0 && (this.sftpPublicKey || (this.sftpUser && this.sftpUser.FileName.length > 0)))
-        || (this.sftpPublicKey && (this.sftpUserName.length > 0 || (this.sftpUser && this.sftpUser.UserName.length > 0))));
+      return ((!isEmpty(this.sftpUserName) && (this.sftpPublicKey || (this.sftpUser && this.sftpUser.FileName.length > 0)))
+        || (this.sftpPublicKey && (!isEmpty(this.sftpUserName) || (this.sftpUser && this.sftpUser.UserName.length > 0))));
     } else if (this.sftpUserName === '') {
       return false;
     } else {
