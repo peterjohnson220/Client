@@ -15,6 +15,7 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
   @Input() pricingInfo: any[];
 
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
+  @ViewChild('agingColumn', { static: false }) agingColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
   @ViewChild('pricingInfoColumn', { static: false }) pricingInfoColumn: ElementRef;
 
@@ -59,6 +60,7 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
   ngAfterViewInit() {
     this.colTemplates = {
       'Job_Title': { Template: this.jobTitleColumn },
+      'Aging_Factor': { Template: this.agingColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn },
       [PfDataGridColType.pricingInfo]: { Template: this.pricingInfoColumn }
     };

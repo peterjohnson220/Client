@@ -124,11 +124,11 @@
 </pf-async-container>
 
 <ng-template #columnHeaderTemplate let-column="column">
-  <div *ngIf="column" pfEllipsisActive class="ellipsis-text">
+  <div *ngIf="column" class="d-flex">
     <ng-container *ngIf="!!sortDescriptor?.length && sortDescriptor[0].field === column.field">
       <fa-icon *ngIf="sortDescriptor[0].dir === 'desc'" class="sort-icon" [icon]="['far', 'long-arrow-down']"></fa-icon>
       <fa-icon *ngIf="sortDescriptor[0].dir === 'asc'" class="sort-icon" [icon]="['far', 'long-arrow-up']"></fa-icon>
     </ng-container>
-    <span class="k-link">{{column.title}}</span>
+    <div class="k-link ellipsis-text" pfEllipsisActive>{{column.title}}</div>
   </div>
 </ng-template>
