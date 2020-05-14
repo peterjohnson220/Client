@@ -5,7 +5,7 @@
   </div>
   <div>
     <div class="mx-5 p-3">
-      <div class="error-group mb-3" *ngIf="validationErrors$ | async">
+      <div class="error-group mb-3" *ngIf="(validationErrors$ | async) || connectionSummary?.statuses?.includes('AuthenticationError')">
         <div class="alert alert-danger">
           <h5 class="mb-0">Authentication Failed</h5>
         </div>
@@ -14,10 +14,10 @@
           <li class="text-danger" *ngFor="let error of validationErrors$ | async">{{error}}</li>
         </ul>
       </div>
-      <div class="alert alert-success" *ngIf="validatedCredentials && !(showAuthWarning$ | async)">
+      <div class="alert alert-success" *ngIf="validatedCredentials && !(showAuthWarning$ | async) || connectionSummary?.statuses?.includes('Authenticated')">
         <h5 class="mb-0">Authentication Successful</h5>
       </div>
-      <div class="alert alert-warning" *ngIf="validatedCredentials && (showAuthWarning$ | async)">
+      <div class="alert alert-warning" *ngIf="validatedCredentials && (showAuthWarning$ | async) || connectionSummary?.statuses?.includes('Authenticating')">
         <h5>Authenticating Credentials</h5>
         This may take a few minutes. Once the process is completed you will receive a confirmation email from Payfactors.
         In the meantime, please follow the steps to set up your integration.
@@ -29,7 +29,8 @@
           (cancelClick)="cancel()"
           (backClick)="back()"
           (submitClick)="submitFormEvent($event)"
-          [validated]="validatedCredentials">
+          [validated]="validatedCredentials"
+          [waitingForAuthentication]="connectionSummary?.statuses?.includes('Authenticating')">
         </pf-workday-authentication>
 
         <pf-test-authentication
@@ -37,7 +38,8 @@
           (cancelClick)="cancel()"
           (backClick)="back()"
           (submitClick)="submitFormEvent($event)"
-          [validated]="validatedCredentials">
+          [validated]="validatedCredentials"
+          [waitingForAuthentication]="connectionSummary?.statuses?.includes('Authenticating')">
         </pf-test-authentication>
 
         <pf-workdaymock-authentication 
@@ -45,7 +47,8 @@
           (cancelClick)="cancel()"
           (backClick)="back()"
           (submitClick)="submitFormEvent($event)"
-          [validated]="validatedCredentials">
+          [validated]="validatedCredentials"
+          [waitingForAuthentication]="connectionSummary?.statuses?.includes('Authenticating')">
         </pf-workdaymock-authentication>
 
         <pf-workdayrest-authentication
@@ -54,7 +57,8 @@
           (cancelClick)="cancel()"
           (backClick)="back()"
           (submitClick)="submitFormEvent($event)"
-          [validated]="validatedCredentials">
+          [validated]="validatedCredentials"
+          [waitingForAuthentication]="connectionSummary?.statuses?.includes('Authenticating')">
         </pf-workdayrest-authentication>
 
         <div class="error-group mb-3" *ngSwitchCaseDefault>

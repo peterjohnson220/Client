@@ -36,6 +36,7 @@ export class DataInsightsPageComponent implements OnInit, OnDestroy {
   showAllStandardReports: boolean;
   showStandardReportsSection: boolean;
   thumbnailsViewSettingEnabled: boolean;
+  settingLoaded = false;
 
   constructor(
     private store: Store<fromDataInsightsMainReducer.State>,
@@ -68,6 +69,7 @@ export class DataInsightsPageComponent implements OnInit, OnDestroy {
       } else {
         this.store.dispatch(new fromDashboardsActions.GetCompanyWorkbooks());
       }
+      this.settingLoaded = true;
     });
     this.store.dispatch(new fromDataInsightsPageActions.GetStandardReports());
   }

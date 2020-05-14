@@ -13,6 +13,12 @@ exports[`CommunityPostReplyComponent should show community post reply component 
     <pf-community-post-content
       class="mt-2 mb-2"
     />
+    
+    <div
+      class="d-flex flex-wrap pt-3"
+    >
+      
+    </div>
     <pf-community-like />
   </div>
 </pf-community-post-reply>

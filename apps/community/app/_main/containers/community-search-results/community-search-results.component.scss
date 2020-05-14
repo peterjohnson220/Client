@@ -1,3 +1,6 @@
+@import 'colors';
+@import 'styles';
+
 .search-results-container{
   height: 100%;
   overflow-y: scroll;
@@ -6,12 +9,12 @@
 
 .footer-container
 {
-  color: #99A0A4;
+  color: $community-search-result-color;
 }
 
 .no-results-message-container
 {
-  color: #99A0A4;
+  color: $community-search-result-color;
 }
 
 .back-to-top-container
@@ -23,5 +26,11 @@
 
 .results-count
 {
-  color: #99A0A4;
+  color: $community-search-result-color;
+}
+
+.sub-results
+{
+  font-size: 90%;
+  line-height: 0.9rem;
 }

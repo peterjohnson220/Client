@@ -39,6 +39,7 @@ import {
 } from './components';
 import {
   IsSortablePipe,
+  SortDirectionPipe,
   IsColumnVisiblePipe,
   MappedFieldNamePipe,
 } from './pipes';
@@ -82,11 +83,7 @@ import {
     ColumnChooserComponent,
     ColumnGroupComponent,
     ColumnGroupListComponent,
-
-    // Pipes
-    IsSortablePipe,
-    IsColumnVisiblePipe,
-    MappedFieldNamePipe
+    IsSortablePipe
   ],
   exports: [
     PfDataGridComponent

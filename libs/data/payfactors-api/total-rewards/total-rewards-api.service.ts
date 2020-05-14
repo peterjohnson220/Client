@@ -38,4 +38,12 @@ export class TotalRewardsApiService {
   resetStatementSettings(statementId: string): Observable<Settings> {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/ResetStatementSettings?statementId=${statementId}`);
   }
+
+  getTemplates(): Observable<any[]> {
+    return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetTemplates`);
+  }
+
+  deleteStatementImage(fileName: string): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteStatementImage?fileName=${fileName}`);
+  }
 }

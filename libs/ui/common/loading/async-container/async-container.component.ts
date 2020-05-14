@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core';
 
 import { WindowRef } from 'libs/core/services';
+import { LoadingProgressBarModel } from '../models';
 
 @Component({
   selector: 'pf-async-container',
@@ -18,6 +19,7 @@ export class AsyncContainerComponent implements OnChanges {
   @Input() spinnerType = 'SVG';
   @Input() showSpinner = true;
   @Input() opacityLevel = 0.8;
+  @Input() loadingProgress: LoadingProgressBarModel;
   @Input() fullScreenLoadingMask = false;
 
   @Output() reload = new EventEmitter();

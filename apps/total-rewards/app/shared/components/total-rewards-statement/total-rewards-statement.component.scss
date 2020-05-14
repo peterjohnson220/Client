@@ -4,6 +4,7 @@
   background: white;
   width: 8.5in;
   max-height: 11in;
+  margin-top: 50px;
 }
 
 .page-break {
@@ -14,21 +15,16 @@
   border-left: 1px solid $trs-canvas-background-color;
   border-right: 1px solid $trs-canvas-background-color;
 }
-.row.vertical-divider div[class*="col-"]:first-child {
-  border-left: none;
-}
-.row.vertical-divider div[class*="col-"]:last-child {
-  border-right: none;
-}
 
-section.trs-section:last-child {
-  padding-bottom: 2rem;
+// hide the middle divider for the top row
+.row.vertical-divider:first-child .trs-column {
+  border-width: 0;
 }
 
 @media print {
-  .page-break	{ 
-    display: block; 
-    page-break-before: always; 
+  .page-break	{
+    display: block;
+    page-break-before: always;
   }
 
   .container {
@@ -42,8 +38,8 @@ section.trs-section:last-child {
 }
 
 @media screen {
-  .page-break	{ 
-    display: block; 
-    page-break-before: always; 
+  .page-break	{
+    display: block;
+    page-break-before: always;
   }
 }

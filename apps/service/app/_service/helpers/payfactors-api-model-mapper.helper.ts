@@ -1,8 +1,10 @@
 import {
   SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse, UserTicketComment
 } from 'libs/models/payfactors-api/service/response';
+import { MultiSelectItemGroup } from 'libs/ui/common';
+import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 
-import { TicketType, MultiSelectItemGroup, SupportTeamUser, TicketNote, NoteAccessLevel } from '../models';
+import { TicketType, SupportTeamUser, TicketNote, NoteAccessLevel, SupportTeam, TicketListMode } from '../models';
 import { TicketStateHelper } from './ticket-state.helper';
 import { UserTicket } from '../models';
 
@@ -34,7 +36,7 @@ export class PayfactorsApiModelMapper {
         ticketStates.push({
           GroupIndex: groupIndex,
           Title: s.TicketStateName,
-          Items: [ { IsSelected: false, Value: s.TicketStateName } ]
+          Items: [ { IsSelected: false, Name: s.TicketStateName, Value: s.TicketStateName } ]
         });
       }
     });
@@ -43,6 +45,7 @@ export class PayfactorsApiModelMapper {
 
   static mapSupportTeamResponseToSupportTeamUser(response: SupportTeamResponse[]): SupportTeamUser[] {
     return response.map((user) => {
+      const team: SupportTeam = this.findTeamByJobTitle(user.JobTitle);
       return {
         UserId: user.UserId,
         FirstName: user.FirstName,
@@ -50,9 +53,19 @@ export class PayfactorsApiModelMapper {
         Title: user.JobTitle,
         PhoneNumber: user.PhoneNumber,
         EmailAddress: user.EmailAddress,
-        UserPicture: user.UserPicture
+        UserPicture: user.UserPicture,
+        Team: team
       };
     });
+  }
+
+  static findTeamByJobTitle(jobTitle: string): SupportTeam {
+    if (jobTitle.includes('Client Services')) {
+      return SupportTeam.ClientServices;
+    } else if (jobTitle.includes('Customer Success')) {
+      return SupportTeam.ClientSuccess;
+    }
+    return null;
   }
 
   static mapUserTicketResponseToUserTicket(userId: number, response: UserTicketResponse): UserTicket {
@@ -79,5 +92,21 @@ export class PayfactorsApiModelMapper {
         UserName: comment.UserFullName
       };
     });
+  }
+
+  // OUT
+  static buildInboundFiltersByTicketListMode(listType: TicketListMode, userId: number): PfDataGridFilter[] {
+    if (listType === TicketListMode.AllCompanyTickets) {
+      return [{
+        SourceName: 'Is_Private',
+        Operator: '=',
+        Value: '0'
+      }];
+    }
+    return [{
+      SourceName: 'User_ID',
+      Operator: '=',
+      Value: userId ? userId.toString() : null
+    }];
   }
 }

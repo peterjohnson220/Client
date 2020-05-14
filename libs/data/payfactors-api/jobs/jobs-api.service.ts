@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CreateProjectRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
+import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
 
 @Injectable()
 export class JobsApiService {
   private endpoint = 'Jobs';
+  private frontEndExportEndpoint = 'Pricing';
 
   constructor(private payfactorsApiService: PayfactorsApiService
   ) { }
@@ -15,12 +17,12 @@ export class JobsApiService {
   }
 
   exportPricings(request: any) {
-    return this.payfactorsApiService.downloadFile(`${this.endpoint}/${request.Endpoint}`, {
+    return this.payfactorsApiService.downloadFile(`${this.frontEndExportEndpoint}/${request.Endpoint}`, {
       CompanyJobIds: request.CompanyJobIds,
       PricingIds: request.PricingIds,
       FileExtension: request.FileExtension,
       Name: request.Name
-    });
+    }, null, false, BaseUrlLocation.FrontEnd, true, true);
   }
 
   loadCustomExports() {

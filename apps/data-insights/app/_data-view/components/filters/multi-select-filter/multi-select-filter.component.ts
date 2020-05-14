@@ -25,12 +25,16 @@ export class MultiSelectFilterComponent implements OnChanges {
   hideMultiSelect: boolean;
 
   ngOnChanges(changes: SimpleChanges): void {
-    const operatorName = changes.selectedOperator.currentValue.Name;
-    if (!!changes && !!changes.options && !!changes.options.currentValue &&
-      !!this.filterValue && !!this.filterOptionsMultiSelect) {
-      this.filterOptionsMultiSelect.toggle(true);
+    if (!!changes) {
+      if (!!changes.selectedOperator && !!changes.selectedOperator.currentValue) {
+        const operatorName = changes.selectedOperator.currentValue.Name;
+        this.hideMultiSelect = operatorName === 'is null or empty' || operatorName === 'is not null or empty';
+      }
+      if (!!changes.options && !!changes.options.currentValue &&
+        !!this.filterValue && !!this.filterOptionsMultiSelect) {
+        this.filterOptionsMultiSelect.toggle(true);
+      }
     }
-    this.hideMultiSelect = operatorName === 'is null or empty' || operatorName === 'is not null or empty';
   }
 
   handleFilterOptionsMultiSelectOpen(event: any) {

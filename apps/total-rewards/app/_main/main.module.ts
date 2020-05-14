@@ -9,9 +9,6 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
-import { SharedModule } from '../shared';
-import { StatementEditModule } from './';
-import { StatementListModule } from './';
 
 @NgModule({
   imports: [
@@ -19,20 +16,15 @@ import { StatementListModule } from './';
     CommonModule,
 
     // 3rd Party
-
-    // Routing
-    MainRoutingModule,
+    FontAwesomeModule,
 
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    SharedModule,
-    FontAwesomeModule,
 
-    // Features
-    StatementEditModule,
-    StatementListModule
+    // Routing
+    MainRoutingModule
   ]
 })
 export class MainModule {

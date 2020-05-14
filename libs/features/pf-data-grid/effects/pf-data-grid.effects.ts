@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError, withLatestFrom, mergeMap, groupBy, debounceTime } from 'rxjs/operators';
+import { map, switchMap, catchError, withLatestFrom, mergeMap, groupBy, debounceTime, concatMap } from 'rxjs/operators';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
@@ -187,7 +187,7 @@ export class PfDataGridEffects {
     .pipe(
       ofType(fromPfDataGridActions.REORDER_COLUMNS),
       debounceTime(200),
-      mergeMap((reorderColumnsAction: fromPfDataGridActions.ReorderColumns) =>
+      concatMap((reorderColumnsAction: fromPfDataGridActions.ReorderColumns) =>
         of(reorderColumnsAction).pipe(
           withLatestFrom(
             this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, reorderColumnsAction.pageViewId)),

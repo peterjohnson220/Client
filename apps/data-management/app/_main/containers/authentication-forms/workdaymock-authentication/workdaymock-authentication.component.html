@@ -15,7 +15,7 @@
                     type="text"
                     class="form-control mb-1"
                     [ngClass]="{ 'is-invalid': submitted && workdayMockForm.controls.domain.errors }"
-                    [pfDisableFormControl]="validated"
+                    [pfDisableFormControl]="waitingForAuthentication"
                     formControlName="domain" autofocus>
               <div *ngIf="submitted && workdayMockForm.controls.domain.errors" class="invalid-feedback">
                   <div *ngIf="workdayMockForm.controls.domain.errors.required">Domain is required</div>
@@ -36,7 +36,7 @@
                     type="text"
                     class="form-control mb-1"
                     [ngClass]="{ 'is-invalid': submitted && workdayMockForm.controls.username.errors }"
-                    [pfDisableFormControl]="validated"
+                    [pfDisableFormControl]="waitingForAuthentication"
                     formControlName="username">
               <div *ngIf="submitted && workdayMockForm.controls.username.errors" class="invalid-feedback">
                   <div *ngIf="workdayMockForm.controls.username.errors.required">Username is required</div>
@@ -58,7 +58,7 @@
                         type="password"
                         class="form-control"
                         [ngClass]="{ 'is-invalid': submitted && workdayMockForm.controls.password.errors }"
-                        [pfDisableFormControl]="validated"
+                        [pfDisableFormControl]="waitingForAuthentication"
                         formControlName="password">
                 <div *ngIf="submitted && workdayMockForm.controls.password.errors" class="invalid-feedback">
                   <div *ngIf="workdayMockForm.controls.password.errors.required">Password is required</div>
@@ -76,7 +76,7 @@
         <button id="back" type="button" class="btn btn-secondary px-4" (click)="backBtnClick()">Back</button>
       </div>
       <div class="p-2">
-        <button id="authenticate" class="btn btn-primary px-4">Next</button>
+        <button id="authenticate" [disabled]="waitingForAuthentication" class="btn btn-primary px-4">Next</button>
       </div>
     </div>
   </form>

@@ -1,9 +1,8 @@
 import * as cloneDeep from 'lodash.clonedeep';
-import { createSelector } from '@ngrx/store';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
-import { Statement, StatementModeEnum } from '../../../shared/models';
+import { ImageControl, Statement, StatementModeEnum } from '../../../shared/models';
 import { TotalRewardsStatementService } from '../../../shared/services/total-rewards-statement.service';
 import * as fromEditStatementActions from '../actions';
 
@@ -83,7 +82,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return AsyncStateObjHelper.saving(state, 'statement');
     }
     case fromEditStatementActions.SAVE_STATEMENT_SUCCESS: {
-      return AsyncStateObjHelper.savingSuccess(state, 'statement');
+      return AsyncStateObjHelper.savingSuccess(state, 'statement', action.payload);
     }
     case fromEditStatementActions.SAVE_STATEMENT_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'statement', action.payload);
@@ -102,8 +101,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.UPDATE_CALCULATION_CONTROL_FIELD_TITLE: {
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
       const localState = cloneDeep(state);
-      const compFields = localState.statement.obj.Pages[Page].Sections[Section]
-        .Columns[Column].Controls[Control].DataFields;
+      const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
       for (let i = 0; i < compFields.length; i++) {
         if (compFields[i].Id === action.payload.DataFieldId) {
           localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].Name.Override = action.payload.NewName;
@@ -120,8 +118,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD: {
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
       const localState = cloneDeep(state);
-      const compFields = localState.statement.obj.Pages[Page].Sections[Section]
-        .Columns[Column].Controls[Control].DataFields;
+      const compFields = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields;
       for (let i = 0; i < compFields.length; i++) {
         if (compFields[i].Id === action.payload.DataFieldId) {
           localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control].DataFields[i].IsVisible = action.payload.IsVisible;
@@ -153,50 +150,54 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
     case fromEditStatementActions.TOGGLE_STATEMENT_EDIT_MODE: {
       const localState = cloneDeep(state);
       localState.mode = action.payload;
+      localState.isSettingsPanelOpen = false;
       return localState;
     }
     // settings
-    case fromEditStatementActions.OPEN_SETTINGS: {
+    case fromEditStatementActions.OPEN_SETTINGS_PANEL: {
       const localState: State = cloneDeep(state);
-      return {
-        ...localState,
-        isSettingsPanelOpen: true,
-      };
+      if (state.mode === StatementModeEnum.Preview) {
+        return localState;
+      }
+      localState.isSettingsPanelOpen = true;
+      return localState;
     }
-    case fromEditStatementActions.CLOSE_SETTINGS: {
+    case fromEditStatementActions.CLOSE_SETTINGS_PANEL: {
       const localState: State = cloneDeep(state);
-      return {
-        ...localState,
-        isSettingsPanelOpen: false,
-      };
+      localState.isSettingsPanelOpen = false;
+      return localState;
+    }
+    case fromEditStatementActions.TOGGLE_SETTINGS_PANEL: {
+      const localState: State = cloneDeep(state);
+      // bail if we're trying to open settings while in in preview mode
+      if (state.mode === StatementModeEnum.Preview && !localState.isSettingsPanelOpen) {
+        return localState;
+      }
+      localState.isSettingsPanelOpen = !localState.isSettingsPanelOpen;
+      return localState;
     }
     case fromEditStatementActions.RESET_SETTINGS:
     case fromEditStatementActions.SAVE_SETTINGS: {
       const localState: State = cloneDeep(state);
-      return {
-        ...localState,
-        settingsSaving: true,
-        settingsSaveError: false,
-      };
+      localState.settingsSaving = true;
+      localState.settingsSaveError = false;
+      return localState;
     }
     case fromEditStatementActions.SAVE_SETTINGS_SUCCESS: {
       const localState: State = cloneDeep(state);
       localState.statement.obj.Settings = action.payload;
-      return {
-        ...localState,
-        settingsSaving: false,
-        settingsSaveSuccess: true,
-        settingsSaveError: false,
-      };
+      localState.settingsSaving = false;
+      localState.settingsSaveSuccess = true;
+      localState.settingsSaveError = false;
+      localState.statement.obj.AuditRecord.EditedDateTime = new Date();
+      return localState;
     }
     case fromEditStatementActions.SAVE_SETTINGS_ERROR: {
       const localState: State = cloneDeep(state);
-      return {
-        ...localState,
-        settingsSaving: false,
-        settingsSaveSuccess: false,
-        settingsSaveError: true,
-      };
+      localState.settingsSaving = false;
+      localState.settingsSaveSuccess = false;
+      localState.settingsSaveError = true;
+      return localState;
     }
     case fromEditStatementActions.UPDATE_SETTINGS_FONT_FAMILY: {
       const localState: State = cloneDeep(state);
@@ -213,20 +214,24 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       localState.statement.obj.Settings.ChartColors[action.payload.ColorIndex] = action.payload.Color;
       return localState;
     }
+    case fromEditStatementActions.SAVE_IMAGE_CONTROL_IMAGE: {
+      const localState = cloneDeep(state);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
+      const control: ImageControl = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control] as ImageControl;
+      control.FileName = action.payload.FileName;
+      control.FileUrl = action.payload.FileUrl;
+      return localState;
+    }
+    case fromEditStatementActions.REMOVE_IMAGE_CONTROL_IMAGE: {
+      const localState = cloneDeep(state);
+      const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.Id);
+      const control: ImageControl = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control] as ImageControl;
+      control.FileName = '';
+      control.FileUrl = '';
+      return localState;
+    }
     default: {
       return state;
     }
   }
 }
-
-export const getStatementAsyncObj = (state: State) => state.statement;
-export const getStatement = createSelector(getStatementAsyncObj, (statementAsyncObj: AsyncStateObj<Statement>) => statementAsyncObj.obj);
-
-export const getStatementSettingsFontSize = createSelector(getStatement, (statement: Statement) => statement.Settings.FontSize);
-export const getStatementSettingsFontFamily = createSelector(getStatement, (statement: Statement) => statement.Settings.FontFamily);
-export const getStatementSettingsChartColors = createSelector(getStatement, (statement: Statement) => statement.Settings.ChartColors);
-
-export const getIsSettingsOpen = (state: State) => state.isSettingsPanelOpen;
-export const getIsSettingsSaving = (state: State) => state.settingsSaving;
-export const getIsSettingsSaveSuccess = (state: State) => state.settingsSaveSuccess;
-export const getIsSettingsSaveError = (state: State) => state.settingsSaveError;

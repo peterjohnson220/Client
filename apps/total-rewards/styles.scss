@@ -1,53 +1,74 @@
 @import 'colors';
+@import 'app-colors';
 @import 'total-rewards/statement-settings';
 @import 'total-rewards/statement-layout-variables';
 @import 'total-rewards/rich-text-editor';
 
-// adjust edit statement page's header dimenions when left side bar is expanded
-main.left-sidebar-expanded {
-  pf-statement-edit .header-row, .trs-rich-text-control.active .ql-toolbar {
-    left: $canvas-left-expanded-left-nav;
-    width: $canvas-width-expanded-left-nav;
+.left-sidebar {
+  z-index: 1040;
+}
+
+.btn-trs {
+  font-size: 1.1rem;
+}
+
+.btn-trs-primary, %btn-trs-primary {
+  background-color: $pf-primary-blue;
+  border: 1px solid $pf-primary-blue;
+  color: white;
+
+  &:hover, &:not(:disabled):not(.disabled):active{
+    background-color: darken($pf-primary-blue, 5%);
+    border-color: darken($pf-primary-blue, 5%);
+  }
+
+  &:disabled {
+    background-color: rgba($pf-primary-blue, .65);
+    border-color: rgba($pf-primary-blue, .65);
   }
 }
 
-// statement list page
+.btn-trs-secondary-btn {
+  background-color: $pf-secondary-background;
+  border: 1px solid $pf-secondary-border;
+  color: $pf-secondary-text;
+
+  &:hover, &:not(:disabled):not(.disabled):active{
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+
+  &:disabled {
+    background-color: $pf-secondary-background;
+    border-color: $pf-secondary-border-disabled;
+    color: $pf-secondary-text-disabled;
+  }
+}
+
 pf-total-rewards-statement-list-page {
-  .page-title {
-    svg {
-      color: $pf-brand-primary-color;
-    }
-  }
-
-  // hide no records found message in the grid when loading
   .loading-blanket + .k-grid .k-grid-norecords {
-    display: none;
+    display: none; // hide no records found message in the grid when loading
   }
 }
 
-pf-total-rewards-statement {
-  .trs-calculation-row {
-    .edit-icon {
-      visibility: hidden;
-    }
-  }
-}
-
-pf-statement-edit {
+pf-statement-edit.page {
   .page-content {
-    // let settings panel hide out to the right
-    overflow-x: hidden;
+    overflow-x: hidden; // let settings panel hide out to the right
+    background-color: $trs-edit-statement-page-background-color !important;
   }
   a.settings {
+    top: 4px;
+    color: inherit;
     svg {
-      color: white;
       font-size: 1.8rem;
-      transition: transform .25s ease-in-out;
-      opacity: .8;
+      transition: all .25s ease-in-out;
+      opacity: .65;
       &:hover {
         opacity: 1;
         transform: rotate(45deg);
       }
+    }
+    &.preview-mode svg {
+      opacity: .5;
     }
   }
 }
@@ -90,6 +111,16 @@ pf-total-rewards-statement {
       }
     }
   }
+
+  // disable mouse interaction for the chart so the legend cannot be clicked
+  .trs-chart .k-widget svg {
+    pointer-events: none;
+  }
+
+  // when we have a group of calculation controls together, hide all but the first secondary header, ie Contribution column header
+  .control-type-3 ~ .control-type-3 .secondary-header {
+    display: none;
+  }
 }
 
 pf-settings-panel {
@@ -106,6 +137,80 @@ pf-settings-panel {
     outline: none;
     &:hover {
       opacity: 1;
+    }
+  }
+}
+
+pf-trs-image-control {
+  .edit-mode {
+    border: 2px dashed $trs-canvas-background-color;
+    border-radius: 5px;
+  }
+  .edit-mode.show-image {
+    border: 2px dashed transparent;
+    transition: border .6s ease-in-out;
+    &:hover{
+      border: 2px dashed rgba($link-color, .5);
+    }
+  }
+
+  // Custom CSS to adjust Kendo Upload component
+  .trs-image {
+    svg {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .help-text {
+      font-size: .9rem;
+      bottom: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      display: inline-block;
+    }
+    .k-widget {
+      height: inherit;
+      max-height: 80px;
+      border: none;
+      .k-header {
+        border: none;
+      }
+      .k-dropzone {
+        padding-top: 4px;
+        height: 80px;
+        background: $trs-edit-statement-page-background-color;
+
+        .k-button.k-upload-button {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+      .k-upload-files {
+        position: relative;
+        padding: 0;
+        border: none;
+        top: -20px;
+        font-size: 1rem;
+        color: $color-danger;
+      }
+      .k-file {
+        padding: 0;
+        background: $trs-edit-statement-page-background-color;
+        border: none;
+      }
+      .k-file-extension-wrapper, .k-file-size, .k-file-invalid-extension-wrapper, .k-file-name {
+        display: none;
+      }
+      .k-upload-status {
+        padding: 0;
+        margin: 0;
+        font-size: 0;
+      }
+      .k-file-name-size-wrapper {
+        margin: 0;
+      }
     }
   }
 }

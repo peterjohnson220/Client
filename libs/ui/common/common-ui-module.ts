@@ -4,9 +4,12 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
-import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { TreeViewModule } from '@progress/kendo-angular-treeview';
+import { PopupModule } from '@progress/kendo-angular-popup';
 
 import * as fromFaIcons from './fa-icons';
 import { EllipsisViewMoreComponent, NavigationLinksComponent } from './content';
@@ -24,6 +27,9 @@ import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-pi
 import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
 import { SimpleYesNoModalComponent } from './simple-yes-no';
+import { LoadingProgressBarService } from './loading/service';
+import { MultiSelectDropdownComponent, ItemGroupComponent } from './multi-select-dropdown';
+import { MultiSelectTreeViewComponent, TreeViewCheckDirective } from './multi-select-treeview';
 
 const components = [
   // Content
@@ -35,9 +41,12 @@ const components = [
   NavigationLinksComponent,
   PeerAssociationColorBlockComponent,
   SimpleYesNoModalComponent,
+  MultiSelectDropdownComponent,
+  ItemGroupComponent,
+  MultiSelectTreeViewComponent,
 
   // Directives
-  ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective,
+  ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective,
 
   // Error
   ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent, TokenExpirationPageComponent, ForbiddenPageComponent,
@@ -61,17 +70,22 @@ const components = [
     RouterModule,
     PfCommonModule,
     NgbTooltipModule,
+    NgbProgressbarModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
     ImgFallbackModule,
     FontAwesomeModule,
-    ScrollingModule
+    ScrollingModule,
+    DropDownsModule,
+    TreeViewModule,
+    PopupModule
   ],
   declarations: components,
   exports: components,
   providers: [
-    WindowRef
+    WindowRef,
+    LoadingProgressBarService
   ]
 })
 export class PfCommonUIModule {

@@ -1,8 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {take} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 import { ClientServerFilterHelper } from '../../helpers';
 import { Filter, FilterType, isFilterableMultiFilter, isMultiFilter, isRangeFilter, isTextFilter } from '../../models';
 import { OperatorEnum } from '../../../../constants';
+import {FeatureAreaConstants, UiPersistenceSettingConstants} from '../../../../models/common';
+import {SettingsService} from '../../../../state/app-context/services';
 
 @Component({
   selector: 'pf-filter-section',
@@ -10,7 +14,7 @@ import { OperatorEnum } from '../../../../constants';
   styleUrls: ['./filter-section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FilterSectionComponent {
+export class FilterSectionComponent implements OnInit {
   @Input() filter: Filter;
   @Input() singled: boolean;
   @Input() overriddenSelectionCount: number;
@@ -19,14 +23,31 @@ export class FilterSectionComponent {
   @Output() clear: EventEmitter<string> = new EventEmitter();
   @Output() search: EventEmitter<Filter> = new EventEmitter();
   @Output() showMore: EventEmitter<Filter> = new EventEmitter();
+  @Output() showLess: EventEmitter<Filter> = new EventEmitter();
   @Output() searchValueChanged: EventEmitter<string> = new EventEmitter();
 
   protected cssReplacementRegex = /[\s]/g;
   collapsed: boolean;
   filterTypes = FilterType;
   maxOptions = ClientServerFilterHelper.defaultNumberOfOptions;
+  persistedCollapsedSetting$: Observable<boolean>;
+  persistedCollapsedSetting?: boolean;
 
-  constructor() {}
+  constructor(private settingsService: SettingsService) {}
+
+  ngOnInit(): void {
+    this.persistedCollapsedSetting$ = this.settingsService.selectUiPersistenceSettingFromDictionary(
+      FeatureAreaConstants.PeerManageFilters,
+      UiPersistenceSettingConstants.PeerDefaultCollapsedFilters,
+      this.filter.BackingField);
+
+    this.persistedCollapsedSetting$.pipe(take(1)).subscribe(collapsed => this.persistedCollapsedSetting = collapsed);
+
+      this.collapsed = typeof(this.persistedCollapsedSetting) === 'boolean' ?
+        !this.singled && this.persistedCollapsedSetting :
+        !this.singled && this.filter.IsCollapsedByDefault;
+
+  }
 
   get filterOperatorLabel(): string {
     const operator = this.filter.Operator;
@@ -94,9 +115,22 @@ export class FilterSectionComponent {
     return (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter)) && this.optionCount + this.selectionCount < this.filter.AggregateCount;
   }
 
-  toggle() {
+  get displayShowLess(): boolean {
+    return (isMultiFilter(this.filter) || isFilterableMultiFilter(this.filter)) && this.filter.AggregateCount != null && this.filter.AggregateCount !== 5;
+  }
+
+  toggle(updatePersistenceSettings = true) {
     if (!this.singled) {
       this.collapsed = !this.collapsed;
+
+      if (updatePersistenceSettings) {
+        this.settingsService.updateUiPersistenceSettingDictionary(
+          FeatureAreaConstants.PeerManageFilters,
+          UiPersistenceSettingConstants.PeerDefaultCollapsedFilters,
+          this.filter.BackingField,
+          this.collapsed
+        );
+      }
     }
   }
 
@@ -113,6 +147,12 @@ export class FilterSectionComponent {
   handleShowMoreClicked(filter: Filter) {
     if (this.allowedToSearch && !this.disableShowMore) {
       this.showMore.emit(filter);
+    }
+  }
+
+  handleShowLessClicked(filter: Filter) {
+    if (this.allowedToSearch) {
+      this.showLess.emit(filter);
     }
   }
 

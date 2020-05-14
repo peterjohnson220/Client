@@ -25,14 +25,26 @@
 </ng-template>
 
 <ng-template #statusColumn let-dataRow="dataRow">
-  <div class="status-column">
-    <fa-icon icon="circle" class="circle-icon"
-      [class.yellow]="dataRow['UserTickets_UserTicket_State'] === 'New'"
-      [class.green]="dataRow['UserTickets_UserTicket_State'] === 'Closed'"
-      [class.light-blue]="dataRow['UserTickets_UserTicket_State'] === 'Waiting for Response'"
-      [class.blue]="dataRow['UserTickets_UserTicket_State'] === 'In Progress'">
-    </fa-icon>
-    <span>{{dataRow['UserTickets_UserTicket_State']}}</span>
+  <div class="status-column d-flex">
+    <div class="flex-fill ellipsis-text">
+      <fa-icon icon="circle" class="circle-icon"
+        [class.yellow]="dataRow['UserTickets_UserTicket_State'] === 'New'"
+        [class.green]="dataRow['UserTickets_UserTicket_State'] === 'Closed'"
+        [class.light-blue]="dataRow['UserTickets_UserTicket_State'] === 'Waiting for Response'"
+        [class.blue]="dataRow['UserTickets_UserTicket_State'] === 'In Progress'">
+      </fa-icon>
+      <span>{{dataRow['UserTickets_UserTicket_State']}}</span>
+    </div>
+    <span *ngIf="!!dataRow['UserTickets_Is_Private']" class="badge badge-pill badge-private">Private</span>
+  </div>
+</ng-template>
+
+<ng-template #summaryColumn let-dataRow="dataRow">
+  <div class="summary-column d-flex">
+    <div class="flex-fill ellipsis-text">
+      <span>{{dataRow['UserTickets_Summary']}}</span>
+    </div>
+    <fa-icon *ngIf="dataRow['UserTickets_CountAttachments'] > 0" [icon]="['far', 'paperclip']"></fa-icon>
   </div>
 </ng-template>
 
@@ -65,19 +77,15 @@
 </ng-template>
 
 <ng-template #serviceDashboard>
-  <div class="d-flex flex-column">
-    <div perfectScrollbar class="service-dashboard-container h-50">
-      <pf-service-dashboard
-        [avatarUrl]="avatarUrl"
-        [supportTeam]="(supportTeam$ | async).obj">
-      </pf-service-dashboard>
-    </div>
-  </div>
+  <pf-service-dashboard
+    [avatarUrl]="avatarUrl"
+    [supportTeamUsers]="(supportTeam$ | async).obj">
+  </pf-service-dashboard>
 </ng-template>
 
 <ng-template #noRecords>
-  <div *ngIf="(fieldsFilterCount$ | async) === 1" class="text-center mt-5 pb-5 position-relative img-container">
-    <img class="img-fluid" width="400" src="/client/service/assets/images/NoTicketsCreated.png">
+  <div *ngIf="(fieldsFilterCount$ | async) === 1" class="text-center img-container">
+    <img width="400" src="/client/service/assets/images/NoTicketsCreated.png">
     <h2>No tickets created yet.</h2>
     <p>When you need assistance, our Support Team is here to help.</p>
   </div>

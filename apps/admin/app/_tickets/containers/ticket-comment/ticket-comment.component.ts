@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnInit, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 
 import { UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';
-import { TicketComment } from '../../models';
+import { TicketCommentLevel } from 'libs/models/payfactors-api/service/response';
 
+import { TicketComment } from '../../models';
 
 @Component({
   selector: 'pf-ticket-comment',
@@ -16,6 +17,7 @@ export class TicketCommentComponent implements OnInit {
 
   editMode: boolean;
   commentText = '';
+  commentLevel = TicketCommentLevel;
 
   constructor() { }
 

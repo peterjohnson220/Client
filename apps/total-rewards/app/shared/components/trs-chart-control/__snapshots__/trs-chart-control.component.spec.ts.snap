@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TrsChartControlComponent should show the title component and a settings link 1`] = `
+<pf-trs-chart-control
+  calculationControls={[Function Array]}
+  controlData={[Function Object]}
+  onTitleChange={[Function EventEmitter]}
+  settingsClick={[Function EventEmitter]}
+>
+  <div
+    class="trs-chart px-3 preview-mode"
+    ng-reflect-klass="trs-chart px-3 "
+    ng-reflect-ng-class="preview-mode"
+  >
+    <div
+      class="d-flex"
+    >
+      <h4
+        class="primary-control-heading mb-1 flex-grow-2"
+      >
+        <pf-inline-string-editor />
+      </h4>
+      <a
+        class="settings position-relative"
+        href="javascript:void(0)"
+        title="Chart Settings"
+      >
+        <fa-icon
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+    <kendo-chart>
+      <kendo-chart-legend
+        position="bottom"
+      />
+      <kendo-chart-series>
+        <kendo-chart-series-item
+          categoryfield="category"
+          field="value"
+          type="donut"
+        >
+          <kendo-chart-series-item-labels
+            color="#333333"
+            position="outsideEnd"
+          />
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+</pf-trs-chart-control>
+`;

@@ -11,7 +11,10 @@ import {
   UpdateStringPropertyRequest,
   UpdateTitleRequest,
   EmployeeRewardsData,
-  StatementModeEnum
+  StatementModeEnum,
+  CalculationControl,
+  SaveImageRequest,
+  DeleteImageRequest
 } from '../../models';
 
 @Component({
@@ -38,10 +41,17 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   // Rich Text Outputs
   @Output() onRichTextControlContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter<UpdateStringPropertyRequest>();
 
+  // Chart Control Outputs
+  @Output() onChartControlToggleSettingsPanelClick = new EventEmitter();
+
+  // Image Control Outputs
+  @Output() onSaveImage: EventEmitter<SaveImageRequest> = new EventEmitter();
+  @Output() onRemoveImage: EventEmitter<DeleteImageRequest> = new EventEmitter();
+
   controlType = TotalRewardsControlEnum;
   statementModeEnum = StatementModeEnum;
 
-  // check statement.Settings.FontSize and return small-font | medium-font | large-font | ''
+  // check statement.Settings.FontSize and return small-font-size | medium-font-size | large-font-size | ''
   get fontSizeCssClass(): string {
     if (this.statement && this.statement.Settings && this.statement.Settings.FontSize) {
       return this.statement.Settings.FontSize.toLowerCase() + '-font-size';
@@ -49,12 +59,27 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  // check statement.Settings.FontFamily and return 'arial-font-family', 'times-new-roman-font-family', etc
+  // check statement.Settings.FontFamily and return 'arial-font-family' | 'times-new-roman-font-family', etc
   get fontFamilyCssClass(): string {
     if (this.statement && this.statement.Settings && this.statement.Settings.FontFamily) {
       return this.statement.Settings.FontFamily.toLowerCase().replace(/ /g, '-') + '-font-family';
     }
     return '';
+  }
+
+  get calculationControls(): CalculationControl[] {
+    if (!this.statement) {
+      return [];
+    }
+
+    const calcControls = [];
+    this.statement.Pages.forEach(p => p.Sections.forEach(s => s.Columns.forEach(c => c.Controls.forEach(control => {
+      if (control.ControlType === TotalRewardsControlEnum.Calculation) {
+        calcControls.push(control);
+      }
+    }))));
+
+    return calcControls;
   }
 
   employeeData = [
@@ -109,14 +134,6 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
     return index;
   }
 
-  getColumnWidth(count) {
-    return 'col-' + (12 / count) + ' column';
-  }
-
-  getControlWidth(width) {
-    return 'col-' + width;
-  }
-
   // Common pass through methods
   handleOnControlTitleChange(event) {
     this.onControlTitleChange.emit(event);
@@ -142,5 +159,19 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   // Rich Text pass through methods
   handleOnRichTextControlContentChange(event) {
     this.onRichTextControlContentChange.emit(event);
+  }
+
+  // Chart pass through methods
+  handleChartControlSettingsClick() {
+    this.onChartControlToggleSettingsPanelClick.emit();
+  }
+
+  // Image pass though methods
+  handleSaveImage(event) {
+    this.onSaveImage.emit(event);
+  }
+
+  handleRemoveImage(deleteImageRequest) {
+    this.onRemoveImage.emit(deleteImageRequest);
   }
 }

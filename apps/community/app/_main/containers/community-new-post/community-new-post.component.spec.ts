@@ -62,7 +62,8 @@ describe('CommunityNewPostComponent', () => {
       PostText: 'hello world',
       IsInternalOnly: false,
       Links: undefined,
-      TopicId: 'TestTopic'
+      TopicId: 'TestTopic',
+      Attachments: []
     };
 
      const expectedAction = new fromCommunityPostActions.SubmittingCommunityPost(newPost);

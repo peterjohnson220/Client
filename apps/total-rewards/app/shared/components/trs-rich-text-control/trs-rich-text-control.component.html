@@ -1,5 +1,5 @@
 <div class="col-12 printClass trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': isInvalid, 'edit-mode': (mode === statementModeEnum.Edit), 'preview-mode': (mode === statementModeEnum.Preview)}">
-  <h4 class="primary-control-heading">
+  <h4 class="primary-control-heading mb-1">
     <pf-inline-string-editor
       [value]="controlData.Title.Override"
       [placeholder]="controlData.Title.Default"

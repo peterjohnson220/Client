@@ -27,7 +27,7 @@
           <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>
           <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
 
-          <div *ngIf="submitVisible" class="ml-3 p-0">
+          <div *ngIf="submitVisible" class="p-0">
             <button id="start-discussion-post-button" [disabled]="!submitEnabled"
                     data-qa-id="btn-startDiscussionPost"
                     (click)="submitContent()" class="btn btn-primary float-right shadow-none">Post

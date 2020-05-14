@@ -8,14 +8,11 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
   statementsSearchTerm$={[Function Store]}
   statementsTotal$={[Function Observable]}
   store={[Function Store]}
+  tabs={[Function NgbTabset]}
 >
   <pf-page-with-title-bar>
     
-    <fa-icon
-      aria-hidden="true"
-      class="mr-2"
-    />
-    Total Rewards Statements 
+    Total Rewards
     
     <pf-input-debounce
       class="mr-2"
@@ -25,7 +22,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
       class="d-flex flex-column h-100"
     >
       <div
-        class="mh-100"
+        class="h-100"
       >
         <ngb-tabset
           ng-reflect-destroy-on-hide="false"
@@ -95,9 +92,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
               role="tabpanel"
             >
               
-              <h4>
-                Templates will go here.
-              </h4>
+              <pf-total-rewards-template-card-selector />
             </div>
             
           </div>
@@ -116,14 +111,11 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
   statementsSearchTerm$={[Function Store]}
   statementsTotal$={[Function Observable]}
   store={[Function Store]}
+  tabs={[Function NgbTabset]}
 >
   <pf-page-with-title-bar>
     
-    <fa-icon
-      aria-hidden="true"
-      class="mr-2"
-    />
-    Total Rewards Statements 
+    Total Rewards
     
     <pf-input-debounce
       class="mr-2"
@@ -133,7 +125,7 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
       class="d-flex flex-column h-100"
     >
       <div
-        class="mh-100"
+        class="h-100"
       >
         <ngb-tabset
           ng-reflect-destroy-on-hide="false"
@@ -207,9 +199,7 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
               role="tabpanel"
             >
               
-              <h4>
-                Templates will go here.
-              </h4>
+              <pf-total-rewards-template-card-selector />
             </div>
             
           </div>

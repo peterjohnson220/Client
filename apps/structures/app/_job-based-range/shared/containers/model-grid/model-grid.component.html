@@ -11,7 +11,7 @@
     [columnTemplates]="colTemplates"
     [pageTheme]="'next-gen'"
     [actionBarConfig]="singleRecordActionBarConfig"
-    [defaultColumnWidth]="175">
+    [reorderable]="reorderable">
   </pf-data-grid>
 </ng-container>
 
@@ -36,37 +36,28 @@
     [contentClassNamesOverrides]="'py-3 px-4'"
     [pageable]="false"
     [borders]="false"
-    [autoFitColumnsToHeader]="true">
+    [reorderable]="reorderable">
   </pf-data-grid>
-</ng-template>
-
-<ng-template #min let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow.CompanyStructures_Ranges_Min; else noValue">
-    {{ dataRow.CompanyStructures_Ranges_Min | rangeValue: (metaData$ | async)?.Rate }}
-  </ng-container>
 </ng-template>
 
 <ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container *ngIf="!!dataRow.CompanyStructures_Ranges_Mid; else noValue">
-    <kendo-numerictextbox  *ngIf="!(metaData$ | async).IsCurrent"
-                           class="form-control"
-                           [value]="dataRow.CompanyStructures_Ranges_Mid"
-                           [spinners]="false"
-                           [format]="(metaData$ | async)?.Rate.localeCompare('Annual', undefined, { sensitivity: 'accent' }) === 0 ? 'n0' : 'n2'"
-                           [decimals]="(metaData$ | async)?.Rate.localeCompare('Annual', undefined, { sensitivity: 'accent' }) === 0 ? 0 : 2"
-                           (change)="handleRangeOverrideOnBlur(dataRow, $event, rowIndex)"
-                           [min]="1"
-                           [step]="0"
-                           [max]="999999999999999"
-                           [autoCorrect]="true">
-    </kendo-numerictextbox>
-    <div class="staticMid" *ngIf="(metaData$ | async).IsCurrent">{{dataRow.CompanyStructures_Ranges_Mid | rangeValue: (metaData$ | async)?.Rate}}</div>
-  </ng-container>
-</ng-template>
-
-<ng-template #max let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow.CompanyStructures_Ranges_Max; else noValue">
-    {{ dataRow.CompanyStructures_Ranges_Max | rangeValue: (metaData$ | async)?.Rate }}
+    <pf-midpoint-editor
+      [pageViewId]="modelPageViewId"
+      [rangeGroupType]="rangeGroupType"
+      [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
+      [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
+      [rate]="(metaData$ | async)?.Rate"
+      [mid]="dataRow.CompanyStructures_Ranges_Mid"
+      [currentStructure]="(metaData$ | async)?.IsCurrent"
+      [dataRow]="dataRow"
+      [rowIndex]="rowIndex"
+      [roundingSettings]="roundingSettings"
+      [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
+      [updateMetaInfo]="{ page: page }"
+      [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
+      [readonlyValueTemplate]="midReadOnly">
+    </pf-midpoint-editor>
   </ng-container>
 </ng-template>
 
@@ -86,12 +77,18 @@
   </ng-container>
 </ng-template>
 
-<ng-template #avgBaseSalary let-dataRow="dataRow" let-fieldName="fieldName">
-  {{ dataRow.CompanyStructures_RangeGroup_AvgBaseSalary | rangeValue: (metaData$ | async)?.Rate }}
+<ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
 </ng-template>
 
 <ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
-  <ng-container *ngIf="dataRow[fieldName]">{{dataRow[fieldName]}}%</ng-container>
+  <ng-container *ngIf="dataRow[fieldName] || dataRow[fieldName] === 0; else noValue">{{dataRow[fieldName]}}%</ng-container>
+</ng-template>
+
+<ng-template #noFormatting let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap" *ngIf="dataRow[fieldName]; else noValue">
+    {{dataRow[fieldName]}}
+  </div>
 </ng-template>
 
 <ng-template #gridGlobalActions>
@@ -109,6 +106,10 @@
 
 <ng-template #noValue>
   - -
+</ng-template>
+
+<ng-template #midReadOnly let-mid="mid">
+  {{mid | rangeValue: (metaData$ | async)?.Rate }}
 </ng-template>
 
 <pf-model-settings-modal [rangeGroupId]="rangeGroupId" [page]="page"></pf-model-settings-modal>

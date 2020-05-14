@@ -1,69 +1,114 @@
 <pf-page-with-title-bar [absoluteUrl]="env.siteAdminUrl + '/navigation'">
 
   <ng-container page-title>
-    Exchange Job to Company Job Auto Match
+    Manage Exchange Job Matches
   </ng-container>
 
   <ng-container page-content>
+
+  <div class="d-flex h-100" >
+
+    <div class="p-3 flex-grow-1">
+      <h5>Exchange Job Match Utility</h5>
     <form [formGroup]="autoAssociationForm"
-          (ngSubmit)="handleRunButtonClick()"
-          class="w-25">
-      <div class="form-group">
-        <label class="col-form-label"
-               for="company-selector">Choose a Company:</label>
-        <kendo-combobox #companyList
-                        class="form-control"
-                        id="company-selector"
-                        formControlName="companySelection"
-                        textField="Value"
-                        valueField="Key"
-                        [valuePrimitive]="true"
-                        [data]="companyOptionsFiltered"
-                        [filterable]="true"
-                        (filterChange)="handleCompanyFilterChange($event)"
-                        (selectionChange)="handleCompanySelectionChange($event)">
-        </kendo-combobox>
-      </div>
+            (ngSubmit)="handleRunButtonClick()"
+            class="w-100 " >
+        <div class="form-group">
+          <label class="col-form-label"
+                 for="company-selector">Choose a Company:</label>
+          <kendo-combobox #companyList
+                          class="form-control"
+                          id="company-selector"
+                          formControlName="companySelection"
+                          textField="Value"
+                          valueField="Key"
+                          [valuePrimitive]="true"
+                          [data]="companyOptionsFiltered"
+                          [filterable]="true"
+                          (filterChange)="handleCompanyFilterChange($event)"
+                          (selectionChange)="handleCompanySelectionChange($event)">
+          </kendo-combobox>
+        </div>
 
-      <div class="form-group">
-        <label class="col-form-label"
-               for="exchange-selector">Choose an Exchange:</label>
-        <kendo-combobox #exchangeList
-                        class="form-control"
-                        id="exchange-selector"
-                        formControlName="exchangeSelection"
-                        textField="Value"
-                        valueField="Key"
-                        [valuePrimitive]="true"
-                        [data]="exchangeOptionsFiltered"
-                        [disabled]="!companySelectionControl.valid"
-                        [filterable]="true"
-                        (filterChange)="handleExchangeFilterChange($event)">
-        </kendo-combobox>
-      </div>
+        <div class="form-group">
+          <label class="col-form-label"
+                 for="exchange-selector">Choose an Exchange:</label>
+          <kendo-combobox #exchangeList
+                          class="form-control"
+                          id="exchange-selector"
+                          formControlName="exchangeSelection"
+                          textField="Value"
+                          valueField="Key"
+                          [valuePrimitive]="true"
+                          [data]="exchangeOptionsFiltered"
+                          [disabled]="!companySelectionControl.valid"
+                          [filterable]="true"
+                          (filterChange)="handleExchangeFilterChange($event)">
+          </kendo-combobox>
+        </div>
 
-      <button type="button"
-              class="btn btn-primary mb-lg-2"
-              [disabled]="!autoAssociationForm.valid || (autoAssociating$ | async)"
-              (click)="handleRunButtonClick()">
-        <span *ngIf="autoAssociating$ | async">
-          <pf-loading-indicator></pf-loading-indicator> Running...
+        <button type="button"
+                class="btn btn-primary mb-lg-2"
+                [disabled]="!autoAssociationForm.valid || (autoAssociating$ | async)"
+                (click)="handleRunButtonClick()">
+          <span *ngIf="autoAssociating$ | async">
+            <pf-loading-indicator></pf-loading-indicator> Running...
+          </span>
+          <span *ngIf="!(autoAssociating$ | async)">Run Auto Match</span>
+        </button>
+
+        <ng-container *ngIf="!(autoAssociating$ | async) && hasAttemptedRun">
+          <div class="alert alert-success"
+               *ngIf="!(autoAssociatingError$ | async)">
+            {{(autoAssociatingCount$ | async )}} job(s) have been matched successfully!
+          </div>
+          <div class="alert alert-danger"
+               *ngIf="(autoAssociatingError$ | async)">
+            There was an error associating jobs for this company and exchange.
+          </div>
+        </ng-container>
+      </form>
+    </div>
+
+    <div class="vertical-separator my-2 mx-3"></div>
+
+    <div class="p-3 flex-grow-1">
+      <h5>Export Job Matches</h5>
+      <form [formGroup]="exportAssociationForm"
+            (ngSubmit)="handleExportButtonClick()"
+            class="w-100" >
+        <div class="form-group">
+          <label class="col-form-label"
+                 for="company-selector">Choose a Company:</label>
+          <kendo-combobox #companyList
+                          class="form-control"
+                          id="company-selector-export"
+                          formControlName="exportCompanySelection"
+                          textField="Value"
+                          valueField="Key"
+                          [valuePrimitive]="true"
+                          [data]="companyOptionsFiltered"
+                          [filterable]="true"
+                          (filterChange)="handleCompanyFilterChange($event)"
+                          (selectionChange)="handleCompanySelectionChange($event)">
+          </kendo-combobox>
+        </div>
+
+        <button type="button"
+                class="btn btn-primary mb-lg-2"
+                [disabled]="(!exportCompanySelectionControl.valid)"
+                (click)="handleExportButtonClick()">
+          <span *ngIf="(exportingMatches$ | async)">
+            <pf-loading-indicator></pf-loading-indicator> Exporting...
+          </span>
+          <span *ngIf="!(exportingMatches$ | async)">Export Matches</span>
+        </button>
+        <span *ngIf="(exportingMatchesError$ | async)" class="alert-danger ml-3 p-2 rounded">
+          An error has occurred.
         </span>
-        <span *ngIf="!(autoAssociating$ | async)">Run</span>
-      </button>
-
-      <ng-container *ngIf="!(autoAssociating$ | async) && hasAttemptedRun">
-        <div class="alert alert-success"
-             *ngIf="!(autoAssociatingError$ | async)">
-          {{(autoAssociatingCount$ | async )}} job(s) have been matched successfully!
-        </div>
-        <div class="alert alert-danger"
-             *ngIf="(autoAssociatingError$ | async)">
-          There was an error associating jobs for this company and exchange.
-        </div>
-      </ng-container>
-    </form>
-
+      </form>
+    </div>
+  </div>
   </ng-container>
 
 </pf-page-with-title-bar>

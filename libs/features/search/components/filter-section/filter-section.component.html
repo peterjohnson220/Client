@@ -37,7 +37,14 @@
     </div>
     <div class="content">
       <ng-content></ng-content>
-      <div *ngIf="displayShowMore" (click)="handleShowMoreClicked(filter)" class="show-more-link" [class.disabled]="!allowedToSearch || disableShowMore">Show More</div>
+
+      <div *ngIf="displayShowMore" class="d-flex">
+        <div (click)="handleShowMoreClicked(filter)" class="show-more-or-less-link" [class.disabled]="!allowedToSearch || disableShowMore">Show More</div>
+        <div *ngIf="displayShowLess" class="d-flex">
+          <div class="mt-1">&nbsp;|&nbsp;</div>
+          <div (click)="handleShowLessClicked(filter)" class="show-more-or-less-link" [class.disabled]="!allowedToSearch">Show Less</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

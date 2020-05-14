@@ -47,7 +47,8 @@ export class StatementEditPageEffects {
         fromStatementEditActions.UPDATE_CALCULATION_CONTROL_SUMMARY_TITLE,
         fromStatementEditActions.REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD,
-        fromStatementEditActions.UPDATE_RICH_TEXT_CONTROL_CONTENT
+        fromStatementEditActions.UPDATE_RICH_TEXT_CONTROL_CONTENT,
+        fromStatementEditActions.SAVE_IMAGE_CONTROL_IMAGE
       ),
       mapTo(new SaveStatement())
     );
@@ -103,6 +104,17 @@ export class StatementEditPageEffects {
           map((settings: Settings) => new fromStatementEditActions.SaveSettingsSuccess(settings)),
           catchError(() => of(new fromStatementEditActions.SaveSettingsError()))
         ))
+    );
+
+  @Effect()
+  removeImage$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromStatementEditActions.REMOVE_IMAGE_CONTROL_IMAGE),
+      switchMap((action: fromStatementEditActions.RemoveImageControlImage) =>
+        this.totalRewardsApiService.deleteStatementImage(action.payload.FileName).pipe(
+          mapTo(new SaveStatement())
+        )
+      )
     );
 
   constructor(

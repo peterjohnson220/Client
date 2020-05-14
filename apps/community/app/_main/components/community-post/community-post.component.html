@@ -17,11 +17,18 @@
                                   [hasReplies]="hasReplies(post)"
                                   [hidePostActions]="false">
         </pf-community-post-header>
-        <div *ngIf="!post.UserPollRequest; else user_poll">
+        <div *ngIf="!post.UserPollRequest; else user_poll">      
           <pf-community-post-content class="mt-2 mb-2"
                                      (hashTagClicked)="hashtagClicked($event)"
                                      [content]="post.Content">
           </pf-community-post-content>
+          <div *ngIf="!!post.Attachments" class="d-flex flex-wrap pt-3">
+            <div class="pr-2 py-1" *ngFor="let attachment of post.Attachments">
+              <pf-community-attachment
+                [attachment]="attachment">
+              </pf-community-attachment>         
+             </div>
+          </div>
           <div class="url-preview-card p-1" *ngIf="post?.UrlPreviewData.PreviewTitle">
             <a [href]="post.UrlPreviewData.PreviewUrl" target="_blank">
               <div class="url-preview-card-image-container mr-2">

@@ -15,6 +15,10 @@
     (selectedDashboardViewChanged)="handleSelectedDashboardViewChanged($event)">
   </pf-dashboards-header>
 
+  <div class="no-records-found" *ngIf="!companyWorkbooksAsync.loading && !companyWorkbooksAsync.obj.length">
+    <img src="/client/data-insights/assets/img/no-reports.png">
+  </div>
+
   <div *ngIf="filteredCompanyWorkbooks" class="dashboards h-100 d-flex flex-column">
     <div class="workbooks-container row" dragula="workbooks" [(dragulaModel)]="filteredCompanyWorkbooks">
 

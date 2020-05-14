@@ -8,6 +8,7 @@ export interface ExchangeSearchFilterAggregate {
   BucketName: string;
   FieldName: string;
   IsDisabled: boolean;
+  IsCollapsedByDefault: boolean;
   Ordinal: number;
 }
 
@@ -22,6 +23,7 @@ export function generateMockExchangeSearchFilterAggregate(): ExchangeSearchFilte
     BucketName: 'bucket_name',
     FieldName: 'fieldName',
     IsDisabled: true,
+    IsCollapsedByDefault: false,
     Ordinal: 1
   };
 }

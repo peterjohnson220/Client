@@ -5,6 +5,7 @@ import { CommunityReply } from './community-reply.model';
 import { CommunityUrlPreviewDataModel } from './community-url-preview-data.model';
 import { CommunityPollRequest } from './community-poll-request.model';
 import { CommunityPollResponse } from './community-poll-response.model';
+import { CommunityAttachment } from './community-attachment.model';
 
 export interface CommunityPost {
   Id: string;
@@ -31,6 +32,7 @@ export interface CommunityPost {
   UserLikes: CommunityUserInfo[];
   IsDeleted: boolean;
   IsEditMode: boolean;
+  Attachments: CommunityAttachment[];
 }
 
 export function generateMockCommunityPost(likeCount: number = 0, replyCount: number = 0, postText: string = '',
@@ -67,6 +69,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     FilterTag: '#TestTag',
     UserLikes: [],
     IsDeleted: false,
-    IsEditMode: false
+    IsEditMode: false,
+    Attachments: []
   };
 }

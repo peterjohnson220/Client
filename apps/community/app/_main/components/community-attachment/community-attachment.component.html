@@ -1,0 +1,12 @@
+<a href={{getDownloadUrl()}}>
+  <span placement="top" [ngbTooltip]="getToolTip()">
+    <div class="container">
+      <fa-icon icon="{{iconFile}}" size="2x" class="icon {{iconClass}}"></fa-icon>
+      <div class="attachment-info">
+        <p>{{attachment.Name | TruncateAfter: maxNameSize}}</p>
+        <p>{{attachment.Size}} KB</p>
+      </div>
+    </div>
+  </span>
+</a>
+

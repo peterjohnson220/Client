@@ -154,7 +154,7 @@ export class ExchangeSearchEffects {
         ...data.filterContext,
         SearchField: data.payload.backingField,
         TextQuery: '',
-        PagingOptions: {From: filter.AggregateCount - 10, Count: 10}
+        PagingOptions: {From: 0, Count: filter.AggregateCount}
       };
 
       return this.exchangeDataSearchApiService.searchExchangeAggregations(request).pipe(

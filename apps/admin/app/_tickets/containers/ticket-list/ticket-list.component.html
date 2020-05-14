@@ -49,11 +49,21 @@
                    let-dataItem>
         <pf-ticket-value-picker [data]="userTicketTypes"
                                 [ticketId]="dataItem.Id"
-                                [textField]="'TicketTypeDisplayName'"
+                                [textField]="'TicketTypeShortName'"
                                 [valueField]="'TicketTypeDisplayName'"
                                 [pickerType]="ticketFieldType.TYPE"
                                 [selectedValue]="getSelectedUserType(dataItem.Type)"
                                 [pickerOnly]="false">
+          <ng-container beside-label>
+            <div class="state-icons" *ngIf="dataItem.HasNewAttachments || dataItem.HasNotes">
+              <span class="text-info" title="New Attachment Added" *ngIf="dataItem.HasNewAttachments">
+                <fa-icon icon="paperclip"></fa-icon>
+              </span>
+              <span class="text-info" title="Client Note Added" *ngIf="dataItem.HasNotes">
+                <fa-icon icon="comment-alt-exclamation"></fa-icon>
+              </span>
+            </div>
+          </ng-container>
         </pf-ticket-value-picker>
       </ng-template>
       <ng-template kendoGridFilterCellTemplate
@@ -61,7 +71,7 @@
         <pf-ticket-list-filter #ticketTypeFilter
                                [filter]="filter"
                                [data]="userTicketTypes"
-                               [textField]="'TicketTypeDisplayName'"
+                               [textField]="'TicketTypeShortName'"
                                [valueField]="'TicketTypeDisplayName'"
                                [filterField]="ticketFieldType.TYPE"
                                (valueChange)="filterChanged($event)">
@@ -160,9 +170,23 @@
       </ng-template>
       <ng-template kendoGridFilterCellTemplate
                    let-filter>
-        <pf-ticket-list-date-range-filter #createDateRangeFilter
-                                          [filter]="filter"
+        <pf-ticket-list-date-range-filter [filter]="filter"
                                           [filterField]="ticketFieldType.CREATED"
+                                          (valueChange)="filterChanged($event)">
+        </pf-ticket-list-date-range-filter>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="UserModifiedDate"
+                       title="Modified"
+                       width="35">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div [innerHTML]="dataItem.UserModifiedDate | date:'LL/dd/yyyy'"></div>
+      </ng-template>
+      <ng-template kendoGridFilterCellTemplate
+                   let-filter>
+        <pf-ticket-list-date-range-filter [filter]="filter"
+                                          [filterField]="ticketFieldType.USER_MODIFIED"
                                           [defaultValue]="defaultDateRange"
                                           (valueChange)="filterChanged($event)">
         </pf-ticket-list-date-range-filter>

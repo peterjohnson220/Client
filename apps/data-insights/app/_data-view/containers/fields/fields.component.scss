@@ -42,3 +42,24 @@
     box-shadow: none;
   }
 }
+
+
+::ng-deep .gu-mirror {
+  opacity: 1;
+  cursor: move;
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+::ng-deep .gu-mirror div:not(.gu-mirror-show) {
+  display: none !important;
+}
+
+::ng-deep .gu-mirror-show{
+  display: none;
+}
+
+::ng-deep .gu-mirror .gu-mirror-show{
+  display: block;
+}

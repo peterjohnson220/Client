@@ -264,7 +264,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
       this.filterContext$ = this.exchangeExplorerContextService.selectFilterContext();
       this.filterContextSubscription = this.filterContext$.subscribe(fc => {
         this.filterContext = fc;
-        this.filterContextHasFilters = fc.Filters.length > 0;
+        this.filterContextHasFilters = fc.Filters.filter(x => x.Options.length > 0).length > 0;
       });
       this.currencySymbol = getCurrencySymbol(this.paymarket.CurrencyCode, 'narrow');
     }

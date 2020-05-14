@@ -9,10 +9,11 @@ import { ChartModule } from '@progress/kendo-angular-charts';
 import { DragulaModule } from 'ng2-dragula';
 import 'hammerjs';
 import { QuillModule } from 'ngx-quill';
+import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { InlineStringEditorComponent, TotalRewardsStatementComponent, TotalRewardsItemWellComponent } from './components';
+import { InlineStringEditorComponent, TotalRewardsStatementComponent } from './components';
 import { TrsTitleControlComponent } from './components/trs-title-control/trs-title-control.component';
 import { TrsImageControlComponent } from './components/trs-image-control/trs-image-control.component';
 import { TrsCalculationControlComponent } from './components/trs-calculation-control/trs-calculation-control.component';
@@ -34,6 +35,7 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
     QuillModule.forRoot(),
     FontAwesomeModule,
     NgbDropdownModule,
+    UploadModule,
 
     // Payfactors
     PfCommonUIModule,
@@ -41,7 +43,6 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
   declarations: [
     InlineStringEditorComponent,
     TotalRewardsStatementComponent,
-    TotalRewardsItemWellComponent,
     TrsTitleControlComponent,
     TrsImageControlComponent,
     TrsCalculationControlComponent,
@@ -53,7 +54,6 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
   exports: [
     InlineStringEditorComponent,
     TotalRewardsStatementComponent,
-    TotalRewardsItemWellComponent,
     CompensationFieldPipe,
   ],
   providers: [

@@ -9,6 +9,7 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeSearchFilterAggregate, generateMockExchange, generateMockExchangeSearchFilterAggregate } from 'libs/models/peer';
+import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api/settings';
 
 import { ManageExchangeFiltersComponent } from './manage-exchange-filters.component';
 import { GridHelperService } from '../../services';
@@ -47,6 +48,10 @@ describe('Manage Exchange Filters', () => {
         {
           provide: GridHelperService,
           useValue: { loadExchangeFilters: jest.fn() }
+        },
+        {
+          provide: UiPersistenceSettingsApiService,
+          useValue: { getUiPersistenceSetting: jest.fn() }
         }
       ],
       // Shallow Testing
