@@ -114,12 +114,9 @@ $rich-text-height: 200px;
   }
 
   .mention {
-    color: $link-color;
-    border-left: 2px solid lighten($link-color, 40%);
-    font-weight: 700;
-    text-transform: uppercase;
-    background-color: #D3E1EB;
-    padding: 2px;
+    color: $trs-placeholder-font-color;
+    background-color: $trs-canvas-background-color;
+    padding: .15rem;
   }
 
   // quill toolbar custom fonts

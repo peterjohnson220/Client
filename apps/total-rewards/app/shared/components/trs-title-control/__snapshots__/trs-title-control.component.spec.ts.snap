@@ -17,6 +17,25 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
     >
       <pf-inline-string-editor />
     </h2>
+    <h3
+      class="employee font-weight-normal p-1"
+    >
+      <span
+        class="employee-name"
+      >
+        Employee Name
+      </span>
+      
+      <span>
+         (
+        <span
+          class="employee-id"
+        >
+          Employee Id
+        </span>
+        ) 
+      </span>
+    </h3>
   </div>
 </pf-trs-title-control>
 `;
@@ -38,6 +57,16 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
     >
       <pf-inline-string-editor />
     </h2>
+    <h3
+      class="employee font-weight-normal p-1"
+    >
+      <span
+        class="employee-name"
+      >
+        
+      </span>
+      
+    </h3>
   </div>
 </pf-trs-title-control>
 `;

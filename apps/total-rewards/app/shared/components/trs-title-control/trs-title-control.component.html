@@ -8,4 +8,10 @@
       (valueChange)="onTitleChange($event)"
     ></pf-inline-string-editor>
   </h2>
+  <h3 class="employee font-weight-normal p-1">
+    <span class="employee-name">{{ employeeName }}</span>
+    <span *ngIf="employeeId">
+      (<span class="employee-id">{{ employeeId }}</span>)
+    </span>
+  </h3>
 </div>
