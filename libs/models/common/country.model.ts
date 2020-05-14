@@ -1,4 +1,4 @@
 export interface Country {
-  CurrencyCode: string;
-  CurrencyName: string;
+  CountryCode: string;
+  CountryName: string;
 }

@@ -21,3 +21,4 @@ export * from './simple-yes-no-modal-options';
 export * from './currency-dto.model';
 export * from './country.model';
 export * from './odata-query.model';
+export * from './country-currency-dto.model';

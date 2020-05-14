@@ -1,0 +1,113 @@
+<form [formGroup]="payMarketForm">
+  <div class="form-group row pt-3">
+    <label class="col-3 col-form-label">Pay Market Name <span class="text-danger">*</span></label>
+    <div class="col-9">
+      <input
+        data-qa-id="txt-paymarket-form-paymarket-name"
+        type="text" class="form-control"
+        formControlName="PayMarketName"
+        [maxlength]="DEFAULT_MAX_LENGTH"
+        [style.width.px]="350"
+        [pfValidatable]="true">
+      <span *ngIf="f.PayMarketName.errors?.required" class="invalid-feedback">Pay market name is required</span>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-3 col-form-label">Linked Pay Market</label>
+    <div class="col-9">
+      <kendo-combobox
+        #linkedPayMarketCombobox
+        data-qa-id="ddm-paymarket-form-linked-paymarket-name"
+        class="form-control"
+        formControlName="LinkedPayMarket"
+        placeholder="Select a Pay Market..."
+        [style.width.px]="350"
+        [valueField]="'Value'"
+        [textField]="'Name'"
+        [valuePrimitive]="true"
+        [filterable]="true"
+        [clearButton]="true"
+        [kendoDropDownFilter]="filterSettings"
+        [data]="(linkedPayMarkets$ | async)?.obj"
+        [loading]="(linkedPayMarkets$ | async)?.loading"
+        [pfValidatable]="true"
+        (valueChange)="handleLinkedPayMarketChange($event)">
+      </kendo-combobox>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-3 col-form-label"></label>
+    <div class="col-9 d-flex" [class.disabled]="!hasLinkedPayMarket">
+      <input
+        type="checkbox"
+        class="form-control k-checkbox"
+        data-qa-id="chk-paymarket-form-showInLinkedStructure"
+        id="paymarket-form-showInLinkedStructure"
+        formControlName="ShowInLinkedStructure">
+      <label class="k-checkbox-label" for="paymarket-form-showInLinkedStructure" [class.text-muted]="!hasLinkedPayMarket">Include in parent pay market structure</label>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-3 col-form-label">Linked Pay Market Adj.</label>
+    <div class="col-9">
+      <div class="input-group" [style.width.px]="150">
+        <kendo-numerictextbox
+          data-qa-id="txt-paymarket-form-linked-paymarket-adj"
+          aria-describedby="btnPayMarketFormLinkedPayMarketAdj"
+          [style.width.px]="100"
+          class="form-control"
+          formControlName="LinkedPayMarketAdj"
+          [spinners]="false"
+          [format]="'n0'"
+          autoCorrect="true"
+          placeholder="Amount">
+        </kendo-numerictextbox>
+        <div class="input-group-prepend">
+          <div class="input-group-text" id="btnPayMarketFormLinkedPayMarketAdj">%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-3 col-form-label">Country</label>
+    <div class="col-9">
+      <kendo-dropdownlist
+        #countryComponent
+        class="form-control"
+        data-qa-id="ddl-paymarket-form-country"
+        formControlName="CountryCode"
+        [style.width.px]="150"
+        [data]="(countries$ | async)?.obj"
+        [valueField]="'Value'"
+        [textField]="'Value'"
+        [valuePrimitive]="true"
+        [filterable]="true"
+        [kendoDropDownFilter]="filterSettings"
+        [pfValidatable]="true"
+        (valueChange)="handleCountryChange($event)">
+      </kendo-dropdownlist>
+      <span *ngIf="f.CountryCode.errors?.required" class="invalid-feedback">Country is required</span>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-3 col-form-label">Currency Code</label>
+    <div class="col-9">
+      <kendo-dropdownlist
+        #currencyComponent
+        class="form-control"
+        [style.width.px]="150"
+        data-qa-id="ddl-paymarket-form-currency"
+        formControlName="CurrencyCode"
+        [data]="(currencies$ | async)?.obj"
+        [loading]="(currencies$ | async)?.loading"
+        [valueField]="'Value'"
+        [textField]="'Name'"
+        [valuePrimitive]="true"
+        [filterable]="true"
+        [kendoDropDownFilter]="filterSettings"
+        [pfValidatable]="true">
+      </kendo-dropdownlist>
+      <span *ngIf="f.CurrencyCode.errors?.required" class="invalid-feedback">Currency is required</span>
+    </div>
+  </div>
+</form>

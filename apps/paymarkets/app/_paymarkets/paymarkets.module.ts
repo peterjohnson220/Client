@@ -11,6 +11,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/pf-data-grid';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
+import { PayMarketManagementModule } from 'libs/features/paymarket-management';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -41,7 +42,8 @@ import { GridActionsBarEffects, PayMarketsPageEffects } from './effects';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfDataGridModule
+    PfDataGridModule,
+    PayMarketManagementModule
   ],
   declarations: [
     // Pages

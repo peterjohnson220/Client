@@ -1,0 +1,39 @@
+@import 'common/common';
+@import 'common/common-variables';
+@import 'kendo-checkbox-overrides';
+
+.col-form-label {
+  font-size: 14px;
+  padding: 4px 15px;
+}
+
+.disabled {
+  pointer-events: none;
+}
+
+::ng-deep {
+  .k-dropdown-wrap {
+    background-color: #ffffff !important;
+  }
+
+  .k-dropdown > :hover {
+    background: none !important;
+  }
+
+  .k-dropdown .k-state-focused {
+    box-shadow: none !important;
+  }
+}
+
+::ng-deep .k-list .k-item.k-state-selected {
+  color: #ffffff !important;
+  background-color: #0883BE !important;
+}
+
+::ng-deep .k-popup {
+  padding: 0;
+
+  .k-list .k-item:focus, .k-list .k-item.k-state-focused {
+    box-shadow: none !important;
+  }
+}
