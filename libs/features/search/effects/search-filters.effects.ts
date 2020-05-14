@@ -11,6 +11,7 @@ import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromSharedSearchReducer from '../reducers';
 import { SearchEffectsService } from '../services';
+import {MultiSelectFilter} from '../models';
 
 @Injectable()
 export class SearchFiltersEffects {
@@ -76,6 +77,16 @@ export class SearchFiltersEffects {
           actions.push(new fromSearchResultsActions.GetResults(
             { keepFilteredOutOptions: true }
           ));
+        }
+
+        if (isChildFilter) {
+          const childFilter = data.childFilters.find(x => x.Id === data.action.payload.filterId);
+          const parentFilter = data.parentFilters.find(x => x.BackingField === childFilter.ParentBackingField) as MultiSelectFilter;
+          const parentOption = parentFilter.Options.find(x => x.Value === JSON.parse(data.action.payload.option.Value).ParentOptionValue);
+
+          if (parentOption.Selected) {
+            actions.push(new fromSearchFiltersActions.ToggleMultiSelectOption({filterId: parentFilter.Id, option: { Value: parentOption.Value}}));
+          }
         }
 
         actions.push(new fromUserFilterActions.SetSelected({ selected: false }));
