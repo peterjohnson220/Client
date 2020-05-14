@@ -72,10 +72,14 @@
   </div>
 
   <div class="dashboards-section">
+    <pf-async-container
+      [loading]="!settingLoaded"
+      [hideReloadButton]="true">
+    </pf-async-container>
 
-    <pf-dashboards *ngIf="!thumbnailsViewSettingEnabled"></pf-dashboards>
+    <pf-dashboards *ngIf="!thumbnailsViewSettingEnabled && settingLoaded"></pf-dashboards>
     
-    <pf-views *ngIf="thumbnailsViewSettingEnabled"></pf-views>
+    <pf-views *ngIf="thumbnailsViewSettingEnabled && settingLoaded"></pf-views>
 
   </div>
 
