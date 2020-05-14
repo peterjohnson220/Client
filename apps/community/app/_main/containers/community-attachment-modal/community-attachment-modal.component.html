@@ -3,7 +3,7 @@
   [title]="'Attachments'"
   [showFooter]="true"
   [centered]="true"
-  [isOpen$]="communityAttachmentModalOpen$"
+  [isOpen$]="currentAttachmentModalOpen$"
   [resetFormOnClose]="true"
   [backdrop]="true"
   [showSubmit]="false"
@@ -26,7 +26,7 @@
                     (remove)="removeAttachmentEventHandler($event)"
                     (error)="uploadError($event)"
                     (success)="successEventHandler($event)"
-                    [(ngModel)]="uploadedFilesKendo" >
+                    [ngModel]="uploadedFilesKendo">
         <kendo-upload-messages
           select="Browse" dropFilesHere="Individual files cannot exceed 150MB">
         </kendo-upload-messages>

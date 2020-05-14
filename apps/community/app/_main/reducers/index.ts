@@ -678,17 +678,12 @@ export const getTopics = createSelector(
 );
 
 // Community Attachment Selectors
-export const getShowCommunityAttachmentsModal = createSelector(
+export const getCurrentAttachmentModalState = createSelector(
   selectFromCommunityAttachmentsState,
-  fromCommunityAttachmentReducer.getShowAttachmentModal
+  fromCommunityAttachmentReducer.getCurrentAttachmentModalState
 );
 
-export const getCommunityAttachments = createSelector(
+export const getCurrentAttachmentModalOpen = createSelector(
   selectFromCommunityAttachmentsState,
-  fromCommunityAttachmentReducer.getCurrentAttachments
-);
-
-export const getCommunityAttachmentsCount = createSelector(
-  selectFromCommunityAttachmentsState,
-  fromCommunityAttachmentReducer.getCurrentAttachmentsCount
+  fromCommunityAttachmentReducer.getCurrentAttachmentModalOpen
 );

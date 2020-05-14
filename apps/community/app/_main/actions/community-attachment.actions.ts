@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
+import { CommunityAttachmentModalState } from 'libs/models';
 
 export const OPEN_COMMUNITY_ATTACHMENTS_MODAL = '[Community/Attachments] Open Community Attachments Modal';
 export const CLOSE_COMMUNITY_ATTACHMENTS_MODAL = '[Community/Attachments] Close Community Attachments Modal';
@@ -8,22 +8,22 @@ export const CLEAR_COMMUNITY_ATTACHMENTS_STATE = '[Community/Attachments] Clear 
 
 export class OpenCommunityAttachmentsModal implements Action {
   readonly type = OPEN_COMMUNITY_ATTACHMENTS_MODAL;
-  constructor() {}
+  constructor(public payload: string) {}
 }
 
 export class CloseCommunityAttachmentsModal implements Action {
   readonly type = CLOSE_COMMUNITY_ATTACHMENTS_MODAL;
-  constructor() {}
+  constructor(public payload: string) {}
 }
 
 export class SaveCommunityAttachmentsState implements Action {
   readonly type = SAVE_COMMUNITY_ATTACHMENTS_STATE;
-  constructor(public payload: CommunityAttachment[]) {}
+  constructor(public payload: CommunityAttachmentModalState) {}
 }
 
 export class ClearCommunityAttachmentsState implements Action {
   readonly type = CLEAR_COMMUNITY_ATTACHMENTS_STATE;
-  constructor() {}
+  constructor(public payload: string) {}
 }
 
 export type Actions

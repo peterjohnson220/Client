@@ -56,7 +56,7 @@ describe('CommunityNewPostComponent', () => {
   });
 
   it('should dispatch SubmittingCommunityPost when calling submit', () => {
-    instance.submit();
+    instance.submit([]);
 
     const newPost: CommunityAddPost = {
       PostText: 'hello world',
@@ -98,7 +98,7 @@ describe('CommunityNewPostComponent', () => {
     instance.communityDiscussionForm.get('topic').setValue('');
     expect(instance.communityDiscussionForm.valid).toBeFalsy();
 
-    instance.submit();
+    instance.submit([]);
 
     expect(store.dispatch).toBeCalledTimes(0);
   });
@@ -108,7 +108,7 @@ describe('CommunityNewPostComponent', () => {
     instance.communityDiscussionForm.get('topic').setValue('TestTopic');
     expect(instance.communityDiscussionForm.valid).toBeFalsy();
 
-    instance.submit();
+    instance.submit([]);
 
     expect(store.dispatch).toBeCalledTimes(0);
   });
@@ -118,7 +118,7 @@ describe('CommunityNewPostComponent', () => {
     instance.communityDiscussionForm.get('topic').setValue('TestTopic');
     expect(instance.communityDiscussionForm.valid).toBeTruthy();
 
-    instance.submit();
+    instance.submit([]);
 
     expect(store.dispatch).toBeCalledTimes(1);
   });

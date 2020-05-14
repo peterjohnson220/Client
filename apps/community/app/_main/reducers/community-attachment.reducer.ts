@@ -1,40 +1,55 @@
 import * as communityAttachmentActions from '../actions/community-attachment.actions';
-import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
+import * as cloneDeep from 'lodash.clonedeep';
+import { EntityAdapter, createEntityAdapter, EntityState } from '@ngrx/entity';
+import { CommunityAttachmentModalState } from 'libs/models';
 
-export interface State {
-  currentAttachments: CommunityAttachment[];
-  showAttachmentModal: boolean;
+// Create entity adapter
+export const adapter: EntityAdapter<CommunityAttachmentModalState> = createEntityAdapter<CommunityAttachmentModalState>({
+  selectId: (attachmentModal: CommunityAttachmentModalState) => attachmentModal.Id
+});
+
+export interface State extends EntityState<CommunityAttachmentModalState> {
+  currentAttachmentModalState: CommunityAttachmentModalState;
 }
 
-export const initialState: State = {
-  currentAttachments: [],
-  showAttachmentModal: false
-};
+const initialState: State = adapter.getInitialState({
+  currentAttachmentModalState: null
+});
 
 export function reducer(state = initialState, action: communityAttachmentActions.Actions): State {
   switch (action.type) {
     case communityAttachmentActions.OPEN_COMMUNITY_ATTACHMENTS_MODAL: {
+      let entity = cloneDeep(state.entities[action.payload]);
+      if (!entity) {
+        entity = {Id: action.payload, Attachments: [], IsModalOpen: true};
+      } else {
+        entity.IsModalOpen = true;
+      }
       return {
-        ...state,
-        showAttachmentModal: true
+        ...adapter.upsertOne(entity, state),
+        currentAttachmentModalState: entity
       };
     }
     case communityAttachmentActions.CLOSE_COMMUNITY_ATTACHMENTS_MODAL: {
+      const entity = cloneDeep(state.entities[action.payload]);
+      entity.IsModalOpen = false;
       return {
-        ...state,
-        showAttachmentModal: false
+        ...adapter.upsertOne(entity, state),
+        currentAttachmentModalState: entity
       };
     }
     case communityAttachmentActions.SAVE_COMMUNITY_ATTACHMENTS_STATE: {
       return {
-        ...state,
-        currentAttachments: action.payload
+        ...adapter.upsertOne(action.payload, state),
+        currentAttachmentModalState: action.payload
       };
     }
     case communityAttachmentActions.CLEAR_COMMUNITY_ATTACHMENTS_STATE: {
+      const entity = cloneDeep(state.entities[action.payload]);
+      entity.Attachments = [];
       return {
-        ...state,
-        currentAttachments: []
+        ...adapter.removeOne(action.payload, state),
+        currentAttachmentModalState: entity
       };
     }
     default: {
@@ -43,6 +58,5 @@ export function reducer(state = initialState, action: communityAttachmentActions
   }
 }
 
-export const getShowAttachmentModal = (state: State) => state.showAttachmentModal;
-export const getCurrentAttachments = (state: State) => state.currentAttachments;
-export const getCurrentAttachmentsCount = (state: State) => state.currentAttachments.length;
+export const getCurrentAttachmentModalState = (state: State) => cloneDeep(state.currentAttachmentModalState);
+export const getCurrentAttachmentModalOpen = (state: State) => !state.currentAttachmentModalState ? false : state.currentAttachmentModalState.IsModalOpen;
