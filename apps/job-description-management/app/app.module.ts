@@ -27,8 +27,8 @@ import { SharedModule } from './shared/shared.module';
 
     // 3rd Party
     MomentModule,
-    NgbModalModule.forRoot(),
-    NgbTabsetModule.forRoot(),
+    NgbModalModule,
+    NgbTabsetModule,
     LayoutModule,
 
     // PF Modules

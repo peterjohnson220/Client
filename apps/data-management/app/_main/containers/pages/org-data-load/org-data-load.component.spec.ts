@@ -30,7 +30,7 @@ describe('OrgDataLoadComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, NgbTooltipModule.forRoot()],
+      imports: [RouterTestingModule, NgbTooltipModule],
       declarations: [OrgDataLoadComponent, EntityUploadComponent],
       providers: [provideMockStore({})],
       schemas: [NO_ERRORS_SCHEMA]

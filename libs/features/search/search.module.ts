@@ -52,7 +52,7 @@ const declarations = [
     PerfectScrollbarModule,
     Ng5SliderModule,
     InfiniteScrollModule,
-    NgbPopoverModule.forRoot(),
+    NgbPopoverModule,
     FontAwesomeModule
   ],
   providers: [

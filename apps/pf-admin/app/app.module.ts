@@ -25,8 +25,8 @@ import { BrowserDetectionService } from 'libs/core/services';
     NoopAnimationsModule,
 
     // 3rd Party
-    NgbModalModule.forRoot(),
-    NgbTabsetModule.forRoot(),
+    NgbModalModule,
+    NgbTabsetModule,
     LayoutModule,
 
     // PF Modules

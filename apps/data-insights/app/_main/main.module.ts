@@ -50,7 +50,7 @@ import { MainRoutingModule } from './main-routing.module';
     FontAwesomeModule,
     DropDownsModule,
     DragulaModule.forRoot(),
-    NgbPopoverModule.forRoot(),
+    NgbPopoverModule,
     NgbTooltipModule,
     NgbCollapseModule,
     DateInputsModule,

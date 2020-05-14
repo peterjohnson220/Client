@@ -18,8 +18,8 @@ import { CustomRouteReuseStrategy } from './route-reuse-strategy';
     BrowserAnimationsModule,
 
     // Third Party
-    NgbProgressbarModule.forRoot(),
-    NgbTooltipModule.forRoot(),
+    NgbProgressbarModule,
+    NgbTooltipModule,
 
     // PF Modules
     PfStateModule,

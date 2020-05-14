@@ -19,9 +19,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     // Angular
     BrowserModule,
     // 3rd Party
-    NgbModalModule.forRoot(),
-    NgbCarouselModule.forRoot(),
-    NgbProgressbarModule.forRoot(),
+    NgbModalModule,
+    NgbCarouselModule,
+    NgbProgressbarModule,
     NgxLinkifyjsModule.forRoot(),
 
     // PF Modules

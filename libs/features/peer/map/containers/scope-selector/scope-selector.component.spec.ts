@@ -29,7 +29,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPopoverModule.forRoot(),
+        NgbPopoverModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           feature_map: combineReducers(fromLibsPeerMapReducer.reducers)
