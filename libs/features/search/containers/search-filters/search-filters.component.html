@@ -15,7 +15,8 @@
       [ngSwitch]="filter.Type"
       (clear)="handleClearSection($event)"
       (search)="handleSearchSection($event)"
-      (showMore)="handleSectionShowMore($event)">
+      (showMore)="handleSectionShowMore($event)"
+      (showLess)="handleSectionShowLess($event)">
 
       <!--Text Filters-->
       <ng-container *ngSwitchCase="filterTypes.Text">

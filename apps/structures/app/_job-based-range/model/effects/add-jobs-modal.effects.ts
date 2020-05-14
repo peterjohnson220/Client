@@ -6,6 +6,7 @@ import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/
 import { Action, Store } from '@ngrx/store';
 
 import { WindowCommunicationService } from 'libs/core/services';
+import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
@@ -21,6 +22,8 @@ import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
 import { UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
+import { PageViewIds } from '../../shared/constants/page-view-ids';
+import { RangeGroupMetadata } from '../../shared/models';
 
 @Injectable()
 export class AddJobsModalEffects {
@@ -111,14 +114,20 @@ export class AddJobsModalEffects {
 
     if (this.urlService.isInWorkflow(Workflow.NewJobBasedRange)) {
       actions.push(new fromSharedModelSettingsActions.OpenModal());
-    } else {
+    } else if (this.hasRequiredSettingsForRecalculation(data.metadata)) {
       actions.push(new fromSharedActions.RecalculateRangesWithoutMid({
         rangeGroupId: data.contextStructureRangeGroupId,
         rounding: data.roundingSettings
       }));
+    } else {
+      actions.push(new pfDataGridActions.LoadData(PageViewIds.Model));
     }
 
     return actions;
+  }
+
+  private hasRequiredSettingsForRecalculation(metaData: RangeGroupMetadata) {
+    return !!(metaData.ControlPoint && metaData.Currency && metaData.Rate && metaData.SpreadMin && metaData.SpreadMax);
   }
 
   constructor(

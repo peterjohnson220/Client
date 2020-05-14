@@ -11,7 +11,7 @@
   background-color: #ffffff;
 
   &:hover{
-    cursor: move;
+    cursor: pointer;
   }
 }
 
@@ -19,7 +19,7 @@
   max-width: 160px;
 
   .field-text.editable {
-    width: 150px;
+    cursor: default;
     padding: .35rem;
     @extend %ellipsis-overflowing-text;
   }
@@ -54,4 +54,18 @@
     cursor: pointer;
   }
 
+}
+
+.active-report-fields{
+  background-color: $selected-item-background-color;
+  cursor: all-scroll !important;
+}
+
+.gu-mirror-show {
+  padding: 0.8rem;
+  margin-top: 1rem;
+  font-size: 13px;
+  border-radius: 0.5rem;
+  border-bottom: solid 1px #d6d6d6;
+  background-color: #fff;
 }

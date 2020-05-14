@@ -1,0 +1,52 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [title]="'Pay Markets'"
+  [selectionField]="'PayMarket'"
+  [defaultSort]="defaultSort"
+  [actionBarConfig]="actionBarConfig"
+  [columnTemplates]="colTemplates"
+  [gridRowActionsConfig]="gridRowActionsConfig"
+  [gridActionsTemplate]="gridActions"
+  [customSortOptions]="customSortOptions">
+</pf-data-grid>
+
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+    <fa-icon [ngbPopover]="popContent"
+             placement="left"
+             container="body"
+             icon="ellipsis-h"
+             #p="ngbPopover"
+             class="gray-text"
+             (shown)="handleSelectedRowAction(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'], p)">
+    </fa-icon>
+</ng-template>
+
+<ng-template #payMarketNameColumn let-dataRow="dataRow" let-hover="hover">
+  <div class="d-flex">
+    <span pfEllipsisActive class="w-100 ellipsis-overflowing-text-wrap" *ngIf="!!dataRow['CompanyPayMarkets_PayMarket']">{{dataRow['CompanyPayMarkets_PayMarket']}} </span>
+    <span *ngIf="dataRow['CompanyPayMarkets_IsDefaultPayMarket'] === 1" class="badge default-badge btn flex-shrink-1 pl-2 pr-2">Default</span>
+  </div>
+</ng-template>
+
+<ng-template #defaultScopesColumn let-dataRow="dataRow" let-hover="hover">
+  <div class="flex">
+    <h5 *ngIf="!!dataRow['CompanyPayMarkets_SurveyScopesCount']" class="badge gray-badge mr-2">
+      {{dataRow['CompanyPayMarkets_SurveyScopesCount']}} Survey<span *ngIf="dataRow['CompanyPayMarkets_SurveyScopesCount'] > 1">s</span>
+    </h5>
+    <h5 *ngIf="!!dataRow['CompanyPayMarkets_ExchangeScopesCount']" class="badge gray-badge">
+      {{dataRow['CompanyPayMarkets_ExchangeScopesCount']}} Exchange<span *ngIf="dataRow['CompanyPayMarkets_ExchangeScopesCount'] > 1">s</span>
+    </h5>
+  </div>
+</ng-template>
+
+<ng-template #gridActions>
+  <pf-paymarkets-grid-actions></pf-paymarkets-grid-actions>
+</ng-template>
+
+<ng-template #popContent>
+  <div class="d-flex flex-column">
+    <a href="#" class="text-dark btn action-btn">Edit</a>
+    <a *ngIf="defaultPayMarketId !== selectedPayMarketId" href="#" (click)="setDefaultPayMarket(selectedPayMarketId)" class="text-dark btn action-btn">Set as default</a>
+    <a href="#"class="text-dark btn action-btn">Delete</a>
+  </div>
+</ng-template>

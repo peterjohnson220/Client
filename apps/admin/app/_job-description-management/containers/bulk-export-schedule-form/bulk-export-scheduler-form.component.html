@@ -37,10 +37,18 @@
     <tr>
       <td></td>
       <td>
-        <select id="fileType" [(ngModel)]="schedule.Format">
+        <select id="fileType" [(ngModel)]="schedule.Format" (change)="onScheduleFormatChange()">
           <option value="xlsx">Excel</option>
           <option value="csv">CSV</option>
         </select>
+        <div class="d-inline-block" [ngClass]="schedule.Format != 'csv'?'visibility-hidden':''">
+        <label for="formatSeparatorType" class="mr-2">Separator Type: </label>
+        <select id="formatSeparatorType" [(ngModel)]="schedule.FormatSeparatorType">
+          <option value="comma">Comma</option>
+          <option value="tab">Tab</option>
+          <option value="pipe">Pipe</option>
+        </select>
+        </div>
       </td>
     </tr>
     <tr>
@@ -148,7 +156,7 @@
           <p *ngIf="existingSchedule.Filter !== 'All'">Using {{existingSchedule.Filter}} filter</p>
           <p *ngIf="existingSchedule.IncludeDelimiters">Including Delimiters</p>
           <p *ngIf="existingSchedule.IncludeFormatting">Including Formatting</p>
-          <p *ngIf="existingSchedule.Format">Using {{existingSchedule.Format}} file format</p>
+          <p *ngIf="existingSchedule.Format">Using {{existingSchedule.Format}} file format <span *ngIf="existingSchedule.Format === 'csv'">with {{existingSchedule.FormatSeparatorType || 'comma'}} separator</span></p>
         </td>
       </tr>
     </ng-container>

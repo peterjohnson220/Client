@@ -15,7 +15,8 @@
   [borders]="false"
   [contentClassNamesOverrides]="'py-3 px-4'"
   [pageTheme]="'next-gen'"
-  [autoFitColumnsToHeader]="true">
+  [autoFitColumnsToHeader]="true"
+  [reorderable]="true">
 </pf-data-grid>
 
 <ng-template #jobTitleCode let-dataRow="dataRow" let-fieldName="fieldName">
@@ -34,12 +35,26 @@
   </div>
 </ng-template>
 
+<ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+</ng-template>
+
+<ng-template #noFormatting let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap" *ngIf="dataRow[fieldName]; else noValue">
+    {{dataRow[fieldName]}}
+  </div>
+</ng-template>
+
 <ng-template #graph>
   <pf-pricings-salary-range-chart [rangeId]="rangeId"></pf-pricings-salary-range-chart>
 </ng-template>
 
+<ng-template #noValue>
+  - -
+</ng-template>
+
 <ng-template #gridGlobalActions>
-  <pf-model-settings-btn [metadata]="(metaData$ | async)" (clicked)="handleModelSettingsBtnClicked()"></pf-model-settings-btn>
+  <pf-model-settings-btn [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" [metadata]="(metaData$ | async)" (clicked)="handleModelSettingsBtnClicked()"></pf-model-settings-btn>
 </ng-template>
 
 <ng-template #aboveGridTemplate>

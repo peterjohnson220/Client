@@ -97,8 +97,9 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleTrendingJobClicked(trendingJob: string) {
-    this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: trendingJob, navigateToNextCard: true}));
+  handleTrendingJobClicked(trendingJob: any) {
+    const jobTitle = !!trendingJob.Value ? trendingJob.Value : trendingJob;
+    this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: jobTitle, exchangeJobId: trendingJob.Key, navigateToNextCard: true}));
   }
 
   handleCountryDataSetChanged(countryCode: string) {

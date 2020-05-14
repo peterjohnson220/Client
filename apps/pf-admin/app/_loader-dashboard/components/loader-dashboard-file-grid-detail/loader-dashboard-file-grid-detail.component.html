@@ -1,0 +1,9 @@
+<kendo-grid
+  [data]="this.dataItem">
+  <kendo-grid-column field="fileName" title="FileName"></kendo-grid-column>
+  <kendo-grid-column field="lastModifiedDate" title="Last Modified">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <div>{{ dataItem.lastModifiedDate | date: 'MM/dd/yyyy hh:mm a' }}</div>
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>

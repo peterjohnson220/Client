@@ -9,6 +9,17 @@
       textPlaceholder="Add Reply..."
       [postId]="postId">
     </pf-community-text-area>
+    
+    <!--TODO: FORT-337
+    <kendo-upload #uploadFile
+      [saveUrl]="saveAttachmentUrl"
+      [removeUrl]="removeAttachmentUrl"
+      [concurrent]="false"
+      [multiple]="true"
+      (upload)="uploadAttachmentEventHandler($event)"
+      (remove)="removeAttachmentEventHandler($event)">
+    </kendo-upload>-->
+
     <div class="text-right">
       <button id="reply" type="button" class="btn-sm community-btn mr-2"
               data-qa-id="btn-reply"

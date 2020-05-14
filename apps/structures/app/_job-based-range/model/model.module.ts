@@ -25,7 +25,7 @@ import { AddJobsModalEffects, SearchPageEffects, SearchResultsEffects, SingledFi
 import { ModelPageComponent } from './model.page';
 import { ModelRoutingModule } from './model-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType } from '../data';
+import { StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType } from '../shared/data';
 
 @NgModule({
   imports: [

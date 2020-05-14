@@ -7,9 +7,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 import { GenericKeyValue } from 'libs/models/common';
+import { ExchangeJobAssociationEntityTypes } from 'libs/constants/peer/exchange-job-association-entity-types';
+import * as fromAssociateJobsActions from 'libs/features/peer/job-association-match/actions/associate-jobs.actions';
+import * as fromAssociateJobMatchReducer from 'libs/features/peer/job-association-match/reducers';
 
 import * as fromPeerAdminReducer from '../../../reducers';
-import * as fromAssociateJobsActions from '../../../actions/exchange-job-association-utility/associate-jobs.actions';
 import * as fromCompanyOptionsActions from '../../../actions/exchange-job-association-utility/company-options.actions';
 import * as fromExchangeOptionsActions from '../../../actions/exchange-job-association-utility/exchange-options.actions';
 import { environment } from 'environments/environment';
@@ -32,6 +34,8 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
   exchangeOptionsLoading$: Observable<boolean>;
   autoAssociatingError$: Observable<boolean>;
   autoAssociating$: Observable<boolean>;
+  exportingMatches$: Observable<boolean>;
+  exportingMatchesError$: Observable<boolean>;
   autoAssociatingCount$: Observable<number>;
 
   exchangeOptionsSubscription: Subscription;
@@ -44,11 +48,13 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
   exchangeOptionsFiltered: GenericKeyValue<number, string>[];
   exchangeSelection: GenericKeyValue<number, string>;
   autoAssociationForm: FormGroup;
+  exportAssociationForm: FormGroup;
   hasAttemptedRun: boolean;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private associateJobMatchStore: Store<fromAssociateJobMatchReducer.State>
   ) {
     this.companyOptions$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyOptions));
     this.companyOptionsLoading$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyOptionsLoading));
@@ -57,6 +63,8 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
     this.autoAssociating$ = this.store.pipe(select(fromPeerAdminReducer.getAssociatingJobs));
     this.autoAssociatingError$ = this.store.pipe(select(fromPeerAdminReducer.getAssociatingJobsError));
     this.autoAssociatingCount$ = this.store.pipe(select(fromPeerAdminReducer.getAssociatingJobsCount));
+    this.exportingMatches$ = this.associateJobMatchStore.select(fromAssociateJobMatchReducer.getExportingMatches);
+    this.exportingMatchesError$ = this.associateJobMatchStore.select(fromAssociateJobMatchReducer.getExportingMatchesError);
   }
 
   get companySelectionControl(): FormControl {
@@ -67,6 +75,10 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
     return this.autoAssociationForm.get('exchangeSelection') as FormControl;
   }
 
+  get exportCompanySelectionControl(): FormControl {
+    return this.exportAssociationForm.get('exportCompanySelection') as FormControl;
+  }
+
   // Events
   handleRunButtonClick(): void {
     const payload = {
@@ -75,6 +87,10 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
     };
     this.store.dispatch(new fromAssociateJobsActions.AssociateJobs(payload));
     this.hasAttemptedRun = true;
+  }
+
+  handleExportButtonClick(): void {
+    this.store.dispatch(new fromAssociateJobsActions.DownloadAssociations({entityId: this.exportCompanySelectionControl.value, entityType: ExchangeJobAssociationEntityTypes.COMPANY}));
   }
 
   handleCompanyFilterChange(value: string) {
@@ -114,6 +130,11 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
       {
         companySelection: ['', Validators.required],
         exchangeSelection: ['', Validators.required]
+      }
+    );
+    this.exportAssociationForm = this.fb.group(
+      {
+        exportCompanySelection: ['', Validators.required]
       }
     );
     this.companyOptionsSubscription = this.companyOptions$.subscribe(co => {

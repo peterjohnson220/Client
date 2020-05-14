@@ -8,17 +8,15 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {NgbTabsetModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {PfCommonModule} from 'libs/core';
 import {PfCommonUIModule} from 'libs/ui/common';
 import {PfFormsModule} from 'libs/forms';
 
-import {SharedModule} from '../../shared';
-
 import {reducers} from './reducers';
-import {StatementGridEffects} from './effects';
+import {StatementGridEffects, TemplateSelectorEffects} from './effects';
 import {StatementListPageComponent} from './statement-list.page';
-import {StatementsGridComponent} from './containers';
+import {StatementsGridComponent, TemplateCardSelectorComponent} from './containers';
 import {CreateNewStatementBannerComponent, GridActionMenuComponent} from './components';
+import {StatementListRoutingModule} from './statement-list-routing.module';
 
 @NgModule({
   imports: [
@@ -27,22 +25,24 @@ import {CreateNewStatementBannerComponent, GridActionMenuComponent} from './comp
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementList', reducers),
-    EffectsModule.forFeature([StatementGridEffects]),
+    EffectsModule.forFeature([StatementGridEffects, TemplateSelectorEffects]),
     FontAwesomeModule,
     GridModule,
     NgbTabsetModule,
 
     // Payfactors
-    PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    SharedModule,
+
+    // Routing,
+    StatementListRoutingModule
   ],
   declarations: [
     CreateNewStatementBannerComponent,
     GridActionMenuComponent,
     StatementListPageComponent,
-    StatementsGridComponent
+    StatementsGridComponent,
+    TemplateCardSelectorComponent
   ],
   exports: []
 })

@@ -18,7 +18,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job det
   store={[Function Store]}
 >
   <section
-    class="card mb-2"
+    class="card mb-2 job-information"
   >
     <div
       class="card-header"
@@ -39,10 +39,10 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job det
       />
     </a>
     <div
-      class="d-flex"
+      class="d-flex h-100"
     >
       <div
-        class="w-50 p-3"
+        class="w-50 pt-3 pl-3"
       >
         <pf-company-job-detail />
       </div>
@@ -50,7 +50,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job det
         class="vertical-separator mt-3 mb-2"
       />
       <div
-        class="w-50 p-3"
+        class="w-50 pt-3 pl-3 h-100"
       >
         
         <pf-exchange-job-detail />
@@ -79,7 +79,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job sea
   store={[Function Store]}
 >
   <section
-    class="card mb-2"
+    class="card mb-2 job-information"
   >
     <div
       class="card-header"
@@ -100,10 +100,10 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job sea
       />
     </a>
     <div
-      class="d-flex"
+      class="d-flex h-100"
     >
       <div
-        class="w-50 p-3"
+        class="w-50 pt-3 pl-3"
       >
         <pf-company-job-detail />
       </div>
@@ -111,7 +111,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job sea
         class="vertical-separator mt-3 mb-2"
       />
       <div
-        class="w-50 p-3"
+        class="w-50 pt-3 pl-3 h-100"
       >
         
         <pf-exchange-job-search />

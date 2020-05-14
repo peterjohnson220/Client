@@ -18,6 +18,7 @@ export const TOGGLE_MULTI_SELECT_OPTION = '[Search/Search Filters] Toggle Multi 
 export const UPDATE_FILTER_VALUE = '[Search/Search Filters] Update Value';
 export const UPDATE_RANGE_FILTER = '[Search/Search Filters] Update Range';
 export const SHOW_MORE = '[Search/Search Filters] Show More';
+export const SHOW_LESS = '[Search/Search Filters] Show Less';
 export const ADD_FILTER_OPTIONS = '[Search/Search Filters] Add Filter Options';
 
 export class AddFilters implements Action {
@@ -118,6 +119,12 @@ export class ShowMore implements Action {
   constructor(public payload: { backingField: string }) {}
 }
 
+export class ShowLess implements Action {
+  readonly type = SHOW_LESS;
+
+  constructor(public payload: { backingField: string }) {}
+}
+
 export class AddFilterOptions implements Action {
   readonly type = ADD_FILTER_OPTIONS;
 
@@ -145,5 +152,6 @@ export type Actions
   | AddFilterAndSelectAllOptions
   | ClearFilters
   | ShowMore
+  | ShowLess
   | AddFilterOptions;
 

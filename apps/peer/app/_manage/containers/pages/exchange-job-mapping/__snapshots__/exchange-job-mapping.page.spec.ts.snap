@@ -44,22 +44,18 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
     >
       Request Job
     </button>
-    <a
-      href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId=1"
+    <button
+      class="btn btn-secondary"
+      id="export-popover-btn"
+      placement="bottom"
+      title="Export to Excel"
+      type="button"
     >
-      <button
-        class="btn btn-secondary"
-        id="export-popover-btn"
-        placement="bottom"
-        title="Export to Excel"
-        type="button"
-      >
-        <fa-icon
-          aria-hidden="true"
-          icon="download"
-        />
-      </button>
-    </a>
+      <fa-icon
+        aria-hidden="true"
+        icon="download"
+      />
+    </button>
     <button
       class="btn btn-secondary"
       id="import-popover-btn"
@@ -139,22 +135,18 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
     >
       Request Exchange Job
     </button>
-    <a
-      href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId=1"
+    <button
+      class="btn btn-secondary"
+      id="export-popover-btn"
+      placement="bottom"
+      title="Export to Excel"
+      type="button"
     >
-      <button
-        class="btn btn-secondary"
-        id="export-popover-btn"
-        placement="bottom"
-        title="Export to Excel"
-        type="button"
-      >
-        <fa-icon
-          aria-hidden="true"
-          icon="download"
-        />
-      </button>
-    </a>
+      <fa-icon
+        aria-hidden="true"
+        icon="download"
+      />
+    </button>
     <button
       class="btn btn-secondary"
       id="import-popover-btn"
@@ -228,22 +220,18 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
     >
       Request Job
     </button>
-    <a
-      href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId=1"
+    <button
+      class="btn btn-secondary"
+      id="export-popover-btn"
+      placement="bottom"
+      title="Export to Excel"
+      type="button"
     >
-      <button
-        class="btn btn-secondary"
-        id="export-popover-btn"
-        placement="bottom"
-        title="Export to Excel"
-        type="button"
-      >
-        <fa-icon
-          aria-hidden="true"
-          icon="download"
-        />
-      </button>
-    </a>
+      <fa-icon
+        aria-hidden="true"
+        icon="download"
+      />
+    </button>
     <button
       class="btn btn-secondary"
       id="import-popover-btn"

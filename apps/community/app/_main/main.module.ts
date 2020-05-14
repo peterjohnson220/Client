@@ -31,6 +31,7 @@ import { CommunityStartDiscussionComponent } from './containers/community-start-
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
 import { CommunityCategoriesComponent } from './containers/community-categories';
+import { CommunityAttachmentModalComponent } from './containers/community-attachment-modal';
 import { CommunityFiltersComponent } from './containers/community-filters';
 import { CommunityFiltersDropdownComponent } from './components/community-filters-dropdown/community-filters-dropdown.component';
 
@@ -65,6 +66,7 @@ import { CommunityPostComponent } from './components/community-post/community-po
 import { CommunityPostEditComponent } from './components/community-post-edit/community-post-edit.component';
 import { CommunitySearchResultModalComponent } from './containers/community-search-result-modal/community-search-result-modal.component';
 import { CommunityPollsAllPollsAnsweredComponent } from './components/community-polls-all-polls-answered';
+import { CommunitySearchResultAttachmentComponent } from './components/community-search-result-attachment';
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
 import { CommunityIndustryEffects, CommunityCompanySizeEffects, CommunityTopicEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
@@ -87,6 +89,9 @@ import { ClickInContentDirective } from './directives/click-in-content-directive
 import { CommunitySearchResultsPageComponent } from './containers/pages/community-search-results/community-search-results.page';
 import { CommunitySearchEffects } from './effects/community-search.effects';
 import { CommunitySearchApiService } from 'libs/data/payfactors-api/community/community-search-api.service';
+import { UploadModule } from '@progress/kendo-angular-upload';
+import { CommunityAttachmentComponent } from './components/community-attachment/community-attachment.component';
+import { CommunityAttachmentEditComponent } from './components/community-attachment-edit/community-attachment-edit.component';
 
 const components = [
   ClickInContentDirective,
@@ -113,6 +118,7 @@ const components = [
   CommunityPollComponent,
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
+  CommunityAttachmentModalComponent,
   CommunityFiltersComponent,
   CommunityFiltersDropdownComponent,
   CommunityCategoryDisplayNamePipe,
@@ -129,7 +135,10 @@ const components = [
   CommunitySearchResultModalComponent,
   CommunityPostComponent,
   CommunityPostEditComponent,
-  CommunityPollsAllPollsAnsweredComponent
+  CommunityPollsAllPollsAnsweredComponent,
+  CommunityAttachmentComponent,
+  CommunitySearchResultAttachmentComponent,
+  CommunityAttachmentEditComponent
 ];
 
 @NgModule({
@@ -148,6 +157,7 @@ const components = [
     InfiniteScrollModule,
     ScrollingModule,
     ScrollDispatchModule,
+    UploadModule,
 
     StoreModule.forFeature('community', reducers),
     EffectsModule.forFeature([

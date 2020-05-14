@@ -43,7 +43,10 @@ export class PayfactorsApiModelMapper {
         TicketCssClass: ut.TicketCssClass,
         OpenedUserFullName: ut.OpenedUserFullName,
         OpenedUserId: ut.OpenedUserId,
-        Attachments: this.mapUserTicketFilesToTicketAttachment(ut.UserTicketFiles)
+        Attachments: this.mapUserTicketFilesToTicketAttachment(ut.UserTicketFiles),
+        HasNotes: ut.HasNotes,
+        HasNewAttachments: ut.HasNewAttachments,
+        UserModifiedDate: ut.UserModifiedDate
       };
     });
   }
@@ -71,6 +74,7 @@ export class PayfactorsApiModelMapper {
           TicketTypeName: response.UserTicketType,
           TicketSubTypeName: response.FileType,
           TicketCssClass: response.TicketCssClass,
+          TicketTypeShortName: response.FileType || response.UserTicketType
         },
         Comments: this.mapUserTicketCommentsToTicketComment(response.UserTicketComments),
         TicketCssClass: response.TicketCssClass
@@ -119,7 +123,8 @@ export class PayfactorsApiModelMapper {
         SortOrder: utt.SortOrder,
         TicketSubTypeName: utt.TicketSubTypeName,
         TicketTypeDisplayName: utt.TicketTypeDisplayName,
-        TicketCssClass: utt.TicketCssClass
+        TicketCssClass: utt.TicketCssClass,
+        TicketTypeShortName: utt.TicketSubTypeName || utt.TicketTypeName
       };
     });
   }
@@ -156,7 +161,8 @@ export class PayfactorsApiModelMapper {
         UserEmail: utf.UserEmail,
         UserFullName: utf.UserFullName,
         Comments: utf.Comments,
-        CreateDate: utf.CreateDate
+        CreateDate: utf.CreateDate,
+        Level: utf.Level
       };
     });
   }

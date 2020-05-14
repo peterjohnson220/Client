@@ -6,6 +6,14 @@ export interface SupportTeamUser {
   PhoneNumber?: string;
   EmailAddress?: string;
   UserPicture?: string;
+  Team?: SupportTeam;
+}
+
+export enum SupportTeam {
+  ClientServices = 'Client Services',
+  ClientSuccess = 'Client Success',
+  Compensation = 'Compensation',
+  Peer = 'Peer'
 }
 
 export function generateMockSupportTeamUser(): SupportTeamUser {

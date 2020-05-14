@@ -25,6 +25,9 @@ export interface UserTicketResponse {
   TicketFileTypeId: number;
   UserTicketTypeSortOrder: number;
   TicketTitle?: string;
+  HasNotes: boolean;
+  HasNewAttachments: boolean;
+  UserModifiedDate?: Date;
 }
 
 export interface UserTicketFile {
@@ -43,6 +46,12 @@ export interface UserTicketComment {
   UserFullName: string;
   Comments?: string;
   CreateDate?: Date;
+  Level?: TicketCommentLevel;
+}
+
+export enum TicketCommentLevel {
+  Admin = 'Admin',
+  User = 'User'
 }
 
 export function generateMockUserTicketViewModel(): UserTicketResponse {
@@ -61,7 +70,10 @@ export function generateMockUserTicketViewModel(): UserTicketResponse {
     LastUpdatedText: '5 seconds ago',
     UserTicketTypeId: 1,
     TicketFileTypeId: 1,
-    UserTicketTypeSortOrder: 1
+    UserTicketTypeSortOrder: 1,
+    HasNotes: false,
+    HasNewAttachments: false,
+    UserModifiedDate: new Date('01/01/2020')
   };
 }
 

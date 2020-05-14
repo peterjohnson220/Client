@@ -1,0 +1,63 @@
+@import 'common/common';
+@import 'common/common-variables';
+
+.dropdownlist {
+  width: 250px;
+}
+
+::ng-deep .k-list .k-item.k-state-selected {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+::ng-deep .k-popup {
+  padding: 0;
+
+  .light-blue-btn, %light-blue-btn {
+    background-color: $pf-brand-secondary-color;
+    border: 1px solid $pf-brand-secondary-color;
+    color: white;
+  
+    &:hover, &:not(:disabled):not(.disabled):active{
+      background-color: darken($pf-brand-secondary-color, 5%);
+      border-color: darken($pf-brand-secondary-color, 5%);
+    }
+  
+    &:disabled {
+      background-color: rgba($pf-brand-secondary-color, .65);
+      border-color: rgba($pf-brand-secondary-color, .65);
+    }
+  }
+
+  .k-list .k-item:focus, .k-list .k-item.k-state-focused {
+    box-shadow: none !important;
+  }
+}
+
+pf-item-group {
+  width: 100%;
+}
+
+.ticket-states-footer {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #eeeeee;
+}
+
+.value-template {
+  @extend %ellipsis-overflowing-text;
+}
+
+::ng-deep {
+  .k-dropdown-wrap {
+    background-color: #ffffff !important;
+  }
+
+  .k-dropdown > :hover {
+    background: none !important;
+  }
+
+  .k-dropdown .k-state-focused {
+    box-shadow: none !important;
+  }
+}

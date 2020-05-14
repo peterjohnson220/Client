@@ -4176,6 +4176,202 @@
           }
         }
       }
+    },
+    "paymarkets": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/paymarkets",
+            "index": "apps/paymarkets/index.html",
+            "main": "apps/paymarkets/main.ts",
+            "tsConfig": "apps/paymarkets/tsconfig.app.json",
+            "polyfills": "apps/paymarkets/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/paymarkets/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/paymarkets/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/paymarkets",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/paymarkets",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/paymarkets/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/paymarkets/../../environments/environment.ts",
+                  "with": "apps/paymarkets/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/paymarkets/../../environments/environment.ts",
+                  "with": "apps/paymarkets/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
+                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/paymarkets/../../environments/environment.ts",
+                  "with": "apps/paymarkets/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
+                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "paymarkets:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "paymarkets:build:staging"
+            },
+            "production": {
+              "browserTarget": "paymarkets:build:production"
+            },
+            "sales": {
+              "browserTarget": "paymarkets:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "paymarkets:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/paymarkets/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/paymarkets/polyfills.ts",
+            "tsConfig": "apps/paymarkets/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/paymarkets/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/paymarkets/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/paymarkets",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/paymarkets",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "admin",

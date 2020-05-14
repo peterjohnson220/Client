@@ -35,6 +35,10 @@
   .k-grid-header th>.k-link>.k-icon {
     display: none;
   }
+
+  .k-grid-header th>.k-link>.k-sort-order {
+    display: none;
+  }
 }
 
 .k-grid .k-hierarchy-cell {
@@ -86,6 +90,10 @@ html .k-grid tr:hover {
 
 .ellipsis-text {
   @extend %ellipsis-overflowing-text;
+}
+
+.default-cursor {
+  cursor: default !important;
 }
 
 .k-grid.next-gen {

@@ -11,6 +11,9 @@ import { CommunityCompanySize } from 'libs/models/community/community-company-si
 import { Topic } from '../models/topic.model';
 import { TopicFilter } from '../models/topic-filter.model';
 import { CommunityIndustry } from 'libs/models/community/community-industry.model';
+import { FileInfo } from '@progress/kendo-angular-upload';
+import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
+import { AttachmentFileType } from '../models/attachment-file-type.model';
 
 export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: PagingOptions): PagingOptions {
   return {
@@ -102,5 +105,29 @@ export function populatePostReplies(post: any, addReplies: string[], filterRepli
       post.Replies.push(filteredReply);
     });
   }
+}
+
+export function mapFileInfoToCommunityAddAttachment(file: FileInfo, cloudFileName: string): CommunityAttachment {
+  return {
+      Name: file.name,
+      Size: file.size,
+      FileType: mapFileExtensionToFileType(file.extension),
+      CloudFileName: cloudFileName
+  };
+}
+
+export function mapFileExtensionToFileType(extension: string): AttachmentFileType {
+  // TODO full list of allowed file types: FORT-337
+
+  if ( extension.toLocaleLowerCase().endsWith('doc') || extension.toLocaleLowerCase().endsWith('docx')) {
+    return AttachmentFileType.Word;
+  } else if ( extension.toLocaleLowerCase().endsWith('pdf')) {
+    return AttachmentFileType.Pdf;
+  } else if ( extension.toLocaleLowerCase().endsWith('png')) {
+    return AttachmentFileType.Image;
+  } else if ( extension.toLocaleLowerCase().endsWith('xls') || extension.toLocaleLowerCase().endsWith('xlsx')) {
+    return AttachmentFileType.Excel;
+  }
+  return AttachmentFileType.Unknown;
 }
 

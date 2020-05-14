@@ -1,15 +1,10 @@
-import {
-  RecalcAndSaveRangeMinMaxRequest,
-  SaveModelSettingsRequest,
-  StructureRangeGroupResponse,
-  RoundRangesRequest,
-  RecalculateRangesWithoutMidRequest
-} from 'libs/models/payfactors-api/structures';
+import { RecalcAndSaveRangeMinMaxRequest, SaveModelSettingsRequest, StructureRangeGroupResponse, RoundRangesRequest,
+  RecalculateRangesWithoutMidRequest } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
+import { RoundingSettingsDataObj, RoundingSetting } from 'libs/models/structures';
 
-import { ControlPoint, Currency, RangeGroupMetadata, RoundingSettingsDataObj, RoundingSetting } from '../models';
-
+import { ControlPoint, Currency, RangeGroupMetadata } from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -64,21 +59,6 @@ export class PayfactorsApiModelMapper {
       RangeSpreadMax: formValue.spreadMax,
       Rate: formValue.rate,
       StructureName: formValue.structureName,
-      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
-    };
-  }
-
-  static mapUpdateRangeInputToRecalcAndSaveRangeMinMaxRequest
-  (rangeGroupId: number,
-   rangeId: number,
-   mid: number,
-   rowIndex: number,
-   rounding: RoundingSettingsDataObj): RecalcAndSaveRangeMinMaxRequest {
-    return {
-      RangeGroupId: rangeGroupId,
-      RangeId: rangeId,
-      RowIndex: rowIndex,
-      Mid: mid,
       Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
     };
   }

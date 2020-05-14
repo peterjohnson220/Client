@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { Permissions } from 'libs/constants';
+
 import { RangeGroupMetadata } from '../../models';
 
 @Component({
@@ -13,7 +15,11 @@ export class GlobalActionsComponent {
   @Output() publishModelClicked = new EventEmitter();
   @Output() modelSettingsClicked = new EventEmitter();
 
-  constructor() {}
+  _Permissions = null;
+
+  constructor() {
+    this._Permissions = Permissions;
+  }
 
   handleAddJobsClicked() {
     this.addJobsClicked.emit();

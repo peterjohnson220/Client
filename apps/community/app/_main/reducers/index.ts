@@ -18,6 +18,7 @@ import * as fromCommunitySearchReducer from './community-search.reducer';
 import * as fromCommunityIndustryReducer from './community-industry.reducer';
 import * as fromCommunityCompanySizeReducer from './community-company-size.reducer';
 import * as fromCommunityTopicReducer from './community-topic.reducer';
+import * as fromCommunityAttachmentReducer from './community-attachment.reducer';
 import { CommunityConstants } from '../models';
 import { populatePostReplies } from '../helpers/model-mapping.helper';
 
@@ -38,6 +39,7 @@ export interface CommunityState {
   communityIndustries: fromCommunityIndustryReducer.State;
   communityCompanySizes: fromCommunityCompanySizeReducer.State;
   communityTopic: fromCommunityTopicReducer.State;
+  communityAttachments: fromCommunityAttachmentReducer.State;
 }
 
 // Extend root state with feature area state
@@ -61,7 +63,8 @@ export const reducers = {
   communitySearch: fromCommunitySearchReducer.reducer,
   communityIndustries: fromCommunityIndustryReducer.reducer,
   communityCompanySizes: fromCommunityCompanySizeReducer.reducer,
-  communityTopic: fromCommunityTopicReducer.reducer
+  communityTopic: fromCommunityTopicReducer.reducer,
+  communityAttachments: fromCommunityAttachmentReducer.reducer
 };
 
 // select feature area
@@ -142,6 +145,11 @@ export const selectFromCommunityTopicState = createSelector(
 export const selectFromCommunityCompanySizeState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityCompanySizes
+);
+
+export const selectFromCommunityAttachmentsState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityAttachments
 );
 
 // Community Poll Selectors
@@ -662,4 +670,20 @@ export const getLoadingTopicsError = createSelector(
 export const getTopics = createSelector(
   selectFromCommunityTopicState,
   fromCommunityTopicReducer.getCommunityTopics
+);
+
+// Community Attachment Selectors
+export const getShowCommunityAttachmentsModal = createSelector(
+  selectFromCommunityAttachmentsState,
+  fromCommunityAttachmentReducer.getShowAttachmentModal
+);
+
+export const getCommunityAttachments = createSelector(
+  selectFromCommunityAttachmentsState,
+  fromCommunityAttachmentReducer.getCurrentAttachments
+);
+
+export const getCommunityAttachmentsCount = createSelector(
+  selectFromCommunityAttachmentsState,
+  fromCommunityAttachmentReducer.getCurrentAttachmentsCount
 );

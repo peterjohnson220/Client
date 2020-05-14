@@ -39,7 +39,7 @@ export const defaultJobDescriptionSummary: JobDescriptionSummary = {
   JobDescriptionManagementEnabled: false,
   CompanyJobCode: null,
   CompanyJobId: null
-}
+};
 
 export const initialState: State = {
   loadingJobOptions: false,

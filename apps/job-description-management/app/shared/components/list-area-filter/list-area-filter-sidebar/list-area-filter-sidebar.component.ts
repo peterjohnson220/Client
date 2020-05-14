@@ -96,7 +96,7 @@ export class ListAreaFilterSidebarComponent implements OnChanges {
     }
 
     if (changedFilterIndex !== -1) {
-      if (this.filters[changedFilterIndex].value != null || this.valueCanBeEmptyOperator(this.filters[changedFilterIndex])) {
+      if (this.filters[changedFilterIndex].value || this.valueCanBeEmptyOperator(this.filters[changedFilterIndex])) {
         this.filters[changedFilterIndex] = event;
       } else {
         this.filters.splice(changedFilterIndex, 1);

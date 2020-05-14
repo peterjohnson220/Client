@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import {StatementListPageComponent} from './statement-list/statement-list.page';
-import {StatementEditPageComponent} from './statement-edit/statement-edit.page';
-
 const routes: Routes = [
-  {
-    path: '', component: StatementListPageComponent
-  },
-  { path: 'statement/edit/:id', component: StatementEditPageComponent },
-  { path: 'statement/edit/clone/:templateId', component: StatementEditPageComponent }
+  { path: '', loadChildren: () => import('./statement-list/statement-list.module').then(m => m.StatementListModule) },
+  { path: 'statement/edit', loadChildren: () => import('./statement-edit/statement-edit.module').then(m => m.StatementEditModule) },
+  { path: 'statement/edit/:id/assignments',
+    loadChildren: () => import('./statement-assignment/statement-assignment.module').then(m => m.StatementAssignmentModule)
+  }
 ];
 
 @NgModule({

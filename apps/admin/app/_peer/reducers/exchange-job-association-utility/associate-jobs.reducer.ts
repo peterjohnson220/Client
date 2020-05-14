@@ -1,4 +1,4 @@
-import * as fromAssociateJobsActions from '../../actions/exchange-job-association-utility/associate-jobs.actions';
+import * as fromAssociateJobsActions from 'libs/features/peer/job-association-match/actions/associate-jobs.actions';
 
 export interface State {
   associating: boolean;

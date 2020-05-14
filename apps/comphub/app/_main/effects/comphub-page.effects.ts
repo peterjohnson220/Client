@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
-import { Store } from '@ngrx/store';
+import {Action, Store} from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, mergeMap, switchMap, withLatestFrom, tap, combineLatest } from 'rxjs/operators';
 
@@ -143,20 +143,30 @@ export class ComphubPageEffects {
       })
     );
   @Effect()
-  updateActiveCountryDataSet$ = this.actions$
+  updateActiveDataset$ = this.actions$
     .pipe(
-      ofType(fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET),
-      mergeMap(() => [
-        new fromJobsCardActions.GetTrendingJobs(),
-        new fromDataCardActions.ClearSelectedJobData(),
-        new fromComphubPageActions.ResetAccessiblePages(),
-        new fromComphubPageActions.ResetPagesAccessed(),
-        new fromJobsCardActions.ClearSelectedJob(),
-        new fromMarketsCardActions.SetToDefaultPaymarket(),
-        new fromMarketsCardActions.InitMarketsCard(),
-        new fromJobsCardActions.ClearJobSearchOptions(),
-        new fromJobsCardActions.PersistActiveCountryDataSet()
-      ])
+      ofType(fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET, fromComphubPageActions.UPDATE_ACTIVE_EXCHANGE_DATA_SET),
+      map((action: fromComphubPageActions.UpdateActiveCountryDataSet|fromComphubPageActions.UpdateActiveExchangeDataSet) => action),
+      mergeMap((action) => {
+        const actions: Action[] = [
+          new fromJobsCardActions.GetTrendingJobs(),
+          new fromDataCardActions.ClearSelectedJobData(),
+          new fromComphubPageActions.ResetAccessiblePages(),
+          new fromComphubPageActions.ResetPagesAccessed(),
+          new fromJobsCardActions.ClearSelectedJob(),
+          new fromMarketsCardActions.InitMarketsCard(),
+          new fromJobsCardActions.ClearJobSearchOptions()
+        ];
+
+        if (action.type === fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET) {
+          actions.push(new fromMarketsCardActions.SetToDefaultPaymarket());
+          actions.push(new fromJobsCardActions.PersistActiveCountryDataSet());
+        } else {
+          actions.push(new fromMarketsCardActions.SetDefaultPaymarketAsSelected());
+        }
+
+        return actions;
+      })
     );
 
   private redirectForUnauthorized(error: HttpErrorResponse) {

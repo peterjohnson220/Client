@@ -42,3 +42,12 @@ export const getGridSearchPayload = createSelector(
   selectLoaderDashboardPageState,
   fromLoaderDashboardPageReducer.getGridSearchPayload
 );
+export const getFilePackagesObj = createSelector(
+  selectLoaderDashboardPageState,
+  fromLoaderDashboardPageReducer.getFilePackagesObj
+);
+export const getFilePackagesResult = createSelector(
+  selectLoaderDashboardPageState,
+  fromLoaderDashboardPageReducer.getFilePackagesResult
+);
+

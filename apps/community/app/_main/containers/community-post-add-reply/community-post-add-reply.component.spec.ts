@@ -61,10 +61,13 @@ describe('CommunityPostAddReplyComponent', () => {
 
     instance.postId = '99';
     instance.communityPostReplyForm.controls['context'].setValue('hello world');
+    instance.uploadedFiles = [];
 
     const newReply: any = {
       PostId: '99',
-      ReplyText: 'hello world'
+      ReplyText: 'hello world',
+      Attachments: [],
+      Links: undefined
     };
     const expectedAction = new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply);
 

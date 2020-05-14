@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Statement } from '../models';
+import { Statement, CalculationControl, EmployeeRewardsData } from '../models';
 import { CurrentControlIndexResponse } from '../models/current-control-index-response';
 
 @Injectable()
@@ -24,5 +24,11 @@ export class TotalRewardsStatementService {
         }
       }
     }
+  }
+
+  static sumCalculationControl(control: CalculationControl, employeeRewardsData: EmployeeRewardsData): number {
+    let sum = 0;
+    control.DataFields.forEach(df => sum += (df.IsVisible) ? employeeRewardsData[df.DatabaseField] : 0);
+    return sum;
   }
 }

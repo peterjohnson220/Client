@@ -16,7 +16,7 @@
     (sortChange)="onSortChange($event)"
     (columnReorder)="onColumnReorder($event)"
     (cellClick)="onCellClick($event)">
-    <kendo-grid-checkbox-column [resizable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="34">
+    <kendo-grid-checkbox-column [resizable]="false" [reorderable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="34">
       <ng-template kendoGridHeaderTemplate>
         <input type="checkbox" id="selectAllCheckboxId"
               [checked]="(selectAllState$ | async) === selectAllStatus.checked"
@@ -76,6 +76,7 @@
       </ng-container>
       <ng-container *ngIf="col | isColumnVisible : splitViewDisplayFields : selectedRecordId">
         <kendo-grid-column
+          [sortable]="col.IsSortable"
           [field]="col | mappedFieldName"
           [title]="col.DisplayName"
           [headerClass]="[customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
@@ -124,11 +125,11 @@
 </pf-async-container>
 
 <ng-template #columnHeaderTemplate let-column="column">
-  <div *ngIf="column" class="d-flex">
-    <ng-container *ngIf="!!sortDescriptor?.length && sortDescriptor[0].field === column.field">
-      <fa-icon *ngIf="sortDescriptor[0].dir === 'desc'" class="sort-icon" [icon]="['far', 'long-arrow-down']"></fa-icon>
-      <fa-icon *ngIf="sortDescriptor[0].dir === 'asc'" class="sort-icon" [icon]="['far', 'long-arrow-up']"></fa-icon>
+  <div *ngIf="column" pfEllipsisActive class="ellipsis-text">
+    <ng-container *ngIf="(column | sortDirection:sortDescriptor) !== null">
+      <fa-icon *ngIf="(column | sortDirection:sortDescriptor) === 'desc'" class="sort-icon" [icon]="['far', 'long-arrow-down']"></fa-icon>
+      <fa-icon *ngIf="(column | sortDirection:sortDescriptor) === 'asc'" class="sort-icon" [icon]="['far', 'long-arrow-up']"></fa-icon>
     </ng-container>
-    <div class="k-link ellipsis-text" pfEllipsisActive>{{column.title}}</div>
+    <span [class.default-cursor]="!column.sortable" class="k-link">{{column.title}}</span>
   </div>
 </ng-template>

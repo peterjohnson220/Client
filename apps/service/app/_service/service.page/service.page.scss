@@ -39,18 +39,20 @@
   border: 1px solid red;
 }
 
-.service-dashboard-container {
-  position: relative;
-  margin-left: 11px !important;
-  overflow: hidden;
-  box-sizing: border-box;
-  width: 362px;
-}
-
 :host ::ng-deep .k-grid-norecords {
   background-color: white !important;
 }
 
 .img-container {
-  top: 63px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.badge-private {
+  background-color: #808080;
+  color: #ffffff;
+  padding: 0.2rem 0.5rem;
+  margin-top: 4px;
 }

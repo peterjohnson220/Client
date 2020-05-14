@@ -1,4 +1,4 @@
-<pf-async-container [loading]="isProcessingMapping$ | async">
+<pf-async-container [loading]="isProcessingMapping$ | async" [spinnerType]="spinnerType" [loadingProgress]="loadingProgress">
   <pf-page-with-title-bar *ngIf="!hideAccess">
     <ng-container custom-button>
       <button class="btn btn-secondary px-3 mr-2"
@@ -88,7 +88,6 @@
               </div>
 
             </ng-container>
-
             <div class="form-inline mt-3 justify-content-end">
               <div class="form-check mr-3"
                    *ngIf="this.stepIndex == stepEnum.FieldMapping">

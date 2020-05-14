@@ -16,20 +16,8 @@ export class NotificationHelper {
   getEventMessage(notification: AppNotification<NotificationPayload>): string {
     let message = '';
     switch (notification.From) {
-      case NotificationSource.ExchangeDataCutsExport: {
-        message = ExchangeDataCutsMessageFormatter.getEventMessage(notification.Level, notification.Payload);
-        break;
-      }
       case NotificationSource.GenericNotificationMessage: {
         message = GenericMessageFormatter.getEventMessage(notification.Level, notification.Payload);
-        break;
-      }
-      case NotificationSource.JobDescriptionBulkExport: {
-        message = JobDescriptionBulkExportFormatter.getEventMessage(notification.Level, notification.Payload);
-        break;
-      }
-      case NotificationSource.JobDescriptionTemplatePublisher: {
-        message = JobDescriptionBulkExportFormatter.getEventMessage(notification.Level, notification.Payload);
         break;
       }
       default: {
@@ -42,32 +30,11 @@ export class NotificationHelper {
 
   getProgressMessage(notification: AppNotification<ProgressStatusPayload>): SafeHtml {
     let message = notification.Payload.Message;
-    switch (notification.From) {
-      case NotificationSource.ExchangeDataCutsExport: {
-        const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
-        message = ExchangeDataCutsMessageFormatter.getProgressMessage(notification.Payload.Message);
-        message = message + progressBar;
-        break;
-      }
-      case NotificationSource.JobDescriptionBulkExport: {
-        const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
-        message = JobDescriptionBulkExportFormatter.getProgressMessage(notification.Payload.Message);
-        message = message + progressBar;
-        break;
-      }
-      case NotificationSource.JobDescriptionTemplatePublisher: {
-        const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
-        message = JobDescriptionBulkExportFormatter.getProgressMessage(notification.Payload.Message);
-        message = message + progressBar;
-        break;
-      }
-      default: {
-        const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
-        message = ReportBuilderMessageFormatter.getProgressMessage(notification.Payload.Message);
-        message = message + progressBar;
-        break;
-      }
-    }
+
+    const progressBar = this.getProgressBar(notification.Payload.PercentageComplete);
+    message = GenericMessageFormatter.getProgressMessage(notification.Payload.Message);
+    message = message + progressBar;
+
     return this.sanitizer.bypassSecurityTrustHtml(message);
   }
 

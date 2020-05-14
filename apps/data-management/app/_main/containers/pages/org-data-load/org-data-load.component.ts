@@ -29,6 +29,7 @@ import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, Loader
 import { UserContext } from 'libs/models/security';
 import {CompanySetting, CompanySettingsEnum} from 'libs/models/company';
 import * as fromRootState from 'libs/state/state';
+import {LoadingProgressBarModel} from 'libs/ui/common/loading/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -129,35 +130,20 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private loaderSaveCoordination: LoaderSaveCoordination;
   showFieldMapperTooltip = false;
 
-  notification: { success: AppNotification<NotificationPayload>, error: AppNotification<NotificationPayload> } = {
-    success: {
-      NotificationId: '',
-      Level: NotificationLevel.Info,
-      From: NotificationSource.GenericNotificationMessage,
-      Payload: {
-        Title: 'Organizational Data Loader',
-        Message: '' // This will be populated when the 'Process' button has been clicked. See this.fileUploadData$ subscription
-      },
-      EnableHtml: true,
-      Type: NotificationType.Event
-    },
-    error: {
-      NotificationId: '',
-      Level: NotificationLevel.Error,
-      From: NotificationSource.GenericNotificationMessage,
-      Payload: {
-        Title: 'Organizational Data Loader',
-        Message: 'Your file upload has failed. Please contact free@payfactors.com'
-      },
-      EnableHtml: true,
-      Type: NotificationType.Event
-    }
-  };
+  notification: { success: AppNotification<NotificationPayload>, error: AppNotification<NotificationPayload> };
   private gettingColumnNames: boolean;
   private createdConfigurationGroup$: Observable<ConfigurationGroup>;
   private companySettings$: Observable<CompanySetting[]>;
   companySettings: CompanySetting[];
   hideAccess: boolean;
+  spinnerType: string;
+  loadingProgress: LoadingProgressBarModel = {
+    interval: 10,
+    intervalValue: 10,
+    animated: true,
+    progressive: false,
+    title: 'Uploading Files...'
+  };
 
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
@@ -373,6 +359,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return;
     }
     this.hideAccess = false;
+    this.spinnerType = 'SVG';
+    this.notificationMessageInit();
     this.mainStore.dispatch(new fromCompanySelectorActions.SetSelectedCompany(null));
     if (this.userContext.AccessLevel === 'Admin') {
       this.stepIndex = OrgUploadStep.Company;
@@ -391,6 +379,33 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
     return (this.userContext.AccessLevel !== 'Admin' &&
       this.companySettings.find( cs => cs.Key === CompanySettingsEnum.ManualOrgDataLoadLink).Value !== 'true');
+  }
+
+  notificationMessageInit() {
+    this.notification = {
+      success: {
+        NotificationId: '',
+        Level: NotificationLevel.Info,
+        From: NotificationSource.GenericNotificationMessage,
+        Payload: {
+          Title: 'Organizational Data Loader',
+          Message: '' // This will be populated when the 'Process' button has been clicked. See this.fileUploadData$ subscription
+        },
+        EnableHtml: true,
+        Type: NotificationType.Event
+      },
+      error: {
+        NotificationId: '',
+        Level: NotificationLevel.Error,
+        From: NotificationSource.GenericNotificationMessage,
+        Payload: {
+          Title: 'Organizational Data Loader',
+          Message: 'Your file upload has failed. Please contact free@payfactors.com'
+        },
+        EnableHtml: true,
+        Type: NotificationType.Event
+      }
+    };
   }
 
   getPayfactorCustomFields(companyId) {
@@ -617,6 +632,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   private uploadFiles(loaderConfigurationGroupId: number) {
+    this.spinnerType = 'PROGRESS';
     const files: File[] = [];
     let filesDataRequest: FileUploadDataRequestModel;
     this.loadOptions.forEach((l) => {

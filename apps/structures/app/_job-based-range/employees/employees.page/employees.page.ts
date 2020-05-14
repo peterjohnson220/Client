@@ -6,12 +6,14 @@ import { Observable } from 'rxjs';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import { Permissions } from 'libs/constants';
 
-import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
+import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
+import { ColumnTemplateService } from '../../shared/services';
 
 @Component({
   selector: 'pf-employees-page',
@@ -21,6 +23,9 @@ import { RangeGroupMetadata } from '../../shared/models';
 export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
+  @ViewChild('rangeValue', { static: false }) rangeValueColumn: ElementRef;
+  @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
+  @ViewChild('date', {static: true}) dateColumn: ElementRef;
 
   metaData$: Observable<RangeGroupMetadata>;
   colTemplates = {};
@@ -30,6 +35,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   rangeGroupId: any;
   rangeId: number;
   actionBarConfig: ActionBarConfig;
+  _Permissions = null;
 
   constructor(
      private store: Store<fromSharedJobBasedRangeReducer.State>,
@@ -48,6 +54,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
       ShowColumnChooser: true,
       ShowFilterChooser: false
     };
+    this._Permissions = Permissions;
   }
 
   // Events
@@ -60,11 +67,17 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     return;
   }
 
-  ngAfterViewInit(): void {
-    this.colTemplates = {
-      ['ComparatioStructureRangeGroup']: {Template: this.percentageColumn},
-      ['PositionInRangeStructureRangeGroup']: {Template: this.percentageColumn}
+  getColumnTemplates() {
+    return {
+      'rangeValue': this.rangeValueColumn,
+      'percentage': this.percentageColumn,
+      'noFormatting': this.noFormattingColumn,
+      'date': this.dateColumn
     };
+  }
+
+  ngAfterViewInit(): void {
+    this.colTemplates = ColumnTemplateService.configureEmployeeTemplates(this.getColumnTemplates());
 
     this.actionBarConfig = {
       ...this.actionBarConfig,

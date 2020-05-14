@@ -38,11 +38,12 @@ input[type=text]::-ms-clear {
 }
 
 .sub-header {
-  height: 35.75px !important;
+  height: 35.75px;
   border: none !important;
 }
 
-.grid-actions-container::ng-deep div,
-.grid-actions-container::ng-deep button {
-  margin-left: 1rem !important;
+.grid-actions-container::ng-deep {
+  .btn,.vertical-separator {
+    margin-left: 1rem;
+  }
 }

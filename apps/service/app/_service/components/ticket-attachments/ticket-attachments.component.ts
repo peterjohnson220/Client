@@ -56,6 +56,6 @@ export class TicketAttachmentsComponent implements OnChanges {
   private reset(): void {
     this.errorMessage = '';
     this.uploadedFilesData = [];
-    this.uploadSaveUrl = `/odata/Ticket/AddAttachment/${this.ticketId}`;
+    this.uploadSaveUrl = `${ServicePageConfig.AddAttachmentUrl}/${this.ticketId}`;
   }
 }

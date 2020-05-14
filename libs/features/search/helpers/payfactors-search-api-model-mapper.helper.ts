@@ -201,7 +201,8 @@ export class PayfactorsSearchApiModelMapper {
       Operator: mappingData.Operator,
       ParentBackingField : mappingData.ParentBackingField,
       AggregateCount: searchFilter.AggregateCount,
-      IsChildWithoutParent: searchFilter.IsChildWithoutParent
+      IsChildWithoutParent: searchFilter.IsChildWithoutParent,
+      IsCollapsedByDefault: mappingData.IsCollapsedByDefault
     };
   }
 
@@ -221,7 +222,8 @@ export class PayfactorsSearchApiModelMapper {
       SaveDisabled: mappingData.SaveDisabled,
       Operator: mappingData.Operator,
       ParentBackingField: mappingData.ParentBackingField,
-      AggregateCount: searchFilter.AggregateCount
+      AggregateCount: searchFilter.AggregateCount,
+      IsCollapsedByDefault: mappingData.IsCollapsedByDefault
     };
   }
 
@@ -243,7 +245,8 @@ export class PayfactorsSearchApiModelMapper {
       SelectedMinValue: null,
       SelectedMaxValue: null,
       CssClassName: mappingData.DisplayName.toLowerCase().replace(/[\s]/g, '-'),
-      SaveDisabled: mappingData.SaveDisabled
+      SaveDisabled: mappingData.SaveDisabled,
+      IsCollapsedByDefault: mappingData.IsCollapsedByDefault
     };
   }
 

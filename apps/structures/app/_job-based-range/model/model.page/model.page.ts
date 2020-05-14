@@ -8,14 +8,17 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { PermissionService } from 'libs/core/services';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
+import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
 import { UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
-import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
+
 
 @Component({
   selector: 'pf-model-page',
@@ -32,11 +35,13 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   colTemplates = {};
   filter: PfDataGridFilter;
+  hasCanCreateEditModelStructurePermission: boolean;
 
   constructor(
     private store: Store<any>,
     private route: ActivatedRoute,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private permissionService: PermissionService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.rangeGroupId = this.route.snapshot.params.id;
@@ -59,6 +64,8 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     ];
 
+    this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
+      PermissionCheckEnum.Single);
   }
 
   // Events
@@ -90,7 +97,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.urlService.isInWorkflow(Workflow.NewJobBasedRange)) {
+    if (this.urlService.isInWorkflow(Workflow.NewJobBasedRange) && this.hasCanCreateEditModelStructurePermission) {
       this.openAddJobsModal();
     }
 
@@ -103,4 +110,3 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.dispatch(new pfDataGridActions.Reset());
   }
 }
-

@@ -11,6 +11,8 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 import * as fromServicePageActions from '../actions/service-page.actions';
 import * as fromServicePageReducer from '../reducers';
@@ -115,20 +117,15 @@ export class ServicePageEffects {
       ofType(fromServicePageActions.SET_TICKET_LIST_MODE),
       withLatestFrom(
         this.store.pipe(select(fromPfDataGridReducer.getFields)),
-        (action: fromServicePageActions.SetTicketListMode, fields) => ({ action, fields })
+        this.store.pipe(select(fromServicePageReducer.getSelectedTicketStates)),
+        (action: fromServicePageActions.SetTicketListMode, fields, selectedTicketStates) =>
+          ({ action, fields, selectedTicketStates })
       ),
       mergeMap(data => {
-        let inboundFilters: PfDataGridFilter[] = [{
-          SourceName: 'User_ID',
-          Operator: '=',
-          Value: data.action.payload.userId.toString()
-        }];
-        if (data.action.payload.listType === TicketListMode.AllCompanyTickets) {
-          inboundFilters = [{
-            SourceName: 'Is_Private',
-            Operator: '=',
-            Value: '0'
-          }];
+        const inboundFilters = PayfactorsApiModelMapper.buildInboundFiltersByTicketListMode(
+          data.action.payload.listType, data.action.payload.userId);
+        if (data.selectedTicketStates && data.selectedTicketStates.length) {
+          inboundFilters.push(TicketStateHelper.buildTicketStateInboundFilter(data.selectedTicketStates));
         }
         const createdByField: ViewField = cloneDeep(data.fields.find((f: ViewField) => f.SourceName === 'FullName'));
         createdByField.IsFilterable = data.action.payload.listType === TicketListMode.AllCompanyTickets;
@@ -153,6 +150,19 @@ export class ServicePageEffects {
             );
         })
       );
+
+  @Effect()
+  saveSupportTeamDashboardOpenSetting$ = this.actions$
+  .pipe(
+    ofType(fromServicePageActions.SAVE_SUPPORT_TEAM_DASHBOARD_OPEN),
+    map((action: fromServicePageActions.SaveSupportTeamDashboardOpenSetting) => {
+      return new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
+        FeatureArea: FeatureAreaConstants.Service,
+        SettingName: UiPersistenceSettingConstants.ServiceSupportTeamDashboardOpen,
+        SettingValue: action.payload.settingValue.toString()
+      });
+    })
+  );
 
   constructor(
     private actions$: Actions,

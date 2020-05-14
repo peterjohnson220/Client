@@ -2,10 +2,11 @@
 import { orderBy, cloneDeep } from 'lodash';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { MultiSelectItemGroup } from 'libs/ui/common';
+import { MultiSelectDropdownHelper } from 'libs/ui/common/multi-select-dropdown/helpers';
 
-import { TicketType, MultiSelectItemGroup, SupportTeamUser, UserTicket } from '../models';
+import { TicketType, SupportTeamUser, UserTicket } from '../models';
 import * as fromServicePageActions from '../actions/service-page.actions';
-import { TicketStateHelper } from '../helpers';
 
 // Define our feature state
 export interface State {
@@ -129,7 +130,7 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
       return {
         ...state,
         ticketStates: ticketStatesClone,
-        selectedTicketStates: TicketStateHelper.getSelectedValues(action.payload)
+        selectedTicketStates: MultiSelectDropdownHelper.getSelectedValues(action.payload)
       };
     }
     case fromServicePageActions.LOAD_SUPPORT_TEAM: {
@@ -146,7 +147,7 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
       const supportTeamClone = cloneDeep(state.supportTeam);
 
       supportTeamClone.loading = false;
-      supportTeamClone.obj = action.payload;
+      supportTeamClone.obj = orderBy(action.payload, ['Title'], ['desc']);
       return {
         ...state,
         supportTeam: supportTeamClone

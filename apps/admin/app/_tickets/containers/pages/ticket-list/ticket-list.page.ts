@@ -1,19 +1,18 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 
-import {Observable, Subject, Subscription} from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import {NgbTabChangeEvent, NgbTabset} from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbTabChangeEvent, NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { takeUntil } from 'rxjs/operators';
 
 import { WindowRef } from 'libs/core/services';
+import { environment } from 'environments/environment';
 
 import { TicketListComponent } from '../../ticket-list';
 import { UserTicketTabItem } from '../../../models';
 import * as fromTicketReducer from '../../../reducers';
 import * as fromTicketActions from '../../../actions/ticket.actions';
-import {takeUntil} from 'rxjs/operators';
-import { environment } from 'environments/environment';
-
+import * as fromTicketListActions from '../../../actions/ticket-list.actions';
 
 @Component({
   selector: 'pf-ticket-list-page',
@@ -106,5 +105,9 @@ export class TicketListPageComponent implements OnDestroy {
       this.ticketListComponent.checkForRefresh();
       this.store.dispatch(new fromTicketActions.SelectTicketTab(0));
     }
+  }
+
+  handleExportClicked(): void {
+    this.store.dispatch(new fromTicketListActions.ExportGrid(this.ticketListComponent.prepareFilter()));
   }
 }

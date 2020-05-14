@@ -4,8 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import * as fromCommunityAttachmentActions from '../../actions/community-attachment.actions';
+
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityJobReducer from '../../reducers';
+import * as fromCommunityAttachmentsReducer from '../../reducers';
 
 import { CommunityPostTypeStatusEnum } from 'libs/models/community/community-constants.model';
 import { CommunityNewPostComponent } from '../community-new-post/community-new-post.component';
@@ -23,6 +26,7 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
 
   submittingCommunityPost$: Observable<boolean>;
   submittingCommunityJobSuccess$: Observable<CommunityJob>;
+  communityPostAttachmentsCount$: Observable<number>;
 
   submittingCommunityJobSuccessSubscription: Subscription;
   showPostJobButton = true;
@@ -40,6 +44,7 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
 
     this.submittingCommunityPost$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPosts);
     this.submittingCommunityJobSuccess$ = this.store.select(fromCommunityJobReducer.getSubmittingCommunityJobsSuccess);
+    this.communityPostAttachmentsCount$ = this.store.select(fromCommunityAttachmentsReducer.getCommunityAttachmentsCount);
   }
 
   ngOnInit() {
@@ -88,5 +93,9 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
     } else if ( this.postType === this.CommunityPostTypes.Job && this.newJobComponent) {
       this.newJobComponent.submit();
     }
+  }
+
+  openAttachmentsModal() {
+    this.store.dispatch(new fromCommunityAttachmentActions.OpenCommunityAttachmentsModal());
   }
 }

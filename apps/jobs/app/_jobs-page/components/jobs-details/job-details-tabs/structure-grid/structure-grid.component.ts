@@ -13,29 +13,31 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'li
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-
-import * as fromJobsPageReducer from '../../../../reducers';
+import { RangeType } from 'libs/features/employee-management/models';
 
 import { PageViewIds } from '../../../../constants';
+import * as fromJobsPageReducer from '../../../../reducers';
 
 @Component({
   selector: 'pf-structure-grid',
   templateUrl: './structure-grid.component.html',
   styleUrls: ['./structure-grid.component.scss']
 })
-export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestroy {
+export class StructureGridComponent implements AfterViewInit, OnDestroy {
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('nameColumn', { static: false }) nameColumn: ElementRef;
+  @ViewChild('midColumn', { static: false }) midColumn: ElementRef;
+  @ViewChild('comparatioColumn', { static: false }) comparatioColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
   @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
 
   pageViewId = PageViewIds.Structures;
-  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
+  rangeTypeIds = RangeType;
   colTemplates = {};
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
-    field: 'CompanyJobs_Structures_Structure_Search'
+    field: 'vw_CompanyJobsStructureInfo_Structure_Search'
   }];
   gridFieldSubscription: Subscription;
   companyPayMarketSubscription: Subscription;
@@ -65,18 +67,6 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
     };
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filters']) {
-      const newFilter = [...this.filters].filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
-      const jobFilter = newFilter.find(f => f.SourceName === 'CompanyJob_ID');
-      if (jobFilter) {
-        newFilter.splice(this.filters.indexOf(jobFilter), 1);
-        newFilter.push({ ...jobFilter, SourceName: 'CompanyJobId' });
-        this.filters = newFilter;
-      }
-    }
-  }
-
   ngAfterViewInit() {
     this.actionBarConfig = {
       ...this.actionBarConfig,
@@ -86,6 +76,8 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
     };
     this.colTemplates = {
       'Structure_Search': { Template: this.nameColumn },
+      'Mid': {Template: this.midColumn},
+      'AvgEEComparatio': {Template: this.comparatioColumn},
       [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
   }
@@ -111,5 +103,14 @@ export class StructureGridComponent implements OnChanges, AfterViewInit, OnDestr
 
   handleFilter(value) {
     this.filteredPayMarketOptions = this.payMarketOptions.filter((s) => s.Id.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+  }
+
+  getRefreshFilter(dataRow: any) {
+    return {
+      EntitySourceName: 'vw_CompanyJobsStructureInfo',
+      SourceName: 'CompanyStructuresRanges_ID',
+      Operator: '=',
+      Values: [dataRow.vw_CompanyJobsStructureInfo_CompanyStructuresRanges_ID]
+    };
   }
 }

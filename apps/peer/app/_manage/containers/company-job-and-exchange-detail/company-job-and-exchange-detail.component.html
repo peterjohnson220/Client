@@ -1,22 +1,22 @@
-<section class="card mb-2">
+<section class="card mb-2 job-information">
   <div class="card-header">
     <h6 class="mb-0 font-weight-bold">Job Information</h6>
   </div>
   <a href="javascript:void(0)" (click)="handleCloseClick()" class="close-panel mr-2 mt-1" title="Close">
     <fa-icon icon="times"></fa-icon>
   </a>
-  <div class="d-flex">
-    <div class="w-50 p-3">
-      <pf-company-job-detail 
+  <div class="d-flex h-100">
+    <div class="w-50 pt-3 pl-3">
+      <pf-company-job-detail
         [selectedCompanyJob]="selectedCompanyJob$ | async"
         [jdmDescriptionIds]="jdmDescriptionIds$ | async"
         [jdmDescriptionLoading]="jdmDescriptionLoading$ | async"
-        [jdmDescriptionLoadingError]="jdmDescriptionLoadingError$ | async" 
+        [jdmDescriptionLoadingError]="jdmDescriptionLoadingError$ | async"
         (viewJdmDescriptionClick)="handleViewJdmDescriptionClick()">
       </pf-company-job-detail>
     </div>
     <div class="vertical-separator mt-3 mb-2"></div>
-    <div class="w-50 p-3">
+    <div class="w-50 pt-3 pl-3 h-100">
       <pf-exchange-job-detail
         *ngIf="(selectedCompanyJob$ | async) && (selectedCompanyJob$ | async).IsAssociated; else exchangeJobSearch"
         [selectedCompanyJob]="selectedCompanyJob$ | async"

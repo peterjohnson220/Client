@@ -8,10 +8,10 @@
     </div>
     <div [class.disabled]="disabled"
          [attr.data-qa-id]="'lnk-trending-job'"
-         [title]="trendingJob"
+         [title]="!!trendingJob.Value ? trendingJob.Value : trendingJob"
          (click)="handleTrendingJobClicked(trendingJob)"
          class="name">
-      {{trendingJob}}
+      {{!!trendingJob.Value ? trendingJob.Value : trendingJob }}
     </div>
   </div>
 </div>

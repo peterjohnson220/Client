@@ -44,4 +44,8 @@ export class PayMarketApiService {
   insert(request: AddPayMarketRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.Insert`, request);
   }
+
+  setDefaultPayMarket(companyPayMarketId: number): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.SetDefaultPayMarket`, { CompanyPayMarketId: companyPayMarketId });
+  }
 }

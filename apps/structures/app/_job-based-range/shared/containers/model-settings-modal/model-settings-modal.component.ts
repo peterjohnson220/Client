@@ -6,11 +6,12 @@ import { Observable, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { RoundingSettingsDataObj } from 'libs/models/structures';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { ControlPoint, Currency, RangeGroupMetadata, RoundingSettingsDataObj } from '../../models';
+import { ControlPoint, Currency, RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
 import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
@@ -105,7 +106,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'spreadMin': new FormControl(this.metadata.SpreadMin, [Validators.required]),
       'spreadMax': new FormControl(this.metadata.SpreadMax, [Validators.required]),
       'rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
-      'currency': new FormControl(this.metadata.Currency, [Validators.required])
+      'currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required])
     });
     // set active tab to model
     this.activeTab = 'modelTab';
