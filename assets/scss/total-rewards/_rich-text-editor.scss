@@ -29,6 +29,10 @@ $rich-text-height: 200px;
     .ql-picker.ql-font {
       width: 160px;
     }
+    svg {
+      // we detect toolbar menu clicks for focus purposes, but IE has trouble detecting svg clicks, so disallow mouse interaction and let the container html element surface
+      pointer-events: none;
+    }
   }
 
   .ql-editor {
