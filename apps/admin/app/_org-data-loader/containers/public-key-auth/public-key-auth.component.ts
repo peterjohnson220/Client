@@ -56,7 +56,7 @@ export class PublicKeyAuthComponent implements OnInit, OnDestroy {
       if (isValid) {
         this.store.dispatch(new fromSftpUserActions.SetSftpUsername(this.username));
       } else {
-        this.store.dispatch(new fromSftpUserActions.SetSftpUsername(null));
+        this.store.dispatch(new fromSftpUserActions.SetSftpUsername(''));
       }
     });
   }
