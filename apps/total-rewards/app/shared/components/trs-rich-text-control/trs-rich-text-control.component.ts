@@ -213,8 +213,15 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return '';
   }
 
+  isSvgInEditorMenu(element: Element): boolean {
+    if (element && element.ownerDocument && element.ownerDocument.activeElement) {
+      return this.richTextNode.contains(element.ownerDocument.activeElement);
+    }
+    return false;
+  }
+
   @HostListener('document:mousedown', ['$event'])
-  public onDocumentMouseDown(event: MouseEvent): void {
+  onDocumentMouseDown(event: MouseEvent): void {
     // focus the editor if the mousedown target is the quill editor
     if (this.richTextNode.contains(event.target as HTMLElement)) {
       this.isFocused = true;
@@ -223,9 +230,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   @HostListener('document:mouseup', ['$event'])
-  public onDocumentMouseUp(event: MouseEvent): void {
+  onDocumentMouseUp(event: MouseEvent): void {
     // bail if the mousedown target is the quill editor, since clicking + dragging + releasing outside should maintain focus
-    if (this.richTextNode.contains(this.lastMouseDownElement)) {
+    if (this.richTextNode.contains(this.lastMouseDownElement) || this.isSvgInEditorMenu(this.lastMouseDownElement)) {
       return;
     }
     this.isFocused = false;
