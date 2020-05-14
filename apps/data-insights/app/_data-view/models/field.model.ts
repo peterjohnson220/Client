@@ -13,6 +13,7 @@ export interface Field {
   KendoGridField?: string;
   DataType?: FieldDataType;
   IsSelected?: boolean;
+  IsActive?: boolean;
   IsSortable: boolean;
   Order?: number;
   DataElementOrder?: number;

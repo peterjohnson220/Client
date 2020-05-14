@@ -30,7 +30,7 @@ const initialState: State = adapter.getInitialState({
 export function reducer(state, action) {
   return createGridReducer(
     GridTypeEnum.TotalRewardsStatements,
-    (featureState: State = initialState, featureAction: fromStatementGridActions.Actions): State => {
+    (featureState: State = initialState, featureAction: fromStatementGridActions.StatementGridActions): State => {
       switch (featureAction.type) {
         case fromStatementGridActions.LOAD_STATEMENTS: {
           return {

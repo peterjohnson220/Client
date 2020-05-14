@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { CommunityPost, CommunityTopic } from 'libs/models';
+import { CommunityAttachment, CommunityPost, CommunityTopic, CommunityUpdatePost } from 'libs/models';
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 import { Observable, Subscription } from 'rxjs';
-import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
 @Component({
   selector: 'pf-community-post-edit',
@@ -19,12 +19,12 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
 
   communityTopicSubscription: Subscription;
 
-  pollsType = CommunityPollTypeEnum.DiscussionPoll;
-  communityTopics$: Observable<CommunityTopic[]>;
+  communityAttachments: CommunityAttachment[];
   communityTopics: CommunityTopic[];
+  communityTopics$: Observable<CommunityTopic[]>;
+  pollsType = CommunityPollTypeEnum.DiscussionPoll;
+  selectedTopic: CommunityTopic;
   selectedTopicId: string;
-  selectedItem: CommunityTopic;
-
 
   constructor( public store: Store<fromCommunityPostReplyReducer.State>) {
     this.communityTopics$ = this.store.select(fromCommunityPostReplyReducer.getTopics);
@@ -34,22 +34,27 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
     this.communityTopicSubscription = this.communityTopics$.subscribe( topics => {
       if (topics) {
         this.communityTopics = topics;
-        this.selectedItem = topics.find(p => p.Id === this.post.Topic.Id);
+        this.selectedTopic = topics.find(p => p.Id === this.post.Topic.Id);
       }
     });
+
+    this.communityAttachments = this.post.Attachments;
   }
 
   ngOnDestroy() {
-    if (this.communityTopicSubscription) {
-      this.communityTopicSubscription.unsubscribe();
-    }
+    this.communityTopicSubscription.unsubscribe();
   }
 
   savePost() {
-    if (this.selectedItem != null) {
-      this.store.dispatch(new fromCommunityPostActions.SavingCommunityPostEdit(
-        {postId: this.post.Id, topic: this.selectedItem}
-      ));
+    if (this.selectedTopic != null) {
+      const updatedPost: CommunityUpdatePost = {
+        PostId: this.post.Id,
+        PostText: this.post.Content,
+        Topic: this.selectedTopic,
+        Attachments: this.communityAttachments
+      };
+
+      this.store.dispatch(new fromCommunityPostActions.SavingCommunityPostEdit(updatedPost));
     }
   }
 
@@ -57,7 +62,7 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCommunityPostActions.CancelEditingCommunityPost());
   }
 
-  handleTopicChange(topic) {
-    this.selectedTopicId = topic;
+  onAttachmentRemoved(fileName: string) {
+    this.communityAttachments = this.communityAttachments.filter(x => x.CloudFileName !== fileName);
   }
 }

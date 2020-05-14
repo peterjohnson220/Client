@@ -84,19 +84,20 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   private determineChartMin(currentRow) {
     // if we find average or avg outlier data AND its lower than CompanyStructures_Ranges_Min, use that value to check for new min.
     // otherwise just use CompanyStructures_Ranges_Min
-    let comparisonValue = currentRow.CompanyStructures_Ranges_Min;
+    // also make sure the comparison value is at least zero, aka not NULL. This is to prevent negative y-axis values
+    let comparisonValue = currentRow.CompanyStructures_Ranges_Min == null ? 0 : currentRow.CompanyStructures_Ranges_Min;
     // first check the averageminoutlier
-    if (currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier >= 0 &&
-      currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier < currentRow.CompanyStructures_Ranges_Min) {
+    if (!!currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier &&
+      currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier < comparisonValue) {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier;
     }
     // next check the averageEEMRP
-    if (currentRow.CompanyStructures_RangeGroup_AverageEEMRP >= 0 &&
+    if (!!currentRow.CompanyStructures_RangeGroup_AverageEEMRP &&
       currentRow.CompanyStructures_RangeGroup_AverageEEMRP < comparisonValue) {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
     }
 
-    if (!this.chartMin || (comparisonValue < this.chartMin)) {
+    if (this.chartMin === undefined || comparisonValue < this.chartMin) {
       this.chartMin = comparisonValue;
     }
   }
@@ -107,7 +108,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     let comparisonValue = currentRow.CompanyStructures_Ranges_Max;
     // first check the averagemaxoutlier
     if (currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier &&
-      currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier > currentRow.CompanyStructures_Ranges_Max) {
+      currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier > comparisonValue) {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier;
     }
     // next check the averageEEMRP
@@ -116,7 +117,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
     }
 
-    if (!this.chartMax || (comparisonValue > this.chartMax)) {
+    if (this.chartMax === undefined || comparisonValue > this.chartMax) {
       this.chartMax = comparisonValue;
     }
   }
@@ -202,8 +203,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.midpointSeriesData = [];
     this.averageSeriesData = [];
     this.outlierSeriesData = [];
-    this.chartMin = 0;
-    this.chartMax = 0;
+    this.chartMin = undefined;
+    this.chartMax = undefined;
     for (let i = 0; i < this.jobRangeData.data.length; i++) {
       const currentRow = this.jobRangeData.data[i];
       this.hasCurrentStructure = currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint === null;
@@ -230,6 +231,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
     // set the series data (0 - salaryRange, 1 - midpoint, 2 - avg salary, 3 - outliers)
     this.chartInstance.series[JobRangeModelChartSeries.SalaryRange].setData(this.salaryRangeSeriesData, false);
+    this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeHidden].setData(this.salaryRangeSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.RangeMid].setData(this.midpointSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.Average].setData(this.averageSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);

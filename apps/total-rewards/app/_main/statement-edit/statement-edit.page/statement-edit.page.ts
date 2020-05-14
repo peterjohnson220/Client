@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -16,8 +16,7 @@ import { FontSize, FontFamily } from '../../../shared/types';
   styleUrls: ['./statement-edit.page.scss']
 })
 export class StatementEditPageComponent implements OnDestroy, OnInit {
-  pageTitle = 'Total Rewards Statements';
-  statementNameMaxLength = 100;
+  statementNameMaxLength = 35;
 
   statement$: Observable<models.Statement>;
   statementLoading$: Observable<boolean>;
@@ -30,9 +29,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   mode$: Observable<models.StatementModeEnum>;
 
   isSettingsPanelOpen$: Observable<boolean>;
-  settingsFontSize$: Observable<FontSize>;
-  settingsFontFamily$: Observable<FontFamily>;
-  settingsChartColors$: Observable<string[]>;
   settingsSaving$: Observable<boolean>;
   settingsSavingSuccess$: Observable<boolean>;
   settingsSavingError$: Observable<boolean>;
@@ -50,6 +46,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private store: Store<fromTotalRewardsStatementEditReducer.State>
   ) { }
 
@@ -70,9 +67,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.settingsSaving$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaving));
     this.settingsSavingSuccess$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaveSuccess));
     this.settingsSavingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaveError));
-    this.settingsFontSize$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectSettingsFontSize));
-    this.settingsFontFamily$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectSettingsFontFamily));
-    this.settingsChartColors$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectSettingsChartColors));
 
     // SUBSCRIPTIONS
     this.urlParamSubscription = this.route.params.subscribe(params => {
@@ -125,10 +119,23 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     }
   }
 
+  toggleStatementEditMode() {
+    if (this.mode === models.StatementModeEnum.Edit) {
+      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Preview));
+    } else {
+      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Edit));
+    }
+  }
+
+  // FOOTER METHODS
+  handleAssignEmployeesButtonClick() {
+    this.router.navigate(['statement/edit/' + this.statementId + '/assignments'], { queryParams: { openModal: 1 } } ).then();
+  }
+
   // CONTROL METHODS //
   // COMMON //
   handleOnControlTitleChange(request: models.UpdateTitleRequest) {
-   this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(request));
+    this.store.dispatch(new fromEditStatementPageActions.UpdateStatementControlTitle(request));
   }
 
   // CALCULATION //
@@ -153,21 +160,18 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromEditStatementPageActions.UpdateRichTextControlContent(request));
   }
 
-  toggleStatementEditMode() {
-    if (this.mode === models.StatementModeEnum.Edit) {
-      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Preview));
-    } else {
-      this.store.dispatch(new fromEditStatementPageActions.ToggleStatementEditMode(models.StatementModeEnum.Edit));
-    }
+  // CHART
+  handleOnChartControlToggleSettingsPanelClick() {
+    this.store.dispatch(new fromEditStatementPageActions.ToggleSettingsPanel());
   }
 
   // SETTINGS
-  handleOpenSettingsClick() {
-    this.store.dispatch(new fromEditStatementPageActions.OpenSettings());
+  handleToggleSettingsPanelClick() {
+    this.store.dispatch(new fromEditStatementPageActions.ToggleSettingsPanel());
   }
 
   handleCloseSettingsClick() {
-    this.store.dispatch(new fromEditStatementPageActions.CloseSettings());
+    this.store.dispatch(new fromEditStatementPageActions.CloseSettingsPanel());
   }
 
   handleSettingsFontSizeChange(fontSize: FontSize) {
@@ -184,5 +188,14 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   handleResetSettings() {
     this.store.dispatch(new fromEditStatementPageActions.ResetSettings());
+  }
+
+  // IMAGE CONTROL
+  handleSaveImage(saveImageRequest) {
+    this.store.dispatch(new fromEditStatementPageActions.SaveImageControlImage(saveImageRequest));
+  }
+
+  handleRemoveImage(deleteImageRequest) {
+    this.store.dispatch(new fromEditStatementPageActions.RemoveImageControlImage(deleteImageRequest));
   }
 }

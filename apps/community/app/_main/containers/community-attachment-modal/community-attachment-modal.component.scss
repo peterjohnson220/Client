@@ -1,0 +1,12 @@
+::ng-deep kendo-upload .k-dropzone-hint {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+::ng-deep kendo-upload .k-upload-button
+{
+  background-color: #1872ae !important;
+  float: right !important;
+  color: #ffffff !important;
+}

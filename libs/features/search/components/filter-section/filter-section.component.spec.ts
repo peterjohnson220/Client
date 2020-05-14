@@ -1,9 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
+
+import { SettingsService } from 'libs/state/app-context/services';
 
 import { FilterSectionComponent } from './filter-section.component';
 import { generateMockMultiSelectFilter, generateMockMultiSelectOption, generateMockTextFilter, MultiSelectFilter,
   TextFilter } from '../../models';
+
 
 // Host Component for testing transclusion
 @Component({
@@ -23,6 +27,12 @@ describe('Search Feature - Filter Section', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ FilterSectionComponent, TestHostComponent ],
+      providers: [
+        {
+          provide: SettingsService,
+          useValue: { selectUiPersistenceSettingFromDictionary: of }
+        }
+      ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
@@ -57,7 +67,7 @@ describe('Search Feature - Filter Section', () => {
   it('should set collapsed to true, when toggling', () => {
     instance.collapsed = false;
 
-    instance.toggle();
+    instance.toggle(false);
 
     expect(instance.collapsed).toBe(true);
   });
@@ -65,7 +75,7 @@ describe('Search Feature - Filter Section', () => {
   it('should set collapsed to false, when toggling', () => {
     instance.collapsed = true;
 
-    instance.toggle();
+    instance.toggle(false);
 
     expect(instance.collapsed).toBe(false);
   });

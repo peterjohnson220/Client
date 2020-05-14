@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { filter, take } from 'rxjs/operators';
-import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent, ColumnComponent } from '@progress/kendo-angular-grid';
 
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
@@ -42,6 +42,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() autoFitColumnsToHeader = false;
   @Input() pageable = true;
   @Input() theme: 'default' | 'next-gen' = 'default';
+  @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -172,10 +173,22 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onColumnReorder(value: ColumnReorderEvent) {
+    // If selection is enabled: the first column can't be reordered
+    // For ColumnGroup the first index is also 0, but the level = 1
+    if (this.enableSelection && value.newIndex === 0 && value.column.level === 0) {
+      value.preventDefault();
+      return;
+    }
+
     this.store.dispatch(new fromActions.ReorderColumns(
       this.pageViewId,
-      value.oldIndex - 1,
-      value.newIndex - 1,
+      {
+        OldIndex: value.oldIndex,
+        NewIndex: value.newIndex,
+        Level: value.column.level,
+        IsUseColumnGroupsEnabled: this.useColumnGroups,
+        IsSelectionEnabled: this.enableSelection
+      },
     ));
   }
 
@@ -212,9 +225,14 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   // If the default sort for a grid is to be ordered desc, there would be no way to order that column asc so we have to make the addt'l check
   // Achieving the 2nd sort direction logic requires additional effort
   onSortChange(sortDescriptor: SortDescriptor[]): void {
-    const descriptorToDispatch = !sortDescriptor[0].dir ?
+    let descriptorToDispatch = !sortDescriptor[0].dir ?
       this.defaultSortDescriptor :
       sortDescriptor;
+
+    if (this.customSortOptions != null) {
+      descriptorToDispatch = this.customSortOptions(descriptorToDispatch);
+    }
+
     this.store.dispatch(new fromActions.UpdateSortDescriptor(this.pageViewId, descriptorToDispatch));
     if (this.saveSort) {
       this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));

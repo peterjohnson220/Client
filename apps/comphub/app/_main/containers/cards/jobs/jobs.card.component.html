@@ -102,7 +102,7 @@
               <div class="col-6" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
                 <pf-trending-job-group
                   [trendingJobGroup]="trendingJobGroup"
-                  [disabled]="(jobPricingBlocked$ | async) || workflowContext?.selectedPageId !== comphubPages.Jobs || workflowContext?.quickPriceType === quickPriceTypes.PEER"
+                  [disabled]="(jobPricingBlocked$ | async) || workflowContext?.selectedPageId !== comphubPages.Jobs"
                   (trendingJobClicked)="handleTrendingJobClicked($event)">
                 </pf-trending-job-group>
               </div>

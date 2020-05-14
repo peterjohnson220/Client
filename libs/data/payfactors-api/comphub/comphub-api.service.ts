@@ -23,6 +23,11 @@ export class ComphubApiService {
       { params: { countryCode: countryCode } });
   }
 
+  getTrendingExchangeJobs(exchangeId: number): Observable<TrendingJobGroupResponse[]>  {
+    return this.payfactorsApiService.get<TrendingJobGroupResponse[]>(`${this.endpoint}/GetTrendingExchangeJobs`,
+      { params: { exchangeId: exchangeId } });
+  }
+
   getQuickPriceData(request: QuickPriceRequest): Observable<QuickPriceResponse>  {
     return this.payfactorsApiService.post<QuickPriceResponse>(`${this.endpoint}/GetQuickPriceData`, request);
   }

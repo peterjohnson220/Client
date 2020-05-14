@@ -12,15 +12,16 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { PfDataGridModule } from 'libs/features/pf-data-grid';
 import { PfFormsModule } from 'libs/forms';
+import { RangeEditorModule } from 'libs/features/structures';
+import { PfCommonUIModule } from 'libs/ui/common';
 
 import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
 import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent } from './containers';
-import { ModelSettingsModalEffects, PublishModelModalEffects } from './effects';
-import { SharedEffects } from './effects/shared.effects';
-import { reducers } from './reducers';
+import { ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects } from './effects';
 import { RangeValuePipe } from './pipes';
-import * as fromFaIcons from './fa-icons';
+import { reducers } from './reducers';
 import { UrlService } from './services';
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
@@ -41,7 +42,9 @@ import { UrlService } from './services';
     PfFormsModule,
     NumericTextBoxModule,
     DropDownListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RangeEditorModule,
+    PfCommonUIModule
   ],
   declarations: [
     ModelGridComponent,
@@ -57,7 +60,8 @@ import { UrlService } from './services';
     GridContextComponent,
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,
-    FontAwesomeModule
+    FontAwesomeModule,
+    RangeValuePipe
   ],
   providers: [
     UrlService

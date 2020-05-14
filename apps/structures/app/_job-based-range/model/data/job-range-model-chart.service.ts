@@ -105,7 +105,17 @@ export class JobRangeModelChartService {
         animation: false,
         color: 'rgba(36,134,210,0.45)',
         enableMouseTracking: false,
-        pointWidth: 42
+        pointWidth: 42,
+        stacking: 'normal'
+      }, {
+        name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeHidden),
+        type: 'columnrange',
+        animation: false,
+        color: 'transparent',
+        enableMouseTracking: false,
+        pointWidth: 42,
+        showInLegend: false,
+        stacking: 'normal'
       }, {
         name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.RangeMid),
         type: 'scatter',

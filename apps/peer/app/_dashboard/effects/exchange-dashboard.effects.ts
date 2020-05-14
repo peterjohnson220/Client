@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Action, Store} from '@ngrx/store';
-import { Effect, Actions, ofType } from '@ngrx/effects';
 
+import { Action, Store } from '@ngrx/store';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { ExchangeCompanyApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api';
+import { ExchangeCompanyApiService, ExchangeDataSearchApiService, ExchangeApiService } from 'libs/data/payfactors-api';
 import { ChartItem, ExchangeListItem } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
@@ -142,11 +142,26 @@ export class ExchangeDashboardEffects {
       )
     );
 
+  @Effect()
+  exportExchangeJobs$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromExchangeDashboardActions.EXPORT_EXCHANGE_JOBS),
+      switchMap((action: fromExchangeDashboardActions.ExportExchangeJobs) =>
+        this.exchangeApiService.exportExchangeJobs(action.payload.exchangeId).pipe(
+          map(() => {
+            return new fromExchangeDashboardActions.ExportExchangeJobsSuccess();
+          }),
+          catchError(() => of(new fromExchangeDashboardActions.ExportExchangeJobsError()))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromDashboardReducer.State>,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
-    private exchangeDataSearchApiService: ExchangeDataSearchApiService
+    private exchangeDataSearchApiService: ExchangeDataSearchApiService,
+    private exchangeApiService: ExchangeApiService
   ) {}
 }
 

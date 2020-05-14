@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { UpdateStringPropertyRequest } from '../../../shared/models';
+import { Statement, SaveImageRequest, UpdateStringPropertyRequest, DeleteImageRequest } from '../../../shared/models';
 import * as requestModels from '../../../shared/models/request-models';
 
 // CONTROL UPDATES
@@ -11,6 +11,8 @@ export const UPDATE_CALCULATION_CONTROL_SUMMARY_TITLE = '[Total Rewards/Edit Sta
 export const ADD_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Add Calculation Control Compensation Field';
 export const REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edit Statement] Remove Calculation Control Compensation Field';
 export const UPDATE_RICH_TEXT_CONTROL_CONTENT = '[Total Rewards/Edit Statement] Update Rich Text Control Content';
+export const SAVE_IMAGE_CONTROL_IMAGE = '[Total Rewards/Edit Statement] Save Image Control Image';
+export const REMOVE_IMAGE_CONTROL_IMAGE = '[Total Rewards/Edit Statement] Remove Image Control Image';
 
 export class UpdateStatementName implements Action {
   readonly type = UPDATE_STATEMENT_NAME;
@@ -47,6 +49,17 @@ export class UpdateRichTextControlContent implements Action {
   constructor(public payload: UpdateStringPropertyRequest) {}
 }
 
+export class SaveImageControlImage implements Action {
+  readonly type = SAVE_IMAGE_CONTROL_IMAGE;
+  constructor(public payload: SaveImageRequest) {}
+}
+
+export class RemoveImageControlImage implements Action {
+  readonly type = REMOVE_IMAGE_CONTROL_IMAGE;
+  constructor(public payload: DeleteImageRequest) {}
+}
+
+
 export type ControlActions =
   UpdateStatementName |
   UpdateStatementControlTitle |
@@ -55,4 +68,6 @@ export type ControlActions =
   AddCalculationControlCompensationField |
   RemoveCalculationControlCompensationField |
   UpdateRichTextControlContent |
-  AddCalculationControlCompensationField;
+  AddCalculationControlCompensationField |
+  SaveImageControlImage |
+  RemoveImageControlImage;

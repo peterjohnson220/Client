@@ -184,6 +184,10 @@ export class ExchangeCompanyApiService {
     return this.payfactorsApiService.get<GenericMenuItem[]>(`${this.endpoint}/GetExchangeJobFamilies`, {}, this.mapJobFamiliesToItems);
   }
 
+  downloadAssociations(entityId: number, entityType: string): Observable<any> {
+    return this.payfactorsApiService.downloadFile(`${this.endpoint}/DownloadAssociationsToExcel?entityId=${entityId}&entityType=${entityType}`);
+  }
+
   private mapJobFamiliesToItems(jobFamilies: string[]) {
     return jobFamilies.map(f => ({ DisplayName: f, IsSelected: false, Value: f } as GenericMenuItem));
   }

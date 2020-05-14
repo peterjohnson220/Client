@@ -79,6 +79,14 @@ tr.row-disabled {
   color: $link-color;
 }
 
+.pf-link-hover {
+  @extend .pf-link;
+
+  &:hover {
+    text-decoration: underline !important;;
+  }
+}
+
 .pf-link-underline {
   @extend .pf-link;
   text-decoration: underline;

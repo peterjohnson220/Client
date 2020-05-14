@@ -1,3 +1,12 @@
-label { 
+label {
   min-width: 90px;
+}
+.exchange-job-description-container {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.exchange-job-information-body {
+  flex: 1;
+  overflow-y: auto;
 }

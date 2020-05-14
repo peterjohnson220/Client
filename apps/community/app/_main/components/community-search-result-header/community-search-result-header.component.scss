@@ -2,7 +2,7 @@
 @import 'styles';
 
 .search-result-header-text {
-  color: #99A0A4;
+  color: $community-search-result-color;
   font-weight: 500;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .community-sub-text {
-  color: #99A0A4;
+  color: $community-search-result-color;
 }
 
 .poll-close-date {

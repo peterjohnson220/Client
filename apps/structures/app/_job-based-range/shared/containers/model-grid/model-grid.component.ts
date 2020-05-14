@@ -6,15 +6,19 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
+import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 
 import { PageViewIds } from '../../constants/page-view-ids';
-import { RangeGroupMetadata, RoundingSettingsDataObj } from '../../models';
+import { RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import * as fromSharedActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
+import { ColumnTemplateService } from '../../services';
 
 @Component({
   selector: 'pf-model-grid',
@@ -22,11 +26,10 @@ import * as fromJobBasedRangeReducer from '../../reducers';
   styleUrls: ['./model-grid.component.scss', '../../styles/pf-data-grid-styles.scss']
 })
 export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('min', {static: false}) minColumn: ElementRef;
   @ViewChild('mid', {static: false}) midColumn: ElementRef;
-  @ViewChild('max', {static: false}) maxColumn: ElementRef;
   @ViewChild('eeCount', {static: false}) eeCountColumn: ElementRef;
-  @ViewChild('avgBaseSalary', {static: false}) avgBaseSalaryColumn: ElementRef;
+  @ViewChild('rangeValue', {static: false}) rangeValueColumn: ElementRef;
+  @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
   @ViewChild('mrpValue', {static: false}) mrpValueColumn: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
@@ -35,6 +38,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() rangeGroupId: number;
   @Input() page: Pages;
+  @Input() reorderable: boolean;
   @Output() addJobs = new EventEmitter();
   @Output() publishModel = new EventEmitter();
   @Output() openModelSettings = new EventEmitter();
@@ -45,6 +49,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   roundingSettings: RoundingSettingsDataObj;
   colTemplates = {};
   modelPageViewId = PageViewIds.Model;
+  rangeGroupType = RangeGroupType.Job;
   defaultPagingOptions: PagingOptions = {
     From: 0,
     Count: 9999
@@ -75,6 +80,35 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.invalidMidPointRanges = [];
   }
 
+  getRefreshFilter(dataRow: any): DataViewFilter {
+    return {
+      EntitySourceName: 'CompanyStructures_Ranges',
+      SourceName: 'CompanyStructuresRanges_ID',
+      Operator: '=',
+      Values: [dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID]
+    };
+  }
+
+  updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
+    let pageViewIdToRefresh = '';
+
+    switch (metaInfo.page) {
+      case Pages.Employees: {
+        pageViewIdToRefresh = PageViewIds.Employees;
+        break;
+      }
+      case Pages.Pricings: {
+        pageViewIdToRefresh = PageViewIds.Pricings;
+        break;
+      }
+    }
+
+    if (pageViewIdToRefresh) {
+      store.dispatch(new fromPfDataGridActions.LoadData(pageViewIdToRefresh));
+    }
+  }
+
+
   // Events
   handleAddJobsClicked() {
     this.addJobs.emit();
@@ -88,36 +122,22 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
   }
 
-  handleRangeOverrideOnBlur(dataRow: any, event: any, index: number) {
-    // kendo should be ensuring that only numbers make it this far
-    const targetValue = parseFloat(event.target.value);
 
-    // we got this far, consider it valid. construct the payload and dispatch the action
-    const payload = {
-      RangeId: dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID,
-      RangeGroupId: dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID,
-      RowIndex: index,
-      Mid: targetValue,
-      Page: this.page,
-      RoundingSettings: this.roundingSettings
+
+  getColumnTemplates() {
+    return {
+      'mid': this.midColumn,
+      'noFormatting': this.noFormattingColumn,
+      'eeCount': this.eeCountColumn,
+      'rangeValue': this.rangeValueColumn,
+      'mrpValue': this.mrpValueColumn,
+      'percentage': this.percentageColumn
     };
-
-    // TODO - we really should be just persisting rounding settings rather than passing every time, but that is coming later.
-    this.store.dispatch(new fromSharedActions.UpdateMid(payload));
   }
 
   // Lifecycle
   ngAfterViewInit() {
-    this.colTemplates = {
-      ['Min']: {Template: this.minColumn},
-      ['Mid']: {Template: this.midColumn},
-      ['Max']: {Template: this.maxColumn},
-      ['NumEmployees']: {Template: this.eeCountColumn},
-      ['AvgBaseSalary']: {Template: this.avgBaseSalaryColumn},
-      ['MarketReferencePointValue']: {Template: this.mrpValueColumn},
-      ['AverageComparatio']: {Template: this.percentageColumn},
-      ['AveragePositionInRange']: {Template: this.percentageColumn}
-    };
+    this.colTemplates = ColumnTemplateService.configureJobRangeTemplates(this.getColumnTemplates());
 
     this.fullGridActionBarConfig = {
       ...this.fullGridActionBarConfig,

@@ -497,6 +497,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       this.updateUDFFields();
       this.loadStructures();
       this.jobCode = this.employee.JobCode;
+      this.onCompChanges();
       this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobById(this.employee.CompanyJobId));
     }
   }

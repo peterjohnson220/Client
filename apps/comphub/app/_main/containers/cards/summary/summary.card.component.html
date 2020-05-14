@@ -136,8 +136,10 @@
             <div class="h">No filters selected</div>
           </div>
           <div class="item" *ngFor="let filter of (filterContext$ | async)?.Filters">
-            <div class="h">{{filter?.DisplayName}}</div>
-            <div class="v">{{getFilterString(filter?.Options)}}</div>
+            <div *ngIf="filter.Options.length > 0">
+              <div class="h">{{filter?.DisplayName}}</div>
+              <div class="v">{{getFilterString(filter?.Options)}}</div>
+            </div>
           </div>
       </div>
 
@@ -321,8 +323,10 @@
                 <div *ngIf="i % 3 == 0"></div>
                 <div class="col">
                   <div class="item">
-                    <div class="h">{{filter?.DisplayName}}</div>
-                    <div class="v">{{getFilterString(filter?.Options)}}</div>
+                    <div *ngIf="filter.Options.length > 0">
+                      <div class="h">{{filter?.DisplayName}}</div>
+                      <div class="v">{{getFilterString(filter?.Options)}}</div>
+                    </div>
                   </div>
                 </div>
               </div>

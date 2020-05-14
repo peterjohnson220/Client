@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
-import { select, Store } from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
+import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromStatementListReducers from '../reducers';
 import * as fromStatementListPageActions from '../actions/statement-list.page.actions';
@@ -20,14 +21,19 @@ export class StatementListPageComponent implements OnInit {
   statementsSearchTerm$: Observable<string>;
   statementsTotal$: Observable<number>;
 
-  constructor(private store: Store<fromStatementListReducers.State>) { }
+  @ViewChild('tabs', {static: false})
+  tabs: NgbTabset;
 
-  ngOnInit() {
+  constructor(private store: Store<fromStatementListReducers.State>) {
+  }
+
+  ngOnInit(): void {
     this.focusedTab$ = this.store.pipe(select(fromStatementListReducers.getFocusedTab));
     this.statementsLoading$ = this.store.pipe(select(fromStatementListReducers.getStatementsLoading));
     this.statementsLoadingError$ = this.store.pipe(select(fromStatementListReducers.getStatementsLoadingError));
     this.statementsTotal$ = this.store.pipe(select(fromStatementListReducers.getStatementsTotal));
     this.statementsSearchTerm$ = this.store.pipe(select(fromStatementListReducers.getStatementsSearchTerm));
+    this.store.dispatch(new fromStatementListPageActions.SetTab('Statements'));
     this.store.dispatch(new fromStatementGridActions.LoadStatements());
   }
 
@@ -36,7 +42,11 @@ export class StatementListPageComponent implements OnInit {
     this.store.dispatch(new fromStatementGridActions.LoadStatements());
   }
 
-  onTabChange() {
+  onTabChange(): void  {
     this.store.dispatch(new fromStatementListPageActions.ToggleTab());
+  }
+
+  onCreateNewClicked(): void {
+    this.tabs.select('Templates');
   }
 }

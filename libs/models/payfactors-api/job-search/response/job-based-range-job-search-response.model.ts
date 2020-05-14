@@ -13,7 +13,7 @@ export interface JobBasedRangeJobSearchResult extends JobSearchResult {
   IsPayfactorsJob: boolean;
   CountryCodes: string[];
   UdfFields: GenericKeyValue<string, string>[];
-  CompanyStructures?: string[];
+  CompanyStructures?: string;
 }
 
 export interface JobBasedRangeJobSearchResponse {

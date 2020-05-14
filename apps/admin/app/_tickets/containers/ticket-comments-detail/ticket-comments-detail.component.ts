@@ -4,11 +4,12 @@ import { Store } from '@ngrx/store';
 
 import { cloneDeep } from 'lodash';
 
+import { TicketCommentLevel } from 'libs/models/payfactors-api/service/response';
 import { UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';
+
 import * as fromTicketAdminReducer from '../../reducers';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import { TicketComment } from '../../models';
-
 
 @Component({
   selector: 'pf-ticket-comments-detail',
@@ -35,6 +36,7 @@ export class TicketCommentsDetailComponent implements OnChanges {
     const comment: TicketComment = {
       TicketId: ticketId,
       Comments: '',
+      Level: TicketCommentLevel.Admin
     };
     commentsCopy.unshift(comment);
     this._comments = commentsCopy;

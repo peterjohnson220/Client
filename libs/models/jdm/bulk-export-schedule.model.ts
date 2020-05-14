@@ -6,6 +6,7 @@ export class BulkExportSchedule {
   IncludeDelimiters: boolean;
   IncludeFormatting: boolean;
   Format: string;
+  FormatSeparatorType: string;
   Frequency: string;
   DayOfWeek: string;
   Occurrence: string;
@@ -22,7 +23,8 @@ export function generateMockBulkExportSchedule(): BulkExportSchedule {
     Filter: 'MockFilter',
     IncludeDelimiters: false,
     IncludeFormatting: false,
-    Format: 'xlsx',
+    Format: 'csv',
+    FormatSeparatorType: 'pipe',
     Frequency: 'Weekly',
     DayOfWeek: '2,4,6',
     Occurrence: null,

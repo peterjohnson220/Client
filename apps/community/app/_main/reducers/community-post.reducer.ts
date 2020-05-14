@@ -350,11 +350,13 @@ export function reducer(
       };
     }
     case communityPostActions.SAVING_COMMUNITY_POST_EDIT_SUCCESS: {
-      const postId = action.payload['postId'];
-      const newTopic = action.payload['topic'];
-
       return {...adapter.updateOne(
-          { id: postId, changes: { Topic: newTopic }},
+        {
+          id: action.payload.PostId, changes: {
+            Attachments: action.payload.Attachments,
+            Topic: action.payload.Topic
+          }
+        },
           state),
         editedPostId: null
       };
@@ -365,7 +367,9 @@ export function reducer(
         editedPostId: null
       };
     }
-    default: {return state; }
+    default: {
+      return state;
+    }
   }
 }
 
@@ -391,4 +395,3 @@ export const getLoadingCommunityPostSuccess = (state: State) => state.postId;
 
 export const getCommunityPostDeleted = (state: State) => state.deletedPostId;
 export const getCommunityPostEdited = (state: State) => state.editedPostId;
-

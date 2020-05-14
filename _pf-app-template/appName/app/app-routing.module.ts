@@ -11,7 +11,7 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: () => import('apps/appName/app/_main/main.module').then(m => m.MainModule) }
+      { path: '', loadChildren: () => import('./_feature_module/feature_module.module').then(m => m.FeatureModule) }
     ]
   },
   { path: 'access-denied', component: AccessDeniedPageComponent },

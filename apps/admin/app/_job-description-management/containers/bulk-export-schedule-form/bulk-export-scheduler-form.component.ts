@@ -11,7 +11,7 @@ import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.mo
 @Component({
   selector: 'pf-bulk-export-scheduler-form',
   templateUrl: './bulk-export-scheduler-form.component.html',
-  styleUrls: ['./bulk-export-scheduler-form.component.scss']
+  styleUrls: [ './bulk-export-scheduler-form.component.scss' ]
 })
 export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   @Input() views: JobDescriptionViewModel[];
@@ -27,8 +27,8 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   addScheduleErrorSubscription: Subscription;
   removingSchedule$: Observable<boolean>;
 
-  weekday: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  occurence: string[] = ['First', 'Second', 'Third', 'Fourth'];
+  weekday: string[] = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
+  occurence: string[] = [ 'First', 'Second', 'Third', 'Fourth' ];
 
   constructor(private store: Store<fromJdmAdminReducer.State>) {
     this.setDefaultPageValues();
@@ -56,6 +56,14 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     this.schedule.Occurrence = '';
     this.daysOfWeekSelected = [];
     this.schedule.MonthlyOccurrence = this.schedule.Frequency === 'Monthly' ? '1' : '';
+  }
+
+  onScheduleFormatChange() {
+    if (this.schedule.Format === 'xlsx') {
+      this.schedule.FormatSeparatorType = null;
+    } else {
+      this.schedule.FormatSeparatorType = 'comma';
+    }
   }
 
   submitForm() {
@@ -105,14 +113,14 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     days.sort();
 
     for (const day of days) {
-      daysString += this.weekday[day - 1] + ', ';
+      daysString += this.weekday[ day - 1 ] + ', ';
     }
 
     return daysString.slice(0, -2);
   }
 
   occurrenceAsString(occurrence) {
-    return this.occurence[occurrence - 1];
+    return this.occurence[ occurrence - 1 ];
   }
 
   onScheduleClick(identifier) {

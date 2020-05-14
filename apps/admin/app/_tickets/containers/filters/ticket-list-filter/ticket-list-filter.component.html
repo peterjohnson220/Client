@@ -27,6 +27,7 @@
                    [(ngModel)]="defaultValue"
                    (valueChanged)="onChange($event)"
                    [placeholderText]="''"
+                   [minWidth]="30"
                    pfClickElsewhere
                    [whitelist]="['ignore-click-elsewhere']">
 </pf-input-debounce>

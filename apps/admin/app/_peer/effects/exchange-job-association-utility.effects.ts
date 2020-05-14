@@ -8,10 +8,11 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
 import { GenericKeyValue, AutoAssociateExchangeJobsRequest } from 'libs/models';
+import * as fromAssociateJobsActions from 'libs/features/peer/job-association-match/actions/associate-jobs.actions';
 
 import * as fromCompanyOptionsActions from '../actions/exchange-job-association-utility/company-options.actions';
 import * as fromExchangeOptionsActions from '../actions/exchange-job-association-utility/exchange-options.actions';
-import * as fromAssociateJobsActions from '../actions/exchange-job-association-utility/associate-jobs.actions';
+
 
 @Injectable()
 export class ExchangeJobAssociationUtilityEffects {

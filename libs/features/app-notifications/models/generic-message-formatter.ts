@@ -37,6 +37,6 @@ export class GenericMessageFormatter {
         return display;
     }
     static getProgressMessage(message: string): string {
-        throw new Error('not implemented');
+      return `<div class='message-container'>${message}</div>`;
     }
 }

@@ -3,10 +3,22 @@
 exports[`Data-Insights Report Field Component should show edit form when toggleEdit is triggered 1`] = `
 <pf-report-field
   displayNameUpdated={[Function EventEmitter]}
+  fieldIsActive={[Function EventEmitter]}
   fieldRemoved={[Function EventEmitter]}
   inputField="undefined"
   isEditing={[Function Boolean]}
 >
+  <div
+    class="gu-mirror-show"
+  >
+     selected 
+    <strong>
+      
+    </strong>
+     field
+    
+     for reordering
   
+  </div>
 </pf-report-field>
 `;

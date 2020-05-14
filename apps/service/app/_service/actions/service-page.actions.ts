@@ -2,8 +2,9 @@ import { Action } from '@ngrx/store';
 
 import { UploadedFile, UserTicketDto } from 'libs/models/service';
 import { UserTicketFile } from 'libs/models/payfactors-api/service/response';
+import { MultiSelectItemGroup } from 'libs/ui/common';
 
-import { TicketType, MultiSelectItemGroup, SupportTeamUser, TicketListMode, UserTicket } from '../models';
+import { TicketType, SupportTeamUser, TicketListMode, UserTicket } from '../models';
 
 export const LOAD_TICKET_TYPES  = '[Service / Service Page] Load Ticket Types';
 export const LOAD_TICKET_TYPES_SUCCESS  = '[Service / Service Page] Load Ticket Types Success';
@@ -24,6 +25,7 @@ export const GET_USER_TICKET = '[Service / Service Page] Get User Ticket';
 export const GET_USER_TICKET_SUCCESS = '[Service / Service Page] Get User Ticket Success';
 export const GET_USER_TICKET_ERROR = '[Service / Service Page] Get User Ticket Error';
 export const ADD_ATTACHMENTS_SUCCESS = '[Service / Service Page] Add Attachments Success';
+export const SAVE_SUPPORT_TEAM_DASHBOARD_OPEN = '[Service / Service Page] Save Support Team Dashboard Open';
 
 export class LoadTicketTypes implements Action {
   readonly type = LOAD_TICKET_TYPES;
@@ -137,6 +139,12 @@ export class AddAttachmentsSuccess implements Action {
   constructor(public payload: UserTicketFile[]) {}
 }
 
+export class SaveSupportTeamDashboardOpenSetting implements Action {
+  readonly type = SAVE_SUPPORT_TEAM_DASHBOARD_OPEN;
+
+  constructor(public payload: { settingValue: boolean }) {}
+}
+
 export type Actions
   = LoadTicketTypes
   | LoadTicketTypesSuccess
@@ -156,4 +164,5 @@ export type Actions
   | GetUserTicket
   | GetUserTicketSuccess
   | GetUserTicketError
-  | AddAttachmentsSuccess;
+  | AddAttachmentsSuccess
+  | SaveSupportTeamDashboardOpenSetting;

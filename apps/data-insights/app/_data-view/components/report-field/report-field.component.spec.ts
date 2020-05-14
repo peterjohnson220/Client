@@ -33,8 +33,9 @@ describe('Data-Insights Report Field Component', () => {
 
   it('should show edit form when toggleEdit is triggered', () => {
     fixture.detectChanges();
+    const clickEvent = new Event('click');
 
-    instance.toggleEdit();
+    instance.toggleEdit(clickEvent);
 
     fixture.detectChanges();
 

@@ -1,7 +1,6 @@
-<div *ngIf="field" class="d-flex justify-content-between field-container">
-  <div class="d-flex field-text-container" *ngIf="!isEditing" (click)="toggleEdit()">
+<div *ngIf="field" [class.active-report-fields]="field.IsActive" class="d-flex justify-content-between field-container" (click)="toggledFieldSelection($event)">
+  <div class="d-flex field-text-container" *ngIf="!isEditing" (click)="toggleEdit($event)">
     <span title="{{ field.FormulaName || field.SourceName}}" class="field-text editable">{{field.DisplayName}}</span>
-    <span title="Click to Edit Display Name" class="editable-icon"><fa-icon icon="pencil"></fa-icon></span>
   </div>
   <div class="form-group">
     <input *ngIf="isEditing"
@@ -18,4 +17,8 @@
       <fa-icon icon="times"></fa-icon>
     </div>
   </div>
+</div>
+<!--Hidden Cell for Drag/Drop Re-Order-->
+<div class="gu-mirror-show">
+      selected <strong>{{activeFieldsCount}}</strong> field<ng-container *ngIf="activeFieldsCount > 1">s</ng-container> for reordering
 </div>

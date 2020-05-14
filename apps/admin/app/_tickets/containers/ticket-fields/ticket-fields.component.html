@@ -26,7 +26,7 @@
       <div class="detail-label margin-bottom">Type</div>
       <pf-ticket-value-picker [data]="userTicketTypes"
                               [ticketId]="ticket.TicketId"
-                              [textField]="'TicketTypeDisplayName'"
+                              [textField]="'TicketTypeShortName'"
                               [valueField]="'TicketTypeDisplayName'"
                               [pickerType]="ticketFieldType.TYPE"
                               [selectedValue]="getSelectedUserType(ticket.UserTicketType.TicketTypeDisplayName)">

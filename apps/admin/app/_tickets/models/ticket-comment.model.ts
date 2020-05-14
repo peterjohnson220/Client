@@ -1,3 +1,5 @@
+import { TicketCommentLevel } from 'libs/models/payfactors-api/service/response';
+
 export interface TicketComment {
     TicketId: number;
     UserTicketsCommentsId?: number;
@@ -5,6 +7,7 @@ export interface TicketComment {
     UserFullName?: string;
     Comments?: string;
     CreateDate?: Date;
+    Level?: TicketCommentLevel;
   }
 
   export function generateMockTicketComment(): TicketComment {

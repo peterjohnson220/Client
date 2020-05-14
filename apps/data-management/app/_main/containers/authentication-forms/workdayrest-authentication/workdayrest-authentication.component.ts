@@ -15,6 +15,7 @@ import { EntityTypeModel } from '../../../models';
 export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
   @Input() validated = false;
   @Input() selectedEntities: EntityTypeModel[] = [];
+  @Input() waitingForAuthentication = false;
 
   @Output() submitClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();

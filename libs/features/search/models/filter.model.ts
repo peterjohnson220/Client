@@ -22,6 +22,7 @@ export interface Filter {
   ParentBackingField?: string;
   AggregateCount?: number;
   IsChildWithoutParent?: boolean;
+  IsCollapsedByDefault?: boolean;
 }
 
 export interface TextFilter extends Filter {
