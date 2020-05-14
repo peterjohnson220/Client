@@ -83,7 +83,12 @@ import {
     ColumnChooserComponent,
     ColumnGroupComponent,
     ColumnGroupListComponent,
-    IsSortablePipe
+
+    // Pipes
+    IsSortablePipe,
+    SortDirectionPipe,
+    IsColumnVisiblePipe,
+    MappedFieldNamePipe,
   ],
   exports: [
     PfDataGridComponent
