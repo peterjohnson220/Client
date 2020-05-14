@@ -1,8 +1,8 @@
 <div class="card" id="{{card?.Id}}">
 
-  <div *ngIf="hasCardHeader" class="card-header" [class.disabled]="disabled" [class.selected]="selected"
-    [attr.data-qa-id]="'cnt-cardHeader'"
-    (click)="handleCardHeaderClick()">
+  <div *ngIf="hasCardHeader" class="card-header" [class.disabled]="(disabled && showCardTitle) || (prevCardDisabled && !showCardTitle)" [class.selected]="selected"
+       [attr.data-qa-id]="'cnt-cardHeader'"
+       (click)="handleCardHeaderClick()">
     <ng-container *ngIf="showCardTitle">
       <fa-icon icon="{{card?.IconClass}}" class="card-icon" aria-hidden="true"></fa-icon>
       <span class="card-title">{{card?.Title}}</span>
@@ -11,7 +11,7 @@
     <ng-container *ngIf="!showCardTitle">
       <fa-icon icon="{{prevCard?.IconClass}}" class="card-icon" aria-hidden="true"></fa-icon>
       <span class="card-title">{{prevCard?.Title}}</span>
-      <span *ngIf="accessed" class="card-subtitle" data-toggle="tooltip" title="{{prevCard?.Subtitle}}">{{prevCard?.Subtitle}}</span>
+      <span *ngIf="prevCardAccessed" class="card-subtitle" data-toggle="tooltip" title="{{prevCard?.Subtitle}}">{{prevCard?.Subtitle}}</span>
     </ng-container>
   </div>
 

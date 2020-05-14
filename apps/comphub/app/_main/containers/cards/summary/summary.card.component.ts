@@ -19,6 +19,7 @@ import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-expl
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
+import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
@@ -259,6 +260,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
       this.addNewCompletedPricingHistoryRecord();
       this.currencySymbol = getCurrencySymbol(this.workflowContext.activeCountryDataSet.CurrencyCode, 'narrow');
     } else if (workflowContext.selectedPageId === this.comphubPages.Summary && this.isPeerQuickPriceType) {
+      this.store.dispatch(new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Jobs, ComphubPages.Markets, ComphubPages.Data]));
       this.lastJobData = this.jobData;
       this.loadPeerQuickPriceData();
       this.filterContext$ = this.exchangeExplorerContextService.selectFilterContext();

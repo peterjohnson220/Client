@@ -4,6 +4,7 @@
   pageIconClass="file-alt"
   [page]="comphubPages.Summary"
   [hideNextButton]="true"
+  [hideBackButton]="isPeerQuickPriceType"
   [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Summary">
 
   <ng-container page-content>
