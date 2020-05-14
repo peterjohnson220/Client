@@ -51,6 +51,9 @@ pf-total-rewards-statement-list-page {
 }
 
 pf-statement-edit.page {
+  .tooltip.show {
+    min-width: 300px;
+  }
   .page-content {
     overflow-x: hidden; // let settings panel hide out to the right
     background-color: $trs-edit-statement-page-background-color !important;

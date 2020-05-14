@@ -10,6 +10,7 @@ import { DragulaModule } from 'ng2-dragula';
 import 'hammerjs';
 import { QuillModule } from 'ngx-quill';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -36,6 +37,7 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
     FontAwesomeModule,
     NgbDropdownModule,
     UploadModule,
+    NgbTooltipModule,
 
     // Payfactors
     PfCommonUIModule,
