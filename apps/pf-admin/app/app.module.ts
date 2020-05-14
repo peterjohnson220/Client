@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModalModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
@@ -10,10 +10,10 @@ import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfFormsModule } from 'libs/forms/forms.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
+import { SentryErrorHandler, SentryService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { CompanyModule } from './_companies/company.module';
 import { BrowserDetectionService } from 'libs/core/services';
 
 @NgModule({
@@ -40,6 +40,10 @@ import { BrowserDetectionService } from 'libs/core/services';
     AppRoutingModule
   ],
   bootstrap: [AppComponent],
-  providers: [BrowserDetectionService]
+  providers: [
+    BrowserDetectionService,
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    SentryService
+  ]
 })
 export class AppModule { }

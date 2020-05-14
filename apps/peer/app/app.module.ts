@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgbCarouselModule, NgbModalModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +8,7 @@ import { PfStateModule } from 'libs/state/state.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
-import { WindowCommunicationService } from 'libs/core/services';
+import { SentryService, SentryErrorHandler, WindowCommunicationService } from 'libs/core/services';
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -48,7 +48,9 @@ import { reducers } from './shared/reducers';
   providers: [
     PayfactorsApiService,
     WindowCommunicationService,
-    { provide: SearchFilterMappingDataObj, useValue: {} }
+    { provide: SearchFilterMappingDataObj, useValue: {} },
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    SentryService
   ]
 
 })

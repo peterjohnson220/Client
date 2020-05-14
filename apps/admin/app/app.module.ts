@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModalModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,7 @@ import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfFormsModule } from 'libs/forms/forms.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 import { JobAssociationMatchModule } from 'libs/features/peer/job-association-match';
+import { SentryErrorHandler, SentryService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -43,6 +44,10 @@ import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform
 
     BrowserAnimationsModule
 
+  ],
+  providers: [
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    SentryService
   ],
   bootstrap: [AppComponent]
 })
