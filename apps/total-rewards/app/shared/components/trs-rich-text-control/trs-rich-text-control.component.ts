@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -45,7 +46,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   @Output() onContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter();
 
   isFocused = false;
-  isInvalid = false;
+  isValid = true;
   shouldEmitSave = false;
   htmlContent: string;
   title: string;
@@ -96,6 +97,8 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     }
     return [];
   }
+
+  constructor(private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.title = this.controlData.Title.Default;
@@ -157,8 +160,11 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     // if we're over the pixel height of the container undo the change by applying the previous delta
     if (totalContentHeightInPixels > container.offsetHeight) {
       quillContentChange.editor.setContents(quillContentChange.oldDelta.ops);
-      this.isInvalid = true;
-      setTimeout(() => this.isInvalid = false, 1000);
+      this.isValid = false;
+      setTimeout(() => {
+        this.isValid = true;
+        this.changeDetectorRef.detectChanges();
+      }, 1000);
     } else if (quillContentChange.source === 'user') {
       // change has occurred, so tell parent to save if the content changes was made by a user and not the initial load done programmatically
       this.onContentChangedSubject.next({ ControlId: this.controlData.Id, value: this.htmlContent });

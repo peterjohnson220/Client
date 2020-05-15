@@ -1,4 +1,4 @@
-<div class="col-12 printClass trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': isInvalid, 'edit-mode': (mode === statementModeEnum.Edit), 'preview-mode': (mode === statementModeEnum.Preview)}">
+<div class="col-12 printClass trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': !isValid, 'edit-mode': (mode === statementModeEnum.Edit), 'preview-mode': (mode === statementModeEnum.Preview)}">
   <div class="d-flex">
     <h4 class="primary-control-heading mb-1 flex-grow-2">
       <pf-inline-string-editor
