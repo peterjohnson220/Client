@@ -25,7 +25,7 @@ describe('Job Description Management - Templates - Template List - Copy Template
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPopoverModule.forRoot(),
+        NgbPopoverModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           jobdescriptionmanagement_templates: combineReducers(

@@ -17,7 +17,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserAnimationsModule,
 
     // 3rd Party
-    NgbPopoverModule.forRoot(),
+    NgbPopoverModule,
 
     // PF Modules
     PfCommonUIModule,

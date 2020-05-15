@@ -28,8 +28,8 @@ import { PfCommonModule } from '../../core';
     CommonModule,
 
     // 3rd Party
-    NgbTooltipModule.forRoot(),
-    NgbDropdownModule.forRoot(),
+    NgbTooltipModule,
+    NgbDropdownModule,
     StoreModule.forFeature('layoutWrapper', reducers),
     EffectsModule.forFeature([ HeaderEffects, LeftSidebarEffects ]),
     FontAwesomeModule,

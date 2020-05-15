@@ -177,6 +177,8 @@ pf-job-description-version-compare {
     left: inherit !important;
     right: 12px !important;
     max-width: none !important;
+    transform: initial !important;
+    top: 200px !important;
   }
 
   &.bs-popover-bottom::before,
