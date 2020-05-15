@@ -1,5 +1,5 @@
 <div class="d-flex">
-  <pf-multi-select-treeview
+  <pf-treeview
     *ngIf="!!(sizes$ | async)?.obj?.length"
     [data]="(sizes$ | async)?.obj"
     [label]="'Size'"
@@ -8,8 +8,8 @@
     [filterable]="true"
     [searchPlaceholder]="'Search for a size...'"
     (applyClicked)="handleSelectedSizesChanged($event)">
-  </pf-multi-select-treeview>
-  <pf-multi-select-treeview
+  </pf-treeview>
+  <pf-treeview
     *ngIf="!!(industries$ | async)?.obj && !! !!(industries$ | async)?.obj?.length"
     [data]="(industries$ | async).obj"
     [label]="'Industry'"
@@ -19,8 +19,8 @@
     [filterable]="true"
     [searchPlaceholder]="'Search for an industry...'"
     (applyClicked)="handleIndustryFilterChanged($event)">
-  </pf-multi-select-treeview>
-  <pf-multi-select-treeview
+  </pf-treeview>
+  <pf-treeview
     *ngIf="!!(locations$ | async)?.obj && !! !!(locations$ | async)?.obj?.length"
     [data]="(locations$ | async).obj"
     [label]="'Location'"
@@ -30,5 +30,5 @@
     [filterable]="true"
     [searchPlaceholder]="'Search for a location...'"
     (applyClicked)="handleLocationFilterChanged($event)">
-  </pf-multi-select-treeview>
+  </pf-treeview>
 </div>

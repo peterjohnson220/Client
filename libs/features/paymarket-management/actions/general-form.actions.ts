@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
+import { GroupedListItem } from 'libs/models/list';
+import { PayMarket } from 'libs/models';
 
 export const GET_COUNTRIES = '[Pay Market Management / General Form] Get Countries';
 export const GET_COUNTRIES_SUCCESS = '[Pay Market Management / General Form] Get Countries Success';
@@ -11,6 +13,12 @@ export const GET_CURRENCIES_ERROR = '[Pay Market Management / General Form] Get 
 export const GET_LINKED_PAY_MARKETS = '[Pay Market Management / General Form] Get Linked Pay Markets';
 export const GET_LINKED_PAY_MARKETS_SUCCESS = '[Pay Market Management / General Form] Get Linked Pay Markets Success';
 export const GET_LINKED_PAY_MARKETS_ERROR = '[Pay Market Management / General Form] Get Linked Pay Markets Error';
+export const GET_SIZES = '[Pay Market Management / General Form] Get Sizes';
+export const GET_SIZES_SUCCESS = '[Pay Market Management / General Form] Get Sizes Success';
+export const GET_SIZES_ERROR = '[Pay Market Management / General Form] Get Sizes Error';
+export const GET_USER_DEFAULT_SCOPE = '[Pay Market Management / General Form] Get User Default Scope';
+export const GET_USER_DEFAULT_SCOPE_SUCCESS = '[Pay Market Management / General Form] Get User Default Scope Success';
+export const GET_USER_DEFAULT_SCOPE_ERROR = '[Pay Market Management / General Form] Get User Default Scope Error';
 
 export class GetCountries implements Action {
   readonly type = GET_COUNTRIES;
@@ -58,6 +66,36 @@ export class GetLinkedPayMarketsError implements Action {
   constructor() {}
 }
 
+export class GetSizes implements Action {
+  readonly type = GET_SIZES;
+  constructor() {}
+}
+
+export class GetSizesSuccess implements Action {
+  readonly type = GET_SIZES_SUCCESS;
+  constructor(public payload: GroupedListItem[]) {}
+}
+
+export class GetSizesError implements Action {
+  readonly type = GET_SIZES_ERROR;
+  constructor() {}
+}
+
+export class GetUserDefaultScope implements Action {
+  readonly type = GET_USER_DEFAULT_SCOPE;
+  constructor() {}
+}
+
+export class GetUserDefaultScopeSuccess implements Action {
+  readonly type = GET_USER_DEFAULT_SCOPE_SUCCESS;
+  constructor(public payload: PayMarket) {}
+}
+
+export class GetUserDefaultScopeError implements Action {
+  readonly type = GET_USER_DEFAULT_SCOPE_ERROR;
+  constructor() {}
+}
+
 export type Actions
   = GetCountries
   | GetCountriesSuccess
@@ -67,4 +105,10 @@ export type Actions
   | GetCurrenciesError
   | GetLinkedPayMarkets
   | GetLinkedPayMarketsSuccess
-  | GetLinkedPayMarketsError;
+  | GetLinkedPayMarketsError
+  | GetSizes
+  | GetSizesSuccess
+  | GetSizesError
+  | GetUserDefaultScope
+  | GetUserDefaultScopeSuccess
+  | GetUserDefaultScopeError;

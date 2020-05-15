@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -8,10 +8,12 @@ import { DropDownFilterSettings, ComboBoxComponent, DropDownListComponent } from
 import { AsyncStateObj } from 'libs/models/state';
 import { PfValidators } from 'libs/forms/validators';
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
-import { PayMarket } from 'libs/models';
+import { PayMarket, GroupedListItem } from 'libs/models';
+import { TreeViewMode, PfTreeViewComponent } from 'libs/ui/common';
 
 import * as fromPayMarketManagementReducer from '../../reducers';
 import * as fromGeneralFormActions from '../../actions/general-form.actions';
+import { ScopeSize } from '../../models';
 
 @Component({
   selector: 'pf-general-form',
@@ -24,13 +26,18 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('linkedPayMarketCombobox', { static: true }) public linkedPayMarketCombobox: ComboBoxComponent;
   @ViewChild('countryComponent', { static: true }) public countryComponent: DropDownListComponent;
   @ViewChild('currencyComponent', { static: true }) public currencyComponent: DropDownListComponent;
+  @ViewChild('sizeComponent', { static: true }) public sizeComponent: PfTreeViewComponent;
 
   countries$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   currencies$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   linkedPayMarkets$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
+  sizes$: Observable<AsyncStateObj<GroupedListItem[]>>;
+  defaultPayMarket$: Observable<AsyncStateObj<PayMarket>>;
 
   countriesSubscription: Subscription;
   currenciesSubscription: Subscription;
+  defaultPayMarketSubscription: Subscription;
+  sizesSubscription: Subscription;
 
   payMarketForm: FormGroup;
   filterSettings: DropDownFilterSettings = {
@@ -40,7 +47,14 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   payMarket: PayMarket;
   countries: KendoTypedDropDownItem[];
   currencies: KendoTypedDropDownItem[];
+  sizes: GroupedListItem[];
+  filteredSizes: GroupedListItem[];
   hasLinkedPayMarket: boolean;
+  defaultPayMarket: PayMarket;
+  treeViewModes = TreeViewMode;
+  sizeCheckedKeys = ['All'];
+  selectedSize: ScopeSize;
+  defaultScopeSize: ScopeSize;
 
   readonly DEFAULT_MAX_LENGTH = 255;
   readonly DEFAULT_COUNTRY = 'USA';
@@ -48,11 +62,14 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private store: Store<fromPayMarketManagementReducer.State>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.countries$ = this.store.select(fromPayMarketManagementReducer.getCountries);
     this.currencies$ = this.store.select(fromPayMarketManagementReducer.getCurrencies);
     this.linkedPayMarkets$ = this.store.select(fromPayMarketManagementReducer.getLinkedPayMarkets);
+    this.sizes$ = this.store.select(fromPayMarketManagementReducer.getSizes);
+    this.defaultPayMarket$ = this.store.select(fromPayMarketManagementReducer.getDefaultPayMarket);
   }
 
   get f() { return this.payMarketForm.controls; }
@@ -69,26 +86,20 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.createForm();
-    this.countriesSubscription = this.countries$.subscribe(results => {
-      if (results && !!results.obj) {
-        this.countries = results.obj;
-        this.updateCountryControl();
-      }
-    });
-    this.currenciesSubscription = this.currencies$.subscribe(results => {
-      if (results && !!results.obj) {
-        this.currencies = results.obj;
-        this.updateCurrencyCode(this.DEFAULT_CURRENCY);
-      }
-    });
+    this.initSubscriptions();
     this.store.dispatch(new fromGeneralFormActions.GetCountries());
     this.store.dispatch(new fromGeneralFormActions.GetCurrencies());
+    this.loadDefaultScope();
     this.loadLinkedPayMarkets();
   }
 
   ngOnDestroy(): void {
     this.countriesSubscription.unsubscribe();
     this.currenciesSubscription.unsubscribe();
+  }
+
+  refresh(): void {
+    this.loadDefaultScope();
   }
 
   handleCountryChange(countryCode: string): void {
@@ -106,6 +117,40 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
     if (!payMarketId) {
       this.payMarketForm.controls['ShowInLinkedStructure'].setValue(false);
     }
+  }
+
+  handleSelectedSizesChanged(sizes: string[]): void {
+    if (sizes && sizes.length) {
+      const parsedSize: string[] = sizes[0].split(':');
+      if (parsedSize.length === 2) {
+        this.selectedSize = {
+          SizeLabel: parsedSize[0],
+          SizeValue: parsedSize[1]
+        };
+      }
+    }
+  }
+
+  private initSubscriptions(): void {
+    this.defaultPayMarketSubscription = this.defaultPayMarket$.subscribe(asyncObj => this.handleDefaultPayMarketChanged(asyncObj));
+    this.countriesSubscription = this.countries$.subscribe(results => {
+      if (results && !!results.obj) {
+        this.countries = results.obj;
+        this.updateCountryControl();
+      }
+    });
+    this.currenciesSubscription = this.currencies$.subscribe(results => {
+      if (results && !!results.obj) {
+        this.currencies = results.obj;
+        this.updateCurrencyCode(this.DEFAULT_CURRENCY);
+      }
+    });
+    this.sizesSubscription = this.sizes$.subscribe(results => {
+      if (results && !!results.obj && !!results.obj.length) {
+        this.sizes = results.obj;
+        this.updateSizeControl(this.defaultPayMarket.IndustryValue, this.defaultScopeSize);
+      }
+    });
   }
 
   private createForm(): void {
@@ -134,7 +179,23 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
     this.linkedPayMarketCombobox.filterChange.emit('');
     this.countryComponent.filterChange.emit('');
     this.currencyComponent.filterChange.emit('');
+    this.updateSizeControl(this.defaultPayMarket.IndustryValue, this.defaultScopeSize);
     this.hasLinkedPayMarket = false;
+  }
+
+  private handleDefaultPayMarketChanged(asyncObj: AsyncStateObj<PayMarket>): void {
+    if (asyncObj && !!asyncObj.obj) {
+      this.defaultPayMarket = asyncObj.obj;
+      this.defaultScopeSize = {
+        SizeLabel: this.defaultPayMarket.SizeLabel ? this.defaultPayMarket.SizeLabel : 'All',
+        SizeValue: this.defaultPayMarket.SizeValue ? this.defaultPayMarket.SizeValue : 'All'
+      };
+      if (!this.sizes) {
+        this.loadSizes();
+      } else {
+        this.updateSizeControl(this.defaultPayMarket.IndustryValue, this.defaultScopeSize);
+      }
+    }
   }
 
   private updateCountryControl(): void {
@@ -157,8 +218,25 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
     currenciesControl.setValue(selectedValue);
   }
 
+  private loadDefaultScope(): void {
+    this.store.dispatch(new fromGeneralFormActions.GetUserDefaultScope());
+  }
+
   private loadLinkedPayMarkets(): void {
     const payMarketId = this.payMarket ? this.payMarket.CompanyPayMarketId : 0;
     this.store.dispatch(new fromGeneralFormActions.GetLinkedPayMarkets({ payMarketId }));
+  }
+
+  private loadSizes(): void {
+    this.store.dispatch(new fromGeneralFormActions.GetSizes());
+  }
+
+  private updateSizeControl(industry: string, size: ScopeSize): void {
+    if (!size) {
+      return;
+    }
+    this.filteredSizes = this.sizes.filter(s => s.Level === null || (!!industry && s.Level.indexOf(industry) > -1));
+    this.sizeCheckedKeys = [`${size.SizeLabel}:${size.SizeValue}`];
+    this.changeDetectorRef.detectChanges();
   }
 }

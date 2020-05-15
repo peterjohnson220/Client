@@ -1,4 +1,7 @@
-import { Component, Input, Output, EventEmitter, ViewChild, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter, ViewChild, OnInit, OnDestroy, OnChanges, SimpleChanges,
+  ChangeDetectionStrategy, ChangeDetectorRef
+} from '@angular/core';
 
 import { Observable, of, BehaviorSubject, Subscription } from 'rxjs';
 import { CheckableSettings, TreeViewComponent } from '@progress/kendo-angular-treeview';
@@ -7,13 +10,16 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { GroupedListItem, PfConstants } from 'libs/models';
+import { TreeViewMode } from '../../models';
 
 @Component({
-  selector: 'pf-multi-select-treeview',
-  templateUrl: './multi-select-treeview.component.html',
-  styleUrls: ['./multi-select-treeview.component.scss']
+  selector: 'pf-treeview',
+  templateUrl: './pf-treeview.component.html',
+  styleUrls: ['./pf-treeview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MultiSelectTreeViewComponent implements OnInit, OnDestroy, OnChanges {
+export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() mode = TreeViewMode.Multiple;
   @Input() label: string;
   @Input() placeholder: string;
   @Input() data: GroupedListItem[];
@@ -30,12 +36,14 @@ export class MultiSelectTreeViewComponent implements OnInit, OnDestroy, OnChange
   @Input() compressChildValues = false;
   @Input() filterable = false;
   @Input() searchPlaceholder = 'Search...';
+  @Input() treeViewContainerHeight = 300;
+  @Input() isPopup = true;
+  @Input() checkedKeys: string[] = [];
   @Output() applyClicked: EventEmitter<string[]> = new EventEmitter();
 
   searchTermSubscription: Subscription;
 
   @ViewChild('treeView', { static: false }) public treeViewComponent: TreeViewComponent;
-  checkedKeys: string[] = [];
   appliedKeys: string[] = [];
   appliedNames: string[] = [];
   show = false;
@@ -46,10 +54,16 @@ export class MultiSelectTreeViewComponent implements OnInit, OnDestroy, OnChange
   noSearchResults = false;
   filteredData: GroupedListItem[] = [];
   expandedKeys: string[] = [];
+  modes = TreeViewMode;
+
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes.data && changes.data.currentValue) {
       this.filteredData = this.data;
+    }
+    if (changes && changes.checkedKeys && changes.checkedKeys.currentValue && !!this.data) {
+      this.handleApplyClicked();
     }
   }
 
@@ -97,10 +111,19 @@ export class MultiSelectTreeViewComponent implements OnInit, OnDestroy, OnChange
     }
   }
 
+  handleSelectionChanged(event: { dataItem: GroupedListItem, index: string }): void {
+    if (event.dataItem.IgnoreValue) {
+      return;
+    }
+    this.checkedKeys = [event.dataItem.Value];
+  }
+
   // Kendo treeview
   public children = (dataItem: GroupedListItem): Observable<GroupedListItem[]> => of(dataItem.Children);
   public hasChildren = (dataItem: GroupedListItem): boolean => !!dataItem.Children && dataItem.Children.length > 0;
-
+  public isSelected = (dataItem: GroupedListItem): boolean => {
+    return !!this.checkedKeys && !!this.checkedKeys.length && this.checkedKeys.indexOf(dataItem.Value) > -1;
+  }
   private handleSearchTermSubscription(searchTerm: string): void {
     if (!this.treeViewComponent) {
       return;
@@ -115,6 +138,7 @@ export class MultiSelectTreeViewComponent implements OnInit, OnDestroy, OnChange
         : [];
     }
     this.noSearchResults = this.filteredData.length === 0;
+    this.changeDetectorRef.detectChanges();
   }
 
   private search(items: GroupedListItem[], term: string): GroupedListItem[] {

@@ -11,6 +11,15 @@
   pointer-events: none;
 }
 
+.scope-container {
+  height: 300px;
+
+  .scope-column {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 ::ng-deep {
   .k-dropdown-wrap {
     background-color: #ffffff !important;
