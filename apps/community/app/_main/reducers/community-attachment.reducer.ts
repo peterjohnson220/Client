@@ -46,7 +46,9 @@ export function reducer(state = initialState, action: communityAttachmentActions
     }
     case communityAttachmentActions.CLEAR_COMMUNITY_ATTACHMENTS_STATE: {
       const entity = cloneDeep(state.entities[action.payload]);
-      entity.Attachments = [];
+      if (entity) {
+        entity.Attachments = [];
+      }
       return {
         ...adapter.removeOne(action.payload, state),
         currentAttachmentModalState: entity
