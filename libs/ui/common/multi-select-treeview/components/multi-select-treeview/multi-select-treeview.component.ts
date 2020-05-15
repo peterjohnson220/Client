@@ -105,10 +105,15 @@ export class MultiSelectTreeViewComponent implements OnInit, OnDestroy, OnChange
     if (!this.treeViewComponent) {
       return;
     }
-    this.filteredData = this.search(this.data, searchTerm);
-    this.expandedKeys = this.filteredData.length
-      ? this.getExpandedKeys(this.filteredData)
-      : [];
+    if (searchTerm.length === 0) {
+      this.filteredData = this.data;
+      this.expandedKeys = [];
+    } else {
+      this.filteredData = this.search(this.data, searchTerm);
+      this.expandedKeys = this.filteredData.length
+        ? this.getExpandedKeys(this.filteredData)
+        : [];
+    }
     this.noSearchResults = this.filteredData.length === 0;
   }
 
