@@ -236,7 +236,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_FIELDS:
-
       // Remove the sort descriptors for columns which are no longer in the visible columns list
       let sortDescriptor = state.grids[action.pageViewId].sortDescriptor;
       if (sortDescriptor) {
@@ -1134,31 +1133,40 @@ export function reorderFieldsColumnGroup(groupedFields: any[], oldIndex: number,
 }
 
 export function applyNewOrdering(existingFields: any[], orderedFields: any[]): ViewField[] {
-  const fields: ViewField[] = [];
+  let fields: ViewField[] = [];
 
   existingFields.forEach((existingField) => {
     if (existingField.DataElementId !== undefined) {
-
-      const orderedField = orderedFields.find(oField => oField.DataElementId === existingField.DataElementId);
-      if (orderedField && isNumber(orderedField.Order)) {
-        existingField.Order = orderedField.Order;
-      }
-
-      fields.push(existingField);
-
-    } else if (!!existingField.Fields) {
-      const orderedGroupFields = orderedFields.find(oField => oField.Group === existingField.Group).Fields;
-      existingField.Fields.forEach((existingSubField) => {
-        const orderedGroupField = orderedGroupFields.find(oGroupField => oGroupField.DataElementId === existingSubField.DataElementId);
-        existingSubField.Order = orderedGroupField.Order;
-      });
-
-      fields.push(existingField);
+      applyNewOrderingHelper(existingField, orderedFields);
+    }
+    else if (!!existingField.Fields) {
+      applyNewOrderingGroupHelper(existingField, orderedFields);
     }
 
+    fields.push(existingField);
   });
 
+  fields = orderBy(fields, ['Order'], 'asc');
   return fields;
+}
+
+function applyNewOrderingHelper(existingField: ViewField, orderedFields: ViewField[]) {
+  const orderedField = orderedFields.find(oField => oField.DataElementId === existingField.DataElementId);
+  if (orderedField && isNumber(orderedField.Order)) {
+    existingField.Order = orderedField.Order;
+  }
+}
+
+function applyNewOrderingGroupHelper(existingField: any, orderedFields: any[]) {
+  const orderedGroup = orderedFields.find(oField => oField.Group === existingField.Group);
+  if (orderedGroup) {
+    existingField.Order = orderedGroup.Order;
+    existingField.Fields.forEach((existingSubField) => {
+      applyNewOrderingHelper(existingSubField, orderedGroup.Fields);
+    });
+
+    existingField.Fields = orderBy(existingField.Fields, ['Order'], 'asc');
+  }
 }
 
 export function reorderFieldsNoColumnGroup(fields: ViewField[], oldIndex: number, newIndex: number): ViewField[] {

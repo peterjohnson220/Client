@@ -53,6 +53,7 @@ export class ActionBarComponent implements OnChanges {
       const orderedVisibleFields = orderBy(updatedFields.filter(f => f.IsSelectable && f.IsSelected), ['Order', 'DisplayName'], ['asc']);
       orderedVisibleFields.forEach((f, index) => f.Order = index);
     }
+
     this.store.dispatch(new fromActions.UpdateFields(this.pageViewId, updatedFields));
     this.store.dispatch(new fromActions.LoadData(this.pageViewId));
   }
@@ -63,6 +64,7 @@ export class ActionBarComponent implements OnChanges {
     newField.FilterValue = value;
     this.store.dispatch(new fromActions.UpdateFilter(this.pageViewId, newField));
   }
+
   toggleFilterPanel() {
     this.onFilterSidebarToggle.emit();
   }
