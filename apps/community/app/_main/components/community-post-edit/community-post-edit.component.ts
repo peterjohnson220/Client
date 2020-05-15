@@ -8,6 +8,7 @@ import * as fromCommunityPostActions from '../../actions/community-post.actions'
 
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 import { Observable, Subscription } from 'rxjs';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'pf-community-post-edit',
@@ -20,14 +21,20 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
   communityTopicSubscription: Subscription;
 
   communityAttachments: CommunityAttachment[];
+  communityPostEditForm: FormGroup;
   communityTopics: CommunityTopic[];
   communityTopics$: Observable<CommunityTopic[]>;
+  editMaxLength = 2000;
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
   selectedTopic: CommunityTopic;
   selectedTopicId: string;
 
-  constructor( public store: Store<fromCommunityPostReplyReducer.State>) {
+  constructor( public store: Store<fromCommunityPostReplyReducer.State>, private formBuilder: FormBuilder) {
     this.communityTopics$ = this.store.select(fromCommunityPostReplyReducer.getTopics);
+
+    this.communityPostEditForm = this.formBuilder.group({
+      context:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.editMaxLength)]]
+    });
   }
 
   ngOnInit() {
@@ -39,6 +46,10 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
     });
 
     this.communityAttachments = this.post.Attachments;
+
+    setTimeout(() => {
+      this.communityPostEditForm.controls['context'].setValue(this.post.Content);
+    });
   }
 
   ngOnDestroy() {
@@ -49,7 +60,7 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
     if (this.selectedTopic != null) {
       const updatedPost: CommunityUpdatePost = {
         PostId: this.post.Id,
-        PostText: this.post.Content,
+        PostText: this.communityPostEditForm.controls['context'].value,
         Topic: this.selectedTopic,
         Attachments: this.communityAttachments
       };

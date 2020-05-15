@@ -1,41 +1,46 @@
 @import 'colors';
 @import 'styles';
 
+.attachment {
+  flex: 0 0 auto;
+  margin-right: 10px;
+}
+
 .container {
-    color: $community-sub-text-color;
-    border: 1px solid;
-    border-radius: 5px;
-    height: 40px;
-    width: 175px;
-    margin: auto;
-    padding: 7px 8px 7px 5px;
-    font-size: 0.9rem;
+  color: $community-sub-text-color;
+  border: 1px solid;
+  border-radius: 5px;
+  height: 40px;
+  width: 175px;
+  margin: auto;
+  padding: 7px 8px 7px 5px;
+  font-size: 0.9rem;
 }
 
 .icon {
-    float: left;
-    margin-right: 0.5rem;
+  float: left;
+  margin-right: 0.5rem;
 
-    &.word {
-      color: $community-word-badge-color;
-    }
-    &.pdf {
-      color: $community-pdf-badge-color;
-    }
-    &.excel {
-      color: $community-excel-badge-color;
-    }
-    &.image {
-      color: $community-image-badge-color;
-    }
-    &.file {
-      color: $community-attachment-link-color;
-    }
+  &.word {
+    color: $community-word-badge-color;
   }
+  &.pdf {
+    color: $community-pdf-badge-color;
+  }
+  &.excel {
+    color: $community-excel-badge-color;
+  }
+  &.image {
+    color: $community-image-badge-color;
+  }
+  &.file {
+    color: $community-attachment-link-color;
+  }
+}
 
 .attachment-info {
-    float: left;
-    line-height: 0.35em;
+  float: left;
+  line-height: 0.35em;
 }
 
 .remove-btn {

@@ -354,6 +354,7 @@ export function reducer(
         {
           id: action.payload.PostId, changes: {
             Attachments: action.payload.Attachments,
+            Content: action.payload.PostText,
             Topic: action.payload.Topic
           }
         },
