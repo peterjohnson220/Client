@@ -18,6 +18,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 
 import { PageViewIds } from '../constants';
 import * as fromJobsPageActions from '../actions';
@@ -117,6 +118,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showJobManagementModal = new BehaviorSubject<boolean>(false);
   showJobManagementModal$ = this.showJobManagementModal.asObservable();
   editingJobId: number;
+  jobDescriptionsInReview: any[] = [];
 
   loadViewConfigSuccessSubscription = new Subscription;
 
@@ -134,7 +136,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('structureGradeFilter', { static: false }) structureGradeFilter: ElementRef;
 
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) { }
+  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private companyJobApiService: CompanyJobApiService) { }
 
   ngOnInit() {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
@@ -306,12 +308,16 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openJobStatusModal() {
     this.showJobStatusModal.next(true);
-    this.store.dispatch(new fromJobsPageActions.ShowJobStatusModal());
+    this.companyJobApiService.getCompanyJobDescriptionInformation(this.selectedJobIds).subscribe(jds => {
+      this.jobDescriptionsInReview = jds;
+      this.store.dispatch(new fromJobsPageActions.ShowJobStatusModal());
+    });
   }
 
   changingJobStatus() {
     const summary: ChangeJobStatusRequest = {
       CompanyJobIds: this.selectedJobIds,
+      JobsInReview: this.jobDescriptionsInReview,
       StatusToSet: this.isActiveJobs() ? 0 : 1
     };
 

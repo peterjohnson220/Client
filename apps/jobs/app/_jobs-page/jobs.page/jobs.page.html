@@ -263,7 +263,17 @@
     {{isActiveJobs() ? 'Inactive' : 'Active'}}.
     <br><br>
     By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}}
-    for use throughout the system. Would you like to continue?
+    for use throughout the system.
+    <div *ngIf="jobDescriptionsInReview.length >= 1">
+      <br>
+      The following job codes have 1 or more job descriptions in review. Inactivating the job will cancel the workflows and the changes will be lost:
+      <br><br>
+      <div *ngFor="let job of jobDescriptionsInReview">
+        <strong>{{job.JobCode}}</strong>
+      </div>
+    </div>
+      <br>
+      Would you like to continue?
     <div *ngIf="(changingJobStatus$ | async).loadingError">
       <br>
       <span class="text-danger">
