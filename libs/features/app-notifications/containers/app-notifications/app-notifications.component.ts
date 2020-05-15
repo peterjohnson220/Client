@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import * as signalR from '@aspnet/signalr';
-import { LogLevel } from '@aspnet/signalr';
+import * as signalR from '@microsoft/signalr';
+import { LogLevel } from '@microsoft/signalr';
 
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
@@ -25,7 +25,6 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
 
   notifications: AppNotification<any>[];
   signalRConnectionUrl: string;
-  retryCount = 0;
 
   constructor(
     private store: Store<fromAppNotificationsMainReducer.State>
@@ -54,33 +53,16 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
   private initHubConnection(): void {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(this.signalRConnectionUrl)
-      .configureLogging(LogLevel.None)
+      .withAutomaticReconnect()
+      .configureLogging(LogLevel.Error)
       .build();
 
-    this.startConnection(connection);
+    connection.start().then(function () {
+      // connected
+    });
 
     connection.on(HubMethodName.ReceiveNotification, (notification: AppNotification<any>) => {
       this.store.dispatch(new fromAppNotificationsActions.AddNotification(notification));
     });
-
-    connection.onclose(() => {
-      this.startConnection(connection);
-    });
-  }
-
-  private startConnection(connection: any) {
-    const that = this;
-    if (this.retryCount <= 3) {
-      connection.start().then(function () {
-        that.retryCount = 0;
-      }).catch(function (error) {
-        if (error && error.statusCode !== 401) {
-          setTimeout(() => {
-            that.retryCount++;
-            that.startConnection(connection);
-          }, 5000 * that.retryCount);
-        }
-      });
-    }
   }
 }
