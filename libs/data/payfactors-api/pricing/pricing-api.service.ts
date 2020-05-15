@@ -5,7 +5,6 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Observable } from 'rxjs';
 import { PricingNote } from 'libs/models/payfactors-api';
-import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
 
 
 @Injectable()
@@ -14,11 +13,15 @@ export class PricingApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  deletePricing(deletePricingRequest: DeletePricingRequest) {
+  deletePricing(deletePricingRequest: DeletePricingRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.DeletePricing`, { request: deletePricingRequest });
   }
 
-  patchPricingStatus(pricingId: number, status: string) {
+  deletePricingMatch(pricingMatchId: number): Observable<any> {
+    return this.payfactorsApiService.delete(`${this.endpoint}/DeletePricingMatch?pricingMatchId=${pricingMatchId}`);
+  }
+
+  patchPricingStatus(pricingId: number, status: string): Observable<any> {
     return this.payfactorsApiService.patch(`${this.endpoint}(${pricingId})`, { Status: status });
   }
 
