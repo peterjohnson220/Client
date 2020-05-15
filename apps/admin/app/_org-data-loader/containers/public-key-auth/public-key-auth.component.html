@@ -10,7 +10,7 @@
       <fa-icon *ngIf="!(validatingUserName$ | async) && isUserNameValid !== null && isUserNameValid == true" icon="check"
                size="sm" class="success"></fa-icon>
       <fa-icon *ngIf="!(validatingUserName$ | async) && isUserNameValid !== null && isUserNameValid == false" icon="times"
-               size="sm" class="error" ngbTooltip="This username is unavailable. Please try a different one"></fa-icon>
+               size="sm" class="error" ngbTooltip="User name must be at least 8 characters, user name must be unique, user name can only contain alphanumeric values"></fa-icon>
     </span>
   </div>
 </div>
