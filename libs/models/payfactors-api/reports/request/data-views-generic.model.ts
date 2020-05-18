@@ -60,7 +60,7 @@ export interface ViewField {
   SortOrder?: number;
   SortDirection?: 'asc' | 'desc';
   GroupOrder?: number;
-  SelectionOrder?: number;
+  DefaultOrder?: number;
   // TODO: Replace FilterValue with FilterValues.
   // Update filter builder and filter panel accordingly.
   FilterValues?: string[];
