@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { orderBy } from 'lodash';
+
 import { select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
@@ -49,9 +51,9 @@ export class UserSettingsPageEffects {
   );
 
   private mapToTiles(userTileDto: UserTileDto[]): UserTile[] {
-    return userTileDto
+    return orderBy(userTileDto
       .map(dt => UserTileToTileMapper.mapUserTileDtoToTile(dt))
-      .filter(t => new TileType().AllTypes.indexOf(t.Type) !== -1 && t.MarketingEnabled !== true);
+      .filter(t => new TileType().AllTypes.indexOf(t.Type) !== -1 && t.MarketingEnabled !== true), ['Label'], 'asc');
   }
 
   constructor(
