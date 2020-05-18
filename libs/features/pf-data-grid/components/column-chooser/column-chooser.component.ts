@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
+import { orderBy } from 'lodash';
 
 import { ViewField } from 'libs/models/payfactors-api';
 
@@ -33,7 +34,7 @@ export class ColumnChooserComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['dataFields']) {
-      this.listAreaColumns = cloneDeep(changes['dataFields'].currentValue);
+      this.listAreaColumns = orderBy(cloneDeep(changes['dataFields'].currentValue), ['DefaultOrder'], ['asc']);
     }
   }
 
@@ -57,7 +58,7 @@ export class ColumnChooserComponent implements OnChanges {
 
   onHidden() {
     this.filter = '';
-    this.listAreaColumns = cloneDeep(this.dataFields);
+    this.listAreaColumns = orderBy(cloneDeep(this.dataFields), ['DefaultOrder'], ['asc']);
   }
 
   private updateNewColumnsOrder(fields: ViewField[]): ViewField[] {
