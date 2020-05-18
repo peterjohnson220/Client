@@ -33,8 +33,10 @@
       <div *ngIf="gridActionsTemplate || userFilteredFields.length > 0"
            class="no-gutters d-flex justify-content-between mb-2 sub-header">
         <div class="flex-fill">
-          <div class="h-100" *ngIf="userFilteredFields.length > 0">
+          <div class="h-100 d-flex align-items-center">
+            <ng-content select="[beside-filter]"></ng-content>
             <pf-data-grid-filter-pills
+              *ngIf="userFilteredFields.length > 0"
               [fields]="userFilteredFields"
               (clearFilter)="clearFilter($event, true)"
               (clearAllFilters)="clearAllFilters()">
