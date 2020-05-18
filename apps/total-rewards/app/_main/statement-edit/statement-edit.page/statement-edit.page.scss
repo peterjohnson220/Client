@@ -26,6 +26,10 @@ $spinner-easing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
     background-color: white;
     padding: 12px 20px 5px 20px;
 
+    a.settings {
+      font-size: 1.7rem;
+    }
+
     .mode-button {
       top: -3px;
     }

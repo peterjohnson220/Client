@@ -1,12 +1,13 @@
 <div class="col-12 h-100 position-relative" [ngClass]="{'edit-mode': mode === modeEnum.Edit}">
   <h2 class="my-auto trs-statement-title">
-    <pf-inline-string-editor
+    <pf-string-editor
       [placeholder]="controlData.Title.Default"
       [value]="controlData.Title.Override"
       [maxCharacters]="60"
       [inEditMode]="mode === modeEnum.Edit"
+      [isMultiline]="true"
       (valueChange)="onTitleChange($event)"
-    ></pf-inline-string-editor>
+    ></pf-string-editor>
   </h2>
   <h3 class="employee font-weight-normal p-1">
     <span class="employee-name">{{ employeeName }}</span>

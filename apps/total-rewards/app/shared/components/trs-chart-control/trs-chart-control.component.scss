@@ -1,11 +1,18 @@
 .trs-chart {
+  .heading {
+    width: 105%;
+    h4 {
+      width: 90%;
+    }
+  }
+
   kendo-chart {
     height: 250px;
   }
   
   a.settings {
-    margin-right: -15px;
-    top: 0;
+    font-size: 1.5rem;
+    line-height: 1.2;
     transition: opacity .3s ease-in-out;
   }
 

@@ -11,14 +11,14 @@
         <div class="header-row-wrapper position-fixed">
           <div class="header-row d-flex w-100">
             <h3 class="flex-fill">
-              <pf-inline-string-editor
+              <pf-string-editor
                 [placeholder]="'New Statement Name'"
                 [maxCharacters]="statementNameMaxLength"
                 [value]="getStatementName()"
                 [inEditMode]="(mode === modeEnum.Edit)"
                 [showIcon]="'always'"
                 (valueChange)="onStatementNameValueChange($event)"
-              ></pf-inline-string-editor>
+              ></pf-string-editor>
             </h3>
             <span *ngIf="(mode === modeEnum.Preview)" class="font-italic flex-grow-1 pt-1">
               Canvas cannot be edited in preview mode

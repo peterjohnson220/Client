@@ -9,12 +9,12 @@
       <tr class="trs-calculation-row w-100">
         <th class="text-left font-weight-normal" scope="col">
           <h4 class="primary-control-heading mb-1">
-            <pf-inline-string-editor
+            <pf-string-editor
               [value]="controlData.Title.Override"
               [placeholder]="controlData.Title.Default"
               [maxCharacters]="30"
               [inEditMode]="inEditMode"
-              (valueChange)="onControlTitleChange($event)"></pf-inline-string-editor>
+              (valueChange)="onControlTitleChange($event)"></pf-string-editor>
           </h4>
         </th>
         <th class="text-right pb-3" scope="col" class="secondary-header align-middle text-right font-weight-normal">Contribution</th>
@@ -24,12 +24,12 @@
     <tbody>
       <tr *ngFor="let listItem of controlData.DataFields; let i = index " class="trs-calculation-row w-100">
         <td *ngIf="displayFieldInTable(listItem)" class="text-left" [class.last-before-summary]="controlData.DataFields.length - 1 === i">
-          <pf-inline-string-editor
+          <pf-string-editor
             [value]="listItem.Name.Override"
             [placeholder]="listItem.Name.Default"
             [maxCharacters]="30"
             [inEditMode]="inEditMode"
-            (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-inline-string-editor>
+            (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-string-editor>
         </td>
         <td *ngIf="displayFieldInTable(listItem)"
             class="contribution-field text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
@@ -43,12 +43,12 @@
       </tr>
       <tr class="trs-calculation-row w-100">
         <td class="summary text-left">
-          <pf-inline-string-editor
+          <pf-string-editor
             [value]="controlData.Summary.Override"
             [placeholder]="controlData.Summary.Default"
             [maxCharacters]="30"
             [inEditMode]="inEditMode"
-            (valueChange)="onSummaryTitleChange($event)"></pf-inline-string-editor>
+            (valueChange)="onSummaryTitleChange($event)"></pf-string-editor>
         </td>
         <td class="contribution-field summary text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
           {{getSummaryValue()}}

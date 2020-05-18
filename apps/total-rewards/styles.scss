@@ -59,10 +59,8 @@ pf-statement-edit.page {
     background-color: $trs-edit-statement-page-background-color !important;
   }
   a.settings {
-    top: 4px;
     color: inherit;
     svg {
-      font-size: 1.8rem;
       transition: all .25s ease-in-out;
       opacity: .65;
       &:hover {
@@ -119,6 +117,9 @@ pf-trs-calculation-control {
 }
 
 pf-trs-image-control {
+  &>div {
+    border: 2px dashed transparent;
+  }
   .edit-mode {
     border: 2px dashed $trs-canvas-background-color;
     border-radius: 5px;
