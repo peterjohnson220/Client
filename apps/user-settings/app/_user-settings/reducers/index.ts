@@ -29,3 +29,10 @@ export const selectUserSettingsPageState = createSelector(selectFeatureAreaState
 );
 
 // User Settings Page
+export const getUserTilesAsync = createSelector(selectUserSettingsPageState, fromUserSettingsPageReducer.getUserTilesAsync);
+export const getDashboardPreferencesHasPendingChanges = createSelector(
+  selectUserSettingsPageState, fromUserSettingsPageReducer.getDashboardPreferencesHasPendingChanges
+);
+export const getSavedDashboardPreferencesResponse = createSelector(
+  selectUserSettingsPageState , fromUserSettingsPageReducer.getSavedDashboardPreferencesResponse
+);
