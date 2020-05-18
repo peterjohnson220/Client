@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { UserFeatureDto, ReorderTileRequest, UserTileDto } from '../../../models/dashboard';
-
-import { TimelineActivityRequest } from '../../../models/dashboard';
+import { UserFeatureDto, ReorderTileRequest, UserTileDto, TimelineActivityRequest } from '../../../models/dashboard';
 
 @Injectable()
 export class DashboardApiService {
@@ -60,5 +58,12 @@ export class DashboardApiService {
 
   getDriftUserId(pfAccountExecutiveUserId: number): Observable<any> {
     return this.payfactorsApiService.get<number>(`${this.endpoint}.GetDriftUserId`, { params: { userId: pfAccountExecutiveUserId } });
+  }
+
+  saveDashboardPreferences(userTiles: UserTileDto[]): Observable<any> {
+    return this.payfactorsApiService.post<UserTileDto[]>(`${this.endpoint}.SaveDashboardPreferences`,
+      {
+        UserTile: userTiles
+      });
   }
 }

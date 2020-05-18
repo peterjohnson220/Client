@@ -1,7 +1,8 @@
-import {UserTileDto} from 'libs/models';
+import { TileTypes, UserTileDto } from 'libs/models';
+import { MappingHelper } from 'libs/core/helpers';
 
-import {Tile, TilePreviewChartTypes, TilePreviewTypes, TileTypes} from '../models';
-import {MarketingTileDescriptions} from '../models/marketing-tile-descriptions';
+import { Tile, TilePreviewChartTypes, TilePreviewTypes } from '../models';
+import { MarketingTileDescriptions } from '../models/marketing-tile-descriptions';
 
 export class UserTileToTileMapper {
 
@@ -12,8 +13,8 @@ export class UserTileToTileMapper {
       IconClass: dashboardTile.IconClass,
       Url: dashboardTile.Url,
       Order: dashboardTile.UserOrder,
-      Type: this.mapTileTypeFromTileName(dashboardTile.TileName),
-      PreviewType: this.mapTilePreviewTypeFromTileType(UserTileToTileMapper.mapTileTypeFromTileName(dashboardTile.TileName)),
+      Type: MappingHelper.mapTileTypeFromTileName(dashboardTile.TileName),
+      PreviewType: this.mapTilePreviewTypeFromTileType(MappingHelper.mapTileTypeFromTileName(dashboardTile.TileName)),
       TilePreviewData: dashboardTile.TilePreviewData,
       Size: 1,
       ChartType: undefined,
@@ -24,51 +25,6 @@ export class UserTileToTileMapper {
       MarketingDescription: '',
       MarketingButtonText: ''
     });
-  }
-
-  static mapTileTypeFromTileName(tileName: string): TileTypes {
-    switch (tileName) {
-      case 'Employees':
-        return TileTypes.Employees;
-      case 'Data Insights':
-        return TileTypes.DataInsights;
-      case 'Job Descriptions':
-        return TileTypes.JobDescriptions;
-      case 'Jobs':
-        return TileTypes.MyJobs;
-      case 'Pay Markets':
-        return TileTypes.PayMarkets;
-      case 'Peer':
-        return TileTypes.Peer;
-      case 'Pricing Projects':
-        return TileTypes.PricingProjects;
-      case 'Resources':
-        return TileTypes.Resources;
-      case 'Service':
-        return TileTypes.Service;
-      case 'Structures':
-        return TileTypes.Structures;
-      case 'Surveys':
-        return TileTypes.Surveys;
-      case 'Data Diagnostics':
-        return TileTypes.DataDiagnostics;
-      case 'Community':
-        return TileTypes.Community;
-      case 'New Community':
-        return TileTypes.NewCommunity;
-      case 'Ideas':
-        return TileTypes.Ideas;
-      case 'Quick Price':
-        return TileTypes.QuickPrice;
-      case 'Total Rewards':
-        return TileTypes.TotalRewards;
-      case 'Data Management':
-        return TileTypes.DataManagement;
-      case 'International Data':
-        return TileTypes.InternationalData;
-      default:
-        return TileTypes.Unknown;
-    }
   }
 
   static mapTilePreviewTypeFromTileType(tileType: TileTypes): TilePreviewTypes {

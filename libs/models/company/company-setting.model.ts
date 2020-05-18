@@ -26,7 +26,8 @@ export enum CompanySettingsEnum {
   JDMTemplatesUseClient = 'JDMTemplatesUseClient',
   ManualOrgDataLoadLink = 'ManualOrgDataLoadLink',
   EnableJobsPageToggle = 'EnableJobsPageToggle',
-  CanEditCurrentStructureRanges = 'CanEditCurrentStructureRanges'
+  CanEditCurrentStructureRanges = 'CanEditCurrentStructureRanges',
+  DashboardPreferences = 'DashboardPreferences'
 }
 
 export interface CompanySetting {

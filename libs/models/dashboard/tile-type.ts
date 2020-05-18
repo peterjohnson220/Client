@@ -1,5 +1,3 @@
-import { TileTypes } from './tile-types';
-
 export class TileType {
   AllTypes: TileTypes[] = [];
 
@@ -46,4 +44,27 @@ export class TileType {
       TileTypes.InternationalData
     ];
   }
+}
+
+export enum TileTypes {
+  Unknown = 'Unknown',
+  DataInsights = 'DataInsights',
+  Employees = 'Employees',
+  JobDescriptions = 'JobDescriptions',
+  MyJobs = 'MyJobs',
+  PayMarkets = 'PayMarkets',
+  Peer = 'Peer',
+  PricingProjects = 'PricingProjects',
+  Resources = 'Resources',
+  Service = 'Service',
+  Structures = 'Structures',
+  Surveys = 'Surveys',
+  DataDiagnostics = 'DataDiagnostics',
+  Community = 'Community',
+  NewCommunity = 'NewCommunity',
+  Ideas = 'Ideas',
+  QuickPrice = 'QuickPrice',
+  TotalRewards = 'TotalRewards',
+  DataManagement = 'DataManagement',
+  InternationalData = 'InternationalData'
 }
