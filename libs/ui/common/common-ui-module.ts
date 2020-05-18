@@ -12,7 +12,7 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { PopupModule } from '@progress/kendo-angular-popup';
 
 import * as fromFaIcons from './fa-icons';
-import { EllipsisViewMoreComponent, NavigationLinksComponent } from './content';
+import { EllipsisViewMoreComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent, TokenExpirationPageComponent, ForbiddenPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
@@ -38,7 +38,6 @@ const components = [
   CardSelectorComponent,
   UserOrEmailPickerComponent,
   MultiSelectComponent,
-  NavigationLinksComponent,
   PeerAssociationColorBlockComponent,
   SimpleYesNoModalComponent,
   MultiSelectDropdownComponent,
