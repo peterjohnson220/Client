@@ -12,6 +12,12 @@ export const UPDATE_ENTITY_SELECTIONS = '[Data Management/Entity Selection Page]
 export const UPDATE_ENTITY_SELECTIONS_ERROR = '[Data Management/Entity Selection Page] Update Entity Selections Error';
 export const UPDATE_ENTITY_SELECTIONS_SUCCESS = '[Data Management/Entity Selection Page] Update Entity Selections Success';
 export const SET_ENTITY_SELECTION = '[Data Management/Entity Selection Page] Set Entity Selections';
+export const OPEN_REMOVE_ENTITY_MODAL = '[Data Management/Entity Selection Page] Open Remove Entity Modal';
+
+
+export const DEACTIVATE_MAPPINGS_FOR_ENTITIES = '[Data Management/Entity Selection Page] Deactivate Field Mappings For Entity';
+export const DEACTIVATE_MAPPINGS_FOR_ENTITIES_ERROR = '[Data Management/Entity Selection Page] Deactivate Field Mappings For Entity Error';
+export const DEACTIVATE_MAPPINGS_FOR_ENTITIES_SUCCESS = '[Data Management/Entity Selection Page] Deactivate Field Mappings For Entity Success';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -53,6 +59,30 @@ export class SetEntitySelections implements Action {
   constructor(public payload: {connectionId: number, selectedEntities: OrgDataEntityType[]}) {}
 }
 
+export class OpenRemoveEntityModal implements Action {
+  readonly type = OPEN_REMOVE_ENTITY_MODAL;
+
+  constructor(public payload: boolean) {}
+}
+
+export class DeactivateMappingForEntities implements Action {
+  readonly type = DEACTIVATE_MAPPINGS_FOR_ENTITIES;
+
+  constructor(public payload: { entityMappingsToRemove: string[], deactivateRedirectRoute: string, selectedEntities: OrgDataEntityType[] }) {}
+}
+
+export class DeactivateMappingForEntitiesError implements Action {
+  readonly type = DEACTIVATE_MAPPINGS_FOR_ENTITIES_ERROR;
+
+  constructor() {}
+}
+
+export class DeactivateMappingForEntitiesSuccess implements Action {
+  readonly type = DEACTIVATE_MAPPINGS_FOR_ENTITIES_SUCCESS;
+
+  constructor(public payload: { deactivateRedirectRoute: string }) {}
+}
+
 export type Actions
   = Init
   | LoadEntitySelection
@@ -61,4 +91,8 @@ export type Actions
   | UpdateEntitySelections
   | UpdateEntitySelectionsError
   | UpdateEntitySelectionsSuccess
-  | SetEntitySelections;
+  | SetEntitySelections
+  | OpenRemoveEntityModal
+  | DeactivateMappingForEntities
+  | DeactivateMappingForEntitiesError
+  | DeactivateMappingForEntitiesSuccess;

@@ -1,22 +1,25 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Action, select, Store} from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action, select, Store } from '@ngrx/store';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { find } from 'lodash';
 
-import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
-
+import { SyncScheduleHrisApiService } from 'libs/data/payfactors-api';
+import { ConnectionsHrisApiService } from 'libs/data/payfactors-api/hris-api/connections';
+import { MappingsHrisApiService } from 'libs/data/payfactors-api/hris-api/mappings';
+import { ProvidersHrisApiService } from 'libs/data/payfactors-api/hris-api/providers';
+import { ProviderSupportedEntityDTO } from 'libs/models/hris-api/provider/response';
 import * as fromRootState from 'libs/state/state';
-import {ProviderSupportedEntityDTO} from 'libs/models/hris-api/provider/response';
-import {ProvidersHrisApiService} from 'libs/data/payfactors-api/hris-api/providers';
-import {ConnectionsHrisApiService} from 'libs/data/payfactors-api/hris-api/connections';
 
 import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
-import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import * as fromEntitySelectionActions from '../actions/entity-selection.actions';
+import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import * as fromDataManagementMainReducer from '../reducers';
-import {PayfactorsApiModelMapper} from '../helpers';
-import {TransferDataWorkflowStep} from '../data';
+import { PayfactorsApiModelMapper } from '../helpers';
+import { TransferDataWorkflowStep } from '../data';
 
 @Injectable()
 export class EntitySelectionEffects {
@@ -82,10 +85,76 @@ export class EntitySelectionEffects {
       })
     );
 
+  @Effect()
+  deactivateMappingsForEntity$ = this.actions$
+    .pipe(
+      ofType<fromEntitySelectionActions.DeactivateMappingForEntities>(fromEntitySelectionActions.DEACTIVATE_MAPPINGS_FOR_ENTITIES),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        this.store.pipe(select(fromDataManagementMainReducer.getHrisConnectionSummary)),
+        (action: fromEntitySelectionActions.DeactivateMappingForEntities, userContext, connectionSummary) => {
+          return {
+            action,
+            userContext,
+            connectionSummary
+          };
+        }
+      ),
+      switchMap((obj) => {
+        return this.syncScheduleHrisApiService.getTransferScheduleSummary(obj.userContext).pipe(
+          mergeMap((response) => {
+            if (!response) {
+              return [new fromEntitySelectionActions.DeactivateMappingForEntitiesError()];
+            }
+
+            const actions = [];
+            obj.action.payload.entityMappingsToRemove.forEach(element => {
+              actions.push(this.mappingsHrisApiService.deactivateEntityMapping(obj.userContext, element));
+              find(response, (syncSchedule) => {
+                if (syncSchedule &&
+                    syncSchedule.entityMappingTypeCode === element &&
+                    syncSchedule.active === 1 &&
+                    syncSchedule.syncSchedule_ID !== null) {
+                      actions.push(
+                        this.syncScheduleHrisApiService.disableTransferSchedule(obj.userContext, syncSchedule.syncSchedule_ID));
+                }
+              });
+            });
+            return forkJoin(actions).pipe(
+              switchMap(() => {
+                const route = obj.action.payload.deactivateRedirectRoute;
+                return [
+                  new fromEntitySelectionActions.UpdateEntitySelections(
+                    { connectionId: obj.connectionSummary.connectionID, selectedEntities: obj.action.payload.selectedEntities }),
+                  new fromEntitySelectionActions.OpenRemoveEntityModal(false),
+                  new fromEntitySelectionActions.DeactivateMappingForEntitiesSuccess({deactivateRedirectRoute: route})
+                ];
+              })
+            );
+          })
+        );
+      }),
+      catchError(error => of(new fromEntitySelectionActions.DeactivateMappingForEntitiesError()))
+    );
+
+  @Effect({dispatch: false})
+  deactivateMappingForEntitySuccess$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromEntitySelectionActions.DeactivateMappingForEntitiesSuccess>(fromEntitySelectionActions.DEACTIVATE_MAPPINGS_FOR_ENTITIES_SUCCESS),
+      tap((action: fromEntitySelectionActions.DeactivateMappingForEntitiesSuccess) => {
+        if (action.payload) {
+          return this.router.navigate([action.payload.deactivateRedirectRoute]);
+        }
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromDataManagementMainReducer.State>,
     private providersHrisApiService: ProvidersHrisApiService,
-    private connectionsHrisApiService: ConnectionsHrisApiService
+    private connectionsHrisApiService: ConnectionsHrisApiService,
+    private mappingsHrisApiService: MappingsHrisApiService,
+    private syncScheduleHrisApiService: SyncScheduleHrisApiService,
+    private router: Router
   ) {}
 }

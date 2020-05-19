@@ -7,7 +7,7 @@
     <div class="m-5">
       <h5 class="mb-4">Select which organizational data entity you would like to load data for:</h5>
       <pf-entity-picker
-        [(entities)] = "providerSupportedEntities">
+        [(entities)]="providerSupportedEntities">
       </pf-entity-picker>
       <div *ngIf="providerSupportedEntities?.length" class="d-flex justify-content-end">
         <div class="p-2">
@@ -22,5 +22,28 @@
       </div>
     </div>
   </div>
+  <pf-modal-form
+    [title]="'Removing Entity'"
+    [size]="'md'"
+    [showFooter]="false"
+    [centered]="true"
+    [allowDismiss]="false"
+    [isOpen$]="showRemoveEntityModal$"
+    (onDismiss)="handleRemoveEntityModalDismiss()">
+    <ng-container basic-content>
+      <h5 class="mb-3 setup-complete-modal-header">Removing an Entity</h5>
+      <div class="alert alert-warning">
+        If you remove this entity, this data will no longer be transferred to 
+        Payfactors and associated mappings and schedules will be lost. Do you wish to continue?
+      </div>
+      <div class="d-flex justify-content-end">
+        <div class="p-2">
+          <button class="btn btn-primary px-4" (click)="onRemoveEntityModalCancel()">Cancel</button>
+        </div>
+        <div class="p-2">
+          <button class="btn btn-primary px-4" (click)="onRemoveEntityModalOk()">Ok</button>
+        </div>
+      </div>
+    </ng-container>
+  </pf-modal-form>
 </pf-async-container>
-

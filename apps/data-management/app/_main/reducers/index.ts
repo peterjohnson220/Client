@@ -346,6 +346,7 @@ export const getEntitySelectionShouldRedirect = createSelector(getHrisConnection
 export const getEntitySelectionPageSelections = createSelector(getSelectedEntities, getProviderSupportedEntitiesObj, (s1, s2) => {
   return { selections: s1, providerSupportedEntities: s2.obj };
 });
+export const getShowRemoveEntityModal = createSelector(selectEntitySelectionState, fromEntitySelectionReducer.getShowRemoveEntityModal);
 
 // Outbound
 export const getOutboundProviders = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundProviders);
