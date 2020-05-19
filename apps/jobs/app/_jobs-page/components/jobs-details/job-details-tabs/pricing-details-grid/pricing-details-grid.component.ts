@@ -30,7 +30,9 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   @ViewChild('pricedDataPayMarketFilter', { static: false }) pricedDataPayMarketFilter: ElementRef;
   @ViewChild('changeView', { static: false }) changeView: ElementRef;
   @ViewChild('payMarketColumn', { static: false }) payMarketColumn: ElementRef;
+  @ViewChild('agingColumn', { static: false }) agingColumn: ElementRef;
   @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
+  @ViewChild('matchInfoColumn', { static: false }) matchInfoColumn: ElementRef;
   @ViewChild('genericMrpColumn', { static: false }) genericMrpColumn: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
@@ -107,7 +109,9 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
 
     this.pricedDataColTemplates = {
       'PayMarket': { Template: this.payMarketColumn },
-      [PfDataGridColType.currency]: { Template: this.currencyColumn }
+      'Aging_Factor': { Template: this.agingColumn },
+      [PfDataGridColType.currency]: { Template: this.currencyColumn },
+      [PfDataGridColType.pricingInfo]: { Template: this.matchInfoColumn }
     };
 
     this.mrpFields.forEach(mrp => {

@@ -28,10 +28,9 @@ import {PfInfiniteScrollModule} from '../infinite-scroll';
 const declarations = [
   // Components
   FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent, FilterableMultiSelectFilterComponent,
-  SearchLayoutComponent,
 
   // Containers
-  SearchFiltersComponent, SingleFilterComponent, ChildFilterComponent, ResultsHeaderComponent, SearchResultsComponent
+  SearchFiltersComponent, SingleFilterComponent, ChildFilterComponent, ResultsHeaderComponent, SearchResultsComponent, SearchLayoutComponent
 ];
 
 @NgModule({
