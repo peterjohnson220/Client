@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { SftpUserModel } from 'libs/models/Sftp';
@@ -50,6 +50,7 @@ export class PublicKeyAuthComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isUserNameValid$
       .pipe(
+        filter(isValid => isValid !== null),
         takeUntil(this.unsubscribe$)
       ).subscribe(isValid => {
       this.isUserNameValid = isValid;
