@@ -28,8 +28,20 @@
   <pf-pricing-matches-job-title [dataRow]="dataRow"></pf-pricing-matches-job-title>
 </ng-template>
 
+<ng-template #agingColumn  let-dataRow="dataRow" let-fieldName="fieldName">
+  <div class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | number: '1.1-1' | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
     <span [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #pricingInfoColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | humanizeNumber | emptyPlaceholder"></span>
   </div>
 </ng-template>

@@ -37,7 +37,12 @@ import {
   ColumnGroupComponent,
   ColumnGroupListComponent
 } from './components';
-import { IsSortablePipe, SortDirectionPipe } from './pipes';
+import {
+  IsSortablePipe,
+  SortDirectionPipe,
+  IsColumnVisiblePipe,
+  MappedFieldNamePipe,
+} from './pipes';
 
 @NgModule({
   imports: [
@@ -65,6 +70,7 @@ import { IsSortablePipe, SortDirectionPipe } from './pipes';
     PerfectScrollbarModule,
   ],
   declarations: [
+    // Components
     PfDataGridComponent,
     ActionBarComponent,
     PfGridComponent,
@@ -80,7 +86,9 @@ import { IsSortablePipe, SortDirectionPipe } from './pipes';
 
     // Pipes
     IsSortablePipe,
-    SortDirectionPipe
+    SortDirectionPipe,
+    IsColumnVisiblePipe,
+    MappedFieldNamePipe,
   ],
   exports: [
     PfDataGridComponent
