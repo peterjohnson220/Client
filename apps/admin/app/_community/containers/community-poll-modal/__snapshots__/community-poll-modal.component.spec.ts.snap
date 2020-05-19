@@ -31,10 +31,10 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
       </label>
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
-        formcontrolname="context"
+        formcontrolname="content"
         id="poll-question"
         maxlength="150"
-        ng-reflect-name="context"
+        ng-reflect-name="content"
         pffocus=""
         placeholder="Question"
         type="text"
@@ -104,10 +104,10 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
       </label>
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
-        formcontrolname="context"
+        formcontrolname="content"
         id="poll-question"
         maxlength="150"
-        ng-reflect-name="context"
+        ng-reflect-name="content"
         pffocus=""
         placeholder="Question"
         type="text"

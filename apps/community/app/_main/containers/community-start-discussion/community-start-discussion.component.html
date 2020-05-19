@@ -1,4 +1,4 @@
-<div class="row mb-3">
+<div class="row mb-2">
     <div class="col-4">
       <div class="list-group">
         <pf-community-tab
@@ -32,11 +32,12 @@
               <fa-icon icon="paperclip" size="lg" class="icon community-paperclip"></fa-icon>
               Attachments <span *ngIf="communityPostAttachments?.length > 0" class="attachment-count-text">({{communityPostAttachments.length}})</span>
             </button>
-            <button id="start-discussion-post-button" [disabled]="!submitEnabled"
+            <button id="start-discussion-post-button"
                     data-qa-id="btn-startDiscussionPost"
                     (click)="submitContent()" class="btn btn-primary float-right shadow-none">Post
               <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
-              </pf-loading-indicator></button>
+              </pf-loading-indicator>
+            </button>
           </div>
         </div>
   </div>

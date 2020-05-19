@@ -1,16 +1,15 @@
-
-  <div class="form-group" [formGroup]="communityPollForm"> 
-  
-    <kendo-dropdownlist #topicList class="pb-2 w-75"
-            [defaultItem]="defaultTopic"
-            [data]="communityTopics$ | async"
-            [textField]="'TopicName'"
-            [valueField]="'Id'"
-            [valuePrimitive]="true"
-            (open)="onOpenTopicsList()"
-            formControlName="topic">          
-    </kendo-dropdownlist>
-
+<div class="form-group" [formGroup]="communityPollForm"> 
+  <div class="pb-3 w-75">
+    <select required formControlName="topic" class="form-control"
+    [ngClass]="{ 'is-invalid': !topic.valid && topic.touched }">
+    <option value=null disabled selected>Select a Topic to start your poll...</option>
+    <option *ngFor="let communityTopic of communityTopics" 
+      [ngValue]="communityTopic.Id">
+      {{communityTopic.TopicName}}
+    </option>
+    </select>
+    <div *ngIf="!topic.valid && topic.touched" class="text-danger">Topic is required</div>
+  </div>
     <pf-community-text-area class="pt-5"
       [parentForm]="communityPollForm"
       [maxTextLength]="maxTextLength"
@@ -19,11 +18,6 @@
       [pfFocus]="true"
       textPlaceholder="Ask a question...">
     </pf-community-text-area>
-
-    <ng-container *ngIf="context.errors && attemptedSubmit">
-      <div *ngIf="context.errors.required" class="invalid-feedback">Question is required.</div>
-      <div *ngIf="context.errors.error" class="invalid-feedback">{{context.errors.error}}</div>
-    </ng-container>
     
     <div class="pr-5">
       <pf-community-poll-choices

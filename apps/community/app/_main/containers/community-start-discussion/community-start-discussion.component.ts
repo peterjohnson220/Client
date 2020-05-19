@@ -75,16 +75,6 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
       this.postType = postType;
   }
 
-  get submitEnabled() {
-    if ( this.newPostComponent ) {
-      return this.newPostComponent.isFormValid;
-    } else if ( this.newPollComponent) {
-      return this.newPollComponent.isFormValid;
-    } else if ( this.newJobComponent) {
-      return this.newJobComponent.isFormValid;
-    } else { return false; }
-  }
-
   get submitVisible() {
     if ( this.postType === this.CommunityPostTypes.Discussion || this.postType === this.CommunityPostTypes.Question) {
       return true;

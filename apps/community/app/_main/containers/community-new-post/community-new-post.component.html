@@ -1,16 +1,18 @@
 <div class="form-group" [formGroup]="communityDiscussionForm">
-    <div class="pb-2">      
-      <kendo-dropdownlist #topicList class="w-75"
-        [defaultItem]="defaultTopic"
-        [data]="communityTopics$ | async"
-        [textField]="'TopicName'"
-        [valueField]="'Id'"
-        [valuePrimitive]="true"   
-        (open)="onOpenTopicsList()"
-        formControlName="topic">
-      </kendo-dropdownlist>
-  
-      <span placement="right" class="pl-3" ngbTooltip="Will be visible to users within your organization">
+  <div class="pb-2"></div>
+    <div class="flex-container">
+      <div class="form-group">
+        <select required formControlName="topic" class="form-control"
+          [ngClass]="{ 'is-invalid': !topic.valid && topic.touched }">
+          <option value=null disabled selected>Select a Topic to start your discussion...</option>
+          <option *ngFor="let communityTopic of communityTopics" 
+            [ngValue]="communityTopic.Id">
+            {{communityTopic.TopicName}}
+          </option>
+        </select>
+        <div *ngIf="!topic.valid && topic.touched" class="text-danger">Topic is required</div>
+      </div> 
+      <span placement="bottom" class="pl-3" ngbTooltip="Will be visible to users within your organization">
         <input #isInternal
               id="internal-only"
               data-qa-id="chk-communityDiscussionInternal"
@@ -19,14 +21,13 @@
               type="checkbox" class="k-checkbox" />
         <label for="internal-only" class="k-checkbox-label">Internal</label>
       </span>
-    </div>  
-
-  <pf-community-text-area
-      [parentForm]="communityDiscussionForm"
-      [maxTextLength]="2000"
-      textPlaceholder="Start a discussion..."
-      minimumHeight="160">
-  </pf-community-text-area>
+    </div>
+    <pf-community-text-area
+        [parentForm]="communityDiscussionForm"
+        [maxTextLength]="2000"
+        textPlaceholder="Start a discussion..."
+        minimumHeight="160">
+    </pf-community-text-area>
 </div>
 
 

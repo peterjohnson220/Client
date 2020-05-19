@@ -9,6 +9,7 @@ import * as fromCommunityPostActions from '../../actions/community-post.actions'
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CommunityConstants } from '../../models';
 
 @Component({
   selector: 'pf-community-post-edit',
@@ -23,17 +24,23 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
   communityAttachments: CommunityAttachment[];
   communityPostEditForm: FormGroup;
   communityTopics: CommunityTopic[];
-  communityTopics$: Observable<CommunityTopic[]>;
-  editMaxLength = 2000;
+  editMaxLength =  CommunityConstants.DISCUSSION_MAX_TEXT_LENGTH;
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
   selectedTopic: CommunityTopic;
   selectedTopicId: string;
+
+  communityTopics$: Observable<CommunityTopic[]>;
+
+  get content() { return this.communityPostEditForm.get('content'); }
+  get topic() { return this.communityPostEditForm.get('topic'); }
+  get isFormValid() { return this.communityPostEditForm.valid; }
 
   constructor( public store: Store<fromCommunityPostReplyReducer.State>, private formBuilder: FormBuilder) {
     this.communityTopics$ = this.store.select(fromCommunityPostReplyReducer.getTopics);
 
     this.communityPostEditForm = this.formBuilder.group({
-      context:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.editMaxLength)]]
+      content:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.editMaxLength)]],
+      topic: [null, [ Validators.required ]]
     });
   }
 
@@ -48,8 +55,9 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
     this.communityAttachments = this.post.Attachments;
 
     setTimeout(() => {
-      this.communityPostEditForm.controls['context'].setValue(this.post.Content);
+      this.content.setValue(this.post.Content);
     });
+
   }
 
   ngOnDestroy() {
@@ -57,16 +65,23 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
   }
 
   savePost() {
-    if (this.selectedTopic != null) {
-      const updatedPost: CommunityUpdatePost = {
-        PostId: this.post.Id,
-        PostText: this.communityPostEditForm.controls['context'].value,
-        Topic: this.selectedTopic,
-        Attachments: this.communityAttachments
-      };
+    this.topic.markAsTouched();
+    this.content.markAsDirty();
 
-      this.store.dispatch(new fromCommunityPostActions.SavingCommunityPostEdit(updatedPost));
+    this.topic.setValue(this.selectedTopic);
+
+    if (!this.communityPostEditForm.valid) {
+      return;
     }
+
+    const updatedPost: CommunityUpdatePost = {
+      PostId: this.post.Id,
+      PostText: this.content.value,
+      Topic: this.selectedTopic,
+      Attachments: this.communityAttachments
+    };
+
+    this.store.dispatch(new fromCommunityPostActions.SavingCommunityPostEdit(updatedPost));
   }
 
   cancelEdit() {
