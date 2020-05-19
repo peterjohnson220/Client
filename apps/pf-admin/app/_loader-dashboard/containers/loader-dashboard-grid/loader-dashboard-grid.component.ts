@@ -60,7 +60,7 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
 
   rowCallback(context: RowClassArgs): string {
     const di = context.dataItem;
-    if (di.validationErrorOutputUri || di.fixableDataConditionException) {
+    if (di.validationErrorOutputUri || di.fixableDataConditionException || di.terminalException) {
       return 'failed-load';
     }
     return '';
