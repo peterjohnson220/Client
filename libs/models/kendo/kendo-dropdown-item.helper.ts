@@ -11,13 +11,13 @@ export class KendoTypedDropDownItemHelper {
 
   static mapItemsToDropdownList(response: any, valueField: string, nameMappingFunction: (item: any) => string): KendoTypedDropDownItem[] {
     if (response && response.length) {
-      const dropListItems = response.map(item => {
+      const dropListItems: KendoTypedDropDownItem[] = response.map(item => {
         return {
           Name: nameMappingFunction(item),
           Value: item[valueField] || null
         };
       });
-      return orderBy(dropListItems, ['Name'], 'asc');
+      return orderBy(dropListItems, [(i: KendoTypedDropDownItem) => i.Name.toLowerCase()], 'asc');
     }
     return [];
   }
