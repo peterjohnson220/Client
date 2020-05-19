@@ -206,7 +206,7 @@ export class TreeViewCheckDirective implements OnInit, OnDestroy, OnChanges {
       const parentKey = this.itemKey(currentParent.item);
       const parentIndex = this.checkedKeys.indexOf(parentKey);
       const childrenSelectedCount = this.countChildrenSelected(currentParent.children);
-      if (childrenSelectedCount === currentParent.TotalChildren) {
+      if (childrenSelectedCount === currentParent.item.dataItem.TotalChildren) {
         if (parentIndex === -1) {
           this.checkedKeys.push(parentKey);
         }
