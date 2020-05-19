@@ -5,8 +5,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { CountryApiService, CurrencyApiService, PayMarketApiService } from 'libs/data/payfactors-api';
+import { CountryApiService, CurrencyApiService, PayMarketApiService, MarketDataScopeApiService } from 'libs/data/payfactors-api';
 import { KendoTypedDropDownItemHelper } from 'libs/models/kendo';
+import { autoGenerateListGroupValues } from 'libs/models/list';
 
 import * as fromGeneralFormActions from '../actions/general-form.actions';
 
@@ -66,10 +67,37 @@ export class GeneralFormEffects {
       })
     );
 
+  @Effect()
+  getSizes$ = this.actions$
+    .pipe(
+      ofType(fromGeneralFormActions.GET_SIZES),
+      switchMap((action: fromGeneralFormActions.GetSizes) => {
+        return this.marketDataScopeApiService.getAllScopeSizes()
+          .pipe(
+            map((response) => new fromGeneralFormActions.GetSizesSuccess(autoGenerateListGroupValues(response)),
+            catchError(() => of(new fromGeneralFormActions.GetSizesError()))
+          ));
+      })
+    );
+
+  @Effect()
+  getDefaultPayMarket$ = this.actions$
+    .pipe(
+      ofType(fromGeneralFormActions.GET_USER_DEFAULT_SCOPE),
+      switchMap((action: fromGeneralFormActions.GetUserDefaultScope) => {
+        return this.payMarketApiService.getDefaultPayMarketByUser()
+          .pipe(
+            map((response) => new fromGeneralFormActions.GetUserDefaultScopeSuccess(response)),
+            catchError(() => of(new fromGeneralFormActions.GetUserDefaultScopeError()))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private countryApiService: CountryApiService,
     private currencyApiService: CurrencyApiService,
-    private payMarketApiService: PayMarketApiService
+    private payMarketApiService: PayMarketApiService,
+    private marketDataScopeApiService: MarketDataScopeApiService
   ) {}
 }

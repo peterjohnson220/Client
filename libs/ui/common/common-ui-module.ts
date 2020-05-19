@@ -29,7 +29,7 @@ import { PeerAssociationColorBlockComponent } from './content/peer-association-c
 import { SimpleYesNoModalComponent } from './simple-yes-no';
 import { LoadingProgressBarService } from './loading/service';
 import { MultiSelectDropdownComponent, ItemGroupComponent } from './multi-select-dropdown';
-import { MultiSelectTreeViewComponent, TreeViewCheckDirective } from './multi-select-treeview';
+import { PfTreeViewComponent, TreeViewCheckDirective } from './pf-treeview';
 
 const components = [
   // Content
@@ -42,7 +42,7 @@ const components = [
   SimpleYesNoModalComponent,
   MultiSelectDropdownComponent,
   ItemGroupComponent,
-  MultiSelectTreeViewComponent,
+  PfTreeViewComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective,

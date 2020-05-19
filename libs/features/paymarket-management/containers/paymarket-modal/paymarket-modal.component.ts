@@ -1,7 +1,7 @@
-import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromPayMarketManagementReducer from '../../reducers';
 import * as fromPayMarketModalActions from '../../actions/paymarket-modal.actions';
@@ -14,15 +14,29 @@ import { GeneralFormComponent } from '../general-form';
   styleUrls: ['./paymarket-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PayMarketModalComponent {
+export class PayMarketModalComponent implements OnInit, OnDestroy {
   @ViewChild(GeneralFormComponent, { static: false }) public generalForm: GeneralFormComponent;
   modalOpen$: Observable<boolean>;
   payMarketModalTabs = PayMarketModalTabs;
+
+  modalOpenSubscription: Subscription;
 
   constructor(
     private store: Store<fromPayMarketManagementReducer.State>
   ) {
     this.modalOpen$ = this.store.select(fromPayMarketManagementReducer.getPayMarketModalOpen);
+  }
+
+  ngOnInit(): void {
+    this.modalOpenSubscription = this.modalOpen$.subscribe(modalOpen => {
+      if (modalOpen && this.generalForm) {
+        this.generalForm.refresh();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.modalOpenSubscription.unsubscribe();
   }
 
   closeModal(): void {

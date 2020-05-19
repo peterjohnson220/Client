@@ -53,4 +53,8 @@ export class PayMarketApiService {
     return this.payfactorsApiService.get<PayMarket[]>(`${this.endpoint}/GetAvailablePayMarketsToCreateLink`,
       { params: { companyPayMarketId }});
   }
+
+  getDefaultPayMarketByUser(): Observable<PayMarket> {
+    return this.payfactorsApiService.get<PayMarket>(`${this.endpoint}/GetDefaultPayMarketByUser`);
+  }
 }

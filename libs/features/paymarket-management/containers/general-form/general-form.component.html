@@ -110,4 +110,31 @@
       <span *ngIf="f.CurrencyCode.errors?.required" class="invalid-feedback">Currency is required</span>
     </div>
   </div>
+  <ng-container>
+    <br><hr>
+    <div class="form-group row scope-container">
+      <div class="col-4">
+        <label>Industry</label>
+      </div>
+      <div class="col-4 scope-column">
+        <pf-treeview #sizeComponent
+          [mode]="treeViewModes.Single"
+          [data]="filteredSizes"
+          [label]="'Size'"
+          [placeholder]="'All'"
+          class="filter"
+          [filterable]="true"
+          [searchPlaceholder]="'Search for a size...'"
+          [anchorWidth]="223"
+          [treeViewContainerHeight]="143"
+          [isPopup]="false"
+          [checkedKeys]="sizeCheckedKeys"
+          (applyClicked)="handleSelectedSizesChanged($event)">
+        </pf-treeview>
+      </div>
+      <div class="col-4">
+        <label>Country</label>
+      </div>
+    </div>
+  </ng-container>
 </form>

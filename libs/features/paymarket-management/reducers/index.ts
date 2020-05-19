@@ -41,3 +41,5 @@ export const getPayMarketModalOpen = createSelector(selectPayMarketModalState, f
 export const getCountries = createSelector(selectGeneralFormState, fromGeneralFormReducer.getCountries);
 export const getCurrencies = createSelector(selectGeneralFormState, fromGeneralFormReducer.getCurrencies);
 export const getLinkedPayMarkets = createSelector(selectGeneralFormState, fromGeneralFormReducer.getLinkedPayMarkets);
+export const getSizes = createSelector(selectGeneralFormState, fromGeneralFormReducer.getSizes);
+export const getDefaultPayMarket = createSelector(selectGeneralFormState, fromGeneralFormReducer.getDefaultPayMarket);
