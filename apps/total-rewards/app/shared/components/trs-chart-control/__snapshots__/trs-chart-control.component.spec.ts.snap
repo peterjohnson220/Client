@@ -13,15 +13,15 @@ exports[`TrsChartControlComponent should show the title component and a settings
     ng-reflect-ng-class="preview-mode"
   >
     <div
-      class="d-flex"
+      class="heading"
     >
       <h4
-        class="primary-control-heading mb-1 flex-grow-2"
+        class="primary-control-heading mb-1 mr-2 d-inline-block"
       >
-        <pf-inline-string-editor />
+        <pf-string-editor />
       </h4>
       <a
-        class="settings position-relative"
+        class="settings position-relative align-top"
         href="javascript:void(0)"
         title="Chart Settings"
       >

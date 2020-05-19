@@ -14,7 +14,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { InlineStringEditorComponent, TotalRewardsStatementComponent } from './components';
+import { StringEditorComponent, TotalRewardsStatementComponent } from './components';
 import { TrsTitleControlComponent } from './components/trs-title-control/trs-title-control.component';
 import { TrsImageControlComponent } from './components/trs-image-control/trs-image-control.component';
 import { TrsCalculationControlComponent } from './components/trs-calculation-control/trs-calculation-control.component';
@@ -43,7 +43,7 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
     PfCommonUIModule,
   ],
   declarations: [
-    InlineStringEditorComponent,
+    StringEditorComponent,
     TotalRewardsStatementComponent,
     TrsTitleControlComponent,
     TrsImageControlComponent,
@@ -54,7 +54,7 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
     CompensationFieldPipe,
   ],
   exports: [
-    InlineStringEditorComponent,
+    StringEditorComponent,
     TotalRewardsStatementComponent,
     CompensationFieldPipe,
   ],

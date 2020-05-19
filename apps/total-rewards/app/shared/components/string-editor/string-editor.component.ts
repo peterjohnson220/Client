@@ -13,12 +13,12 @@ import {
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 @Component({
-  selector: 'pf-inline-string-editor',
-  templateUrl: './inline-string-editor.component.html',
-  styleUrls: ['./inline-string-editor.component.scss'],
+  selector: 'pf-string-editor',
+  templateUrl: './string-editor.component.html',
+  styleUrls: ['./string-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InlineStringEditorComponent implements OnInit, OnChanges {
+export class StringEditorComponent implements OnInit, OnChanges {
   constructor() {}
 
   @Input() minCharacters = 1;
@@ -28,6 +28,7 @@ export class InlineStringEditorComponent implements OnInit, OnChanges {
   @Input() icon: IconProp = 'pencil';
   @Input() value: string;
   @Input() showIcon: 'always' | 'never' | 'onHover' = 'onHover';
+  @Input() isMultiline = false;
 
   @Output() valueChange = new EventEmitter<string>();
 

@@ -1,21 +1,21 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InlineStringEditorComponent } from './inline-string-editor.component';
+import { StringEditorComponent } from './string-editor.component';
 
-describe('InlineStringEditorComponent', () => {
-  let component: InlineStringEditorComponent;
-  let fixture: ComponentFixture<InlineStringEditorComponent>;
+describe('StringEditorComponent', () => {
+  let component: StringEditorComponent;
+  let fixture: ComponentFixture<StringEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InlineStringEditorComponent],
+      declarations: [StringEditorComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InlineStringEditorComponent);
+    fixture = TestBed.createComponent(StringEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

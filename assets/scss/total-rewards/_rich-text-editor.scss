@@ -3,10 +3,15 @@ $rich-text-height: 200px;
 .trs-rich-text-control {
   height: $rich-text-height;
   top: -10px; // compensate for the relocated editor ribbon
+  .heading {
+    width: 105%;
+    h4 {
+      width: 90%;
+    }
+  }
   label.info {
     color: $link-color;
     font-size: 1.2rem;
-    margin-right: -15px;
     transition: opacity .3s ease-in-out;
   }
   &.preview-mode label.info {

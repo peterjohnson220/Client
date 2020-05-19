@@ -1,6 +1,6 @@
 <div class="text-center">
-  <h3 class="d-flex flex-fill justify-content-center">
-    <pf-inline-string-editor
+  <h3 class="d-inline-block mw-100">
+    <pf-string-editor
       [maxCharacters]="30"
       [value]="controlData.Title.Override"
       [placeholder]="controlData.Title.Default"
@@ -8,7 +8,7 @@
       [inEditMode]="getIsEditMode()"
       (valueChange)="handleTitleChanged($event)"
     >
-    </pf-inline-string-editor>
+    </pf-string-editor>
   </h3>
   <h4 *ngIf="getIsEditMode()">{{getEditValue()}}</h4>
   <h4 *ngIf="!getIsEditMode()" [ngClass]="getIsPreviewMode ? 'preview-mode-animation' : '' ">

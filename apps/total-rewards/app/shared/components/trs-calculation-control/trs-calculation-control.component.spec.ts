@@ -12,7 +12,7 @@ import {
   generateMockEmployeeRewardsData,
   StatementModeEnum
 } from '../../models';
-import {InlineStringEditorComponent} from '../inline-string-editor';
+import {StringEditorComponent} from '../string-editor';
 
 describe('TrsCalculationControlComponent', () => {
   let component: TrsCalculationControlComponent;
@@ -22,7 +22,7 @@ describe('TrsCalculationControlComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TrsCalculationControlComponent, CompensationFieldPipe, InlineStringEditorComponent],
+      declarations: [TrsCalculationControlComponent, CompensationFieldPipe, StringEditorComponent],
       providers: [{
           provide: CurrencyPipe,
           useValue: { transform: (x) => x }
