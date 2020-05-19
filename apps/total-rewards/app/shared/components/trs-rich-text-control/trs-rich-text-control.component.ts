@@ -17,11 +17,11 @@ import { AnyFn } from '@ngrx/store/src/selector';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'quill-mention';
+
 import { EmployeeRewardsData, RichTextControl, StatementModeEnum } from '../../models';
 import { UpdateStringPropertyRequest, UpdateTitleRequest } from '../../models/request-models';
 
 const Quill = require('quill');
-const cheerio = require('cheerio');
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
 
@@ -52,6 +52,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   title: string;
   statementModeEnum = StatementModeEnum;
 
+  quillApi: any;
   quillMentionContainer: HTMLElement;
 
   onContentChangedSubject = new Subject();
@@ -84,6 +85,17 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
         }
       },
     },
+    // clear out tab key bindings with an empty handler, and quill mention will later add to that allowing the tab key to select a datafield
+    keyboard: {
+      bindings: {
+        'tab': {
+          key: 9,
+          handler: function(range, context) {
+            return true;
+          }
+        }
+      }
+    }
   };
 
   get richTextNode(): HTMLElement {
@@ -102,6 +114,8 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   ngOnInit() {
     this.title = this.controlData.Title.Default;
+    this.htmlContent = this.controlData.Content;
+
     this.onContentChangedSubscription = this.onContentChangedSubject.pipe(
       debounceTime(500),
       distinctUntilChanged()
@@ -139,11 +153,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
       return delta;
     });
 
-    // get a handle to the quill mention container that holds the data fields
+    // get a handle to quill and the quill mention container that holds the data fields
+    this.quillApi = quill;
     this.quillMentionContainer = quill.getModule('mention').mentionContainer;
-
-    // prevent the tab key from adding a tab in the editor, so it instead allows nav to the next element in the page
-    delete quill.getModule('keyboard').bindings['9'];
   }
 
   onContentChanged(quillContentChange: any) {
@@ -190,18 +202,29 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   bindEmployeeData(): void {
-    if (this.mode === StatementModeEnum.Preview) {
-      const $ = cheerio.load('<div id=\'quillContent\'>' + this.controlData.Content + '</div>');
-      const spans = $('#quillContent span.mention');
-      for (const span of spans) {
-        const employeeDataValue = this.employeeRewardsData[span.attribs['data-id']];
-        $('[data-id="' + span.attribs['data-id'] + '"]', '#quillContent').replaceWith(this.formatDataFieldValue(employeeDataValue));
-      }
+    if (!this.quillApi) { return; }
 
-      this.htmlContent = $('#quillContent').html();
-    } else {
-      this.htmlContent = this.controlData.Content;
-    }
+    // loop through each op, aka a quill instruction to insert a chunk of text
+    const delta = this.quillApi.editor.delta;
+    delta.ops.forEach((op: { insert: any }) => {
+      const mention = op.insert.mention;
+      // if there's a mention attr it's a datafield, so adjust the displayed value according to the mode to show real data or a placeholder
+      if (mention) {
+        mention.value = (this.mode === StatementModeEnum.Edit) ? this.getDataFieldPlaceholderText(mention.id) : this.getFormattedDataFieldValue(mention.id);
+      }
+    });
+
+    this.quillApi.setContents(delta.ops);
+  }
+
+  getDataFieldPlaceholderText(dataFieldKey: string): string {
+    const dataField = this.controlData.DataFields.find(df => df.Key === dataFieldKey);
+    return dataField.Value;
+  }
+
+  getFormattedDataFieldValue(dataFieldKey: string): string {
+    const dataFieldValue = this.employeeRewardsData[dataFieldKey];
+    return this.formatDataFieldValue(dataFieldValue);
   }
 
   formatDataFieldValue(value: any): string {

@@ -4,46 +4,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TrsRichTextControlComponent } from './trs-rich-text-control.component';
 import { StatementModeEnum, generateMockEmployeeRewardsData } from '../../models';
 
-const htmlWithFirstName =
-  `<p>Test</p>
-   <p>
-     <span class="mention" data-index="0" data-denotation-char="" data-id="EmployeeFirstName" data-value="Employee First Name">
-       <span contenteditable="false">
-         <span class="ql-mention-denotation-char"></span>Employee First Name
-       </span>
-     </span>
-   </p>`;
-
-const htmlWithDateOfBirth =
-  `<p>Test</p>
-   <p>
-     <span class="mention" data-index="0" data-denotation-char="" data-id="EmployeeDOB" data-value="Employee Date Of Birth">
-       <span contenteditable="false">
-         <span class="ql-mention-denotation-char"></span>Employee Date Of Birth
-       </span>
-     </span>
-   </p>`;
-
-const htmlWithDateOfHire =
-  `<p>Test</p>
-   <p>
-     <span class="mention" data-index="2" data-denotation-char="" data-id="EmployeeDOH" data-value="Employee Date Of Hire">
-       <span contenteditable="false">
-         <span class="ql-mention-denotation-char"></span>Employee Date Of Hire
-       </span>
-     </span>
-   </p>`;
-
-const htmlWithFullTimeEmployees =
-  `<p>Test</p>
-   <p>
-     <span class="mention" data-index="0" data-denotation-char="" data-id="EmployeeFTE" data-value="Employee Full Time Employee">
-       <span contenteditable="false">
-         <span class="ql-mention-denotation-char"></span>Employee Full Time Employee
-       </span>
-     </span>
-   </p>`;
-
 describe('TrsChartControlComponent', () => {
   let component: TrsRichTextControlComponent;
   let fixture: ComponentFixture<TrsRichTextControlComponent>;
@@ -71,115 +31,121 @@ describe('TrsChartControlComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('bindEmployeeData should maintain data field placeholders when not in preview mode', () => {
+  it('bindEmployeeData should not change ops when no data fields exist', () => {
     // arrange
-    component.controlData = { Title: {}, Content: htmlWithFirstName, DataFields: [] } as any;
-    component.employeeRewardsData = generateMockEmployeeRewardsData();
+    const staticOps = [{ insert: 'static text' }, { insert: '!@#$%^&*()' }, { insert: '!@#$%^&*()' } ];
+    component.quillApi = { editor: { delta: { ops: staticOps } }, setContents: jest.fn()};
+    spyOn(component.quillApi, 'setContents');
+
+    // act
+    component.bindEmployeeData();
+
+    // assert
+    expect(component.quillApi.setContents).toHaveBeenCalledTimes(1);
+    expect(component.quillApi.setContents).toHaveBeenCalledWith(staticOps);
+  });
+
+  it('bindEmployeeData should replace data field placeholders with employee values in Preview mode', () => {
+    // arrange, mock quill canvas content to be:
+    //
+    // test
+    // [Employee First Name] [Employee Last Name]
+    // end
+
+    const employeeRewardsData = generateMockEmployeeRewardsData();
+    component.employeeRewardsData = employeeRewardsData;
+    component.mode = StatementModeEnum.Preview;
+
+    const dynamicOps = [
+      { insert: 'test↵' },
+      { insert: { mention: { index: '0', denotationChar: '', id: 'EmployeeFirstName', value: 'Employee First Name'} } },
+      { insert: ' ' },
+      { insert: { mention: { index: '0', denotationChar: '', id: 'EmployeeLastName', value: 'Employee Last Name'} } },
+      { insert: ' ↵end↵↵' }
+    ];
+    let actualOpsParam: any;
+    component.quillApi = { editor: { delta: { ops: dynamicOps } }, setContents: (ops: any) => { actualOpsParam = ops; } };
+
+    // act
+    component.bindEmployeeData();
+
+    // assert
+    const expectedOps = dynamicOps as any;
+    expectedOps[1].insert.mention.value = employeeRewardsData.EmployeeFirstName;
+    expectedOps[3].insert.mention.value = employeeRewardsData.EmployeeLastName;
+    expect(actualOpsParam).toEqual(expectedOps);
+  });
+
+  it('bindEmployeeData should replace employee data with placeholders in Edit mode', () => {
+    // arrange, mock quill canvas content to be:
+    //
+    // test
+    // [Employee First Name] [Employee Last Name]
+    // end
+
+    const employeeRewardsData = generateMockEmployeeRewardsData();
+    component.employeeRewardsData = employeeRewardsData;
     component.mode = StatementModeEnum.Edit;
-
-    // act
-    component.bindEmployeeData();
-
-    // assert
-    expect(component.htmlContent).toEqual(htmlWithFirstName);
-  });
-
-  it('bindEmployeeData should maintain STATIC TEXT when no data fields exist in preview mode', () => {
-    // arrange
-    const staticText = '<p>static text</p><p>static text</p><p>static text</p><p>static text</p>';
-    component.controlData = { Title: {}, Content: staticText, DataFields: [] } as any;
-    component.employeeRewardsData = generateMockEmployeeRewardsData();
-    component.mode = StatementModeEnum.Preview;
-
-    // act
-    component.bindEmployeeData();
-
-    // assert
-    expect(component.htmlContent).toEqual(staticText);
-  });
-
-  it('bindEmployeeData should populate STRING placeholder data fields with employee rewards data when in preview mode', () => {
-    // arrange
-    component.employeeRewardsData = generateMockEmployeeRewardsData();
-    component.controlData = { Title: {}, Content: htmlWithFirstName, DataFields: [{ Key: 'EmployeeFirstName', Value: 'Employee First Name' }] } as any;
-    component.mode = StatementModeEnum.Preview;
-
-    // act
-    component.bindEmployeeData();
-
-    // assert
-    expect(component.htmlContent !== htmlWithFirstName).toBeTruthy();
-    expect(component.htmlContent.indexOf('Employee First Name')).toBe(-1);
-    expect(component.htmlContent.indexOf('John')).toBeTruthy();
-  });
-
-  it('bindEmployeeData should populate DATE placeholder data fields with employee rewards data when in preview mode', () => {
-    // arrange
-    const employeeRewardsData = generateMockEmployeeRewardsData();
-    component.employeeRewardsData = employeeRewardsData;
-    component.controlData = { Title: {}, Content: htmlWithDateOfBirth, DataFields: [{ Key: 'EmployeeDOB', Value: 'Employee DOB' }] } as any;
-    component.mode = StatementModeEnum.Preview;
-
-    // act
-    component.bindEmployeeData();
-
-    // assert
-    expect(component.htmlContent !== htmlWithDateOfBirth).toBeTruthy();
-    expect(component.htmlContent.indexOf('Employee DOB')).toBe(-1);
-    expect(component.htmlContent.indexOf(component.formatDataFieldValue(employeeRewardsData.EmployeeDOB))).toBeGreaterThan(0);
-  });
-
-  it('bindEmployeeData should populate NUMBER placeholder data fields with employee rewards data when in preview mode', () => {
-    // arrange
-    const employeeRewardsData = generateMockEmployeeRewardsData();
-    component.employeeRewardsData = employeeRewardsData;
     component.controlData = {
-      Title: {},
-      Content: htmlWithFullTimeEmployees,
-      DataFields: [{ Key: 'EmployeeFTE', Value: 'Employee FTE' }]
-    } as any;
-    component.mode = StatementModeEnum.Preview;
-
-    // act
-    component.bindEmployeeData();
-
-    // assert
-    expect(component.htmlContent !== htmlWithFullTimeEmployees).toBeTruthy();
-    expect(component.htmlContent.indexOf('Employee FTE')).toBe(-1);
-    expect(component.htmlContent.indexOf(component.formatDataFieldValue(employeeRewardsData.EmployeeFTE))).toBeGreaterThan(0);
-  });
-
-  it('bindEmployeeData should populate MULTIPLE placeholder data fields with employee rewards data when in preview mode', () => {
-    // arrange
-    const employeeRewardsData = generateMockEmployeeRewardsData();
-    component.employeeRewardsData = employeeRewardsData;
-    component.controlData = {
-      Title: {},
-      Content: htmlWithFullTimeEmployees + htmlWithDateOfBirth + htmlWithDateOfHire + htmlWithFirstName,
       DataFields: [
-        { Key: 'EmployeeFTE', Value: 'Employee FTE' },
-        { Key: 'EmployeeDOB', Value: 'Employee DOB' },
-        { Key: 'EmployeeDOH', Value: 'Employee DOH' },
-        { Key: 'EmployeeFirstName', Value: 'Employee First Name' }
+        { Key: 'EmployeeFirstName', Value: 'Employee First Name' },
+        { Key: 'EmployeeLastName', Value: 'Employee Last Name' }
       ]
     } as any;
-    component.mode = StatementModeEnum.Preview;
+
+    const dynamicOps = [
+      { insert: 'test↵' },
+      { insert: { mention: { index: '0', denotationChar: '', id: 'EmployeeFirstName', value: employeeRewardsData.EmployeeFirstName } } },
+      { insert: ' ' },
+      { insert: { mention: { index: '0', denotationChar: '', id: 'EmployeeLastName', value: employeeRewardsData.EmployeeLastName } } },
+      { insert: ' ↵end↵↵' }
+    ];
+    let actualOpsParam: any;
+    component.quillApi = { editor: { delta: { ops: dynamicOps } }, setContents: (ops: any) => { actualOpsParam = ops; } };
 
     // act
     component.bindEmployeeData();
 
     // assert
-    expect(component.htmlContent !== (htmlWithFullTimeEmployees + htmlWithDateOfBirth + htmlWithDateOfHire + htmlWithFirstName)).toBeTruthy();
+    const expectedOps = dynamicOps as any;
+    expectedOps[1].insert.mention.value = 'Employee Firsst Name';
+    expectedOps[3].insert.mention.value = 'Employee Last Name';
+    expect(actualOpsParam).toEqual(expectedOps);
+  });
 
-    expect(component.htmlContent.indexOf('Employee FTE')).toBe(-1);
-    expect(component.htmlContent.indexOf('Employee DOB')).toBe(-1);
-    expect(component.htmlContent.indexOf('Employee DOH')).toBe(-1);
-    expect(component.htmlContent.indexOf('Employee First Name')).toBe(-1);
+  it('bindEmployeeData should persist styling attributes', () => {
+    // arrange, mock quill canvas content to be:
+    //
+    // -bullet 1
+    // -bullet2
+    // <b>[Current Year]</b>
 
-    expect(component.htmlContent.indexOf(employeeRewardsData.EmployeeFTE.toString())).toBeGreaterThan(0);
-    expect(component.htmlContent.indexOf(component.formatDataFieldValue(employeeRewardsData.EmployeeDOB))).toBeGreaterThan(0);
-    expect(component.htmlContent.indexOf(component.formatDataFieldValue(employeeRewardsData.EmployeeDOH))).toBeGreaterThan(0);
-    expect(component.htmlContent.indexOf(employeeRewardsData.EmployeeFirstName)).toBeGreaterThan(0);
+    const employeeRewardsData = generateMockEmployeeRewardsData();
+    component.employeeRewardsData = employeeRewardsData;
+    component.mode = StatementModeEnum.Edit;
+    component.controlData = { DataFields: [{ Key: 'CompanyName', Value: 'Company Name' }] } as any;
+
+    const dynamicOps = [
+      { insert: 'bullet1'},
+      { insert: '\n', attributes: { list: 'bullet' } },
+      { insert: 'bullet2'},
+      { insert: '\n', attributes: { list: 'bullet' } },
+      { insert: { mention: { index: '0', denotationChar: '', id: 'CompanyName', value: 'Company Name' } }, attributes: { bold: true } },
+      { insert: '\n'}
+    ];
+    let actualOpsParam: any;
+    component.quillApi = { editor: { delta: { ops: dynamicOps } }, setContents: (ops: any) => { actualOpsParam = ops; } };
+
+    // act
+    component.bindEmployeeData();
+
+    // assert
+    expect(actualOpsParam[0].attributes).toBeUndefined();
+    expect(actualOpsParam[1].attributes).toEqual({ list: 'bullet' });
+    expect(actualOpsParam[2].attributes).toBeUndefined();
+    expect(actualOpsParam[3].attributes).toEqual({ list: 'bullet' });
+    expect(actualOpsParam[4].attributes).toEqual({ bold: true });
+    expect(actualOpsParam[5].attributes).toBeUndefined();
   });
 
   it('formatDataFieldValue should return an empty string for non string, number or date values', () => {
