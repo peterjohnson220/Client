@@ -3,6 +3,7 @@
 exports[`Pf-Admin - Navigation - Navigation Links Should display navigation group items 1`] = `
 <pf-navigation-links
   navigationGroupLinks={[Function Array]}
+  store={[Function Store]}
 >
   <div
     id="site-admin-navigation-links-container"

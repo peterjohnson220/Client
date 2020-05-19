@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { NavigationLinkGroup } from 'libs/models/navigation';
+import { Store } from '@ngrx/store';
+
+import * as fromRootState from 'libs/state/state';
+import * as fromOrgDataNavigationLinkActions from 'libs/features/navigation-links/actions/org-data-navigation-link.actions';
 
 @Component({
     selector: 'pf-navigation-links',
@@ -11,17 +15,14 @@ export class NavigationLinksComponent implements OnInit {
 
     @Input() navigationGroupLinks: NavigationLinkGroup[];
 
-    constructor() { }
+    constructor(private store: Store<fromRootState.State>) { }
     ngOnInit() { }
 
   handleClick($event) {
     const linkName = $event.target.innerText;
-    const url = $event.target.href;
 
     if (linkName === 'Download Organizational Data') {
-      const xmlHttp = new XMLHttpRequest();
-      xmlHttp.open('GET', url, true);
-      xmlHttp.send();
+      this.store.dispatch(new fromOrgDataNavigationLinkActions.InitiateOrgDataExport());
       $event.preventDefault();
     }
   }

@@ -105,4 +105,8 @@ export class CompanyApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.SaveCompanyNote`,
       {Note: note.Note, User: note.CreateUser, Date: note.CreateDate, Id: note.Id, CompanyId: note.CompanyId, Action: action});
   }
+
+  getOrganizationalData() {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetOrganizationalData`);
+  }
 }

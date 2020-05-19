@@ -16,6 +16,7 @@ import { UserManagementModule } from 'libs/features/user-management';
 
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
 import { UserRoleModule, SecuritySettingsModule, NavigationModule, UserBulkAddModule } from './';
+import { PfNavigationLinksModule } from '../../../../libs/features/navigation-links';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { UserRoleModule, SecuritySettingsModule, NavigationModule, UserBulkAddMo
     SecuritySettingsModule,
     NavigationModule,
     UserManagementModule,
-    UserBulkAddModule
+    UserBulkAddModule,
+    PfNavigationLinksModule
 
   ]
 })
