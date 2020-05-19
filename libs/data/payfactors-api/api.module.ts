@@ -11,7 +11,13 @@ import {
     ExchangeApiService, ExchangeCompanyApiService, ExchangeDataCutsApiService, ExchangeDataFilterApiService, ExchangeScopeApiService
 } from './peer';
 import { CompanySecurityApiService } from './security';
-import { ExchangeDataSearchApiService, JobSearchApiService, SurveySearchApiService, ExchangeJobSearchApiService } from './search';
+import {
+  ExchangeDataSearchApiService,
+  JobSearchApiService,
+  SurveySearchApiService,
+  ExchangeJobSearchApiService,
+  EmployeeSearchApiService
+} from './search';
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService, CompanyEmployeeApiService, CompanyJobApiService } from './company';
@@ -138,6 +144,7 @@ import { ECommerceApiService } from './ecommerce';
     CaptchaApiService,
     ExchangeSignupFormApiService,
     ECommerceApiService,
+    EmployeeSearchApiService,
 
     // PEER
     ExchangeApiService,

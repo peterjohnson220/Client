@@ -9,5 +9,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class SearchLayoutComponent {
   @Input() resultsCount: number;
 
+  @Input() countLabel = 'Jobs';
+
   constructor() { }
 }
