@@ -44,7 +44,7 @@
                 <div pfEllipsisActive class="ellipsis-text">{{column.title}}</div>
               </ng-template>
               <ng-container *ngFor="let col of col.Fields">
-                  <ng-container *ngIf="showColumn(col)">
+                  <ng-container *ngIf="col | isColumnVisible : splitViewDisplayFields : selectedRecordId">
                       <kendo-grid-column
                         [field]="col | mappedFieldName"
                         [title]="col.DisplayName"
