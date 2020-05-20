@@ -21,12 +21,12 @@
       </div>
 
       <label class="col-form-label" for="poll-question">Poll Question</label>
-      <input type="text" class="form-control" placeholder="Question" formControlName="context" id="poll-question" [pfValidatable]="attemptedSubmit" pfFocus [maxLength]="150">
-      <ng-container *ngIf="context.errors && attemptedSubmit">
-        <div *ngIf="context.errors.required" class="invalid-feedback">Question is required.</div>
-        <div *ngIf="context.errors.error" class="invalid-feedback">{{context.errors.error}}</div>
+      <input type="text" class="form-control" placeholder="Question" formControlName="content" id="poll-question" [pfValidatable]="attemptedSubmit" pfFocus [maxLength]="150">
+      <ng-container *ngIf="content.errors && attemptedSubmit">
+        <div *ngIf="content.errors.required" class="invalid-feedback">Question is required.</div>
+        <div *ngIf="content.errors.error" class="invalid-feedback">{{content.errors.error}}</div>
       </ng-container>
-      <span *ngIf="!attemptedSubmit || !context.errors" class="pf-placeholder"></span>
+      <span *ngIf="!attemptedSubmit || !content.errors" class="pf-placeholder"></span>
 
       <br>
       <label class="col-form-label" for="choices">Poll choices</label>

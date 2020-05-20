@@ -60,7 +60,7 @@ describe('CommunityPostAddReplyComponent', () => {
   it ('should dispatch AddingCommunityPostReply when calling submitReply', () => {
 
     instance.postId = '99';
-    instance.communityPostReplyForm.controls['context'].setValue('hello world');
+    instance.communityPostReplyForm.controls['content'].setValue('hello world');
 
     const newReply: any = {
       PostId: '99',

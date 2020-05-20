@@ -15,6 +15,7 @@ import * as fromCommunityAttachmentActions from '../../actions/community-attachm
 
 import { CommunityAddReply, CommunityAttachment, CommunityReply, CommunityAttachmentModalState } from 'libs/models/community';
 import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
+import { CommunityConstants } from '../../models';
 
 @Component({
   selector: 'pf-community-post-add-reply',
@@ -34,11 +35,13 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   currentAttachmentModalState$: Observable<CommunityAttachmentModalState>;
 
   communityPostReplyForm: FormGroup;
-  replyMaxLength = 2000;
+  replyMaxLength = CommunityConstants.DISCUSSION_MAX_TEXT_LENGTH;
   addedRepliesSubscription: Subscription;
   addedRepliesCount = 0;
   attachmentModalId: string;
   communityPostAttachments: CommunityAttachment[];
+
+  get content() { return this.communityPostReplyForm.get('content'); }
 
   constructor(public store: Store<fromCommunityPostReplyReducer.State>,
               public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>,
@@ -54,7 +57,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.communityPostReplyForm = this.formBuilder.group({
-      context:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.replyMaxLength)]]
+      content:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.replyMaxLength)]]
     });
 
   }
@@ -86,14 +89,12 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   }
 
   submitReply() {
+    this.content.markAsDirty();
     if (this.communityPostReplyForm.valid) {
-
-      const replyText = this.communityPostReplyForm.controls['context'].value;
-
       const newReply: CommunityAddReply = {
         PostId: this.postId,
-        ReplyText: replyText,
-        Links: this.pfLinkifyService.getLinks(replyText),
+        ReplyText: this.content.value,
+        Links: this.pfLinkifyService.getLinks(this.content.value),
         Attachments:  this.communityPostAttachments
       };
       this.store.dispatch(new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply));

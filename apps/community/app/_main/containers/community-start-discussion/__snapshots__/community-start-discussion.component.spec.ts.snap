@@ -11,7 +11,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
   submittingCommunityPost$={[Function Store]}
 >
   <div
-    class="row mb-3"
+    class="row mb-2"
   >
     <div
       class="col-4"
@@ -57,7 +57,7 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
   submittingCommunityPost$={[Function Store]}
 >
   <div
-    class="row mb-3"
+    class="row mb-2"
   >
     <div
       class="col-4"

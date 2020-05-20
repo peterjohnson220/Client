@@ -28,3 +28,17 @@
   border:1px solid $community-tab-active-color;
   box-shadow: 0 0 2px $community-tab-active-color;
 }
+
+:host ::ng-deep div.text-danger {
+  font-size: 85%;
+}
+
+.is-invalid-input {
+    border: 1px solid $community-invalid-input-color;
+    border-radius: 3px;
+}
+
+.is-invalid {
+  background-image: none;
+}
+

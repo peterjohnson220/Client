@@ -9,6 +9,7 @@ import { CommunityAddPost, CommunityPost, CommunityTopic, CommunityAttachment } 
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import { CommunityConstants } from '../../models';
 
 @Component({
   selector: 'pf-community-new-post',
@@ -20,14 +21,13 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
   submittingCommunityPostSuccessSubscription: Subscription;
 
   communityDiscussionForm: FormGroup;
-  textMaxLength = 2000;
+  textMaxLength = CommunityConstants.DISCUSSION_MAX_TEXT_LENGTH;
 
   communityTopics$: Observable<CommunityTopic[]>;
   selectedTopicId: string;
+  communityTopics: CommunityTopic[];
 
-  public defaultTopic: CommunityTopic = { TopicName: 'Select a Topic to start your discussion...', Id: null };
-
-  get context() { return this.communityDiscussionForm.get('context'); }
+  get content() { return this.communityDiscussionForm.get('content'); }
   get topic() { return this.communityDiscussionForm.get('topic'); }
   get isFormValid() { return this.communityDiscussionForm.valid; }
 
@@ -45,6 +45,13 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
           this.communityDiscussionForm.reset({ value: 'formState', isInternalOnly: false});
       }
     });
+
+    this.communityTopics$.subscribe ((response) => {
+      this.communityTopics = [];
+      if (response && response.length > 0) {
+        this.communityTopics = response;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -53,7 +60,7 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.communityDiscussionForm = this.formBuilder.group({
-      'context':   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.textMaxLength)]],
+      'content':   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.textMaxLength)]],
       'isInternalOnly':  [false],
       'topic': [null, [ Validators.required ]]
     });
@@ -61,24 +68,21 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
   }
 
   submit(uploadedFiles: CommunityAttachment[]) {
+    this.communityDiscussionForm.markAllAsTouched();
+    this.content.markAsDirty();
+
     if (!this.communityDiscussionForm.valid) {
       return;
     }
 
     const newPost: CommunityAddPost = {
-      PostText: this.context.value,
+      PostText: this.content.value,
       IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value,
-      Links: this.pfLinkifyService.getLinks(this.context.value),
+      Links: this.pfLinkifyService.getLinks(this.content.value),
       TopicId: this.topic.value,
       Attachments: uploadedFiles
     };
 
     this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
-
-    this.defaultTopic = { TopicName: 'Select a Topic to start your discussion...', Id: null };
-  }
-
-  public onOpenTopicsList(): void {
-    this.defaultTopic = null;
   }
 }

@@ -53,3 +53,7 @@ textarea {
   color: #5CB85C;
   font-weight: bold;
 }
+
+:host ::ng-deep div.text-danger {
+  font-size: 85%;
+}

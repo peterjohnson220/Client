@@ -88,3 +88,7 @@ a {
   align-content: flex-start;
   max-height: 45px;
 }
+
+:host ::ng-deep div.text-danger {
+  font-size: 85%;
+}
