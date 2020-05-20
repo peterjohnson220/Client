@@ -59,6 +59,7 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   readonly DEFAULT_MAX_LENGTH = 255;
   readonly DEFAULT_COUNTRY = 'USA';
   readonly DEFAULT_CURRENCY = 'USD';
+  readonly DEFAULT_SIZE = 'All:All';
 
   constructor(
     private store: Store<fromPayMarketManagementReducer.State>,
@@ -236,7 +237,9 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
       return;
     }
     this.filteredSizes = this.sizes.filter(s => s.Level === null || (!!industry && s.Level.indexOf(industry) > -1));
-    this.sizeCheckedKeys = [`${size.SizeLabel}:${size.SizeValue}`];
+    this.sizeCheckedKeys = !!size.SizeLabel && !!size.SizeValue && size.SizeValue !== 'All'
+      ? [`${size.SizeLabel}:${size.SizeValue}`]
+      : [this.DEFAULT_SIZE];
     this.changeDetectorRef.detectChanges();
   }
 }
