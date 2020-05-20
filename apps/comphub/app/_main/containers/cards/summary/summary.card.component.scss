@@ -111,6 +111,17 @@
       }
     }
 
+    .incs-and-orgs {
+      width: 200px;
+      margin-top: 16px;
+      margin-bottom: -8px;
+
+      .v {
+        color: $comphub-header-blue;
+        font-weight: $comphub-bold-font-weight;
+        font-size: 1.25rem;
+      }
+    }
 
     .graphs {
       margin-top: 2rem;
