@@ -94,6 +94,18 @@ $rich-text-height: 200px;
   }
 
   // left bracket data field/mention
+  .mention {
+    transition: background-color .3s ease-in-out, color .3s ease-in-out, padding .05s ease-in-out;
+  }
+
+  &.edit-mode {
+    .mention {
+      color: $trs-placeholder-font-color;
+      background-color: $trs-canvas-background-color;
+      padding: .15rem;
+    }
+  }
+  
   .ql-mention-list-container {
     z-index: 100;
     background-color: white;
@@ -120,12 +132,6 @@ $rich-text-height: 200px;
     &.selected {
       background-color: #D3E1EB;
     }
-  }
-
-  .mention {
-    color: $trs-placeholder-font-color;
-    background-color: $trs-canvas-background-color;
-    padding: .15rem;
   }
 
   // quill toolbar custom fonts
