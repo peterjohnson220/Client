@@ -13,7 +13,7 @@ import { TreeViewMode, PfTreeViewComponent } from 'libs/ui/common';
 
 import * as fromPayMarketManagementReducer from '../../reducers';
 import * as fromGeneralFormActions from '../../actions/general-form.actions';
-import { ScopeSize } from '../../models';
+import { Scope } from '../../models';
 
 @Component({
   selector: 'pf-general-form',
@@ -27,17 +27,20 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('countryComponent', { static: true }) public countryComponent: DropDownListComponent;
   @ViewChild('currencyComponent', { static: true }) public currencyComponent: DropDownListComponent;
   @ViewChild('sizeComponent', { static: true }) public sizeComponent: PfTreeViewComponent;
+  @ViewChild('industryComponent', { static: true }) public industryComponent: PfTreeViewComponent;
 
   countries$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   currencies$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   linkedPayMarkets$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   sizes$: Observable<AsyncStateObj<GroupedListItem[]>>;
   defaultPayMarket$: Observable<AsyncStateObj<PayMarket>>;
+  industries$: Observable<AsyncStateObj<GroupedListItem[]>>;
 
   countriesSubscription: Subscription;
   currenciesSubscription: Subscription;
   defaultPayMarketSubscription: Subscription;
   sizesSubscription: Subscription;
+  industriesSubscription: Subscription;
 
   payMarketForm: FormGroup;
   filterSettings: DropDownFilterSettings = {
@@ -48,13 +51,17 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   countries: KendoTypedDropDownItem[];
   currencies: KendoTypedDropDownItem[];
   sizes: GroupedListItem[];
+  industries: GroupedListItem[];
   filteredSizes: GroupedListItem[];
   hasLinkedPayMarket: boolean;
   defaultPayMarket: PayMarket;
   treeViewModes = TreeViewMode;
   sizeCheckedKeys = ['All'];
-  selectedSize: ScopeSize;
-  defaultScopeSize: ScopeSize;
+  industryCheckedKeys = ['All'];
+  selectedSize: Scope;
+  selectedIndustry: Scope;
+  defaultScopeSize: Scope;
+  defaultScopeIndustry: Scope;
 
   readonly DEFAULT_MAX_LENGTH = 255;
   readonly DEFAULT_COUNTRY = 'USA';
@@ -71,6 +78,7 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
     this.linkedPayMarkets$ = this.store.select(fromPayMarketManagementReducer.getLinkedPayMarkets);
     this.sizes$ = this.store.select(fromPayMarketManagementReducer.getSizes);
     this.defaultPayMarket$ = this.store.select(fromPayMarketManagementReducer.getDefaultPayMarket);
+    this.industries$ = this.store.select(fromPayMarketManagementReducer.getAllIndustries);
   }
 
   get f() { return this.payMarketForm.controls; }
@@ -97,6 +105,9 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(): void {
     this.countriesSubscription.unsubscribe();
     this.currenciesSubscription.unsubscribe();
+    this.defaultPayMarketSubscription.unsubscribe();
+    this.sizesSubscription.unsubscribe();
+    this.industriesSubscription.unsubscribe();
   }
 
   refresh(): void {
@@ -125,12 +136,26 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
       const parsedSize: string[] = sizes[0].split(':');
       if (parsedSize.length === 2) {
         this.selectedSize = {
-          SizeLabel: parsedSize[0],
-          SizeValue: parsedSize[1]
+          Label: parsedSize[0],
+          Value: parsedSize[1]
         };
       }
     }
   }
+
+  handleSelectedIndustryChanged(industry: string[]): void {
+    if (industry && industry.length) {
+      const parsedIndustry: string[] = industry[0].split(':');
+      if (parsedIndustry.length === 3) {
+        this.selectedIndustry = {
+          Label: parsedIndustry[0],
+          Group: parsedIndustry[1],
+          Value: parsedIndustry[2]
+        };
+      }
+      this.updateSizeControl(this.selectedIndustry.Group, this.selectedSize);
+    }
+  } 
 
   private initSubscriptions(): void {
     this.defaultPayMarketSubscription = this.defaultPayMarket$.subscribe(asyncObj => this.handleDefaultPayMarketChanged(asyncObj));
@@ -150,6 +175,12 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
       if (results && !!results.obj && !!results.obj.length) {
         this.sizes = results.obj;
         this.updateSizeControl(this.defaultPayMarket.IndustryValue, this.defaultScopeSize);
+      }
+    });
+    this.industriesSubscription = this.industries$.subscribe(results => {
+      if (results && !!results.obj && !!results.obj.length) {
+        this.industries = results.obj;
+        this.updateIndustryControl(this.defaultScopeIndustry);
       }
     });
   }
@@ -188,13 +219,22 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
     if (asyncObj && !!asyncObj.obj) {
       this.defaultPayMarket = asyncObj.obj;
       this.defaultScopeSize = {
-        SizeLabel: this.defaultPayMarket.SizeLabel ? this.defaultPayMarket.SizeLabel : 'All',
-        SizeValue: this.defaultPayMarket.SizeValue ? this.defaultPayMarket.SizeValue : 'All'
+        Label: this.defaultPayMarket.SizeLabel ? this.defaultPayMarket.SizeLabel : 'All',
+        Value: this.defaultPayMarket.SizeValue ? this.defaultPayMarket.SizeValue : 'All'
+      };
+      this.defaultScopeIndustry = {
+        Label: this.defaultPayMarket.IndustryLabel ? this.defaultPayMarket.IndustryLabel : 'All',
+        Value: this.defaultPayMarket.IndustryValue ? this.defaultPayMarket.IndustryValue : 'All'
       };
       if (!this.sizes) {
         this.loadSizes();
       } else {
         this.updateSizeControl(this.defaultPayMarket.IndustryValue, this.defaultScopeSize);
+      }
+      if (!this.industries) {
+        this.loadIndustries();
+      } else {
+        this.updateIndustryControl(this.defaultScopeIndustry);
       }
     }
   }
@@ -232,14 +272,26 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
     this.store.dispatch(new fromGeneralFormActions.GetSizes());
   }
 
-  private updateSizeControl(industry: string, size: ScopeSize): void {
+  private loadIndustries(): void {
+    this.store.dispatch(new fromGeneralFormActions.GetAllIndustries());
+  }
+
+  private updateSizeControl(industryGroup: string, size: Scope): void {
     if (!size) {
       return;
     }
-    this.filteredSizes = this.sizes.filter(s => s.Level === null || (!!industry && s.Level.indexOf(industry) > -1));
-    this.sizeCheckedKeys = !!size.SizeLabel && !!size.SizeValue && size.SizeValue !== 'All'
-      ? [`${size.SizeLabel}:${size.SizeValue}`]
+    this.filteredSizes = this.sizes.filter(s => s.Level === null || (!!industryGroup && s.Level.indexOf(industryGroup) > -1));
+    this.sizeCheckedKeys = !!size.Label && !!size.Value && size.Value !== 'All'
+      ? [`${size.Label}:${size.Value}`]
       : [this.DEFAULT_SIZE];
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private updateIndustryControl(industry: Scope): void {
+    if (!industry) {
+      return;
+    }
+    this.industryCheckedKeys = [`${industry.Label}:${industry.Value}`];
     this.changeDetectorRef.detectChanges();
   }
 }

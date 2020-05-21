@@ -1,11 +1,12 @@
 import { GroupedListItem } from 'libs/models/list';
 
 export class GeneralFormHelper {
-  static buildAllSizeItem(): GroupedListItem {
+  static buildAllItem(): GroupedListItem {
     return {
       Name: 'All',
       Value: 'All:All',
-      Level: null
+      Level: null,
+      Children: []
     };
   }
 }

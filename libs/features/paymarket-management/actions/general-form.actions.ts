@@ -19,6 +19,9 @@ export const GET_SIZES_ERROR = '[Pay Market Management / General Form] Get Sizes
 export const GET_USER_DEFAULT_SCOPE = '[Pay Market Management / General Form] Get User Default Scope';
 export const GET_USER_DEFAULT_SCOPE_SUCCESS = '[Pay Market Management / General Form] Get User Default Scope Success';
 export const GET_USER_DEFAULT_SCOPE_ERROR = '[Pay Market Management / General Form] Get User Default Scope Error';
+export const GET_ALL_INDUSTRIES = '[Pay Market Management / General Form] Get All Industries';
+export const GET_ALL_INDUSTRIES_SUCCESS = '[Pay Market Management / General Form] Get All Industries Success';
+export const GET_ALL_INDUSTRIES_ERROR = '[Pay Market Management / General Form] Get All Industries Error';
 
 export class GetCountries implements Action {
   readonly type = GET_COUNTRIES;
@@ -96,6 +99,21 @@ export class GetUserDefaultScopeError implements Action {
   constructor() {}
 }
 
+export class GetAllIndustries implements Action {
+  readonly type = GET_ALL_INDUSTRIES;
+  constructor() {}
+}
+
+export class GetAllIndustriesSuccess implements Action {
+  readonly type = GET_ALL_INDUSTRIES_SUCCESS;
+  constructor(public payload: GroupedListItem[]) { }
+}
+
+export class GetAllIndustriesError implements Action {
+  readonly type = GET_ALL_INDUSTRIES_ERROR;
+  constructor() {}
+}
+
 export type Actions
   = GetCountries
   | GetCountriesSuccess
@@ -111,4 +129,7 @@ export type Actions
   | GetSizesError
   | GetUserDefaultScope
   | GetUserDefaultScopeSuccess
-  | GetUserDefaultScopeError;
+  | GetUserDefaultScopeError
+  | GetAllIndustries
+  | GetAllIndustriesSuccess
+  | GetAllIndustriesError;

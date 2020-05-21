@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { orderBy, cloneDeep } from 'lodash';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
@@ -14,6 +14,7 @@ export interface State {
   linkedPayMarkets: AsyncStateObj<KendoTypedDropDownItem[]>;
   sizes: AsyncStateObj<GroupedListItem[]>;
   defaultPayMarket: AsyncStateObj<PayMarket>;
+  industries: AsyncStateObj<GroupedListItem []>;
 }
 
 const initialState: State = {
@@ -21,7 +22,8 @@ const initialState: State = {
   currencies: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   linkedPayMarkets: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   sizes: generateDefaultAsyncStateObj<GroupedListItem[]>([]),
-  defaultPayMarket: generateDefaultAsyncStateObj<PayMarket>(null)
+  defaultPayMarket: generateDefaultAsyncStateObj<PayMarket>(null),
+  industries: generateDefaultAsyncStateObj<GroupedListItem[]>([])
 };
 
 export function reducer(state = initialState, action: fromGeneralFormActions.Actions): State {
@@ -122,7 +124,7 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
     case fromGeneralFormActions.GET_SIZES_SUCCESS: {
       const sizesClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.sizes);
       sizesClone.loading = true;
-      sizesClone.obj = [GeneralFormHelper.buildAllSizeItem()];
+      sizesClone.obj = [GeneralFormHelper.buildAllItem()];
       if (action.payload && action.payload.length) {
         sizesClone.obj = sizesClone.obj.concat(action.payload);
       }
@@ -167,6 +169,36 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
         defaultPayMarket: defaultPayMarketClone
       };
     }
+    case fromGeneralFormActions.GET_ALL_INDUSTRIES: {
+      const industriesClone = cloneDeep(state.industries);
+      industriesClone.loading = true;
+      industriesClone.loadingError = false;
+      return {
+        ...state,
+        industries: industriesClone
+      };
+    }
+    case fromGeneralFormActions.GET_ALL_INDUSTRIES_SUCCESS: {
+      const industriesClone = cloneDeep(state.industries);
+      industriesClone.obj = [GeneralFormHelper.buildAllItem()];
+      if (action.payload && action.payload.length) {
+        industriesClone.obj = industriesClone.obj.concat(orderBy(action.payload, ['Name'], 'asc'));
+      }
+      industriesClone.loading = false;
+      return {
+        ...state,
+        industries: industriesClone
+      };
+    }
+    case fromGeneralFormActions.GET_ALL_INDUSTRIES_ERROR: {
+      const industriesClone = cloneDeep(state.industries);
+      industriesClone.loading = false;
+      industriesClone.loadingError = true;
+      return {
+        ...state,
+        industries: industriesClone
+      };
+    }
     default: {
       return state;
     }
@@ -178,3 +210,4 @@ export const getCurrencies = (state: State) => state.currencies;
 export const getLinkedPayMarkets = (state: State) => state.linkedPayMarkets;
 export const getSizes = (state: State) => state.sizes;
 export const getDefaultPayMarket = (state: State) => state.defaultPayMarket;
+export const getAllIndustries = (state: State) => state.industries;
