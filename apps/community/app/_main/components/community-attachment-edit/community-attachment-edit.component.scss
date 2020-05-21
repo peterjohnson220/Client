@@ -10,11 +10,12 @@
   color: $community-sub-text-color;
   border: 1px solid;
   border-radius: 5px;
-  height: 40px;
-  width: 175px;
-  margin: auto;
-  padding: 7px 8px 7px 5px;
-  font-size: 0.9rem;
+  height: 30px;
+  width: calc(100% + 15px);
+  min-width: 85px;
+  padding: 7px 8px 5px 5px;
+  line-height: 0.1rem;
+  font-size: 85%;
 }
 
 .icon {
@@ -40,7 +41,6 @@
 
 .attachment-info {
   float: left;
-  line-height: 0.35em;
 }
 
 .remove-btn {

@@ -28,9 +28,9 @@
         [maxTextLength]="editMaxLength"
         minimumHeight="75">
       </pf-community-text-area>
-      <div *ngIf="communityAttachments">
-        <div class="attachment-container" *ngFor="let attachment of communityAttachments">
-          <pf-community-attachment-edit 
+      <div *ngIf="communityAttachments" class="attachment-container">
+        <div *ngFor="let attachment of communityAttachments" class="attachment-content pr-4">
+          <pf-community-attachment-edit
             [attachment]="attachment" 
             (attachmentRemoved)="onAttachmentRemoved($event)">
           </pf-community-attachment-edit>
