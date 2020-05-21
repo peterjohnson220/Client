@@ -1,5 +1,5 @@
-<pf-async-container [loading]="loading$ | async"
-                    [loadingError]="loadingError$ | async"
+<pf-async-container [loading]="(loading$ | async ) && (transferScheduleSummaryLoading$ | async)"
+                    [loadingError]="(loadingError$ | async) && (transferScheduleSummaryError$ | async)"
                     [loadingErrorMessage]="'Error loading HRIS landing page'">
   <div class="row">
     <div class="col-sm-12 col-md-6">
