@@ -18,14 +18,13 @@
       [hidePostActions]="true">
     </pf-community-post-header>
 
-
     <div class="clear-both">
       <pf-community-post-content class="mt-2 mb-2"
                                  [content]="reply.ReplyText">
       </pf-community-post-content>
       
       <div *ngIf="!!communityAttachments" class="d-flex flex-wrap pt-3">
-        <div class="pr-2 py-1" *ngFor="let attachment of communityAttachments">
+        <div class="attachment-content pr-4 py-1" *ngFor="let attachment of communityAttachments">
           <pf-community-attachment-edit 
             [attachment]="attachment" 
             (attachmentRemoved)="onAttachmentRemoved($event)">

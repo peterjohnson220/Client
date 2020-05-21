@@ -7,28 +7,27 @@
   [resetFormOnClose]="true"
   [backdrop]="true"
   [showSubmit]="false"
-  [secondaryButtonText]="'Close'"
+  [secondaryButtonText]="'Done'"
   (onDismiss)="handleModalDismissed()">
-
   <ng-container basic-content>
     <pf-async-container
       [loadingErrorMessage]="'Error Loading Community Attachments'">
       <p class="font-weight-bold mb-3">{{uploadedFiles.length}}/5 Files uploaded</p>
       <p *ngIf="showFileCountWarning" class="alert-warning">A maximum number of 5 attachments may be uploaded</p>
-      <kendo-upload #uploadFile
+      <kendo-upload #uploadWidget
                     [multiple]="true"
                     [saveUrl]="saveAttachmentUrl"
                     [removeUrl]="removeAttachmentUrl"
                     [concurrent]="false"
                     [restrictions]="uploadRestrictions"
                     [accept]="uploadRestrictions.allowedExtensions"
-                    (upload)="uploadAttachmentEventHandler($event)"
-                    (remove)="removeAttachmentEventHandler($event)"
+                    (upload)="uploadAttachmentEventHandler($event, uploadWidget)"
+                    (remove)="removeAttachmentEventHandler($event, uploadWidget)"
                     (error)="uploadError($event)"
-                    (success)="successEventHandler($event)"
+                    (success)="successEventHandler($event, uploadWidget)"
                     [ngModel]="uploadedFilesKendo">
         <kendo-upload-messages
-          select="Browse" dropFilesHere="Individual files cannot exceed 150MB">
+          select="Browse" dropFilesHere={{fileRestrictionsMessage}}>
         </kendo-upload-messages>
       </kendo-upload>
     </pf-async-container>

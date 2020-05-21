@@ -86,7 +86,10 @@ a {
   flex-direction: row;
   justify-content: flex-start;
   align-content: flex-start;
-  max-height: 45px;
+}
+
+.attachment-content {
+  max-height: 40px;
 }
 
 :host ::ng-deep div.text-danger {

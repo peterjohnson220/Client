@@ -18,8 +18,8 @@
                              [content]="reply.ReplyText"
                              (hashTagClicked)="handleHashTagClicked($event)">
   </pf-community-post-content>
-  <div *ngIf="!!reply.Attachments" class="d-flex flex-wrap pt-3">
-    <div class="pr-2 py-1" *ngFor="let attachment of reply.Attachments">
+  <div *ngIf="reply.Attachments" class="d-flex flex-wrap pt-2">
+    <div class="pr-4 pt-1 pb-2" *ngFor="let attachment of reply.Attachments">
       <pf-community-attachment
         [attachment]="attachment">
       </pf-community-attachment>         

@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
 import { AttachmentFileType } from '../../models/attachment-file-type.model';
+import { CommunityConstants } from '../../models/community-constants';
+import { formatBytes } from '../../helpers/model-mapping.helper';
 
 
 @Component({
@@ -16,13 +18,15 @@ export class CommunityAttachmentEditComponent implements OnInit {
 
   iconClass: string;
   iconFile: string;
+  formattedSize: string;
 
-  maxNameSize = 20;
+  maxNameSize = CommunityConstants.MAX_ATTACHMENT_NAME_LENGTH;
 
   constructor() { }
 
   ngOnInit() {
     this.setupIcons();
+    this.formattedSize = formatBytes(this.attachment.Size);
   }
 
   setupIcons () {
