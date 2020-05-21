@@ -1,0 +1,13 @@
+<div class="container-fluid h-100">
+  <div class="row h-md-100">
+    <div *ngIf="!!infoBackground" [style.background-image]="'url(' + infoBackground + ')'" class="col-12 col-md-6 col-lg-8 pb-3 pb-md-0 info-background">
+      <ng-content select="[infoColumn]"></ng-content>
+    </div>
+    <div *ngIf="!infoBackground" class="col-12 col-md-6 col-lg-8 pb-3 pb-md-0">
+      <ng-content select="[infoColumn]"></ng-content>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 px-0">
+      <ng-content select="[formColumn]"></ng-content>
+    </div>
+  </div>
+</div>
