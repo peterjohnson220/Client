@@ -1,16 +1,10 @@
 export interface GroupedListItem {
   Name: string;
-  Level: string;
   Value: any;
+  Level?: string;
   Children?: GroupedListItem[];
   IgnoreValue?: boolean;
   TotalChildren?: number;
-}
-
-export interface ListItemSearchResult {
-  IsMatch: boolean;
-  IsParentMatch: boolean;
-  Value: string;
 }
 
 export function autoGenerateListGroupValues(list: GroupedListItem[], parentIdx = null): GroupedListItem[] {

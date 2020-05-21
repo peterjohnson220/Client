@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { AddPayMarketRequest } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { PayMarket } from '../../../models/paymarket';
+import { PayMarket, DefaultUserPayMarket } from '../../../models/paymarket';
 import { GenericKeyValue } from '../../../models/common';
 
 @Injectable()
@@ -54,7 +54,7 @@ export class PayMarketApiService {
       { params: { companyPayMarketId }});
   }
 
-  getDefaultPayMarketByUser(): Observable<PayMarket> {
-    return this.payfactorsApiService.get<PayMarket>(`${this.endpoint}/GetDefaultPayMarketByUser`);
+  getDefaultUserPayMarket(): Observable<DefaultUserPayMarket> {
+    return this.payfactorsApiService.get<DefaultUserPayMarket>(`${this.endpoint}/GetDefaultUserPayMarket`);
   }
 }

@@ -42,4 +42,8 @@ export class MarketDataScopeApiService {
   getAllScopeSizes(): Observable<GroupedListItem[]> {
     return this.payfactorsApiService.get<GroupedListItem[]>(`${this.endpoint}/GetAllScopeSizes`);
   }
+
+  getGroupedListLocations(request: MDLocationsRequest): Observable<GroupedListItem[]> {
+    return this.payfactorsApiService.post<GroupedListItem[]>(`${this.endpoint}/GetGroupedListLocations`, request);
+  }
 }

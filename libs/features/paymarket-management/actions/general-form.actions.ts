@@ -2,7 +2,8 @@ import { Action } from '@ngrx/store';
 
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
 import { GroupedListItem } from 'libs/models/list';
-import { PayMarket } from 'libs/models';
+import { DefaultUserPayMarket } from 'libs/models';
+import { MDLocationsRequest } from 'libs/models/payfactors-api';
 
 export const GET_COUNTRIES = '[Pay Market Management / General Form] Get Countries';
 export const GET_COUNTRIES_SUCCESS = '[Pay Market Management / General Form] Get Countries Success';
@@ -16,12 +17,15 @@ export const GET_LINKED_PAY_MARKETS_ERROR = '[Pay Market Management / General Fo
 export const GET_SIZES = '[Pay Market Management / General Form] Get Sizes';
 export const GET_SIZES_SUCCESS = '[Pay Market Management / General Form] Get Sizes Success';
 export const GET_SIZES_ERROR = '[Pay Market Management / General Form] Get Sizes Error';
-export const GET_USER_DEFAULT_SCOPE = '[Pay Market Management / General Form] Get User Default Scope';
-export const GET_USER_DEFAULT_SCOPE_SUCCESS = '[Pay Market Management / General Form] Get User Default Scope Success';
-export const GET_USER_DEFAULT_SCOPE_ERROR = '[Pay Market Management / General Form] Get User Default Scope Error';
+export const GET_DEFAULT_USER_PAY_MARKET = '[Pay Market Management / General Form] Get Default User Pay Market';
+export const GET_DEFAULT_USER_PAY_MARKET_SUCCESS = '[Pay Market Management / General Form] Get Default User Pay Market Success';
+export const GET_DEFAULT_USER_PAY_MARKET_ERROR = '[Pay Market Management / General Form] Get Default User Pay Market Error';
 export const GET_ALL_INDUSTRIES = '[Pay Market Management / General Form] Get All Industries';
 export const GET_ALL_INDUSTRIES_SUCCESS = '[Pay Market Management / General Form] Get All Industries Success';
 export const GET_ALL_INDUSTRIES_ERROR = '[Pay Market Management / General Form] Get All Industries Error';
+export const GET_LOCATIONS = '[Pay Market Management / General Form] Get Locations';
+export const GET_LOCATIONS_SUCCESS = '[Pay Market Management / General Form] Get Locations Success';
+export const GET_LOCATIONS_ERROR = '[Pay Market Management / General Form] Get Locations Error';
 
 export class GetCountries implements Action {
   readonly type = GET_COUNTRIES;
@@ -84,18 +88,33 @@ export class GetSizesError implements Action {
   constructor() {}
 }
 
-export class GetUserDefaultScope implements Action {
-  readonly type = GET_USER_DEFAULT_SCOPE;
+export class GetDefaultUserPayMarket implements Action {
+  readonly type = GET_DEFAULT_USER_PAY_MARKET;
   constructor() {}
 }
 
-export class GetUserDefaultScopeSuccess implements Action {
-  readonly type = GET_USER_DEFAULT_SCOPE_SUCCESS;
-  constructor(public payload: PayMarket) {}
+export class GetDefaultUserPayMarketSuccess implements Action {
+  readonly type = GET_DEFAULT_USER_PAY_MARKET_SUCCESS;
+  constructor(public payload: DefaultUserPayMarket) {}
 }
 
-export class GetUserDefaultScopeError implements Action {
-  readonly type = GET_USER_DEFAULT_SCOPE_ERROR;
+export class GetDefaultUserPayMarketError implements Action {
+  readonly type = GET_DEFAULT_USER_PAY_MARKET_ERROR;
+  constructor() {}
+}
+
+export class GetLocations implements Action {
+  readonly type = GET_LOCATIONS;
+  constructor(public payload: { request: MDLocationsRequest, locationExpandedKey?: string }) {}
+}
+
+export class GetLocationsSuccess implements Action {
+  readonly type = GET_LOCATIONS_SUCCESS;
+  constructor(public payload: { results: GroupedListItem[], reset: boolean, locationExpandedKey?: string }) {}
+}
+
+export class GetLocationsError implements Action {
+  readonly type = GET_LOCATIONS_ERROR;
   constructor() {}
 }
 
@@ -127,9 +146,12 @@ export type Actions
   | GetSizes
   | GetSizesSuccess
   | GetSizesError
-  | GetUserDefaultScope
-  | GetUserDefaultScopeSuccess
-  | GetUserDefaultScopeError
   | GetAllIndustries
   | GetAllIndustriesSuccess
-  | GetAllIndustriesError;
+  | GetAllIndustriesError
+  | GetDefaultUserPayMarket
+  | GetDefaultUserPayMarketSuccess
+  | GetDefaultUserPayMarketError
+  | GetLocations
+  | GetLocationsSuccess
+  | GetLocationsError;

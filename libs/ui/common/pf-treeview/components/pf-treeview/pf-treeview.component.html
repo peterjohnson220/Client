@@ -1,36 +1,35 @@
-<ng-container *ngIf="!!data && !!data.length">
-  <div class="d-flex flex-column multi-select-treeview-container"
-       pfClickElsewhere
-       (clickElsewhere)="handleCloseClicked()">
-    <span *ngIf="!!label" class="mb-2">{{label}}</span>
-    <button #anchor (click)="toggleDropdown()" class="k-button anchor-button" [style.width.px]="anchorWidth">
-      <span class="d-flex w-100 align-items-start">
-        <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex flex-fill anchor-label">
-          <span class="value-template">{{ appliedNames[0] }}</span>
-          <span *ngIf="appliedNames.length > 1">
-            & {{appliedNames.length - 1}} MORE
-          </span>
+<div class="d-flex flex-column multi-select-treeview-container"
+      pfClickElsewhere
+      (clickElsewhere)="handleCloseClicked($event)">
+  <span *ngIf="!!label" class="mb-2">{{label}}</span>
+  <button #anchor (click)="toggleDropdown()" class="k-button anchor-button" [style.width.px]="anchorWidth">
+    <span class="d-flex w-100 align-items-start">
+      <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex flex-fill anchor-label">
+        <span class="value-template">{{ appliedNames[0] }}</span>
+        <span *ngIf="appliedNames.length > 1">
+          & {{appliedNames.length - 1}} MORE
         </span>
-        <fa-icon icon="caret-down" class="anchor-icon"></fa-icon>
       </span>
-      <ng-template #placeholderTemplate>
-        <span class="flex-fill anchor-label">{{placeholder}}</span>
-      </ng-template>
-    </button>
+      <fa-icon icon="caret-down" class="anchor-icon"></fa-icon>
+    </span>
+    <ng-template #placeholderTemplate>
+      <span *ngIf="!!lazyLoadDefaultAppliedItem" class="flex-fill anchor-label">{{lazyLoadDefaultAppliedItem.Name}}</span>
+      <span *ngIf="!lazyLoadDefaultAppliedItem" class="flex-fill anchor-label">{{placeholder}}</span>
+    </ng-template>
+  </button>
 
-    <div *ngIf="!isPopup && show" class="treeview-content">
-      <ng-container [ngTemplateOutlet]="treeViewContent"></ng-container>
-    </div>
-
-    <kendo-popup *ngIf="isPopup && show"
-      [anchor]="anchor"
-      [anchorAlign]="anchorAlign"
-      [popupAlign]="popupAlign"
-      (anchorViewportLeave)="show = false">
-      <ng-container [ngTemplateOutlet]="treeViewContent"></ng-container>
-    </kendo-popup>
+  <div *ngIf="!isPopup && show" class="treeview-content">
+    <ng-container [ngTemplateOutlet]="treeViewContent"></ng-container>
   </div>
-</ng-container>
+
+  <kendo-popup *ngIf="isPopup && show"
+    [anchor]="anchor"
+    [anchorAlign]="anchorAlign"
+    [popupAlign]="popupAlign"
+    (anchorViewportLeave)="show = false">
+    <ng-container [ngTemplateOutlet]="treeViewContent"></ng-container>
+  </kendo-popup>
+</div>
 
 <ng-template #treeViewContent>
   <div class="d-flex flex-column popup-container" [style.width.px]="anchorWidth - 2">
@@ -41,7 +40,7 @@
           [placeholder]="searchPlaceholder"
           [(ngModel)]="searchTerm"
           (keyup)="handleFilterChanged()">
-        <div (click)="clearSearchTerm()" class="input-group-append">
+        <div (click)="handleClearSearchClicked()" class="input-group-append">
           <span class="input-group-text">
             <fa-icon icon="times" aria-hidden="true"></fa-icon>
           </span>
@@ -53,6 +52,7 @@
     </div>
 
     <div class="treeview-container" [style.height.px]="treeViewContainerHeight">
+      <pf-async-container [loading]="loading"></pf-async-container>
       <kendo-treeview *ngIf="mode === modes.Multiple"
         #treeView
         kendoTreeViewExpandable
@@ -84,7 +84,8 @@
         [selectedKeys]="checkedKeys"
         [(expandedKeys)]="expandedKeys"
         [isSelected]="isSelected"
-        (selectionChange)="handleSelectionChanged($event)">
+        (selectionChange)="handleSelectionChanged($event)"
+        (expand)="handleExpandNode($event)">
 
         <ng-template kendoTreeViewNodeTemplate let-dataItem>
           <span class="item-name" [title]="dataItem.Name">{{dataItem.Name}}</span>
@@ -95,7 +96,7 @@
 
     <div class="d-flex justify-content-end treeview-footer space-out-children">
       <button type="button"
-        (click)="handleCloseClicked()"
+        (click)="handleCloseClicked($event)"
         class="btn btn-secondary">
         Close
       </button>
