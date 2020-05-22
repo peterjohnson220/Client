@@ -19,7 +19,7 @@ export function generateMockExistingConnectionSummary(): ConnectionSummary {
     canEditConnection: false,
     canEditMappings: false,
     hasConnection: false,
-    selectedEntities: [],
+    selectedEntities: [OrgDataEntityType.Employees],
     statuses: [],
     loaderConfigurationGroupId: 12345,
   };
