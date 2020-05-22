@@ -13,8 +13,10 @@ import { SearchFilterOption, SharePricingSummaryRequest } from 'libs/models/payf
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
-import { RateType } from 'libs/data/data-sets';
+import { RateType, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
+import { ExchangeMapSummary } from 'libs/models/peer';
+import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
@@ -50,6 +52,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   maxPaymarketMinimumWage$: Observable<number>;
   filterContext$: Observable<any>;
   workflowContext$: Observable<WorkflowContext>;
+  mapSummary$: Observable<ExchangeMapSummary>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -78,6 +81,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromComphubMainReducer.State>,
     private exchangeExplorerContextService: ExchangeExplorerContextService,
+    private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     public cp: CurrencyPipe
   ) {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
@@ -95,6 +99,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.minPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMinPaymarketMinimumWage);
     this.maxPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMaxPaymarketMinimumWage);
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.mapSummary$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapSummary);
   }
 
   ngOnInit() {
@@ -118,6 +123,16 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.salaryTrendSubscription.unsubscribe();
     this.filterContextSubscription.unsubscribe();
     this.workflowContextSubscription.unsubscribe();
+  }
+
+  getWeightingType(type: string): string {
+    if (type === WeightType.Org) {
+      return WeightTypeDisplayLabeled.Org;
+    } else if (type === WeightType.Inc) {
+      return WeightTypeDisplayLabeled.Inc;
+    } else {
+      return '-';
+    }
   }
 
   handlePriceNewJobClicked() {

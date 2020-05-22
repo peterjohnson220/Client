@@ -9,12 +9,14 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
+  exchangeExplorerStore={[Function Store]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
+  mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Observable]}
@@ -431,6 +433,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               </div>
             </div>
           </div>
+          
           
           <div
             class="graphs"
@@ -934,6 +937,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                     </div>
                   </div>
                   
+                  
                   <div
                     class="graphs"
                   >
@@ -1056,12 +1060,14 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
+  exchangeExplorerStore={[Function Store]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
+  mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
@@ -1478,6 +1484,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               </div>
             </div>
           </div>
+          
           
           <div
             class="graphs"
@@ -1981,6 +1988,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                     </div>
                   </div>
                   
+                  
                   <div
                     class="graphs"
                   >
@@ -2103,12 +2111,14 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
+  exchangeExplorerStore={[Function Store]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
+  mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
@@ -2525,6 +2535,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               </div>
             </div>
           </div>
+          
           
           <div
             class="graphs"
@@ -3028,6 +3039,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                     </div>
                   </div>
                   
+                  
                   <div
                     class="graphs"
                   >
@@ -3150,12 +3162,14 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
+  exchangeExplorerStore={[Function Store]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
+  mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Observable]}
@@ -3572,6 +3586,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               </div>
             </div>
           </div>
+          
           
           <div
             class="graphs"
@@ -4075,6 +4090,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                     </div>
                   </div>
                   
+                  
                   <div
                     class="graphs"
                   >
@@ -4197,12 +4213,14 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
+  exchangeExplorerStore={[Function Store]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
+  mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Observable]}
@@ -4619,6 +4637,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               </div>
             </div>
           </div>
+          
           
           <div
             class="graphs"
@@ -5122,6 +5141,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                     </div>
                   </div>
                   
+                  
                   <div
                     class="graphs"
                   >
@@ -5244,12 +5264,14 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
+  exchangeExplorerStore={[Function Store]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
+  mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
@@ -5666,6 +5688,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               </div>
             </div>
           </div>
+          
           
           <div
             class="graphs"
@@ -6168,6 +6191,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       </div>
                     </div>
                   </div>
+                  
                   
                   <div
                     class="graphs"
@@ -6291,12 +6315,14 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
+  exchangeExplorerStore={[Function Store]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
+  mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
@@ -6713,6 +6739,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               </div>
             </div>
           </div>
+          
           
           <div
             class="graphs"
@@ -7216,6 +7243,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     </div>
                   </div>
                   
+                  
                   <div
                     class="graphs"
                   >
@@ -7338,12 +7366,14 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   creatingProjectError$={[Function Store]}
   currentDate={[Function Date]}
   exchangeExplorerContextService={[Function Object]}
+  exchangeExplorerStore={[Function Store]}
   filterContextHasFilters="false"
   firstDayOfMonth={[Function Date]}
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
   jobSalaryTrendData="null"
+  mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
@@ -7769,6 +7799,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               </div>
             </div>
           </div>
+          
           
           <div
             class="graphs"
@@ -8280,6 +8311,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       </div>
                     </div>
                   </div>
+                  
                   
                   <div
                     class="graphs"
