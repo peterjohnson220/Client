@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,11 +14,13 @@ import * as fromEmployeesPageActions from '../actions/employees-page.actions';
 import { EmployeesPageComponent } from './employees.page';
 import { of } from 'rxjs';
 
+
 describe('Employees - Employees Page', () => {
   let instance: EmployeesPageComponent;
   let fixture: ComponentFixture<EmployeesPageComponent>;
   let store: Store<fromEmployeesReducer.State>;
   let ngbModal: NgbModal;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,7 +38,11 @@ describe('Employees - Employees Page', () => {
         {
           provide: NgbModal,
           useValue: { open: jest.fn(), dismissAll: jest.fn() }
-        }
+        },
+        {
+          provide: Router,
+          useValue: { navigate: jest.fn() },
+        },
       ]
     });
 
@@ -43,6 +50,7 @@ describe('Employees - Employees Page', () => {
     instance = fixture.componentInstance;
     store = TestBed.get(Store);
     ngbModal = TestBed.get(NgbModal);
+    router = TestBed.get(Router);
     instance.selectedCompanyEmployeeIdsSubscription = of([]).subscribe();
     instance.pricingJobsSubscription = of(false).subscribe();
   });
@@ -101,6 +109,14 @@ describe('Employees - Employees Page', () => {
     instance.pricingJobs = true;
 
     expect(instance.priceJobsDisabled).toEqual(true);
+  });
+
+  it('should navigate to the employee history page when date changed', () => {
+    spyOn(router, 'navigate');
+
+    instance.handleEmployeeHistoryDateChange('2005-2-2');
+
+    expect(router.navigate).toHaveBeenCalledWith(['history/2005-2-2']);
   });
 
 });

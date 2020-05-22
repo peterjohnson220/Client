@@ -1,0 +1,25 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="title"
+  [primaryButtonText]="'Apply'"
+  [modalId]="'au-modal-employees-page-employee-history'"
+  [isOpen$]=" isOpen$"
+  [formGroup]="historyForm"
+  (onSubmit)="handleApplyClicked()"
+  (onDismiss)="handleCancelClicked()">
+
+  <ng-container form-content>
+    <form id="user-form" [formGroup]="historyForm">
+      <p>Select a date to view historical employee data. You can return to the standard Employees view by clicking the "Exit" button.</p>
+      <div class="text-center w-100">
+        <kendo-datepicker
+          formControlName="employeeHistoryDate"
+          [ngClass]="{ 'is-invalid': (!f.employeeHistoryDate.valid && f.employeeHistoryDate.touched)}"
+          [max]="maxHistoryDate">
+        </kendo-datepicker>
+        <span *ngIf="f.employeeHistoryDate.errors?.maxError" class="invalid-feedback">Historical date must be in the past</span>
+      </div>
+    </form>
+  </ng-container>
+
+</pf-modal-form>
