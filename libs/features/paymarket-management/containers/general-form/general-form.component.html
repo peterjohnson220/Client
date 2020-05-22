@@ -113,7 +113,20 @@
     <br><hr>
     <div class="form-group row scope-container">
       <div class="col-4">
-        <label>Industry</label>
+        <pf-treeview #industryComponent
+         [mode]="treeViewModes.Single"
+         [data]="industries"
+         [label]="'Industry'"
+         [placeholder]="'All'"
+         class="filter"
+         [filterable]="true"
+         [searchPlaceholder]="'Search for an industry...'"
+         [anchorWidth]="223"
+         [treeViewContainerHeight]="143"
+         [isPopup]="false"
+         [checkedKeys]="industryCheckedKeys"
+         (applyClicked)="handleSelectedIndustryChanged($event)">
+        </pf-treeview>
       </div>
       <div class="col-4 scope-column">
         <pf-treeview #sizeComponent

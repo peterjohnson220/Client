@@ -31,6 +31,10 @@ export class MarketDataScopeApiService {
     return this.payfactorsApiService.get<GroupedListItem[]>(`${this.endpoint}/GetDistinctIndustries`);
   }
 
+  getAllIndustries(): Observable<GroupedListItem[]> {
+    return this.payfactorsApiService.get<GroupedListItem[]>(`${this.endpoint}/GetAllIndustries`);
+  }
+
   getCompanyScopeGeo(): Observable<GroupedListItem[]> {
     return this.payfactorsApiService.get<GroupedListItem[]>(`${this.endpoint}/GetCompanyScopeGeo`);
   }

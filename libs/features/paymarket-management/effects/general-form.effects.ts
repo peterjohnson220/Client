@@ -93,6 +93,19 @@ export class GeneralFormEffects {
       })
     );
 
+  @Effect()
+  getAllIndustries$ = this.actions$
+    .pipe(
+      ofType(fromGeneralFormActions.GET_ALL_INDUSTRIES),
+      switchMap((action: fromGeneralFormActions.GetAllIndustries) => {
+        return this.marketDataScopeApiService.getAllIndustries()
+          .pipe(
+            map((response) => new fromGeneralFormActions.GetAllIndustriesSuccess(response)),
+            catchError(() => of(new fromGeneralFormActions.GetAllIndustriesError()))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private countryApiService: CountryApiService,
