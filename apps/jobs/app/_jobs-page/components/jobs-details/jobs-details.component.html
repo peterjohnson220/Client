@@ -3,8 +3,11 @@
     <div class="my-auto px-3">
       <div pfEllipsisActive class="ellipsis-overflowing-text-wrap job-title-code">
         <fa-icon [icon]="['far', 'briefcase']" size="lg" class="pr-3"></fa-icon>
-        <b class="pr-2">{{(selectedRow$ | async)['CompanyJobs_Job_Title']}}</b>
-        <em class="text-muted pb-1">({{(selectedRow$ | async)['CompanyJobs_Job_Code']}})</em>
+        <pf-job-title-code 
+          [jobTitle]="(selectedRow$ | async).CompanyJobs_Job_Title"
+          [jobCode]="(selectedRow$ | async).CompanyJobs_Job_Code"
+          [jobTitleClass]="'font-weight-bold'">
+        </pf-job-title-code>        
       </div>
     </div>
     <div class="vertical-separator my-2 ml-auto"></div>

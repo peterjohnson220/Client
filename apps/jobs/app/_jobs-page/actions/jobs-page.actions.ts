@@ -1,26 +1,26 @@
 import { Action } from '@ngrx/store';
 
-import { CreateProjectRequest, ChangeJobStatusRequest, DeletePricingRequest } from 'libs/models/payfactors-api';
+import { CreateProjectRequest, ChangeJobStatusRequest, DeletePricingRequest, DataViewFilter } from 'libs/models/payfactors-api';
 
 export const SET_JOBS_PAGE_ID = '[Jobs Page] Set Jobs PageID';
 // TODO: Removed HANDLE_API_ERROR and replace it with AsyncStateObj
 export const HANDLE_API_ERROR = '[Jobs Page] Handle API Error';
-export const SHOW_CREATE_PROJECT_MODAL = '[Jobs Page] Show Create Project Modal';
+export const RESET_ERRORS_FOR_MODALS = '[Jobs Page] Reset Errors for Modals';
 export const CREATING_PROJECT = '[Jobs Page] Creating Project';
 export const CREATING_PROJECT_SUCCESS = '[Jobs Page] Creating Project Success';
 export const CREATING_PROJECT_ERROR = '[Jobs Page] Creating Project Error';
-export const SHOW_JOB_STATUS_MODAL = '[Jobs Page] Show Job Status Modal';
 export const CHANGING_JOB_STATUS = '[Jobs Page] Changing Job Status';
 export const CHANGING_JOB_STATUS_SUCCESS = '[Jobs Page] Changing Job Status Success';
 export const CHANGING_JOB_STATUS_ERROR = '[Jobs Page] Changing Job Status Error';
-export const SHOW_DELETE_JOB_MODAL = '[Jobs Page] Show Delete Job Modal';
 export const DELETING_JOB = '[Jobs Page] Deleting Job';
 export const DELETING_JOB_SUCCESS = '[Jobs Page] Deleting Job Success';
 export const DELETING_JOB_ERROR = '[Jobs Page] Deleting Job Error';
-export const CONFIRM_DELETE_PRICING_FROM_GRID = '[Jobs Page] Confirm Delete Pricing From Grid';
-export const DELETE_PRICING_FROM_GRID = '[Jobs Page] Delete Pricing From Grid';
-export const DELETE_PRICING_SUCCESS = '[Jobs Page] Delete Pricing Success';
-export const CANCEL_DELETE_PRICING = '[Jobs Page] Cancel Delete Pricing';
+export const DELETING_PRICING = '[Jobs Page] Deleting Pricing';
+export const DELETING_PRICING_SUCCESS = '[Jobs Page] Deleting Pricing Success';
+export const DELETING_PRICING_ERROR = '[Jobs Page] Deleting Pricing Error';
+export const DELETING_PRICING_MATCH = '[Jobs Page] Deleting Pricing Match';
+export const DELETING_PRICING_MATCH_SUCCESS = '[Jobs Page] Deleting Pricing Match Success';
+export const DELETING_PRICING_MATCH_ERROR = '[Jobs Page] Deleting Pricing Match Error';
 export const LOAD_COMPANY_PAYMARKETS = '[Jobs Page] Load Company PayMarket';
 export const LOAD_COMPANY_PAYMARKETS_SUCCESS = '[Jobs Page] Load Company PayMarket Success';
 export const LOAD_STRUCTURE_GRADES = '[Jobs Page] Load Structure Grades';
@@ -37,155 +37,164 @@ export const TOGGLE_JOBS_PAGE_ERROR = '[Jobs Page] Toggle Jobs Page Error';
 
 export class SetJobsPageId implements Action {
   readonly type = SET_JOBS_PAGE_ID;
-  constructor(public payload: string) {}
+  constructor(public payload: string) { }
 }
 
 export class HandleApiError implements Action {
-    readonly type = HANDLE_API_ERROR;
-    constructor(public payload: string) { }
+  readonly type = HANDLE_API_ERROR;
+  constructor(public payload: string) { }
 }
 
 export class ShowCreateProjectModal implements Action {
-  readonly type = SHOW_CREATE_PROJECT_MODAL;
-  constructor() {}
+  readonly type = RESET_ERRORS_FOR_MODALS;
+  constructor() { }
 }
 
 export class CreatingProject implements Action {
   readonly type = CREATING_PROJECT;
-  constructor(public payload: CreateProjectRequest) {}
+  constructor(public payload: CreateProjectRequest) { }
 }
 
 export class CreatingProjectSuccess implements Action {
   readonly type = CREATING_PROJECT_SUCCESS;
-  constructor() {}
+  constructor() { }
 }
 
 export class CreatingProjectError implements Action {
   readonly type = CREATING_PROJECT_ERROR;
-  constructor(public error: any) {}
+  constructor(public error: any) { }
 }
 
-export class ShowJobStatusModal implements Action {
-  readonly type = SHOW_JOB_STATUS_MODAL;
-  constructor() {}
+export class ResetErrorsForModals implements Action {
+  readonly type = RESET_ERRORS_FOR_MODALS;
+  constructor() { }
 }
 
 export class ChangingJobStatus implements Action {
   readonly type = CHANGING_JOB_STATUS;
-  constructor(public payload: ChangeJobStatusRequest) {}
+  constructor(public payload: ChangeJobStatusRequest) { }
 }
 
 export class ChangingJobStatusSuccess implements Action {
   readonly type = CHANGING_JOB_STATUS_SUCCESS;
-  constructor() {}
+  constructor() { }
 }
 
 export class ChangingJobStatusError implements Action {
   readonly type = CHANGING_JOB_STATUS_ERROR;
-  constructor(public error: any) {}
-}
-
-export class ShowDeleteJobModal implements Action {
-  readonly type = SHOW_DELETE_JOB_MODAL;
-  constructor() {}
+  constructor(public error: any) { }
 }
 
 export class DeletingJob implements Action {
   readonly type = DELETING_JOB;
-  constructor(public payload: number) {}
+  constructor(public payload: number) { }
 }
 
 export class DeletingJobSuccess implements Action {
   readonly type = DELETING_JOB_SUCCESS;
-  constructor() {}
+  constructor() { }
 }
 
 export class DeletingJobError implements Action {
   readonly type = DELETING_JOB_ERROR;
-  constructor(public error: any) {}
+  constructor(public error: any) { }
 }
 
-export class ConfirmDeletePricingFromGrid implements Action {
-  readonly type = CONFIRM_DELETE_PRICING_FROM_GRID;
+export class DeletingPricing implements Action {
+  readonly type = DELETING_PRICING;
   constructor(public payload: DeletePricingRequest) { }
 }
 
-export class DeletePricingFromGrid implements Action {
-  readonly type = DELETE_PRICING_FROM_GRID;
-  constructor(public pageViewId: string, public payload: DeletePricingRequest) {}
-}
-
-export class DeletePricingSuccess implements Action {
-  readonly type = DELETE_PRICING_SUCCESS;
+export class DeletingPricingSuccess implements Action {
+  readonly type = DELETING_PRICING_SUCCESS;
   constructor() { }
 }
 
-export class CancelDeletePricing implements Action {
-  readonly type = CANCEL_DELETE_PRICING;
-  constructor() {}
+export class DeletingPricingError implements Action {
+  readonly type = DELETING_PRICING_ERROR;
+  constructor(public error: any) { }
 }
+
+export class DeletingPricingMatch implements Action {
+  readonly type = DELETING_PRICING_MATCH;
+  constructor(
+    public pricingMatchId: number,
+    public pricingId: number,
+    public pricingToRecalculateFilter: DataViewFilter) { }
+}
+
+export class DeletingPricingMatchSuccess implements Action {
+  readonly type = DELETING_PRICING_MATCH_SUCCESS;
+  constructor() { }
+}
+
+export class DeletingPricingMatchError implements Action {
+  readonly type = DELETING_PRICING_MATCH_ERROR;
+  constructor(public error: any) { }
+}
+
 export class LoadCompanyPayMarkets implements Action {
   readonly type = LOAD_COMPANY_PAYMARKETS;
-  constructor() {}
+  constructor() { }
 }
 export class LoadCompanyPayMarketsSuccess implements Action {
   readonly type = LOAD_COMPANY_PAYMARKETS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 
 export class LoadStructureGrades implements Action {
   readonly type = LOAD_STRUCTURE_GRADES;
-  constructor() {}
+  constructor() { }
 }
 
 export class LoadStructureGradesSuccess implements Action {
   readonly type = LOAD_STRUCTURE_GRADES_SUCCESS;
-  constructor(public payload: string[]) {}
+  constructor(public payload: string[]) { }
 }
 
 export class ChangePricingDetailsView implements Action {
   readonly type = CHANGE_PRICING_DETAILS_VIEW;
-  constructor(public payload: string) {}
+  constructor(public payload: string) { }
 }
 
 export class ExportPricings implements Action {
   readonly type = EXPORT_PRICINGS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 
 export class ExportPricingsSuccess implements Action {
   readonly type = EXPORT_PRICINGS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 
 export class ExportPricingsError implements Action {
   readonly type = EXPORT_PRICINGS_ERROR;
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 
 export class LoadCustomExports implements Action {
   readonly type = LOAD_CUSTOM_EXPORTS;
-  constructor() {}
+  constructor() { }
 }
 
 export class LoadCustomExportsSuccess implements Action {
   readonly type = LOAD_CUSTOM_EXPORTS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 
 export class ToggleJobsPage implements Action {
   readonly type = TOGGLE_JOBS_PAGE;
-  constructor() {}
+  constructor() { }
 }
 
 export class ToggleJobsPageSuccess implements Action {
   readonly type = TOGGLE_JOBS_PAGE_SUCCESS;
-  constructor() {}
+  constructor() { }
 }
 
 export class ToggleJobsPageError implements Action {
   readonly type = TOGGLE_JOBS_PAGE_ERROR;
-  constructor() {}
+  constructor() { }
 }
 
 export type JobsPageActions
@@ -195,19 +204,19 @@ export type JobsPageActions
   | CreatingProject
   | CreatingProjectSuccess
   | CreatingProjectError
-  | ShowJobStatusModal
+  | ResetErrorsForModals
   | ChangingJobStatus
   | ChangingJobStatusSuccess
   | ChangingJobStatusError
-  | ConfirmDeletePricingFromGrid
-  | ShowDeleteJobModal
   | DeletingJob
   | DeletingJobSuccess
   | DeletingJobError
-  | ConfirmDeletePricingFromGrid
-  | DeletePricingFromGrid
-  | DeletePricingSuccess
-  | CancelDeletePricing
+  | DeletingPricing
+  | DeletingPricingSuccess
+  | DeletingPricingError
+  | DeletingPricingMatch
+  | DeletingPricingMatchSuccess
+  | DeletingPricingMatchError
   | LoadCompanyPayMarkets
   | LoadCompanyPayMarketsSuccess
   | LoadStructureGrades

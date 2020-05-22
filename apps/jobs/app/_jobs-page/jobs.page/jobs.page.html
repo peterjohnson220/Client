@@ -221,8 +221,8 @@
   [primaryButtonText]="'Create'"
   [primaryButtonTextSubmitting]="'Creating'"
   [modalId]="'au-modal-jobs-page-create-project'"
-  [submitting]="(creatingProject$ | async).loading"
-  [allowDismiss]="!(creatingProject$ | async).loading"
+  [submitting]="(creatingProject$ | async).saving"
+  [allowDismiss]="!(creatingProject$ | async).saving"
   [isOpen$]="showCreateProjectModal$"
   (onSubmit)="createProject()"
   (onDismiss)="showCreateProjectModal.next(false);">
@@ -238,7 +238,7 @@
     <div>
       &bull; Job:Pay Market Associations: {{selectedJobPayMarketCombos.length}}
     </div>
-    <div *ngIf="(creatingProject$ | async).loadingError">
+    <div *ngIf="(creatingProject$ | async).savingError">
       <br>
       <span class="text-danger">
         <b>We encountered a problem creating your project. Please try again or contact your account representative.</b>
@@ -253,8 +253,8 @@
   [primaryButtonText]="(isActiveJobs() ? 'Inactivate' : 'Activate')"
   [primaryButtonTextSubmitting]="isActiveJobs() ? 'Inactivating' : 'Activating'"
   [modalId]="'au-modal-jobs-page-inactivate-activate-jobs'"
-  [submitting]="(changingJobStatus$ | async).loading"
-  [allowDismiss]="!(changingJobStatus$ | async).loading"
+  [submitting]="(changingJobStatus$ | async).saving"
+  [allowDismiss]="!(changingJobStatus$ | async).saving"
   [isOpen$]="showJobStatusModal$"
   (onSubmit)="changingJobStatus()"
   (onDismiss)="showJobStatusModal.next(false)">
@@ -265,7 +265,7 @@
     <br><br>
     By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}}
     for use throughout the system. Would you like to continue?
-    <div *ngIf="(changingJobStatus$ | async).loadingError">
+    <div *ngIf="(changingJobStatus$ | async).savingError">
       <br>
       <span class="text-danger">
         <b>
@@ -284,8 +284,8 @@
   [primaryButtonClass]="'btn-danger'"
   [primaryButtonTextSubmitting]="'Deleting'"
   [modalId]="'au-modal-jobs-page-delete-a-job'"
-  [submitting]="(deletingJob$ | async).loading"
-  [allowDismiss]="!(deletingJob$ | async).loading"
+  [submitting]="(deletingJob$ | async).saving"
+  [allowDismiss]="!(deletingJob$ | async).saving"
   [isOpen$]="showDeleteJobModal$"
   (onSubmit)="deleteJob()"
   (onDismiss)="showDeleteJobModal.next(false)">
@@ -295,13 +295,13 @@
     <br><br>
     This cannot be undone. Are you sure?
     <div *ngIf="deletingJob$ | async as deletingJob">
-      <div *ngIf="deletingJob.loadingError">
+      <div *ngIf="deletingJob.savingError">
         <br>
         <span class="text-danger">
-          <b *ngIf="deletingJob.loadingErrorResponse.status === 409">
-            {{deletingJob.loadingErrorResponse.error.value}}
+          <b *ngIf="deletingJob.savingErrorResponse.status === 409">
+            {{deletingJob.savingErrorResponse.error.value}}
           </b>
-          <b *ngIf="deletingJob.loadingErrorResponse.status !== 409">
+          <b *ngIf="deletingJob.savingErrorResponse.status !== 409">
             We encountered a problem deleting your job. Please try again or contact your account representative.
           </b>
         </span>

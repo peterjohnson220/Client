@@ -30,6 +30,7 @@ import { SimpleYesNoModalComponent } from './simple-yes-no';
 import { LoadingProgressBarService } from './loading/service';
 import { MultiSelectDropdownComponent, ItemGroupComponent } from './multi-select-dropdown';
 import { MultiSelectTreeViewComponent, TreeViewCheckDirective } from './multi-select-treeview';
+import { JobTitleCodeComponent } from './job-title-code/job-title-code.component';
 
 const components = [
   // Content
@@ -44,6 +45,7 @@ const components = [
   MultiSelectDropdownComponent,
   ItemGroupComponent,
   MultiSelectTreeViewComponent,
+  JobTitleCodeComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective,
