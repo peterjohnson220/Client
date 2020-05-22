@@ -5,11 +5,12 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { PfLinkifyService } from '../../services/pf-linkify-service';
 
-import { CommunityAddPost, CommunityPost, CommunityTopic, CommunityAttachment } from 'libs/models';
+import { CommunityAddPost, CommunityPost, CommunityTopic, CommunityAttachment, CommunityAttachmentUploadStatus } from 'libs/models';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import { CommunityConstants } from '../../models';
+import { attachmentsReadyForUpload } from '../../helpers/model-mapping.helper';
 
 @Component({
   selector: 'pf-community-new-post',
@@ -29,6 +30,7 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
 
   get content() { return this.communityDiscussionForm.get('content'); }
   get topic() { return this.communityDiscussionForm.get('topic'); }
+  get attachments() { return this.communityDiscussionForm.get('attachments'); }
   get isFormValid() { return this.communityDiscussionForm.valid; }
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
@@ -62,12 +64,18 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
     this.communityDiscussionForm = this.formBuilder.group({
       'content':   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.textMaxLength)]],
       'isInternalOnly':  [false],
-      'topic': [null, [ Validators.required ]]
+      'topic': [null, [ Validators.required ]],
+      'attachments': []
     });
 
   }
 
-  submit(uploadedFiles: CommunityAttachment[]) {
+  submit(attachments: CommunityAttachment[]) {
+
+    this.attachments.setValue(attachments);
+    if (!attachmentsReadyForUpload(attachments)) {
+      this.attachments.setErrors({'scanInProgress': true});
+    }
     this.communityDiscussionForm.markAllAsTouched();
     this.content.markAsDirty();
 
@@ -80,7 +88,7 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
       IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value,
       Links: this.pfLinkifyService.getLinks(this.content.value),
       TopicId: this.topic.value,
-      Attachments: uploadedFiles
+      Attachments: attachments.filter((x) => x.Status === CommunityAttachmentUploadStatus.ScanSucceeded)
     };
 
     this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
