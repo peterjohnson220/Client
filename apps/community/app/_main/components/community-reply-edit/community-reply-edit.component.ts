@@ -4,6 +4,8 @@ import { Store } from '@ngrx/store';
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommunityConstants } from '../../models';
 
 @Component({
   selector: 'pf-community-reply-edit',
@@ -14,18 +16,38 @@ export class CommunityReplyEditComponent implements OnInit {
 
   @Input() reply: CommunityReply;
   communityAttachments: CommunityAttachment[];
+  communityReplyEditForm: FormGroup;
+  editMaxLength =  CommunityConstants.DISCUSSION_MAX_TEXT_LENGTH;
 
-  constructor(public store: Store<fromCommunityPostReplyReducer.State>) { }
+  get content() { return this.communityReplyEditForm.get('content'); }
+  get isFormValid() { return this.communityReplyEditForm.valid; }
+
+  constructor(public store: Store<fromCommunityPostReplyReducer.State>, private formBuilder: FormBuilder) {
+
+    this.communityReplyEditForm = this.formBuilder.group({
+      content:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.editMaxLength)]]
+    });
+  }
 
   ngOnInit() {
     this.communityAttachments = this.reply.Attachments;
+
+    setTimeout(() => {
+      this.content.setValue(this.reply.ReplyText);
+    });
   }
 
   savePost() {
-      const updatedReply: CommunityUpdateReply = {
+    this.content.markAsDirty();
+
+    if (!this.communityReplyEditForm.valid) {
+      return;
+    }
+
+    const updatedReply: CommunityUpdateReply = {
         ReplyId: this.reply.Id,
         PostId: this.reply.PostId,
-        ReplyText: this.reply.ReplyText,
+        ReplyText: this.content.value,
         Attachments: this.communityAttachments
       };
 

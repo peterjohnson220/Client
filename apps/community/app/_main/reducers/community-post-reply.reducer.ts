@@ -136,6 +136,7 @@ export function reducer(
       return {...adapter.updateOne(
         {
           id: action.payload.ReplyId, changes: {
+            ReplyText: action.payload.ReplyText,
             Attachments: action.payload.Attachments
           }
         },

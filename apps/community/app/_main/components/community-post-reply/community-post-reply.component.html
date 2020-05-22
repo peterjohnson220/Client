@@ -12,8 +12,7 @@
     [isReply]="true" 
     [isCurrentUserPost]="reply.IsCurrentUserReply" 
     [postId]="reply.PostId" [replyId]="reply.Id" 
-    [hidePostActions]="false" 
-    [hideEdit]="reply.Attachments.length <= 0"></pf-community-post-header>
+    [hidePostActions]="false"></pf-community-post-header>
   <pf-community-post-content class="mt-2 mb-2"
                              [content]="reply.ReplyText"
                              (hashTagClicked)="handleHashTagClicked($event)">

@@ -7,15 +7,21 @@
 }
 
 .container {
-  color: $community-sub-text-color;
-  border: 1px solid;
-  border-radius: 5px;
   height: 30px;
   width: calc(100% + 15px);
-  min-width: 85px;
-  padding: 7px 8px 5px 5px;
+  min-width: 65px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 0px;
+  align-items: baseline;
+  float: left;
   line-height: 0.1rem;
   font-size: 85%;
+  color: $community-sub-text-color;
+}
+
+.container:hover {
+  color: $community-attachment-link-hover-color;
 }
 
 .icon {
