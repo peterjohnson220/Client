@@ -62,7 +62,7 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
     });
 
     connection.on(HubMethodName.ReceiveNotification, (notification: AppNotification<any>) => {
-      this.store.dispatch(new fromAppNotificationsActions.AddNotification(notification));
+        this.store.dispatch(new fromAppNotificationsActions.AddNotification(notification));
     });
   }
 }
