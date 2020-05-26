@@ -459,6 +459,10 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
+                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
