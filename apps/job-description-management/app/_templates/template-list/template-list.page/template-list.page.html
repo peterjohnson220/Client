@@ -1,0 +1,34 @@
+<pf-page-with-title-bar [returnUrl]="'/job-descriptions'">
+  <ng-container page-title>
+    Template Management
+  </ng-container>
+
+  <ng-container page-actions>
+    <button (click)="showAddTemplateModal()" class="btn btn-primary management-action-btn" type="submit">New Template</button>
+  </ng-container>
+
+  <ng-container page-content>
+    <div class="column-scroll-container col-12">
+        <div *ngIf="(templateSaveError$ | async)" class="alert alert-danger" role="alert">
+          {{(templateSaveError$ | async).ErrorMessage}}
+        </div>
+        <div *ngIf="(templateError$ | async)"class="alert alert-danger" role="alert">
+          {{(templateErrorMessage$ | async)}}
+        </div>
+        <div *ngIf="(templateListError$ | async)"class="alert alert-danger" role="alert">
+          {{(templateListErrorMessage$ | async)}}
+        </div>
+        <pf-template-list
+          [templateListItems]="templateListItems$ | async"
+          [loading]="(templateListLoading$ | async) || (templateDeleting$ | async)"
+          (openDeleteModal)="showDeleteModal($event)"
+          (openCopyModal)="showCopyModal($event)">
+        </pf-template-list>
+    </div>
+
+    <pf-new-template-modal (createTemplateComplete)="handleCreateTemplateComplete($event)"></pf-new-template-modal>
+    <pf-copy-template-modal (copyTemplateComplete)="handleCopyTemplateComplete($event)"></pf-copy-template-modal>
+  </ng-container>
+</pf-page-with-title-bar>
+
+<pf-simple-yes-no-modal [opts]="templateDeleteModalOptions" (actionConfirmed)="handleTemplateDelete($event)"></pf-simple-yes-no-modal>

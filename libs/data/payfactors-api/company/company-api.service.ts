@@ -109,4 +109,8 @@ export class CompanyApiService {
   getOrganizationalData() {
     return this.payfactorsApiService.get(`${this.endpoint}/GetOrganizationalData`);
   }
+  
+  getCompanyLogos() {
+      return this.payfactorsApiService.get(this.endpoint + '/Default.GetCompanyLogos');
+  }
 }

@@ -1,0 +1,30 @@
+<div class="inlineEditWrapper" (clickOutside)="close()">
+    <span (click)="edit(value)" [hidden]="editing"
+        (mouseenter)="hoveringEditLink = true" 
+        (mouseleave)="hoveringEditLink = false" 
+        [class.edit-link]="!hoveringEditLink" 
+        [class.edit-link-hover]="hoveringEditLink">{{ value }}
+    </span>
+
+    <form [formGroup]="inlineEditForm" class="inlineEditForm form-inline" (ngSubmit)="onSubmit(value)" [hidden]="!editing">
+        <div class="form-group" [class.has-danger]="!inlineEditForm.controls['inlineEditControl'].pristine && inlineEditForm.controls['inlineEditControl'].invalid">
+
+          <input #inlineEditControl formControlName="inlineEditControl" name="inlineEditControl" ng-trim="true" class="form-control inlineEditor" [(ngModel)]="value">
+       
+        <span>
+          <button type="submit" [disabled]="inlineEditForm.invalid" class="btn btn-primary">
+            <fa-icon icon="check" aria-hidden="true"></fa-icon>
+          </button>
+          <button class="btn btn-default" (click)="cancel(value)">
+            <fa-icon icon="times" aria-hidden="true"></fa-icon>
+          </button>              
+        </span>
+        <span *ngIf="!inlineEditForm.controls['inlineEditControl'].pristine && inlineEditForm.controls['inlineEditControl'].hasError('required')" class="text-danger edit-link-error">Required</span>
+        <span *ngIf="inlineEditForm.controls['inlineEditControl'].hasError('templateNameExists')" class="text-danger edit-link-error">Template Name already in use</span>
+        <span *ngIf="inlineEditForm.controls['inlineEditControl'].hasError('maxlength')" class="text-danger edit-link-error">
+                            Exceeds {{inlineEditForm.controls.inlineEditControl.errors.maxlength.requiredLength}} characters: 
+                            {{inlineEditForm.controls.inlineEditControl.errors.maxlength.actualLength}}
+        </span>
+        </div>
+    </form>
+</div>

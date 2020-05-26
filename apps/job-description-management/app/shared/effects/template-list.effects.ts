@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
-import { TemplateListItemResponse } from 'libs/models/payfactors-api/job-description-template/response';
+import { TemplateListItemResponse, LoadTemplateListByCompanyIdRequest } from 'libs/models/payfactors-api/job-description-template/response';
 
 import * as fromTemplateListActions from '../actions/template-list.actions';
 import { PayfactorsApiModelMapper } from '../helpers';
-import { LoadTemplateListByCompanyIdRequest } from '../models/requests';
 
 @Injectable()
 export class TemplateListEffects {

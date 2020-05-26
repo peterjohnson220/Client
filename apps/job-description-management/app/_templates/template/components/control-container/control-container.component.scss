@@ -1,0 +1,55 @@
+@import 'libs/styles/dragula-drag-drop';
+
+.control-disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.control-type-container {
+    margin-bottom: 25px;
+}
+
+.container-name {
+    font-weight: bold;
+    padding-bottom: 2px;
+    border-bottom: 1px #ddd solid;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.container-name > svg {
+    padding-top: 3px;
+}
+
+.control-type {
+    margin-bottom: 5px;
+    padding: .5rem .35rem .5rem 1rem;
+    height: 33px;
+    background-color:#FFF;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    border-left:8px solid;
+}
+
+.control-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.company-control-name {
+    float:left;
+    width: 80%;
+}
+
+div.control-type.control-drag-handle.gu-transit {
+    margin-bottom: 20px;
+}
+
+.gu-mirror .card-block {
+    display: none;
+}
+
+.control-drag-handle {
+    cursor: move;
+}

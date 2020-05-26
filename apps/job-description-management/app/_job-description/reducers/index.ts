@@ -306,11 +306,6 @@ export const getSavingJobDescription = createSelector(
   fromJobDescriptionReducer.getSavingJobDescription
 );
 
-export const getCompanyAsync = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getCompanyAsync
-);
-
 export const getJobDescriptionChangeHistory = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getJobDescriptionChangeHistory

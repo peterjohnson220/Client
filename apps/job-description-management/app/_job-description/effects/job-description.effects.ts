@@ -77,20 +77,6 @@ export class JobDescriptionEffects {
     );
 
   @Effect()
-  loadCompanyLogo$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionActions.LOAD_COMPANY),
-      switchMap((action: fromJobDescriptionActions.LoadCompany) => {
-        return this.companyApiService.get(action.payload).pipe(
-          map((response: CompanyDto) => {
-            return new fromJobDescriptionActions.LoadCompanySuccess(response);
-          }),
-          catchError(response => of(new fromJobDescriptionActions.LoadCompanyError()))
-        );
-      })
-    );
-
-  @Effect()
   publishJobDescription$ = this.actions$
     .pipe(
       ofType(fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION),
