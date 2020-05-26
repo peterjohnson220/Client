@@ -58,14 +58,6 @@ a {
   border-radius: $community-border-radius;
 }
 
-
-.post-edit-container
-{
-  border-color: $community-tags-hover-color;
-  border-width: 1px;
-  border-style: solid
-}
-
 .clear-both
 {
   clear: both;
@@ -74,6 +66,14 @@ a {
 .overflow-hidden
 {
   overflow:hidden;
+}
+
+.attachment-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
 }
 
 .attachment-content {

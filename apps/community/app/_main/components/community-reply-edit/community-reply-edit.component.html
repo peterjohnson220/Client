@@ -1,4 +1,4 @@
-<div class="p-2 col-12 post-edit-container">
+<div class="p-2 col-12">
   <pf-community-avatar
     [AvatarSource]="reply.UserInfo?.AvatarSource"
     [CompanyLogoSource]="reply.UserInfo?.CompanyLogoSource"
@@ -19,12 +19,14 @@
     </pf-community-post-header>
 
     <div class="clear-both">
-      <pf-community-post-content class="mt-2 mb-2"
-                                 [content]="reply.ReplyText">
-      </pf-community-post-content>
+      <pf-community-text-area
+        [parentForm]="communityReplyEditForm"
+        [maxTextLength]="editMaxLength"
+        minimumHeight="75">
+      </pf-community-text-area>
       
-      <div *ngIf="!!communityAttachments" class="d-flex flex-wrap pt-3">
-        <div class="attachment-content pr-4 py-1" *ngFor="let attachment of communityAttachments">
+      <div *ngIf="!!communityAttachments" class="attachment-container">
+        <div class="attachment-content pr-4" *ngFor="let attachment of communityAttachments">
           <pf-community-attachment-edit 
             [attachment]="attachment" 
             (attachmentRemoved)="onAttachmentRemoved($event)">

@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import 'rxjs/add/observable/of';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { FormBuilder } from '@angular/forms';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
@@ -25,6 +26,7 @@ describe('CommunityReplyEditComponent', () => {
         }),
       ],
       declarations: [ CommunityReplyEditComponent ],
+      providers: [ FormBuilder ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
