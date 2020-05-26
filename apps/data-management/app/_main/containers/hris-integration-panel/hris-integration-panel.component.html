@@ -37,6 +37,7 @@
         <pf-hris-integration-status
           [connectionSummary]="connectionSummary"
           (onCreateNewIntegrationClicked)="createNewIntegration()"
+          (onContinueIntegrationSetupClicked)="continueIntegrationSetup()"
           [transferMethod]="transferMethodType">
         </pf-hris-integration-status>
       </div>
@@ -49,12 +50,16 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12 text-right pt-3" *ngIf="connectionSummary?.canEditMappings">
-        <div class="p-2">
-          <button type="button" class="btn btn-outline-primary" (click)="goToDataMapping()">View Data Mapping</button>
-        </div>
-        <div class="p-2">
-          <button type="button" *ngIf="false" class="btn btn-outline-primary">Edit</button>
+      <div class="col-sm-12 text-right pt-3" *ngIf="connectionSummary?.hasConnection">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-primary px-4" id="dropdownBasic1" ngbDropdownToggle><span class="mr-1">Edit</span></button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
+            <button ngbDropdownItem class="dropdown-item" (click)="goToTransferSchedule()">Transfer Schedule</button>
+            <button ngbDropdownItem class="dropdown-item" (click)="goToDataMapping()">Field Mapping</button>
+            <button ngbDropdownItem class="dropdown-item" (click)="goToEntitySelection()">
+              {{transferMethodType === outboundJdm ? 'JDM View Selection' : 'Entity Selection'}}
+            </button>
+          </div>
         </div>
       </div>
     </div>

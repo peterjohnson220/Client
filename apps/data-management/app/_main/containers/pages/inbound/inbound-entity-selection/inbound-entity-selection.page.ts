@@ -34,6 +34,7 @@ export class InboundEntitySelectionPageComponent implements OnInit, OnDestroy {
   connectionSummary: ConnectionSummary;
   providerSupportedEntities: EntityChoice[] = [];
   previousProviderSupportedEntities: EntityChoice[] = [];
+  workflowComplete: boolean;
 
   currentWorkflowStep$: Observable<TransferDataWorkflowStep>;
   connectionSummary$: Observable<ConnectionSummary>;
@@ -66,6 +67,7 @@ export class InboundEntitySelectionPageComponent implements OnInit, OnDestroy {
 
     this.connectionSummary$.pipe(filter(v => !!v), takeUntil(this.unsubscribe$)).subscribe(s => {
       this.connectionSummary = s;
+      this.workflowComplete = s.hasConnection;
       if (s.connectionID) {
         this.editMode = true;
         this.store.dispatch(new fromProviderListActions.SetSelectedProvider(s.provider));

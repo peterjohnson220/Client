@@ -13,6 +13,7 @@ import {ConnectionSummary} from '../../models';
 export class HrisIntegrationStatusComponent {
   @Input() connectionSummary: ConnectionSummary;
   @Output() onCreateNewIntegrationClicked = new EventEmitter();
+  @Output() onContinueIntegrationSetupClicked = new EventEmitter();
   @Input() transferMethod: TransferMethodTypes;
 
   constructor() {
@@ -20,5 +21,9 @@ export class HrisIntegrationStatusComponent {
 
   createNewIntegration() {
     this.onCreateNewIntegrationClicked.emit();
+  }
+
+  continueIntegrationSetup() {
+    this.onContinueIntegrationSetupClicked.emit();
   }
 }
