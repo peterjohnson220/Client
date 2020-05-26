@@ -24,7 +24,7 @@
         </div>
 
         <div class="list-group-item" *ngIf="selectedCompany">
-          <h3>Public Key Authentication</h3>
+          <h3>Public Key Authentication <span class="optional">(optional: for clients with passwordless authentication)</span></h3>
           <div class="container-fluid">
             <pf-public-key-auth
               [SftpUser]="sftpUser"

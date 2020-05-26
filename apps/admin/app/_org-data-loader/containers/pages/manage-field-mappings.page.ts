@@ -100,6 +100,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   sftpPublicKey$: Observable<File>;
   private sftpUserName: string;
   private sftpPublicKey: File;
+  private publicKeyFileName: string;
   saveConfigurationSuccess$: Observable<boolean>;
   saveConfigurationError$: Observable<boolean>;
   sftpUser$: Observable<SftpUserModel>;
@@ -290,6 +291,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.sftpPublicKey$.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(key => {
+      this.publicKeyFileName = key ? key.name : null;
       this.sftpPublicKey = key;
     });
 
@@ -311,6 +313,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$),
       filter(user => !!user)
     ).subscribe(user => {
+      this.store.dispatch(new fromSftpUserActions.SetSftpUsername(user.UserName));
+      this.publicKeyFileName = user.FileName;
       this.sftpUser = user;
     });
 
@@ -525,9 +529,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   }
 
   isPublicKeyAuthInfoComplete() {
-    if (this.sftpUserName || this.sftpPublicKey) {
-      return ((!isEmpty(this.sftpUserName) && (this.sftpPublicKey || (this.sftpUser && this.sftpUser.FileName.length > 0)))
-        || (this.sftpPublicKey && (!isEmpty(this.sftpUserName) || (this.sftpUser && this.sftpUser.UserName.length > 0))));
+    if (this.sftpUserName || this.publicKeyFileName) {
+      return this.sftpUserName && (this.publicKeyFileName || (!isEmpty(this.sftpUser) && this.sftpUser.FileName));
     } else if (this.sftpUserName === '') {
       return false;
     } else {
