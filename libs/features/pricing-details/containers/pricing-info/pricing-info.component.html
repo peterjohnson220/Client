@@ -95,7 +95,7 @@
     <tr class="table-row" *ngFor="let cut of pricingInfo.Matches">
       <td class="text-center comp-cell">{{cut["MatchWeight"] | number: '1.2-2'}}</td>
       <td class="text-center comp-cell">{{cut["MatchAdjustment"] | number: '1.2-2'}}</td>
-      <td>
+      <td pfEllipsisActive>
         <span *ngIf="cut['JobTitle'] && cut['JobTitle']">
           {{cut["JobTitle"]}} ({{cut["JobCode"]}})
         </span>
