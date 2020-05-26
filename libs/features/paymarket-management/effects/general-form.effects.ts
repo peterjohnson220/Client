@@ -83,12 +83,29 @@ export class GeneralFormEffects {
   @Effect()
   getDefaultPayMarket$ = this.actions$
     .pipe(
-      ofType(fromGeneralFormActions.GET_USER_DEFAULT_SCOPE),
-      switchMap((action: fromGeneralFormActions.GetUserDefaultScope) => {
-        return this.payMarketApiService.getDefaultPayMarketByUser()
+      ofType(fromGeneralFormActions.GET_DEFAULT_USER_PAY_MARKET),
+      switchMap((action: fromGeneralFormActions.GetDefaultUserPayMarket) => {
+        return this.payMarketApiService.getDefaultUserPayMarket()
           .pipe(
-            map((response) => new fromGeneralFormActions.GetUserDefaultScopeSuccess(response)),
-            catchError(() => of(new fromGeneralFormActions.GetUserDefaultScopeError()))
+            map((response) => new fromGeneralFormActions.GetDefaultUserPayMarketSuccess(response)),
+            catchError(() => of(new fromGeneralFormActions.GetDefaultUserPayMarketError()))
+          );
+      })
+    );
+
+  @Effect()
+  getLocations$ = this.actions$
+    .pipe(
+      ofType(fromGeneralFormActions.GET_LOCATIONS),
+      switchMap((action: fromGeneralFormActions.GetLocations) => {
+        return this.marketDataScopeApiService.getGroupedListLocations(action.payload.request)
+          .pipe(
+            map((response) => new fromGeneralFormActions.GetLocationsSuccess({
+              results: response,
+              reset: (!action.payload.request.Query || action.payload.request.Query.length === 0) && !action.payload.request.GeoLabel,
+              locationExpandedKey: action.payload.locationExpandedKey
+            })),
+            catchError(() => of(new fromGeneralFormActions.GetLocationsError()))
           );
       })
     );

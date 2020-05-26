@@ -3,7 +3,7 @@ import { orderBy, cloneDeep } from 'lodash';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
 import { GroupedListItem } from 'libs/models/list';
-import { PayMarket } from 'libs/models';
+import { DefaultUserPayMarket } from 'libs/models';
 
 import * as fromGeneralFormActions from '../actions/general-form.actions';
 import { GeneralFormHelper } from '../helpers';
@@ -13,8 +13,9 @@ export interface State {
   currencies: AsyncStateObj<KendoTypedDropDownItem[]>;
   linkedPayMarkets: AsyncStateObj<KendoTypedDropDownItem[]>;
   sizes: AsyncStateObj<GroupedListItem[]>;
-  defaultPayMarket: AsyncStateObj<PayMarket>;
+  defaultPayMarket: AsyncStateObj<DefaultUserPayMarket>;
   industries: AsyncStateObj<GroupedListItem []>;
+  locations: AsyncStateObj<GroupedListItem[]>;
 }
 
 const initialState: State = {
@@ -22,8 +23,9 @@ const initialState: State = {
   currencies: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   linkedPayMarkets: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   sizes: generateDefaultAsyncStateObj<GroupedListItem[]>([]),
-  defaultPayMarket: generateDefaultAsyncStateObj<PayMarket>(null),
-  industries: generateDefaultAsyncStateObj<GroupedListItem[]>([])
+  defaultPayMarket: generateDefaultAsyncStateObj<DefaultUserPayMarket>(null),
+  industries: generateDefaultAsyncStateObj<GroupedListItem[]>([]),
+  locations: generateDefaultAsyncStateObj<GroupedListItem[]>([])
 };
 
 export function reducer(state = initialState, action: fromGeneralFormActions.Actions): State {
@@ -142,8 +144,8 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
         sizes: sizesClone
       };
     }
-    case fromGeneralFormActions.GET_USER_DEFAULT_SCOPE: {
-      const defaultPayMarketClone: AsyncStateObj<PayMarket> = cloneDeep(state.defaultPayMarket);
+    case fromGeneralFormActions.GET_DEFAULT_USER_PAY_MARKET: {
+      const defaultPayMarketClone: AsyncStateObj<DefaultUserPayMarket> = cloneDeep(state.defaultPayMarket);
       defaultPayMarketClone.loading = true;
       defaultPayMarketClone.loadingError = false;
       return {
@@ -151,8 +153,8 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
         defaultPayMarket: defaultPayMarketClone
       };
     }
-    case fromGeneralFormActions.GET_USER_DEFAULT_SCOPE_SUCCESS: {
-      const defaultPayMarketClone: AsyncStateObj<PayMarket> = cloneDeep(state.defaultPayMarket);
+    case fromGeneralFormActions.GET_DEFAULT_USER_PAY_MARKET_SUCCESS: {
+      const defaultPayMarketClone: AsyncStateObj<DefaultUserPayMarket> = cloneDeep(state.defaultPayMarket);
       defaultPayMarketClone.loading = false;
       defaultPayMarketClone.obj = action.payload;
       return {
@@ -160,8 +162,8 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
         defaultPayMarket: defaultPayMarketClone
       };
     }
-    case fromGeneralFormActions.GET_USER_DEFAULT_SCOPE_ERROR: {
-      const defaultPayMarketClone: AsyncStateObj<PayMarket> = cloneDeep(state.defaultPayMarket);
+    case fromGeneralFormActions.GET_DEFAULT_USER_PAY_MARKET_ERROR: {
+      const defaultPayMarketClone: AsyncStateObj<DefaultUserPayMarket> = cloneDeep(state.defaultPayMarket);
       defaultPayMarketClone.loading = false;
       defaultPayMarketClone.loadingError = true;
       return {
@@ -199,6 +201,40 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
         industries: industriesClone
       };
     }
+    case fromGeneralFormActions.GET_LOCATIONS: {
+      const locationsClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.locations);
+      locationsClone.loading = true;
+      locationsClone.loadingError = false;
+      return {
+        ...state,
+        locations: locationsClone
+      };
+    }
+    case fromGeneralFormActions.GET_LOCATIONS_SUCCESS: {
+      const locationsClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.locations);
+      locationsClone.loading = false;
+      if (action.payload.reset) {
+        locationsClone.obj = [GeneralFormHelper.buildAllItem()];
+        locationsClone.obj = locationsClone.obj.concat(action.payload.results);
+      } else {
+        locationsClone.obj = !!action.payload.locationExpandedKey
+          ? GeneralFormHelper.updateLocations(locationsClone.obj, action.payload.locationExpandedKey, action.payload.results)
+          : action.payload.results;
+      }
+      return {
+        ...state,
+        locations: locationsClone
+      };
+    }
+    case fromGeneralFormActions.GET_LOCATIONS_ERROR: {
+      const locationsClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.locations);
+      locationsClone.loading = false;
+      locationsClone.loadingError = true;
+      return {
+        ...state,
+        locations: locationsClone
+      };
+    }
     default: {
       return state;
     }
@@ -211,3 +247,4 @@ export const getLinkedPayMarkets = (state: State) => state.linkedPayMarkets;
 export const getSizes = (state: State) => state.sizes;
 export const getDefaultPayMarket = (state: State) => state.defaultPayMarket;
 export const getAllIndustries = (state: State) => state.industries;
+export const getLocations = (state: State) => state.locations;

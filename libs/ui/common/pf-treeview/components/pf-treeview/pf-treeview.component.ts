@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 import { Observable, of, BehaviorSubject, Subscription } from 'rxjs';
-import { CheckableSettings, TreeViewComponent } from '@progress/kendo-angular-treeview';
+import { CheckableSettings, TreeViewComponent, TreeItem } from '@progress/kendo-angular-treeview';
 import { Align } from '@progress/kendo-angular-popup';
 import * as cloneDeep from 'lodash.clonedeep';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -39,7 +39,12 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() treeViewContainerHeight = 300;
   @Input() isPopup = true;
   @Input() checkedKeys: string[] = [];
+  @Input() lazyLoad: boolean;
+  @Input() lazyLoadDefaultAppliedItem: GroupedListItem;
+  @Input() loading = false;
   @Output() applyClicked: EventEmitter<string[]> = new EventEmitter();
+  @Output() expandNode: EventEmitter<string> = new EventEmitter();
+  @Output() searchTermChanged: EventEmitter<string> = new EventEmitter();
 
   searchTermSubscription: Subscription;
 
@@ -55,12 +60,16 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   filteredData: GroupedListItem[] = [];
   expandedKeys: string[] = [];
   modes = TreeViewMode;
+  isSearching: boolean;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes.data && changes.data.currentValue) {
-      this.filteredData = this.data;
+      this.filteredData = changes.data.currentValue;
+      if (this.lazyLoad && this.isSearching) {
+        this.handleSearchTermSubscription(this.searchTerm);
+      }
     }
     if (changes && changes.checkedKeys && changes.checkedKeys.currentValue && !!this.data) {
       this.handleApplyClicked();
@@ -69,9 +78,15 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.searchTermSubscription = this.searchTermChanged$.pipe(
-      debounceTime(PfConstants.DEBOUNCE_DELAY),
+      debounceTime(600),
       distinctUntilChanged()
-    ).subscribe(searchTerm => this.handleSearchTermSubscription(searchTerm));
+    ).subscribe(searchTerm => {
+      if (this.lazyLoad) {
+        this.searchTermChanged.emit(searchTerm);
+        return;
+      }
+      this.handleSearchTermSubscription(searchTerm);
+    });
   }
 
   ngOnDestroy(): void {
@@ -79,7 +94,13 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   handleFilterChanged(): void {
+    this.isSearching = true;
     this.searchTermChanged$.next(this.searchTerm);
+  }
+
+  handleClearSearchClicked(): void {
+    this.isSearching = true;
+    this.clearSearchTerm();
   }
 
   clearSearchTerm(): void {
@@ -87,7 +108,11 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
     this.searchTermChanged$.next('');
   }
 
-  handleCloseClicked(): void {
+  handleCloseClicked(event: MouseEvent): void {
+    const targetElement = event.target as HTMLElement;
+    if (targetElement.classList.value.indexOf('k-i-expand') > 0) {
+      return;
+    }
     this.show = false;
     this.noSearchResults = false;
     this.resetSelections();
@@ -100,8 +125,8 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
     this.appliedKeys = cloneDeep(this.checkedKeys);
     this.show = false;
     const appliedValues = this.getAppliedItemsValues();
-    this.appliedNames = appliedValues.map(x => x.text);
-    this.applyClicked.emit(appliedValues.map(x => x.value));
+    this.appliedNames = appliedValues.map(x => x.Name);
+    this.applyClicked.emit(appliedValues.map(x => x.Value));
   }
 
   toggleDropdown(): void {
@@ -118,26 +143,36 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
     this.checkedKeys = [event.dataItem.Value];
   }
 
+  handleExpandNode(event: TreeItem): void {
+    this.isSearching = false;
+    if (this.lazyLoad && event.dataItem.Children.length === 0) {
+      this.expandNode.emit(event.dataItem.Value);
+    }
+  }
+
   // Kendo treeview
   public children = (dataItem: GroupedListItem): Observable<GroupedListItem[]> => of(dataItem.Children);
-  public hasChildren = (dataItem: GroupedListItem): boolean => !!dataItem.Children && dataItem.Children.length > 0;
+  public hasChildren = (dataItem: GroupedListItem): boolean => {
+    return (!!dataItem.Children && dataItem.Children.length > 0) ||
+           (!!dataItem.TotalChildren && dataItem.TotalChildren > 0);
+  }
   public isSelected = (dataItem: GroupedListItem): boolean => {
     return !!this.checkedKeys && !!this.checkedKeys.length && this.checkedKeys.indexOf(dataItem.Value) > -1;
   }
+
   private handleSearchTermSubscription(searchTerm: string): void {
     if (!this.treeViewComponent) {
       return;
     }
     if (searchTerm.length === 0) {
-      this.filteredData = this.data;
-      this.expandedKeys = [];
+      this.resetSearch();
     } else {
-      this.filteredData = this.search(this.data, searchTerm);
+      this.filteredData = this.lazyLoad ? this.data : this.search(this.data, searchTerm);
       this.expandedKeys = this.filteredData.length
         ? this.getExpandedKeys(this.filteredData)
         : [];
+      this.noSearchResults = this.filteredData.length === 0;
     }
-    this.noSearchResults = this.filteredData.length === 0;
     this.changeDetectorRef.detectChanges();
   }
 
@@ -161,11 +196,18 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
     }, []);
   }
 
+  private resetSearch(): void {
+    this.filteredData = this.data;
+    this.expandedKeys = [];
+    this.isSearching = false;
+    this.noSearchResults = false;
+  }
+
   private contains(text: string, term: string): boolean {
     return text.toLowerCase().indexOf(term.toLowerCase()) >= 0;
   }
 
-  private getAppliedItemsValues(): {text: string, value: string}[] {
+  private getAppliedItemsValues(): GroupedListItem[] {
     const selectedNames = [];
     this.data.forEach(item => {
       this.pluckRecursiveValues(item, selectedNames, (contextItem: GroupedListItem): boolean => {
@@ -175,10 +217,10 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
     return selectedNames;
   }
 
-  private pluckRecursiveValues(dataItem: GroupedListItem, valuesList: {text: string, value: string}[],
+  private pluckRecursiveValues(dataItem: GroupedListItem, valuesList: GroupedListItem[],
                                selectionValidFn: (contextItem: GroupedListItem) => boolean) {
     if (selectionValidFn(dataItem)) {
-      valuesList.push({text: dataItem[this.textField], value: dataItem[this.checkByKey]});
+      valuesList.push({Name: dataItem[this.textField], Value: dataItem[this.checkByKey]});
       if (this.compressChildValues) {
         // ignore child values when parent selected and compressing children
         return;
