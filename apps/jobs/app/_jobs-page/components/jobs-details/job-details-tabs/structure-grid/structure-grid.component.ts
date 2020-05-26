@@ -39,6 +39,14 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'vw_CompanyJobsStructureInfo_Structure_Search'
   }];
+  fieldsExcludedFromExport = [
+    'CompanyJob_ID',
+    'CompanyPayMarket_ID',
+    'CompanyStructuresRangeGroup_ID',
+    'CompanyStructuresRanges_ID',
+    'Rate',
+    'RangeTypeId',
+    'Name'];
   gridFieldSubscription: Subscription;
   companyPayMarketSubscription: Subscription;
   payMarketField: ViewField;
@@ -63,6 +71,8 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     });
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
+      AllowExport: true,
+      ExportSourceName: 'Structures',
       ActionBarClassName: 'structure-grid-action-bar ml-0 mt-1'
     };
   }
