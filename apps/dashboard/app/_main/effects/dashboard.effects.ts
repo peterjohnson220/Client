@@ -32,7 +32,7 @@ export class DashboardEffects {
     .pipe(
       ofType(fromDashboardActions.SENDING_IN_APP_MARKETING_EMAIL),
       switchMap((action: fromDashboardActions.SendingInAppMarketingEmail) =>
-        this.dashboardApiService.sendInAppMarketingEmail(action.payload).pipe(
+        this.dashboardApiService.sendInAppMarketingEmail(action.payload.tile, action.payload.action).pipe(
           map((response) => new fromDashboardActions.SendingInAppMarketingEmailSuccess(response)),
           catchError(error => of (new fromDashboardActions.SendingInAppMarketingEmailError(error)))
         )

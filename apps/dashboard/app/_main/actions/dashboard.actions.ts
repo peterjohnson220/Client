@@ -32,7 +32,7 @@ export class LoadingFeaturesError implements Action {
 export class SendingInAppMarketingEmail implements Action {
   readonly type = SENDING_IN_APP_MARKETING_EMAIL;
 
-  constructor(public payload: string) {}
+  constructor(public payload: any) {}
 }
 
 export class SendingInAppMarketingEmailSuccess implements Action {
