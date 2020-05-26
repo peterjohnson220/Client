@@ -1,4 +1,4 @@
-import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
 
 import { SelectionRange } from '@progress/kendo-angular-dateinputs';
 import { IntlService } from '@progress/kendo-angular-intl';
@@ -11,7 +11,7 @@ import { FilterOperator, Between, IsBefore, IsAfter, Is, Field } from '../../../
   templateUrl: './date-range-filter.component.html',
   styleUrls: ['./date-range-filter.component.scss']
 })
-export class DateRangeFilterComponent {
+export class DateRangeFilterComponent implements OnInit {
   @Input() selectedOperator: FilterOperator;
   @Input() startDate: string;
   @Input() endDate: string;
@@ -25,18 +25,19 @@ export class DateRangeFilterComponent {
 
   operators = [ Between, Is, IsAfter, IsBefore ];
   max: Date = new Date();
+  selectedDate: Date;
 
   constructor(private intlService: IntlService) {}
+
+  ngOnInit() {
+    this.selectedDate = this.startDate ? this.intlService.parseDate(this.startDate) : null;
+  }
 
   public get selectionRange(): SelectionRange {
     return {
       start: this.startDate ? this.intlService.parseDate(this.startDate) : null,
       end: this.endDate ? this.intlService.parseDate(this.endDate) : null
     };
-  }
-
-  public get selectedDate(): Date {
-    return (this.startDate ? this.intlService.parseDate(this.startDate) : null);
   }
 
   public get capDate(): boolean {
@@ -56,6 +57,7 @@ export class DateRangeFilterComponent {
     if (isEqualDate(range.start, range.end)) {
       range.end = addDays(range.start, 1);
     }
+    this.selectedDate = range.start;
     const startDate = this.getFormattedDateString(range.start);
     const endDate = this.getFormattedDateString(range.end);
     this.selectedOptionsChanged.emit([startDate, endDate]);
@@ -65,8 +67,9 @@ export class DateRangeFilterComponent {
     if (!value) {
       return;
     }
-    const selectedDate = this.getFormattedDateString(value);
-    this.selectedOptionsChanged.emit([selectedDate]);
+    this.selectedDate = value;
+    const datePickerSelection = this.getFormattedDateString(value);
+    this.selectedOptionsChanged.emit([datePickerSelection]);
   }
 
   private handleToggleDateRangeToDate(previousOperator: FilterOperator, currentOperator: FilterOperator): void {
