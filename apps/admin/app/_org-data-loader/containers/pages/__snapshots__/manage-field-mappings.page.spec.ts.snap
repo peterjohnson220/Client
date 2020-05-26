@@ -41,6 +41,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  publicKeyFileName="null"
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
   selectedCompany={[Function Object]}
@@ -105,7 +106,12 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
         class="list-group-item"
       >
         <h3>
-          Public Key Authentication
+          Public Key Authentication 
+          <span
+            class="optional"
+          >
+            (optional: for clients with passwordless authentication)
+          </span>
         </h3>
         <div
           class="container-fluid"
@@ -242,6 +248,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  publicKeyFileName="null"
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
   selectedCompany={[Function Object]}
@@ -306,7 +313,12 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
         class="list-group-item"
       >
         <h3>
-          Public Key Authentication
+          Public Key Authentication 
+          <span
+            class="optional"
+          >
+            (optional: for clients with passwordless authentication)
+          </span>
         </h3>
         <div
           class="container-fluid"
@@ -443,6 +455,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  publicKeyFileName="null"
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
   selectedCompany={[Function Object]}
@@ -507,7 +520,12 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
         class="list-group-item"
       >
         <h3>
-          Public Key Authentication
+          Public Key Authentication 
+          <span
+            class="optional"
+          >
+            (optional: for clients with passwordless authentication)
+          </span>
         </h3>
         <div
           class="container-fluid"
@@ -644,6 +662,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  publicKeyFileName="null"
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
   selectedCompany="undefined"
@@ -740,6 +759,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  publicKeyFileName="null"
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
   selectedCompany={[Function Object]}
@@ -804,7 +824,12 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
         class="list-group-item"
       >
         <h3>
-          Public Key Authentication
+          Public Key Authentication 
+          <span
+            class="optional"
+          >
+            (optional: for clients with passwordless authentication)
+          </span>
         </h3>
         <div
           class="container-fluid"
