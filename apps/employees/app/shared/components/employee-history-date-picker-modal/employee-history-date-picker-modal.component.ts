@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, OnChanges, SimpleChanges, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Observable} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { IntlService } from '@progress/kendo-angular-intl';
 
 @Component({
@@ -10,7 +10,7 @@ import { IntlService } from '@progress/kendo-angular-intl';
   styleUrls: ['./employee-history-date-picker-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmployeeHistoryDatePickerModalComponent implements OnChanges {
+export class EmployeeHistoryDatePickerModalComponent implements OnChanges, OnInit, OnDestroy {
   @Input() isOpen$: Observable<boolean>;
   @Input() title = 'View Employee History';
   @Input() initialDate = null;
@@ -18,6 +18,7 @@ export class EmployeeHistoryDatePickerModalComponent implements OnChanges {
   @Output() cancelClick = new EventEmitter();
 
   historyForm: FormGroup;
+  openModalSubscription: Subscription;
   public maxHistoryDate: Date = this.getYesterdaysDate();
 
   constructor(private intlService: IntlService,
@@ -32,6 +33,19 @@ export class EmployeeHistoryDatePickerModalComponent implements OnChanges {
       this.historyForm.controls['employeeHistoryDate'].setValue(this.initialDate);
     }
   }
+
+  ngOnInit(): void {
+    this.openModalSubscription = this.isOpen$.subscribe(isOpen => {
+      if (isOpen && this.initialDate) {
+        this.historyForm.controls['employeeHistoryDate'].setValue(this.initialDate);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.openModalSubscription.unsubscribe();
+  }
+
   handleCancelClicked() {
     this.cancelClick.emit();
   }

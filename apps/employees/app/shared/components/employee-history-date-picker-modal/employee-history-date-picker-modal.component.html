@@ -14,10 +14,10 @@
       <div class="text-center w-100">
         <kendo-datepicker
           formControlName="employeeHistoryDate"
-          [ngClass]="{ 'is-invalid': (!f.employeeHistoryDate.valid && f.employeeHistoryDate.touched)}"
+          [class.is-invalid]="(!f.employeeHistoryDate.valid && f.employeeHistoryDate.touched)"
           [max]="maxHistoryDate">
         </kendo-datepicker>
-        <span *ngIf="f.employeeHistoryDate.errors?.maxError" class="invalid-feedback">Historical date must be in the past</span>
+        <span *ngIf="f.employeeHistoryDate.errors?.maxError" class="invalid-feedback d-block">Historical date must be in the past</span>
       </div>
     </form>
   </ng-container>
