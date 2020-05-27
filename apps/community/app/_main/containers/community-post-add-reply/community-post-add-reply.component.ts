@@ -90,16 +90,14 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
 
     this.getNotificationSubscription = this.getNotification$.subscribe(notifications => {
       notifications.forEach(notification => {
-        if (notification.Level !== 'Success') {
+        if (!notification) {
           return;
         }
         const attachment = this.communityAttachments.find((x) => x.Id === notification.NotificationId);
-        if (attachment) {
-          if (notification.Payload.Result['findings'].length === 0) {
-            this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanSuccess(this.attachmentModalId, attachment.Id));
-          } else {
-            this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanFailure(this.attachmentModalId, attachment.Id));
-          }
+        if (attachment && notification.Level === 'Success') {
+          this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanSuccess(this.attachmentModalId, attachment.Id));
+        } else if (attachment) {
+          this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanFailure(this.attachmentModalId, attachment.Id));
         }
       });
     });

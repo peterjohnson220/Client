@@ -45,7 +45,7 @@
             <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == communityAttachmentUploadStatus.UploadFailed">
               <i>Sorry, there was an error uploading your file. Please choose a different file.</i>
             </span>
-            <span class="file-status upload-failed" *ngIf="getUploadStatus(files[0]) == communityAttachmentUploadStatus.ScanFailed">
+            <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == communityAttachmentUploadStatus.ScanFailed">
               <i>Sorry, there is an error with our upload service. Please try again later.</i>
             </span>
           </div>
