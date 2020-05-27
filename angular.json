@@ -74,8 +74,8 @@
                   "with": "apps/notifications/../../environments/environment.staging.ts"
                 },
                 {
-                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
-                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
+                  "replace": "apps/notifications/../../assets/js/new-relic.js",
+                  "with": "apps/notifications/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
