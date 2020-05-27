@@ -7,6 +7,8 @@ import { FeatureCollection, Point } from 'geojson';
 import * as mapboxgl from 'mapbox-gl';
 
 import { ExchangeMapSummary } from 'libs/models/peer';
+import * as fromRootReducer from 'libs/state/state';
+import { UserContext } from 'libs/models/security';
 
 import * as fromMapActions from '../../actions/map.actions';
 import * as fromPeerMapReducer from '../../reducers';
@@ -24,6 +26,7 @@ export class MapComponent implements OnInit {
   cursorStyle: string;
   satelliteStyleEnabled = false;
   map: mapboxgl.Map;
+  mbAccessToken: string;
 
   peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
@@ -40,6 +43,7 @@ export class MapComponent implements OnInit {
   peerMapApplyingScope$: Observable<boolean>;
   peerMapAutoZooming$: Observable<boolean>;
   loadingEditDataCut$: Observable<boolean>;
+  userContext$: Observable<UserContext>;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
     this.peerMapSummary$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapSummary));
@@ -57,6 +61,7 @@ export class MapComponent implements OnInit {
     this.peerMapApplyingScope$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapApplyingScope));
     this.peerMapAutoZooming$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapAutoZooming));
     this.loadingEditDataCut$ = this.store.pipe(select(fromPeerMapReducer.getLoadingEditDataCut));
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 
   get satelliteStyleEnabledText(): string {
@@ -172,5 +177,8 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new fromMapActions.LoadZoomPrecisionDictionary());
+    this.userContext$.subscribe(uc => {
+      this.mbAccessToken = uc.MapboxAccessToken;
+    });
   }
 }

@@ -18,7 +18,6 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
-  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Observable]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -37,6 +36,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  userContextSubscription={[Function Subscriber]}
   workflowContext={[Function Object]}
   workflowContext$={[Function Store]}
   workflowContextSubscription={[Function Subscriber]}
@@ -1069,7 +1069,6 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
-  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -1088,6 +1087,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  userContextSubscription={[Function Subscriber]}
   workflowContext={[Function Object]}
   workflowContext$={[Function Store]}
   workflowContextSubscription={[Function Subscriber]}
@@ -2120,7 +2120,6 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
-  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -2139,6 +2138,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  userContextSubscription={[Function Subscriber]}
   workflowContext={[Function Object]}
   workflowContext$={[Function Store]}
   workflowContextSubscription={[Function Subscriber]}
@@ -3171,7 +3171,6 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
-  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Observable]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -3190,6 +3189,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  userContextSubscription={[Function Subscriber]}
   workflowContext={[Function Object]}
   workflowContext$={[Function Store]}
   workflowContextSubscription={[Function Subscriber]}
@@ -4222,7 +4222,6 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
-  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Observable]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -4241,6 +4240,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  userContextSubscription={[Function Subscriber]}
   workflowContext={[Function Object]}
   workflowContext$={[Function Store]}
   workflowContextSubscription={[Function Subscriber]}
@@ -5273,7 +5273,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
-  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -5292,6 +5291,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  userContextSubscription={[Function Subscriber]}
   workflowContext={[Function Object]}
   workflowContext$={[Function Store]}
   workflowContextSubscription={[Function Subscriber]}
@@ -6324,7 +6324,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
-  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -6343,6 +6342,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  userContextSubscription={[Function Subscriber]}
   workflowContext={[Function Object]}
   workflowContext$={[Function Store]}
   workflowContextSubscription={[Function Subscriber]}
@@ -7375,7 +7375,6 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
-  mbAccessToken={[Function String]}
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
@@ -7394,6 +7393,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  userContextSubscription={[Function Subscriber]}
   workflowContext={[Function Object]}
   workflowContext$={[Function Store]}
   workflowContextSubscription={[Function Subscriber]}

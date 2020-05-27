@@ -60,6 +60,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   salaryTrendSubscription: Subscription;
   filterContextSubscription: Subscription;
   workflowContextSubscription: Subscription;
+  private userContextSubscription: Subscription;
 
   jobData: JobData;
   lastJobData: JobData;
@@ -76,7 +77,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   isPeerQuickPriceType = false;
   filterContextHasFilters = false;
 
-  private mbAccessToken = environment.mapboxAccessToken;
+  private mbAccessToken: string;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
@@ -114,6 +115,10 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
       this.isPeerQuickPriceType = wfc.quickPriceType === QuickPriceType.PEER;
       this.onWorkflowContextChanges(wfc);
     });
+
+    this.userContextSubscription = this.userContext$.subscribe(uc => {
+      this.mbAccessToken = uc.MapboxAccessToken;
+    });
   }
 
   ngOnDestroy() {
@@ -123,6 +128,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.salaryTrendSubscription.unsubscribe();
     this.filterContextSubscription.unsubscribe();
     this.workflowContextSubscription.unsubscribe();
+    this.userContextSubscription.unsubscribe();
   }
 
   getWeightingType(type: string): string {

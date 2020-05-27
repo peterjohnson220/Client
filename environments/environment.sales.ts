@@ -10,7 +10,6 @@ export const environment = {
   userVoiceLoginRedirect: '/payfactors/UserVoice/RedirectFromLogin',
   userVoiceForumId: 268517,
   ngAppRoot: '/ng/',
-  mapboxAccessToken: 'pk.eyJ1IjoicGZtYXBzIiwiYSI6ImNrOXg4ZWRvZjAwdzUzdHBtN3FlNzM2NjIifQ.VlodpfDhMKjG42DF4eBH6A',
   tableauPayfactorsReportingServer: 'https://pfdreports.payfactors.com/',
   defaultHomePage: '/client/dashboard',
   firstTimeLoginPage: '/client/auth/first-login',
