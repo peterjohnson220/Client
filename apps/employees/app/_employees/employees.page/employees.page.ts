@@ -54,6 +54,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   filterTemplates = {};
   colTemplates = {};
   actionBarConfig: ActionBarConfig;
+  fieldsExcludedFromExport = ['CompanyEmployee_ID', 'HiddenRate'];
 
   constructor(
     private rootStore: Store<fromRootState.State>,
