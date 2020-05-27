@@ -13,9 +13,4 @@ export class PricingLegacyApiService {
     return this.payfactorsApiService.get<PricingInfo>(`Pricing/GetPricingInfo?pricingID=${pricingId}`,
       {}, this.payfactorsApiService.extractValueFromOdata, BaseUrlLocation.FrontEnd);
   }
-
-  getCalculatePricing(companyId: number): Observable<PricingInfo> {
-    return this.payfactorsApiService.post<PricingInfo>(`PricingsLoad/CalculatePricings`,
-      { companyId: companyId }, this.payfactorsApiService.extractValueFromOdata, BaseUrlLocation.FrontEnd);
-  }
 }
