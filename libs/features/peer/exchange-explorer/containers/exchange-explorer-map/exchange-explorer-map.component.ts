@@ -9,6 +9,8 @@ import { LngLatBounds } from 'mapbox-gl';
 
 import { ExchangeMapSummary } from 'libs/models/peer';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromRootReducer from 'libs/state/state';
+import { UserContext } from 'libs/models/security';
 
 import * as fromMapActions from '../../actions/map.actions';
 import * as fromExchangeExplorerReducer from '../../reducers';
@@ -28,6 +30,7 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
   peerInitialMapBounds: number[];
   peerInitialMapZoomLevel: number;
   initialMoveEnd = true;
+  mbAccessToken: string;
 
   peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
@@ -42,9 +45,11 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
   peerMapAutoZooming$: Observable<boolean>;
   peerMapInitialZoomComplete$: Observable<boolean>;
   peerMapLoaded$: Observable<boolean>;
+  userContext$: Observable<UserContext>;
   peerMapSummarySub: Subscription;
   peerInitialMapBoundsSub: Subscription;
   peerInitialMapZoomLevelSub: Subscription;
+  userContextSub: Subscription;
 
   constructor(private store: Store<fromExchangeExplorerReducer.State>) {
     this.peerMapSummary$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapSummary));
@@ -60,6 +65,7 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
     this.peerMapAutoZooming$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapAutoZooming));
     this.peerMapInitialZoomComplete$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapInitialZoomComplete));
     this.peerMapLoaded$ = this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapLoaded));
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 
   get satelliteStyleEnabledText(): string {
@@ -154,11 +160,15 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
     this.peerMapSummarySub = this.peerMapSummary$.subscribe(pms => this.peerMapSummary = pms);
     this.peerInitialMapBoundsSub = this.peerInitialMapBounds$.subscribe(ib => this.peerInitialMapBounds = ib);
     this.peerInitialMapZoomLevelSub = this.peerMapInitialZoomLevel$.subscribe(iz => this.peerInitialMapZoomLevel = iz);
+    this.userContextSub = this.userContext$.subscribe(uc => {
+      this.mbAccessToken = uc.MapboxAccessToken;
+    });
   }
 
   ngOnDestroy() {
     this.peerMapSummarySub.unsubscribe();
     this.peerInitialMapBoundsSub.unsubscribe();
     this.peerInitialMapZoomLevelSub.unsubscribe();
+    this.userContextSub.unsubscribe();
   }
 }

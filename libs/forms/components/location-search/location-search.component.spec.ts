@@ -1,17 +1,25 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import spyOn = jest.spyOn;
 
 import { LocationSearchComponent } from './location-search.component';
 import { MapboxApiService } from '../../../data/mapbox-api/mapbox-api.service';
+import * as fromRootState from '../../../state/state';
 
 describe('LocationSearchComponent', () => {
   let fixture: ComponentFixture<LocationSearchComponent>;
   let instance: LocationSearchComponent;
+  let store: Store<fromRootState.State>;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers
+        })
+      ],
       declarations: [
         LocationSearchComponent
       ],
@@ -23,7 +31,7 @@ describe('LocationSearchComponent', () => {
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
-
+    store = TestBed.get(Store);
     fixture = TestBed.createComponent(LocationSearchComponent);
     instance = fixture.componentInstance;
   });
