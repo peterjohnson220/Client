@@ -44,9 +44,8 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     'CompanyPayMarket_ID',
     'CompanyStructuresRangeGroup_ID',
     'CompanyStructuresRanges_ID',
-    'Rate',
     'RangeTypeId',
-    'Name'];
+    'Structure_Search'];
   gridFieldSubscription: Subscription;
   companyPayMarketSubscription: Subscription;
   payMarketField: ViewField;
