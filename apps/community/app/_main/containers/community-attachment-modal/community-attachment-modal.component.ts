@@ -149,7 +149,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
     if (attachment) {
       return attachment.Status;
     }
-    return false;
+    return CommunityAttachmentUploadStatus.NotStarted;
   }
 
   getStatusClass(file: FileInfo) {
