@@ -5,6 +5,8 @@ export const OPEN_COMMUNITY_ATTACHMENTS_MODAL = '[Community/Attachments] Open Co
 export const CLOSE_COMMUNITY_ATTACHMENTS_MODAL = '[Community/Attachments] Close Community Attachments Modal';
 export const SAVE_COMMUNITY_ATTACHMENTS_STATE = '[Community/Attachments] Save Community Attachments State';
 export const CLEAR_COMMUNITY_ATTACHMENTS_STATE = '[Community/Attachments] Clear Community Attachments State';
+export const ATTACHMENT_SCAN_SUCCESS = '[Community/Attachments] Attachment Scan Sucess';
+export const ATTACHMENT_SCAN_FAILURE = '[Community/Attachments] Attachment Scan Failure';
 
 export class OpenCommunityAttachmentsModal implements Action {
   readonly type = OPEN_COMMUNITY_ATTACHMENTS_MODAL;
@@ -26,8 +28,20 @@ export class ClearCommunityAttachmentsState implements Action {
   constructor(public payload: string) {}
 }
 
+export class AttachmentScanSuccess implements Action {
+  readonly type = ATTACHMENT_SCAN_SUCCESS;
+  constructor(public attachmentModalId: string, public attachmentId: string) {}
+}
+
+export class AttachmentScanFailure implements Action {
+  readonly type = ATTACHMENT_SCAN_FAILURE;
+  constructor(public attachmentModalId: string, public attachmentId: string) {}
+}
+
 export type Actions
   = OpenCommunityAttachmentsModal
   | CloseCommunityAttachmentsModal
   | SaveCommunityAttachmentsState
-  | ClearCommunityAttachmentsState;
+  | ClearCommunityAttachmentsState
+  | AttachmentScanSuccess
+  | AttachmentScanFailure;

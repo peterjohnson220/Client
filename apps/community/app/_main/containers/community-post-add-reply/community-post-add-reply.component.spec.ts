@@ -65,7 +65,7 @@ describe('CommunityPostAddReplyComponent', () => {
     const newReply: any = {
       PostId: '99',
       ReplyText: 'hello world',
-      Attachments: undefined,
+      Attachments: [],
       Links: undefined
     };
     const expectedAction = new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply);

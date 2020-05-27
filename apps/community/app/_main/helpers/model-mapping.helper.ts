@@ -14,6 +14,7 @@ import { CommunityIndustry } from 'libs/models/community/community-industry.mode
 import { FileInfo } from '@progress/kendo-angular-upload';
 import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
 import { AttachmentFileType } from '../models/attachment-file-type.model';
+import { CommunityAttachmentUploadStatus } from 'libs/models';
 
 export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: PagingOptions): PagingOptions {
   return {
@@ -109,10 +110,12 @@ export function populatePostReplies(post: any, addReplies: string[], filterRepli
 
 export function mapFileInfoToCommunityAddAttachment(file: FileInfo, cloudFileName: string): CommunityAttachment {
   return {
-      Name: file.name,
-      Size: file.size,
-      FileType: mapFileExtensionToFileType(file.extension),
-      CloudFileName: cloudFileName
+    Id: file.uid,
+    Name: file.name,
+    Size: file.size,
+    FileType: mapFileExtensionToFileType(file.extension),
+    CloudFileName: cloudFileName,
+    Status: CommunityAttachmentUploadStatus.NotStarted
   };
 }
 
@@ -141,5 +144,11 @@ export function formatBytes(bytes, decimals = 2) {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+export function attachmentsReadyForUpload(communityAttachments: CommunityAttachment[]) {
+  return communityAttachments && !communityAttachments.find((x) => x.Status === CommunityAttachmentUploadStatus.UploadInProgress
+    || x.Status === CommunityAttachmentUploadStatus.ScanInProgress
+    || x.Status === CommunityAttachmentUploadStatus.NotStarted);
 }
 

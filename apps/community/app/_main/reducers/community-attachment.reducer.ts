@@ -1,7 +1,7 @@
 import * as communityAttachmentActions from '../actions/community-attachment.actions';
 import * as cloneDeep from 'lodash.clonedeep';
 import { EntityAdapter, createEntityAdapter, EntityState } from '@ngrx/entity';
-import { CommunityAttachmentModalState } from 'libs/models';
+import { CommunityAttachmentModalState, CommunityAttachmentUploadStatus } from 'libs/models';
 
 // Create entity adapter
 export const adapter: EntityAdapter<CommunityAttachmentModalState> = createEntityAdapter<CommunityAttachmentModalState>({
@@ -51,6 +51,26 @@ export function reducer(state = initialState, action: communityAttachmentActions
       }
       return {
         ...adapter.removeOne(action.payload, state),
+        currentAttachmentModalState: entity
+      };
+    }
+    case communityAttachmentActions.ATTACHMENT_SCAN_SUCCESS: {
+      const entity = cloneDeep(state.entities[action.attachmentModalId]);
+      const attachement = entity.Attachments.find((x) => x.Id === action.attachmentId);
+      if (attachement) { attachement.Status = CommunityAttachmentUploadStatus.ScanSucceeded; }
+
+      return {
+        ...adapter.upsertOne(entity, state),
+        currentAttachmentModalState: entity
+      };
+    }
+    case communityAttachmentActions.ATTACHMENT_SCAN_FAILURE: {
+      const entity = cloneDeep(state.entities[action.attachmentModalId]);
+      const attachement = entity.Attachments.find((x) => x.Id === action.attachmentId);
+      if (attachement) { attachement.Status = CommunityAttachmentUploadStatus.ScanFailed; }
+
+      return {
+        ...adapter.upsertOne(entity, state),
         currentAttachmentModalState: entity
       };
     }
