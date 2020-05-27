@@ -94,16 +94,19 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
           return;
         }
         const attachment = this.communityAttachments.find((x) => x.Id === notification.NotificationId);
-        if (attachment && notification.Level === 'Success') {
+        if (!attachment) {
+            // TODO: Remove FORT-385
+            console.log(`Got notification: ${notification.NotificationId}; No attachments matched.`);
+          return;
+        }
+        if (notification.Level === 'Success' && attachment.Status !== CommunityAttachmentUploadStatus.ScanSucceeded) {
           this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanSuccess(this.attachmentModalId, attachment.Id));
             // TODO: Remove FORT-385
             console.log(`Got notification: ${notification.NotificationId}; Dispatched AttachmentScanSuccess(${this.attachmentModalId}, ${attachment.Id})`);
-          return;
-        } else if (attachment) {
+        } else if (notification.Level === 'Error' && attachment.Status !== CommunityAttachmentUploadStatus.ScanFailed) {
           this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanFailure(this.attachmentModalId, attachment.Id));
             // TODO: Remove FORT-385
             console.log(`Got notification: ${notification.NotificationId}; Dispatched AttachmentScanFailure(${this.attachmentModalId}, ${attachment.Id})`);
-          return;
         }
       });
     });
