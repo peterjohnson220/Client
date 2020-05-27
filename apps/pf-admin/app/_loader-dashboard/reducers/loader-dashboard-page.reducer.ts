@@ -14,7 +14,12 @@ export interface State {
 }
 
 export const initialState: State = {
-  GridSearchPayload: null,
+  GridSearchPayload: {
+    Company_ID: null,
+    StartDate: null,
+    EndDate: null,
+    ExcludeTestCompanies: false
+  },
   CompositeLoadsObj: generateDefaultAsyncStateObj<CompositeDataLoadViewResponse[]>([]),
   FilePackagesObj: generateDefaultAsyncStateObj<CompanyFilePackagesResponse[]>([])
 };
@@ -46,6 +51,14 @@ export function reducer(state = initialState, action: fromLoaderDashboardPageAct
     }
     case fromLoaderDashboardPageActions.GET_FILE_PACKAGE_GRID_DATA_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'FilePackagesObj');
+    }
+    case fromLoaderDashboardPageActions.TOGGLE_SHOW_HIDE_TEST_COMPANIES: {
+      const searchPayload = { ...state.GridSearchPayload };
+      searchPayload.ExcludeTestCompanies = !searchPayload.ExcludeTestCompanies;
+      return {
+        ...state,
+        GridSearchPayload: searchPayload
+      };
     }
     case fromLoaderDashboardPageActions.UPDATE_GRID_SEARCH_PAYLOAD: {
       const searchPayload = { ...state.GridSearchPayload };
