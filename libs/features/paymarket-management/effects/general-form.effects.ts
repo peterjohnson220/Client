@@ -5,9 +5,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { CountryApiService, CurrencyApiService, PayMarketApiService, MarketDataScopeApiService } from 'libs/data/payfactors-api';
+import { CountryApiService, CurrencyApiService, PayMarketApiService } from 'libs/data/payfactors-api';
 import { KendoTypedDropDownItemHelper } from 'libs/models/kendo';
-import { autoGenerateListGroupValues } from 'libs/models/list';
 
 import * as fromGeneralFormActions from '../actions/general-form.actions';
 
@@ -68,19 +67,6 @@ export class GeneralFormEffects {
     );
 
   @Effect()
-  getSizes$ = this.actions$
-    .pipe(
-      ofType(fromGeneralFormActions.GET_SIZES),
-      switchMap((action: fromGeneralFormActions.GetSizes) => {
-        return this.marketDataScopeApiService.getAllScopeSizes()
-          .pipe(
-            map((response) => new fromGeneralFormActions.GetSizesSuccess(autoGenerateListGroupValues(response)),
-            catchError(() => of(new fromGeneralFormActions.GetSizesError()))
-          ));
-      })
-    );
-
-  @Effect()
   getDefaultPayMarket$ = this.actions$
     .pipe(
       ofType(fromGeneralFormActions.GET_DEFAULT_USER_PAY_MARKET),
@@ -93,41 +79,10 @@ export class GeneralFormEffects {
       })
     );
 
-  @Effect()
-  getLocations$ = this.actions$
-    .pipe(
-      ofType(fromGeneralFormActions.GET_LOCATIONS),
-      switchMap((action: fromGeneralFormActions.GetLocations) => {
-        return this.marketDataScopeApiService.getGroupedListLocations(action.payload.request)
-          .pipe(
-            map((response) => new fromGeneralFormActions.GetLocationsSuccess({
-              results: response,
-              reset: (!action.payload.request.Query || action.payload.request.Query.length === 0) && !action.payload.request.GeoLabel,
-              locationExpandedKey: action.payload.locationExpandedKey
-            })),
-            catchError(() => of(new fromGeneralFormActions.GetLocationsError()))
-          );
-      })
-    );
-
-  @Effect()
-  getAllIndustries$ = this.actions$
-    .pipe(
-      ofType(fromGeneralFormActions.GET_ALL_INDUSTRIES),
-      switchMap((action: fromGeneralFormActions.GetAllIndustries) => {
-        return this.marketDataScopeApiService.getAllIndustries()
-          .pipe(
-            map((response) => new fromGeneralFormActions.GetAllIndustriesSuccess(response)),
-            catchError(() => of(new fromGeneralFormActions.GetAllIndustriesError()))
-          );
-      })
-    );
-
   constructor(
     private actions$: Actions,
     private countryApiService: CountryApiService,
     private currencyApiService: CurrencyApiService,
-    private payMarketApiService: PayMarketApiService,
-    private marketDataScopeApiService: MarketDataScopeApiService
+    private payMarketApiService: PayMarketApiService
   ) {}
 }

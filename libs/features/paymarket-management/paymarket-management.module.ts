@@ -12,9 +12,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
-import { PayMarketModalComponent, GeneralFormComponent } from './containers';
+import { PayMarketModalComponent, GeneralFormComponent, MarketDataScopeComponent } from './containers';
 import { reducers } from './reducers';
-import { GeneralFormEffects } from './effects';
+import { GeneralFormEffects, MarketDataScopeEffects } from './effects';
 
 @NgModule({
   imports: [
@@ -24,7 +24,8 @@ import { GeneralFormEffects } from './effects';
     // 3rd Party
     StoreModule.forFeature('feature_paymarket_management', reducers),
     EffectsModule.forFeature([
-      GeneralFormEffects
+      GeneralFormEffects,
+      MarketDataScopeEffects
     ]),
     DropDownsModule,
     NumericTextBoxModule,
@@ -38,7 +39,8 @@ import { GeneralFormEffects } from './effects';
   declarations: [
     // Containers
     PayMarketModalComponent,
-    GeneralFormComponent
+    GeneralFormComponent,
+    MarketDataScopeComponent
   ],
   exports: [ PayMarketModalComponent ]
 })

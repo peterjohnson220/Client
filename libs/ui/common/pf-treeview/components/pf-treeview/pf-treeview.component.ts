@@ -51,6 +51,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('treeView', { static: false }) public treeViewComponent: TreeViewComponent;
   appliedKeys: string[] = [];
   appliedNames: string[] = [];
+  appliedValues: GroupedListItem[] = [];
   show = false;
   anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'left', vertical: 'top' };
@@ -72,7 +73,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
     if (changes && changes.checkedKeys && changes.checkedKeys.currentValue && !!this.data) {
-      this.handleApplyClicked();
+      this.handleCheckedKeysChanged();
     }
   }
 
@@ -122,11 +123,8 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   handleApplyClicked(): void {
-    this.appliedKeys = cloneDeep(this.checkedKeys);
-    this.show = false;
-    const appliedValues = this.getAppliedItemsValues();
-    this.appliedNames = appliedValues.map(x => x.Name);
-    this.applyClicked.emit(appliedValues.map(x => x.Value));
+    this.handleCheckedKeysChanged();
+    this.applyClicked.emit(this.appliedValues.map(x => x.Value));
   }
 
   toggleDropdown(): void {
@@ -158,6 +156,13 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   }
   public isSelected = (dataItem: GroupedListItem): boolean => {
     return !!this.checkedKeys && !!this.checkedKeys.length && this.checkedKeys.indexOf(dataItem.Value) > -1;
+  }
+
+  private handleCheckedKeysChanged(): void {
+    this.appliedKeys = cloneDeep(this.checkedKeys);
+    this.show = false;
+    this.appliedValues = this.getAppliedItemsValues();
+    this.appliedNames = this.appliedValues.map(x => x.Name);
   }
 
   private handleSearchTermSubscription(searchTerm: string): void {

@@ -14,15 +14,15 @@ export class GeneralFormHelper {
     };
   }
 
-  static buildAllScopeLocation(): Scope {
+  static buildAllScope(label: string): Scope {
     return {
-      Label: 'Location',
+      Label: label,
       Value: 'All'
     };
   }
 
   static buildDefaultLocation(defaultPayMarket: DefaultUserPayMarket): GroupedListItem {
-    if (!defaultPayMarket.GeoLabel || !defaultPayMarket.GeoValue) {
+    if (!defaultPayMarket.GeoLabel || !defaultPayMarket.GeoValue || defaultPayMarket.GeoValue === 'All') {
       return this.buildAllItem();
     }
     switch (defaultPayMarket.GeoLabel) {
@@ -58,11 +58,11 @@ export class GeneralFormHelper {
 
   static buildScopeLocation(locationValue: string): Scope {
     if (!locationValue || !locationValue.length) {
-      return this.buildAllScopeLocation();
+      return this.buildAllScope('Location');
     }
     const parsedLocationValues = locationValue.split(':');
     if (parsedLocationValues.length === 0) {
-      return this.buildAllScopeLocation();
+      return this.buildAllScope('Location');
     }
     const geoLabel = parsedLocationValues[0];
     switch (geoLabel) {
@@ -91,7 +91,7 @@ export class GeneralFormHelper {
         };
       }
       default: {
-        return this.buildAllScopeLocation();
+        return this.buildAllScope('Location');
       }
     }
   }
