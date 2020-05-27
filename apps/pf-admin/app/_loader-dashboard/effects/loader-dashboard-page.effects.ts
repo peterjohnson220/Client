@@ -74,6 +74,20 @@ export class LoaderDashboardPageEffects {
   );
 
   @Effect()
+  toggleShowHideTestCompanies$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromLoaderDashboardPageActions.ToggleShowHideTestCompanies>(fromLoaderDashboardPageActions.TOGGLE_SHOW_HIDE_TEST_COMPANIES),
+      withLatestFrom(
+        this.dashStore.pipe(select(fromLoaderDashboardReducer.getGridSearchPayload)),
+        (action, searchPayload) => {
+          return {action, searchPayload};
+        }),
+      switchMap((obj) => {
+        return [new fromLoaderDashboardPageActions.GetAllGridData(obj.searchPayload)];
+      })
+    );
+
+  @Effect()
   updateGridSearchPayload$: Observable<Action> = this.actions$
     .pipe(
       ofType<fromLoaderDashboardPageActions.UpdateGridSearchPayload>(fromLoaderDashboardPageActions.UPDATE_GRID_SEARCH_PAYLOAD),
