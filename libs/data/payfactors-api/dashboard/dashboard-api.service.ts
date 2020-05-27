@@ -49,10 +49,11 @@ export class DashboardApiService {
     return this.payfactorsApiService.get<boolean>(`${this.endpoint}.IsJdmEnabled`);
   }
 
-  sendInAppMarketingEmail(tileName: string): Observable<any> {
+  sendInAppMarketingEmail(tileName: string, action: string): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.SendInAppMarketingEmail`,
       {
-        tileType: tileName
+        tileType: tileName,
+        userAction: action
       });
   }
 
