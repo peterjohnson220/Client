@@ -1,6 +1,7 @@
 export interface DefaultUserPayMarket {
   IndustryLabel: string;
   IndustryValue: string;
+  IndustryGroup: string;
   SizeLabel: string;
   SizeValue: string;
   CountryCode: string;

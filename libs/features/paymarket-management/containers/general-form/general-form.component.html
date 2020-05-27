@@ -44,7 +44,8 @@
         data-qa-id="chk-paymarket-form-showInLinkedStructure"
         id="paymarket-form-showInLinkedStructure"
         formControlName="ShowInLinkedStructure">
-      <label class="k-checkbox-label" for="paymarket-form-showInLinkedStructure" [class.text-muted]="!hasLinkedPayMarket">Include in parent pay market structure</label>
+      <label class="k-checkbox-label" for="paymarket-form-showInLinkedStructure"
+        [class.text-muted]="!hasLinkedPayMarket">Include in parent pay market structure</label>
     </div>
   </div>
   <div class="form-group row">
@@ -109,60 +110,8 @@
   </div>
   <ng-container>
     <br><hr>
-    <div class="form-group scope-container d-flex">
-      <div class="scope-column">
-        <pf-treeview #industryComponent
-          [mode]="treeViewModes.Single"
-          [data]="industries"
-          [label]="'Industry'"
-          [placeholder]="'All'"
-          class="filter"
-          [filterable]="true"
-          [searchPlaceholder]="'Search for an industry...'"
-          [anchorWidth]="223"
-          [treeViewContainerHeight]="143"
-          [isPopup]="false"
-          [checkedKeys]="industryCheckedKeys"
-          (applyClicked)="handleSelectedIndustryChanged($event)">
-        </pf-treeview>
-      </div>
-      <div class="scope-column">
-        <pf-treeview #sizeComponent
-          [mode]="treeViewModes.Single"
-          [data]="filteredSizes"
-          [label]="'Size'"
-          [placeholder]="'All'"
-          class="filter"
-          [filterable]="true"
-          [searchPlaceholder]="'Search for a size...'"
-          [anchorWidth]="223"
-          [treeViewContainerHeight]="143"
-          [isPopup]="false"
-          [checkedKeys]="sizeCheckedKeys"
-          (applyClicked)="handleSelectedSizesChanged($event)">
-        </pf-treeview>
-      </div>
-      <div class="scope-column">
-        <pf-treeview #locationComponent
-          [mode]="treeViewModes.Single"
-          [data]="(locations$ | async)?.obj"
-          [label]="'Location'"
-          [placeholder]="'All'"
-          class="filter"
-          [filterable]="true"
-          [searchPlaceholder]="'Search for a location...'"
-          [anchorWidth]="250"
-          [treeViewContainerHeight]="143"
-          [isPopup]="false"
-          [checkedKeys]="locationCheckedKeys"
-          [lazyLoad]="true"
-          [lazyLoadDefaultAppliedItem]="selectedLocation"
-          [loading]="(locations$ | async)?.loading"
-          (applyClicked)="handleSelectedLocationChanged($event)"
-          (expandNode)="handleExpandLocationNode($event)"
-          (searchTermChanged)="handleLocationSearchChanged($event)">
-        </pf-treeview>
-      </div>
+    <div class="form-group scope-container">
+      <pf-market-data-scope #mdScopeComponent></pf-market-data-scope>
     </div>
   </ng-container>
 </form>
