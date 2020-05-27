@@ -3,13 +3,13 @@
   <ng-container *ngFor="let option of filter.Options">
     <div [class]="'option alt-color au-chk-'+filter.CssClassName"
          [title]="option.Name"
-         [class.selected]="option.Selected"
+         [class.selected]="(option.Selected || hasSubAggregationSelections(option)) && !(option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField)"
          [class.disabled]="optionDisabled(option)"
          [class.locked]="filter.Locked"
          (click)="onOptionCheck($event, option, filter)"
          [ngClass]="{'child-selected': option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField}">
       <div class="option-check">
-        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" [pfIndeterminateDirective]="option.SubAggregationCount > 0 && option.SelectionsCount > 0"/> {{option.Name}}
+        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" [pfIndeterminateDirective]="hasSubAggregationSelections(option)"/> {{option.Name}}
       </div>
 
       <div *ngIf="!filter.OptionCountDisabled" class="option-count">
