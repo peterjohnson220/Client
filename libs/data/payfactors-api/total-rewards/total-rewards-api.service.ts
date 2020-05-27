@@ -19,8 +19,8 @@ export class TotalRewardsApiService {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetStatements`, params, MappingHelper.mapListAreaResultToAggregateGridDataResult);
   }
 
-  getStatementFromTemplateId(templateId: string): Observable<Statement> {
-    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementFromTemplateId`, {params: { templateId }}, this.mapStatement);
+  createStatementFromTemplateId(templateId: string): Observable<string> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/CreateStatementFromTemplateId?templateId=${templateId}`, this.mapStatement);
   }
 
   getStatementFromId(statementId: string): Observable<Statement> {

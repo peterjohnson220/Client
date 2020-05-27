@@ -2,15 +2,17 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import {AsyncStateObjHelper} from '../../../../../../libs/core/helpers';
 
 import * as fromTemplateSelectorActions from '../actions/template-selector.actions';
-import {Template} from '../../../shared/models';
+import {Template, Statement} from '../../../shared/models';
 
 
 export interface State {
   templates: AsyncStateObj<Template[]>;
+  createdStatement: AsyncStateObj<Statement>;
 }
 
 export const initialState: State = {
-  templates: generateDefaultAsyncStateObj<Template[]>(null)
+  templates: generateDefaultAsyncStateObj<Template[]>(null),
+  createdStatement: generateDefaultAsyncStateObj<Statement>(null)
 };
 
 export function reducer(state = initialState, action: fromTemplateSelectorActions.TemplateSelectorActions): State {
@@ -23,6 +25,15 @@ export function reducer(state = initialState, action: fromTemplateSelectorAction
     }
     case fromTemplateSelectorActions.LOAD_TEMPLATES_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'templates');
+    }
+    case fromTemplateSelectorActions.CREATE_STATEMENT: {
+      return AsyncStateObjHelper.loading(state, 'createdStatement');
+    }
+    case fromTemplateSelectorActions.CREATE_STATEMENT_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'createdStatement', action.payload);
+    }
+    case fromTemplateSelectorActions.CREATE_STATEMENT_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'createdStatement');
     }
     default: {
       return state;

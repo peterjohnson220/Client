@@ -1,11 +1,8 @@
 <pf-page-with-title-bar [returnUrl]="'/'">
   <ng-container page-title>Total Rewards Statement</ng-container>
   <ng-container page-content>
-    <pf-async-container [loading]="(statementLoading$ | async) || (cloningFromTemplate$ | async)"
-                        [loadingError]="(statementLoadingError$ | async) ||
-                                        (cloningFromTemplateError$ | async) ||
-                                        (statementSavingError$ | async) ||
-                                        (settingsSavingError$ | async)"
+    <pf-async-container [loading]="(statementLoading$ | async)"
+                        [loadingError]="(statementLoadingError$ | async) || (statementSavingError$ | async) || (settingsSavingError$ | async)"
                         (reload)="handleStatementReload()">
       <div class="canvas mx-auto pb-1 mt-2">
         <div class="header-row-wrapper position-fixed">
@@ -30,7 +27,7 @@
                 <span class="spinner two position-absolute d-inline-block mt-1"></span>
                 <span class="spinner three position-absolute d-inline-block mt-1"></span>
               </div>
-              <span *ngIf="!(statementSaving$ | async) && !(settingsSaving$ | async) && (statement?.AuditRecord?.EditedDateTime || statement?.AuditRecord?.CreatedDateTime)"
+              <span *ngIf="!(statementSaving$ | async) && !(settingsSaving$ | async)"
                 class="saved font-italic"
                 [title]="'Statement last saved on ' + ((statement?.AuditRecord?.EditedDateTime || statement?.AuditRecord?.CreatedDateTime) | date: 'MMM dd yyyy hh:mm:ss a')">
                 Saved {{ (statement?.AuditRecord?.EditedDateTime || statement?.AuditRecord?.CreatedDateTime) | TimeElapsedPipe }}

@@ -32,31 +32,6 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
   switch (action.type) {
-    case fromEditStatementActions.CLONE_STATEMENT_FROM_TEMPLATE: {
-      return {
-        ...state,
-        cloningFromTemplate: true,
-        cloningFromTemplateSuccess: false,
-        cloningFromTemplateError: false
-      };
-    }
-    case fromEditStatementActions.CLONE_STATEMENT_FROM_TEMPLATE_SUCCESS: {
-      return {
-        ...state,
-        cloningFromTemplate: false,
-        cloningFromTemplateSuccess: true,
-        cloningFromTemplateError: false,
-        statement: generateDefaultAsyncStateObj(action.payload)
-      };
-    }
-    case fromEditStatementActions.CLONE_STATEMENT_FROM_TEMPLATE_ERROR: {
-      return {
-        ...state,
-        cloningFromTemplate: false,
-        cloningFromTemplateSuccess: false,
-        cloningFromTemplateError: true
-      };
-    }
     case fromEditStatementActions.LOAD_STATEMENT: {
       const localState = cloneDeep(state);
       localState.cloningFromTemplate = false;

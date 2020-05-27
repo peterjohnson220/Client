@@ -7,6 +7,7 @@ import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 import * as fromStatementListReducers from '../reducers';
 import * as fromStatementListPageActions from '../actions/statement-list.page.actions';
 import * as fromStatementGridActions from '../actions/statement-grid.actions';
+import * as fromTemplateSelectorActions from '../actions/template-selector.actions';
 
 @Component({
   selector: 'pf-total-rewards-statement-list-page',
@@ -24,8 +25,7 @@ export class StatementListPageComponent implements OnInit {
   @ViewChild('tabs')
   tabs: NgbTabset;
 
-  constructor(private store: Store<fromStatementListReducers.State>) {
-  }
+  constructor(private store: Store<fromStatementListReducers.State>) { }
 
   ngOnInit(): void {
     this.focusedTab$ = this.store.pipe(select(fromStatementListReducers.getFocusedTab));
@@ -48,5 +48,9 @@ export class StatementListPageComponent implements OnInit {
 
   onCreateNewClicked(): void {
     this.tabs.select('Templates');
+  }
+
+  onTemplateSelected(templateId: string) {
+    this.store.dispatch(new fromTemplateSelectorActions.CreateStatement({ templateId }));
   }
 }

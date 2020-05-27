@@ -1,7 +1,6 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
-import {AsyncStateObj} from 'libs/models/state';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
@@ -78,3 +77,10 @@ export const getTemplatesLoadingError = createSelector(
   selectStatementListPageState,
   (state: StatementListState) => state.templateSelector.templates.loadingError
 );
+
+export const getCreatingStatement = createSelector(
+  selectStatementListPageState,
+  (state: StatementListState) => state.templateSelector.createdStatement.loading);
+export const getCreatingStatementError = createSelector(
+  selectStatementListPageState,
+  (state: StatementListState) => state.templateSelector.createdStatement.loadingError);

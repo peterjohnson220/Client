@@ -37,7 +37,7 @@
 
           <ngb-tab id="Templates" title="Templates">
             <ng-template ngbTabContent>
-              <pf-total-rewards-template-card-selector [autoLoad]="true">
+              <pf-total-rewards-template-card-selector [autoLoad]="true" (onSelectClick)="onTemplateSelected($event)">
               </pf-total-rewards-template-card-selector>
             </ng-template>
           </ngb-tab>

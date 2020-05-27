@@ -17,16 +17,6 @@ import { SaveStatement, SaveSettings } from '../actions';
 export class StatementEditPageEffects {
 
   @Effect()
-  getStatementFromTemplate$: Observable<Action> =
-    this.actions$.pipe(
-      ofType(fromStatementEditActions.CLONE_STATEMENT_FROM_TEMPLATE),
-      switchMap((action: fromStatementEditActions.CloneStatementFromTemplate) =>
-        this.totalRewardsApiService.getStatementFromTemplateId(action.templateId).pipe(
-          map((response: Statement) => new fromStatementEditActions.CloneStatementFromTemplateSuccess(response)),
-          catchError(error => of(new fromStatementEditActions.CloneStatementFromTemplateError(error)))))
-    );
-
-  @Effect()
   getStatement$: Observable<Action> =
     this.actions$.pipe(
       ofType(fromStatementEditActions.LOAD_STATEMENT),
