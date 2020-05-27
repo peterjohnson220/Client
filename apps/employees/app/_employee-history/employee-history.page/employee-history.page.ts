@@ -35,7 +35,7 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
   colTemplates = {};
   actionBarConfig: ActionBarConfig;
   loadDateFilter: PfDataGridFilter[] = [];
-
+  fieldsExcludedFromExport = ['CompanyEmployeeHistory_ID', 'HiddenRate'];
   showEmployeeHistoryModal = new BehaviorSubject<boolean>(false);
   showEmployeeHistoryModal$ = this.showEmployeeHistoryModal.asObservable();
   routeSubscription: Subscription;
