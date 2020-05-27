@@ -13,6 +13,7 @@ export const SAVE_STATEMENT = '[Total Rewards/Edit Statement] Save Statement';
 export const SAVE_STATEMENT_SUCCESS = '[Total Rewards/Edit Statement] Save Statement Success';
 export const SAVE_STATEMENT_ERROR = '[Total Rewards/Edit Statement] Save Statement Error';
 export const TOGGLE_STATEMENT_EDIT_MODE = '[Total Rewards/Edit Statement] Toggle Statement Edit Mode';
+export const UPDATE_EFFECTIVE_DATE = '[Total Rewards/Edit Statement] Update Effective Date';
 
 export class CloneStatementFromTemplate implements Action {
   readonly type = CLONE_STATEMENT_FROM_TEMPLATE;
@@ -68,6 +69,11 @@ export class ToggleStatementEditMode implements Action {
   constructor(public payload: StatementModeEnum) {}
 }
 
+export class UpdateEffectiveDate implements Action {
+  readonly type = UPDATE_EFFECTIVE_DATE;
+  constructor(public payload: { effectiveDate: Date }) {}
+}
+
 export type StatementActions =
   CloneStatementFromTemplate |
   CloneStatementFromTemplateSuccess |
@@ -79,4 +85,5 @@ export type StatementActions =
   ResetStatement |
   SaveStatement |
   SaveStatementSuccess |
-  SaveStatementError;
+  SaveStatementError |
+  UpdateEffectiveDate;

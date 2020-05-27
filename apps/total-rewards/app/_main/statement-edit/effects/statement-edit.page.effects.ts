@@ -48,7 +48,8 @@ export class StatementEditPageEffects {
         fromStatementEditActions.REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.ADD_CALCULATION_CONTROL_COMPENSATION_FIELD,
         fromStatementEditActions.UPDATE_RICH_TEXT_CONTROL_CONTENT,
-        fromStatementEditActions.SAVE_IMAGE_CONTROL_IMAGE
+        fromStatementEditActions.SAVE_IMAGE_CONTROL_IMAGE,
+        fromStatementEditActions.UPDATE_EFFECTIVE_DATE
       ),
       mapTo(new SaveStatement())
     );

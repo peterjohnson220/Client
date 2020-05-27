@@ -16,6 +16,7 @@ export interface Statement {
   AuditRecord: AuditRecord;
   Pages: Page[];
   Settings: Settings;
+  EffectiveDate: Date;
 }
 
 export function generateMockStatement(): Statement {
@@ -28,6 +29,7 @@ export function generateMockStatement(): Statement {
     CreatedDate: new Date('December 17, 2019 03:24:00'),
     AuditRecord: generateMockAuditRecord(),
     Settings: generateMockSettings(),
+    EffectiveDate: null,
     Pages: [{
       Sections: [{
         Columns: [{

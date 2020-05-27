@@ -11,6 +11,7 @@ import 'hammerjs';
 import { QuillModule } from 'ngx-quill';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -22,6 +23,7 @@ import { TrsChartControlComponent } from './components/trs-chart-control/trs-cha
 import { TrsSummaryControlComponent } from './components/trs-summary-control/trs-summary-control.component';
 import { TrsRichTextControlComponent } from './components/trs-rich-text-control/trs-rich-text-control.component';
 import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
+import { EffectiveDateComponent } from './components/effective-date/effective-date.component';
 
 @NgModule({
   imports: [
@@ -38,6 +40,7 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
     NgbDropdownModule,
     UploadModule,
     NgbTooltipModule,
+    DatePickerModule,
 
     // Payfactors
     PfCommonUIModule,
@@ -52,6 +55,7 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
     TrsSummaryControlComponent,
     TrsRichTextControlComponent,
     CompensationFieldPipe,
+    EffectiveDateComponent,
   ],
   exports: [
     StringEditorComponent,
