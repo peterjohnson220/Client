@@ -148,7 +148,6 @@ export class JobsPageEffects {
     switchMap((data) =>
       this.pricingApiService.deletePricingMatch(data.action.pricingMatchId)
         .pipe(
-          concatMap(() => this.pricingLegacyApiService.getCalculatePricing(data.userContext.CompanyId)),
           concatMap(() => this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
             data.baseEntity.Id,
             data.fields,
