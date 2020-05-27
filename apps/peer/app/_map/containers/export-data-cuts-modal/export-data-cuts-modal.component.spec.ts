@@ -123,7 +123,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
 
   it('should dispatch a ExportDataCuts action when the handleFormSubmit event is triggered', () => {
     const action = new fromExportDataCutsActions.ExportDataCuts({selectedRate: RateType.Annual, scopes: [], exportCurrentMap: false,
-                                                                        selectedWeightingType: WeightType.Inc});
+                                                                        selectedWeightingType: WeightType.Inc, selectedCurrency: 'USD'});
 
     instance.selections$ = of([1, 2]);
 

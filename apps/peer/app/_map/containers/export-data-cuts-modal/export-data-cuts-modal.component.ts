@@ -8,7 +8,7 @@ import { DataStateChangeEvent, GridDataResult, RowArgs, SelectAllCheckboxState }
 import { State } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { FeatureAreaConstants, GenericMenuItem, GridTypeEnum, UiPersistenceSettingConstants } from 'libs/models/common';
+import { Currency, FeatureAreaConstants, GenericMenuItem, GridTypeEnum, UiPersistenceSettingConstants } from 'libs/models/common';
 import { PfValidators } from 'libs/forms/validators';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { Rates, RateType, Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
@@ -41,6 +41,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   allIds$: Observable<number[]>;
   persistedRateForExport$: Observable<string>;
   persistedWeightingTypeForExport$: Observable<string>;
+  currencies$: Observable<Currency[]>;
 
   exportDataCutsModalOpenSubscription: Subscription;
   persistedRateForExportSubscription: Subscription;
@@ -50,6 +51,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   gridStateSubscription: Subscription;
   selectionsSubscription: Subscription;
   allIdsSubscription: Subscription;
+  currenciesSubscription: Subscription;
 
   gridDataResult: GridDataResult;
   gridState: State;
@@ -61,6 +63,9 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   allIds: number[] = [];
   rates: KendoDropDownItem[] = Rates;
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
+  selectedCurrency: Currency = { CurrencyCode: 'USD', CurrencyName: 'United States Dollar', CurrencyDisplay: 'USD - United States Dollar'};
+  currencies: Currency[];
+  filteredCurrencies: Currency[];
   scopesToExportOptions: GenericMenuItem[] = [];
   selectedScopesToExport: GenericMenuItem[] = [];
   selectedWeightingType: KendoDropDownItem = { Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc };
@@ -82,6 +87,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.selections$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelections));
     this.selectAllState$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelectAllState));
     this.allIds$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsAllIds));
+    this.currencies$ = this.store.pipe(select(fromPeerMapReducer.getExportDataCutsModalCurrencies));
     this.persistedRateForExport$ = this.settingsService.selectUiPersistenceSetting(
       FeatureAreaConstants.PeerManageScopes,
       UiPersistenceSettingConstants.ExchangeDataCutsExportRateSelection,
@@ -106,6 +112,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   }
   get selectionsControl() { return this.exportDataCutsForm.get('selections'); }
   get selectedRateControl() { return this.exportDataCutsForm.get('selectedRate'); }
+  get selectedCurrencyControl() { return this.exportDataCutsForm.get('selectedCurrency'); }
   get pageEntityIds(): number[] {
     const gridDataResult = this.gridDataResult;
     return !!gridDataResult ? this.gridDataResult.data.map(item => item.ExchangeJobToCompanyJobId) : [];
@@ -116,6 +123,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.exportDataCutsForm = this.fb.group({
       'selections': [[], [PfValidators.selectionRequired]],
       'selectedRate': [this.selectedRate],
+      'selectedCurrency': [this.selectedCurrency],
       'scopes': [[], [PfValidators.selectionRequired]]
     });
   }
@@ -127,7 +135,8 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
         selectedRate: this.selectedRate.Value,
         scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentMapViewOptionValue).map(s => s.Value),
         exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue),
-        selectedWeightingType: this.selectedWeightingType.Value
+        selectedWeightingType: this.selectedWeightingType.Value,
+        selectedCurrency: this.selectedCurrency.CurrencyCode
       };
     const action = this.isFromNewMap ?
       new fromExportDataCutsActions.ExportDataCutsNew(payload) :
@@ -200,8 +209,18 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExportDataCutsActions.SelectWeightingType({newWeightingType: item.Value}));
   }
 
+  handleCurrencySelectionChange(item: Currency) {
+    this.selectedCurrency = item;
+  }
+
+  handleFilter(value) {
+    this.filteredCurrencies = this.currencies.filter((s) =>
+      s.CurrencyDisplay.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+  }
+
   // Lifecycle
   ngOnInit() {
+    this.store.dispatch(new fromExportDataCutsActions.LoadCurrencies());
     this.persistedRateForExportSubscription = this.persistedRateForExport$.subscribe(rate => {
       if (!!rate) {
         this.selectedRate = Rates.find(r => r.Value === rate);
@@ -215,6 +234,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.exportDataCutsModalOpenSubscription = this.exportDataCutsModalOpen$.subscribe(isOpen => {
       if (isOpen) {
         this.selectedRateControl.setValue(this.selectedRate);
+        this.selectedCurrencyControl.setValue(this.selectedCurrency);
         this.loadExchangeCompanyJobs();
         this.buildScopeSelectorOptions();
       }
@@ -238,9 +258,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
       }
       this.store.dispatch(new fromGridActions.SetSelectAllState(GridTypeEnum.ExchangeCompanyJob, this.pageEntityIds));
     });
-
     this.allIdsSubscription = this.allIds$.subscribe(ids => {
       this.allIds = ids;
+    });
+    this.currenciesSubscription = this.currencies$.subscribe(c => {
+      this.currencies = c;
+      this.filteredCurrencies = c;
     });
   }
 
@@ -253,6 +276,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.allIdsSubscription.unsubscribe();
     this.persistedWeightingTypeForExportSubscription.unsubscribe();
     this.persistedRateForExportSubscription.unsubscribe();
+    this.currenciesSubscription.unsubscribe();
   }
 
   // Helper methods
