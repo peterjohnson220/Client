@@ -57,7 +57,12 @@ export function reducer(state = initialState, action: communityAttachmentActions
     case communityAttachmentActions.ATTACHMENT_SCAN_SUCCESS: {
       const entity = cloneDeep(state.entities[action.attachmentModalId]);
       const attachement = entity.Attachments.find((x) => x.Id === action.attachmentId);
-      if (attachement) { attachement.Status = CommunityAttachmentUploadStatus.ScanSucceeded; }
+      if (attachement) {
+          // TODO: Remove FORT-385
+          console.log(`Reducer ATTACHMENT_SCAN_SUCCESS found attachment: ${attachement.CloudFileName},
+          old status: ${attachement.Status}, new status: ${CommunityAttachmentUploadStatus.ScanSucceeded}`);
+        attachement.Status = CommunityAttachmentUploadStatus.ScanSucceeded;
+      }
       return {
         ...adapter.upsertOne(entity, state),
         currentAttachmentModalState: entity
@@ -66,7 +71,11 @@ export function reducer(state = initialState, action: communityAttachmentActions
     case communityAttachmentActions.ATTACHMENT_SCAN_FAILURE: {
       const entity = cloneDeep(state.entities[action.attachmentModalId]);
       const attachement = entity.Attachments.find((x) => x.Id === action.attachmentId);
-      if (attachement) { attachement.Status = CommunityAttachmentUploadStatus.ScanFailed; }
+      if (attachement) {
+          // TODO: Remove FORT-385
+          console.log(`Reducer ATTACHMENT_SCAN_FAILURE found attachment: ${attachement.CloudFileName},
+          old status: ${attachement.Status}, new status: ${CommunityAttachmentUploadStatus.ScanFailed}`);
+        attachement.Status = CommunityAttachmentUploadStatus.ScanFailed; }
       return {
         ...adapter.upsertOne(entity, state),
         currentAttachmentModalState: entity
