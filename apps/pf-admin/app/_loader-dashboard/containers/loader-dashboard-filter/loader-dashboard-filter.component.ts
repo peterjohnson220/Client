@@ -21,6 +21,8 @@ import {GridSearchPayload} from '../../models';
 export class LoaderDashboardFilterComponent implements OnInit, OnDestroy {
   static DEFAULT_START_DAYS = 14;
   private unsubscribe$ = new Subject<boolean>();
+  private excludeTestCompanies = false;
+  testCompaniesToggleText = 'Hide Test Companies';
 
   range = { start: this.getDefaultStartDate(), end: this.getDefaultEndDate() };
 
@@ -35,6 +37,7 @@ export class LoaderDashboardFilterComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromLoaderDashboardPageActions.Init(this.generateDefaultSearchPayload()));
       }
     });
+    this.refresh();
   }
 
   ngOnDestroy(): void {
@@ -59,7 +62,8 @@ export class LoaderDashboardFilterComponent implements OnInit, OnDestroy {
   generateDefaultSearchPayload(): GridSearchPayload {
     return {
       StartDate: this.getDefaultStartDate().getTime(),
-      EndDate: this.getDefaultEndDate().getTime()
+      EndDate: this.getDefaultEndDate().getTime(),
+      ExcludeTestCompanies: false
     };
   }
 
@@ -68,6 +72,12 @@ export class LoaderDashboardFilterComponent implements OnInit, OnDestroy {
       key: 'Company_ID',
       value: v
     }]));
+  }
+
+  toggleTestCompanies() {
+    this.excludeTestCompanies = !this.excludeTestCompanies;
+    this.testCompaniesToggleText = this.excludeTestCompanies ? 'Show Test Companies' : 'Hide Test Companies';
+    this.store.dispatch(new fromLoaderDashboardPageActions.ToggleShowHideTestCompanies());
   }
 
   changeDate($event: Date, type: string) {
