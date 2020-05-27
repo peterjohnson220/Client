@@ -47,7 +47,7 @@ export class GeneralFormHelper {
       case 'City': {
         return {
           Name: defaultPayMarket.City,
-          Value: `Metro:${defaultPayMarket.Region}:${defaultPayMarket.State}:${defaultPayMarket.Metro}:${defaultPayMarket.City}`
+          Value: `City:${defaultPayMarket.Region}:${defaultPayMarket.State}:${defaultPayMarket.Metro}:${defaultPayMarket.City}`
         };
       }
       default: {
