@@ -96,9 +96,13 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
         const attachment = this.communityAttachments.find((x) => x.Id === notification.NotificationId);
         if (attachment && notification.Level === 'Success') {
           this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanSuccess(this.attachmentModalId, attachment.Id));
+            // TODO: Remove FORT-385
+            console.log(`Got notification: ${notification.NotificationId}; Dispatched AttachmentScanSuccess(${this.attachmentModalId}, ${attachment.Id})`);
           return;
         } else if (attachment) {
           this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanFailure(this.attachmentModalId, attachment.Id));
+            // TODO: Remove FORT-385
+            console.log(`Got notification: ${notification.NotificationId}; Dispatched AttachmentScanFailure(${this.attachmentModalId}, ${attachment.Id})`);
           return;
         }
       });
