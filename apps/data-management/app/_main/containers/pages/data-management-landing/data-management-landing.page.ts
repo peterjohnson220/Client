@@ -12,6 +12,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
 import * as fromOutboundJdmActions from '../../../actions/outbound-jdm.actions';
+import * as fromTransferScheduleActions from '../../../actions/transfer-schedule.actions';
 import { ConnectionSummary } from '../../../models';
 import { TransferDataWorkflowStep } from '../../../data';
 import * as fromDataManagementMainReducer from '../../../reducers';
@@ -30,19 +31,25 @@ export class DataManagementLandingPageComponent implements OnInit {
   // TODO:  Turn this into an AsyncStateObj
   connectionSummary$: Observable<ConnectionSummary>;
   outboundConnectionSummary$: Observable<AsyncStateObj<ConnectionSummary>>;
+  transferScheduleSummaryLoading$: Observable<boolean>;
+  transferScheduleSummaryError$: Observable<boolean>;
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
+
 
   constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
     this.outboundConnectionSummary$ = this.store.select(fromDataManagementMainReducer.getJdmConnectionSummaryObj);
     this.connectionSummary$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionSummary);
     this.loading$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoading);
     this.loadingError$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoadingError);
+    this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
+    this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
   }
 
   ngOnInit() {
     this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());
     this.store.dispatch(new fromOutboundJdmActions.LoadConnectionSummary());
+    this.store.dispatch(new fromTransferScheduleActions.GetTransferSummary());
   }
 
   goToMappingPage($event: TransferMethodTypes) {
