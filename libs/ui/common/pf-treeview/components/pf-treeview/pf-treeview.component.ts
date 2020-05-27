@@ -111,7 +111,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
 
   handleCloseClicked(event: MouseEvent): void {
     const targetElement = event.target as HTMLElement;
-    if (targetElement.classList.value.indexOf('k-i-expand') > 0) {
+    if (!!targetElement.classList && targetElement.classList.contains('k-i-expand')) {
       return;
     }
     this.show = false;
