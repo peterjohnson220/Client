@@ -102,6 +102,9 @@ export class CommunityAttachmentModalComponent implements OnInit {
     const fileToUpload = mapFileInfoToCommunityAddAttachment(file, cloudFileName);
     fileToUpload.Status = CommunityAttachmentUploadStatus.UploadInProgress;
     this.uploadedFiles.push(fileToUpload);
+
+    this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
+    this.store.dispatch(new fromCommunityAttachmentsActions.SaveCommunityAttachmentsState(this.currentCommunityAttachmentModal));
   }
 
   removeAttachmentEventHandler(file: FileInfo) {
@@ -112,6 +115,9 @@ export class CommunityAttachmentModalComponent implements OnInit {
     }
 
     this.uploadWidget.removeFilesByUid(file.uid);
+
+    this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
+    this.store.dispatch(new fromCommunityAttachmentsActions.SaveCommunityAttachmentsState(this.currentCommunityAttachmentModal));
   }
 
   successEventHandler(e: SuccessEvent) {
@@ -120,9 +126,9 @@ export class CommunityAttachmentModalComponent implements OnInit {
       const uploadedFile = this.uploadedFiles.find(f => f.Id === e.files[0].uid);
       if (uploadedFile) {
         uploadedFile.Status = CommunityAttachmentUploadStatus.ScanInProgress; // scan in progress now...
+        this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
+        this.store.dispatch(new fromCommunityAttachmentsActions.SaveCommunityAttachmentsState(this.currentCommunityAttachmentModal));
       }
-      this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
-      this.store.dispatch(new fromCommunityAttachmentsActions.SaveCommunityAttachmentsState(this.currentCommunityAttachmentModal));
 
       if (this.uploadedFiles.length >= this.maxFileCount) {
         this.showFileCountWarning = true;
