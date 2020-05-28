@@ -26,7 +26,7 @@
     <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>
     <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
     <div class="footer-container">
-      <div class="float-left">
+      <!--<div class="float-left">
         <button *ngIf="this.postType === this.CommunityPostTypes.Discussion" 
           class="attachment-button"
           (click)="openAttachmentsModal()">                 
@@ -35,7 +35,7 @@
           Attachments <span *ngIf="scannedAttachmentsCount>0" class="attachment-count-text">({{scannedAttachmentsCount}})</span>         
         </button>
         <div *ngIf="postType === CommunityPostTypes.Discussion && scanningAttachments && submitAttempted" class="text-danger">Processing attachments...</div>
-      </div>   
+      </div>-->
       <button id="start-discussion-post-button"
               data-qa-id="btn-startDiscussionPost"
               (click)="submitContent()" class="btn btn-primary float-right shadow-none">Post

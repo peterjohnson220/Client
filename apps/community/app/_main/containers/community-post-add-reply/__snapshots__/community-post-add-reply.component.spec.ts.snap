@@ -34,24 +34,6 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
       textplaceholder="Add Reply..."
     />
     <div
-      class="float-left"
-    >
-      <button
-        class="attachment-button"
-      >
-        
-        <fa-icon
-          class="icon community-paperclip"
-          icon="paperclip"
-          size="lg"
-        />
-        
-         Attachments 
-        
-      </button>
-      
-    </div>
-    <div
       class="text-right"
     >
       <button
