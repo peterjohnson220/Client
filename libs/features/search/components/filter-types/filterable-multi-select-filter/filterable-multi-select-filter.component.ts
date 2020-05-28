@@ -118,4 +118,8 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
       this.optionSelected.emit({ filterId: filter.Id , option });
     }
   }
+
+  hasSubAggregationSelections(option: FilterableMultiSelectOption) {
+    return option.SubAggregationCount > 0 && option.SelectionsCount > 0;
+  }
 }
