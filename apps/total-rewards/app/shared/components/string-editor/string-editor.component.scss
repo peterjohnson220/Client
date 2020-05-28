@@ -1,3 +1,13 @@
+@import 'colors';
+
+.wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  &.multi-line {
+    white-space: normal;
+  }
+}
+
 .offScreen {
   position: absolute;
   z-index: -100;
@@ -7,7 +17,7 @@
 input[type=text] {
   padding: 0;
   margin: 0;
-  border: 0;
+  border: 2px solid transparent;
   outline: none;
   background-color: transparent; // inherit should work here but doesn't for IE 11, so make transparent as a workaround
   color: inherit;
@@ -19,19 +29,18 @@ input[type=text] {
   }
 }
 
-.wrapper {
-  overflow: hidden;
-  white-space: nowrap;
-  &.multi-line {
-    white-space: normal;
-  }
-}
-
 .editable {
   cursor: pointer;
   color: inherit;
+  border: 2px solid transparent;
   &:hover {
     text-decoration: none;
+  }
+  &:focus {
+    border: 2px solid $link-color;
+  }
+  &:active {
+    border: 2px solid transparent; // suppress border while mouse is down on element
   }
 }
 
