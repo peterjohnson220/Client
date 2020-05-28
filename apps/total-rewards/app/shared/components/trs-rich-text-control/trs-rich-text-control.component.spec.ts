@@ -35,6 +35,7 @@ describe('TrsChartControlComponent', () => {
     // arrange
     const staticOps = [{ insert: 'static text' }, { insert: '!@#$%^&*()' }, { insert: '!@#$%^&*()' } ];
     component.quillApi = { editor: { delta: { ops: staticOps } }, setContents: jest.fn()};
+    component.quillApi.container = { firstChild: { setAttribute: () => ({}) } };
     spyOn(component.quillApi, 'setContents');
 
     // act
@@ -65,6 +66,7 @@ describe('TrsChartControlComponent', () => {
     ];
     let actualOpsParam: any;
     component.quillApi = { editor: { delta: { ops: dynamicOps } }, setContents: (ops: any) => { actualOpsParam = ops; } };
+    component.quillApi.container = { firstChild: { setAttribute: () => ({}) } };
 
     // act
     component.bindEmployeeData();
@@ -102,6 +104,7 @@ describe('TrsChartControlComponent', () => {
     ];
     let actualOpsParam: any;
     component.quillApi = { editor: { delta: { ops: dynamicOps } }, setContents: (ops: any) => { actualOpsParam = ops; } };
+    component.quillApi.container = { firstChild: { setAttribute: () => ({}) } };
 
     // act
     component.bindEmployeeData();
@@ -116,7 +119,7 @@ describe('TrsChartControlComponent', () => {
   it('bindEmployeeData should persist styling attributes', () => {
     // arrange, mock quill canvas content to be:
     //
-    // -bullet 1
+    // -bullet1
     // -bullet2
     // <b>[Current Year]</b>
 
@@ -135,6 +138,7 @@ describe('TrsChartControlComponent', () => {
     ];
     let actualOpsParam: any;
     component.quillApi = { editor: { delta: { ops: dynamicOps } }, setContents: (ops: any) => { actualOpsParam = ops; } };
+    component.quillApi.container = { firstChild: { setAttribute: () => ({}) } };
 
     // act
     component.bindEmployeeData();

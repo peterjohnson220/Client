@@ -47,10 +47,10 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   isFocused = false;
   isValid = true;
-  shouldEmitSave = false;
   htmlContent: string;
   title: string;
   statementModeEnum = StatementModeEnum;
+  editorPlaceholderText = 'Insert test here ...';
 
   quillApi: any;
   quillMentionContainer: HTMLElement;
@@ -215,6 +215,10 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     });
 
     this.quillApi.setContents(delta.ops);
+
+    // in preview mode hide the placeholder by setting to an empty string since we don't want to see edit instructions when the control is not editable
+    const newEditorPlaceholderText = (this.mode === StatementModeEnum.Edit) ? this.editorPlaceholderText : '';
+    this.quillApi.container.firstChild.setAttribute('data-placeholder', newEditorPlaceholderText);
   }
 
   getDataFieldPlaceholderText(dataFieldKey: string): string {
