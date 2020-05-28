@@ -156,7 +156,7 @@ export class LoadExchangeJobOrgs implements Action {
 export class LoadExchangeJobOrgsSuccess implements Action {
   readonly type = LOAD_EXCHANGE_JOB_ORGS_SUCCESS;
 
-  constructor(public payload: string[]) {}
+  constructor(public payload: ChartItem[]) {}
 }
 
 export class LoadExchangeJobOrgsError implements Action {
