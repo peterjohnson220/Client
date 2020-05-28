@@ -34,8 +34,8 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
   searchingChildFilter$: Observable<boolean>;
   loadingChildOptions$: Observable<boolean>;
 
-  constructor(private store: Store<fromSearchReducer.State>) {
-    super();
+  constructor(private _store: Store<fromSearchReducer.State>) {
+    super(_store);
     this.childFilter$ = this.store.select(fromSearchReducer.getChildFilter);
     this.childFilterParentOptionValue$ = this.store.select(fromSearchReducer.getChildFilterParentOptionValue);
     this.subFilters$ = this.store.select(fromSearchReducer.getChildFilters);

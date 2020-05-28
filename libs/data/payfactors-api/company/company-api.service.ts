@@ -45,7 +45,7 @@ export class CompanyApiService {
 
   getCompanyBaseInformation(searchTerm?: string, take?: number) {
     if (searchTerm || take) {
-      return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`, { params: { searchTerm, take } });
+      return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`, { params: {searchTerm, take} });
     }
     return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`);
   }
@@ -86,19 +86,19 @@ export class CompanyApiService {
     return this.payfactorsApiService.get<ListCompositeFields[]>(`CompositeField`);
   }
 
-  getJobPricingLimitInfoByCompanyId(companyId: number): Observable<JobPricingLimitInfoResponse>  {
+  getJobPricingLimitInfoByCompanyId(companyId: number): Observable<JobPricingLimitInfoResponse> {
     return this.payfactorsApiService.get<JobPricingLimitInfoResponse>(`${this.endpoint}/GetJobPricingLimitInfoByCompanyId`,
-      { params: { companyId: companyId } });
+      { params: {companyId: companyId} });
   }
 
   getCompanySubsidiaryInfo(companyId: number): Observable<SubsidiaryInfo[]> {
     return this.payfactorsApiService.get<SubsidiaryInfo[]>(`${this.endpoint}/GetCompanySubsidiaryInfo`,
-      { params: {companyId: companyId } });
+      { params: {companyId: companyId} });
   }
 
   getCompanyNotes(companyId: number): Observable<CompanyNote[]> {
     return this.payfactorsApiService.get<CompanyNote[]>(`${this.endpoint}/GetCompanyNotes`,
-      {params: {companyId: companyId } });
+      { params: {companyId: companyId} });
   }
 
   saveCompanyNote(note: CompanyNote, action: string) {
@@ -109,8 +109,19 @@ export class CompanyApiService {
   getOrganizationalData() {
     return this.payfactorsApiService.get(`${this.endpoint}/GetOrganizationalData`);
   }
-  
+
   getCompanyLogos() {
-      return this.payfactorsApiService.get(this.endpoint + '/Default.GetCompanyLogos');
+    return this.payfactorsApiService.get(this.endpoint + '/Default.GetCompanyLogos');
+
+  }
+
+  getCompanyDescription(companyId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetCompanyDescription`,
+      {params: { companyId: companyId }});
+  }
+
+  getSubsidiaryDescription(subsidiaryId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetSubsidiaryDescription`,
+      {params: { subsidiaryId: subsidiaryId }});
   }
 }
