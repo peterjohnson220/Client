@@ -118,9 +118,7 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
 
     this.changesSubscription = this.changesSubject.subscribe(dataRowChangeObj => this.dataChangesDetected.emit(dataRowChangeObj));
 
-    this.bulkChangesSubject.pipe(
-      skip(this.jobDescriptionControl.Data.length ? 1 : 0)
-    ).subscribe(bulkDataChangeObj => this.bulkDataChangesDetected.emit(bulkDataChangeObj));
+    this.bulkChangesSubject.subscribe(bulkDataChangeObj => this.bulkDataChangesDetected.emit(bulkDataChangeObj));
   }
 
   private getRTEWithDataCount() {
