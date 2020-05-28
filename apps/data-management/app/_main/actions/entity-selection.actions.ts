@@ -42,7 +42,7 @@ export class LoadEntitySelectionSuccess implements Action {
 export class UpdateEntitySelections implements Action {
   readonly type = UPDATE_ENTITY_SELECTIONS;
 
-  constructor(public payload: { connectionId: number, selectedEntities: OrgDataEntityType[]}) {}
+  constructor(public payload: { connectionId: number, selectedEntities: OrgDataEntityType[], redirectRoute: string}) {}
 }
 
 export class UpdateEntitySelectionsError implements Action {
@@ -51,6 +51,8 @@ export class UpdateEntitySelectionsError implements Action {
 
 export class UpdateEntitySelectionsSuccess implements Action {
   readonly type = UPDATE_ENTITY_SELECTIONS_SUCCESS;
+
+  constructor(public payload: string) {}
 }
 
 export class SetEntitySelections implements Action {
@@ -80,7 +82,7 @@ export class DeactivateMappingForEntitiesError implements Action {
 export class DeactivateMappingForEntitiesSuccess implements Action {
   readonly type = DEACTIVATE_MAPPINGS_FOR_ENTITIES_SUCCESS;
 
-  constructor(public payload: { deactivateRedirectRoute: string }) {}
+  constructor() {}
 }
 
 export type Actions

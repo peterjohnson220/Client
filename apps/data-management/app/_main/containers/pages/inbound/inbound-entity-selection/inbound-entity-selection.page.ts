@@ -121,7 +121,7 @@ export class InboundEntitySelectionPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromEntitySelectionActions.OpenRemoveEntityModal(true));
       } else if (hasAddedEntities) {
         this.store.dispatch(new fromEntitySelectionActions.UpdateEntitySelections(
-          { connectionId: this.connectionSummary.connectionID, selectedEntities: newSelectedEntities })
+          { connectionId: this.connectionSummary.connectionID, selectedEntities: newSelectedEntities, redirectRoute: '/transfer-data/inbound/authentication' })
         );
         this.goToAuthenticationPage();
       } else if (hasRemovedEntities) {
@@ -129,6 +129,7 @@ export class InboundEntitySelectionPageComponent implements OnInit, OnDestroy {
       }
     } else {
       this.goToAuthenticationPage();
+      this.router.navigate(['/transfer-data/inbound/authentication']);
     }
   }
 
@@ -143,7 +144,6 @@ export class InboundEntitySelectionPageComponent implements OnInit, OnDestroy {
 
   goToAuthenticationPage() {
     this.store.dispatch(new fromTransferDataPageActions.ProceedToAuthentication(this.providerSupportedEntities));
-    this.router.navigate(['/transfer-data/inbound/authentication']);
   }
 
   onRemoveEntityModalOk() {
