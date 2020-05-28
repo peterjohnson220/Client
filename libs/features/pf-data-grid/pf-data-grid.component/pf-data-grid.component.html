@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="d-flex h-100 full-wrap" [ngClass]="(contentNoPadding || !borders) ? '' : 'border'">
-        <div [ngClass]="isSplitView() ? 'main-grid-split' : 'main-grid-full'"
+        <div [ngClass]="isSplitView() ? 'main-grid-split overflow-hidden' : 'main-grid-full'"
              [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
           <div class="flex-column-container">
             <div class="d-flex h-100">
