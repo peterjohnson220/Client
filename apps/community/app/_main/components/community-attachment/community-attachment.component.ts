@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
 import { AttachmentFileType } from '../../models/attachment-file-type.model';
 import { CommunityConstants } from '../../models/community-constants';
@@ -12,6 +12,10 @@ import { formatBytes } from '../../helpers/model-mapping.helper';
 export class CommunityAttachmentComponent implements OnInit {
 
   @Input() attachment: CommunityAttachment;
+  @Input() hideAttachmentWarning: boolean;
+  @Output() onAttachmentClickedEvent = new EventEmitter<string>();
+
+  readonly ATTACHMENT_DOWNLOAD_URL_PREFIX = '/odata/CloudFiles.DownloadCommunityAttachment?FileName=';
 
   iconClass: string;
   iconFile: string;
@@ -26,8 +30,12 @@ export class CommunityAttachmentComponent implements OnInit {
     this.formattedSize = formatBytes(this.attachment.Size);
   }
 
+  openWarningModal() {
+    this.onAttachmentClickedEvent.emit(this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName);
+  }
+
   getDownloadUrl() {
-      return `/odata/CloudFiles.DownloadCommunityAttachment?FileName=${this.attachment.CloudFileName}`;
+      return this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName;
   }
 
   setupIcons () {

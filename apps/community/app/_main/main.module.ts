@@ -32,6 +32,7 @@ import { CommunityPollsComponent } from './containers/community-polls/community-
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
 import { CommunityCategoriesComponent } from './containers/community-categories';
 import { CommunityAttachmentModalComponent } from './containers/community-attachment-modal';
+import { CommunityAttachmentWarningModalComponent } from './containers/community-attachment-warning-modal';
 import { CommunityFiltersComponent } from './containers/community-filters';
 import { CommunityFiltersDropdownComponent } from './components/community-filters-dropdown/community-filters-dropdown.component';
 
@@ -120,6 +121,7 @@ const components = [
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
   CommunityAttachmentModalComponent,
+  CommunityAttachmentWarningModalComponent,
   CommunityFiltersComponent,
   CommunityFiltersDropdownComponent,
   CommunityCategoryDisplayNamePipe,

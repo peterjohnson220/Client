@@ -3,10 +3,8 @@ import { Store } from '@ngrx/store';
 
 import { CommunityPost } from 'libs/models';
 
-import * as fromCommunityPostReplyReducer from '../../reducers';
+import * as fromCommunityReducers from '../../reducers';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
-
-import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 
@@ -19,16 +17,17 @@ export class CommunityPostComponent implements OnInit {
   @Input() post: CommunityPost;
   @Input() maximumReplies: number;
   @Input() isModal: boolean;
+  @Input() hideAttachmentWarning: boolean;
 
   @Output() filtersModifiedEvent = new EventEmitter<string>();
+  @Output() onAttachmentClickedEvent = new EventEmitter<string>();
 
   showAddReply: boolean;
   showReplies: boolean;
 
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
 
-  constructor( public replyStore: Store<fromCommunityPostReplyReducer.State>,
-    public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>) {
+  constructor(public store: Store<fromCommunityReducers.State>) {
   }
 
   ngOnInit() {
@@ -61,15 +60,18 @@ export class CommunityPostComponent implements OnInit {
   }
 
   getCommunityPostReplies(postId) {
-    this.replyStore.dispatch(new fromCommunityPostReplyActions.GettingCommunityPostReplies({ PostId: postId }));
+    this.store.dispatch(new fromCommunityPostReplyActions.GettingCommunityPostReplies({ PostId: postId }));
   }
 
   clearRepliesFromAddView() {
-    this.addReplyViewStore.dispatch(new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies());
+    this.store.dispatch(new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies());
   }
 
   hasReplies(post: CommunityPost) {
     return post.ReplyCount > 0 ? true : false;
   }
 
+  handleAttachmentClickedEvent(event) {
+    this.onAttachmentClickedEvent.emit(event);
+  }
 }
