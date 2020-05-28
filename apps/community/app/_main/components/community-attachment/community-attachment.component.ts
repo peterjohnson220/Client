@@ -54,9 +54,4 @@ export class CommunityAttachmentComponent implements OnInit {
         break;
     }
   }
-
-  getToolTip() {
-    return this.attachment && this.attachment.Name && this.attachment.Name.length > this.maxNameSize ? this.attachment.Name : '' ;
-  }
-
 }

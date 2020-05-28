@@ -1,7 +1,6 @@
 <div class="form-group" [formGroup]="communityDiscussionForm">
-  <div class="pb-2"></div>
     <div class="flex-container">
-      <div class="form-group">
+      <div class="pb-3">
         <select required formControlName="topic" class="form-control"
           [ngClass]="{ 'is-invalid': !topic.valid && topic.touched }">
           <option value=null disabled selected>Select a Topic to start your discussion...</option>

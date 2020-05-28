@@ -1,11 +1,16 @@
 <a href={{getDownloadUrl()}}>
-  <div class="container">
-    <fa-icon icon="{{iconFile}}" size="lg" class="icon {{iconClass}} mr-1"></fa-icon>
-    <span placement="top" [ngbTooltip]="getToolTip()">
+  <div placement="top" [ngbTooltip]="toolTip">
+    <div class="container">
+      <fa-icon icon="{{iconFile}}" size="lg" class="icon {{iconClass}} mr-1"></fa-icon> 
       <p>{{attachment.Name | TruncateAfter: maxNameSize}}</p>
-      <p>{{formattedSize}}</p>
-    </span>
-
+    </div>
   </div>
 </a>
+<ng-template #toolTip>
+  <div class="d-flex flex-column">
+    <span>{{attachment.Name}}</span>
+    <span>{{formattedSize}}</span>
+  </div>
+</ng-template>
+
 
