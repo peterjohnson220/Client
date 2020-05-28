@@ -134,7 +134,7 @@ export class ExchangeDashboardEffects {
       map((action: fromExchangeDashboardActions.LoadExchangeJobOrgs) => action.payload),
       switchMap((payload) =>
         this.exchangeCompanyApiService.getExchangeJobOrgs(payload.selectedExchangeJobComparison.ExchangeJobId, payload.selectedMarket).pipe(
-          map((orgs: string[]) => {
+          map((orgs: ChartItem[]) => {
             return new fromExchangeDashboardActions.LoadExchangeJobOrgsSuccess(orgs);
           }),
           catchError(() => of(new fromExchangeDashboardActions.LoadExchangeJobOrgsError()))
