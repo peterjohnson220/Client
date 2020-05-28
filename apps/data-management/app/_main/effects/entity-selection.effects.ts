@@ -78,7 +78,7 @@ export class EntitySelectionEffects {
         return this.connectionsHrisApiService.updateSelectedEntities(obj.userContext, obj.action.payload.connectionId, obj.action.payload.selectedEntities)
           .pipe(
             map(() => {
-              return new fromEntitySelectionActions.UpdateEntitySelectionsSuccess();
+              return new fromEntitySelectionActions.UpdateEntitySelectionsSuccess(obj.action.payload.redirectRoute);
             }),
             catchError(e => of(new fromEntitySelectionActions.UpdateEntitySelectionsError()))
           );
@@ -124,10 +124,12 @@ export class EntitySelectionEffects {
               switchMap(() => {
                 const route = obj.action.payload.deactivateRedirectRoute;
                 return [
-                  new fromEntitySelectionActions.UpdateEntitySelections(
-                    { connectionId: obj.connectionSummary.connectionID, selectedEntities: obj.action.payload.selectedEntities }),
                   new fromEntitySelectionActions.OpenRemoveEntityModal(false),
-                  new fromEntitySelectionActions.DeactivateMappingForEntitiesSuccess({deactivateRedirectRoute: route})
+                  new fromEntitySelectionActions.DeactivateMappingForEntitiesSuccess(),
+                  new fromEntitySelectionActions.UpdateEntitySelections(
+                    { connectionId: obj.connectionSummary.connectionID,
+                      selectedEntities: obj.action.payload.selectedEntities,
+                      redirectRoute: obj.action.payload.deactivateRedirectRoute}),
                 ];
               })
             );
@@ -138,12 +140,12 @@ export class EntitySelectionEffects {
     );
 
   @Effect({dispatch: false})
-  deactivateMappingForEntitySuccess$: Observable<Action> = this.actions$
+  updateEntitySelectionSuccess$: Observable<Action> = this.actions$
     .pipe(
-      ofType<fromEntitySelectionActions.DeactivateMappingForEntitiesSuccess>(fromEntitySelectionActions.DEACTIVATE_MAPPINGS_FOR_ENTITIES_SUCCESS),
-      tap((action: fromEntitySelectionActions.DeactivateMappingForEntitiesSuccess) => {
+      ofType<fromEntitySelectionActions.UpdateEntitySelectionsSuccess>(fromEntitySelectionActions.UPDATE_ENTITY_SELECTIONS_SUCCESS),
+      tap((action: fromEntitySelectionActions.UpdateEntitySelectionsSuccess) => {
         if (action.payload) {
-          return this.router.navigate([action.payload.deactivateRedirectRoute]);
+          return this.router.navigate([action.payload]);
         }
       })
     );

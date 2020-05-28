@@ -179,7 +179,8 @@ describe('InboundEntitySelectionPageComponent', () => {
           OrgDataEntityType.PayMarkets,
           OrgDataEntityType.Jobs,
           OrgDataEntityType.Employees
-        ]
+        ],
+        redirectRoute: '/transfer-data/inbound/authentication'
       });
 
       component.connectionSummary$ = of(summary);
