@@ -7,12 +7,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromPayMarketModalReducer from './paymarket-modal.reducer';
 import * as fromGeneralFormReducer from './general-form.reducer';
 import * as fromMdScopeReducer from './market-data-scope.reducer';
+import * as fromDefaultScopesReducer from './default-scopes.reducer';
 
 // Feature area state
 export interface PayMarketManagementState {
   payMarketModal: fromPayMarketModalReducer.State;
   generalForm: fromGeneralFormReducer.State;
   marketDataScope: fromMdScopeReducer.State;
+  defaultScopes: fromDefaultScopesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,7 +26,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   payMarketModal: fromPayMarketModalReducer.reducer,
   generalForm: fromGeneralFormReducer.reducer,
-  marketDataScope: fromMdScopeReducer.reducer
+  marketDataScope: fromMdScopeReducer.reducer,
+  defaultScopes: fromDefaultScopesReducer.reducer
 };
 
 // Select Feature Area
@@ -38,6 +41,8 @@ export const selectGeneralFormState =
   createSelector(selectPayMarketManagementFeature, (state: PayMarketManagementState) => state.generalForm);
 export const selectMdScopeState =
   createSelector(selectPayMarketManagementFeature, (state: PayMarketManagementState) => state.marketDataScope);
+export const selectDefaultScopesState =
+  createSelector(selectPayMarketManagementFeature, (state: PayMarketManagementState) => state.defaultScopes);
 
 // Pay Market Modal
 export const getPayMarketModalOpen = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarketModalOpen);
@@ -52,3 +57,9 @@ export const getDefaultPayMarket = createSelector(selectGeneralFormState, fromGe
 export const getAllIndustries = createSelector(selectMdScopeState, fromMdScopeReducer.getAllIndustries);
 export const getSizes = createSelector(selectMdScopeState, fromMdScopeReducer.getSizes);
 export const getLocations = createSelector(selectMdScopeState, fromMdScopeReducer.getLocations);
+
+// Default Scopes
+export const getCompanySurveys = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getCompanySurveys);
+export const getHasMoreCompanySurveys = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getHasMoreCompanySurveys);
+export const getCombinedScopes = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getCombinedScopes);
+export const getSelectedDefaultScopes = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getSelectedDefaultScopes);
