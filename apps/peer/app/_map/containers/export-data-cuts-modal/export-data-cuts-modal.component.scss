@@ -18,10 +18,10 @@
 
   .multi-select-container {
     display: inline-block;
-    width: 325px;
+    width: 300px;
 
     .selections-container {
-      width: 325px;
+      width: 300px;
       bottom: 52px;
     }
   }
@@ -33,11 +33,22 @@
 
 
 .rates-dropdown {
-  width: 125px;
+  width: 90px;
 
   ::ng-deep .drop-up {
     top: -106px;
     width: 100%;
     position: absolute;
+  }
+}
+
+.currency-dropdown {
+  width: 225px;
+
+  ::ng-deep .drop-up {
+    top: -310px;
+    width: 100%;
+    position: absolute;
+    min-height: 260px;
   }
 }

@@ -69,6 +69,7 @@ export const getDataCutsExporting = createSelector(
   selectExportDataCutsState,
   fromExportDataCutsReducer.getExporting
 );
+
 export const getDataCutsExportingError = createSelector(
   selectExportDataCutsState,
   fromExportDataCutsReducer.getExportingError
@@ -77,6 +78,11 @@ export const getDataCutsExportingError = createSelector(
 export const getExportDataCutsModalOpen = createSelector(
   selectExportDataCutsState,
   fromExportDataCutsReducer.getExportDataCutsModalOpen
+);
+
+export const getExportDataCutsModalCurrencies = createSelector(
+  selectExportDataCutsState,
+  fromExportDataCutsReducer.getCurrencies
 );
 
 // Exchange Company Jobs Grid
