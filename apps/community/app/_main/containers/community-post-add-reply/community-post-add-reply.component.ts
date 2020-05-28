@@ -13,6 +13,7 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityAttachmentActions from '../../actions/community-attachment.actions';
+import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 
 import { CommunityAddReply, CommunityAttachment, CommunityReply, CommunityAttachmentModalState, CommunityAttachmentUploadStatus } from 'libs/models/community';
 import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
@@ -93,22 +94,19 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
         if (!notification) {
           return;
         }
+
         const attachment = this.communityAttachments.find((x) => x.Id === notification.NotificationId);
         if (!attachment) {
-            // TODO: Remove FORT-385
-            console.log(`Got notification: ${notification.NotificationId}; No attachments matched.`);
           return;
         }
         if (notification.Level === 'Success' && attachment.Status !== CommunityAttachmentUploadStatus.ScanSucceeded) {
           this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanSuccess(this.attachmentModalId, attachment.Id));
-            // TODO: Remove FORT-385
-            console.log(`Got notification: ${notification.NotificationId}; Dispatched AttachmentScanSuccess(${this.attachmentModalId}, ${attachment.Id})`);
+          this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
         } else if (notification.Level === 'Error' && attachment.Status !== CommunityAttachmentUploadStatus.ScanFailed) {
           this.store.dispatch(new fromCommunityAttachmentActions.AttachmentScanFailure(this.attachmentModalId, attachment.Id));
-            // TODO: Remove FORT-385
-            console.log(`Got notification: ${notification.NotificationId}; Dispatched AttachmentScanFailure(${this.attachmentModalId}, ${attachment.Id})`);
+          this.appNotificationStore.dispatch(new fromAppNotificationsActions.DeleteNotification({notificationId: notification.NotificationId}));
         }
-      });
+       });
     });
   }
 
