@@ -2,22 +2,24 @@
 @import 'styles';
 
 .attachment {
-  flex: 0 0 auto;
-  margin-right: 10px;
+  display: flex;
 }
 
 .container {
   height: 30px;
-  width: calc(100% + 15px);
+  width: 100%;
   min-width: 65px;
   padding-top: 5px;
   padding-bottom: 5px;
-  padding-left: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
   align-items: baseline;
   float: left;
   line-height: 0.1rem;
   font-size: 85%;
   color: $community-sub-text-color;
+  border: 1px solid ;
+  border-radius: 5px;
 }
 
 .container:hover {
@@ -51,8 +53,9 @@
 
 .remove-btn {
   cursor: pointer;
-  align-self: center;
   float: right;
+  align-items: center;
+  padding-left: 5px;
 }
 
 .remove-btn:hover {

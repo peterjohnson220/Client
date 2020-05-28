@@ -26,7 +26,7 @@
       </pf-community-text-area>
       
       <div *ngIf="!!communityAttachments" class="attachment-container">
-        <div class="attachment-content pr-4" *ngFor="let attachment of communityAttachments">
+        <div class="attachment-content pr-3" *ngFor="let attachment of communityAttachments">
           <pf-community-attachment-edit 
             [attachment]="attachment" 
             (attachmentRemoved)="onAttachmentRemoved($event)">

@@ -2,17 +2,16 @@
 @import 'styles';
 
 .container {
-    height: 30px;
-    width: calc(100% + 15px);
-    min-width: 65px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 0px;
-    align-items: baseline;
-    float: left; 
-    line-height: 0.1rem;
-    font-size: 85%;
-    color: $community-sub-text-color;
+  display: flex;
+  align-items: baseline;
+  float: left; 
+  height: 30px;
+  width: calc(100% + 15px);
+  min-width: 65px;
+  padding-left: 0px; 
+  line-height: 0.1rem;
+  font-size: 85%;
+  color: $community-sub-text-color;
 }
 
 .container:hover {
@@ -20,22 +19,22 @@
 }
 
 .icon {
-    float: left;
-    margin-right: 0.5rem;
+  float: left;
+  margin-right: 0.5rem;
 
-    &.word {
-      color: $community-word-badge-color;
-    }
-    &.pdf {
-      color: $community-pdf-badge-color;
-    }
-    &.excel {
-      color: $community-excel-badge-color;
-    }
-    &.image {
-      color: $community-image-badge-color;
-    }
-    &.file {
-      color: $community-sub-text-color;
-    }
+  &.word {
+    color: $community-word-badge-color;
   }
+  &.pdf {
+    color: $community-pdf-badge-color;
+  }
+  &.excel {
+    color: $community-excel-badge-color;
+  }
+  &.image {
+    color: $community-image-badge-color;
+  }
+  &.file {
+    color: $community-sub-text-color;
+  }
+}

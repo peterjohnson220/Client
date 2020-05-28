@@ -29,7 +29,7 @@
         minimumHeight="75">
       </pf-community-text-area>
       <div *ngIf="communityAttachments" class="attachment-container">
-        <div *ngFor="let attachment of communityAttachments" class="attachment-content pr-4">
+        <div *ngFor="let attachment of communityAttachments" class="attachment-content pr-3">
           <pf-community-attachment-edit
             [attachment]="attachment" 
             (attachmentRemoved)="onAttachmentRemoved($event)">
