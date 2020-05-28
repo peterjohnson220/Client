@@ -3,10 +3,18 @@
     <h5 class="card-title report-name">Payfactors Market Data Feed</h5>
     <h6 class="card-subtitile mb-2 text-muted">{{marketDataFeedExport.EffectiveDate | date: 'MMMM dd, yyyy'}}</h6>
     <div class="d-flex mt-4">
-      <a href="javascript:void(0)" class="file-name" title="{{marketDataFeedExport.FileName}}">
+      <a *ngIf="marketDataFeedExport.Status === feedStatus.Completed" href="{{marketDataFeedExport.DownloadUrl}}" class="file-name" title="{{marketDataFeedExport.FileName}}">
         <fa-icon class="excel-icon mr-3" icon="file-excel"></fa-icon>
         <span class="card-text">Click to download</span>
       </a>
+      <span *ngIf="marketDataFeedExport.Status === feedStatus.InProgress" class="in-progress">
+        <pf-loading-indicator></pf-loading-indicator>
+        In Progress
+      </span>
+      <span *ngIf="marketDataFeedExport.Status === feedStatus.Queued" class="queued">
+        <fa-icon class="mr-3" icon="hourglass-start"></fa-icon>
+        Queued
+      </span>
     </div>
   </div>
 </div>
