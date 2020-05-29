@@ -26,7 +26,7 @@ export class ColumnChooserComponent implements OnChanges {
   listAreaColumns = [];
 
   @ViewChild('p', { static: true }) public p: any;
-  @ViewChild('columnGroupList', { static: false }) public columnGroupList: ColumnGroupListComponent;
+  @ViewChild('columnGroupList') public columnGroupList: ColumnGroupListComponent;
 
   public filter: any;
   public loading: any;

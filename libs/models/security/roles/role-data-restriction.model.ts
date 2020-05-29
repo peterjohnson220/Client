@@ -8,7 +8,9 @@ export class RoleDataRestriction {
 
 
 export function getMockRoleDataRestrictions() {
-  return [{RoleId: 1,
+  return [{
+    Id: 0,
+    RoleId: 1,
     DataConditionIsEqual: true,
     DataFieldId: 1,
     DataValue: null}];

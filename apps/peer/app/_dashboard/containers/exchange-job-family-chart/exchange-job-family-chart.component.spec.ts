@@ -41,7 +41,8 @@ describe('Peer Dashboard - Job Family Chart', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
+    // TODO: Resolve type mismatch here and use .inject
     route = TestBed.get(ActivatedRoute);
 
     route.setParamMap({ id: 1 });

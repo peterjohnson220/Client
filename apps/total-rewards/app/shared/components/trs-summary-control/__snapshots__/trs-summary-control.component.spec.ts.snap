@@ -45,7 +45,6 @@ exports[`TrsSummaryControlComponent should display in preview mode 1`] = `
     
     <h4
       class="preview-mode-animation"
-      ng-reflect-ng-class="preview-mode-animation"
     >
        $0 
     </h4>
@@ -75,7 +74,6 @@ exports[`TrsSummaryControlComponent should display in preview mode w/ data 1`] =
     
     <h4
       class="preview-mode-animation"
-      ng-reflect-ng-class="preview-mode-animation"
     >
        $165000 
     </h4>

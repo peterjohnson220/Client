@@ -16,7 +16,7 @@ import * as fromCustomSurveyTitleActions from '../../actions/survey-titles.actio
 })
 
 export class CustomSurveyTitleComponent implements OnInit {
-  @ViewChild('surveyTitleInput', { static: false }) surveyTitleInput: ElementRef;
+  @ViewChild('surveyTitleInput') surveyTitleInput: ElementRef;
   @Input() SurveyTitleCompany: SurveyTitleCompanyModel;
   @Input() SurveyTitleId: number;
 

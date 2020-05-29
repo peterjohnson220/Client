@@ -9,7 +9,7 @@ import { TemplateListItem } from 'libs/models/jdm';
     templateUrl: './confirm-delete-job-descriptions-modal.component.html'
 })
 export class ConfirmDeleteJobDescriptionsModalComponent {
-    @ViewChild('confirmDeleteJobDescriptionsModalComponent', { static: false }) public confirmDeleteJobDescriptionsModalComponent: any;
+    @ViewChild('confirmDeleteJobDescriptionsModalComponent') public confirmDeleteJobDescriptionsModalComponent: any;
 
     @Input() deleting: boolean;
     @Input() error = false;

@@ -53,7 +53,7 @@ export function reducer(state, action) {
         case fromTagCategoriesActions.LOAD_TAG_CATEGORIES_SUCCESS: {
           const filters: TagCategory[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(filters, featureState),
+            ...adapter.setAll(filters, featureState),
             loading: false,
             loadingError: false,
             total: action.payload.total

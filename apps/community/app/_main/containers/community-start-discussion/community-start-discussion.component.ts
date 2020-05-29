@@ -45,9 +45,9 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
 
   get CommunityPostTypes() { return CommunityPostTypeStatusEnum; }
 
-  @ViewChild('newPostComponent', { static: false }) newPostComponent: CommunityNewPostComponent;
-  @ViewChild('newPollComponent', { static: false }) newPollComponent: CommunityNewPollComponent;
-  @ViewChild('newJobComponent', { static: false }) newJobComponent: CommunityNewJobComponent;
+  @ViewChild('newPostComponent') newPostComponent: CommunityNewPostComponent;
+  @ViewChild('newPollComponent') newPollComponent: CommunityNewPollComponent;
+  @ViewChild('newJobComponent') newJobComponent: CommunityNewJobComponent;
 
   constructor(private store: Store<fromCommunityPostReducer.State>,
     private route: ActivatedRoute,

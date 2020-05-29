@@ -31,9 +31,9 @@ import { ofType } from '@ngrx/effects';
 export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
 
-  @ViewChild('createUserColumn', { static: false }) createUserColumn: ElementRef;
-  @ViewChild('pricingActionsColumn', { static: false }) pricingActionsColumn: ElementRef;
-  @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
+  @ViewChild('createUserColumn') createUserColumn: ElementRef;
+  @ViewChild('pricingActionsColumn') pricingActionsColumn: ElementRef;
+  @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   pageViewId = PageViewIds.PricingHistory;

@@ -43,7 +43,7 @@ export function reducer(
     }
     case fromOrgDataEmailRecipientsActions.LOAD_EMAIL_RECIPIENTS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
+        ...adapter.setAll(action.payload, state),
         loading: false,
       };
     }

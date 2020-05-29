@@ -35,7 +35,7 @@ export function reducer(state = initialState, action: fromExchangeSelectorAction
       const nonPendingExchanges = action.payload.filter(p => !p.PendingAccess);
 
       return {
-        ...adapter.addAll(nonPendingExchanges, state),
+        ...adapter.setAll(nonPendingExchanges, state),
         loading: false,
         loaded: true
       };

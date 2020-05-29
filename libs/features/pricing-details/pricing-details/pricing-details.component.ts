@@ -24,7 +24,7 @@ export class PricingDetailsComponent implements OnChanges, OnDestroy {
   @Output() cancelChanges = new EventEmitter();
   @Output() saveSuccess = new EventEmitter();
 
-  @ViewChild('pricingInfoContainer', { static: false }) pricingInfoContainer: ElementRef<PricingInfoComponent>;
+  @ViewChild('pricingInfoContainer') pricingInfoContainer: ElementRef<PricingInfoComponent>;
 
 
   newStatus: string;

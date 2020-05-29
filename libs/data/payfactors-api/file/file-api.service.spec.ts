@@ -22,8 +22,8 @@ describe('FileApiService', () => {
       ],
     });
 
-    httpTestingController = TestBed.get(HttpTestingController);
-    service = TestBed.get(FileApiService);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(FileApiService);
   });
 
   afterEach(() => {
@@ -75,6 +75,7 @@ describe('FileApiService', () => {
     const fileName = 'test.txt';
 
     // use an empty object as a mock for the anchor element, so it will fail the test for download capability
+    // @ts-ignore
     jest.spyOn(document, 'createElement').mockReturnValue({});
 
     // act
@@ -226,6 +227,7 @@ describe('FileApiService', () => {
     });
 
     // use an empty object as a mock for the anchor element, so it will fail the test for download capability
+    // @ts-ignore
     jest.spyOn(document, 'createElement').mockReturnValue({});
 
     // act

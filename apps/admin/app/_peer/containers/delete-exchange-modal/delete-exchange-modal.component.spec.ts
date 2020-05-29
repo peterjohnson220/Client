@@ -34,7 +34,7 @@ describe('Delete Exchange Modal', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(DeleteExchangeModalComponent);
     instance = fixture.componentInstance;

@@ -35,7 +35,7 @@ export class StringEditorComponent implements OnInit, OnChanges {
   isEditable: boolean;
   isInEditState: boolean;
 
-  @ViewChild('textBox', {static: false}) textBox: ElementRef;
+  @ViewChild('textBox') textBox: ElementRef;
 
   ngOnInit(): void {
     this.isInEditState = false;

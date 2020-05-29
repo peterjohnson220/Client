@@ -36,7 +36,7 @@ export function reducer(
     }
     case fromExchangeOptionsActions.LOAD_EXCHANGE_OPTIONS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
+        ...adapter.setAll(action.payload, state),
         loading: false
       };
     }

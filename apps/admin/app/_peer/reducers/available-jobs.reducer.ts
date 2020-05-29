@@ -41,7 +41,7 @@ export function reducer(state, action) {
         case fromAvailableJobsActions.LOADING_AVAILABLE_JOBS_SUCCESS: {
           const jobs: AvailableJob[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(jobs, featureState),
+            ...adapter.setAll(jobs, featureState),
             total: featureAction.payload.total,
             loading: false
           };

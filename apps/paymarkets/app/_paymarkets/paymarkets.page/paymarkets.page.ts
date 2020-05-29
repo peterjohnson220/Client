@@ -27,9 +27,9 @@ import * as fromPayMarketsPageReducer from '../reducers';
   styleUrls: ['./paymarkets.page.scss']
 })
 export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('gridRowActionsTemplate', { static: false }) gridRowActionsTemplate: ElementRef;
-  @ViewChild('defaultScopesColumn', { static: false }) defaultScopesColumn: ElementRef;
-  @ViewChild('payMarketNameColumn', { static: false }) payMarketNameColumn: ElementRef;
+  @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
+  @ViewChild('defaultScopesColumn') defaultScopesColumn: ElementRef;
+  @ViewChild('payMarketNameColumn') payMarketNameColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
   identity$: Observable<UserContext>;

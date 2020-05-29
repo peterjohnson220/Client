@@ -39,7 +39,7 @@ describe('Features - Structures - Midpoint Editor', () => {
 
     fixture = TestBed.createComponent(MidpointEditorComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
   });
 
   it('should not be editable when the user does not have the correct permissions', () => {

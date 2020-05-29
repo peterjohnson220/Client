@@ -29,7 +29,7 @@ describe('TrsSummaryControlComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TrsSummaryControlComponent);
     component = fixture.componentInstance;
-    currencyPipe = TestBed.get(CurrencyPipe);
+    currencyPipe = TestBed.inject(CurrencyPipe);
   });
 
   it('should create', () => {

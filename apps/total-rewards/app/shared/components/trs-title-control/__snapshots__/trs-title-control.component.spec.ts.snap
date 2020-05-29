@@ -9,8 +9,6 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
 >
   <div
     class="col-12 h-100 position-relative edit-mode"
-    ng-reflect-klass="col-12 h-100 position-relative"
-    ng-reflect-ng-class="[object Object]"
   >
     <h2
       class="my-auto trs-statement-title"
@@ -49,8 +47,6 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
 >
   <div
     class="col-12 h-100 position-relative"
-    ng-reflect-klass="col-12 h-100 position-relative"
-    ng-reflect-ng-class="[object Object]"
   >
     <h2
       class="my-auto trs-statement-title"

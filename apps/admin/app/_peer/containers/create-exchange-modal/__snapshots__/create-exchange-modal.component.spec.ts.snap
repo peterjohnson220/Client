@@ -16,7 +16,6 @@ exports[`Create Exchange Modal should not show the form text and should show a r
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="Create New Exchange"
   >
     
@@ -33,7 +32,6 @@ exports[`Create Exchange Modal should not show the form text and should show a r
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="name"
         id="exchange-name"
-        ng-reflect-name="name"
         pffocus=""
         placeholder="Exchange Name"
         type="text"
@@ -70,7 +68,6 @@ exports[`Create Exchange Modal should show the form text and no error messages w
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="Create New Exchange"
   >
     
@@ -87,7 +84,6 @@ exports[`Create Exchange Modal should show the form text and no error messages w
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="name"
         id="exchange-name"
-        ng-reflect-name="name"
         pffocus=""
         placeholder="Exchange Name"
         type="text"

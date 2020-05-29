@@ -1,4 +1,4 @@
-import { Input, Output, EventEmitter } from '@angular/core';
+import { Input, Output, EventEmitter, Directive } from '@angular/core';
 
 export enum PanelState {
     Default,
@@ -6,6 +6,7 @@ export enum PanelState {
     Complete
 }
 
+@Directive()
 export abstract class BaseTogglePanel {
   @Input() isToggled = true;
   @Output() notifyComplete: EventEmitter<any> = new EventEmitter();

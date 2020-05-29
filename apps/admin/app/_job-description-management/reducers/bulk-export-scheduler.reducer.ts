@@ -63,7 +63,7 @@ export function reducer(
     }
     case fromJdmBulkExportScheduleActions.LOADING_SCHEDULE_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
+        ...adapter.setAll(action.payload, state),
         loading: false
       };
     }

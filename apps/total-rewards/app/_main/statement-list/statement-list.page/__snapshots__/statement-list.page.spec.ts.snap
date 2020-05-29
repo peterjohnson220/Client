@@ -24,9 +24,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
       <div
         class="h-100"
       >
-        <ngb-tabset
-          ng-reflect-destroy-on-hide="false"
-        >
+        <ngb-tabset>
           <ul
             class="nav nav-tabs justify-content-start"
             role="tablist"
@@ -125,9 +123,7 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
       <div
         class="h-100"
       >
-        <ngb-tabset
-          ng-reflect-destroy-on-hide="false"
-        >
+        <ngb-tabset>
           <ul
             class="nav nav-tabs justify-content-start"
             role="tablist"

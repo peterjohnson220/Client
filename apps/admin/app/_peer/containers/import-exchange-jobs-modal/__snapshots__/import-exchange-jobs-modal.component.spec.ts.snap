@@ -19,7 +19,6 @@ exports[`Import Exchange Jobs Modal should create an empty form 1`] = `
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="Import Exchange Jobs"
   >
     
@@ -37,15 +36,12 @@ exports[`Import Exchange Jobs Modal should create an empty form 1`] = `
           class="form-control file-upload ng-untouched ng-pristine ng-valid"
           formcontrolname="fileUpload"
           id="file-upload"
-          ng-reflect-name="fileUpload"
           type="file"
         />
         <input
           class="ng-untouched ng-pristine ng-invalid"
           formcontrolname="isFileValid"
           name="isFileValid"
-          ng-reflect-model="false"
-          ng-reflect-name="isFileValid"
           type="hidden"
           value="false"
         />
@@ -75,7 +71,6 @@ exports[`Import Exchange Jobs Modal should initialize an empty modal 1`] = `
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="Import Exchange Jobs"
   >
     
@@ -93,15 +88,12 @@ exports[`Import Exchange Jobs Modal should initialize an empty modal 1`] = `
           class="form-control file-upload ng-untouched ng-pristine ng-valid"
           formcontrolname="fileUpload"
           id="file-upload"
-          ng-reflect-name="fileUpload"
           type="file"
         />
         <input
           class="ng-untouched ng-pristine ng-invalid"
           formcontrolname="isFileValid"
           name="isFileValid"
-          ng-reflect-model="false"
-          ng-reflect-name="isFileValid"
           type="hidden"
           value="false"
         />
@@ -131,7 +123,6 @@ exports[`Import Exchange Jobs Modal should set the file to invalid when the stat
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="Import Exchange Jobs"
   >
     
@@ -149,15 +140,12 @@ exports[`Import Exchange Jobs Modal should set the file to invalid when the stat
           class="form-control file-upload ng-untouched ng-pristine ng-valid"
           formcontrolname="fileUpload"
           id="file-upload"
-          ng-reflect-name="fileUpload"
           type="file"
         />
         <input
           class="ng-untouched ng-pristine ng-invalid"
           formcontrolname="isFileValid"
           name="isFileValid"
-          ng-reflect-model="false"
-          ng-reflect-name="isFileValid"
           type="hidden"
           value="false"
         />
@@ -187,7 +175,6 @@ exports[`Import Exchange Jobs Modal should set the file to valid when the state 
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-valid"
-    ng-reflect-form="[object Object]"
     title="Import Exchange Jobs"
   >
     
@@ -205,15 +192,12 @@ exports[`Import Exchange Jobs Modal should set the file to valid when the state 
           class="form-control file-upload ng-untouched ng-pristine ng-valid"
           formcontrolname="fileUpload"
           id="file-upload"
-          ng-reflect-name="fileUpload"
           type="file"
         />
         <input
           class="ng-untouched ng-pristine ng-valid"
           formcontrolname="isFileValid"
           name="isFileValid"
-          ng-reflect-model="true"
-          ng-reflect-name="isFileValid"
           type="hidden"
           value="true"
         />

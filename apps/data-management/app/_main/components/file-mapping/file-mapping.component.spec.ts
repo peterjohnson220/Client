@@ -34,7 +34,7 @@ describe('FileMappingComponent', () => {
     component.entities.forEach(e => { e.customFields.Jobs = customFields, e.customFields.Employees = customFields; });
     component.selectedCompany = {CompanyId: 1, CompanyName: 'test'};
     fixture.detectChanges();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
   });
 

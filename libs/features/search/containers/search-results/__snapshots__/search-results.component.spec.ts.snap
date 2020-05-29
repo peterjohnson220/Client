@@ -19,7 +19,6 @@ exports[`Search Feature - Search Results should show a message, when loading mor
   <div
     class="results"
     infinite-scroll=""
-    ng-reflect-ng-style="[object Object]"
   >
     <pf-async-container />
     

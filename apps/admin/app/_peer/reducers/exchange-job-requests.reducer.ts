@@ -60,7 +60,7 @@ export function reducer(state, action) {
         case fromExchangeJobRequestsActions.LOAD_EXCHANGE_JOB_REQUESTS_SUCCESS: {
           const requests: ExchangeJobRequest[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(requests, featureState),
+            ...adapter.setAll(requests, featureState),
             loading: false,
             total: action.payload.total
           };

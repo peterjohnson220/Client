@@ -37,7 +37,7 @@ describe('CommunityDashboardPageComponent', () => {
 
     setupMutationObserverMock(global);
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
 

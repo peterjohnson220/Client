@@ -13,7 +13,7 @@ import { FieldFormatType } from 'libs/models/payfactors-api';
 })
 export class NumericFieldFormattingModalComponent {
   @Output() saveClicked: EventEmitter<Field> = new EventEmitter<Field>();
-  @ViewChild('numericFieldFormatModal', { static: false }) public numericFieldFormatModal: any;
+  @ViewChild('numericFieldFormatModal') public numericFieldFormatModal: any;
 
   field: Field;
   decimals: number;

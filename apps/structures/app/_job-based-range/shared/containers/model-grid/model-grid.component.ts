@@ -26,11 +26,11 @@ import { ColumnTemplateService } from '../../services';
   styleUrls: ['./model-grid.component.scss', '../../styles/pf-data-grid-styles.scss']
 })
 export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('mid', {static: false}) midColumn: ElementRef;
-  @ViewChild('eeCount', {static: false}) eeCountColumn: ElementRef;
-  @ViewChild('rangeValue', {static: false}) rangeValueColumn: ElementRef;
+  @ViewChild('mid') midColumn: ElementRef;
+  @ViewChild('eeCount') eeCountColumn: ElementRef;
+  @ViewChild('rangeValue') rangeValueColumn: ElementRef;
   @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
-  @ViewChild('mrpValue', {static: false}) mrpValueColumn: ElementRef;
+  @ViewChild('mrpValue') mrpValueColumn: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @Input() singleRecordView: boolean;

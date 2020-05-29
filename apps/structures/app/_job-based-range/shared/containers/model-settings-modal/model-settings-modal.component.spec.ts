@@ -48,9 +48,9 @@ describe('Job Based Ranges - Model Settings Modal', () => {
 
     fixture = TestBed.createComponent(ModelSettingsModalComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
-    ngbModal = TestBed.get(NgbModal);
-    urlService = TestBed.get(UrlService);
+    store = TestBed.inject(Store);
+    ngbModal = TestBed.inject(NgbModal);
+    urlService = TestBed.inject(UrlService);
     // mock the metadata
     instance.metadata = {
       Paymarket: 'Boston',

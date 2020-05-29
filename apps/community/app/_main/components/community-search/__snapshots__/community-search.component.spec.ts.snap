@@ -20,8 +20,6 @@ exports[`CommunitySearchComponent should show community search component 1`] = `
     >
       <span
         class="input-group-text clear-container clear-container-empty-search"
-        ng-reflect-klass="input-group-text clear-contain"
-        ng-reflect-ng-class="[object Object]"
       >
         <fa-icon
           icon="times"

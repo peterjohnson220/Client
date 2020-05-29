@@ -17,8 +17,6 @@ exports[`Exchange Access Requests should match snapshot 1`] = `
     <pf-manage-exchange-section-header />
     <div
       class="d-flex exchange-access-request-grid-container no-collapse"
-      ng-reflect-klass="d-flex exchange-access-request"
-      ng-reflect-ng-class="no-collapse"
     >
       <pf-async-container
         class="flex-grow-1"

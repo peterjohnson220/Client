@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import {ScrollDispatchModule, ScrollingModule} from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -158,7 +158,6 @@ const components = [
     DropDownsModule,
     InfiniteScrollModule,
     ScrollingModule,
-    ScrollDispatchModule,
     UploadModule,
 
     StoreModule.forFeature('community', reducers),

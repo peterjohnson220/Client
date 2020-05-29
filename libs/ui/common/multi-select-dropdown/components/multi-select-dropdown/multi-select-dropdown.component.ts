@@ -17,7 +17,7 @@ export class MultiSelectDropdownComponent {
   @Input() title: string;
   @Output() listItemsUpdated: EventEmitter<MultiSelectItemGroup[]> = new EventEmitter<MultiSelectItemGroup[]>();
 
-  @ViewChild('dropdownList', { static: false }) dropdownList: DropDownListComponent;
+  @ViewChild('dropdownList') dropdownList: DropDownListComponent;
   localListItems: MultiSelectItemGroup[];
 
   handleOpenDropdownEvent(event: any): void {

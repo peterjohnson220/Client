@@ -51,7 +51,7 @@ export function reducer(state, action) {
         case fromExchangeFiltersActions.LOAD_EXCHANGE_FILTERS_SUCCESS: {
           const filters: ExchangeSearchFilterAggregate[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(filters, featureState),
+            ...adapter.setAll(filters, featureState),
             loading: false,
             loadingError: false,
             total: action.payload.total

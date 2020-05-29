@@ -32,7 +32,7 @@ describe('Search Feature - Search Filters', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(SearchFiltersComponent);
     instance = fixture.componentInstance;

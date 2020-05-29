@@ -41,8 +41,6 @@ exports[`Search Feature - Filter Section should display the given title in the h
         
         <div
           class="clear-link au-btn-clear-au-txt-job-title"
-          ng-reflect-klass="clear-link"
-          ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
         >
           
           
@@ -70,9 +68,7 @@ exports[`Search Feature - Filter Section should display the transcluded content 
 <ng-component
   filter={[Function Object]}
 >
-  <pf-filter-section
-    ng-reflect-filter="[object Object]"
-  >
+  <pf-filter-section>
     <div
       class="filter"
     >
@@ -98,8 +94,6 @@ exports[`Search Feature - Filter Section should display the transcluded content 
           
           <div
             class="clear-link au-btn-clear-au-txt-job-title"
-            ng-reflect-klass="clear-link"
-            ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
           >
             
             
@@ -168,8 +162,6 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
         
         <div
           class="clear-link au-btn-clear-au-txt-job-title"
-          ng-reflect-klass="clear-link"
-          ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
         >
           
           
@@ -236,8 +228,6 @@ exports[`Search Feature - Filter Section should show a search icon and show more
         
         <div
           class="clear-link au-btn-clear-au-chk-publisher"
-          ng-reflect-klass="clear-link"
-          ng-reflect-ng-class="au-btn-clear-au-chk-publisher"
         >
           
           
@@ -248,8 +238,6 @@ exports[`Search Feature - Filter Section should show a search icon and show more
         
         <div
           class="search au-btn-search-au-chk-publisher"
-          ng-reflect-klass="search"
-          ng-reflect-ng-class="au-btn-search-au-chk-publisher"
         >
           <fa-icon />
         </div>

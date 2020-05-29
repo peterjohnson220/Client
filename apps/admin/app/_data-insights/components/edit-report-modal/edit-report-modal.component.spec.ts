@@ -27,7 +27,7 @@ describe('Data Insights Management - Edit Report Modal Component', () => {
 
     fixture = TestBed.createComponent(EditReportModalComponent);
     instance = fixture.componentInstance;
-    ngbModal = TestBed.get(NgbModal);
+    ngbModal = TestBed.inject(NgbModal);
 
     fixture.detectChanges();
   });

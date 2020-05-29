@@ -21,7 +21,7 @@ describe('Data Insights - Date Range Filter Component', () => {
 
     fixture = TestBed.createComponent(DateRangeFilterComponent);
     instance = fixture.componentInstance;
-    intlService = TestBed.get(IntlService);
+    intlService = TestBed.inject(IntlService);
 
     fixture.detectChanges();
   });

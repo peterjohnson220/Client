@@ -14,7 +14,7 @@ import { StatusEnum } from '../../../models/common';
 })
 
 export class ExchangeJobSelectorComponent {
-  @ViewChild('p', {static: false }) popover: NgbPopover;
+  @ViewChild('p') popover: NgbPopover;
 
   @Input() exchangeJobSelectorItems: ExchangeJobExchangeDetail[];
   @Input() shouldDisplayJobTitleShort: boolean;

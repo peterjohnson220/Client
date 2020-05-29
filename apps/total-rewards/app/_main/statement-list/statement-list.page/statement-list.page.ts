@@ -21,7 +21,7 @@ export class StatementListPageComponent implements OnInit {
   statementsSearchTerm$: Observable<string>;
   statementsTotal$: Observable<number>;
 
-  @ViewChild('tabs', {static: false})
+  @ViewChild('tabs')
   tabs: NgbTabset;
 
   constructor(private store: Store<fromStatementListReducers.State>) {

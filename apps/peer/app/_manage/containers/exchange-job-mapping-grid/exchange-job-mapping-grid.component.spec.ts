@@ -44,8 +44,8 @@ describe('Peer - Exchange Job Mapping Grid', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.get(Store);
-    exchangeJobMappingService = TestBed.get(ExchangeJobMappingService);
+    store = TestBed.inject(Store);
+    exchangeJobMappingService = TestBed.inject(ExchangeJobMappingService);
 
     fixture = TestBed.createComponent(ExchangeJobMappingGridComponent);
     instance = fixture.componentInstance;

@@ -51,7 +51,7 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS_SUCCESS: {
       const scopes: ExchangeScopeItem[] = action.payload;
       return {
-        ...adapter.addAll(scopes, state),
+        ...adapter.setAll(scopes, state),
         loadingByJobs: false
       };
     }
@@ -71,7 +71,7 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_SUCCESS: {
       const scopes: ExchangeScopeItem[] = action.payload;
       return {
-        ...adapter.addAll(scopes, state),
+        ...adapter.setAll(scopes, state),
         loadingByExchange: false
       };
     }

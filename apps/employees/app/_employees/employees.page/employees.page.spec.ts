@@ -48,9 +48,9 @@ describe('Employees - Employees Page', () => {
 
     fixture = TestBed.createComponent(EmployeesPageComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
-    ngbModal = TestBed.get(NgbModal);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    ngbModal = TestBed.inject(NgbModal);
+    router = TestBed.inject(Router);
     instance.selectedCompanyEmployeeIdsSubscription = of([]).subscribe();
     instance.pricingJobsSubscription = of(false).subscribe();
   });

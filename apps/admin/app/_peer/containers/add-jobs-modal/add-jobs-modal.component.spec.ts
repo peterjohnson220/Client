@@ -61,8 +61,8 @@ describe('Add Jobs Modal', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.parent.snapshot.params.id;
 
     spyOn(store, 'dispatch');

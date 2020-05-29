@@ -27,9 +27,9 @@ export class NotPricedPaymarketsGridComponent implements AfterViewInit, OnDestro
   @Input() filters: PfDataGridFilter[];
   @Input() pricedCount: number;
 
-  @ViewChild('notPricedDataPayMarketFilter', { static: false }) notPricedDataPayMarketFilter: ElementRef;
-  @ViewChild('changeView', { static: false }) changeView: ElementRef;
-  @ViewChild('sizeColumn', { static: false }) sizeColumn: ElementRef;
+  @ViewChild('notPricedDataPayMarketFilter') notPricedDataPayMarketFilter: ElementRef;
+  @ViewChild('changeView') changeView: ElementRef;
+  @ViewChild('sizeColumn') sizeColumn: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   defaultSort: SortDescriptor[] = [{

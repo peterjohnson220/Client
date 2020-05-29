@@ -51,7 +51,7 @@ export function reducer(state, action) {
         case fromExchangeJobsActions.LOADING_EXCHANGE_JOBS_SUCCESS: {
           const jobs: ExchangeJob[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(jobs, featureState),
+            ...adapter.setAll(jobs, featureState),
             loading: false,
             total: featureAction.payload.total,
           };

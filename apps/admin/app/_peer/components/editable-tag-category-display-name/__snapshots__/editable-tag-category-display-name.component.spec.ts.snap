@@ -41,7 +41,6 @@ exports[`Admin - Peer - Editable Tag Category Display Name should show edit form
 >
   <form
     class="ng-untouched ng-pristine ng-valid"
-    ng-reflect-form="[object Object]"
     novalidate=""
   >
     <div
@@ -53,15 +52,11 @@ exports[`Admin - Peer - Editable Tag Category Display Name should show edit form
         formcontrolname="tempValue"
         id="editable-category-name-input"
         minlength="3"
-        ng-reflect-name="tempValue"
-        ng-reflect-pf-validatable="true"
         pffocus=""
         type="text"
       />
       <div
         class="input-group-append disabled"
-        ng-reflect-klass="input-group-append"
-        ng-reflect-ng-class="[object Object]"
       >
         <span
           class="input-group-text"
@@ -74,8 +69,6 @@ exports[`Admin - Peer - Editable Tag Category Display Name should show edit form
       </div>
       <div
         class="input-group-append"
-        ng-reflect-klass="input-group-append"
-        ng-reflect-ng-class="[object Object]"
       >
         <span
           class="input-group-text"

@@ -9,8 +9,6 @@ exports[`TrsChartControlComponent should show the title component and a settings
 >
   <div
     class="trs-chart px-3 preview-mode"
-    ng-reflect-klass="trs-chart px-3 "
-    ng-reflect-ng-class="preview-mode"
   >
     <div
       class="heading"

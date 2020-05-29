@@ -124,8 +124,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
           >
             <div
               class="k-display-inline"
-              ng-reflect-klass="k-display-inline"
-              ng-reflect-ng-class="[object Object]"
             >
               
               <div
@@ -135,7 +133,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
               </div>
               <div
                 class="sticky-top"
-                ng-reflect-ng-class="[object Object]"
               >
                 <h5>
                   COMP & COFFEE

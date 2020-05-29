@@ -56,8 +56,8 @@ describe('Peer - Map - Exchange Map New Page', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    route = TestBed.inject(ActivatedRoute);
 
     spyOn(store, 'dispatch');
 

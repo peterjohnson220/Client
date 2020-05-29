@@ -49,7 +49,7 @@ describe('Admin - Create Tag Category Modal', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
 

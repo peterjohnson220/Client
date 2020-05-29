@@ -33,7 +33,7 @@ describe('Features - Peer - Map Component', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(MapComponent);
     instance = fixture.componentInstance;

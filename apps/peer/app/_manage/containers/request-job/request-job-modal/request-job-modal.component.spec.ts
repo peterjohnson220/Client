@@ -43,7 +43,7 @@ describe('Peer - Manage - Request Job Modal', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(RequestJobModalComponent);
     instance = fixture.componentInstance;

@@ -20,8 +20,8 @@ import { ComphubPages } from '../../../data';
   styleUrls: ['./jobs.card.component.scss']
 })
 export class JobsCardComponent implements OnInit, OnDestroy {
-  @ViewChild('jobSearch', { static: false }) jobSearch: AutoCompleteComponent;
-  @ViewChild('exchangeJobSearch', {static: false}) exchangeJobSearch: AutoCompleteComponent;
+  @ViewChild('jobSearch') jobSearch: AutoCompleteComponent;
+  @ViewChild('exchangeJobSearch') exchangeJobSearch: AutoCompleteComponent;
 
   // Observables
   trendingJobGroups$: Observable<TrendingJobGroup[]>;

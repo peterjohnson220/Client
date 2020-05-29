@@ -46,7 +46,7 @@ export function reducer(state, action) {
           const exchangeJobMappings: ExchangeJobComparison[] = featureAction.payload.data;
           return {
             ...adapter.removeAll(featureState),
-            ...adapter.addAll(exchangeJobMappings, featureState),
+            ...adapter.setAll(exchangeJobMappings, featureState),
             total: featureAction.payload.total,
             loading: false
           };

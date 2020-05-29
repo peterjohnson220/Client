@@ -38,8 +38,8 @@ describe('Data Insights - Data Insights Page Component', () => {
 
     fixture = TestBed.createComponent(DataInsightsPageComponent);
     instance = fixture.componentInstance;
-    ngbModal = TestBed.get(NgbModal);
-    store = TestBed.get(Store);
+    ngbModal = TestBed.inject(NgbModal);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });

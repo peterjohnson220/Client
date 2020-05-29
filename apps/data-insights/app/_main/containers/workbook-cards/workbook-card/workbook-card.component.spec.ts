@@ -29,7 +29,7 @@ describe('Data Insights - Workbook Card Component', () => {
 
     fixture = TestBed.createComponent(WorkbookCardComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });

@@ -54,7 +54,7 @@ describe('Job Management Feature - Job Form', () => {
     fixture = TestBed.createComponent(StandardFieldsComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     store.overrideSelector(fromReducer.getCompanyJobUdfs, initialState.companyJobUdfs);
 
     spyOn(store, 'dispatch');

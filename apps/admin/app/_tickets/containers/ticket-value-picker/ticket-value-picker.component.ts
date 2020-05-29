@@ -24,7 +24,7 @@ import { GenericKeyValue } from 'libs/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TicketValuePickerComponent implements OnInit {
-  @ViewChild(ComboBoxComponent, {static: false}) private comboBox: ComboBoxComponent;
+  @ViewChild(ComboBoxComponent) private comboBox: ComboBoxComponent;
 
   @Input() public data: any[];
   @Input() public ticketId: number;

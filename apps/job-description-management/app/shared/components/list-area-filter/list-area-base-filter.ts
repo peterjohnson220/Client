@@ -1,9 +1,10 @@
-import { Input, Output, OnChanges, EventEmitter } from '@angular/core';
+import { Input, Output, OnChanges, EventEmitter, Directive } from '@angular/core';
 
 import { FilterDescriptor } from '@progress/kendo-data-query';
 
 import { FilterOperator } from '../../models/list-area-options.model';
 
+@Directive()
 export abstract class ListAreaBaseFilter implements OnChanges {
   @Input() filter: FilterDescriptor;
   @Input() disableDropdown = false;

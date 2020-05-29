@@ -48,7 +48,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             class="form-control"
             data-qa-id="txt-job-form-job-code"
             formcontrolname="JobCode"
-            ng-reflect-pf-validatable="true"
             type="text"
           />
           
@@ -81,8 +80,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             class="form-control"
             data-qa-id="txt-job-form-job-title"
             formcontrolname="JobTitle"
-            ng-reflect-klass="form-control"
-            ng-reflect-ng-class="[object Object]"
             type="text"
           />
           
@@ -109,7 +106,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             class="form-control"
             data-qa-id="ddm-job-form-job-family"
             formcontrolname="JobFamily"
-            ng-reflect-pf-validatable="true"
           />
           
         </div>
@@ -129,7 +125,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             class="form-control"
             data-qa-id="txt-job-form-job-level"
             formcontrolname="JobLevel"
-            ng-reflect-pf-validatable="true"
             type="text"
           />
           
@@ -150,7 +145,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             class="form-control"
             data-qa-id="ddm-job-form-flsa-status"
             formcontrolname="FLSAStatus"
-            ng-reflect-pf-validatable="true"
           />
           
         </div>
@@ -160,15 +154,10 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
       class="pr-3"
     >
       <hr />
-      <pf-job-description-summary-editor
-        ng-reflect-layout="simple"
-      >
-        <div
-          ng-reflect-ng-class="[object Object]"
-        >
+      <pf-job-description-summary-editor>
+        <div>
           <div
             class="pb-3"
-            ng-reflect-ng-class="[object Object]"
           >
             
             <div
@@ -184,23 +173,18 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
               
             </div>
           </div>
-          <div
-            ng-reflect-ng-class="[object Object]"
-          >
+          <div>
             
             <form
               autocomplete="nope"
               class="ng-untouched ng-pristine ng-valid"
               id="jobs-page-job-description-form"
-              ng-reflect-form="[object Object]"
               novalidate=""
             >
               <textarea
                 class="form-control ng-untouched ng-pristine ng-valid"
                 data-qa-id="txt-jobs-page-job-description"
                 formcontrolname="JobDescription"
-                ng-reflect-name="JobDescription"
-                ng-reflect-pf-validatable="true"
                 placeholder="There is no Job Description loaded for this Job."
                 rows="9"
               >

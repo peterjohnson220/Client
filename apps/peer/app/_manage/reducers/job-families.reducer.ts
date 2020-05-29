@@ -31,7 +31,7 @@ export function reducer(
     }
     case fromJobFamilyActions.LOAD_JOB_FAMILIES_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
+        ...adapter.setAll(action.payload, state),
         loading: false
       };
     }

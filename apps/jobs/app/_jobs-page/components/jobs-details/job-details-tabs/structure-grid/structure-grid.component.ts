@@ -26,11 +26,11 @@ import * as fromJobsPageReducer from '../../../../reducers';
 export class StructureGridComponent implements AfterViewInit, OnDestroy {
   @Input() filters: PfDataGridFilter[];
 
-  @ViewChild('nameColumn', { static: false }) nameColumn: ElementRef;
-  @ViewChild('midColumn', { static: false }) midColumn: ElementRef;
-  @ViewChild('comparatioColumn', { static: false }) comparatioColumn: ElementRef;
-  @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
-  @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
+  @ViewChild('nameColumn') nameColumn: ElementRef;
+  @ViewChild('midColumn') midColumn: ElementRef;
+  @ViewChild('comparatioColumn') comparatioColumn: ElementRef;
+  @ViewChild('currencyColumn') currencyColumn: ElementRef;
+  @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
 
   pageViewId = PageViewIds.Structures;
   rangeTypeIds = RangeType;

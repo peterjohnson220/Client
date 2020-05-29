@@ -24,9 +24,9 @@ import * as fromServicePageReducer from '../reducers';
   styleUrls: ['./service.page.scss']
 })
 export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('statusColumn', { static: false }) statusColumn: ElementRef;
-  @ViewChild('summaryColumn', { static: false }) summaryColumn: ElementRef;
-  @ViewChild('ticketType', { static: false }) ticketType: ElementRef;
+  @ViewChild('statusColumn') statusColumn: ElementRef;
+  @ViewChild('summaryColumn') summaryColumn: ElementRef;
+  @ViewChild('ticketType') ticketType: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
   ticketTypes$: Observable<string[]>;

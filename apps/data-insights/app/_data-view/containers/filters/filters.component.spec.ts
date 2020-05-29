@@ -29,7 +29,7 @@ describe('Data Insights - Filters Comopnent', () => {
 
     fixture = TestBed.createComponent(FiltersComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });

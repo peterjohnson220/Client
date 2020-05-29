@@ -16,7 +16,7 @@ export class WorkbookViewsComponent implements OnDestroy {
   @Input() workbook: Workbook;
   @Input() searchEnabled = true;
 
-  @ViewChild('workbookViewsSearchComponent', { static: false })
+  @ViewChild('workbookViewsSearchComponent')
   public workbookViewsSearchComponent: InputDebounceComponent;
   viewFilterValue: string;
 

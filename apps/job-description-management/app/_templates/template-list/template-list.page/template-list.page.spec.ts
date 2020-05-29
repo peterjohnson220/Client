@@ -26,7 +26,7 @@ describe('Job Description Management - Job Description - Template List Page', ()
   let fixture: ComponentFixture<TemplateListPageComponent>;
   let store: Store<fromTemplateReducers.State>;
   let router: Router;
-  let route: ActivatedRouteStub;
+  let route: ActivatedRoute;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -88,9 +88,9 @@ describe('Job Description Management - Job Description - Template List Page', ()
     instance.newTemplateModal = TestBed.createComponent(NewTemplateModalComponent).componentInstance;
     instance.deleteTemplateModal = TestBed.createComponent(SimpleYesNoModalComponent).componentInstance;
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
   });
 
   it('should show add template modal', () => {

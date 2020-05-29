@@ -38,8 +38,8 @@ describe('Pf-Admin - Utilities - YoY Default Scopes Page', () => {
     fixture = TestBed.createComponent(YoyDefaultScopesPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    activatedRoute = TestBed.inject(ActivatedRoute);
   });
 
   it('Should dispatch a SetSelectedSurvey action with a data list item, when handling a survey clicked', () => {

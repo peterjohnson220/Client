@@ -32,7 +32,7 @@ describe('Admin - Tickets - Company Detail Card', () => {
     fixture = TestBed.createComponent(CompanyDetailCardComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('Should display details about a company', () => {

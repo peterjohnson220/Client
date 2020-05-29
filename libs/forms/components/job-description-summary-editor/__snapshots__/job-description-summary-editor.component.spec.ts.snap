@@ -16,12 +16,9 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
   rows={[Function Number]}
   title={[Function String]}
 >
-  <div
-    ng-reflect-ng-class="[object Object]"
-  >
+  <div>
     <div
       class="pb-3"
-      ng-reflect-ng-class="[object Object]"
     >
       
       <div
@@ -37,22 +34,18 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
         
       </div>
     </div>
-    <div
-      ng-reflect-ng-class="[object Object]"
-    >
+    <div>
       
       <form
         autocomplete="nope"
         class="ng-untouched ng-pristine ng-valid"
         id="jobs-page-job-description-form"
-        ng-reflect-form="[object Object]"
         novalidate=""
       >
         <textarea
           class="form-control ng-untouched ng-pristine ng-valid"
           data-qa-id="txt-jobs-page-job-description"
           formcontrolname="JobDescription"
-          ng-reflect-name="JobDescription"
           placeholder="There is no Job Description loaded for this Job."
           readonly=""
           rows="9"

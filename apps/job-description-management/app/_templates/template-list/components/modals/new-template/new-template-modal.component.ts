@@ -14,11 +14,11 @@ export class NewTemplateModalComponent implements OnInit {
   @ViewChild('newTemplateModal', { static: true }) public newTemplateModal: any;
   @Output() createTemplateComplete = new EventEmitter();
 
-  private templateNameForm: FormGroup;
-  private modalRef: NgbModalRef;
-  private submitted = false;
-  private invalidTemplateName = false;
-  private templateName = '';
+  templateNameForm: FormGroup;
+  modalRef: NgbModalRef;
+  submitted = false;
+  invalidTemplateName = false;
+  templateName = '';
 
   constructor(
     private formBuilder: FormBuilder,
