@@ -2,6 +2,7 @@ import { Component, ViewChild, ChangeDetectionStrategy, OnDestroy, OnInit } from
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromPayMarketManagementReducer from '../../reducers';
 import * as fromPayMarketModalActions from '../../actions/paymarket-modal.actions';
@@ -16,6 +17,7 @@ import { GeneralFormComponent } from '../general-form';
 })
 export class PayMarketModalComponent implements OnInit, OnDestroy {
   @ViewChild(GeneralFormComponent, { static: false }) public generalForm: GeneralFormComponent;
+  @ViewChild('payMarketTabs', { static: false }) payMarketTabs: NgbTabset;
   modalOpen$: Observable<boolean>;
   payMarketModalTabs = PayMarketModalTabs;
 
@@ -29,6 +31,9 @@ export class PayMarketModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.modalOpenSubscription = this.modalOpen$.subscribe(modalOpen => {
+      if (modalOpen) {
+        this.payMarketTabs.select(this.payMarketModalTabs.General);
+      }
       if (modalOpen && this.generalForm) {
         this.generalForm.refresh();
       }

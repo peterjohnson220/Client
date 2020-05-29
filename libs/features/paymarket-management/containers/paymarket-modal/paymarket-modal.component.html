@@ -25,6 +25,13 @@
               </div>
             </ng-template>
           </ngb-tab>
+          <ngb-tab [title]="'Default Scopes'" [id]="payMarketModalTabs.DefaultScopes">
+            <ng-template ngbTabContent>
+              <div class="pt-3">
+                <pf-default-scopes [reset]="!(modalOpen$ | async)"></pf-default-scopes>
+              </div>
+            </ng-template>
+          </ngb-tab>
         </ngb-tabset>
       </div>
     </pf-async-container>
