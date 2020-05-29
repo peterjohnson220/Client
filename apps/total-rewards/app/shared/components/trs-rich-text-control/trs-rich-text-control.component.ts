@@ -161,7 +161,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   onContentChanged(quillContentChange: any) {
     // get dom node references to the container around the quill content and the content nodes (p tags)
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
-    const contentNodes = this.richTextNode.querySelectorAll('.ql-editor p') as NodeListOf<HTMLElement>;
+    const contentNodes = this.richTextNode.querySelectorAll('.ql-editor p, .ql-editor li') as NodeListOf<HTMLElement>;
 
     // calculate how many pixels tall the content is with a for loop, as IE 11 does not support NodeListOf.forEach()
     let totalContentHeightInPixels = 0;
