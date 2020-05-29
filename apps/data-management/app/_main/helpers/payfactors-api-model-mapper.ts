@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { find, isEmpty } from 'lodash';
 
 import { ImportDataType, OrgDataEntityType, TransferMethodTypes} from 'libs/constants/hris-api';
 import { LoaderFileFormat, LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
@@ -190,10 +190,18 @@ export class PayfactorsApiModelMapper {
     companyId,
     mappings: Object.entries(mappings)
       .filter(([entityType]) => entityType !== OrgDataEntityType.JobDescriptions)
-      .map(([entityType, fields]: [string, EntityDataField[]]) => ({
-        LoaderType: entityType,
-        Mappings: fields.filter(field => !isEmpty(field.AssociatedEntity)).map(field => `${field.FieldName}__${field.AssociatedEntity[0].FieldName}`),
-      })),
+      .map(([entityType, fields]: [string, EntityDataField[]]) => {
+        const result = {
+          LoaderType: entityType,
+          Mappings: fields.filter(field => !isEmpty(field.AssociatedEntity)).map(field => `${field.FieldName}__${field.FieldName}`),
+        };
+
+        if (find(fields, (field: EntityDataField) => field.FieldName === 'PayMarket' && field.AssociatedEntity?.length === 0)) {
+          result.Mappings.push('PayMarket__PayMarket');
+        }
+
+        return (result);
+    }),
     loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId
   })
 
