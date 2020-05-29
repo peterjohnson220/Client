@@ -1019,6 +1019,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                     ng-reflect-klass="input-text w-100"
                     ng-reflect-ng-class="offScreen"
                     placeholder=""
+                    tabindex="-1"
                     type="text"
                   />
                   
@@ -1085,6 +1086,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   ng-reflect-klass="input-text w-100"
                   ng-reflect-ng-class="offScreen"
                   placeholder="First"
+                  tabindex="-1"
                   type="text"
                 />
                 
@@ -1157,6 +1159,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   ng-reflect-klass="input-text w-100"
                   ng-reflect-ng-class="offScreen"
                   placeholder="Second"
+                  tabindex="-1"
                   type="text"
                 />
                 
@@ -1229,6 +1232,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   ng-reflect-klass="input-text w-100"
                   ng-reflect-ng-class="offScreen"
                   placeholder="Third"
+                  tabindex="-1"
                   type="text"
                 />
                 
@@ -1299,6 +1303,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   ng-reflect-klass="input-text w-100"
                   ng-reflect-ng-class="offScreen"
                   placeholder=""
+                  tabindex="-1"
                   type="text"
                 />
                 

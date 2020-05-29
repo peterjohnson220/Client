@@ -222,8 +222,9 @@ pf-effective-date {
   }
 
   .preview-mode {
-    .k-picker-wrap {
+    .k-picker-wrap, .k-dateinput-wrap {
       border-color: transparent;
+      background-color: transparent; // in preview this element gets pushed into the gutter, so make it transparent
     }
     .k-select {
       display: none;
