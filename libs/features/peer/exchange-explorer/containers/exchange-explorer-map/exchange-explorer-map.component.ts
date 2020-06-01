@@ -25,7 +25,7 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
   cursorStyle: string;
   satelliteStyleEnabled = false;
   map: mapboxgl.Map;
-  ignoreNextMoveEnd = true;
+  ignoreNextMoveEnd = false;
   peerMapSummary: ExchangeMapSummary;
   peerInitialMapBounds: number[];
   peerInitialMapZoomLevel: number;
