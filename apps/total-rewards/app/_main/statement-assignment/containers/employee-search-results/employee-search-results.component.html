@@ -1,5 +1,5 @@
 <pf-search-results [numberOfCurrentResults]="20" class="result p-1">
-  <ng-container *ngIf="(employeeResults$ | async); else noResultsMessage">
+  <ng-container *ngIf="(employeeResults$ | async).length > 0; else noResultsMessage">
     <pf-employee-result
       *ngFor="let employeeResult of employeeResults$ | async"
       [employee]="employeeResult"

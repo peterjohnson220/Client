@@ -15,7 +15,11 @@ import { StatementAssignmentRoutingModule } from './statement-assignment-routing
 import { StatementAssignmentPageComponent } from './statement-assignment.page';
 import { StatementAssignmentModalComponent } from './containers';
 import { EmployeeSearchResultsComponent } from './containers/employee-search-results/employee-search-results.component';
-import { EmployeeSearchResultsEffects } from './effects';
+import {
+  EmployeeSearchResultsEffects,
+  EmployeeSearchUserFilterEffects,
+  StatementAssignmentModalEffects
+} from './effects';
 import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
 
 @NgModule({
@@ -25,7 +29,7 @@ import { EmployeeResultComponent } from './components/employee-result/employee-r
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementAssignment', reducers),
-    EffectsModule.forFeature([EmployeeSearchResultsEffects]),
+    EffectsModule.forFeature([EmployeeSearchResultsEffects, StatementAssignmentModalEffects, EmployeeSearchUserFilterEffects]),
 
     // Payfactors
     PfCommonUIModule,

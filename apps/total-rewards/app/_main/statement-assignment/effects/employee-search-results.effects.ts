@@ -9,7 +9,7 @@ import { EmployeeSearchApiService } from 'libs/data/payfactors-api/search/employ
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import { TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/employee-search/response/employee-search-response.model';
 import * as fromSearchReducer from 'libs/features/search/reducers';
-import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
 
 import * as fromEmployeeSearchResultsActions from '../actions/employee-search-results.actions';
@@ -28,7 +28,8 @@ export class EmployeeSearchResultsEffects {
       .pipe(
         withLatestFrom(
           this.store.select(fromSearchReducer.getResultsPagingOptions),
-          (action: fromSearchResultsActions.GetResults, pagingOptions) => ({action, pagingOptions})
+          this.store.select(fromSearchReducer.getParentFilters),
+          (action: fromSearchResultsActions.GetResults, pagingOptions, filters) => ({action, pagingOptions, filters})
         ),
         switchMap((data) => {
           const searchRequest = {
@@ -36,7 +37,8 @@ export class EmployeeSearchResultsEffects {
               ReturnFilters: false,
               AggregateCount: 0
             },
-            Filters: [],
+            Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
+            SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
             PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.pagingOptions)
           };
 
@@ -63,6 +65,7 @@ export class EmployeeSearchResultsEffects {
     private employeeSearchApi: EmployeeSearchApiService,
     private totalRewardsApi: TotalRewardsApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
+    private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
     private actions$: Actions
   ) {}
 }
