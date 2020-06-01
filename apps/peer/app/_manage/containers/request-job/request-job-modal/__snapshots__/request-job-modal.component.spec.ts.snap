@@ -15,7 +15,7 @@ exports[`Peer - Manage - Request Job Modal should render job selection form comp
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-valid"
-    title="Request Job"
+    title="Request Exchange Job"
   >
     
     
@@ -47,7 +47,7 @@ exports[`Peer - Manage - Request Job Modal should render new job form component 
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-valid"
-    title="Request Job"
+    title="Request Exchange Job"
   >
     
     
