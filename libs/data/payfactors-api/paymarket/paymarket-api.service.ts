@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AddPayMarketRequest } from 'libs/models/payfactors-api';
+import { SurveyAndScope } from 'libs/models/survey';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { PayMarket, DefaultUserPayMarket } from '../../../models/paymarket';
+import { PayMarket, PayMarketWithMdScope } from '../../../models/paymarket';
 import { GenericKeyValue } from '../../../models/common';
 
 @Injectable()
@@ -54,7 +55,17 @@ export class PayMarketApiService {
       { params: { companyPayMarketId }});
   }
 
-  getDefaultUserPayMarket(): Observable<DefaultUserPayMarket> {
-    return this.payfactorsApiService.get<DefaultUserPayMarket>(`${this.endpoint}/GetDefaultUserPayMarket`);
+  getDefaultUserPayMarket(): Observable<PayMarketWithMdScope> {
+    return this.payfactorsApiService.get<PayMarketWithMdScope>(`${this.endpoint}/GetDefaultUserPayMarket`);
+  }
+
+  getPayMarketWithMdScope(companyPayMarketId: number): Observable<PayMarketWithMdScope> {
+    return this.payfactorsApiService.get<PayMarketWithMdScope>(`${this.endpoint}/GetPayMarketWithMdScope`,
+      { params: { companyPayMarketId }});
+  }
+
+  getDefaultScopeAndSurveyInfo(companyPayMarketId: number): Observable<SurveyAndScope[]> {
+    return this.payfactorsApiService.get<SurveyAndScope[]>(`${this.endpoint}/GetDefaultScopeAndSurveyInfo`,
+      { params: { companyPayMarketId } });
   }
 }

@@ -1,3 +1,7 @@
+<pf-async-container
+  [loading]="(defaultScopes$ | async)?.loading"
+  [loadingError]="(defaultScopes$ | async)?.loadingError">
+</pf-async-container>
 <div class="d-flex flex-column">
   <div>
     <p class="pb-2 pr-3">
@@ -50,13 +54,13 @@
   <br>
   <div class="default-scopes-container">
     <p>
-      <span *ngIf="!(selectedDefaultScopes$ | async)?.length">
+      <span *ngIf="!defaultScopes?.length">
         No default scopes have been added for this pay market.
       </span>
       <span class="text-danger" [style.visibility]="duplicateError ? 'visible' : 'hidden'">The selected default scope already exists</span>
     </p>
-    <ng-container *ngIf="(selectedDefaultScopes$ | async) as selectedDefaultScopesAsync">
-      <ng-container *ngFor="let defaultScope of selectedDefaultScopesAsync; let i = index">
+    <ng-container *ngIf="!!defaultScopes">
+      <ng-container *ngFor="let defaultScope of defaultScopes; let i = index">
         <div class="d-flex scope-row">
           <div class="scope-column text">{{defaultScope?.Survey?.DisplayName}}</div>
           <div class="scope-column text">{{defaultScope?.Scope?.Name}}</div>

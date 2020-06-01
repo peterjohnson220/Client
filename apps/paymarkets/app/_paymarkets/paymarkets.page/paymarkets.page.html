@@ -45,7 +45,7 @@
 
 <ng-template #popContent>
   <div class="d-flex flex-column">
-    <a href="#" class="text-dark btn action-btn">Edit</a>
+    <a href="#" class="text-dark btn action-btn" (click)="editPayMarket()">Edit</a>
     <a *ngIf="defaultPayMarketId !== selectedPayMarketId" href="#" (click)="setDefaultPayMarket(selectedPayMarketId)" class="text-dark btn action-btn">Set as default</a>
     <a href="#"class="text-dark btn action-btn">Delete</a>
   </div>

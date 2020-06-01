@@ -26,16 +26,16 @@ export class DefaultScopesComponent implements OnInit, OnDestroy, OnChanges, Aft
   surveys$: Observable<AsyncStateObj<CompanySurvey[]>>;
   hasMoreSurveys$: Observable<boolean>;
   combinedScopes$: Observable<AsyncStateObj<CombinedScope[]>>;
-  selectedDefaultScopes$: Observable<DefaultScope[]>;
+  defaultScopes$: Observable<AsyncStateObj<DefaultScope[]>>;
 
   surveysSubscription: Subscription;
   combinedScopeSubscription: Subscription;
-  selectedDefaultScopesSubscription: Subscription;
+  defaultScopesSubscription: Subscription;
   surveyFilterChangeSubscription: Subscription;
 
   surveys: CompanySurvey[];
   combinedScopes: CombinedScope[];
-  selectedDefaultScopes: DefaultScope[];
+  defaultScopes: DefaultScope[];
   surveySearchTerm = '';
   surveyId: number;
   combinedScopeValue: string;
@@ -49,16 +49,15 @@ export class DefaultScopesComponent implements OnInit, OnDestroy, OnChanges, Aft
     this.surveys$ = this.store.select(fromPayMarketManagementReducer.getCompanySurveys);
     this.hasMoreSurveys$ = this.store.select(fromPayMarketManagementReducer.getHasMoreCompanySurveys);
     this.combinedScopes$ = this.store.select(fromPayMarketManagementReducer.getCombinedScopes);
-    this.selectedDefaultScopes$ = this.store.select(fromPayMarketManagementReducer.getSelectedDefaultScopes);
+    this.defaultScopes$ = this.store.select(fromPayMarketManagementReducer.getDefaultScopes);
   }
 
   ngOnInit(): void {
     this.initSubscriptions();
-    this.loadSurveys();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes && changes.reset && changes.reset.currentValue) {
+    if (changes?.reset?.currentValue) {
       this.resetDefaultScopes();
     }
   }
@@ -104,7 +103,7 @@ export class DefaultScopesComponent implements OnInit, OnDestroy, OnChanges, Aft
     if (!selectedSurvey || !selectedCombinedScope) {
       return;
     }
-    this.duplicateError = this.selectedDefaultScopes.some(s =>
+    this.duplicateError = this.defaultScopes.some(s =>
       s.Survey.Id === selectedSurvey.Id &&
       s.Scope.Value === selectedCombinedScope.Value);
     if (this.duplicateError) {
@@ -133,7 +132,11 @@ export class DefaultScopesComponent implements OnInit, OnDestroy, OnChanges, Aft
         this.combinedScopes = asyncObj.obj;
       }
     });
-    this.selectedDefaultScopesSubscription = this.selectedDefaultScopes$.subscribe(scopes => this.selectedDefaultScopes = scopes);
+    this.defaultScopesSubscription = this.defaultScopes$.subscribe(asyncObj => {
+      if (!!asyncObj && !asyncObj.loading && !!asyncObj.obj) {
+        this.defaultScopes = asyncObj.obj;
+      }
+    });
   }
 
   private resetDefaultScopes(): void {

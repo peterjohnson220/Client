@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, switchMap, map } from 'rxjs/operators';
+import { catchError, switchMap, map, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { ExchangeScopeApiService } from 'libs/data/payfactors-api';
+import { ExchangeScopeApiService, PayMarketApiService } from 'libs/data/payfactors-api';
 import { ExchangeScopes } from 'libs/models/peer/exchange-scope';
 
+import * as fromPayMarketManagementReducer from '../reducers';
 import * as fromExchangeScopesActions from '../actions/exchange-scopes.actions';
-
+import { Store } from '@ngrx/store';
+import { ExchangeScopesHelper } from '../helpers';
 
 @Injectable()
 export class ExchangeScopesEffects {
@@ -28,8 +30,30 @@ export class ExchangeScopesEffects {
       })
     );
 
+  @Effect()
+  loadExchangeScopeSelections$ = this.actions$
+    .pipe(
+      ofType(fromExchangeScopesActions.LOAD_EXCHANGE_SCOPE_SELECTIONS),
+      withLatestFrom(
+        this.store.select(fromPayMarketManagementReducer.getCompanyExchangeScopes),
+        (action: fromExchangeScopesActions.LoadExchangeScopeSelections, allExchangeScopes) =>
+          ({ action, allExchangeScopes })
+      ),
+      switchMap((data) => {
+        return this.payMarketApiService.getExchangeScopeSelections(data.action.payload.payMarketId)
+          .pipe(
+            map((response) => new fromExchangeScopesActions.LoadExchangeScopeSelectionsSuccess(
+              ExchangeScopesHelper.mapGenericKeyValuesToExchangeScopes(response, data.allExchangeScopes.obj)
+            )),
+            catchError(() => of(new fromExchangeScopesActions.LoadExchangeScopeSelectionsError()))
+          );
+      })
+    );
+
   constructor(
+    private store: Store<fromPayMarketManagementReducer.State>,
     private actions$: Actions,
-    private exchangeScopeApiService: ExchangeScopeApiService
+    private exchangeScopeApiService: ExchangeScopeApiService,
+    private payMarketApiService: PayMarketApiService
   ) {}
 }

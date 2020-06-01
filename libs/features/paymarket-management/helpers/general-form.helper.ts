@@ -1,5 +1,5 @@
 import { GroupedListItem } from 'libs/models/list';
-import { DefaultUserPayMarket } from 'libs/models/paymarket';
+import { PayMarketWithMdScope } from 'libs/models/paymarket';
 import { MDLocationsRequest } from 'libs/models/payfactors-api';
 
 import { Scope } from '../models';
@@ -21,33 +21,33 @@ export class GeneralFormHelper {
     };
   }
 
-  static buildDefaultLocation(defaultPayMarket: DefaultUserPayMarket): GroupedListItem {
-    if (!defaultPayMarket.GeoLabel || !defaultPayMarket.GeoValue || defaultPayMarket.GeoValue === 'All') {
+  static buildDefaultLocation(payMarket: PayMarketWithMdScope): GroupedListItem {
+    if (!payMarket.GeoLabel || !payMarket.GeoValue || payMarket.GeoValue === 'All') {
       return this.buildAllItem();
     }
-    switch (defaultPayMarket.GeoLabel) {
+    switch (payMarket.GeoLabel) {
       case 'Region': {
         return {
-          Name: defaultPayMarket.Region,
-          Value: `Region:${defaultPayMarket.Region}`
+          Name: payMarket.Region,
+          Value: `Region:${payMarket.Region}`
         };
       }
       case 'State': {
         return {
-          Name: defaultPayMarket.State,
-          Value: `State:${defaultPayMarket.Region}:${defaultPayMarket.State}`
+          Name: payMarket.State,
+          Value: `State:${payMarket.Region}:${payMarket.State}`
         };
       }
       case 'Metro': {
         return {
-          Name: defaultPayMarket.Metro,
-          Value: `Metro:${defaultPayMarket.Region}:${defaultPayMarket.State}:${defaultPayMarket.Metro}`
+          Name: payMarket.Metro,
+          Value: `Metro:${payMarket.Region}:${payMarket.State}:${payMarket.Metro}`
         };
       }
       case 'City': {
         return {
-          Name: defaultPayMarket.City,
-          Value: `City:${defaultPayMarket.Region}:${defaultPayMarket.State}:${defaultPayMarket.Metro}:${defaultPayMarket.City}`
+          Name: payMarket.City,
+          Value: `City:${payMarket.Region}:${payMarket.State}:${payMarket.Metro}:${payMarket.City}`
         };
       }
       default: {

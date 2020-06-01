@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, switchMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { SurveyApiService } from 'libs/data/payfactors-api';
+import { SurveyApiService, PayMarketApiService } from 'libs/data/payfactors-api';
 
 import * as fromDefaultScopesActions from '../actions/default-scopes.actions';
 import { DefaultScopesHelper } from '../helpers';
@@ -47,8 +47,25 @@ export class DefaultScopesEffects {
       })
     );
 
+  @Effect()
+  loadDefaultScopes$ = this.actions$
+    .pipe(
+      ofType(fromDefaultScopesActions.LOAD_DEFAULT_SCOPES),
+      switchMap((action: fromDefaultScopesActions.LoadDefaultScopes) => {
+        return this.payMarketApiService.getDefaultScopeAndSurveyInfo(action.payload.payMarketId)
+          .pipe(
+            map((response) => {
+              const defaultScopes = DefaultScopesHelper.mapSurveyAndScopesToDefaultScopes(response);
+              return new fromDefaultScopesActions.LoadDefaultScopesSuccess(defaultScopes);
+            }),
+            catchError(() => of(new fromDefaultScopesActions.LoadDefaultScopesError()))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
-    private surveyApiService: SurveyApiService
+    private surveyApiService: SurveyApiService,
+    private payMarketApiService: PayMarketApiService
   ) {}
 }

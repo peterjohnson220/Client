@@ -19,7 +19,7 @@ export class ExchangeScopesComponent implements OnInit, OnDestroy, OnChanges {
   @Input() reset = false;
 
   exchangeScopes$: Observable<AsyncStateObj<ExchangeScopes[]>>;
-  selectedExchangeScopes$: Observable<ExchangeScopes[]>;
+  selectedExchangeScopes$: Observable<AsyncStateObj<ExchangeScopes[]>>;
 
   exchangeScopesSub: Subscription;
   selectedExchangeScopesSub: Subscription;
@@ -112,9 +112,9 @@ export class ExchangeScopesComponent implements OnInit, OnDestroy, OnChanges {
         this.exchangeScopesFilter = asyncObj.obj;
       }
     });
-    this.selectedExchangeScopesSub = this.selectedExchangeScopes$.subscribe(ses => {
-      if (!!ses) {
-        this.selectedExchangeScopes = ses;
+    this.selectedExchangeScopesSub = this.selectedExchangeScopes$.subscribe(asyncObj => {
+      if (!!asyncObj && !asyncObj.loading && !!asyncObj.obj) {
+        this.selectedExchangeScopes = asyncObj.obj;
       }
     });
   }

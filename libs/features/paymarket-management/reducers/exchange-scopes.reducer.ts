@@ -7,12 +7,12 @@ import * as fromExchangeScopesActions from '../actions/exchange-scopes.actions';
 
 export interface State {
   exchangeScopes: AsyncStateObj<ExchangeScopes[]>;
-  selectedExchangeScopes: ExchangeScopes[];
+  selectedExchangeScopes: AsyncStateObj<ExchangeScopes[]>;
 }
 
 export const initialState: State = {
   exchangeScopes: generateDefaultAsyncStateObj<ExchangeScopes[]>([]),
-  selectedExchangeScopes: []
+  selectedExchangeScopes: generateDefaultAsyncStateObj<ExchangeScopes[]>([])
 };
 
 export function reducer(state = initialState, action: fromExchangeScopesActions.Actions): State {
@@ -46,25 +46,56 @@ export function reducer(state = initialState, action: fromExchangeScopesActions.
       };
     }
     case fromExchangeScopesActions.ADD_EXCHANGE_SCOPE: {
-      const selectedExchangeScopesClone: ExchangeScopes[] = cloneDeep(state.selectedExchangeScopes);
-      selectedExchangeScopesClone.push(action.payload);
+      const selectedExchangeScopesClone: AsyncStateObj<ExchangeScopes[]> = cloneDeep(state.selectedExchangeScopes);
+      selectedExchangeScopesClone.obj.push(action.payload);
       return {
         ...state,
         selectedExchangeScopes: selectedExchangeScopesClone
       };
     }
     case fromExchangeScopesActions.REMOVE_EXCHANGE_SCOPE: {
-      const selectedExchangeScopesClone: ExchangeScopes[] = cloneDeep(state.selectedExchangeScopes);
-      selectedExchangeScopesClone.splice(action.payload.exchangeScopeIndex, 1);
+      const selectedExchangeScopesClone: AsyncStateObj<ExchangeScopes[]> = cloneDeep(state.selectedExchangeScopes);
+      selectedExchangeScopesClone.obj.splice(action.payload.exchangeScopeIndex, 1);
       return {
         ...state,
         selectedExchangeScopes: selectedExchangeScopesClone
       };
     }
     case fromExchangeScopesActions.RESET_EXCHANGE_SCOPES: {
+      const selectedExchangeScopesClone: AsyncStateObj<ExchangeScopes[]> = cloneDeep(state.selectedExchangeScopes);
+      selectedExchangeScopesClone.loading = false;
+      selectedExchangeScopesClone.loadingError = false;
+      selectedExchangeScopesClone.obj = [];
       return {
         ...state,
-        selectedExchangeScopes: []
+        selectedExchangeScopes: selectedExchangeScopesClone
+      };
+    }
+    case fromExchangeScopesActions.LOAD_EXCHANGE_SCOPE_SELECTIONS: {
+      const selectedExchangeScopesClone: AsyncStateObj<ExchangeScopes[]> = cloneDeep(state.selectedExchangeScopes);
+      selectedExchangeScopesClone.loading = true;
+      selectedExchangeScopesClone.loadingError = false;
+      return {
+        ...state,
+        selectedExchangeScopes: selectedExchangeScopesClone
+      };
+    }
+    case fromExchangeScopesActions.LOAD_EXCHANGE_SCOPE_SELECTIONS_SUCCESS: {
+      const selectedExchangeScopesClone: AsyncStateObj<ExchangeScopes[]> = cloneDeep(state.selectedExchangeScopes);
+      selectedExchangeScopesClone.loading = false;
+      selectedExchangeScopesClone.obj = action.payload;
+      return {
+        ...state,
+        selectedExchangeScopes: selectedExchangeScopesClone
+      };
+    }
+    case fromExchangeScopesActions.LOAD_EXCHANGE_SCOPE_SELECTIONS_ERROR: {
+      const selectedExchangeScopesClone: AsyncStateObj<ExchangeScopes[]> = cloneDeep(state.selectedExchangeScopes);
+      selectedExchangeScopesClone.loading = false;
+      selectedExchangeScopesClone.loadingError = true;
+      return {
+        ...state,
+        selectedExchangeScopes: selectedExchangeScopesClone
       };
     }
     default: {
