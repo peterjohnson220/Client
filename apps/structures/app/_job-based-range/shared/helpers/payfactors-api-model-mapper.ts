@@ -23,7 +23,10 @@ export class PayfactorsApiModelMapper {
       ModelName: srgr.RangeGroupName,
       SpreadMin: srgr.RangeSpreadMin,
       SpreadMax: srgr.RangeSpreadMax,
-      IsCurrent: srgr.IsCurrent
+      IsCurrent: srgr.IsCurrent,
+      RangeDistributionTypeId: srgr.RangeDistributionTypeId,
+      RangeDistributionTypes: srgr.RangeDistributionTypes,
+      RangeDistributionTypeSetting: srgr.RangeDistributionTypeSetting
     };
   }
 
@@ -49,7 +52,9 @@ export class PayfactorsApiModelMapper {
   ///
   /// OUT
   ///
-  static mapModelSettingsModalFormToSaveSettingsRequest(rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj): SaveModelSettingsRequest {
+  static mapModelSettingsModalFormToSaveSettingsRequest(
+    rangeGroupId: number, formValue: any,
+    rounding: RoundingSettingsDataObj, metadata: RangeGroupMetadata): SaveModelSettingsRequest {
     return {
       RangeGroupId: rangeGroupId,
       ControlPoint: formValue.controlPoint,
@@ -59,7 +64,8 @@ export class PayfactorsApiModelMapper {
       RangeSpreadMax: formValue.spreadMax,
       Rate: formValue.rate,
       StructureName: formValue.structureName,
-      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
+      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding),
+      RangeDistributionTypeId: metadata.RangeDistributionTypeId
     };
   }
 

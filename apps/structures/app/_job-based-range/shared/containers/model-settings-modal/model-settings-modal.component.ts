@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
@@ -7,6 +7,9 @@ import { delay } from 'rxjs/operators';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { CompanySettingsEnum } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
+import { MinMidMax } from 'libs/models/payfactors-api';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
@@ -15,6 +18,7 @@ import { ControlPoint, Currency, RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
 import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
+import { RangeDistributionTypeComponent } from '../range-distribution-type';
 
 @Component({
   selector: 'pf-model-settings-modal',
@@ -24,6 +28,7 @@ import { Workflow } from '../../constants/workflow';
 export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() page: Pages;
+  @ViewChild(RangeDistributionTypeComponent, {static: false}) public rangeDistributionTypeComponent: RangeDistributionTypeComponent;
 
   modalOpen$: Observable<boolean>;
   metaData$: Observable<RangeGroupMetadata>;
@@ -33,6 +38,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   savingModelSettingsAsyncObj$: Observable<AsyncStateObj<null>>;
   modelNameExistsFailure$: Observable<boolean>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
+  enableJobRangeTypes$: Observable<boolean>;
 
   controlPointsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
@@ -40,6 +46,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
   roundingSettingsSub: Subscription;
+  enableJobRangeTypesSub: Subscription;
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
@@ -52,10 +59,13 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   isNewModel: boolean;
   roundingSettings: RoundingSettingsDataObj;
   activeTab: string;
+  enableJobRangeTypes: boolean;
+  modelSetting: RangeGroupMetadata;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
-    public urlService: UrlService
+    public urlService: UrlService,
+    private settingService: SettingsService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
@@ -66,6 +76,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getStructureNameSuggestionsAsyncObj));
     this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSavingModelSettingsAsyncObj));
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
+    this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.EnableJobRangeStructureRangeTypes
+    );
   }
 
   get formControls() {
@@ -128,9 +141,27 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleModalSubmitAttempt() {
     this.attemptedSubmit = true;
+    this.modelSetting = this.modelSettingsForm.value;
+    if (this.enableJobRangeTypes) {
+      // Set value for control point, range spread min and max
+      this.updateRangeTypeSetting();
+    }
     if (!this.modelSettingsForm.valid) {
       this.activeTab = 'modelTab';
     }
+  }
+
+  updateRangeTypeSetting() {
+    this.rangeDistributionTypeComponent.validate();
+    const rangeTypeSetting = this.rangeDistributionTypeComponent.rangeTypeForm.value;
+    // Prevent the hidden controls from failing validation
+    this.modelSettingsForm.controls['spreadMin'].setValue(rangeTypeSetting.Minimum);
+    this.modelSettingsForm.controls['spreadMax'].setValue(rangeTypeSetting.Maximum);
+    this.modelSettingsForm.controls['controlPoint'].setValue(rangeTypeSetting.ControlPoint);
+
+    // Update range distribution type and setting
+    this.modelSetting.RangeDistributionTypeSetting = this.rangeDistributionTypeComponent.rangeTypeForm.value;
+    this.modelSetting.RangeDistributionTypeId = rangeTypeSetting.RangeDistributionTypeId;
   }
 
   handleModalDismiss() {
@@ -201,6 +232,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     });
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
+    this.enableJobRangeTypesSub = this.enableJobRangeTypes$.subscribe(c => this.enableJobRangeTypes = c);
   }
 
   private unsubscribe() {
@@ -210,9 +242,11 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
+    this.enableJobRangeTypesSub.unsubscribe();
   }
 
   private reset() {
     this.attemptedSubmit = false;
+    this.rangeDistributionTypeComponent.reset();
   }
 }
