@@ -22,7 +22,7 @@ export class UrlService {
   }
 
   removeAllWorkflows(): void {
-    Object.values(Workflow).forEach((w) => this.removeWorkflow(w));
+    Object.keys(Workflow).map(x => Workflow[x]).forEach((w) => this.removeWorkflow(w));
   }
 
   private getUrl(): string {
