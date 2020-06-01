@@ -1,11 +1,11 @@
-import {  ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import 'rxjs/add/observable/of';
-import {CdkScrollable} from '@angular/cdk/scrolling';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
@@ -16,6 +16,7 @@ import { CommunityPostsComponent } from './community-posts.component';
 import { CommunityPost } from 'libs/models/community/community-post.model';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
+import { SettingsService } from 'libs/state/app-context/services';
 
 describe('CommunityPostsComponent', () => {
   let fixture: ComponentFixture<CommunityPostsComponent>;
@@ -34,13 +35,13 @@ describe('CommunityPostsComponent', () => {
         ReactiveFormsModule
       ],
       providers: [ CdkScrollable,
-          {
+        {
           provide: ActivatedRoute,
           useValue: {
-            params: Observable.of({id: 123})
+            params: Observable.of({ id: 123 })
           }
-        }
-        ],
+        },
+        SettingsService ],
       declarations: [
         CommunityPostsComponent
       ],
@@ -104,7 +105,7 @@ describe('CommunityPostsComponent', () => {
   it('should dispatch GettingNextBatchCommunityPosts when calling onScrollDown' +
     'when hasNextBatchOnServer and not loadingNextBatchCommunityPosts', () => {
     const action = new fromCommunityPostActions.GettingNextBatchCommunityPosts();
-    instance.communityPosts  = [generateMockCommunityPost()];
+    instance.communityPosts = [ generateMockCommunityPost() ];
     instance.loadingNextBatchCommunityPosts = false;
     instance.hasNextBatchOnServer = true;
     instance.onScrollDown();
@@ -113,9 +114,9 @@ describe('CommunityPostsComponent', () => {
   });
 
   it('should not dispatch GettingNextBatchCommunityPosts when calling onScrollDown' +
-  'when loadingNextBatchCommunityPosts', () => {
+    'when loadingNextBatchCommunityPosts', () => {
     const action = new fromCommunityPostActions.GettingNextBatchCommunityPosts();
-    instance.communityPosts  = [generateMockCommunityPost()];
+    instance.communityPosts = [ generateMockCommunityPost() ];
     instance.loadingNextBatchCommunityPosts = true;
     instance.hasNextBatchOnServer = true;
     instance.onScrollDown();
@@ -126,7 +127,7 @@ describe('CommunityPostsComponent', () => {
   it('should not dispatch GettingNextBatchCommunityPosts when calling onScrollDown' +
     'when not hasNextBatchOnServer', () => {
     const action = new fromCommunityPostActions.GettingNextBatchCommunityPosts();
-    instance.communityPosts  = [generateMockCommunityPost()];
+    instance.communityPosts = [ generateMockCommunityPost() ];
     instance.loadingNextBatchCommunityPosts = false;
     instance.hasNextBatchOnServer = false;
     instance.onScrollDown();

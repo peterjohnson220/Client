@@ -19,6 +19,7 @@ import * as fromCommunityIndustryReducer from './community-industry.reducer';
 import * as fromCommunityCompanySizeReducer from './community-company-size.reducer';
 import * as fromCommunityTopicReducer from './community-topic.reducer';
 import * as fromCommunityAttachmentReducer from './community-attachment.reducer';
+import * as fromCommunityAttachmentWarningReducer from './community-attachment-warning.reducer';
 import { CommunityConstants } from '../models';
 import { populatePostReplies } from '../helpers/model-mapping.helper';
 
@@ -40,6 +41,7 @@ export interface CommunityState {
   communityCompanySizes: fromCommunityCompanySizeReducer.State;
   communityTopic: fromCommunityTopicReducer.State;
   communityAttachments: fromCommunityAttachmentReducer.State;
+  communityAttachmentsWarning: fromCommunityAttachmentWarningReducer.State;
 }
 
 // Extend root state with feature area state
@@ -64,7 +66,8 @@ export const reducers = {
   communityIndustries: fromCommunityIndustryReducer.reducer,
   communityCompanySizes: fromCommunityCompanySizeReducer.reducer,
   communityTopic: fromCommunityTopicReducer.reducer,
-  communityAttachments: fromCommunityAttachmentReducer.reducer
+  communityAttachments: fromCommunityAttachmentReducer.reducer,
+  communityAttachmentsWarning: fromCommunityAttachmentWarningReducer.reducer
 };
 
 // select feature area
@@ -150,6 +153,11 @@ export const selectFromCommunityCompanySizeState = createSelector(
 export const selectFromCommunityAttachmentsState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityAttachments
+);
+
+export const selectFromCommunityAttachmentsWarningModalState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityAttachmentsWarning
 );
 
 // Community Poll Selectors
@@ -681,4 +689,15 @@ export const getCurrentAttachmentModalState = createSelector(
 export const getCurrentAttachmentModalOpen = createSelector(
   selectFromCommunityAttachmentsState,
   fromCommunityAttachmentReducer.getCurrentAttachmentModalOpen
+);
+
+// Community Attachment Warning Modal Selectors
+export const getCurrentAttachmentWarningModalState = createSelector(
+  selectFromCommunityAttachmentsWarningModalState,
+  fromCommunityAttachmentWarningReducer.getCurrentAttachmentWarningModalOpen
+);
+
+export const getCurrentAttachmentDownloadUrl = createSelector(
+  selectFromCommunityAttachmentsWarningModalState,
+  fromCommunityAttachmentWarningReducer.getCurrentAttachmentDownloadUrl
 );

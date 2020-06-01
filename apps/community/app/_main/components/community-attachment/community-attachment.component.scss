@@ -1,6 +1,10 @@
 @import 'colors';
 @import 'styles';
 
+.attachment-anchor {
+  cursor: pointer;
+}
+
 .container {
   display: flex;
   align-items: baseline;

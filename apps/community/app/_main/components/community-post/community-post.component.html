@@ -25,7 +25,7 @@
           <div *ngIf="post.Attachments" class="d-flex flex-wrap pt-2">
             <div class="pr-4 pt-1 pb-2" *ngFor="let attachment of post.Attachments">
               <pf-community-attachment
-                [attachment]="attachment">
+                [attachment]="attachment" [hideAttachmentWarning]="hideAttachmentWarning" (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
               </pf-community-attachment>         
              </div>
           </div>

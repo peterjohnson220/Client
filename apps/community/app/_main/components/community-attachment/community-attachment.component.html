@@ -1,4 +1,4 @@
-<a href={{getDownloadUrl()}}>
+<a class="attachment-anchor" (click)="!hideAttachmentWarning ? openWarningModal() : null" [attr.href]="hideAttachmentWarning ? getDownloadUrl() : null">
   <div placement="top" [ngbTooltip]="toolTip">
     <div class="container">
       <fa-icon icon="{{iconFile}}" size="lg" class="icon {{iconClass}} mr-1"></fa-icon> 
@@ -12,5 +12,3 @@
     <span>{{formattedSize}}</span>
   </div>
 </ng-template>
-
-
