@@ -22,6 +22,7 @@ import { faThumbsUp } from '@fortawesome/pro-light-svg-icons/faThumbsUp';
 import { faPencil } from '@fortawesome/pro-solid-svg-icons/faPencil';
 import { faFilePdf } from '@fortawesome/pro-solid-svg-icons/faFilePdf';
 import { faFileWord } from '@fortawesome/pro-solid-svg-icons/faFileWord';
+import { faFilePowerpoint } from '@fortawesome/pro-solid-svg-icons/faFilePowerpoint';
 import { faFileImage } from '@fortawesome/pro-solid-svg-icons/faFileImage';
 import { faFile } from '@fortawesome/pro-solid-svg-icons/faFile';
 import { faPaperclip } from '@fortawesome/pro-solid-svg-icons/faPaperclip';
@@ -30,5 +31,5 @@ export const faIcons = [
   faTimes, faSearch, faTimesCircle, faCheckCircle, faCircle, faReply, faHeart,
   faArrowAltCircleUp, faChevronRight, faExternalLink, faFileExcel,
   faChevronLeft, faEye, faStopwatch, faComments, faChartBar, faTrashAlt, faThumbsUp,
-  fasBuilding, falBuilding, faPencil, faFilePdf, faFileWord, faFileImage, faFile, faPaperclip
+  fasBuilding, falBuilding, faPencil, faFilePdf, faFileWord, faFilePowerpoint, faFileImage, faFile, faPaperclip
 ];
