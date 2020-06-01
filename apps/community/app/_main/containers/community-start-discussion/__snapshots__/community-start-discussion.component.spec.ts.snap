@@ -44,6 +44,12 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
       <div
         class="footer-container"
       >
+        <div
+          class="float-left"
+        >
+          
+          
+        </div>
         <button
           class="btn btn-primary float-right shadow-none"
           data-qa-id="btn-startDiscussionPost"
@@ -102,6 +108,12 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
       <div
         class="footer-container"
       >
+        <div
+          class="float-left"
+        >
+          
+          
+        </div>
         <button
           class="btn btn-primary float-right shadow-none"
           data-qa-id="btn-startDiscussionPost"
