@@ -3,5 +3,6 @@ export enum AttachmentFileType {
   Excel = 'Excel',
   Pdf = 'Pdf',
   Image = 'Image',
+  Powerpoint = 'Powerpoint',
   Unknown = ''
 }
