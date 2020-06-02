@@ -1,0 +1,70 @@
+<div class="d-flex flex-column">
+  <div>
+    <p class="pb-2 pr-3">
+      Select an Exchange Scope to associate to this Pay Market. This will generate a Peer data cut for Company Jobs you are pricing in the selected Pay Market</p>
+    <hr>
+    <div class="d-flex">
+      <div class="scope-column">
+        <label>Exchange</label>
+        <kendo-combobox
+          class="form-control"
+          [data]="exchangeScopesFilter"
+          [loading]="(exchangeScopes$ | async)?.loading"
+          textField="ExchangeName"
+          valueField="ExchangeId"
+          [valuePrimitive]="true"
+          [filterable]="true"
+          (filterChange)="handleExchangeFilter($event)"
+          (valueChange)="selectExchange($event)"
+          [(ngModel)]="selectedExchangeId"
+          [attr.data-qa-id]="'ddm-paymarket-management-exchange-scopes'"
+          [placeholder]="'Choose an Exchange...'">
+        </kendo-combobox>
+      </div>
+      <div class="scope-column">
+        <label>Scope</label>
+        <kendo-combobox
+          [filterable]="true"
+          (filterChange)="handleScopeFilter($event)"
+          class="form-control"
+          [data]="exchangeScopeItemsFilter"
+          textField="Name"
+          valueField="Id"
+          [valuePrimitive]="true"
+          [(ngModel)]="exchangeScopeItemId"
+          [attr.data-qa-id]="'ddm-paymarket-management-exchange-scope-items'"
+          [disabled]="(exchangeScopes$ | async)?.loading || !selectedExchangeId"
+          [placeholder]="'Choose a Scope...'"
+          (valueChange)="duplicateError = false">
+        </kendo-combobox>
+      </div>
+      <div class="btn-add">
+        <button class="btn btn-secondary" type="button" (click)="addExchangeScope()" [disabled]="!selectedExchangeId || !exchangeScopeItemId">
+          <fa-icon icon="plus"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="exchange-scopes-container">
+    <p>
+      <span *ngIf="!selectedExchangeScopes.length">
+        No exchange scopes have been added for this pay market.
+      </span>
+      <span class="text-danger" [style.visibility]="duplicateError ? 'visible' : 'hidden'">The selected exchange scope already exists</span>
+    </p>
+    <ng-container *ngIf="selectedExchangeScopes">
+      <ng-container *ngFor="let exchangeScope of selectedExchangeScopes; let i = index">
+        <div class="d-flex scope-row">
+          <div class="scope-column text">{{exchangeScope?.ExchangeName}}</div>
+          <div class="scope-column text">{{exchangeScope?.ExchangeScopeItems[0].Name}}</div>
+          <div class="btn-delete">
+            <button class="btn btn-secondary" type="button" (click)="removeDefaultScope(i)">
+              <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

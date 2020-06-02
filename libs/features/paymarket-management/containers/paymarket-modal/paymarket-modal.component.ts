@@ -4,6 +4,9 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import { PermissionService } from 'libs/core';
+
 import * as fromPayMarketManagementReducer from '../../reducers';
 import * as fromPayMarketModalActions from '../../actions/paymarket-modal.actions';
 import { PayMarketModalTabs } from '../../models';
@@ -20,16 +23,22 @@ export class PayMarketModalComponent implements OnInit, OnDestroy {
   @ViewChild('payMarketTabs') payMarketTabs: NgbTabset;
   modalOpen$: Observable<boolean>;
   payMarketModalTabs = PayMarketModalTabs;
+  permissions = Permissions;
+  hasPeerAccess: boolean;
 
   modalOpenSubscription: Subscription;
 
   constructor(
-    private store: Store<fromPayMarketManagementReducer.State>
+    private store: Store<fromPayMarketManagementReducer.State>,
+    private permissionService: PermissionService,
   ) {
     this.modalOpen$ = this.store.select(fromPayMarketManagementReducer.getPayMarketModalOpen);
   }
 
   ngOnInit(): void {
+    this.hasPeerAccess = this.permissionService.CheckPermission(
+      [Permissions.PEER], PermissionCheckEnum.Single
+    );
     this.modalOpenSubscription = this.modalOpen$.subscribe(modalOpen => {
       if (modalOpen) {
         this.payMarketTabs.select(this.payMarketModalTabs.General);

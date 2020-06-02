@@ -1,4 +1,5 @@
 export enum PayMarketModalTabs {
    General = 'General',
-   DefaultScopes = 'DefaultScopes'
+   DefaultScopes = 'DefaultScopes',
+   ExchangeScopes = 'ExchangeScopes'
 }

@@ -8,6 +8,7 @@ import * as fromPayMarketModalReducer from './paymarket-modal.reducer';
 import * as fromGeneralFormReducer from './general-form.reducer';
 import * as fromMdScopeReducer from './market-data-scope.reducer';
 import * as fromDefaultScopesReducer from './default-scopes.reducer';
+import * as fromExchangeScopesReducer from './exchange-scopes.reducer';
 
 // Feature area state
 export interface PayMarketManagementState {
@@ -15,6 +16,7 @@ export interface PayMarketManagementState {
   generalForm: fromGeneralFormReducer.State;
   marketDataScope: fromMdScopeReducer.State;
   defaultScopes: fromDefaultScopesReducer.State;
+  exchangeScopes: fromExchangeScopesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,7 +29,8 @@ export const reducers = {
   payMarketModal: fromPayMarketModalReducer.reducer,
   generalForm: fromGeneralFormReducer.reducer,
   marketDataScope: fromMdScopeReducer.reducer,
-  defaultScopes: fromDefaultScopesReducer.reducer
+  defaultScopes: fromDefaultScopesReducer.reducer,
+  exchangeScopes: fromExchangeScopesReducer.reducer
 };
 
 // Select Feature Area
@@ -43,6 +46,8 @@ export const selectMdScopeState =
   createSelector(selectPayMarketManagementFeature, (state: PayMarketManagementState) => state.marketDataScope);
 export const selectDefaultScopesState =
   createSelector(selectPayMarketManagementFeature, (state: PayMarketManagementState) => state.defaultScopes);
+export const selectExchangeScopesState =
+  createSelector(selectPayMarketManagementFeature, (state: PayMarketManagementState) => state.exchangeScopes);
 
 // Pay Market Modal
 export const getPayMarketModalOpen = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarketModalOpen);
@@ -63,3 +68,7 @@ export const getCompanySurveys = createSelector(selectDefaultScopesState, fromDe
 export const getHasMoreCompanySurveys = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getHasMoreCompanySurveys);
 export const getCombinedScopes = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getCombinedScopes);
 export const getSelectedDefaultScopes = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getSelectedDefaultScopes);
+
+// Exchange Scopes
+export const getCompanyExchangeScopes = createSelector(selectExchangeScopesState, fromExchangeScopesReducer.getCompanyExchangeScopes);
+export const getSelectedExchanges = createSelector(selectExchangeScopesState, fromExchangeScopesReducer.getSelectedExchanges);
