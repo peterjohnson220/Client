@@ -17,7 +17,7 @@
 input[type=text] {
   padding: 0;
   margin: 0;
-  border: 2px solid transparent;
+  border: 0;
   outline: none;
   background-color: transparent; // inherit should work here but doesn't for IE 11, so make transparent as a workaround
   color: inherit;
@@ -32,7 +32,6 @@ input[type=text] {
 .editable {
   cursor: pointer;
   color: inherit;
-  border: 2px solid transparent;
   &:hover {
     text-decoration: none;
   }
@@ -40,7 +39,7 @@ input[type=text] {
     border: 2px solid $link-color;
   }
   &:active {
-    border: 2px solid transparent; // suppress border while mouse is down on element
+    border: 0; // suppress border while mouse is down on element
   }
 }
 
