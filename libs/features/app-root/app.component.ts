@@ -35,8 +35,8 @@ export class AppComponent implements OnInit, OnDestroy {
     { regex: /#(.*)/,  replace: '*'},
     { regex: /\/([0-9]+)$/, replace: '/*'},
     { regex: /\/([0-9]+)\//, replace: '/*/'},
-    { regex: /\/([0-9]+)#(.*)/, replace: '/*'}
-
+    { regex: /\/([0-9]+)#(.*)/, replace: '/*'},
+    { regex: /\?(.*)/, replace: '?*'}
   ];
 
   constructor(
