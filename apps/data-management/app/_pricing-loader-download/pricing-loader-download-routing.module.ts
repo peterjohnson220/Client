@@ -6,13 +6,13 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AuthorizationGuard, PfAdminGuard } from 'libs/security/guards';
 
 import {
-  PricingLoadersComponent
+  PricingLoaderDownloadComponent
 } from './containers';
 
 const routes: Routes = [
   {
-    path: 'pricing-loader',
-    component: PricingLoadersComponent,
+    path: 'pricing-loaders-download',
+    component: PricingLoaderDownloadComponent,
     canActivate: [AuthorizationGuard],
     data: { Permissions: [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD], Check: PermissionCheckEnum.Any }
   }
@@ -22,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PricingLoadersRoutingModule { }
+export class PricingLoaderDownloadRoutingModule { }

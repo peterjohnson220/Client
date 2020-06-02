@@ -64,5 +64,9 @@ export class PricingLoadersComponent implements OnInit {
   textWidth(value: number) {
    return value.toString().length <= 3;
   }
+
+  goDownload() {
+    window.open('/client/data-management/pricing-loader/pricing-loaders-download?company=' + this.selectedCompany.CompanyId + '-' + this.selectedCompany.CompanyName, '_blank');
+  }
 }
 
