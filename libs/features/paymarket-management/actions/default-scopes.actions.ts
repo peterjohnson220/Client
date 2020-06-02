@@ -13,6 +13,9 @@ export const LOAD_COMBINED_SCOPES_ERROR = '[Pay Market Management / Default Scop
 export const ADD_DEFAULT_SCOPE = '[Pay Market Management / Default Scopes] Add Default Scope';
 export const REMOVE_DEFAULT_SCOPE = '[Pay Market Management / Default Scopes] Remove Default Scope';
 export const RESET_DEFAULT_SCOPES = '[Pay Market Management / Default Scopes] Reset Default Scopes';
+export const LOAD_DEFAULT_SCOPES = '[Pay Market Management / Default Scopes] Load Default Scopes';
+export const LOAD_DEFAULT_SCOPES_SUCCESS = '[Pay Market Management / Default Scopes] Load Default Scopes Success';
+export const LOAD_DEFAULT_SCOPES_ERROR = '[Pay Market Management / Default Scopes] Load Default Scopes Error';
 
 export class LoadCompanySurveys implements Action {
   readonly type = LOAD_COMPANY_SURVEYS;
@@ -64,6 +67,21 @@ export class ResetDefaultScopes implements Action {
   constructor() {}
 }
 
+export class LoadDefaultScopes implements Action {
+  readonly type = LOAD_DEFAULT_SCOPES;
+  constructor(public payload: { payMarketId: number }) {}
+}
+
+export class LoadDefaultScopesSuccess implements Action {
+  readonly type = LOAD_DEFAULT_SCOPES_SUCCESS;
+  constructor(public payload: DefaultScope[]) {}
+}
+
+export class LoadDefaultScopesError implements Action {
+  readonly type = LOAD_DEFAULT_SCOPES_ERROR;
+  constructor() {}
+}
+
 export type Actions
   = LoadCompanySurveys
   | LoadCompanySurveysSuccess
@@ -74,4 +92,7 @@ export type Actions
   | LoadCombinedScopesError
   | AddDefaultScope
   | RemoveDefaultScope
-  | ResetDefaultScopes;
+  | ResetDefaultScopes
+  | LoadDefaultScopes
+  | LoadDefaultScopesSuccess
+  | LoadDefaultScopesError;

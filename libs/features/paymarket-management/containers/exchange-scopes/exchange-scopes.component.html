@@ -1,3 +1,7 @@
+<pf-async-container
+  [loading]="(selectedExchangeScopes$ | async)?.loading"
+  [loadingError]="(selectedExchangeScopes$ | async)?.loadingError">
+</pf-async-container>
 <div class="d-flex flex-column">
   <div>
     <p class="pb-2 pr-3">

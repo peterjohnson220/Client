@@ -8,6 +8,9 @@ export const LOAD_COMPANY_EXCHANGE_SCOPES_ERROR = '[Pay Market Management / Exch
 export const ADD_EXCHANGE_SCOPE = '[Pay Market Management / Exchange Scopes] Add Exchange Scope';
 export const REMOVE_EXCHANGE_SCOPE = '[Pay Market Management / Exchange Scopes] Remove Exchange Scope';
 export const RESET_EXCHANGE_SCOPES = '[Pay Market Management / Exchange Scopes] Reset Exchange Scopes';
+export const LOAD_EXCHANGE_SCOPE_SELECTIONS = '[Pay Market Management / Exchange Scopes] Load Exchange Scope Selections';
+export const LOAD_EXCHANGE_SCOPE_SELECTIONS_SUCCESS = '[Pay Market Management / Exchange Scopes] Load Exchange Scope Selections Success';
+export const LOAD_EXCHANGE_SCOPE_SELECTIONS_ERROR = '[Pay Market Management / Exchange Scopes] Load Exchange Scope Selections Error';
 
 export class LoadCompanyExchangeScopes implements Action {
   readonly type = LOAD_COMPANY_EXCHANGE_SCOPES;
@@ -39,6 +42,20 @@ export class ResetExchangeScopes implements Action {
   constructor() {}
 }
 
+export class LoadExchangeScopeSelections implements Action {
+  readonly type = LOAD_EXCHANGE_SCOPE_SELECTIONS;
+  constructor(public payload: { payMarketId: number }) {}
+}
+
+export class LoadExchangeScopeSelectionsSuccess implements Action {
+  readonly type = LOAD_EXCHANGE_SCOPE_SELECTIONS_SUCCESS;
+  constructor(public payload: ExchangeScopes[]) {}
+}
+
+export class LoadExchangeScopeSelectionsError implements Action {
+  readonly type = LOAD_EXCHANGE_SCOPE_SELECTIONS_ERROR;
+  constructor() {}
+}
 
 export type Actions
   = LoadCompanyExchangeScopes
@@ -46,4 +63,7 @@ export type Actions
   | LoadCompanyExchangeScopesError
   | AddExchangeScope
   | RemoveExchangeScope
-  | ResetExchangeScopes;
+  | ResetExchangeScopes
+  | LoadExchangeScopeSelections
+  | LoadExchangeScopeSelectionsSuccess
+  | LoadExchangeScopeSelectionsError;

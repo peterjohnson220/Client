@@ -17,7 +17,9 @@ import { PayMarketModalComponent, GeneralFormComponent, MarketDataScopeComponent
   DefaultScopesComponent, ExchangeScopesComponent
 } from './containers';
 import { reducers } from './reducers';
-import { GeneralFormEffects, MarketDataScopeEffects, DefaultScopesEffects, ExchangeScopesEffects } from './effects';
+import { GeneralFormEffects, MarketDataScopeEffects, DefaultScopesEffects, ExchangeScopesEffects,
+  PayMarketModalEffects
+} from './effects';
 import * as fromFaIcons from './fa-icons';
 
 @NgModule({
@@ -31,7 +33,8 @@ import * as fromFaIcons from './fa-icons';
       GeneralFormEffects,
       MarketDataScopeEffects,
       DefaultScopesEffects,
-      ExchangeScopesEffects
+      ExchangeScopesEffects,
+      PayMarketModalEffects
     ]),
     DropDownsModule,
     NumericTextBoxModule,

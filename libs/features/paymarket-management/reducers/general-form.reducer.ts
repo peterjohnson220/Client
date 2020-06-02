@@ -2,7 +2,6 @@ import { cloneDeep } from 'lodash';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
-import { DefaultUserPayMarket } from 'libs/models';
 
 import * as fromGeneralFormActions from '../actions/general-form.actions';
 
@@ -10,14 +9,12 @@ export interface State {
   countries: AsyncStateObj<KendoTypedDropDownItem[]>;
   currencies: AsyncStateObj<KendoTypedDropDownItem[]>;
   linkedPayMarkets: AsyncStateObj<KendoTypedDropDownItem[]>;
-  defaultPayMarket: AsyncStateObj<DefaultUserPayMarket>;
 }
 
 const initialState: State = {
   countries: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
   currencies: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
-  linkedPayMarkets: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([]),
-  defaultPayMarket: generateDefaultAsyncStateObj<DefaultUserPayMarket>(null)
+  linkedPayMarkets: generateDefaultAsyncStateObj<KendoTypedDropDownItem[]>([])
 };
 
 export function reducer(state = initialState, action: fromGeneralFormActions.Actions): State {
@@ -106,33 +103,6 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
         linkedPayMarkets: linkedPayMarketsClone
       };
     }
-    case fromGeneralFormActions.GET_DEFAULT_USER_PAY_MARKET: {
-      const defaultPayMarketClone: AsyncStateObj<DefaultUserPayMarket> = cloneDeep(state.defaultPayMarket);
-      defaultPayMarketClone.loading = true;
-      defaultPayMarketClone.loadingError = false;
-      return {
-        ...state,
-        defaultPayMarket: defaultPayMarketClone
-      };
-    }
-    case fromGeneralFormActions.GET_DEFAULT_USER_PAY_MARKET_SUCCESS: {
-      const defaultPayMarketClone: AsyncStateObj<DefaultUserPayMarket> = cloneDeep(state.defaultPayMarket);
-      defaultPayMarketClone.loading = false;
-      defaultPayMarketClone.obj = action.payload;
-      return {
-        ...state,
-        defaultPayMarket: defaultPayMarketClone
-      };
-    }
-    case fromGeneralFormActions.GET_DEFAULT_USER_PAY_MARKET_ERROR: {
-      const defaultPayMarketClone: AsyncStateObj<DefaultUserPayMarket> = cloneDeep(state.defaultPayMarket);
-      defaultPayMarketClone.loading = false;
-      defaultPayMarketClone.loadingError = true;
-      return {
-        ...state,
-        defaultPayMarket: defaultPayMarketClone
-      };
-    }
     default: {
       return state;
     }
@@ -142,4 +112,3 @@ export function reducer(state = initialState, action: fromGeneralFormActions.Act
 export const getCountries = (state: State) => state.countries;
 export const getCurrencies = (state: State) => state.currencies;
 export const getLinkedPayMarkets = (state: State) => state.linkedPayMarkets;
-export const getDefaultPayMarket = (state: State) => state.defaultPayMarket;
