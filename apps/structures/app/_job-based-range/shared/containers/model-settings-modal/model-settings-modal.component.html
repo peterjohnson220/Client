@@ -60,7 +60,10 @@
                     [disabled]="true">
                   </kendo-autocomplete>
                 </div>
-                <div class="form-group w-50">
+                <div class="form-group" *ngIf="(enableJobRangeTypes$ | async)">
+                  <pf-range-distribution-type></pf-range-distribution-type>
+                </div>
+                <div class="form-group w-50" *ngIf="!(enableJobRangeTypes$ | async)">
                   <label for="midpoint">Midpoint based on</label>
                   <kendo-combobox id="midpoint" class="form-control"
                                   formControlName="controlPoint"
@@ -81,7 +84,7 @@
                     Please select a midpoint.
                   </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row" *ngIf="!(enableJobRangeTypes$ | async)">
                   <div class="form-group col-6">
                     <label for="range-spread-min">Range Spread</label>
                     <div class="input-group no-flex-wrap">

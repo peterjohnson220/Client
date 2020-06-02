@@ -7,12 +7,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { PfCommonModule } from 'libs/core';
+import { generateMockStructureRangeDistributionTypes, generateMockRangeDistributionTypeSetting } from 'libs/models/payfactors-api';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import { ModelSettingsModalComponent } from './model-settings-modal.component';
 import { UrlService } from '../../services';
 import { Pages } from '../../constants/pages';
+import { RangeDistributionTypeComponent } from '../range-distribution-type';
 
 describe('Job Based Ranges - Model Settings Modal', () => {
   let instance: ModelSettingsModalComponent;
@@ -31,7 +34,10 @@ describe('Job Based Ranges - Model Settings Modal', () => {
         }),
         PfCommonModule
       ],
-      declarations: [ ModelSettingsModalComponent ],
+      declarations: [
+        ModelSettingsModalComponent,
+        RangeDistributionTypeComponent
+      ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
         {
@@ -41,13 +47,15 @@ describe('Job Based Ranges - Model Settings Modal', () => {
         {
           provide: UrlService,
           useValue: { isInWorkflow: jest.fn()}
-        }
-
+        },
+        SettingsService
       ]
     });
 
     fixture = TestBed.createComponent(ModelSettingsModalComponent);
     instance = fixture.componentInstance;
+    instance.rangeDistributionTypeComponent =
+      TestBed.createComponent(RangeDistributionTypeComponent).componentInstance;
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
     urlService = TestBed.inject(UrlService);
@@ -63,7 +71,10 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       ControlPointDisplay: 'Base',
       SpreadMin: 10,
       SpreadMax: 10,
-      IsCurrent: false
+      IsCurrent: false,
+      RangeDistributionTypeId: 1,
+      RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
+      RangeDistributionTypeSetting: generateMockRangeDistributionTypeSetting()
 
     };
 
@@ -135,7 +146,10 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       ControlPointDisplay: 'Base',
       SpreadMin: 10,
       SpreadMax: 10,
-      IsCurrent: false
+      IsCurrent: false,
+      RangeDistributionTypeId: 1,
+      RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
+      RangeDistributionTypeSetting: generateMockRangeDistributionTypeSetting()
 
     };
 
@@ -178,7 +192,10 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     instance.rangeGroupId = 1;
     instance.page = Pages.Model;
     instance.roundingSettings = {};
-    const expectedAction = new fromModelSettingsModalActions.SaveModelSettings({ rangeGroupId: instance.rangeGroupId, rounding: instance.roundingSettings, fromPage: Pages.Model, formValue: instance.modelSettingsForm.value});
+    const expectedAction = new fromModelSettingsModalActions.SaveModelSettings({
+      rangeGroupId: instance.rangeGroupId,
+      rounding: instance.roundingSettings,
+      fromPage: Pages.Model, formValue: instance.modelSettingsForm.value});
 
     instance.handleModalSubmit();
 

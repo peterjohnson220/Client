@@ -1,6 +1,8 @@
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
 
+import * as cloneDeep from 'lodash.clonedeep';
+
 import * as fromSharedActions from '../actions/shared.actions';
 import { RangeGroupMetadata } from '../models';
 
@@ -56,6 +58,14 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
             RoundingPoint: action.payload.RoundingPoint
           }
         }
+      };
+    }
+    case fromSharedActions.UPDATE_RANGE_DISTRIBUTION_TYPE: {
+      const clonedMetadata = cloneDeep(state.metadata);
+      clonedMetadata.RangeDistributionTypeId = action.payload.RangeDistributionTypeId;
+      return {
+        ...state,
+        metadata: clonedMetadata
       };
     }
     default:

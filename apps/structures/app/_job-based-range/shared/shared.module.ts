@@ -16,7 +16,7 @@ import { RangeEditorModule } from 'libs/features/structures';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
-import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent } from './containers';
+import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent, RangeDistributionTypeComponent } from './containers';
 import { ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects } from './effects';
 import { RangeValuePipe } from './pipes';
 import { reducers } from './reducers';
@@ -53,7 +53,8 @@ import * as fromFaIcons from './fa-icons';
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,
     RangeValuePipe,
-    GlobalActionsComponent
+    GlobalActionsComponent,
+    RangeDistributionTypeComponent
   ],
   exports: [
     ModelGridComponent,

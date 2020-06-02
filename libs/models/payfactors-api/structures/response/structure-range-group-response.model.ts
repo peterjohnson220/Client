@@ -1,3 +1,6 @@
+import { RangeDistributionType, generateMockStructureRangeDistributionTypes} from './structure-range-distribution-type.model';
+import {RangeDistributionTypeSetting, generateMockRangeDistributionTypeSetting } from './range-distribution-type-setting.model';
+
 export interface StructureRangeGroupResponse {
   CompanyStructuresRangeGroupId: number;
   CompanyId: number;
@@ -14,6 +17,9 @@ export interface StructureRangeGroupResponse {
   StructureName: string;
   RangeSpreadMin: number;
   RangeSpreadMax: number;
+  RangeDistributionTypeId: number;
+  RangeDistributionTypes: RangeDistributionType[];
+  RangeDistributionTypeSetting: RangeDistributionTypeSetting;
 }
 
 export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupResponse {
@@ -32,6 +38,9 @@ export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupRes
     ControlPoint: 'TestControlPoint',
     IsPublished: false,
     IsCurrent: true,
-    EffectiveDate: new Date('1995-12-17T03:24:00')
+    EffectiveDate: new Date('1995-12-17T03:24:00'),
+    RangeDistributionTypeId: 1,
+    RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
+    RangeDistributionTypeSetting: generateMockRangeDistributionTypeSetting()
   };
 }

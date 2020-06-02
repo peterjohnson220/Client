@@ -27,7 +27,8 @@ export enum CompanySettingsEnum {
   ManualOrgDataLoadLink = 'ManualOrgDataLoadLink',
   EnableJobsPageToggle = 'EnableJobsPageToggle',
   CanEditCurrentStructureRanges = 'CanEditCurrentStructureRanges',
-  DashboardPreferences = 'DashboardPreferences'
+  DashboardPreferences = 'DashboardPreferences',
+  EnableJobRangeStructureRangeTypes = 'EnableJobRangeStructureRangeTypes'
 }
 
 export interface CompanySetting {
