@@ -57,6 +57,7 @@ export class ExchangeScopesComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   selectExchange(exchangeId: number) {
+    this.exchangeScopeItemId = null;
     if (!!exchangeId) {
       const selectedExchange = this.exchangeScopes.find(x => x.ExchangeId === exchangeId);
       this.selectedExchangeId = exchangeId;
@@ -64,7 +65,6 @@ export class ExchangeScopesComponent implements OnInit, OnDestroy, OnChanges {
       this.exchangeScopeItemsFilter = orderBy(this.exchangeScopeItems, [x => x.Name.toLowerCase()],  ['asc']);
     } else {
       this.selectedExchangeId = null;
-      this.exchangeScopeItemId = null;
     }
   }
 
