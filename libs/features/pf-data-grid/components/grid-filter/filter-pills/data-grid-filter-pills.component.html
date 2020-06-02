@@ -1,12 +1,12 @@
-<div class="d-flex align-items-center h-100">
-  <div perfectScrollbar class="pills-container">
+<div class="d-flex">
+  <div perfectScrollbar class="pills-container pb-2" [style.maxWidth]="getMaxWidthCalc()">
     <div class="badge badge-pill" *ngFor="let field of fields" (click)="pillClicked(field)">
       {{ getPillDisplay(field) }}
       <fa-icon icon="times" aria-hidden="true"></fa-icon>
     </div>
   </div>
   <div>
-    <button (click)="clearFilters()" class="btn btn-link">
+    <button (click)="clearFilters()" class="btn btn-link py-0 pr-0">
       Clear Filters
     </button>
   </div>

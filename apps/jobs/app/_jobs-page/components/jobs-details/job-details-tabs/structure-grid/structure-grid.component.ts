@@ -72,7 +72,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
       ...getDefaultActionBarConfig(),
       AllowExport: true,
       ExportSourceName: 'Structures',
-      ActionBarClassName: 'structure-grid-action-bar ml-0 mt-1'
+      ActionBarClassName: 'ml-0 mr-3 mt-1'
     };
   }
 

@@ -19,6 +19,19 @@
   <button
     type="button"
     class="btn btn-secondary pf-btn-borderless"
+    [attr.data-qa-id]="'btn-clearSelection'"
+    [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
+    (click)="handleClearSelectionClicked()">
+    <fa-icon [icon]="['far', 'times']"></fa-icon>
+    Clear Selections  <span *ngIf="selectedCompanyEmployeeIds?.length>0">({{selectedCompanyEmployeeIds.length}})</span>
+  </button>
+  <div
+    class="vertical-separator my-2"
+    [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]">
+  </div>
+  <button
+    type="button"
+    class="btn btn-secondary pf-btn-borderless"
     [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-priceJobs'"
     [disabled]="priceJobsDisabled"
@@ -45,19 +58,6 @@
     class="btn btn-secondary pf-btn-borderless">
     <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
     Delete
-  </button>
-  <div
-    class="vertical-separator my-2"
-    [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]">
-  </div>
-  <button
-    type="button"
-    class="btn btn-secondary pf-btn-borderless"
-    [attr.data-qa-id]="'btn-clearSelection'"
-    [disabled]="!selectedCompanyEmployeeIds || selectedCompanyEmployeeIds.length==0"
-    (click)="handleClearSelectionClicked()">
-    <fa-icon [icon]="['far', 'times']"></fa-icon>
-    Clear Selections  <span *ngIf="selectedCompanyEmployeeIds?.length>0">({{selectedCompanyEmployeeIds.length}})</span>
   </button>
 </ng-template>
 <ng-template #gridGlobalActions>
