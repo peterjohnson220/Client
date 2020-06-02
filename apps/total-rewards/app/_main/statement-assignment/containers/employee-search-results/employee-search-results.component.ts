@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { EmployeeSearchResult } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
 
 import * as fromStatementAssignmentsReducers from '../../reducers';
+import * as fromEmployeeSearchResultsActions from '../../actions/employee-search-results.actions';
 
 @Component({
   selector: 'pf-employee-search-results',
@@ -24,6 +25,10 @@ export class EmployeeSearchResultsComponent {
 
   trackByEmployeeId(index, item: EmployeeSearchResult) {
     return item.CompanyEmployeeId;
+  }
+
+  handleEmployeeSelectionToggle(employee: EmployeeSearchResult): void {
+    this.store.dispatch(new fromEmployeeSearchResultsActions.ToggleEmployeeSelection(employee));
   }
 
 }

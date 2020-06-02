@@ -12,7 +12,10 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import { TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
-import { TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
+import {
+  TotalRewardsAssignmentApiService,
+  TotalRewardsSearchApiService
+} from 'libs/data/payfactors-api/total-rewards';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
 
 import * as fromEmployeeSearchResultsActions from '../actions/employee-search-results.actions';
@@ -74,6 +77,7 @@ export class EmployeeSearchResultsEffects {
 
   constructor(
     private store: Store<fromSearchReducer.State>,
+    private totalRewardsAssignmentApiService: TotalRewardsAssignmentApiService,
     private totalRewardsSearchApiService: TotalRewardsSearchApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
     private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,

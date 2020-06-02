@@ -44,6 +44,30 @@ export const selectEmployeeSearchState = createSelector(
 );
 
 // Page Selectors
+export const getStatementId = createSelector(
+  selectPageState,
+  fromPageReducer.getStatementId
+);
+
+export const getAssignedEmployees = createSelector(
+  selectPageState,
+  fromPageReducer.getAssignedEmployees
+);
+
+export const getAssignedEmployeesLoading = createSelector(
+  selectPageState,
+  fromPageReducer.getAssignedEmployeesLoading
+);
+
+export const getAssignedEmployeesLoadingError = createSelector(
+  selectPageState,
+  fromPageReducer.getAssignedEmployeesLoadingError
+);
+
+export const getAssignedEmployeesCount = createSelector(
+  selectPageState,
+  fromPageReducer.getAssignedEmployeesCount
+);
 
 // Assignments Modal Selectors
 export const getIsAssignmentsModalOpen = createSelector(
@@ -51,8 +75,38 @@ export const getIsAssignmentsModalOpen = createSelector(
   fromAssignmentModalReducer.getIsOpen
 );
 
+export const getAssignEmployeesLoading = createSelector(
+  selectAssignmentsModalState,
+  fromAssignmentModalReducer.getAssignEmployeesLoading
+);
+
+export const getAssignEmployeesError = createSelector(
+  selectAssignmentsModalState,
+  fromAssignmentModalReducer.getAssignEmployeesError
+);
+
+export const getAssignAllEmployeesLoading = createSelector(
+  selectAssignmentsModalState,
+  fromAssignmentModalReducer.getAssignAllEmployeesLoading
+);
+
+export const getAssignAllEmployeesError = createSelector(
+  selectAssignmentsModalState,
+  fromAssignmentModalReducer.getAssignAllEmployeesError
+);
+
 // Employee Search Selectors
 export const getEmployees = createSelector(
   selectEmployeeSearchState,
   fromEmployeeSearchResultsReducer.getEmployees
+);
+
+export const getSelectedCompanyEmployeeIds = createSelector(
+  selectEmployeeSearchState,
+  fromEmployeeSearchResultsReducer.getSelectedCompanyEmployeeIds
+);
+
+export const getSelectedEmployeesCount = createSelector(
+  selectEmployeeSearchState,
+  fromEmployeeSearchResultsReducer.getSelectedEmployeesCount
 );

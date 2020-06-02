@@ -3,6 +3,7 @@ import { CompanyEmployee } from 'libs/models/company';
 
 export interface EmployeeSearchResult extends CompanyEmployee {
   JobTitle: string;
+  IsSelected: boolean;
 }
 
 export interface TotalRewardsEmployeeSearchResponse {
