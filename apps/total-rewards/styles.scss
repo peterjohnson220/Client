@@ -194,6 +194,9 @@ pf-trs-image-control {
 }
 
 pf-effective-date {
+  .k-state-disabled {
+    opacity: 1; // kendo wants this to be .65 but keep at 1 so it doesn't look faded in preview/print
+  }
   .k-picker-wrap {
     height: 22px;
     width: 130px;
