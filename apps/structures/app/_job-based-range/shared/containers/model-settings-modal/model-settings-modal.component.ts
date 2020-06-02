@@ -247,6 +247,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   private reset() {
     this.attemptedSubmit = false;
-    this.rangeDistributionTypeComponent.reset();
+    if (this.enableJobRangeTypes) {
+      this.rangeDistributionTypeComponent.reset();
+    }
   }
 }
