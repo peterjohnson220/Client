@@ -14,10 +14,10 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { PayMarketModalComponent, GeneralFormComponent, MarketDataScopeComponent,
-  DefaultScopesComponent
+  DefaultScopesComponent, ExchangeScopesComponent
 } from './containers';
 import { reducers } from './reducers';
-import { GeneralFormEffects, MarketDataScopeEffects, DefaultScopesEffects } from './effects';
+import { GeneralFormEffects, MarketDataScopeEffects, DefaultScopesEffects, ExchangeScopesEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 
 @NgModule({
@@ -30,7 +30,8 @@ import * as fromFaIcons from './fa-icons';
     EffectsModule.forFeature([
       GeneralFormEffects,
       MarketDataScopeEffects,
-      DefaultScopesEffects
+      DefaultScopesEffects,
+      ExchangeScopesEffects
     ]),
     DropDownsModule,
     NumericTextBoxModule,
@@ -47,7 +48,8 @@ import * as fromFaIcons from './fa-icons';
     PayMarketModalComponent,
     GeneralFormComponent,
     MarketDataScopeComponent,
-    DefaultScopesComponent
+    DefaultScopesComponent,
+    ExchangeScopesComponent
   ],
   exports: [ PayMarketModalComponent ]
 })
