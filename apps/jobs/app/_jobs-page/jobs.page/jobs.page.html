@@ -137,6 +137,16 @@
     <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && isActiveJobs()">
       ({{selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length}})
     </span>
+  </button>  
+  <button
+    [pfSecuredResource]="permissions.MODIFY_PRICINGS"
+    [disabled]="!isActiveJobs() || !selectedPricingIds.length"
+    [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
+    (click)="modifyPricings()"
+    type="button"
+    class="btn btn-secondary pf-btn-borderless">
+    <fa-icon [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
+    Modify Pricings <span *ngIf="selectedPricingIds.length">({{selectedPricingIds.length}})</span>
   </button>
   <button
     [disabled]="!(selectedJobIds.length)"
@@ -151,16 +161,6 @@
     <span *ngIf="selectedJobIds.length" >
       ({{selectedJobIds.length}})
     </span>
-  </button>
-  <button
-    [pfSecuredResource]="permissions.MODIFY_PRICINGS"
-    [disabled]="!isActiveJobs() || !selectedPricingIds.length"
-    [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
-    (click)="modifyPricings()"
-    type="button"
-    class="btn btn-secondary pf-btn-borderless">
-    <fa-icon [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
-    Modify Pricings <span *ngIf="selectedPricingIds.length">({{selectedPricingIds.length}})</span>
   </button>
 </ng-template>
 
