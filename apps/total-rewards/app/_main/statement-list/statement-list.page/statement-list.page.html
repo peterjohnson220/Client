@@ -45,6 +45,21 @@
 
       </div>
     </div>
+
+    <pf-modal-form
+      [size]="'lg'"
+      [isOpen$]="isDeleteStatetementModalOpen$"
+      [title]="'Delete Statement'"
+      [primaryButtonClass]="'btn-danger'"
+      [primaryButtonText]="'Delete'"
+      [primaryButtonTextSubmitting]="'Deleting...'"
+      [submitting]="deletingStatement$ | async"
+      (onSubmit)="onConfirmDeleteStatement()"
+      (onDismiss)="onCancelDeleteStatement()">
+      <ng-container basic-content>
+        <p>Are you sure you want to delete <strong>{{ (openActionMenuStatement$ | async)?.Name }}</strong>? This action is permanent and cannot be recovered.</p>
+      </ng-container>
+    </pf-modal-form>
   </ng-container>
 
 </pf-page-with-title-bar>
