@@ -94,6 +94,7 @@ describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
 
     spyOn(instance.reasonControl, 'reset');
 
+    instance.exchangeRequestModalOpen$ = of(true);
     instance.handleCardSelectionEvent();
 
     expect(instance.reasonControl.reset).toHaveBeenCalled();
@@ -108,6 +109,7 @@ describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
 
     spyOn(instance.jobSelection, 'setValue');
 
+    instance.exchangeRequestModalOpen$ = of(true);
     instance.handleCardSelectionEvent();
 
     expect(instance.jobSelection.setValue).toHaveBeenCalledWith(expectedSelection);

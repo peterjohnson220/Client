@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { PfValidators } from 'libs/forms/validators/index';
 import { CardSelectorComponent } from 'libs/ui/common/content/cards/card-selector/card-selector.component';
@@ -72,8 +73,12 @@ export class PayfactorsJobSelectionFormComponent implements OnInit {
   }
 
   handleCardSelectionEvent(): void {
-    this.jobSelection.setValue(this.cardSelection);
-    this.reasonControl.reset();
+    this.exchangeRequestModalOpen$.pipe(take(1)).subscribe(open =>  {
+      if(open) {
+        this.jobSelection.setValue(this.cardSelection);
+        this.reasonControl.reset();
+      }
+    });
   }
 
   updateJobTitleSearchFilter(newSearchTerm: string): void {
@@ -97,5 +102,9 @@ export class PayfactorsJobSelectionFormComponent implements OnInit {
         this.jobDescriptionHighlightFilter = '';
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.exchangeRequestModalOpenSubscription.unsubscribe();
   }
 }

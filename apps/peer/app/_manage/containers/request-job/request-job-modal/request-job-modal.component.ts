@@ -79,8 +79,6 @@ export class RequestJobModalComponent implements OnInit, OnDestroy {
       ExchangeRequestTypeEnum.PayfactorsJob,
       exchangeRequestModel
     ));
-    // Clear existing form
-    this.exchangeJobRequestForm.removeControl(this.currentChildForm);
   }
 
   handleModalDismissed(): void {
