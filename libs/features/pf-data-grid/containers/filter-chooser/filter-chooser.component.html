@@ -1,0 +1,102 @@
+<ng-template #popContent>
+  <div class="p-3">
+    <p>
+      <pf-input-debounce
+        [id]="'filter-chooser-search'"
+        [placeholderText]="'Search for a Filter...'"
+        [disabled]="!!(viewDeleting$ | async) || !!viewNameToBeDeleted"
+        (valueChanged)="(filter = $event)">
+      </pf-input-debounce>
+    </p>
+    <div class="popover-body-content-sm">
+      <div class="list-group">
+        <div *ngIf="!((savedViews$ | async) | filterArrayByName: filter)?.length">
+          <h5>No Filters</h5>
+        </div>
+        <div *ngFor="let view of ((savedViews$ | async) | filterArrayByName: filter)"
+             class="list-group-item list-group-item-action p-2"
+             [ngClass]="{'list-group-item-danger': viewNameToBeDeleted === view.Name,
+             'disabled': (viewNameToBeDeleted && viewNameToBeDeleted !== view.Name) || (viewDeleting$ | async)}">
+          <div class="d-flex align-items-center">
+            <div (click)="handleViewSelected(view)" class="filter-desc-container">
+              <span>{{view.Name}}</span>
+              <small class="filter-desc" [title]="view.Description">{{view.Description}}</small>
+            </div>
+            <div class="pl-3 ml-auto">
+              <button 
+                title="Delete"
+                type="button"
+                class="btn btn-secondary btn-sm user-filter-delete-btn"
+                [disabled]="viewNameToBeDeleted || (viewDeleting$ | async)"
+                (click)="$event.stopPropagation(); viewNameToBeDeleted = view.Name;">
+                <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="viewNameToBeDeleted || (viewDeleting$ | async)" class="footer justify-content-end p-2">
+    <div class="delete-filter-btns">
+      <button type="button" class="btn btn-danger" [disabled]="(viewDeleting$ | async)" (click)="$event.stopPropagation(); deleteView()">
+        <span *ngIf="(viewDeleting$ | async)"><pf-loading-indicator></pf-loading-indicator> Deleting...</span>
+        <span *ngIf="!(viewDeleting$ | async)">Delete</span>
+      </button>
+      <button (click)="$event.stopPropagation(); cancelDelete();" type="button" class="btn btn-secondary" [disabled]="(viewDeleting$ | async)">Cancel</button>
+    </div>
+  </div>
+
+</ng-template>
+<div *ngIf="!filterSelectorDisplay && showToggleButtons; else filterSelector" class="btn-group">
+  <button
+    [attr.data-qa-id]="'btn-grid-filter'"
+    title="Filter"
+    class="btn btn-secondary pf-btn"
+    (click)="filterButtonClicked()">
+    <fa-icon icon="sliders-h"></fa-icon>
+    Filters
+  </button>
+  <button *ngIf="(savedViews$ | async)?.length"
+    [attr.data-qa-id]="'btn-saved-filters'"
+    title="Saved Filters"
+    type="button"
+    class="btn btn-secondary dropdown-toggle dropdown-toggle-split pf-btn"
+    data-toggle="dropdown"
+    aria-haspopup="true"
+    aria-expanded="false"
+    placement="bottom-right"
+    [ngbPopover]="popContent"
+    popoverClass="popover-width-sm"
+    #popOver="ngbPopover"
+    popoverTitle="Saved Filters"
+    [autoClose]="'outside'"
+    (hidden)="cancelDelete()">
+  </button>
+</div>
+
+<ng-template #filterSelector>
+  <div *ngIf="showToggleButtons">
+    <button
+      [attr.data-qa-id]="'btn-saved-filters-selector'"
+      [disabled]="!(savedViews$ | async)?.length"  
+      type="button"
+      class="btn btn-secondary btn-block pf-btn"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+      placement="bottom-right"
+      [ngbPopover]="popContent"
+      popoverClass="popover-width-lg"
+      #popOver="ngbPopover"    
+      [autoClose]="'outside'"
+      (hidden)="cancelDelete()"
+    >
+    <div class="d-flex">
+      {{!(savedViews$ | async)?.length ? 'There are no Saved Filters' : 'Select a Saved Filter'}}
+      <fa-icon icon="caret-down" class="ml-auto mr-0"></fa-icon>
+    </div>
+    </button>
+  </div>
+</ng-template>
+
