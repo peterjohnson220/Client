@@ -18,11 +18,11 @@
              [ngClass]="{'list-group-item-danger': viewNameToBeDeleted === view.Name,
              'disabled': (viewNameToBeDeleted && viewNameToBeDeleted !== view.Name) || (viewDeleting$ | async)}">
           <div class="d-flex align-items-center">
-            <div (click)="handleViewSelected(view)" class="filter-desc-container">
+            <div (click)="handleViewSelected(view)" class="filter-desc-container flex-grow-1">
               <span>{{view.Name}}</span>
               <small class="filter-desc" [title]="view.Description">{{view.Description}}</small>
             </div>
-            <div class="pl-3 ml-auto">
+            <div class="pl-3">
               <button 
                 title="Delete"
                 type="button"
