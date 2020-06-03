@@ -24,7 +24,7 @@ export class PayfactorsApiModelMapper {
       SpreadMin: srgr.RangeSpreadMin,
       SpreadMax: srgr.RangeSpreadMax,
       IsCurrent: srgr.IsCurrent,
-      RangeDistributionTypeId: srgr.RangeDistributionTypeId,
+      RangeDistributionTypeId: srgr.RangeDistributionTypeId ?? 1,
       RangeDistributionTypes: srgr.RangeDistributionTypes,
       RangeDistributionTypeSetting: srgr.RangeDistributionTypeSetting
     };
@@ -65,7 +65,7 @@ export class PayfactorsApiModelMapper {
       Rate: formValue.rate,
       StructureName: formValue.structureName,
       Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding),
-      RangeDistributionTypeId: metadata.RangeDistributionTypeId
+      RangeDistributionTypeId: metadata.RangeDistributionTypeId ?? 1
     };
   }
 
