@@ -28,7 +28,7 @@
                 type="button"
                 class="btn btn-secondary btn-sm user-filter-delete-btn"
                 [disabled]="viewNameToBeDeleted || (viewDeleting$ | async)"
-                (click)="$event.stopPropagation(); viewNameToBeDeleted = view.Name;">
+                (click)="viewNameToBeDeleted = view.Name;">
                 <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
               </button>
             </div>
