@@ -57,7 +57,7 @@ export function reducer(state = initialState, action: communityAttachmentActions
     case communityAttachmentActions.ATTACHMENT_SCAN_SUCCESS: {
       const entity = cloneDeep(state.entities[action.attachmentModalId]);
       const attachement = entity.Attachments.find((x) => x.Id === action.attachmentId);
-      if (attachement) {attachement.Status = CommunityAttachmentUploadStatus.ScanSucceeded;}
+      if (attachement) {attachement.Status = CommunityAttachmentUploadStatus.ScanSucceeded; }
       return {
         ...adapter.upsertOne(entity, state),
         currentAttachmentModalState: entity

@@ -384,6 +384,21 @@ export const getCommunityReplyEdited = createSelector(
   fromCommunityPostReplyReducer.getCommunityReplyEdited
 );
 
+export const getDiscardingPostReplyId = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getDiscardingPostReplyId
+);
+
+export const getDiscardingPostReply = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getDiscardingPostReply
+);
+
+export const getDiscardingPostReplyProceed = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getDiscardingPostReplyProceed
+);
+
 // Community Post Add Reply View selector
 export const getCommunityPostAddReplyView = createSelector(
   selectFromCommunityPostAddReplyViewState,

@@ -75,4 +75,8 @@ export class CommunityPostApiService {
       }
     });
   }
+
+  deleteCommunityAttachments(payload: string[]) {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteCommunityAttachments`, payload);
+  }
 }
