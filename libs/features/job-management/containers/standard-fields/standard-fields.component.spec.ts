@@ -1,18 +1,18 @@
-
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { FormControlName, FormsModule } from '@angular/forms';
+
+
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
-
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { Store } from '@ngrx/store';
 
 import * as fromActions from '../../actions';
 import * as fromReducer from '../../reducers';
 
 import { StandardFieldsComponent } from './standard-fields.component';
-
+import { ActivatedRoute } from '@angular/router';
 
 describe('Job Management Feature - Job Form', () => {
   let instance: StandardFieldsComponent;
@@ -41,6 +41,10 @@ describe('Job Management Feature - Job Form', () => {
       ],
       providers: [
         provideMockStore({ initialState }),
+        {
+          provide: FormControlName,
+          useValue: jest.fn()
+        }
       ],
       declarations: [
         StandardFieldsComponent
