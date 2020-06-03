@@ -48,10 +48,10 @@
   </div>
 
 </ng-template>
-<div *ngIf="!filterSelectorDisplay && showToggleButtons; else filterSelector" class="btn-group">
+<div *ngIf="!filterSelectorDisplay && !hideToggleButtons; else filterSelector" class="btn-group">
   <button
     [attr.data-qa-id]="'btn-grid-filter'"
-    title="Filter"
+    title="Filters"
     class="btn btn-secondary pf-btn"
     (click)="filterButtonClicked()">
     <fa-icon icon="sliders-h"></fa-icon>
@@ -71,15 +71,16 @@
     #popOver="ngbPopover"
     popoverTitle="Saved Filters"
     [autoClose]="'outside'"
+    (click)="resetFilterSelector()"
     (hidden)="cancelDelete()">
   </button>
 </div>
 
 <ng-template #filterSelector>
-  <div *ngIf="showToggleButtons">
+  <div *ngIf="!hideToggleButtons">
     <button
       [attr.data-qa-id]="'btn-saved-filters-selector'"
-      [disabled]="!(savedViews$ | async)?.length"  
+      [disabled]="!(savedViews$ | async)?.length"
       type="button"
       class="btn btn-secondary btn-block pf-btn"
       data-toggle="dropdown"
@@ -90,6 +91,7 @@
       popoverClass="popover-width-lg"
       #popOver="ngbPopover"    
       [autoClose]="'outside'"
+      (click)="resetFilterSelector()"
       (hidden)="cancelDelete()"
     >
     <div class="d-flex">

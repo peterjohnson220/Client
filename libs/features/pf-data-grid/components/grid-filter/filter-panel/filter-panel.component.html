@@ -20,7 +20,7 @@
         [attr.data-qa-id]="'save-filter-btn'">Save Filter</button>
     </div>
   </div>
-  <div class="sidebar-content position-absolute px-3" [style.top.px]="allowSaveFilter ? '150' : '60'">
+  <div class="sidebar-content position-absolute px-3" [style.top.px]="allowSaveFilter ? '160' : '60'">
     <div *ngFor="let field of customFilterFields; trackBy: trackByField" class="form-group">
       <pf-filter-builder 
         [viewField]="field"

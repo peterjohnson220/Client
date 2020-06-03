@@ -16,7 +16,7 @@ import * as fromActions from '../../actions';
 
 export class FilterChooserComponent implements OnInit {
   @Input() pageViewId: string;
-  @Input() showToggleButtons = true;
+  @Input() hideToggleButtons = false;
   @Input() filterSelectorDisplay = false;
 
   @ViewChild('popOver', { static: false }) public popOver: any;
@@ -36,10 +36,14 @@ export class FilterChooserComponent implements OnInit {
   }
 
   filterButtonClicked() {
-    this.viewNameToBeDeleted = '';
-    this.filter = '';
     this.store.dispatch(new fromActions.ToggleFilterPanel(this.pageViewId));
   }
+
+  resetFilterSelector() {
+    this.viewNameToBeDeleted = '';
+    this.filter = '';
+  }
+
 
   handleViewSelected(view: DataViewConfig) {
     if (this.viewNameToBeDeleted) {
