@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ProjectContext, SearchContext } from '../../survey-search/models';
+import { ProjectContext, ProjectSearchContext } from '../../survey-search/models';
 
 export const SET_PROJECT_CONTEXT = '[Project Add Data/Multi Match Page] Set Project Context';
 export const GET_PROJECT_SEARCH_CONTEXT = '[Project Add Data/Multi Match Page] Get Project Search Context';
@@ -23,7 +23,7 @@ export class GetProjectSearchContext implements Action {
 export class GetProjectSearchContextSuccess implements Action {
   readonly type = GET_PROJECT_SEARCH_CONTEXT_SUCCESS;
 
-  constructor(public payload: SearchContext) {}
+  constructor(public payload: ProjectSearchContext) {}
 }
 
 export class SaveJobMatchUpdates implements Action {

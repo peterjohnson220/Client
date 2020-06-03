@@ -43,7 +43,7 @@
 </ng-template>
 
 <ng-template #jobMatchCount let-dataRow="dataRow">
-  <span  
+  <span
     (click)="openSurveyParticipationModal(dataRow['CompanyJobs_PricingMatchesCount'], dataRow['CompanyJobs_CompanyJob_ID'], $event)">
    {{dataRow['CompanyJobs_PricingMatchesCount']}}
   </span>
@@ -123,7 +123,7 @@
   <div
     class="vertical-separator my-2"
     [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]">
-  </div>  
+  </div>
   <button
     [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
@@ -145,7 +145,8 @@
     (click)="modifyPricings()"
     type="button"
     class="btn btn-secondary pf-btn-borderless">
-    <fa-icon [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
+    <fa-icon *ngIf="!(pricingsToModify$ | async).loading" [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
+    <pf-loading-indicator *ngIf="(pricingsToModify$ | async).loading"></pf-loading-indicator>
     Modify Pricings <span *ngIf="selectedPricingIds.length">({{selectedPricingIds.length}})</span>
   </button>
   <button
@@ -340,39 +341,14 @@
 
 </pf-modal-form>
 
-<pf-modal-form
-  [size]="'lg'"
-  [showFooter]="false"
-  [modalId]="'au-modal-jobs-page-multi-match'"
-  [isOpen$]="showModifyingPricings$"
-  (onDismiss)="showModifyingPricings.next(false)">
-  <!--TODO: The multi match page itself handles the UI layout. This is for PoC/Initial work for modifying pricings -->
-  <ng-container basic-content>
-    <pf-async-container [loading]="(pricingsToModify$ | async)?.loading">
-      <div class="multi-match-container">
-        <div class="row">
-          <div class="col-3">
-            Filters
-          </div>
-          <div class="col-6">
-            Results
-          </div>
-          <div class="col-3">
-            <div *ngFor="let pricing of (pricingsToModify$ | async)?.obj" [title]="pricing.Paymarket">
-              {{pricing.Job.Title}} ({{pricing.Job.Code}})
-              <br />
-              Show Cuts ({{pricing.DataCutsCount}}) | Show Job Detail
-            </div>
-          </div>
-        </div>
-      </div>
-    </pf-async-container>
-  </ng-container>
-</pf-modal-form>
-
 <pf-job-management
   [showModal$]="showJobManagementModal$"
   [jobId]="editingJobId"
   (cancelChanges)="toggleJobManagmentModal(false)"
   (saveSuccess)="toggleJobManagmentModal(false)">
 </pf-job-management>
+
+<pf-multi-match-component
+  [display]="'modal'"
+  [featureImplementation]="multiMatchImplementation"
+></pf-multi-match-component>

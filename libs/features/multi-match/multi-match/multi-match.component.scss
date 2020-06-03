@@ -5,3 +5,12 @@
 :host ::ng-deep .actions-container{
   width: 72.5% !important;
 }
+
+:host ::ng-deep .multi-match-modal .modal-dialog {
+  width: 1600px;
+  max-width: 1600px;
+}
+
+.multi-match-modal-body-container {
+  height: 80vh;
+}

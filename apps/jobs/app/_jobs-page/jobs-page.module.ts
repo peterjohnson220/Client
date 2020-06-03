@@ -18,7 +18,7 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfDataGridModule, JobManagementModule, PricingDetailsModule, RangeEditorModule, NotesManagerModule } from 'libs/features';
+import { PfDataGridModule, JobManagementModule, PricingDetailsModule, RangeEditorModule, NotesManagerModule, MultiMatchModule } from 'libs/features';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
@@ -40,8 +40,7 @@ import {
   PricingMatchesJobTitleComponent
 } from './components';
 import { reducers } from './reducers';
-import { JobsPageEffects, JobDescriptionEffects, ModifyPricingsEffects, JobPeerMatchesEffects } from './effects';
-
+import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects } from './effects';
 
 @NgModule({
   imports: [
@@ -61,8 +60,7 @@ import { JobsPageEffects, JobDescriptionEffects, ModifyPricingsEffects, JobPeerM
     EffectsModule.forFeature([
       JobsPageEffects,
       JobDescriptionEffects,
-      JobPeerMatchesEffects,
-      ModifyPricingsEffects
+      JobPeerMatchesEffects
     ]),
     FontAwesomeModule,
     TooltipModule,
@@ -80,7 +78,8 @@ import { JobsPageEffects, JobDescriptionEffects, ModifyPricingsEffects, JobPeerM
     MatchesModalModule,
     PricingDetailsModule,
     RangeEditorModule,
-    NotesManagerModule
+    NotesManagerModule,
+    MultiMatchModule
   ],
   declarations: [
     // Pages

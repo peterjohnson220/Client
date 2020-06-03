@@ -6,7 +6,7 @@ import { SavedFilterType, UserFilterUpsertRequest } from 'libs/models/payfactors
 import { SavedFilter, SaveFilterModalData } from 'libs/features/user-filter/models';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 
-import { SearchContext, JobContext } from '../models';
+import { ProjectSearchContext, JobContext } from '../models';
 
 @Injectable()
 export class SavedFilterHelper {
@@ -59,7 +59,7 @@ export class SavedFilterHelper {
       .filter(dpmid => dpmid.toString() !== payMarketId.toString()) };
   }
 
-  getPayMarketId(jobContext: JobContext, projectSearchContext: SearchContext): number {
+  getPayMarketId(jobContext: JobContext, projectSearchContext: ProjectSearchContext): number {
     return (!!jobContext && jobContext.JobPayMarketId) ||
       (!!projectSearchContext && projectSearchContext.PayMarketId);
   }

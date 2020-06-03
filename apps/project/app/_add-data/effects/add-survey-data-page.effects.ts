@@ -15,7 +15,7 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
 import * as fromContextActions from 'libs/features/survey-search/actions/context.actions';
 import * as fromSurveySearchFiltersActions from 'libs/features/survey-search/actions/survey-search-filters.actions';
-import { DataCutDetails, JobContext, SearchContext } from 'libs/features/survey-search/models';
+import { DataCutDetails, JobContext, ProjectSearchContext } from 'libs/features/survey-search/models';
 import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from 'libs/features/survey-search/helpers';
 
@@ -28,7 +28,7 @@ export class AddSurveyDataPageEffects {
       ofType(fromContextActions.SET_JOB_CONTEXT),
       withLatestFrom(this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         (action: fromContextActions.SetJobContext,
-         projectSearchContext: SearchContext) => ({action, projectSearchContext})),
+         projectSearchContext: ProjectSearchContext) => ({action, projectSearchContext})),
       mergeMap(context => {
         const actions = [];
         actions.push(new fromSearchFiltersActionsShared.SetDefaultValue(
@@ -56,7 +56,7 @@ export class AddSurveyDataPageEffects {
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
         (action: fromAddSurveyDataPageActions.AddData, jobContext: JobContext,
-         projectSearchContext: SearchContext, selectedDataCuts: DataCutDetails[]) =>
+         projectSearchContext: ProjectSearchContext, selectedDataCuts: DataCutDetails[]) =>
           ({ action, jobContext, selectedDataCuts, projectSearchContext })),
       switchMap(jobContextAndCuts => {
         return this.surveySearchApiService.addSurveyDataCuts(
