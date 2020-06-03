@@ -8,7 +8,7 @@
         (valueChanged)="(filter = $event)">
       </pf-input-debounce>
     </p>
-    <div class="popover-body-content-sm">
+    <div class="popover-body-content">
       <div class="list-group">
         <div *ngIf="!((savedViews$ | async) | filterArrayByName: filter)?.length">
           <h5>No Filters</h5>
