@@ -53,7 +53,7 @@
                 (clearAllFilters)="clearAllFilters()">
               </pf-data-grid-filter-pills>          
             </div>
-            <div class="ml-auto my-auto" *ngIf="actionBarConfig.ShowFilterChooser">
+            <div class="ml-auto my-auto" *ngIf="actionBarConfig.ShowFilterChooser && !gridActionsTemplate">
               <pf-filter-chooser [pageViewId]="pageViewId" [hideToggleButtons]="displayFilterPanel$ | async"></pf-filter-chooser>
             </div>
           </div>
