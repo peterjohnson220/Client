@@ -18,8 +18,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   isIE="false"
   isLoadingNextBatch="false"
   isLoadingPreviousBatch="false"
-  isSystemAdmin$={[Function Store]}
-  isSystemAdminSubscription={[Function Subscriber]}
   loadingNextBatchCommunityPosts$={[Function Store]}
   loadingNextBatchCommunityPostsSubscription={[Function Subscriber]}
   loadingPreviousBatchCommunityPosts$={[Function Store]}

@@ -12,7 +12,6 @@ import { formatBytes } from '../../helpers/model-mapping.helper';
 export class CommunityAttachmentComponent implements OnInit {
   @Input() attachment: CommunityAttachment;
   @Input() disableCommunityAttachments: boolean;
-  @Input() isSystemAdmin: boolean;
   @Input() hideAttachmentWarning: boolean;
   @Output() onAttachmentClickedEvent = new EventEmitter<string>();
 
@@ -33,7 +32,7 @@ export class CommunityAttachmentComponent implements OnInit {
   }
 
   openWarningModal() {
-    if (!this.disableCommunityAttachments || this.isSystemAdmin) {
+    if (!this.disableCommunityAttachments) {
       this.onAttachmentClickedEvent.emit(this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName);
     }
   }
@@ -70,7 +69,7 @@ export class CommunityAttachmentComponent implements OnInit {
         break;
     }
 
-    if (this.disableCommunityAttachments && !this.isSystemAdmin) {
+    if (this.disableCommunityAttachments) {
       this.iconClass = `${this.iconClass} disabledIcon`;
     }
   }

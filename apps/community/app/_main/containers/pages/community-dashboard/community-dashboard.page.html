@@ -36,7 +36,6 @@
           </div>
           <pf-community-posts #posts 
           [disableCommunityAttachments]="disableCommunityAttachments$ | async" 
-          [isSystemAdmin]="isSystemAdmin"
           (filtersModifiedEvent)="scrollToTop()">
         </pf-community-posts>
           <div id="loading-next-results-indicator" class="row loading-indicator-container-bottom p-1 k-display-none">

@@ -11,7 +11,6 @@ import { environment } from 'environments/environment';
 export class CommunityPostReplyComponent {
   @Input() reply: CommunityReply;
   @Input() disableCommunityAttachments: boolean;
-  @Input() isSystemAdmin: boolean;
   @Output() replyHashTagClicked = new EventEmitter();
   avatarUrl = environment.avatarSource;
   constructor() {}
