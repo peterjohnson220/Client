@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -25,6 +25,9 @@ import { AppNotification } from 'libs/features/app-notifications/models';
   styleUrls: ['./community-start-discussion.component.scss']
 })
 export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
+  @Input() disableCommunityAttachments: boolean;
+  @Input() isSystemAdmin: boolean;
+
   postType = CommunityPostTypeStatusEnum.Discussion;
 
   attachmentModalId: string;

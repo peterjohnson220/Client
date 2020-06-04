@@ -10,8 +10,9 @@ import { formatBytes } from '../../helpers/model-mapping.helper';
   styleUrls: ['./community-attachment.component.scss']
 })
 export class CommunityAttachmentComponent implements OnInit {
-
   @Input() attachment: CommunityAttachment;
+  @Input() disableCommunityAttachments: boolean;
+  @Input() isSystemAdmin: boolean;
   @Input() hideAttachmentWarning: boolean;
   @Output() onAttachmentClickedEvent = new EventEmitter<string>();
 
@@ -21,6 +22,7 @@ export class CommunityAttachmentComponent implements OnInit {
   iconFile: string;
   formattedSize: string;
 
+  disabledAttachmentMsg = CommunityConstants.DISABLED_ATTACHMENT_MESSAGE;
   maxNameSize = CommunityConstants.MAX_ATTACHMENT_NAME_LENGTH;
 
   constructor() { }
@@ -31,7 +33,9 @@ export class CommunityAttachmentComponent implements OnInit {
   }
 
   openWarningModal() {
-    this.onAttachmentClickedEvent.emit(this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName);
+    if (!this.disableCommunityAttachments || this.isSystemAdmin) {
+      this.onAttachmentClickedEvent.emit(this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName);
+    }
   }
 
   getDownloadUrl() {
@@ -64,6 +68,10 @@ export class CommunityAttachmentComponent implements OnInit {
         this.iconFile = 'file';
         this.iconClass = 'file';
         break;
+    }
+
+    if (this.disableCommunityAttachments && !this.isSystemAdmin) {
+      this.iconClass = `${this.iconClass} disabledIcon`;
     }
   }
 }

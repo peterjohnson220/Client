@@ -1,14 +1,17 @@
-<a class="attachment-anchor" (click)="!hideAttachmentWarning ? openWarningModal() : null" [attr.href]="hideAttachmentWarning ? getDownloadUrl() : null">
+<a (click)="!hideAttachmentWarning ? openWarningModal() : null" [attr.href]="hideAttachmentWarning ? getDownloadUrl() : null">
   <div placement="top" [ngbTooltip]="toolTip">
-    <div class="container">
+    <div class="container" [ngClass]="{'disabledAttachment': disableCommunityAttachments && !isSystemAdmin}">
       <fa-icon icon="{{iconFile}}" size="lg" class="icon {{iconClass}} mr-1"></fa-icon> 
       <p>{{attachment.Name | TruncateAfter: maxNameSize}}</p>
     </div>
   </div>
 </a>
 <ng-template #toolTip>
-  <div class="d-flex flex-column">
+  <div *ngIf="!disableCommunityAttachments || isSystemAdmin" class="d-flex flex-column">
     <span>{{attachment.Name}}</span>
     <span>{{formattedSize}}</span>
+  </div>
+  <div *ngIf="disableCommunityAttachments && !isSystemAdmin">
+    <span>{{disabledAttachmentMsg}}</span>
   </div>
 </ng-template>

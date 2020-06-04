@@ -1,11 +1,8 @@
 @import 'colors';
 @import 'styles';
 
-.attachment-anchor {
-  cursor: pointer;
-}
-
 .container {
+  cursor: pointer;
   display: flex;
   align-items: baseline;
   float: left; 
@@ -20,6 +17,15 @@
 
 .container:hover {
   color: $community-attachment-link-hover-color;
+}
+
+.disabledAttachment {
+  cursor: default;
+  color: $community-sub-text-color;
+}
+
+.disabledAttachment:hover {
+  color: $community-sub-text-color;
 }
 
 .icon {
@@ -44,4 +50,13 @@
   &.file {
     color: $community-sub-text-color;
   }
+}
+
+.disabledIcon {
+  color: $community-sub-text-color !important;
+  cursor: default;
+}
+
+.disabledIcon:hover {
+  cursor: default;
 }

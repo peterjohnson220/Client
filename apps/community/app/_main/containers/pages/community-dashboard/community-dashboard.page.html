@@ -14,7 +14,10 @@
           <div id="discussion-wrapper" *ngIf="!hideTopComponents">
             <div class="row">
               <div class="col-9">
-                <pf-community-start-discussion></pf-community-start-discussion>
+                <pf-community-start-discussion 
+                [disableCommunityAttachments]="disableCommunityAttachments$ | async"
+                [isSystemAdmin]="isSystemAdmin$ | async">
+                </pf-community-start-discussion>
               </div>
               <div class="col-3 pl-0">
                 <pf-community-categories></pf-community-categories>
@@ -31,7 +34,11 @@
               Loading More Results...
             </div>
           </div>
-          <pf-community-posts #posts (filtersModifiedEvent)="scrollToTop()"></pf-community-posts>
+          <pf-community-posts #posts 
+          [disableCommunityAttachments]="disableCommunityAttachments$ | async" 
+          [isSystemAdmin]="isSystemAdmin"
+          (filtersModifiedEvent)="scrollToTop()">
+        </pf-community-posts>
           <div id="loading-next-results-indicator" class="row loading-indicator-container-bottom p-1 k-display-none">
             <div class="mt-3 pb-3">
               <pf-loading-indicator></pf-loading-indicator>

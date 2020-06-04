@@ -10,11 +10,14 @@
               [maximumReplies]="maximumReplies$ | async"
               (filtersModifiedEvent)="hashtagClicked($event)"
               [hideAttachmentWarning]="hideAttachmentWarning"
+              [disableCommunityAttachments]="disableCommunityAttachments"
+              [isSystemAdmin]="isSystemAdmin"
               (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)"></pf-community-post>
           </div>
           <div class="pl-1 col-12" *ngIf="editedPostId === post.Id">
             <pf-community-post-edit
-              [post]="post"></pf-community-post-edit>
+              [post]="post">
+            </pf-community-post-edit>
           </div>
         </div>
         <hr *ngIf="!last">

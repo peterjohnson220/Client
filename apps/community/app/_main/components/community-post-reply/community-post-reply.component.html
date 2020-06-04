@@ -20,7 +20,9 @@
   <div *ngIf="reply.Attachments" class="d-flex flex-wrap pt-2">
     <div class="pr-4 pt-1 pb-2" *ngFor="let attachment of reply.Attachments">
       <pf-community-attachment
-        [attachment]="attachment">
+        [attachment]="attachment"
+        [disableCommunityAttachments]="disableCommunityAttachments"
+        [isSystemAdmin]="isSystemAdmin">
       </pf-community-attachment>         
      </div>
   </div>

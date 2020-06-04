@@ -28,7 +28,8 @@ export enum CompanySettingsEnum {
   EnableJobsPageToggle = 'EnableJobsPageToggle',
   CanEditCurrentStructureRanges = 'CanEditCurrentStructureRanges',
   DashboardPreferences = 'DashboardPreferences',
-  EnableJobRangeStructureRangeTypes = 'EnableJobRangeStructureRangeTypes'
+  EnableJobRangeStructureRangeTypes = 'EnableJobRangeStructureRangeTypes',
+  CommunityDisableAttachments = 'CommunityDisableAttachments'
 }
 
 export interface CompanySetting {
