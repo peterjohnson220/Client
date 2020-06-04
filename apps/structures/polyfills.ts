@@ -18,8 +18,8 @@
 import 'assets/js/new-relic.js';
 
 /***************************************************************************************************
-* BROWSER POLYFILLS
-*/
+ * BROWSER POLYFILLS
+ */
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -37,15 +37,17 @@ import 'assets/js/new-relic.js';
  */
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
-// import 'classlist.js';  // Run `npm install --save classlist.js`.
+import 'classlist.js';  // Run `npm install --save classlist.js`.
 
 /** IE10 and IE11 requires the following for the Reflect API. */
-// import 'core-js/es6/reflect';
-
+import 'core-js/es6/reflect';
 
 /** Evergreen browsers require these. **/
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
 import 'core-js/es7/reflect';
+
+/** Needed before Polyfills in order to avoid an infinite recursion issue */
+import 'core-js/es7/array';
 
 
 /**
@@ -75,4 +77,4 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /**
  * Need to import at least one locale-data with intl.
  */
-// import 'intl/locale-data/jsonp/en';
+

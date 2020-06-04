@@ -24,7 +24,7 @@ describe('Peer Dashboard - Redirect to Exchange', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPopoverModule.forRoot(),
+        NgbPopoverModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers),

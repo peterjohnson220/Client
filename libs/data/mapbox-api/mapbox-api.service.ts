@@ -12,19 +12,18 @@ export class MapboxApiService {
   private endpoint = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
   private types = 'place';
   private resultLimit = 4;
-  private accessToken = environment.mapboxAccessToken;
 
   constructor(private http: HttpClient) {
   }
 
-  getLocationResults(payload: any): Observable<any> {
-    return this.http.get<string>(this.getFormattedEndpoint(payload)).pipe(
+  getLocationResults(payload: any, accessToken: string): Observable<any> {
+    return this.http.get<string>(this.getFormattedEndpoint(payload, accessToken)).pipe(
       map(this.extractValueFromResponse)
     );
   }
 
-  private getFormattedEndpoint(payload: any) {
-    return `${this.endpoint}${payload}.json?types=${this.types}&limit=${this.resultLimit}&access_token=${this.accessToken}`;
+  private getFormattedEndpoint(payload: any, accessToken: string) {
+    return `${this.endpoint}${payload}.json?types=${this.types}&limit=${this.resultLimit}&access_token=${accessToken}`;
   }
 
   private extractValueFromResponse(response: any) {

@@ -50,3 +50,16 @@
     <a href="#"class="text-dark btn action-btn">Delete</a>
   </div>
 </ng-template>
+
+<ng-template #gridGlobalActions>
+  <button
+    [pfSecuredResource]="permissions.PAY_MARKETS_ADD_EDIT_DELETE"
+    [attr.data-qa-id]="'btn-newPayMarket'"
+    type="button"
+    (click)="addNewPayMarket()"
+    class="btn btn-primary">
+    New Pay Market
+  </button>
+</ng-template>
+
+<pf-paymarket-modal></pf-paymarket-modal>

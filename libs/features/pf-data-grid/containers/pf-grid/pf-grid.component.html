@@ -34,7 +34,7 @@
         <ng-container [ngTemplateOutlet]="gridRowActionsConfig.ActionsTemplate"  [ngTemplateOutletContext]="{dataRow: dataItem}"></ng-container>
       </ng-template>
     </kendo-grid-command-column>
-    <ng-container *ngFor="let col of (dataFields$ | async); trackBy:trackByField">
+    <ng-container *ngFor="let col of (dataFields$ | async)">
       <ng-container *ngIf="col.Group && col.HasSelection">
           <kendo-grid-column-group
             [title]="col.Group"
@@ -43,7 +43,7 @@
               <ng-template kendoGridHeaderTemplate let-column="column">
                 <div pfEllipsisActive class="ellipsis-text">{{column.title}}</div>
               </ng-template>
-              <ng-container *ngFor="let col of col.Fields; trackBy:trackByField">
+              <ng-container *ngFor="let col of col.Fields">
                   <ng-container *ngIf="col | isColumnVisible : splitViewDisplayFields : selectedRecordId">
                       <kendo-grid-column
                         [field]="col | mappedFieldName"

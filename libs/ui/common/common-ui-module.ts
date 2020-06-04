@@ -12,7 +12,7 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { PopupModule } from '@progress/kendo-angular-popup';
 
 import * as fromFaIcons from './fa-icons';
-import { EllipsisViewMoreComponent, NavigationLinksComponent } from './content';
+import { EllipsisViewMoreComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent, TokenExpirationPageComponent, ForbiddenPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
@@ -29,7 +29,7 @@ import { PeerAssociationColorBlockComponent } from './content/peer-association-c
 import { SimpleYesNoModalComponent } from './simple-yes-no';
 import { LoadingProgressBarService } from './loading/service';
 import { MultiSelectDropdownComponent, ItemGroupComponent } from './multi-select-dropdown';
-import { MultiSelectTreeViewComponent, TreeViewCheckDirective } from './multi-select-treeview';
+import { PfTreeViewComponent, TreeViewCheckDirective } from './pf-treeview';
 
 const components = [
   // Content
@@ -38,12 +38,11 @@ const components = [
   CardSelectorComponent,
   UserOrEmailPickerComponent,
   MultiSelectComponent,
-  NavigationLinksComponent,
   PeerAssociationColorBlockComponent,
   SimpleYesNoModalComponent,
   MultiSelectDropdownComponent,
   ItemGroupComponent,
-  MultiSelectTreeViewComponent,
+  PfTreeViewComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective,

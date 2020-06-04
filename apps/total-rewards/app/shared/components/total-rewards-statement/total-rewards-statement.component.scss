@@ -1,10 +1,13 @@
 @import "app-colors";
 
-.statement {
-  background: white;
-  width: 8.5in;
-  max-height: 11in;
-  margin-top: 50px;
+@media screen {
+  .statement {
+    background: white;
+    width: 8.5in;
+    max-height: 11in;
+    margin-top: 50px;
+    overflow-x: hidden; // keep effective date picker from leaking in preview
+  }
 }
 
 .page-break {
@@ -21,15 +24,14 @@
   border-width: 0;
 }
 
+.control-type-5 {
+  align-self: center;
+}
+
 @media print {
   .page-break	{
     display: block;
     page-break-before: always;
-  }
-
-  .container {
-    border: none;
-    background: white;
   }
 
   .column {

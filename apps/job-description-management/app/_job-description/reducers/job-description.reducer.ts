@@ -23,7 +23,6 @@ export interface State {
   jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
   jobDescriptionRecentChange: JobDescription;
   jobDescriptionChangeHistory: JobDescription[];
-  companyAsync: AsyncStateObj<CompanyDto>;
   jobDescriptionViewsAsync: AsyncStateObj<string[]>;
   undoChangesComplete: boolean;
   replaceJobDescriptionComplete: boolean;
@@ -44,7 +43,6 @@ export const initialState: State = {
   jobDescriptionExtendedInfo: null,
   jobDescriptionRecentChange: null,
   jobDescriptionChangeHistory: [],
-  companyAsync: generateDefaultAsyncStateObj<CompanyDto>(null),
   jobDescriptionViewsAsync: generateDefaultAsyncStateObj<string[]>([]),
   undoChangesComplete: false,
   replaceJobDescriptionComplete: false,
@@ -55,33 +53,6 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.Actions): State {
   switch (action.type) {
-    case fromJobDescriptionActions.LOAD_COMPANY: {
-      const companyAsync = cloneDeep(state.companyAsync);
-      companyAsync.loading = true;
-      companyAsync.loadingError = false;
-      return {
-        ...state,
-        companyAsync: companyAsync
-      };
-    }
-    case fromJobDescriptionActions.LOAD_COMPANY_ERROR: {
-      const companyAsync: AsyncStateObj<CompanyDto> = cloneDeep(state.companyAsync);
-      companyAsync.loading = false;
-      companyAsync.loadingError = true;
-      return {
-        ...state,
-        companyAsync: companyAsync
-      };
-    }
-    case fromJobDescriptionActions.LOAD_COMPANY_SUCCESS: {
-      const companyAsync: AsyncStateObj<CompanyDto> = cloneDeep(state.companyAsync);
-      companyAsync.loading = false;
-      companyAsync.obj = action.payload;
-      return {
-        ...state,
-        companyAsync: companyAsync
-      };
-    }
     case fromJobDescriptionActions.GET_JOB_DESCRIPTION: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
       asyncStateObjClone.loading = true;
@@ -462,7 +433,6 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
 export const getJobDescriptionAsync = (state: State) => state.jobDescriptionAsync;
 export const getEditingJobDescription = (state: State) => state.editing;
 export const getSavingJobDescription = (state: State) => state.saving;
-export const getCompanyAsync = (state: State) => state.companyAsync;
 export const getJobDescriptionChangeHistory = (state: State) => state.jobDescriptionChangeHistory;
 export const getPublishingJobDescription = (state: State) => state.publishing;
 export const getPublishButtonEnabled = (state: State) => state.publishButtonEnabled;

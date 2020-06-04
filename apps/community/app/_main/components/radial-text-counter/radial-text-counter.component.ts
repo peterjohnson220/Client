@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import { CommunityConstants } from '../../models';
 
 @Component({
   selector: 'pf-radial-text-counter',
@@ -7,7 +8,7 @@ import {Component, Input} from '@angular/core';
 })
 export class RadialTextCounterComponent  {
   @Input()
-  textMaxLength = 2000;
+  textMaxLength =  CommunityConstants.DISCUSSION_MAX_TEXT_LENGTH;
 
   @Input()
     WarningStartNumber = 1500;

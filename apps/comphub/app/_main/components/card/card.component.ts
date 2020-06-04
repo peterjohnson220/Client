@@ -12,7 +12,9 @@ export class CardComponent {
   @Input() selected: boolean;
   @Input() containerWidth: number;
   @Input() disabled: boolean;
+  @Input() prevCardDisabled: boolean;
   @Input() accessed: boolean;
+  @Input() prevCardAccessed: boolean;
   @Input() cardIndex: number;
   @Input() selectedCardIndex: number;
   @Input() hasCardHeader = true;

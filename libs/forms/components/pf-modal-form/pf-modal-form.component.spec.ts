@@ -18,7 +18,7 @@ describe('Pf Modal Form', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModalModule.forRoot(),
+        NgbModalModule,
         ReactiveFormsModule
       ],
       declarations: [

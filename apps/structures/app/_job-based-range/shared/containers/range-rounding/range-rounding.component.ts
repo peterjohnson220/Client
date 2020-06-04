@@ -77,7 +77,7 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
     );
   }
 
-  private setDefaults() {
+  setDefaults() {
     // wait for both to be present, and only set this once per visit to this page
     if (this.metadata && this.roundingSettings && !this.defaultSet) {
       // 0 is the default for Annual

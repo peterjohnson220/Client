@@ -12,3 +12,12 @@
 {
     color:  $community-category-hover-color
 }
+
+:host ::ng-deep div.text-danger {
+    font-size: 85%;
+}
+
+.is-invalid {
+    background-image: none;
+}
+  

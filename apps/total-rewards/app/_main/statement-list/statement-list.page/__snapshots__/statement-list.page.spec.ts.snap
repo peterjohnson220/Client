@@ -38,7 +38,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
               <a
                 aria-controls="Statements-panel"
                 aria-disabled="false"
-                aria-expanded="true"
+                aria-selected="true"
                 class="nav-link active"
                 href=""
                 id="Statements"
@@ -54,7 +54,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
               <a
                 aria-controls="Templates-panel"
                 aria-disabled="false"
-                aria-expanded="false"
+                aria-selected="false"
                 class="nav-link"
                 href=""
                 id="Templates"
@@ -71,7 +71,6 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
             
             
             <div
-              aria-expanded="true"
               aria-labelledby="Statements"
               class="tab-pane active"
               id="Statements-panel"
@@ -85,7 +84,6 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
             
             
             <div
-              aria-expanded="false"
               aria-labelledby="Templates"
               class="tab-pane "
               id="Templates-panel"
@@ -141,7 +139,7 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
               <a
                 aria-controls="Statements-panel"
                 aria-disabled="false"
-                aria-expanded="true"
+                aria-selected="true"
                 class="nav-link active"
                 href=""
                 id="Statements"
@@ -157,7 +155,7 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
               <a
                 aria-controls="Templates-panel"
                 aria-disabled="false"
-                aria-expanded="false"
+                aria-selected="false"
                 class="nav-link"
                 href=""
                 id="Templates"
@@ -174,7 +172,6 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
             
             
             <div
-              aria-expanded="true"
               aria-labelledby="Statements"
               class="tab-pane active"
               id="Statements-panel"
@@ -192,7 +189,6 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
             
             
             <div
-              aria-expanded="false"
               aria-labelledby="Templates"
               class="tab-pane "
               id="Templates-panel"

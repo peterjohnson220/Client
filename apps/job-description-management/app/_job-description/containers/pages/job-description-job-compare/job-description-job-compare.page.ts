@@ -19,6 +19,7 @@ import { arrayMoveMutate } from 'libs/core/functions';
 
 import * as fromJobDescriptionJobCompareActions from '../../../actions/job-description-job-compare.actions';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
+import * as fromCompanyLogoActions from '../../../../shared/actions';
 import * as fromJobDescriptionJobCompareReducers from '../../../reducers/index';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
@@ -42,7 +43,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
 
   identity$: Observable<UserContext>;
   companySubscription: Subscription;
-  company$: Observable<AsyncStateObj<CompanyDto>>;
+  company$: Observable<CompanyDto>;
   jobDescriptionSaveErrorSubscription: Subscription;
   appendToControlDataAttributeValueSubscription: Subscription;
   addSourcedControlDataRowSubscription: Subscription;
@@ -88,7 +89,7 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
       filter(sjda => !!sjda && !!sjda.obj),
       take(1)
     ).subscribe(jda => this.sourceJobDescription = cloneDeep(jda.obj));
-    this.company$ = this.store.select(fromJobDescriptionReducers.getCompanyAsync);
+    this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
     this.saveThrottle = new Subject();
 
     this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
@@ -105,12 +106,12 @@ export class JobDescriptionJobComparePageComponent implements OnInit, OnDestroy 
     // Get Identity
     this.identity$.subscribe(identity => {
       this.companySubscription = this.company$.subscribe((company) => {
-        this.companyLogoPath = company && company.obj
-          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.obj.CompanyLogo
+        this.companyLogoPath = company
+          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
           : '';
       });
 
-      this.store.dispatch(new fromJobDescriptionActions.LoadCompany(identity.CompanyId));
+      this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(identity.CompanyId));
 
       // todo: move to job-description main page
       this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
@@ -9,6 +9,8 @@ import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { JwtQueryStringAuthInterceptor } from 'libs/core/services';
+import { PfCommonModule } from 'libs/core';
+import { SentryErrorHandler, SentryService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -24,6 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
     PfLayoutWrapperModule,
     PfSecurityModule,
     PfStateModule,
+    PfCommonModule,
 
     // Routing
     AppRoutingModule
@@ -33,7 +36,9 @@ import { AppRoutingModule } from './app-routing.module';
       provide: HTTP_INTERCEPTORS,
       useClass: JwtQueryStringAuthInterceptor,
       multi: true
-    }
+    },
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    SentryService
   ],
   bootstrap: [AppComponent]
 })

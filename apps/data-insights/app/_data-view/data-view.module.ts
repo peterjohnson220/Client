@@ -58,7 +58,7 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
     CodemirrorModule,
     GridModule,
     DragulaModule.forRoot(),
-    NgbPopoverModule.forRoot(),
+    NgbPopoverModule,
     NumericTextBoxModule,
     DateInputsModule,
     NgbTooltipModule,

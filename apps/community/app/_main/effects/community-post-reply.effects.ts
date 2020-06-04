@@ -12,6 +12,8 @@ import * as fromCommunityPostReplyActions from '../actions/community-post-reply.
 import * as fromCommunityPostActions from '../actions/community-post.actions';
 import * as fromCommunityPostAddReplyViewActions from '../actions/community-post-add-reply-view.actions';
 import * as fromCommunityCategoriesActions from '../actions/community-categories.actions';
+import * as fromCommunityAttachmentActions from '../actions/community-attachment.actions';
+import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 
 @Injectable()
 export class CommunityPostReplyEffects {
@@ -37,17 +39,20 @@ export class CommunityPostReplyEffects {
       switchMap((action: fromCommunityPostReplyActions.AddingCommunityPostReply) =>
         this.communityPostService.addReply(action.payload).pipe(
           concatMap((reply: CommunityReply) => {
+            const attachmentModalId = `${CommunitySearchResultTypeEnum.Reply}_${reply.PostId}`;
             if (reply.IsOnlyPostReply ) {
             return [
               new fromCommunityPostReplyActions.AddingCommunityPostReplySuccess(reply),
               new fromCommunityPostAddReplyViewActions.AddingCommunityPostReplyToView({ replyId:  reply.Id}),
               new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
-                { communityCategory: CommunityCategoryEnum.Unanswered })
+                { communityCategory: CommunityCategoryEnum.Unanswered }),
+              new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(attachmentModalId)
             ];
           } else {
             return [
               new fromCommunityPostReplyActions.AddingCommunityPostReplySuccess(reply),
-              new fromCommunityPostAddReplyViewActions.AddingCommunityPostReplyToView({ replyId:  reply.Id})
+              new fromCommunityPostAddReplyViewActions.AddingCommunityPostReplyToView({ replyId:  reply.Id}),
+              new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(attachmentModalId)
             ];
           }
           }),
@@ -95,6 +100,20 @@ export class CommunityPostReplyEffects {
             }
           }),
           catchError(error => of(new fromCommunityPostReplyActions.DeletingCommunityPostReplyError()))
+        )
+      )
+    );
+
+  @Effect()
+  savingCmmunityPostReplyEdit$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCommunityPostReplyActions.SAVING_COMMUNITY_POST_REPLY_EDIT),
+      switchMap((action: fromCommunityPostReplyActions.SavingCommunityPostReplyEdit) =>
+        this.communityPostService.updateReply(action.payload).pipe(
+          map(() => {
+            return new fromCommunityPostReplyActions.SavingCommunityPostReplyEditSuccess(action.payload);
+          }),
+          catchError(error => of(new fromCommunityPostReplyActions.SavingCommunityPostReplyEditError()))
         )
       )
     );

@@ -1,0 +1,23 @@
+@import 'libs/styles/dragula-drag-drop';
+
+.section-drag-handle{
+    cursor: move;
+}
+
+.section-title{
+    font-size: 16px;
+}
+
+.section-title>svg{
+    font-size: 12px;
+    color: #6f6f6f;
+}
+
+.section-description{
+    color: #6f6f6f;
+}
+
+.has-no-controls{
+    border: 1px dashed #ADADAD;
+    height: 50px;
+}

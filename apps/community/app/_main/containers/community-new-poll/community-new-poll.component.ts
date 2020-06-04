@@ -12,6 +12,7 @@ import { CommunityPollChoicesComponent } from 'libs/features/community/container
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import { CommunityTopic } from 'libs/models';
+import { CommunityConstants } from '../../models';
 
 @Component({
   selector: 'pf-community-new-poll',
@@ -22,16 +23,16 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
   addingCommunityDiscussionPollSuccess$: Observable<boolean>;
   addingCommunityDiscussionPollSuccessSubscription: Subscription;
 
-  maxTextLength = 250;
-  attemptedSubmit = false;
+  maxTextLength = CommunityConstants.POLL_MAX_TEXT_LENGTH;
   pollLengthDays = Array.from({length: 31}, (v, k) => k);
   pollLengthHours = Array.from({length: 24}, (v, k) => k);
   displayPollLengthChoices = false;
 
   communityTopics$: Observable<CommunityTopic[]>;
+  communityTopics: CommunityTopic[];
 
   communityPollForm: FormGroup;
-  get context() { return this.communityPollForm.get('context'); }
+  get content() { return this.communityPollForm.get('content'); }
   get choices() { return this.communityPollForm.get('choices') as FormArray; }
   get days() { return this.communityPollForm.get('days'); }
   get hours() { return this.communityPollForm.get('hours'); }
@@ -79,6 +80,13 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
         this.buildForm();
       }
     });
+
+    this.communityTopics$.subscribe ((response) => {
+      this.communityTopics = [];
+      if (response && response.length > 0) {
+        this.communityTopics = response;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -90,7 +98,7 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
   buildForm() {
     this.communityPollForm = this.formBuilder.group({
       'communityPollId': [''],
-      'context': ['', [Validators.required, Validators.minLength(1), Validators.maxLength(this.maxTextLength)]],
+      'content': ['', [Validators.required, Validators.minLength(1), Validators.maxLength(this.maxTextLength)]],
       'status': [0],
       'choices': this.formBuilder.array([]),
       'days':  [14],
@@ -109,6 +117,9 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    this.communityPollForm.markAllAsTouched();
+    this.content.markAsDirty();
+
     if (!this.communityPollForm.valid) {
       return;
     }
@@ -120,11 +131,11 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
 
     const communityPollRequest: CommunityPollUpsertRequest = {
       CommunityPollId: '',
-      Question: this.context.value,
+      Question: this.content.value,
       ResponseOptions: responseOptions,
       Status: CommunityPollStatusEnum.Live,
       DurationInHours: this.days.value * 24 + this.hours.value,
-      Links: this.pfLinkifyService.getLinks(this.context.value),
+      Links: this.pfLinkifyService.getLinks(this.content.value),
       TopicId: this.topic.value
     };
     this.store.dispatch(new fromCommunityPostActions.AddingCommunityDiscussionPoll(communityPollRequest));

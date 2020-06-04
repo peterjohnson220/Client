@@ -8,6 +8,7 @@ export interface CompositeDataLoadViewResponse {
   Company_Name: string;
   ValidationErrorOutputUri: string;
   FixableDataConditionException: string;
+  TerminalException: string;
   entityLoadSummaries: EntityLoadSummaryView[];
   RequestTime?: Date;
   ProcessingStartTime?: Date;

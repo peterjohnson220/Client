@@ -19,6 +19,10 @@ $old-style-scollbar-width: 10px;
   overflow-x: hidden;
 }
 
+.textAreaContainerScrollable.invalid-conent {
+  border: solid 1px $community-invalid-input-color !important;
+}
+
 .textAreaContainer {
   position: relative;
   width: 100%;
@@ -77,9 +81,10 @@ button:focus {
 }
 
 .radial-counter {
-  position: absolute;
-  bottom: 60px;
-  right: 25px;
+  position: relative;
+  float: right;
+  bottom: $radial-counter-width;
+  right: $old-style-scollbar-width + 1;
 }
 
 :host ::ng-deep .hashtag-highlight {

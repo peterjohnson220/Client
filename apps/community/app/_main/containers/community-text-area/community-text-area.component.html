@@ -1,6 +1,7 @@
 <div class="form-group" [formGroup]="parentForm">
-  <div class="textAreaContainerScrollable" #textAreaContainerScrollable>
-     <div #textAreaContainer class="textAreaContainer"
+  <div class="textAreaContainerScrollable" #textAreaContainerScrollable
+    [ngClass]="{ 'invalid-conent': !content.valid && content.dirty }">
+     <div #textAreaContainer class="textAreaContainer" 
       (window:resize)="onResize($event)">
       <div #overlayTextArea
           class="overlayTextArea"
@@ -9,7 +10,7 @@
         id="discussionTextArea"
         data-qa-id="txt-communityDiscussionTextArea"
         class="discussionTextArea"
-        formControlName="context"
+        formControlName="content"
         maxlength="{{maxTextLength}}"
         placeholder="{{textPlaceholder}}"
         (keydown)="onKeyDown($event)"
@@ -21,14 +22,15 @@
   </div>
 
   <pf-radial-text-counter class="radial-counter"
-    [textToCount]="context.value"
+    [textToCount]="content.value"
     [textMaxLength]="maxTextLength"
     [WarningStartNumber]="warningStartNumber"
     [DangerStartNumber]="dangerStartNumber">
   </pf-radial-text-counter>
 
+  <div *ngIf="!content.valid && content.dirty" class="text-danger">Discussion text is required</div>
 </div>
-<div #suggestTagsContainer *ngIf="suggestedTags.length > 0 && suggestTagsContainerVisible"
+<div #suggestTagsContainer *ngIf="suggestedTags.length > 0"
   class="list-group suggested-tags"
   (keydown)="onKeyDown($event)">
   <button *ngFor="let item of suggestedTags"

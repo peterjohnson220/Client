@@ -1,0 +1,14 @@
+@import 'libs/styles/dragula-drag-drop';
+
+.control-drag-handle{
+    cursor: move;
+}
+
+.gu-mirror .card-block{
+  display: none;
+}
+
+.template-indicator{
+    font-size: 1.25rem;
+    margin-left: 0.65rem;
+}

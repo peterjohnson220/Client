@@ -1,0 +1,24 @@
+<div class="d-flex flex-column flex-grow-1">
+  <div class="d-flex">
+    <h4>Dashboard Preferences</h4>
+    <fa-icon class="pl-2"
+             icon="info-circle"
+             [ngbPopover]="dashboardPreferences"
+             container="body"
+             triggers="mouseenter:mouseleave"
+             placement="right">
+    </fa-icon>
+  </div>
+  <label *ngFor="let userTile of userTiles">
+    <input type="checkbox"
+           (change)="handleToggleUserTile(userTile)"
+           [checked]="!userTile.HideOnDashboard">
+    {{userTile.Label}}
+  </label>
+</div>
+
+<ng-template #dashboardPreferences>
+  <div class="pop-content">
+    <p>Unchecking a tile will remove it from your dashboard. Tiles will always be accessible from the left navigation menu</p>
+  </div>
+</ng-template>

@@ -1,3 +1,6 @@
+@import 'colors';
+@import 'styles';
+
 .reply-text-area{
   border: none !important;
 }
@@ -20,4 +23,37 @@
 textarea {
   outline: none;
   resize: none;
+}
+
+.attachment-button {
+  border: 1px solid;
+  border: solid 1px $community-categories-border !important;
+  border-radius: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 2px;
+  font-size: 0.8rem;
+  background-color: #ffffff !important;
+  cursor: pointer;
+  outline: none !important;
+  width: 105px !important;
+}
+
+.attachment-button:hover {
+  border: solid 1px darkslategray;
+}
+
+.attachment-button fa-icon
+{
+  color: $community-categories-border;
+}
+
+.attachment-count-text
+{
+  color: #5CB85C;
+  font-weight: bold;
+}
+
+:host ::ng-deep div.text-danger {
+  font-size: 85%;
 }

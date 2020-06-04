@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { TilePreviewPlaceHolder, TileType } from '../../../models';
+import { TilePreviewPlaceHolder } from '../../../models';
+import { TileType } from 'libs/models/dashboard';
 
 @Component({
   selector: 'pf-tile-preview-place-holder',

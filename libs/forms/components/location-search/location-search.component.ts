@@ -1,25 +1,46 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { MapboxApiService } from '../../../data/mapbox-api/mapbox-api.service';
-import { FormGroup } from '@angular/forms';
 import { SuggestedLocation } from '../../../models/locations/suggested-location.model';
+import * as fromRootState from '../../../state/state';
+import * as fromRootReducer from '../../../state/state';
+import { UserContext } from '../../../models/security';
 
 @Component({
   selector: 'pf-location-search',
   templateUrl: './location-search.component.html',
   styleUrls: [ './location-search.component.scss' ]
 })
-export class LocationSearchComponent {
+export class LocationSearchComponent implements OnInit, OnDestroy {
 
   showSuggestLocationContainer = false;
   suggestedLocations: SuggestedLocation[] = [];
   currentSelectedLocation: SuggestedLocation;
+  userContext$: Observable<UserContext>;
+  userContextSubscription: Subscription;
 
   @Input() parentForm = FormGroup;
   @Input() textMaxLength = 100;
   @Output() suggestedLocationChanged = new EventEmitter();
+  private mbAccessToken: string;
 
-  constructor(private locationApiService: MapboxApiService) {
+  constructor(private locationApiService: MapboxApiService,
+              private store: Store<fromRootState.State>) {
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
+  }
+
+  ngOnInit(): void {
+    this.userContextSubscription = this.userContext$.subscribe(uc => {
+      this.mbAccessToken = uc.MapboxAccessToken;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.userContextSubscription.unsubscribe();
   }
 
   getSuggestedLocations(query) {
@@ -28,7 +49,7 @@ export class LocationSearchComponent {
       this.suggestedLocations = [];
       this.suggestedLocationChanged.emit(null);
     } else {
-      this.locationApiService.getLocationResults(query).subscribe((response) => {
+      this.locationApiService.getLocationResults(query, this.mbAccessToken).subscribe((response) => {
         if (Object.keys(response).length > 0) {
           this.mapToSuggestedLocationModel(response);
         }

@@ -21,8 +21,10 @@
 .popover.saved-filters-popover{
   min-width: 300px;
   max-width: 300px;
+  top: 30px !important;
   right: 0 !important;
   left: inherit !important;
+  transform: initial !important;
 }
 
 .popover.saved-filters-popover .popover-header{

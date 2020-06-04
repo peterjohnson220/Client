@@ -22,7 +22,7 @@ export class CompPipe implements PipeTransform {
     } else if (type === annualDisplay.full) {
       return this.decimalPipe.transform(value, '1.1-1');
     } else if (type === annualDisplay.rounded) {
-      return this.decimalPipe.transform(value, '1.0-1');
+      return this.decimalPipe.transform(value, '1.0-0');
     } else {
       return value;
     }

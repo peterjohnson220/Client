@@ -38,8 +38,8 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   _Permissions = null;
 
   constructor(
-     private store: Store<fromSharedJobBasedRangeReducer.State>,
-     private route: ActivatedRoute
+     public store: Store<fromSharedJobBasedRangeReducer.State>,
+     public route: ActivatedRoute
    ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.rangeGroupId = this.route.parent.snapshot.params.id;

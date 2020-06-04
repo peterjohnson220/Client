@@ -4,6 +4,7 @@
           class="btn btn-secondary selector static"
           popoverTitle="Select an Exchange Job"
           placement="right"
+          [autoClose]="'outside'"
           [disabled]="!selectorEnabled"
           [ngbPopover]="popContent"
           #p="ngbPopover">

@@ -5,3 +5,24 @@
   background-color:$community-tab-color;
   border-color: $community-tab-color;
 }
+
+:host ::ng-deep div.text-danger {
+  font-size: 85%;
+}
+
+.flex-container {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+} 
+
+option[disabled] {
+  display: none;
+}
+
+.is-invalid {
+  background-image: none;
+}

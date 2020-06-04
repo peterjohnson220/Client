@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { PfNavigationLinksModule } from 'libs/features';
 
 import { NavigationEffects } from './effects/navigation.effects';
 import { reducers } from './reducers';
@@ -33,6 +34,7 @@ import { NavigationPageComponent } from './navigation.page/navigation.page';
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
+    PfNavigationLinksModule
   ],
   declarations: [
     // Feature

@@ -50,8 +50,6 @@ export class PayfactorsApiService implements OnDestroy {
     );
   }
 
-
-
   postWithHeader<T>(url: string, body: any = {}, headers: any,
                     baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
     return this.http.post<T>(this.formatUrl(baseUrlLocation, url, useUtilities), body, { headers: headers }).pipe(

@@ -41,7 +41,7 @@ import { ResourcesComponent } from './components/resources/resources.component';
       CompanyResourcesPageEffects
     ]),
     FontAwesomeModule,
-    NgbModule.forRoot(),
+    NgbModule,
     UploadModule,
     DropDownsModule,
     // Routing

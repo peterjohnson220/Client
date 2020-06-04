@@ -2,7 +2,6 @@
   [reorderable]="true"
   [pageViewId]="pageViewId"
   [title]="getPageTitle((userContext$ | async)?.CompanyName)"
-  [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyEmployee_ID'"
   [filterPanelTemplates]="filterTemplates"
   [noRecordsFound]="'No records available.'"
@@ -12,9 +11,9 @@
   [saveSort]="true"
   [useColumnGroups]="false"
   [columnTemplates]="colTemplates"
-  [actionBarConfig]="actionBarConfig">
+  [actionBarConfig]="actionBarConfig"
+  [fieldsExcludedFromExport]="fieldsExcludedFromExport">
 </pf-data-grid>
-
 <ng-template #gridActions>
   <button
     type="button"
@@ -69,6 +68,12 @@
     class="btn btn-primary">
     New Employee
   </button>
+  <button type="button" title="Employee History"
+          id="employee-history-btn"
+          class="btn btn-secondary history-btn"
+          (click)="showEmployeeHistoryModal.next(true)">
+    <fa-icon icon="calendar-alt"></fa-icon>
+  </button>
 </ng-template>
 
 <pf-employee-management></pf-employee-management>
@@ -113,3 +118,8 @@
   </ng-container>
 
 </pf-modal-form>
+<pf-employee-history-date-picker
+  [isOpen$]=" showEmployeeHistoryModal$"
+  (cancelClick)="showEmployeeHistoryModal.next(false)"
+  (applyClicked)="handleEmployeeHistoryDateChange($event)">
+</pf-employee-history-date-picker>

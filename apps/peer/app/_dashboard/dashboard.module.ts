@@ -16,6 +16,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
+import { PfCompanyDescriptionModule } from 'libs/features/company/company-detail/company-detail.module';
 
 import {
   ExchangeDashboardPageComponent, AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
@@ -64,7 +65,9 @@ import { SharedModule } from '../shared/shared.module';
     PfFormsModule,
     PfCommonModule,
     SharedModule,
-    PfExchangeExplorerModule
+    PfExchangeExplorerModule,
+    PfCompanyDescriptionModule,
+    NgbPopoverModule
   ],
   declarations: [
 // Containers

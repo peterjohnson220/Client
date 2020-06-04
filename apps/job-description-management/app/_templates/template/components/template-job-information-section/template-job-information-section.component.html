@@ -1,0 +1,52 @@
+<div class="card mb-3">
+  <div class="card-header d-flex justify-content-between">
+      Job Information
+      <div>
+          <pf-template-job-info-field-selector-popover
+                  *ngIf="editing"
+                  [availableJobInformationFields]="availableJobInformationFields"
+                  [loading]="availableJobInformationFieldsLoading"
+                  [currentJobInformationFields]="currentJobInformationFields"
+                  (opened)="handleFieldSelectorPopoverShown()"
+                  (saved)="handleFieldSelectorPopoverSaved($event)">
+          </pf-template-job-info-field-selector-popover>
+
+          <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+              <span *ngIf="hideBody"><fa-icon icon="caret-down" aria-hidden="true"></fa-icon></span>
+              <span *ngIf="!hideBody"><fa-icon icon="caret-up" aria-hidden="true"></fa-icon></span>
+          </button>
+      </div>
+  </div>
+  <div class="card-block" [hidden]="hideBody">
+      <div class="row">
+          <div class="col-4 p-3 d-flex align-items-center justify-content-center" [class.img-wrap]="editing" (click)="!editing || upload()">
+              <div>
+                <img alt="" *ngIf="templateLogoPath?.length || companyLogoPath?.length" class="company-logo-default img-fluid" [src]="templateLogoPath?.length ? publicBaseUrl + templateLogoPath : companyLogoPath" />
+                <h3 *ngIf="!(templateLogoPath?.length || companyLogoPath?.length)" >{{companyName}}</h3>
+              </div>
+              <div class="template-logo-hover-overlay">
+                  <p class="img-description">Click here to change logo.</p>
+              </div>
+          </div>
+          <div class="col-8">
+              <table class="table table-bordered">
+                  <tbody>
+                      <tr>
+                          <td align="center"><strong>Status</strong></td>
+                          <td align="center"><strong>Version</strong></td>
+                      </tr>
+                      <tr>
+                          <td align="center"><strong>Created By</strong></td>
+                          <td align="center"><strong>Created Date</strong></td>
+                      </tr>
+                      <tr *ngFor="let jobInfoFieldRow of jobInfoFieldRows">
+                          <ng-template ngFor let-jobInformationField [ngForOf]="jobInfoFieldRow.fields">
+                              <td align="center"><strong>{{jobInformationField.DisplayName}}</strong></td>
+                          </ng-template>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>

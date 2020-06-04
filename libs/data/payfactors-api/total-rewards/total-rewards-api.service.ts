@@ -6,7 +6,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { MappingHelper } from '../../../core/helpers';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { SaveSettingsRequest } from '../../../../apps/total-rewards/app/shared/models/request-models';
-import { Settings } from '../../../../apps/total-rewards/app/shared/models/';
+import { Settings, Statement } from '../../../../apps/total-rewards/app/shared/models/';
 
 @Injectable()
 export class TotalRewardsApiService {
@@ -19,16 +19,16 @@ export class TotalRewardsApiService {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetStatements`, params, MappingHelper.mapListAreaResultToAggregateGridDataResult);
   }
 
-  getStatementFromTemplateId(templateId: string): Observable<any> {
-    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementFromTemplateId`, {params: { templateId }});
+  getStatementFromTemplateId(templateId: string): Observable<Statement> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementFromTemplateId`, {params: { templateId }}, this.mapStatement);
   }
 
-  getStatementFromId(statementId: string): Observable<any> {
-    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementFromId`, {params: { statementId }});
+  getStatementFromId(statementId: string): Observable<Statement> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementFromId`, {params: { statementId }}, this.mapStatement);
   }
 
-  saveStatement(statement: any): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/SaveStatement`, statement);
+  saveStatement(statement: any): Observable<Statement> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/SaveStatement`, statement, this.mapStatement);
   }
 
   saveStatementSettings(request: SaveSettingsRequest): Observable<Settings> {
@@ -45,5 +45,13 @@ export class TotalRewardsApiService {
 
   deleteStatementImage(fileName: string): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteStatementImage?fileName=${fileName}`);
+  }
+
+  private mapStatement(statement: Statement) {
+    return { ...statement, EffectiveDate: (statement.EffectiveDate) ? new Date(statement.EffectiveDate) : null };
+  }
+
+  searchEmployees(searchRequest: any) {
+    return this.payfactorsApiService.post(`${this.endpoint}/SearchEmployees`, searchRequest);
   }
 }

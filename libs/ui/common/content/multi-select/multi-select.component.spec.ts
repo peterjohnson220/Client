@@ -1,5 +1,5 @@
-import { Injectable, NO_ERRORS_SCHEMA } from '@angular/core';
-import {TestBed, ComponentFixture, fakeAsync, tick} from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -40,6 +40,9 @@ describe('UI/Common/Content - Multi Select', () => {
     UserIdentifier: string;
     UserPicture: string;
     WorkflowStepInfo: any;
+    RoleName: string;
+    ClientType: string;
+    DefaultPayMarketId: number;
   };
 
   const initialState = { userContext: userContext };
@@ -49,12 +52,14 @@ describe('UI/Common/Content - Multi Select', () => {
     TestBed.configureTestingModule({
       imports: [ NgbTooltipModule, ScrollingModule ],
       declarations: [ MultiSelectComponent ],
-      providers: [FileApiService, HttpHandler, HttpClient, PayfactorsApiService, RemoteDataSourceService, provideMockStore({initialState}) ],
+      providers: [ FileApiService, HttpHandler, HttpClient, PayfactorsApiService, RemoteDataSourceService, provideMockStore({initialState}) ],
+
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
     fixture = TestBed.createComponent(MultiSelectComponent);
     component = fixture.componentInstance;
+    tick(1000);
   }));
 
   it('should create', () => {

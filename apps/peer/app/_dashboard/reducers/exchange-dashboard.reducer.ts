@@ -1,4 +1,4 @@
-import { ChartItem, ExchangeJobComparison } from 'libs/models';
+import {ChartItem, ExchangeJobComparison} from 'libs/models';
 import {ExchangeChartTypeEnum} from 'libs/models/peer/exchange-chart-type.enum';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
@@ -251,10 +251,9 @@ export function reducer(
       };
     }
     case fromExchangeDashboardActions.LOAD_EXCHANGE_JOB_ORGS_SUCCESS: {
-      const exchangeJobMappings: ChartItem[] = action.payload.map(org => ({Category: org}) as ChartItem);
       return {
         ...state,
-        detailChartItems: exchangeJobMappings,
+        detailChartItems: action.payload,
         loadingDetailChart: false,
         loadingDetailChartError: false
       };

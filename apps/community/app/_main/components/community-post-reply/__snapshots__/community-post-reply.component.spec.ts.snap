@@ -15,7 +15,7 @@ exports[`CommunityPostReplyComponent should show community post reply component 
     />
     
     <div
-      class="d-flex flex-wrap pt-3"
+      class="d-flex flex-wrap pt-2"
     >
       
     </div>

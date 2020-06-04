@@ -2,6 +2,7 @@
 
 exports[`ManageFieldMapperPageComponent should disable the save button when no delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
+  acceptedFileExtensions={[Function Array]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -9,8 +10,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
-  createdConfigurationGroup$={[Function Store]}
   delimiter=""
+  emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
@@ -40,19 +41,19 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
-  saveLoaderSettingsError$={[Function Store]}
-  saveLoaderSettingsSuccess$={[Function Store]}
-  saveMappingsError$={[Function Store]}
-  saveMappingsSuccess$={[Function Store]}
-  savedConfigurationGroup$={[Function Store]}
+  publicKeyFileName="null"
+  saveConfigurationError$={[Function Store]}
+  saveConfigurationSuccess$={[Function Store]}
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
-  showLoaderMappingsSaveErrorToast={[Function Function]}
-  showLoaderMappingsSaveSuccessToast={[Function Function]}
-  showLoaderSettingsSaveErrorToast={[Function Function]}
-  showLoaderSettingsSaveSuccessToast={[Function Function]}
+  sftpPublicKey="null"
+  sftpPublicKey$={[Function Store]}
+  sftpUser$={[Function Store]}
+  sftpUserName="null"
+  sftpUserName$={[Function Store]}
+  sftpUserNameIsValid$={[Function Store]}
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
@@ -89,7 +90,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
       </div>
       
       <div
-        class="list-group-item"
+        class="list-group-item position-relative"
       >
         <h3>
           SFTP
@@ -98,6 +99,24 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
           class="container-fluid"
         >
           <pf-sftp-account-status />
+        </div>
+      </div>
+      
+      <div
+        class="list-group-item"
+      >
+        <h3>
+          Public Key Authentication 
+          <span
+            class="optional"
+          >
+            (optional: for clients with passwordless authentication)
+          </span>
+        </h3>
+        <div
+          class="container-fluid"
+        >
+          <pf-public-key-auth />
         </div>
       </div>
       
@@ -190,6 +209,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
 
 exports[`ManageFieldMapperPageComponent should disable the save button when not all mappings are complete 1`] = `
 <pf-autoloader-field-mapping-page
+  acceptedFileExtensions={[Function Array]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -197,8 +217,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
-  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
+  emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
@@ -228,19 +248,19 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
-  saveLoaderSettingsError$={[Function Store]}
-  saveLoaderSettingsSuccess$={[Function Store]}
-  saveMappingsError$={[Function Store]}
-  saveMappingsSuccess$={[Function Store]}
-  savedConfigurationGroup$={[Function Store]}
+  publicKeyFileName="null"
+  saveConfigurationError$={[Function Store]}
+  saveConfigurationSuccess$={[Function Store]}
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
-  showLoaderMappingsSaveErrorToast={[Function Function]}
-  showLoaderMappingsSaveSuccessToast={[Function Function]}
-  showLoaderSettingsSaveErrorToast={[Function Function]}
-  showLoaderSettingsSaveSuccessToast={[Function Function]}
+  sftpPublicKey="null"
+  sftpPublicKey$={[Function Store]}
+  sftpUser$={[Function Store]}
+  sftpUserName="null"
+  sftpUserName$={[Function Store]}
+  sftpUserNameIsValid$={[Function Store]}
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
@@ -277,7 +297,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
       </div>
       
       <div
-        class="list-group-item"
+        class="list-group-item position-relative"
       >
         <h3>
           SFTP
@@ -286,6 +306,24 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
           class="container-fluid"
         >
           <pf-sftp-account-status />
+        </div>
+      </div>
+      
+      <div
+        class="list-group-item"
+      >
+        <h3>
+          Public Key Authentication 
+          <span
+            class="optional"
+          >
+            (optional: for clients with passwordless authentication)
+          </span>
+        </h3>
+        <div
+          class="container-fluid"
+        >
+          <pf-public-key-auth />
         </div>
       </div>
       
@@ -378,6 +416,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
 
 exports[`ManageFieldMapperPageComponent should enable the save button when all mappings are complete AND a delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
+  acceptedFileExtensions={[Function Array]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -385,8 +424,8 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
-  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
+  emailRecipients={[Function Array]}
   emailRecipients$={[Function Observable]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
@@ -416,19 +455,19 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
-  saveLoaderSettingsError$={[Function Store]}
-  saveLoaderSettingsSuccess$={[Function Store]}
-  saveMappingsError$={[Function Store]}
-  saveMappingsSuccess$={[Function Store]}
-  savedConfigurationGroup$={[Function Store]}
+  publicKeyFileName="null"
+  saveConfigurationError$={[Function Store]}
+  saveConfigurationSuccess$={[Function Store]}
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
-  showLoaderMappingsSaveErrorToast={[Function Function]}
-  showLoaderMappingsSaveSuccessToast={[Function Function]}
-  showLoaderSettingsSaveErrorToast={[Function Function]}
-  showLoaderSettingsSaveSuccessToast={[Function Function]}
+  sftpPublicKey="null"
+  sftpPublicKey$={[Function Store]}
+  sftpUser$={[Function Store]}
+  sftpUserName="null"
+  sftpUserName$={[Function Store]}
+  sftpUserNameIsValid$={[Function Store]}
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
@@ -465,7 +504,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
       </div>
       
       <div
-        class="list-group-item"
+        class="list-group-item position-relative"
       >
         <h3>
           SFTP
@@ -474,6 +513,24 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           class="container-fluid"
         >
           <pf-sftp-account-status />
+        </div>
+      </div>
+      
+      <div
+        class="list-group-item"
+      >
+        <h3>
+          Public Key Authentication 
+          <span
+            class="optional"
+          >
+            (optional: for clients with passwordless authentication)
+          </span>
+        </h3>
+        <div
+          class="container-fluid"
+        >
+          <pf-public-key-auth />
         </div>
       </div>
       
@@ -542,6 +599,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           >
             <button
               class="btn btn-primary m-2"
+              disabled=""
               type="button"
             >
               Update
@@ -565,6 +623,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
 
 exports[`ManageFieldMapperPageComponent should hide the field mapper when a company has not been selected 1`] = `
 <pf-autoloader-field-mapping-page
+  acceptedFileExtensions={[Function Array]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -572,8 +631,8 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
-  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
+  emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
@@ -603,19 +662,19 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
-  saveLoaderSettingsError$={[Function Store]}
-  saveLoaderSettingsSuccess$={[Function Store]}
-  saveMappingsError$={[Function Store]}
-  saveMappingsSuccess$={[Function Store]}
-  savedConfigurationGroup$={[Function Store]}
+  publicKeyFileName="null"
+  saveConfigurationError$={[Function Store]}
+  saveConfigurationSuccess$={[Function Store]}
   selectedCompany="undefined"
   selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
-  showLoaderMappingsSaveErrorToast={[Function Function]}
-  showLoaderMappingsSaveSuccessToast={[Function Function]}
-  showLoaderSettingsSaveErrorToast={[Function Function]}
-  showLoaderSettingsSaveSuccessToast={[Function Function]}
+  sftpPublicKey="null"
+  sftpPublicKey$={[Function Store]}
+  sftpUser$={[Function Store]}
+  sftpUserName="null"
+  sftpUserName$={[Function Store]}
+  sftpUserNameIsValid$={[Function Store]}
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
@@ -650,6 +709,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
           </pf-async-container>
         </pf-company-selector>
       </div>
+      
       
       
     </div>
@@ -660,6 +720,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
 
 exports[`ManageFieldMapperPageComponent should show the field mapper when a company has been selected 1`] = `
 <pf-autoloader-field-mapping-page
+  acceptedFileExtensions={[Function Array]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -667,8 +728,8 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   companySelector={[Function CompanySelectorComponent]}
   configSettingsSelectorFactory={[Function MockConfigSettingsSelectorFactory]}
   configurationGroups$={[Function Store]}
-  createdConfigurationGroup$={[Function Store]}
   delimiter={[Function String]}
+  emailRecipients={[Function Array]}
   emailRecipients$={[Function Store]}
   emailRecipientsModalOpen$={[Function Store]}
   emailRecipientsRemovingError$={[Function Store]}
@@ -698,19 +759,19 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
-  saveLoaderSettingsError$={[Function Store]}
-  saveLoaderSettingsSuccess$={[Function Store]}
-  saveMappingsError$={[Function Store]}
-  saveMappingsSuccess$={[Function Store]}
-  savedConfigurationGroup$={[Function Store]}
+  publicKeyFileName="null"
+  saveConfigurationError$={[Function Store]}
+  saveConfigurationSuccess$={[Function Store]}
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
-  showLoaderMappingsSaveErrorToast={[Function Function]}
-  showLoaderMappingsSaveSuccessToast={[Function Function]}
-  showLoaderSettingsSaveErrorToast={[Function Function]}
-  showLoaderSettingsSaveSuccessToast={[Function Function]}
+  sftpPublicKey="null"
+  sftpPublicKey$={[Function Store]}
+  sftpUser$={[Function Store]}
+  sftpUserName="null"
+  sftpUserName$={[Function Store]}
+  sftpUserNameIsValid$={[Function Store]}
   showSaveErrorToast={[Function Function]}
   showSaveSuccessToast={[Function Function]}
   store={[Function Store]}
@@ -747,7 +808,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
       </div>
       
       <div
-        class="list-group-item"
+        class="list-group-item position-relative"
       >
         <h3>
           SFTP
@@ -756,6 +817,24 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
           class="container-fluid"
         >
           <pf-sftp-account-status />
+        </div>
+      </div>
+      
+      <div
+        class="list-group-item"
+      >
+        <h3>
+          Public Key Authentication 
+          <span
+            class="optional"
+          >
+            (optional: for clients with passwordless authentication)
+          </span>
+        </h3>
+        <div
+          class="container-fluid"
+        >
+          <pf-public-key-auth />
         </div>
       </div>
       

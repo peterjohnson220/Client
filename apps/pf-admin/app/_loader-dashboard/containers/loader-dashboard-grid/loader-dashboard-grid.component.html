@@ -1,5 +1,5 @@
 <div>
-  <h3>Composite Data Loads</h3>
+  <h3>Data Loads</h3>
 
   <kendo-grid
     [data]="gridView"
@@ -25,13 +25,13 @@
     <kendo-grid-column field="company_Name" title="Company"></kendo-grid-column>
     <kendo-grid-column field="validationErrorOutputUri" title="Error(s)">
       <ng-template kendoGridCellTemplate let-dataItem>
-        <div *ngIf="dataItem.validationErrorOutputUri || dataItem.fixableDataConditionException">
+        <div *ngIf="dataItem.validationErrorOutputUri || dataItem.fixableDataConditionException || dataItem.terminalException">
           <button
             *ngIf="dataItem.validationErrorOutputUri"
             class="btn btn-secondary" (click)="downloadFile(dataItem.externalId)">Download</button>
-          <fa-icon *ngIf="dataItem.fixableDataConditionException"
+          <fa-icon *ngIf="dataItem.fixableDataConditionException || dataItem.terminalException"
                    icon="exclamation-triangle"
-                   [title]="dataItem.fixableDataConditionException"
+                   [title]="[dataItem.fixableDataConditionException, dataItem.terminalException] | getErrorMessage"
                    class="pl-2"
           ></fa-icon>
         </div>

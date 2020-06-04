@@ -19,9 +19,6 @@ export const SAVE_JOB_DESCRIPTION = '[job-description-management / Job Descripti
 export const SAVE_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Save Job Description Success';
 export const SAVE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Save Job Description Error';
 export const TOGGLE_PUBLISH_BUTTON = '[job-description-management / Job Description] Toggle Publish Button';
-export const LOAD_COMPANY = '[job-description-management / Job Description] Load Company';
-export const LOAD_COMPANY_SUCCESS = '[job-description-management / Job Description] Load Company Success';
-export const LOAD_COMPANY_ERROR = '[job-description-management / Job Description] Load Company Error';
 export const UNDO_JOB_DESCRIPTION_CHANGES = '[job-description-management / Job Description] Undo Job Description Changes';
 export const PUBLISH_JOB_DESCRIPTION = '[job-description-management / Job Description] Publish Job Description';
 export const PUBLISH_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Publish Job Description Success';
@@ -101,19 +98,6 @@ export class TogglePublishButton implements Action {
   readonly type = TOGGLE_PUBLISH_BUTTON;
 
   constructor(public payload: { enabled: boolean }) {}
-}
-
-export class LoadCompany implements Action {
-  readonly type = LOAD_COMPANY;
-  constructor(public payload: number) {}
-}
-export class LoadCompanySuccess implements Action {
-  readonly type = LOAD_COMPANY_SUCCESS;
-  constructor(public payload: CompanyDto) {}
-}
-export class LoadCompanyError implements Action {
-  readonly type = LOAD_COMPANY_ERROR;
-  constructor() {}
 }
 
 export class UndoJobDescriptionChanges implements Action {
@@ -310,9 +294,6 @@ export type Actions
   | SaveJobDescriptionSuccess
   | SaveJobDescriptionError
   | TogglePublishButton
-  | LoadCompany
-  | LoadCompanySuccess
-  | LoadCompanyError
   | UndoJobDescriptionChanges
   | PublishJobDescription
   | PublishJobDescriptionSuccess

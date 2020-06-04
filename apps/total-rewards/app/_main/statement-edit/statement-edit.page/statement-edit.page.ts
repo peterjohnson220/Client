@@ -5,6 +5,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
 
+import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
 import * as models from '../../../shared/models';
@@ -197,5 +199,10 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   handleRemoveImage(deleteImageRequest) {
     this.store.dispatch(new fromEditStatementPageActions.RemoveImageControlImage(deleteImageRequest));
+  }
+
+  // EFFECTIVE DATE
+  handleEffectiveDateChange(date: Date) {
+    this.store.dispatch(new fromEditStatementPageActions.UpdateEffectiveDate({ effectiveDate: date }));
   }
 }

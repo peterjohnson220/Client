@@ -1,0 +1,41 @@
+.file-list-container {
+	min-height: 300px;
+    border: 1px solid #eceeef;
+}
+
+.company-logo-preview-img-border {
+	border: 1px solid #eceeef;
+}
+
+.k-upload {
+	border-style: dashed;
+}
+
+img.company-logo-img-preview {
+    box-shadow: 4px 2px 2px #d5dadc;
+    max-width: 356px;
+}
+
+.file-list-header {
+    border-bottom: 2px solid #eceeef;
+    background: #FFFFFF;
+}
+
+.file-list-detail {
+    border-bottom: 1px solid #eceeef;
+}
+
+.file-list-scroll-container {
+    max-height: 300px;
+    overflow-y:auto;
+    overflow-x: hidden;
+}
+
+.file-selected {
+    background-color: rgba(0,0,0,.19);
+}
+
+.file-list-scroll-container div:hover {
+    background-color: rgba(0,0,0,.075);
+    cursor: pointer;
+ }

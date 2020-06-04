@@ -73,7 +73,7 @@ import { BasicListComponent } from './components';
     DateInputsModule,
     FontAwesomeModule,
     NgbCarouselModule,
-    NgbModule.forRoot(),
+    NgbModule,
 
     // Routing
     MainRoutingModule,

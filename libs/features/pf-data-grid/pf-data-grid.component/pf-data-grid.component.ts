@@ -56,6 +56,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() applyUserDefaultCompensationFields: boolean;
   @Input() allowSort = true;
   @Input() saveSort = false;
+  @Input() preserveSelectionsOnGetConfig = false;
   @Input() actionBarClassName: string;
   @Input() headerClassName: string;
   @Input() gridContainerSplitViewWidth = '500px';
@@ -198,6 +199,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
     if (changes['saveSort']) {
       this.store.dispatch(new fromActions.UpdateSaveSort(this.pageViewId, changes['saveSort'].currentValue));
+    }
+    if (changes['preserveSelectionsOnGetConfig']) {
+      this.store.dispatch(new fromActions.UpdatePreserveSelectionsOnGetConfig(this.pageViewId, changes['preserveSelectionsOnGetConfig'].currentValue));
     }
     if (changes['fieldsExcludedFromExport']) {
       this.store.dispatch(new fromActions.UpdateFieldsExcludedFromExport(this.pageViewId, changes['fieldsExcludedFromExport'].currentValue));

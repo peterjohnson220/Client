@@ -35,7 +35,7 @@
             <td>{{jobDescription?.JobDescriptionTitle}}</td>
             <th class="job-info-heading">Applies To:</th>
             <td>
-                            <span *ngFor="let appliesTo of jobDescriptionAppliesToItems | jobDescriptionAppliesToDisplayName:jobDescription?.AppliesToField" >
+                            <span *ngFor="let appliesTo of jobDescriptionAppliesToItems | jobDescriptionAppliesToDisplayName:jobDescription?.AppliesToField">
                                 {{ appliesTo.DisplayName }}
                             </span>
 

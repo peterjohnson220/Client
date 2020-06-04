@@ -1,0 +1,33 @@
+<pf-modal-form
+  [modalId]="'au-modal-paymarket-management'"
+  [isOpen$]="modalOpen$"
+  [size]="'lg'"
+  [centered]="false"
+  [allowDismiss]="true"
+  [primaryButtonText]="'Save'"
+  [primaryButtonTextSubmitting]="'Saving'"
+  [title]="'Add Pay Market'"
+  [submitEnabled]="!submitDisabled"
+  [windowClass]="'add-pay-market-modal'"
+  (onDismiss)="closeModal()"
+  (onSubmit)="closeModal()">
+
+  <ng-container basic-content>
+    <pf-async-container>
+      <div class="paymarket-modal-container px-3">
+        <ngb-tabset #payMarketTabs [destroyOnHide]="false">
+          <ngb-tab [title]="'General'" [id]="payMarketModalTabs.General">
+            <ng-template ngbTabContent>
+              <div class="pt-3">
+                <pf-general-form
+                  [reset]="!(modalOpen$ | async)">
+                </pf-general-form>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </pf-async-container>
+  </ng-container>
+
+</pf-modal-form>

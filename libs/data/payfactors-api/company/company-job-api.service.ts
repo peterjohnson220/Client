@@ -94,5 +94,10 @@ export class CompanyJobApiService {
     const fieldOptions = generateQueryObject(query);
     return this.payfactorsApiService.get<CompanyJob[]>(`${this.endpoint}`, { params: fieldOptions });
   }
+
+  getCompanyJobDescriptionInformation(companyJobIds: number[]) {
+    return this.payfactorsApiService.post<any[]>(`${this.endpoint}/Default.GetCompanyJobDescriptionsInReview`,
+      {companyJobIds: companyJobIds});
+  }
 }
 

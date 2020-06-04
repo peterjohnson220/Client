@@ -8,3 +8,4 @@ export * from './terms-conditions-modal';
 export * from './directives';
 export * from './simple-yes-no';
 export * from './multi-select-dropdown';
+export * from './pf-treeview';

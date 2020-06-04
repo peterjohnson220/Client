@@ -44,6 +44,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   workflowContext$: Observable<WorkflowContext>;
   forceRefresh$: Observable<boolean>;
   mapFilter$: Observable<any>;
+  loadingMap$: Observable<boolean>;
 
   // Subscriptions
   payMarketSubscription: Subscription;
@@ -56,6 +57,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   workflowContextSubscription: Subscription;
   forceRefreshSubscription: Subscription;
   mapFilterSubscription: Subscription;
+  loadingMapSubscription: Subscription;
 
   forceRefresh: boolean;
   selectedExchangeId: number;
@@ -72,6 +74,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   untaggedIncumbentCount: number;
   workflowContext: WorkflowContext;
   mapFilter: any;
+  pageLoading: boolean;
 
   constructor(private store: Store<fromComphubMainReducer.State>,
               public guidelinesService: DojGuidelinesService,
@@ -88,6 +91,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.forceRefresh$ = this.store.select(fromComphubMainReducer.getForcePeerMapRefresh);
     this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
     this.mapFilter$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapFilter);
+    this.loadingMap$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapLoading);
   }
 
   showMap() {
@@ -130,6 +134,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     });
 
     this.mapFilterSubscription = this.mapFilter$.subscribe(f => this.mapFilter = f);
+    this.loadingMapSubscription = this.loadingMap$.subscribe(x => this.pageLoading = x);
   }
 
   onSelectedPageIdDelayedChanges(workflowContext: WorkflowContext): void {
@@ -152,11 +157,14 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
         } as MessageEvent;
         this.exchangeExplorer.onMessage(setContextMessage);
         this.refreshMapData();
+      } else {
+        this.pageLoading = false;
       }
     } else
     if (this.displayMap && this.selectedPageIdDelayed !== ComphubPages.Data) {
       this.store.dispatch(new fromExchangeExplorerMapActions.SetPeerMapBounds({TopLeft: this.mapFilter.TopLeft, BottomRight: this.mapFilter.BottomRight, Centroid: null}));
       this.displayMap = false;
+      this.pageLoading = true;
     }
   }
 
@@ -171,6 +179,7 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.forceRefreshSubscription.unsubscribe();
     this.selectedPageIdDelayedSubscription.unsubscribe();
     this.mapFilterSubscription.unsubscribe();
+    this.loadingMapSubscription.unsubscribe();
   }
 
   get untaggedIncumbentMessage(): string {

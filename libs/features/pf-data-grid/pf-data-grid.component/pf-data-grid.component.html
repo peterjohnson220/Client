@@ -33,8 +33,10 @@
       <div *ngIf="gridActionsTemplate || userFilteredFields.length > 0"
            class="no-gutters d-flex justify-content-between mb-2 sub-header">
         <div class="flex-fill">
-          <div class="h-100" *ngIf="userFilteredFields.length > 0">
+          <div class="h-100 d-flex align-items-center">
+            <ng-content select="[beside-filter]"></ng-content>
             <pf-data-grid-filter-pills
+              *ngIf="userFilteredFields.length > 0"
               [fields]="userFilteredFields"
               (clearFilter)="clearFilter($event, true)"
               (clearAllFilters)="clearAllFilters()">
@@ -46,7 +48,7 @@
         </div>
       </div>
       <div class="d-flex h-100 full-wrap" [ngClass]="(contentNoPadding || !borders) ? '' : 'border'">
-        <div [ngClass]="isSplitView() ? 'main-grid-split' : 'main-grid-full'"
+        <div [ngClass]="isSplitView() ? 'main-grid-split overflow-hidden' : 'main-grid-full'"
              [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
           <div class="flex-column-container">
             <div class="d-flex h-100">
