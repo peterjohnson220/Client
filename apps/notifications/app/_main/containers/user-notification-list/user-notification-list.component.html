@@ -1,0 +1,49 @@
+<div class="user-notifications" *ngIf="enableUserNotifications$ | async">
+  <div class="page-header d-flex align-items-center">
+    <div>
+      <span class="title">Notifications</span>
+    </div>
+  </div>
+
+  <button class="btn btn-secondary" (click)="markAllAsRead()">Mark all as read</button>
+
+  <table class="table mt-3" *ngIf="!!(userNotificationsAsyncObj$ | async)?.obj?.length; else noNotifications">
+    <thead>
+      <tr>
+        <td>Title</td>
+        <td>Message</td>
+        <td>Date</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="notification-row"
+          *ngFor="let notification of (userNotificationsAsyncObj$ | async)?.obj; let i = index"
+          [class.is-read] = "notification.IsRead"
+          (click)="openNotification(notification)">
+        <td>{{ notification.Title }}</td>
+        <td *ngIf="notification.EnableHtml" [innerHTML]="notification.Message"></td>
+        <td *ngIf="!notification.EnableHtml">{{ notification.Message }}</td>
+        <td>{{ notification.CreateDate | date:'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noNotifications>
+  <p class="no-notifications">No Notifications</p>
+</ng-template>
+
+<pf-modal-form
+  [modalId]="'au-modal-notification-modal'"
+  [title]="modalNotification?.Title"
+  [isOpen$]="showModal$"
+  [size]="'lg'"
+  [windowClass]="'sm'"
+  [showSubmit]="false"
+  (onDismiss)="showModal.next(false)">
+  
+  <ng-container basic-content>
+    <div *ngIf="modalNotification?.EnableHtml" [innerHTML]="modalNotification?.Message"></div>
+    <div *ngIf="!modalNotification?.EnableHtml">{{ modalNotification?.Message }}</div>
+  </ng-container>
+</pf-modal-form>

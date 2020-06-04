@@ -1,0 +1,9 @@
+<a href="/client/notifications" *ngIf="(notificationCount$ | async) > 0 else noNotifications" class="notifications-badge">
+  <span class="badge badge-light">{{ notificationCount$ | async }}</span>
+</a>
+
+<ng-template #noNotifications>
+  <a href="/client/notifications" class="no-notification-icon">
+    <fa-icon [icon]="['far', 'bell']"></fa-icon>
+  </a>
+</ng-template>
