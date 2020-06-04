@@ -60,5 +60,9 @@ export class PricingLoadersComponent implements OnInit {
   goBack() {
     window.location.href = this.env.siteAdminUrl;
   }
+
+  textWidth(value: number) {
+   return value.toString().length <= 3;
+  }
 }
 
