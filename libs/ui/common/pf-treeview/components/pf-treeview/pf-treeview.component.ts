@@ -36,7 +36,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() compressChildValues = false;
   @Input() filterable = false;
   @Input() searchPlaceholder = 'Search...';
-  @Input() treeViewContainerHeight = 300;
+  @Input() treeViewContainerHeight: number;
   @Input() isPopup = true;
   @Input() checkedKeys: string[] = [];
   @Input() lazyLoad: boolean;
@@ -146,6 +146,11 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
     if (this.lazyLoad && event.dataItem.Children.length === 0) {
       this.expandNode.emit(event.dataItem.Value);
     }
+  }
+
+  clearSelections(): void {
+    this.checkedKeys = [];
+    this.handleApplyClicked();
   }
 
   // Kendo treeview

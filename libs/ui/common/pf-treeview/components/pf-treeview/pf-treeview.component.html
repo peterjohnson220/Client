@@ -2,15 +2,22 @@
       pfClickElsewhere
       (clickElsewhere)="handleCloseClicked($event)">
   <span *ngIf="!!label" class="mb-2">{{label}}</span>
-  <button #anchor (click)="toggleDropdown()" class="k-button anchor-button" [style.width.px]="anchorWidth">
+  <button #anchor class="k-button anchor-button" [style.width.px]="anchorWidth">
     <span class="d-flex w-100 align-items-start">
-      <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex flex-fill anchor-label">
-        <span class="value-template">{{ appliedNames[0] }}</span>
-        <span *ngIf="appliedNames.length > 1">
-          & {{appliedNames.length - 1}} MORE
+      <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex anchor-label">
+        <span class="value-template" [style.width.px]="anchorWidth - 147">{{ appliedNames[0] }}</span>
+        <span [style.visibility]="appliedNames.length > 1 ? 'visible' : 'hidden'" class="has-more-label">
+          and {{appliedNames.length - 1}} more
         </span>
       </span>
-      <fa-icon icon="caret-down" class="anchor-icon"></fa-icon>
+      <div [style.visibility]="mode === modes.Multiple && !!appliedNames?.length ? 'visible' : 'hidden'"
+        (click)="clearSelections()"
+        class="clear-all-wrap">
+        <fa-icon [icon]="['far', 'times']"></fa-icon>
+      </div>
+      <div (click)="toggleDropdown()" class="anchor-icon-wrap">
+        <fa-icon icon="caret-down"></fa-icon>
+      </div>
     </span>
     <ng-template #placeholderTemplate>
       <span *ngIf="!!lazyLoadDefaultAppliedItem" class="flex-fill anchor-label">{{lazyLoadDefaultAppliedItem.Name}}</span>
@@ -33,7 +40,7 @@
 
 <ng-template #treeViewContent>
   <div class="d-flex flex-column popup-container" [style.width.px]="anchorWidth - 2">
-    <div *ngIf="filterable" class="p-3">
+    <div *ngIf="filterable" class="px-3 pt-3 pb-2">
       <div class="input-group">
         <input class="form-control"
           [attr.data-qa-id]="'txt-searchItem'"
@@ -47,11 +54,12 @@
         </div>
       </div>
     </div>
+
     <div class="p-3" *ngIf="filterable && noSearchResults">
       <span>No Results</span>
     </div>
 
-    <div class="treeview-container" [style.height.px]="treeViewContainerHeight">
+    <div class="treeview-container" [style.height]="treeViewContainerHeight ? treeViewContainerHeight + 'px' : 'auto'">
       <pf-async-container [loading]="loading"></pf-async-container>
       <kendo-treeview *ngIf="mode === modes.Multiple"
         #treeView
