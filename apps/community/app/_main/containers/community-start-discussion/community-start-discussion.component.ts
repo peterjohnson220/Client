@@ -4,12 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import * as fromCommunityAttachmentActions from '../../actions/community-attachment.actions';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 
-import * as fromCommunityPostReducer from '../../reducers';
-import * as fromCommunityJobReducer from '../../reducers';
-import * as fromCommunityAttachmentsReducer from '../../reducers';
+import * as fromCommunityReducer from '../../reducers';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 
 import { CommunityPostTypeStatusEnum, CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
@@ -18,6 +17,7 @@ import { CommunityNewPollComponent } from '../community-new-poll/community-new-p
 import { CommunityNewJobComponent } from '../community-new-job/community-new-job.component';
 import { CommunityJob, CommunityAttachmentModalState, CommunityAttachment, CommunityPost, CommunityAttachmentUploadStatus } from 'libs/models';
 import { AppNotification } from 'libs/features/app-notifications/models';
+import { CommunityConstants } from '../../models';
 
 @Component({
   selector: 'pf-community-start-discussion',
@@ -30,6 +30,7 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   attachmentModalId: string;
   communityAttachments: CommunityAttachment[]  = [];
   submitAttempted = false;
+  newPostHasData = false;
 
   submittingCommunityPost$: Observable<boolean>;
   submittingCommunityJobSuccess$: Observable<CommunityJob>;
@@ -42,6 +43,8 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   currentAttachmentModalStateSubscription: Subscription;
   getNotification$: Observable<AppNotification<any>[]>;
   getNotificationSubscription: Subscription;
+  discardingPostProceed$: Observable<boolean>;
+  discardingPostProceedSubscription: Subscription;
 
   get CommunityPostTypes() { return CommunityPostTypeStatusEnum; }
 
@@ -49,15 +52,16 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   @ViewChild('newPollComponent') newPollComponent: CommunityNewPollComponent;
   @ViewChild('newJobComponent') newJobComponent: CommunityNewJobComponent;
 
-  constructor(private store: Store<fromCommunityPostReducer.State>,
+  constructor(private store: Store<fromCommunityReducer.State>,
     private route: ActivatedRoute,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>) {
 
-    this.submittingCommunityPost$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPosts);
-    this.submittingCommunityJobSuccess$ = this.store.select(fromCommunityJobReducer.getSubmittingCommunityJobsSuccess);
-    this.submittingCommunityPostSuccess$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPostsSuccess);
-    this.addingCommunityDiscussionPollSuccess$ = this.store.select(fromCommunityPostReducer.getAddingCommunityDiscussionPollSuccess);
-    this.currentAttachmentModalState$ = this.store.select(fromCommunityAttachmentsReducer.getCurrentAttachmentModalState);
+    this.submittingCommunityPost$ = this.store.select(fromCommunityReducer.getSubmittingCommunityPosts);
+    this.submittingCommunityJobSuccess$ = this.store.select(fromCommunityReducer.getSubmittingCommunityJobsSuccess);
+    this.submittingCommunityPostSuccess$ = this.store.select(fromCommunityReducer.getSubmittingCommunityPostsSuccess);
+    this.addingCommunityDiscussionPollSuccess$ = this.store.select(fromCommunityReducer.getAddingCommunityDiscussionPollSuccess);
+    this.currentAttachmentModalState$ = this.store.select(fromCommunityReducer.getCurrentAttachmentModalState);
+    this.discardingPostProceed$ = this.store.select(fromCommunityReducer.getDiscardingPostProceed);
     this.getNotification$ = this.appNotificationStore.select(fromAppNotificationsMainReducer.getNotifications);
   }
 
@@ -90,6 +94,20 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
           this.communityAttachments = state.Attachments;
       }});
 
+    this.discardingPostProceedSubscription = this.discardingPostProceed$.subscribe(result => {
+    if (result) {
+      this.newPostComponent?.resetForm();
+
+      this.communityAttachments?.forEach(attachment => {
+        const attachmentNames = [];
+        this.communityAttachments.forEach(element => {
+          attachmentNames.push(element.CloudFileName);
+        });
+        this.store.dispatch(new fromCommunityAttachmentActions.DiscardAttachments(attachmentNames));
+        this.store.dispatch(new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(this.attachmentModalId));
+      });
+    }});
+
     this.getNotificationSubscription = this.getNotification$.subscribe(notifications => {
       notifications.forEach(notification => {
         if (!notification) {
@@ -117,6 +135,7 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
     this.addingCommunityDiscussionPollSuccessSubscription.unsubscribe();
     this.currentAttachmentModalStateSubscription.unsubscribe();
     this.getNotificationSubscription.unsubscribe();
+    this.discardingPostProceedSubscription.unsubscribe();
   }
 
   onPostTypeClick(postType) {
@@ -134,12 +153,20 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
     this.submitAttempted = true;
   }
 
+  discardPost() {
+    this.store.dispatch(new fromCommunityPostActions.DiscardingCommunityPost());
+  }
+
   openAttachmentsModal() {
     this.store.dispatch(new fromCommunityAttachmentActions.OpenCommunityAttachmentsModal(this.attachmentModalId));
   }
 
-  get scannedAttachmentsCount() {
-    return this.communityAttachments.filter((x) => x.Status === CommunityAttachmentUploadStatus.ScanSucceeded).length;
+  handlePostFormChanged(hasData: boolean) {
+    this.newPostHasData = hasData;
+  }
+
+  get scannedAttachments() {
+    return this.communityAttachments.filter((x) => x.Status === CommunityAttachmentUploadStatus.ScanSucceeded);
   }
 
   get scanningAttachments() {

@@ -52,6 +52,10 @@ export const SAVING_COMMUNITY_POST_EDIT = '[Community/Post] Saving Community Pos
 export const SAVING_COMMUNITY_POST_EDIT_SUCCESS = '[Community/Post] Saving Community Post Edit Success';
 export const SAVING_COMMUNITY_POST_EDIT_ERROR = '[Community/Post] Saving Community Post Edit Error';
 
+export const DISCARDING_COMMUNITY_POST = '[Community/Post] Discarding Community Post';
+export const DISCARDING_COMMUNITY_POST_PROCEED = '[Community/Post] Discarding Community Post Proceed';
+export const DISCARDING_COMMUNITY_POST_CANCEL = '[Community/Post] Canceling Community Post Cancel';
+
 
 export class SubmittingCommunityPost implements Action {
   readonly type = SUBMITTING_COMMUNITY_POST;
@@ -226,6 +230,18 @@ export class SavingCommunityPostEditError implements Action {
   readonly type = SAVING_COMMUNITY_POST_EDIT_ERROR;
 }
 
+export class DiscardingCommunityPost implements Action {
+  readonly type = DISCARDING_COMMUNITY_POST;
+}
+
+export class DiscardingCommunityPostProceed implements Action {
+  readonly type = DISCARDING_COMMUNITY_POST_PROCEED;
+}
+
+export class DiscardingCommunityPostCancel implements Action {
+  readonly type = DISCARDING_COMMUNITY_POST_CANCEL;
+}
+
 export type Actions
   =  SubmittingCommunityPost
   | SubmittingCommunityPostSuccess
@@ -264,4 +280,7 @@ export type Actions
   | CancelEditingCommunityPostError
   | SavingCommunityPostEdit
   | SavingCommunityPostEditSuccess
-  | SavingCommunityPostEditError;
+  | SavingCommunityPostEditError
+  | DiscardingCommunityPost
+  | DiscardingCommunityPostProceed
+  | DiscardingCommunityPostCancel;
