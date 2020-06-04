@@ -215,7 +215,7 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return localState;
     }
     case fromEditStatementActions.SAVE_IMAGE_CONTROL_IMAGE: {
-      const localState = cloneDeep(state);
+      const localState: State = cloneDeep(state);
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.ControlId);
       const control: ImageControl = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control] as ImageControl;
       control.FileName = action.payload.FileName;
@@ -223,11 +223,16 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return localState;
     }
     case fromEditStatementActions.REMOVE_IMAGE_CONTROL_IMAGE: {
-      const localState = cloneDeep(state);
+      const localState: State = cloneDeep(state);
       const {Page, Section, Column, Control} = TotalRewardsStatementService.getCurrentControlIndex(state.statement.obj, action.payload.Id);
       const control: ImageControl = localState.statement.obj.Pages[Page].Sections[Section].Columns[Column].Controls[Control] as ImageControl;
       control.FileName = '';
       control.FileUrl = '';
+      return localState;
+    }
+    case fromEditStatementActions.UPDATE_EFFECTIVE_DATE: {
+      const localState: State = cloneDeep(state);
+      localState.statement.obj.EffectiveDate = action.payload.effectiveDate;
       return localState;
     }
     default: {

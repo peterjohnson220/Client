@@ -1,7 +1,7 @@
 <ng-container *ngIf="filter.Options.length;else noOptions">
 
   <ng-container *ngFor="let option of filter.Options">
-    <div class="option alt-color"
+    <div *ngIf="!fieldHasDescription()" class="option alt-color"
          [title]="option.Name"
          [class.selected]="option.Selected"
          [class.disabled]="optionDisabled(option)"
@@ -17,10 +17,73 @@
       </div>
 
     </div>
+    <div *ngIf="fieldHasDescription()" class="option alt-color"
+         [class.selected]="option.Selected"
+         [class.disabled]="optionDisabled(option)"
+         [class.locked]="filter.Locked"
+         [ngbPopover]="popContent"
+         [popoverTitle]="option.Name"
+         [popoverClass]="'description-popover'"
+         [placement]="'right right-top right-bottom auto'"
+         [autoClose]="'outside'"
+         triggers="mouseenter:mouseleave"
+         container="body"
+         (mouseenter)="mouseEnter(option)"
+         (mouseleave)="onMouseLeave()"
+         (click)="handleOptionSelected(filter.Id, option)"
+         [ngClass]="'au-chk-'+filter.CssClassName">
+      <div class="option-check">
+        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" /> {{option.Name}}
+      </div>
+
+      <div *ngIf="!filter.OptionCountDisabled" class="option-count">
+        {{option.Count}}
+      </div>
+    </div>
   </ng-container>
 
 </ng-container>
 
 <ng-template #noOptions>
   <div class="no-data">No Data</div>
+</ng-template>
+
+<ng-template #popContent class="description-popover">
+  <div [ngSwitch]="filter.BackingField" >
+
+      <div *ngSwitchCase="'company_name'">
+        <div class="description-body">
+          <span *ngIf="(this.loadingCompanyDescription | async)">
+            <fa-icon icon="spinner" spin="true" class="" aria-hidden="true"></fa-icon>
+          </span>
+
+          <span *ngIf="!(this.loadingCompanyDescription | async)">
+            <span *ngIf="(this.companyDescription$|async) && (this.companyDescription$|async).length > 0">
+              {{ (this.companyDescription$|async) }}
+            </span>
+            <span *ngIf="!(this.companyDescription$|async) || (this.companyDescription$|async).length === 0">
+              <i>No description available </i>
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div *ngSwitchCase="'subsidiary_name'">
+        <div class="description-body">
+        <span *ngIf="(this.loadingSubsidiaryJobDescription | async)">
+          <fa-icon icon="spinner" spin="true" class="ml-auto mr-auto" aria-hidden="true"></fa-icon>
+        </span>
+
+        <span *ngIf="!(this.loadingSubsidiaryJobDescription | async)">
+          <span *ngIf="(this.subsidiaryJobDescription$|async) && (this.subsidiaryJobDescription$|async).length > 0">
+            {{ (this.subsidiaryJobDescription$|async) }}
+          </span>
+          <span *ngIf="!(this.subsidiaryJobDescription$|async) || (this.subsidiaryJobDescription$|async).length === 0">
+            <i>No description available </i>
+          </span>
+        </span>
+      </div>
+      </div>
+    </div>
+
 </ng-template>

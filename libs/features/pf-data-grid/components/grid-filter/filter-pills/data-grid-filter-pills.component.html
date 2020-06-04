@@ -1,5 +1,8 @@
 <div class="d-flex">
   <div perfectScrollbar class="pills-container pb-2" [style.maxWidth]="getMaxWidthCalc()">
+    <div *ngIf="lockedPillText" class="badge badge-pill">
+      {{ lockedPillText }}
+    </div>
     <div class="badge badge-pill" *ngFor="let field of fields" (click)="pillClicked(field)">
       {{ getPillDisplay(field) }}
       <fa-icon icon="times" aria-hidden="true"></fa-icon>

@@ -147,7 +147,7 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
       const supportTeamClone = cloneDeep(state.supportTeam);
 
       supportTeamClone.loading = false;
-      supportTeamClone.obj = orderBy(action.payload, ['Title'], ['desc']);
+      supportTeamClone.obj = orderBy(action.payload, ['Team'], ['asc']);
       return {
         ...state,
         supportTeam: supportTeamClone

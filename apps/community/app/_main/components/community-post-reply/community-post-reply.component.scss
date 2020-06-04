@@ -1,19 +1,14 @@
 @import 'colors';
 @import 'styles';
 
-$reply-avatar-width: 35px;
-$reply-avatar-height: 35px;
-
 #reply-avatar {
-  width: $reply-avatar-width;
-  height: $reply-avatar-height;
+  width: $community-reply-avatar-size;
+  height: $community-reply-avatar-size;
 }
 
 .reply-offset {
-  margin-left: $reply-avatar-width + 10px;
+  margin-left: $community-reply-avatar-size + 10px;
 }
-
-
 
 .community-btn {
   background: transparent;

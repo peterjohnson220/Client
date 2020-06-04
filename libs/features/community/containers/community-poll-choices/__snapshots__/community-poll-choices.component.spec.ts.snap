@@ -19,6 +19,7 @@ exports[`CommunityPollChoicesComponent should not allow to update poll choices i
       
     </div>
     
+    
   </div>
 </pf-community-poll-choices>
 `;
@@ -42,6 +43,7 @@ exports[`CommunityPollChoicesComponent should not allow to update poll choices i
       
     </div>
     
+    
   </div>
 </pf-community-poll-choices>
 `;
@@ -64,6 +66,7 @@ exports[`CommunityPollChoicesComponent should show community start poll 1`] = `
       />
       
     </div>
+    
     
   </div>
 </pf-community-poll-choices>

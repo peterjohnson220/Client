@@ -33,6 +33,7 @@
         <pf-column-chooser *ngIf="actionBarConfig.ShowColumnChooser"
           [dataFields]="dataFields$ | async"
           [columnChooserType]="actionBarConfig.ColumnChooserType"
+          [reorderable]="reorderable"
           (saveColumns)="updateFields($event)">
         </pf-column-chooser>      
     </div>

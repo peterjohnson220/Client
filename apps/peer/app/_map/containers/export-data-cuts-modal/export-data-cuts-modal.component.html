@@ -168,6 +168,23 @@
                        [(selectedOptions)]="selectedScopesToExport"
                        [options]="scopesToExportOptions">
       </pf-multi-select>
+      <label class="mb-0 ml-3 mr-2" for="ddm-currency">Currency: </label>
+      <kendo-dropdownlist id="ddm-currency"
+                          class="currency-dropdown k-dropdown-white"
+                          formControlName="selectedCurrency"
+                          [attr.data-qa-id]="'ddm-currency'"
+                          [data]="filteredCurrencies"
+                          [filterable]="true"
+                          [textField]="'CurrencyDisplay'"
+                          [valueField]="'CurrencyCode'"
+                          [ngModel]="selectedCurrency"
+                          [popupSettings]="{
+                            popupClass: 'drop-up',
+                            appendTo: 'component'
+                          }"
+                          (filterChange)="handleFilter($event)"
+                          (selectionChange)="handleCurrencySelectionChange($event)">
+      </kendo-dropdownlist>
     </div>
   </ng-container>
 

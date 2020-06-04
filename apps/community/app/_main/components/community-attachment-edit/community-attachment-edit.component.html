@@ -1,12 +1,12 @@
-<span placement="top" [ngbTooltip]="getToolTip()">
+<div class="attachment" placement="top" [ngbTooltip]="getToolTip()">
   <div class="container">
-    <fa-icon icon="{{iconFile}}" size="2x" class="icon {{iconClass}}"></fa-icon>
+    <fa-icon icon="{{iconFile}}" size="lg" class="icon {{iconClass}} mr-1"></fa-icon>
     <div class="attachment-info">
       <p>{{attachment.Name | TruncateAfter: maxNameSize}}</p>
-      <p>{{attachment.Size}} KB</p>
+      <p>{{formattedSize}}</p>
     </div>
     <div (click)="deleteFile(attachment)" class="remove-btn">
       <fa-icon icon="times"></fa-icon>
     </div>
   </div>
-</span>
+</div>

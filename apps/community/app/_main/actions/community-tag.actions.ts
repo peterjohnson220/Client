@@ -7,7 +7,7 @@ export const SUGGESTING_COMMUNITY_TAGS_ERROR = '[Community/Tags] Suggesting Comm
 
 export class SuggestingCommunityTags implements Action {
     readonly type = SUGGESTING_COMMUNITY_TAGS;
-    constructor(public payload: {query: string, postId: string}) {}
+    constructor(public payload: {query: string}) {}
 }
 
 export class SuggestingCommunityTagsSuccess implements Action {

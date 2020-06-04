@@ -18,6 +18,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 
 import { PageViewIds } from '../constants';
 import * as fromJobsPageActions from '../actions';
@@ -117,6 +118,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showJobManagementModal = new BehaviorSubject<boolean>(false);
   showJobManagementModal$ = this.showJobManagementModal.asObservable();
   editingJobId: number;
+  jobDescriptionsInReview: any[] = [];
+
+  loadViewConfigSuccessSubscription = new Subscription;
 
   @ViewChild('gridRowActionsTemplate', { static: false }) gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
@@ -132,7 +136,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('structureGradeFilter', { static: false }) structureGradeFilter: ElementRef;
 
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) { }
+  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private companyJobApiService: CompanyJobApiService) { }
 
   ngOnInit() {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
@@ -217,6 +221,16 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.showDeleteJobModal.next(false);
       });
 
+    // clears selections upon selecting a saved filter
+    this.loadViewConfigSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG_SUCCESS))
+      .subscribe((action: fromPfDataGridActions.LoadViewConfigSuccess) => {
+        if (action.pageViewId === PageViewIds.Jobs) {
+          this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails));
+          this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.NotPricedPayMarkets));
+        }
+      });
+
     this.actionBarConfig = {
       ShowActionBar: true,
       ShowColumnChooser: true,
@@ -296,13 +310,18 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openJobStatusModal() {
-    this.showJobStatusModal.next(true);
-    this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
+    // TODO: This needs to be part of the state so we can set the loading flag show a spinner while loading the JobDescriptionInformation
+    this.companyJobApiService.getCompanyJobDescriptionInformation(this.selectedJobIds).subscribe(jds => {
+      this.jobDescriptionsInReview = jds;
+      this.showJobStatusModal.next(true);
+      this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
+    });
   }
 
   changingJobStatus() {
     const summary: ChangeJobStatusRequest = {
       CompanyJobIds: this.selectedJobIds,
+      JobsInReview: this.jobDescriptionsInReview,
       StatusToSet: this.isActiveJobs() ? 0 : 1
     };
     this.store.dispatch(new fromJobsPageActions.ChangingJobStatus(summary));
@@ -330,6 +349,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.companySettingsSubscription.unsubscribe();
     this.changingJobStatusSuccessSubscription.unsubscribe();
     this.deletingJobSuccessSubscription.unsubscribe();
+    this.loadViewConfigSuccessSubscription.unsubscribe();
   }
 
   closeSplitView() {

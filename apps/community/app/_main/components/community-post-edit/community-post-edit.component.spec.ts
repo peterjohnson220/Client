@@ -1,11 +1,10 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 
 import 'rxjs/add/observable/of';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { FormBuilder } from '@angular/forms';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
@@ -27,6 +26,7 @@ describe('CommunityPostEditComponent', () => {
         }),
       ],
       declarations: [ CommunityPostEditComponent ],
+      providers: [ FormBuilder ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });

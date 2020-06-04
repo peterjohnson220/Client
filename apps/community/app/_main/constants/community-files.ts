@@ -4,6 +4,7 @@ export class CommunityFiles {
     '.docx',
     '.pdf',
     '.ppt',
+    '.pptx',
     '.xls',
     '.xlsx'
   ];

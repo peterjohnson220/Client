@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { ChartControl, StatementModeEnum, UpdateTitleRequest, EmployeeRewardsData, CalculationControl } from '../../models/';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
@@ -9,7 +9,7 @@ import { TotalRewardsStatementService } from '../../services/total-rewards-state
   styleUrls: ['./trs-chart-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsChartControlComponent {
+export class TrsChartControlComponent implements OnChanges {
 
   @Input() controlData: ChartControl;
   @Input() chartColors: string[];
@@ -20,20 +20,29 @@ export class TrsChartControlComponent {
   @Output() settingsClick = new EventEmitter();
   @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
 
-  get chartPreviewData(): { category: string, value: number }[] {
+  chartData: { category: string, value: number }[];
+
+  get inEditMode(): boolean {
+    return this.mode === StatementModeEnum.Edit;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // the chart animates on change detection, possibly because it thinks it's getting new values, so only change data when the mode changes
+    if (changes.mode && changes.mode.currentValue !== changes.mode.previousValue) {
+      this.chartData = this.inEditMode ? this.getChartEditData() : this.getChartPreviewData();
+    }
+  }
+
+  getChartPreviewData(): { category: string, value: number }[] {
     return this.calculationControls.map((c: CalculationControl) => {
       const sumOfVisibleFields = TotalRewardsStatementService.sumCalculationControl(c, this.employeeRewardsData);
       return { category: c.Title.Override || c.Title.Default, value: (sumOfVisibleFields) ? +(sumOfVisibleFields / 1000).toFixed(0) : 0 };
     });
   }
 
-  get chartEditData(): { category: string, value: number }[] {
+  getChartEditData(): { category: string, value: number }[] {
     const mockEditValues = [55, 10, 20, 10];
     return this.calculationControls.map((c: CalculationControl, i: number) => ({ category: c.Title.Default, value: mockEditValues[i] }));
-  }
-
-  get inEditMode(): boolean {
-    return this.mode === StatementModeEnum.Edit;
   }
 
   public labelContent(e: any): string {

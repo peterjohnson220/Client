@@ -9,7 +9,7 @@ import {
   ExchangeListItem, UpsertExchangeJobMapRequest,
   GetChartRequest, GetDetailChartRequest, ChartItem,
   RequestExchangeRequest, ExchangeRequestCandidatesRequest,
-  SaveExchangeJobAssociationRequestModel, GetExchangeCompanyJobsAllEntityIdsRequest, AggregateGridDataResult
+  SaveExchangeJobAssociationRequestModel, GetExchangeCompanyJobsAllEntityIdsRequest, AggregateGridDataResult, GenericKeyValue
 } from '../../../models';
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 import { GenericMenuItem } from 'libs/models/common';
@@ -170,8 +170,8 @@ export class ExchangeCompanyApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/ApprovePendingExchangeJobMapping`, request);
   }
 
-  getExchangeJobOrgs(exchangeJobId: number, selectedMarket = 'USA'): Observable<string[]> {
-    return this.payfactorsApiService.get<string[]>(`${this.endpoint}/GetExchangeJobOrgs`,
+  getExchangeJobOrgs(exchangeJobId: number, selectedMarket = 'USA'): Observable<ChartItem[]> {
+    return this.payfactorsApiService.get<ChartItem[]>(`${this.endpoint}/GetExchangeJobOrgs`,
       { params: { exchangeJobId, countryCode: selectedMarket } }
     );
   }

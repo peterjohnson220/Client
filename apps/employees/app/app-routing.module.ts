@@ -14,6 +14,14 @@ export const routes: Routes = [
       { path: '', loadChildren: () => import('apps/employees/app/_employees/employees-page.module').then(m => m.EmployeesPageModule) }
     ]
   },
+  {
+    path: 'history',
+    component: AppWrapperComponent,
+    canActivate: [UserContextGuard, TileEnabledGuard],
+    children: [
+      { path: '', loadChildren: () => import('apps/employees/app/_employee-history/employee-history-page.module').then(m => m.EmployeeHistoryPageModule) }
+    ]
+  },
   { path: 'access-denied', component: AccessDeniedPageComponent },
   { path: 'not-found', component: NotFoundErrorPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }

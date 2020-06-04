@@ -1,0 +1,37 @@
+<div class="row mb-2">
+  <div class="col-1 text-right font-weight-bold">Username</div>
+  <div class="col-5">
+    <input (ngModelChange)="handleUserNameChange($event)"
+           [ngModel]="SftpUser?.UserName"
+           type="text"
+           class="form-control public-key-auth-form-control">
+    <span class="ml-2" *ngIf="username && username.length > 0">
+      <fa-icon *ngIf="(validatingUserName$ | async)" icon="spinner" size="sm" spin="true"></fa-icon>
+      <fa-icon *ngIf="!(validatingUserName$ | async) && isUserNameValid !== null && isUserNameValid == true" icon="check"
+               size="sm" class="success"></fa-icon>
+      <fa-icon *ngIf="!(validatingUserName$ | async) && isUserNameValid !== null && isUserNameValid == false" icon="times"
+               size="sm" class="error" ngbTooltip="User name must be at least 8 characters, user name must be unique, user name can only contain alphanumeric values"></fa-icon>
+    </span>
+  </div>
+</div>
+
+<div class="row mb-2">
+  <div class="col-1 text-right font-weight-bold">Public Key</div>
+  <div class="col-5">
+    <kendo-fileselect
+      *ngIf="!SftpUser?.FileName || showFileUpload"
+      [accept]="acceptedFileExtensions"
+      [restrictions]="fileRestrictions"
+      [multiple]="false"
+      (select)="handleFileInput($event)"
+      (remove)="handleFileClear()"
+      class="public-key-auth-form-control">
+      <kendo-upload-messages select="Select file...">
+      </kendo-upload-messages>
+    </kendo-fileselect>
+    <div *ngIf="SftpUser?.FileName && !showFileUpload">
+      <span class="mr-2">{{SftpUser.FileName}}</span>
+      <fa-icon icon="pencil-alt" (click)="toggleFileUpload()" class="pf-secondary-color"></fa-icon>
+    </div>
+  </div>
+</div>

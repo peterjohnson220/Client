@@ -1,0 +1,12 @@
+@import 'colors';
+@import 'styles';
+
+$reply-avatar-width: 35px;
+
+.reply-offset {
+  margin-left: $community-reply-avatar-size + 10px;
+}
+
+.loading-indicator {
+  color:#99A0A4;
+}

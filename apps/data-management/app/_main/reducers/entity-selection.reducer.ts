@@ -9,11 +9,15 @@ import * as fromEntitySelectionActions from '../actions/entity-selection.actions
 export interface State {
   providerSupportedEntitiesObj: AsyncStateObj<EntityChoice[]>;
   updatedProviderSupportedEntitiesObj: AsyncStateObj<OrgDataEntityType[]>;
+  removedProviderSupportedEntitiesObj: AsyncStateObj<OrgDataEntityType[]>;
+  showRemoveEntityModal: boolean;
 }
 
 export const initialState: State = {
   providerSupportedEntitiesObj: generateDefaultAsyncStateObj<EntityChoice[]>([]),
   updatedProviderSupportedEntitiesObj: generateDefaultAsyncStateObj<OrgDataEntityType[]>([]),
+  removedProviderSupportedEntitiesObj: generateDefaultAsyncStateObj<OrgDataEntityType[]>([]),
+  showRemoveEntityModal: false
 };
 
 export function reducer(state: State = initialState, action: fromEntitySelectionActions.Actions) {
@@ -40,6 +44,21 @@ export function reducer(state: State = initialState, action: fromEntitySelection
     case fromEntitySelectionActions.SET_ENTITY_SELECTION: {
       return AsyncStateObjHelper.savingSuccess(state, 'updatedProviderSupportedEntitiesObj', action.payload);
     }
+    case fromEntitySelectionActions.DEACTIVATE_MAPPINGS_FOR_ENTITIES: {
+      return AsyncStateObjHelper.saving(state, 'removedProviderSupportedEntitiesObj', action.payload.entityMappingsToRemove);
+    }
+    case fromEntitySelectionActions.DEACTIVATE_MAPPINGS_FOR_ENTITIES_SUCCESS: {
+      return AsyncStateObjHelper.savingSuccess(state, 'removedProviderSupportedEntitiesObj', []);
+    }
+    case fromEntitySelectionActions.DEACTIVATE_MAPPINGS_FOR_ENTITIES: {
+      return AsyncStateObjHelper.savingError(state, 'removedProviderSupportedEntitiesObj');
+    }
+    case fromEntitySelectionActions.OPEN_REMOVE_ENTITY_MODAL: {
+      return {
+        ...state,
+        showRemoveEntityModal: action.payload
+      };
+    }
     default:
       return state;
   }
@@ -47,3 +66,5 @@ export function reducer(state: State = initialState, action: fromEntitySelection
 
 export const getProviderSupportedEntitiesObj = (state: State) => state.providerSupportedEntitiesObj;
 export const getUpdatedProviderSupportedEntitiesObj = (state: State) => state.updatedProviderSupportedEntitiesObj;
+export const getRemovedProviderSupportedEntitiesObj = (state: State) => state.removedProviderSupportedEntitiesObj;
+export const getShowRemoveEntityModal = (state: State) => state.showRemoveEntityModal;

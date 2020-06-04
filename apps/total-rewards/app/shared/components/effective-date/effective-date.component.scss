@@ -1,0 +1,7 @@
+.effective-date {
+  z-index: 5; // the trs-page overlaps part of this component via a negative margin, so keep this clickable by being the top element
+}
+
+label {
+  font-size: .9rem;
+}

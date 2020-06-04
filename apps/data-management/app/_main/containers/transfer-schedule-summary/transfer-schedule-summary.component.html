@@ -1,27 +1,21 @@
-<pf-async-container [loading]="transferScheduleSummaryLoading$ | async"
-                    [loadingError]="transferScheduleSummaryError$ | async"
-                    [loadingErrorMessage]="'Error loading Transfer Schedule'">
-  <div class="card-mb-3 shadow-sm p-3" *ngIf="this.transferScheduleSummary.length">
-    <div class="card-body">
-      <h5 class="card-title text-uppercase text-muted">
-        <fa-icon icon="calendar-alt"></fa-icon>
-        Transfer Schedule
-        <span *ngIf="this.transferScheduleSummary.length" class="float-right text-lowercase">
-          <a class="text-muted" routerLink="/transfer-data/inbound/transfer-schedule">edit</a>
-        </span>
-      </h5>
-      <div class="row">
-        <table class="table table-striped text-muted">
-          <tbody>
-            <ng-container *ngIf="this.transferScheduleSummary.length">
-              <tr *ngFor="let item of this.transferScheduleSummary">
-                <td>{{ item.entityMappingTypeName}}</td>
-                <td class="text-right font-italic">{{ getSchedule(item) }}</td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
-      </div>
+<div class="card-mb-3 shadow-sm p-3" *ngIf="(this.transferScheduleSummary$ | async).length">
+  <div class="card-body">
+    <h5 class="card-title text-uppercase text-muted">
+      <fa-icon icon="calendar-alt"></fa-icon>
+      Transfer Schedule
+
+    </h5>
+    <div class="row">
+      <table class="table table-striped text-muted">
+        <tbody>
+          <ng-container *ngIf="(this.transferScheduleSummary$ | async).length">
+            <tr *ngFor="let item of ((this.transferScheduleSummary$ | async) | getSupportedSchedulesPipe)">
+              <td>{{ item.entityMappingTypeName}}</td>
+              <td class="text-right font-italic">{{ getSchedule(item) }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
     </div>
   </div>
-</pf-async-container>
+</div>

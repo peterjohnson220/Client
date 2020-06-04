@@ -21,7 +21,7 @@ describe('Peer Dashboard - Exchange Selector', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPopoverModule.forRoot(),
+        NgbPopoverModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           peer_shared: combineReducers(fromPeerSharedReducer.reducers),

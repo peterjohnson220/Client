@@ -8,7 +8,7 @@ import {of} from 'rxjs';
 import {
   generateMockEntityTypeModel,
   generateMockExistingConnectionSummary, generateMockNewConnectionSummary,
-  generateMockProvider, getEntityChoicesForOrgLoader
+  generateMockProvider, getEntityChoicesForOrgLoader, getMockEntityChoiceList
 } from '../../../../models';
 
 import * as fromProviderListActions from '../../../../actions/provider-list.actions';
@@ -19,6 +19,7 @@ import * as fromTransferDataPageReducers from '../../../../reducers/transfer-dat
 import * as fromProviderListReducers from '../../../../reducers/provider-list.reducer';
 
 import { InboundEntitySelectionPageComponent } from './inbound-entity-selection.page';
+import { OrgDataEntityType } from 'libs/constants';
 
 describe('InboundEntitySelectionPageComponent', () => {
   let component: InboundEntitySelectionPageComponent;
@@ -143,5 +144,84 @@ describe('InboundEntitySelectionPageComponent', () => {
 
       // assert
       expect(component.providerSupportedEntities.filter(p => p.isChecked).length).toEqual(1);
+    });
+
+    it('should dispatch an action to open a remove entity modal when a previously selected entitiy is unchecked', () => {
+      // arrange
+      spyOn(store, 'dispatch');
+      const summary = generateMockExistingConnectionSummary();
+      const selectedEntities = [generateMockEntityTypeModel()];
+      const providerSupportedEntities = getMockEntityChoiceList();
+      const expectedAction = new fromEntitySelectionActions.OpenRemoveEntityModal(true);
+
+      component.connectionSummary$ = of(summary);
+      component.pageSelections$ = of({selections: selectedEntities, providerSupportedEntities: providerSupportedEntities});
+      fixture.detectChanges();
+
+      // act
+      component.previousProviderSupportedEntities = getMockEntityChoiceList();
+      component.proceedToAuthentication();
+
+      // assert
+      expect(store.dispatch).toBeCalledWith(expectedAction);
+    });
+
+    it('should dispatch an action to update entity selection when new entity is selected', () => {
+      // arrange
+      spyOn(store, 'dispatch');
+      const summary = generateMockExistingConnectionSummary();
+      const selectedEntities = [generateMockEntityTypeModel()];
+      const providerSupportedEntities = getMockEntityChoiceList();
+      const provider = generateMockProvider();
+      const expectedAction = new fromEntitySelectionActions.UpdateEntitySelections({
+        connectionId: summary.connectionID,
+        selectedEntities: [
+          OrgDataEntityType.PayMarkets,
+          OrgDataEntityType.Jobs,
+          OrgDataEntityType.Employees
+        ],
+        redirectRoute: '/transfer-data/inbound/authentication'
+      });
+
+      component.connectionSummary$ = of(summary);
+      component.selectedProvider$ = of(provider);
+      component.pageSelections$ = of({selections: selectedEntities, providerSupportedEntities: providerSupportedEntities});
+      fixture.detectChanges();
+
+
+      // act
+      component.providerSupportedEntities = getMockEntityChoiceList();
+      component.previousProviderSupportedEntities = getMockEntityChoiceList();
+      component.providerSupportedEntities[1].isChecked = true;
+      component.proceedToAuthentication();
+
+      // assert
+      expect(store.dispatch).toBeCalledWith(expectedAction);
+    });
+
+    it('should dispatch an action to remove an entity selection when entity is selected and old one unselected', () => {
+      // arrange
+      spyOn(store, 'dispatch');
+      const summary = generateMockExistingConnectionSummary();
+      const selectedEntities = [generateMockEntityTypeModel()];
+      const providerSupportedEntities = getMockEntityChoiceList();
+      const provider = generateMockProvider();
+      const expectedAction = new fromEntitySelectionActions.OpenRemoveEntityModal(true);
+
+      component.connectionSummary$ = of(summary);
+      component.selectedProvider$ = of(provider);
+      component.pageSelections$ = of({selections: selectedEntities, providerSupportedEntities: providerSupportedEntities});
+      fixture.detectChanges();
+
+
+      // act
+      component.providerSupportedEntities = getMockEntityChoiceList();
+      component.previousProviderSupportedEntities = getMockEntityChoiceList();
+      component.providerSupportedEntities[1].isChecked = true;
+      component.providerSupportedEntities[0].isChecked = false;
+      component.proceedToAuthentication();
+
+      // assert
+      expect(store.dispatch).toBeCalledWith(expectedAction);
     });
 });

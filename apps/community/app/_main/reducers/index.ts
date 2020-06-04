@@ -371,6 +371,11 @@ export const getAddingCommunityPostReplySuccess = createSelector(
   fromCommunityPostReplyReducer.getAddingCommunityPostReplySuccess
 );
 
+export const getCommunityReplyEdited = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getCommunityReplyEdited
+);
+
 // Community Post Add Reply View selector
 export const getCommunityPostAddReplyView = createSelector(
   selectFromCommunityPostAddReplyViewState,
@@ -447,11 +452,6 @@ export const getSuggestingCommunityTags = createSelector(
 export const getCommunityTags = createSelector(
   selectFromCommunityTagState,
   fromCommunityTagReducer.getCommunityTags
-);
-
-export const getSuggestingCommunityTagsPostId = createSelector(
-  selectFromCommunityTagState,
-  fromCommunityTagReducer.getCommunityTagsPostId
 );
 
 export const getSuggestingCommunityTagsError = createSelector(
@@ -673,17 +673,12 @@ export const getTopics = createSelector(
 );
 
 // Community Attachment Selectors
-export const getShowCommunityAttachmentsModal = createSelector(
+export const getCurrentAttachmentModalState = createSelector(
   selectFromCommunityAttachmentsState,
-  fromCommunityAttachmentReducer.getShowAttachmentModal
+  fromCommunityAttachmentReducer.getCurrentAttachmentModalState
 );
 
-export const getCommunityAttachments = createSelector(
+export const getCurrentAttachmentModalOpen = createSelector(
   selectFromCommunityAttachmentsState,
-  fromCommunityAttachmentReducer.getCurrentAttachments
-);
-
-export const getCommunityAttachmentsCount = createSelector(
-  selectFromCommunityAttachmentsState,
-  fromCommunityAttachmentReducer.getCurrentAttachmentsCount
+  fromCommunityAttachmentReducer.getCurrentAttachmentModalOpen
 );

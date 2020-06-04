@@ -14,6 +14,7 @@ export type StatementEditPageActions =
   statementActions.SaveStatement |
   statementActions.SaveStatementSuccess |
   statementActions.SaveStatementError |
+  statementActions.UpdateEffectiveDate |
 
   controlActions.UpdateStatementName |
   controlActions.UpdateStatementControlTitle |

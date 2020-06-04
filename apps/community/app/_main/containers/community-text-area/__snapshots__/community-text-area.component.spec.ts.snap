@@ -10,10 +10,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
   pfLinkifyService={[Function Object]}
   store={[Function Store]}
   suggestTagsContainer="undefined"
-  suggestTagsContainerVisible={[Function Boolean]}
   suggestedCommunityTags$={[Function Store]}
-  suggestedCommunityTagsPostId$={[Function Store]}
-  suggestedCommunityTagsPostIdSubscription={[Function Subscriber]}
   suggestedCommunityTagsSubscription={[Function Subscriber]}
   suggestedTags={[Function Array]}
   textAreaContainer={[Function ElementRef]}
@@ -27,6 +24,8 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
   >
     <div
       class="textAreaContainerScrollable"
+      ng-reflect-klass="textAreaContainerScrollable"
+      ng-reflect-ng-class="[object Object]"
       style="min-height: 75px; max-height: 75px;"
     >
       <div
@@ -39,10 +38,10 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
         <textarea
           class="discussionTextArea ng-untouched ng-pristine ng-valid"
           data-qa-id="txt-communityDiscussionTextArea"
-          formcontrolname="context"
+          formcontrolname="content"
           id="discussionTextArea"
           ng-reflect-maxlength=""
-          ng-reflect-name="context"
+          ng-reflect-name="content"
           placeholder=""
           spellcheck="false"
         >
@@ -53,6 +52,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
     <pf-radial-text-counter
       class="radial-counter"
     />
+    
   </div>
 </pf-community-text-area>
 `;

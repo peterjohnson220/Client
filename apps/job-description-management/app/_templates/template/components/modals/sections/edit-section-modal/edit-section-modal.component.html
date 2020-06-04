@@ -1,0 +1,33 @@
+<ng-template #editTemplateSectionModal let-c="close" let-d="dismiss">
+      <div class="modal-header">
+          <h4 class="modal-title">Edit Section</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="templateSectionForm">
+          <div class="form-group" [class.has-danger]="!templateSectionName.valid">
+                <label for="template-name" class="control-label">Section Name:</label>
+                <span *ngIf="!templateSectionName.pristine && templateSectionName.hasError('required')" class="text-danger d-flex justify-content-end">Required</span>
+                <span *ngIf="!templateSectionName.pristine && templateSectionName.hasError('maxlength')" class="text-danger d-flex justify-content-end">
+                            Exceeds {{templateSectionName.errors.maxlength.requiredLength}} characters: 
+                            {{templateSectionName.errors.maxlength.actualLength}}
+                </span>
+              <input type="text" class="form-control" formControlName="templateSectionName" [autofocus]="true">
+          </div>
+          <div class="form-group" [class.has-danger]="!templateSectionSubHeading.valid">
+                <label for="template-name" class="control-label">Subheading:</label>
+                <span *ngIf="!templateSectionSubHeading.pristine && templateSectionSubHeading.hasError('maxlength')" class="text-danger d-flex justify-content-end">
+                            Exceeds {{templateSectionSubHeading.errors.maxlength.requiredLength}} characters: 
+                            {{templateSectionSubHeading.errors.maxlength.actualLength}}
+                        </span>
+                <textarea style="resize: none" class="form-control" rows="5" formControlName="templateSectionSubHeading"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+          <button type="submit" [disabled]="!templateSectionForm.valid" class="btn btn-primary" (click)="submit()">Save</button>
+      </div>
+</ng-template>

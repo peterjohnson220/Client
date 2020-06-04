@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -6,7 +6,7 @@ import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstr
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
-import { WindowCommunicationService } from 'libs/core/services';
+import { SentryService, SentryErrorHandler, WindowCommunicationService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
 import { RouteReuseStrategy } from '@angular/router';
@@ -18,8 +18,8 @@ import { CustomRouteReuseStrategy } from './route-reuse-strategy';
     BrowserAnimationsModule,
 
     // Third Party
-    NgbProgressbarModule.forRoot(),
-    NgbTooltipModule.forRoot(),
+    NgbProgressbarModule,
+    NgbTooltipModule,
 
     // PF Modules
     PfStateModule,
@@ -31,7 +31,9 @@ import { CustomRouteReuseStrategy } from './route-reuse-strategy';
   ],
   providers: [
     WindowCommunicationService,
-    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy }
+    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    SentryService
   ],
   bootstrap: [AppComponent]
 })

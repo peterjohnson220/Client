@@ -1,6 +1,7 @@
 export interface AppNotification<T> {
   NotificationId: string;
   EnableHtml: boolean;
+  SuppressNotificationPopup?: boolean;
   From: string;
   Level: NotificationLevel;
   Type: string;

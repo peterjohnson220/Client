@@ -11,7 +11,13 @@ import {
     ExchangeApiService, ExchangeCompanyApiService, ExchangeDataCutsApiService, ExchangeDataFilterApiService, ExchangeScopeApiService
 } from './peer';
 import { CompanySecurityApiService } from './security';
-import { ExchangeDataSearchApiService, JobSearchApiService, SurveySearchApiService, ExchangeJobSearchApiService } from './search';
+import {
+  ExchangeDataSearchApiService,
+  JobSearchApiService,
+  SurveySearchApiService,
+  ExchangeJobSearchApiService,
+  EmployeeSearchApiService
+} from './search';
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService, CompanyEmployeeApiService, CompanyJobApiService } from './company';
@@ -24,7 +30,12 @@ import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
 import { RolesApiService, BulkAddUsersApiService } from './company-admin';
-import { DataLoadEmailRecipientsApiService, LoaderFieldMappingsApiService, LoaderSettingsApiService } from './data-loads';
+import {
+  DataLoadEmailRecipientsApiService,
+  LoaderFieldMappingsApiService,
+  LoaderSettingsApiService,
+  OrgDataLoaderConfigurationApiService, SftpUserApiService
+} from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
 import { ComphubApiService } from './comphub';
@@ -44,6 +55,7 @@ import {
   SyncScheduleHrisApiService,
   TransferMethodsHrisApiService
 } from './hris-api';
+import { ExchangeSignupFormApiService } from './form';
 import { SurveyLibraryApiService } from './survey-library';
 import { CompanyResourcesApiService } from './company-resources';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
@@ -57,6 +69,8 @@ import { PricingApiService } from './pricing';
 import { PricingLegacyApiService } from './pricing-legacy';
 import { CountryApiService } from './country';
 import { EntityKeysValidationApiService } from './validation';
+import { CaptchaApiService } from './captcha';
+import { ECommerceApiService } from './ecommerce';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -125,6 +139,12 @@ import { EntityKeysValidationApiService } from './validation';
     CompanyEmployeeApiService,
     EntityKeysValidationApiService,
     StructureModelingApiService,
+    OrgDataLoaderConfigurationApiService,
+    SftpUserApiService,
+    CaptchaApiService,
+    ExchangeSignupFormApiService,
+    ECommerceApiService,
+    EmployeeSearchApiService,
 
     // PEER
     ExchangeApiService,

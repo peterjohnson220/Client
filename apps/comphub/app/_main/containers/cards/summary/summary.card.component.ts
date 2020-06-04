@@ -13,12 +13,15 @@ import { SearchFilterOption, SharePricingSummaryRequest } from 'libs/models/payf
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
-import { RateType } from 'libs/data/data-sets';
+import { RateType, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
+import { ExchangeMapSummary } from 'libs/models/peer';
+import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
+import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
@@ -49,6 +52,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   maxPaymarketMinimumWage$: Observable<number>;
   filterContext$: Observable<any>;
   workflowContext$: Observable<WorkflowContext>;
+  mapSummary$: Observable<ExchangeMapSummary>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -56,6 +60,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   salaryTrendSubscription: Subscription;
   filterContextSubscription: Subscription;
   workflowContextSubscription: Subscription;
+  private userContextSubscription: Subscription;
 
   jobData: JobData;
   lastJobData: JobData;
@@ -72,11 +77,12 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   isPeerQuickPriceType = false;
   filterContextHasFilters = false;
 
-  private mbAccessToken = environment.mapboxAccessToken;
+  private mbAccessToken: string;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
     private exchangeExplorerContextService: ExchangeExplorerContextService,
+    private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     public cp: CurrencyPipe
   ) {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
@@ -94,6 +100,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.minPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMinPaymarketMinimumWage);
     this.maxPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMaxPaymarketMinimumWage);
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.mapSummary$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapSummary);
   }
 
   ngOnInit() {
@@ -108,6 +115,10 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
       this.isPeerQuickPriceType = wfc.quickPriceType === QuickPriceType.PEER;
       this.onWorkflowContextChanges(wfc);
     });
+
+    this.userContextSubscription = this.userContext$.subscribe(uc => {
+      this.mbAccessToken = uc.MapboxAccessToken;
+    });
   }
 
   ngOnDestroy() {
@@ -117,6 +128,17 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.salaryTrendSubscription.unsubscribe();
     this.filterContextSubscription.unsubscribe();
     this.workflowContextSubscription.unsubscribe();
+    this.userContextSubscription.unsubscribe();
+  }
+
+  getWeightingType(type: string): string {
+    if (type === WeightType.Org) {
+      return WeightTypeDisplayLabeled.Org;
+    } else if (type === WeightType.Inc) {
+      return WeightTypeDisplayLabeled.Inc;
+    } else {
+      return '-';
+    }
   }
 
   handlePriceNewJobClicked() {
@@ -259,6 +281,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
       this.addNewCompletedPricingHistoryRecord();
       this.currencySymbol = getCurrencySymbol(this.workflowContext.activeCountryDataSet.CurrencyCode, 'narrow');
     } else if (workflowContext.selectedPageId === this.comphubPages.Summary && this.isPeerQuickPriceType) {
+      this.store.dispatch(new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Jobs, ComphubPages.Markets, ComphubPages.Data]));
       this.lastJobData = this.jobData;
       this.loadPeerQuickPriceData();
       this.filterContext$ = this.exchangeExplorerContextService.selectFilterContext();

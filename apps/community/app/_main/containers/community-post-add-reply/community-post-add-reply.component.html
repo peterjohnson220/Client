@@ -6,20 +6,17 @@
     <pf-community-text-area class="reply-text-area"
       [parentForm]="communityPostReplyForm"
       [maxTextLength]="replyMaxLength"
-      textPlaceholder="Add Reply..."
-      [postId]="postId">
+      textPlaceholder="Add Reply...">
     </pf-community-text-area>
-    
-    <!--TODO: FORT-337
-    <kendo-upload #uploadFile
-      [saveUrl]="saveAttachmentUrl"
-      [removeUrl]="removeAttachmentUrl"
-      [concurrent]="false"
-      [multiple]="true"
-      (upload)="uploadAttachmentEventHandler($event)"
-      (remove)="removeAttachmentEventHandler($event)">
-    </kendo-upload>-->
 
+    <!--<div class="float-left">
+      <button class="attachment-button" (click)="openAttachmentsModal()">
+        <fa-icon *ngIf="!scanningAttachments" icon="paperclip" size="lg" class="icon community-paperclip"></fa-icon>
+        <pf-loading-indicator *ngIf="scanningAttachments"></pf-loading-indicator>
+        Attachments <span *ngIf="scannedAttachmentsCount>0" class="attachment-count-text">({{scannedAttachmentsCount}})</span>
+      </button>
+      <div *ngIf="scanningAttachments && submitAttempted" class="text-danger">Processing attachments...</div>
+    </div>-->
     <div class="text-right">
       <button id="reply" type="button" class="btn-sm community-btn mr-2"
               data-qa-id="btn-reply"

@@ -10,7 +10,6 @@ export const environment = {
   userVoiceLoginRedirect: '/payfactors/UserVoice/RedirectFromLogin',
   userVoiceForumId: 268517,
   ngAppRoot: '/ng/',
-  mapboxAccessToken: 'pk.eyJ1IjoianByZWhlbW9wZiIsImEiOiJjajh1a3VqZDMxMmt0MzRxenFsem9oaTN1In0.06ePvHZIgOD5IHAYad8JHQ',
   tableauPayfactorsReportingServer: 'https://stagereports.payfactors.com/',
   defaultHomePage: '/client/dashboard',
   firstTimeLoginPage: '/client/auth/first-login',
@@ -24,5 +23,6 @@ export const environment = {
   siteAdminUrl: '/client/pf-admin',
   // /client/admin/company-admin ### /ng/company-admin
   companyAdminUrl: '/client/admin/company-admin',
-  payfactorsFrontEndApiUrl: '/Payfactors/'
+  payfactorsFrontEndApiUrl: '/Payfactors/',
+  name: 'development'
 };

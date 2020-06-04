@@ -84,6 +84,38 @@ export class GridActionsBarEffects {
       })
     );
 
+  @Effect()
+  getLocations$ = this.actions$
+    .pipe(
+      ofType(fromGridActionsBarActions.GET_LOCATIONS),
+      switchMap((action: fromGridActionsBarActions.GetLocations) => {
+        return this.marketDataScopeApiService.getCompanyScopeGeo()
+          .pipe(
+            map((response) => new fromGridActionsBarActions.GetLocationsSuccess(response)),
+            catchError(() => of(new fromGridActionsBarActions.GetLocationsError()))
+          );
+      })
+    );
+
+  @Effect()
+  setSelectedLocations$ = this.actions$
+    .pipe(
+      ofType(fromGridActionsBarActions.SET_SELECTED_LOCATIONS),
+      withLatestFrom(
+        this.store.pipe(select(fromPfDataGridReducer.getFields)),
+        this.store.pipe(select(fromPayMarketsPageReducer.getSelectedLocations)),
+        (action, fields, selectedLocations) => ({ action, fields, selectedLocations })
+      ),
+      map(data => {
+        const locationField = PayfactorsApiModelMapper.applySelectedItemsToField(data.fields, 'Geo_Value', data.selectedLocations);
+        if (data.selectedLocations && data.selectedLocations.length) {
+          return new fromPfDataGridActions.UpdateFilter(PayMarketsPageViewId, locationField);
+        } else {
+          return new fromPfDataGridActions.ClearFilter(PayMarketsPageViewId, locationField, true);
+        }
+      })
+    );
+
 
   constructor(
     private actions$: Actions,

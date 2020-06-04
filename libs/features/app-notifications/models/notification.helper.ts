@@ -7,6 +7,7 @@ import { ReportBuilderMessageFormatter } from './report-builder-message-formatte
 import { ExchangeDataCutsMessageFormatter } from './exchange-data-cuts-message-formatter';
 import { GenericMessageFormatter } from './generic-message-formatter';
 import { JobDescriptionBulkExportFormatter } from './job-description-bulk-export-formatter';
+import { JobDescriptionPublishTemplateFormatter } from './job-description-publish-template-formatter';
 
 @Injectable()
 export class NotificationHelper {

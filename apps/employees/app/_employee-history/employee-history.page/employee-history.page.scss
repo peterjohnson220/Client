@@ -1,0 +1,31 @@
+@import 'employees-page-styles';
+@import 'colors';
+@import 'common/common';
+
+.header-bold,
+.page-content {
+  color: white;
+}
+
+.pricing-jobs-message {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 1rem 0;
+}
+
+.badge-primary {
+  font-size: 100%;
+  background-color: $pf-brand-secondary-color;
+}
+
+.exit-button {
+  color: red;
+  fa-icon {
+    color: red;
+  }
+}
+
+.history-btn {
+  width: 34.75px;
+}

@@ -1,0 +1,22 @@
+<div [class.control-disabled]="readOnly">
+  <div class="container-name" (click)="hideControls = !hideControls">
+      {{ containerName }}
+      <span *ngIf="!hideControls">
+          <fa-icon icon="caret-up" aria-hidden="true"></fa-icon>
+
+      </span>
+      <span *ngIf="hideControls">
+          <fa-icon icon="caret-down" aria-hidden="true"></fa-icon>
+      </span>
+  </div>
+  <ng-template [ngIf]="!hideControls">
+      <div class="control-type-container" dragula="control-bag">
+          <div *ngFor="let controlType of controlTypes" [attr.data-control-type]="controlType.Type" [attr.data-control-version]="controlType.ControlVersion" [style.border-left-color]="controlType.Color"
+               class="control-type control-drag-handle">
+              <div class="control-name control-drag-handle" [class.company-control-name]="containerName === 'Company Content Controls'">
+                  {{ controlType.Name }}
+              </div>
+          </div>
+      </div>
+  </ng-template>
+</div>

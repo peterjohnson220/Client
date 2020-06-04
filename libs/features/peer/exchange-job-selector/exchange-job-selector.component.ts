@@ -67,6 +67,8 @@ export class ExchangeJobSelectorComponent {
   }
 
   handleExchangeJobClicked(buttonClickEvent: any, exchangeJobSelectorItem: ExchangeJobExchangeDetail) {
+    this.popover.close();
+
     const payload = {
       exchangeJobId: exchangeJobSelectorItem.ExchangeJobId,
       similarExchangeJobIds: exchangeJobSelectorItem.SimilarExchangeJobIds

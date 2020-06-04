@@ -5,6 +5,7 @@ export * from './page';
 export * from './total-rewards-control-enum';
 export * from './base-control';
 export * from './calculation-control';
+export * from './calculation-summary-control';
 export * from './chart-control';
 export * from './column';
 export * from './image-control';

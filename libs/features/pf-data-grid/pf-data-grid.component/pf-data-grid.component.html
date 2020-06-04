@@ -42,12 +42,13 @@
               <pf-filter-chooser [pageViewId]="pageViewId" [hideToggleButtons]="displayFilterPanel$ | async"></pf-filter-chooser>
             </div>
           </div>
-          <div *ngIf="userFilteredFields.length > 0 || (actionBarConfig.ShowFilterChooser && !gridActionsTemplate)" class="d-flex mb-2 sub-header">
-            <div *ngIf="userFilteredFields.length > 0" class="pt-2">
-              <pf-data-grid-filter-pills
+          <div *ngIf="userFilteredFields.length > 0 || lockedPillText || (actionBarConfig.ShowFilterChooser && !gridActionsTemplate)" class="d-flex mb-2 sub-header">
+            <div *ngIf="userFilteredFields.length > 0 || lockedPillText" class="pt-2">
+              <pf-data-grid-filter-pills                
                 [widthOffset]="
                   (actionBarConfig.ShowFilterChooser && !gridActionsTemplate ? 110 : 0) + 
                   ((displayFilterPanel$ | async) ? 450 : 0)"
+                [lockedPillText]="lockedPillText"
                 [fields]="userFilteredFields"
                 (clearFilter)="clearFilter($event, true)"
                 (clearAllFilters)="clearAllFilters()">
@@ -58,7 +59,7 @@
             </div>
           </div>
           <div class="d-flex h-100 full-wrap" [ngClass]="borders ? 'border' : ''">
-            <div [ngClass]="isSplitView() ? 'main-grid-split' : 'main-grid-full'"
+            <div [ngClass]="isSplitView() ? 'main-grid-split overflow-hidden' : 'main-grid-full'"
                 [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
               <div class="flex-column-container">
                 <div class="d-flex h-100">

@@ -115,12 +115,14 @@
 
 // Popover overrides
 .custom-modal-popover ::ng-deep .popover {
-  top: 0 !important;
+  transform: initial !important;
+  left: 271px !important;
 }
 
 .custom-map-popover ::ng-deep .popover {
   top: 28px !important;
   width: 273px;
+  transform: initial !important;
 }
 
 .custom-modal-arrow ::ng-deep .arrow {

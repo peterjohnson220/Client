@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -14,6 +14,7 @@ import { PfSecurityModule } from 'libs/security/security.module';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
+import { SentryErrorHandler, SentryService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -39,7 +40,9 @@ import { AppRoutingModule } from './app-routing.module';
     NgbModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtAuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtAuthInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    SentryService
   ],
   bootstrap: [AppComponent]
 })

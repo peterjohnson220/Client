@@ -43,7 +43,7 @@ export class ListAreaService {
     switch (dataType) {
       case 'date':
         const dateFormatPipe = new DatePipe('en-US');
-        display = dateFormatPipe.transform(display, 'MM/DD/YYYY');
+        display = dateFormatPipe.transform(display, 'MM/dd/yyyy');
         break;
       case 'boolean':
         const boolValue = JSON.parse(display);
