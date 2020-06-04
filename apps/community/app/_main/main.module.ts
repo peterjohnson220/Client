@@ -94,6 +94,7 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 import { CommunityAttachmentComponent } from './components/community-attachment/community-attachment.component';
 import { CommunityAttachmentEditComponent } from './components/community-attachment-edit/community-attachment-edit.component';
 import { CommunityReplyEditComponent } from './components/community-reply-edit/community-reply-edit.component';
+import { CommunityCancelPostModalComponent } from './containers/community-cancel-post-modal/community-cancel-post-modal.component';
 
 const components = [
   ClickInContentDirective,
@@ -122,6 +123,7 @@ const components = [
   CommunityCategoriesComponent,
   CommunityAttachmentModalComponent,
   CommunityAttachmentWarningModalComponent,
+  CommunityCancelPostModalComponent,
   CommunityFiltersComponent,
   CommunityFiltersDropdownComponent,
   CommunityCategoryDisplayNamePipe,

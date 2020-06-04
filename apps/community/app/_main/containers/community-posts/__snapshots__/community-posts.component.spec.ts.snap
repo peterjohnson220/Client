@@ -42,6 +42,6 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
       </div>
     </div>
     
-  </pf-async-container>
+  </pf-async-container><pf-community-cancel-post-modal />
 </pf-community-posts>
 `;

@@ -2,7 +2,6 @@
 
 exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
 <pf-community-post-add-reply
-  addReplyViewStore={[Function Store]}
   addedRepliesCount="0"
   addedRepliesSubscription={[Function Subscriber]}
   addedReplyView$={[Function Store]}
@@ -14,6 +13,10 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
   communityAttachments={[Function Array]}
   communityPostReplyForm={[Function FormGroup]}
   currentAttachmentModalState$={[Function Store]}
+  discardingPostId$={[Function Store]}
+  discardingPostIdSubscription={[Function Subscriber]}
+  discardingPostReplyProceed$={[Function Store]}
+  discardingPostReplyProceedSubscription={[Function Subscriber]}
   formBuilder={[Function FormBuilder]}
   getNotification$={[Function Store]}
   getNotificationSubscription={[Function Subscriber]}
@@ -24,46 +27,46 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
   submitAttempted="false"
 >
   <form
-    class="ng-untouched ng-pristine ng-invalid"
+    class="pt-3 ng-untouched ng-pristine ng-invalid"
     novalidate=""
   >
     
     <pf-community-text-area
-      class="reply-text-area"
       textplaceholder="Add Reply..."
     />
     <div
-      class="float-left"
+      class="footer-container"
     >
-      <button
-        class="attachment-button"
+      <div
+        class="float-left"
       >
+        <button
+          class="btn btn-secondary btn-sm attachment-button"
+        >
+          
+          <fa-icon
+            class="icon community-paperclip"
+            icon="paperclip"
+            size="lg"
+          />
+          
+           Attachments 
+          
+        </button>
         
-        <fa-icon
-          class="icon community-paperclip"
-          icon="paperclip"
-          size="lg"
-        />
-        
-         Attachments 
-        
+      </div>
+      <button
+        class="btn btn-secondary btn-sm float-right ml-2"
+        data-qa-id="btn-reply-cancel"
+      >
+        Discard 
       </button>
-      
-    </div>
-    <div
-      class="text-right"
-    >
       <button
-        class="btn-sm community-btn mr-2"
+        class="btn btn-primary btn-sm float-right"
         data-qa-id="btn-reply"
-        id="reply"
-        type="button"
       >
-        <fa-icon
-          icon="reply"
-          size="lg"
-        />
-         Reply 
+        Reply 
+        
       </button>
     </div>
     
