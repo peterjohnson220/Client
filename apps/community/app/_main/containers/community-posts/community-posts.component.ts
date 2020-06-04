@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -26,6 +26,8 @@ import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models
   styleUrls: [ './community-posts.component.scss' ]
 })
 export class CommunityPostsComponent implements OnInit, OnDestroy {
+  @Input() disableCommunityAttachments: boolean;
+  @Input() isSystemAdmin: boolean;
   @Output() filtersModifiedEvent = new EventEmitter();
 
   avatarUrl = environment.avatarSource;

@@ -19,6 +19,8 @@ export class CommunityPostComponent implements OnInit, OnDestroy {
   @Input() maximumReplies: number;
   @Input() isModal: boolean;
   @Input() hideAttachmentWarning: boolean;
+  @Input() disableCommunityAttachments: boolean;
+  @Input() isSystemAdmin: boolean;
 
   @Output() filtersModifiedEvent = new EventEmitter<string>();
   @Output() onAttachmentClickedEvent = new EventEmitter<string>();

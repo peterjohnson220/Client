@@ -9,11 +9,15 @@ exports[`CommunityPostSearchResultComponent should show a modal with when commun
   communityPostSubscription={[Function Subscriber]}
   communitySearchResultModal$={[Function Store]}
   communitySearchResultModalSubscription={[Function Subscriber]}
+  disableCommunityAttachments$={[Function Store]}
+  isSystemAdmin$={[Function Store]}
+  isSystemAdminSubscription={[Function Subscriber]}
   loadingCommunityPost$={[Function Store]}
   loadingCommunityPostError$={[Function Store]}
   maximumReplies$={[Function Store]}
   postEditedSubscription={[Function Subscriber]}
   router={[Function Object]}
+  settingService={[Function SettingsService]}
   store={[Function Store]}
 >
   <pf-modal-form

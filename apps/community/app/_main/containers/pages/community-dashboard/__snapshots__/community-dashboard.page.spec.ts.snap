@@ -5,6 +5,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   COMMUNITY_POSTS_CONTAINER_ID={[Function String]}
   POST_ITEM_CLASS={[Function String]}
   browserDetectionService={[Function BrowserDetectionService]}
+  disableCommunityAttachments$={[Function Store]}
   executePageScrollDown="false"
   executePageScrollUp="false"
   getHasNextBatchPostsOnServer$={[Function Store]}
@@ -17,6 +18,8 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   isIE="false"
   isLoadingNextBatch="false"
   isLoadingPreviousBatch="false"
+  isSystemAdmin$={[Function Store]}
+  isSystemAdminSubscription={[Function Subscriber]}
   loadingNextBatchCommunityPosts$={[Function Store]}
   loadingNextBatchCommunityPostsSubscription={[Function Subscriber]}
   loadingPreviousBatchCommunityPosts$={[Function Store]}
@@ -26,6 +29,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   postsChangedObserver={[Function MutationObserver]}
   postsComponent={[Function ElementRef]}
   router={[Function Object]}
+  settingService={[Function SettingsService]}
   showBackToTopButton="false"
   store={[Function Store]}
   targetNode="null"

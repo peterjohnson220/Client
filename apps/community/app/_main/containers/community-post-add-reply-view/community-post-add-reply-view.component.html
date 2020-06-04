@@ -1,7 +1,10 @@
 <ng-container *ngFor="let reply of filteredAddedReplies">
  <div class="mt-1" *ngIf="editedReplyId !== reply.Id">
-    <pf-community-post-reply [reply]="reply"
-                             (replyHashTagClicked)="handleReplyHashTagClicked($event)">
+    <pf-community-post-reply 
+    [reply]="reply"
+    (replyHashTagClicked)="handleReplyHashTagClicked($event)"
+    [disableCommunityAttachments]="disableCommunityAttachments"
+    [isSystemAdmin]="isSystemAdmin">
     </pf-community-post-reply>
   </div>
   <div class="mt-1" *ngIf="editedReplyId === reply.Id">

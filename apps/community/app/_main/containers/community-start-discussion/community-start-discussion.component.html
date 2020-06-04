@@ -27,7 +27,7 @@
     <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
     <div class="footer-container">
       <div class="float-left">
-        <button *ngIf="this.postType === this.CommunityPostTypes.Discussion" 
+        <button *ngIf="this.postType === this.CommunityPostTypes.Discussion && (!disableCommunityAttachments || isSystemAdmin)" 
           class="btn btn-secondary attachment-button"
           (click)="openAttachmentsModal()">                 
           <fa-icon *ngIf="!scanningAttachments && postType === CommunityPostTypes.Discussion" icon="paperclip" size="lg" class="icon community-paperclip"></fa-icon>

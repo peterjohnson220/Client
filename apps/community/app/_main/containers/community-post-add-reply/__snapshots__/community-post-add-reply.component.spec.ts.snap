@@ -40,6 +40,7 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
       <div
         class="float-left"
       >
+        
         <button
           class="btn btn-secondary btn-sm attachment-button"
         >

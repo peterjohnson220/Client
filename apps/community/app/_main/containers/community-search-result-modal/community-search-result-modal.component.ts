@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import * as fromCommunitySearchPostReducer from '../../reducers';
+import { CommunityPost } from 'libs/models';
+import { CompanySettingsEnum } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
 
+import * as fromRootState from 'libs/state/state';
+import * as fromCommunitySearchPostReducer from '../../reducers';
 import * as fromCommunitySearchActions from '../../actions/community-search.actions';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
-
-import { CommunityPost } from 'libs/models';
 
 @Component({
   selector: 'pf-community-search-result-modal',
@@ -27,22 +29,28 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
   communityPostEdited$: Observable<any>;
   postEditedSubscription: Subscription;
 
-  maximumReplies$: Observable<number>;
+  isSystemAdmin$: Observable<boolean>
+  isSystemAdminSubscription: Subscription;
 
+  disableCommunityAttachments$: Observable<boolean>;
+  maximumReplies$: Observable<number>;
   loadingCommunityPost$: Observable<boolean>;
   loadingCommunityPostError$: Observable<boolean>;
-
   communityPostDeleted$: Observable<any>;
 
   communityPost: CommunityPost;
+  isSystemAdmin: boolean;
   isUserPoll: boolean;
   editedPostId: string;
 
   constructor(public store: Store<fromCommunitySearchPostReducer.State>,
-              private router: Router) {
+              private router: Router,
+              private settingService: SettingsService) {
     this.communitySearchResultModal$ = this.store.select(fromCommunitySearchPostReducer.getCommunitySearchResultModal);
 
     this.communityPost$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostCombinedWithReplies);
+    this.disableCommunityAttachments$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.CommunityDisableAttachments);
+    this.isSystemAdmin$ = this.store.select(fromRootState.getIsAdmin);
     this.loadingCommunityPost$ = this.store.select(fromCommunitySearchPostReducer.getLoadingCommunityPost);
     this.loadingCommunityPostError$ = this.store.select(fromCommunitySearchPostReducer.getLoadingCommunityPostError);
 
@@ -69,6 +77,10 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
     this.postEditedSubscription = this.communityPostEdited$.subscribe( postId => {
       this.editedPostId = postId;
     });
+
+    this.isSystemAdminSubscription = this.isSystemAdmin$.subscribe((res) => {
+      this.isSystemAdmin = res;
+    });
   }
 
   ngOnDestroy() {
@@ -83,6 +95,8 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
     if (this.postEditedSubscription) {
       this.postEditedSubscription.unsubscribe();
     }
+
+    this.isSystemAdminSubscription.unsubscribe();
   }
 
   handleModalDismissed(): void {
