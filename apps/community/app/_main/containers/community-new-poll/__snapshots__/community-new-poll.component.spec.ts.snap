@@ -3,7 +3,6 @@
 exports[`CommunityStartPollComponent should show community start poll 1`] = `
 <pf-community-new-poll
   addingCommunityDiscussionPollSuccess$={[Function Store]}
-  attemptedSubmit="false"
   communityPollForm={[Function FormGroup]}
   communityTopics$={[Function Store]}
   defaultTopic={[Function Object]}
@@ -18,15 +17,29 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
   <div
     class="form-group"
   >
-    <kendo-dropdownlist
-      class="pb-2 w-75"
-      formcontrolname="topic"
-    />
+    <div
+      class="pb-3 w-75"
+    >
+      <select
+        class="form-control"
+        formcontrolname="topic"
+        required=""
+      >
+        <option
+          disabled=""
+          selected=""
+          value="null"
+        >
+          Select a Topic to start your poll...
+        </option>
+        
+      </select>
+      
+    </div>
     <pf-community-text-area
       class="pt-5"
       textplaceholder="Ask a question..."
     />
-    
     <div
       class="pr-5"
     >

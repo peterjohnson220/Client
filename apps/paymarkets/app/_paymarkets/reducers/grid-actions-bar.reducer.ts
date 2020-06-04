@@ -1,8 +1,6 @@
 import { cloneDeep } from 'lodash';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { MultiSelectItemGroup } from 'libs/ui/common';
-import { MultiSelectDropdownHelper } from 'libs/ui/common/multi-select-dropdown/helpers';
 import { GroupedListItem } from 'libs/models';
 
 import * as fromGridActionsBarActions from '../actions/grid-actions-bar.actions';
@@ -12,13 +10,17 @@ export interface State {
   selectedSizes: string[];
   industries: AsyncStateObj<GroupedListItem[]>;
   selectedIndustries: string[];
+  locations: AsyncStateObj<GroupedListItem[]>;
+  selectedLocations: string[];
 }
 
 const initialState: State = {
   sizes: generateDefaultAsyncStateObj([]),
   selectedSizes: [],
   industries: generateDefaultAsyncStateObj([]),
-  selectedIndustries: []
+  selectedIndustries: [],
+  locations: generateDefaultAsyncStateObj([]),
+  selectedLocations: []
 };
 
 export function reducer(state = initialState, action: fromGridActionsBarActions.Actions): State {
@@ -96,7 +98,39 @@ export function reducer(state = initialState, action: fromGridActionsBarActions.
         selectedIndustries: cloneDeep(action.payload)
       };
     }
-
+    case fromGridActionsBarActions.GET_LOCATIONS: {
+      const locationsClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.locations);
+      locationsClone.loading = true;
+      locationsClone.loadingError = false;
+      return {
+        ...state,
+        locations: locationsClone
+      };
+    }
+    case fromGridActionsBarActions.GET_LOCATIONS_SUCCESS: {
+      const locationsClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.locations);
+      locationsClone.loading = true;
+      locationsClone.obj = action.payload;
+      return {
+        ...state,
+        locations: locationsClone
+      };
+    }
+    case fromGridActionsBarActions.GET_LOCATIONS_ERROR: {
+      const locationsClone: AsyncStateObj<GroupedListItem[]> = cloneDeep(state.locations);
+      locationsClone.loading = false;
+      locationsClone.loadingError = true;
+      return {
+        ...state,
+        locations: locationsClone
+      };
+    }
+    case fromGridActionsBarActions.SET_SELECTED_LOCATIONS: {
+      return {
+        ...state,
+        selectedLocations: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -107,3 +141,5 @@ export const getCompanyScopeSizes = (state: State) => state.sizes;
 export const getSelectedSizes = (state: State) => state.selectedSizes;
 export const getCompanyIndustries = (state: State) => state.industries;
 export const getSelectedIndustries = (state: State) => state.selectedIndustries;
+export const getLocations = (state: State) => state.locations;
+export const getSelectedLocations = (state: State) => state.selectedLocations;

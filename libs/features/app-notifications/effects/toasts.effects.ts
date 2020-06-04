@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
 
-import { ActiveToast, IndividualConfig, ToastrService } from 'ngx-toastr';
+import { ActiveToast, ToastrService } from 'ngx-toastr';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { tap } from 'rxjs/operators';
 
 import * as fromAppNotificationsActions from '../actions/app-notifications.actions';
 import {
-    AppNotification, NotificationHelper, NotificationLevel, NotificationPayload, NotificationSource, NotificationType,
-    NotificationWithFilePayload, ProgressStatusPayload
+  AppNotification,
+  NotificationHelper,
+  NotificationLevel,
+  NotificationPayload,
+  NotificationSource,
+  NotificationType,
+  NotificationWithFilePayload,
+  ProgressStatusPayload,
+  SuccessStatusPayLoad
 } from '../models';
 
 @Injectable()
@@ -20,7 +27,9 @@ export class ToastsEffects {
     .pipe(
       ofType(fromAppNotificationsActions.ADD_NOTIFICATION),
       tap((action: fromAppNotificationsActions.AddNotification) => {
-        this.handleReceiveNotification(action.payload);
+        if (!action.payload.SuppressNotificationPopup) {
+          this.handleReceiveNotification(action.payload);
+        }
       })
     );
 
@@ -47,6 +56,11 @@ export class ToastsEffects {
       isGenericNotification = true;
       const messagePayload = notification.Payload as NotificationWithFilePayload;
       if (messagePayload.FileDownloadLink && messagePayload.FileDownloadLink.length > 0) {
+        toastHasFile = true;
+      }
+    } else if (notification.Level === NotificationLevel.Success) {
+      const successPayload = notification.Payload as SuccessStatusPayLoad;
+      if (successPayload && successPayload.ExportedViewLink && successPayload.ExportedViewLink.length > 0) {
         toastHasFile = true;
       }
     }

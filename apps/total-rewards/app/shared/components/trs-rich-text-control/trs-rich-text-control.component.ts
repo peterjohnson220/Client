@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -8,18 +9,19 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  HostListener
 } from '@angular/core';
 
 import { AnyFn } from '@ngrx/store/src/selector';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'quill-mention';
-import Quill from 'quill';
+
 import { EmployeeRewardsData, RichTextControl, StatementModeEnum } from '../../models';
 import { UpdateStringPropertyRequest, UpdateTitleRequest } from '../../models/request-models';
 
-const cheerio = require('cheerio');
+const Quill = require('quill');
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
 
@@ -44,16 +46,19 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   @Output() onContentChange: EventEmitter<UpdateStringPropertyRequest> = new EventEmitter();
 
   isFocused = false;
-  isInvalid = false;
-  shouldEmitSave = false;
+  isValid = true;
   htmlContent: string;
   title: string;
   statementModeEnum = StatementModeEnum;
+  editorPlaceholderText = 'Insert test here ...';
 
+  quillApi: any;
   quillMentionContainer: HTMLElement;
 
   onContentChangedSubject = new Subject();
   onContentChangedSubscription = new Subscription();
+
+  lastMouseDownElement: HTMLElement;
 
   quillConfig = {
     toolbar: {
@@ -80,6 +85,17 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
         }
       },
     },
+    // clear out tab key bindings with an empty handler, and quill mention will later add to that allowing the tab key to select a datafield
+    keyboard: {
+      bindings: {
+        'tab': {
+          key: 9,
+          handler: function(range, context) {
+            return true;
+          }
+        }
+      }
+    }
   };
 
   get richTextNode(): HTMLElement {
@@ -87,15 +103,19 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   // quill mention requires options with a lower case `value`
-  get dataFields(): { key: string, value: string }[] {
+  get dataFields(): { id: string, value: string }[] {
     if (this.mode === StatementModeEnum.Edit) {
-      return this.controlData.DataFields.map(df => ({ key: df.Key, value: df.Value }));
+      return this.controlData.DataFields.map(df => ({ id: df.Key, value: df.Value }));
     }
     return [];
   }
 
+  constructor(private changeDetectorRef: ChangeDetectorRef) { }
+
   ngOnInit() {
     this.title = this.controlData.Title.Default;
+    this.htmlContent = this.controlData.Content;
+
     this.onContentChangedSubscription = this.onContentChangedSubject.pipe(
       debounceTime(500),
       distinctUntilChanged()
@@ -133,7 +153,8 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
       return delta;
     });
 
-    // get a handle to the quill mention container that holds the data fields
+    // get a handle to quill and the quill mention container that holds the data fields
+    this.quillApi = quill;
     this.quillMentionContainer = quill.getModule('mention').mentionContainer;
   }
 
@@ -151,8 +172,11 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     // if we're over the pixel height of the container undo the change by applying the previous delta
     if (totalContentHeightInPixels > container.offsetHeight) {
       quillContentChange.editor.setContents(quillContentChange.oldDelta.ops);
-      this.isInvalid = true;
-      setTimeout(() => this.isInvalid = false, 1000);
+      this.isValid = false;
+      setTimeout(() => {
+        this.isValid = true;
+        this.changeDetectorRef.detectChanges();
+      }, 1000);
     } else if (quillContentChange.source === 'user') {
       // change has occurred, so tell parent to save if the content changes was made by a user and not the initial load done programmatically
       this.onContentChangedSubject.next({ ControlId: this.controlData.Id, value: this.htmlContent });
@@ -172,31 +196,71 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     }
   }
 
-  onClickElsewhere() {
-    this.isFocused = false;
-  }
-
   onMentionDialogOpen() {
     // prevent bug where choosing a field, closing, then reopening with [ maintains the scroll position, since we always want to start at top
     this.quillMentionContainer.scrollTop = 0;
   }
 
   bindEmployeeData(): void {
-    if (this.mode === StatementModeEnum.Preview) {
-      const $ = cheerio.load('<div id=\'quillContent\'>' + this.controlData.Content + '</div>');
-      const spans = $('#quillContent span');
-      for (const span of spans) {
-        const dataIndex = span.attribs['data-index'];
-        if (dataIndex) {
-          const employeeField = this.controlData.DataFields.find(f => f.Value === span.attribs['data-value']);
-          const employeeDataValue = this.employeeRewardsData[employeeField.Key];
-          $('[data-index="' + dataIndex + '"]', '#quillContent').replaceWith(employeeDataValue);
-        }
-      }
+    if (!this.quillApi) { return; }
 
-      this.htmlContent = $('#quillContent').html();
-    } else {
-      this.htmlContent = this.controlData.Content;
+    // loop through each op, aka a quill instruction to insert a chunk of text
+    const delta = this.quillApi.editor.delta;
+    delta.ops.forEach((op: { insert: any }) => {
+      const mention = op.insert.mention;
+      // if there's a mention attr it's a datafield, so adjust the displayed value according to the mode to show real data or a placeholder
+      if (mention) {
+        mention.value = (this.mode === StatementModeEnum.Edit) ? this.getDataFieldPlaceholderText(mention.id) : this.getFormattedDataFieldValue(mention.id);
+      }
+    });
+
+    this.quillApi.setContents(delta.ops);
+
+    // in preview mode hide the placeholder by setting to an empty string since we don't want to see edit instructions when the control is not editable
+    const newEditorPlaceholderText = (this.mode === StatementModeEnum.Edit) ? this.editorPlaceholderText : '';
+    this.quillApi.container.firstChild.setAttribute('data-placeholder', newEditorPlaceholderText);
+  }
+
+  getDataFieldPlaceholderText(dataFieldKey: string): string {
+    const dataField = this.controlData.DataFields.find(df => df.Key === dataFieldKey);
+    return dataField.Value;
+  }
+
+  getFormattedDataFieldValue(dataFieldKey: string): string {
+    const dataFieldValue = this.employeeRewardsData[dataFieldKey];
+    return this.formatDataFieldValue(dataFieldValue);
+  }
+
+  formatDataFieldValue(value: any): string {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    if (typeof value === 'string') {
+      return value;
+    } else if (typeof value === 'number') {
+      return value.toString();
+    } else if (value && typeof value === 'object' && typeof value.getMonth === 'function') {
+      return months[value.getMonth()] + ' ' + value.getDate() + ' ' + value.getFullYear();
     }
+
+    // if not a string, number or date, unclear how to format, so return empty string
+    return '';
+  }
+
+  @HostListener('document:mousedown', ['$event'])
+  onDocumentMouseDown(event: MouseEvent): void {
+    // focus the editor if the mousedown target is the quill editor
+    if (this.richTextNode.contains(event.target as HTMLElement)) {
+      this.isFocused = true;
+    }
+    this.lastMouseDownElement = event.target as HTMLElement;
+  }
+
+  @HostListener('document:mouseup', ['$event'])
+  onDocumentMouseUp(event: MouseEvent): void {
+    // bail if the mousedown target is the quill editor, since clicking + dragging + releasing outside should maintain focus
+    if (this.richTextNode.contains(this.lastMouseDownElement)) {
+      return;
+    }
+    this.isFocused = false;
   }
 }

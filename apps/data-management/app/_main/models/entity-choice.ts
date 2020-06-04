@@ -37,7 +37,7 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       isFullReplace: null,
       dateFormat: null,
       isLoadingFinish: true,
-      dbName: 'paymarkets'
+      dbName: 'PayMarkets'
     },
     {
       isChecked: false,
@@ -54,7 +54,7 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       isFullReplace: null,
       dateFormat: null,
       isLoadingFinish: true,
-      dbName: 'jobs'
+      dbName: 'Jobs'
     },
     {
       isChecked: false,
@@ -71,7 +71,7 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       isFullReplace: null,
       dateFormat: null,
       isLoadingFinish: true,
-      dbName: 'structures'
+      dbName: 'Structures'
     },
     {
       isChecked: false,
@@ -88,7 +88,7 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       isFullReplace: null,
       dateFormat: null,
       isLoadingFinish: true,
-      dbName: 'structuremappings'
+      dbName: 'StructureMappings'
     },
     {
       isChecked: false,
@@ -106,7 +106,7 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       isFullReplace: null,
       dateFormat: null,
       isLoadingFinish: true,
-      dbName: 'employees'
+      dbName: 'Employees'
     }
   ];
 }

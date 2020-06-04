@@ -21,7 +21,7 @@ describe('Job Description Management - Job Description - Column Selector Popover
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPopoverModule.forRoot(),
+        NgbPopoverModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           jobdescriptonmanagement_jobdescription: combineReducers(fromJobDescriptionReducers.reducers),

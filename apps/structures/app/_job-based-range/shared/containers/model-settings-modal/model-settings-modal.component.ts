@@ -54,8 +54,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   activeTab: string;
 
   constructor(
-    private store: Store<fromJobBasedRangeReducer.State>,
-    private urlService: UrlService
+    public store: Store<fromJobBasedRangeReducer.State>,
+    public urlService: UrlService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));

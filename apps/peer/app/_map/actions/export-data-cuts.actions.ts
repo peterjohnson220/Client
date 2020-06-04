@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 
+import { Currency } from 'libs/models/common';
+
 export const EXPORT_DATA_CUTS = '[Peer Main/Map/Export Data Cuts] Export Data Cuts';
 export const EXPORT_DATA_CUTS_NEW = '[Peer Main/Map/Export Data Cuts New] Export Data Cuts New';
 export const EXPORT_DATA_CUTS_SUCCESS = '[Peer Main/Map/Export Data Cuts] Export Data Cuts Success';
@@ -10,17 +12,20 @@ export const SELECT_RATE = '[Peer Main/Map/Export Data Cuts] Select Rate';
 export const SELECTED_RATE_PERSISTED = '[Peer Main/Map/Export Data Cuts] Selected Rate Persisted';
 export const SELECT_WEIGHTING_TYPE = '[Peer Main/Map/Export Data Cuts] Select Weighting Type';
 export const SELECTED_WEIGHTING_TYPE_PERSISTED = '[Peer Main/Map/Export Data Cuts] Selected Weighting Type Persisted';
+export const LOAD_CURRENCIES = '[Peer Main/Map/Export Data Cuts] Load Currencies';
+export const LOAD_CURRENCIES_SUCCESS = '[Peer Main/Map/Export Data Cuts] Load Currencies Success';
+export const LOAD_CURRENCIES_ERROR = '[Peer Main/Map/Export Data Cuts] Load Currencies Error';
 
 export class ExportDataCuts implements Action {
   readonly type = EXPORT_DATA_CUTS;
 
-  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean, selectedWeightingType: string}) {}
+  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean, selectedWeightingType: string, selectedCurrency: string}) {}
 }
 
 export class ExportDataCutsNew implements Action {
   readonly type = EXPORT_DATA_CUTS_NEW;
 
-  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean, selectedWeightingType: string}) {}
+  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean, selectedWeightingType: string, selectedCurrency: string}) {}
 }
 
 export class ExportDataCutsSuccess implements Action {
@@ -59,6 +64,20 @@ export class SelectedWeightingTypePersisted implements Action {
   readonly type = SELECTED_WEIGHTING_TYPE_PERSISTED;
 }
 
+export class LoadCurrencies implements Action {
+  readonly type = LOAD_CURRENCIES;
+}
+
+export class LoadCurrenciesSuccess implements Action {
+  readonly type = LOAD_CURRENCIES_SUCCESS;
+
+  constructor(public payload: {currencies: Currency[]}) {}
+}
+
+export class LoadCurrenciesError implements Action {
+  readonly type = LOAD_CURRENCIES_ERROR;
+}
+
 export type Actions
   = ExportDataCuts
   | ExportDataCutsNew
@@ -69,4 +88,7 @@ export type Actions
   | SelectRate
   | SelectedRatePersisted
   | SelectWeightingType
-  | SelectedWeightingTypePersisted;
+  | SelectedWeightingTypePersisted
+  | LoadCurrencies
+  | LoadCurrenciesSuccess
+  | LoadCurrenciesError;

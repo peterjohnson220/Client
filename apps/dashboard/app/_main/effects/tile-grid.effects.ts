@@ -6,8 +6,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { DashboardApiService } from 'libs/data/payfactors-api';
-import { UserTileDto } from 'libs/models';
-import { Tile, TileType } from '../models';
+import { TileType, UserTileDto } from 'libs/models';
+import { Tile } from '../models';
 import { UserTileToTileMapper } from '../mappers';
 
 import * as fromTileGridActions from '../actions/tile-grid.actions';

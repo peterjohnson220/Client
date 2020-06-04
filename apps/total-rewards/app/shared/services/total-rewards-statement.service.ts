@@ -31,4 +31,12 @@ export class TotalRewardsStatementService {
     control.DataFields.forEach(df => sum += (df.IsVisible) ? employeeRewardsData[df.DatabaseField] : 0);
     return sum;
   }
+
+  static sumCalculationControls(controls: CalculationControl[], employeeRewardsData: EmployeeRewardsData): number {
+    let sum = 0;
+    controls.forEach(calculationControl => {
+      sum += TotalRewardsStatementService.sumCalculationControl(calculationControl, employeeRewardsData);
+    });
+    return sum;
+  }
 }

@@ -9,15 +9,19 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
   addingCommunityPostReply$={[Function Store]}
   addingCommunityPostReplySuccess$={[Function Store]}
   addingCommunityPostReplySuccessSubscription={[Function Subscriber]}
+  appNotificationStore={[Function Store]}
+  attachmentModalId={[Function String]}
+  communityAttachments={[Function Array]}
   communityPostReplyForm={[Function FormGroup]}
+  currentAttachmentModalState$={[Function Store]}
   formBuilder={[Function FormBuilder]}
+  getNotification$={[Function Store]}
+  getNotificationSubscription={[Function Subscriber]}
   pfLinkifyService={[Function Object]}
-  removeAttachmentUrl={[Function String]}
   replyMaxLength={[Function Number]}
   replySubmitted={[Function EventEmitter]}
-  saveAttachmentUrl={[Function String]}
   store={[Function Store]}
-  uploadedFiles={[Function Array]}
+  submitAttempted="false"
 >
   <form
     class="ng-untouched ng-pristine ng-invalid"

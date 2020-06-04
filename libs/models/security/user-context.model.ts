@@ -25,6 +25,7 @@ export interface UserContext {
   RoleName: string;
   ClientType: string;
   DefaultPayMarketId: number;
+  MapboxAccessToken: string;
 }
 
 export interface ConfigSetting {
@@ -72,6 +73,7 @@ export function generateMockUserContext(): UserContext {
     SessionId: '335f3387-77b2-4aca-95b6-2809c78c6c6a',
     RoleName: 'Company Administrator',
     ClientType: CompanyClientTypeConstants.ENTERPRISE,
-    DefaultPayMarketId: 1
+    DefaultPayMarketId: 1,
+    MapboxAccessToken: 'SomeToken'
   };
 }

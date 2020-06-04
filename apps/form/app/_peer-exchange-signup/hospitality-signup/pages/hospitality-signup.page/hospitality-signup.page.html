@@ -1,0 +1,235 @@
+<pf-async-container [loading]="formLoading">
+  <pf-two-column-form [infoBackground]="backgroundImage">
+
+    <div class="info-container text-white m-4 m-lg-5 mt-5" infoColumn>
+      <img [src]="payfactorsLogo" class="payfactors-logo">
+      <div class="marketing-text">
+        <div class="h4 invite-text">YOU'RE INVITED TO JOIN</div>
+        <div class="exchange-title font-weight-bold">PEER HOSPITALITY NETWORK</div>
+        <div class="register-message mt-5 mb-5">Register for access today!</div>
+        <div style="font-size: 1.1rem;">
+          <p>Gain access to real-time, local market data for jobs specific to the hospitality industry, like:</p>
+          <ul class="dashed mt-4">
+            <li>Housekeeping</li>
+            <li>Front Office and Guest Services</li>
+            <li>Engineering and Property Maintenance</li>
+            <li>Food and Beverage</li>
+            <li>And more!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-light p-4" formColumn>
+      <h4 class="mb-4">Sign Up</h4>
+      <form #signupFormDir=ngForm [formGroup]="signupForm" (ngSubmit)="submitForm()" novalidate>
+  
+        <!-- First Name -->
+        <div class="form-group">
+          <label for="first-name" [class.text-danger]="showControlValidation('FirstName')">First Name*</label>
+          <input
+            data-qa-id="txt-first-name"
+            id="first-name"
+            class="form-control"
+            type="text"
+            formControlName="FirstName"
+            [class.is-invalid]="showControlValidation('FirstName')"
+            required>
+          <div *ngIf="showControlValidation('FirstName')" class="text-danger mt-1">
+            First Name is required
+          </div>
+        </div>
+  
+        <!-- Last Name -->
+        <div class="form-group">
+          <label for="last-name" [class.text-danger]="showControlValidation('LastName')">Last Name*</label>
+          <input
+            data-qa-id="txt-last-name"
+            id="last-name"
+            class="form-control"
+            type="text"
+            formControlName="LastName"
+            [class.is-invalid]="showControlValidation('LastName')"
+            required>
+            <div *ngIf="showControlValidation('LastName')" class="text-danger mt-1">
+              Last Name is required
+            </div>
+        </div>
+  
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email" [class.text-danger]="showControlValidation('Email')">Email*</label>
+          <input
+            data-qa-id="txt-email"
+            id="email"
+            class="form-control"
+            type="email"
+            formControlName="Email"
+            [class.is-invalid]="showControlValidation('Email')"
+            required>
+            <div *ngIf="showControlValidation('Email')" class="text-danger mt-1">
+              Email is required
+            </div>
+        </div>
+  
+        <!-- Job Title -->
+        <div class="form-group">
+          <label for="job-title">Job Title</label>
+          <input
+            data-qa-id="txt-job-title"
+            id="job-title"
+            class="form-control"
+            type="text"
+            formControlName="JobTitle">
+        </div>
+  
+        <!-- Sub Company Name -->
+        <div class="form-group">
+          <label for="property-name" [class.text-danger]="showControlValidation('SubsidiaryName')">Property Name*</label>
+          <input
+            data-qa-id="txt-subcompany-name"
+            id="subcompany-name"
+            class="form-control"
+            type="text"
+            formControlName="SubsidiaryName"
+            [class.is-invalid]="showControlValidation('SubsidiaryName')"
+            required>
+            <div *ngIf="showControlValidation('SubsidiaryName')" class="text-danger mt-1">
+              Property Name is required
+            </div>
+        </div>
+  
+        <!-- Billing Address -->
+        <div class="form-group">
+          <label for="billing-address" [class.text-danger]="showControlValidation('BillingAddress')">Billing Address*</label>
+          <textarea
+            data-qa-id="txt-billing-address"
+            id="billing-address"
+            class="form-control"
+            rows="5"
+            formControlName="BillingAddress"
+            [class.is-invalid]="showControlValidation('BillingAddress')"
+            required>
+          </textarea>
+          <div *ngIf="showControlValidation('BillingAddress')" class="text-danger mt-1">
+            Billing Address is required
+          </div>
+        </div>
+  
+        <!-- Corporate/Parent Company Name -->
+        <div class="form-group">
+          <label for="parent-company" [class.text-danger]="showControlValidation('CompanyId')">Corporate/Parent Company Name*</label>
+          <select
+            data-qa-id="ddm-parent-company"
+            id="parent-company"
+            class="form-control"
+            formControlName="CompanyId"
+            [class.is-invalid]="showControlValidation('CompanyId')"
+            required>
+            <option *ngFor="let company of (exchangeSignupCompaniesAsyncObj$ | async).obj" [value]="company.CompanyId" [attr.data-qa-id]="'ddm-parent-company-' + company.CompanyId">
+              {{ company.Name }}
+            </option>
+          </select>
+          <div *ngIf="showControlValidation('CompanyId')" class="text-danger mt-1">
+            Corporate/Parent Company Name is required
+          </div>
+        </div>
+  
+        <!-- Hospitality Property Type -->
+        <div class="form-group">
+          <label for="property-type" [class.text-danger]="showControlValidation('PropertyType')">Hospitality Property Type*</label>
+          <select
+            data-qa-id="ddm-property-type"
+            id="property-type"
+            class="form-control"
+            formControlName="PropertyType"
+            [class.is-invalid]="showControlValidation('PropertyType')"
+            required>
+            <option data-qa-id="ddm-property-type-0" value="full">Full Service</option>
+            <option data-qa-id="ddm-property-type-1" value="limited">Limited Service</option>
+          </select>
+          <div *ngIf="showControlValidation('PropertyType')" class="text-danger mt-1">
+            Hospitality Property Type is required
+          </div>
+        </div>
+
+        <!-- Access Code -->
+        <div class="form-group">
+          <label for="access-code" [class.text-danger]="showControlValidation('AccessCode')">Access Code*</label>
+          <input
+            data-qa-id="txt-access-code"
+            id="access-code"
+            class="form-control"
+            type="text"
+            formControlName="AccessCode"
+            [class.is-invalid]="showControlValidation('AccessCode')"
+            required>
+            <div *ngIf="showControlValidation('AccessCode')" class="text-danger mt-1">
+              Access Code is required
+            </div>
+        </div>
+  
+        <!-- Payment -->
+        <div class="form-group">
+          <label [class.text-danger]="showControlValidation('PaymentOption')">Payment*</label>
+          <div class="form-check">
+            <input
+              data-qa-id="chk-pay-now"
+              class="form-check-input"
+              type="radio"
+              name="PaymentOption"
+              id="option-pay-now"
+              value="now"
+              formControlName="PaymentOption"
+              [class.is-invalid]="showControlValidation('PaymentOption')"
+              required>
+            <label class="form-check-label" for="option-pay-now">
+              Pay Now
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              data-qa-id="chk-pay-later"
+              class="form-check-input"
+              type="radio"
+              name="PaymentOption"
+              id="option-pay-later"
+              value="later"
+              formControlName="PaymentOption"
+              [class.is-invalid]="showControlValidation('PaymentOption')"
+              required>
+            <label class="form-check-label" for="option-pay-later">
+              Pay Later (Invoice)
+            </label>
+          </div>
+          <div *ngIf="showControlValidation('PaymentOption')" class="text-danger mt-1">
+            Payment is required
+          </div>
+        </div>
+  
+        <!-- Captcha -->
+        <div class="form-group">
+          <pf-captcha formControlName="Captcha"></pf-captcha>
+          <div *ngIf="showControlValidation('Captcha')" class="text-danger mt-1">
+            Captcha is required
+          </div>
+        </div>
+
+        <div class="form-group" style="font-size: 0.85rem;">
+          By clicking on submit request below, the Property, as an affiliate to the Corporate/Parent Company listed above, hereby agrees to the terms and conditions of the master agreement governing the use of these services agreed to between such Corporate/Parent Company and Payfactors.
+        </div>
+  
+        <button data-qa-id="btn-submit" class="btn btn-primary" type="submit" [disabled]="(submittingFormAsyncObj$ | async).saving">
+          <span *ngIf="!(submittingFormAsyncObj$ | async).saving">Submit Request</span>
+          <span *ngIf="(submittingFormAsyncObj$ | async).saving">
+            <fa-icon icon="circle-notch" [spin]="true"></fa-icon>
+            <span class="ml-2">Submitting...</span>
+          </span>
+        </button>
+        <div class="text-danger mt-2" *ngIf="(submittingFormAsyncObj$ | async).savingError">
+          There was a problem submitting, please try again.
+        </div>
+      </form>
+    </div>
+  </pf-two-column-form>
+</pf-async-container>

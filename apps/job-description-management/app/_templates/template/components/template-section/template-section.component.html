@@ -1,0 +1,45 @@
+<div id="{{section.Id}}" class="card mb-3">
+  <div class="card-header" [class.section-drag-handle]="!readOnly">
+      <div class="section-title" [class.section-drag-handle]="!readOnly">
+          {{section.Name}}
+          <div class="btn-group float-right">
+              <button *ngIf="editingTemplateSettings && section.SubHeading && sectionSetting?.ShowSubHeadingOnExport" class="btn btn-sm btn-secondary text-success" (click)="hideOnExport()">
+                <fa-icon icon="eye" aria-hidden="true"></fa-icon> Subheading
+              </button>
+              <button *ngIf="editingTemplateSettings && section.SubHeading && !sectionSetting?.ShowSubHeadingOnExport" class="btn btn-sm btn-secondary text-danger" (click)="showOnExport()">
+                <fa-icon icon="eye-slash" aria-hidden="true"></fa-icon> Subheading
+              </button>   
+              <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+                  <span *ngIf="hideBody"><fa-icon icon="caret-down" aria-hidden="true"></fa-icon></span>
+                  <span *ngIf="!hideBody"><fa-icon icon="caret-up" aria-hidden="true"></fa-icon></span>
+              </button>
+              <button  *ngIf="!readOnly" class="btn btn-sm btn-secondary" (click)="editSection()"><fa-icon icon="pencil-alt" aria-hidden="true"></fa-icon></button>
+              <button  *ngIf="!readOnly" class="btn btn-sm btn-secondary" (click)="deleteSection()"><fa-icon icon="trash-alt" aria-hidden="true"></fa-icon></button>
+          </div>
+      </div>
+      <div class="section-description" [class.section-drag-handle]="!readOnly">
+          {{section.SubHeading}}
+      </div>
+  </div>
+  <div class="card-block" [hidden]="hideBody">
+    <div class="section-control-container" dragula="control-bag" [class.has-no-controls]="!section.Controls.length" [attr.data-section-id]="section.Id">
+          <div class="section-control" [id]="control.Id" [attr.data-control-id]="control.Id" [attr.data-index]="i" *ngFor="let control of section.Controls; trackBy: trackByFn let i = index">
+              <pf-template-control 
+                  [templateControl]="control"
+                  [readOnly]="readOnly"
+                  [templateSettings]="templateSettings"
+                  [editingTemplateSettings]="editingTemplateSettings"
+                  [controlTypesLoaded]="controlTypesLoaded"
+                  (editControlLabelClicked)="handleEditControlLabelClicked($event)"
+                  (deleteControlClicked)="handleDeleteControlClicked($event)"
+                  (dataChangesDetected)="handleControlDataChangesDetected($event)"
+                  (bulkDataChangesDetected)="handleControlBulkDataChangesDetected($event)"
+                  (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
+                  (dataRowAdded)="handleControlDataRowAdded($event)"
+                  (dataRowDeleted)="handleControlDataRowDeleted($event)"
+                  (controlSettingUpdated)="handleUpdateControlExportSetting($event)">
+              </pf-template-control>
+          </div>
+      </div>
+  </div>
+</div>

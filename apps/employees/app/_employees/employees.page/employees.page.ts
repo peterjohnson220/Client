@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
@@ -37,6 +38,9 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   showDeleteEmployeeModal = new BehaviorSubject<boolean>(false);
   showDeleteEmployeeModal$ = this.showDeleteEmployeeModal.asObservable();
 
+  showEmployeeHistoryModal = new BehaviorSubject<boolean>(false);
+  showEmployeeHistoryModal$ = this.showEmployeeHistoryModal.asObservable();
+
   selectedCompanyEmployeeIdsSubscription: Subscription;
   pricingJobsSubscription: Subscription;
 
@@ -50,13 +54,15 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   filterTemplates = {};
   colTemplates = {};
   actionBarConfig: ActionBarConfig;
+  fieldsExcludedFromExport = ['CompanyEmployee_ID', 'HiddenRate'];
 
   constructor(
     private rootStore: Store<fromRootState.State>,
     public store: Store<fromEmployeesReducer.State>,
     public employeeManagementStore: Store<fromEmployeeManagementReducers.State>,
     private pfGridStore: Store<fromPfGridReducer.State>,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) {
     this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.pricingJobs$ = this.store.pipe(select(fromEmployeesReducer.getPricingJobs));
@@ -132,6 +138,11 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
   handleClearSelectionClicked(): void {
     this.pfGridStore.dispatch(new fromPfGridActions.ClearSelections(this.pageViewId));
+  }
+
+  handleEmployeeHistoryDateChange(date: string): void {
+    this.showEmployeeHistoryModal.next(false);
+    this.router.navigate([`history/${date}`]);
   }
 
   private handlePricingJobsStatusChanged(value: boolean): void {

@@ -1,0 +1,81 @@
+@import 'colors';
+@import 'styles';
+
+.post-offset {
+  margin-left: $community-reply-avatar-size + 10px;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: inline;
+}
+
+a {
+  text-decoration: none;
+}
+
+:host ::ng-deep .url-preview-card
+{
+  border: 1px solid $border-grey;
+  overflow: hidden;
+}
+
+:host ::ng-deep .url-preview-card-image-container
+{
+  float:left;
+  border-right: 1px solid $border-grey;
+}
+
+:host ::ng-deep .url-preview-card-image
+{
+  object-fit: cover;
+  height: 100px;
+  width: 100px;
+  color: #FA4646;
+}
+
+.btn {
+  background-color: $community-tags-hover-color;
+  color: #fff;
+  border-color: $community-tags-border-color;
+  border-width: 1px;
+  font-weight: 400;
+  white-space: normal;
+  border-radius: $community-border-radius;
+}
+
+.btn-cancel
+{
+  background-color: #ccc;
+  color: #000;
+  border-color: $community-tags-border-color;
+  border-width: 1px;
+  font-weight: 400;
+  white-space: normal;
+  border-radius: $community-border-radius;
+}
+
+.clear-both
+{
+  clear: both;
+}
+
+.overflow-hidden
+{
+  overflow:hidden;
+}
+
+.attachment-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+
+.attachment-content {
+  max-height: 40px;
+}

@@ -24,6 +24,8 @@ export class CommunityPollChoicesComponent {
   @Output() public added: EventEmitter<number> = new EventEmitter<number>();
   @Output() public removed: EventEmitter<number> = new EventEmitter<number>();
 
+  get response() { return this.item.get('response'); }
+
   get colWidth() {
     return this.isAdmin ? 'col-10' : 'col-12';
   }

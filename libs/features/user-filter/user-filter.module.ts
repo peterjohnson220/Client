@@ -33,7 +33,7 @@ import { SaveFilterModalComponent } from './components';
       UserFilterPopoverEffects,
       SaveFilterModalEffects
     ]),
-    NgbPopoverModule.forRoot(),
+    NgbPopoverModule,
     FontAwesomeModule
   ],
   declarations: [ UserFilterPopoverComponent, SaveFilterModalComponent ],

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import {SaveError} from '../models/save-error.model';
+import { SaveError } from '../models/save-error.model';
 
 @Injectable()
 export class ErrorGenerationService {

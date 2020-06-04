@@ -1,8 +1,23 @@
-$rich-text-height: 180px;
+$rich-text-height: 200px;
 
 .trs-rich-text-control {
   height: $rich-text-height;
   top: -10px; // compensate for the relocated editor ribbon
+  .heading {
+    width: 105%;
+    h4 {
+      width: 90%;
+    }
+  }
+  label.info {
+    color: $link-color;
+    font-size: 1.2rem;
+    transition: opacity .3s ease-in-out;
+  }
+  &.preview-mode label.info {
+    opacity: 0;
+    pointer-events: none;
+  }
   .ql-toolbar {
     text-align: center;
     opacity: 0;
@@ -19,10 +34,14 @@ $rich-text-height: 180px;
     .ql-picker.ql-font {
       width: 160px;
     }
+    svg {
+      // we detect toolbar menu clicks for focus purposes, but IE has trouble detecting svg clicks, so disallow mouse interaction and let the container html element surface
+      pointer-events: none;
+    }
   }
 
   .ql-editor {
-    padding: 6px;
+    padding: 4px 6px;
     overflow-y: hidden;
     .ql-size-large {
       font-size: 1.4rem;
@@ -37,14 +56,14 @@ $rich-text-height: 180px;
 
   .ql-container {
     margin-left: -10px;
-    transition: border .6s ease-in-out, background-color .6s ease-in-out;
+    transition: border .6s ease-in-out;
     border: 2px dashed transparent;
     height: $rich-text-height;
     font-family: inherit;
     font-size: inherit;
   }
 
-  // hover, active, invalid borders in edit mode
+  // hover, active, invalid borders/misc in edit mode
   &.edit-mode {
     &:hover {
       .ql-toolbar.ql-snow + .ql-container.ql-snow {
@@ -75,6 +94,18 @@ $rich-text-height: 180px;
   }
 
   // left bracket data field/mention
+  .mention {
+    transition: background-color .3s ease-in-out, color .3s ease-in-out, padding .05s ease-in-out;
+  }
+
+  &.edit-mode {
+    .mention {
+      color: $trs-placeholder-font-color;
+      background-color: $trs-canvas-background-color;
+      padding: .15rem;
+    }
+  }
+  
   .ql-mention-list-container {
     z-index: 100;
     background-color: white;
@@ -101,15 +132,6 @@ $rich-text-height: 180px;
     &.selected {
       background-color: #D3E1EB;
     }
-  }
-
-  .mention {
-    color: $link-color;
-    border-left: 2px solid lighten($link-color, 40%);
-    font-weight: 700;
-    text-transform: uppercase;
-    background-color: #D3E1EB;
-    padding: 2px;
   }
 
   // quill toolbar custom fonts

@@ -1,0 +1,52 @@
+<pf-data-grid
+  [reorderable]="true"
+  [pageViewId]="pageViewId"
+  [title]="getPageTitle((userContext$ | async)?.CompanyName)"
+  [selectionField]="'CompanyEmployeeHistory_ID'"
+  [filterPanelTemplates]="filterTemplates"
+  [lockedPillText]="historyDate ? 'Effective Date ' + (historyDate | date: 'MM/dd/yyyy') : ''"
+  [noRecordsFound]="'No records available.'"
+  [enableSelection]="false"
+  [gridActionsTemplate]="gridActions"
+  [defaultSort]="defaultSort"
+  [saveSort]="true"
+  [useColumnGroups]="false"
+  [columnTemplates]="colTemplates"
+  [actionBarConfig]="actionBarConfig"
+  [inboundFilters]="loadDateFilter"
+  [fieldsExcludedFromExport]="fieldsExcludedFromExport">
+</pf-data-grid>
+
+<ng-template #gridActions>
+  <button
+    routerLink="/"
+    type="button"
+    class="btn btn-secondary pf-btn-borderless exit-button"
+    [attr.data-qa-id]="'btn-exit-history'">
+    <fa-icon icon="ban"></fa-icon>
+    Exit History View
+  </button>
+</ng-template>
+<ng-template #gridGlobalActions>
+  <button type="button" title="Employee History"
+          id="employee-history-btn"
+          class="btn btn-secondary history-btn"
+          (click)="showEmployeeHistoryModal.next(true)">
+    <fa-icon icon="calendar-alt"></fa-icon>
+  </button>
+</ng-template>
+
+<ng-template #salaryColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  {{dataRow[fieldName] | number: '1.0-0'}}
+</ng-template>
+<ng-template #rateBasedSalaryColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  {{dataRow[fieldName] | comp: dataRow['vw_EmployeeHistory_HiddenRate'] : 'rounded'}}
+</ng-template>
+
+<pf-employee-history-date-picker
+  [title]="'Modify Effective Date'"
+  [isOpen$]=" showEmployeeHistoryModal$"
+  [initialDate]="historyDate"
+  (cancelClick)="showEmployeeHistoryModal.next(false)"
+  (applyClicked)="handleEmployeeHistoryDateChange($event)">
+</pf-employee-history-date-picker>

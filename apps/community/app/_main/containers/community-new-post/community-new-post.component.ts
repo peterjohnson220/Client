@@ -1,20 +1,16 @@
-import * as cloneDeep from 'lodash.clonedeep';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { PfLinkifyService } from '../../services/pf-linkify-service';
 
-import { CommunityAddPost, CommunityPost, CommunityTopic } from 'libs/models';
+import { CommunityAddPost, CommunityPost, CommunityTopic, CommunityAttachment, CommunityAttachmentUploadStatus } from 'libs/models';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
-import * as fromCommunityAttachmentActions from '../../actions/community-attachment.actions';
-
-import { SelectEvent, RemoveEvent, UploadEvent } from '@progress/kendo-angular-upload';
-import { mapFileInfoToCommunityAddAttachment } from '../../helpers/model-mapping.helper';
-import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
+import { CommunityConstants } from '../../models';
+import { attachmentsReadyForUpload } from '../../helpers/model-mapping.helper';
 
 @Component({
   selector: 'pf-community-new-post',
@@ -22,23 +18,19 @@ import { CommunityAttachment } from 'libs/models/community/community-attachment.
   styleUrls: ['./community-new-post.component.scss']
 })
 export class CommunityNewPostComponent implements OnInit, OnDestroy {
-
   submittingCommunityPostSuccess$: Observable<CommunityPost>;
   submittingCommunityPostSuccessSubscription: Subscription;
 
   communityDiscussionForm: FormGroup;
-  textMaxLength = 2000;
+  textMaxLength = CommunityConstants.DISCUSSION_MAX_TEXT_LENGTH;
 
   communityTopics$: Observable<CommunityTopic[]>;
-  communityAttachments$: Observable<CommunityAttachment[]>;
   selectedTopicId: string;
+  communityTopics: CommunityTopic[];
 
-  uploadedFiles: CommunityAttachment[] = [];
-
-  public defaultTopic: CommunityTopic = { TopicName: 'Select a Topic to start your discussion...', Id: null };
-
-  get context() { return this.communityDiscussionForm.get('context'); }
+  get content() { return this.communityDiscussionForm.get('content'); }
   get topic() { return this.communityDiscussionForm.get('topic'); }
+  get attachments() { return this.communityDiscussionForm.get('attachments'); }
   get isFormValid() { return this.communityDiscussionForm.valid; }
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
@@ -46,7 +38,6 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
     public pfLinkifyService: PfLinkifyService) {
       this.submittingCommunityPostSuccess$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPostsSuccess);
       this.communityTopics$ = this.store.select(fromCommunityPostReducer.getTopics);
-      this.communityAttachments$ = this.store.select(fromCommunityPostReducer.getCommunityAttachments);
       this.buildForm();
     }
 
@@ -57,9 +48,10 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.communityAttachments$.subscribe((response) => {
-      if (response) {
-        this.uploadedFiles = cloneDeep(response);
+    this.communityTopics$.subscribe ((response) => {
+      this.communityTopics = [];
+      if (response && response.length > 0) {
+        this.communityTopics = response;
       }
     });
   }
@@ -70,51 +62,35 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.communityDiscussionForm = this.formBuilder.group({
-      'context':   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.textMaxLength)]],
+      'content':   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.textMaxLength)]],
       'isInternalOnly':  [false],
-      'topic': [null, [ Validators.required ]]
+      'topic': [null, [ Validators.required ]],
+      'attachments': []
     });
 
   }
 
-  submit() {
+  submit(attachments: CommunityAttachment[]) {
+
+    this.attachments.setValue(attachments);
+    if (!attachmentsReadyForUpload(attachments)) {
+      this.attachments.setErrors({'scanInProgress': true});
+    }
+    this.communityDiscussionForm.markAllAsTouched();
+    this.content.markAsDirty();
+
     if (!this.communityDiscussionForm.valid) {
       return;
     }
 
     const newPost: CommunityAddPost = {
-      PostText: this.context.value,
+      PostText: this.content.value,
       IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value,
-      Links: this.pfLinkifyService.getLinks(this.context.value),
+      Links: this.pfLinkifyService.getLinks(this.content.value),
       TopicId: this.topic.value,
-      Attachments: this.uploadedFiles
+      Attachments: attachments.filter((x) => x.Status === CommunityAttachmentUploadStatus.ScanSucceeded)
     };
 
     this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
-
-    this.defaultTopic = { TopicName: 'Select a Topic to start your discussion...', Id: null };
-  }
-
-  public onOpenTopicsList(): void {
-    this.defaultTopic = null;
-  }
-
-  uploadAttachmentEventHandler(e: UploadEvent) {
-    // this method is called one file at a time
-    const file = e.files[0];
-    const cloudFileName = `${file.uid}_${file.name}`;
-    e.data = {CloudFileName: cloudFileName};
-    this.uploadedFiles.push(mapFileInfoToCommunityAddAttachment(file, cloudFileName));
-  }
-
-  removeAttachmentEventHandler(e: RemoveEvent) {
-    // this method is called one file at a time
-    const file = e.files[0];
-    file.name = `${file.uid}_${file.name}`;
-
-    const index = this.uploadedFiles.findIndex(f => f.CloudFileName === file.name);
-    if ( index >= 0 ) {
-      this.uploadedFiles.splice(index, 1);
-    }
   }
 }

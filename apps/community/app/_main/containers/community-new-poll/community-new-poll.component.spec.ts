@@ -72,7 +72,7 @@ describe('CommunityStartPollComponent', () => {
 
     instance.communityPollForm = formBuilder.group({
       'communityPollId': [''],
-      'context': [newPoll.Question, [Validators.required, Validators.minLength(1), Validators.maxLength(instance.maxTextLength)]],
+      'content': [newPoll.Question, [Validators.required, Validators.minLength(1), Validators.maxLength(instance.maxTextLength)]],
       'status': [newPoll.Status],
       'choices': formBuilder.array([CommunityPollChoicesComponent.buildItem('yes'), CommunityPollChoicesComponent.buildItem('no')]),
       'days':  [1],

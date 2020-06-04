@@ -25,14 +25,15 @@ import { SharedModule } from '../../shared/shared.module';
     CreateCompanyControlModalComponent,
   ],
   imports: [
+    // Angular
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
 
     // 3rd Party
-    FontAwesomeModule,
     StoreModule.forFeature('jobDescriptionManagement_settings_companyControlsList', reducers),
     EffectsModule.forFeature([CompanyControlsListEffects, CompanyControlsCreateEffects, CompanyControlsDeleteEffects]),
+    FontAwesomeModule,
 
     // Payfactors
     PfFormsModule,

@@ -30,7 +30,7 @@ import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 import { CompanyJobViewListItem } from '../../../models';
-import { AvailableJobInformationField, ControlLabel, LoadTemplateListRequest } from '../../../../shared/models';
+import { AvailableJobInformationField, ControlLabel } from '../../../../shared/models';
 import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
 import { PayfactorsApiModelMapper } from '../../../../shared/helpers';

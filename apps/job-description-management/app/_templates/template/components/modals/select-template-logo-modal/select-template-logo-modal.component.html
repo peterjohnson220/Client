@@ -1,0 +1,51 @@
+<ng-template #selectTemplateLogoModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+      <h4 class="modal-title">Select Template Logo</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">  
+      <div class="container p-0">  
+         <div class="row pb-2">
+              <div class="col-12 px-0">
+                  <kendo-upload [autoUpload]="true" [saveUrl]="uploadUrl" [showFileList]="false"
+                      (complete)="completeEventHandler($event)"
+                      (upload)="uploadEventHandler($event)"
+                      (error)="errorEventHandler($event)">
+                      <kendo-upload-messages select="Add files...">
+                      </kendo-upload-messages>
+                  </kendo-upload>
+                  <span *ngIf="errorMessage.length" class="text-danger d-flex justify-content-end">{{ errorMessage }}</span>
+              </div>       
+          </div>       
+          <div class="row pb-2">
+            <pf-async-container [smartLoadingMask]="false" [loading]="(companyLogosLoading$ | async)" [loadingError]="(companyLogosLoadingError$ | async)" 
+                [loadingErrorMessage]="(companyLogosLoadingErrorMessage$ | async)" [hideReloadButton]="true">
+            </pf-async-container>
+              <div class="col-6 px-0 file-list-container">
+                  <div class="file-list-header p-2 align-bottom">
+                      <h5>Name</h5>
+                  </div>
+                  <div class="file-list-scroll-container">
+                      <div class="file-list-detail align-top p-2" *ngFor="let companyLogo of companyLogos$ | async" (click)="handleLogoClicked(companyLogo)" [ngClass]="{'file-selected':(companyLogo?.DisplayName==selectedCompanyLogo?.DisplayName)}">
+                          {{ companyLogo.DisplayName }}
+                      </div>
+                      <div class="p-2" *ngIf="(companyLogos$ | async)?.length==0"><b>No Logos</b>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-6 px-0 company-logo-preview-img-border">
+                  <div class="h-100 p-3 d-flex align-items-center justify-content-center">
+                       <img *ngIf="selectedCompanyLogo && selectedCompanyLogo.Url" class="company-logo-img-preview company-logo-default img-fluid" [src]="selectedCompanyLogo.Url" alt="" />
+                       <p *ngIf="!selectedCompanyLogo">Select a file to preview.</p>
+                  </div>
+              </div>
+          </div>
+      </div>        
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+      <button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="!selectedCompanyLogo">Select</button>
+  </div>
+</ng-template>

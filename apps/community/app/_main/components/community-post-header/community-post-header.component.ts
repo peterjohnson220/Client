@@ -29,6 +29,7 @@ export class CommunityPostHeaderComponent {
   @Input() userPollId: string;
   @Input() hasReplies: boolean;
   @Input() hidePostActions: boolean;
+  @Input() hideEdit = false;
 
   constructor(public store: Store<fromCommunityPostReducer.State>) {
   }
@@ -70,6 +71,11 @@ export class CommunityPostHeaderComponent {
   }
 
   editPost() {
-    this.store.dispatch(new fromCommunityPostActions.EditingCommunityPost(this.postId));
+    if ( this.isReply ) {
+      this.store.dispatch(new fromCommunityPostReplyActions.EditingCommunityPostReply(this.replyId));
+    } else {
+      this.store.dispatch(new fromCommunityPostActions.EditingCommunityPost(this.postId));
+    }
   }
+
 }

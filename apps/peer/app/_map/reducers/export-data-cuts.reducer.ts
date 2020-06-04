@@ -1,16 +1,20 @@
+import { Currency } from 'libs/models/common';
+
 import * as fromExportDataCutsActions from '../actions/export-data-cuts.actions';
 
 export interface State {
   exporting: boolean;
   exportingError: boolean;
   exportDataCutsModalOpen: boolean;
+  currencies: Currency[];
 }
 
 // Initial State
 export const initialState: State = {
   exporting: false,
   exportingError: false,
-  exportDataCutsModalOpen: false
+  exportDataCutsModalOpen: false,
+  currencies: []
 };
 
 // Reducer
@@ -54,6 +58,12 @@ export function reducer(
         exportDataCutsModalOpen: false
       };
     }
+    case fromExportDataCutsActions.LOAD_CURRENCIES_SUCCESS: {
+      return {
+        ...state,
+        currencies: action.payload.currencies
+      };
+    }
     default: {
       return state;
     }
@@ -64,3 +74,4 @@ export function reducer(
 export const getExporting = (state: State) => state.exporting;
 export const getExportingError = (state: State) => state.exportingError;
 export const getExportDataCutsModalOpen = (state: State) => state.exportDataCutsModalOpen;
+export const getCurrencies = (state: State) => state.currencies;

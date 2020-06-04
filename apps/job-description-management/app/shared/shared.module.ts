@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ComboBoxModule, DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { GridModule, FilterMenuModule } from '@progress/kendo-angular-grid';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -41,7 +41,8 @@ import {
   JobDescriptionLibraryComponent,
   UserRoutingSelectorComponent,
   WorkflowStepCompletionPageComponent,
-  DeleteJobDescriptionModalComponent
+  DeleteJobDescriptionModalComponent,
+  CopyTemplateModalComponent
 } from './components';
 import {
   WorkflowConfigComponent
@@ -56,7 +57,8 @@ import {
   JobFamilyEffects,
   TemplateListEffects,
   SharedWorkflowEffects,
-  WorkflowConfigEffects
+  WorkflowConfigEffects,
+  CompanyLogoEffects
 } from './effects';
 import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
 import { PeditorAutoFocusFixDirective } from './directives';
@@ -76,7 +78,8 @@ import { PeditorAutoFocusFixDirective } from './directives';
       TemplateListEffects,
       JobDescriptionLibraryEffects,
       SharedWorkflowEffects,
-      WorkflowConfigEffects
+      WorkflowConfigEffects,
+      CompanyLogoEffects
     ]),
     FontAwesomeModule,
     PfJobDescriptionManagementModule,
@@ -86,14 +89,14 @@ import { PeditorAutoFocusFixDirective } from './directives';
     NgbPaginationModule,
     NgbTooltipModule,
     ImgFallbackModule,
+    GridModule,
+    DropDownsModule,
 
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
     ReactiveFormsModule,
-    ComboBoxModule,
-    DropDownsModule,
     FormsModule,
     DatePickerModule,
     FilterMenuModule,
@@ -113,7 +116,8 @@ import { PeditorAutoFocusFixDirective } from './directives';
     UserRoutingSelectorComponent,
     WorkflowStepCompletionPageComponent,
     WorkflowConfigComponent,
-    DeleteJobDescriptionModalComponent
+    DeleteJobDescriptionModalComponent,
+    CopyTemplateModalComponent
   ],
   declarations: [
     // Components
@@ -139,6 +143,7 @@ import { PeditorAutoFocusFixDirective } from './directives';
     UserRoutingSelectorComponent,
     WorkflowStepCompletionPageComponent,
     DeleteJobDescriptionModalComponent,
+    CopyTemplateModalComponent,
 
     // Containers
     WorkflowConfigComponent,

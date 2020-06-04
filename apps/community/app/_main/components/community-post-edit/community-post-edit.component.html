@@ -1,4 +1,4 @@
-<div class="p-2 col-12 post-edit-container">
+<div class="p-2 col-12">
   <pf-community-avatar
     [AvatarSource]="post.UserInfo?.AvatarSource"
     [CompanyLogoSource]="post.UserInfo?.CompanyLogoSource"
@@ -8,7 +8,6 @@
 
   <div class="post-offset">
     <select class="w-25 ml-2 border float-right mb-2" [(ngModel)]="selectedTopic">
-      <option *ngIf="!selectedTopic" value="undefined" hidden disabled selected>Select a Topic</option>
       <option *ngFor="let topic of communityTopics$ | async" [ngValue]="topic">{{topic.TopicName}}</option>
     </select>
 
@@ -24,12 +23,14 @@
     </pf-community-post-header>
 
     <div *ngIf="!post.UserPollRequest; else user_poll" class="clear-both">
-      <pf-community-post-content class="mt-2 mb-2"
-                                 [content]="post.Content">
-      </pf-community-post-content>
-      <div *ngIf="!!communityAttachments" class="d-flex flex-wrap pt-3">
-        <div class="pr-2 py-1" *ngFor="let attachment of communityAttachments">
-          <pf-community-attachment-edit 
+      <pf-community-text-area
+        [parentForm]="communityPostEditForm"
+        [maxTextLength]="editMaxLength"
+        minimumHeight="75">
+      </pf-community-text-area>
+      <div *ngIf="communityAttachments" class="attachment-container">
+        <div *ngFor="let attachment of communityAttachments" class="attachment-content pr-3">
+          <pf-community-attachment-edit
             [attachment]="attachment" 
             (attachmentRemoved)="onAttachmentRemoved($event)">
           </pf-community-attachment-edit>
@@ -58,10 +59,9 @@
       </div>
     </ng-template>
   </div>
-  <div class="overflow-hidden">
-    <button type="button" class="btn btn-cancel m-1 py-2 px-3 shadow-none float-right" (click)="cancelEdit()">Cancel
-    </button>
-    <button type="button" class="btn m-1 py-2 px-3 shadow-none float-right" (click)="savePost()">Save
-    </button>
+
+  <div class="btn-container w-100">
+    <button type="button" class="btn btn-primary m-1 py-2 px-3 shadow-none" (click)="savePost()">Save</button>
+    <button type="button" class="btn btn-cancel m-1 py-2 px-3 shadow-none" (click)="cancelEdit()">Cancel</button>
   </div>
 </div>

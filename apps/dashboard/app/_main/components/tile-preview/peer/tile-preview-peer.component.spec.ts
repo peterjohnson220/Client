@@ -7,9 +7,10 @@ import spyOn = jest.spyOn;
 
 import { HumanizeNumberPipe } from 'libs/core/pipes';
 import * as fromRootState from 'libs/state/state';
+import { TileTypes } from 'libs/models/dashboard';
 
 import { TilePreviewPeerComponent } from './tile-preview-peer.component';
-import { generateMockChartTile, generateTilePreviewPeerFromTile, TileTypes } from '../../../models';
+import { generateMockChartTile, generateTilePreviewPeerFromTile } from '../../../models';
 import * as fromTileGridReducer from '../../../reducers';
 
 describe('Tile Preview Peer', () => {

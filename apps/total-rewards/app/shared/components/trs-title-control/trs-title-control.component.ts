@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 
-import {TitleControl} from '../../models';
+import { StatementModeEnum, TitleControl, UpdateTitleRequest, EmployeeRewardsData } from '../../models';
 
 @Component({
   selector: 'pf-trs-title-control',
@@ -8,12 +8,33 @@ import {TitleControl} from '../../models';
   styleUrls: ['./trs-title-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsTitleControlComponent implements OnInit {
+export class TrsTitleControlComponent {
 
   @Input() controlData: TitleControl;
+  @Input() mode: StatementModeEnum;
+  @Input() employeeRewardsData: EmployeeRewardsData;
 
-  constructor() { }
+  @Output() titleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
 
-  ngOnInit() {
+  modeEnum = StatementModeEnum;
+
+  get employeeName(): string {
+    if (this.mode === StatementModeEnum.Edit) {
+      return 'Employee Name';
+    }
+
+    return !this.employeeRewardsData ? '' : `${this.employeeRewardsData.EmployeeFirstName} ${this.employeeRewardsData.EmployeeLastName}`;
+  }
+
+  get employeeId(): string {
+    if (this.mode === StatementModeEnum.Edit) {
+      return 'Employee Id';
+    }
+
+    return !this.employeeRewardsData ? '' : this.employeeRewardsData.EmployeeId;
+  }
+
+  onTitleChange(title: string) {
+    this.titleChange.emit({ControlId: this.controlData.Id, Title: title});
   }
 }

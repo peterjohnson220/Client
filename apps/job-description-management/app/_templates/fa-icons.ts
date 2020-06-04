@@ -9,7 +9,11 @@ import {
   faTimes,
   faCheck,
   faCheckCircle,
-  faSpinner
+  faSpinner,
+  faCaretDown,
+  faCaretUp,
+  faEye,
+  faEyeSlash
 } from '@fortawesome/pro-solid-svg-icons';
 
 export const faIcons = [
@@ -22,5 +26,9 @@ export const faIcons = [
   faTimes,
   faCheck,
   faCheckCircle,
-  faSpinner
+  faSpinner,
+  faCaretDown,
+  faCaretUp,
+  faEye,
+  faEyeSlash
 ];

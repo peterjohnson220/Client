@@ -17,7 +17,7 @@ describe('CommunitySearchResultContentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ NgxLinkifyjsModule.forRoot(), NgbTooltipModule.forRoot()],
+      imports: [ NgxLinkifyjsModule.forRoot(), NgbTooltipModule],
       providers: [],
       declarations: [
         CommunitySearchResultAttachmentComponent,

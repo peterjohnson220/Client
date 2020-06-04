@@ -1,0 +1,39 @@
+<ng-template #labelControlTypeModal let-c="close" let-d="dismiss">
+      <div class="modal-header">
+          <h4 class="modal-title"> {{editing ? 'Edit Control Name' : 'Name your Control' }}</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="controlLabelForm">
+            <p class="text-muted">Please specify the type of content you will be adding. If the default name is sufficient, click Add.</p>
+
+            <div class="form-group" [class.has-danger]="invalidControlLabel || !controlLabelForm.valid">
+            <input type="text" class="form-control" formControlName="controlLabel" [placeholder]="'Control Name...'" [autofocus]="true"/>
+
+            <span class="help-block text-danger" *ngIf="invalidControlLabel">Control Name In Use</span>
+            <span class="help-block text-danger" *ngIf="getControlLabel.hasError('maxlength')">
+                Exceeds {{getControlLabel.errors.maxlength.requiredLength}} characters:
+                {{getControlLabel.errors.maxlength.actualLength}}
+            </span>
+            <span class="help-block text-danger" *ngIf="getControlLabel.hasError('required')">Required</span>
+
+            <div class="indicator-container">
+                <span *ngIf="invalidControlLabel"><fa-icon icon="times" aria-hidden="true"></fa-icon></span>
+            </div>
+            </div>
+        </form>
+      </div>
+      <div *ngIf="showControlLabelCheckbox" class="d-flex ml-3"> 
+          <label>
+              <input type="checkbox" [(ngModel)]="showControlName" [ngModelOptions]="{standalone: true}"/> Show Control Name in Job Description
+          </label>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+          <button type="submit" [disabled]="!controlLabelForm.valid || invalidControlLabel || submitted" class="btn btn-primary" (click)="submit()">
+              {{editing ? 'Save' : 'Add' }}
+          </button>
+      </div>
+</ng-template>

@@ -1,0 +1,8 @@
+<p class="text-white m-5 h4 text-center">
+  <ng-container *ngIf="!errorMessage$">
+    You will be redirected to payment shortly...
+  </ng-container>
+  <ng-container *ngIf="errorMessage$">
+    {{ errorMessage$ | async }}
+  </ng-container>
+</p>

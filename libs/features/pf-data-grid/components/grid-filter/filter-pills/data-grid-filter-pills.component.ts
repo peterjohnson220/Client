@@ -13,6 +13,7 @@ export class PfDataGridFilterPillsComponent {
 
   @Input() fields: ViewField[];
   @Input() widthOffset = 0;
+  @Input() lockedPillText: string;
 
   @Output() clearFilter = new EventEmitter();
   @Output() clearAllFilters = new EventEmitter();

@@ -73,20 +73,12 @@
 
 // Popover overrides
 .custom-modal-popover ::ng-deep .popover {
-  top: 0 !important;
-}
-
-.custom-map-popover ::ng-deep .popover {
-  top: 28px !important;
-  width: 273px;
+  left: 271px !important;
+  transform: initial !important;
 }
 
 .custom-modal-arrow ::ng-deep .arrow {
   top: 1rem !important;
-}
-
-.custom-map-arrow ::ng-deep .arrow {
-  display: none;
 }
 
 :host ::ng-deep .popover {

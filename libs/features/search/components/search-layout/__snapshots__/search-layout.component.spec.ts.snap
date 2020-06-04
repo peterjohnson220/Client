@@ -2,6 +2,7 @@
 
 exports[`Search Feature - Search Layout should not show results count div when results count input = null 1`] = `
 <pf-search-layout
+  countLabel={[Function String]}
   resultsCount="null"
 >
   <div
@@ -28,6 +29,7 @@ exports[`Search Feature - Search Layout should not show results count div when r
 
 exports[`Search Feature - Search Layout should show an english formatted results count 1`] = `
 <pf-search-layout
+  countLabel={[Function String]}
   resultsCount={[Function Number]}
 >
   <div

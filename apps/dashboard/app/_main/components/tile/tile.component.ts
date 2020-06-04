@@ -4,10 +4,10 @@ import { Observable, Subscription } from 'rxjs';
 
 import { userVoiceUrl } from 'libs/core/functions';
 import { SettingsService } from 'libs/state/app-context/services';
-import { CompanySettingsEnum } from 'libs/models';
+import { CompanySettingsEnum, TileTypes } from 'libs/models';
 
 import {
-  Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType, TileTypes,
+  Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType,
   generateTilePreviewIconFromTile, generateTilePreviewChartFromTile,
   generateTilePreviewListFromTile, generateTilePreviewPlaceHolderFromTile,
   generateTilePreviewChartWithCalendarFromTile, generateTilePreviewChartWithListFromTile,

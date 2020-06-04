@@ -1,47 +1,61 @@
 @import 'colors';
 @import 'styles';
 
+.attachment {
+  display: flex;
+}
+
 .container {
-    color: $community-sub-text-color;
-    border: 1px solid;
-    border-radius: 5px;
-    height: 40px;
-    width: 175px;
-    margin: auto;
-    padding: 7px 8px 7px 5px;
-    font-size: 0.9rem;
+  height: 30px;
+  width: 100%;
+  min-width: 65px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  align-items: baseline;
+  float: left;
+  line-height: 0.1rem;
+  font-size: 85%;
+  color: $community-sub-text-color;
+  border: 1px solid ;
+  border-radius: 5px;
+}
+
+.container:hover {
+  color: $community-attachment-link-hover-color;
 }
 
 .icon {
-    float: left;
-    margin-right: 0.5rem;
+  float: left;
+  margin-right: 0.5rem;
 
-    &.word {
-      color: $community-word-badge-color;
-    }
-    &.pdf {
-      color: $community-pdf-badge-color;
-    }
-    &.excel {
-      color: $community-excel-badge-color;
-    }
-    &.image {
-      color: $community-image-badge-color;
-    }
-    &.file {
-      color: $community-attachment-link-color;
-    }
+  &.word {
+    color: $community-word-badge-color;
   }
+  &.pdf {
+    color: $community-pdf-badge-color;
+  }
+  &.excel {
+    color: $community-excel-badge-color;
+  }
+  &.image {
+    color: $community-image-badge-color;
+  }
+  &.file {
+    color: $community-attachment-link-color;
+  }
+}
 
 .attachment-info {
-    float: left;
-    line-height: 0.35em;
+  float: left;
 }
 
 .remove-btn {
   cursor: pointer;
-  align-self: center;
   float: right;
+  align-items: center;
+  padding-left: 5px;
 }
 
 .remove-btn:hover {

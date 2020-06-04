@@ -1,11 +1,13 @@
 export interface EmployeeRewardsData {
-  EmployeeId: number;
+  CompanyName: string;
+  EmployeeId: string;
   EmployeeFirstName: string;
   EmployeeLastName: string;
   EmployeeCity: string;
   EmployeeCountry: string;
   EmployeeJobCode: string;
   EmployeeDepartment: string;
+  EmployeeDepartmentCode: string;
   EmployeeDOB: Date;
   EmployeeDOH: Date;
   EmployeeEmailAddress: string;
@@ -30,17 +32,20 @@ export interface EmployeeRewardsData {
   EmployeeTuitionReimbursement: number;
   EmployeePTO: number;
   EmployeeOtherAllowances: number;
+  CurrentYear: number;
 }
 
 export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
   return {
-    EmployeeId: 12345,
+    CompanyName: 'Rotherham Refurbs Ltd.',
+    EmployeeId: '12345',
     EmployeeFirstName: 'John',
     EmployeeLastName: 'Smith',
     EmployeeCity: 'Scranton',
     EmployeeCountry: 'United States',
     EmployeeJobCode: 'ACC456',
     EmployeeDepartment: 'Accounting',
+    EmployeeDepartmentCode: 'ACC',
     EmployeeDOB: new Date('04/03/80'),
     EmployeeDOH: new Date('08/12/19'),
     EmployeeEmailAddress: 'john.smith@company.com',
@@ -64,6 +69,7 @@ export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
     EmployeeLongTermDisability: 600,
     EmployeeTuitionReimbursement: 1200,
     EmployeePTO: 5700,
-    EmployeeOtherAllowances: 500
+    EmployeeOtherAllowances: 500,
+    CurrentYear: new Date().getFullYear()
   };
 }

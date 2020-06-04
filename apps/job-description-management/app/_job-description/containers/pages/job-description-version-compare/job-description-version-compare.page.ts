@@ -17,6 +17,7 @@ import * as fromJobDescriptionReducer from '../../../reducers';
 import * as fromJobDescriptionVersionCompareActions from '../../../actions/job-description-version-compare.actions';
 import * as fromJobDescriptionHistoryListActions from '../../../actions/job-description-history-list.actions';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
+import * as fromCompanyLogoActions from '../../../../shared/actions';
 import * as fromControlTypeActions from '../../../../shared/actions/control-types.actions';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 
@@ -37,7 +38,7 @@ export class JobDescriptionVersionComparePageComponent implements OnInit, OnDest
   jobDescriptionVersionComparisonLoadingError$: Observable<boolean>;
   jobDescriptionVersionComparison$: Observable<any>;
   controlTypesLoaded$: Observable<any>;
-  company$: Observable<AsyncStateObj<CompanyDto>>;
+  company$: Observable<CompanyDto>;
   controlTypes$: Observable<ControlType[]>;
 
   identity$: Observable<UserContext>;
@@ -61,8 +62,8 @@ export class JobDescriptionVersionComparePageComponent implements OnInit, OnDest
     this.jobDescriptionVersionComparison$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionComparison);
     this.jobDescriptionVersionComparisonLoading$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionComparisonLoading);
     this.jobDescriptionVersionComparisonLoadingError$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionComparisonLoadingError);
-    this.company$ = this.store.select(fromJobDescriptionReducer.getCompanyAsync);
-    this.controlTypes$ = this.store.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersion);
+    this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
+    this.controlTypes$ = this.store.select(fromJobDescriptionManagementSharedReducer.getControlTypes);
 
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
   }
@@ -94,12 +95,12 @@ export class JobDescriptionVersionComparePageComponent implements OnInit, OnDest
     // Get Identity
     this.identity$.subscribe(identity => {
       this.companyLogoSubscription = this.company$.subscribe((company) => {
-        this.companyLogoPath = company && company.obj
-          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.obj.CompanyLogo
+        this.companyLogoPath = company
+          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
           : '';
       });
 
-      this.store.dispatch(new fromJobDescriptionActions.LoadCompany(identity.CompanyId));
+      this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(identity.CompanyId));
     });
 
     // Get all control types

@@ -1,0 +1,14 @@
+<div class="mt-2">
+  <ng-container *ngFor="let reply of replies">
+    <div class="pl-1 col-12" *ngIf="editedReplyId !== reply.Id">
+      <pf-community-post-reply [reply]="reply"
+                              (replyHashTagClicked)="handleReplyHashTagClicked($event)">
+      </pf-community-post-reply>
+    </div>
+    <div class="pl-1 py-2 col-12" *ngIf="editedReplyId === reply.Id">
+      <pf-community-reply-edit
+        [reply]="reply"></pf-community-reply-edit>
+    </div>
+  </ng-container>
+  <pf-loading-indicator  class="loading-indicator reply-offset" *ngIf="loading && replies?.length < 1"></pf-loading-indicator>
+</div>

@@ -9,7 +9,11 @@ import * as fromFaIcons from './fa-icons';
 import { PfCommonUIModule } from '../ui/common';
 
 import { PfCommonModule } from 'libs/core';
-import { FocusDirective, PfValidatableDirective, PfSecuredResourceDirective, PfDebounceValueChangedDirective } from './directives';
+import { FocusDirective,
+  PfValidatableDirective,
+  PfSecuredResourceDirective,
+  PfDebounceValueChangedDirective,
+  PfIndeterminateDirectiveDirective } from './directives';
 import {
   ConfirmPasswordComponent,
   InputDebounceComponent,
@@ -26,6 +30,7 @@ const declarations = [
   FocusDirective,
   PfSecuredResourceDirective,
   PfDebounceValueChangedDirective,
+  PfIndeterminateDirectiveDirective,
   // declarations
   ConfirmPasswordComponent,
   PfModalFormComponent,

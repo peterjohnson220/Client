@@ -28,11 +28,15 @@ export class TrsCalculationControlComponent {
     return this.mode === models.StatementModeEnum.Edit;
   }
 
+  get inPreviewMode(): boolean {
+    return this.mode === models.StatementModeEnum.Preview;
+  }
+
   get removedFields(): models.CompensationField[] {
     return this.controlData.DataFields.filter(f => f.IsVisible === false);
   }
 
-  constructor(public cp: CurrencyPipe) { }
+  constructor(public currencyPipe: CurrencyPipe) { }
 
   removeField(field: models.CompensationField) {
     this.onCompFieldRemoved.emit({ControlId: this.controlData.Id, DataFieldId: field.Id, IsVisible: false});
@@ -58,7 +62,7 @@ export class TrsCalculationControlComponent {
   getEmployerContributionValue(field: string) {
     if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
       if (this.employeeRewardsData[field] || this.employeeRewardsData[field] === 0) {
-        return this.cp.transform(this.employeeRewardsData[field], 'USD', 'symbol-narrow', '1.0');
+        return this.currencyPipe.transform(this.employeeRewardsData[field], 'USD', 'symbol-narrow', '1.0');
       }
     }
     return this.compensationValuePlaceholder;
@@ -67,18 +71,10 @@ export class TrsCalculationControlComponent {
   getSummaryValue() {
     if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
       const sum = TotalRewardsStatementService.sumCalculationControl(this.controlData, this.employeeRewardsData);
-      return this.cp.transform(sum, 'USD', 'symbol-narrow', '1.0');
+      return this.currencyPipe.transform(sum, 'USD', 'symbol-narrow', '1.0');
     }
 
     return this.compensationValuePlaceholder;
-  }
-
-  getRemovedFields(): models.CompensationField[] {
-    if (this.controlData && this.controlData.DataFields) {
-      return this.controlData.DataFields.filter(df => df.IsVisible === false);
-    } else {
-      return [];
-    }
   }
 
   displayFieldInTable(compField: models.CompensationField): boolean {

@@ -9,6 +9,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromCompositeSummaryDownloadActions from '../../../../../dashboard/app/_main/actions/composite-summary-download.actions';
 
 import { LoaderDashboardGridComponent } from './loader-dashboard-grid.component';
+import { GetErrorMessagePipe } from '../../pipes';
 import * as fromLoaderDashboardPageReducer from '../../reducers';
 
 describe('LoaderDashboardGridComponent', () => {
@@ -26,7 +27,9 @@ describe('LoaderDashboardGridComponent', () => {
         GridModule
       ],
       declarations: [
-        LoaderDashboardGridComponent
+        LoaderDashboardGridComponent,
+        // Pipes
+        GetErrorMessagePipe,
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })

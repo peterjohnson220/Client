@@ -39,6 +39,7 @@ import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionLibraryActions from '../../../../shared/actions/job-description-library.actions';
+import * as fromCompanyLogoActions from '../../../../shared/actions/company-logo.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
 import * as fromWorkflowActions from '../../../actions/workflow.actions';
 import { JobDescriptionActionsComponent } from '../../job-description-actions';
@@ -77,7 +78,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
   userAssignedRoles$: Observable<UserAssignedRole[]>;
-  company$: Observable<AsyncStateObj<CompanyDto>>;
+  company$: Observable<CompanyDto>;
   enablePublicViewsInClient$: Observable<boolean>;
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
   editingJobDescription$: Observable<boolean>;
@@ -143,7 +144,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     private jobDescriptionManagementDndService: JobDescriptionManagementDnDService,
     private jobDescriptionDnDService: JobDescriptionDnDService
 ) {
-    this.company$ = this.store.select(fromJobDescriptionReducers.getCompanyAsync);
+    this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.userAssignedRoles$ = this.userContextStore.select(fromRootState.getUserAssignedRoles);
@@ -456,17 +457,17 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       }
       this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
       this.companySubscription = this.company$.subscribe((company) => {
-        this.companyLogoPath = company && company.obj
-          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.obj.CompanyLogo
+        this.companyLogoPath = company
+          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
           : '';
-        if (company && company.obj) {
-          this.companyName = company.obj.CompanyName;
+        if (company) {
+          this.companyName = company.CompanyName;
         }
       });
       this.isSiteAdmin = userContext.AccessLevel === 'Admin';
       this.initRouterParams();
       if (!this.completedStep) {
-        this.store.dispatch(new fromJobDescriptionActions.LoadCompany(userContext.CompanyId));
+        this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
       }
     });
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {

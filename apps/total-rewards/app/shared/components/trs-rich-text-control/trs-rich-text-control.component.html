@@ -1,14 +1,23 @@
-<div class="col-12 printClass trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': isInvalid, 'edit-mode': (mode === statementModeEnum.Edit), 'preview-mode': (mode === statementModeEnum.Preview)}">
-  <h4 class="primary-control-heading mb-1">
-    <pf-inline-string-editor
-      [value]="controlData.Title.Override"
-      [placeholder]="controlData.Title.Default"
-      [maxCharacters]="35"
-      [inEditMode]="mode === statementModeEnum.Edit"
-      (valueChange)="onTitleChanged($event)"
-    ></pf-inline-string-editor>
-  </h4>
-  <div pfClickElsewhere (clickElsewhere)="onClickElsewhere()">
+<div class="col-12 printClass trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': !isValid, 'edit-mode': (mode === statementModeEnum.Edit), 'preview-mode': (mode === statementModeEnum.Preview)}">
+  <div class="heading">
+    <h4 class="primary-control-heading mb-1 d-inline-block">
+      <pf-string-editor
+        [value]="controlData.Title.Override"
+        [placeholder]="controlData.Title.Default"
+        [maxCharacters]="35"
+        [inEditMode]="mode === statementModeEnum.Edit"
+        (valueChange)="onTitleChanged($event)"></pf-string-editor>
+    </h4>
+    <div kendoTooltip class="tooltip-wrapper d-inline-block ml-2 align-top">
+      <label 
+        *ngIf="controlData?.DataFields?.length"
+        class="info position-relative"
+        [ngbTooltip]="'This is a rich text area. Use [ to find and insert existing employee or company fields into your text.'">
+        <fa-icon [icon]="['fal', 'info-circle']" aria-hidden="true"></fa-icon>
+      </label>
+    </div>
+  </div>
+  <div>
     <a (click)="onClickEditor()">
       <quill-editor
         #richText

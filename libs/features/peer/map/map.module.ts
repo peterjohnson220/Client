@@ -53,7 +53,7 @@ const declarations = [
       FilterSidebarEffects,
       ExchangeScopeEffects
     ]),
-    NgxMapboxGLModule.withConfig({ accessToken: environment.mapboxAccessToken }),
+    NgxMapboxGLModule,
     NgbPopoverModule,
     FontAwesomeModule
   ],

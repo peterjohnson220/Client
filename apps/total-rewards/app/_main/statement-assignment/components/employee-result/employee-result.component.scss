@@ -1,0 +1,30 @@
+@import 'colors';
+
+.employee-result-row {
+  cursor: pointer;
+}
+
+.employee-name{
+  color: $link-color;
+  font-size: 12px;
+}
+
+.employee-id{
+  color: #848484;
+  font-size: 12px;
+}
+
+.job-title {
+  color: #848484;
+  font-size: 12px;
+}
+
+.result{
+  padding: .75rem 1.5rem .75rem .5rem;
+  border-bottom: 1px solid $grey;
+  border-left: 3px solid transparent;
+}
+
+.result:hover{
+  border-left: 3px solid #b9d3e0;
+}

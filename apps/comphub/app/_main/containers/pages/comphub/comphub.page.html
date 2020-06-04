@@ -9,8 +9,10 @@
         [prevCard]="i !== 0 ? cards[i - 1] : card"
         [containerWidth]="i !== cards.length - 1 ? cardContentContainerWidth : cardContentContainerWidth - cardHeaderMargin"
         [accessed]="(accessedPages$ | async).indexOf(card.Id) !== -1"
+        [prevCardAccessed]="i > 0 && (accessedPages$ | async).indexOf(cards[i - 1].Id) !== -1"
         [selected]="workflowContext?.selectedPageId === card.Id"
         [disabled]="(enabledPages$ | async).indexOf(card.Id) === -1"
+        [prevCardDisabled]="i > 0 && (enabledPages$ | async).indexOf(cards[i - 1].Id) === -1"
         [cardIndex]="i"
         [selectedCardIndex]="workflowContext?.selectedPageIndex"
         (cardHeaderClick)="handleCardChange($event)">

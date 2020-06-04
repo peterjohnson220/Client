@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, BrowserTransferStateModule, makeStateKey, TransferState } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './shared/app-wrapper/app-wrapper.component';
 import { reducers, AppState } from './shared/state';
 import { ApiAuthInterceptor } from './shared/services/api-auth.service';
+import { SentryErrorHandler, SentryService } from 'libs/core/services';
 
 export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state: any, action: any) {
@@ -46,7 +47,9 @@ export const NGRX_STATE = makeStateKey('NGRX_STATE');
     AppRoutingModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ApiAuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ApiAuthInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    SentryService
   ],
   bootstrap: [AppComponent]
 })

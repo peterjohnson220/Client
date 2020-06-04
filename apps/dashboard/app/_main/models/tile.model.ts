@@ -1,6 +1,6 @@
-import { TileTypes } from './tile-types';
 import { TilePreviewTypes } from './tile-preview-types';
 import { TilePreviewChartTypes } from './tile-preview-chart-types';
+import { TileTypes } from 'libs/models/dashboard';
 
 export interface Tile {
   Id: number;

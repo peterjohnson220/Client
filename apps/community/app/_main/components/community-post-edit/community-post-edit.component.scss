@@ -1,10 +1,8 @@
 @import 'colors';
 @import 'styles';
 
-$post-avatar-width: 50px;
-
 .post-offset {
-  margin-left: $post-avatar-width + 10px;
+  margin-left: $community-post-avatar-size + 10px;
 }
 
 .hide {
@@ -39,6 +37,16 @@ a {
   color: #FA4646;
 }
 
+.btn-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-content: flex-start;
+  padding: 0;
+  margin: 0;
+}
+
 .btn {
   background-color: $community-tags-hover-color;
   color: #fff;
@@ -47,6 +55,8 @@ a {
   font-weight: 400;
   white-space: normal;
   border-radius: $community-border-radius;
+  flex: 0 0 auto;
+  margin-left: 10px;
 }
 
 .btn-cancel
@@ -60,14 +70,6 @@ a {
   border-radius: $community-border-radius;
 }
 
-
-.post-edit-container
-{
-  border-color: $community-tags-hover-color;
-  border-width: 1px;
-  border-style: solid
-}
-
 .clear-both
 {
   clear: both;
@@ -76,4 +78,20 @@ a {
 .overflow-hidden
 {
   overflow:hidden;
+}
+
+.attachment-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+
+.attachment-content {
+  max-height: 40px;
+}
+
+:host ::ng-deep div.text-danger {
+  font-size: 85%;
 }

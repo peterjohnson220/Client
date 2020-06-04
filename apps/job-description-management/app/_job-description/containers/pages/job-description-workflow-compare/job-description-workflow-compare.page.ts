@@ -9,16 +9,16 @@ import 'rxjs-compat/add/operator/take';
 import { UserContext } from 'libs/models/security';
 import { ControlType } from 'libs/models/common';
 import * as fromRootState from 'libs/state/state';
-import { AsyncStateObj } from 'libs/models/state';
 import { CompanyDto } from 'libs/models/company';
 
-import { JobDescriptionWorkflowCompareListItem } from '../../../models';
 import * as fromJobDescriptionReducer from '../../../reducers';
+import * as fromCompanyLogoActions from '../../../../shared/actions/company-logo.actions';
 import * as fromJobDescriptionWorkflowCompareActions from '../../../actions/job-description-workflow-compare.actions';
 import * as fromJobDescriptionHistoryListActions from '../../../actions/job-description-history-list.actions';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
 import * as fromControlTypeActions from '../../../../shared/actions/control-types.actions';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
+import { JobDescriptionWorkflowCompareListItem } from '../../../models/';
 
 @Component({
   selector: 'pf-job-description-workflow-compare.page',
@@ -38,7 +38,7 @@ export class JobDescriptionWorkflowComparePageComponent implements OnInit, OnDes
   controlTypes$: Observable<ControlType[]>;
   controlTypesLoaded$: Observable<boolean>;
   identity$: Observable<UserContext>;
-  company$: Observable<AsyncStateObj<CompanyDto>>;
+  company$: Observable<CompanyDto>;
 
   companyLogoSubscription: Subscription;
   identitySubscription: Subscription;
@@ -55,8 +55,8 @@ export class JobDescriptionWorkflowComparePageComponent implements OnInit, OnDes
     this.jobDescriptionComparison$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionWorkflowComparison);
     this.jobDescriptionComparisonLoading$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionWorkflowComparisonLoading);
     this.jobDescriptionComparisonLoadingError$ = this.store.select(fromJobDescriptionReducer.getJobDescriptionWorkflowComparisonLoadingError);
-    this.controlTypes$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersion);
-    this.company$ = this.store.select(fromJobDescriptionReducer.getCompanyAsync);
+    this.controlTypes$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypes);
+    this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
   }
 
@@ -81,15 +81,15 @@ export class JobDescriptionWorkflowComparePageComponent implements OnInit, OnDes
     // Get Identity
     this.identitySubscription = this.identity$.subscribe(identity => {
       this.companyLogoSubscription = this.company$.subscribe((company) => {
-        this.companyLogoPath = company && company.obj
-          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.obj.CompanyLogo
+        this.companyLogoPath = company
+          ? identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
           : '';
-        if (company && company.obj) {
-          this.companyName = company.obj.CompanyName;
+        if (company) {
+          this.companyName = company.CompanyName;
         }
       });
 
-      this.store.dispatch(new fromJobDescriptionActions.LoadCompany(identity.CompanyId));
+      this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(identity.CompanyId));
     });
 
     this.compareListSubscription = this.jobDescriptionCompareList$.subscribe((compareList) => {

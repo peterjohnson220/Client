@@ -26,19 +26,6 @@ export class OrgDataFieldMappingsEffects {
       )
     );
 
-  @Effect()
-  SaveFieldMappings$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromOrgDataFieldMappingsActions.SAVING_FIELD_MAPPINGS),
-      map((action: fromOrgDataFieldMappingsActions.SavingFieldMappings) => action.payload),
-      switchMap(mappings => {
-        return this.loaderFieldMappingsApiService.saveFieldMappings(mappings).pipe(
-          map(() => new fromOrgDataFieldMappingsActions.SavingFieldMappingsSuccess()),
-          catchError(error => of(new fromOrgDataFieldMappingsActions.SavingFieldMappingsError()))
-        );
-      })
-    );
-
   constructor(
     private actions$: Actions,
     private loaderFieldMappingsApiService: LoaderFieldMappingsApiService

@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmployeeResultComponent should display employee info when available 1`] = `
+<pf-employee-result
+  employee={[Function Object]}
+>
+  <div
+    class="result employee-result-row position-relative"
+  >
+    <div
+      class="d-flex justify-content-between"
+    >
+      <h4
+        class="d-flex"
+      >
+        
+        <span
+          class="employee-name font-weight-bold pr-2"
+        >
+           Test Employee 
+        </span>
+        <span
+          class="employee-id"
+        >
+           (EMP123) 
+        </span>
+      </h4>
+    </div>
+    <h5
+      class="flex-column job-title my-1"
+    >
+       Test Job Title 
+    </h5>
+  </div>
+</pf-employee-result>
+`;

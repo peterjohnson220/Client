@@ -45,7 +45,7 @@ export class DataGridToDataViewsHelper {
 
   static mapFieldsToDataViewFields(fields: ViewField[], sortDescriptor: SortDescriptor[]): DataViewField[] {
     return fields ? fields
-        .filter(f => f.IsSelected)
+        .filter(f => f.IsSelected || f.IsAlwaysInResponse)
         .map(f => {
           const sortInfo = this.getSortInformation(f, sortDescriptor);
           return {

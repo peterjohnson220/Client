@@ -2,11 +2,30 @@
   [modalId]="'statement-assignment-modal'"
   [title]="'Employees'"
   [isOpen$]="isOpen$"
-  [size]="'md'"
+  [size]="'lg'"
   [primaryButtonText]="'Assign'"
   [submitting]="false"
   [backdrop]="true"
   [resetFormOnClose]="true"
   (onSubmit)="onCloseModal('save')"
   (onDismiss)="onCloseModal('discard')"
-></pf-modal-form>
+>
+  <ng-container basic-content>
+    <pf-search-layout [countLabel]="'Employees'" [resultsCount]="numberOfResults$ | async" class="h-100">
+
+      <ng-container sidebar>
+        <pf-search-filters
+          [defaultFocusedFilterId]="'jobTitleCode'"
+          [visible]="true">
+        </pf-search-filters>
+      </ng-container>
+
+      <ng-container content>
+        <pf-results-header class="position-relative"></pf-results-header>
+        <pf-employee-search-results class="position-relative"></pf-employee-search-results>
+      </ng-container>
+
+    </pf-search-layout>
+  </ng-container>
+
+</pf-modal-form>

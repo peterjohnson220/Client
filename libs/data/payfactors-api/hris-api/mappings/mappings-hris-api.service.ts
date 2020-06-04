@@ -40,6 +40,12 @@ export class MappingsHrisApiService {
     return this.hrisApiService.get<MappingPackage>(`${host}${this.endpoint}/${userContext.CompanyId}/mappedfields`);
   }
 
+  deactivateEntityMapping(userContext: UserContext, entity: string) {
+    const host = this.getHost(userContext);
+
+    return this.hrisApiService.post<any>(`${host}${this.endpoint}/${userContext.CompanyId}/${entity}/deactivate`, null);
+  }
+
   private getHost(userContext: UserContext): string {
     const utilitiesSubDomainConfig = userContext.ConfigSettings.find(config => config.Name === UTILITIES_SUB_DOMAIN_CONFIG_NAME);
     if (!utilitiesSubDomainConfig || !utilitiesSubDomainConfig.Value) {

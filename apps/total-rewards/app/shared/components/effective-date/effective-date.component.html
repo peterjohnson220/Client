@@ -1,0 +1,9 @@
+<div class="effective-date pt-2 position-relative" [ngClass]="mode === statementModeEnum.Edit ? 'edit-mode' : 'preview-mode'">
+  <div class="field-wrapper d-flex align-items-center" [ngClass]="{'empty-date': !effectiveDate}">
+    <label class="text-muted mr-2 mb-0">Information Effective:</label>
+    <kendo-datepicker 
+      [value]="effectiveDate"
+      (valueChange)="handleValueChanged($event)">
+    </kendo-datepicker>
+  </div>
+</div>

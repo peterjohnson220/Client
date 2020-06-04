@@ -14,6 +14,9 @@ import { PayMarketsPageViewId } from '../models';
 import { Observable, Subscription} from 'rxjs';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
+import { Permissions } from 'libs/constants';
+import * as fromPayMarketManagementReducers from 'libs/features/paymarket-management/reducers';
+import * as fromPayMarketModalActions from 'libs/features/paymarket-management/actions/paymarket-modal.actions';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
 import * as fromPayMarketsPageReducer from '../reducers';
@@ -27,6 +30,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   @ViewChild('gridRowActionsTemplate', { static: false }) gridRowActionsTemplate: ElementRef;
   @ViewChild('defaultScopesColumn', { static: false }) defaultScopesColumn: ElementRef;
   @ViewChild('payMarketNameColumn', { static: false }) payMarketNameColumn: ElementRef;
+  @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
   identity$: Observable<UserContext>;
   identitySubscription: Subscription;
@@ -48,10 +52,12 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   selectedPayMarketId: number;
   selectedPopover: NgbPopover;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
+  permissions = Permissions;
 
   constructor(
     private store: Store<fromPayMarketsPageReducer.State>,
-    private userContextStore: Store<fromRootState.State>
+    private userContextStore: Store<fromRootState.State>,
+    public payMarketManagementStore: Store<fromPayMarketManagementReducers.State>,
   ) {
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.actionBarConfig = {
@@ -79,6 +85,10 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.colTemplates = {
       'Default_Scope': { Template: this.defaultScopesColumn},
       'PayMarket': { Template: this.payMarketNameColumn}
+    };
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate
     };
   }
 
@@ -118,6 +128,10 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     if (!!this.selectedPopover) {
       this.selectedPopover.close();
     }
+  }
+
+  addNewPayMarket(): void {
+    this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenPayMarketModal());
   }
 
   private getSizeColumnSort(sizeSortInfo: SortDescriptor): SortDescriptor[] {

@@ -36,14 +36,13 @@ export class ColumnGroupListComponent implements OnChanges {
   handleFieldClicked(field: ViewField): void {
     const fieldToUpdate = this.allFields.find(f => f.DataElementId === field.DataElementId);
     fieldToUpdate.IsSelected = !fieldToUpdate.IsSelected;
-    fieldToUpdate.Order = null;
   }
 
   private initColumnGroupList(): void {
     this.allFields = cloneDeep(this.fields);
     const groupedFields = this.createGroupedFields(this.allFields);
     this.columnGroups = groupedFields.map((g, groupIndex) => {
-      const orderedFields = orderBy(g.items[0].items, ['SelectionOrder', (f: ViewField) => f.DisplayName.toLowerCase()], 'asc');
+      const orderedFields = orderBy(g.items[0].items, ['DefaultOrder', (f: ViewField) => f.DisplayName.toLowerCase()], 'asc');
       return {
         GroupIndex: groupIndex,
         Title: g.value,

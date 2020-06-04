@@ -25,6 +25,7 @@ import { LoaderDashboardPageEffects } from './effects';
 import { LoaderDashboardPageRoutingModule } from './loader-dashboard-page-routing.module';
 import { LoaderDashboardPageComponent } from './loader-dashboard.page';
 import { faIcons } from './fa-icons';
+import { GetErrorMessagePipe } from './pipes';
 
 import {CompositeSummaryDownloadEffects} from '../../../dashboard/app/_main/effects';
 
@@ -57,6 +58,8 @@ import {CompositeSummaryDownloadEffects} from '../../../dashboard/app/_main/effe
     BodyModule
   ],
   declarations: [
+    // Pipes
+    GetErrorMessagePipe,
     // Pages
     LoaderDashboardPageComponent,
     // Containers

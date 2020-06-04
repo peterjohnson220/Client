@@ -12,6 +12,6 @@ export class LoadControlTypesSuccess implements Action {
   constructor(public payload: string) {}
 }
 
-export type Actions =
+export type ControlTypeActions =
   LoadControlTypesSuccess
   | LoadControlTypes;

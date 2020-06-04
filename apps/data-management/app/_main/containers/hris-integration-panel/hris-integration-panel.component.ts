@@ -15,6 +15,9 @@ export class HrisIntegrationPanelComponent {
   @Input() connectionSummary: ConnectionSummary;
   @Output() onMappingButtonClicked = new EventEmitter();
   @Output() onCreateNewIntegrationClicked = new EventEmitter();
+  @Output() onTransferScheduleButtonClick = new EventEmitter();
+  @Output() onEntitySelectionButtonClick = new EventEmitter();
+  @Output() onContinueIntegrationSetupClicked = new EventEmitter();
   @Output() onReAuthClicked = new EventEmitter();
 
   public inbound = TransferMethodTypes.HRIS_INTEGRATION;
@@ -36,7 +39,19 @@ export class HrisIntegrationPanelComponent {
     this.onCreateNewIntegrationClicked.emit(this.transferMethodType);
   }
 
+  continueIntegrationSetup() {
+    this.onContinueIntegrationSetupClicked.emit(this.transferMethodType);
+  }
+
   openReAuthModal() {
     this.onReAuthClicked.emit();
+  }
+
+  goToTransferSchedule() {
+    this.onTransferScheduleButtonClick.emit(this.transferMethodType);
+  }
+
+  goToEntitySelection() {
+    this.onEntitySelectionButtonClick.emit(this.transferMethodType);
   }
 }

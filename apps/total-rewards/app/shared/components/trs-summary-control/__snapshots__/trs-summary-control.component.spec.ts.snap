@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TrsSummaryControlComponent should display in edit mode 1`] = `
+<pf-trs-summary-control
+  controlData={[Function Object]}
+  currencyCode={[Function String]}
+  currencyPipe={[Function Object]}
+  mode="0"
+  onTitleChange={[Function EventEmitter]}
+>
+  <div
+    class="text-center"
+  >
+    <h3
+      class="d-inline-block mw-100"
+    >
+      <pf-string-editor />
+    </h3>
+    
+    <h4>
+      $---,---
+    </h4>
+    
+  </div>
+</pf-trs-summary-control>
+`;
+
+exports[`TrsSummaryControlComponent should display in preview mode 1`] = `
+<pf-trs-summary-control
+  controlData={[Function Object]}
+  currencyCode={[Function String]}
+  currencyPipe={[Function Object]}
+  mode={[Function Number]}
+  onTitleChange={[Function EventEmitter]}
+>
+  <div
+    class="text-center"
+  >
+    <h3
+      class="d-inline-block mw-100"
+    >
+      <pf-string-editor />
+    </h3>
+    
+    
+    <h4
+      class="preview-mode-animation"
+      ng-reflect-ng-class="preview-mode-animation"
+    >
+       $0 
+    </h4>
+  </div>
+</pf-trs-summary-control>
+`;
+
+exports[`TrsSummaryControlComponent should display in preview mode w/ data 1`] = `
+<pf-trs-summary-control
+  calculationControls={[Function Array]}
+  controlData={[Function Object]}
+  currencyCode={[Function String]}
+  currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  mode={[Function Number]}
+  onTitleChange={[Function EventEmitter]}
+>
+  <div
+    class="text-center"
+  >
+    <h3
+      class="d-inline-block mw-100"
+    >
+      <pf-string-editor />
+    </h3>
+    
+    
+    <h4
+      class="preview-mode-animation"
+      ng-reflect-ng-class="preview-mode-animation"
+    >
+       $165000 
+    </h4>
+  </div>
+</pf-trs-summary-control>
+`;
