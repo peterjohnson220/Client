@@ -10,19 +10,20 @@
   [submitEnabled]="!submitDisabled"
   [windowClass]="'add-pay-market-modal'"
   (onDismiss)="closeModal()"
-  (onSubmit)="closeModal()">
+  (onSubmit)="savePayMarket()">
 
   <ng-container basic-content>
     <pf-async-container
       [loading]="(payMarket$ | async)?.loading"
       [loadingError]="(payMarket$ | async)?.loadingError">
       <div class="paymarket-modal-container px-3">
-        <ngb-tabset #payMarketTabs [destroyOnHide]="false" (tabChange)="handleTabChange($event)">
+        <ngb-tabset #payMarketTabs [destroyOnHide]="false">
           <ngb-tab [title]="'General'" [id]="payMarketModalTabs.General">
             <ng-template ngbTabContent>
               <div class="pt-3">
                 <pf-general-form
-                  [reset]="!(modalOpen$ | async)">
+                  [reset]="!(modalOpen$ | async)"
+                  [companyId]="companyId">
                 </pf-general-form>
               </div>
             </ng-template>

@@ -14,4 +14,10 @@ export interface CompanySurvey {
 export interface CombinedScope {
   Name: string;
   Value: string;
+  CompanySurveyScopesId?: number;
+}
+
+export interface NewlyAddedDefaultScope {
+  CombinedScope: string;
+  SurveyId: number;
 }

@@ -31,7 +31,8 @@ export class DefaultScopesHelper {
   static mapSurveyScopeToCombinedScope(scope: SurveyScope): CombinedScope {
     return {
       Name: scope.CombinedScope,
-      Value: scope.CombinedScope
+      Value: scope.CombinedScope,
+      CompanySurveyScopesId: scope.CompanySurveyScopesId
     };
   }
 
@@ -42,5 +43,10 @@ export class DefaultScopesHelper {
         Scope: this.mapSurveyScopeToCombinedScope(i.DefaultScopeDto)
       };
     });
+  }
+
+  static removeDefaultScope(defaultScopes: DefaultScope[], scopeToRemove: DefaultScope): DefaultScope[] {
+    return defaultScopes.filter(x =>
+      x.Survey.Id !== scopeToRemove.Survey.Id && x.Scope.Value !== scopeToRemove.Scope.Value);
   }
 }
