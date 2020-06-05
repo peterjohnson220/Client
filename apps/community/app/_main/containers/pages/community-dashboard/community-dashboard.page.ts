@@ -28,7 +28,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   readonly COMMUNITY_POSTS_CONTAINER_ID = 'community-posts';
 
   disableCommunityAttachments$: Observable<boolean>;
-  isSystemAdmin$: Observable<boolean>;
   loadingNextBatchCommunityPosts$: Observable<boolean>;
   loadingPreviousBatchCommunityPosts$: Observable<boolean>;
   getHasPreviousBatchPostsOnServer$: Observable<boolean>;
@@ -38,13 +37,11 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   loadingPreviousBatchCommunityPostsSubscription: Subscription;
   hasPreviousBatchResultsOnServerSubscription: Subscription;
   hasNextBatchResultsOnServerSubscription: Subscription;
-  isSystemAdminSubscription: Subscription;
   hasPreviousBatchOnServer = false;
   hasNextBatchOnServer = false;
   hideTopComponents = false;
   isLoadingNextBatch = false;
   isLoadingPreviousBatch = false;
-  isSystemAdmin: boolean;
   showBackToTopButton = false;
   executePageScrollUp = false;
   executePageScrollDown = false;
@@ -75,7 +72,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
     this.disableCommunityAttachments$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.CommunityDisableAttachments);
-    this.isSystemAdmin$ = this.store.select(fromRootState.getIsAdmin);
+
     /* Using this to prevent sticky-top from being applied in Edge/IE due to a visual glitch
      https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/17555420/ */
     this.isIE = this.browserDetectionService.checkBrowserIsIEOrEdge();
@@ -196,10 +193,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
   // Lifecycle events
   ngOnInit() {
-    this.isSystemAdminSubscription = this.isSystemAdmin$.subscribe((res) => {
-      this.isSystemAdmin = res;
-    });
-
     this.targetNode = document.querySelector(`#${this.COMMUNITY_POSTS_CONTAINER_ID}`);
     this.observerOptions = {
       childList: true,
@@ -286,8 +279,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     if (this.hasNextBatchResultsOnServerSubscription) {
       this.hasNextBatchResultsOnServerSubscription.unsubscribe();
     }
-
-    this.isSystemAdminSubscription.unsubscribe();
   }
 
   routeToSearchResults(searchString) {

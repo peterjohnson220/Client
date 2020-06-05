@@ -26,7 +26,6 @@ import { CommunityConstants } from '../../models';
 })
 export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   @Input() disableCommunityAttachments: boolean;
-  @Input() isSystemAdmin: boolean;
 
   postType = CommunityPostTypeStatusEnum.Discussion;
 

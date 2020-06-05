@@ -3,8 +3,7 @@
     <pf-community-post-reply 
     [reply]="reply"
     (replyHashTagClicked)="handleReplyHashTagClicked($event)"
-    [disableCommunityAttachments]="disableCommunityAttachments"
-    [isSystemAdmin]="isSystemAdmin">
+    [disableCommunityAttachments]="disableCommunityAttachments">
     </pf-community-post-reply>
   </div>
   <div class="mt-1" *ngIf="editedReplyId === reply.Id">

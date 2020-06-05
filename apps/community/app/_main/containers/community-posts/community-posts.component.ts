@@ -27,7 +27,6 @@ import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models
 })
 export class CommunityPostsComponent implements OnInit, OnDestroy {
   @Input() disableCommunityAttachments: boolean;
-  @Input() isSystemAdmin: boolean;
   @Output() filtersModifiedEvent = new EventEmitter();
 
   avatarUrl = environment.avatarSource;

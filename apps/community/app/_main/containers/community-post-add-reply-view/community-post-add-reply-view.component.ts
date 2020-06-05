@@ -17,7 +17,6 @@ import { CommunityReply } from 'libs/models/community';
 export class CommunityPostAddReplyViewComponent implements  OnInit, OnDestroy {
   @Input() postId: string;
   @Input() disableCommunityAttachments: boolean;
-  @Input() isSystemAdmin: boolean;
   @Output() replyHashTagClicked = new EventEmitter();
   addedReplyView$: Observable<CommunityReply[]>;
   communityReplyEdited$: Observable<any>;

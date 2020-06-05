@@ -29,7 +29,6 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   @Input() maximumReplies: number;
   @Input() replyCount: number;
   @Input() disableCommunityAttachments: boolean;
-  @Input() isSystemAdmin: boolean;
   @Output() replySubmitted = new EventEmitter<boolean>();
 
   addingCommunityPostReply$: Observable<boolean>;

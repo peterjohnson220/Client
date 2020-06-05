@@ -16,7 +16,6 @@ export class CommunityPostRepliesComponent implements OnInit, OnDestroy {
   @Input() replies: CommunityReply[];
   @Input() loading: boolean;
   @Input() disableCommunityAttachments: boolean;
-  @Input() isSystemAdmin: boolean;
   @Output() replyHashTagClicked = new EventEmitter();
 
   communityReplyEdited$: Observable<any>;
