@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 
 import { Store, ActionsSubject } from '@ngrx/store';
 
@@ -22,13 +22,14 @@ import * as fromJobsPageActions from '../../../../actions';
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
 import { ofType } from '@ngrx/effects';
+import { AsyncStateObj } from 'libs/models';
 
 @Component({
   selector: 'pf-pricing-history-grid',
   templateUrl: './pricing-history-grid.component.html',
   styleUrls: ['./pricing-history-grid.component.scss']
 })
-export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, OnChanges {
+export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
 
   @ViewChild('createUserColumn', { static: false }) createUserColumn: ElementRef;
@@ -45,8 +46,6 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
     field: 'CompanyPayMarkets_PayMarket'
   }];
 
-  deletePricingRequest: DeletePricingRequest;
-  pricingIdToBeDeleted$: Observable<number>;
   permissions = Permissions;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
@@ -57,16 +56,24 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
   actionBarConfig: ActionBarConfig;
   pricingId: number;
 
-
   showPricingDetails = new BehaviorSubject<boolean>(false);
   showPricingDetails$ = this.showPricingDetails.asObservable();
+  showDeletePricing = new BehaviorSubject<boolean>(false);
+  showDeletePricing$ = this.showDeletePricing.asObservable();
+
+  deletingPricing$: Observable<AsyncStateObj<boolean>>;
+
+  deletePricingRequest: DeletePricingRequest;
 
   getPricingDetailsSuccessSubscription: Subscription;
+  getDeletingPricingSuccessSubscription: Subscription;
 
   constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
-    this.pricingIdToBeDeleted$ = store.select(fromJobsPageReducer.getPricingIdToBeDeleted);
 
-    this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
+  }
+
+  ngOnInit(): void {
+    this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
         this.payMarketOptions = o;
@@ -80,17 +87,25 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
     });
 
     // We show the NotesModal only after the Notes have loaded. This way we ensure the modal height doesn't jump around but is dynamic
-    this.getPricingDetailsSuccessSubscription = actionsSubject
+    this.getPricingDetailsSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromPricingDetailsActions.GET_PRICING_INFO_SUCCESS) || ofType(fromPricingDetailsActions.GET_PRICING_INFO_ERROR))
       .subscribe(data => {
         this.showPricingDetails.next(true);
       });
 
+    this.deletingPricing$ = this.store.select(fromJobsPageReducer.getDeletingPricing);
+    this.getDeletingPricingSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromJobsPageActions.DELETING_PRICING_SUCCESS))
+      .subscribe(data => {
+        this.showDeletePricing.next(false);
+      });
+
 
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
-      ActionBarClassName: 'employee-grid-action-bar ml-0 mt-1'
+      ActionBarClassName: 'ml-0 mr-3 mt-1'
     };
+
   }
 
   ngAfterViewInit() {
@@ -113,30 +128,26 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnDestroy, On
     }
   }
 
-  confirmDeletePricingModal(event: any) {
+  showDeletePricingModal(event: any) {
     this.deletePricingRequest = {
       CompanyJobPricingId: event['CompanyJobs_Pricings_CompanyJobPricing_ID'],
       CompanyId: event['CompanyJobs_Pricings_Company_ID'],
       CompanyJobId: event['CompanyJobs_Pricings_CompanyJob_ID'],
       CompanyPayMarketId: event['CompanyJobs_Pricings_CompanyPayMarket_ID']
     };
-
-    this.store.dispatch(new fromJobsPageActions.ConfirmDeletePricingFromGrid(this.deletePricingRequest));
-  }
-
-  cancelDeletePricing() {
-    this.store.dispatch(new fromJobsPageActions.CancelDeletePricing());
-    this.deletePricingRequest = undefined;
+    this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
+    this.showDeletePricing.next(true);
   }
 
   deletePricing() {
-    this.store.dispatch(new fromJobsPageActions.DeletePricingFromGrid(this.pageViewId, this.deletePricingRequest));
+    this.store.dispatch(new fromJobsPageActions.DeletingPricing(this.deletePricingRequest));
   }
 
   ngOnDestroy() {
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
     this.getPricingDetailsSuccessSubscription.unsubscribe();
+    this.getDeletingPricingSuccessSubscription.unsubscribe();
   }
 
   handlePayMarketFilterChanged(value: any) {

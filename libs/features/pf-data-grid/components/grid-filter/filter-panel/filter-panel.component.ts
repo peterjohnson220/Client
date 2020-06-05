@@ -11,9 +11,11 @@ import { FilterOperatorOptions, getUserFilteredFields } from '../helpers';
 })
 export class FilterPanelComponent implements OnChanges {
 
+  @Input() pageViewId: string;
+
   @Input() fields: ViewField[];
   @Input() filterTemplates: any;
-  @Input() AllowSaveFilter: boolean;
+  @Input() allowSaveFilter: boolean;
 
   @Output() saveFilterClicked = new EventEmitter();
   @Output() filterChanged = new EventEmitter<ViewField>();

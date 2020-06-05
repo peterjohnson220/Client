@@ -1,3 +1,13 @@
+.pf-btn {
+  &:focus {
+    box-shadow: none;
+  }
+
+  fa-icon {
+    margin-right: 0.5rem;
+  }
+}
+
 .pf-btn-borderless {
   border: 0;
 

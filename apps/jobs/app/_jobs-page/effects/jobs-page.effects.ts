@@ -3,21 +3,34 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 
-import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, withLatestFrom, concatMap } from 'rxjs/operators';
+import { Observable, of, pipe } from 'rxjs';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { JobsApiService, PayMarketApiService, PricingApiService, CompanyJobApiService, UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
+import {
+  JobsApiService,
+  PayMarketApiService,
+  PricingApiService,
+  CompanyJobApiService,
+  UiPersistenceSettingsApiService,
+  PricingLegacyApiService,
+  DataViewApiService,
+} from 'libs/data/payfactors-api';
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
 import { UserContext, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromJobManagementActions from 'libs/features/job-management/actions';
 
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsReducer from '../reducers';
 import { PageViewIds } from '../constants';
+import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
+import { DataViewEntity, ViewField, PagingOptions } from 'libs/models/payfactors-api';
+import { SortDescriptor } from '@progress/kendo-data-query';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 @Injectable()
 export class JobsPageEffects {
@@ -38,8 +51,10 @@ export class JobsPageEffects {
     private companyJobApiService: CompanyJobApiService,
     private jobsApiService: JobsApiService,
     private pricingApiService: PricingApiService,
+    private pricingLegacyApiService: PricingLegacyApiService,
     private payMarketApiService: PayMarketApiService,
     private structureApiService: StructuresApiService,
+    private dataViewApiService: DataViewApiService,
     private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService,
     private store: Store<fromJobsReducer.State>,
     private toastr: ToastrService
@@ -83,12 +98,11 @@ export class JobsPageEffects {
     ofType(fromJobsPageActions.DELETING_JOB),
     switchMap((data: any) => {
       return this.companyJobApiService.deleteCompanyJob(data.payload).pipe(
-        mergeMap(() =>
-          [
-            new fromJobsPageActions.DeletingJobSuccess(),
-            new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs, [data.payload]),
-            new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
-          ]),
+        mergeMap(() => [
+          new fromJobsPageActions.DeletingJobSuccess(),
+          new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs, [data.payload]),
+          new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
+        ]),
         catchError(error => of(new fromJobsPageActions.DeletingJobError(error)))
       );
     })
@@ -96,16 +110,65 @@ export class JobsPageEffects {
 
   @Effect()
   deletePricing$: Observable<Action> = this.actions$.pipe(
-    ofType(fromJobsPageActions.DELETE_PRICING_FROM_GRID),
+    ofType(fromJobsPageActions.DELETING_PRICING),
     switchMap((action: any) => {
       return this.pricingApiService.deletePricing(action.payload).pipe(
         mergeMap(() => [
-          new fromJobsPageActions.DeletePricingSuccess(),
-          new fromPfDataGridActions.LoadData(action.pageViewId)
-        ])
+          new fromJobsPageActions.DeletingPricingSuccess(),
+          new fromPfDataGridActions.LoadData(PageViewIds.PricingHistory)
+        ]),
+        catchError(error => of(new fromJobsPageActions.DeletingPricingError(error)))
       );
     })
   );
+
+  @Effect()
+  deletePricingMatch$: Observable<Action> = this.actions$.pipe(
+    ofType<fromJobsPageActions.DeletingPricingMatch>(fromJobsPageActions.DELETING_PRICING_MATCH),
+    mergeMap((a: fromJobsPageActions.DeletingPricingMatch) =>
+      of(a).pipe(
+        withLatestFrom(
+          this.store.pipe(select(fromRootState.getUserContext)),
+          this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, PageViewIds.PricingDetails)),
+          this.store.pipe(select(fromPfDataGridReducer.getFields, PageViewIds.PricingDetails)),
+          this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, PageViewIds.PricingDetails)),
+          this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, PageViewIds.PricingDetails)),
+          this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, PageViewIds.PricingDetails)),
+          this.store.pipe(select(fromPfDataGridReducer.getData, PageViewIds.PricingDetails)),
+          (action: fromJobsPageActions.DeletingPricingMatch,
+            userContext: UserContext,
+            baseEntity: DataViewEntity,
+            fields: ViewField[],
+            pagingOptions: PagingOptions,
+            sortDescriptor: SortDescriptor[],
+            applyDefaultFilters: boolean,
+            prcingData: GridDataResult
+          ) => ({ action, userContext, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, prcingData })
+        ))),
+    switchMap((data) =>
+      this.pricingApiService.deletePricingMatch(data.action.pricingMatchId)
+        .pipe(
+          concatMap(() => this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
+            data.baseEntity.Id,
+            data.fields,
+            [...DataGridToDataViewsHelper.mapFieldsToFiltersUseValuesProperty(data.fields), data.action.pricingToRecalculateFilter],
+            { From: 0, Count: 1 },
+            data.sortDescriptor,
+            false,
+            false
+          ))))
+        .pipe(
+          mergeMap((response) => {
+            const pricingRowIndex = data.prcingData.data.findIndex(o => o.CompanyJobs_Pricings_CompanyJobPricing_ID === data.action.pricingId);
+            return [
+              new fromPfDataGridActions.UpdateRow(PageViewIds.PricingDetails, pricingRowIndex, response[0]),
+              new fromPfDataGridActions.LoadData(`${PageViewIds.PricingMatches}_${data.action.pricingId}`),
+              new fromJobsPageActions.DeletingPricingMatchSuccess(),
+            ];
+          }),
+          catchError(error => of(new fromJobsPageActions.DeletingPricingMatchError(error)))
+        )
+    ));
 
   @Effect()
   saveCompanyJobSuccess$: Observable<Action> = this.actions$.pipe(
@@ -124,11 +187,6 @@ export class JobsPageEffects {
   @Effect()
   loadCompanyPayMarkets$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobsPageActions.LOAD_COMPANY_PAYMARKETS),
-    withLatestFrom(
-      this.store.pipe(select(fromRootState.getUserContext)),
-      (action: fromJobsPageActions.LoadCompanyPayMarkets, userContext: UserContext) =>
-        ({ action, userContext })
-    ),
     switchMap(() => {
       return this.payMarketApiService.getAll().pipe(
         map(options => new fromJobsPageActions.LoadCompanyPayMarketsSuccess(options)),
@@ -191,19 +249,19 @@ export class JobsPageEffects {
         SettingName: UiPersistenceSettingConstants.JobsPagePreference,
         SettingValue: 'Legacy'
       }).pipe(
-          mergeMap(response => {
-            const me = this;
-            window.addEventListener('onunload', function() {
-               me.store.dispatch(new fromJobsPageActions.ToggleJobsPageSuccess());
-            });
-            window.location.href = `/marketdata/jobs.asp`;
-            return [];
-          }),
-          catchError(error => {
-            return this.handleError('Error saving Jobs page preference. Please contact Payfactors Support for assistance',
-              'Error', new fromJobsPageActions.ToggleJobsPageError());
-          })
-        );
+        mergeMap(response => {
+          const me = this;
+          window.addEventListener('onunload', function () {
+            me.store.dispatch(new fromJobsPageActions.ToggleJobsPageSuccess());
+          });
+          window.location.href = `/marketdata/jobs.asp`;
+          return [];
+        }),
+        catchError(error => {
+          return this.handleError('Error saving Jobs page preference. Please contact Payfactors Support for assistance',
+            'Error', new fromJobsPageActions.ToggleJobsPageError());
+        })
+      );
     })
   );
 

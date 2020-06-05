@@ -7,24 +7,25 @@ import { AsyncStateObjHelper } from 'libs/core';
 
 export interface State {
   jobsPageId: string;
-  creatingToProject: AsyncStateObj<boolean>;
+  creatingProject: AsyncStateObj<boolean>;
   changingJobStatus: AsyncStateObj<boolean>;
   deletingJob: AsyncStateObj<boolean>;
-  pricingIdToBeDeleted: number;
+  deletingPricing: AsyncStateObj<boolean>;
+  deletingPricingMatch: AsyncStateObj<boolean>;
   companyPayMarkets: any;
   structureGradeNames: any;
   pricingDetailsView: string;
   exportOptions: any;
   navigatingToOldPage: AsyncStateObj<boolean>;
-
 }
 
 export const initialState: State = {
   jobsPageId: '',
-  creatingToProject: generateDefaultAsyncStateObj<boolean>(false),
+  creatingProject: generateDefaultAsyncStateObj<boolean>(false),
   changingJobStatus: generateDefaultAsyncStateObj<boolean>(false),
   deletingJob: generateDefaultAsyncStateObj<boolean>(false),
-  pricingIdToBeDeleted: undefined,
+  deletingPricing: generateDefaultAsyncStateObj<boolean>(false),
+  deletingPricingMatch: generateDefaultAsyncStateObj<boolean>(false),
   companyPayMarkets: [],
   structureGradeNames: [],
   pricingDetailsView: 'Priced',
@@ -58,68 +59,40 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         jobsPageId: action.payload,
       };
     }
-    case fromJobsPageActions.SHOW_CREATE_PROJECT_MODAL: {
-      return {
-        ...state,
-        creatingToProject: {
-          ...state.creatingToProject,
-          loadingError: false,
-          loadingErrorResponse: null
-        }
-      };
+    case fromJobsPageActions.RESET_ERRORS_FOR_MODALS: {
+      let curState = AsyncStateObjHelper.resetErrors(state, 'creatingProject');
+      curState = AsyncStateObjHelper.resetErrors(curState, 'changingJobStatus');
+      curState = AsyncStateObjHelper.resetErrors(curState, 'deletingJob');
+      curState = AsyncStateObjHelper.resetErrors(curState, 'deletingPricing');
+      curState = AsyncStateObjHelper.resetErrors(curState, 'deletingPricingMatch');
+      return curState;
     }
     case fromJobsPageActions.CREATING_PROJECT: {
-      return AsyncStateObjHelper.loading(state, 'creatingToProject');
+      return AsyncStateObjHelper.saving(state, 'creatingProject');
     }
     case fromJobsPageActions.CREATING_PROJECT_SUCCESS: {
-      return AsyncStateObjHelper.loadingSuccess(state, 'creatingToProject');
+      return AsyncStateObjHelper.savingSuccess(state, 'creatingProject');
     }
     case fromJobsPageActions.CREATING_PROJECT_ERROR: {
-      return AsyncStateObjHelper.loadingError(state, 'creatingToProject', action.error);
-    }
-    case fromJobsPageActions.SHOW_JOB_STATUS_MODAL: {
-      return {
-        ...state,
-        changingJobStatus: {
-          ...state.changingJobStatus,
-          loadingError: false,
-          loadingErrorResponse: null
-        }
-      };
+      return AsyncStateObjHelper.savingError(state, 'creatingProject', action.error);
     }
     case fromJobsPageActions.CHANGING_JOB_STATUS: {
-      return AsyncStateObjHelper.loading(state, 'changingJobStatus');
+      return AsyncStateObjHelper.saving(state, 'changingJobStatus');
     }
     case fromJobsPageActions.CHANGING_JOB_STATUS_SUCCESS: {
-      return AsyncStateObjHelper.loadingSuccess(state, 'changingJobStatus');
+      return AsyncStateObjHelper.savingSuccess(state, 'changingJobStatus');
     }
     case fromJobsPageActions.CHANGING_JOB_STATUS_ERROR: {
-      return AsyncStateObjHelper.loadingError(state, 'changingJobStatus', action.error);
-    }
-    case fromJobsPageActions.SHOW_DELETE_JOB_MODAL: {
-      return {
-        ...state,
-        deletingJob: {
-          ...state.deletingJob,
-          loadingError: false,
-          loadingErrorResponse: null
-        }
-      };
+      return AsyncStateObjHelper.savingError(state, 'changingJobStatus', action.error);
     }
     case fromJobsPageActions.DELETING_JOB: {
-      return AsyncStateObjHelper.loading(state, 'deletingJob');
+      return AsyncStateObjHelper.saving(state, 'deletingJob');
     }
     case fromJobsPageActions.DELETING_JOB_SUCCESS: {
-      return AsyncStateObjHelper.loadingSuccess(state, 'deletingJob');
+      return AsyncStateObjHelper.savingSuccess(state, 'deletingJob');
     }
     case fromJobsPageActions.DELETING_JOB_ERROR: {
-      return AsyncStateObjHelper.loadingError(state, 'deletingJob', action.error);
-    }
-    case fromJobsPageActions.CONFIRM_DELETE_PRICING_FROM_GRID: {
-      return {
-        ...state,
-        pricingIdToBeDeleted: action.payload.CompanyJobPricingId
-      };
+      return AsyncStateObjHelper.savingError(state, 'deletingJob', action.error);
     }
     case fromJobsPageActions.LOAD_COMPANY_PAYMARKETS_SUCCESS: {
       return {
@@ -133,12 +106,23 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         action.payload.map(o => ({ Id: o, Value: o }))
           .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending)));
     }
-    case fromJobsPageActions.CANCEL_DELETE_PRICING:
-    case fromJobsPageActions.DELETE_PRICING_SUCCESS: {
-      return {
-        ...state,
-        pricingIdToBeDeleted: undefined
-      };
+    case fromJobsPageActions.DELETING_PRICING: {
+      return AsyncStateObjHelper.saving(state, 'deletingPricing');
+    }
+    case fromJobsPageActions.DELETING_PRICING_SUCCESS: {
+      return AsyncStateObjHelper.savingSuccess(state, 'deletingPricing');
+    }
+    case fromJobsPageActions.DELETING_PRICING_ERROR: {
+      return AsyncStateObjHelper.savingError(state, 'deletingPricing', action.error);
+    }
+    case fromJobsPageActions.DELETING_PRICING_MATCH: {
+      return AsyncStateObjHelper.saving(state, 'deletingPricingMatch');
+    }
+    case fromJobsPageActions.DELETING_PRICING_MATCH_SUCCESS: {
+      return AsyncStateObjHelper.savingSuccess(state, 'deletingPricingMatch');
+    }
+    case fromJobsPageActions.DELETING_PRICING_MATCH_ERROR: {
+      return AsyncStateObjHelper.savingError(state, 'deletingPricingMatch', action.error);
     }
     case fromJobsPageActions.CHANGE_PRICING_DETAILS_VIEW: {
       return {
@@ -217,10 +201,11 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
 }
 
 export const getJobsPageId = (state: State) => state.jobsPageId;
-export const getCreatingToProject = (state: State) => state.creatingToProject;
+export const getCreatingProject = (state: State) => state.creatingProject;
 export const getChangingJobStatus = (state: State) => state.changingJobStatus;
 export const getDeletingJob = (state: State) => state.deletingJob;
-export const getPricingIdToBeDeleted = (state: State) => state.pricingIdToBeDeleted;
+export const getDeletingPricing = (state: State) => state.deletingPricing;
+export const getDeletingPricingMatch = (state: State) => state.deletingPricingMatch;
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
 export const getPricingDetailsView = (state: State) => state.pricingDetailsView;

@@ -29,10 +29,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() pageViewId: string;
   @Input() title: string;
   @Input() subtitle: string;
-  @Input() titleTemplate: TemplateRef<any>;
+  @Input() titleActionsTemplate: TemplateRef<any>;
   @Input() navigationURL: string;
   @Input() showTitle = true;
-  @Input() contentNoPadding = false;
   @Input() selectionField: string;
   @Input() columnTemplates: any;
   @Input() aboveGridTemplate: TemplateRef<any>;
@@ -44,6 +43,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() filterPanelTemplates: TemplateRef<any>;
   @Input() noRecordsFoundTemplate: TemplateRef<any>;
+  // TODO: lockedPillText needs to be a collection of objects
+  @Input() lockedPillText: string;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() enableSelection = false;
   @Input() defaultSort: SortDescriptor[];
@@ -100,7 +101,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   constructor(
     private store: Store<fromReducer.State>,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.splitViewEmitter.subscribe(res => {

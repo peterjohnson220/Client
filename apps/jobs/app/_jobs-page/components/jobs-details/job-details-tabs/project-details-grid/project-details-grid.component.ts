@@ -60,7 +60,7 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
     });
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
-      ActionBarClassName: 'employee-grid-action-bar ml-0 mt-1'
+      ActionBarClassName: 'ml-0 mr-3 mt-1'
     };
   }
 
