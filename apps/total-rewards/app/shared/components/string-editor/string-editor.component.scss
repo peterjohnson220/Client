@@ -3,6 +3,7 @@
 .wrapper {
   overflow: hidden;
   white-space: nowrap;
+  line-height: normal;
   &.multi-line {
     white-space: normal;
   }
