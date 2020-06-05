@@ -39,11 +39,12 @@ export const selectJobsPageState =
   createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.jobsPage);
 
 export const getJobsPageId = createSelector(selectJobsPageState, fromJobsPageReducer.getJobsPageId);
-export const getCreatingToProject = createSelector(selectJobsPageState, fromJobsPageReducer.getCreatingToProject);
+export const getCreatingProject = createSelector(selectJobsPageState, fromJobsPageReducer.getCreatingProject);
 export const getChangingJobStatus = createSelector(selectJobsPageState, fromJobsPageReducer.getChangingJobStatus);
 export const getDeletingJob = createSelector(selectJobsPageState, fromJobsPageReducer.getDeletingJob);
+export const getDeletingPricing = createSelector(selectJobsPageState, fromJobsPageReducer.getDeletingPricing);
+export const getDeletingPricingMatch = createSelector(selectJobsPageState, fromJobsPageReducer.getDeletingPricingMatch);
 export const getStructureGradeNames = createSelector(selectJobsPageState, fromJobsPageReducer.getStructureGradeNames);
-export const getPricingIdToBeDeleted = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingIdToBeDeleted);
 export const getCompanyPayMarkets = createSelector(selectJobsPageState, fromJobsPageReducer.getCompanyPayMarkets);
 export const getPricingDetailsView = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingDetailsView);
 export const getExportOptions = createSelector(selectJobsPageState, fromJobsPageReducer.getExportOptions);

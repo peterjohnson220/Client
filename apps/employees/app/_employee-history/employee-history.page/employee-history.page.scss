@@ -29,19 +29,3 @@
 .history-btn {
   width: 34.75px;
 }
-
-.date-pill-container {
-  height: 100%;
-  padding-top: 2px;
-  .badge {
-    font-size: 1rem;
-    background: $data-grid-filter-pills-background-color;
-    color: $data-grid-filter-pills-color;
-    margin-right: 1rem;
-    font-weight: normal;
-    cursor: pointer;
-    padding: .45rem .75rem;
-    overflow-y: hidden;
-  }
-}
-

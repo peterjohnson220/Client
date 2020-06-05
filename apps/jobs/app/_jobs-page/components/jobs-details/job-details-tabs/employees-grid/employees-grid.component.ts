@@ -66,7 +66,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
       ...getDefaultActionBarConfig(),
       AllowExport: true,
       ExportSourceName: 'Employees',
-      ActionBarClassName: 'ml-0 mt-1'
+      ActionBarClassName: 'ml-0 mr-3 mt-1'
     };
   }
 

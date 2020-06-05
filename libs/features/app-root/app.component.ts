@@ -25,6 +25,20 @@ export class AppComponent implements OnInit, OnDestroy {
 
   forbidden: boolean;
 
+  maskExpressions = [
+    { regex: /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/, replace: '*'},
+    { regex: /[0-9a-fA-F]{24}/, replace: '*'},
+    { regex: /company-reports\/(.*)/,  replace: 'company-reports/*'},
+    { regex: /standard-reports\/(.*)/,  replace: 'standard-reports/*'},
+    { regex: /compare-versions\/(.*)/,  replace: 'compare-versions/*'},
+    { regex: /tag\/(.*)/,  replace: 'tag/*'},
+    { regex: /#(.*)/,  replace: '*'},
+    { regex: /\/([0-9]+)$/, replace: '/*'},
+    { regex: /\/([0-9]+)\//, replace: '/*/'},
+    { regex: /\/([0-9]+)#(.*)/, replace: '/*'},
+    { regex: /\?(.*)/, replace: '?*'}
+  ];
+
   constructor(
     private store: Store<fromRootState.State>,
     // Initializing the route tracking service to start tracking on app startup by requesting it here
@@ -44,8 +58,16 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
     this.userContextSub = this.userContext$.pipe(filter(uc => !!uc)).subscribe(uc => {
-      NewRelicService.setCustomAttributes(uc.CompanyId, uc.UserId, uc.IpAddress, uc.SessionId);
+      NewRelicService.setCustomAttributes(uc.CompanyId, uc.UserId, uc.IpAddress, uc.SessionId, this.getTargetUrl());
     });
+  }
+
+  getTargetUrl(): string {
+    let url = window.location.href;
+    this.maskExpressions.forEach(v => {
+      url = url.replace(v.regex, v.replace);
+    });
+    return url;
   }
 
   ngOnDestroy(): void {

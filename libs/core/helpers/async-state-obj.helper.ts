@@ -49,4 +49,10 @@ export class AsyncStateObjHelper {
       [propertyName]: { ...state[propertyName], savingError: true, saving: false, savingSuccess: false, savingErrorResponse: payload }
     };
   }
+  static resetErrors(state, propertyName: string) {
+    return {
+      ...state,
+      [propertyName]: { ...state[propertyName], savingError: false, savingErrorResponse: null, loadingError: false, loadingErrorResponse: null }
+    };
+  }
 }

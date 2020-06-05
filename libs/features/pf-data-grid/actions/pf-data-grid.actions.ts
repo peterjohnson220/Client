@@ -46,8 +46,6 @@ export const HANDLE_SAVED_VIEW_CLICKED = '[PfDataGrid] Handle Saved View Clicked
 export const CLOSE_SPLIT_VIEW = '[PfDataGrid] Close Split View';
 export const DELETE_SAVED_VIEW = '[PfDataGrid] Delete Saved View';
 export const DELETE_SAVED_VIEW_SUCCESS = '[PfDataGrid] Delete Saved View Success';
-export const PREPARE_VIEW_FOR_DELETE = '[PfDataGrid] Prepare View for Delete';
-export const CANCEL_VIEW_DELETE = '[PfDataGrid] Cancel View Delete';
 export const EXPORT_GRID = '[PfDataGrid] Export Grid';
 export const EXPORT_GRID_SUCCESS = '[PfDataGrid] Export Grid Success';
 export const EXPORT_GRID_ERROR = '[PfDataGrid] Export Grid Error';
@@ -277,16 +275,6 @@ export class DeleteSavedViewSuccess implements Action {
   constructor(public pageViewId: string) { }
 }
 
-export class PrepareViewForDelete implements Action {
-  readonly type = PREPARE_VIEW_FOR_DELETE;
-  constructor(public pageViewId: string, public viewName: string) { }
-}
-
-export class CancelViewDelete implements Action {
-  readonly type = CANCEL_VIEW_DELETE;
-  constructor(public pageViewId: string) { }
-}
-
 export class ExportGrid implements Action {
   readonly type = EXPORT_GRID;
   constructor(public pageViewId: string, public source: string) {}
@@ -387,8 +375,6 @@ export type DataGridActions =
   | CloseSplitView
   | DeleteSavedView
   | DeleteSavedViewSuccess
-  | PrepareViewForDelete
-  | CancelViewDelete
   | ExportGrid
   | ExportGridSuccess
   | ExportGridError
