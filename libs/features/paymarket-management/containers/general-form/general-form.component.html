@@ -11,8 +11,11 @@
         formControlName="PayMarketName"
         [maxlength]="DEFAULT_MAX_LENGTH"
         [style.width.px]="350"
-        [pfValidatable]="true">
+        [pfValidatable]="true"
+        (keyup)="onKey()"
+        ngbAutoFocus>
       <span *ngIf="f.PayMarketName.errors?.required" class="invalid-feedback">Pay market name is required</span>
+      <span *ngIf="!!(payMarketErrorMessage$ | async)" class="error-message">{{payMarketErrorMessage$ | async}}</span>
     </div>
   </div>
   <div class="form-group row">

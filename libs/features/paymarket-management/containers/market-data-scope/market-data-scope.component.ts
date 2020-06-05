@@ -180,6 +180,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
       return;
     }
     this.defaultLocation = GeneralFormHelper.buildDefaultLocation(this.payMarket);
+    this.selectedLocation = GeneralFormHelper.buildScopeLocation(this.defaultLocation.Value);
     this.locationCheckedKeys = [this.defaultLocation.Value];
   }
 

@@ -53,6 +53,7 @@ export const selectExchangeScopesState =
 export const getPayMarketModalOpen = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarketModalOpen);
 export const getPayMarketId = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarketId);
 export const getPayMarket = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarket);
+export const getPayMarketErrorMessage = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarketErrorMessage);
 
 // General Form
 export const getCountries = createSelector(selectGeneralFormState, fromGeneralFormReducer.getCountries);
@@ -69,6 +70,8 @@ export const getCompanySurveys = createSelector(selectDefaultScopesState, fromDe
 export const getHasMoreCompanySurveys = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getHasMoreCompanySurveys);
 export const getCombinedScopes = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getCombinedScopes);
 export const getDefaultScopes = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getDefaultScopes);
+export const getDefaultScopesToDelete = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getDefaultScopesToDelete);
+export const getDefaultScopesToAdd = createSelector(selectDefaultScopesState, fromDefaultScopesReducer.getDefaultScopesToAdd);
 
 // Exchange Scopes
 export const getCompanyExchangeScopes = createSelector(selectExchangeScopesState, fromExchangeScopesReducer.getCompanyExchangeScopes);

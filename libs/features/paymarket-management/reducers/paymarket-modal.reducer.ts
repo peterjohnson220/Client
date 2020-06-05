@@ -8,12 +8,14 @@ export interface State {
   payMarketModalOpen: boolean;
   payMarketId: number;
   payMarket: AsyncStateObj<PayMarketWithMdScope>;
+  payMarketErrorMessage: string;
 }
 
 export const initialState: State = {
   payMarketModalOpen: false,
   payMarketId: null,
-  payMarket: generateDefaultAsyncStateObj<PayMarketWithMdScope>(null)
+  payMarket: generateDefaultAsyncStateObj<PayMarketWithMdScope>(null),
+  payMarketErrorMessage: ''
 };
 
 export function reducer(state = initialState, action: fromPayMarketModalActions.Actions): State {
@@ -22,7 +24,8 @@ export function reducer(state = initialState, action: fromPayMarketModalActions.
       return {
         ...state,
         payMarketModalOpen: true,
-        payMarketId: action?.payload?.payMarketId
+        payMarketId: action?.payload?.payMarketId,
+        payMarketErrorMessage: ''
       };
     }
     case fromPayMarketModalActions.CLOSE_PAY_MARKET_MODAL: {
@@ -30,7 +33,8 @@ export function reducer(state = initialState, action: fromPayMarketModalActions.
         ...state,
         payMarketModalOpen: false,
         payMarketId: null,
-        payMarket: generateDefaultAsyncStateObj<PayMarketWithMdScope>(null)
+        payMarket: generateDefaultAsyncStateObj<PayMarketWithMdScope>(null),
+        payMarketErrorMessage: ''
       };
     }
     case fromPayMarketModalActions.LOAD_PAY_MARKET: {
@@ -60,6 +64,13 @@ export function reducer(state = initialState, action: fromPayMarketModalActions.
         payMarket: payMarketClone
       };
     }
+    case fromPayMarketModalActions.ADD_OR_UPDATE_PAY_MARKET_ERROR: {
+      return {
+        ...state,
+        payMarketErrorMessage: action.payload
+      };
+    }
+
     default: {
       return state;
     }
@@ -69,3 +80,4 @@ export function reducer(state = initialState, action: fromPayMarketModalActions.
 export const getPayMarketModalOpen = (state: State) => state.payMarketModalOpen;
 export const getPayMarket = (state: State) => state.payMarket;
 export const getPayMarketId = (state: State) => state.payMarketId;
+export const getPayMarketErrorMessage = (state: State) => state.payMarketErrorMessage;

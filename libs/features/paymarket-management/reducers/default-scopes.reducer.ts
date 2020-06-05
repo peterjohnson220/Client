@@ -11,13 +11,17 @@ export interface State {
   hasMoreData: boolean;
   combinedScopes: AsyncStateObj<CombinedScope[]>;
   defaultScopes: AsyncStateObj<DefaultScope[]>;
+  defaultScopesToAdd: DefaultScope[];
+  defaultScopesToDelete: number[];
 }
 
 export const initialState: State = {
   surveys: generateDefaultAsyncStateObj<CompanySurvey[]>([]),
   hasMoreData: false,
   combinedScopes: generateDefaultAsyncStateObj<CombinedScope[]>([]),
-  defaultScopes: generateDefaultAsyncStateObj<DefaultScope[]>([])
+  defaultScopes: generateDefaultAsyncStateObj<DefaultScope[]>([]),
+  defaultScopesToAdd: [],
+  defaultScopesToDelete: []
 };
 
 export function reducer(state = initialState, action: fromDefaultScopesActions.Actions): State {
@@ -90,18 +94,28 @@ export function reducer(state = initialState, action: fromDefaultScopesActions.A
     }
     case fromDefaultScopesActions.ADD_DEFAULT_SCOPE: {
       const defaultScopesClone: AsyncStateObj<DefaultScope[]> = cloneDeep(state.defaultScopes);
+      const defaultScopesToAddClone: DefaultScope[] = cloneDeep(state.defaultScopesToAdd);
       defaultScopesClone.obj.push(action.payload);
+      defaultScopesToAddClone.push(action.payload);
       return {
         ...state,
-        defaultScopes: defaultScopesClone
+        defaultScopes: defaultScopesClone,
+        defaultScopesToAdd : defaultScopesToAddClone
       };
     }
     case fromDefaultScopesActions.REMOVE_DEFAULT_SCOPE: {
       const defaultScopesClone: AsyncStateObj<DefaultScope[]> = cloneDeep(state.defaultScopes);
+      const defaultScopesToDeleteClone: number[] = cloneDeep(state.defaultScopesToDelete);
+      let defaultScopesToAddClone: DefaultScope[] = cloneDeep(state.defaultScopesToAdd);
+
+      defaultScopesToAddClone = DefaultScopesHelper.removeDefaultScope(defaultScopesToAddClone, defaultScopesClone.obj[action.payload.defaultScopeIndex]);
+      defaultScopesToDeleteClone.push(defaultScopesClone.obj[action.payload.defaultScopeIndex].Scope.CompanySurveyScopesId);
       defaultScopesClone.obj.splice(action.payload.defaultScopeIndex, 1);
       return {
         ...state,
-        defaultScopes: defaultScopesClone
+        defaultScopes: defaultScopesClone,
+        defaultScopesToDelete: defaultScopesToDeleteClone,
+        defaultScopesToAdd: defaultScopesToAddClone
       };
     }
     case fromDefaultScopesActions.RESET_DEFAULT_SCOPES: {
@@ -111,7 +125,9 @@ export function reducer(state = initialState, action: fromDefaultScopesActions.A
       defaultScopesClone.obj = [];
       return {
         ...state,
-        defaultScopes: defaultScopesClone
+        defaultScopes: defaultScopesClone,
+        defaultScopesToDelete: [],
+        defaultScopesToAdd: []
       };
     }
     case fromDefaultScopesActions.LOAD_DEFAULT_SCOPES: {
@@ -151,3 +167,5 @@ export const getCompanySurveys = (state: State) => state.surveys;
 export const getHasMoreCompanySurveys = (state: State) => state.hasMoreData;
 export const getCombinedScopes = (state: State) => state.combinedScopes;
 export const getDefaultScopes = (state: State) => state.defaultScopes;
+export const getDefaultScopesToDelete = (state: State) => state.defaultScopesToDelete;
+export const getDefaultScopesToAdd = (state: State) => state.defaultScopesToAdd;

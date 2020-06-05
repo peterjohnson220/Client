@@ -47,6 +47,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   ];
   actionBarConfig: ActionBarConfig;
   pageViewId = PayMarketsPageViewId;
+  companyId: number;
   colTemplates = {};
   defaultPayMarketId: number;
   selectedPayMarketId: number;
@@ -71,6 +72,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.identitySubscription = this.identity$.subscribe(i => {
       if (!!i) {
         this.defaultPayMarketId = i.DefaultPayMarketId;
+        this.companyId =  i.CompanyId;
       }
     });
     window.addEventListener('scroll', this.scroll, true);
