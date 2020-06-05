@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromCommunityReducers from '../../reducers';
-import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
 @Component({
   selector: 'pf-community-cancel-post-modal',
@@ -14,16 +14,17 @@ export class CommunityCancelPostModalComponent {
 
   @Input() title: string;
 
-  cancelingPostReply$: Observable<boolean>;
+  cancelingPost$: Observable<boolean>;
+
   constructor(public store: Store<fromCommunityReducers.State>) {
-    this.cancelingPostReply$ = this.store.select(fromCommunityReducers.getDiscardingPostReply);
+    this.cancelingPost$ = this.store.select(fromCommunityReducers.getDiscardingPost);
   }
 
   handleModalSubmit() {
-    this.store.dispatch(new fromCommunityPostReplyActions.DiscardingCommunityPostReplyProceed());
+    this.store.dispatch(new fromCommunityPostActions.DiscardingCommunityPostProceed());
   }
 
   handleModalDismissed() {
-    this.store.dispatch(new fromCommunityPostReplyActions.DiscardingCommunityPostReplyCancel());
+    this.store.dispatch(new fromCommunityPostActions.DiscardingCommunityPostCancel());
   }
 }

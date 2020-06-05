@@ -95,6 +95,7 @@ import { CommunityAttachmentComponent } from './components/community-attachment/
 import { CommunityAttachmentEditComponent } from './components/community-attachment-edit/community-attachment-edit.component';
 import { CommunityReplyEditComponent } from './components/community-reply-edit/community-reply-edit.component';
 import { CommunityCancelPostModalComponent } from './containers/community-cancel-post-modal/community-cancel-post-modal.component';
+import { CommunityCancelPostReplyModalComponent } from './containers/community-cancel-post-reply-modal';
 
 const components = [
   ClickInContentDirective,
@@ -124,6 +125,7 @@ const components = [
   CommunityAttachmentModalComponent,
   CommunityAttachmentWarningModalComponent,
   CommunityCancelPostModalComponent,
+  CommunityCancelPostReplyModalComponent,
   CommunityFiltersComponent,
   CommunityFiltersDropdownComponent,
   CommunityCategoryDisplayNamePipe,

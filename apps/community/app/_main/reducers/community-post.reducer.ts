@@ -24,6 +24,8 @@ export interface State extends EntityState<CommunityPost> {
   postId: string;
   deletedPostId: string;
   editedPostId: string;
+  discardingPost: boolean;
+  discardingPostProceed: boolean;
 }
 
 function sortByTime(a: CommunityPost, b: CommunityPost) {
@@ -57,7 +59,9 @@ export const initialState: State = adapter.getInitialState({
   maximumReplies: null,
   postId: null,
   deletedPostId: null,
-  editedPostId: null
+  editedPostId: null,
+  discardingPost: false,
+  discardingPostProceed: false
 });
 
 export function reducer(
@@ -368,6 +372,27 @@ export function reducer(
         editedPostId: null
       };
     }
+    case communityPostActions.DISCARDING_COMMUNITY_POST: {
+      return {
+        ...state,
+        discardingPost: true,
+        discardingPostProceed: false
+      };
+    }
+    case communityPostActions.DISCARDING_COMMUNITY_POST_PROCEED: {
+      return {
+        ...state,
+        discardingPost: false,
+        discardingPostProceed: true
+      };
+    }
+    case communityPostActions.DISCARDING_COMMUNITY_POST_CANCEL: {
+      return {
+        ...state,
+        discardingPost: false,
+        discardingPostProceed: false
+      };
+    }
     default: {
       return state;
     }
@@ -396,3 +421,7 @@ export const getLoadingCommunityPostSuccess = (state: State) => state.postId;
 
 export const getCommunityPostDeleted = (state: State) => state.deletedPostId;
 export const getCommunityPostEdited = (state: State) => state.editedPostId;
+
+export const getDiscardingPost = (state: State) => state.discardingPost;
+export const getDiscardingPostProceed = (state: State) => state.discardingPostProceed;
+

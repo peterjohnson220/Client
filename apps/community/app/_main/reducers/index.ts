@@ -347,6 +347,16 @@ export const getCommunityPostEdited = createSelector(
   fromCommunityPostReducer.getCommunityPostEdited
 );
 
+export const getDiscardingPost = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getDiscardingPost
+);
+
+export const getDiscardingPostProceed = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getDiscardingPostProceed
+);
+
 // Community Post Reply Selectors
 
 export const {
