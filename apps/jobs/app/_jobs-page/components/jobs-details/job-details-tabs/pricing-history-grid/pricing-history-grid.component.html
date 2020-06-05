@@ -33,7 +33,7 @@
       [attr.data-qa-id]="'btn-jobs-page-pricing-history-delete'"
       [pfSecuredResource]="permissions.PRICING_PROJECTS_DELETE"
       type="button"
-      (click)="confirmDeletePricingModal(dataRow)"
+      (click)="showDeletePricingModal(dataRow)"
       class="btn btn-secondary pf-icon-btn-transparent">
       <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
     </button>    
@@ -48,16 +48,25 @@
 </pf-pricing-details>
 
 <pf-modal-form
-  [modalId]="'au-delete-pricing'"
-  [isOpen$]="pricingIdToBeDeleted$"
+  [modalId]="'au-jobs-page-delete-pricing'"
+  [isOpen$]="showDeletePricing$"
   [size]="'md'"
   [title]="'Delete Pricing'"
   [primaryButtonClass]="'btn-danger'"
   [primaryButtonText]="'Delete'"
+  [primaryButtonTextSubmitting]="'Deleting'"
+  [submitting]="(deletingPricing$ | async).saving"
+  [allowDismiss]="!(deletingPricing$ | async).saving"
   (onSubmit)="deletePricing()"
-  (onDismiss)="cancelDeletePricing()">
+  (onDismiss)="showDeletePricing.next(false)">
   <ng-container basic-content>
-    This action will permanently delete this pricing. Would you like to continue?
+    <div>
+      This action will permanently delete this pricing. Would you like to continue?
+    </div>
+    <br>
+    <div class="text-danger" *ngIf="(deletingPricing$ | async).savingError">
+      We encountered an error deleting your pricing match. Please try again.
+    </div>
   </ng-container>
 </pf-modal-form>
 

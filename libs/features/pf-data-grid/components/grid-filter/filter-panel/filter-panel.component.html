@@ -1,17 +1,26 @@
 <div class="sidebar-container h-100 position-relative">
-  <div class="sidebar-header position-absolute d-flex justify-content-between align-items-center p-3">
-    <strong>Filter</strong>
-    <div class="filter-buttons row">
-      <div *ngIf="AllowSaveFilter" class="pr-2">
-        <button [disabled]="!hasFilters()" (click)="saveFilter()" type="button" class="btn btn-secondary btn-sm"
-          [attr.data-qa-id]="'save-filter-btn'">Save Filter</button>
-      </div>
-      <div (click)="closeSidebar()" class="filter-close-btn pt-1" [attr.data-qa-id]="'close-filter-panel-btn'">
-        <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
-      </div>
+  <div class="d-flex sidebar-header">
+    <div class="d-flex">
+      <h4 class="px-3 my-auto font-weight-bold lead">
+        <fa-icon icon="sliders-h"></fa-icon>
+        Filters
+      </h4>
+    </div>
+    <div (click)="closeSidebar()" class="filter-close-btn pr-3 ml-auto my-auto" [attr.data-qa-id]="'close-filter-panel-btn'">
+      <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
     </div>
   </div>
-  <div class="sidebar-content position-absolute p-3">
+  <hr class="my-0">
+  <div *ngIf="allowSaveFilter" class="p-3" style="background-color: #e9eaed;">
+    <div class="pb-3">
+      <pf-filter-chooser [pageViewId]="pageViewId" [filterSelectorDisplay]="true"></pf-filter-chooser>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button [disabled]="!hasFilters()" (click)="saveFilter()" type="button" class="btn btn-secondary"
+        [attr.data-qa-id]="'save-filter-btn'">Save Filter</button>
+    </div>
+  </div>
+  <div class="sidebar-content position-absolute px-3" [style.top.px]="allowSaveFilter ? '160' : '60'">
     <div *ngFor="let field of customFilterFields; trackBy: trackByField" class="form-group">
       <pf-filter-builder 
         [viewField]="field"

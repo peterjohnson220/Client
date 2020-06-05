@@ -29,6 +29,7 @@ import { PeerAssociationColorBlockComponent } from './content/peer-association-c
 import { SimpleYesNoModalComponent } from './simple-yes-no';
 import { LoadingProgressBarService } from './loading/service';
 import { PfTreeViewComponent, TreeViewCheckDirective } from './pf-treeview';
+import { JobTitleCodeComponent } from './job-title-code/job-title-code.component';
 
 const components = [
   // Content
@@ -40,6 +41,7 @@ const components = [
   PeerAssociationColorBlockComponent,
   SimpleYesNoModalComponent,
   PfTreeViewComponent,
+  JobTitleCodeComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective,

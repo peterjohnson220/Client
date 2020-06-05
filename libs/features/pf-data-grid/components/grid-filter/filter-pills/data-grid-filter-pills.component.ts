@@ -10,7 +10,10 @@ import { getHumanizedFilter } from '../helpers';
   styleUrls: ['./data-grid-filter-pills.component.scss']
 })
 export class PfDataGridFilterPillsComponent {
+
   @Input() fields: ViewField[];
+  @Input() widthOffset = 0;
+  @Input() lockedPillText: string;
 
   @Output() clearFilter = new EventEmitter();
   @Output() clearAllFilters = new EventEmitter();
@@ -27,5 +30,9 @@ export class PfDataGridFilterPillsComponent {
 
   clearFilters() {
     this.clearAllFilters.emit();
+  }
+
+  getMaxWidthCalc() {
+    return `calc(100vw - ${160 + this.widthOffset}px)`;
   }
 }

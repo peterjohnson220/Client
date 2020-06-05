@@ -36,7 +36,6 @@ export interface DataGridState {
   savedViews: SimpleDataView[];
   viewIsSaving: boolean;
   viewIsDeleting: boolean;
-  viewNameToBeDeleted: string;
   selectedKeys: any[];
   selectedData: any[];
   selectAllState: string;
@@ -131,7 +130,6 @@ export const getSelectedKeys = (state: DataGridStoreState, pageViewId: string) =
 export const getSelectedData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectedData : null;
 export const getSelectAllState = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].selectAllState;
 export const getViewIsDeleting = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewIsDeleting;
-export const getViewNameToBeDeleted = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].viewNameToBeDeleted;
 export const getExportEventId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportEventId;
 export const getExportingGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportingGrid;
 export const getExportViewId = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].exportViewId;
@@ -735,30 +733,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             viewIsDeleting: false,
-            viewNameToBeDeleted: null
-          }
-        }
-      };
-    case fromPfGridActions.PREPARE_VIEW_FOR_DELETE:
-      return {
-        ...state,
-        grids: {
-          ...state.grids,
-          [action.pageViewId]: {
-            ...state.grids[action.pageViewId],
-            viewNameToBeDeleted: action.viewName
-          }
-        }
-      };
-    case fromPfGridActions.CANCEL_VIEW_DELETE:
-      return {
-        ...state,
-        grids: {
-          ...state.grids,
-          [action.pageViewId]: {
-            ...state.grids[action.pageViewId],
-            viewNameToBeDeleted: null,
-            viewIsDeleting: false
           }
         }
       };

@@ -1,21 +1,21 @@
 <pf-page-with-title-bar
   [isFullHeader]="showTitle"
   [absoluteUrl]="navigationURL"
-  [contentNoPadding]="contentNoPadding"
-  [theme]="pageTheme"
-  [contentClassNamesOverrides]="contentClassNamesOverrides ? contentClassNamesOverrides : 'pb-0'">
+  [contentNoPadding]="true"
+  [theme]="pageTheme">
 
   <ng-container page-title *ngIf="showTitle">
-    <ng-container *ngIf="titleTemplate; else simpleTitle" [ngTemplateOutlet]="titleTemplate"></ng-container>
+    {{title}}
   </ng-container>
 
   <ng-container page-subtitle *ngIf="showTitle">
     {{subtitle}}
   </ng-container>
 
-  <ng-template #simpleTitle>
-    {{title}}
-  </ng-template>
+  <ng-container page-title-actions *ngIf="showTitle">
+    <ng-container *ngIf="titleActionsTemplate" [ngTemplateOutlet]="titleActionsTemplate"></ng-container>
+  </ng-container>
+
   <ng-container page-actions>
     <pf-action-bar
       class="flex-fill"
@@ -28,90 +28,105 @@
     </pf-action-bar>
   </ng-container>
   <ng-container page-content>
-    <div class="d-flex flex-column h-100 content-wrapper">
-      <ng-container [ngTemplateOutlet]="aboveGridTemplate"></ng-container>
-      <div *ngIf="gridActionsTemplate || userFilteredFields.length > 0"
-           class="no-gutters d-flex justify-content-between mb-2 sub-header">
-        <div class="flex-fill">
-          <div class="h-100 d-flex align-items-center">
-            <ng-content select="[beside-filter]"></ng-content>
-            <pf-data-grid-filter-pills
-              *ngIf="userFilteredFields.length > 0"
-              [fields]="userFilteredFields"
-              (clearFilter)="clearFilter($event, true)"
-              (clearAllFilters)="clearAllFilters()">
-            </pf-data-grid-filter-pills>
+    <div class="d-flex h-100">
+      <div class="h-100 w-100">
+        <div class="d-flex flex-column h-100 content-wrapper" 
+          [ngClass]="contentClassNamesOverrides ? contentClassNamesOverrides : 
+                    (displayFilterPanel$ | async) ? 'pl-3 pr-0 pt-2 pb-0' : 'px-3 pt-2 pb-0'">
+          <ng-container [ngTemplateOutlet]="aboveGridTemplate"></ng-container>     
+          <div *ngIf="gridActionsTemplate" class="d-flex mb-2 sub-header">        
+            <div *ngIf="gridActionsTemplate" class="d-flex grid-actions-container">
+              <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
+            </div>
+            <div class="ml-auto my-auto" *ngIf="actionBarConfig.ShowFilterChooser">
+              <pf-filter-chooser [pageViewId]="pageViewId" [hideToggleButtons]="displayFilterPanel$ | async"></pf-filter-chooser>
+            </div>
           </div>
-        </div>
-        <div *ngIf="gridActionsTemplate" class="d-flex justify-content-end grid-actions-container">
-          <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
-        </div>
-      </div>
-      <div class="d-flex h-100 full-wrap" [ngClass]="(contentNoPadding || !borders) ? '' : 'border'">
-        <div [ngClass]="isSplitView() ? 'main-grid-split overflow-hidden' : 'main-grid-full'"
-             [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
-          <div class="flex-column-container">
-            <div class="d-flex h-100">
-              <div class="full-size-wrapper">
-                <div [ngClass]="{'grid-container' : !compactGrid}">
-                  <pf-grid
-                    [attr.data-qa-id]="pageViewId"
-                    [pageViewId]="pageViewId"
-                    [reorderable]="reorderable"
-                    [allowSplitView]="!!splitViewTemplate"
-                    [splitViewDisplayFields]="splitViewDisplayFields"
-                    [columnTemplates]="columnTemplates"
-                    [expandedRowTemplate]="expandedRowTemplate"
-                    [gridRowActionsConfig]="gridRowActionsConfig"
-                    [customHeaderTemplate]="customHeaderTemplate"
-                    [noRecordsFoundTemplate]="noRecordsFoundTemplate"
-                    [enableSelection]="enableSelection"
-                    [noRecordsFound]="noRecordsFound"
-                    [selectedRecordId]="selectedRecordId"
-                    [compactGrid]="compactGrid"
-                    [showHeaderWhenCompact]="showHeaderWhenCompact"
-                    [backgroundColor]="backgroundColor"
-		                [allowSort]="allowSort"
-                    [customHeaderClass]="headerClassName"
-                    [defaultColumnWidth]="defaultColumnWidth"
-                    [autoFitColumnsToHeader]="autoFitColumnsToHeader"
-                    [useColumnGroups]="useColumnGroups"
-                    [pageable]="pageable"
-                    [theme]="pageTheme"
-                    [customSortOptions]="customSortOptions">
-                  </pf-grid>
+          <div *ngIf="userFilteredFields.length > 0 || lockedPillText || (actionBarConfig.ShowFilterChooser && !gridActionsTemplate)" class="d-flex mb-2 sub-header">
+            <div *ngIf="userFilteredFields.length > 0 || lockedPillText" class="pt-2">
+              <pf-data-grid-filter-pills                
+                [widthOffset]="
+                  (actionBarConfig.ShowFilterChooser && !gridActionsTemplate ? 110 : 0) + 
+                  ((displayFilterPanel$ | async) ? 450 : 0)"
+                [lockedPillText]="lockedPillText"
+                [fields]="userFilteredFields"
+                (clearFilter)="clearFilter($event, true)"
+                (clearAllFilters)="clearAllFilters()">
+              </pf-data-grid-filter-pills>          
+            </div>
+            <div class="ml-auto my-auto" *ngIf="actionBarConfig.ShowFilterChooser && !gridActionsTemplate">
+              <pf-filter-chooser [pageViewId]="pageViewId" [hideToggleButtons]="displayFilterPanel$ | async"></pf-filter-chooser>
+            </div>
+          </div>
+          <div class="d-flex h-100 full-wrap" [ngClass]="borders ? 'border' : ''">
+            <div [ngClass]="isSplitView() ? 'main-grid-split overflow-hidden' : 'main-grid-full'"
+                [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
+              <div class="flex-column-container">
+                <div class="d-flex h-100">
+                  <div class="full-size-wrapper">
+                    <div [ngClass]="{'grid-container' : !compactGrid}">
+                      <pf-grid
+                        [attr.data-qa-id]="pageViewId"
+                        [pageViewId]="pageViewId"
+                        [reorderable]="reorderable"
+                        [allowSplitView]="!!splitViewTemplate"
+                        [splitViewDisplayFields]="splitViewDisplayFields"
+                        [columnTemplates]="columnTemplates"
+                        [expandedRowTemplate]="expandedRowTemplate"
+                        [gridRowActionsConfig]="gridRowActionsConfig"
+                        [customHeaderTemplate]="customHeaderTemplate"
+                        [noRecordsFoundTemplate]="noRecordsFoundTemplate"
+                        [enableSelection]="enableSelection"
+                        [noRecordsFound]="noRecordsFound"
+                        [selectedRecordId]="selectedRecordId"
+                        [compactGrid]="compactGrid"
+                        [showHeaderWhenCompact]="showHeaderWhenCompact"
+                        [backgroundColor]="backgroundColor"
+                        [allowSort]="allowSort"
+                        [customHeaderClass]="headerClassName"
+                        [defaultColumnWidth]="defaultColumnWidth"
+                        [autoFitColumnsToHeader]="autoFitColumnsToHeader"
+                        [useColumnGroups]="useColumnGroups"
+                        [pageable]="pageable"
+                        [theme]="pageTheme"
+                        [customSortOptions]="customSortOptions">
+                      </pf-grid>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <div *ngIf="isSplitView()" class="split-view-container" [class.border-left]="borders">
+              <ng-container
+                [ngTemplateOutlet]="splitViewTemplate"
+                [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter, splitViewFilters: splitViewFilters$ | async}">
+              </ng-container>
+            </div>
+            <ng-container *ngIf="!(displayFilterPanel$ | async)" [ngTemplateOutlet]="rightGridTemplate"></ng-container>        
           </div>
-        </div>
-        <div *ngIf="isSplitView()" class="split-view-container" [class.border-left]="borders">
-          <ng-container
-            [ngTemplateOutlet]="splitViewTemplate"
-            [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter, splitViewFilters: splitViewFilters$ | async}">
-          </ng-container>
-        </div>
-        <ng-container *ngIf="!(displayFilterPanel$ | async)" [ngTemplateOutlet]="rightGridTemplate"></ng-container>
-        <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container px-3 border-left">
-          <pf-filter-panel
-            [AllowSaveFilter]="actionBarConfig.AllowSaveFilter"
-            [fields]="filterableFields$ | async"
-            [filterTemplates]="filterPanelTemplates"
-            (close)="closeFilterPanel()"
-            (filterChanged)="handleFilterChanged($event)"
-            (filterCleared)="clearFilter($event)"
-            (saveFilterClicked)="saveFilterClicked()">
-          </pf-filter-panel>
-        </div>
+        </div>        
       </div>
-      <pf-data-grid-save-view-modal
-        [savedViews]="(savedViews$ | async)"
-        [modalOpen$]="saveViewModalOpen$"
-        [saving]="(viewIsSaving$ | async)"
-        (saved)="saveFilterHandler($event)"
-        (closed)="closeSaveViewModal()">
-      </pf-data-grid-save-view-modal>
+      <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container border-left">
+        <pf-filter-panel
+          [pageViewId]="pageViewId"
+          [allowSaveFilter]="actionBarConfig.AllowSaveFilter"
+          [fields]="filterableFields$ | async"
+          [filterTemplates]="filterPanelTemplates"
+          (close)="closeFilterPanel()"
+          (filterChanged)="handleFilterChanged($event)"
+          (filterCleared)="clearFilter($event)"
+          (saveFilterClicked)="saveFilterClicked()">
+        </pf-filter-panel>
+      </div>
     </div>
   </ng-container>
 </pf-page-with-title-bar>
 
+
+<pf-data-grid-save-view-modal
+  [savedViews]="(savedViews$ | async)"
+  [modalOpen$]="saveViewModalOpen$"
+  [saving]="(viewIsSaving$ | async)"
+  (saved)="saveFilterHandler($event)"
+  (closed)="closeSaveViewModal()">
+</pf-data-grid-save-view-modal>

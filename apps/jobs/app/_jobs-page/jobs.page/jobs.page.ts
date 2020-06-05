@@ -141,7 +141,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.pageViewId);
-    this.creatingProject$ = this.store.select(fromJobsPageReducer.getCreatingToProject);
+    this.creatingProject$ = this.store.select(fromJobsPageReducer.getCreatingProject);
     this.changingJobStatus$ = this.store.select(fromJobsPageReducer.getChangingJobStatus);
     this.deletingJob$ = this.store.select(fromJobsPageReducer.getDeletingJob);
     this.navigatingToOldPage$ = this.store.select(fromJobsPageReducer.getNavigatingToOldPage);
@@ -288,6 +288,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   openCreateProjectModal() {
     this.showCreateProjectModal.next(true);
     this.store.dispatch(new fromJobsPageActions.ShowCreateProjectModal());
+    this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
+
   }
 
   createProject() {
@@ -304,13 +306,15 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     };
     this.store.dispatch(new fromJobsPageActions.CreatingProject(payload));
+    this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
   }
 
   openJobStatusModal() {
-    this.showJobStatusModal.next(true);
+    // TODO: This needs to be part of the state so we can set the loading flag show a spinner while loading the JobDescriptionInformation
     this.companyJobApiService.getCompanyJobDescriptionInformation(this.selectedJobIds).subscribe(jds => {
       this.jobDescriptionsInReview = jds;
-      this.store.dispatch(new fromJobsPageActions.ShowJobStatusModal());
+      this.showJobStatusModal.next(true);
+      this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
     });
   }
 
@@ -320,7 +324,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       JobsInReview: this.jobDescriptionsInReview,
       StatusToSet: this.isActiveJobs() ? 0 : 1
     };
-
     this.store.dispatch(new fromJobsPageActions.ChangingJobStatus(summary));
   }
 
@@ -328,7 +331,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.jobIdToDelete = jobId;
     this.jobNameToDelete = jobName;
     this.showDeleteJobModal.next(true);
-    this.store.dispatch(new fromJobsPageActions.ShowDeleteJobModal());
+    this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
   }
 
   deleteJob() {
