@@ -10,6 +10,8 @@ exports[`CommunityPostSearchResultComponent should show a modal with when commun
   communitySearchResultModal$={[Function Store]}
   communitySearchResultModalSubscription={[Function Subscriber]}
   disableCommunityAttachments$={[Function Store]}
+  hideAttachmentWarning$={[Function Observable]}
+  hideAttachmentWarningSubscription={[Function Subscriber]}
   loadingCommunityPost$={[Function Store]}
   loadingCommunityPostError$={[Function Store]}
   maximumReplies$={[Function Store]}

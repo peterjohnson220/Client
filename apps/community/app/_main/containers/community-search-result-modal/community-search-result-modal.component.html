@@ -18,8 +18,9 @@
           [post]="communityPost"
           [isModal]="true"
           [disableCommunityAttachments]="disableCommunityAttachments$ | async"
+          [maximumReplies]="maximumReplies$ | async"
           (filtersModifiedEvent)="hashtagClicked($event)"
-          [maximumReplies]="maximumReplies$ | async">
+          (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
         </pf-community-post>
       </div>
       <div *ngIf="communityPost && editedPostId === communityPost.Id">

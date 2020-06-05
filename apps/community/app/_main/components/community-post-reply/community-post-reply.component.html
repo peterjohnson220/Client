@@ -21,7 +21,9 @@
     <div class="pr-4 pt-1 pb-2" *ngFor="let attachment of reply.Attachments">
       <pf-community-attachment
         [attachment]="attachment"
-        [disableCommunityAttachments]="disableCommunityAttachments">
+        [disableCommunityAttachments]="disableCommunityAttachments"
+        [hideAttachmentWarning]="hideAttachmentWarning" 
+        (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
       </pf-community-attachment>         
      </div>
   </div>

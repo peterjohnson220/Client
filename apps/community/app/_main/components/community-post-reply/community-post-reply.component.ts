@@ -11,11 +11,17 @@ import { environment } from 'environments/environment';
 export class CommunityPostReplyComponent {
   @Input() reply: CommunityReply;
   @Input() disableCommunityAttachments: boolean;
+  @Input() hideAttachmentWarning: boolean;
   @Output() replyHashTagClicked = new EventEmitter();
+  @Output() onAttachmentClickedEvent = new EventEmitter<string>();
+
   avatarUrl = environment.avatarSource;
-  constructor() {}
 
   handleHashTagClicked(event: any) {
     this.replyHashTagClicked.emit(event);
+  }
+
+  handleAttachmentClickedEvent(event) {
+    this.onAttachmentClickedEvent.emit(event);
   }
 }

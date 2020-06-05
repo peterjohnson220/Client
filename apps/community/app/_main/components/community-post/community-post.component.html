@@ -62,8 +62,10 @@
           </div>
           <pf-community-post-add-reply-view
             [postId]="post.Id" 
+            [disableCommunityAttachments]="disableCommunityAttachments"
+            [hideAttachmentWarning]="hideAttachmentWarning"
             (replyHashTagClicked)="hashtagClicked($event)"
-            [disableCommunityAttachments]="disableCommunityAttachments">
+            (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
           </pf-community-post-add-reply-view>
           <pf-community-post-filtered-reply-view *ngIf="!isModal" [postId]="post.Id"></pf-community-post-filtered-reply-view>
           <div *ngIf="post.ReplyCount > 0">
@@ -83,7 +85,9 @@
               [replies]="post.Replies"
               [loading]="loadingCommunityPostReplies$ | async"
               [disableCommunityAttachments]="disableCommunityAttachments"
-              (replyHashTagClicked)="hashtagClicked($event)">
+              [hideAttachmentWarning]="hideAttachmentWarning" 
+              (replyHashTagClicked)="hashtagClicked($event)"
+              (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
             </pf-community-post-replies>
           </div>
         </div>
