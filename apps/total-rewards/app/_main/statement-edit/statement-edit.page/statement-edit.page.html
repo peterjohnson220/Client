@@ -78,7 +78,9 @@
       (resetSettings)="handleResetSettings()"
       (close)="handleCloseSettingsClick()"
     ></pf-settings-panel>
-    <pf-footer-bar (assignEmployeesButtonClick)="handleAssignEmployeesButtonClick()">
-    </pf-footer-bar>
+    <pf-footer-bar
+      [primaryButtonText]="'Assign Employees'"
+      (primaryButtonClick)="handleAssignEmployeesClick()"
+    ></pf-footer-bar>
   </ng-container>
 </pf-page-with-title-bar>

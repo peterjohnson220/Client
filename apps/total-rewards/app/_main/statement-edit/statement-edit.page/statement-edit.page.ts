@@ -116,8 +116,12 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   }
 
   // FOOTER METHODS
-  handleAssignEmployeesButtonClick() {
+  handleAssignEmployeesClick() {
     this.router.navigate(['statement/edit/' + this.statementId + '/assignments'], { queryParams: { openModal: 1 } } ).then();
+  }
+
+  handleCreateStatementClick() {
+    this.router.navigate(['']).then();
   }
 
   // CONTROL METHODS //

@@ -3,6 +3,11 @@
                       [loading]="assignedEmployeesDataLoading$ | async" [loadingError]="assignedEmployeesDataLoadingError$ | async"
   >
     <kendo-grid [data]="assignedEmployeesData$ | async">
+      <kendo-grid-checkbox-column [width]="35">
+        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+          <input type="checkbox" (click)="onCheckboxClick(dataItem)" />
+        </ng-template>
+      </kendo-grid-checkbox-column>
       <kendo-grid-column field="EmployeeId" title="Employee ID"></kendo-grid-column>
       <kendo-grid-column field="FirstName" title="First Name"></kendo-grid-column>
       <kendo-grid-column field="LastName" title="Last Name"></kendo-grid-column>

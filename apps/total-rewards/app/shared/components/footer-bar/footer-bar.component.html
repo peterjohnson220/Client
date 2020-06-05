@@ -1,0 +1,11 @@
+<div class="fixed-bottom center text-right p-2">
+  <div class="d-flex align-items-center justify-content-end">
+    <button 
+      class="btn btn-trs btn-trs-primary px-2"
+      [disabled]="!primaryButtonEnabled"
+      [title]="primaryButtonToolTip"
+      (click)="onPrimaryButtonClick()">
+      {{ primaryButtonText }}
+    </button>
+  </div>
+</div>

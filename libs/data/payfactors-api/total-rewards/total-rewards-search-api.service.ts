@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { CompanyEmployee } from '../../../models/company';
 
 @Injectable()
 export class TotalRewardsSearchApiService {
@@ -14,5 +15,9 @@ export class TotalRewardsSearchApiService {
 
   searchEmployeesAggregations(searchRequest: any): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchEmployeesAggregations`, searchRequest);
+  }
+
+  getAssignedEmployees(request: any): Observable<CompanyEmployee[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetAssignedEmployees`, request);
   }
 }

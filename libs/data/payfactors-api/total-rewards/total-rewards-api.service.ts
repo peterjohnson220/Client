@@ -5,9 +5,10 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { SaveSettingsRequest } from '../../../../apps/total-rewards/app/shared/models/request-models';
-import { Settings, Statement } from '../../../../apps/total-rewards/app/shared/models/';
 import { CompanyEmployee } from '../../../models/company';
+
+import { SaveSettingsRequest } from 'apps/total-rewards/app/shared/models/request-models';
+import { Settings, Statement } from 'apps/total-rewards/app/shared/models/';
 
 @Injectable()
 export class TotalRewardsApiService {
@@ -53,6 +54,7 @@ export class TotalRewardsApiService {
   }
 
   private mapStatement(statement: Statement) {
+    // make sure we have a new Date() for our effective date and not just a string
     return { ...statement, EffectiveDate: (statement.EffectiveDate) ? new Date(statement.EffectiveDate) : null };
   }
 }

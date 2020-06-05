@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import {Subscription} from 'rxjs';
-import {Store} from '@ngrx/store';
+import {Observable, Subscription, of} from 'rxjs';
+import {Store, select} from '@ngrx/store';
 
-import * as fromPageReducer from '../reducers/statement-assignment.page.reducer';
+import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
+import { Statement } from '../../../shared/models';
 
 @Component({
   selector: 'pf-statement-assignment-page',
@@ -17,11 +18,17 @@ import { StatementAssignmentModalComponent } from '../containers/statement-assig
 export class StatementAssignmentPageComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild(StatementAssignmentModalComponent, {static: true}) public StatementAssignmentModalComponent: StatementAssignmentModalComponent;
 
+  statement$: Observable<Statement>;
+  isGenerateStatementModalOpen$: Observable<boolean>;
+  sendingGenerateRequest$: Observable<boolean>;
+  sendingGenerateRequestSuccess$: Observable<boolean>;
+  sendingGenerateRequestError$: Observable<boolean>;
+  selectedCompanyEmployeeIds$: Observable<number[]>;
+
   routeParamSubscription$ = new Subscription();
   queryParamSubscription$ = new Subscription();
 
-  statementId: string;
-  constructor(private store: Store<fromPageReducer.State>, private route: ActivatedRoute) { }
+  constructor(private store: Store<fromPageReducer.State>, private route: ActivatedRoute, private router: Router) { }
 
   private setSearchContext() {
     const setContextMessage: MessageEvent = {
@@ -35,22 +42,27 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.StatementAssignmentModalComponent.onMessage(setContextMessage);
   }
 
+  ngOnInit(): void {
+    this.statement$ = this.store.pipe(select(fromPageReducer.getStatement));
+    this.isGenerateStatementModalOpen$ = this.store.pipe(select(fromPageReducer.getIsGenerateStatementModalOpen));
+    this.sendingGenerateRequest$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequest));
+    this.sendingGenerateRequestSuccess$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequestSuccess));
+    this.sendingGenerateRequestError$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequestError));
+    this.selectedCompanyEmployeeIds$ = this.store.pipe(select(fromPageReducer.getAssignmentsGridSelectedCompanyEmployeeIds));
+
+    this.routeParamSubscription$ = this.route.params.subscribe(params => {
+      this.store.dispatch(new fromPageActions.LoadStatement({ statementId: params['id'] }));
+    });
+
+    this.setSearchContext();
+  }
+
   ngAfterViewInit(): void {
     this.queryParamSubscription$ = this.route.queryParams.subscribe( queryParams => {
       if (queryParams['openModal'] && (queryParams['openModal'] === '1')) {
         this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
       }
     });
-  }
-
-  ngOnInit(): void {
-    this.routeParamSubscription$ = this.route.params.subscribe(params => {
-      if (params['id']) {
-        this.statementId = params['id'];
-        this.store.dispatch(new fromPageActions.SetStatementId(this.statementId));
-      }
-    });
-    this.setSearchContext();
   }
 
   ngOnDestroy(): void {
@@ -61,7 +73,23 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
 
   openAssignModal(): void {
     this.setSearchContext();
+    this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
+  }
 
-    this.store.dispatch( new fromAssignmentsModalActions.OpenModal());
+  handleCancelGenerateStatementModal() {
+    this.store.dispatch(new fromPageActions.CloseGenerateStatementModal());
+  }
+
+  handleGenerateStatementsClick() {
+    this.store.dispatch(new fromPageActions.GenerateStatements());
+  }
+
+  // footer methods
+  handleOpenGenerateStatementModalClick() {
+    this.store.dispatch(new fromPageActions.OpenGenerateStatementModal());
+  }
+
+  handleAssignEmployeesClick() {
+    this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
   }
 }
