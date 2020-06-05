@@ -15,6 +15,9 @@ import { faFileInvoiceDollar } from '@fortawesome/pro-light-svg-icons';
 import { faEdit } from '@fortawesome/pro-regular-svg-icons/faEdit';
 import { faTrashAlt } from '@fortawesome/pro-regular-svg-icons/faTrashAlt';
 import { faStickyNote } from '@fortawesome/pro-regular-svg-icons';
+import { faCheckCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faCircle } from '@fortawesome/pro-solid-svg-icons';
+import { faCheck } from '@fortawesome/pro-solid-svg-icons';
 
 export const faIcons = [
   falTimes,
@@ -34,6 +37,9 @@ export const faIcons = [
   faBriefcase,
   faFileInvoiceDollar,
   faFileInvoiceDollar,
-  faStickyNote
+  faStickyNote,
+  faCheckCircle,
+  faCircle,
+  faCheck
 ];
 

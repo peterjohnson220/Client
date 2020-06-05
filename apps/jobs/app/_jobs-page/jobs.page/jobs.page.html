@@ -116,8 +116,9 @@
     type="button"
     (click)="clearSelections()"
     [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
-    class="btn btn-secondary pf-btn-borderless">
-    <fa-icon [icon]="['far', 'times']"></fa-icon>
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['far', 'times']" ></fa-icon>
     Clear Selections
   </button>
   <div
@@ -131,8 +132,9 @@
     type="button"
     (click)="openCreateProjectModal()"
     [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
-    class="btn btn-secondary pf-btn-borderless">
-    <fa-icon [icon]="['far', 'calculator']"></fa-icon>
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['far', 'calculator']" ></fa-icon>
     Create Project
     <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && isActiveJobs()">
       ({{selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length}})
@@ -146,7 +148,8 @@
     type="button"
     class="btn btn-secondary pf-btn-borderless">
     <fa-icon *ngIf="!(pricingsToModify$ | async).loading" [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
-    <pf-loading-indicator *ngIf="(pricingsToModify$ | async).loading"></pf-loading-indicator>
+    <pf-loading-indicator *ngIf="(pricingsToModify$ | async).loading"></pf-loading-indicator
+  >
     Modify Pricings <span *ngIf="selectedPricingIds.length">({{selectedPricingIds.length}})</span>
   </button>
   <button
@@ -156,8 +159,18 @@
     type="button"
     (click)="openJobStatusModal()"
     [title]="!selectedJobIds.length ? 'No Jobs Selected' : ''"
-    class="btn btn-secondary pf-btn-borderless">
-    <fa-icon [icon]="['far', 'briefcase']"></fa-icon>
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-layers [fixedWidth]="true"  class="mr-2" >
+      <fa-icon [icon]="['far', 'briefcase']" class="mr-0"></fa-icon>
+      <fa-icon [icon]="['fas', 'circle']" [inverse]="true" transform="shrink-4 down-7 right-7" class="mr-0"></fa-icon>
+      <fa-icon *ngIf="isActiveJobs()"
+        [icon]="['fas', 'times']" transform="shrink-7 down-7 right-7" class="mr-0">
+      </fa-icon>
+      <fa-icon *ngIf="!isActiveJobs()"
+        [icon]="['fas', 'check']" transform="shrink-7 down-7 right-7" class="mr-0">
+      </fa-icon>
+    </fa-layers>    
     {{isActiveJobs() ? 'Inactivate' : 'Activate'}}
     <span *ngIf="selectedJobIds.length" >
       ({{selectedJobIds.length}})
