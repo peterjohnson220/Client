@@ -6,13 +6,15 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromMultiMatchPageReducer from './multi-match-page.reducer';
 import * as fromJobsToPriceReducer from './jobs-to-price.reducer';
-import { SharedState } from '../../survey-search/reducers';
+import * as fromModifyPricingsReducer from './modify-pricings.reducer';
 
+import { SharedState } from '../../survey-search/reducers';
 
 // Feature area state
 export interface MultiMatchState extends SharedState {
   multiMatchPage: fromMultiMatchPageReducer.State;
   jobsToPrice: fromJobsToPriceReducer.State;
+  modifyPricings: fromModifyPricingsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -23,7 +25,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   multiMatchPage: fromMultiMatchPageReducer.reducer,
-  jobsToPrice: fromJobsToPriceReducer.reducer
+  jobsToPrice: fromJobsToPriceReducer.reducer,
+  modifyPricings: fromModifyPricingsReducer.reducer
 };
 
 // Select Feature Area
@@ -39,6 +42,9 @@ export const selectJobsToPriceState = createSelector(
   selectFeatureAreaState,
   (state: MultiMatchState) => state.jobsToPrice
 );
+
+export const selectModifyPricingsState =
+  createSelector(selectFeatureAreaState, (state: MultiMatchState) => state.modifyPricings);
 
 // Multi Match Page Selectors
 
@@ -71,3 +77,6 @@ export const getLoadingJobsToPriceError = createSelector(
   selectJobsToPriceState,
   fromJobsToPriceReducer.getLoadingJobsError
 );
+
+// Modify Pricings
+export const getPricingsToModify = createSelector(selectModifyPricingsState, fromModifyPricingsReducer.getPricingsToModify);

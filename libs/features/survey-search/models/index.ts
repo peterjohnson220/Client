@@ -4,3 +4,4 @@ export * from './job-result.model';
 export * from './matches-details-tooltip-data.model';
 export * from './project-search-context.model';
 export * from './project-context.model';
+export * from './modify-pricings-search-context.model';

@@ -16,9 +16,10 @@ import { SurveySearchModule } from 'libs/features/survey-search';
 import * as fromFaIcons from './fa-icons';
 import {JobToPriceComponent} from './components';
 import { JobsToPriceContainerComponent } from './containers';
-import { MultiMatchEffects, JobsToPriceEffects } from './effects';
+import {MultiMatchEffects, JobsToPriceEffects, ModifyPricingsEffects} from './effects';
 import { reducers } from './reducers';
 import {MultiMatchComponent} from './multi-match';
+import {WindowCommunicationService} from '../../core/services';
 
 @NgModule({
   imports: [
@@ -27,7 +28,7 @@ import {MultiMatchComponent} from './multi-match';
 
     // 3rd Party
     StoreModule.forFeature('feature_multiMatch', reducers),
-    EffectsModule.forFeature([MultiMatchEffects, JobsToPriceEffects
+    EffectsModule.forFeature([MultiMatchEffects, JobsToPriceEffects, ModifyPricingsEffects
     ]),
     DragulaModule.forRoot(),
     FontAwesomeModule,
@@ -47,7 +48,8 @@ import {MultiMatchComponent} from './multi-match';
     JobsToPriceContainerComponent,
     MultiMatchComponent,
   ],
-  exports: [MultiMatchComponent]
+  exports: [MultiMatchComponent],
+  providers: [WindowCommunicationService]
 })
 export class MultiMatchModule {
   constructor(library: FaIconLibrary) {

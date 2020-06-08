@@ -22,9 +22,11 @@ export class SurveySearchFiltersEffects {
     .pipe(
       ofType(fromSurveySearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER),
       withLatestFrom(this.store.select(fromSurveySearchReducer.getProjectSearchContext),
-        (action, projectSearchContext) => projectSearchContext),
-      switchMap((projectSearchContext) => {
-          return this.surveySearchApiService.getDefaultSurveyScopesFilter(projectSearchContext.PayMarketId)
+                this.store.select(fromSurveySearchReducer.getModifyPricingsSearchContext),
+        (action, projectSearchContext, modifyPricingsSearchContext) => ({projectSearchContext, modifyPricingsSearchContext})),
+      switchMap((obj) => {
+        const paymarketId = obj.projectSearchContext ? obj.projectSearchContext.PayMarketId : obj.modifyPricingsSearchContext.PaymarketId;
+          return this.surveySearchApiService.getDefaultSurveyScopesFilter(paymarketId)
             .pipe(
               mergeMap(response => [
                 new fromSurveySearchFiltersActions.GetDefaultScopesFilterSuccess(),
