@@ -52,12 +52,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
           
           
         </div>
-        <button
-          class="btn btn-secondary float-right ml-2"
-          data-qa-id="btn-reply-cancel"
-        >
-          Discard 
-        </button>
+        
         <button
           class="btn btn-primary float-right"
           data-qa-id="btn-startDiscussionPost"
@@ -124,12 +119,7 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
           
           
         </div>
-        <button
-          class="btn btn-secondary float-right ml-2"
-          data-qa-id="btn-reply-cancel"
-        >
-          Discard 
-        </button>
+        
         <button
           class="btn btn-primary float-right"
           data-qa-id="btn-startDiscussionPost"
