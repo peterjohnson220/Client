@@ -2,8 +2,10 @@
  <div class="mt-1" *ngIf="editedReplyId !== reply.Id">
     <pf-community-post-reply 
     [reply]="reply"
+    [disableCommunityAttachments]="disableCommunityAttachments"
+    [hideAttachmentWarning]="hideAttachmentWarning"
     (replyHashTagClicked)="handleReplyHashTagClicked($event)"
-    [disableCommunityAttachments]="disableCommunityAttachments">
+    (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
     </pf-community-post-reply>
   </div>
   <div class="mt-1" *ngIf="editedReplyId === reply.Id">

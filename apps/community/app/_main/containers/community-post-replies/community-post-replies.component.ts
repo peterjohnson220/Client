@@ -16,7 +16,9 @@ export class CommunityPostRepliesComponent implements OnInit, OnDestroy {
   @Input() replies: CommunityReply[];
   @Input() loading: boolean;
   @Input() disableCommunityAttachments: boolean;
+  @Input() hideAttachmentWarning: boolean;
   @Output() replyHashTagClicked = new EventEmitter();
+  @Output() onAttachmentClickedEvent = new EventEmitter<string>();
 
   communityReplyEdited$: Observable<any>;
   replyEditedSubscription: Subscription;
@@ -38,5 +40,9 @@ export class CommunityPostRepliesComponent implements OnInit, OnDestroy {
 
   handleReplyHashTagClicked(event: any) {
     this.replyHashTagClicked.emit(event);
+  }
+
+  handleAttachmentClickedEvent(event) {
+    this.onAttachmentClickedEvent.emit(event);
   }
 }

@@ -8,10 +8,11 @@
             <pf-community-post
               [post]="post"
               [maximumReplies]="maximumReplies$ | async"
-              (filtersModifiedEvent)="hashtagClicked($event)"
               [hideAttachmentWarning]="hideAttachmentWarning"
               [disableCommunityAttachments]="disableCommunityAttachments"
-              (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)"></pf-community-post>
+              (filtersModifiedEvent)="hashtagClicked($event)"
+              (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
+            </pf-community-post>
           </div>
           <div class="pl-1 col-12" *ngIf="editedPostId === post.Id">
             <pf-community-post-edit
