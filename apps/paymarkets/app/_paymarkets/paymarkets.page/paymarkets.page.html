@@ -11,14 +11,23 @@
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
-    <fa-icon [ngbPopover]="popContent"
-             placement="left"
-             container="body"
+  <div ngbDropdown container="body" #p="ngbDropdown"
+    (openChange)="handleSelectedRowAction(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'], p)">
+    <fa-icon ngbDropdownToggle
              icon="ellipsis-h"
-             #p="ngbPopover"
-             class="gray-text"
-             (shown)="handleSelectedRowAction(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'], p)">
+             id="paymarket-actions-{{dataRow['CompanyPayMarkets_CompanyPayMarket_ID']}}"
+             class="gray-text">
     </fa-icon>
+    <div ngbDropdownMenu aria-labelledby="paymarket-actions-{{dataRow['CompanyPayMarkets_CompanyPayMarket_ID']}}">
+      <button ngbDropdownItem (click)="editPayMarket(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'])">Edit</button>
+      <button *ngIf="defaultPayMarketId !== dataRow['CompanyPayMarkets_CompanyPayMarket_ID']"
+        ngbDropdownItem
+        (click)="setDefaultPayMarket(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'])">
+        Set as default
+      </button>
+      <button ngbDropdownItem>Delete</button>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #payMarketNameColumn let-dataRow="dataRow" let-hover="hover">
@@ -41,14 +50,6 @@
 
 <ng-template #gridActions>
   <pf-paymarkets-grid-actions></pf-paymarkets-grid-actions>
-</ng-template>
-
-<ng-template #popContent>
-  <div class="d-flex flex-column">
-    <a href="#" class="text-dark btn action-btn" (click)="editPayMarket()">Edit</a>
-    <a *ngIf="defaultPayMarketId !== selectedPayMarketId" href="#" (click)="setDefaultPayMarket(selectedPayMarketId)" class="text-dark btn action-btn">Set as default</a>
-    <a href="#"class="text-dark btn action-btn">Delete</a>
-  </div>
 </ng-template>
 
 <ng-template #gridGlobalActions>
