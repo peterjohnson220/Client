@@ -103,6 +103,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
    this.discardingPostReplyProceedSubscription = this.discardingPostReplyProceed$.subscribe(result => {
       if (result && this.discardingPostId === this.postId) {
         this.resetForm();
+        this.deleteAttachments();
       }
     });
 
@@ -172,14 +173,16 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   resetForm() {
     this.communityPostReplyForm.reset();
     this.submitAttempted = false;
+    this.store.dispatch(new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(this.attachmentModalId));
+  }
 
+  deleteAttachments() {
     if (this.communityAttachments.length > 0) {
       const attachmentNames = [];
       this.communityAttachments.forEach(element => {
         attachmentNames.push(element.CloudFileName);
       });
       this.store.dispatch(new fromCommunityAttachmentActions.DiscardAttachments(attachmentNames));
-      this.store.dispatch(new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(this.attachmentModalId));
     }
   }
 
