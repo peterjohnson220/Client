@@ -2,7 +2,7 @@
       pfClickElsewhere
       (clickElsewhere)="handleCloseClicked($event)">
   <span *ngIf="!!label" class="mb-2">{{label}}</span>
-  <button #anchor class="k-button anchor-button" [style.width.px]="anchorWidth">
+  <div #anchor class="k-button anchor-button" [style.width.px]="anchorWidth">
     <span class="d-flex w-100 align-items-start">
       <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex anchor-label">
         <span class="value-template" [style.width.px]="anchorWidth - 147">{{ appliedNames[0] }}</span>
@@ -23,7 +23,7 @@
       <span *ngIf="!!lazyLoadDefaultAppliedItem" class="flex-fill anchor-label">{{lazyLoadDefaultAppliedItem.Name}}</span>
       <span *ngIf="!lazyLoadDefaultAppliedItem" class="flex-fill anchor-label">{{placeholder}}</span>
     </ng-template>
-  </button>
+  </div>
 
   <div *ngIf="!isPopup && show" class="treeview-content">
     <ng-container [ngTemplateOutlet]="treeViewContent"></ng-container>
