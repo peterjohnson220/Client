@@ -10,7 +10,7 @@
     </pf-community-text-area>
     <div class="footer-container">
       <div class="float-left">
-        <button *ngIf="!disableCommunityAttachments && !isSystemAdmin" class="btn btn-secondary btn-sm attachment-button" (click)="openAttachmentsModal()">
+        <button *ngIf="!disableCommunityAttachments" class="btn btn-secondary btn-sm attachment-button" (click)="openAttachmentsModal()">
           <fa-icon *ngIf="!scanningAttachments" icon="paperclip" size="lg" class="icon community-paperclip"></fa-icon>
           <pf-loading-indicator *ngIf="scanningAttachments"></pf-loading-indicator>
           Attachments <span *ngIf="scannedAttachmentsCount>0" class="attachment-count-text">({{scannedAttachmentsCount}})</span>
