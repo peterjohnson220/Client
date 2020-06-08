@@ -5,8 +5,11 @@
   <div #anchor class="k-button anchor-button" [style.width.px]="anchorWidth">
     <span class="d-flex w-100 align-items-start">
       <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex anchor-label">
-        <span class="value-template" [style.width.px]="anchorWidth - 147">{{ appliedNames[0] }}</span>
-        <span [style.visibility]="appliedNames.length > 1 ? 'visible' : 'hidden'" class="has-more-label">
+        <span class="value-template"
+              [style.width]="appliedNames.length > 1 ? anchorWidth - 147 + 'px' : anchorWidth - 67 + 'px'">
+              {{ appliedNames[0] }}
+        </span>
+        <span *ngIf="appliedNames.length > 1" class="has-more-label">
           and {{appliedNames.length - 1}} more
         </span>
       </span>

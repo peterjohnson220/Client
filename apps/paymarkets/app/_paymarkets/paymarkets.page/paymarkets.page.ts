@@ -2,13 +2,12 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { Store } from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import { ActionBarConfig,
   getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig,
-  GridRowActionsConfig,
-  PositionType
+  GridRowActionsConfig
 } from 'libs/features/pf-data-grid/models';
 import { PayMarketsPageViewId } from '../models';
 import { Observable, Subscription} from 'rxjs';
@@ -51,7 +50,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   colTemplates = {};
   defaultPayMarketId: number;
   selectedPayMarketId: number;
-  selectedPopover: NgbPopover;
+  selectedPopover: NgbDropdown;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   permissions = Permissions;
 
@@ -81,8 +80,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   ngAfterViewInit(): void {
     this.gridRowActionsConfig = {
       ...this.gridRowActionsConfig,
-      ActionsTemplate : this.gridRowActionsTemplate,
-      Position: PositionType.Right
+      ActionsTemplate : this.gridRowActionsTemplate
     };
     this.colTemplates = {
       'Default_Scope': { Template: this.defaultScopesColumn},
@@ -126,8 +124,8 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     }
   }
 
-  editPayMarket(): void {
-    this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenPayMarketModal({ payMarketId: this.selectedPayMarketId }));
+  editPayMarket(payMarketId: number): void {
+    this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenPayMarketModal({ payMarketId }));
   }
 
   scroll = (): void => {
