@@ -2,8 +2,6 @@
 
 ::ng-deep .description-popover {
   min-width:250px;
-  animation-name: delayedFadeIn;
-  animation-duration: 1000ms;
   font-size: 13px;
 }
 
@@ -11,8 +9,3 @@
   margin: 5px;
 }
 
-@Keyframes delayedFadeIn {
-  0% {opacity: 0;}
-  99% {opacity: 0;}
-  100% {opacity: 1;}
-}
