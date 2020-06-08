@@ -38,7 +38,8 @@
         </button>
         <div *ngIf="postType === CommunityPostTypes.Discussion && scanningAttachments && submitAttempted" class="text-danger">Processing attachments...</div>
       </div>
-      <button data-qa-id="btn-reply-cancel" class="btn btn-secondary float-right ml-2"
+      <button data-qa-id="btn-reply-cancel" *ngIf="postType === CommunityPostTypes.Discussion"
+        class="btn btn-secondary float-right ml-2"
         [disabled]="!newPostHasData && communityAttachments?.length <= 0"
         (click)="discardPost()">Discard
       </button>
