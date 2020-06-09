@@ -10,7 +10,7 @@ import * as fromSearchResultsActions from 'libs/features/search/actions/search-r
 export class EmployeeSearchUserFilterEffects {
 
   @Effect()
-  initEmployeeSearchuserFilter$ = this.actions$
+  initEmployeeSearchUserFilter$ = this.actions$
     .pipe(
       ofType(fromUserFilterActions.INIT),
       mergeMap(() =>

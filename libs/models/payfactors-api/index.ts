@@ -16,5 +16,6 @@ export * from './reports';
 export * from './user';
 export * from './pricings';
 export * from './structures';
+export * from './total-rewards';
 export * from './validation';
 export * from './composite-field';

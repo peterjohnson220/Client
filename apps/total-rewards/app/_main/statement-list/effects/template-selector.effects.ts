@@ -6,10 +6,10 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap, concatMap, tap } from 'rxjs/operators';
 
-import * as fromTemplateSelectorActions from '../actions/template-selector.actions';
-import {TotalRewardsApiService} from '../../../../../../libs/data/payfactors-api/total-rewards';
-import {Template} from '../../../shared/models';
+import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
 
+import * as fromTemplateSelectorActions from '../actions/template-selector.actions';
+import { Template } from '../../../shared/models';
 
 @Injectable()
 export class TemplateSelectorEffects {
