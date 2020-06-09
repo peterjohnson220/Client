@@ -160,13 +160,14 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
 
   private updateForm(): void {
     if (!!this.payMarketForm && !!this.payMarket) {
+      this.hasLinkedPayMarket = !!this.payMarket.LinkedPayMarketId;
       this.payMarketForm.patchValue({
         PayMarketName: this.payMarket.PayMarket,
         LinkedPayMarketId: this.payMarket.LinkedPayMarketId,
         LinkedPayMarketAdj: this.payMarket.LinkedPayMarketAdj,
         CountryCode: this.payMarket.CountryCode,
         CurrencyCode: this.payMarket.CurrencyCode,
-        ShowInLinkedStructure: this.payMarket.LinkedPayMarketId ? this.payMarket.ShowInLinkedStructure : false
+        ShowInLinkedStructure: this.hasLinkedPayMarket ? this.payMarket.ShowInLinkedStructure : false
       });
     }
   }
