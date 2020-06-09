@@ -110,7 +110,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
   }
 
   handleLocationSearchChanged(searchTerm: string): void {
-    if (!searchTerm && searchTerm.length < 2) {
+    if (!searchTerm || searchTerm.length < 2) {
       this.loadLocations();
     } else {
       this.loadLocations(searchTerm);
@@ -182,6 +182,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
     this.defaultLocation = GeneralFormHelper.buildDefaultLocation(this.payMarket);
     this.selectedLocation = GeneralFormHelper.buildScopeLocation(this.defaultLocation.Value);
     this.locationCheckedKeys = [this.defaultLocation.Value];
+    this.loadLocations();
   }
 
   private updateIndustryControl(): void {

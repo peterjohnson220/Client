@@ -56,7 +56,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'left', vertical: 'top' };
   searchTerm = '';
-  searchTermChanged$ = new BehaviorSubject<string>('');
+  searchTermChanged$ = new BehaviorSubject<string>(null);
   noSearchResults = false;
   filteredData: GroupedListItem[] = [];
   expandedKeys: string[] = [];
@@ -82,7 +82,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
       debounceTime(600),
       distinctUntilChanged()
     ).subscribe(searchTerm => {
-      if (this.lazyLoad) {
+      if (this.lazyLoad && searchTerm !== null) {
         this.searchTermChanged.emit(searchTerm);
         return;
       }
