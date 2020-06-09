@@ -37,39 +37,6 @@ a {
   color: #FA4646;
 }
 
-.btn-container {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-content: flex-start;
-  padding: 0;
-  margin: 0;
-}
-
-.btn {
-  background-color: $community-tags-hover-color;
-  color: #fff;
-  border-color: $community-tags-border-color;
-  border-width: 1px;
-  font-weight: 400;
-  white-space: normal;
-  border-radius: $community-border-radius;
-  flex: 0 0 auto;
-  margin-left: 10px;
-}
-
-.btn-cancel
-{
-  background-color: #ccc;
-  color: #000;
-  border-color: $community-tags-border-color;
-  border-width: 1px;
-  font-weight: 400;
-  white-space: normal;
-  border-radius: $community-border-radius;
-}
-
 .clear-both
 {
   clear: both;
@@ -86,6 +53,15 @@ a {
   flex-direction: row;
   justify-content: flex-start;
   align-content: flex-start;
+  width: 75%;
+}
+
+.btn-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-content: flex-start;
 }
 
 .attachment-content {
@@ -95,3 +71,16 @@ a {
 :host ::ng-deep div.text-danger {
   font-size: 85%;
 }
+
+
+
+.footer-container {
+  display: inline-block;
+  width: 100%;
+  margin-top: -10px;
+}
+
+.btn{
+  border-radius: 4px;
+}
+
