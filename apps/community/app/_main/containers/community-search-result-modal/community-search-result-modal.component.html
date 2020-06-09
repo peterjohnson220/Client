@@ -17,6 +17,7 @@
         <pf-community-post
           [post]="communityPost"
           [isModal]="true"
+          [hideAttachmentWarning]="hideAttachmentWarning"
           [disableCommunityAttachments]="disableCommunityAttachments$ | async"
           [maximumReplies]="maximumReplies$ | async"
           (filtersModifiedEvent)="hashtagClicked($event)"

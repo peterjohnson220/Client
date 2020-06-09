@@ -155,6 +155,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
         </div>
       </div>
     </div>
-  </div><pf-community-attachment-modal /><pf-community-attachment-warning-modal />
+  </div><pf-community-attachment-modal /><pf-community-attachment-warning-modal /><pf-community-cancel-post-modal /><pf-community-cancel-post-reply-modal />
 </pf-community-dashboard-page>
 `;
