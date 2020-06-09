@@ -169,6 +169,7 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
         CurrencyCode: this.payMarket.CurrencyCode,
         ShowInLinkedStructure: this.hasLinkedPayMarket ? this.payMarket.ShowInLinkedStructure : false
       });
+      this.handleCountryChange(this.payMarket.CountryCode);
     }
   }
 
@@ -192,12 +193,9 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
 
   private updateCurrencyCode(currencyCode: string): void {
     const currenciesControl = this.payMarketForm.controls['CurrencyCode'];
-    let selectedValue = this.currencies.find(c => c.Value === currencyCode)
+    const selectedValue = this.currencies.some(c => c.Value === currencyCode)
       ? currencyCode
       : this.DEFAULT_CURRENCY;
-    if (!!this.payMarket && this.payMarket.CurrencyCode) {
-      selectedValue = this.payMarket.CurrencyCode;
-    }
     currenciesControl.setValue(selectedValue);
   }
 
