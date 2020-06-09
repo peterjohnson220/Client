@@ -10,8 +10,9 @@ import { JobDescription } from 'libs/models/jdm';
 
 import * as fromRootState from 'libs/state/state';
 import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowStepUserApiService } from 'libs/data/payfactors-api/jdm';
+import { AccountApiService } from 'libs/data/payfactors-api/auth';
+import { SsoConfigApiService } from 'libs/data/payfactors-api/sso';
 import { ExtendedInfoResponse } from 'libs/models/payfactors-api/job-description/response';
-import { CompanyDto } from 'libs/models/company';
 import { CompanyApiService } from 'libs/data/payfactors-api/company';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
@@ -207,6 +208,36 @@ export class JobDescriptionEffects {
       })
     );
 
+  @Effect()
+  authenticateSSOParams$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.AUTHENTICATE_SSO_PARAMS),
+      switchMap((action: fromJobDescriptionActions.AuthenticateSSOParams) => {
+        return   this.accountApiService.authenticateSSOParams(action.payload.tokenId, action.payload.agentId).pipe(
+          map((response) => {
+            return new fromJobDescriptionActions.AuthenticateSSOParamsSuccess(response);
+          }),
+          catchError(error => {
+            return of(new fromJobDescriptionActions.AuthenticateSSOParamsError(error));
+          })
+        );
+      })
+    );
+
+  @Effect()
+  getSSOLoginUrl$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.GET_SSO_LOGIN_URL),
+      switchMap((action: fromJobDescriptionActions.GetSSOLoginUrl) => {
+        return this.ssoConfigurationService.getSsoLoginUrl().pipe(
+          map((response) => {
+            return new fromJobDescriptionActions.GetSSOLoginUrlSuccess(response);
+          }),
+          catchError(() => of(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedError()))
+        );
+      })
+    );
+
   private redirectForUnauthorized(error: HttpErrorResponse) {
     if (error.status === 403) {
       return error.error.error.message;
@@ -220,6 +251,8 @@ export class JobDescriptionEffects {
     private jobDescriptionManagementApiService: JobDescriptionManagementApiService,
     private router: Router,
     private userContextStore: Store<fromRootState.State>,
-    private jobDescriptionWorkflowStepUserApiService: JobDescriptionWorkflowStepUserApiService
+    private jobDescriptionWorkflowStepUserApiService: JobDescriptionWorkflowStepUserApiService,
+    private accountApiService: AccountApiService,
+    private ssoConfigurationService: SsoConfigApiService
   ) {}
 }

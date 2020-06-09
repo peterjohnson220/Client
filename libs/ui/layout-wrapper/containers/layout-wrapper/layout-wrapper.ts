@@ -30,6 +30,7 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
   getGettingHomePageLinkError$: Observable<boolean>;
   homePageLink$: Observable<HomePageLink>;
   enableCoreJDMInClient$: Observable<boolean>;
+  requireSSOLogin$: Observable<boolean>;
   enableCoreJDMInClientSubscription: Subscription;
   userContextSubscription: Subscription;
 
@@ -65,6 +66,10 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
       });
     this.enableCoreJDMInClient$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMCoreUseClient
+    );
+
+    this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
     );
   }
 

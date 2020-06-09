@@ -1,4 +1,4 @@
-<ul class="navbar-nav" [class.d-none]="userContext.IsPublic || !!userContext.WorkflowStepInfo">
+<ul class="navbar-nav" [class.d-none]="(userContext.IsPublic || !!userContext.WorkflowStepInfo) && !requireSSOLogin">
   <li class="nav-item" ngbDropdown placement="bottom-right">
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>
       <span class="text-white pr-1">{{ userContext.FirstName }} {{ userContext.LastName }}

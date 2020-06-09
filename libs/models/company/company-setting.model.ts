@@ -29,7 +29,8 @@ export enum CompanySettingsEnum {
   CanEditCurrentStructureRanges = 'CanEditCurrentStructureRanges',
   DashboardPreferences = 'DashboardPreferences',
   EnableJobRangeStructureRangeTypes = 'EnableJobRangeStructureRangeTypes',
-  CommunityDisableAttachments = 'CommunityDisableAttachments'
+  CommunityDisableAttachments = 'CommunityDisableAttachments',
+  JDMExternalWorkflowsRequireSSOLogin = 'JDMExternalWorkflowsRequireSSOLogin'
 }
 
 export interface CompanySetting {
