@@ -128,8 +128,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
   updateLocationsByCountryCode(countryCode: string): void {
     this.countryCode = countryCode;
     this.defaultLocation = GeneralFormHelper.buildAllItem();
-    this.locationCheckedKeys = [this.defaultLocation.Value];
-    this.loadLocations();
+    this.refreshLocation();
   }
 
   private handlePayMarketChanged(asyncObj: AsyncStateObj<PayMarketWithMdScope>): void {
@@ -138,6 +137,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
     }
     this.payMarket = asyncObj.obj;
     this.countryCode = this.payMarket.CountryCode;
+    this.defaultLocation = GeneralFormHelper.buildDefaultLocation(this.payMarket);
     this.refreshSize();
     this.refreshIndustry();
     this.refreshLocation();
@@ -176,10 +176,9 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
   }
 
   private refreshLocation(): void {
-    if (!this.payMarket) {
+    if (!this.defaultLocation) {
       return;
     }
-    this.defaultLocation = GeneralFormHelper.buildDefaultLocation(this.payMarket);
     this.selectedLocation = GeneralFormHelper.buildScopeLocation(this.defaultLocation.Value);
     this.locationCheckedKeys = [this.defaultLocation.Value];
     this.loadLocations();
