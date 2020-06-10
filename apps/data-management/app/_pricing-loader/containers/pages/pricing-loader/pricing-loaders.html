@@ -11,7 +11,7 @@
         Pricing Loaders
       </ng-container>
       <ng-container page-actions>
-        <button class="btn btn-outline-primary">Download Pricing</button>
+        <button class="btn btn-outline-primary" (click)="goDownload()" *ngIf="selectedCompany !== null && selectedCompany !== undefined">Download Pricing</button>
       </ng-container>
       <ng-container page-content>
         <div class="pb-3">

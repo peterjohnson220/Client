@@ -1,0 +1,32 @@
+<pf-data-grid
+  [reorderable]="true"
+  [pageViewId]="pageViewId"
+  [title]="company.Name"
+  [selectionField]="'CompanyEmployee_ID'"
+  [filterPanelTemplates]="filterTemplates"
+  [inboundFilters]="filters"
+  [noRecordsFound]="'No records available.'"
+  [enableSelection]="false"
+  [defaultSort]="defaultSort"
+  [saveSort]="true"
+  [useColumnGroups]="false"
+  [actionBarConfig]="actionBarConfig"
+  [fieldsExcludedFromExport]="fieldsExcludedFromExport">
+</pf-data-grid>
+
+<ng-template #recencyFilter>
+  <div>
+    <label>Recency:</label>
+    <kendo-dropdownlist
+      [(ngModel)]="selectedRecency"
+      [textField]="'Value'"
+      [valueField]="'Id'"
+      [defaultItem]="{Value:'All Data', Id: null}"
+      [data]="filteredRecencyOptions"
+      (valueChange)="handleRecencyFilterChanged($event)"
+      [filterable]="true"
+      [attr.data-qa-id]="'ddm-operator-jobs-page' + recencyField.SourceName"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>
+  </div>
+</ng-template>
