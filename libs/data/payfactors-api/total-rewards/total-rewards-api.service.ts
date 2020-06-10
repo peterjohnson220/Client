@@ -43,6 +43,10 @@ export class TotalRewardsApiService {
     return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetTemplates`);
   }
 
+  deleteStatement(statementId: string): Observable<any> {
+    return this.payfactorsApiService.delete<any>(`${this.endpoint}/DeleteStatement?statementId=${statementId}`);
+  }
+
   deleteStatementImage(fileName: string): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteStatementImage?fileName=${fileName}`);
   }

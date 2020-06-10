@@ -11,7 +11,11 @@ export interface State extends EntityState<StatementListViewModel> {
   statementsLoading: boolean;
   statementsLoadingError: boolean;
   searchTerm: string;
-  openActionMenuStatementId: string;
+  openActionMenuStatement: StatementListViewModel;
+  isDeleteStatetementModalOpen: boolean;
+  deletingStatetement: boolean;
+  deletingStatetementSuccess: boolean;
+  deletingStatetementError: boolean;
 }
 
 // define our EntityAdapter of Statement type
@@ -24,7 +28,11 @@ const initialState: State = adapter.getInitialState({
   statementsLoading: false,
   statementsLoadingError: false,
   searchTerm: null,
-  openActionMenuStatementId: null
+  openActionMenuStatement: null,
+  isDeleteStatetementModalOpen: false,
+  deletingStatetement: false,
+  deletingStatetementSuccess: false,
+  deletingStatetementError: false,
 });
 
 export function reducer(state, action) {
@@ -63,15 +71,48 @@ export function reducer(state, action) {
         case fromStatementGridActions.OPEN_ACTION_MENU: {
           return {
             ...featureState,
-            openActionMenuStatementId: featureAction.payload
+            openActionMenuStatement: featureAction.payload
           };
         }
         case fromStatementGridActions.CLOSE_ACTION_MENU: {
           return {
             ...featureState,
-            openActionMenuStatementId: null
+            // action menu is behind an opacity blanket when the delete modal is open, so noop on a close in that case
+            openActionMenuStatement: (featureState.isDeleteStatetementModalOpen) ? featureState.openActionMenuStatement : null,
           };
         }
+        case fromStatementGridActions.CONFIRM_DELETE_STATEMENT: {
+          return {
+            ...featureState,
+            isDeleteStatetementModalOpen: true
+          };
+        }
+        case fromStatementGridActions.CLOSE_DELETE_STATEMENT:
+          return {
+            ...featureState,
+            isDeleteStatetementModalOpen: false
+          };
+        case fromStatementGridActions.DELETE_STATEMENT:
+          return {
+            ...featureState,
+            deletingStatetement: true,
+            deletingStatetementSuccess: false,
+            deletingStatetementError: false,
+          };
+        case fromStatementGridActions.DELETE_STATEMENT_SUCCESS:
+          return {
+            ...featureState,
+            deletingStatetement: false,
+            deletingStatetementSuccess: true,
+            deletingStatetementError: false,
+          };
+        case fromStatementGridActions.DELETE_STATEMENT_ERROR:
+          return {
+            ...featureState,
+            deletingStatetement: false,
+            deletingStatetementSuccess: false,
+            deletingStatetementError: true,
+          };
         default: {
           return featureState;
         }
@@ -86,4 +127,9 @@ export const getStatementsLoading = (state: State) => state.statementsLoading;
 export const getStatementsLoadingError = (state: State) => state.statementsLoadingError;
 export const getSearchTerm = (state: State) => state.searchTerm;
 
-export const getOpenActionMenuStatementId = (state: State) => state.openActionMenuStatementId;
+export const getOpenActionMenuStatement = (state: State) => state.openActionMenuStatement;
+
+export const getIsDeleteStatetementModalOpen = (state: State) => state.isDeleteStatetementModalOpen;
+export const getDeletingStatetement = (state: State) => state.deletingStatetement;
+export const getDeletingStatetementSuccess = (state: State) => state.deletingStatetementSuccess;
+export const getDeletingStatetementError = (state: State) => state.deletingStatetementError;
