@@ -2,6 +2,7 @@ import {
   Component, Input, Output, EventEmitter, ViewChild, OnInit, OnDestroy, OnChanges, SimpleChanges,
   ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable, of, BehaviorSubject, Subscription } from 'rxjs';
 import { CheckableSettings, TreeViewComponent, TreeItem } from '@progress/kendo-angular-treeview';
@@ -42,6 +43,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() lazyLoad: boolean;
   @Input() lazyLoadDefaultAppliedItem: GroupedListItem;
   @Input() loading = false;
+  @Input() showDescriptionToolTip = false;
   @Output() applyClicked: EventEmitter<string[]> = new EventEmitter();
   @Output() expandNode: EventEmitter<string> = new EventEmitter();
   @Output() searchTermChanged: EventEmitter<string> = new EventEmitter();
@@ -62,6 +64,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   expandedKeys: string[] = [];
   modes = TreeViewMode;
   isSearching: boolean;
+  selectedTooltip: NgbTooltip;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
@@ -88,6 +91,7 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
       }
       this.handleSearchTermSubscription(searchTerm);
     });
+    window.addEventListener('scroll', this.scroll, true);
   }
 
   ngOnDestroy(): void {
@@ -107,6 +111,10 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   clearSearchTerm(): void {
     this.searchTerm = '';
     this.searchTermChanged$.next('');
+  }
+
+  setCurrentToolTip(tooltip: NgbTooltip): void {
+    this.selectedTooltip = tooltip;
   }
 
   handleCloseClicked(event: MouseEvent): void {
@@ -151,6 +159,12 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   clearSelections(): void {
     this.checkedKeys = [];
     this.handleApplyClicked();
+  }
+
+  scroll = (): void => {
+    if (!!this.selectedTooltip) {
+      this.selectedTooltip.close();
+    }
   }
 
   // Kendo treeview

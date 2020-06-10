@@ -5,7 +5,7 @@
   <div #anchor class="k-button anchor-button" [style.width.px]="anchorWidth">
     <span class="d-flex w-100 align-items-start">
       <span *ngIf="appliedNames?.length > 0; else placeholderTemplate" class="d-flex anchor-label">
-        <span class="value-template"
+        <span class="value-template smaller-text"
               [style.width]="appliedNames.length > 1 ? anchorWidth - 147 + 'px' : anchorWidth - 67 + 'px'">
               {{ appliedNames[0] }}
         </span>
@@ -44,7 +44,7 @@
 <ng-template #treeViewContent>
   <div class="d-flex flex-column popup-container" [style.width.px]="anchorWidth - 2">
     <div *ngIf="filterable" class="px-3 pt-3 pb-2">
-      <div class="input-group">
+      <div class="input-group smaller-text">
         <input class="form-control"
           [attr.data-qa-id]="'txt-searchItem'"
           [placeholder]="searchPlaceholder"
@@ -99,21 +99,42 @@
         (expand)="handleExpandNode($event)">
 
         <ng-template kendoTreeViewNodeTemplate let-dataItem>
-          <span class="item-name" [title]="dataItem.Name">{{dataItem.Name}}</span>
+          <span *ngIf="showDescriptionToolTip; else default" class="text-wrap"
+                #t="ngbTooltip"
+                [ngbTooltip]="description"
+                container="body"
+                placement="right"
+                [openDelay]="300"
+                (mouseenter)="setCurrentToolTip(t)">
+            <span class="smaller-text">{{dataItem.Name}}</span>
+          </span>
+          <ng-template #default>
+            <span class="item-name" [title]="dataItem.Name">{{dataItem.Name}}</span>
+          </ng-template>
+          <ng-template #description>
+            <div class="tooltip-container smaller-text">
+              <ng-container *ngIf="dataItem.Name !== 'All'; else all">
+                <h6>{{dataItem.Name}}</h6>
+                <p>{{dataItem.Description}}</p>
+              </ng-container>
+              <ng-template #all>
+                Select
+              </ng-template>
+            </div>
+          </ng-template>
         </ng-template>
 
       </kendo-treeview>
     </div>
-
     <div class="d-flex justify-content-end treeview-footer space-out-children">
       <button type="button"
         (click)="handleCloseClicked($event)"
-        class="btn btn-secondary">
+        class="btn btn-secondary smaller-text">
         Close
       </button>
       <button type="button"
         (click)="handleApplyClicked()"
-        class="btn light-blue-btn">
+        class="btn light-blue-btn smaller-text">
         Apply
       </button>
     </div>
