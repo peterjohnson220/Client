@@ -8,6 +8,7 @@ import * as fromExchangeScopeReducer from './exchange-scope.reducer';
 import * as fromExchangeFilterContextReducer from './exchange-filter-context.reducer';
 import * as fromMapReducer from './map.reducer';
 import * as fromExchangeExplorerContextInfoReducer from './exchange-explorer-context-info.reducer';
+import * as fromExchangeDataCutReducer from './exchange-data-cut.reducer';
 
 // Feature area state
 export interface FeaturePeerExchangeExplorerState {
@@ -15,6 +16,7 @@ export interface FeaturePeerExchangeExplorerState {
   exchangeScope: fromExchangeScopeReducer.State;
   exchangeFilterContext: fromExchangeFilterContextReducer.State;
   exchangeExplorerContextInfo: fromExchangeExplorerContextInfoReducer.State;
+  exchangeDataCut: fromExchangeDataCutReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,7 +29,8 @@ export const reducers = {
   map: fromMapReducer.reducer,
   exchangeScope: fromExchangeScopeReducer.reducer,
   exchangeFilterContext: fromExchangeFilterContextReducer.reducer,
-  exchangeExplorerContextInfo: fromExchangeExplorerContextInfoReducer.reducer
+  exchangeExplorerContextInfo: fromExchangeExplorerContextInfoReducer.reducer,
+  exchangeDataCut: fromExchangeDataCutReducer.reducer
 };
 
 // Select Feature Area
@@ -54,6 +57,11 @@ export const selectFilterContextState = createSelector(
 export const selectExchangeExplorerContextInfo = createSelector(
   selectFeaturePeerExchangeExplorerState,
   (state: FeaturePeerExchangeExplorerState) => state.exchangeExplorerContextInfo
+);
+
+export const selectDataCutState = createSelector(
+  selectFeaturePeerExchangeExplorerState,
+  (state: FeaturePeerExchangeExplorerState) => state.exchangeDataCut
 );
 
 // Map Data Selectors
@@ -161,6 +169,9 @@ export const getSelectedExchangeJobId = createSelector(
   }
 );
 export const getWeightingType = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getWeightingType);
+
+//Exchange Data Cut Selectors
+export const getDataCutLoading = createSelector(selectDataCutState, fromExchangeDataCutReducer.getLoading);
 
 // MISC
 export const getAssociatedExchangeJobIds = createSelector(
