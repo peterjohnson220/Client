@@ -185,6 +185,42 @@ describe('Peer - Manage - Request Job Modal', () => {
     expect(newJobForm).toBe(null);
   });
 
+  it(`should keep the job selection form enabled when resetForm is called and the job selection form is shown`, () => {
+    instance.newJobFormEnabled = false;
+
+    fixture.detectChanges();
+
+    instance.exchangeJobRequestForm.addControl('jobSelectionForm', generateMockPayfactorsJobSelectionForm());
+
+    fixture.detectChanges();
+
+    instance.resetForm();
+
+    const jobSelectionForm = instance.exchangeJobRequestForm.get('jobSelectionForm');
+    const newJobForm = instance.exchangeJobRequestForm.get('newJobForm');
+    expect(jobSelectionForm).toBeDefined();
+    expect(newJobForm).toBe(null);
+    expect(instance.newJobFormEnabled).toBeFalsy();
+  });
+
+  it(`should switch to the job selection form when resetForm is called and the new job form is shown`, () => {
+    instance.newJobFormEnabled = true;
+
+    fixture.detectChanges();
+
+    instance.exchangeJobRequestForm.addControl('newJobForm', generateMockNewJobForm());
+
+    fixture.detectChanges();
+
+    instance.resetForm();
+
+    const jobSelectionForm = instance.exchangeJobRequestForm.get('jobSelectionForm');
+    const newJobForm = instance.exchangeJobRequestForm.get('newJobForm');
+    expect(jobSelectionForm).toBeDefined();
+    expect(newJobForm).toBe(null);
+    expect(instance.newJobFormEnabled).toBeFalsy();
+  });
+
   it(`should clear the jobSelectionForm when newJobFormEnabled is toggled on`, () => {
     fixture.detectChanges();
 
