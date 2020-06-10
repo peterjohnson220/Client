@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UserContext } from 'libs/models';
 import { Permissions } from 'libs/constants';
-import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
+import { ActionBarConfig, ColumnChooserType, GridConfig } from 'libs/features/pf-data-grid/models';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
@@ -55,6 +55,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   colTemplates = {};
   actionBarConfig: ActionBarConfig;
   fieldsExcludedFromExport = ['CompanyEmployee_ID', 'HiddenRate'];
+  gridConfig: GridConfig;
 
   constructor(
     private rootStore: Store<fromRootState.State>,
@@ -75,6 +76,9 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       AllowSaveFilter: false,
       ExportSourceName: 'Employees',
       ColumnChooserType: ColumnChooserType.ColumnGroup
+    };
+    this.gridConfig = {
+      PersistColumnWidth: true
     };
   }
 

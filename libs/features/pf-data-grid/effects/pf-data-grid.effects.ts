@@ -119,8 +119,9 @@ export class PfDataGridEffects {
               this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, updateFieldsAction.pageViewId)),
               this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, updateFieldsAction.pageViewId)),
               this.store.pipe(select(fromPfDataGridReducer.getSaveSort, updateFieldsAction.pageViewId)),
-              (action: fromPfDataGridActions.UpdateFields, baseEntity, sortDescriptor, saveSort) =>
-                ({ action, baseEntity, sortDescriptor, saveSort })
+              this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+              (action: fromPfDataGridActions.UpdateFields, baseEntity, sortDescriptor, saveSort, gridConfig) =>
+                ({ action, baseEntity, sortDescriptor, saveSort, gridConfig })
             )
           ),
         ),
@@ -132,7 +133,8 @@ export class PfDataGridEffects {
               data.action.fields,
               data.saveSort ? data.sortDescriptor : null,
               null,
-              DataViewType.userDefault))
+              DataViewType.userDefault,
+              data.gridConfig))
             .pipe(
               map((response: any[]) => {
                 return new fromPfDataGridActions.UpdateFieldsSuccess(data.action.pageViewId);
@@ -157,8 +159,9 @@ export class PfDataGridEffects {
             this.store.pipe(select(fromPfDataGridReducer.getFields, saveFilterAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, saveFilterAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSaveSort, saveFilterAction.pageViewId)),
-            (action: fromPfDataGridActions.SaveView, baseEntity, fields, sortDescriptor, saveSort) =>
-              ({ action, baseEntity, fields, sortDescriptor, saveSort })
+            this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+            (action: fromPfDataGridActions.SaveView, baseEntity, fields, sortDescriptor, saveSort, gridConfig) =>
+              ({ action, baseEntity, fields, sortDescriptor, saveSort, gridConfig })
           )
         )
       ),
@@ -169,7 +172,8 @@ export class PfDataGridEffects {
           data.fields,
           data.saveSort ? data.sortDescriptor : null,
           data.action.viewName,
-          data.action.viewType))
+          data.action.viewType,
+          data.gridConfig))
           .pipe(
             map((response: any) => {
               return new fromPfDataGridActions.SaveViewSuccess(data.action.pageViewId, response, data.action.viewType);
@@ -194,8 +198,9 @@ export class PfDataGridEffects {
             this.store.pipe(select(fromPfDataGridReducer.getFields, reorderColumnsAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, reorderColumnsAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSaveSort, reorderColumnsAction.pageViewId)),
-            (action: fromPfDataGridActions.ReorderColumns, baseEntity, fields, sortDescriptor, saveSort) =>
-              ({ action, baseEntity, fields, sortDescriptor, saveSort })
+            this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+            (action: fromPfDataGridActions.ReorderColumns, baseEntity, fields, sortDescriptor, saveSort, gridConfig) =>
+              ({ action, baseEntity, fields, sortDescriptor, saveSort, gridConfig })
           )
         )
       ),
@@ -206,7 +211,8 @@ export class PfDataGridEffects {
           data.fields,
           data.saveSort ? data.sortDescriptor : null,
           null,
-          DataViewType.userDefault))
+          DataViewType.userDefault,
+          data.gridConfig))
           .pipe(
             map((response: any) => {
               return new fromPfDataGridActions.ReorderColumnsSuccess();

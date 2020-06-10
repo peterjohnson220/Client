@@ -6,7 +6,7 @@ import { arrayMoveMutate, arraySortByString, SortDirection } from 'libs/core/fun
 import { DataViewConfig, DataViewEntity, DataViewType, PagingOptions, SimpleDataView, ViewField } from 'libs/models/payfactors-api';
 
 import * as fromPfGridActions from '../actions';
-import { PfDataGridFilter } from '../models';
+import { PfDataGridFilter, GridConfig } from '../models';
 import { getDefaultFilterOperator, getHumanizedFilter, getUserFilteredFields } from '../components';
 
 export interface DataGridState {
@@ -44,6 +44,7 @@ export interface DataGridState {
   exportViewId: number;
   loadingExportingStatus: boolean;
   fieldsExcludedFromExport: [];
+  gridConfig: GridConfig;
 }
 
 export interface DataGridStoreState {
@@ -145,6 +146,7 @@ export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: stri
   }
   return filterCount;
 };
+export const getGridConfig = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].gridConfig : null;
 
 
 
@@ -863,6 +865,36 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     }
+    case fromPfGridActions.UPDATE_COLUMN_WIDTH: {
+      const fieldsClone: ViewField[] = cloneDeep(state.grids[action.pageViewId].fields);
+      const columnWidthUpdatedField = fieldsClone
+        .filter(f => f.IsSelectable && f.IsSelected)
+        .find(f => `${f.EntitySourceName}_${f.SourceName}` === action.payload.FieldSourceName);
+      if (columnWidthUpdatedField) {
+        columnWidthUpdatedField.Width = action.payload.NewWidth;
+      }
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            fields: fieldsClone
+          }
+        }
+      };
+    }
+    case fromPfGridActions.UPDATE_GRID_CONFIG:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            gridConfig: action.payload,
+          },
+        }
+      };
     case fromPfGridActions.UPDATE_ROW:
       const gridData = cloneDeep(state.grids[action.pageViewId].data);
       if (gridData && gridData.data && gridData.data.length) {
@@ -1112,8 +1144,7 @@ export function applyNewOrdering(existingFields: any[], orderedFields: any[]): V
   existingFields.forEach((existingField) => {
     if (existingField.DataElementId !== undefined) {
       applyNewOrderingHelper(existingField, orderedFields);
-    }
-    else if (!!existingField.Fields) {
+    } else if (!!existingField.Fields) {
       applyNewOrderingGroupHelper(existingField, orderedFields);
     }
 
