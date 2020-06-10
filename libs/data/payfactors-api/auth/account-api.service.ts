@@ -54,4 +54,8 @@ export class AccountApiService {
   resendSelfRegistrationToken(token: string): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.ResendSelfRegistrationRequest`, { token });
   }
+
+  authenticateSSOParams(tokenId: string, agentId: string): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetSsoJobDescriptionAuthResult?tokenid=${tokenId}&agentid=${agentId}`);
+  }
 }
