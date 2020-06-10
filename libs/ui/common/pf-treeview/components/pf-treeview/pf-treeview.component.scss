@@ -141,3 +141,10 @@
     border-color: rgba($pf-brand-secondary-color, .65);
   }
 }
+.tooltip-container {
+  text-align: left;
+}
+
+.smaller-text {
+  font-size: 0.9rem !important;
+}
