@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
+import {Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy, ElementRef, ViewChild} from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { ContentScrollEvent } from '@progress/kendo-angular-grid';
 
 import { ViewField, SimpleDataView, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { AppNotification, NotificationLevel } from 'libs/features/app-notifications/models';
@@ -76,6 +77,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() autoFitColumnsToHeader = false;
   @Input() pageTheme: 'default' | 'next-gen' = 'default';
   @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
+  @Input() syncScrollWithSplit = false;
+  @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
   @Input() gridConfig: GridConfig;
 
   splitViewEmitter = new EventEmitter<string>();
@@ -252,6 +255,12 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   isSplitView() {
     return this.splitViewTemplate && (this.selectedRecordId || !this.splitOnSelection);
+  }
+
+  handleGridScroll(event: ContentScrollEvent) {
+    if (this.syncScrollWithSplit) {
+      this.splitViewContainer.nativeElement.scrollTop = event.scrollTop;
+    }
   }
 
 }
