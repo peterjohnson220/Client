@@ -196,7 +196,7 @@ export class PayfactorsApiModelMapper {
           Mappings: fields.filter(field => !isEmpty(field.AssociatedEntity)).map(field => `${field.FieldName}__${field.FieldName}`),
         };
 
-        if (find(fields, (field: EntityDataField) => field.FieldName === 'PayMarket' && field.AssociatedEntity?.length === 0)) {
+        if (find(fields, (field: EntityDataField) => field.FieldName === 'PayMarket' && isEmpty(field.AssociatedEntity))) {
           result.Mappings.push('PayMarket__PayMarket');
         }
 
