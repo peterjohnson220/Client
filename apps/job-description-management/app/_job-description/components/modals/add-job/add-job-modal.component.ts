@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
@@ -47,6 +47,7 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
   public templateListItems$: Observable<TemplateListItem[]>;
   public templateListLoading$: Observable<boolean>;
   public publicViewOptions = JobDescriptionViewConstants.PUBLIC_VIEW_OPTIONS;
+  public invalidCharactersMsg = JobDescriptionViewConstants.INVALID_CHARACTERS;
 
   private companyJob$: Observable<CompanyJob>;
   private duplicateJobCodeErrorMessage$: Observable<string>;
@@ -161,12 +162,12 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
     this.jobUserDefinedFields$.subscribe(userDefinedFields => {
       const group = this.formBuilder.group({});
 
-      group.addControl('JobCode', new FormControl('', [Validators.required, Validators.maxLength(50)]));
-      group.addControl('JobFamily', new FormControl(''));
-      group.addControl('JobTitle', new FormControl('', [Validators.required, Validators.maxLength(255)]));
-      group.addControl('JobLevel', new FormControl('', Validators.maxLength(255)));
-      group.addControl('FLSAStatus', new FormControl(''));
-      group.addControl('JobStatus', new FormControl(''));
+      group.addControl('JobCode', new FormControl('', [Validators.required, Validators.maxLength(50), this.validateCharacters]));
+      group.addControl('JobFamily', new FormControl('', [this.validateCharacters]));
+      group.addControl('JobTitle', new FormControl('', [Validators.required, Validators.maxLength(255), this.validateCharacters]));
+      group.addControl('JobLevel', new FormControl('', [Validators.maxLength(255), this.validateCharacters]));
+      group.addControl('FLSAStatus', new FormControl('', [this.validateCharacters]));
+      group.addControl('JobStatus', new FormControl('', [this.validateCharacters]));
       group.addControl('CompanyId', new FormControl(''));
       group.addControl('CompanyJobDescriptionTemplateId', new FormControl(''));
 
@@ -188,5 +189,18 @@ export class AddJobModalComponent implements OnInit, OnDestroy {
     this.companyJobSaveSuccessSubscription.unsubscribe();
     this.companyJobSaveErrorSubscription.unsubscribe();
     this.companyJobSaveErrorMessageSubscription.unsubscribe();
+  }
+
+  private validateCharacters(control: AbstractControl): {[key: string]: any} | null  {
+    if (control.value && control.value.length > 0) {
+      const forbiddenCharacters = ['\\\'', '\\\"', ';', '<', '>'];
+      const userInput = control.value;
+
+      if (forbiddenCharacters.some(char => userInput.includes(char))) {
+        return { 'invalidCharacters': true };
+      }
+    }
+
+    return null;
   }
 }

@@ -8,4 +8,6 @@ export class JobDescriptionViewConstants {
     { display: 'Enabled', value: true},
     { display: 'Disabled', value: false}
   ];
+
+  public static INVALID_CHARACTERS = 'Invalid characters: \\\' \\\" ; < >';
 }
