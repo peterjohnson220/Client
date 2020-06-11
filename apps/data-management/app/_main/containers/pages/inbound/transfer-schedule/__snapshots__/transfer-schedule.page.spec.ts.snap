@@ -5,6 +5,13 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
   backRoute={[Function String]}
   connectionSummarySub={[Function Subscriber]}
   editStates={[Function Array]}
+  emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
+  identity$={[Function Store]}
+  identitySubscription={[Function Subscriber]}
+  loadType={[Function String]}
   restoreCompletedSubscription={[Function Subscriber]}
   router={[Function Object]}
   showIntegrationFinishedModal$={[Function Store]}
@@ -16,6 +23,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
   transferScheduleSummaryLoading$={[Function Store]}
   transferScheduleSummarySaving$={[Function Store]}
   transferScheduleSummarySubscription={[Function Subscriber]}
+  userContextStore={[Function MockStore]}
 >
   <pf-async-container>
     <div
@@ -44,6 +52,16 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
       <div
         class="d-flex justify-content-end"
       >
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-secondary px-4"
+            type="button"
+          >
+            Email List
+          </button>
+        </div>
         <div
           class="p-2"
         >
@@ -79,6 +97,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
       </div>
     </div>
     <pf-modal-form
+      class="integration-setup-complete-modal"
       title="Integration Setup Complete"
     >
       
@@ -100,6 +119,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         </button>
       </div>
     </pf-modal-form>
+    
   </pf-async-container>
 </pf-transfer-schedule>
 `;
@@ -109,6 +129,13 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
   backRoute={[Function String]}
   connectionSummarySub={[Function Subscriber]}
   editStates={[Function Array]}
+  emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
+  identity$={[Function Store]}
+  identitySubscription={[Function Subscriber]}
+  loadType={[Function String]}
   restoreCompletedSubscription={[Function Subscriber]}
   router={[Function Object]}
   showIntegrationFinishedModal$={[Function Store]}
@@ -120,6 +147,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
   transferScheduleSummaryLoading$={[Function Store]}
   transferScheduleSummarySaving$={[Function Store]}
   transferScheduleSummarySubscription={[Function Subscriber]}
+  userContextStore={[Function MockStore]}
 >
   <pf-async-container>
     <div
@@ -148,6 +176,16 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
       <div
         class="d-flex justify-content-end"
       >
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-secondary px-4"
+            type="button"
+          >
+            Email List
+          </button>
+        </div>
         <div
           class="p-2"
         >
@@ -183,6 +221,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
       </div>
     </div>
     <pf-modal-form
+      class="integration-setup-complete-modal"
       title="Integration Setup Complete"
     >
       
@@ -204,6 +243,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         </button>
       </div>
     </pf-modal-form>
+    
   </pf-async-container>
 </pf-transfer-schedule>
 `;

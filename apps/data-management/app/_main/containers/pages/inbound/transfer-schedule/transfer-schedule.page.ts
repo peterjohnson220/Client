@@ -11,10 +11,15 @@ import { fill } from 'lodash';
 import { SyncScheduleDtoModel, TransferScheduleSummary } from 'libs/models/hris-api/sync-schedule';
 
 import { PayfactorsApiModelMapper } from '../../../../helpers';
+import * as fromRootState from 'libs/state/state';
 import * as fromHrisConnectionActions from '../../../../actions/hris-connection.actions';
 import * as fromTransferScheduleActions from '../../../../actions/transfer-schedule.actions';
+import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { GetSupportedSchedulesPipe } from '../../../../pipes';
 import * as fromDataManagementMainReducer from '../../../../reducers';
+import { LoadTypes } from 'libs/constants/load-types';
+import { EmailRecipientModel, UserContext } from 'libs/models';
+import { LoaderTypes } from 'libs/constants';
 
 @Component({
   selector: 'pf-transfer-schedule',
@@ -27,9 +32,15 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   transferScheduleSummaryLoading$: Observable<boolean>;
   transferScheduleSummarySaving$: Observable<boolean>;
   transferScheduleSummaryError$: Observable<boolean>;
+  emailRecipientsSavingError$: Observable<boolean>;
+  emailRecipientsRemovingError$: Observable<boolean>;
+  emailRecipientsModalOpen$: Observable<boolean>;
+  emailRecipients$: Observable<EmailRecipientModel[]>;
+  identity$: Observable<UserContext>;
   transferScheduleSummarySubscription: Subscription;
   restoreCompletedSubscription: Subscription;
   connectionSummarySub: Subscription;
+  identitySubscription: Subscription;
 
   transferScheduleSummary: TransferScheduleSummary[] = [];
   syncSchedulesBackup: SyncScheduleDtoModel[] = [];
@@ -39,14 +50,22 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   shouldGoBack: boolean;
   workflowComplete: boolean;
   backRoute = '/transfer-data/inbound/field-mapping';
+  companyId: number;
+  loaderConfigurationGroupId: number;
+  loadType = LoadTypes.Hris;
 
   showIntegrationFinishedModal$: Observable<boolean>;
 
-  constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
+  constructor(private userContextStore: Store<fromRootState.State>, private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
     this.transferScheduleSummary$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummary);
     this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
     this.transferScheduleSummarySaving$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummarySaving);
     this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
+    this.emailRecipientsSavingError$ = this.store.select(fromDataManagementMainReducer.getSavingRecipientError);
+    this.emailRecipientsRemovingError$ = this.store.select(fromDataManagementMainReducer.getRemovingRecipientError);
+    this.emailRecipientsModalOpen$ = this.store.select(fromDataManagementMainReducer.getEmailRecipientsModalOpen);
+    this.emailRecipients$ = this.store.select(fromDataManagementMainReducer.getEmailRecipients);
+    this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.transferScheduleSummarySubscription = this.transferScheduleSummary$.pipe(skip(1)).subscribe(s => {
       this.transferScheduleSummary = new GetSupportedSchedulesPipe().transform(s);
       if (!this.wasEdited && !this.backupExists) {
@@ -66,11 +85,23 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
           this.router.navigate(['/transfer-data/inbound/field-mapping']);
         }
       });
+    this.identitySubscription = this.identity$.subscribe(i => { 
+      if (!!i) {
+        this.companyId = i.CompanyId
+      }
+    });
     this.connectionSummarySub = this.store.select(fromDataManagementMainReducer.getHrisConnectionSummary)
       .pipe(filter((v) => !!v)).subscribe((connectionSummary) => {
         this.workflowComplete = connectionSummary.hasConnection;
         if (connectionSummary.hasConnection) {
           this.backRoute = '/';
+        }
+        if (connectionSummary.loaderConfigurationGroupId) {
+          this.loaderConfigurationGroupId = connectionSummary.loaderConfigurationGroupId;
+          this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
+            companyId: this.companyId, 
+            loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId, 
+            loaderType: LoaderTypes.OrgData}));
         }
       });
     this.showIntegrationFinishedModal$ = this.store.select(fromDataManagementMainReducer.getShowSetupCompleteModal);
@@ -85,6 +116,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     this.transferScheduleSummarySubscription.unsubscribe();
     this.restoreCompletedSubscription.unsubscribe();
     this.connectionSummarySub.unsubscribe();
+    this.identitySubscription.unsubscribe();
   }
 
   onCancel() {
@@ -105,6 +137,10 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate([this.backRoute]);
     }
+  }
+
+  onEmailRecipients() {
+    this.store.dispatch(new fromEmailRecipientsActions.OpenEmailRecipientsModal());
   }
 
   onFinish() {
