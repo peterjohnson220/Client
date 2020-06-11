@@ -1,10 +1,29 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, ViewEncapsulation, TemplateRef, ViewChild, OnDestroy, NgZone } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  SimpleChanges,
+  OnChanges,
+  ViewEncapsulation,
+  TemplateRef,
+  ViewChild,
+  OnDestroy,
+  NgZone,
+  ElementRef,
+  EventEmitter, Output
+} from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { filter, take } from 'rxjs/operators';
-import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent, ColumnComponent } from '@progress/kendo-angular-grid';
+import { GridDataResult,
+         PageChangeEvent,
+         RowClassArgs,
+         GridComponent,
+         ColumnReorderEvent,
+         ColumnComponent,
+         ContentScrollEvent } from '@progress/kendo-angular-grid';
 
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
@@ -46,6 +65,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() pageable = true;
   @Input() theme: 'default' | 'next-gen' = 'default';
   @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
+  @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
   gridState$: Observable<DataGridState>;
   loading$: Observable<boolean>;
@@ -209,6 +229,10 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   onPageChange(event: PageChangeEvent): void {
     this.store.dispatch(new fromActions.UpdatePagingOptions(this.pageViewId, { From: event.skip, Count: event.take }));
+  }
+
+  onScroll(event: ContentScrollEvent): void {
+    this.scrolled.emit(event);
   }
 
   // TODO: Kendo sorts the grids asc -> desc -> none in that order, rather than dir -> !dir -> none regardless of direction
