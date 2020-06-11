@@ -4,14 +4,17 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { filter, take } from 'rxjs/operators';
-import { GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent, ColumnComponent } from '@progress/kendo-angular-grid';
+import {
+  GridDataResult, PageChangeEvent, RowClassArgs, GridComponent, ColumnReorderEvent, ColumnComponent,
+  ColumnResizeArgs
+} from '@progress/kendo-angular-grid';
 
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
-import { GridRowActionsConfig, PositionType } from '../../models';
+import { GridRowActionsConfig, PositionType, GridConfig, ColumnResize } from '../../models';
 import { MappedFieldNamePipe } from '../../pipes';
 
 @Component({
@@ -82,6 +85,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   positionType = PositionType;
 
+  gridConfigSubscription: Subscription;
+  gridConfig: GridConfig;
+
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
   @ViewChild(GridComponent) grid: GridComponent;
@@ -125,6 +131,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         this.autoFitColumns(df.filter(d => d.IsSelected && d.IsSelectable && !d.Width).map(f => this.mappedFieldName.transform(f)));
       }
     });
+    this.gridConfigSubscription = this.store.select(fromReducer.getGridConfig, this.pageViewId).subscribe(gridConfig => this.gridConfig = gridConfig);
   }
 
   ngOnDestroy() {
@@ -136,6 +143,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.defaultSortDescriptorSubscription.unsubscribe();
     this.saveSortSubscription.unsubscribe();
     this.dataFieldsSubscription.unsubscribe();
+    this.gridConfigSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -289,6 +297,20 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   onSelectAllChange() {
     this.store.dispatch(new fromActions.SelectAll(this.pageViewId));
+  }
+
+  onColumnResize(event: ColumnResizeArgs[]): void {
+    if (!this.gridConfig?.PersistColumnWidth || event?.length < 1) {
+      return;
+    }
+    const column = event[0].column as ColumnComponent;
+    const columnResize: ColumnResize = {
+      FieldSourceName: column.field,
+      OldWidth: event[0].oldWidth,
+      NewWidth: event[0].newWidth
+    };
+    this.store.dispatch(new fromActions.UpdateColumnWidth(this.pageViewId, columnResize));
+    this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));
   }
 
   private autoFitColumns(columnFieldNames: string[]) {

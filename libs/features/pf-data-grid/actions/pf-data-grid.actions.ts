@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { PfDataGridFilter } from '../models';
+import { PfDataGridFilter, ColumnResize, GridConfig } from '../models';
 import { ColumnReorder } from '../models';
 
 export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
@@ -59,6 +59,9 @@ export const REORDER_COLUMNS_SUCCESS = '[PfDataGrid] Reorder Columns Success';
 export const UPDATE_ROW = '[PfDataGrid] Update Data Row';
 export const UPDATE_FIELDS_EXCLUDED_FROM_EXPORT = '[PfDataGrid] Update Fields Excluded FromExport';
 export const UPDATE_PRESERVE_SELECTIONS_ON_GET_CONFIG = '[PfDataGrid] Update Preserve Selections On Get Config';
+export const UPDATE_COLUMN_WIDTH = '[PfDataGrid] Update Column Width';
+export const UPDATE_GRID_CONFIG = '[PfDataGrid] Update Grid Config';
+
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
   constructor(public pageViewId: string, public name: string = null) { }
@@ -333,6 +336,17 @@ export class UpdateRow {
   constructor(public pageViewId: string, public rowIndex: number, public data: any, public fieldNames?: any[]) {}
 }
 
+export class UpdateColumnWidth implements Action {
+  readonly type = UPDATE_COLUMN_WIDTH;
+
+  constructor(public pageViewId: string, public payload: ColumnResize) {}
+}
+
+export class UpdateGridConfig implements Action {
+  readonly type = UPDATE_GRID_CONFIG;
+  constructor(public pageViewId: string, public payload: GridConfig) {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -386,4 +400,6 @@ export type DataGridActions =
   | ReorderColumns
   | ReorderColumnsSuccess
   | UpdateFieldsExcludedFromExport
-  | UpdateRow;
+  | UpdateRow
+  | UpdateColumnWidth
+  | UpdateGridConfig;
