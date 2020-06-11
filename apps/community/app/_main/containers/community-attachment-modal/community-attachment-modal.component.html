@@ -30,7 +30,7 @@
           dropFilesHere={{fileRestrictionsMessage}}>
         </kendo-upload-messages>
         <ng-template kendoUploadFileTemplate let-files let-state="state">
-          <div class="w-100 attachments-container">
+          <div class="attachments-container">
             <span class="{{getStatusClass(files[0])}}">
               {{files[0].name}} ({{formattedBytes(files[0].size)}})                
             </span>
