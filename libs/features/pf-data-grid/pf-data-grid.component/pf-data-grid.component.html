@@ -30,11 +30,11 @@
   <ng-container page-content>
     <div class="d-flex h-100">
       <div class="h-100 w-100">
-        <div class="d-flex flex-column h-100 content-wrapper" 
-          [ngClass]="contentClassNamesOverrides ? contentClassNamesOverrides : 
+        <div class="d-flex flex-column h-100 content-wrapper"
+          [ngClass]="contentClassNamesOverrides ? contentClassNamesOverrides :
                     (displayFilterPanel$ | async) ? 'pl-3 pr-0 pt-2 pb-0' : 'px-3 pt-2 pb-0'">
-          <ng-container [ngTemplateOutlet]="aboveGridTemplate"></ng-container>     
-          <div *ngIf="gridActionsTemplate" class="d-flex mb-2 sub-header">        
+          <ng-container [ngTemplateOutlet]="aboveGridTemplate"></ng-container>
+          <div *ngIf="gridActionsTemplate" class="d-flex mb-2 sub-header">
             <div *ngIf="gridActionsTemplate" class="d-flex grid-actions-container">
               <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
             </div>
@@ -44,15 +44,15 @@
           </div>
           <div *ngIf="userFilteredFields.length > 0 || lockedPillText || (actionBarConfig.ShowFilterChooser && !gridActionsTemplate)" class="d-flex mb-2 sub-header">
             <div *ngIf="userFilteredFields.length > 0 || lockedPillText" class="pt-2">
-              <pf-data-grid-filter-pills                
+              <pf-data-grid-filter-pills
                 [widthOffset]="
-                  (actionBarConfig.ShowFilterChooser && !gridActionsTemplate ? 110 : 0) + 
+                  (actionBarConfig.ShowFilterChooser && !gridActionsTemplate ? 110 : 0) +
                   ((displayFilterPanel$ | async) ? 450 : 0)"
                 [lockedPillText]="lockedPillText"
                 [fields]="userFilteredFields"
                 (clearFilter)="clearFilter($event, true)"
                 (clearAllFilters)="clearAllFilters()">
-              </pf-data-grid-filter-pills>          
+              </pf-data-grid-filter-pills>
             </div>
             <div class="ml-auto my-auto" *ngIf="actionBarConfig.ShowFilterChooser && !gridActionsTemplate">
               <pf-filter-chooser [pageViewId]="pageViewId" [hideToggleButtons]="displayFilterPanel$ | async"></pf-filter-chooser>
@@ -89,22 +89,23 @@
                         [useColumnGroups]="useColumnGroups"
                         [pageable]="pageable"
                         [theme]="pageTheme"
-                        [customSortOptions]="customSortOptions">
+                        [customSortOptions]="customSortOptions"
+                        (scrolled)="handleGridScroll($event)">
                       </pf-grid>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div *ngIf="isSplitView()" class="split-view-container" [class.border-left]="borders">
+            <div #splitViewContainer *ngIf="isSplitView()" class="split-view-container" [class.border-left]="borders">
               <ng-container
                 [ngTemplateOutlet]="splitViewTemplate"
                 [ngTemplateOutletContext]="{splitViewEmitter: splitViewEmitter, splitViewFilters: splitViewFilters$ | async}">
               </ng-container>
             </div>
-            <ng-container *ngIf="!(displayFilterPanel$ | async)" [ngTemplateOutlet]="rightGridTemplate"></ng-container>        
+            <ng-container *ngIf="!(displayFilterPanel$ | async)" [ngTemplateOutlet]="rightGridTemplate"></ng-container>
           </div>
-        </div>        
+        </div>
       </div>
       <div *ngIf="displayFilterPanel$ | async" class="sidebar-filter-container border-left">
         <pf-filter-panel

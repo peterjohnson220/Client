@@ -16,7 +16,8 @@
     (sortChange)="onSortChange($event)"
     (columnReorder)="onColumnReorder($event)"
     (cellClick)="onCellClick($event)"
-    (columnResize)="onColumnResize($event)">
+    (columnResize)="onColumnResize($event)"
+    (contentScroll)="onScroll($event)">
     <kendo-grid-checkbox-column [resizable]="false" [reorderable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="34">
       <ng-template kendoGridHeaderTemplate>
         <input type="checkbox" id="selectAllCheckboxId"
