@@ -4,4 +4,5 @@ export interface ColumnReorder {
   Level: number;
   IsUseColumnGroupsEnabled: boolean;
   IsSelectionEnabled: boolean;
+  ActionsDefined: boolean;
 }
