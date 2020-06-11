@@ -9,7 +9,7 @@
       [showHeader]="false"
       [primaryButtonText]="'Save'"
       [windowClass]="'multi-match-modal'"
-      (onDismiss)="showMultiMatchModal.next(false)"
+      (onDismiss)="handleCancelClicked()"
       (onSubmit)="showMultiMatchModal.next(false)"
     >
       <ng-container basic-content>
