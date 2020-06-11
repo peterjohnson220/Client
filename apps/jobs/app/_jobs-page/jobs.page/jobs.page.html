@@ -8,7 +8,7 @@
   [columnTemplates]="colTemplates"
   [filterPanelTemplates]="filterTemplates"
   [inboundFilters]="filters"
-  [defaultSort]="defaultSort"  
+  [defaultSort]="defaultSort"
   [enableSelection]="true"
   [splitViewTemplate]="jobsDetails"
   [splitViewDisplayFields]="['CompanyJobs_Job_Family']"
@@ -139,7 +139,7 @@
     <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && isActiveJobs()">
       ({{selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length}})
     </span>
-  </button>  
+  </button>
   <button
     [pfSecuredResource]="permissions.MODIFY_PRICINGS"
     [disabled]="!isActiveJobs() || !selectedPricingIds.length"
@@ -150,7 +150,7 @@
     <fa-icon *ngIf="!(pricingsToModify$ | async).loading" [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
     <pf-loading-indicator *ngIf="(pricingsToModify$ | async).loading"></pf-loading-indicator
   >
-    Modify Pricings <span *ngIf="selectedPricingIds.length">({{selectedPricingIds.length}})</span>
+    Modify Pricings <span *ngIf="selectedPricingIds.length && isActiveJobs()">({{selectedPricingIds.length}})</span>
   </button>
   <button
     [disabled]="!(selectedJobIds.length)"
@@ -170,7 +170,7 @@
       <fa-icon *ngIf="!isActiveJobs()"
         [icon]="['fas', 'check']" transform="shrink-7 down-7 right-7" class="mr-0">
       </fa-icon>
-    </fa-layers>    
+    </fa-layers>
     {{isActiveJobs() ? 'Inactivate' : 'Activate'}}
     <span *ngIf="selectedJobIds.length" >
       ({{selectedJobIds.length}})
