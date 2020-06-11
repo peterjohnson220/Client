@@ -10,7 +10,7 @@
         *ngFor="let job of jobsToPrice$ | async; trackBy: trackByJobId"
         [job]="job"
         [dragging]="isDragging$ | async"
-        [rate]="(projectSearchContext$ | async)?.Rate || (modifyPricingSearchContext$ | async)?.Rate"
+        [rate]="(pricingMatchDataSearchContext$ | async)?.Rate"
         [featureImplementation]="featureImplementation"
         (loadDataCuts)="handleLoadDataCuts($event)"
         (cutDeleted)="handleCutDeleted($event)" >

@@ -12,7 +12,7 @@ import { JobToPriceComponent } from '../../components';
 import * as fromMultiMatchReducer from '../../reducers';
 import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
 
-import { DataCutDetails, ModifyPricingsSearchContext, ProjectSearchContext } from '../../../survey-search/models';
+import {DataCutDetails, PricingMatchDataSearchContext} from '../../../survey-search/models';
 import { JobToPrice } from '../../models';
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../../constants';
 
@@ -32,8 +32,7 @@ export class JobsToPriceContainerComponent implements OnDestroy {
   // Observables
   jobsToPrice$: Observable<JobToPrice[]>;
   selectedCuts$: Observable<DataCutDetails[]>;
-  projectSearchContext$: Observable<ProjectSearchContext>;
-  modifyPricingSearchContext$: Observable<ModifyPricingsSearchContext>;
+  pricingMatchDataSearchContext$: Observable<PricingMatchDataSearchContext>;
   loadingJobs$: Observable<boolean>;
   error$: Observable<boolean>;
   isDragging$: Observable<boolean>;
@@ -61,8 +60,7 @@ export class JobsToPriceContainerComponent implements OnDestroy {
     this.jobsToPrice$ = this.store.select(fromMultiMatchReducer.getJobsToPrice);
     this.loadingJobs$ = this.store.select(fromMultiMatchReducer.getLoadingJobsToPrice);
     this.error$ = this.store.select(fromMultiMatchReducer.getLoadingJobsToPriceError);
-    this.projectSearchContext$ = this.store.select(fromSurveySearchReducer.getProjectSearchContext);
-    this.modifyPricingSearchContext$ = this.store.select(fromSurveySearchReducer.getModifyPricingsSearchContext);
+    this.pricingMatchDataSearchContext$ = this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext);
 
     this.selectedDataCutsSubscription = this.selectedCuts$.subscribe(dataCuts => {
      this.selectedCuts = dataCuts;
@@ -89,7 +87,7 @@ export class JobsToPriceContainerComponent implements OnDestroy {
     switch (this.featureImplementation) {
       case MODIFY_PRICINGS:
         let rate;
-        this.modifyPricingSearchContext$.subscribe(x => {
+        this.pricingMatchDataSearchContext$.subscribe(x => {
           rate = x.Rate;
         }).unsubscribe();
 

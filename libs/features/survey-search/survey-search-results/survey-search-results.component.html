@@ -1,11 +1,13 @@
-<pf-search-results [numberOfCurrentResults]="(jobResults$ | async)?.length">
-
+<pf-search-results
+  [numberOfCurrentResults]="(jobResults$ | async)?.length"
+  [useAsync]="implementation === 'component'"
+>
   <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
     <pf-job-result
       *ngFor="let jobResult of jobResults$ | async; trackBy: trackByJobId"
       [job]="jobResult"
       [cutsDraggable]="cutsDraggable"
-      [currencyCode]="(projectSearchContext$ | async)?.CurrencyCode"
+      [currencyCode]="(pricingMatchDataSearchContext$ | async)?.CurrencyCode"
       (loadDataCuts)="handleLoadDataCuts($event)"
       (cutSelected)="handleCutSelectionToggle($event)"
       (matchesMouseEnter)="handleMatchesMouseEnter($event)"
