@@ -45,5 +45,6 @@ export class CommunityAttachmentWarningModalComponent implements OnInit {
 
   handleModalDismissed() {
     this.store.dispatch(new fromCommunityAttachmentWarningActions.CloseCommunityAttachmentsWarningModal());
+    this.dismissAttachmentWarning = false;
   }
 }
