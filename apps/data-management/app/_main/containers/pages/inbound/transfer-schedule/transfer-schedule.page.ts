@@ -37,6 +37,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   emailRecipientsModalOpen$: Observable<boolean>;
   emailRecipients$: Observable<EmailRecipientModel[]>;
   identity$: Observable<UserContext>;
+  connectionSaving$: Observable<boolean>;
   transferScheduleSummarySubscription: Subscription;
   restoreCompletedSubscription: Subscription;
   connectionSummarySub: Subscription;
@@ -49,6 +50,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   wasEdited: boolean;
   shouldGoBack: boolean;
   workflowComplete: boolean;
+  validationMode = true;
   backRoute = '/transfer-data/inbound/field-mapping';
   companyId: number;
   loaderConfigurationGroupId: number;
@@ -61,6 +63,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
     this.transferScheduleSummarySaving$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummarySaving);
     this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
+    this.connectionSaving$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoading);
     this.emailRecipientsSavingError$ = this.store.select(fromDataManagementMainReducer.getSavingRecipientError);
     this.emailRecipientsRemovingError$ = this.store.select(fromDataManagementMainReducer.getRemovingRecipientError);
     this.emailRecipientsModalOpen$ = this.store.select(fromDataManagementMainReducer.getEmailRecipientsModalOpen);
@@ -93,6 +96,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     this.connectionSummarySub = this.store.select(fromDataManagementMainReducer.getHrisConnectionSummary)
       .pipe(filter((v) => !!v)).subscribe((connectionSummary) => {
         this.workflowComplete = connectionSummary.hasConnection;
+        this.validationMode = connectionSummary.validationMode;
         if (connectionSummary.hasConnection) {
           this.backRoute = '/';
         }
@@ -175,5 +179,10 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
 
   saveSchedule($event: SyncScheduleDtoModel) {
     this.store.dispatch(new fromTransferScheduleActions.SaveTransferSchedule($event));
+  }
+
+  handleValidationModeChanged() {
+    this.validationMode = !this.validationMode;
+    this.store.dispatch(new fromHrisConnectionActions.ToggleValidationMode(this.validationMode));
   }
 }

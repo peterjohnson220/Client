@@ -25,9 +25,14 @@ export const CREATE_CONNECTION_SUCCESS = '[Data Management/Transfer Data Page] C
 
 export const OPEN_REAUTHENTICATION_MODAL = '[Data Management/Hris Connections] Open Re-authentication Modal';
 
+// TODO: Change these actions to be less reliant on re-authentication
 export const PATCH_CONNECTION = '[Data Management/Hris Connections] Patch Connection';
 export const PATCH_CONNECTION_ERROR = '[Data Management/Hris Connections] Patch Connection Error';
 export const PATCH_CONNECTION_SUCCESS = '[Data Management/Hris Connections] Patch Connection Success';
+
+export const TOGGLE_VALIDATION_MODE = '[Data Management/Hris Connections] Toggle Validation Mode';
+export const TOGGLE_VALIDATION_MODE_ERROR = '[Data Management/Hris Connections] Toggle Validation Mode Error';
+export const TOGGLE_VALIDATION_MODE_SUCCESS = '[Data Management/Hris Connections] Toggle Validation Mode Success';
 
 // TODO: Delete this
 export const OUTBOUND_JDM_VALIDATE = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials';
@@ -123,6 +128,21 @@ export class PatchConnectionSuccess implements Action {
   constructor(public payload: number) {}
 }
 
+export class ToggleValidationMode implements Action {
+  readonly type = TOGGLE_VALIDATION_MODE;
+
+  constructor(public payload: boolean) {}
+}
+export class ToggleValidationModeError implements Action {
+  readonly type = TOGGLE_VALIDATION_MODE_ERROR;
+
+  constructor() {}
+}
+export class ToggleValidationModeSuccess implements Action {
+  readonly type = TOGGLE_VALIDATION_MODE_SUCCESS;
+
+  constructor() {}
+}
 
 // TODO: Delete for outbound
 export class OutboundJdmValidate implements Action {
@@ -157,4 +177,7 @@ export type Actions
   | PatchConnectionError
   | PatchConnectionSuccess
   | OutboundJdmValidate
-  | OutboundJdmValidateSuccess;
+  | OutboundJdmValidateSuccess
+  | ToggleValidationMode
+  | ToggleValidationModeError
+  | ToggleValidationModeSuccess;

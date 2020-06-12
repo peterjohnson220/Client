@@ -10,6 +10,7 @@ export interface ConnectionSummary {
   canEditMappings: boolean;
   selectedEntities: OrgDataEntityType[];
   loaderConfigurationGroupId?: number;
+  validationMode: boolean;
 }
 
 export function generateMockExistingConnectionSummary(): ConnectionSummary {
@@ -22,6 +23,7 @@ export function generateMockExistingConnectionSummary(): ConnectionSummary {
     selectedEntities: [OrgDataEntityType.Employees],
     statuses: [],
     loaderConfigurationGroupId: 12345,
+    validationMode: false
   };
 }
 
@@ -34,5 +36,6 @@ export function generateMockNewConnectionSummary(): ConnectionSummary {
     selectedEntities: [],
     statuses: [],
     loaderConfigurationGroupId: 12345,
+    validationMode: true
   };
 }

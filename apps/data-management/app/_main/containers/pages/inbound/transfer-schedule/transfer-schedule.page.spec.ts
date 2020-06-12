@@ -1,10 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
-import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import {of} from 'rxjs';
+
+import { SwitchModule, SwitchComponent } from '@progress/kendo-angular-inputs';
 
 import {generateMockTransferScheduleSummaries} from 'libs/models/hris-api/sync-schedule/response';
 
@@ -24,6 +26,9 @@ describe('TransferSchedulePageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        SwitchModule
+      ],
       providers: [
         provideMockStore({ initialState }),
         {
@@ -36,6 +41,11 @@ describe('TransferSchedulePageComponent', () => {
         GetSupportedSchedulesPipe
       ],
       schemas: [NO_ERRORS_SCHEMA]
+    })
+    .overrideComponent(SwitchComponent, {
+      set: {
+        template: '<p>Mock Product Settings Component</p>'
+      }
     })
     .compileComponents();
 
@@ -83,5 +93,16 @@ describe('TransferSchedulePageComponent', () => {
 
     const expectedInitAction = new fromTransferSchedulePageActions.ShowIntegrationSetupCompletedModal(true);
     expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedInitAction);
+  });
+
+  it('should dispatch a toggle action when kendo-switch value changes', () => {
+    spyOn(store, 'dispatch');
+
+    instance.handleValidationModeChanged();
+
+    fixture.detectChanges();
+
+    const expectedAction = new fromHrisConnectionActions.ToggleValidationMode(false);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

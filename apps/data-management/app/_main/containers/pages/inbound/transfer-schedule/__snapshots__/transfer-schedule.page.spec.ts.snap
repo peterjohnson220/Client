@@ -3,6 +3,7 @@
 exports[`TransferSchedulePageComponent should show only supported entities 1`] = `
 <pf-transfer-schedule
   backRoute={[Function String]}
+  connectionSaving$={[Function Store]}
   connectionSummarySub={[Function Subscriber]}
   editStates={[Function Array]}
   emailRecipients$={[Function Store]}
@@ -24,6 +25,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
   transferScheduleSummarySaving$={[Function Store]}
   transferScheduleSummarySubscription={[Function Subscriber]}
   userContextStore={[Function MockStore]}
+  validationMode={[Function Boolean]}
 >
   <pf-async-container>
     <div
@@ -42,7 +44,21 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         Transfer Schedule
       </h4>
       <h5>
-        Let us know how often you would like to refresh your company data.
+        Let us know how often you would like to refresh your company data. 
+        <div
+          class="float-right hris-validation-mode-toggle"
+        >
+          <kendo-switch
+            class="k-widget k-switch k-switch-off"
+            dir="ltr"
+            style="width:80px;"
+            title=""
+          >
+            <p>
+              Mock Product Settings Component
+            </p>
+          </kendo-switch>
+        </div>
       </h5>
       <div
         class="row mt-5 mb-3"
@@ -88,7 +104,6 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         >
           <button
             class="btn btn-primary px-4"
-            disabled=""
             type="button"
           >
             Finish
@@ -127,6 +142,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
 exports[`TransferSchedulePageComponent should show only supported entities and overflow correctly 1`] = `
 <pf-transfer-schedule
   backRoute={[Function String]}
+  connectionSaving$={[Function Store]}
   connectionSummarySub={[Function Subscriber]}
   editStates={[Function Array]}
   emailRecipients$={[Function Store]}
@@ -148,6 +164,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
   transferScheduleSummarySaving$={[Function Store]}
   transferScheduleSummarySubscription={[Function Subscriber]}
   userContextStore={[Function MockStore]}
+  validationMode={[Function Boolean]}
 >
   <pf-async-container>
     <div
@@ -166,7 +183,21 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         Transfer Schedule
       </h4>
       <h5>
-        Let us know how often you would like to refresh your company data.
+        Let us know how often you would like to refresh your company data. 
+        <div
+          class="float-right hris-validation-mode-toggle"
+        >
+          <kendo-switch
+            class="k-widget k-switch k-switch-off"
+            dir="ltr"
+            style="width:80px;"
+            title=""
+          >
+            <p>
+              Mock Product Settings Component
+            </p>
+          </kendo-switch>
+        </div>
       </h5>
       <div
         class="row mt-5 mb-3"
@@ -212,7 +243,6 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         >
           <button
             class="btn btn-primary px-4"
-            disabled=""
             type="button"
           >
             Finish

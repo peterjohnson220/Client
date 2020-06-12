@@ -115,7 +115,8 @@ export class PayfactorsApiModelMapper {
     request: CredentialsPackage,
     companyId: number,
     providerId: number,
-    loaderConfigurationGroupId?: number
+    validationMode: boolean,
+    loaderConfigurationGroupId?: number,
   ): ConnectionPostRequest {
     return {
       connection: {
@@ -123,6 +124,7 @@ export class PayfactorsApiModelMapper {
         provider_ID: providerId,
         active: true,
         loaderConfigurationGroupId,
+        validationMode: validationMode
       },
       credentialsPackage: request
     };
@@ -276,6 +278,7 @@ export class PayfactorsApiModelMapper {
       selectedEntities: connectionSummary.selectedEntities.map(e => OrgDataEntityType[e]),
       connectionID: connectionSummary.connection_ID,
       loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId,
+      validationMode: connectionSummary.validationMode
     };
   }
 
@@ -309,7 +312,7 @@ export class PayfactorsApiModelMapper {
     // TODO: we need a UI to determine these settings
     isEmployeesFullReplace: false,
     isStructureMappingsFullReplace: false,
-    validateOnly: false,
+    validateOnly: summary.validationMode,
   })
 
   static getLoaderSettingsDtoForConnection = (userContext: UserContext, summary: ConnectionSummary): LoaderSettingsDTO => ({

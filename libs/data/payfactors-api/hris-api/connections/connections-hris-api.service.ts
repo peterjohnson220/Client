@@ -53,9 +53,9 @@ export class ConnectionsHrisApiService {
     return this.hrisApiService.post(`${host}${this.endpoint}/${userContext.CompanyId}/${connectionId}/entities`, entityTypes);
   }
 
-  patchConnection(userContext: UserContext, connectionId: number, patchPropertyList: PatchProperty[]) {
+  patchConnection(userContext: UserContext, connectionId: number, patchPropertyList: PatchProperty[], reauth: boolean = true) {
     const host = this.getHost(userContext);
-    return this.hrisApiService.patch(`${host}${this.endpoint}/${userContext.CompanyId}/${connectionId}`, patchPropertyList);
+    return this.hrisApiService.patch(`${host}${this.endpoint}/${userContext.CompanyId}/${connectionId}${reauth ? '?reauth=true' : ''}`, patchPropertyList);
   }
 
   private getHost(userContext: UserContext): string {
