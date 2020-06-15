@@ -70,6 +70,7 @@ import { CountryApiService } from './country';
 import { EntityKeysValidationApiService } from './validation';
 import { CaptchaApiService } from './captcha';
 import { ECommerceApiService } from './ecommerce';
+import { MarketDataFeedApiService } from './market-data-feed';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -144,6 +145,7 @@ import { ECommerceApiService } from './ecommerce';
     CaptchaApiService,
     ExchangeSignupFormApiService,
     ECommerceApiService,
+    MarketDataFeedApiService,
 
     // PEER
     ExchangeApiService,
