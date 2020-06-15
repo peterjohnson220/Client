@@ -16,7 +16,6 @@ import {
   JobSearchApiService,
   SurveySearchApiService,
   ExchangeJobSearchApiService,
-  EmployeeSearchApiService
 } from './search';
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
@@ -61,7 +60,7 @@ import { CompanyResourcesApiService } from './company-resources';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
 import { JobsApiService } from './jobs';
 import {DataImportApiService} from './integration/data-import';
-import { TotalRewardsApiService } from './total-rewards';
+import { TotalRewardsApiService, TotalRewardsSearchApiService } from './total-rewards';
 import { SsoConfigApiService } from './sso';
 import { CurrencyApiService } from './currency';
 import { CompositeFieldApiService } from './composite-field';
@@ -130,6 +129,7 @@ import { ECommerceApiService } from './ecommerce';
     ConfigurationGroupApiService,
     DataImportApiService,
     TotalRewardsApiService,
+    TotalRewardsSearchApiService,
     SsoConfigApiService,
     CurrencyApiService,
     CompositeFieldApiService,
@@ -144,7 +144,6 @@ import { ECommerceApiService } from './ecommerce';
     CaptchaApiService,
     ExchangeSignupFormApiService,
     ECommerceApiService,
-    EmployeeSearchApiService,
 
     // PEER
     ExchangeApiService,

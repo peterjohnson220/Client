@@ -54,8 +54,4 @@ export class TotalRewardsApiService {
   private mapStatement(statement: Statement) {
     return { ...statement, EffectiveDate: (statement.EffectiveDate) ? new Date(statement.EffectiveDate) : null };
   }
-
-  searchEmployees(searchRequest: any) {
-    return this.payfactorsApiService.post(`${this.endpoint}/SearchEmployees`, searchRequest);
-  }
 }

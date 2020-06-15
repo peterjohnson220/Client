@@ -16,11 +16,14 @@ import { StatementAssignmentPageComponent } from './statement-assignment.page';
 import { StatementAssignmentModalComponent } from './containers';
 import { EmployeeSearchResultsComponent } from './containers/employee-search-results/employee-search-results.component';
 import {
+  EmployeeSearchFiltersEffects,
   EmployeeSearchResultsEffects,
+  EmployeeSearchSingleFilterEffects,
   EmployeeSearchUserFilterEffects,
   StatementAssignmentModalEffects
 } from './effects';
 import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
+import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
 
 @NgModule({
   imports: [
@@ -29,7 +32,12 @@ import { EmployeeResultComponent } from './components/employee-result/employee-r
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementAssignment', reducers),
-    EffectsModule.forFeature([EmployeeSearchResultsEffects, StatementAssignmentModalEffects, EmployeeSearchUserFilterEffects]),
+    EffectsModule.forFeature([
+      EmployeeSearchFiltersEffects,
+      EmployeeSearchResultsEffects,
+      EmployeeSearchSingleFilterEffects,
+      EmployeeSearchUserFilterEffects,
+      StatementAssignmentModalEffects]),
 
     // Payfactors
     PfCommonUIModule,
@@ -46,8 +54,8 @@ import { EmployeeResultComponent } from './components/employee-result/employee-r
     EmployeeResultComponent
   ],
   providers: [
-    { provide: SearchFilterMappingDataObj, useValue: {} },
-    { provide: UserFilterTypeData, useValue: ''},
+    { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },
+    { provide: UserFilterTypeData, useValue: EmployeeSearchUserFilterType},
     WindowCommunicationService
   ]
 })

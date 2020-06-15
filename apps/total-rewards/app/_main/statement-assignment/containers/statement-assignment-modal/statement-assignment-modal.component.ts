@@ -7,7 +7,7 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchBase } from 'libs/features/search/containers/search-base';
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
-import { FilterType, TextFilter } from 'libs/features/search/models';
+import {Filter, FilterType, MultiSelectFilter, TextFilter} from 'libs/features/search/models';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 
 import * as fromStatementAssignmentsReducers from '../../reducers';
@@ -24,6 +24,7 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
   isOpen$: Observable<boolean>;
   numberOfResults$: Observable<number>;
   userContext$: Observable<UserContext>;
+  searchingFilter$: Observable<boolean>;
 
   staticFilters: TextFilter[] = [
     {
@@ -48,8 +49,8 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
   }
 
   onSetContext(payload: any): void {
-    this.store.dispatch(new fromSearchFiltersActions.AddFilters(this.staticFilters));
     this.store.dispatch(new fromStatementAssignmentModalActions.SetContext(payload));
+    this.store.dispatch(new fromSearchFiltersActions.AddFilters(this.staticFilters));
   }
 
   onResetApp(): void {

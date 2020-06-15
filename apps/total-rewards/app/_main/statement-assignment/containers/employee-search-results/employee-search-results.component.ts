@@ -3,10 +3,9 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { EmployeeSearchResult } from 'libs/models/payfactors-api/employee-search/response/employee-search-response.model';
+import { EmployeeSearchResult } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
 
 import * as fromStatementAssignmentsReducers from '../../reducers';
-
 
 @Component({
   selector: 'pf-employee-search-results',
@@ -21,6 +20,10 @@ export class EmployeeSearchResultsComponent {
 
   constructor(private store: Store<fromStatementAssignmentsReducers.State>) {
     this.employeeResults$ = this.store.select(fromStatementAssignmentsReducers.getEmployees);
+  }
+
+  trackByEmployeeId(index, item: EmployeeSearchResult) {
+    return item.CompanyEmployeeId;
   }
 
 }

@@ -1,7 +1,8 @@
-<pf-search-results [numberOfCurrentResults]="20" class="result p-1">
-  <ng-container *ngIf="(employeeResults$ | async).length > 0; else noResultsMessage">
+<pf-search-results [numberOfCurrentResults]="(employeeResults$ | async)?.length" class="result p-1">
+
+  <ng-container *ngIf="(employeeResults$ | async)?.length > 0; else noResultsMessage">
     <pf-employee-result
-      *ngFor="let employeeResult of employeeResults$ | async"
+      *ngFor="let employeeResult of employeeResults$ | async; trackBy: trackByEmployeeId"
       [employee]="employeeResult"
     ></pf-employee-result>
   </ng-container>

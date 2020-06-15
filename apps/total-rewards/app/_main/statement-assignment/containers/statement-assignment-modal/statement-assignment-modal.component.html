@@ -15,13 +15,17 @@
 
       <ng-container sidebar>
         <pf-search-filters
-          [defaultFocusedFilterId]="'jobTitleCode'"
-          [visible]="true">
+          [defaultFocusedFilterId]="'trsOmniSearch'"
+          [visible]="!(searchingFilter$ | async)">
         </pf-search-filters>
+
+        <pf-single-filter
+          *ngIf="!!(searchingFilter$ | async)">
+        </pf-single-filter>
       </ng-container>
 
       <ng-container content>
-        <pf-results-header class="position-relative"></pf-results-header>
+        <pf-results-header class="position-relative" [savedFiltersEnabled]="false"></pf-results-header>
         <pf-employee-search-results class="position-relative"></pf-employee-search-results>
       </ng-container>
 
