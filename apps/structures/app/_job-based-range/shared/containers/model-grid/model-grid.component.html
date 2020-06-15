@@ -37,8 +37,20 @@
     [pageable]="false"
     [borders]="false"
     [reorderable]="reorderable"
-    [syncScrollWithSplit]="true">
+    [syncScrollWithSplit]="true"
+    [gridRowActionsConfig] = "(!(selectedRecordId$ | async))? gridRowActionsConfig: null">
   </pf-data-grid>
+</ng-template>
+
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+  <fa-icon [icon]="['fas', 'ellipsis-v']" title="Remove" *ngIf="metaData.IsCurrent"
+           [attr.data-qa-id]="'btn-model-grid-remove-range-' + dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']"
+           [pfSecuredResource]="permissions.STRUCTURES_ADD_EDIT_DELETE"
+           (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
+  <fa-icon [icon]="['fas', 'ellipsis-v']" title="Remove" *ngIf="!metaData.IsCurrent"
+           [attr.data-qa-id]="'btn-model-grid-remove-range-' + dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']"
+           [pfSecuredResource]="permissions.STRUCTURES_CREATE_EDIT_MODEL"
+           (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
 </ng-template>
 
 <ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
@@ -114,3 +126,31 @@
 </ng-template>
 
 <pf-model-settings-modal [rangeGroupId]="rangeGroupId" [page]="page"></pf-model-settings-modal>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Remove a Job'"
+  [primaryButtonText]="'Remove'"
+  [primaryButtonClass]="'btn-danger'"
+  [primaryButtonTextSubmitting]="'Removing'"
+  [modalId]="'au-modal-model-grid-remove-range'"
+  [submitting]="(removingRange$ | async).loading"
+  [allowDismiss]="!(removingRange$ | async).loading"
+  [isOpen$]="showRemoveRangeModal$"
+  (onSubmit)="removeRange()"
+  (onDismiss)="showRemoveRangeModal.next(false)">
+
+  <ng-container basic-content>
+    <div class="remove-range">This job will be removed from this structure.  Are you sure you want to continue?</div>
+    <div *ngIf="removingRange$ | async as removingRange">
+      <div *ngIf="removingRange.loadingError">
+        <br>
+        <span class="text-danger">
+          <b *ngIf="removingRange.loadingErrorResponse.status !== 200">
+            We encountered a problem removing your job. Please try again or contact your account representative.
+          </b>
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>

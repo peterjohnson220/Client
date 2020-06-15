@@ -204,7 +204,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   onColumnReorder(value: ColumnReorderEvent) {
     // If selection is enabled: the first column can't be reordered
     // For ColumnGroup the first index is also 0, but the level = 1
-    if (this.enableSelection && value.newIndex === 0 && value.column.level === 0) {
+    if ((this.enableSelection || this.gridRowActionsConfig?.Position === PositionType.Left) && (value.newIndex === 0) && value.column.level === 0) {
       value.preventDefault();
       return;
     }
@@ -216,7 +216,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         NewIndex: value.newIndex,
         Level: value.column.level,
         IsUseColumnGroupsEnabled: this.useColumnGroups,
-        IsSelectionEnabled: this.enableSelection
+        IsSelectionEnabled: this.enableSelection,
+        ActionsDefined: !!this.gridRowActionsConfig
       },
     ));
   }
