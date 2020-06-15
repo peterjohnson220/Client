@@ -88,7 +88,7 @@
                   <div class="form-group col-6">
                     <label for="range-spread-min">Range Spread</label>
                     <div class="input-group">
-                      <kendo-numerictextbox class="form-control"
+                      <kendo-numerictextbox class="form-control ie-fix"
                                             id="range-spread-min"
                                             placeholder="Minimum"
                                             formControlName="spreadMin"
@@ -106,12 +106,13 @@
                       <div class="invalid-feedback">
                         Please provide a range spread minimum.
                       </div>
+                      <fa-icon placement="top" [ngbTooltip]="minSpreadTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
                     </div>
                   </div>
                   <div class="form-group col-6">
                     <label>&nbsp;</label>
                     <div class="input-group">
-                      <kendo-numerictextbox  class="form-control"
+                      <kendo-numerictextbox  class="form-control ie-fix"
                                              placeholder="Maximum"
                                              formControlName="spreadMax"
                                              [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.spreadMax.valid }"
@@ -128,6 +129,7 @@
                       <div class="invalid-feedback">
                         Please provide a range spread maximum.
                       </div>
+                      <fa-icon placement="top" [ngbTooltip]="maxSpreadTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
                     </div>
                   </div>
                 </div>

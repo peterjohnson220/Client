@@ -61,6 +61,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   activeTab: string;
   enableJobRangeTypes: boolean;
   modelSetting: RangeGroupMetadata;
+  minSpreadTooltip: string;
+  maxSpreadTooltip: string;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -79,6 +81,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableJobRangeStructureRangeTypes
     );
+    this.minSpreadTooltip = 'The minimum range spread calculation is (midpoint) / (1 + min range spread value)';
+    this.maxSpreadTooltip = 'The maximum range spread calculation is (min value) * (1 + (min range spread + max))';
   }
 
   get formControls() {

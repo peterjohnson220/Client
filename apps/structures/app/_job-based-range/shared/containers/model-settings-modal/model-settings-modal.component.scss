@@ -20,3 +20,14 @@
   padding: 10px;
   border-color: #ECEFF3;
 }
+
+.info-icon {
+  margin: 3px;
+  margin-top: 5px;
+}
+
+.ie-fix {
+  /*This just fixes alignment for IE, doesn't seem to affect the better browsers*/
+  width: 1px !important;
+}
+
