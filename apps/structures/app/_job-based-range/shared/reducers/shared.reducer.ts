@@ -65,14 +65,6 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         }
       };
     }
-    case fromSharedActions.UPDATE_RANGE_DISTRIBUTION_TYPE: {
-      const clonedMetadata = cloneDeep(state.metadata);
-      clonedMetadata.RangeDistributionTypeId = action.payload.RangeDistributionTypeId;
-      return {
-        ...state,
-        metadata: clonedMetadata
-      };
-    }
     case fromSharedActions.SHOW_REMOVE_RANGE_MODAL: {
       return {
         ...state,

@@ -1,4 +1,5 @@
 import { RoundRangesRequest } from './round-ranges-request.model';
+import { RangeDistributionSetting } from '..';
 
 export interface SaveModelSettingsRequest {
   RangeGroupId: number;
@@ -11,4 +12,5 @@ export interface SaveModelSettingsRequest {
   CurrencyCode: string;
   Rounding: RoundRangesRequest;
   RangeDistributionTypeId: number;
+  RangeDistributionSetting: RangeDistributionSetting;
 }

@@ -9,7 +9,7 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { PfCommonModule } from 'libs/core';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { generateMockRoundingSettingsDataObj } from 'libs/models/structures/ranges';
-import { generateMockStructureRangeDistributionTypes, generateMockRangeDistributionTypeSetting } from 'libs/models/payfactors-api';
+import { generateMockStructureRangeDistributionTypes, generateMockRangeDistributionSetting } from 'libs/models/payfactors-api';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
@@ -65,7 +65,7 @@ describe('Job Based Ranges - Rounding Settings', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionTypeSetting: generateMockRangeDistributionTypeSetting()
+      RangeDistributionSetting: generateMockRangeDistributionSetting()
 
     };
 
