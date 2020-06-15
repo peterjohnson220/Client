@@ -107,6 +107,9 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
   handleLoadEvent(e: mapboxgl.Map) {
     this.map = e;
     this.store.dispatch(new fromMapActions.MapLoaded());
+    /*Quick fix to ensure that events that initialize the map correctly are kicked off*/
+    this.handleZoomEnd(null);
+    this.handleMoveEndEvent(null);
   }
 
   handleResizeEvent() {
@@ -127,8 +130,10 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
         );
         zoom = this.peerInitialMapZoomLevel;
       } else {
-        bounds = e.target.getBounds();
-        zoom = e.target.getZoom();
+        if(e) {
+          bounds = e.target.getBounds();
+          zoom = e.target.getZoom();
+        }
       }
       this.store.dispatch(new fromMapActions.MoveEnd({
         bounds: bounds,
