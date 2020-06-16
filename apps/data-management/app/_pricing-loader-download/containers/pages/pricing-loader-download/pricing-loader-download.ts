@@ -1,17 +1,18 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import * as cloneDeep from 'lodash.clonedeep';
-import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
 import { ActivatedRoute } from '@angular/router';
-import * as fromRootState from 'libs/state/state';
-
+import {SortDescriptor} from '@progress/kendo-data-query';
+import {Store} from '@ngrx/store';
+import {Subscription} from 'rxjs';
+import * as cloneDeep from 'lodash.clonedeep';
+import {environment} from 'environments/environment';
+import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
+import {ViewField} from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import { JOB_PRICING_PAGEVIEW_ID } from '../../../constants';
-import {SortDescriptor} from '@progress/kendo-data-query';
-import {ViewField} from 'libs/models/payfactors-api/reports/request';
-import {Store} from '@ngrx/store';
-import {Subscription} from 'rxjs';
+
+
 
 @Component({
   selector: 'pf-pricing-loader-download',
@@ -50,6 +51,7 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
   ];
   recencyField: ViewField;
   fieldsExcludedFromExport = ['Recency'];
+  env = environment;
 
   @ViewChild('recencyFilter', { static: false }) recencyFilter: ElementRef;
 
@@ -69,9 +71,11 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
       if (fields) {
         this.recencyField = fields.find(f => f.SourceName === 'Recency');
         this.selectedRecency = this.recencyField.FilterValue !== null ?
-          { Value: this.filteredRecencyOptions.find(r => r.Id === parseInt(this.recencyField.FilterValue, 0)).Value , Id: this.recencyField.FilterValue } : null;
+          { Value: this.filteredRecencyOptions.find(r => r.Id === parseInt(this.recencyField.FilterValue, 0)).Value ,
+            Id: this.recencyField.FilterValue } : null;
       }
     });
+
   }
 
   ngOnInit() {

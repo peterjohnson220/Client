@@ -25,7 +25,7 @@ describe('PricingLoaderDownloadComponent', () => {
         provide: ActivatedRoute ,
         useValue: { snapshot: { queryParamMap: { get: (key) =>  queryStringParams[key], keys: { length: length } } }
         }
-      }]
+      }],
     });
 
 

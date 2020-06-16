@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { RouterModule, Routes } from '@angular/router';
 
-import { PermissionCheckEnum, Permissions } from 'libs/constants';
-import { AuthorizationGuard, PfAdminGuard } from 'libs/security/guards';
+import { PfServicesAdminOnlyGuard } from 'libs/security/guards';
 
 import {
   PricingLoadersComponent
@@ -13,8 +12,7 @@ const routes: Routes = [
   {
     path: 'pricing-loader',
     component: PricingLoadersComponent,
-    canActivate: [AuthorizationGuard],
-    data: { Permissions: [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD], Check: PermissionCheckEnum.Any }
+    canActivate: [PfServicesAdminOnlyGuard]
   }
 ];
 
