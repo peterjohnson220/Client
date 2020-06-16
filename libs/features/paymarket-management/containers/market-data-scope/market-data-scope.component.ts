@@ -9,7 +9,7 @@ import { MDLocationsRequest } from 'libs/models/payfactors-api';
 
 import * as fromPayMarketManagementReducer from '../../reducers';
 import * as fromMdScopeActions from '../../actions/market-data-scope.actions';
-import { Scope } from '../../models';
+import { Scope, ScopeLabel } from '../../models';
 import { GeneralFormHelper } from '../../helpers';
 
 @Component({
@@ -41,7 +41,6 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
   selectedIndustry: Scope;
   selectedLocation: Scope;
 
-  readonly DEFAULT_ALL = 'All:All';
   readonly DEFAULT_COUNTRY_CODE = 'USA';
 
   constructor(
@@ -127,7 +126,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
 
   updateLocationsByCountryCode(countryCode: string): void {
     this.countryCode = countryCode;
-    this.defaultLocation = GeneralFormHelper.buildAllItem();
+    this.defaultLocation = GeneralFormHelper.buildAllItem(ScopeLabel.Location);
     this.refreshLocation();
   }
 
@@ -193,23 +192,25 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
       Value: this.payMarket.IndustryValue,
       Group: this.payMarket.IndustryGroup
     };
+    const industryAllItem: GroupedListItem = GeneralFormHelper.buildAllItem(ScopeLabel.Industry);
     this.industryCheckedKeys = !!this.selectedIndustry.Label && !!this.selectedIndustry.Value && this.selectedIndustry.Value !== 'All'
       ? [`${this.selectedIndustry.Label}:${this.selectedIndustry.Group}:${this.selectedIndustry.Value}`]
-      : [this.DEFAULT_ALL];
+      : [industryAllItem.Value];
   }
 
   private updateSizeControl(industryGroup: string, size?: Scope): void {
     if (!this.sizes) {
       return;
     }
+    const sizeAllItem: GroupedListItem = GeneralFormHelper.buildAllItem(ScopeLabel.Size);
     const defaultSize = {
-      Label: this.payMarket.SizeLabel ? this.payMarket.SizeLabel : 'All',
+      Label: this.payMarket.SizeLabel ? this.payMarket.SizeLabel : 'Size',
       Value: this.payMarket.SizeValue ? this.payMarket.SizeValue : 'All'
     };
     this.selectedSize = size ? size : defaultSize;
     this.filteredSizes = this.sizes.filter(s => s.Level === null || (!!industryGroup && s.Level.indexOf(industryGroup) > -1));
     this.sizeCheckedKeys = !!this.selectedSize.Label && !!this.selectedSize.Value && this.selectedSize.Value !== 'All'
       ? [`${this.selectedSize.Label}:${this.selectedSize.Value}`]
-      : [this.DEFAULT_ALL];
+      : [sizeAllItem.Value];
   }
 }
