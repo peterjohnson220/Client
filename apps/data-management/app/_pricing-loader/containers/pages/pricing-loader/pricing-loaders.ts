@@ -66,7 +66,8 @@ export class PricingLoadersComponent implements OnInit {
   }
 
   goDownload() {
-    window.open('/client/data-management/pricing-loader/pricing-loaders-download?company=' + this.selectedCompany.CompanyId + '-' + this.selectedCompany.CompanyName, '_blank');
+    window.open('/client/data-management/pricing-loader/pricing-loaders-download?company=' +
+      this.selectedCompany.CompanyId + '-' + this.selectedCompany.CompanyName, '_blank');
   }
 }
 

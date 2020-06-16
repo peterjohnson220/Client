@@ -33,7 +33,9 @@ import {
   DataLoadEmailRecipientsApiService,
   LoaderFieldMappingsApiService,
   LoaderSettingsApiService,
-  OrgDataLoaderConfigurationApiService, SftpUserApiService
+  OrgDataLoaderConfigurationApiService,
+  SftpUserApiService,
+  PricingLoaderApiService
 } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
@@ -142,6 +144,7 @@ import { MarketDataFeedApiService } from './market-data-feed';
     StructureModelingApiService,
     OrgDataLoaderConfigurationApiService,
     SftpUserApiService,
+    PricingLoaderApiService,
     CaptchaApiService,
     ExchangeSignupFormApiService,
     ECommerceApiService,

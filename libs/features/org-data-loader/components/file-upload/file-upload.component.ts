@@ -23,6 +23,7 @@ export class FileUploadComponent {
   @Input() validFileStartsWith = '';
   @Input() delimiter: string;
   @Input() selectedFile: File = null;
+  @Input() autoGetColumnNames = true;
 
   @ViewChildren('fileInput') fileInput;
 
@@ -86,17 +87,23 @@ export class FileUploadComponent {
         return;
       }
 
-      if (!this.delimiter || this.delimiter.toString().length === 0) {
-        msg = 'Provide delimiter before continuing';
-        this.errorMessage = msg;
-        this.ClearFile();
-        return;
+      if (this.autoGetColumnNames) {
+        if (!this.delimiter || this.delimiter.toString().length === 0) {
+          msg = 'Provide delimiter before continuing';
+          this.errorMessage = msg;
+          this.ClearFile();
+          return;
+        }
       }
 
       this.errorMessage = msg;
       this.selectedFile = file;
-      this.GetColumnNames(file);
-      this.fileUploading = true;
+      if (this.autoGetColumnNames) {
+        this.GetColumnNames(file);
+        this.fileUploading = true;
+      } else {
+        this.onFileDropped.emit(this.selectedFile);
+      }
     }
   }
 
