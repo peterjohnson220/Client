@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import { PfCommonModule } from 'libs/core';
+import { PermissionService, PfCommonModule } from 'libs/core';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ModelGridComponent } from './model-grid.component';
@@ -40,6 +40,10 @@ describe('Job Range Structures - Model page', () => {
         {
           provide: NgbModal,
           useValue: { open: jest.fn(), dismissAll: jest.fn() }
+        },
+        {
+          provide: PermissionService,
+          useValue: { CheckPermission: jest.fn()}
         }
       ]
     });
