@@ -38,7 +38,7 @@
     [borders]="false"
     [reorderable]="reorderable"
     [syncScrollWithSplit]="true"
-    [gridRowActionsConfig] = "(!(selectedRecordId$ | async))? gridRowActionsConfig: null">
+    [gridRowActionsConfig] = "(!(selectedRecordId$ | async)) && !this.hideRowActions() ? gridRowActionsConfig: null">
   </pf-data-grid>
 </ng-template>
 

@@ -17,9 +17,10 @@ import { RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
-import { Permissions } from 'libs/constants';
+import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import { PermissionService } from 'libs/core/services';
 
 import { PageViewIds } from '../../constants/page-view-ids';
 import { RangeGroupMetadata } from '../../models';
@@ -85,9 +86,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   fullGridActionBarConfig: ActionBarConfig;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   invalidMidPointRanges: number[];
+  hasAddEditDeleteStructurePermission: boolean;
+  hasCreateEditStructureModelPermission: boolean;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>, private actionsSubject: ActionsSubject
+    public store: Store<fromJobBasedRangeReducer.State>, private actionsSubject: ActionsSubject, private permissionService: PermissionService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
@@ -102,6 +105,21 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       ShowColumnChooser: true
     };
     this.invalidMidPointRanges = [];
+  }
+
+  hideRowActions(): boolean {
+    if ((this.metaData?.IsCurrent && !this.hasAddEditDeleteStructurePermission) || (!this.metaData?.IsCurrent && !this.hasCreateEditStructureModelPermission)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  initPermissions() {
+    this.hasAddEditDeleteStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_ADD_EDIT_DELETE],
+      PermissionCheckEnum.Single);
+    this.hasCreateEditStructureModelPermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
+      PermissionCheckEnum.Single);
   }
 
   getRefreshFilter(dataRow: any): DataViewFilter {
@@ -195,6 +213,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       .subscribe(data => {
         this.showRemoveRangeModal.next(false);
       });
+    this.initPermissions();
   }
 
   ngOnDestroy(): void {
