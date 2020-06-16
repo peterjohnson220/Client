@@ -28,6 +28,9 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   @ViewChild('jobTitleText', { static: false }) jobTitleText: ElementRef;
   @ViewChild('detailsText', { static: false }) detailsText: ElementRef;
 
+  filterGUID: string;
+  offset: {};
+
   public isCollapsed = true;
   public isOverflow = false;
 
@@ -106,4 +109,10 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     ));
   }
 
+  onToggle(event, filterGUID) {
+    if (this.filterGUID !== filterGUID) {
+      this.filterGUID = filterGUID;
+      this.offset = { left: event.clientX, top: event.clientY };
+      }
+    }
 }

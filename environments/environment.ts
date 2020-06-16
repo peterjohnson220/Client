@@ -24,5 +24,7 @@ export const environment = {
   // /client/admin/company-admin ### /ng/company-admin
   companyAdminUrl: '/client/admin/company-admin',
   payfactorsFrontEndApiUrl: '/Payfactors/',
-  name: 'development'
+  name: 'development',
+  mapBoxAPIKey: 'pk.eyJ1IjoicGZtYXBzIiwiYSI6ImNrOXg4ZWRvZjAwdzUzdHBtN3FlNzM2NjIifQ.VlodpfDhMKjG42DF4eBH6A',
+  mapBoxBaseUrl: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/'
 };

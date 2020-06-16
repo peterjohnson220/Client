@@ -1,3 +1,5 @@
+@import '_colors';
+
 div.collapsed {
   display: -webkit-inline-box;
   display: inline-block;
@@ -9,4 +11,19 @@ div.collapsed {
 .wtg-adj-cell {
   min-width: 50px;
   width: 50px;
+}
+.exchangeDataCut{
+  padding: 12px;
+  margin-left: 15px;
+  position: fixed;
+  background-color: #FFFFFF;
+  z-index: 10000;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+}
+
+.hasTooltip{
+  color: $pf-primary-blue;
 }
