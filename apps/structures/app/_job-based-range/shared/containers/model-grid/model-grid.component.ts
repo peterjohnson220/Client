@@ -180,7 +180,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.gridRowActionsConfig = {
       ...this.gridRowActionsConfig,
-      ActionsTemplate: this.gridRowActionsTemplate
+      ActionsTemplate: this.gridRowActionsTemplate,
+      Title: ''
     };
   }
 
