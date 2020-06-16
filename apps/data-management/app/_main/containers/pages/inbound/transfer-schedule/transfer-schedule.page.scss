@@ -1,6 +1,8 @@
 // Success modal alert
-:host ::ng-deep.modal-header {
-  display: none;
+.integration-setup-complete-modal {
+  ::ng-deep.modal-header {
+    display: none;
+  }
 }
 
 :host .setup-complete-modal-header {
