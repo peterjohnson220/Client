@@ -10,7 +10,7 @@
       <div class="page-header d-flex align-items-center pl-3">
         <span class="title">Recent Feeds</span>
       </div>
-      <div *ngIf="!!(feeds$ | async)?.obj?.length; else noRecentDownloads" class="row mt-4 pl-3">
+      <div *ngIf="!!(feeds$ | async)?.obj?.length; else noRecentDownloads" class="feeds mt-4 pl-3">
         <div *ngFor="let exportRecord of (feeds$ | async)?.obj" class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
           <pf-market-data-feed-export-card
             [marketDataFeedExport]="exportRecord">
