@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Router } from '@angular/router';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -12,13 +11,11 @@ import { generateOutboundTransferScheduleSummary, TransferScheduleSummary } from
 import * as fromRootState from 'libs/state/state';
 
 import * as fromTransferScheduleActions from '../actions/transfer-schedule.actions';
-import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import * as fromDataManagementMainReducer from '../reducers';
-import { LoaderTypes } from 'libs/constants';
 
 @Injectable()
 export class TransferScheduleEffects {
-  
+
   @Effect()
   loadTransferScheduleSummary$: Observable<Action> = this.actions$
     .pipe(

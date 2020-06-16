@@ -1,25 +1,22 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-
 import { Router } from '@angular/router';
 
+import { fill, isEmpty } from 'lodash';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, skip } from 'rxjs/operators';
 
-import { fill } from 'lodash';
-
-import { SyncScheduleDtoModel, TransferScheduleSummary } from 'libs/models/hris-api/sync-schedule';
+import { LoaderTypes, LoadTypes } from 'libs/constants';
+import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
+import { EmailRecipientModel, SyncScheduleDtoModel, TransferScheduleSummary, UserContext } from 'libs/models';
+import * as fromRootState from 'libs/state/state';
 
 import { PayfactorsApiModelMapper } from '../../../../helpers';
-import * as fromRootState from 'libs/state/state';
 import * as fromHrisConnectionActions from '../../../../actions/hris-connection.actions';
+import * as fromOnDemandSyncActions from '../../../../actions/on-demand-sync.actions';
 import * as fromTransferScheduleActions from '../../../../actions/transfer-schedule.actions';
-import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { GetSupportedSchedulesPipe } from '../../../../pipes';
 import * as fromDataManagementMainReducer from '../../../../reducers';
-import { LoadTypes } from 'libs/constants/load-types';
-import { EmailRecipientModel, UserContext } from 'libs/models';
-import { LoaderTypes } from 'libs/constants';
 
 @Component({
   selector: 'pf-transfer-schedule',
@@ -88,9 +85,9 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
           this.router.navigate(['/transfer-data/inbound/field-mapping']);
         }
       });
-    this.identitySubscription = this.identity$.subscribe(i => { 
+    this.identitySubscription = this.identity$.subscribe(i => {
       if (!!i) {
-        this.companyId = i.CompanyId
+        this.companyId = i.CompanyId;
       }
     });
     this.connectionSummarySub = this.store.select(fromDataManagementMainReducer.getHrisConnectionSummary)
@@ -103,9 +100,10 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
         if (connectionSummary.loaderConfigurationGroupId) {
           this.loaderConfigurationGroupId = connectionSummary.loaderConfigurationGroupId;
           this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
-            companyId: this.companyId, 
-            loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId, 
-            loaderType: LoaderTypes.OrgData}));
+            companyId: this.companyId,
+            loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId,
+            loaderType: LoaderTypes.OrgData,
+          }));
         }
       });
     this.showIntegrationFinishedModal$ = this.store.select(fromDataManagementMainReducer.getShowSetupCompleteModal);
@@ -148,6 +146,10 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   }
 
   onFinish() {
+    if (this.validationMode) {
+      this.queueValidationSync();
+    }
+
     this.store.dispatch(new fromTransferScheduleActions.ShowIntegrationSetupCompletedModal(true));
   }
 
@@ -157,11 +159,11 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   }
 
   canFinish(): boolean {
-    if (!this.transferScheduleSummary || !this.transferScheduleSummary.length) {
-      return false;
-    }
-    return this.editStates.filter(x => !x).length === this.transferScheduleSummary.length &&
-           this.transferScheduleSummary.filter(s => s.syncSchedule_ID > 0).length === this.transferScheduleSummary.length;
+    return this.validationMode || (
+      !isEmpty(this.transferScheduleSummary) &&
+      this.editStates.every(x => !x) &&
+      this.transferScheduleSummary.every(s => s.syncSchedule_ID > 0)
+    );
   }
 
   updateCanFinish(i: number, $event: boolean) {
@@ -184,5 +186,9 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   handleValidationModeChanged() {
     this.validationMode = !this.validationMode;
     this.store.dispatch(new fromHrisConnectionActions.ToggleValidationMode(this.validationMode));
+  }
+
+  queueValidationSync() {
+    this.store.dispatch(new fromOnDemandSyncActions.QueueOnDemandSync());
   }
 }

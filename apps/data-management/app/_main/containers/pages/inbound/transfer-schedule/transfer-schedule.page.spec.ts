@@ -11,6 +11,7 @@ import { SwitchModule, SwitchComponent } from '@progress/kendo-angular-inputs';
 import {generateMockTransferScheduleSummaries} from 'libs/models/hris-api/sync-schedule/response';
 
 import * as fromHrisConnectionActions from '../../../../actions/hris-connection.actions';
+import * as fromOnDemandSyncActions from '../../../../actions/on-demand-sync.actions';
 import * as fromTransferSchedulePageActions from '../../../../actions/transfer-schedule.actions';
 import * as fromTransferScheduleReducers from '../../../../reducers/transfer-schedule.reducer';
 import { GetSupportedSchedulesPipe } from '../../../../pipes';
@@ -84,15 +85,36 @@ describe('TransferSchedulePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch an action when finish button is pressed', () => {
+  it('should dispatch an action when finish button is pressed and validationMode is false', () => {
     spyOn(store, 'dispatch');
+
+    instance.validationMode = false;
 
     instance.onFinish();
 
     fixture.detectChanges();
 
+    const expectedQueueAction = new fromOnDemandSyncActions.QueueOnDemandSync();
     const expectedInitAction = new fromTransferSchedulePageActions.ShowIntegrationSetupCompletedModal(true);
-    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedInitAction);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedQueueAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedInitAction);
+  });
+
+  it('should dispatch two actions when finish button is pressed and validationMode is true', () => {
+    spyOn(store, 'dispatch');
+
+    instance.validationMode = true;
+
+    instance.onFinish();
+
+    fixture.detectChanges();
+
+    const expectedQueueAction = new fromOnDemandSyncActions.QueueOnDemandSync();
+    const expectedInitAction = new fromTransferSchedulePageActions.ShowIntegrationSetupCompletedModal(true);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedQueueAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedInitAction);
   });
 
   it('should dispatch a toggle action when kendo-switch value changes', () => {

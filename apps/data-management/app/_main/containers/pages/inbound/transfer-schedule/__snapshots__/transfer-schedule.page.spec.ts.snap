@@ -106,7 +106,11 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
             class="btn btn-primary px-4"
             type="button"
           >
-            Finish
+            
+            
+            <span>
+              Finish
+            </span>
           </button>
         </div>
       </div>
@@ -245,7 +249,11 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
             class="btn btn-primary px-4"
             type="button"
           >
-            Finish
+            
+            
+            <span>
+              Finish
+            </span>
           </button>
         </div>
       </div>
