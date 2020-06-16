@@ -2,13 +2,13 @@ import { GroupedListItem } from 'libs/models/list';
 import { PayMarketWithMdScope } from 'libs/models/paymarket';
 import { MDLocationsRequest } from 'libs/models/payfactors-api';
 
-import { Scope } from '../models';
+import { Scope, ScopeLabel } from '../models';
 
 export class GeneralFormHelper {
-  static buildAllItem(): GroupedListItem {
+  static buildAllItem(label: string): GroupedListItem {
     return {
       Name: 'All',
-      Value: 'All:All',
+      Value: label === ScopeLabel.Industry ? 'Industry:All:All' : `${label}:All`,
       Level: null,
       Children: []
     };
@@ -23,7 +23,7 @@ export class GeneralFormHelper {
 
   static buildDefaultLocation(payMarket: PayMarketWithMdScope): GroupedListItem {
     if (!payMarket.GeoLabel || !payMarket.GeoValue || payMarket.GeoValue === 'All') {
-      return this.buildAllItem();
+      return this.buildAllItem(ScopeLabel.Location);
     }
     switch (payMarket.GeoLabel) {
       case 'Region': {
@@ -51,7 +51,7 @@ export class GeneralFormHelper {
         };
       }
       default: {
-        return this.buildAllItem();
+        return this.buildAllItem(ScopeLabel.Location);
       }
     }
   }
