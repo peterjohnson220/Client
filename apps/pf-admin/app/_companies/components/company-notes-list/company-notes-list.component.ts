@@ -31,13 +31,15 @@ export class CompanyNotesListComponent implements AfterViewChecked {
   }
 
   update(note: CompanyNote) {
-    this.store.dispatch(new fromCompanyNotesActions.SaveCompanyNote({note: this.getUpdatedNote(note), actionType: 'Update'}));
+    if (!!this.updatedNote) {
+      this.store.dispatch(new fromCompanyNotesActions.SaveCompanyNote({note: this.getUpdatedNote(note), actionType: 'Update'}));
+    }
     this.toggleEditMode();
   }
 
-  toggleEditMode(event$?: CompanyNote) {
+  toggleEditMode(event$?: any) {
     this.selectedNodeId = event$ ? event$.Id : 0;
-    this.isEditMode = event$ ? false : true;
+    this.isEditMode = event$ ? true : false;
   }
 
   updateText(event: any, note: any) {
