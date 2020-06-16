@@ -82,7 +82,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       CompanySettingsEnum.EnableJobRangeStructureRangeTypes
     );
     this.minSpreadTooltip = 'The minimum range spread calculation is (midpoint) / (1 + min range spread value)';
-    this.maxSpreadTooltip = 'The maximum range spread calculation is (min value) * (1 + (min range spread + max))';
+    this.maxSpreadTooltip = 'The maximum range spread calculation is (min value) * (1 + (min range spread + max range spread))';
   }
 
   get formControls() {
