@@ -9,20 +9,21 @@ import spyOn = jest.spyOn;
 import * as fromRootState from 'libs/state/state';
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerManagementReducer from '../../../reducers';
-import { ExchangeJobMappingService } from '../../../services';
-import { SettingsService } from 'libs/state/app-context/services';
 import { ExchangeJobMappingPageComponent } from './exchange-job-mapping.page';
-import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
+import { ExchangeJobMappingGridService} from '../../../services/exchange-job-mapping-grid.service';
+
 
 describe('Peer - Exchange Job Mapping Page', () => {
   let fixture: ComponentFixture<ExchangeJobMappingPageComponent>;
   let instance: ExchangeJobMappingPageComponent;
 
   let activatedRoute: ActivatedRoute;
-  let exchangeJobMappingService: ExchangeJobMappingService;
+  let exchangeJobMappingGridService: ExchangeJobMappingGridService;
   let store: Store<fromPeerManagementReducer.State>;
 
   // Configure Testing Module for before each test
@@ -45,7 +46,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
           },
         },
         {
-          provide: ExchangeJobMappingService,
+          provide: ExchangeJobMappingGridService,
           useValue: { loadExchangeJobMappings: jest.fn() }
         },
         {
@@ -63,7 +64,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
 
     store = TestBed.inject(Store);
     activatedRoute = TestBed.inject(ActivatedRoute);
-    exchangeJobMappingService = TestBed.inject(ExchangeJobMappingService);
+    exchangeJobMappingGridService = TestBed.inject(ExchangeJobMappingGridService);
 
     fixture = TestBed.createComponent(ExchangeJobMappingPageComponent);
     instance = fixture.componentInstance;
@@ -95,11 +96,11 @@ describe('Peer - Exchange Job Mapping Page', () => {
   });
 
   it('should call loadExchangeJobMappings with the exchangeId when handleSearchBoxValueChanged is called', () => {
-    spyOn(exchangeJobMappingService, 'loadExchangeJobMappings');
+    spyOn(exchangeJobMappingGridService, 'loadExchangeJobMappings');
 
     instance.handleSearchChanged('New Search');
 
-    expect(exchangeJobMappingService.loadExchangeJobMappings).toHaveBeenCalled();
+    expect(exchangeJobMappingGridService.loadExchangeJobMappings).toHaveBeenCalled();
   });
 
   it('should apply a collapse-grid class to the exchange-job-mapping-grid-container, when collapse is true', () => {

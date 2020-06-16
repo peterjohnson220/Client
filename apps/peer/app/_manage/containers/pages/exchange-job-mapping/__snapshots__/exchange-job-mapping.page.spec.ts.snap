@@ -10,7 +10,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   exchangeId={[Function Number]}
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
-  exchangeJobMappingService={[Function Object]}
+  exchangeJobMappingGridService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
@@ -100,7 +100,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   exchangeId={[Function Number]}
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
-  exchangeJobMappingService={[Function Object]}
+  exchangeJobMappingGridService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
@@ -185,7 +185,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   exchangeId={[Function Number]}
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
-  exchangeJobMappingService={[Function Object]}
+  exchangeJobMappingGridService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
