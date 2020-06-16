@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RangeDistributionTypeComponent } from './range-distribution-type.component';
+import { RangeDistributionSettingComponent } from './range-distribution-setting.component';
 
 describe('RangeDistributionTypeComponent', () => {
-  let component: RangeDistributionTypeComponent;
-  let fixture: ComponentFixture<RangeDistributionTypeComponent>;
+  let component: RangeDistributionSettingComponent;
+  let fixture: ComponentFixture<RangeDistributionSettingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RangeDistributionTypeComponent ]
+      declarations: [ RangeDistributionSettingComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RangeDistributionTypeComponent);
+    fixture = TestBed.createComponent(RangeDistributionSettingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

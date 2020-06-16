@@ -9,7 +9,6 @@ import { AsyncStateObj } from 'libs/models/state';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
 import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
-import { MinMidMax } from 'libs/models/payfactors-api';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
@@ -18,7 +17,7 @@ import { ControlPoint, Currency, RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
 import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
-import { RangeDistributionTypeComponent } from '../range-distribution-type';
+import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 
 @Component({
   selector: 'pf-model-settings-modal',
@@ -28,7 +27,7 @@ import { RangeDistributionTypeComponent } from '../range-distribution-type';
 export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() page: Pages;
-  @ViewChild(RangeDistributionTypeComponent, {static: false}) public rangeDistributionTypeComponent: RangeDistributionTypeComponent;
+  @ViewChild(RangeDistributionSettingComponent, {static: false}) public rdSettingComponent: RangeDistributionSettingComponent;
 
   modalOpen$: Observable<boolean>;
   metaData$: Observable<RangeGroupMetadata>;
@@ -106,8 +105,11 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   get modalTitle() {
-       return this.isNewModel ? 'New Model' :
-      this.metadata.IsCurrent ? 'Create Model' : 'Edit Model';
+       return this.metadata.StructureName;
+  }
+
+  get modalSubTitle() {
+       return this.metadata.Paymarket;
   }
 
   get structureInputIsDisabled() {
@@ -116,25 +118,28 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.modelSettingsForm = new FormGroup({
-      'structureName': new FormControl(this.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
-      'modelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
-      'payMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
-      'controlPoint': new FormControl(this.metadata.ControlPoint, [Validators.required]),
-      'spreadMin': new FormControl(this.metadata.SpreadMin, [Validators.required]),
-      'spreadMax': new FormControl(this.metadata.SpreadMax, [Validators.required]),
-      'rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
-      'currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required])
+      'StructureName': new FormControl(this.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
+      'ModelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
+      'PayMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
+      'ControlPoint': new FormControl(this.metadata.ControlPoint, [Validators.required]),
+      'SpreadMin': new FormControl(this.metadata.SpreadMin, [Validators.required]),
+      'SpreadMax': new FormControl(this.metadata.SpreadMax, [Validators.required]),
+      'Rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
+      'Currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required]),
+      'RangeDistributionSetting': new FormControl(this.metadata.RangeDistributionSetting),
+      'RangeDistributionTypeId': new FormControl(this.metadata.RangeDistributionTypeId),
     });
     // set active tab to model
     this.activeTab = 'modelTab';
   }
+
   // Events
   handleModalSubmit() {
     if (this.modelSettingsForm.valid) {
       this.store.dispatch(new fromModelSettingsModalActions.SaveModelSettings(
         {
           rangeGroupId: this.rangeGroupId,
-          formValue: this.modelSettingsForm.value,
+          formValue: this.modelSetting,
           fromPage: this.page,
           rounding: this.roundingSettings
         })
@@ -145,7 +150,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleModalSubmitAttempt() {
     this.attemptedSubmit = true;
-    this.modelSetting = this.modelSettingsForm.value;
+    this.modelSetting = this.modelSettingsForm.getRawValue();
     if (this.enableJobRangeTypes) {
       // Set value for control point, range spread min and max
       this.updateRangeTypeSetting();
@@ -156,16 +161,18 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   updateRangeTypeSetting() {
-    this.rangeDistributionTypeComponent.validate();
-    const rangeTypeSetting = this.rangeDistributionTypeComponent.rangeTypeForm.value;
-    // Prevent the hidden controls from failing validation
-    this.modelSettingsForm.controls['spreadMin'].setValue(rangeTypeSetting.Minimum);
-    this.modelSettingsForm.controls['spreadMax'].setValue(rangeTypeSetting.Maximum);
-    this.modelSettingsForm.controls['controlPoint'].setValue(rangeTypeSetting.ControlPoint);
+    const setting = this.rdSettingComponent.rangeDistributionSettingForm.getRawValue();
 
-    // Update range distribution type and setting
-    this.modelSetting.RangeDistributionTypeSetting = this.rangeDistributionTypeComponent.rangeTypeForm.value;
-    this.modelSetting.RangeDistributionTypeId = rangeTypeSetting.RangeDistributionTypeId;
+    if (!!setting) {
+      // Prevent the hidden controls from failing validation
+      this.modelSettingsForm.controls['SpreadMin'].setValue(setting.Minimum);
+      this.modelSettingsForm.controls['SpreadMax'].setValue(setting.Maximum);
+      this.modelSettingsForm.controls['ControlPoint'].setValue(setting.RangeBasedOn);
+      this.modelSettingsForm.controls['RangeDistributionTypeId'].setValue(setting.RangeDistributionTypeId);
+
+      this.modelSetting = this.modelSettingsForm.getRawValue();
+      this.modelSetting.RangeDistributionSetting = setting;
+    }
   }
 
   handleModalDismiss() {
@@ -175,11 +182,11 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   handleControlPointFilterChange(value: string) {
-    this.controlPoints = this.controlPointsAsyncObj.obj.filter(cp => cp.Display.toLowerCase().startsWith(value.toLowerCase()));
+    this.controlPoints = this.controlPoints.filter(cp => cp.Display.toLowerCase().startsWith(value.toLowerCase()));
   }
 
   handleControlPointSelectionChange() {
-    this.controlPoints = this.controlPointsAsyncObj.obj;
+    this.controlPoints = this.controlPoints;
   }
 
   handleCurrencyFilterChange(value: string) {
@@ -219,7 +226,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   private subscribe() {
     this.controlPointsAsyncObjSub = this.controlPointsAsyncObj$.subscribe(cp => {
       this.controlPointsAsyncObj = cp;
-      this.controlPoints = cp.obj;
+      this.controlPoints = cp.obj.filter((ctrlPt, i, arr) => {
+        return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP')) === i;
+      });
     });
 
     this.currenciesAsyncObjSub = this.currenciesAsyncObj$.subscribe(c => {
@@ -237,6 +246,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.enableJobRangeTypesSub = this.enableJobRangeTypes$.subscribe(c => this.enableJobRangeTypes = c);
+
   }
 
   private unsubscribe() {
@@ -251,8 +261,5 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   private reset() {
     this.attemptedSubmit = false;
-    if (this.enableJobRangeTypes) {
-      this.rangeDistributionTypeComponent.reset();
-    }
   }
 }

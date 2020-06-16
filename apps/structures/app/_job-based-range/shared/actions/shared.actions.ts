@@ -10,7 +10,6 @@ export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadat
 export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';
 export const UPDATE_ROUNDING_TYPE = '[Structures - Job Based Range - Shared] Update Rounding Type';
 export const UPDATE_ROUNDING_POINT = '[Structures - Job Based Range - Shared] Update Rounding Point';
-export const UPDATE_RANGE_DISTRIBUTION_TYPE = '[Structures - Job Based Range - Shared] Update Range distribution Type';
 export const SHOW_REMOVE_RANGE_MODAL = '[Structures - Job Based Range - Shared] Show Remove Range Modal';
 export const REMOVING_RANGE = '[Structures - Job Based Range - Shared] Removing Range';
 export const REMOVING_RANGE_SUCCESS = '[Structures - Job Based Range - Shared] Removing Range Success';
@@ -40,12 +39,6 @@ export class UpdateRoundingPoint implements Action {
   constructor(public payload: { RoundingSetting: string; RoundingPoint: number } ) {}
 }
 
-export class UpdateRangeDistributionType implements Action {
-  readonly type = UPDATE_RANGE_DISTRIBUTION_TYPE;
-
-  constructor(public payload: { RangeDistributionTypeId: number } ) {}
-}
-
 export class ShowRemoveRangeModal implements Action {
   readonly type = SHOW_REMOVE_RANGE_MODAL;
   constructor() {}
@@ -71,8 +64,8 @@ export type SharedActions
   | RecalculateRangesWithoutMid
   | UpdateRoundingType
   | UpdateRoundingPoint
-  | UpdateRangeDistributionType
   | RemovingRange
   | RemovingRangeSuccess
   | RemovingRangeError
-  | ShowRemoveRangeModal;
+  | ShowRemoveRangeModal
+  | UpdateRoundingPoint;
