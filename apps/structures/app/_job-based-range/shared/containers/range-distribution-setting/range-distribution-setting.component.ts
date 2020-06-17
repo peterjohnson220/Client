@@ -99,20 +99,24 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   handleRangeBasedOnFilterChange(value: string) {
-    this.controlPointCategory = this.controlPointCategory.filter(cp => cp.Display.toLowerCase().startsWith(value.toLowerCase()));
+    this.controlPointCategory = this.controlPoints.filter((ctrlPt, i, arr) => {
+      return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP' &&
+        (t.Display.toLowerCase().startsWith(value.toLowerCase()) || t.Display.toLowerCase().includes(value.toLowerCase())))) === i;
+    });
   }
 
   handleRangeBasedOnSelectionChange(value: ControlPoint) {
-    // Set MRP vaue of the selected pay type
-    this.rangeDistributionSettingForm.controls['ControlPoint'].setValue(value.FieldName);
+    if (!!value) {
+      // Set MRP vaue of the selected pay type
+      this.rangeDistributionSettingForm.controls['ControlPoint'].setValue(value.FieldName);
 
-    // Update range values of the selected pay type
-    this.controlPointRanges = this.controlPoints.filter(c => c.Category === value.Category && c.RangeDisplayName !== 'MRP');
+      // Update range values of the selected pay type
+      this.controlPointRanges = this.controlPoints.filter(c => c.Category === value.Category && c.RangeDisplayName !== 'MRP');
 
-    // Reset range values and set validators based on range distribution type id
-    this.resetFormValidators();
-    this.setFormValidators(this.metadata.RangeDistributionTypeId);
-
+      // Reset range values and set validators based on range distribution type id
+      this.resetFormValidators();
+      this.setFormValidators(this.metadata.RangeDistributionTypeId);
+    }
   }
 
   handleControlPointFilterChange(value: string) {
