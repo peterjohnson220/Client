@@ -21,7 +21,7 @@ describe('OrgDataLoadComponent', () => {
   let instance: OrgDataLoadComponent;
   let fixture: ComponentFixture<OrgDataLoadComponent>;
   let store: Store<fromCompanyReducer.State>;
-  const companies = [{ CompanyId: 1, CompanyName: 'Test1' }, { CompanyId: 2, CompanyName: 'abc2' }];
+  const companies = [{ CompanyId: 1, CompanyName: 'Test1', CombinedDetail: 'Test1 (1)' }, { CompanyId: 2, CompanyName: 'abc2', CombinedDetail: 'abc2 (2)' }];
   const companySetting_ManualOrgDataLoadLink_True = [
     {Key: CompanySettingsEnum.ManualOrgDataLoadLink, DisplayName: 'Manual Org Data Load Link', Value: 'true', Visible: true, DataType: 'string'}];
   const companySetting_ManualOrgDataLoadLink_False = [
