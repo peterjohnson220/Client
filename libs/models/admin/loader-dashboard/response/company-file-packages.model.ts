@@ -8,5 +8,6 @@ export interface CompanyFilePackagesResponse {
   CreateDate: Date;
   LoaderConfigurationGroup_ID: number;
   LoadType: string;
+  ValidationOnly: boolean;
   files: CompanyFilePackagesDetail[];
 }
