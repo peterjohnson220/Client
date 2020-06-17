@@ -1,13 +1,13 @@
 <div class="d-flex flex-column">
   <span class="title">Upload Pricing File</span>
-  <div class="content">
-    <div class="row body">
-      <div class="col-6">
+  <div class="pricing-loader-content">
+    <div class="row">
+      <div class="col-12 col-lg-6 mb-3">
         <div class="upload-notes">
           <b>Note:</b> File must be in .xlsx, .xlsm, or .xlsb format and file name must begin with <b>pricings</b>. Once file is uploaded, map the tabs in your file to either Pricings or Pricing Notes.
         </div>
       </div>
-      <div class="col-6 d-flex flex-column">
+      <div class="col-12 col-lg-6 d-flex flex-column">
         <pf-file-upload #fileUpload
           class="mb-3"
           (onFileDropped)="handleOnFileDropped($event)"
@@ -20,18 +20,20 @@
           <label>Pricings</label>
           <kendo-combobox
             [data]="(worksheetNames$ | async)?.obj"
-            [(ngModel)]="pricingsSheetName"
+            [ngModel]="pricingsSheetName"
             [placeholder]="worksheetNamePlaceholder"
-            [style.width.px]="250">
+            [style.width.px]="250"
+            (valueChange)="updatePricingsSheetName($event)">
           </kendo-combobox>
         </div>
         <div class="form-group">
           <label>Pricing Notes</label>
           <kendo-combobox
             [data]="(worksheetNames$ | async)?.obj"
-            [(ngModel)]="notesSheetName"
+            [ngModel]="notesSheetName"
             [placeholder]="worksheetNamePlaceholder"
-            [style.width.px]="250">
+            [style.width.px]="250"
+            (valueChange)="updateNotesSheetName($event)">
           </kendo-combobox>
         </div>
       </div>
@@ -42,13 +44,17 @@
       </span>
       <div class="mr-3 pt-1">
         <div class="d-flex validation-only">
-          <input type="checkbox" class="k-checkbox" id="validationOnlyCkeckbox" [(ngModel)]="validationOnly">
+          <input
+            type="checkbox" class="k-checkbox" id="validationOnlyCkeckbox"
+            [checked]="validationOnly"
+            (change)="updateValidationOnly($event)">
           <label class="k-checkbox-label" for="validationOnlyCkeckbox"></label>
           <div class="k-checkbox-title">Validation Only</div>
         </div>
       </div>
       <button type="button" class="btn pf-primary-btn"
-        [disabled]="processDisabled">
+        [disabled]="processDisabled"
+        (click)="onProcessClicked()">
         Process
       </button>
     </div>

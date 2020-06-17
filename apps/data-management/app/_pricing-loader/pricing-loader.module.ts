@@ -21,11 +21,12 @@ import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { PricingLoadersComponent, UploadPricingFileComponent } from './containers';
+import { PricingLoadersComponent, UploadPricingFileComponent, DefaultSettingsComponent } from './containers';
+import { PricingLoaderSettingComponent } from './components';
 import * as fromFaIcons from './fa-icons';
 import { PricingLoadersRoutingModule } from './pricing-loader-routing.module';
 import { reducers } from './reducers';
-import { UploadPricingFileEffects } from './effects';
+import { UploadPricingFileEffects, PricingLoaderEffects } from './effects';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { UploadPricingFileEffects } from './effects';
     DragulaModule.forRoot(),
     StoreModule.forFeature('pricingloader_main', reducers),
     EffectsModule.forFeature([
-      UploadPricingFileEffects
+      UploadPricingFileEffects,
+      PricingLoaderEffects
     ]),
     FontAwesomeModule,
     NgbTabsetModule,
@@ -65,9 +67,11 @@ import { UploadPricingFileEffects } from './effects';
 
     // Containers
     UploadPricingFileComponent,
+    DefaultSettingsComponent,
 
     // Components
-    PricingLoadersComponent
+    PricingLoadersComponent,
+    PricingLoaderSettingComponent
   ]
 })
 export class PricingLoaderModule {

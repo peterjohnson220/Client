@@ -6,3 +6,4 @@ export * from './email-recipient.model';
 export * from './configuration-group-model';
 export * from './request';
 export * from './save-loader-configuration-request.model';
+export * from './loader-setting-key-names.model';
