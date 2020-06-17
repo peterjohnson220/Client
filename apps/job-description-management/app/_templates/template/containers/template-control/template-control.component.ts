@@ -39,13 +39,11 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
     private changesSubject: Subject<any>;
     private bulkChangesSubject: Subject<any>;
 
-    private controlTypes$: Observable<ControlType[]>;
     private controlTypeSubscription: Subscription;
 
     constructor(private sharedJdmStore: Store<fromJdmSharedReducer.State>) {
         this.changesSubject = new Subject();
         this.bulkChangesSubject = new Subject();
-        this.controlTypes$ = this.sharedJdmStore.select(fromJdmSharedReducer.getControlTypes);
     }
 
     toggleBody() {
