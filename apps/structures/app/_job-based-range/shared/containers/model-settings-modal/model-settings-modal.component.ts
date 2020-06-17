@@ -182,7 +182,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   handleControlPointFilterChange(value: string) {
-    this.controlPoints = this.controlPoints.filter(cp => cp.Display.toLowerCase().startsWith(value.toLowerCase()));
+    this.controlPoints = this.controlPointsAsyncObj.obj.filter((ctrlPt, i, arr) => {
+      return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP' &&
+        (t.Display.toLowerCase().startsWith(value.toLowerCase()) || t.Display.toLowerCase().includes(value.toLowerCase())))) === i;
+    });
   }
 
   handleControlPointSelectionChange() {
