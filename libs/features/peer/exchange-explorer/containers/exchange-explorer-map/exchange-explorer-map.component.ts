@@ -135,11 +135,13 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
           zoom = e.target.getZoom();
         }
       }
-      this.store.dispatch(new fromMapActions.MoveEnd({
-        bounds: bounds,
-        zoom: zoom
-      }));
-      this.initialMoveEnd = false;
+      if(bounds && zoom) {
+        this.store.dispatch(new fromMapActions.MoveEnd({
+          bounds: bounds,
+          zoom: zoom
+        }));
+        this.initialMoveEnd = false;
+      }
     }
 
     this.ignoreNextMoveEnd = false;
