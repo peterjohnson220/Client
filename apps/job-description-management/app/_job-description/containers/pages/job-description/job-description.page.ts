@@ -7,6 +7,9 @@ import { filter, first, take, takeWhile } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
 import * as cloneDeep from 'lodash.clonedeep';
 
+import * as signalR from '@microsoft/signalr';
+import { LogLevel } from '@microsoft/signalr';
+
 import {
   JobDescription,
   UserContext,
@@ -185,11 +188,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.saveThrottle = new Subject();
   }
 
-  @HostListener('window:beforeunload')
-    onWindowClosed() {
-      this.unsetIsBeingViewed();
-    }
-
   ngOnInit(): void {
     this.initSubscriptions();
     this.initSaveThrottle();
@@ -201,6 +199,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }
 
     if (this.tokenId && this.identityInWorkflow) {
+      this.initSignalRConnection(); // sets isBeingViewed to false on signalR disconnect
       this.store.dispatch(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewed({jwt: this.tokenId, isBeingViewed: true}));
     }
   }
@@ -664,10 +663,23 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async unsetIsBeingViewed() {
-    const xmlHttp = new XMLHttpRequest();
-    const url = `/odata/WorkflowStepUser/SetIsBeingViewedOnWorkflowUserStep?jwt=${this.tokenId}&isBeingViewed=false`;
-    xmlHttp.open('GET', url, false);
-    xmlHttp.send();
+  private initSignalRConnection() {
+
+    let signalRConnectionUrl = this.identity.ConfigSettings.find(c => c.Name === 'SignalR').Value;
+    const signalREnabled = this.identity.ConfigSettings.find(c => c.Name === 'SignalREnabled').Value;
+    const hubRoute = '/job-description-manager';
+
+    if (signalREnabled && !!signalRConnectionUrl) {
+
+        signalRConnectionUrl = `${signalRConnectionUrl}${hubRoute}?token=${this.tokenId}`;
+
+        const connection = new signalR.HubConnectionBuilder()
+          .withUrl(signalRConnectionUrl)
+          .withAutomaticReconnect()
+          .configureLogging(LogLevel.Error)
+          .build();
+
+        connection.start();
+      }
+    }
   }
-}
