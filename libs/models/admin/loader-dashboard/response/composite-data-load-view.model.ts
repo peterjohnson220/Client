@@ -9,6 +9,8 @@ export interface CompositeDataLoadViewResponse {
   ValidationErrorOutputUri: string;
   FixableDataConditionException: string;
   TerminalException: string;
+  LoadType?: string;
+  ValidationOnly?: boolean;
   entityLoadSummaries: EntityLoadSummaryView[];
   RequestTime?: Date;
   ProcessingStartTime?: Date;
