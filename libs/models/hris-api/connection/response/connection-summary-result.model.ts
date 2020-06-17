@@ -9,4 +9,5 @@ export interface ConnectionSummaryResponse {
   canEditMappings: boolean;
   selectedEntities: string[];
   loaderConfigurationGroupId?: number;
+  validationMode: boolean;
 }
