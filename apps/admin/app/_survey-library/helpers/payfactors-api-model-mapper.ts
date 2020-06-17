@@ -7,7 +7,8 @@ export class PayfactorsApiModelMapper {
     return companies.map(c => {
       return {
         CompanyId: c.CompanyId,
-        CompanyName: c.Name
+        CompanyName: c.Name,
+        CombinedDetail: c.CombinedDetail
       };
     });
   }

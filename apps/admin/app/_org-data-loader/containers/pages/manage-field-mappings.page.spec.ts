@@ -83,7 +83,7 @@ describe('ManageFieldMapperPageComponent', () => {
     spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(ManageFieldMappingsPageComponent);
     component = fixture.componentInstance;
-    component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+    component.selectedCompany = {CompanyId: 13, CompanyName: 'Test', CombinedDetail: 'Test (13)'};
     component.visibleLoaderOptions = {
       clientFileName: true,
       selectFile: true
@@ -108,7 +108,7 @@ describe('ManageFieldMapperPageComponent', () => {
   });
 
   it('should show the field mapper when a company has been selected', () => {
-    component.selectedCompany = {CompanyId: 13, CompanyName: 'Test'};
+    component.selectedCompany = {CompanyId: 13, CompanyName: 'Test', CombinedDetail: 'Test (13)'};
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();

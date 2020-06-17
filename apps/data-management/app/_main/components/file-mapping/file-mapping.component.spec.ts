@@ -32,7 +32,7 @@ describe('FileMappingComponent', () => {
     component = fixture.componentInstance;
     component.entities = getEntityChoicesForOrgLoader();
     component.entities.forEach(e => { e.customFields.Jobs = customFields, e.customFields.Employees = customFields; });
-    component.selectedCompany = {CompanyId: 1, CompanyName: 'test'};
+    component.selectedCompany = {CompanyId: 1, CompanyName: 'test', CombinedDetail: 'test (1)'};
     fixture.detectChanges();
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
