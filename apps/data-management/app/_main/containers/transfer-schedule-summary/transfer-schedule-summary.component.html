@@ -3,7 +3,6 @@
     <h5 class="card-title text-uppercase text-muted">
       <fa-icon icon="calendar-alt"></fa-icon>
       Transfer Schedule
-
     </h5>
     <div class="row">
       <table class="table table-striped text-muted">
@@ -11,7 +10,7 @@
           <ng-container *ngIf="(this.transferScheduleSummary$ | async).length">
             <tr *ngFor="let item of ((this.transferScheduleSummary$ | async) | getSupportedSchedulesPipe)">
               <td>{{ item.entityMappingTypeName}}</td>
-              <td class="text-right font-italic">{{ getSchedule(item) }}</td>
+              <td class="text-right font-italic">{{ !validationMode ? getSchedule(item) : 'validation files pending' }}</td>
             </tr>
           </ng-container>
         </tbody>
