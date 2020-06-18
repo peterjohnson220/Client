@@ -125,11 +125,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
       >
         Integration Setup Complete!
       </h5>
-      <div
-        class="alert alert-success"
-      >
-         Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time. 
-      </div>
+      <pf-transfer-schedule-summary />
       <div>
         <button
           class="btn btn-primary px-4 float-right"
@@ -268,11 +264,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
       >
         Integration Setup Complete!
       </h5>
-      <div
-        class="alert alert-success"
-      >
-         Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time. 
-      </div>
+      <pf-transfer-schedule-summary />
       <div>
         <button
           class="btn btn-primary px-4 float-right"

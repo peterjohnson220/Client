@@ -41,7 +41,7 @@
       <div class="p-2">
         <button type="button" class="btn btn-secondary px-4" (click)="goBack()">Back</button>
       </div>
-      <div class="p-2" *ngIf="!workflowComplete">
+      <div class="p-2" *ngIf="!workflowComplete || validationMode">
         <button type="button" class="btn btn-primary px-4" [disabled]="!canFinish()" (click)="onFinish()">
           <span *ngIf="workflowComplete && validationMode">Validate</span>
           <span *ngIf="!workflowComplete || !validationMode">Finish</span>
@@ -59,9 +59,9 @@
     [isOpen$]="showIntegrationFinishedModal$">
     <ng-container basic-content>
       <h5 class="mb-3 setup-complete-modal-header">Integration Setup Complete!</h5>
-      <div class="alert alert-success">
-        Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time.
-      </div>
+      <pf-transfer-schedule-summary
+        [validationMode]="validationMode">
+      </pf-transfer-schedule-summary>
       <div class="">
         <button class="btn btn-primary px-4 float-right" (click)="onOk()">Ok</button>
       </div>
