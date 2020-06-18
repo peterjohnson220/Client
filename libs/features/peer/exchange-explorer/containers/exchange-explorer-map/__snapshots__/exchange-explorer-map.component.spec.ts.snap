@@ -1,0 +1,239 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Features - Peer - Map Component should load the exchange explorer map with default options 1`] = `
+<pf-exchange-explorer-map
+  dataLoading$={[Function Store]}
+  ignoreNextMoveEnd="false"
+  initialMoveEnd={[Function Boolean]}
+  peerInitialMapBounds$={[Function Store]}
+  peerInitialMapBoundsSub={[Function Subscriber]}
+  peerInitialMapZoomLevelSub={[Function Subscriber]}
+  peerMapAutoZooming$={[Function Store]}
+  peerMapCentroid$={[Function Store]}
+  peerMapCollection$={[Function Store]}
+  peerMapHasUntaggedIncumbents$={[Function Store]}
+  peerMapInitialZoomComplete$={[Function Store]}
+  peerMapInitialZoomLevel$={[Function Store]}
+  peerMapLoaded$={[Function Store]}
+  peerMapLoadingError$={[Function Store]}
+  peerMapMaxZoom$={[Function Store]}
+  peerMapShowNoData$={[Function Store]}
+  peerMapSummary$={[Function Store]}
+  peerMapSummarySub={[Function Subscriber]}
+  satelliteStyleEnabled="false"
+  selectedPoint="null"
+  store={[Function Store]}
+  userContext$={[Function Store]}
+  userContextSub={[Function Subscriber]}
+>
+  <mgl-map
+    style=""
+  >
+    <mgl-control
+      mglgeocoder=""
+    />
+    <mgl-control
+      mglnavigation=""
+    />
+    <mgl-control>
+      <div
+        class="mapboxgl-ctrl-group"
+      >
+        <button
+          class="btn btn-secondary"
+          title="Toggle Satellite View"
+        >
+          
+          <span>
+            <fa-icon
+              icon="globe"
+            />
+          </span>
+          
+        </button>
+      </div>
+    </mgl-control>
+    <mgl-geojson-source
+      id="incumbents"
+    />
+    
+    <mgl-layer
+      id="multiple-company-latlon-layer"
+      source="incumbents"
+      type="circle"
+    />
+    <mgl-layer
+      id="single-company-latlon-layer"
+      source="incumbents"
+      type="circle"
+    />
+    <mgl-layer
+      id="cluster-count-layer"
+      source="incumbents"
+      type="symbol"
+    />
+    
+  </mgl-map>
+</pf-exchange-explorer-map>
+`;
+
+exports[`Features - Peer - Map Component should show the no data message on the map 1`] = `
+<pf-exchange-explorer-map
+  dataLoading$={[Function Observable]}
+  ignoreNextMoveEnd="false"
+  initialMoveEnd={[Function Boolean]}
+  peerInitialMapBounds$={[Function Store]}
+  peerInitialMapBoundsSub={[Function Subscriber]}
+  peerInitialMapZoomLevelSub={[Function Subscriber]}
+  peerMapAutoZooming$={[Function Observable]}
+  peerMapCentroid$={[Function Store]}
+  peerMapCollection$={[Function Store]}
+  peerMapHasUntaggedIncumbents$={[Function Store]}
+  peerMapInitialZoomComplete$={[Function Store]}
+  peerMapInitialZoomLevel$={[Function Store]}
+  peerMapLoaded$={[Function Observable]}
+  peerMapLoadingError$={[Function Store]}
+  peerMapMaxZoom$={[Function Store]}
+  peerMapShowNoData$={[Function Observable]}
+  peerMapSummary$={[Function Store]}
+  peerMapSummarySub={[Function Subscriber]}
+  satelliteStyleEnabled="false"
+  selectedPoint="null"
+  store={[Function Store]}
+  userContext$={[Function Store]}
+  userContextSub={[Function Subscriber]}
+>
+  <mgl-map
+    class="map-no-data"
+    style=""
+  >
+    <mgl-control
+      mglgeocoder=""
+    />
+    <mgl-control
+      mglnavigation=""
+    />
+    <mgl-control>
+      <div
+        class="mapboxgl-ctrl-group"
+      >
+        <button
+          class="btn btn-secondary"
+          title="Toggle Satellite View"
+        >
+          
+          <span>
+            <fa-icon
+              icon="globe"
+            />
+          </span>
+          
+        </button>
+      </div>
+    </mgl-control>
+    <mgl-geojson-source
+      id="incumbents"
+    />
+    
+    <mgl-layer
+      id="multiple-company-latlon-layer"
+      source="incumbents"
+      type="circle"
+    />
+    <mgl-layer
+      id="single-company-latlon-layer"
+      source="incumbents"
+      type="circle"
+    />
+    <mgl-layer
+      id="cluster-count-layer"
+      source="incumbents"
+      type="symbol"
+    />
+    
+    <mgl-popup>
+      <div
+        class="map-no-data-message"
+      >
+        
+        
+      </div>
+    </mgl-popup>
+  </mgl-map>
+</pf-exchange-explorer-map>
+`;
+
+exports[`Features - Peer - Map Component should show the satellite style if it is enabled 1`] = `
+<pf-exchange-explorer-map
+  dataLoading$={[Function Store]}
+  ignoreNextMoveEnd="false"
+  initialMoveEnd={[Function Boolean]}
+  peerInitialMapBounds$={[Function Store]}
+  peerInitialMapBoundsSub={[Function Subscriber]}
+  peerInitialMapZoomLevelSub={[Function Subscriber]}
+  peerMapAutoZooming$={[Function Store]}
+  peerMapCentroid$={[Function Store]}
+  peerMapCollection$={[Function Store]}
+  peerMapHasUntaggedIncumbents$={[Function Store]}
+  peerMapInitialZoomComplete$={[Function Store]}
+  peerMapInitialZoomLevel$={[Function Store]}
+  peerMapLoaded$={[Function Store]}
+  peerMapLoadingError$={[Function Store]}
+  peerMapMaxZoom$={[Function Store]}
+  peerMapShowNoData$={[Function Store]}
+  peerMapSummary$={[Function Store]}
+  peerMapSummarySub={[Function Subscriber]}
+  satelliteStyleEnabled={[Function Boolean]}
+  selectedPoint="null"
+  store={[Function Store]}
+  userContext$={[Function Store]}
+  userContextSub={[Function Subscriber]}
+>
+  <mgl-map
+    style=""
+  >
+    <mgl-control
+      mglgeocoder=""
+    />
+    <mgl-control
+      mglnavigation=""
+    />
+    <mgl-control>
+      <div
+        class="mapboxgl-ctrl-group"
+      >
+        <button
+          class="btn btn-secondary"
+          title="Toggle Map View"
+        >
+          
+          
+          <span>
+            <fa-icon />
+          </span>
+        </button>
+      </div>
+    </mgl-control>
+    <mgl-geojson-source
+      id="incumbents"
+    />
+    
+    <mgl-layer
+      id="multiple-company-latlon-layer"
+      source="incumbents"
+      type="circle"
+    />
+    <mgl-layer
+      id="single-company-latlon-layer"
+      source="incumbents"
+      type="circle"
+    />
+    <mgl-layer
+      id="cluster-count-layer"
+      source="incumbents"
+      type="symbol"
+    />
+    
+  </mgl-map>
+</pf-exchange-explorer-map>
+`;

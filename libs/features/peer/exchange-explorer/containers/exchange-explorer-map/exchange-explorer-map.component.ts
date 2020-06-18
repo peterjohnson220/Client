@@ -130,12 +130,12 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
         );
         zoom = this.peerInitialMapZoomLevel;
       } else {
-        if(e) {
+        if (e) {
           bounds = e.target.getBounds();
           zoom = e.target.getZoom();
         }
       }
-      if(bounds && zoom) {
+      if (bounds && zoom) {
         this.store.dispatch(new fromMapActions.MoveEnd({
           bounds: bounds,
           zoom: zoom
