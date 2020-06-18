@@ -31,6 +31,9 @@ export interface State {
   deletingSuccess: boolean;
   ssoLoginUrl: string;
   ssoAuthResult: any;
+  loadingPage: boolean;
+  loadingPageError: boolean;
+  ssoAuthError: any;
 }
 
 export const initialState: State = {
@@ -52,7 +55,10 @@ export const initialState: State = {
   deletingError: false,
   deletingSuccess: false,
   ssoLoginUrl: null,
-  ssoAuthResult: null
+  ssoAuthResult: null,
+  loadingPage: false,
+  loadingPageError: false,
+  ssoAuthError: null
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.Actions): State {
@@ -438,7 +444,28 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     case fromJobDescriptionActions.AUTHENTICATE_SSO_PARAMS_SUCCESS: {
       return {
         ...state,
-        ssoAuthResult: action.payload
+        ssoAuthResult: action.payload,
+        ssoAuthError: null
+      };
+    }
+    case fromJobDescriptionActions.AUTHENTICATE_SSO_PARAMS_ERROR: {
+      return {
+        ...state,
+        ssoAuthError: action.payload
+      };
+    }
+    case fromJobDescriptionActions.LOADING_PAGE: {
+      return {
+        ...state,
+        loadingPage: action.payload,
+        loadingPageError: false
+      };
+    }
+    case fromJobDescriptionActions.LOADING_PAGE_ERROR: {
+      return {
+        ...state,
+        loadingPage: false,
+        loadingPageError: false
       };
     }
     default:
@@ -464,4 +491,7 @@ export const getJobDescriptionExtendedInfoAsync = (state: State) => state.Gettin
 export const getReplaceJobDescriptionComplete = (state: State) => state.replaceJobDescriptionComplete;
 export const getJobDescriptionSSOLoginUrl = (state: State) => state.ssoLoginUrl;
 export const getJobDescriptionSSOAuthResult = (state: State) => state.ssoAuthResult;
+export const getLoadingPage = (state: State) => state.loadingPage;
+export const getLoadingPageError = (state: State) => state.loadingPageError;
+export const getJobDescriptionSSOAuthError = (state: State) => state.ssoAuthError;
 

@@ -100,6 +100,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
   jobDescriptionSSOLoginUrl$: Observable<string>;
   jobDescriptionSSOAuthResult$: Observable<string>;
+  jobDescriptionSSOAuthError$: Observable<string>;
+
+  loadingPage$: Observable<boolean>;
+  loadingPageError$: Observable<boolean>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
@@ -143,6 +147,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   editing: boolean;
   completedStep: boolean;
   controlTypes: ControlType[];
+  requireSSOLogin = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -185,10 +190,15 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.completedStep$ = this.store.select(fromJobDescriptionReducers.getCompletedStep);
     this.jobDescriptionSSOLoginUrl$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOLoginUrl);
     this.jobDescriptionSSOAuthResult$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthResult);
+    this.jobDescriptionSSOAuthError$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthError);
     this.saveThrottle = new Subject();
+
+    this.loadingPage$ = this.store.select(fromJobDescriptionReducers.getLoadingPage);
+    this.loadingPageError$ = this.store.select(fromJobDescriptionReducers.getLoadingPageError);
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new fromJobDescriptionActions.LoadingPage(true));
     this.initSubscriptions();
     this.initSaveThrottle();
     this.defineDiscardDraftModalOptions();
@@ -455,8 +465,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionSSOLoginUrlSubscription = this.jobDescriptionSSOLoginUrl$.subscribe( ssoLoginUrl => {
       if (ssoLoginUrl) {
         // Redirect to SSO login. After logging in you will be redirected back here with tokenid and agentid params from the sso for use in authenticating.
-        const currentUrl = encodeURIComponent(window.location.href);
-        window.location.href = `${ssoLoginUrl}&appurl=${currentUrl}`;
+        const currentURL = window.location.href;
+        const currentURLWithToken = `${currentURL.slice(0, currentURL.indexOf('?'))}?jwt=${this.tokenId}`;
+        const encodedUrl = encodeURIComponent(currentURLWithToken);
+
+        window.location.href = `${ssoLoginUrl}&appurl=${encodedUrl}`;
       }
     });
 
@@ -512,9 +525,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
 
     this.requireSSOLogin$.subscribe(requireSSOLogin => {
-       if (requireSSOLogin && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
+
+      if (requireSSOLogin  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
+
          this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
+
        } else if (requireSSOLogin && this.tokenId != null) {
+
          this.store.dispatch(new fromJobDescriptionActions.AuthenticateSSOParams({tokenId: this.ssoTokenId, agentId: this.ssoAgentId}));
          this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
 
@@ -526,8 +543,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
               if (resultObj.EmailDomain.indexOf(userEmailDomain) === -1 && userEmailDomain.indexOf(resultObj.EmailDomain) === -1) {
                 this.router.navigate(['/forbidden']);
               }
+
+             this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
             }
          });
+
+         this.jobDescriptionSSOAuthError$.subscribe( result => {
+           if (result) {
+             this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
+           }
+         });
+       } else if (requireSSOLogin != null) {
+          this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
        }
     });
 

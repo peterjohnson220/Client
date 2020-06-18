@@ -381,6 +381,21 @@ export const getJobDescriptionSSOAuthResult = createSelector(
   fromJobDescriptionReducer.getJobDescriptionSSOAuthResult
 );
 
+export const getLoadingPage = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getLoadingPage
+);
+
+export const getLoadingPageError = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getLoadingPageError
+);
+
+export const getJobDescriptionSSOAuthError = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionSSOAuthError
+);
+
 // Job Description Grid
 export const getJobDescriptionGridLoading = createSelector(
   selectJobDescriptionGridState,
