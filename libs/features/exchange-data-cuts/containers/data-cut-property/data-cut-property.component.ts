@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'pf-data-cut-property',
@@ -10,7 +10,7 @@ export class DataCutPropertyComponent implements OnInit, OnChanges {
   @Input() value: any;
   @Input() label: string;
   @Input() labelPlural: string;
-  @Input() singleValue: boolean;
+  @Input() singleValue: boolean = false;
 
   currentLabel: string;
   currentValue: string;
@@ -19,10 +19,10 @@ export class DataCutPropertyComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     this.currentLabel = this.value && (this.value.length === 1 || typeof this.value === 'string') ? this.label : this.labelPlural;
     if (!this.value || this.value.length === 0) {
-      this.currentValue = !this.singleValue ? null : 'All';
+      this.currentValue = this.singleValue ? null : 'All';
     } else {
       this.currentValue = !this.singleValue ? this.value.join(', ') : this.value;
     }
