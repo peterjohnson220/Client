@@ -9,10 +9,10 @@ import spyOn = jest.spyOn;
 import * as fromRootState from 'libs/state/state';
 import { GridTypeEnum, generateMockExchangeJobMapping } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { ExchangeJobMappingService } from 'libs/features/peer/exchange-job-mapping/services';
 
 import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerManagementReducer from '../../reducers';
-import { ExchangeJobMappingService } from '../../services';
 import { ExchangeJobMappingGridComponent } from './exchange-job-mapping-grid.component';
 
 describe('Peer - Exchange Job Mapping Grid', () => {
