@@ -115,7 +115,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
       // Reset range values and set validators based on range distribution type id
       this.resetFormValidators();
-      this.setFormValidators(this.metadata.RangeDistributionTypeId);
+      this.setFormValidators(this.rangeDistributionSettingForm.controls['RangeDistributionTypeId'].value);
     }
   }
 
