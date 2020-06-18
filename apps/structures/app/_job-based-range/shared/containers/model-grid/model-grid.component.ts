@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, O
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { select, Store, ActionsSubject } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import {ofType} from '@ngrx/effects';
+import { ofType } from '@ngrx/effects';
 
 import {
   PfDataGridFilter,
@@ -30,7 +30,7 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { ColumnTemplateService } from '../../services';
+import { ColumnTemplateService, StructuresPagesService } from '../../services';
 
 @Component({
   selector: 'pf-model-grid',
@@ -72,7 +72,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   roundingSettings: RoundingSettingsDataObj;
   metaData: RangeGroupMetadata;
   colTemplates = {};
-  modelPageViewId = PageViewIds.Model;
+  modelPageViewId: string;
+  modelPageViewIdSubscription: Subscription;
   rangeGroupType = RangeGroupType.Job;
   defaultPagingOptions: PagingOptions = {
     From: 0,
@@ -90,7 +91,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   hasCreateEditStructureModelPermission: boolean;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>, private actionsSubject: ActionsSubject, private permissionService: PermissionService
+    public store: Store<fromJobBasedRangeReducer.State>,
+    private actionsSubject: ActionsSubject,
+    private permissionService: PermissionService,
+    private structuresPagesService: StructuresPagesService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
@@ -204,10 +208,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.modelPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelPageViewId = pv);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.metaDataSub = this.metaData$.subscribe(md => this.metaData = md);
     this.removingRange$ = this.store.select(fromSharedJobBasedRangeReducer.getRemovingRange);
-    this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, PageViewIds.Model);
+    this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelPageViewId);
     this.removingRangeSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromSharedJobBasedRangeActions.REMOVING_RANGE_SUCCESS))
       .subscribe(data => {
@@ -217,6 +222,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.modelPageViewIdSubscription.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.metaDataSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();

@@ -2,16 +2,16 @@
   <label for="rangeType">Range Type</label>
   <div>
     <ng-container *ngFor="let type of metadata.RangeDistributionTypes">
-      <label for="rangeType_{{type.Type}}" class="radio-inline mr-3"> 
-        <input type="radio" id="rangeType_{{type.Type}}" 
-          [value]='type.Id' 
-          formControlName="RangeDistributionTypeId" 
+      <label for="rangeType_{{type.Type}}" class="radio-inline mr-3">
+        <input type="radio" id="rangeType_{{type.Type}}"
+          [value]='type.Id'
+          formControlName="RangeDistributionTypeId"
           (change)="handleRangeTypeChange(type)">
         {{type.Type}}
       </label>
     </ng-container>
   </div>
-  <div class="rounding-group">                    
+  <div class="rounding-group">
     <div class="form-group row mb-5">
       <label class="col-4 mt-2">Range Based On</label>
       <kendo-combobox id="rangeBasedOn" class="form-control col-5"

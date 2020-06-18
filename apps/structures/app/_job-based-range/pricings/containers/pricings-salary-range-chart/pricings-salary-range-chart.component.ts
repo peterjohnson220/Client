@@ -1,5 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 
 import * as Highcharts from 'highcharts';
@@ -11,12 +10,11 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { appendOrdinalSuffix } from 'libs/core/functions';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresHighchartsService } from '../../../shared/services';
+import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
 import { PricingsSalaryRangeChartSeries, PricingsSalaryRangeChartService } from '../../data';
 import { PricingMatchHelper } from '../../helpers';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-
 
 @Component({
   selector: 'pf-pricings-salary-range-chart',
@@ -39,7 +37,8 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   jobDataSubscription: Subscription;
   metadataSubscription: Subscription;
   pageViewId = PageViewIds.Pricings;
-  jobRangeViewId = PageViewIds.Model;
+  jobRangeViewId: string;
+  jobRangeViewIdSubscription: Subscription;
   currency: string;
   jobRangeGroupData: any;
   pricingsData: any;
@@ -50,7 +49,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   constructor(
     public store: Store<any>,
-    private route: ActivatedRoute
+    private structuresPagesService: StructuresPagesService
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
@@ -216,12 +215,13 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
       function(x, y, width, height) {
         return ['M', x, y + width / 2, 'L', x + height, y + width / 2];
       };
+    this.jobRangeViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.jobRangeViewId = pv);
   }
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
     this.jobDataSubscription.unsubscribe();
+    this.jobRangeViewIdSubscription.unsubscribe();
   }
-
 }
