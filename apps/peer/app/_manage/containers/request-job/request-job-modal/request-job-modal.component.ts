@@ -90,7 +90,7 @@ export class RequestJobModalComponent implements OnInit, OnDestroy {
   }
 
   resetForm(): void {
-    if(this.newJobFormEnabled) {
+    if (this.newJobFormEnabled) {
       this.exchangeJobRequestForm.removeControl(this.currentChildForm);
       this.newJobFormEnabled = false;
     }

@@ -162,7 +162,11 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
       }
     } else
     if (this.displayMap && this.selectedPageIdDelayed !== ComphubPages.Data) {
-      this.store.dispatch(new fromExchangeExplorerMapActions.SetPeerMapBounds({TopLeft: this.mapFilter.TopLeft, BottomRight: this.mapFilter.BottomRight, Centroid: null}));
+      this.store.dispatch(new fromExchangeExplorerMapActions.SetPeerMapBounds({
+          TopLeft: this.mapFilter.TopLeft,
+          BottomRight: this.mapFilter.BottomRight,
+          Centroid: null
+      }));
       this.displayMap = false;
       this.pageLoading = true;
     }

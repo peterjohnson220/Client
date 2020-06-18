@@ -72,7 +72,7 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
     this.hoveredChartItem = chartItem;
     setTimeout( () => {
       const companyId = chartItem.Value;
-      if (this.hoveredChartItem && this.hoveredChartItem.Category === chartItem.Category ){
+      if (this.hoveredChartItem && this.hoveredChartItem.Category === chartItem.Category) {
         this.store.dispatch(new fromCompanyDescriptionActions.GetCompanyDescription(companyId));
       }
     }, 500);

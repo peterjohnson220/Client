@@ -170,7 +170,7 @@ export const getSelectedExchangeJobId = createSelector(
 );
 export const getWeightingType = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getWeightingType);
 
-//Exchange Data Cut Selectors
+// Exchange Data Cut Selectors
 export const getDataCutLoading = createSelector(selectDataCutState, fromExchangeDataCutReducer.getLoading);
 
 // MISC
