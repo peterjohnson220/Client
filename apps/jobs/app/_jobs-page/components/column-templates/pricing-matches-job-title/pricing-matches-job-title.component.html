@@ -6,7 +6,9 @@
     {{dataRow.CompanyJobs_PricingsMatches_Match_Adjustment | number: '1.2-2' | emptyPlaceholder}}
   </div>
   <div [class.collapsed]="isCollapsed" #jobTitleText>
-    <pf-job-title-code 
+    <pf-job-title-code [ngClass]="dataRow['ExchangeDataCut_FilterGUID']!==null?'hasTooltip':''"
+      (mouseover)="onToggle($event, dataRow['ExchangeDataCut_FilterGUID'])"
+      (mouseout)="onToggle($event, null)"
       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code">
     </pf-job-title-code>
@@ -14,7 +16,7 @@
   <div class="d-flex justify-content-end ml-auto pl-3">
     <div>
       <button
-        [attr.data-qa-id]="'btn-jobs-page-pricing-match-delete-' + dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID"      
+        [attr.data-qa-id]="'btn-jobs-page-pricing-match-delete-' + dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID"
         [pfSecuredResource]="permissions.MODIFY_PRICINGS"
         [disabled]="(pricingMatchesData$ | async)?.total <= 1"
         [title]="(pricingMatchesData$ | async)?.total <= 1 ?
@@ -23,11 +25,11 @@
         (click)="openDeletePricingMatchModal()"
         class="btn btn-secondary pf-icon-btn-transparent">
         <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
-      </button>    
+      </button>
     </div>
   </div>
 </div>
-<div class="d-flex"> 
+<div class="d-flex">
   <div #detailsText [class.collapsed]="isCollapsed" style="padding-left: 100px">
     <small>
       <em class="text-muted">
@@ -45,11 +47,14 @@
   </div>
 </div>
 
-
+<div class="exchangeDataCut" *ngIf="filterGUID"
+     [style.top.px]="offset?.top-200" [style.left.px]="offset?.left">
+  <pf-exchange-data-cuts [filterGUID]="filterGUID" ></pf-exchange-data-cuts>
+</div>
 <pf-modal-form
   [modalId]="'au-delete-pricing-match'"
   [isOpen$]="showDeletePricingMatchModal$"
-  [size]="'lg'"  
+  [size]="'lg'"
   [title]="'Delete Match'"
   [primaryButtonClass]="'btn-danger'"
   [primaryButtonText]="'Delete'"
@@ -63,7 +68,7 @@
       <div class="my-auto d-flex">
         <div class="pr-5">
           <span class="pr-3"><b>Job:</b></span>
-          <pf-job-title-code 
+          <pf-job-title-code
             [jobTitle]="(jobsSelectedRow$ | async).CompanyJobs_Job_Title"
             [jobCode]="(jobsSelectedRow$ | async).CompanyJobs_Job_Code">
           </pf-job-title-code>
@@ -82,14 +87,14 @@
     <div>
       You are about to permanently delete the match
       <b>
-        <pf-job-title-code 
+        <pf-job-title-code
           [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
           [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code">
         </pf-job-title-code>
-      </b>.      
+      </b>.
       This will recalculate the current pricing for
       <b>
-        <pf-job-title-code 
+        <pf-job-title-code
           [jobTitle]="(jobsSelectedRow$ | async).CompanyJobs_Job_Title"
           [jobCode]="(jobsSelectedRow$ | async).CompanyJobs_Job_Code">
         </pf-job-title-code>

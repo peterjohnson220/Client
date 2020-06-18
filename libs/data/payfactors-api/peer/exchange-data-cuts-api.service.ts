@@ -60,4 +60,7 @@ export class ExchangeDataCutsApiService {
         CurrentFilters: searchFilter, DataCutGuid: dataCutGuid
       }, (success: boolean) => success);
   }
+  getDataCutFilter(filterGuid: string) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetDataCutFilter`, {params: {filterGuid: filterGuid}});
+  }
 }
