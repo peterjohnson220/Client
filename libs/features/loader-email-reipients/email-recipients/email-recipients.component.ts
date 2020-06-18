@@ -1,13 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { LoaderTypes } from 'libs/constants/loader-types';
+import { UserOrEmailPickerComponent } from 'libs/ui/common/user-email-picker/user-or-email-picker.component';
 
-import * as fromOrgDataEmailRecipientsActions from '../state/actions/email-recipients.actions';
-import { ConfigurationGroup, EmailRecipientModel } from '../../../models/data-loads';
 import { LoadTypes } from '../../../constants';
+import { ConfigurationGroup, EmailRecipientModel } from '../../../models/data-loads';
+import * as fromOrgDataEmailRecipientsActions from '../state/actions/email-recipients.actions';
 
 @Component({
   selector: 'pf-email-recipients-modal',
@@ -22,6 +23,7 @@ export class EmailRecipientsComponent implements OnInit {
   @Input() savingError$: Observable<boolean>;
   @Input() removingError$: Observable<boolean>;
   @Input() emailRecipientsModalOpen$: Observable<boolean>;
+  @ViewChild('userEmailPicker') userOrEmailPickerComponent: UserOrEmailPickerComponent;
 
   errorText: string;
 
@@ -65,5 +67,6 @@ export class EmailRecipientsComponent implements OnInit {
 
   handleModalDismissed(): void {
     this.store.dispatch(new fromOrgDataEmailRecipientsActions.CloseEmailRecipientsModal);
+    this.userOrEmailPickerComponent.clearModel();
   }
 }
