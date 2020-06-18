@@ -42,7 +42,10 @@
         <button type="button" class="btn btn-secondary px-4" (click)="goBack()">Back</button>
       </div>
       <div class="p-2" *ngIf="!workflowComplete">
-        <button type="button" class="btn btn-primary px-4" [disabled]="!canFinish() && !this.validationMode" (click)="onFinish()">Finish</button>
+        <button type="button" class="btn btn-primary px-4" [disabled]="!canFinish()" (click)="onFinish()">
+          <span *ngIf="workflowComplete && validationMode">Validate</span>
+          <span *ngIf="!workflowComplete || !validationMode">Finish</span>
+        </button>
       </div>
     </div>
   </div>

@@ -52,6 +52,7 @@ import {
   ConnectionsHrisApiService,
   HrisApiService,
   MappingsHrisApiService,
+  OnDemandSyncHrisApiService,
   ProvidersHrisApiService,
   SyncScheduleHrisApiService,
   TransferMethodsHrisApiService
@@ -165,7 +166,8 @@ import { MarketDataFeedApiService } from './market-data-feed';
     AuthenticationTypesHrisApiService,
     ConnectionsHrisApiService,
     MappingsHrisApiService,
-    SyncScheduleHrisApiService
+    SyncScheduleHrisApiService,
+    OnDemandSyncHrisApiService,
   ]
 })
 export class PfApiModule { }

@@ -20,7 +20,8 @@
     </fa-icon>
     <h4 class="card-title pb-3">{{ transferSchedule.entityMappingTypeName }}</h4>
     <div *ngIf="validationMode">
-      <label class="validationMode-label">This feed has been set to validate only, you will receive an email with the validation results.  No records will be updated.  Enable 'LIVE' mode to create a transfer schedule for <b>{{transferSchedule.entityMappingTypeName}}</b></label>
+      <label *ngIf="transferSchedule.lastValidationCompleted_Date" class="validationMode-label">Validated {{transferSchedule.lastValidationCompleted_Date | date:'short'}}.  Enable 'LIVE' mode to create a transfer schedule for <b>{{transferSchedule.entityMappingTypeName}}</b></label>
+      <label *ngIf="!transferSchedule.lastValidationCompleted_Date" class="validationMode-label">This feed has been set to validate only, you will receive an email with the validation results.  No records will be updated.  Enable 'LIVE' mode to create a transfer schedule for <b>{{transferSchedule.entityMappingTypeName}}</b></label>
     </div>
     <pf-transfer-schedule-cron
       *ngIf="!validationMode"

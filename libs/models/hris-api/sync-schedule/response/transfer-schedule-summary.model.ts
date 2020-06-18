@@ -12,6 +12,8 @@ export interface TransferScheduleSummary {
   company_ID?: number;
   lastSync_Date?: Date;
   nextSync_Date?: Date;
+  lastValidationCompleted_Date?: Date;
+  lastValidationQueued_Date?: Date;
 }
 
 
