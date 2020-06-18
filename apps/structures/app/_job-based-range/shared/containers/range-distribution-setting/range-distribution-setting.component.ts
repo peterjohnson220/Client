@@ -96,6 +96,10 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
         this.onTouched();
       })
     );
+
+    if (!!this.metadata.RangeDistributionTypeId) {
+      this.setFormValidators(this.metadata.RangeDistributionTypeId);
+    }
   }
 
   handleRangeBasedOnFilterChange(value: string) {
