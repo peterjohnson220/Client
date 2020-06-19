@@ -3,21 +3,13 @@
     <div class="d-flex" *ngIf="!(loading$ | async) && !(showError$ | async) && exchangeDataCut">
       <div class="pr-3">
         <h5>Peer Data Cut</h5>
-        <pf-data-cut-property [value]="exchangeDataCut['ExchangeScopeName']" [label]="'Exchange Scope'" [labelPlural]="'Exchange Scopes'"></pf-data-cut-property>
+        <pf-data-cut-property [value]="exchangeDataCut['ExchangeScopeName']" [label]="'Exchange Scope'" [labelPlural]="'Exchange Scopes'" [singleValue]="true"></pf-data-cut-property>
         <pf-data-cut-property [value]="exchangeDataCut['ExchangeJobTitles']" [label]="'Exchange Job'" [labelPlural]="'Exchange Jobs'"></pf-data-cut-property>
+        <pf-data-cut-property [value]="exchangeDataCut['ExchangeNames']" [label]="'Exchange'" [labelPlural]="'Exchanges'"></pf-data-cut-property>
         <pf-data-cut-property [value]="exchangeDataCut['PayMarketName']" [label]="'Pay Market'" [labelPlural]="'Pay Market'" [singleValue]="true" ></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['Countries']" [label]="'Country'" [labelPlural]="'Countries'"></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['States']" [label]="'State'" [labelPlural]="'States'"></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['Cities']" [label]="'City'" [labelPlural]="'Cities'"></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['CompanyNames']" [label]="'Company'" [labelPlural]="'Companies'"></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['CompanyIndustries']" [label]="'Company Industry'" [labelPlural]="'Company Industries'"></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['ExchangeJobFamilies']" [label]="'Exchange Job Family'" [labelPlural]="'Exchange Job Families'"></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['ExchangeJobLevels']" [label]="'Exchange Job Level'" [labelPlural]="'Exchange Job Levels'"></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['ExchangeJobFLSAStatuses']" [label]="'Exchange Job FLSA Status'" [labelPlural]="'Exchange Job FLSA Statuses'"></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['HireDateRanges']" [label]="'Hire Date Range'" [labelPlural]="'Hire Date Ranges'" ></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['Assets']" [label]="'Asset'" [labelPlural]="'Assets'" ></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['CompanySize']" [label]="'Employee'" [labelPlural]="'Employees'" [singleValue]="" ></pf-data-cut-property>
-        <pf-data-cut-property [value]="exchangeDataCut['Revenue']" [label]="'Revenue'" [labelPlural]="'Revenue'"></pf-data-cut-property>
+        <div *ngFor="let filter of exchangeDataCut['Filters']">
+          <pf-data-cut-property [value]="filter.FilterSelections" [label]="filter.DisplayName" [labelPlural]="filter.DisplayName"></pf-data-cut-property>
+        </div>
       </div>
       <div>
         <img height='200px' width='200px' alt='Peer Data Cut Map'

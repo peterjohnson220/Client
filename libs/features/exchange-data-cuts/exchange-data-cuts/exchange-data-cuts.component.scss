@@ -1,5 +1,10 @@
 .dataCutDetails {
   font-size: 11px;
-  min-height: 200px;
   min-width: 350px;
+
+}
+.dataCutMetadata{
+  overflow-y: auto;
+  white-space: pre-wrap;
+  min-height: 200px;
 }
