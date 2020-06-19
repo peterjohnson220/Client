@@ -24,7 +24,7 @@ export class DataCutPropertyComponent implements OnInit, OnChanges {
     if (!this.value || this.value.length === 0) {
       this.currentValue = this.singleValue ? null : 'All';
     } else {
-      this.currentValue = !this.singleValue ? this.value.join(', ') : this.value;
+      this.currentValue = Array.isArray(this.value) ? this.value.join(', ') : this.value;
     }
   }
 }
