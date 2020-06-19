@@ -27,7 +27,6 @@ import { ExportDataCutsContext } from '../../models';
 })
 export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   @Input() context: ExportDataCutsContext;
-  @Input() isFromNewMap = false;
 
   exchangeCompanyJobsLoading$: Observable<boolean>;
   exchangeCompanyJobsLoadingError$: Observable<boolean>;
@@ -138,11 +137,8 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
         selectedWeightingType: this.selectedWeightingType.Value,
         selectedCurrency: this.selectedCurrency.CurrencyCode
       };
-    const action = this.isFromNewMap ?
-      new fromExportDataCutsActions.ExportDataCutsNew(payload) :
-      new fromExportDataCutsActions.ExportDataCuts(payload);
 
-    this.store.dispatch(action);
+    this.store.dispatch(new fromExportDataCutsActions.ExportDataCuts(payload));
   }
 
   handleModalDismissed(): void {

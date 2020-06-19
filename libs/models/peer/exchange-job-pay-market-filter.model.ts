@@ -10,18 +10,6 @@ export interface SystemFilter {
   WeightingType: string;
 }
 
-export function getDefaultSystemFilter(): SystemFilter {
-  return {
-    ExchangeId: null,
-    ExchangeJobId: null,
-    ExchangeJobIds: null,
-    SimilarExchangeJobIds: null,
-    LockedExchangeJobId: null,
-    PayMarketLocation: null,
-    WeightingType: 'I'
-  };
-}
-
 export function generateMockSystemFilter(): SystemFilter {
   return {
     ExchangeJobIds: [1, 2, 4],

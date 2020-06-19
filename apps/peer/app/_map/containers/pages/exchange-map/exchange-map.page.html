@@ -6,8 +6,8 @@
 
   <ng-container page-actions>
 
-    <pf-scope-selector [addDataModal]="false"
-                                [exchangeId]="exchangeId"></pf-scope-selector>
+    <pf-exchange-scope-selector [isExchangeJobSpecific]="false"
+                                [exchangeId]="exchangeId"></pf-exchange-scope-selector>
 
     <button type="button" class="btn btn-secondary"
             [disabled]="(numberOfSelections$ | async) === 0 ||
@@ -26,26 +26,7 @@
 
   <ng-container page-content>
 
-    <pf-async-container
-      [loading]="!(initialMapMoveComplete$ | async)"
-      [loadingError]="peerMapLoadingError$ | async"
-      [loadingErrorMessage]="'Error loading exchange map'"
-      [hideReloadButton]="true"
-      [noOpactity]="true">
-
-      <div class="d-flex h-100">
-        <div class="sidebar">
-          <pf-peer-data-cut-filter-sidebar
-            [shouldShowPayMarketBoundsFilter]="false"
-            [shouldShowExcludeIndirectJobMatchesFilter]="false"
-          ></pf-peer-data-cut-filter-sidebar>
-        </div>
-        <div class="map">
-          <pf-peer-data-cut-map [canFitBounds]="true"></pf-peer-data-cut-map>
-        </div>
-      </div>
-
-    </pf-async-container>
+    <pf-exchange-explorer></pf-exchange-explorer>
 
   </ng-container>
 
@@ -55,7 +36,6 @@
   [exchange]="exchange$ | async"
   (upsertExchangeScopeEvent)="handleUpsertExchangeScopeEvent($event)">
 </pf-save-exchange-scope-modal>
-<pf-export-data-cuts-modal [context]="{
-  exchangeScopeItems: exchangeScopes$ | async,
-  selectedExchangeScope: selectedExchangeScope$ | async
-}"></pf-export-data-cuts-modal>
+<pf-export-data-cuts-modal
+  [context]="{exchangeScopeItems: exchangeScopeItems$ | async, selectedExchangeScope: selectedExchangeScope$ | async}">
+</pf-export-data-cuts-modal>
