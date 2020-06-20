@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import * as fromExchangeDataCutsActions from '../actions';
 import * as fromExchangeDataCutsReducer from '../reducers';
 
@@ -11,7 +11,8 @@ import { environment } from 'environments/environment';
 @Component({
   selector: 'pf-exchange-data-cuts',
   templateUrl: './exchange-data-cuts.component.html',
-  styleUrls: ['./exchange-data-cuts.component.scss']
+  styleUrls: ['./exchange-data-cuts.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ExchangeDataCutsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() filterGUID: string;

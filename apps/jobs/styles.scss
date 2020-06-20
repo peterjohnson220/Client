@@ -71,3 +71,14 @@ div.matches-list-container>div:nth-of-type(odd) {
 .nav-tabs {
   border-bottom: 2px solid rgb(222,226,230);
 }
+
+.kendoTooltipWhiteTheme .k-callout {
+  background-color: transparent;
+  color: white;
+}
+
+.kendoTooltipWhiteTheme  .k-widget.k-tooltip{
+  background-color: white;
+  color: black;
+}
+

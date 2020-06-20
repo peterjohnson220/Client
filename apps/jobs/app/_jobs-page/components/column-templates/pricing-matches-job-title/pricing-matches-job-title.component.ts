@@ -108,11 +108,4 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       pricingToRecalculateFilter
     ));
   }
-
-  onToggle(event, filterGUID) {
-    if (this.filterGUID !== filterGUID) {
-      this.filterGUID = filterGUID;
-      this.offset = { left: event.clientX, top: event.clientY };
-      }
-    }
 }
