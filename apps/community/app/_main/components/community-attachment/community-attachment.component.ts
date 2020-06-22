@@ -31,10 +31,14 @@ export class CommunityAttachmentComponent implements OnInit {
     this.formattedSize = formatBytes(this.attachment.Size);
   }
 
-  openWarningModal() {
-    if (!this.disableCommunityAttachments) {
-      this.onAttachmentClickedEvent.emit(this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName);
+  onAttachmentClicked() {
+    if (!this.disableCommunityAttachments && !this.hideAttachmentWarning) {
+      this.openWarningModal();
     }
+  }
+
+  openWarningModal() {
+    this.onAttachmentClickedEvent.emit(this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName);
   }
 
   getDownloadUrl() {
