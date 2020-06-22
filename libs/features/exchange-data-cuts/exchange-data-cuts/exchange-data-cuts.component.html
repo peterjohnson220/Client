@@ -1,14 +1,16 @@
 <pf-async-container    [loading]="(loading$ | async)">
   <div class="dataCutDetails">
     <div class="d-flex" *ngIf="!(loading$ | async) && !(showError$ | async) && exchangeDataCut">
-      <div class="pr-3">
+      <div>
         <h5>Peer Data Cut</h5>
+        <div class="dataCutMetadata pr-2">
         <pf-data-cut-property [value]="exchangeDataCut['ExchangeScopeName']" [label]="'Exchange Scope'" [labelPlural]="'Exchange Scopes'" [singleValue]="true"></pf-data-cut-property>
         <pf-data-cut-property [value]="exchangeDataCut['ExchangeJobTitles']" [label]="'Exchange Job'" [labelPlural]="'Exchange Jobs'"></pf-data-cut-property>
         <pf-data-cut-property [value]="exchangeDataCut['ExchangeNames']" [label]="'Exchange'" [labelPlural]="'Exchanges'"></pf-data-cut-property>
         <pf-data-cut-property [value]="exchangeDataCut['PayMarketName']" [label]="'Pay Market'" [labelPlural]="'Pay Market'" [singleValue]="true" ></pf-data-cut-property>
         <div *ngFor="let filter of exchangeDataCut['Filters']">
           <pf-data-cut-property [value]="filter.FilterSelections" [label]="filter.DisplayName" [labelPlural]="filter.DisplayName"></pf-data-cut-property>
+          </div>
         </div>
       </div>
       <div>
