@@ -25,8 +25,10 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
   loadingCompanyDescription: Observable<boolean>;
 
   detailChartTypeSubscription: Subscription;
+  detailChartCategorySubscription: Subscription;
 
   detailChartType: ExchangeChartTypeEnum;
+  detailChartCategory: ExchangeChartTypeEnum;
   hoveredChartItem: ChartItem;
 
   constructor(
@@ -49,9 +51,15 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
     switch (this.detailChartType) {
       case  ExchangeChartTypeEnum.ExchangeJobOrgs :
         return 'Exchange Job Orgs';
+      case  ExchangeChartTypeEnum.Company :
+        return this.detailChartCategory == ExchangeChartTypeEnum.Subsidiary ? "Participating Properties" : "Participating Companies";
       default:
         return 'Participating Companies';
     }
+  }
+
+  get companyParticipantType(): string {
+    return this.detailChartCategory == ExchangeChartTypeEnum.Subsidiary ? "properties" : "companies";
   }
 
   closeSidebar(): void {
@@ -62,10 +70,14 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
     this.detailChartTypeSubscription = this.detailChartType$.subscribe(ct => {
       this.detailChartType = ct as ExchangeChartTypeEnum;
     });
+    this.detailChartCategorySubscription = this.detailChartCategory$.subscribe(cc => {
+      this.detailChartCategory = cc as ExchangeChartTypeEnum;
+    });
   }
 
   ngOnDestroy(): void {
     this.detailChartTypeSubscription.unsubscribe();
+    this.detailChartCategorySubscription.unsubscribe();
   }
 
   mouseEnter(chartItem: ChartItem) {
@@ -73,7 +85,12 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
     setTimeout( () => {
       const companyId = chartItem.Value;
       if (this.hoveredChartItem && this.hoveredChartItem.Category === chartItem.Category) {
-        this.store.dispatch(new fromCompanyDescriptionActions.GetCompanyDescription(companyId));
+        if(this.detailChartType == ExchangeChartTypeEnum.Company && this.detailChartCategory == ExchangeChartTypeEnum.Subsidiary){
+          this.store.dispatch(new fromCompanyDescriptionActions.GetSubsidiaryDescription(companyId));
+        }
+        else {
+          this.store.dispatch(new fromCompanyDescriptionActions.GetCompanyDescription(companyId));
+        }
       }
     }, 500);
   }

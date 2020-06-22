@@ -43,7 +43,8 @@
     </ng-container>
 
     <ng-template #noDetailChartItems>
-      <div class="no-detail-items">No companies associated to {{ (detailChartCategory$ | async)}}.</div>
+      <div *ngIf="(detailChartType$ | async) != 'Company'" class="no-detail-items">No companies associated to {{ (detailChartCategory$ | async)}}.</div>
+      <div *ngIf="(detailChartType$ | async) == 'Company'" class="no-detail-items">No {{companyParticipantType}} associated to {{ cardHeaderText }}.</div>
     </ng-template>
 
     <ng-template #popContent class="description-popover">
