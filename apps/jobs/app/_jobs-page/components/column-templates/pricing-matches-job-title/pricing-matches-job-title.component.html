@@ -7,9 +7,8 @@
   </div>
   <div [class.collapsed]="isCollapsed" #jobTitleText>
     <pf-job-title-code [ngClass]="dataRow['ExchangeDataCut_FilterGUID']!==null?'hasTooltip':''"
-      (mouseover)="onToggle($event, dataRow['ExchangeDataCut_FilterGUID'])"
-      (mouseout)="onToggle($event, null)"
-      [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
+                       [attr.data-filterGUID]="dataRow['ExchangeDataCut_FilterGUID']"
+                       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code">
     </pf-job-title-code>
   </div>
@@ -47,10 +46,6 @@
   </div>
 </div>
 
-<div class="exchangeDataCut" *ngIf="filterGUID"
-     [style.top.px]="offset?.top-200" [style.left.px]="offset?.left">
-  <pf-exchange-data-cuts [filterGUID]="filterGUID" ></pf-exchange-data-cuts>
-</div>
 <pf-modal-form
   [modalId]="'au-delete-pricing-match'"
   [isOpen$]="showDeletePricingMatchModal$"
