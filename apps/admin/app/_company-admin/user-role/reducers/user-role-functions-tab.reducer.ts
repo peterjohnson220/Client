@@ -35,12 +35,15 @@ export function reducer(state = initialState, action: fromUserRoleFunctionTabAct
       const currPermission = action.payload;
       const newRolePermissions = cloneDeep(state.currentPermissions);
 
+      // UI Visible = false permissions are used for feature flags and permissions we don't want users modifying outside of the manual values set on the db
+      // Updating this logic keeps the hidden permissions tied to their db values regardless if the parent is/isn't checked
+
       if (currPermission.IsParent) {
         newRolePermissions.forEach(p => {
           if (p.SystemPermissionId === currPermission.SystemPermissionId) {
             p.IsChecked = !currPermission.IsChecked;
             if (p.ChildPermission) {
-              p.ChildPermission.forEach(cp => cp.IsChecked = !currPermission.IsChecked);
+              p.ChildPermission.filter(x => x.UiVisible).forEach(cp => cp.IsChecked = !currPermission.IsChecked);
             }
             return;
           }
@@ -48,9 +51,10 @@ export function reducer(state = initialState, action: fromUserRoleFunctionTabAct
       } else {
         newRolePermissions.forEach(p => {
           if (p.ChildPermission) {
-            const index = p.ChildPermission.findIndex(f => f.SystemPermissionId === currPermission.SystemPermissionId);
+            const visiblePermissions = p.ChildPermission.filter(x => x.UiVisible);
+            const index = visiblePermissions.findIndex(f => f.SystemPermissionId === currPermission.SystemPermissionId);
             if (index > -1) {
-              p.ChildPermission[index].IsChecked = !currPermission.IsChecked;
+              visiblePermissions[index].IsChecked = !currPermission.IsChecked;
             }
           }
         });
