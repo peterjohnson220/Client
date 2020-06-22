@@ -129,11 +129,15 @@ export function reducer(state = initialState, action: fromTemplateActions.Templa
         error: false,
       };
     case fromTemplateActions.PUBLISH_TEMPLATE_SUCCESS:
+      const publishedTemplate = cloneDeep(state.template);
+      publishedTemplate.TemplateStatus = 'Published';
+
       return {
         ...state,
         publishing: false,
         editing: false,
         error: false,
+        template: publishedTemplate
       };
     case fromTemplateActions.PUBLISH_TEMPLATE_ERROR:
       return {
