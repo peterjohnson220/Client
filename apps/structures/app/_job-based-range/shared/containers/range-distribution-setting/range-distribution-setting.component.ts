@@ -71,8 +71,11 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   buildForm() {
     this.rangeDistributionSettingForm = new FormGroup({
       'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
-      'RangeDistributionTypeId': new FormControl({value: this.metadata.RangeDistributionTypeId,
-        disabled: this.metadata.ControlPoint !== null}, [Validators.required]),
+      'RangeDistributionTypeId': new FormControl({
+        value: this.metadata.RangeDistributionTypeId,
+        disabled: true // we always want to disable
+        }, [Validators.required]
+      ),
       'ControlPoint': new FormControl({value: this.metadata.ControlPoint, disabled: true}, [Validators.required]),
       'RangeBasedOn': new FormControl(this.metadata.ControlPoint, [Validators.required]),
       'Minimum': new FormControl(this.metadata.SpreadMin, [Validators.required]),

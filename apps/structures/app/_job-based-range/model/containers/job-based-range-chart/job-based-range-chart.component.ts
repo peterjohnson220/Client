@@ -9,8 +9,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresHighchartsService } from '../../../shared/services';
-import { PageViewIds } from '../../../shared/constants/page-view-ids';
+import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
 import { JobRangeModelChartService, JobRangeModelChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
 import { RangeGroupMetadata } from '../../../shared/models';
@@ -35,7 +34,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
   metadataSubscription: Subscription;
-  pageViewId = PageViewIds.Model;
+  pageViewId: string;
+  pageViewIdSubscription: Subscription;
   jobRangeData: GridDataResult;
   currency: string;
   controlPointDisplay: string;
@@ -45,7 +45,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   metaData: RangeGroupMetadata;
 
   constructor(
-    public store: Store<any>
+    public store: Store<any>,
+    private structuresPagesService: StructuresPagesService
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
@@ -241,10 +242,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
+    this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
   }
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
+    this.pageViewIdSubscription.unsubscribe();
   }
 }

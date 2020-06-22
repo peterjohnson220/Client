@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
@@ -9,7 +9,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresHighchartsService } from '../../../shared/services';
+import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
 import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
@@ -38,7 +38,8 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   jobDataSubscription: Subscription;
   metadataSubscription: Subscription;
   pageViewId = PageViewIds.Employees;
-  jobRangeViewId = PageViewIds.Model;
+  jobRangeViewId: string;
+  jobRangeViewIdSubscription: Subscription;
   currency: string;
   jobRangeGroupData: GridDataResult;
   employeeData: GridDataResult;
@@ -52,7 +53,8 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   metaData: RangeGroupMetadata;
 
   constructor(
-    public store: Store<any>
+    public store: Store<any>,
+    private structuresPagesService: StructuresPagesService
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
@@ -299,11 +301,13 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
+    this.jobRangeViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.jobRangeViewId = pv);
   }
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
     this.jobDataSubscription.unsubscribe();
+    this.jobRangeViewIdSubscription.unsubscribe();
   }
 }
