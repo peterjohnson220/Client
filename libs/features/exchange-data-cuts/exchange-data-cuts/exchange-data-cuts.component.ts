@@ -20,7 +20,7 @@ export class ExchangeDataCutsComponent implements OnInit, OnChanges, OnDestroy {
   showError$: Observable<boolean>;
   exchangeDataCut: any;
   mapUrl: string;
-  badImageUrl: boolean = false;
+  badImageUrl: boolean;
   exchangeDataCutSubscription$: Subscription;
   constructor(private store: Store<fromExchangeDataCutsReducer.State>) {
     this.loading$ = this.store.select(fromExchangeDataCutsReducer.getLoading);
@@ -49,6 +49,7 @@ export class ExchangeDataCutsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getMapUrl(exchangeDataCut) {
+    this.badImageUrl = false;
     if (exchangeDataCut && exchangeDataCut['PolygonCoords'] ) {
       const htmlEncodedHashTag = '%23';
       const geoJson = {
