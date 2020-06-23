@@ -2,6 +2,7 @@
 
 .employee-result-row {
   cursor: pointer;
+  text-decoration: none;
 }
 
 .employee-name{
@@ -27,4 +28,8 @@
 
 .result:hover{
   border-left: 3px solid #b9d3e0;
+}
+
+.result.selected {
+  background: $selected-item-background-color;
 }

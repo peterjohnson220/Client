@@ -63,7 +63,11 @@ import { CompanyResourcesApiService } from './company-resources';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
 import { JobsApiService } from './jobs';
 import {DataImportApiService} from './integration/data-import';
-import { TotalRewardsApiService, TotalRewardsSearchApiService } from './total-rewards';
+import {
+  TotalRewardsApiService,
+  TotalRewardsAssignmentApiService,
+  TotalRewardsSearchApiService
+} from './total-rewards';
 import { SsoConfigApiService } from './sso';
 import { CurrencyApiService } from './currency';
 import { CompositeFieldApiService } from './composite-field';
@@ -134,6 +138,7 @@ import { MarketDataFeedApiService } from './market-data-feed';
     DataImportApiService,
     TotalRewardsApiService,
     TotalRewardsSearchApiService,
+    TotalRewardsAssignmentApiService,
     SsoConfigApiService,
     CurrencyApiService,
     CompositeFieldApiService,

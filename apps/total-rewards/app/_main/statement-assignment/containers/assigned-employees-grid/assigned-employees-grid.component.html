@@ -1,0 +1,13 @@
+<div class="h-100">
+  <pf-async-container class="h-100"
+                      [loading]="assignedEmployeesDataLoading$ | async" [loadingError]="assignedEmployeesDataLoadingError$ | async"
+  >
+    <kendo-grid [data]="assignedEmployeesData$ | async">
+      <kendo-grid-column field="EmployeeId" title="Employee ID"></kendo-grid-column>
+      <kendo-grid-column field="FirstName" title="First Name"></kendo-grid-column>
+      <kendo-grid-column field="LastName" title="Last Name"></kendo-grid-column>
+      <kendo-grid-column field="JobTitle" title="Job Title"></kendo-grid-column>
+      <kendo-grid-column field="JobCode" title="Job Code"></kendo-grid-column>
+    </kendo-grid>
+  </pf-async-container>
+</div>

@@ -7,6 +7,7 @@ import { MappingHelper } from '../../../core/helpers';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { SaveSettingsRequest } from '../../../../apps/total-rewards/app/shared/models/request-models';
 import { Settings, Statement } from '../../../../apps/total-rewards/app/shared/models/';
+import { CompanyEmployee } from '../../../models/company';
 
 @Injectable()
 export class TotalRewardsApiService {

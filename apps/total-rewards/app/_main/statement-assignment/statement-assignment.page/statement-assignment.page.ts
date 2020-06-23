@@ -58,4 +58,10 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.queryParamSubscription$.unsubscribe();
     this.store.dispatch(new fromPageActions.ResetState());
   }
+
+  openAssignModal(): void {
+    this.setSearchContext();
+
+    this.store.dispatch( new fromAssignmentsModalActions.OpenModal());
+  }
 }

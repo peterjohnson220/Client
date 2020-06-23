@@ -3,33 +3,57 @@
   [title]="'Assign Employees'"
   [isOpen$]="isOpen$"
   [size]="'lg'"
-  [primaryButtonText]="'Assign'"
+  [primaryButtonText]="getPrimaryButtonText()"
   [submitting]="false"
   [backdrop]="true"
   [resetFormOnClose]="true"
-  (onSubmit)="onCloseModal('save')"
+  [submitEnabled]="canAssignEmployees()"
+  (onSubmit)="onSubmitSelectedEmployees()"
   (onDismiss)="onCloseModal('discard')"
 >
+
   <ng-container basic-content>
-    <pf-search-layout [countLabel]="'Employees'" [resultsCount]="numberOfResults$ | async" class="h-100">
+    <pf-async-container [loading]="(assignEmployeesLoading$ | async) || (assignAllEmployeesLoading$ | async)"
+                        [loadingError]="(assignEmployeesError$ | async) || (assignAllEmployeesError$ | async)">
+      <pf-search-layout [countLabel]="'Employees'" [resultsCount]="numberOfResults$ | async" class="h-100">
 
-      <ng-container sidebar>
-        <pf-search-filters
-          [defaultFocusedFilterId]="'trsOmniSearch'"
-          [visible]="!(searchingFilter$ | async)">
-        </pf-search-filters>
+        <ng-container sidebar>
+          <pf-search-filters
+            [defaultFocusedFilterId]="'trsOmniSearch'"
+            [visible]="!(searchingFilter$ | async)">
+          </pf-search-filters>
 
-        <pf-single-filter
-          *ngIf="!!(searchingFilter$ | async)">
-        </pf-single-filter>
-      </ng-container>
+          <pf-single-filter
+            *ngIf="!!(searchingFilter$ | async)">
+          </pf-single-filter>
+        </ng-container>
 
-      <ng-container content>
-        <pf-results-header class="position-relative" [savedFiltersEnabled]="false"></pf-results-header>
-        <pf-employee-search-results class="position-relative"></pf-employee-search-results>
-      </ng-container>
+        <ng-container content>
+          <pf-results-header class="position-relative" [savedFiltersEnabled]="false"></pf-results-header>
+          <pf-employee-search-results class="position-relative h-100"></pf-employee-search-results>
+        </ng-container>
 
-    </pf-search-layout>
+        <ng-container action-buttons>
+          <button class="btn btn-sm btn-secondary m-2 clear-selections position-absolute"
+                  [disabled]="selectedEmployeesCount === 0"
+                  (click)="handleClearSelectedEmployees()">
+            Clear Selections
+          </button>
+
+          <button class="btn btn-sm btn-secondary m-2 select-all" (click)="handleAddAllEmployees()">
+            <ng-container>
+              Add All
+              <span *ngIf="(searchResultsCount$ | async) > 0">
+                {{ getAssignmentMaximum() }}
+              </span>
+            </ng-container>
+          </button>
+        </ng-container>
+
+      </pf-search-layout>
+    </pf-async-container>
+
   </ng-container>
+
 
 </pf-modal-form>
