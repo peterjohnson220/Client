@@ -44,6 +44,7 @@ export const getProcessing = createSelector(selectPricingLoaderState, fromPricin
 export const getProcessingSuccess = createSelector(selectPricingLoaderState, fromPricingLoaderReducer.getProcessingSuccess);
 export const getProcessingError = createSelector(selectPricingLoaderState, fromPricingLoaderReducer.getProcessingError);
 export const getErrorMessage = createSelector(selectPricingLoaderState, fromPricingLoaderReducer.getErrorMessage);
+export const getSavingConfigGroupSuccess = createSelector(selectPricingLoaderState, fromPricingLoaderReducer.getSavingConfigGroupSuccess);
 
 // Upload Pricing File
 export const getWorksheetNames = createSelector(selectUploadPricingFileState, fromUploadPricingFileReducer.getWorksheetNames);

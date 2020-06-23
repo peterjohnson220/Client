@@ -1,7 +1,10 @@
 <pf-async-container
   [loading]="processing$ | async"
   [loadingError]="processingError$ | async"
-  [loadingErrorMessage]="errorMessage$ | async">
+  [loadingErrorMessage]="errorMessage$ | async"
+  [hideReloadButton]="true"
+  [loadingProgress]="loadingProgress"
+  [spinnerType]="spinnerType">
   <pf-page-with-title-bar>
     <ng-container custom-button>
       <button class="btn btn-secondary px-3 mr-2"
@@ -25,7 +28,7 @@
             </div>
           </div>
           <div [style.visibility]="!!selectedCompany?.CompanyId ? 'visible' : 'hidden'">
-            <pf-upload-pricing-file
+            <pf-upload-pricing-file #pricingFileUpload
               [companyId]="selectedCompany?.CompanyId"
               [editing]="isEditingSetting"
               (processClicked)="handleProcessClicked()">

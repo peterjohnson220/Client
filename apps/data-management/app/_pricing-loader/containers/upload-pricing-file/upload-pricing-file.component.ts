@@ -97,10 +97,10 @@ export class UploadPricingFileComponent implements OnChanges, OnInit, OnDestroy 
     }));
   }
 
-  updateValidationOnly(value: boolean): void {
+  updateValidationOnly(): void {
     this.store.dispatch(new fromUploadPricingFileActions.UpdateLoaderSetting({
       keyName: LoaderSettingKeyName.ValidateOnly,
-      keyValue: value ? 'true' : 'false'
+      keyValue: this.validationOnly === true ? 'false' : 'true'
     }));
   }
 
