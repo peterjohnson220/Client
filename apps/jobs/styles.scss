@@ -75,10 +75,12 @@ div.matches-list-container>div:nth-of-type(odd) {
 .kendoTooltipWhiteTheme .k-callout {
   background-color: transparent;
   color: white;
+  visibility: hidden;
 }
 
 .kendoTooltipWhiteTheme  .k-widget.k-tooltip{
   background-color: white;
   color: black;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 

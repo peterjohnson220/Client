@@ -28,9 +28,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   @ViewChild('jobTitleText', { static: false }) jobTitleText: ElementRef;
   @ViewChild('detailsText', { static: false }) detailsText: ElementRef;
 
-  filterGUID: string;
-  offset: {};
-
   public isCollapsed = true;
   public isOverflow = false;
 
