@@ -13,10 +13,13 @@
           </div>
         </div>
       </div>
-      <div>
-        <img height='200px' width='200px' alt='Peer Data Cut Map'
+      <div class="flex-fill justify-content-center" [class]="badImageUrl?'badImage' : ''">
+        <img *ngIf="!badImageUrl" height='200px' width='200px' alt="Peer Data Cut Map"
              [src]="mapUrl"/>
-      </div>
+          <strong class="text-center align-middle" *ngIf="badImageUrl">
+            No Data
+          </strong>
+        </div>
     </div>
     <div *ngIf="(showError$ | async)">
       There was a problem retrieving data.

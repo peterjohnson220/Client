@@ -20,6 +20,7 @@ export class ExchangeDataCutsComponent implements OnInit, OnChanges, OnDestroy {
   showError$: Observable<boolean>;
   exchangeDataCut: any;
   mapUrl: string;
+  badImageUrl: boolean = false;
   exchangeDataCutSubscription$: Subscription;
   constructor(private store: Store<fromExchangeDataCutsReducer.State>) {
     this.loading$ = this.store.select(fromExchangeDataCutsReducer.getLoading);
@@ -48,7 +49,7 @@ export class ExchangeDataCutsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getMapUrl(exchangeDataCut) {
-    if (exchangeDataCut) {
+    if (exchangeDataCut && exchangeDataCut['PolygonCoords'] ) {
       const htmlEncodedHashTag = '%23';
       const geoJson = {
         type: 'Feature',
@@ -64,6 +65,7 @@ export class ExchangeDataCutsComponent implements OnInit, OnChanges, OnDestroy {
       };
       return environment.mapBoxBaseUrl + 'geojson(' + JSON.stringify(geoJson) + ')/auto/600x600?access_token=' + environment.mapBoxAPIKey;
     }
+    this.badImageUrl = true;
     return null;
   }
 }
