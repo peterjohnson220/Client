@@ -16,4 +16,4 @@ export * from './paymarket-management';
 export * from './navigation-links';
 export * from './survey-search';
 export * from './multi-match';
-export * from './exchange-data-cuts';
+export * from './pricing-match';

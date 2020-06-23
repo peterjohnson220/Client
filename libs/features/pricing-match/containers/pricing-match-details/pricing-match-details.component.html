@@ -1,0 +1,33 @@
+<div>
+  <div class="d-flex justify-content-between">
+     <div><h5>{{pricingMatch.JobTitle}} ({{pricingMatch.JobCode}})</h5></div>
+      <div style="cursor: pointer" *ngIf="pricingMatch.JobDescription"><fa-icon [icon]="['fas','clipboard']" (click)="onClipboardClick()" aria-hidden="true"></fa-icon></div>
+  </div>
+  <div class="d-flex">
+    <pf-pricing-match-property [label]="'Family'" [value]="pricingMatch.JobFamily"></pf-pricing-match-property>
+    <pf-pricing-match-property class="pl-2" [label]="'Job Category'" [value]="pricingMatch.Category"></pf-pricing-match-property>
+    <pf-pricing-match-property class="pl-2"  [label]="'Job Level'" [value]="pricingMatch.JobLevel"></pf-pricing-match-property>
+  </div>
+
+  <div class="d-flex" *ngIf="pricingMatchType == pricingMatchTypes.MD_JOB">
+    <pf-pricing-match-property [label]="'FLSA Status'" [value]="pricingMatch.FlsaStatus"></pf-pricing-match-property>
+    <pf-pricing-match-property class="pl-2" [label]="'EEO'" [value]="pricingMatch.Eeo"></pf-pricing-match-property>
+  </div>
+  <div class="pt-2" *ngIf="pricingMatchType == pricingMatchTypes.MD_JOB || pricingMatchType == pricingMatchTypes.SURVEY">
+    <pf-pricing-match-property [label]="'Source'" [value]="source + ' ' + (pricingMatch.EffectiveDate | date:'yyyy-MM-dd')" [singleValue]="true"></pf-pricing-match-property>
+  </div>
+  <div class="pt-2" *ngIf="pricingMatchType == pricingMatchTypes.MD_JOB">
+    <pf-pricing-match-property  [label]="'Country Code'" [value]="pricingMatch.CountryCode"></pf-pricing-match-property>
+  </div>
+  <div class="d-flex pt-2" *ngIf="pricingMatchType == pricingMatchTypes.MD_JOB || pricingMatchType == pricingMatchTypes.SURVEY">
+    <pf-pricing-match-property [label]="'Scope'" [value]="scope" [singleValue]="true"></pf-pricing-match-property>
+    <pf-pricing-match-property  class="pl-2" [label]="'Weighting'" [value]="pricingMatch.WeightingType" [singleValue]="true"></pf-pricing-match-property>
+  </div>
+
+  <div class="pt-2" *ngIf="pricingMatchType == pricingMatchTypes.SLOTTED_COMPANY_JOB">
+      <pf-pricing-match-property *ngFor="let cf of pricingMatch.CustomFields" [label]="cf.DisplayName" [value]="cf.Value" [singleValue]="true"></pf-pricing-match-property>
+  </div>
+  <div class="jobDescription pt-2">
+    {{pricingMatch.JobDescription}}
+  </div>
+</div>
