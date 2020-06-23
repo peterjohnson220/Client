@@ -1,4 +1,4 @@
-<a (click)="!hideAttachmentWarning ? openWarningModal() : null" [attr.href]="hideAttachmentWarning ? getDownloadUrl() : null">
+<a (click)="onAttachmentClicked()" [attr.href]="hideAttachmentWarning && !disableCommunityAttachments ? getDownloadUrl() : null">
   <div placement="top" [ngbTooltip]="toolTip">
     <div class="container" [ngClass]="{'disabledAttachment': disableCommunityAttachments}">
       <fa-icon icon="{{iconFile}}" size="lg" class="icon {{iconClass}} mr-1"></fa-icon> 
