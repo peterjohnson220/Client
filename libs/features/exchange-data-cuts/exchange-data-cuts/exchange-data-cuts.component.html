@@ -1,9 +1,9 @@
 <pf-async-container    [loading]="(loading$ | async)">
-  <div class="dataCutDetails">
+  <div class="dataCutDetails p-2">
     <div class="d-flex" *ngIf="!(loading$ | async) && !(showError$ | async) && exchangeDataCut">
       <div>
         <h5>Peer Data Cut</h5>
-        <div class="dataCutMetadata pr-2">
+        <div class="dataCutMetadata pr-3">
         <pf-data-cut-property [value]="exchangeDataCut['ExchangeScopeName']" [label]="'Exchange Scope'" [labelPlural]="'Exchange Scopes'" [singleValue]="true"></pf-data-cut-property>
         <pf-data-cut-property [value]="exchangeDataCut['ExchangeJobTitles']" [label]="'Exchange Job'" [labelPlural]="'Exchange Jobs'"></pf-data-cut-property>
         <pf-data-cut-property [value]="exchangeDataCut['ExchangeNames']" [label]="'Exchange'" [labelPlural]="'Exchanges'"></pf-data-cut-property>
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="flex-fill justify-content-center" [class]="badImageUrl?'badImage' : ''">
-        <img *ngIf="!badImageUrl" height='200px' width='200px' alt="Peer Data Cut Map"
+        <img *ngIf="!badImageUrl" height='225px' width='225px' alt="Peer Data Cut Map"
              [src]="mapUrl"/>
           <strong class="text-center align-middle" *ngIf="badImageUrl">
             No Data
