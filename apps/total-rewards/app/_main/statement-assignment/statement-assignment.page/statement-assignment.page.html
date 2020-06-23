@@ -1,15 +1,23 @@
 <pf-page-with-title-bar [returnUrl]="'/statement/edit/' + (statement$ | async)?.StatementId">
-  <ng-container page-title>Total Rewards Statement Assignments</ng-container>
+  <ng-container page-title>{{ (statement$ | async)?.StatementName }} - Assigned Employees</ng-container>
   <ng-container page-actions>
     <button type="button" class="btn btn-secondary" (click)="openAssignModal()">Assign Employees</button>
   </ng-container>
   <ng-container page-content>
-    <pf-assigned-employees-grid></pf-assigned-employees-grid>
+    <pf-assigned-employees-grid [class.d-none]="(assignedEmployeesTotal$ | async) == 0 && !(assignedEmployeesLoading$ | async)"></pf-assigned-employees-grid>
+    <pf-no-records-found-call-to-action 
+      [class.d-none]="(assignedEmployeesTotal$ | async) > 0 || (assignedEmployeesLoading$ | async)"
+      [headerText]="'No Employees Assigned'"
+      [linkText]="'Assign Employees'"
+      (callToActionClick)="openAssignModal()">
+    </pf-no-records-found-call-to-action>
     <pf-footer-bar
       [primaryButtonText]="'Generate'"
-      [primaryButtonEnabled]="(selectedCompanyEmployeeIds$ | async)?.length"
-      [primaryButtonToolTip]="(selectedCompanyEmployeeIds$ | async)?.length ? '' : 'Select employees to generate statements'"
+      [primaryButtonEnabled]="(selectedAssignedCompanyEmployeeIds$ | async)?.length"
+      [primaryButtonToolTip]="(selectedAssignedCompanyEmployeeIds$ | async)?.length ? '' : 'Select employees to generate statements'"
+      [secondaryButtonText]="'Back to Canvas'"
       (primaryButtonClick)="handleOpenGenerateStatementModalClick()"
+      (secondaryButtonClick)="handleBackToCanvasClick()"
     ></pf-footer-bar>
     <pf-statement-assignment-modal></pf-statement-assignment-modal>
     <pf-generate-statement-modal 
@@ -18,7 +26,7 @@
       [sendingGenerateRequest]="sendingGenerateRequest$ | async"
       [sendingGenerateRequestSuccess]="sendingGenerateRequestSuccess$ | async"
       [sendingGenerateRequestError]="sendingGenerateRequestError$ | async"
-      [selectedCompanyEmployeeIds]="selectedCompanyEmployeeIds$ | async"
+      [selectedCompanyEmployeeIds]="selectedAssignedCompanyEmployeeIds$ | async"
       (generateStatementsClick)="handleGenerateStatementsClick()"
       (cancelClick)="handleCancelGenerateStatementModal()"
     ></pf-generate-statement-modal>

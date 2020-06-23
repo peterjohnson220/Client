@@ -9,14 +9,10 @@ import { Statement } from '../../../shared/models';
 
 export interface State {
   statement: AsyncStateObj<Statement>;
-  assignedEmployees: CompanyEmployee[];
-  assignedEmployeesLoading: boolean;
-  assignedEmployeesLoadingError: boolean;
   isGenerateStatementModalOpen: boolean;
   sendingGenerateStatementRequest: boolean;
   sendingGenerateStatementRequestSuccess: boolean;
   sendingGenerateStatementRequestError: boolean;
-  selectedCompanyEmployeeIds: number[];
 }
 
 export const initialState: State = {
@@ -25,10 +21,6 @@ export const initialState: State = {
   sendingGenerateStatementRequest: false,
   sendingGenerateStatementRequestSuccess: false,
   sendingGenerateStatementRequestError: false,
-  assignedEmployees: [],
-  assignedEmployeesLoading: false,
-  assignedEmployeesLoadingError: false,
-  selectedCompanyEmployeeIds: []
 };
 
 export function reducer(state = initialState, action: fromActions.StatementAssignmentPageActions): State {
@@ -86,72 +78,6 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
         sendingGenerateStatementRequestError: true,
       };
     }
-    case fromActions.GET_ASSIGNED_EMPLOYEES: {
-      return {
-        ...state,
-        assignedEmployeesLoading: true
-      };
-    }
-    case fromActions.GET_ASSIGNED_EMPLOYEES_SUCCESS: {
-      return {
-        ...state,
-        assignedEmployeesLoading: false,
-        assignedEmployeesLoadingError: false
-      };
-    }
-    case fromActions.GET_ASSIGNED_EMPLOYEES_ERROR: {
-      return {
-        ...state,
-        assignedEmployeesLoading: false,
-        assignedEmployeesLoadingError: true
-      };
-    }
-    case fromActions.REPLACE_ASSIGNED_EMPLOYEES: {
-      return {
-        ...state,
-        assignedEmployees: action.payload
-      };
-    }
-    case fromActions.TOGGLE_SELECTED_EMPLOYEE: {
-      let selectedCompanyEmployeeIds = cloneDeep(state.selectedCompanyEmployeeIds);
-
-      if (selectedCompanyEmployeeIds.find((e: number) => e === action.payload.CompanyEmployeeId)) {
-        selectedCompanyEmployeeIds = selectedCompanyEmployeeIds.filter((e: number) => e !== action.payload.CompanyEmployeeId);
-      } else {
-        selectedCompanyEmployeeIds.push(action.payload.CompanyEmployeeId);
-      }
-
-      return {
-        ...state,
-        selectedCompanyEmployeeIds
-      };
-    }
-    case fromActions.GET_ASSIGNED_EMPLOYEES: {
-      return {
-        ...state,
-        assignedEmployeesLoading: true
-      };
-    }
-    case fromActions.GET_ASSIGNED_EMPLOYEES_SUCCESS: {
-      return {
-        ...state,
-        assignedEmployeesLoading: false,
-        assignedEmployeesLoadingError: false
-      };
-    }
-    case fromActions.GET_ASSIGNED_EMPLOYEES_ERROR: {
-      return {
-        ...state,
-        assignedEmployeesLoading: false,
-        assignedEmployeesLoadingError: true
-      };
-    }
-    case fromActions.REPLACE_ASSIGNED_EMPLOYEES: {
-      return {
-        ...state,
-        assignedEmployees: action.payload
-      };
-    }
     default: {
       return state;
     }
@@ -167,11 +93,3 @@ export const getStatementLoadingError = (state: State) => state.statement?.loadi
 export const getSendingGenerateStatementRequest = (state: State) => state.sendingGenerateStatementRequest;
 export const getSendingGenerateStatementRequestSuccess = (state: State) => state.sendingGenerateStatementRequestSuccess;
 export const getSendingGenerateStatementRequestError = (state: State) => state.sendingGenerateStatementRequestError;
-
-export const getAssignedEmployees = (state: State) => state.assignedEmployees;
-export const getAssignedEmployeesLoading = (state: State) => state.assignedEmployeesLoading;
-export const getAssignedEmployeesLoadingError = (state: State) => state.assignedEmployeesLoadingError;
-export const getAssignedEmployeesCount = (state: State) => state.assignedEmployees.length;
-
-export const getSelectedCompanyEmployeeIds = (state: State) => state.selectedCompanyEmployeeIds;
-export const getSelectedCompanyEmployeeIdsCount = (state: State) => state.selectedCompanyEmployeeIds?.length;

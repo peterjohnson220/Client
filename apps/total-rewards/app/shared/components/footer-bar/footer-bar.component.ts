@@ -10,10 +10,16 @@ export class FooterBarComponent {
   @Input() primaryButtonText = '';
   @Input() primaryButtonEnabled = true;
   @Input() primaryButtonToolTip = '';
+  @Input() secondaryButtonText = '';
 
   @Output() primaryButtonClick = new EventEmitter();
+  @Output() secondaryButtonClick = new EventEmitter();
 
   onPrimaryButtonClick(): void {
     this.primaryButtonClick.emit();
+  }
+
+  onSecondaryButtonClick(): void {
+    this.secondaryButtonClick.emit();
   }
 }

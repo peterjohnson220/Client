@@ -120,6 +120,10 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.router.navigate(['statement/edit/' + this.statementId + '/assignments'], { queryParams: { openModal: 1 } } ).then();
   }
 
+  handleBackToStatementsClick() {
+    this.router.navigate(['']);
+  }
+
   handleCreateStatementClick() {
     this.router.navigate(['']).then();
   }
