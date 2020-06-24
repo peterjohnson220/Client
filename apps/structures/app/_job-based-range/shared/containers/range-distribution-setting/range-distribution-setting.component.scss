@@ -17,6 +17,10 @@
   padding-left: 25px;
 }
 
+.inline-link:focus{
+  outline: none;
+}
+
 .no-inline-links {
   margin-right: 12rem;
 }
