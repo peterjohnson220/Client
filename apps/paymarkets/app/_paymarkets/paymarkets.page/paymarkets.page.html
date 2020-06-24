@@ -36,14 +36,13 @@
     <span *ngIf="dataRow['CompanyPayMarkets_IsDefaultPayMarket'] === 1" class="badge default-badge btn flex-shrink-1 pl-2 pr-2">Default</span>
   </div>
 </ng-template>
-
 <ng-template #defaultScopesColumn let-dataRow="dataRow" let-hover="hover">
   <div class="flex">
     <h5 *ngIf="!!dataRow['CompanyPayMarkets_SurveyScopesCount']" class="badge gray-badge mr-2">
       {{dataRow['CompanyPayMarkets_SurveyScopesCount']}} Survey<span *ngIf="dataRow['CompanyPayMarkets_SurveyScopesCount'] > 1">s</span>
     </h5>
     <h5 *ngIf="!!dataRow['CompanyPayMarkets_ExchangeScopesCount']" class="badge gray-badge">
-      {{dataRow['CompanyPayMarkets_ExchangeScopesCount']}} Exchange<span *ngIf="dataRow['CompanyPayMarkets_ExchangeScopesCount'] > 1">s</span>
+      {{dataRow['CompanyPayMarkets_ExchangeScopesCount']}} Network<span *ngIf="dataRow['CompanyPayMarkets_ExchangeScopesCount'] > 1">s</span>
     </h5>
   </div>
 </ng-template>
