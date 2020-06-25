@@ -67,7 +67,7 @@ export class ActionBarComponent implements OnChanges {
   }
 
   handleExportClicked(): void {
-    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.actionBarConfig.ExportSourceName));
+    this.store.dispatch(new fromActions.ExportGrid(this.pageViewId, this.actionBarConfig.ExportSourceName, this.actionBarConfig.CustomExportType));
   }
 
   getExportTitleTooltip(exporting: boolean, loadingExportingStatus: boolean, data: GridDataResult): string {

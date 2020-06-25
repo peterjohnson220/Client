@@ -21,6 +21,7 @@ import { JOB_PRICING_PAGEVIEW_ID } from '../../../constants';
 })
 
 export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
+  @ViewChild('recencyFilter', { static: false }) recencyFilter: ElementRef;
 
   pageViewId = JOB_PRICING_PAGEVIEW_ID;
   gridFieldSubscription: Subscription;
@@ -53,20 +54,8 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
   fieldsExcludedFromExport = ['Recency'];
   env = environment;
 
-  @ViewChild('recencyFilter', { static: false }) recencyFilter: ElementRef;
-
   constructor(private route: ActivatedRoute,
               private pfGridStore: Store<fromPfDataGridReducer.State>) {
-    this.actionBarConfig = {
-      ShowActionBar: true,
-      ShowColumnChooser: true,
-      ShowFilterChooser: true,
-      AllowExport: false,
-      AllowSaveFilter: true,
-      ExportSourceName: '',
-      ColumnChooserType: ColumnChooserType.Column
-    };
-
     this.gridFieldSubscription = this.pfGridStore.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.recencyField = fields.find(f => f.SourceName === 'Recency');
@@ -88,6 +77,16 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
         Value: this.company.Id
       });
     }
+    this.actionBarConfig = {
+      ShowActionBar: true,
+      ShowColumnChooser: true,
+      ShowFilterChooser: true,
+      AllowExport: true,
+      AllowSaveFilter: true,
+      ExportSourceName: this.company.Name + ' Pricings',
+      CustomExportType: 'PricingNotes',
+      ColumnChooserType: ColumnChooserType.Column
+    };
   }
 
   ngAfterViewInit() {

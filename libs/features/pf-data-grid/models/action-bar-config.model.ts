@@ -7,6 +7,7 @@ export interface ActionBarConfig {
   AllowSaveFilter: boolean;
   AllowExport: boolean;
   ExportSourceName: string;
+  CustomExportType?: string;
   ColumnChooserType?: ColumnChooserType;
   ActionBarClassName?: string;
   GlobalActionsTemplate?: ElementRef<any>;
