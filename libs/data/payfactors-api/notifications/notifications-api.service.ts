@@ -15,4 +15,8 @@ export class NotificationsApiService {
   getDataViewsExports(): Observable<DataViewExportResponse[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetDataViewsExportRecords`);
   }
+
+  getTotalRewardsStatementPdfs(): Observable<any[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetTotalRewardsStatementPdfs`);
+  }
 }

@@ -1,11 +1,26 @@
-<pf-page-with-title-bar [returnUrl]="'/statement/edit/' + statementId">
+<pf-page-with-title-bar [returnUrl]="'/statement/edit/' + (statement$ | async)?.StatementId">
   <ng-container page-title>Total Rewards Statement Assignments</ng-container>
   <ng-container page-actions>
     <button type="button" class="btn btn-secondary" (click)="openAssignModal()">Assign Employees</button>
   </ng-container>
   <ng-container page-content>
-    <pf-statement-assignment-modal></pf-statement-assignment-modal>
-
     <pf-assigned-employees-grid></pf-assigned-employees-grid>
+    <pf-footer-bar
+      [primaryButtonText]="'Generate'"
+      [primaryButtonEnabled]="(selectedCompanyEmployeeIds$ | async)?.length"
+      [primaryButtonToolTip]="(selectedCompanyEmployeeIds$ | async)?.length ? '' : 'Select employees to generate statements'"
+      (primaryButtonClick)="handleOpenGenerateStatementModalClick()"
+    ></pf-footer-bar>
+    <pf-statement-assignment-modal></pf-statement-assignment-modal>
+    <pf-generate-statement-modal 
+      [isOpen$]="isGenerateStatementModalOpen$"
+      [statement]="statement$ | async"
+      [sendingGenerateRequest]="sendingGenerateRequest$ | async"
+      [sendingGenerateRequestSuccess]="sendingGenerateRequestSuccess$ | async"
+      [sendingGenerateRequestError]="sendingGenerateRequestError$ | async"
+      [selectedCompanyEmployeeIds]="selectedCompanyEmployeeIds$ | async"
+      (generateStatementsClick)="handleGenerateStatementsClick()"
+      (cancelClick)="handleCancelGenerateStatementModal()"
+    ></pf-generate-statement-modal>
   </ng-container>
 </pf-page-with-title-bar>

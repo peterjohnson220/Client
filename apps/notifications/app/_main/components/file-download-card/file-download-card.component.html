@@ -1,0 +1,14 @@
+<div *ngIf="fileDisplayName" class="card">
+
+  <div class="card-body">
+    <h5 class="card-title report-name" [title]="fileDisplayName">{{ fileDisplayName }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ createdDateTime | date: 'MMMM dd, yyyy' }}</h6>
+    <div class="mt-4">
+      <a class="file-name" href="{{ downloadPath }}" [attr.target]="(openInNewTab) ? '_blank' : ''">
+        <fa-icon class="file-type-icon mr-3" [icon]="iconName"></fa-icon>
+        <span class="card-text" [title]="fileName">Click to download</span>
+      </a>
+    </div>
+  </div>
+
+</div>

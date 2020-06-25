@@ -24,8 +24,10 @@ import {
   StatementAssignmentModalEffects,
   StatementAssignmentPageEffects
 } from './effects';
-import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
 import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
+import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
+import { GenerateStatementModalComponent } from './components/generate-statement-modal/generate-statement-modal.component';
+import * as fromTrsShared from '../../shared';
 
 @NgModule({
   imports: [
@@ -49,16 +51,17 @@ import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
     PfCommonUIModule,
     PfFormsModule,
     PfSearchModule,
+    fromTrsShared.SharedModule,
 
     // Routing
     StatementAssignmentRoutingModule,
-
   ],
   declarations: [
     StatementAssignmentPageComponent,
     StatementAssignmentModalComponent,
     EmployeeSearchResultsComponent,
     EmployeeResultComponent,
+    GenerateStatementModalComponent,
     AssignedEmployeesGridComponent
   ],
   providers: [

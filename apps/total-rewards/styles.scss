@@ -25,6 +25,9 @@
   &:disabled {
     background-color: rgba($pf-primary-blue, .65);
     border-color: rgba($pf-primary-blue, .65);
+    &:hover {
+      color: white;
+    }
   }
 }
 

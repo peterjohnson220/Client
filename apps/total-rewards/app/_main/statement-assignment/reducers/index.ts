@@ -44,11 +44,6 @@ export const selectEmployeeSearchState = createSelector(
 );
 
 // Page Selectors
-export const getStatementId = createSelector(
-  selectPageState,
-  fromPageReducer.getStatementId
-);
-
 export const getAssignedEmployees = createSelector(
   selectPageState,
   fromPageReducer.getAssignedEmployees
@@ -67,6 +62,36 @@ export const getAssignedEmployeesLoadingError = createSelector(
 export const getAssignedEmployeesCount = createSelector(
   selectPageState,
   fromPageReducer.getAssignedEmployeesCount
+);
+
+export const getIsGenerateStatementModalOpen = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.isGenerateStatementModalOpen
+);
+
+export const getStatement = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.statement?.obj
+);
+
+export const getSendingGenerateStatementRequest = createSelector(
+  selectPageState,
+  fromPageReducer.getSendingGenerateStatementRequest
+);
+
+export const getSendingGenerateStatementRequestSuccess = createSelector(
+  selectPageState,
+  fromPageReducer.getSendingGenerateStatementRequestSuccess
+);
+
+export const getSendingGenerateStatementRequestError = createSelector(
+  selectPageState,
+  fromPageReducer.getSendingGenerateStatementRequestError
+);
+
+export const getAssignmentsGridSelectedCompanyEmployeeIds = createSelector(
+  selectPageState,
+  fromPageReducer.getSelectedCompanyEmployeeIds
 );
 
 // Assignments Modal Selectors

@@ -73,6 +73,6 @@ export function reducer(state = initialState, action: fromEmployeeSearchResultsA
   }
 }
 
-export const getEmployees = (state: State) => state.employees;
 export const getSelectedCompanyEmployeeIds = (state: State) => state.selectedCompanyEmployeeIds;
 export const getSelectedEmployeesCount = (state: State) => state.selectedCompanyEmployeeIds.length;
+export const getEmployees = (state: State) => state.employees;

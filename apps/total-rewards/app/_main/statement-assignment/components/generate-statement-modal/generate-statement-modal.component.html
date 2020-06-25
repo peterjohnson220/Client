@@ -1,0 +1,15 @@
+<pf-modal-form
+  [modalId]="'generate-statement-modal'"
+  [title]="'Generate Statements'"
+  [isOpen$]="isOpen$"
+  [size]="'lg'"
+  [primaryButtonText]="'Generate'"
+  [primaryButtonTextSubmitting]="'Generating...'"
+  [submitting]="sendingGenerateRequest"
+  (onSubmit)="onGenerateStatements()"
+  (onDismiss)="onCancel()">
+  <ng-container basic-content>
+    <p>Generate {{ statement?.StatementName }} for <strong>{{ selectedCompanyEmployeeIds.length }} employee{{ (selectedCompanyEmployeeIds.length > 1) ? 's' : '' }}</strong>? 
+      To proceed, click Generate below.</p>
+  </ng-container>
+</pf-modal-form>

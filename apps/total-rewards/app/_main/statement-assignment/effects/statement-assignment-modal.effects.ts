@@ -45,8 +45,8 @@ export class StatementAssignmentModalEffects {
       ofType(fromStatementAssignmentModalActions.ASSIGN_EMPLOYEES),
       withLatestFrom(
         this.store.select(fromTotalRewardsReducer.getSelectedCompanyEmployeeIds),
-        this.store.select(fromTotalRewardsReducer.getStatementId),
-        (action, employees, statementId) => ({action, employees, statementId})
+        this.store.select(fromTotalRewardsReducer.getStatement),
+        (action, employees, statement) => ({action, employees, statementId: statement.StatementId})
       ),
       concatMap((data) => {
         const request = {
@@ -72,10 +72,10 @@ export class StatementAssignmentModalEffects {
     ofType(fromStatementAssignmentModalActions.ASSIGN_ALL_EMPLOYEES),
     withLatestFrom(
       this.store.select(fromSearchReducer.getParentFilters),
-      this.store.select(fromTotalRewardsReducer.getStatementId),
+      this.store.select(fromTotalRewardsReducer.getStatement),
       this.store.select(fromSearchReducer.getNumberOfResultsOnServer),
-      (action: fromStatementAssignmentModalActions.AssignAllEmployees, filters, statementId, resultsCount) =>
-        ({action, filters, statementId, resultsCount})
+      (action: fromStatementAssignmentModalActions.AssignAllEmployees, filters, statement, resultsCount) =>
+        ({action, filters, statementId: statement.StatementId, resultsCount})
     ),
     switchMap((data) => {
       const searchRequest = {
