@@ -26,9 +26,9 @@ enum JobManagementTabs {
 })
 export class JobContainerComponent implements OnInit, OnDestroy {
 
-  @ViewChild('standardFieldsComponent', { static: false }) standardFieldsComponent: StandardFieldsComponent;
-  @ViewChild('attachmentsComponent', { static: false }) attachmentsComponent: JobAttachmentsComponent;
-  @ViewChild('jobsTabs', { static: false }) jobsTabs: NgbTabset;
+  @ViewChild('standardFieldsComponent') standardFieldsComponent: StandardFieldsComponent;
+  @ViewChild('attachmentsComponent') attachmentsComponent: JobAttachmentsComponent;
+  @ViewChild('jobsTabs') jobsTabs: NgbTabset;
 
   loading$: Observable<boolean>;
   jobUserDefinedFields$: Observable<CompanyJobUdf[]>;

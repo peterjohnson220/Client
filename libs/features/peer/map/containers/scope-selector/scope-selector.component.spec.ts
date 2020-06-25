@@ -48,8 +48,8 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
 
     fixture = TestBed.createComponent(ScopeSelectorComponent);
     instance = fixture.componentInstance;

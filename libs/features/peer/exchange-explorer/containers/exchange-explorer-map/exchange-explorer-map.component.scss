@@ -18,8 +18,12 @@ mgl-map {
   padding: 1rem;
 }
 
-:host ::ng-deep .mapboxgl-popup .mapboxgl-popup-content {
-  padding: 0;
+:host ::ng-deep .mapboxgl-popup {
+  max-width: none !important;
+
+  .mapboxgl-popup-content {
+    padding: 0;
+  }
 }
 
 .point-information {

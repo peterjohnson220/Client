@@ -54,7 +54,7 @@ export class AppNotificationsComponent implements OnInit, OnDestroy {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(this.signalRConnectionUrl)
       .withAutomaticReconnect()
-      .configureLogging(LogLevel.Error)
+      .configureLogging(LogLevel.Critical)
       .build();
 
     connection.start().then(function () {

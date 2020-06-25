@@ -11,7 +11,7 @@ import { WorkbookCardComponent } from '../workbook-card';
 export class DataViewWorkbookCardComponent {
   @Input() workbook: Workbook;
 
-  @ViewChild(WorkbookCardComponent, { static: false }) public workbookCard: WorkbookCardComponent;
+  @ViewChild(WorkbookCardComponent) public workbookCard: WorkbookCardComponent;
   showingPopover = false;
 
   handlePopoverShown(): void {

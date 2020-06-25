@@ -18,7 +18,7 @@ export class ShareReportModalComponent implements OnChanges {
   @Output() shareClicked = new EventEmitter<SharedDataViewUser[]>();
   @Output() userRemoved = new EventEmitter<SharedDataViewUser>();
 
-  @ViewChild('shareReportModal', { static: false }) public shareReportModal: any;
+  @ViewChild('shareReportModal') public shareReportModal: any;
   selectedUsers: SharedDataViewUser[] = [];
   selectableUsers: SharedDataViewUser[] = [];
   existingUsers: SharedDataViewUser[] = [];

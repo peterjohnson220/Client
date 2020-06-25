@@ -8,11 +8,10 @@ import { FormControlName } from '@angular/forms';
 })
 export class PfValidatableDirective implements DoCheck {
   private shouldValidate = false;
-  @ContentChild(FormControlName, { static: false }) control: FormControlName;
   @Input() set pfValidatable(shouldValidate: boolean) {
     this.shouldValidate = shouldValidate;
   }
-  constructor(private _el: ElementRef, private _renderer: Renderer2) {}
+  constructor(private _el: ElementRef, private _renderer: Renderer2, public control: FormControlName) {}
 
   ngDoCheck(): void {
     if (!this.control) {

@@ -44,7 +44,7 @@ describe('Data Insights - Dashboards Comopnent', () => {
 
     fixture = TestBed.createComponent(DashboardsHeaderComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });

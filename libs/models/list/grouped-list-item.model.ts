@@ -2,6 +2,7 @@ export interface GroupedListItem {
   Name: string;
   Value: any;
   Level?: string;
+  Description?: string;
   Children?: GroupedListItem[];
   IgnoreValue?: boolean;
   TotalChildren?: number;

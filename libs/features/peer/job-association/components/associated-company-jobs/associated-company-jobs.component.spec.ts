@@ -2,6 +2,8 @@ import { AssociatedCompanyJobsComponent } from './associated-company-jobs-compon
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { generateMockCompanyJob } from '../../models';
+
 describe('AssociatedCompanyJobsComponent', () => {
   let component: AssociatedCompanyJobsComponent;
   let fixture: ComponentFixture<AssociatedCompanyJobsComponent>;
@@ -23,27 +25,13 @@ describe('AssociatedCompanyJobsComponent', () => {
   });
 
   it('should display company jobs', () => {
-    component.newAssociations = [{
-      JobCode: '001',
-      CompanyJobId: 1,
-      JobFamily: 'Family',
-      IsAssociated: false,
-      JobTitle: 'Job Title',
-      JobDescription: 'Job Description'
-    }];
+    component.newAssociations = [generateMockCompanyJob()];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('handleRemoveNewAssociate triggers removeNewAssociation output', (done) => {
-    component.newAssociations = [{
-      JobCode: '001',
-      CompanyJobId: 1,
-      JobFamily: 'Family',
-      IsAssociated: false,
-      JobTitle: 'Job Title',
-      JobDescription: 'Job Description'
-    }];
+    component.newAssociations = [generateMockCompanyJob()];
 
     component.removeNewAssociation.subscribe(r => {
       expect(r).toEqual(1);
@@ -54,14 +42,7 @@ describe('AssociatedCompanyJobsComponent', () => {
   });
 
   it('should show jobs after loading successfully', () => {
-    component.newAssociations = [{
-      JobCode: '001',
-      CompanyJobId: 1,
-      JobFamily: 'Family',
-      IsAssociated: false,
-      JobTitle: 'Job Title',
-      JobDescription: 'Job Description'
-    }];
+    component.newAssociations = [generateMockCompanyJob()];
 
     component.loadingPreviousAssociations = false;
     fixture.detectChanges();
@@ -80,14 +61,7 @@ describe('AssociatedCompanyJobsComponent', () => {
   });
 
   it('should render the table if there are only company jobs', () => {
-    component.newAssociations = [{
-      JobCode: '001',
-      CompanyJobId: 1,
-      JobFamily: 'Family',
-      IsAssociated: false,
-      JobTitle: 'Job Title',
-      JobDescription: 'Job Description'
-    }];
+    component.newAssociations = [generateMockCompanyJob()];
     component.previousAssociations = [];
 
     component.loadingPreviousAssociations = false;
@@ -98,14 +72,7 @@ describe('AssociatedCompanyJobsComponent', () => {
 
   it('should render the table if there are only previous associations', () => {
     component.newAssociations = [];
-    component.previousAssociations = [{
-      JobCode: '001',
-      CompanyJobId: 1,
-      JobFamily: 'Family',
-      IsAssociated: false,
-      JobTitle: 'Job Title',
-      JobDescription: 'Job Description'
-    }];
+    component.previousAssociations = [generateMockCompanyJob()];
 
     component.loadingPreviousAssociations = false;
     fixture.detectChanges();

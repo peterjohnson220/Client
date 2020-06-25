@@ -46,8 +46,8 @@ import { EntityChoice, FileUploadDataModel, getEntityChoicesForOrgLoader, OrgUpl
 
 export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
-  @ViewChild('entityUpload', { static: false }) uploadComponent: EntityUploadComponent;
-  @ViewChild('downloadToolTip', { static: false }) public tooltip: NgbTooltip;
+  @ViewChild('entityUpload') uploadComponent: EntityUploadComponent;
+  @ViewChild('downloadToolTip') public tooltip: NgbTooltip;
 
   private defaultDelimiter = ',';
 

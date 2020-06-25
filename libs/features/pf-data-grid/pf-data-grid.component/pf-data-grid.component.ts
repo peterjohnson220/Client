@@ -16,7 +16,8 @@ import {
   PfDataGridFilter,
   ActionBarConfig,
   getDefaultActionBarConfig,
-  GridRowActionsConfig
+  GridRowActionsConfig,
+  GridConfig
 } from '../models';
 import { getUserFilteredFields } from '../components';
 
@@ -78,6 +79,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
   @Input() syncScrollWithSplit = false;
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
+  @Input() gridConfig: GridConfig;
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;
@@ -209,6 +211,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     }
     if (changes['fieldsExcludedFromExport']) {
       this.store.dispatch(new fromActions.UpdateFieldsExcludedFromExport(this.pageViewId, changes['fieldsExcludedFromExport'].currentValue));
+    }
+    if (changes['gridConfig']) {
+      this.store.dispatch(new fromActions.UpdateGridConfig(this.pageViewId, changes['gridConfig'].currentValue));
     }
   }
 

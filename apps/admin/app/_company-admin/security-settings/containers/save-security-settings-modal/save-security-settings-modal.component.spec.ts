@@ -33,7 +33,7 @@ describe('SavePasswordSettingsModalComponent', () => {
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(SaveSecuritySettingsModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

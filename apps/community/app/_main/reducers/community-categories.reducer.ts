@@ -33,7 +33,7 @@ export function reducer(
     }
     case communityCategoryActions.GETTING_COMMUNITY_CATEGORIES_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
+        ...adapter.setAll(action.payload, state),
         loading: false
       };
     }

@@ -105,9 +105,9 @@ describe('Job Description Management - Job Description - Job Description List Pa
     instance.filterThrottle = new Subject();
     instance.savedGridState$ = of({ skip: 0, take: 20 });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
 

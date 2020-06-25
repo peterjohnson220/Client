@@ -14,8 +14,6 @@ exports[`GridDetailPanelComponent should hide a link to download the jdm descrip
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
-    ng-reflect-klass="slide-in-panel position-absolu"
-    ng-reflect-ng-class="expanded"
   >
     <header>
       <a
@@ -91,8 +89,6 @@ exports[`GridDetailPanelComponent should not render jdm controls when checkForJd
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
-    ng-reflect-klass="slide-in-panel position-absolu"
-    ng-reflect-ng-class="expanded"
   >
     <header>
       <a
@@ -152,8 +148,6 @@ exports[`GridDetailPanelComponent should render a falsy job family as No Family 
 >
   <section
     class="slide-in-panel position-absolute collapsed invisible"
-    ng-reflect-klass="slide-in-panel position-absolu"
-    ng-reflect-ng-class="collapsed"
   >
     <header>
       <a
@@ -217,8 +211,6 @@ exports[`GridDetailPanelComponent should render input props 1`] = `
 >
   <section
     class="slide-in-panel position-absolute collapsed invisible"
-    ng-reflect-klass="slide-in-panel position-absolu"
-    ng-reflect-ng-class="collapsed"
   >
     <header>
       <a
@@ -279,8 +271,6 @@ exports[`GridDetailPanelComponent should show a link to download the jdm descrip
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
-    ng-reflect-klass="slide-in-panel position-absolu"
-    ng-reflect-ng-class="expanded"
   >
     <header>
       <a
@@ -353,8 +343,6 @@ exports[`GridDetailPanelComponent should show a spinner when downloading a jdm d
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
-    ng-reflect-klass="slide-in-panel position-absolu"
-    ng-reflect-ng-class="expanded"
   >
     <header>
       <a
@@ -429,8 +417,6 @@ exports[`GridDetailPanelComponent should show an error message if the jdm descri
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
-    ng-reflect-klass="slide-in-panel position-absolu"
-    ng-reflect-ng-class="expanded"
   >
     <header>
       <a
@@ -507,8 +493,6 @@ exports[`GridDetailPanelComponent should show an informational message when mult
 >
   <section
     class="slide-in-panel position-absolute invisible expanded"
-    ng-reflect-klass="slide-in-panel position-absolu"
-    ng-reflect-ng-class="expanded"
   >
     <header>
       <a

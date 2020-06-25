@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { MomentModule } from 'angular2-moment';
+import { MomentModule } from 'ngx-moment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { CompanyNote, getDefaultCompanyNote } from 'libs/models/payfactors-api';
@@ -35,7 +34,7 @@ describe('CompanyNotesListComponent', () => {
         schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(CompanyNotesListComponent);
     component = fixture.componentInstance;
     });

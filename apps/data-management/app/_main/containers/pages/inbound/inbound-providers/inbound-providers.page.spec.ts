@@ -34,8 +34,8 @@ describe('Data Management - Main - Transfer Data Page - Inbound - Vendor', () =>
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(MockStore);
+    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(InboundProvidersPageComponent);
     instance = fixture.componentInstance;
   }));

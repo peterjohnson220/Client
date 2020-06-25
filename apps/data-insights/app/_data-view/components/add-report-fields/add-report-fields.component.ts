@@ -18,7 +18,7 @@ import { Field, FieldListItem, FieldType } from '../../models';
   styleUrls: ['./add-report-fields.component.scss']
 })
 export class AddReportFieldsComponent implements OnChanges, AfterViewInit, OnDestroy  {
-  @ViewChild('reportFieldsList', { static: false }) reportFieldsList: AutoCompleteComponent;
+  @ViewChild('reportFieldsList') reportFieldsList: AutoCompleteComponent;
   @Input() fields: Field[];
   @Output() fieldAdded: EventEmitter<Field> = new EventEmitter();
 

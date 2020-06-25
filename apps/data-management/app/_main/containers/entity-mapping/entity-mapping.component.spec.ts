@@ -33,7 +33,7 @@ describe('Data Management - Main - Entity Mapping Component', () => {
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(EntityMappingComponent);
     instance = fixture.componentInstance;
 

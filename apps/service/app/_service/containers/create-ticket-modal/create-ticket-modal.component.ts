@@ -20,7 +20,7 @@ import { TicketType, ServicePageConfig } from '../../models';
   styleUrls: ['./create-ticket-modal.component.scss']
 })
 export class CreateTicketModalComponent {
-  @ViewChild(UploadComponent, { static: false }) uploadComponent: UploadComponent;
+  @ViewChild(UploadComponent) uploadComponent: UploadComponent;
 
   // observables
   userContext$: Observable<UserContext>;

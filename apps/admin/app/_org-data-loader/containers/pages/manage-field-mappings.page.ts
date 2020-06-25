@@ -49,7 +49,7 @@ import { ACCEPTED_FILE_EXTENSIONS } from '../../constants/public-key-filename-co
   styleUrls: ['./manage-field-mappings.page.scss']
 })
 export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
-  @ViewChild('companySelector', {static: false}) companySelector: CompanySelectorComponent;
+  @ViewChild('companySelector') companySelector: CompanySelectorComponent;
   env = environment;
   payfactorsPaymarketDataFields: string[];
   payfactorsJobDataFields: string[];

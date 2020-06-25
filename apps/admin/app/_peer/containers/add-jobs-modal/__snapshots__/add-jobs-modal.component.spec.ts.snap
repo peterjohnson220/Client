@@ -23,7 +23,6 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="Add Exchange Jobs"
   >
     
@@ -34,12 +33,6 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
         <pf-input-debounce
           class="ng-untouched ng-pristine ng-valid"
           id="search-jobs"
-          ng-reflect-delay="400"
-          ng-reflect-focus="true"
-          ng-reflect-id="search-jobs"
-          ng-reflect-options="[object Object]"
-          ng-reflect-placeholder-text="Search for a Job Title..."
-          ng-reflect-showing="true"
         >
           
           
@@ -53,18 +46,12 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
               data-qa-id="txt-search-jobs"
               id="search-jobs"
               maxlength="524288"
-              ng-reflect-is-disabled="false"
-              ng-reflect-klass="form-control"
-              ng-reflect-maxlength="524288"
-              ng-reflect-ng-class=""
               placeholder="Search for a Job Title..."
               style="min-width: 100px;"
               type="text"
             />
             <div
               class="input-group-append action-item"
-              ng-reflect-klass="input-group-append action-item"
-              ng-reflect-ng-class="action-item"
             >
               <span
                 class="input-group-text"
@@ -111,9 +98,6 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="selections"
         name="hasSelections"
-        ng-reflect-model=""
-        ng-reflect-name="selections"
-        ng-reflect-pf-validatable="false"
         type="hidden"
         value=""
       />

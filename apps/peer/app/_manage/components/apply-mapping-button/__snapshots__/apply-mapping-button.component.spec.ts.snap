@@ -23,8 +23,6 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button with a 
 >
   <button
     class="btn btn-sm btn-primary"
-    ng-reflect-klass="btn btn-sm btn-outline-primary"
-    ng-reflect-ng-class="[object Object]"
   >
     
     <span>
@@ -42,8 +40,6 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button, when u
 >
   <button
     class="btn btn-sm btn-outline-primary"
-    ng-reflect-klass="btn btn-sm btn-outline-primary"
-    ng-reflect-ng-class="[object Object]"
   >
     
     <span>
@@ -64,8 +60,6 @@ exports[`Peer - Apply Mapping Button should show an applying mapping... button w
 >
   <button
     class="btn btn-sm btn-primary"
-    ng-reflect-klass="btn btn-sm btn-outline-primary"
-    ng-reflect-ng-class="[object Object]"
   >
     
     
@@ -86,8 +80,6 @@ exports[`Peer - Apply Mapping Button should show an error message under a Retry 
 >
   <button
     class="btn btn-sm btn-outline-primary"
-    ng-reflect-klass="btn btn-sm btn-outline-primary"
-    ng-reflect-ng-class="[object Object]"
   >
     
     

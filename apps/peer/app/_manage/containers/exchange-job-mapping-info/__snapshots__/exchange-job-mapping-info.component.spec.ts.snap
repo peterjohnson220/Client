@@ -137,8 +137,6 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
       <button
         class="btn btn-sm btn-secondary"
         id="add-mapping-button"
-        ng-reflect-klass="btn btn-sm"
-        ng-reflect-ng-class="[object Object]"
       >
          Add Association 
       </button>
@@ -187,8 +185,6 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
               
               <span
                 class="control active"
-                ng-reflect-klass="control"
-                ng-reflect-ng-class="[object Object]"
               >
                 <fa-icon
                   icon="circle"
@@ -196,8 +192,6 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
               </span>
               <span
                 class="control"
-                ng-reflect-klass="control"
-                ng-reflect-ng-class="[object Object]"
               >
                 <fa-icon
                   icon="circle"
@@ -268,8 +262,6 @@ exports[`Peer - Exchange Job Mapping Info should display an add mapping button, 
       <button
         class="btn btn-sm btn-secondary"
         id="add-mapping-button"
-        ng-reflect-klass="btn btn-sm"
-        ng-reflect-ng-class="[object Object]"
       >
          Add Association 
       </button>

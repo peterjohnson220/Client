@@ -37,7 +37,7 @@ describe('Data Management - Main - Hris Authentication Card', () => {
     fixture = TestBed.createComponent(HrisAuthenticationCardComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   });
 

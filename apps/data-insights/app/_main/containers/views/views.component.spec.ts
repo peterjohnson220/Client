@@ -35,7 +35,7 @@ describe('Data Insights - Views Component', () => {
 
     fixture = TestBed.createComponent(ViewsComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });

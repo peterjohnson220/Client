@@ -27,13 +27,13 @@ import { PageViewIds } from '../../../../constants';
 export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
   @Input() unPricedCount: number;
-  @ViewChild('pricedDataPayMarketFilter', { static: false }) pricedDataPayMarketFilter: ElementRef;
-  @ViewChild('changeView', { static: false }) changeView: ElementRef;
-  @ViewChild('payMarketColumn', { static: false }) payMarketColumn: ElementRef;
-  @ViewChild('agingColumn', { static: false }) agingColumn: ElementRef;
-  @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
-  @ViewChild('matchInfoColumn', { static: false }) matchInfoColumn: ElementRef;
-  @ViewChild('genericMrpColumn', { static: false }) genericMrpColumn: ElementRef;
+  @ViewChild('pricedDataPayMarketFilter') pricedDataPayMarketFilter: ElementRef;
+  @ViewChild('changeView') changeView: ElementRef;
+  @ViewChild('payMarketColumn') payMarketColumn: ElementRef;
+  @ViewChild('agingColumn') agingColumn: ElementRef;
+  @ViewChild('currencyColumn') currencyColumn: ElementRef;
+  @ViewChild('matchInfoColumn') matchInfoColumn: ElementRef;
+  @ViewChild('genericMrpColumn') genericMrpColumn: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   mrpFields = ['AllowMRP', 'BaseMRP', 'BonusMRP', 'BonusPctMRP', 'BonusTargetMRP', 'BonusTargetPctMRP', 'FixedMRP', 'LTIPMRP', 'LTIPPctMRP', 'RemunMRP',

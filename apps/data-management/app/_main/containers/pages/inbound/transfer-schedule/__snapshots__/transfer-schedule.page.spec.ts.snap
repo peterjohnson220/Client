@@ -3,8 +3,16 @@
 exports[`TransferSchedulePageComponent should show only supported entities 1`] = `
 <pf-transfer-schedule
   backRoute={[Function String]}
+  connectionSaving$={[Function Store]}
   connectionSummarySub={[Function Subscriber]}
   editStates={[Function Array]}
+  emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
+  identity$={[Function Store]}
+  identitySubscription={[Function Subscriber]}
+  loadType={[Function String]}
   restoreCompletedSubscription={[Function Subscriber]}
   router={[Function Object]}
   showIntegrationFinishedModal$={[Function Store]}
@@ -16,6 +24,8 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
   transferScheduleSummaryLoading$={[Function Store]}
   transferScheduleSummarySaving$={[Function Store]}
   transferScheduleSummarySubscription={[Function Subscriber]}
+  userContextStore={[Function MockStore]}
+  validationMode={[Function Boolean]}
 >
   <pf-async-container>
     <div
@@ -34,7 +44,21 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         Transfer Schedule
       </h4>
       <h5>
-        Let us know how often you would like to refresh your company data.
+        Let us know how often you would like to refresh your company data. 
+        <div
+          class="float-right hris-validation-mode-toggle"
+        >
+          <kendo-switch
+            class="k-widget k-switch k-switch-off"
+            dir="ltr"
+            style="width:80px;"
+            title=""
+          >
+            <p>
+              Mock Product Settings Component
+            </p>
+          </kendo-switch>
+        </div>
       </h5>
       <div
         class="row mt-5 mb-3"
@@ -44,6 +68,16 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
       <div
         class="d-flex justify-content-end"
       >
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-secondary px-4"
+            type="button"
+          >
+            Email Recipients
+          </button>
+        </div>
         <div
           class="p-2"
         >
@@ -70,15 +104,19 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         >
           <button
             class="btn btn-primary px-4"
-            disabled=""
             type="button"
           >
-            Finish
+            
+            
+            <span>
+              Finish
+            </span>
           </button>
         </div>
       </div>
     </div>
     <pf-modal-form
+      class="integration-setup-complete-modal"
       title="Integration Setup Complete"
     >
       
@@ -87,14 +125,8 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
       >
         Integration Setup Complete!
       </h5>
-      <div
-        class="alert alert-success"
-      >
-         Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time. 
-      </div>
-      <div
-        class=""
-      >
+      <pf-transfer-schedule-summary />
+      <div>
         <button
           class="btn btn-primary px-4 float-right"
         >
@@ -102,6 +134,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         </button>
       </div>
     </pf-modal-form>
+    
   </pf-async-container>
 </pf-transfer-schedule>
 `;
@@ -109,8 +142,16 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
 exports[`TransferSchedulePageComponent should show only supported entities and overflow correctly 1`] = `
 <pf-transfer-schedule
   backRoute={[Function String]}
+  connectionSaving$={[Function Store]}
   connectionSummarySub={[Function Subscriber]}
   editStates={[Function Array]}
+  emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
+  identity$={[Function Store]}
+  identitySubscription={[Function Subscriber]}
+  loadType={[Function String]}
   restoreCompletedSubscription={[Function Subscriber]}
   router={[Function Object]}
   showIntegrationFinishedModal$={[Function Store]}
@@ -122,6 +163,8 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
   transferScheduleSummaryLoading$={[Function Store]}
   transferScheduleSummarySaving$={[Function Store]}
   transferScheduleSummarySubscription={[Function Subscriber]}
+  userContextStore={[Function MockStore]}
+  validationMode={[Function Boolean]}
 >
   <pf-async-container>
     <div
@@ -140,7 +183,21 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         Transfer Schedule
       </h4>
       <h5>
-        Let us know how often you would like to refresh your company data.
+        Let us know how often you would like to refresh your company data. 
+        <div
+          class="float-right hris-validation-mode-toggle"
+        >
+          <kendo-switch
+            class="k-widget k-switch k-switch-off"
+            dir="ltr"
+            style="width:80px;"
+            title=""
+          >
+            <p>
+              Mock Product Settings Component
+            </p>
+          </kendo-switch>
+        </div>
       </h5>
       <div
         class="row mt-5 mb-3"
@@ -150,6 +207,16 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
       <div
         class="d-flex justify-content-end"
       >
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-secondary px-4"
+            type="button"
+          >
+            Email Recipients
+          </button>
+        </div>
         <div
           class="p-2"
         >
@@ -176,15 +243,19 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         >
           <button
             class="btn btn-primary px-4"
-            disabled=""
             type="button"
           >
-            Finish
+            
+            
+            <span>
+              Finish
+            </span>
           </button>
         </div>
       </div>
     </div>
     <pf-modal-form
+      class="integration-setup-complete-modal"
       title="Integration Setup Complete"
     >
       
@@ -193,14 +264,8 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
       >
         Integration Setup Complete!
       </h5>
-      <div
-        class="alert alert-success"
-      >
-         Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time. 
-      </div>
-      <div
-        class=""
-      >
+      <pf-transfer-schedule-summary />
+      <div>
         <button
           class="btn btn-primary px-4 float-right"
         >
@@ -208,6 +273,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         </button>
       </div>
     </pf-modal-form>
+    
   </pf-async-container>
 </pf-transfer-schedule>
 `;

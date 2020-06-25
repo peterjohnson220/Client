@@ -42,8 +42,8 @@ describe('Data Management - Main - Inbound Authentication Page', () => {
     fixture = TestBed.createComponent(InboundAuthenticationPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
 
     fixture.detectChanges();
   });

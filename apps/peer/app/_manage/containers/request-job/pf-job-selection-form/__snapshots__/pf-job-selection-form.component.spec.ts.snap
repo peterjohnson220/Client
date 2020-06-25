@@ -23,7 +23,6 @@ exports[`Peer - Manage - Request Job - Payfactors Job Selection Form should prov
 >
   <div
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
   >
     <pf-card-selector>
       
@@ -33,8 +32,6 @@ exports[`Peer - Manage - Request Job - Payfactors Job Selection Form should prov
         <pf-input-debounce
           class="ng-untouched ng-pristine ng-valid"
           id="search-box-job-title"
-          ng-reflect-model=""
-          ng-reflect-options="[object Object]"
           ngdefaultcontrol=""
         />
       </div>
@@ -45,9 +42,6 @@ exports[`Peer - Manage - Request Job - Payfactors Job Selection Form should prov
           class="ng-untouched ng-pristine ng-valid"
           id="search-box-jd"
           name="searchFilter"
-          ng-reflect-model=""
-          ng-reflect-name="searchFilter"
-          ng-reflect-options="[object Object]"
           ngdefaultcontrol=""
         />
       </div>
@@ -59,7 +53,6 @@ exports[`Peer - Manage - Request Job - Payfactors Job Selection Form should prov
         class="form-control ng-untouched ng-pristine ng-valid"
         formcontrolname="payfactorsJobSelection"
         name="hasSelection"
-        ng-reflect-name="payfactorsJobSelection"
         type="hidden"
         value="[object Object]"
       />

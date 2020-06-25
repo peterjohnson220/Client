@@ -57,15 +57,16 @@ describe('Comphub - Main - Summary Card Component', () => {
     fixture = TestBed.createComponent(SummaryCardComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    currencyPipe = TestBed.get(CurrencyPipe);
-    exchangeExplorerContextService = TestBed.get(ExchangeExplorerContextService);
+    store = TestBed.inject(Store);
+    currencyPipe = TestBed.inject(CurrencyPipe);
+    exchangeExplorerContextService = TestBed.inject(ExchangeExplorerContextService);
+
+    fixture.detectChanges();
 
     instance.workflowContext = {
       ...generateMockWorkflowContext(),
       selectedPageId: ComphubPages.Summary
     };
-    fixture.detectChanges();
   });
 
   it('should dispatch a PriceNewJob action, when handling a Price New Job click', () => {

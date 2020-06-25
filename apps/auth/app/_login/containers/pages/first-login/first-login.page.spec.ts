@@ -37,7 +37,7 @@ describe('Auth - First Time Login', () => {
     fixture = TestBed.createComponent(FirstLoginPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
   });
 

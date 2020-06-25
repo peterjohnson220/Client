@@ -3,9 +3,6 @@ import * as settingsActions from './settings.actions';
 import * as controlActions from './control.actions';
 
 export type StatementEditPageActions =
-  statementActions.CloneStatementFromTemplate |
-  statementActions.CloneStatementFromTemplateSuccess |
-  statementActions.CloneStatementFromTemplateError |
   statementActions.ToggleStatementEditMode |
   statementActions.LoadStatement |
   statementActions.LoadStatementSuccess |

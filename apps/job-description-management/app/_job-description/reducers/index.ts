@@ -371,6 +371,16 @@ export const getJobDescriptionExtendedInfoAsync = createSelector(
   fromJobDescriptionReducer.getJobDescriptionExtendedInfoAsync
 );
 
+export const getJobDescriptionSSOLoginUrl = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionSSOLoginUrl
+);
+
+export const getJobDescriptionSSOAuthResult = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionSSOAuthResult
+);
+
 // Job Description Grid
 export const getJobDescriptionGridLoading = createSelector(
   selectJobDescriptionGridState,

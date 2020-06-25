@@ -194,6 +194,9 @@ pf-trs-image-control {
 }
 
 pf-effective-date {
+  .k-state-disabled {
+    opacity: 1; // kendo wants this to be .65 but keep at 1 so it doesn't look faded in preview/print
+  }
   .k-picker-wrap {
     height: 22px;
     width: 130px;
@@ -201,6 +204,7 @@ pf-effective-date {
       height: 22px;
       text-align: center;
       font-size: .95rem;
+      line-height: .95rem;
       padding: .25rem 0 .35rem 0;
       transition: transform .3s ease-in-out;
     }
@@ -222,8 +226,9 @@ pf-effective-date {
   }
 
   .preview-mode {
-    .k-picker-wrap {
+    .k-picker-wrap, .k-dateinput-wrap {
       border-color: transparent;
+      background-color: transparent; // in preview this element gets pushed into the gutter, so make it transparent
     }
     .k-select {
       display: none;
@@ -240,11 +245,13 @@ pf-effective-date {
   }
 }
 
-.modal-body{
-  height: 450px;
-  max-height: 450px;
-  overflow-y: auto;
-  padding: 15px 12px;
+pf-statement-assignment-modal {
+  .modal-body{
+    height: 450px;
+    max-height: 450px;
+    overflow-y: auto;
+    padding: 15px 12px;
+  }
 }
 
 @media print {

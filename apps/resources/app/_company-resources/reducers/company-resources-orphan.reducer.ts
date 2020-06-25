@@ -24,7 +24,7 @@ export interface State extends EntityState<OrphanedCompanyResource> {
     switch (action.type) {
       case fromCompanyResourcesPageActions.GETTING_COMPANY_RESOURCES_SUCCESS: {
         return {
-          ...adapter.addAll(action.payload.OrphanedCompanyResources, state)
+          ...adapter.setAll(action.payload.OrphanedCompanyResources, state)
         };
       }
       case fromCompanyResourcesPageActions.ADDING_COMPANY_RESOURCE_ORPHAN_SUCCESS: {

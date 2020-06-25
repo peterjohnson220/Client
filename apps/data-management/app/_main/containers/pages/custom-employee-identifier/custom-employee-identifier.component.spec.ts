@@ -24,7 +24,7 @@ describe('CustomEmployeeIdentifierComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(CustomEmployeeIdentifierComponent);
     instance = fixture.componentInstance;
     spyOn(store, 'dispatch');

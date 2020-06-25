@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
 import { AttachmentFileType } from '../../models/attachment-file-type.model';
 import { CommunityConstants } from '../../models/community-constants';
@@ -10,13 +10,18 @@ import { formatBytes } from '../../helpers/model-mapping.helper';
   styleUrls: ['./community-attachment.component.scss']
 })
 export class CommunityAttachmentComponent implements OnInit {
-
   @Input() attachment: CommunityAttachment;
+  @Input() disableCommunityAttachments: boolean;
+  @Input() hideAttachmentWarning: boolean;
+  @Output() onAttachmentClickedEvent = new EventEmitter<string>();
+
+  readonly ATTACHMENT_DOWNLOAD_URL_PREFIX = '/odata/CloudFiles.DownloadCommunityAttachment?FileName=';
 
   iconClass: string;
   iconFile: string;
   formattedSize: string;
 
+  disabledAttachmentMsg = CommunityConstants.DISABLED_ATTACHMENT_MESSAGE;
   maxNameSize = CommunityConstants.MAX_ATTACHMENT_NAME_LENGTH;
 
   constructor() { }
@@ -26,8 +31,18 @@ export class CommunityAttachmentComponent implements OnInit {
     this.formattedSize = formatBytes(this.attachment.Size);
   }
 
+  onAttachmentClicked() {
+    if (!this.disableCommunityAttachments && !this.hideAttachmentWarning) {
+      this.openWarningModal();
+    }
+  }
+
+  openWarningModal() {
+    this.onAttachmentClickedEvent.emit(this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName);
+  }
+
   getDownloadUrl() {
-      return `/odata/CloudFiles.DownloadCommunityAttachment?FileName=${this.attachment.CloudFileName}`;
+      return this.ATTACHMENT_DOWNLOAD_URL_PREFIX + this.attachment.CloudFileName;
   }
 
   setupIcons () {
@@ -44,6 +59,10 @@ export class CommunityAttachmentComponent implements OnInit {
         this.iconFile = 'file-excel';
         this.iconClass = 'excel';
         break;
+      case AttachmentFileType.Powerpoint.toLocaleLowerCase():
+        this.iconFile = 'file-powerpoint';
+        this.iconClass = 'powerpoint';
+        break;
       case AttachmentFileType.Image.toLocaleLowerCase():
         this.iconFile = 'file-image';
         this.iconClass = 'image';
@@ -52,6 +71,10 @@ export class CommunityAttachmentComponent implements OnInit {
         this.iconFile = 'file';
         this.iconClass = 'file';
         break;
+    }
+
+    if (this.disableCommunityAttachments) {
+      this.iconClass = `${this.iconClass} disabledIcon`;
     }
   }
 }

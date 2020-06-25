@@ -52,9 +52,9 @@ describe('Manage Exchange Page', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    gridHelperService = TestBed.get(GridHelperService);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    gridHelperService = TestBed.inject(GridHelperService);
+    activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.snapshot.params.id;
 
     spyOn(store, 'dispatch');

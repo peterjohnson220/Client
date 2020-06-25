@@ -16,7 +16,7 @@ import * as fromTemplateReducers from '../../../reducers';
 import {CopyTemplateModalComponent} from './copy-template-modal.component';
 
 describe('Job Description Management - Templates - Template List - Copy Template Modal', () => {
-  let instance = CopyTemplateModalComponent;
+  let instance: CopyTemplateModalComponent;
   let fixture: ComponentFixture<CopyTemplateModalComponent>;
   let store: Store<fromTemplateReducers.State>;
   let modal: NgbModal;
@@ -30,10 +30,10 @@ describe('Job Description Management - Templates - Template List - Copy Template
           ...fromRootState.reducers,
           jobdescriptionmanagement_templates: combineReducers(
             fromTemplateReducers.reducers
-          ),
-          FormsModule,
-          ReactiveFormsModule
-        })
+          )
+        }),
+        FormsModule,
+        ReactiveFormsModule
       ],
       declarations: [
         CopyTemplateModalComponent, NgbDropdown
@@ -55,8 +55,8 @@ describe('Job Description Management - Templates - Template List - Copy Template
     fixture = TestBed.createComponent(CopyTemplateModalComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should not emit copyTemplateComplete if template name exists', () => {

@@ -32,6 +32,7 @@ export interface DataViewField {
   SortDirection?: 'asc' | 'desc';
   IsPublic?: boolean;
   AccessLevel?: DataViewAccessLevel;
+  Width?: number;
 }
 
 export interface BaseFilter {

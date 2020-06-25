@@ -21,18 +21,15 @@
             [payMarket]="payMarket$ | async"
             (limitToPayMarketToggled)="handleLimitToPayMarketToggled()">
           </pf-pay-market-bounds-filter>
-
           <pf-exclude-indirect-matches-filter
             *ngIf="shouldShowExcludeIndirectJobMatchesFilter && (hasAdditionalJobLevels$ | async)"
             [enabled]="excludeIndirectJobMatches$ | async"
-            (filterToggled)="handleIncludeAdditionalJobLevelsToggled()"
-          ></pf-exclude-indirect-matches-filter>
-
+            (filterToggled)="handleIncludeAdditionalJobLevelsToggled()">
+          </pf-exclude-indirect-matches-filter>
           <pf-exchange-scope-selector
             *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowExchangeScopeSelector"
             [isExchangeJobSpecific]="true"
-            [exchangeId]="exchangeId"
-          >
+            [exchangeId]="exchangeId">
           </pf-exchange-scope-selector>
 
           <pf-peer-filter-info

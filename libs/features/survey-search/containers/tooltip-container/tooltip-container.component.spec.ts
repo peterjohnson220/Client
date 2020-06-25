@@ -27,7 +27,7 @@ describe('TooltipContainerComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(TooltipContainerComponent);
     instance = fixture.componentInstance;

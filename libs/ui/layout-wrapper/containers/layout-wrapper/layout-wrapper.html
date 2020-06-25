@@ -4,7 +4,8 @@
       <pf-layout-wrapper-header [dropdownNavigationLinks]="headerDropdownNavigationLinks$ | async"
                                 [userContext]="userContext$ | async"
                                 [homePageLink]="homePageLink$ | async"
-                                [enableCoreJdmInClient]="enableCoreJdmInClient">
+                                [enableCoreJdmInClient]="enableCoreJdmInClient"
+                                [requireSSOLogin]="requireSSOLogin$ | async">
       </pf-layout-wrapper-header>
     </div>
   </header>

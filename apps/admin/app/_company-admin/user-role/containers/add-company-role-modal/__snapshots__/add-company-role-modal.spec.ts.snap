@@ -15,17 +15,7 @@ exports[`AddCompanyRoleModalComponent should match snapshot 1`] = `
   userContext$={[Function Store]}
   validationService={[Function UserRoleValidationService]}
 >
-  <pf-modal-form
-    ng-reflect-backdrop="true"
-    ng-reflect-form-group="[object Object]"
-    ng-reflect-is-open_="[object Object]"
-    ng-reflect-modal-id="au-modal-add-company-role"
-    ng-reflect-primary-button-text="Create"
-    ng-reflect-reset-form-on-close="true"
-    ng-reflect-size="md"
-    ng-reflect-submitting="false"
-    ng-reflect-title="Create New Role"
-  >
+  <pf-modal-form>
     
     
     

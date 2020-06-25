@@ -23,7 +23,7 @@ import * as fromUpsertPeerDataReducers from '../../../reducers';
   styleUrls: ['./upsert-data-cut.page.scss']
 })
 export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
-  @ViewChild(MapComponent, { static: false }) map: MapComponent;
+  @ViewChild(MapComponent) map: MapComponent;
 
   upsertDataCutPageInViewInIframe$: Observable<boolean>;
   peerMapCompanies$: Observable<any>;

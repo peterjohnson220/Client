@@ -30,7 +30,7 @@ describe('Libs - Infinite Scroll - ', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(InfiniteScrollComponent);
     instance = fixture.componentInstance;

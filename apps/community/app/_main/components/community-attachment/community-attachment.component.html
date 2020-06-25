@@ -1,16 +1,17 @@
-<a href={{getDownloadUrl()}}>
+<a (click)="onAttachmentClicked()" [attr.href]="hideAttachmentWarning && !disableCommunityAttachments ? getDownloadUrl() : null">
   <div placement="top" [ngbTooltip]="toolTip">
-    <div class="container">
+    <div class="container" [ngClass]="{'disabledAttachment': disableCommunityAttachments}">
       <fa-icon icon="{{iconFile}}" size="lg" class="icon {{iconClass}} mr-1"></fa-icon> 
       <p>{{attachment.Name | TruncateAfter: maxNameSize}}</p>
     </div>
   </div>
 </a>
 <ng-template #toolTip>
-  <div class="d-flex flex-column">
+  <div *ngIf="!disableCommunityAttachments" class="d-flex flex-column">
     <span>{{attachment.Name}}</span>
     <span>{{formattedSize}}</span>
   </div>
+  <div *ngIf="disableCommunityAttachments">
+    <span>{{disabledAttachmentMsg}}</span>
+  </div>
 </ng-template>
-
-

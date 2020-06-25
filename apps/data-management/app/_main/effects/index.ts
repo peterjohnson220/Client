@@ -9,3 +9,4 @@ export * from './entity-identifiers.effects';
 export * from './entity-selection.effects';
 export * from './outbound-jdm.effects';
 export * from './provider-list.effect';
+export * from './on-demand-sync.effects';

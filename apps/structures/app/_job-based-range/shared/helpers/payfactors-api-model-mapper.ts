@@ -23,7 +23,10 @@ export class PayfactorsApiModelMapper {
       ModelName: srgr.RangeGroupName,
       SpreadMin: srgr.RangeSpreadMin,
       SpreadMax: srgr.RangeSpreadMax,
-      IsCurrent: srgr.IsCurrent
+      IsCurrent: srgr.IsCurrent,
+      RangeDistributionTypeId: srgr.RangeDistributionTypeId ?? 1,
+      RangeDistributionTypes: srgr.RangeDistributionTypes,
+      RangeDistributionSetting: srgr.RangeDistributionSetting
     };
   }
 
@@ -31,7 +34,9 @@ export class PayfactorsApiModelMapper {
     return cfr.map(cf => {
       return {
         FieldName: cf.FieldName,
-        Display: cf.AppDisplayName
+        Display: cf.AppDisplayName,
+        Category: cf.Category,
+        RangeDisplayName: cf.DisplayName
       };
     });
   }
@@ -49,17 +54,21 @@ export class PayfactorsApiModelMapper {
   ///
   /// OUT
   ///
-  static mapModelSettingsModalFormToSaveSettingsRequest(rangeGroupId: number, formValue: any, rounding: RoundingSettingsDataObj): SaveModelSettingsRequest {
+  static mapModelSettingsModalFormToSaveSettingsRequest(
+    rangeGroupId: number, formValue: RangeGroupMetadata,
+    rounding: RoundingSettingsDataObj): SaveModelSettingsRequest {
     return {
       RangeGroupId: rangeGroupId,
-      ControlPoint: formValue.controlPoint,
-      CurrencyCode: formValue.currency,
-      ModelName: formValue.modelName,
-      RangeSpreadMin: formValue.spreadMin,
-      RangeSpreadMax: formValue.spreadMax,
-      Rate: formValue.rate,
-      StructureName: formValue.structureName,
-      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding)
+      ControlPoint: formValue.ControlPoint,
+      CurrencyCode: formValue.Currency,
+      ModelName: formValue.ModelName,
+      RangeSpreadMin: formValue.SpreadMin,
+      RangeSpreadMax: formValue.SpreadMax,
+      Rate: formValue.Rate,
+      StructureName: formValue.StructureName,
+      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding),
+      RangeDistributionTypeId: formValue.RangeDistributionTypeId ?? 1,
+      RangeDistributionSetting: formValue.RangeDistributionSetting
     };
   }
 

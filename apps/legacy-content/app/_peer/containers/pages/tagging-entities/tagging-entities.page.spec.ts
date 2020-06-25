@@ -6,7 +6,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { SaveTagInformationRequest, TagInformationRequest } from 'libs/models/peer/requests';
-import { generateMockTag, generateMockTagInformation } from 'libs/models/peer';
+import { generateMockTag, generateMockTagInformation, TagEntityTypeEnum } from 'libs/models/peer';
 
 import * as fromTaggingEntitiesReducer from '../../../reducers';
 import * as fromTaggingEntitiesActions from '../../../actions/tagging-entities.actions';
@@ -43,8 +43,8 @@ describe('Legacy Content - Tags - Tagging Entities', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.snapshot.queryParams.id;
     routeEtParam = activatedRoute.snapshot.queryParams.et;
 
@@ -53,7 +53,7 @@ describe('Legacy Content - Tags - Tagging Entities', () => {
     fixture = TestBed.createComponent(TaggingEntitiesPageComponent);
     instance = fixture.componentInstance;
     instance.entityId = routeIdParam;
-    instance.entityType = routeEtParam;
+    instance.entityType = routeEtParam as TagEntityTypeEnum;
   });
 
   it('should match snapshot of page', () => {

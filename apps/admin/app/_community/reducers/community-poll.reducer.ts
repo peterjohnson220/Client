@@ -51,7 +51,7 @@ export function reducer(state = initialState, action: communityPollActions.Actio
     }
     case communityPollActions.LOADING_COMMUNITY_POLLS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
+        ...adapter.setAll(action.payload, state),
         loading: false
       };
     }

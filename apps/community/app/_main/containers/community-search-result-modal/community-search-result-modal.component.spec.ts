@@ -9,6 +9,7 @@ import * as fromCommunityPostActions from '../../actions/community-post.actions'
 
 import * as fromRootState from 'libs/state/state';
 
+import { SettingsService } from 'libs/state/app-context/services';
 import { generateMockCommunityPost } from 'libs/models';
 import { CommunitySearchResultModalComponent } from './community-search-result-modal.component';
 
@@ -17,6 +18,7 @@ describe('CommunityPostSearchResultComponent', () => {
   let instance: CommunitySearchResultModalComponent;
   let store: Store<fromRootState.State>;
   let router: Router;
+  let settings: SettingsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,6 +28,7 @@ describe('CommunityPostSearchResultComponent', () => {
         })
       ],
       providers: [
+        SettingsService,
         {
           provide: Router,
           useValue: { navigate: jest.fn() },
@@ -36,8 +39,9 @@ describe('CommunityPostSearchResultComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    settings = TestBed.inject(SettingsService);
     spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunitySearchResultModalComponent);

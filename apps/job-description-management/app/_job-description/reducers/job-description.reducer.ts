@@ -29,6 +29,8 @@ export interface State {
   deleting: boolean;
   deletingError: boolean;
   deletingSuccess: boolean;
+  ssoLoginUrl: string;
+  ssoAuthResult: any;
 }
 
 export const initialState: State = {
@@ -48,7 +50,9 @@ export const initialState: State = {
   replaceJobDescriptionComplete: false,
   deleting: false,
   deletingError: false,
-  deletingSuccess: false
+  deletingSuccess: false,
+  ssoLoginUrl: null,
+  ssoAuthResult: null
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.Actions): State {
@@ -425,6 +429,18 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         ...state,
         jobDescriptionAsync: asyncStateObjClone
       };
+    case fromJobDescriptionActions.GET_SSO_LOGIN_URL_SUCCESS: {
+      return {
+        ...state,
+        ssoLoginUrl: action.payload
+      };
+    }
+    case fromJobDescriptionActions.AUTHENTICATE_SSO_PARAMS_SUCCESS: {
+      return {
+        ...state,
+        ssoAuthResult: action.payload
+      };
+    }
     default:
       return state;
   }
@@ -446,4 +462,6 @@ export const getDeletingJobDescriptionSuccess = (state: State) => state.deleting
 export const getDeletingJobDescriptionError = (state: State) => state.deletingError;
 export const getJobDescriptionExtendedInfoAsync = (state: State) => state.GettingJobDescriptionExtendedInfoAsync;
 export const getReplaceJobDescriptionComplete = (state: State) => state.replaceJobDescriptionComplete;
+export const getJobDescriptionSSOLoginUrl = (state: State) => state.ssoLoginUrl;
+export const getJobDescriptionSSOAuthResult = (state: State) => state.ssoAuthResult;
 

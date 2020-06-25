@@ -15,7 +15,6 @@ exports[`Comphub - Salary Bar Trend Component should display minus sign when per
       
       <span
         class="text-danger"
-        ng-reflect-ng-class="text-danger"
       >
          - 
       </span>
@@ -61,7 +60,6 @@ exports[`Comphub - Salary Bar Trend Component should display plus sign when perc
       
       <span
         class="plus-sign"
-        ng-reflect-ng-class="plus-sign"
       >
          + 
       </span>

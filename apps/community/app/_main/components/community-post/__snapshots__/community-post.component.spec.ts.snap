@@ -2,11 +2,18 @@
 
 exports[`CommunityPostComponent should show post 1`] = `
 <pf-community-post
-  addReplyViewStore={[Function Store]}
+  discardingPostId={[Function String]}
+  discardingPostId$={[Function Observable]}
+  discardingPostIdSubscription={[Function Subscriber]}
+  discardingPostReplyProceed$={[Function Observable]}
+  discardingPostReplyProceedSubscription={[Function Subscriber]}
   filtersModifiedEvent={[Function EventEmitter]}
+  onAttachmentClickedEvent={[Function EventEmitter]}
   pollsType={[Function Number]}
   post={[Function Object]}
-  replyStore={[Function Store]}
+  showAddReply="false"
+  showReplies="false"
+  store={[Function Store]}
 >
   <div
     class="pl-1 col-12"

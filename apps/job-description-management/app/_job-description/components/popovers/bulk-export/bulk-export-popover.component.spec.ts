@@ -35,8 +35,8 @@ describe('Job Description Management - Job Description - Bulk Export Popover', (
     fixture = TestBed.createComponent(BulkExportPopoverComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should call exportLogic and then close the popover, when calling export', () => {

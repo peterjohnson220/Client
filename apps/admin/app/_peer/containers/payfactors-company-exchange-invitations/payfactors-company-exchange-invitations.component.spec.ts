@@ -43,8 +43,8 @@ describe('Payfactors Company Exchange Invitations', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.snapshot.parent.params.id;
 
     spyOn(store, 'dispatch');

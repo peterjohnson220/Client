@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { EmployeeSearchResult } from 'libs/models/payfactors-api/employee-search/response/employee-search-response.model';
+import { EmployeeSearchResult } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
 
 export const REPLACE_EMPLOYEE_RESULTS = '[Total Rewards / Employee Search] Replace Employee Search Results';
 export const ADD_EMPLOYEE_RESULTS = '[Total Rewards / Employee Search] Add Employee Search Results';

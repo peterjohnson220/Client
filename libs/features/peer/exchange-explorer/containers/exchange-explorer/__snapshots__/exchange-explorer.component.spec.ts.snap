@@ -1,0 +1,459 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Libs - Features - Peer - Exchange Explorer should load the exchange explorer with default options 1`] = `
+<pf-exchange-explorer
+  exchangeExplorerStore={[Function Store]}
+  exchangeJobFilterOptions$={[Function Store]}
+  exchangeJobSelectorStatic="false"
+  excludeIndirectJobMatches$={[Function Store]}
+  hasAdditionalJobLevels$={[Function Store]}
+  jobSelectorRequiresPayMarket={[Function Boolean]}
+  limitToPayMarket$={[Function Store]}
+  mapSummary$={[Function Store]}
+  numberOfResults$={[Function Store]}
+  pageShown$={[Function Store]}
+  payMarket$={[Function Store]}
+  searchingChildFilters$={[Function Store]}
+  searchingFilter$={[Function Store]}
+  selectedExchangeJobId$={[Function Store]}
+  selectionsCount$={[Function Store]}
+  settingsService={[Function SettingsService]}
+  shouldShowExchangeScopeSelector={[Function Boolean]}
+  shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
+  shouldShowPayMarketBoundsFilter={[Function Boolean]}
+  store={[Function Store]}
+>
+  <pf-search-layout>
+    
+    <pf-search-filters
+      defaultdisplayvalue="flex"
+    >
+      
+      <div
+        class="d-flex flex-column"
+      >
+        
+        
+        
+        
+        <pf-peer-filter-info />
+      </div>
+    </pf-search-filters>
+    
+    
+    
+    <pf-exchange-explorer-map />
+    
+    
+  </pf-search-layout>
+</pf-exchange-explorer>
+`;
+
+exports[`Libs - Features - Peer - Exchange Explorer should show a disabled paymarket bounds filter if there is a payMarket, shouldShowPayMarketBoundsFilter is set to true and limitToPaymarket$ is false 1`] = `
+<pf-exchange-explorer
+  exchangeExplorerStore={[Function Store]}
+  exchangeJobFilterOptions$={[Function Store]}
+  exchangeJobSelectorStatic="false"
+  excludeIndirectJobMatches$={[Function Store]}
+  hasAdditionalJobLevels$={[Function Store]}
+  jobSelectorRequiresPayMarket={[Function Boolean]}
+  limitToPayMarket$={[Function Observable]}
+  mapSummary$={[Function Store]}
+  numberOfResults$={[Function Store]}
+  pageShown$={[Function Store]}
+  payMarket$={[Function Observable]}
+  searchingChildFilters$={[Function Store]}
+  searchingFilter$={[Function Store]}
+  selectedExchangeJobId$={[Function Store]}
+  selectionsCount$={[Function Store]}
+  settingsService={[Function SettingsService]}
+  shouldShowExchangeScopeSelector={[Function Boolean]}
+  shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
+  shouldShowPayMarketBoundsFilter={[Function Boolean]}
+  store={[Function Store]}
+>
+  <pf-search-layout>
+    
+    <pf-search-filters
+      defaultdisplayvalue="flex"
+    >
+      
+      <div
+        class="d-flex flex-column"
+      >
+        
+        
+        <pf-pay-market-bounds-filter />
+        
+        
+        <pf-exchange-scope-selector />
+        <pf-peer-filter-info />
+      </div>
+    </pf-search-filters>
+    
+    
+    
+    <pf-exchange-explorer-map />
+    
+    
+  </pf-search-layout>
+</pf-exchange-explorer>
+`;
+
+exports[`Libs - Features - Peer - Exchange Explorer should show pf-child-filter if searchingChildFilters$ is true 1`] = `
+<pf-exchange-explorer
+  exchangeExplorerStore={[Function Store]}
+  exchangeJobFilterOptions$={[Function Store]}
+  exchangeJobSelectorStatic="false"
+  excludeIndirectJobMatches$={[Function Store]}
+  hasAdditionalJobLevels$={[Function Store]}
+  jobSelectorRequiresPayMarket={[Function Boolean]}
+  limitToPayMarket$={[Function Store]}
+  mapSummary$={[Function Store]}
+  numberOfResults$={[Function Store]}
+  pageShown$={[Function Store]}
+  payMarket$={[Function Store]}
+  searchingChildFilters$={[Function Observable]}
+  searchingFilter$={[Function Store]}
+  selectedExchangeJobId$={[Function Store]}
+  selectionsCount$={[Function Store]}
+  settingsService={[Function SettingsService]}
+  shouldShowExchangeScopeSelector={[Function Boolean]}
+  shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
+  shouldShowPayMarketBoundsFilter={[Function Boolean]}
+  store={[Function Store]}
+>
+  <pf-search-layout>
+    
+    <pf-search-filters
+      defaultdisplayvalue="flex"
+    >
+      
+      <div
+        class="d-flex flex-column"
+      >
+        
+        
+        
+        
+        <pf-peer-filter-info />
+      </div>
+    </pf-search-filters>
+    
+    
+    
+    <div
+      class="child-filters-sidebar"
+    >
+      <pf-child-filter />
+    </div>
+    <pf-exchange-explorer-map />
+    
+    
+  </pf-search-layout>
+</pf-exchange-explorer>
+`;
+
+exports[`Libs - Features - Peer - Exchange Explorer should show pf-single-filter if searchingFilter$ is true 1`] = `
+<pf-exchange-explorer
+  exchangeExplorerStore={[Function Store]}
+  exchangeJobFilterOptions$={[Function Store]}
+  exchangeJobSelectorStatic="false"
+  excludeIndirectJobMatches$={[Function Store]}
+  hasAdditionalJobLevels$={[Function Store]}
+  jobSelectorRequiresPayMarket={[Function Boolean]}
+  limitToPayMarket$={[Function Store]}
+  mapSummary$={[Function Store]}
+  numberOfResults$={[Function Store]}
+  pageShown$={[Function Store]}
+  payMarket$={[Function Store]}
+  searchingChildFilters$={[Function Store]}
+  searchingFilter$={[Function Observable]}
+  selectedExchangeJobId$={[Function Store]}
+  selectionsCount$={[Function Store]}
+  settingsService={[Function SettingsService]}
+  shouldShowExchangeScopeSelector={[Function Boolean]}
+  shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
+  shouldShowPayMarketBoundsFilter={[Function Boolean]}
+  store={[Function Store]}
+>
+  <pf-search-layout>
+    
+    <pf-search-filters
+      defaultdisplayvalue="flex"
+    >
+      
+      <div
+        class="d-flex flex-column"
+      >
+        
+        
+        
+        
+        <pf-peer-filter-info />
+      </div>
+    </pf-search-filters>
+    
+    <pf-single-filter />
+    
+    
+    <pf-exchange-explorer-map />
+    
+    
+  </pf-search-layout>
+</pf-exchange-explorer>
+`;
+
+exports[`Libs - Features - Peer - Exchange Explorer should show the exchange job selector if jobSelectorRequiresPayMarket is false and there are values in exchangeJobFilterOptions$ 1`] = `
+<pf-exchange-explorer
+  exchangeExplorerStore={[Function Store]}
+  exchangeJobFilterOptions$={[Function Observable]}
+  exchangeJobSelectorStatic="false"
+  excludeIndirectJobMatches$={[Function Store]}
+  hasAdditionalJobLevels$={[Function Store]}
+  jobSelectorRequiresPayMarket="false"
+  limitToPayMarket$={[Function Store]}
+  mapSummary$={[Function Store]}
+  numberOfResults$={[Function Store]}
+  pageShown$={[Function Store]}
+  payMarket$={[Function Store]}
+  searchingChildFilters$={[Function Store]}
+  searchingFilter$={[Function Store]}
+  selectedExchangeJobId$={[Function Store]}
+  selectionsCount$={[Function Store]}
+  settingsService={[Function SettingsService]}
+  shouldShowExchangeScopeSelector={[Function Boolean]}
+  shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
+  shouldShowPayMarketBoundsFilter={[Function Boolean]}
+  store={[Function Store]}
+>
+  <pf-search-layout>
+    
+    <pf-search-filters
+      defaultdisplayvalue="flex"
+    >
+      
+      <div
+        class="d-flex flex-column"
+      >
+        
+        <pf-exchange-job-selector />
+        
+        
+        
+        <pf-peer-filter-info />
+      </div>
+    </pf-search-filters>
+    
+    
+    
+    <pf-exchange-explorer-map />
+    
+    
+  </pf-search-layout>
+</pf-exchange-explorer>
+`;
+
+exports[`Libs - Features - Peer - Exchange Explorer should show the exchange job selector if there is a payMarket and there are values in exchangeJobFilterOptions$ 1`] = `
+<pf-exchange-explorer
+  exchangeExplorerStore={[Function Store]}
+  exchangeJobFilterOptions$={[Function Observable]}
+  exchangeJobSelectorStatic="false"
+  excludeIndirectJobMatches$={[Function Store]}
+  hasAdditionalJobLevels$={[Function Store]}
+  jobSelectorRequiresPayMarket={[Function Boolean]}
+  limitToPayMarket$={[Function Store]}
+  mapSummary$={[Function Store]}
+  numberOfResults$={[Function Store]}
+  pageShown$={[Function Store]}
+  payMarket$={[Function Observable]}
+  searchingChildFilters$={[Function Store]}
+  searchingFilter$={[Function Store]}
+  selectedExchangeJobId$={[Function Store]}
+  selectionsCount$={[Function Store]}
+  settingsService={[Function SettingsService]}
+  shouldShowExchangeScopeSelector={[Function Boolean]}
+  shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
+  shouldShowPayMarketBoundsFilter={[Function Boolean]}
+  store={[Function Store]}
+>
+  <pf-search-layout>
+    
+    <pf-search-filters
+      defaultdisplayvalue="flex"
+    >
+      
+      <div
+        class="d-flex flex-column"
+      >
+        
+        <pf-exchange-job-selector />
+        
+        <pf-pay-market-bounds-filter />
+        
+        
+        <pf-exchange-scope-selector />
+        <pf-peer-filter-info />
+      </div>
+    </pf-search-filters>
+    
+    
+    
+    <pf-exchange-explorer-map />
+    
+    
+  </pf-search-layout>
+</pf-exchange-explorer>
+`;
+
+exports[`Libs - Features - Peer - Exchange Explorer should show the exchange scope selector if there is a payMarket and shouldShowExchangeScopeSelector is set to true 1`] = `
+<pf-exchange-explorer
+  exchangeExplorerStore={[Function Store]}
+  exchangeJobFilterOptions$={[Function Store]}
+  exchangeJobSelectorStatic="false"
+  excludeIndirectJobMatches$={[Function Store]}
+  hasAdditionalJobLevels$={[Function Store]}
+  jobSelectorRequiresPayMarket={[Function Boolean]}
+  limitToPayMarket$={[Function Store]}
+  mapSummary$={[Function Store]}
+  numberOfResults$={[Function Store]}
+  pageShown$={[Function Store]}
+  payMarket$={[Function Observable]}
+  searchingChildFilters$={[Function Store]}
+  searchingFilter$={[Function Store]}
+  selectedExchangeJobId$={[Function Store]}
+  selectionsCount$={[Function Store]}
+  settingsService={[Function SettingsService]}
+  shouldShowExchangeScopeSelector={[Function Boolean]}
+  shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
+  shouldShowPayMarketBoundsFilter={[Function Boolean]}
+  store={[Function Store]}
+>
+  <pf-search-layout>
+    
+    <pf-search-filters
+      defaultdisplayvalue="flex"
+    >
+      
+      <div
+        class="d-flex flex-column"
+      >
+        
+        
+        <pf-pay-market-bounds-filter />
+        
+        
+        <pf-exchange-scope-selector />
+        <pf-peer-filter-info />
+      </div>
+    </pf-search-filters>
+    
+    
+    
+    <pf-exchange-explorer-map />
+    
+    
+  </pf-search-layout>
+</pf-exchange-explorer>
+`;
+
+exports[`Libs - Features - Peer - Exchange Explorer should show the exclude indirect matches filter if shouldShowExcludeIndirectJobMatchesFilter is true and hasAdditionalJobLevels$ is not true 1`] = `
+<pf-exchange-explorer
+  exchangeExplorerStore={[Function Store]}
+  exchangeJobFilterOptions$={[Function Store]}
+  exchangeJobSelectorStatic="false"
+  excludeIndirectJobMatches$={[Function Store]}
+  hasAdditionalJobLevels$={[Function Observable]}
+  jobSelectorRequiresPayMarket={[Function Boolean]}
+  limitToPayMarket$={[Function Store]}
+  mapSummary$={[Function Store]}
+  numberOfResults$={[Function Store]}
+  pageShown$={[Function Store]}
+  payMarket$={[Function Store]}
+  searchingChildFilters$={[Function Store]}
+  searchingFilter$={[Function Store]}
+  selectedExchangeJobId$={[Function Store]}
+  selectionsCount$={[Function Store]}
+  settingsService={[Function SettingsService]}
+  shouldShowExchangeScopeSelector={[Function Boolean]}
+  shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
+  shouldShowPayMarketBoundsFilter={[Function Boolean]}
+  store={[Function Store]}
+>
+  <pf-search-layout>
+    
+    <pf-search-filters
+      defaultdisplayvalue="flex"
+    >
+      
+      <div
+        class="d-flex flex-column"
+      >
+        
+        
+        
+        <pf-exclude-indirect-matches-filter />
+        
+        <pf-peer-filter-info />
+      </div>
+    </pf-search-filters>
+    
+    
+    
+    <pf-exchange-explorer-map />
+    
+    
+  </pf-search-layout>
+</pf-exchange-explorer>
+`;
+
+exports[`Libs - Features - Peer - Exchange Explorer should show the paymarket bounds filter if there is a payMarket and shouldShowPayMarketBoundsFilter is set to true 1`] = `
+<pf-exchange-explorer
+  exchangeExplorerStore={[Function Store]}
+  exchangeJobFilterOptions$={[Function Store]}
+  exchangeJobSelectorStatic="false"
+  excludeIndirectJobMatches$={[Function Store]}
+  hasAdditionalJobLevels$={[Function Store]}
+  jobSelectorRequiresPayMarket={[Function Boolean]}
+  limitToPayMarket$={[Function Store]}
+  mapSummary$={[Function Store]}
+  numberOfResults$={[Function Store]}
+  pageShown$={[Function Store]}
+  payMarket$={[Function Observable]}
+  searchingChildFilters$={[Function Store]}
+  searchingFilter$={[Function Store]}
+  selectedExchangeJobId$={[Function Store]}
+  selectionsCount$={[Function Store]}
+  settingsService={[Function SettingsService]}
+  shouldShowExchangeScopeSelector={[Function Boolean]}
+  shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
+  shouldShowPayMarketBoundsFilter={[Function Boolean]}
+  store={[Function Store]}
+>
+  <pf-search-layout>
+    
+    <pf-search-filters
+      defaultdisplayvalue="flex"
+    >
+      
+      <div
+        class="d-flex flex-column"
+      >
+        
+        
+        <pf-pay-market-bounds-filter />
+        
+        
+        <pf-exchange-scope-selector />
+        <pf-peer-filter-info />
+      </div>
+    </pf-search-filters>
+    
+    
+    
+    <pf-exchange-explorer-map />
+    
+    
+  </pf-search-layout>
+</pf-exchange-explorer>
+`;

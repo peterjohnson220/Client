@@ -34,7 +34,7 @@ describe('Admin - Tickets - Ticket Detail Card', () => {
     fixture = TestBed.createComponent(TicketDetailCardComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('Should display details about a ticket', () => {

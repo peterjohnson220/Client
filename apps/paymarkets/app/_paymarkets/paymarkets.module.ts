@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -37,6 +37,7 @@ import { GridActionsBarEffects, PayMarketsPageEffects } from './effects';
     ]),
     FontAwesomeModule,
     NgbPopoverModule,
+    NgbDropdownModule,
 
     // Payfactors
     PfCommonModule,

@@ -29,6 +29,10 @@ export const SAVING_COMMUNITY_POST_REPLY_EDIT = '[Community/Post Replies] Saving
 export const SAVING_COMMUNITY_POST_REPLY_EDIT_SUCCESS = '[Community/Post Replies] Saving Community Post Reply Edit Success';
 export const SAVING_COMMUNITY_POST_REPLY_EDIT_ERROR = '[Community/Post Replies] Saving Community Post Reply Edit Error';
 
+export const DISCARDING_COMMUNITY_POST_REPLY = '[Community/Post Replies] Discarding Community Post Reply';
+export const DISCARDING_COMMUNITY_POST_REPLY_PROCEED = '[Community/Post Replies] Discarding Community Post Reply Proceed';
+export const DISCARDING_COMMUNITY_POST_REPLY_CANCEL = '[Community/Post Replies] Canceling Community Post Reply Cancel';
+
 export class GettingCommunityPostReplies implements Action {
   readonly type = GETTING_COMMUNITY_POST_REPLIES;
   constructor(public payload: any) {}
@@ -129,6 +133,18 @@ export class SavingCommunityPostReplyEditError implements Action {
   readonly type = SAVING_COMMUNITY_POST_REPLY_EDIT_ERROR;
 }
 
+export class DiscardingCommunityPostReply implements Action {
+  readonly type = DISCARDING_COMMUNITY_POST_REPLY;
+  constructor(public postId: string, public showWarning: boolean) {}
+}
+
+export class DiscardingCommunityPostReplyProceed implements Action {
+  readonly type = DISCARDING_COMMUNITY_POST_REPLY_PROCEED;
+}
+
+export class DiscardingCommunityPostReplyCancel implements Action {
+  readonly type = DISCARDING_COMMUNITY_POST_REPLY_CANCEL;
+}
 
 export type Actions
   = GettingCommunityPostReplies
@@ -152,4 +168,7 @@ export type Actions
   | CancelEditingCommunityPostReplyError
   | SavingCommunityPostReplyEdit
   | SavingCommunityPostReplyEditSuccess
-  | SavingCommunityPostReplyEditError;
+  | SavingCommunityPostReplyEditError
+  | DiscardingCommunityPostReply
+  | DiscardingCommunityPostReplyProceed
+  | DiscardingCommunityPostReplyCancel;

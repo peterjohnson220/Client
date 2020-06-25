@@ -12,9 +12,7 @@ exports[`TilePreviewList should not display main button when main button url is 
     <tr>
       
       
-      <td
-        ng-reflect-ng-class="[object Object]"
-      >
+      <td>
         
         
         <a
@@ -28,7 +26,6 @@ exports[`TilePreviewList should not display main button when main button url is 
       
       <td
         class="hideable"
-        ng-reflect-ng-class="[object Object]"
       >
         
         <p
@@ -43,7 +40,6 @@ exports[`TilePreviewList should not display main button when main button url is 
       
       <td
         class="hideable"
-        ng-reflect-ng-class="[object Object]"
       >
         
         <p
@@ -58,7 +54,6 @@ exports[`TilePreviewList should not display main button when main button url is 
       
       <td
         class="w-10"
-        ng-reflect-ng-class="[object Object]"
       >
         
         
@@ -87,29 +82,24 @@ exports[`TilePreviewList should show data with columns when data is given and sh
     <tr>
       
       
-      <th
-        ng-reflect-ng-class="[object Object]"
-      >
+      <th>
          Project Name 
       </th>
       
       <th
         class="hideable"
-        ng-reflect-ng-class="[object Object]"
       >
          # Jobs 
       </th>
       
       <th
         class="hideable"
-        ng-reflect-ng-class="[object Object]"
       >
          Created 
       </th>
       
       <th
         class="w-10"
-        ng-reflect-ng-class="[object Object]"
       >
           
       </th>
@@ -118,9 +108,7 @@ exports[`TilePreviewList should show data with columns when data is given and sh
     <tr>
       
       
-      <td
-        ng-reflect-ng-class="[object Object]"
-      >
+      <td>
         
         
         <a
@@ -134,7 +122,6 @@ exports[`TilePreviewList should show data with columns when data is given and sh
       
       <td
         class="hideable"
-        ng-reflect-ng-class="[object Object]"
       >
         
         <p
@@ -149,7 +136,6 @@ exports[`TilePreviewList should show data with columns when data is given and sh
       
       <td
         class="hideable"
-        ng-reflect-ng-class="[object Object]"
       >
         
         <p
@@ -164,7 +150,6 @@ exports[`TilePreviewList should show data with columns when data is given and sh
       
       <td
         class="w-10"
-        ng-reflect-ng-class="[object Object]"
       >
         
         
@@ -194,9 +179,7 @@ exports[`TilePreviewList should show data without columns when data is given and
     <tr>
       
       
-      <td
-        ng-reflect-ng-class="[object Object]"
-      >
+      <td>
         
         
         <a
@@ -210,7 +193,6 @@ exports[`TilePreviewList should show data without columns when data is given and
       
       <td
         class="hideable"
-        ng-reflect-ng-class="[object Object]"
       >
         
         <p
@@ -225,7 +207,6 @@ exports[`TilePreviewList should show data without columns when data is given and
       
       <td
         class="hideable"
-        ng-reflect-ng-class="[object Object]"
       >
         
         <p
@@ -240,7 +221,6 @@ exports[`TilePreviewList should show data without columns when data is given and
       
       <td
         class="w-10"
-        ng-reflect-ng-class="[object Object]"
       >
         
         

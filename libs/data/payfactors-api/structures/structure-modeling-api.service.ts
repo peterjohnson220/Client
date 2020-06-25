@@ -10,7 +10,8 @@ import {
   StructureRangeGroupResponse,
   RecalculateRangesWithoutMidRequest,
   AddJobRangesRequest,
-  JobSearchRequestStructuresRangeGroup
+  JobSearchRequestStructuresRangeGroup,
+  RemoveRangeRequest
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange } from 'libs/models/structures';
 
@@ -39,6 +40,10 @@ export class StructureModelingApiService {
 
   recalculateRangesWithoutMid(request: RecalculateRangesWithoutMidRequest): Observable<StructureRangeGroupResponse> {
     return this.payfactorsApiService.post<StructureRangeGroupResponse>(`${this.endpoint}/RecalculateRangesWithoutMid`, request);
+  }
+
+  removeRange(request: RemoveRangeRequest): Observable<boolean> {
+    return this.payfactorsApiService.post<boolean>(`${this.endpoint}/RemoveRange`, request);
   }
 
   addJobsToRangeGroup(request: AddJobRangesRequest): Observable<CompanyStructureRange[]> {

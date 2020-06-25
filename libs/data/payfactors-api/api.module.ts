@@ -16,7 +16,6 @@ import {
   JobSearchApiService,
   SurveySearchApiService,
   ExchangeJobSearchApiService,
-  EmployeeSearchApiService
 } from './search';
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
@@ -34,7 +33,9 @@ import {
   DataLoadEmailRecipientsApiService,
   LoaderFieldMappingsApiService,
   LoaderSettingsApiService,
-  OrgDataLoaderConfigurationApiService, SftpUserApiService
+  OrgDataLoaderConfigurationApiService,
+  SftpUserApiService,
+  PricingLoaderApiService
 } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
@@ -51,6 +52,7 @@ import {
   ConnectionsHrisApiService,
   HrisApiService,
   MappingsHrisApiService,
+  OnDemandSyncHrisApiService,
   ProvidersHrisApiService,
   SyncScheduleHrisApiService,
   TransferMethodsHrisApiService
@@ -61,7 +63,7 @@ import { CompanyResourcesApiService } from './company-resources';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
 import { JobsApiService } from './jobs';
 import {DataImportApiService} from './integration/data-import';
-import { TotalRewardsApiService } from './total-rewards';
+import { TotalRewardsApiService, TotalRewardsSearchApiService } from './total-rewards';
 import { SsoConfigApiService } from './sso';
 import { CurrencyApiService } from './currency';
 import { CompositeFieldApiService } from './composite-field';
@@ -71,6 +73,7 @@ import { CountryApiService } from './country';
 import { EntityKeysValidationApiService } from './validation';
 import { CaptchaApiService } from './captcha';
 import { ECommerceApiService } from './ecommerce';
+import { MarketDataFeedApiService } from './market-data-feed';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -130,6 +133,7 @@ import { ECommerceApiService } from './ecommerce';
     ConfigurationGroupApiService,
     DataImportApiService,
     TotalRewardsApiService,
+    TotalRewardsSearchApiService,
     SsoConfigApiService,
     CurrencyApiService,
     CompositeFieldApiService,
@@ -141,10 +145,11 @@ import { ECommerceApiService } from './ecommerce';
     StructureModelingApiService,
     OrgDataLoaderConfigurationApiService,
     SftpUserApiService,
+    PricingLoaderApiService,
     CaptchaApiService,
     ExchangeSignupFormApiService,
     ECommerceApiService,
-    EmployeeSearchApiService,
+    MarketDataFeedApiService,
 
     // PEER
     ExchangeApiService,
@@ -161,7 +166,8 @@ import { ECommerceApiService } from './ecommerce';
     AuthenticationTypesHrisApiService,
     ConnectionsHrisApiService,
     MappingsHrisApiService,
-    SyncScheduleHrisApiService
+    SyncScheduleHrisApiService,
+    OnDemandSyncHrisApiService,
   ]
 })
 export class PfApiModule { }

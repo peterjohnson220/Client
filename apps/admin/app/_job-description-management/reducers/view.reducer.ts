@@ -42,7 +42,7 @@ export function reducer(
     }
     case  fromJdmViewActions.LOADING_VIEWS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload.views, state),
+        ...adapter.setAll(action.payload.views, state),
         loading: false
       };
     }

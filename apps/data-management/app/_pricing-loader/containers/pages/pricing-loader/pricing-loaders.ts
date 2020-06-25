@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {filter, take, takeUntil} from 'rxjs/operators';
@@ -15,7 +15,7 @@ import { FILETYPES, MRPFIELDS } from '../../../constants';
   styleUrls: ['./pricing-loaders.scss']
 })
 
-export class PricingLoadersComponent implements OnInit {
+export class PricingLoadersComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject();
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
@@ -50,6 +50,11 @@ export class PricingLoadersComponent implements OnInit {
     this.companyStore.dispatch(new fromCompanySelectorActions.GetCompanies());
   }
 
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.unsubscribe();
+  }
+
   selectedEntities(): EntityChoice[] {
     if (!this.entities) {
       return [];
@@ -59,6 +64,14 @@ export class PricingLoadersComponent implements OnInit {
 
   goBack() {
     window.location.href = this.env.siteAdminUrl;
+  }
+
+  textWidth(value: number) {
+   return value.toString().length <= 3;
+  }
+
+  goDownload() {
+    window.open('/client/data-management/pricing-loader/pricing-loaders-download?company=' + this.selectedCompany.CompanyId + '-' + this.selectedCompany.CompanyName, '_blank');
   }
 }
 

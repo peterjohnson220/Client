@@ -1,0 +1,26 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Community Attachments'"
+  [showFooter]="true"
+  [centered]="true"
+  [isOpen$]="currentAttachmentWarningModalOpen$"
+  [resetFormOnClose]="true"
+  [backdrop]="true"
+  [showSubmit]="true"
+  [primaryButtonText]="'Continue'"
+  [secondaryButtonText]="'Cancel'"
+  (onDismiss)="handleModalDismissed()"
+  (onSubmit)="handleModalSubmit()">
+  <ng-container basic-content>
+    <div class="container m-2">
+      <p>By downloading this file, you are acknowledging that your organization has opted into the Open Community. Files
+        and attachments in the Open Community are provided by customers and third-parties. Although Payfactors takes
+        effort to scan these files on upload, users should make sure they are authorized by their organization to
+        download such files and have proper protective software and controls in place.</p>
+      <div class="mt-4">
+        <input type="checkbox" id="chkDismissMessage" class="k-checkbox mr-1" [(ngModel)]="dismissAttachmentWarning">
+        <label class="k-checkbox-label" for="chkDismissMessage">Don't show me this warning again</label>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>

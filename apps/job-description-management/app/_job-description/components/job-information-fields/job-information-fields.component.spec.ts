@@ -31,7 +31,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
     fixture = TestBed.createComponent(JobInformationFieldsComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should check all fields, when calling toggleAllJobInformationFields & allJobInformationFieldsSelected is false',

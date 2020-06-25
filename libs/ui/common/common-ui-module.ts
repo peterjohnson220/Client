@@ -28,7 +28,6 @@ import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
 import { SimpleYesNoModalComponent } from './simple-yes-no';
 import { LoadingProgressBarService } from './loading/service';
-import { MultiSelectDropdownComponent, ItemGroupComponent } from './multi-select-dropdown';
 import { PfTreeViewComponent, TreeViewCheckDirective } from './pf-treeview';
 import { JobTitleCodeComponent } from './job-title-code/job-title-code.component';
 
@@ -41,8 +40,6 @@ const components = [
   MultiSelectComponent,
   PeerAssociationColorBlockComponent,
   SimpleYesNoModalComponent,
-  MultiSelectDropdownComponent,
-  ItemGroupComponent,
   PfTreeViewComponent,
   JobTitleCodeComponent,
 

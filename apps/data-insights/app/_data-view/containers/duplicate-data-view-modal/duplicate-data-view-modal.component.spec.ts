@@ -46,8 +46,8 @@ describe('Data Insights - Duplicate Data View Modal Component', () => {
 
     fixture = TestBed.createComponent(DuplicateDataViewModalComponent);
     instance = fixture.componentInstance;
-    ngbModal = TestBed.get(NgbModal);
-    store = TestBed.get(Store);
+    ngbModal = TestBed.inject(NgbModal);
+    store = TestBed.inject(Store);
     instance.baseDataViewForm = new FormGroup({
       entity: new FormControl(''),
       name: new FormControl(''),

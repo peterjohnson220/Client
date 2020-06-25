@@ -59,6 +59,18 @@ export class SettingsService {
     });
   }
 
+  updateUiPersistenceSettingValue<TValue>(featureName: string, settingName: string, value: string) {
+    const dictionary$ = this.selectUiPersistenceSetting<{ [dictionaryKey: string]: TValue}>(featureName, settingName, 'json');
+
+    dictionary$.pipe(take(1)).subscribe((dictionary) => {
+      this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
+        FeatureArea: featureName,
+        SettingName: settingName,
+        SettingValue: value
+      }));
+    });
+  }
+
   selectUiPersistenceSetting<TValueType>(
     featureName: string,
     settingName: string,

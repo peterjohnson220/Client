@@ -61,7 +61,7 @@
       <kendo-grid-column width="40">
         <ng-template kendoGridCellTemplate let-statement="dataItem">
           <pf-grid-action-menu
-            [isOpen]="(openActionMenuStatementId$ | async) === statement?.Id"
+            [isOpen]="(openActionMenuStatement$ | async)?.Id === statement?.Id"
             [statement]="statement"
             (open)="onActionMenuOpen($event)"
             (close)="onActionMenuClose()"

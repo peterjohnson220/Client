@@ -1,8 +1,8 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { MultiSelectItemGroup } from 'libs/ui/common';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { GroupedListItem } from 'libs/models/list';
 
 export class TicketStateHelper {
 
@@ -14,18 +14,17 @@ export class TicketStateHelper {
     return updatedField;
   }
 
-  static createOpenState(): MultiSelectItemGroup {
+  static createOpenState(): GroupedListItem {
     return {
-      GroupIndex: 1,
-      Title: 'Open',
-      Items: [
+      Name: 'Open',
+      Value: 'Open',
+      TotalChildren: 2,
+      Children: [
         {
-          IsSelected: false,
           Value: 'In Progress',
           Name: 'In Progress'
         },
         {
-          IsSelected: false,
           Value: 'Waiting for Response',
           Name: 'Waiting for Response'
         }
@@ -40,5 +39,18 @@ export class TicketStateHelper {
       Value: null,
       Values: selectedStates
     };
+  }
+
+  static getTicketStateValues(selectedStates: string[]): string[] {
+    const results = [];
+    selectedStates.forEach(state => {
+      if (state === 'Open') {
+        results.push('In Progress');
+        results.push('Waiting for Response');
+      } else {
+        results.push(state);
+      }
+    });
+    return results;
   }
 }

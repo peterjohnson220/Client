@@ -12,7 +12,7 @@ import { TilePreviewPeer } from '../../../models';
   styleUrls: [ './tile-preview-peer.component.scss' ]
 })
 export class TilePreviewPeerComponent  implements OnInit {
-  @ViewChild(NgbCarousel, { static: false }) carousel: NgbCarousel;
+  @ViewChild(NgbCarousel) carousel: NgbCarousel;
   @Input() model: TilePreviewPeer;
 
   exchangePreviewModels: any[];

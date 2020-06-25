@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -33,6 +33,8 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
   get attachments() { return this.communityDiscussionForm.get('attachments'); }
   get isFormValid() { return this.communityDiscussionForm.valid; }
 
+  @Output() formChanged = new EventEmitter<boolean>();
+
   constructor(public store: Store<fromCommunityPostReducer.State>,
     private formBuilder: FormBuilder,
     public pfLinkifyService: PfLinkifyService) {
@@ -62,12 +64,16 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.communityDiscussionForm = this.formBuilder.group({
-      'content':   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.textMaxLength)]],
+      'content':   [null, [ Validators.required, Validators.minLength(1), Validators.maxLength(this.textMaxLength)]],
       'isInternalOnly':  [false],
       'topic': [null, [ Validators.required ]],
-      'attachments': []
+      'attachments': null
     });
 
+    this.communityDiscussionForm.valueChanges.subscribe(val => {
+      const hasData = val.content || val.topic ? true : false;
+      this.formChanged.emit(hasData);
+     });
   }
 
   submit(attachments: CommunityAttachment[]) {
@@ -92,5 +98,9 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
     };
 
     this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
+  }
+
+  resetForm() {
+    this.communityDiscussionForm.reset({ value: 'formState', isInternalOnly: false});
   }
 }

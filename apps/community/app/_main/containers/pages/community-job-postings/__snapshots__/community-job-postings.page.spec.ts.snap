@@ -11,7 +11,6 @@ exports[`CommunityJobPostingsPageComponent should show community job postings pa
     
     <div
       class="search-results-container-full-height"
-      ng-reflect-ng-class="[object Object]"
     >
       <pf-community-jobs />
     </div>

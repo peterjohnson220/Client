@@ -34,7 +34,7 @@ describe('Project - Add Jobs - Paymarkets Component', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(PaymarketsComponent);
     instance = fixture.componentInstance;

@@ -1,4 +1,4 @@
-import { EmployeeSearchResult } from 'libs/models/payfactors-api/employee-search/response/employee-search-response.model';
+import { EmployeeSearchResult } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
 
 import * as fromEmployeeSearchResultsActions from '../actions/employee-search-results.actions';
 

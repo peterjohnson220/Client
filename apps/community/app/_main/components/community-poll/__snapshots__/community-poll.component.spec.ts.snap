@@ -25,8 +25,6 @@ exports[`CommunityPollComponent should show poll 1`] = `
         <div
           class="poll-choice-unanswered poll-choice-shadow p-3 mb-5 bg-white rounded"
           data-qa-id="cnt-pollResponse0"
-          ng-reflect-klass="poll-choice-unanswered poll-ch"
-          ng-reflect-ng-class="[object Object]"
         >
           <div
             class="response-option-text-container pl-1"
@@ -62,8 +60,6 @@ exports[`CommunityPollComponent should show poll 1`] = `
         <div
           class="poll-choice-unanswered poll-choice-shadow p-3 mb-5 bg-white rounded"
           data-qa-id="cnt-pollResponse1"
-          ng-reflect-klass="poll-choice-unanswered poll-ch"
-          ng-reflect-ng-class="[object Object]"
         >
           <div
             class="response-option-text-container pl-1"
@@ -94,8 +90,6 @@ exports[`CommunityPollComponent should show poll 1`] = `
     </div>
     <div
       class="d-flex pt-3 justify-content-end"
-      ng-reflect-klass="d-flex pt-3"
-      ng-reflect-ng-class="[object Object]"
     >
       
       <button

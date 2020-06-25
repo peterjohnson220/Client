@@ -40,8 +40,8 @@ describe('Admin - Exchange List Page', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
 
     spyOn(store, 'dispatch');
 

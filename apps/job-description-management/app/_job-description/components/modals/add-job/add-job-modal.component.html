@@ -23,6 +23,9 @@
                     {{addJobForm.controls.JobCode.errors.maxlength.actualLength}}
 	                    			</span>
                   <span *ngIf="!addJobForm.controls['JobCode'].pristine" class="text-danger d-flex justify-content-end">{{ duplicateJobCodeErrorMessage }}</span>
+                  <span *ngIf="!addJobForm.controls['JobCode'].pristine && addJobForm.controls['JobCode'].hasError('invalidCharacters')" class="text-danger d-flex justify-content-end">
+                    {{invalidCharactersMsg}}
+                  </span>
                 </div>
                 <label class="col-2 col-form-label">Job Title:</label>
                 <div class="col-4" [class.has-danger]="!addJobForm.controls['JobTitle'].pristine && (addJobForm.controls['JobTitle'].invalid)">
@@ -31,7 +34,10 @@
                   <span *ngIf="!addJobForm.controls['JobTitle'].pristine && addJobForm.controls['JobTitle'].hasError('maxlength')" class="text-danger d-flex justify-content-end">
 	                            		Exceeds {{addJobForm.controls.JobTitle.errors.maxlength.requiredLength}} characters:
                     {{addJobForm.controls.JobTitle.errors.maxlength.actualLength}}
-	                    			</span>
+                            </span>
+                  <span *ngIf="!addJobForm.controls['JobTitle'].pristine && addJobForm.controls['JobTitle'].hasError('invalidCharacters')" class="text-danger d-flex justify-content-end">
+                    {{invalidCharactersMsg}}
+                  </span>
                 </div>
               </div>
               <div class="form-group row">
@@ -43,14 +49,20 @@
                                   [data]="jobFamilies$ | async"
                                   [allowCustom]="true">
                   </kendo-combobox>
+                  <span *ngIf="!addJobForm.controls['JobFamily'].pristine && addJobForm.controls['JobFamily'].hasError('invalidCharacters')" class="text-danger d-flex justify-content-end">
+                    {{invalidCharactersMsg}}
+                  </span>
                 </div>
                 <label class="col-2 col-form-label">Level:</label>
-                <div class="col-4">
+                <div class="col-4" [class.has-danger]="(addJobForm.controls['JobLevel'].invalid)">
                   <input type="text" class="form-control" formControlName="JobLevel">
                   <span *ngIf="!addJobForm.controls['JobLevel'].pristine && addJobForm.controls['JobLevel'].hasError('maxlength')" class="text-danger d-flex justify-content-end">
 	                            		Exceeds {{addJobForm.controls.JobLevel.errors.maxlength.requiredLength}} characters:
                     {{addJobForm.controls.JobLevel.errors.maxlength.actualLength}}
-	                    			</span>
+                            </span>
+                  <span *ngIf="!addJobForm.controls['JobLevel'].pristine && addJobForm.controls['JobLevel'].hasError('invalidCharacters')" class="text-danger d-flex justify-content-end">
+                    {{invalidCharactersMsg}}
+                  </span>
                 </div>
               </div>
               <div class="form-group row">
@@ -62,6 +74,9 @@
                                   [data]="jobFLSAStatus$ | async"
                                   [allowCustom]="true">
                   </kendo-combobox>
+                  <span *ngIf="!addJobForm.controls['FLSAStatus'].pristine && addJobForm.controls['FLSAStatus'].hasError('invalidCharacters')" class="text-danger d-flex justify-content-end">
+                    {{invalidCharactersMsg}}
+                  </span>
                 </div>
               </div>
               <div class="form-group row template-name-border pt-2">

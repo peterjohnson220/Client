@@ -112,6 +112,10 @@ export class UserOrEmailPickerComponent implements OnInit, OnDestroy {
     return returnVal;
   }
 
+  clearModel() {
+    this.model = null;
+  }
+
   userOrEmailTypeaheadFn = (text$: Observable<string>) =>
     text$
       .debounceTime(PfConstants.DEBOUNCE_DELAY)

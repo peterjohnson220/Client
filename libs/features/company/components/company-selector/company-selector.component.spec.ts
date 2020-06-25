@@ -13,7 +13,7 @@ describe('CompanySelectorComponent', () => {
   let instance: CompanySelectorComponent;
   let fixture: ComponentFixture<CompanySelectorComponent>;
   let store: Store<fromRootState.State>;
-  const companies = [{ CompanyId: 1, CompanyName: 'Test1' }, { CompanyId: 2, CompanyName: 'abc2' }];
+  const companies = [{ CompanyId: 1, CompanyName: 'Test1', CombinedDetail: 'Test1 (1)' }, { CompanyId: 2, CompanyName: 'abc2', CombinedDetail: 'abc2 (2)' }];
 
 
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('CompanySelectorComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(CompanySelectorComponent);
     instance = fixture.componentInstance;
 

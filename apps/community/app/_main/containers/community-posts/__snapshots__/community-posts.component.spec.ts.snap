@@ -14,6 +14,8 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   getHasPreviousBatchPostsOnServer$={[Function Store]}
   hasNextBatchResultsOnServerSubscription={[Function Subscriber]}
   hasPreviousBatchResultsOnServerSubscription={[Function Subscriber]}
+  hideAttachmentWarning$={[Function Observable]}
+  hideAttachmentWarningSubscription={[Function Subscriber]}
   loadingCommunityPosts$={[Function Store]}
   loadingNextBatchCommunityPosts$={[Function Store]}
   loadingNextBatchCommunityPostsSubscription={[Function Subscriber]}
@@ -24,6 +26,7 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   postEditedSubscription={[Function Subscriber]}
   replyStore={[Function Store]}
   route={[Function Object]}
+  settingService={[Function SettingsService]}
   store={[Function Store]}
   totalDiscussionResultsOnServer$={[Function Store]}
 >

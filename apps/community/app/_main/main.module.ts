@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import {ScrollDispatchModule, ScrollingModule} from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -32,6 +32,7 @@ import { CommunityPollsComponent } from './containers/community-polls/community-
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
 import { CommunityCategoriesComponent } from './containers/community-categories';
 import { CommunityAttachmentModalComponent } from './containers/community-attachment-modal';
+import { CommunityAttachmentWarningModalComponent } from './containers/community-attachment-warning-modal';
 import { CommunityFiltersComponent } from './containers/community-filters';
 import { CommunityFiltersDropdownComponent } from './components/community-filters-dropdown/community-filters-dropdown.component';
 
@@ -93,6 +94,8 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 import { CommunityAttachmentComponent } from './components/community-attachment/community-attachment.component';
 import { CommunityAttachmentEditComponent } from './components/community-attachment-edit/community-attachment-edit.component';
 import { CommunityReplyEditComponent } from './components/community-reply-edit/community-reply-edit.component';
+import { CommunityCancelPostModalComponent } from './containers/community-cancel-post-modal/community-cancel-post-modal.component';
+import { CommunityCancelPostReplyModalComponent } from './containers/community-cancel-post-reply-modal';
 
 const components = [
   ClickInContentDirective,
@@ -120,6 +123,9 @@ const components = [
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
   CommunityAttachmentModalComponent,
+  CommunityAttachmentWarningModalComponent,
+  CommunityCancelPostModalComponent,
+  CommunityCancelPostReplyModalComponent,
   CommunityFiltersComponent,
   CommunityFiltersDropdownComponent,
   CommunityCategoryDisplayNamePipe,
@@ -158,7 +164,6 @@ const components = [
     DropDownsModule,
     InfiniteScrollModule,
     ScrollingModule,
-    ScrollDispatchModule,
     UploadModule,
 
     StoreModule.forFeature('community', reducers),

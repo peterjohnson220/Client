@@ -36,8 +36,8 @@ describe('Job Description Management - Job Description - Column Selector Popover
     fixture = TestBed.createComponent(ColumnSelectorPopoverComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should dispatch unSavedColumns and close the popover, when calling saveButtonClicked', () => {

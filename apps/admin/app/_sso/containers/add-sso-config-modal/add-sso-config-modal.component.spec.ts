@@ -58,8 +58,8 @@ describe('Add Sso Config Modal', () => {
     });
     instance.companySelected = MockSelectedCompany();
     instance.xmlData = '';
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
   });
 
   it('should dispatch a SsoConfigure action on modal submits', () => {

@@ -35,6 +35,7 @@ export const initialState: State = {
 
 export function reducer(state: State = initialState, action: fromHrisConnectionActions.Actions) {
   switch (action.type) {
+    case fromHrisConnectionActions.TOGGLE_VALIDATION_MODE:
     case fromHrisConnectionActions.GET_CURRENT_HRIS_CONNECTION: {
       return {
         ...state,
@@ -50,6 +51,7 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
         activeConnection: action.payload
       };
     }
+    case fromHrisConnectionActions.TOGGLE_VALIDATION_MODE_ERROR:
     case fromHrisConnectionActions.GET_CURRENT_HRIS_CONNECTION_ERROR: {
       return {
         ...state,

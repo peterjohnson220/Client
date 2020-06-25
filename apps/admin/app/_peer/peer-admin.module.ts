@@ -9,11 +9,13 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FileSelectModule, SharedModule, UploadModule } from '@progress/kendo-angular-upload';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
+import { ExchangeJobMappingService } from 'libs/features/peer/exchange-job-mapping/services';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
@@ -42,6 +44,7 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 import { AddCompaniesModalComponent, AddJobsModalComponent, DeleteCompanyModalComponent } from './containers';
 import { EditableTagCategoryDisplayNameComponent } from './components';
 import * as fromFaIcons from './fa-icons';
+import { AssociateBulkImportEffects } from './effects/exchange-job-association-utility/associate-bulk-import.effects';
 
 @NgModule({
   imports: [
@@ -68,7 +71,8 @@ import * as fromFaIcons from './fa-icons';
       CompanyExchangeInvitationInfoEffects,
       ExchangeJobAssociationUtilityEffects,
       ExchangeFiltersEffects,
-      TagCategoriesEffects
+      TagCategoriesEffects,
+      AssociateBulkImportEffects
     ]),
     DropDownsModule,
     SwitchModule,
@@ -83,6 +87,9 @@ import * as fromFaIcons from './fa-icons';
     PfCommonUIModule,
     PfFormsModule,
     FontAwesomeModule,
+    SharedModule,
+    UploadModule,
+    FileSelectModule,
   ],
   declarations: [
     // Containers
@@ -123,7 +130,8 @@ import * as fromFaIcons from './fa-icons';
     ExchangeExistsGuard,
 
     // Services
-    GridHelperService
+    GridHelperService,
+    ExchangeJobMappingService
   ]
 })
 export class PeerAdminModule {

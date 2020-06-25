@@ -25,7 +25,10 @@
           <div *ngIf="post.Attachments" class="d-flex flex-wrap pt-2">
             <div class="pr-4 pt-1 pb-2" *ngFor="let attachment of post.Attachments">
               <pf-community-attachment
-                [attachment]="attachment">
+                [attachment]="attachment" 
+                [disableCommunityAttachments]="disableCommunityAttachments" 
+                [hideAttachmentWarning]="hideAttachmentWarning" 
+                (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
               </pf-community-attachment>         
              </div>
           </div>
@@ -53,11 +56,17 @@
               [postId]="post.Id"
               [maximumReplies]="maximumReplies"
               [replyCount]="post.ReplyCount"
+              [disableCommunityAttachments]="disableCommunityAttachments"
               (replySubmitted)="onReplySubmitted()">
             </pf-community-post-add-reply>
           </div>
           <pf-community-post-add-reply-view
-            [postId]="post.Id" (replyHashTagClicked)="hashtagClicked($event)"></pf-community-post-add-reply-view>
+            [postId]="post.Id" 
+            [disableCommunityAttachments]="disableCommunityAttachments"
+            [hideAttachmentWarning]="hideAttachmentWarning"
+            (replyHashTagClicked)="hashtagClicked($event)"
+            (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
+          </pf-community-post-add-reply-view>
           <pf-community-post-filtered-reply-view *ngIf="!isModal" [postId]="post.Id"></pf-community-post-filtered-reply-view>
           <div *ngIf="post.ReplyCount > 0">
             <a id="replyAction" href="javascript:void(0)" class="community-link m-1">
@@ -75,7 +84,10 @@
             <pf-community-post-replies
               [replies]="post.Replies"
               [loading]="loadingCommunityPostReplies$ | async"
-              (replyHashTagClicked)="hashtagClicked($event)">
+              [disableCommunityAttachments]="disableCommunityAttachments"
+              [hideAttachmentWarning]="hideAttachmentWarning" 
+              (replyHashTagClicked)="hashtagClicked($event)"
+              (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
             </pf-community-post-replies>
           </div>
         </div>

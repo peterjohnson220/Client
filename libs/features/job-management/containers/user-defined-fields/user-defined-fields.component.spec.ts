@@ -11,6 +11,7 @@ import * as fromActions from '../../actions';
 import * as fromReducer from '../../reducers';
 
 import { UserDefinedFieldsComponent } from './user-defined-fields.component';
+import { FormControlName } from '@angular/forms';
 
 
 describe('Job Management Feature - Job Form', () => {
@@ -41,6 +42,10 @@ describe('Job Management Feature - Job Form', () => {
       ],
       providers: [
         provideMockStore({ initialState }),
+        {
+          provide: FormControlName,
+          useValue: jest.fn()
+        }
       ],
       declarations: [
         UserDefinedFieldsComponent
@@ -54,7 +59,7 @@ describe('Job Management Feature - Job Form', () => {
     fixture = TestBed.createComponent(UserDefinedFieldsComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     store.overrideSelector(fromReducer.getCompanyJobUdfs, initialState.companyJobUdfs);
 
     spyOn(store, 'dispatch');

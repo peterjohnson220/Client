@@ -22,6 +22,7 @@ export class ExchangeExplorerMapEffects {
       this.store.pipe(select(fromExchangeExplorerReducer.getPeerMapInitialZoomComplete)),
       this.store.pipe(select(fromExchangeExplorerReducer.getExchangeScopesLoadingByExchange)),
       this.store.pipe(select(fromExchangeExplorerReducer.getFilterContextHasDefaultScope)),
+      this.store.pipe(select(fromExchangeExplorerReducer.getDataCutLoading)),
       (
         action: fromExchangeExplorerMapActions.MoveEnd,
         hasAppliedFilterContext,
@@ -29,14 +30,16 @@ export class ExchangeExplorerMapEffects {
         autoZooming,
         initialZoomComplete,
         exchangeScopesLoadingByExchange,
-        hasDefaultScope) => ({
+        hasDefaultScope,
+        dataCutLoading) => ({
           action,
           hasAppliedFilterContext,
           applyingScope,
           autoZooming,
           initialZoomComplete,
           exchangeScopesLoadingByExchange,
-          hasDefaultScope
+          hasDefaultScope,
+          dataCutLoading
         })
     ),
     mergeMap((data) => {
@@ -44,6 +47,12 @@ export class ExchangeExplorerMapEffects {
         // If the exchange scopes haven't been loaded, wait for them to be loaded and then re-dispatch the MoveEnd event.
         // This way we know if the user's default scope still exists before applying it [JP]
         this.store.pipe(select(fromExchangeExplorerReducer.getExchangeScopesLoadingByExchange), filter(loading => !loading), take(1))
+          .subscribe(() => this.store.dispatch(new fromExchangeExplorerMapActions.MoveEnd(data.action.payload)));
+        return [];
+      }
+      if (data.dataCutLoading) {
+        // There is a data cut being loaded, wait for it to load and redispatch MoveEnd
+        this.store.pipe(select(fromExchangeExplorerReducer.getDataCutLoading), filter(loading => !loading), take(1))
           .subscribe(() => this.store.dispatch(new fromExchangeExplorerMapActions.MoveEnd(data.action.payload)));
         return [];
       }

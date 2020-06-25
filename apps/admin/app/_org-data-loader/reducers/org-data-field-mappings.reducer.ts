@@ -27,7 +27,7 @@ export function reducer( state = initialState, action: fromOrgDataFieldMappingsA
     }
     case fromOrgDataFieldMappingsActions.LOADING_FIELD_MAPPINGS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
+        ...adapter.setAll(action.payload, state),
         loading: false,
         loadingError: false
       };

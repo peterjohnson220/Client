@@ -141,6 +141,7 @@ export class JobDescriptionManagementApiService {
 
   getControlByTypeAndVersion(type: string, version: number) {
     return this.payfactorsApiService
-    .get(`${this.endpoint}.GetCompanyControlByTypeAndVersion?type=${type}&version=${version}`, {}, (response) => JSON.parse(response.value));
+    .get(`${this.endpoint}.GetCompanyControlByTypeAndVersion?type=${encodeURIComponent(type)}&version=${version}`,
+      {}, (response) => JSON.parse(response.value));
   }
 }

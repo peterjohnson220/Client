@@ -33,8 +33,8 @@ describe('Job Management Feature - Job Management', () => {
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
 
     spyOn(store, 'dispatch');
 

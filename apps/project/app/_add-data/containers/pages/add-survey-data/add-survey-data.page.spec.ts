@@ -34,7 +34,7 @@ describe('Project - Add Data - Surveys Page', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(AddSurveyDataPageComponent);
     instance = fixture.componentInstance;

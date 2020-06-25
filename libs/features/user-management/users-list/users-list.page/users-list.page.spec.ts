@@ -39,7 +39,7 @@ describe('Admin - Company-Admin - Users List Page', () => {
     location = injector.get(Location);
     router = injector.get(Router);
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(UsersListPageComponent);
     instance = fixture.componentInstance;

@@ -43,6 +43,28 @@ export function reducer(state = initialState, action: headerActions.Actions): St
         gettingDropdownNavigationLinksError: true
       };
     }
+    case headerActions.GET_SSO_HEADER_DROPDOWN_NAVIGATION_LINKS: {
+      return {
+        ...state,
+        gettingDropdownNavigationLinks: true,
+        gettingDropdownNavigationLinksError: false,
+        dropdownNavigationLinks: null
+      };
+    }
+    case headerActions.GET_SSO_HEADER_DROPDOWN_NAVIGATION_LINKS_SUCCESS: {
+      return {
+        ...state,
+        gettingDropdownNavigationLinks: false,
+        dropdownNavigationLinks: action.payload
+      };
+    }
+    case headerActions.GET_SSO_HEADER_DROPDOWN_NAVIGATION_LINKS_ERROR: {
+      return {
+        ...state,
+        gettingDropdownNavigationLinks: false,
+        gettingDropdownNavigationLinksError: true
+      };
+    }
     case headerActions.GET_HEADER_USER_HOMEPAGE_LINK: {
       return {
         ...state,

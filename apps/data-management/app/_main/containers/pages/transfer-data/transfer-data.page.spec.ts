@@ -37,7 +37,7 @@ describe('Data Management - Main - Transfer Data Page', () => {
     fixture = TestBed.createComponent(TransferDataPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   });
 

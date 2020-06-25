@@ -54,8 +54,8 @@ describe('Data Insights - Create Data View Modal', () => {
       name: new FormControl(''),
       summary: new FormControl('')
     });
-    ngbModal = TestBed.get(NgbModal);
-    store = TestBed.get(Store);
+    ngbModal = TestBed.inject(NgbModal);
+    store = TestBed.inject(Store);
   });
 
   it('should open modal using modalService when open is called', () => {

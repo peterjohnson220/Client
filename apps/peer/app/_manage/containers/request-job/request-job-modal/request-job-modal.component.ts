@@ -75,17 +75,25 @@ export class RequestJobModalComponent implements OnInit, OnDestroy {
       };
     }
 
+    this.resetForm();
+
     this.store.dispatch(new fromExchangeRequestActions.CreateExchangeRequest(
       ExchangeRequestTypeEnum.PayfactorsJob,
       exchangeRequestModel
     ));
-    // Clear existing form
-    this.exchangeJobRequestForm.removeControl(this.currentChildForm);
   }
 
   handleModalDismissed(): void {
+    this.resetForm();
+
     this.store.dispatch(new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.PayfactorsJob));
-    this.newJobFormEnabled = false;
+  }
+
+  resetForm(): void {
+    if (this.newJobFormEnabled) {
+      this.exchangeJobRequestForm.removeControl(this.currentChildForm);
+      this.newJobFormEnabled = false;
+    }
   }
 
   handleSwitchToggled(): void {

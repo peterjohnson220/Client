@@ -55,10 +55,10 @@ describe('Admin - Company Admin - User Page', () => {
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
-    routeTrackingService = TestBed.get(RouteTrackingService);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
+    routeTrackingService = TestBed.inject(RouteTrackingService);
 
     spyOn(store, 'dispatch');
 

@@ -3,8 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { StatementEditPageComponent } from './statement-edit.page';
 
 const routes: Routes = [
-  { path: ':id', component: StatementEditPageComponent },
-  { path: 'clone/:templateId',  component: StatementEditPageComponent }
+  { path: ':id', component: StatementEditPageComponent }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

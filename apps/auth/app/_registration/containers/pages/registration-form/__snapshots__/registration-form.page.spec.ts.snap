@@ -52,7 +52,6 @@ exports[`RegistrationFormPageComponent should match snapshot 1`] = `
               formcontrolname="FirstName"
               id="au-tb-self-registration-first-name"
               maxlength="50"
-              ng-reflect-focus="true"
               type="text"
             />
             <label

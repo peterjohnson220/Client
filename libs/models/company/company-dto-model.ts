@@ -41,4 +41,5 @@ export interface CompanyDto extends Company {
   Domain: string;
   CompanyColor: string;
   OrgDataAutoloaderApiKey: string;
+  CompanyDescription: string;
 }

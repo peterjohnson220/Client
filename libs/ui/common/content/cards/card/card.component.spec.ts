@@ -48,36 +48,6 @@ describe('UI/Common/Content - Card', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should have .selected class when the selectedCardIdentifier matches the cards identifier', () => {
-    instance.card = {Id: 1};
-    instance.selectedCardIdentifier = 1;
-    instance.cardIdentifier = card => card.Id;
-    instance.cardIsDisabled = card => card.Id !== 1;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should show cardBodyTemplate template, with context, inside the card div', () => {
-    const hostComponent = TestBed.createComponent(TestHostComponent);
-
-    hostComponent.detectChanges();
-
-    expect(hostComponent).toMatchSnapshot();
-  });
-
-  it('should have the .disabled class when the card matches the cardIsDisabled expression', () => {
-    instance.card = {Id: 1};
-    instance.selectedCardIdentifier = 0;
-    instance.cardIdentifier = card => card.Id;
-    instance.cardIsDisabled = card => card.Id === 1;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should not emit selected event when isDisabled', () => {
     instance.card = {Id: 1};
     instance.selectedCardIdentifier = 0;

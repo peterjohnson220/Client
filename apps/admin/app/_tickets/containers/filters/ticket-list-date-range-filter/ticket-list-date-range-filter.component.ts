@@ -21,10 +21,10 @@ export class TicketListDateRangeFilterComponent extends BaseFilterCellComponent 
   private maxRange = new Date();
   private previousValue: any;
 
-  @ViewChild('dateRangeBtn', { static: false }) public dateRangeBtn: ElementRef;
-  @ViewChild('dateRangePopup', { static: false, read: ElementRef }) public dateRangePopup: ElementRef;
-  @ViewChild('fromDate', { static: false }) public fromDateInput: NgModel;
-  @ViewChild('toDate', { static: false }) public toDateInput: NgModel;
+  @ViewChild('dateRangeBtn') public dateRangeBtn: ElementRef;
+  @ViewChild('dateRangePopup', { read: ElementRef }) public dateRangePopup: ElementRef;
+  @ViewChild('fromDate') public fromDateInput: NgModel;
+  @ViewChild('toDate') public toDateInput: NgModel;
 
   @Input() public filter: CompositeFilterDescriptor;
   @Input() public filterField: TicketFieldType;

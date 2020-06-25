@@ -1,6 +1,8 @@
 <pf-modal-form
   [size]="'md'"
   [title]="modalTitle"
+  [subTitle]="modalSubTitle"
+  [modalId]="'company-structures-model-setting-modal'"
   [primaryButtonText]="buttonPrimaryText"
   [primaryButtonTextSubmitting]="buttonPrimaryTextSubmitting"
   [submitting]="(savingModelSettingsAsyncObj$ | async)?.saving"
@@ -18,53 +20,34 @@
         <ngb-tab [title]="modelTabTitle" id="modelTab" >
           <ng-template ngbTabContent>
             <div class="p-3 pr-5">
-              <div class="form-group">
-                <label for="structure-name">Structure Name</label>
-                  <kendo-autocomplete
-                    id="structure-name"
-                    class="form-control"
-                    formControlName="structureName"
-                    [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.structureName.valid }"
-                    [filterable]="true"
-                    (filterChange)="handleStructureNameChanged($event)"
-                    (valueChange)="clearModelNameExistsFailure()"
-                    [data]="(structureNameSuggestionsAsyncObj$ | async)?.obj"
-                    [disabled]="structureInputIsDisabled"
-                    [maxlength]="50">
-                  </kendo-autocomplete>
-                  <div class="invalid-feedback">
-                    Please provide/choose a structure name.
-                  </div>
-                </div>
                 <div class="form-group">
                   <label for="model-name">Model Name</label>
                   <input type="text"
                          class="form-control"
                          id="model-name"
-                         formControlName="modelName"
-                         [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.modelName.valid) || modelNameExistsFailure }"
+                         formControlName="ModelName"
+                         [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.ModelName.valid) || modelNameExistsFailure }"
                          [maxlength]="50"
                          (input)="clearModelNameExistsFailure()"/>
                   <div class="invalid-feedback">
-                    <div *ngIf="!formControls.modelName.valid">Please provide a model name.</div>
+                    <div *ngIf="!formControls.ModelName.valid">Please provide a model name.</div>
                     <div *ngIf="modelNameExistsFailure">Model Name Exists</div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="paymarket">Pay Market</label>
-                  <kendo-autocomplete
-                    id="paymarket"
-                    class="form-control"
-                    formControlName="payMarket"
-                    [value]="metadata.Paymarket"
-                    [disabled]="true">
-                  </kendo-autocomplete>
+                <div class="form-group" *ngIf="(enableJobRangeTypes$ | async)">
+                  <pf-range-distribution-setting
+                    formControlName="RangeDistributionSetting"
+                    [controlPointsAsyncObj]="controlPointsAsyncObj"
+                    [metadata]="metadata"
+                    [rangeGroupId]="rangeGroupId"
+                    [attemptedSubmit]="attemptedSubmit">
+                  </pf-range-distribution-setting>
                 </div>
-                <div class="form-group w-50">
+                <div class="form-group w-50" *ngIf="!(enableJobRangeTypes$ | async)">
                   <label for="midpoint">Midpoint based on</label>
                   <kendo-combobox id="midpoint" class="form-control"
-                                  formControlName="controlPoint"
-                                  [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.controlPoint.valid }"
+                                  formControlName="ControlPoint"
+                                  [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.ControlPoint.valid }"
                                   [loading]="controlPointsAsyncObj.loading"
                                   [data]="controlPoints"
                                   [textField]="'Display'"
@@ -81,15 +64,15 @@
                     Please select a midpoint.
                   </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row" *ngIf="!(enableJobRangeTypes$ | async)">
                   <div class="form-group col-6">
                     <label for="range-spread-min">Range Spread</label>
                     <div class="input-group">
-                      <kendo-numerictextbox class="form-control"
+                      <kendo-numerictextbox class="form-control ie-fix"
                                             id="range-spread-min"
                                             placeholder="Minimum"
-                                            formControlName="spreadMin"
-                                            [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.spreadMin.valid }"
+                                            formControlName="SpreadMin"
+                                            [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.SpreadMin.valid }"
                                             [format]="'n'"
                                             [spinners]="false"
                                             [decimals]="2"
@@ -100,6 +83,7 @@
                       <div class="input-group-append">
                         <span class="input-group-text">%</span>
                       </div>
+                      <fa-icon placement="top" [ngbTooltip]="minSpreadTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
                       <div class="invalid-feedback">
                         Please provide a range spread minimum.
                       </div>
@@ -108,10 +92,10 @@
                   <div class="form-group col-6">
                     <label>&nbsp;</label>
                     <div class="input-group">
-                      <kendo-numerictextbox  class="form-control"
+                      <kendo-numerictextbox  class="form-control ie-fix"
                                              placeholder="Maximum"
-                                             formControlName="spreadMax"
-                                             [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.spreadMax.valid }"
+                                             formControlName="SpreadMax"
+                                             [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.SpreadMax.valid }"
                                              [format]="'n'"
                                              [spinners]="false"
                                              [decimals]="2"
@@ -122,6 +106,7 @@
                       <div class="input-group-append">
                         <span class="input-group-text">%</span>
                       </div>
+                      <fa-icon placement="top" [ngbTooltip]="maxSpreadTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
                       <div class="invalid-feedback">
                         Please provide a range spread maximum.
                       </div>
@@ -131,7 +116,7 @@
                 <div class="form-group">
                   <label for="rate">Rate</label>
                   <kendo-dropdownlist id="rate" class="form-control k-dropdown-white"
-                                      formControlName="rate"
+                                      formControlName="Rate"
                                       [data]="['Annual', 'Hourly']"
                                       [valuePrimitive]="true">
                   </kendo-dropdownlist>
@@ -142,8 +127,8 @@
                 <div class="form-group">
                   <label for="currency">Currency</label>
                   <kendo-combobox id="currency" class="form-control"
-                                  formControlName="currency"
-                                  [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.currency.valid }"
+                                  formControlName="Currency"
+                                  [ngClass]="{ 'is-invalid': attemptedSubmit && !formControls.Currency.valid }"
                                   [loading]="currenciesAsyncObj.loading"
                                   [data]="currencies"
                                   [textField]="'CurrencyDisplay'"

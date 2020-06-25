@@ -20,7 +20,6 @@ exports[`Add Tag Categories Modal should show a modal with a search bar and a ta
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="Add Exchange Filter"
   >
     
@@ -29,12 +28,6 @@ exports[`Add Tag Categories Modal should show a modal with a search bar and a ta
     >
       <pf-input-debounce
         class="ng-untouched ng-pristine ng-valid"
-        ng-reflect-delay="400"
-        ng-reflect-focus="true"
-        ng-reflect-id="search-box"
-        ng-reflect-options="[object Object]"
-        ng-reflect-placeholder-text="Search for and select an Excha"
-        ng-reflect-showing="true"
       >
         
         
@@ -48,18 +41,12 @@ exports[`Add Tag Categories Modal should show a modal with a search bar and a ta
             data-qa-id="txt-search-box"
             id="search-box"
             maxlength="524288"
-            ng-reflect-is-disabled="false"
-            ng-reflect-klass="form-control"
-            ng-reflect-maxlength="524288"
-            ng-reflect-ng-class=""
             placeholder="Search for and select an Exchange Filter to add to the Mock Exchange Exchange."
             style="min-width: 100px;"
             type="text"
           />
           <div
             class="input-group-append action-item"
-            ng-reflect-klass="input-group-append action-item"
-            ng-reflect-ng-class="action-item"
           >
             <span
               class="input-group-text"
@@ -81,9 +68,6 @@ exports[`Add Tag Categories Modal should show a modal with a search bar and a ta
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="selections"
         name="hasSelections"
-        ng-reflect-model=""
-        ng-reflect-name="selections"
-        ng-reflect-pf-validatable="false"
         type="hidden"
         value=""
       />

@@ -41,7 +41,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
   let fixture: ComponentFixture<UpsertDataCutPageComponent>;
   let instance: UpsertDataCutPageComponent;
   let store: Store<fromRootState.State>;
-  let route: ActivatedRouteStub;
+  let route: ActivatedRoute;
   let guidelinesService: DojGuidelinesStub;
   const mockDataCutGUID = 'MockCutGUID';
   const queryStringParams = { companyPayMarketId: 1, companyJobId: 2, userSessionId: 3, dataCutGuid: null };
@@ -73,8 +73,9 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    route = TestBed.inject(ActivatedRoute);
+    // TODO: Resolve type mismatch here and use .inject
     guidelinesService = TestBed.get(DojGuidelinesService);
 
     spyOn(store, 'dispatch');

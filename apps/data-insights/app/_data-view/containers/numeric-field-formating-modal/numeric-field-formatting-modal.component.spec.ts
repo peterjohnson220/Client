@@ -27,7 +27,7 @@ describe('Data Insights - Numeric Field Formatting Modal Component', () => {
 
     fixture = TestBed.createComponent(NumericFieldFormattingModalComponent);
     instance = fixture.componentInstance;
-    ngbModal = TestBed.get(NgbModal);
+    ngbModal = TestBed.inject(NgbModal);
 
     fixture.detectChanges();
   });

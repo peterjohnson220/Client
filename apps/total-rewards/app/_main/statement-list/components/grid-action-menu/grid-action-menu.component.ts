@@ -12,49 +12,47 @@ export class GridActionMenuComponent {
   @Input() statement: StatementListViewModel;
   @Input() isOpen: boolean;
 
-  @Output() open = new EventEmitter<string>();
+  @Output() open = new EventEmitter<StatementListViewModel>();
   @Output() close = new EventEmitter();
 
-  @Output() previewClick = new EventEmitter<string>();
-  @Output() editClick = new EventEmitter<string>();
-  @Output() generateStatementClick = new EventEmitter<string>();
-  @Output() copyClick = new EventEmitter<string>();
-  @Output() deleteClick = new EventEmitter<string>();
+  @Output() previewClick = new EventEmitter<StatementListViewModel>();
+  @Output() editClick = new EventEmitter<StatementListViewModel>();
+  @Output() generateStatementClick = new EventEmitter<StatementListViewModel>();
+  @Output() copyClick = new EventEmitter<StatementListViewModel>();
+  @Output() deleteClick = new EventEmitter<StatementListViewModel>();
 
-  onEllipsisClick(statementId: string) {
+  onEllipsisClick() {
     if (this.isOpen) {
       this.close.emit();
     } else {
-      this.open.emit(statementId);
+      this.open.emit(this.statement);
     }
   }
 
-  onPreviewClick(statementId: string) {
-    this.previewClick.emit(statementId);
+  onPreviewClick() {
+    this.previewClick.emit(this.statement);
   }
 
-  onEditClick(statementId: string) {
-    this.editClick.emit(statementId);
+  onEditClick() {
+    this.editClick.emit(this.statement);
   }
 
-  onGenerateStatementClick(statementId: string) {
-    this.generateStatementClick.emit(statementId);
+  onGenerateStatementClick() {
+    this.generateStatementClick.emit(this.statement);
   }
 
-  onCopyClick(statementId: string) {
-    this.copyClick.emit(statementId);
+  onCopyClick() {
+    this.copyClick.emit(this.statement);
   }
 
-  onDeleteClick(statementId: string) {
-    this.deleteClick.emit(statementId);
+  onDeleteClick() {
+    this.deleteClick.emit(this.statement);
   }
 
   onClickElsewhere() {
-    if (!this.isOpen) {
-      return;
+    if (this.isOpen) {
+      this.close.emit();
     }
-
-    this.close.emit();
   }
 
   // send a close message up when the menu is open and the escape key is clicked

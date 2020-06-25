@@ -17,12 +17,6 @@ exports[`Features - Peer - Exchange Job Selector Component should disable exchan
     <button
       class="btn btn-secondary selector"
       disabled=""
-      ng-reflect-auto-close="outside"
-      ng-reflect-klass="btn btn-secondary selector sta"
-      ng-reflect-ng-class="[object Object]"
-      ng-reflect-ngb-popover="[object Object]"
-      ng-reflect-placement="right"
-      ng-reflect-popover-title="Select an Exchange Job"
       placement="right"
       popovertitle="Select an Exchange Job"
       type="button"
@@ -87,12 +81,6 @@ exports[`Features - Peer - Exchange Job Selector Component should display exchan
     
     <button
       class="btn btn-secondary selector"
-      ng-reflect-auto-close="outside"
-      ng-reflect-klass="btn btn-secondary selector sta"
-      ng-reflect-ng-class="[object Object]"
-      ng-reflect-ngb-popover="[object Object]"
-      ng-reflect-placement="right"
-      ng-reflect-popover-title="Select an Exchange Job"
       placement="right"
       popovertitle="Select an Exchange Job"
       type="button"
@@ -168,12 +156,6 @@ exports[`Features - Peer - Exchange Job Selector Component should display job ti
     
     <button
       class="btn btn-secondary selector"
-      ng-reflect-auto-close="outside"
-      ng-reflect-klass="btn btn-secondary selector sta"
-      ng-reflect-ng-class="[object Object]"
-      ng-reflect-ngb-popover="[object Object]"
-      ng-reflect-placement="right"
-      ng-reflect-popover-title="Select an Exchange Job"
       placement="right"
       popovertitle="Select an Exchange Job"
       type="button"
@@ -249,12 +231,6 @@ exports[`Features - Peer - Exchange Job Selector Component should display the cu
     
     <button
       class="btn btn-secondary selector"
-      ng-reflect-auto-close="outside"
-      ng-reflect-klass="btn btn-secondary selector sta"
-      ng-reflect-ng-class="[object Object]"
-      ng-reflect-ngb-popover="[object Object]"
-      ng-reflect-placement="right"
-      ng-reflect-popover-title="Select an Exchange Job"
       placement="right"
       popovertitle="Select an Exchange Job"
       type="button"
