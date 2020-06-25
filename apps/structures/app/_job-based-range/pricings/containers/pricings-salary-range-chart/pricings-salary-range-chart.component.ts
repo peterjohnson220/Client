@@ -67,14 +67,13 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.processChartData();
       }
     });
+    this.jobRangeViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.jobRangeViewId = pv);
     this.jobDataSubscription = this.store.select(fromPfGridReducer.getData, this.jobRangeViewId).subscribe(data => {
       if (data) {
         this.jobRangeGroupData = data;
         this.processChartData();
       }
     });
-
-
   }
 
   rangeChartCallback(chart: Highcharts.Chart = null) {
@@ -82,7 +81,6 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     if (chart) {
       this.chartInstance = chart;
     }
-
   }
 
   private setInitialMinMax(currentRange) {
@@ -215,7 +213,6 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
       function(x, y, width, height) {
         return ['M', x, y + width / 2, 'L', x + height, y + width / 2];
       };
-    this.jobRangeViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.jobRangeViewId = pv);
   }
 
   ngOnDestroy(): void {
