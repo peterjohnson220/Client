@@ -20,13 +20,14 @@
   }
 
   .tab-content {
-    height: 500px;
-    overflow: hidden;
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }
 
 .paymarket-modal-container {
-  height: 535px;
+  height: 435px;
 }
 
 .edit-note {
