@@ -27,8 +27,8 @@ const routes: Routes = [
       { path: 'exchangefilters', component: ManageExchangeFiltersComponent }
     ]
   },
-  { path: 'exchangejobassociationutility', component: ExchangeJobAssociationUtilityPageComponent },
-  { path: 'tagcategories', component: TagCategoriesPageComponent},
+  { path: 'exchangejobassociationutility', component: ExchangeJobAssociationUtilityPageComponent, canActivate: [PfAdminGuard] },
+  { path: 'tagcategories', component: TagCategoriesPageComponent, canActivate: [PfAdminGuard]},
   { path: 'exchange-not-found', component: NotFoundErrorPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
