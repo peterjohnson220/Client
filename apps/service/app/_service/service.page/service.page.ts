@@ -73,7 +73,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.ticketTypeField = fields.find(f => f.SourceName === 'TicketType_Display');
-        this.selectedTicketTypeFilterValue = this.ticketTypeField.FilterValue;
+        this.selectedTicketTypeFilterValue = this.ticketTypeField.FilterValue ?? 'All';
       }
     });
     this.identitySubscription = this.identity$.subscribe(i => {

@@ -53,7 +53,6 @@
   <kendo-dropdownlist
     [(ngModel)]="selectedTicketTypeFilterValue"
     [data]="ticketTypes$ | async"
-    [defaultItem]="'All'"
     (valueChange)="handleTicketTypeFilterChanged($event)"
     class="k-dropdown-white form-control">
   </kendo-dropdownlist>

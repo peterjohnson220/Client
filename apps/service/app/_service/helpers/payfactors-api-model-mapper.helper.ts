@@ -12,8 +12,18 @@ export class PayfactorsApiModelMapper {
 
   /// IN
   static mapTicketTypeResponseToTicketTypes(response: UserTicketTypeResponse[]): TicketType[] {
-    return response.map(t => {
-      return {
+    const allTicketType: TicketType = {
+      Active: true,
+      SortOrder: 0,
+      TicketFileTypeId: null,
+      TicketTypeDisplayName: 'All',
+      UserTicketTypeId: null,
+      TicketSubTypeName: null,
+      TicketTypeName: 'All'
+    };
+    const ticketTypes: TicketType[] = [ allTicketType ];
+    response.forEach(t => {
+      ticketTypes.push({
         Active: t.Active,
         SortOrder: t.SortOrder,
         TicketFileTypeId: t.TicketFileTypeId,
@@ -21,8 +31,9 @@ export class PayfactorsApiModelMapper {
         UserTicketTypeId: t.UserTicketTypeId,
         TicketSubTypeName: t.TicketSubTypeName,
         TicketTypeName: t.TicketTypeName
-      };
+      });
     });
+    return ticketTypes;
   }
 
   static mapTicketStatesToGroupedListItems(response: UserTicketStateResponse[]): GroupedListItem[] {
