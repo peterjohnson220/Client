@@ -61,6 +61,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         this.chartOptions = JobRangeModelChartService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate);
       }
     });
+    this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
       if (data && this.rate && this.currency) {
         this.jobRangeData = data;
@@ -242,7 +243,6 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
-    this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
   }
 
   ngOnDestroy(): void {

@@ -77,13 +77,14 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.processChartData();
       }
     });
+
+    this.jobRangeViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.jobRangeViewId = pv);
     this.jobDataSubscription = this.store.select(fromPfGridReducer.getData, this.jobRangeViewId).subscribe(data => {
       if (data) {
         this.jobRangeGroupData = data;
         this.processChartData();
       }
     });
-
   }
 
   rangeChartCallback(chart: Highcharts.Chart = null) {
@@ -301,7 +302,6 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
-    this.jobRangeViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.jobRangeViewId = pv);
   }
 
   ngOnDestroy(): void {
