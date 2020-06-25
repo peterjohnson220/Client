@@ -18,9 +18,9 @@ export const SearchFilterMappingData: SearchFilterMappingDataObj = {
     SaveDisabled: false,
     RefreshOptionsFromServer: true
   },
-  'job_grade': {
+  'job_grades': {
     Type: FilterType.Multi,
-    BackingField: 'job_grade_code',
+    BackingField: 'job_grades',
     DisplayName: 'Job Grade',
     Order: 4,
     OptionCountDisabled: false,
