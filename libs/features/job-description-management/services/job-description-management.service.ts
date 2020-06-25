@@ -10,7 +10,7 @@ import { Permissions } from 'libs/constants';
 import { SaveError } from 'libs/models/common/save-error';
 
 import * as fromCompanyFLSAStatusActions from '../actions/company-flsa-status.actions';
-import * as fromJobDescriptionManagementSharedReducer from '../../shared/reducers';
+import * as fromJobDescriptionManagementSharedReducer from '../reducers';
 import * as fromJobFamilyActions from '../actions/job-family.actions';
 import * as fromControlTypesActions from '../actions/control-types.actions';
 import { ControlDataHelper } from '../helpers';

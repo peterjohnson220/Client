@@ -8,8 +8,8 @@ import { Observable, of } from 'rxjs';
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 import { TemplateListItemResponse, LoadTemplateListByCompanyIdRequest } from 'libs/models/payfactors-api/job-description-template/response';
 
-import * as fromTemplateListActions from '../actions/template-list.actions';
-import { PayfactorsApiModelMapper } from '../helpers';
+import * as fromTemplateListActions from 'libs/features/job-description-management/actions/template-list.actions';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 
 @Injectable()
 export class TemplateListEffects {

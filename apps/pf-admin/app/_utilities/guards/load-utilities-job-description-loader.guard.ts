@@ -6,8 +6,8 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 
-import * as fromTemplateListReducer from '../../../../job-description-management/app/shared/reducers';
-import * as fromTemplateListActions from '../../../../job-description-management/app/shared/actions/template-list.actions';
+import * as fromTemplateListReducer from 'libs/features/job-description-management/reducers';
+import * as fromTemplateListActions from 'libs/features/job-description-management/actions/template-list.actions';
 
 @Injectable()
 export class LoadJobDescriptionLoaderGuard implements CanActivate {

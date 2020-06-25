@@ -3,10 +3,10 @@ import { Component, Input, Output, EventEmitter, ViewChild, OnChanges, ChangeDet
 import { State } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { ControlLabel } from '../../../../shared/models/control-label.model';
-import { AvailableJobInformationField } from '../../../../shared/models/available-job-information-field.model';
-import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
-import { JobDescriptionBulkExportPayload } from '../../../models/job-description-bulk-export-payload.model';
+import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/job-description-management/models';
+
+import { JobDescriptionViewConstants } from 'libs/features/job-description-management/constants/job-description-view-constants';
+
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

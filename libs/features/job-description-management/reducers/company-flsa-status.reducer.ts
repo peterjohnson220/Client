@@ -1,6 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import * as fromCompanyFlsaStatusActions from '../../shared/actions/company-flsa-status.actions';
+import * as fromCompanyFlsaStatusActions from 'libs/features/job-description-management/actions/company-flsa-status.actions';
 
 export interface State {
   companyFlsaStatuses: string[];

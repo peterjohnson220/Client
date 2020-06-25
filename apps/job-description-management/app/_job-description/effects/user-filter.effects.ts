@@ -11,7 +11,7 @@ import { GetUserFilterListResponse } from 'libs/models/payfactors-api/user-filte
 
 import * as fromUserFilterActions from '../actions/user-filter.actions';
 import * as fromUserFilterReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../../shared/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 
 @Injectable()
 export class UserFilterEffects {

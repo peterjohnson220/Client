@@ -3,11 +3,9 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { JobDescription } from 'libs/models/jdm';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { arrayMoveMutate } from 'libs/core/functions';
-import { CompanyDto } from 'libs/models/company';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
-import { JobDescriptionExtendedInfo } from '../models';
-import { UndoHelper, ControlDataHelper } from '../../shared/helpers';
+import { JobDescriptionExtendedInfo, UndoHelper, ControlDataHelper } from 'libs/features/job-description-management';
 
 const MAX_UNDO_QUEUE_LEN = 50;
 

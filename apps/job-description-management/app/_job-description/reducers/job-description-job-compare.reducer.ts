@@ -5,7 +5,6 @@ import { JobDescription } from 'libs/models/jdm';
 import { SaveError } from 'libs/models/common/save-error';
 
 import * as fromJobDescriptionJobCompareActions from '../actions/job-description-job-compare.actions';
-import { ControlDataHelper } from '../../shared/helpers';
 
 export interface State {
   jobDescriptionList: JobDescription[];

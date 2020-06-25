@@ -20,13 +20,14 @@ import {
   AppliesToAttributesExistResponse
 } from 'libs/models/payfactors-api/job-description/response/applies-to-attributes-exist-response.model';
 import { CompositeFilterUppercase, TemplateListItem } from 'libs/models/jdm';
-import { ControlLabel, AvailableJobInformationField, JobDescriptionAppliesToItem, AppliesToAttributesExist } from '../models';
+import { ControlLabel, AvailableJobInformationField, JobDescriptionAppliesToItem, AppliesToAttributesExist, GetJobDescriptionData, JobDescriptionExtendedInfo,
+  JobDescriptionHistoryListItem, JobMatchResult, JobDescriptionSource
+} from '../models';
 
 import {
   JobDescriptionAppliesToItemResponse
 } from 'libs/models/payfactors-api/job-description/response/job-description-appliesto-item-response.model';
-import { GetJobDescriptionData, JobDescriptionExtendedInfo, JobDescriptionHistoryListItem,
-  JobMatchResult, JobDescriptionSource } from '../../_job-description/models';
+
 
 export class PayfactorsApiModelMapper {
   static mapAppliesToAttributesExistResponseToAppliesToAttributesExist(response: AppliesToAttributesExistResponse):

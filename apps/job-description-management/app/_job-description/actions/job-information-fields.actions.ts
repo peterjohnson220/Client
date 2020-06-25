@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { AvailableJobInformationField } from '../../shared/models/available-job-information-field.model';
+import { AvailableJobInformationField } from 'libs/features/job-description-management/models';
 
 export const LOAD_JOB_INFORMATION_FIELDS_FOR_BULK_EXPORT =
   '[job-description-management / Job Information Fields] Load Job Information Fields For Bulk Export';

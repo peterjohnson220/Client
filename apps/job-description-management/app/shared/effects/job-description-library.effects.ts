@@ -8,8 +8,8 @@ import { Observable, of } from 'rxjs';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api';
 
-import * as fromJobDescriptionLibraryActions from '../../shared/actions/job-description-library.actions';
-import { JobDescriptionLibraryBucket, JobDescriptionLibraryResult } from '../models';
+import * as fromJobDescriptionLibraryActions from 'libs/features/job-description-management/actions/job-description-library.actions';
+import { JobDescriptionLibraryBucket, JobDescriptionLibraryResult } from 'libs/features/job-description-management/models';
 
 @Injectable()
 export class JobDescriptionLibraryEffects {

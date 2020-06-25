@@ -8,8 +8,8 @@ import { Observable, of } from 'rxjs';
 import { CompanyDto } from 'libs/models/company';
 import { CompanyApiService } from 'libs/data/payfactors-api/company';
 
-import * as fromJobDescriptionActions from '../actions';
-import { CompanyLogo } from '../models';
+import * as fromJobDescriptionActions from 'libs/features/job-description-management/actions/';
+import { CompanyLogo } from 'libs/features/job-description-management/models';
 
 @Injectable()
 export class CompanyLogoEffects {

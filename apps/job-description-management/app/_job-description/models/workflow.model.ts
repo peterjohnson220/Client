@@ -1,4 +1,4 @@
-import { WorkflowStep } from '../../shared/models';
+import { WorkflowStep } from 'libs/features/job-description-management';
 
 export interface Workflow {
   EntityType: string;

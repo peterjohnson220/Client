@@ -3,7 +3,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
 import * as fromJobMatchesActions from '../actions/job-matches.actions';
-import { JobMatchResult } from '../models';
+import { JobMatchResult } from 'libs/features/job-description-management';
 
 export interface State {
   jobMatchesAsync: AsyncStateObj<JobMatchResult[]>;

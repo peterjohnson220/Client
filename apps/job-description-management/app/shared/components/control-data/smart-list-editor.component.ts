@@ -7,7 +7,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { ControlTypeAttribute } from 'libs/models/common';
 
-import { BulletType, SmartListHierarchy } from '../../models';
+import { BulletType, SmartListHierarchy } from 'libs/features/job-description-management/models';
 
 const cheerio = require('cheerio');
 declare var Quill: any;

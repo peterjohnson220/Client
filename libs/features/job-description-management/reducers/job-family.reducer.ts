@@ -1,6 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import * as fromJobFamilyActions from '../../shared/actions/job-family.actions';
+import * as fromJobFamilyActions from 'libs/features/job-description-management/actions/job-family.actions';
 
 export interface State {
   jobFamilies: string[];

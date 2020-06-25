@@ -13,7 +13,7 @@ import { MessageHelper } from 'libs/core';
 
 import * as fromTemplateActions from '../actions';
 import * as fromTemplateReducers from '../reducers';
-import { ErrorGenerationService } from '../../../shared/services';
+import { ErrorGenerationService } from 'libs/features/job-description-management';
 
 
 @Injectable()

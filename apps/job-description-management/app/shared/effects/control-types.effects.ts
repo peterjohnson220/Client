@@ -7,7 +7,7 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api';
 
-import * as fromControlTypeActions from '../actions/control-types.actions';
+import * as fromControlTypeActions from 'libs/features/job-description-management/actions/control-types.actions';
 
 @Injectable()
 export class ControlTypesEffects {

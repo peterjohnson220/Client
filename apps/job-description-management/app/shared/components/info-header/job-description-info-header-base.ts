@@ -9,9 +9,9 @@ import { JobDescription } from 'libs/models/jdm/job-description.model';
 import { JobInformationField } from 'libs/models/jdm/job-information-field.model';
 import * as fromRootState from 'libs/state/state';
 
-import * as fromJobDescriptionAppliesToReducers from '../../reducers/index';
-import * as fromJobDescriptionAppliesToActions from '../../actions/job-description-appliesto.actions';
-import { JobDescriptionAppliesToItem } from '../../models';
+import * as fromJobDescriptionAppliesToReducers from 'libs/features/job-description-management/reducers/index';
+import * as fromJobDescriptionAppliesToActions from 'libs/features/job-description-management/actions/job-description-appliesto.actions';
+import { JobDescriptionAppliesToItem } from 'libs/features/job-description-management/models';
 
 @Directive()
 export abstract class JobDescriptionInfoHeaderBase implements OnInit, OnChanges {

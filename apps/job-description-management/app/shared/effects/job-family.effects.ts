@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 import { MessageHelper } from 'libs/core';
 
-import * as fromJobFamilyActions from '../../shared/actions/job-family.actions';
+import * as fromJobFamilyActions from 'libs/features/job-description-management/actions/job-family.actions';
 
 @Injectable()
 export class JobFamilyEffects {

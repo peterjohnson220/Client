@@ -13,9 +13,9 @@ import {
   AppliesToAttributesExistResponse
 } from 'libs/models/payfactors-api/job-description/response/applies-to-attributes-exist-response.model';
 
-import * as fromJobDescriptionAppliesToActions from '../actions/job-description-appliesto.actions';
-import * as fromJobDescriptionAppliesToReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../helpers';
+import * as fromJobDescriptionAppliesToActions from 'libs/features/job-description-management/actions/job-description-appliesto.actions';
+import * as fromJobDescriptionAppliesToReducer from 'libs/features/job-description-management/reducers';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 
 @Injectable()
 export class JobDescriptionAppliesToEffects {

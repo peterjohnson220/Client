@@ -3,7 +3,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { ControlType } from 'libs/models/common';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
-import * as fromControlTypes from '../../shared/actions/control-types.actions';
+import * as fromControlTypes from 'libs/features/job-description-management/actions/control-types.actions';
 
 export interface State {
   controlTypesAsync: AsyncStateObj<ControlType[]>;
