@@ -12,7 +12,7 @@ export enum LoaderSettingKeyName {
   PricingsTDCMRP = 'PricingsTDCMRP',
   PricingsAllowMRP = 'PricingsAllowMRP',
   PricingsFixedMRP = 'PricingsFixedMRP',
-  PricingsRenumMRP = 'PricingsRenumMRP',
+  PricingsRemunMRP = 'PricingsRemunMRP',
   PricingsTGPMRP = 'PricingsTGPMRP',
   PricingsBonusPctMRP = 'PricingsBonusPctMRP',
   PricingsBonusTargetMRP = 'PricingsBonusTargetMRP',

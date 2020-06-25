@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash';
+
 import { ConfigurationGroup, EmailRecipientModel } from 'libs/models/data-loads';
 
 import * as fromPricingLoaderActions from '../actions/pricing-loader.actions';
@@ -5,6 +7,7 @@ import * as fromPricingLoaderActions from '../actions/pricing-loader.actions';
 export interface State {
   configGroup: ConfigurationGroup;
   emailRecipient: EmailRecipientModel;
+  savingConfigGroupSuccess: boolean;
   processing: boolean;
   processingSuccess: boolean;
   processingError: boolean;
@@ -14,6 +17,7 @@ export interface State {
 const initialState: State = {
   configGroup: null,
   emailRecipient: null,
+  savingConfigGroupSuccess: false,
   processing: false,
   processingSuccess: false,
   processingError: false,
@@ -38,9 +42,19 @@ export function reducer(state = initialState, action: fromPricingLoaderActions.A
       return {
         ...state,
         processing: true,
+        savingConfigGroupSuccess: false,
         processingSuccess: false,
         processingError: false,
         errorMessage: null
+      };
+    }
+    case fromPricingLoaderActions.SAVE_CONFIG_SUCCESS: {
+      const configGroupClone: ConfigurationGroup = cloneDeep(state.configGroup);
+      configGroupClone.LoaderConfigurationGroupId = action.payload.loaderConfigurationGroupId;
+      return {
+        ...state,
+        savingConfigGroupSuccess: true,
+        configGroup: configGroupClone
       };
     }
     case fromPricingLoaderActions.PROCESSING_SUCCESS: {
@@ -64,6 +78,7 @@ export function reducer(state = initialState, action: fromPricingLoaderActions.A
         configGroup: null,
         processing: false,
         processingError: false,
+        savingConfigGroupSuccess: false,
         errorMessage: null
       };
     }
@@ -79,3 +94,4 @@ export const getProcessing = (state: State) => state.processing;
 export const getProcessingSuccess = (state: State) => state.processingSuccess;
 export const getProcessingError = (state: State) => state.processingError;
 export const getErrorMessage = (state: State) => state.errorMessage;
+export const getSavingConfigGroupSuccess = (state: State) => state.savingConfigGroupSuccess;

@@ -21,7 +21,7 @@ export class PricingLoaderSettingsHelper {
       this.generateDefaultMRPField(LoaderSettingKeyName.PricingsTDCMRP, 'TDC', 'Group1'),
       this.generateDefaultMRPField(LoaderSettingKeyName.PricingsAllowMRP, 'Allow', 'Group1'),
       this.generateDefaultMRPField(LoaderSettingKeyName.PricingsFixedMRP, 'Fixed', 'Group1'),
-      this.generateDefaultMRPField(LoaderSettingKeyName.PricingsRenumMRP, 'Renum', 'Group2'),
+      this.generateDefaultMRPField(LoaderSettingKeyName.PricingsRemunMRP, 'Remun', 'Group2'),
       this.generateDefaultMRPField(LoaderSettingKeyName.PricingsTGPMRP, 'TGP', 'Group2'),
       this.generateDefaultMRPField(LoaderSettingKeyName.PricingsBonusPctMRP, 'Bonus %', 'Group2'),
       this.generateDefaultMRPField(LoaderSettingKeyName.PricingsBonusTargetMRP, 'Bonus Target', 'Group2'),

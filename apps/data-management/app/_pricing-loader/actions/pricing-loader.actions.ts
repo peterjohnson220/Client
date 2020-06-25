@@ -1,15 +1,18 @@
 import { Action } from '@ngrx/store';
 
 import { EmailRecipientModel, ConfigurationGroup } from 'libs/models/data-loads';
+import { UserContext } from 'libs/models';
 
 export const SET_CONFIG_GROUP = '[Pricing Loader] Set Config Group';
 export const SET_EMAIL_RECIPIENT = '[Pricing Loader] Set Email Recipient';
 export const SAVE_CONFIG = '[Pricing Loader] Save Pricing Loader Config';
 export const SAVE_CONFIG_SUCCESS = '[Pricing Loader] Save Pricing Loader Config Success';
+export const UPLOAD_FILE = '[Pricing Loader] Upload File';
 export const PROCESSING_SUCCESS = '[Pricing Loader] Processing Success';
 export const PROCESSING_ERROR = '[Pricing Loader] Processing Error';
 export const ADD_EMAIL_RECIPIENT = '[Pricing Loader] Add Email Recipient';
 export const ADD_EMAIL_RECIPIENT_SUCCESS = '[Pricing Loader] Add Email Recipient Success';
+export const ADD_EMAIL_RECIPIENT_ERROR = '[Pricing Loader] Add Email Recipient Error';
 export const RESET_PRICING_LOADER_STATE = '[Pricing Loader] Reset Pricing Loader State';
 
 export class SetConfigGroup implements Action {
@@ -44,12 +47,22 @@ export class ProcessingError implements Action {
 
 export class AddEmailRecipient implements Action {
   readonly type = ADD_EMAIL_RECIPIENT;
-  constructor(public payload: EmailRecipientModel) {}
+  constructor() {}
 }
 
 export class AddEmailRecipientSuccess implements Action {
   readonly type = ADD_EMAIL_RECIPIENT_SUCCESS;
   constructor() {}
+}
+
+export class AddEmailRecipientError implements Action {
+  readonly type = ADD_EMAIL_RECIPIENT_ERROR;
+  constructor() {}
+}
+
+export class UploadFile implements Action {
+  readonly type = UPLOAD_FILE;
+  constructor(public payload: { companyId: number, userContext: UserContext, file: File}) {}
 }
 
 export class ResetState implements Action {
@@ -66,4 +79,6 @@ export type Actions
   | ProcessingError
   | AddEmailRecipient
   | AddEmailRecipientSuccess
+  | AddEmailRecipientError
+  | UploadFile
   | ResetState;
