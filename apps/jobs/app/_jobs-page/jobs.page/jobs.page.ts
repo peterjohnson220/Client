@@ -126,18 +126,18 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   multiMatchImplementation = MODIFY_PRICINGS;
 
-  @ViewChild('gridRowActionsTemplate', { static: false }) gridRowActionsTemplate: ElementRef;
-  @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
-  @ViewChild('jobMatchCount', { static: false }) jobMatchCount: ElementRef;
-  @ViewChild('jobStatusColumn', { static: false }) jobStatusColumn: ElementRef;
-  @ViewChild('hasPeerDataColumn', { static: false }) hasPeerDataColumn: ElementRef;
+  @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
+  @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
+  @ViewChild('jobMatchCount') jobMatchCount: ElementRef;
+  @ViewChild('jobStatusColumn') jobStatusColumn: ElementRef;
+  @ViewChild('hasPeerDataColumn') hasPeerDataColumn: ElementRef;
 
-  @ViewChild('peerFilter', { static: false }) peerFilter: ElementRef;
-  @ViewChild('payMarketFilter', { static: false }) payMarketFilter: ElementRef;
-  @ViewChild('jobStatusFilter', { static: false }) jobStatusFilter: ElementRef;
+  @ViewChild('peerFilter') peerFilter: ElementRef;
+  @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
+  @ViewChild('jobStatusFilter') jobStatusFilter: ElementRef;
 
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
-  @ViewChild('structureGradeFilter', { static: false }) structureGradeFilter: ElementRef;
+  @ViewChild('structureGradeFilter') structureGradeFilter: ElementRef;
 
 
   constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private companyJobApiService: CompanyJobApiService) { }

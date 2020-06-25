@@ -30,7 +30,7 @@ describe('AttachmentDeleteModalComponent', () => {
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(AttachmentDeleteModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

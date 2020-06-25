@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { UploadedFile, UserTicketDto } from 'libs/models/service';
 import { UserTicketFile } from 'libs/models/payfactors-api/service/response';
-import { MultiSelectItemGroup } from 'libs/ui/common';
+import { GroupedListItem } from 'libs/models/list';
 
 import { TicketType, SupportTeamUser, TicketListMode, UserTicket } from '../models';
 
@@ -95,7 +95,7 @@ export class GetTicketStates implements Action {
 export class GetTicketStatesSuccess implements Action {
   readonly type = GET_TICKET_STATES_SUCCESS;
 
-  constructor(public payload: MultiSelectItemGroup[]) {}
+  constructor(public payload: GroupedListItem[]) {}
 }
 
 export class GetTicketStatesError implements Action {
@@ -106,7 +106,7 @@ export class GetTicketStatesError implements Action {
 export class UpdateSelectedTicketStates implements Action {
   readonly type = UPDATE_SELECTED_TICKET_STATES;
 
-  constructor(public payload: MultiSelectItemGroup[]) {}
+  constructor(public payload: { ticketStateValues: string[] }) {}
 }
 
 export class SetTicketListMode implements Action {

@@ -77,16 +77,12 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
         <button
           class="m-0 pl-1 pr-1 toggle-setting-off"
           id="btnBeforeEffectiveDate"
-          ng-reflect-klass="m-0 pl-1 pr-1"
-          ng-reflect-ng-class="toggle-setting-off"
         >
           before
         </button>
         <button
           class="m-0 pl-1 pr-1 toggle-setting-on"
           id="btnAfterEffectiveDate"
-          ng-reflect-klass="m-0 pl-1 pr-1"
-          ng-reflect-ng-class="toggle-setting-on"
         >
           after
         </button>

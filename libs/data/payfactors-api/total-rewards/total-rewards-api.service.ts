@@ -19,8 +19,8 @@ export class TotalRewardsApiService {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetStatements`, params, MappingHelper.mapListAreaResultToAggregateGridDataResult);
   }
 
-  getStatementFromTemplateId(templateId: string): Observable<Statement> {
-    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementFromTemplateId`, {params: { templateId }}, this.mapStatement);
+  createStatementFromTemplateId(templateId: string): Observable<string> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/CreateStatementFromTemplateId?templateId=${templateId}`, this.mapStatement);
   }
 
   getStatementFromId(statementId: string): Observable<Statement> {
@@ -43,15 +43,15 @@ export class TotalRewardsApiService {
     return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetTemplates`);
   }
 
+  deleteStatement(statementId: string): Observable<any> {
+    return this.payfactorsApiService.delete<any>(`${this.endpoint}/DeleteStatement?statementId=${statementId}`);
+  }
+
   deleteStatementImage(fileName: string): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteStatementImage?fileName=${fileName}`);
   }
 
   private mapStatement(statement: Statement) {
     return { ...statement, EffectiveDate: (statement.EffectiveDate) ? new Date(statement.EffectiveDate) : null };
-  }
-
-  searchEmployees(searchRequest: any) {
-    return this.payfactorsApiService.post(`${this.endpoint}/SearchEmployees`, searchRequest);
   }
 }

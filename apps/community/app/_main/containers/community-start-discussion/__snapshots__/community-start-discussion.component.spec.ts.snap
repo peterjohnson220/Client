@@ -6,7 +6,9 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
   appNotificationStore={[Function Store]}
   communityAttachments={[Function Array]}
   currentAttachmentModalState$={[Function Store]}
+  discardingPostProceed$={[Function Store]}
   getNotification$={[Function Store]}
+  newPostHasData="false"
   postType="0"
   route={[Function Object]}
   store={[Function Store]}
@@ -44,8 +46,15 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
       <div
         class="footer-container"
       >
+        <div
+          class="float-left"
+        >
+          
+          
+        </div>
+        
         <button
-          class="btn btn-primary float-right shadow-none"
+          class="btn btn-primary float-right"
           data-qa-id="btn-startDiscussionPost"
           id="start-discussion-post-button"
         >
@@ -64,7 +73,9 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
   appNotificationStore={[Function Store]}
   communityAttachments={[Function Array]}
   currentAttachmentModalState$={[Function Store]}
+  discardingPostProceed$={[Function Store]}
   getNotification$={[Function Store]}
+  newPostHasData="false"
   postType={[Function Number]}
   route={[Function Object]}
   store={[Function Store]}
@@ -102,8 +113,15 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
       <div
         class="footer-container"
       >
+        <div
+          class="float-left"
+        >
+          
+          
+        </div>
+        
         <button
-          class="btn btn-primary float-right shadow-none"
+          class="btn btn-primary float-right"
           data-qa-id="btn-startDiscussionPost"
           id="start-discussion-post-button"
         >

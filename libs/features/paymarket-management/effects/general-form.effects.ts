@@ -66,19 +66,6 @@ export class GeneralFormEffects {
       })
     );
 
-  @Effect()
-  getDefaultPayMarket$ = this.actions$
-    .pipe(
-      ofType(fromGeneralFormActions.GET_DEFAULT_USER_PAY_MARKET),
-      switchMap((action: fromGeneralFormActions.GetDefaultUserPayMarket) => {
-        return this.payMarketApiService.getDefaultUserPayMarket()
-          .pipe(
-            map((response) => new fromGeneralFormActions.GetDefaultUserPayMarketSuccess(response)),
-            catchError(() => of(new fromGeneralFormActions.GetDefaultUserPayMarketError()))
-          );
-      })
-    );
-
   constructor(
     private actions$: Actions,
     private countryApiService: CountryApiService,

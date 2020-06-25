@@ -28,7 +28,7 @@ describe('Job Description Management - Settings - Job Info View Editor', () => {
     fixture = TestBed.createComponent(JobInfoViewEditorComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should stop propagation on the mouse event, when handling a select all click', () => {
@@ -41,42 +41,42 @@ describe('Job Description Management - Settings - Job Info View Editor', () => {
   });
 
   it('should dispatch an action to the set the status of all fields, when handling a select all click', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const mouseEvent = new MouseEvent('click');
     const expectedAction = new fromJobInfoViewEditorActions.SetAllJobInfoViewFields({ checked: true });
 
     instance.handleSelectAllClicked(mouseEvent);
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should do nothing if the job info field is locked, when handling a job info view field clicked', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const mockJobInfoViewField = {...generateMockJobInfoViewField(), Locked: true };
 
     instance.handleJobInfoViewFieldClicked(mockJobInfoViewField);
 
-    expect(instance.store.dispatch).not.toHaveBeenCalled();
+    expect(store.dispatch).not.toHaveBeenCalled();
   });
 
   it('should dispatch an action to toggle the job info view field, when handling a job info view field clicked', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const mockJobInfoViewField = generateMockJobInfoViewField();
     const expectedAction = new fromJobInfoViewEditorActions.ToggleJobInfoViewField(mockJobInfoViewField);
 
     instance.handleJobInfoViewFieldClicked(mockJobInfoViewField);
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should dispatch an action to toggle the job info view field, when handling a job info view field clicked', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const mockJobInfoViewField = generateMockJobInfoViewField();
     const expectedAction = new fromJobInfoViewEditorActions.ToggleJobInfoViewField(mockJobInfoViewField);
 
     instance.handleJobInfoViewFieldClicked(mockJobInfoViewField);
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should not set the job info fields when the async object has not been loaded', () => {
@@ -119,7 +119,7 @@ describe('Job Description Management - Settings - Job Info View Editor', () => {
   });
 
   it('should dispatch an action to reset, upon destroy', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const expectedAction = new fromJobInfoViewEditorActions.Reset();
 
     // Init
@@ -127,6 +127,6 @@ describe('Job Description Management - Settings - Job Info View Editor', () => {
 
     instance.ngOnDestroy();
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

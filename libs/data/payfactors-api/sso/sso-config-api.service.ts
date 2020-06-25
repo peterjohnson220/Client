@@ -19,4 +19,8 @@ export class SsoConfigApiService {
   getSsoConfigurations(): Observable<any> {
     return this.payfactorsApiService.get(`${this.endpoint}/Get`);
   }
+
+  getSsoLoginUrl(): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetSsoLoginUrl`);
+  }
 }

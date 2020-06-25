@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MarketDataFeedExport } from '../../model';
+import { FeedStatus, MarketDataFeedExport } from '../../model';
 
 @Component({
   selector: 'pf-market-data-feed-export-card',
@@ -9,6 +9,7 @@ import { MarketDataFeedExport } from '../../model';
 export class MarketDataFeedExportCardComponent {
   @Input() marketDataFeedExport: MarketDataFeedExport;
 
+  feedStatus = FeedStatus;
   constructor() { }
 
 }

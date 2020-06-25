@@ -30,7 +30,7 @@ import { MarketDataFeedPageRoutingModule } from './market-data-feed-routing.modu
     MarketDataFeedPageRoutingModule,
 
     // 3rd Party
-    StoreModule.forFeature('marketDataFeedPage_main', reducers),
+    StoreModule.forFeature('marketDataFeed_main', reducers),
     EffectsModule.forFeature([
       MarketDataFeedPageEffects
     ]),

@@ -40,7 +40,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(AccessModalComponent);
     instance = fixture.componentInstance;

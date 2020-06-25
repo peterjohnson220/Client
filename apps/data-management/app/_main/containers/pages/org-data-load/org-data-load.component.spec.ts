@@ -21,7 +21,7 @@ describe('OrgDataLoadComponent', () => {
   let instance: OrgDataLoadComponent;
   let fixture: ComponentFixture<OrgDataLoadComponent>;
   let store: Store<fromCompanyReducer.State>;
-  const companies = [{ CompanyId: 1, CompanyName: 'Test1' }, { CompanyId: 2, CompanyName: 'abc2' }];
+  const companies = [{ CompanyId: 1, CompanyName: 'Test1', CombinedDetail: 'Test1 (1)' }, { CompanyId: 2, CompanyName: 'abc2', CombinedDetail: 'abc2 (2)' }];
   const companySetting_ManualOrgDataLoadLink_True = [
     {Key: CompanySettingsEnum.ManualOrgDataLoadLink, DisplayName: 'Manual Org Data Load Link', Value: 'true', Visible: true, DataType: 'string'}];
   const companySetting_ManualOrgDataLoadLink_False = [
@@ -37,7 +37,7 @@ describe('OrgDataLoadComponent', () => {
     });
 
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(OrgDataLoadComponent);
     instance = fixture.componentInstance;
     spyOn(store, 'dispatch');
@@ -88,6 +88,7 @@ describe('OrgDataLoadComponent', () => {
     instance.stepIndex = 2;
     instance.loadOptions = getEntityChoicesForOrgLoader();
     instance.loadOptions[1].isChecked = true;
+    // @ts-ignore
     instance.tooltip = { open: jest.fn() };
     const ret = instance.areStepsValid();
     expect(ret).toBe(true);
@@ -141,6 +142,7 @@ describe('OrgDataLoadComponent', () => {
     instance.goBack();
     expect(instance.stepIndex).toBe(1);
 
+    // @ts-ignore
     instance.uploadComponent = {
       ClearAllFiles: jest.fn(),
       ClearAllErrorMessages: jest.fn()

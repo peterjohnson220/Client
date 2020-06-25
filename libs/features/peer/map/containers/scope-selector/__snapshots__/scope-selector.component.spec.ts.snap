@@ -23,18 +23,12 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
 >
   <div
     class="scope-selector-container custom-modal-popover custom-modal-arrow"
-    ng-reflect-klass="scope-selector-container"
-    ng-reflect-ng-class="[object Object]"
   >
     
     
     <button
       class="btn btn-secondary selector"
       disabled=""
-      ng-reflect-auto-close="outside"
-      ng-reflect-ngb-popover="[object Object]"
-      ng-reflect-placement="right"
-      ng-reflect-popover-title="Select a Scope"
       popovertitle="Select a Scope"
       type="button"
     >
@@ -112,17 +106,11 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
 >
   <div
     class="scope-selector-container custom-modal-popover custom-modal-arrow"
-    ng-reflect-klass="scope-selector-container"
-    ng-reflect-ng-class="[object Object]"
   >
     
     
     <button
       class="btn btn-secondary selector"
-      ng-reflect-auto-close="outside"
-      ng-reflect-ngb-popover="[object Object]"
-      ng-reflect-placement="right"
-      ng-reflect-popover-title="Select a Scope"
       popovertitle="Select a Scope"
       type="button"
     >
@@ -200,17 +188,11 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
 >
   <div
     class="scope-selector-container custom-modal-popover custom-modal-arrow"
-    ng-reflect-klass="scope-selector-container"
-    ng-reflect-ng-class="[object Object]"
   >
     
     
     <button
       class="btn btn-secondary selector"
-      ng-reflect-auto-close="outside"
-      ng-reflect-ngb-popover="[object Object]"
-      ng-reflect-placement="right"
-      ng-reflect-popover-title="Select a Scope"
       popovertitle="Select a Scope"
       type="button"
     >
@@ -288,17 +270,11 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
 >
   <div
     class="scope-selector-container custom-modal-popover custom-modal-arrow"
-    ng-reflect-klass="scope-selector-container"
-    ng-reflect-ng-class="[object Object]"
   >
     
     
     <button
       class="btn btn-secondary selector"
-      ng-reflect-auto-close="outside"
-      ng-reflect-ngb-popover="[object Object]"
-      ng-reflect-placement="right"
-      ng-reflect-popover-title="Select a Scope"
       popovertitle="Select a Scope"
       type="button"
     >
@@ -376,17 +352,11 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
 >
   <div
     class="scope-selector-container custom-map-popover custom-map-arrow scope-selector-no-padding"
-    ng-reflect-klass="scope-selector-container"
-    ng-reflect-ng-class="[object Object]"
   >
     
     
     <button
       class="btn btn-secondary selector"
-      ng-reflect-auto-close="outside"
-      ng-reflect-ngb-popover="[object Object]"
-      ng-reflect-placement="bottom-right"
-      ng-reflect-popover-title="Select a Scope"
       popovertitle="Select a Scope"
       type="button"
     >

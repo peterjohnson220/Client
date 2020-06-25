@@ -3,13 +3,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { AsyncStateObj, GroupedListItem, DefaultUserPayMarket } from 'libs/models';
+import { AsyncStateObj, GroupedListItem, PayMarketWithMdScope } from 'libs/models';
 import { TreeViewMode } from 'libs/ui/common/pf-treeview';
 import { MDLocationsRequest } from 'libs/models/payfactors-api';
 
 import * as fromPayMarketManagementReducer from '../../reducers';
 import * as fromMdScopeActions from '../../actions/market-data-scope.actions';
-import { Scope } from '../../models';
+import { Scope, ScopeLabel } from '../../models';
 import { GeneralFormHelper } from '../../helpers';
 
 @Component({
@@ -18,12 +18,12 @@ import { GeneralFormHelper } from '../../helpers';
   styleUrls: ['./market-data-scope.component.scss']
 })
 export class MarketDataScopeComponent implements OnInit, OnDestroy {
-  defaultPayMarket$: Observable<AsyncStateObj<DefaultUserPayMarket>>;
+  payMarket$: Observable<AsyncStateObj<PayMarketWithMdScope>>;
   industries$: Observable<AsyncStateObj<GroupedListItem[]>>;
   sizes$: Observable<AsyncStateObj<GroupedListItem[]>>;
   locations$: Observable<AsyncStateObj<GroupedListItem[]>>;
 
-  defaultPayMarketSubscription: Subscription;
+  payMarketSubscription: Subscription;
   sizesSubscription: Subscription;
   industriesSubscription: Subscription;
 
@@ -35,19 +35,18 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
   sizes: GroupedListItem[];
   industries: GroupedListItem[];
   filteredSizes: GroupedListItem[];
-  defaultPayMarket: DefaultUserPayMarket;
+  payMarket: PayMarketWithMdScope;
   defaultLocation: GroupedListItem;
   selectedSize: Scope;
   selectedIndustry: Scope;
   selectedLocation: Scope;
 
-  readonly DEFAULT_ALL = 'All:All';
   readonly DEFAULT_COUNTRY_CODE = 'USA';
 
   constructor(
     private store: Store<fromPayMarketManagementReducer.State>
   ) {
-    this.defaultPayMarket$ = this.store.select(fromPayMarketManagementReducer.getDefaultPayMarket);
+    this.payMarket$ = this.store.select(fromPayMarketManagementReducer.getPayMarket);
     this.industries$ = this.store.select(fromPayMarketManagementReducer.getAllIndustries);
     this.sizes$ = this.store.select(fromPayMarketManagementReducer.getSizes);
     this.locations$ = this.store.select(fromPayMarketManagementReducer.getLocations);
@@ -55,16 +54,17 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.defaultPayMarketSubscription = this.defaultPayMarket$.subscribe(asyncObj => this.handleDefaultPayMarketChanged(asyncObj));
+    this.payMarketSubscription = this.payMarket$.subscribe(asyncObj => this.handlePayMarketChanged(asyncObj));
     this.sizesSubscription = this.sizes$.subscribe(results => {
       if (results && !results.loading && !!results.obj && !!results.obj.length) {
         this.sizes = results.obj;
-        this.updateSizeControl(this.defaultPayMarket.IndustryGroup);
+        this.updateSizeControl(this.payMarket.IndustryGroup);
       }
     });
     this.industriesSubscription = this.industries$.subscribe(results => {
       if (results && !results.loading && !!results.obj && !!results.obj.length) {
         this.industries = results.obj;
+        this.updateIndustryControl();
       }
     });
   }
@@ -72,18 +72,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sizesSubscription.unsubscribe();
     this.industriesSubscription.unsubscribe();
-    this.defaultPayMarketSubscription.unsubscribe();
-  }
-
-  handleDefaultPayMarketChanged(asyncObj: AsyncStateObj<DefaultUserPayMarket>): void {
-    if (!asyncObj || !asyncObj.obj) {
-      return;
-    }
-    this.defaultPayMarket = asyncObj.obj;
-    this.countryCode = this.defaultPayMarket.CountryCode;
-    this.refreshSize();
-    this.refreshIndustry();
-    this.refreshLocation();
+    this.payMarketSubscription.unsubscribe();
   }
 
   handleSelectedSizesChanged(sizes: string[]): void {
@@ -120,7 +109,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
   }
 
   handleLocationSearchChanged(searchTerm: string): void {
-    if (!searchTerm && searchTerm.length < 2) {
+    if (!searchTerm || searchTerm.length < 2) {
       this.loadLocations();
     } else {
       this.loadLocations(searchTerm);
@@ -137,9 +126,20 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
 
   updateLocationsByCountryCode(countryCode: string): void {
     this.countryCode = countryCode;
-    this.defaultLocation = GeneralFormHelper.buildAllItem();
-    this.locationCheckedKeys = [this.defaultLocation.Value];
-    this.loadLocations();
+    this.defaultLocation = GeneralFormHelper.buildAllItem(ScopeLabel.Location);
+    this.refreshLocation();
+  }
+
+  private handlePayMarketChanged(asyncObj: AsyncStateObj<PayMarketWithMdScope>): void {
+    if (!asyncObj || !asyncObj.obj) {
+      return;
+    }
+    this.payMarket = asyncObj.obj;
+    this.countryCode = this.payMarket.CountryCode;
+    this.defaultLocation = GeneralFormHelper.buildDefaultLocation(this.payMarket);
+    this.refreshSize();
+    this.refreshIndustry();
+    this.refreshLocation();
   }
 
   private loadSizes(): void {
@@ -162,7 +162,7 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
     if (!this.sizes) {
       this.loadSizes();
     } else {
-      this.updateSizeControl(this.defaultPayMarket.IndustryGroup);
+      this.updateSizeControl(this.payMarket.IndustryGroup);
     }
   }
 
@@ -175,36 +175,42 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
   }
 
   private refreshLocation(): void {
-    this.defaultLocation = GeneralFormHelper.buildDefaultLocation(this.defaultPayMarket);
+    if (!this.defaultLocation) {
+      return;
+    }
+    this.selectedLocation = GeneralFormHelper.buildScopeLocation(this.defaultLocation.Value);
     this.locationCheckedKeys = [this.defaultLocation.Value];
+    this.loadLocations();
   }
 
   private updateIndustryControl(): void {
-    if (!this.defaultPayMarket) {
+    if (!this.payMarket) {
       return;
     }
     this.selectedIndustry = {
-      Label: this.defaultPayMarket.IndustryLabel,
-      Value: this.defaultPayMarket.IndustryValue,
-      Group: this.defaultPayMarket.IndustryGroup
+      Label: this.payMarket.IndustryLabel,
+      Value: this.payMarket.IndustryValue,
+      Group: this.payMarket.IndustryGroup
     };
+    const industryAllItem: GroupedListItem = GeneralFormHelper.buildAllItem(ScopeLabel.Industry);
     this.industryCheckedKeys = !!this.selectedIndustry.Label && !!this.selectedIndustry.Value && this.selectedIndustry.Value !== 'All'
       ? [`${this.selectedIndustry.Label}:${this.selectedIndustry.Group}:${this.selectedIndustry.Value}`]
-      : [this.DEFAULT_ALL];
+      : [industryAllItem.Value];
   }
 
   private updateSizeControl(industryGroup: string, size?: Scope): void {
     if (!this.sizes) {
       return;
     }
+    const sizeAllItem: GroupedListItem = GeneralFormHelper.buildAllItem(ScopeLabel.Size);
     const defaultSize = {
-      Label: this.defaultPayMarket.SizeLabel ? this.defaultPayMarket.SizeLabel : 'All',
-      Value: this.defaultPayMarket.SizeValue ? this.defaultPayMarket.SizeValue : 'All'
+      Label: this.payMarket.SizeLabel ? this.payMarket.SizeLabel : 'Size',
+      Value: this.payMarket.SizeValue ? this.payMarket.SizeValue : 'All'
     };
     this.selectedSize = size ? size : defaultSize;
     this.filteredSizes = this.sizes.filter(s => s.Level === null || (!!industryGroup && s.Level.indexOf(industryGroup) > -1));
     this.sizeCheckedKeys = !!this.selectedSize.Label && !!this.selectedSize.Value && this.selectedSize.Value !== 'All'
       ? [`${this.selectedSize.Label}:${this.selectedSize.Value}`]
-      : [this.DEFAULT_ALL];
+      : [sizeAllItem.Value];
   }
 }

@@ -5,16 +5,17 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { isEmpty, isNumber, isObject } from 'lodash';
 import { Observable, of } from 'rxjs';
-import { catchError, delay, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { LoadTypes } from 'libs/constants';
 import { ConnectionsHrisApiService, ConfigurationGroupApiService, LoaderSettingsApiService } from 'libs/data/payfactors-api';
-import { ConnectionSummaryResponse, CredentialsPackage, ValidateCredentialsResponse } from 'libs/models';
+import { ConnectionSummaryResponse, CredentialsPackage, ValidateCredentialsResponse, PatchProperty } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromHrisConnectionReducer from '../reducers/hris-connection.reducer';
 import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
+import * as fromLoadersSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import * as fromReducers from '../reducers';
 import { TransferDataWorkflowStep } from '../data';
@@ -49,10 +50,14 @@ export class HrisConnectionEffects {
           obj.action.payload,
           obj.userContext.CompanyId,
           obj.connectionSummary.provider.ProviderId,
-          obj.configGroup.LoaderConfigurationGroupId,
+          obj.connectionSummary.validationMode,
+          obj.configGroup.LoaderConfigurationGroupId
         );
         if (obj.connectionSummary.connectionID) {
           connectionPostModel.connection.connection_ID = obj.connectionSummary.connectionID;
+          connectionPostModel.connection.validationMode = obj.connectionSummary.validationMode;
+        } else {
+          connectionPostModel.connection.validationMode = true;
         }
         return this.connectionService.connect(obj.userContext, connectionPostModel)
           .pipe(
@@ -202,6 +207,7 @@ export class HrisConnectionEffects {
       })
     );
 
+  // TODO: Fix this to be less reliant on re-auth or refactor to indicate
   @Effect()
     patchHrisConnection$: Observable<Action> = this.actions$
       .pipe(
@@ -262,6 +268,41 @@ export class HrisConnectionEffects {
           );
       })
     );
+
+    @Effect()
+    toggleValidationMode$: Observable<Action> = this.actions$
+      .pipe(
+        ofType<fromHrisConnectionActions.ToggleValidationMode>(fromHrisConnectionActions.TOGGLE_VALIDATION_MODE),
+        withLatestFrom(
+          this.store.pipe(select(fromRootState.getUserContext)),
+          this.store.pipe(select(fromReducers.getHrisConnectionSummary)),
+        (action, userContext, connectionSummary) => {
+          return {
+            action,
+            userContext,
+            connectionSummary
+          };
+        }),
+        switchMap((obj) => {
+          const request: PatchProperty = {
+            PropertyName: 'ValidationMode',
+            PropertyValue: obj.action.payload
+          };
+          const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, obj.connectionSummary);
+          loaderSettingsDto.settings.find( setting => setting.KeyName === 'ValidateOnly').KeyValue = obj.action.payload.toString();
+          return this.connectionService.patchConnection(obj.userContext, obj.connectionSummary.connectionID, [request], false)
+            .pipe(
+              mergeMap(() => {
+                return [
+                  new fromHrisConnectionActions.GetHrisConnectionSummary(),
+                  new fromLoadersSettingsActions.SavingLoaderSettings(loaderSettingsDto),
+                  new fromHrisConnectionActions.ToggleValidationModeSuccess()
+                ];
+              }),
+            catchError(e => of(new fromHrisConnectionActions.ToggleValidationModeError()))
+          );
+        })
+      );
 
   constructor(
     private actions$: Actions,

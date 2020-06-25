@@ -54,6 +54,12 @@ export const SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_SUCCESS =
 export const SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_ERROR =
   '[job-description-management / Job Description Page] Set Workflow User Step To Is Being Viewed Error';
 
+export const AUTHENTICATE_SSO_PARAMS = '[job-description-management / Job Description Page] Authenticate SSO parameters';
+export const AUTHENTICATE_SSO_PARAMS_SUCCESS = '[job-description-management / Job Description Page] Authenticate SSO parameters success';
+export const AUTHENTICATE_SSO_PARAMS_ERROR = '[job-description-management / Job Description Page] Authenticate SSO parameters error';
+export const GET_SSO_LOGIN_URL = '[job-description-management / Job Description Page] Get SSO Login URL';
+export const GET_SSO_LOGIN_URL_SUCCESS = '[job-description-management / Job Description Page] Get SSO Login URL Success';
+
 export class GetJobDescription implements Action {
   readonly type = GET_JOB_DESCRIPTION;
 
@@ -285,6 +291,30 @@ export class SetWorkflowUserStepToIsBeingViewedError implements Action {
   readonly type = SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_ERROR;
 }
 
+export class AuthenticateSSOParams implements Action {
+  readonly type = AUTHENTICATE_SSO_PARAMS;
+
+  constructor(public payload: { tokenId: string, agentId: string }) {}
+}
+
+export class AuthenticateSSOParamsSuccess implements Action {
+  readonly type = AUTHENTICATE_SSO_PARAMS_SUCCESS;
+  constructor(public payload) {}
+}
+
+export class AuthenticateSSOParamsError implements Action {
+  readonly type = AUTHENTICATE_SSO_PARAMS_ERROR;
+  constructor(public payload) {}
+}
+
+export class GetSSOLoginUrl implements Action {
+  readonly type = GET_SSO_LOGIN_URL;
+}
+export class GetSSOLoginUrlSuccess implements Action {
+  readonly type = GET_SSO_LOGIN_URL_SUCCESS;
+  constructor(public payload) {}
+}
+
 export type Actions
   = GetJobDescription
   | GetJobDescriptionSuccess
@@ -325,4 +355,9 @@ export type Actions
   | UpdateJobDescriptionAppliesToValues
   | SetWorkflowUserStepToIsBeingViewed
   | SetWorkflowUserStepToIsBeingViewedSuccess
-  | SetWorkflowUserStepToIsBeingViewedError;
+  | SetWorkflowUserStepToIsBeingViewedError
+  | AuthenticateSSOParams
+  | AuthenticateSSOParamsSuccess
+  | AuthenticateSSOParamsError
+  | GetSSOLoginUrl
+  | GetSSOLoginUrlSuccess;

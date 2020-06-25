@@ -33,7 +33,7 @@ describe('Search Feature - Results Header', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(ResultsHeaderComponent);
     instance = fixture.componentInstance;

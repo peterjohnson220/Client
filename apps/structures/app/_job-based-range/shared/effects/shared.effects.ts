@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, mergeMap, catchError } from 'rxjs/operators';
 
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -30,6 +30,22 @@ export class SharedEffects {
           );
         }
       ));
+
+  @Effect()
+  removeRange$: Observable<Action> = this.actions$.pipe(
+    ofType(fromSharedActions.REMOVING_RANGE),
+    switchMap((data: any) => {
+      return this.structureModelingApiService.removeRange(data.payload).pipe(
+        mergeMap(() =>
+          [
+            new fromSharedActions.RemovingRangeSuccess(),
+            new pfDataGridActions.ClearSelections(PageViewIds.Model, [data.payload]),
+            new pfDataGridActions.LoadData(PageViewIds.Model),
+          ]),
+        catchError(error => of(new fromSharedActions.RemovingRangeError(error)))
+      );
+    })
+  );
 
   constructor(
     private actions$: Actions,

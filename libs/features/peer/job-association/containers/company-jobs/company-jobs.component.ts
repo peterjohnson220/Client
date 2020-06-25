@@ -16,7 +16,7 @@ import { InputDebounceComponent } from '../../../../../forms/components/input-de
 import * as fromJobAssociationReducers from '../../reducers';
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
-import { CompanyJob, ExchangeJobAssociation } from '../../models';
+import { CompanyJob, CompanyJobWithMatches, ExchangeJobAssociation } from '../../models';
 
 @Component({
   selector: 'pf-peer-job-association-company-jobs',
@@ -49,7 +49,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   companyJobGridDataResult: GridDataResult;
   exchangeJobAssociations: ExchangeJobAssociation[];
   maxSelectionThreshold: number;
-  selectedCompanyJobIds: CompanyJob[];
+  selectedCompanyJobIds: CompanyJobWithMatches[];
   selectedCompanyJobInDetailPanel: CompanyJob;
   searchTerm = '';
   badRequestError: string;
@@ -142,14 +142,14 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   }
 
   handleSelectAllClick(): void {
-    let selectedCompanyJobs: CompanyJob[] = [];
+    let selectedCompanyJobs: CompanyJobWithMatches[] = [];
     if (this.getSelectAllState() === 'unchecked') {
       selectedCompanyJobs = this.selectCompanyJobIdsUptoThreshold();
     }
     this.store.dispatch(new companyJobsActions.SelectCompanyJobsToAssociate(selectedCompanyJobs));
   }
 
-  selectCompanyJobIdsUptoThreshold(): CompanyJob[] {
+  selectCompanyJobIdsUptoThreshold(): CompanyJobWithMatches[] {
     return this.companyJobGridDataResult.data.slice(0, this.maxSelectionThreshold);
   }
 

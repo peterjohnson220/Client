@@ -34,7 +34,7 @@ describe('Project - MultiMatch - JobToPrice Container Component', () => {
 
   beforeEach(() => {
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(JobsToPriceContainerComponent);
     instance = fixture.componentInstance;
 

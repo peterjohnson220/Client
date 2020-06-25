@@ -65,6 +65,7 @@ export class Permissions {
   // DKG: Note there are two similar Org Loader permissions for different tiles, one for Company-Admin and one for Data-Management
   public static DATAMANAGEMENT_ORG_DATA_LOAD = 'Load Organizational Data';
   public static TABULAR_REPORT_BUILDER = 'Tabular_Report_Builder';
+  public static PRICING_LOADER = 'Pricing Loader';
 }
 
 export enum PermissionCheckEnum {

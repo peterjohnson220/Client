@@ -1,12 +1,18 @@
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
 
+import * as cloneDeep from 'lodash.clonedeep';
+
 import * as fromSharedActions from '../actions/shared.actions';
 import { RangeGroupMetadata } from '../models';
+
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObjHelper } from 'libs/core';
 
 export interface State {
   metadata: RangeGroupMetadata;
   roundingSettings: RoundingSettingsDataObj;
+  removingRange: AsyncStateObj<boolean>;
 }
 
 const initialState: State = {
@@ -24,7 +30,8 @@ const initialState: State = {
       RoundingType: RoundingTypes.Round,
       RoundingPoint: 0
     },
-  }
+  },
+  removingRange: generateDefaultAsyncStateObj<boolean>(false)
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -58,6 +65,26 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         }
       };
     }
+    case fromSharedActions.SHOW_REMOVE_RANGE_MODAL: {
+      return {
+        ...state,
+        removingRange: {
+          ...state.removingRange,
+          loadingError: false,
+          loadingErrorResponse: null
+        }
+      };
+    }
+    case fromSharedActions.REMOVING_RANGE: {
+      return AsyncStateObjHelper.loading(state, 'removingRange');
+    }
+    case fromSharedActions.REMOVING_RANGE_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'removingRange');
+    }
+    case fromSharedActions.REMOVING_RANGE_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'removingRange', action.error);
+    }
+
     default:
       return state;
   }
@@ -65,3 +92,4 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
 
 export const getMetadata = (state: State) => state.metadata;
 export const getRoundingSettings = (state: State) => state.roundingSettings;
+export const getRemovingRange = (state: State) => state.removingRange;

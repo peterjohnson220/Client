@@ -38,8 +38,8 @@ describe('TrsCalculationControlComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TrsCalculationControlComponent);
     component = fixture.componentInstance;
-    currencyPipe = TestBed.get(CurrencyPipe);
-    compensationField = TestBed.get(CompensationFieldPipe);
+    currencyPipe = TestBed.inject(CurrencyPipe);
+    compensationField = TestBed.inject(CompensationFieldPipe);
   });
 
   it('should create', () => {

@@ -1,13 +1,17 @@
-<pf-page-with-title-bar  [contentNoPadding]="true">
+<pf-page-with-title-bar>
   <ng-container page-title>Payfactors Market Data Feed</ng-container>
   <ng-container page-content>
+    <pf-async-container
+      [loadingError]="(feeds$ | async)?.loadingError"
+      [loading]="(feeds$ | async)?.loading">
+
+    </pf-async-container>
     <div class="mt-3">
       <div class="page-header d-flex align-items-center pl-3">
-        <span class="title">Recent Exports</span>
-        <button class="btn btn-secondary ml-3" (click)="generateExport()">Generate</button>
+        <span class="title">Recent Feeds</span>
       </div>
-      <div *ngIf="!!marketDataFeedExportRecords.length; else noRecentDownloads" class="row mt-4 pl-3">
-        <div *ngFor="let exportRecord of marketDataFeedExportRecords" class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+      <div *ngIf="!!(feeds$ | async)?.obj?.length; else noRecentDownloads" class="feeds mt-4 pl-3">
+        <div *ngFor="let exportRecord of (feeds$ | async)?.obj" class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
           <pf-market-data-feed-export-card
             [marketDataFeedExport]="exportRecord">
           </pf-market-data-feed-export-card>
@@ -18,5 +22,5 @@
 </pf-page-with-title-bar>
 
 <ng-template #noRecentDownloads>
-  <p class="no-recent-downloads mt-3">No Recent Downloads</p>
+  <p class="no-recent-downloads mt-3">No Recent Feeds</p>
 </ng-template>

@@ -24,7 +24,7 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
 
   @Output() jobDescriptionChanged: EventEmitter<string> = new EventEmitter<string>();
 
-  @ViewChild('jobDescriptionTextArea', { static: false }) jobDescriptionTextArea: ElementRef;
+  @ViewChild('jobDescriptionTextArea') jobDescriptionTextArea: ElementRef;
 
   readonly JOB_SUMMARY_MIN_LENGTH = 10;
 

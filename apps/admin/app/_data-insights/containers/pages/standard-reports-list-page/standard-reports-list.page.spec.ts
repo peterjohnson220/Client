@@ -29,7 +29,7 @@ describe('Data Insights Management - Standard Reports List Page', () => {
 
     fixture = TestBed.createComponent(StandardReportsListPageComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });

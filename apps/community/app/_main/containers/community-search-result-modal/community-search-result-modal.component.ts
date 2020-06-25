@@ -4,12 +4,15 @@ import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import * as fromCommunitySearchPostReducer from '../../reducers';
+import { CommunityPost } from 'libs/models';
+import { CompanySettingsEnum } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
+import * as fromCommunitySearchPostReducer from '../../reducers';
 import * as fromCommunitySearchActions from '../../actions/community-search.actions';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
-
-import { CommunityPost } from 'libs/models';
+import * as fromCommunityAttachmentWarningActions from '../../actions/community-attachment-warning.actions';
 
 @Component({
   selector: 'pf-community-search-result-modal',
@@ -27,22 +30,28 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
   communityPostEdited$: Observable<any>;
   postEditedSubscription: Subscription;
 
+  disableCommunityAttachments$: Observable<boolean>;
   maximumReplies$: Observable<number>;
-
   loadingCommunityPost$: Observable<boolean>;
   loadingCommunityPostError$: Observable<boolean>;
-
   communityPostDeleted$: Observable<any>;
 
+  hideAttachmentWarning$: Observable<boolean>;
+  hideAttachmentWarningSubscription: Subscription;
+  hideAttachmentWarning: boolean;
+
   communityPost: CommunityPost;
+  isSystemAdmin: boolean;
   isUserPoll: boolean;
   editedPostId: string;
 
   constructor(public store: Store<fromCommunitySearchPostReducer.State>,
-              private router: Router) {
+              private router: Router,
+              private settingService: SettingsService) {
     this.communitySearchResultModal$ = this.store.select(fromCommunitySearchPostReducer.getCommunitySearchResultModal);
 
     this.communityPost$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostCombinedWithReplies);
+    this.disableCommunityAttachments$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.CommunityDisableAttachments);
     this.loadingCommunityPost$ = this.store.select(fromCommunitySearchPostReducer.getLoadingCommunityPost);
     this.loadingCommunityPostError$ = this.store.select(fromCommunitySearchPostReducer.getLoadingCommunityPostError);
 
@@ -50,6 +59,9 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
 
     this.communityPostDeleted$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostDeleted);
     this.communityPostEdited$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostEdited);
+
+    this.hideAttachmentWarning$ = this.settingService.selectUiPersistenceSetting(
+      FeatureAreaConstants.Community, UiPersistenceSettingConstants.CommunityHideAttachmentWarningModal, 'boolean');
   }
 
   ngOnInit() {
@@ -68,6 +80,12 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
 
     this.postEditedSubscription = this.communityPostEdited$.subscribe( postId => {
       this.editedPostId = postId;
+    });
+
+    this.hideAttachmentWarningSubscription = this.hideAttachmentWarning$.subscribe(value => {
+      if (value != null) {
+        this.hideAttachmentWarning = value;
+      }
     });
   }
 
@@ -88,6 +106,10 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
   handleModalDismissed(): void {
     this.store.dispatch(new fromCommunitySearchActions.CloseSearchResultModal);
     this.communityPost = null;
+  }
+
+  handleAttachmentClickedEvent(event) {
+    this.store.dispatch(new fromCommunityAttachmentWarningActions.OpenCommunityAttachmentsWarningModal(event));
   }
 
   hashtagClicked(hashTagName: string) {

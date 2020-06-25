@@ -40,7 +40,6 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
         class="matches-modal-content matches-list-container dropzone"
         dragula="matches-bag"
         id="includeInParticipation"
-        ng-reflect-dragula="matches-bag"
       >
         
         
@@ -54,7 +53,6 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
         class="matches-modal-content matches-list-container dropzone"
         dragula="matches-bag"
         id="excludeFromParticipation"
-        ng-reflect-dragula="matches-bag"
       >
         
         

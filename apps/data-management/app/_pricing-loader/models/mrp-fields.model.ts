@@ -3,5 +3,6 @@ export interface MrpFieldsModel {
   Value: number;
   Min: number;
   Max: number;
+  Decimal: number;
 }
 

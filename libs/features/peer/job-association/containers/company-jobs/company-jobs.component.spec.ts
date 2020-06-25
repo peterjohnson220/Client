@@ -32,7 +32,7 @@ describe('CompanyJobsComponent', () => {
     })
       .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
   }));
 

@@ -1,8 +1,17 @@
 @import 'colors';
 @import 'styles';
 
+.input-row {
+  padding-bottom: 20px;
+}
+
+.posting-url-row {
+  padding-bottom: 10px;
+}
+
 .control-label {
     text-align: right;
+    margin-top: 5px;
 }
 
 .input {

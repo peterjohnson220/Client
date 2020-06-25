@@ -29,6 +29,7 @@
       cursor: default;
       &.vertical {
         writing-mode: vertical-lr;
+        -ms-writing-mode: tb-rl;
         margin-top: 1rem;
         margin-left: 0;
       }

@@ -24,7 +24,7 @@ describe('EntityUploadComponent', () => {
 
     fixture = TestBed.createComponent(EntityUploadComponent);
     component = fixture.componentInstance;
-    mainStore = TestBed.get(Store);
+    mainStore = TestBed.inject(MockStore);
   });
 
   it('should create', () => {
@@ -46,7 +46,14 @@ describe('EntityUploadComponent', () => {
     expect(component.HasAnyFiles()).toBe(false);
 
     component.entities[1].isChecked = true;
-    component.entities[1].File = { lastModified: 1234, name: 'testfile', size: 1234, type: 'asdf', slice: jest.fn() };
+    component.entities[1].File = {
+      arrayBuffer(): Promise<ArrayBuffer> {
+        return Promise.resolve(undefined);
+      }, stream(): ReadableStream {
+        return undefined;
+      }, text(): Promise<string> {
+        return Promise.resolve('');
+      }, lastModified: 1234, name: 'testfile', size: 1234, type: 'asdf', slice: jest.fn() };
 
     expect(component.HasAnyFiles()).toBe(true);
 

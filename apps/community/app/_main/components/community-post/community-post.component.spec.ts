@@ -13,6 +13,7 @@ import * as fromCommunityPostAddReplyViewActions from '../../actions/community-p
 
 import { CommunityPostComponent } from './community-post.component';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
+import { of } from 'rxjs';
 
 describe('CommunityPostComponent', () => {
   let fixture: ComponentFixture<CommunityPostComponent>;
@@ -23,8 +24,7 @@ describe('CommunityPostComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRootState.reducers,
-          communityPollRequest: combineReducers(fromCommunityPostReducer.reducers)
+          ...fromRootState.reducers
         }),
         ReactiveFormsModule
       ],
@@ -33,13 +33,17 @@ describe('CommunityPostComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityPostComponent);
     instance = fixture.componentInstance;
     instance.post = generateMockCommunityPost();
+
+    instance.discardingPostId$ = of('test');
+    instance.discardingPostReplyProceed$ = of(false);
+
   }));
 
   it('should show component', () => {

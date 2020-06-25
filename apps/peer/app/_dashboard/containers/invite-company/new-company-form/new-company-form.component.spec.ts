@@ -45,7 +45,7 @@ describe('Peer - Dashboard - Invite Company - New Company Form', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(NewCompanyFormComponent);
     instance = fixture.componentInstance;

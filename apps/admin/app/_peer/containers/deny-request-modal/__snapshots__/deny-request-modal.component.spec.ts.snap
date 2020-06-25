@@ -9,7 +9,6 @@ exports[`Deny Request Modal modal and text area should match the snapshot 1`] = 
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="undefined"
   >
     
@@ -24,8 +23,6 @@ exports[`Deny Request Modal modal and text area should match the snapshot 1`] = 
         id="deny-reason"
         maxlength="1000"
         name="reason"
-        ng-reflect-maxlength="1000"
-        ng-reflect-name="reason"
         onfocus="this.placeholder = ''"
         placeholder="Please provide the reason for denial... (should be at least 30 characters)"
         rows="5"

@@ -31,7 +31,7 @@ describe('Data Insights - Fields Comopnent', () => {
 
     fixture = TestBed.createComponent(FieldsComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });
@@ -51,7 +51,7 @@ describe('Data Insights - Fields Comopnent', () => {
     const expectedAction = new fromFieldsActions.ReorderFields(fields);
 
     spyOn(store, 'dispatch');
-    instance.handleFieldsReordered(fields);
+    instance.handleFieldsReordered(fields, 1);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

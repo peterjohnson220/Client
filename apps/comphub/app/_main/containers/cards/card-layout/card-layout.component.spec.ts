@@ -42,9 +42,9 @@ describe('Comphub - Main - Card Layout', () => {
 
     fixture = TestBed.createComponent(CardLayoutComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
-    windowRef = TestBed.get(WindowRef);
-    modalService = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    windowRef = TestBed.inject(WindowRef);
+    modalService = TestBed.inject(NgbModal);
     fixture.detectChanges();
   });
 

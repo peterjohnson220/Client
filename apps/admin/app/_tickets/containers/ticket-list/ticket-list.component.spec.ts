@@ -44,7 +44,7 @@ describe('Admin - Tickets - Ticket List', () => {
     fixture = TestBed.createComponent(TicketListComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should dispatch a InitTickets action upon init', () => {

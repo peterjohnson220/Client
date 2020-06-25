@@ -3,12 +3,15 @@ import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
+import { BrowserDetectionService } from 'libs/core/services';
+import { CompanySettingsEnum } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
+
+import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../../reducers';
 import * as  fromCommunityPostActions from '../../../actions/community-post.actions';
-
 import { CommunityPostsComponent } from '../../community-posts';
 import { CommunityConstants } from '../../../models';
-import { BrowserDetectionService } from 'libs/core/services';
 import { Router } from '@angular/router';
 
 declare var InitializeUserVoice: any;
@@ -24,6 +27,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   readonly POST_ITEM_CLASS = 'post-item';
   readonly COMMUNITY_POSTS_CONTAINER_ID = 'community-posts';
 
+  disableCommunityAttachments$: Observable<boolean>;
   loadingNextBatchCommunityPosts$: Observable<boolean>;
   loadingPreviousBatchCommunityPosts$: Observable<boolean>;
   getHasPreviousBatchPostsOnServer$: Observable<boolean>;
@@ -60,12 +64,14 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
               private browserDetectionService: BrowserDetectionService,
+              private settingService: SettingsService,
               private router: Router) {
 
     this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
     this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
+    this.disableCommunityAttachments$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.CommunityDisableAttachments);
 
     /* Using this to prevent sticky-top from being applied in Edge/IE due to a visual glitch
      https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/17555420/ */
@@ -187,7 +193,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
   // Lifecycle events
   ngOnInit() {
-
     this.targetNode = document.querySelector(`#${this.COMMUNITY_POSTS_CONTAINER_ID}`);
     this.observerOptions = {
       childList: true,

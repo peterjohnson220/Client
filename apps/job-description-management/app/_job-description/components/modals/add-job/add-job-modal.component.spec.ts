@@ -47,8 +47,8 @@ describe('Job Description Management - Job Description - Add Job Modal', () => {
 
     instance.addJobForm = new FormGroup({});
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should set addAndAssign to false, when calling handleTemplateChanged with value equal to -1', () => {

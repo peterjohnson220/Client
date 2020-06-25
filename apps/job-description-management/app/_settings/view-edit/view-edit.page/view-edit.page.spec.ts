@@ -40,54 +40,54 @@ describe('Job Description Management - Settings - View Edit Page', () => {
     fixture = TestBed.createComponent(ViewEditPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute);
   });
 
   it('should navigate up a route relative to this route, when handling a cancel click', () => {
-    spyOn(instance.router, 'navigate');
+    spyOn(router, 'navigate');
 
     instance.handleCancelClicked();
 
-    expect(instance.router.navigate).toHaveBeenCalledWith(['../'], { relativeTo: route });
+    expect(router.navigate).toHaveBeenCalledWith(['../'], { relativeTo: route });
   });
 
   it('should dispatch an action to the store to save the template views, when handling a save click', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const expectedAction = new fromViewEditActions.SaveTemplateViews();
 
     instance.handleSaveClicked();
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should dispatch an action to the store to add the hidden element Id, when handling a hidden elementId added', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const mockControlViewToggleObj = generateMockControlViewToggleObj();
     const expectedAction = new fromViewEditActions.AddHiddenElementId(mockControlViewToggleObj);
 
     instance.handleHiddenElementIdAdded(mockControlViewToggleObj);
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should dispatch an action to the store to remove the hidden element Id, when handling a hidden elementId removed', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const mockControlViewToggleObj = generateMockControlViewToggleObj();
     const expectedAction = new fromViewEditActions.RemoveHiddenElementId(mockControlViewToggleObj);
 
     instance.handleHiddenElementIdRemoved(mockControlViewToggleObj);
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should dispatch an action to the store to reset, upon destroy', () => {
-    spyOn(instance.store, 'dispatch');
+    spyOn(store, 'dispatch');
     const expectedAction = new fromViewEditActions.Reset();
 
     instance.ngOnDestroy();
 
-    expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

@@ -30,7 +30,7 @@ describe('Admin - Tickets - Attachment Detail Card', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(AttachmentDetailCardComponent);
     instance = fixture.componentInstance;
     fixture.detectChanges();

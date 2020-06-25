@@ -41,7 +41,7 @@ export function reducer(state, action) {
         case fromExchangeAccessRequestsActions.LOAD_EXCHANGE_ACCESS_REQUESTS_SUCCESS: {
           const requests: ExchangeAccessRequest[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(requests, featureState),
+            ...adapter.setAll(requests, featureState),
             loading: false,
             total: action.payload.total
           };

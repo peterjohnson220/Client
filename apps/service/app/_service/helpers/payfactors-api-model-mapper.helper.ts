@@ -1,8 +1,8 @@
 import {
   SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse, UserTicketComment
 } from 'libs/models/payfactors-api/service/response';
-import { MultiSelectItemGroup } from 'libs/ui/common';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { GroupedListItem } from 'libs/models/list';
 
 import { TicketType, SupportTeamUser, TicketNote, NoteAccessLevel, TicketListMode } from '../models';
 import { TicketStateHelper } from './ticket-state.helper';
@@ -25,18 +25,15 @@ export class PayfactorsApiModelMapper {
     });
   }
 
-  static mapTicketStatesToMultiSelectItemGroups(response: UserTicketStateResponse[]): MultiSelectItemGroup[] {
+  static mapTicketStatesToGroupedListItems(response: UserTicketStateResponse[]): GroupedListItem[] {
     const openState = TicketStateHelper.createOpenState();
-    const ticketStates: MultiSelectItemGroup[] = [ openState ];
-    const openStateValues = openState.Items.map(i => i.Value);
-    let groupIndex = openState.GroupIndex;
+    const ticketStates: GroupedListItem[] = [ openState ];
+    const openStateValues = openState.Children.map(i => i.Value);
     response.forEach(s => {
       if (openStateValues.indexOf(s.TicketStateName) === -1) {
-        groupIndex += 1;
         ticketStates.push({
-          GroupIndex: groupIndex,
-          Title: s.TicketStateName,
-          Items: [ { IsSelected: false, Name: s.TicketStateName, Value: s.TicketStateName } ]
+          Name: s.TicketStateName,
+          Value: s.TicketStateName
         });
       }
     });

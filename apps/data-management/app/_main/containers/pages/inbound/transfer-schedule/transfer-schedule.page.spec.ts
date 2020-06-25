@@ -1,14 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
-import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import {of} from 'rxjs';
 
+import { SwitchModule, SwitchComponent } from '@progress/kendo-angular-inputs';
+
 import {generateMockTransferScheduleSummaries} from 'libs/models/hris-api/sync-schedule/response';
 
 import * as fromHrisConnectionActions from '../../../../actions/hris-connection.actions';
+import * as fromOnDemandSyncActions from '../../../../actions/on-demand-sync.actions';
 import * as fromTransferSchedulePageActions from '../../../../actions/transfer-schedule.actions';
 import * as fromTransferScheduleReducers from '../../../../reducers/transfer-schedule.reducer';
 import { GetSupportedSchedulesPipe } from '../../../../pipes';
@@ -24,6 +27,9 @@ describe('TransferSchedulePageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        SwitchModule
+      ],
       providers: [
         provideMockStore({ initialState }),
         {
@@ -37,9 +43,14 @@ describe('TransferSchedulePageComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
+    .overrideComponent(SwitchComponent, {
+      set: {
+        template: '<p>Mock Product Settings Component</p>'
+      }
+    })
     .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(TransferSchedulePageComponent);
     instance = fixture.componentInstance;
   });
@@ -74,14 +85,46 @@ describe('TransferSchedulePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch an action when finish button is pressed', () => {
+  it('should dispatch an action when finish button is pressed and validationMode is false', () => {
     spyOn(store, 'dispatch');
+
+    instance.validationMode = false;
 
     instance.onFinish();
 
     fixture.detectChanges();
 
+    const expectedQueueAction = new fromOnDemandSyncActions.QueueOnDemandSync();
     const expectedInitAction = new fromTransferSchedulePageActions.ShowIntegrationSetupCompletedModal(true);
-    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedInitAction);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedQueueAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedInitAction);
+  });
+
+  it('should dispatch two actions when finish button is pressed and validationMode is true', () => {
+    spyOn(store, 'dispatch');
+
+    instance.validationMode = true;
+
+    instance.onFinish();
+
+    fixture.detectChanges();
+
+    const expectedQueueAction = new fromOnDemandSyncActions.QueueOnDemandSync();
+    const expectedInitAction = new fromTransferSchedulePageActions.ShowIntegrationSetupCompletedModal(true);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedQueueAction);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedInitAction);
+  });
+
+  it('should dispatch a toggle action when kendo-switch value changes', () => {
+    spyOn(store, 'dispatch');
+
+    instance.handleValidationModeChanged();
+
+    fixture.detectChanges();
+
+    const expectedAction = new fromHrisConnectionActions.ToggleValidationMode(false);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

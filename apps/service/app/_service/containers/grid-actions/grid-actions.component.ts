@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { MultiSelectItemGroup } from 'libs/ui/common';
+import { GroupedListItem } from 'libs/models/list';
 
 import * as fromServicePageActions from '../../actions/service-page.actions';
 import * as fromServicePageReducer from '../../reducers';
@@ -18,7 +18,7 @@ import { TicketListMode } from '../../models';
 export class GridActionsComponent {
   @Input() userId: number;
 
-  ticketStates$: Observable<AsyncStateObj<MultiSelectItemGroup[]>>;
+  ticketStates$: Observable<AsyncStateObj<GroupedListItem[]>>;
   selectedTicketStates$: Observable<string[]>;
   selectedTicketListMode: TicketListMode;
   ticketListModes: string[] = [ TicketListMode.MyTickets, TicketListMode.AllCompanyTickets ];
@@ -31,8 +31,10 @@ export class GridActionsComponent {
     this.selectedTicketListMode = TicketListMode.MyTickets;
   }
 
-  handleSelectedStatesChanged(ticketStates: MultiSelectItemGroup[]): void {
-    this.store.dispatch(new fromServicePageActions.UpdateSelectedTicketStates(ticketStates));
+  handleSelectedStatesChanged(ticketStates: string[]): void {
+    this.store.dispatch(new fromServicePageActions.UpdateSelectedTicketStates({
+      ticketStateValues: ticketStates
+    }));
   }
 
   handleSelectedTicketListModeChanged(event: any): void {

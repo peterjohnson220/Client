@@ -41,7 +41,7 @@ export function reducer(state, action) {
         case fromNewCompanyExchangeInvitationsActions.LOAD_NEW_COMPANY_EXCHANGE_INVITATIONS_SUCCESS: {
           const requests: NewCompanyExchangeInvitation[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(requests, featureState),
+            ...adapter.setAll(requests, featureState),
             loading: false,
             total: action.payload.total
           };

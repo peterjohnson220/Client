@@ -6,8 +6,7 @@ import { PfFormsModule } from '../../forms';
 import { PfCommonUIModule } from '../../ui/common';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from './fa-icons';
 
 @NgModule({
@@ -28,7 +27,7 @@ import * as fromFaIcons from './fa-icons';
 })
 
 export class PfEmailRecipientsModule {
-  constructor() {
-    library.add(...fromFaIcons.faIcons);
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
   }
 }

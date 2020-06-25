@@ -2,7 +2,12 @@
 
 exports[`TotalRewardsPageComponent should show the create new banner when no statements are returned 1`] = `
 <pf-total-rewards-statement-list-page
+  deletingStatement$={[Function Store]}
+  deletingStatementError$={[Function Store]}
+  deletingStatementSuccess$={[Function Store]}
   focusedTab$={[Function Store]}
+  isDeleteStatetementModalOpen$={[Function Store]}
+  openActionMenuStatement$={[Function Store]}
   statementsLoading$={[Function Observable]}
   statementsLoadingError$={[Function Observable]}
   statementsSearchTerm$={[Function Store]}
@@ -24,9 +29,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
       <div
         class="h-100"
       >
-        <ngb-tabset
-          ng-reflect-destroy-on-hide="false"
-        >
+        <ngb-tabset>
           <ul
             class="nav nav-tabs justify-content-start"
             role="tablist"
@@ -97,13 +100,30 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
         </ngb-tabset>
       </div>
     </div>
+    <pf-modal-form
+      title="Delete Statement"
+    >
+      
+      <p>
+        Are you sure you want to delete 
+        <strong>
+          
+        </strong>
+        ? This action is permanent and cannot be recovered.
+      </p>
+    </pf-modal-form>
   </pf-page-with-title-bar>
 </pf-total-rewards-statement-list-page>
 `;
 
 exports[`TotalRewardsPageComponent should show the grid component when statements are returned 1`] = `
 <pf-total-rewards-statement-list-page
+  deletingStatement$={[Function Store]}
+  deletingStatementError$={[Function Store]}
+  deletingStatementSuccess$={[Function Store]}
   focusedTab$={[Function Store]}
+  isDeleteStatetementModalOpen$={[Function Store]}
+  openActionMenuStatement$={[Function Store]}
   statementsLoading$={[Function Store]}
   statementsLoadingError$={[Function Store]}
   statementsSearchTerm$={[Function Store]}
@@ -125,9 +145,7 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
       <div
         class="h-100"
       >
-        <ngb-tabset
-          ng-reflect-destroy-on-hide="false"
-        >
+        <ngb-tabset>
           <ul
             class="nav nav-tabs justify-content-start"
             role="tablist"
@@ -202,6 +220,18 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
         </ngb-tabset>
       </div>
     </div>
+    <pf-modal-form
+      title="Delete Statement"
+    >
+      
+      <p>
+        Are you sure you want to delete 
+        <strong>
+          
+        </strong>
+        ? This action is permanent and cannot be recovered.
+      </p>
+    </pf-modal-form>
   </pf-page-with-title-bar>
 </pf-total-rewards-statement-list-page>
 `;

@@ -47,8 +47,8 @@ describe('Admin - Tickets - Ticket List Page', () => {
 
     instance.tabSet = mockTabset;
 
-    store = TestBed.get(Store);
-    windowRef = TestBed.get(WindowRef);
+    store = TestBed.inject(Store);
+    windowRef = TestBed.inject(WindowRef);
 
     fixture.detectChanges();
   });

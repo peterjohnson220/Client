@@ -19,7 +19,7 @@ export class FilterChooserComponent implements OnInit {
   @Input() hideToggleButtons = false;
   @Input() filterSelectorDisplay = false;
 
-  @ViewChild('popOver', { static: false }) public popOver: any;
+  @ViewChild('popOver') public popOver: any;
 
   savedViews$: Observable<SimpleDataView[]>;
   viewDeleting$: Observable<boolean>;

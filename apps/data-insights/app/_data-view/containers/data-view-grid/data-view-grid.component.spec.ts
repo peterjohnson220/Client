@@ -39,10 +39,10 @@ describe('Data Insights - Data View Grid', () => {
       ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(DataViewGridComponent);
     instance = fixture.componentInstance;
-    route = TestBed.get(ActivatedRoute);
+    route = TestBed.inject(ActivatedRoute);
   });
 
   it('should dispatch GetMoreData when not currently loading more data and having more data on server', () => {

@@ -14,7 +14,7 @@ import { RoleApiNames } from '../../constants/user-role.constants';
   styleUrls: ['./data-field-filter.component.scss']
 })
 export class DataFieldFilterComponent implements OnInit {
-  @ViewChild('typeaheadComponent', { static: false }) typeaheadComponent: TypeaheadComponent;
+  @ViewChild('typeaheadComponent') typeaheadComponent: TypeaheadComponent;
   @Input() dataType: DataType;
   @Input() roleDataRestriction: RoleDataRestriction;
   @Output() roleDataRestrictionChange = new EventEmitter();

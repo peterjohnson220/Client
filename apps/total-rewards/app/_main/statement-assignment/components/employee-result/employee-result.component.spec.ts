@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { EmployeeSearchResult } from 'libs/models/payfactors-api/employee-search/response/employee-search-response.model';
+import { EmployeeSearchResult } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
 
 import { EmployeeResultComponent } from './employee-result.component';
 

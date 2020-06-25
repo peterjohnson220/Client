@@ -47,8 +47,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         class="form-control"
         formcontrolname="firstName"
         id="user-form-first-name"
-        ng-reflect-klass="form-control"
-        ng-reflect-ng-class="[object Object]"
         placeholder="First Name"
         type="text"
       />
@@ -78,8 +76,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         class="form-control"
         formcontrolname="lastName"
         id="user-form-last-name"
-        ng-reflect-klass="form-control"
-        ng-reflect-ng-class="[object Object]"
         placeholder="Last Name"
         type="text"
       />
@@ -104,8 +100,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         class="form-control"
         formcontrolname="title"
         id="user-form-title"
-        ng-reflect-klass="form-control"
-        ng-reflect-ng-class="[object Object]"
         placeholder="Title"
         type="text"
       />
@@ -114,13 +108,7 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
     <div
       class="form-group"
     >
-      <pf-modal-form
-        ng-reflect-is-open_="[object Object]"
-        ng-reflect-primary-button-class="btn-primary"
-        ng-reflect-primary-button-text="Save"
-        ng-reflect-size="md"
-        ng-reflect-title="Update User Role"
-      >
+      <pf-modal-form>
         
         
         
@@ -172,8 +160,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         class="form-control"
         formcontrolname="phoneNumber"
         id="user-form-phone-number"
-        ng-reflect-klass="form-control"
-        ng-reflect-ng-class="[object Object]"
         placeholder="Phone Number"
         type="text"
       />
@@ -198,8 +184,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         class="form-control"
         formcontrolname="emailAddress"
         id="user-form-email-address"
-        ng-reflect-klass="form-control"
-        ng-reflect-ng-class="[object Object]"
         placeholder="Email Address"
         type="text"
       />
@@ -231,8 +215,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         class="form-control"
         formcontrolname="userRole"
         id="user-form-user-role"
-        ng-reflect-klass="form-control"
-        ng-reflect-ng-class="[object Object]"
         placeholder="User Role"
       >
         
@@ -267,8 +249,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         class="form-control"
         formcontrolname="ssoId"
         id="user-form-ssoid"
-        ng-reflect-klass="form-control"
-        ng-reflect-ng-class="[object Object]"
         placeholder="SSO ID"
         type="text"
       />
@@ -296,8 +276,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
           class="form-control"
           formcontrolname="password"
           id="user-form-password"
-          ng-reflect-klass="form-control"
-          ng-reflect-ng-class="[object Object]"
           placeholder="Password"
           type="password"
         />

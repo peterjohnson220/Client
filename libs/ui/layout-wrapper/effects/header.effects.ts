@@ -27,6 +27,18 @@ export class HeaderEffects {
     );
 
   @Effect()
+  getSsoHeaderDropdownNavigationLinks$ = this.actions$
+    .pipe(
+      ofType(headerActions.GET_SSO_HEADER_DROPDOWN_NAVIGATION_LINKS),
+      switchMap(() =>
+        this.navigationApiService.getSsoHeaderDropdownNavigationLinks().pipe(
+          map((navigationLinks: NavigationLink[]) => new headerActions.GetSsoHeaderDropdownNavigationLinksSuccess(navigationLinks)),
+          catchError(() => of(new headerActions.GetSsoHeaderDropdownNavigationLinksError()))
+        )
+      )
+    );
+
+  @Effect()
   getHomePageLink$: Observable<Action> = this.actions$
     .pipe(
       ofType(headerActions.GET_HEADER_USER_HOMEPAGE_LINK),

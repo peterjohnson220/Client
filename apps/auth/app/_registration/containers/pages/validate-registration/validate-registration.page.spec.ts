@@ -46,7 +46,7 @@ describe('ValidateRegistrationPage', () => {
     fixture = TestBed.createComponent(ValidateRegistrationPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
   });
 

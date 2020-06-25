@@ -233,7 +233,8 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       EnableLiveChat: false,
       EnableIntervalAgingFactor: false,
       CompanyColor: this.companyForm.get('companyColorText').value,
-      OrgDataAutoloaderApiKey: this.companyFormData.OrgDataAutoloaderApiKey
+      OrgDataAutoloaderApiKey: this.companyFormData.OrgDataAutoloaderApiKey,
+      CompanyDescription: this.companyFormData.CompanyDescription
     };
   }
 

@@ -44,8 +44,8 @@ describe('CommunityFilteredTagsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CommunityFilteredTagsComponent);
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
 
     spyOn(store, 'dispatch');
 

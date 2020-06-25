@@ -10,13 +10,12 @@ import { GridTypeEnum } from 'libs/models/common';
 import { ExchangeJobMapping, ExchangeRequestTypeEnum } from 'libs/models/peer';
 import { UserContext } from 'libs/models';
 import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
-import {Permissions} from 'libs/constants';
+import { Permissions } from 'libs/constants';
 import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
-import { ExchangeJobMappingService } from '../../../services';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
-import {ExchangeJobAssociationEntityTypes} from 'libs/constants/peer/exchange-job-association-entity-types';
+import { ExchangeJobAssociationEntityTypes } from 'libs/constants/peer/exchange-job-association-entity-types';
 import * as fromAssociateJobsActions from 'libs/features/peer/job-association-match/actions/associate-jobs.actions';
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -26,6 +25,7 @@ import * as fromExchangeRequestActions from '../../../../shared/actions/exchange
 import * as companyJobsActions from '../../../actions/company-jobs.actions';
 import * as fromPeerManagementReducer from '../../../reducers';
 import * as fromImportRequestActions from '../../../actions/import.actions';
+import { ExchangeJobMappingGridService } from '../../../services/exchange-job-mapping-grid.service';
 
 
 @Component({
@@ -58,7 +58,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     constructor(
         private store: Store<fromPeerManagementReducer.State>,
         private route: ActivatedRoute,
-        private exchangeJobMappingService: ExchangeJobMappingService,
+        private exchangeJobMappingGridService: ExchangeJobMappingGridService,
         private companySecurityApi: CompanySecurityApiService,
         private settingsService: SettingsService
     ) {
@@ -77,7 +77,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
             GridTypeEnum.ExchangeJobMapping,
             { columnName: 'ExchangeJobTitle', value: query }
         ));
-        this.exchangeJobMappingService.loadExchangeJobMappings();
+        this.exchangeJobMappingGridService.loadExchangeJobMappings();
     }
 
     handleCompanyJobsSearchChanged(searchTerm: string): void {
@@ -142,7 +142,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.selectedExchangeJobMappingSubscription.unsubscribe();
         this.showCompanyJobsSubscription.unsubscribe();
         this.exchangeIdSubscription.unsubscribe();
-        if (this.showCompanyJobs) {
+        if (this.companyJobsSearchTermSubscription) {
           this.companyJobsSearchTermSubscription.unsubscribe();
         }
 

@@ -77,6 +77,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   public templateCopying$: Observable<boolean>;
   public editingTemplate$: Observable<boolean>;
   public controlTypesLoading$: Observable<boolean>;
+  public controlTypesLoaded$: Observable<boolean>;
   public availableJobInformationFields$: Observable<AvailableJobInformationField[]>;
   public availableJobInformationFieldsLoading$: Observable<boolean>;
   public templateSettingsLoading$: Observable<boolean>;
@@ -146,6 +147,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.templateSettingsSavingError$ = this.store.select(fromTemplateReducers.getTemplateSettingSavingError);
 
       this.controlTypesLoading$ = this.sharedJdmStore.select(fromJdmSharedReducer.getControlTypesLoading);
+      this.controlTypesLoaded$ = this.sharedJdmStore.select(fromJdmSharedReducer.getControlTypesLoaded);
       this.controlTypesLatest$ = this.sharedJdmStore.select(fromJdmSharedReducer.getLatestControlTypes);
       this.company$ = this.sharedJdmStore.select(fromJdmSharedReducer.getCompany);
 

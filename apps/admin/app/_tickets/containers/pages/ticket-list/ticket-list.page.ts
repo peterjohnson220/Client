@@ -37,7 +37,7 @@ export class TicketListPageComponent implements OnDestroy {
   private unsubscribe$ = new Subject();
 
   @ViewChild(NgbTabset, { static: true }) tabSet: NgbTabset;
-  @ViewChild(TicketListComponent, { static: false }) ticketListComponent: TicketListComponent;
+  @ViewChild(TicketListComponent) ticketListComponent: TicketListComponent;
 
   constructor(private window: WindowRef, private store: Store<fromTicketReducer.State>) {
     this.openTicket$ = this.store.select(fromTicketReducer.getOpenedTicket);

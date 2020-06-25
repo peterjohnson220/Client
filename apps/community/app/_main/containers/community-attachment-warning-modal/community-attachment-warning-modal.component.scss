@@ -1,0 +1,10 @@
+@import 'colors';
+@import 'styles';
+
+::ng-deep .btn-primary
+{
+  background-color: $community-post-button;
+  border: 2px solid $community-post-button;
+  border-radius: 4px;
+  width: 80px;
+}

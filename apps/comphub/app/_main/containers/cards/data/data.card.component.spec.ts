@@ -47,8 +47,8 @@ describe('Comphub - Main - Data Card Component', () => {
     fixture = TestBed.createComponent(DataCardComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    windowRef = TestBed.get(WindowRef);
+    store = TestBed.inject(Store);
+    windowRef = TestBed.inject(WindowRef);
 
     instance.workflowContext = {
       ...generateMockWorkflowContext(),

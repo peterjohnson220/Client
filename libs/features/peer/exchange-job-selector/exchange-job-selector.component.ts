@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewCh
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 import { ExchangeJobExchangeDetail } from '../models';
-import { StatusEnum } from '../../../models/common';
+import { StatusEnum } from 'libs/models/common';
 
 @Component({
   selector: 'pf-exchange-job-selector',
@@ -14,7 +14,7 @@ import { StatusEnum } from '../../../models/common';
 })
 
 export class ExchangeJobSelectorComponent {
-  @ViewChild('p', {static: false }) popover: NgbPopover;
+  @ViewChild('p') popover: NgbPopover;
 
   @Input() exchangeJobSelectorItems: ExchangeJobExchangeDetail[];
   @Input() shouldDisplayJobTitleShort: boolean;
@@ -25,6 +25,7 @@ export class ExchangeJobSelectorComponent {
   get selectorEnabled(): boolean {
     return !!this.exchangeJobSelectorItems && this.exchangeJobSelectorItems.length > 1;
   }
+
   get selection(): ExchangeJobExchangeDetail {
     const selection = this.exchangeJobSelectorItems.find(ej => ej.ExchangeJobId === this.selectedExchangeJobId);
     if (!!selection) {

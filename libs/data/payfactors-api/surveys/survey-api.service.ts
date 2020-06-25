@@ -3,8 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { YoyDsSurveysResponse, YoyDsToMapResponse, YoySurveyScopesResponse, YoyDsMapRequest } from '../../../models/payfactors-api';
+import { YoyDsSurveysResponse, YoyDsToMapResponse, YoySurveyScopesResponse, YoyDsMapRequest,
+  GetCompanySurveysRequest, GetCompanySurveysResponse
+} from '../../../models/payfactors-api';
 import { UdfDataResponse } from '../../../models/payfactors-api/survey/response/udf-data-response.model';
+import { CombinedScopeViewModel } from 'libs/models';
 
 @Injectable()
 export class SurveyApiService {
@@ -36,5 +39,13 @@ export class SurveyApiService {
 
   mapDefaultScopesYoy(request: YoyDsMapRequest) {
     return this.payfactorsApiService.post(`${this.endpoint}(0)/Default.MapDefaultScopesYOY`, request);
+  }
+
+  getCompanySurveys(request: GetCompanySurveysRequest): Observable<GetCompanySurveysResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.GetCompanySurveys`, request);
+  }
+
+  getScopesBySurvey(surveyId: number): Observable<CombinedScopeViewModel[]> {
+    return this.payfactorsApiService.get<CombinedScopeViewModel[]>(`${this.endpoint}(${surveyId})/Default.GetScopesBySurvey`);
   }
 }

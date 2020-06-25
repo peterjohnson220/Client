@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
-import { DefaultUserPayMarket } from 'libs/models';
 
 export const GET_COUNTRIES = '[Pay Market Management / General Form] Get Countries';
 export const GET_COUNTRIES_SUCCESS = '[Pay Market Management / General Form] Get Countries Success';
@@ -12,9 +11,6 @@ export const GET_CURRENCIES_ERROR = '[Pay Market Management / General Form] Get 
 export const GET_LINKED_PAY_MARKETS = '[Pay Market Management / General Form] Get Linked Pay Markets';
 export const GET_LINKED_PAY_MARKETS_SUCCESS = '[Pay Market Management / General Form] Get Linked Pay Markets Success';
 export const GET_LINKED_PAY_MARKETS_ERROR = '[Pay Market Management / General Form] Get Linked Pay Markets Error';
-export const GET_DEFAULT_USER_PAY_MARKET = '[Pay Market Management / General Form] Get Default User Pay Market';
-export const GET_DEFAULT_USER_PAY_MARKET_SUCCESS = '[Pay Market Management / General Form] Get Default User Pay Market Success';
-export const GET_DEFAULT_USER_PAY_MARKET_ERROR = '[Pay Market Management / General Form] Get Default User Pay Market Error';
 
 export class GetCountries implements Action {
   readonly type = GET_COUNTRIES;
@@ -62,21 +58,6 @@ export class GetLinkedPayMarketsError implements Action {
   constructor() {}
 }
 
-export class GetDefaultUserPayMarket implements Action {
-  readonly type = GET_DEFAULT_USER_PAY_MARKET;
-  constructor() {}
-}
-
-export class GetDefaultUserPayMarketSuccess implements Action {
-  readonly type = GET_DEFAULT_USER_PAY_MARKET_SUCCESS;
-  constructor(public payload: DefaultUserPayMarket) {}
-}
-
-export class GetDefaultUserPayMarketError implements Action {
-  readonly type = GET_DEFAULT_USER_PAY_MARKET_ERROR;
-  constructor() {}
-}
-
 export type Actions
   = GetCountries
   | GetCountriesSuccess
@@ -86,7 +67,4 @@ export type Actions
   | GetCurrenciesError
   | GetLinkedPayMarkets
   | GetLinkedPayMarketsSuccess
-  | GetLinkedPayMarketsError
-  | GetDefaultUserPayMarket
-  | GetDefaultUserPayMarketSuccess
-  | GetDefaultUserPayMarketError;
+  | GetLinkedPayMarketsError;

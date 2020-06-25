@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AutoCompleteModule, ComboBoxModule, DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
@@ -16,7 +16,7 @@ import { RangeEditorModule } from 'libs/features/structures';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
-import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent } from './containers';
+import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent, RangeDistributionSettingComponent } from './containers';
 import { ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects } from './effects';
 import { RangeValuePipe } from './pipes';
 import { reducers } from './reducers';
@@ -36,6 +36,7 @@ import * as fromFaIcons from './fa-icons';
     NgbTabsetModule,
     AutoCompleteModule,
     ComboBoxModule,
+    NgbTooltipModule,
 
     // Payfactors
     PfDataGridModule,
@@ -53,7 +54,8 @@ import * as fromFaIcons from './fa-icons';
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,
     RangeValuePipe,
-    GlobalActionsComponent
+    GlobalActionsComponent,
+    RangeDistributionSettingComponent
   ],
   exports: [
     ModelGridComponent,

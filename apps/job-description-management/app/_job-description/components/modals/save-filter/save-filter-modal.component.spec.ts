@@ -45,8 +45,8 @@ describe('Job Description Management - Job Description - Job Description Grid', 
 
     instance.filterForm = new FormGroup({});
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should reset component variables and open the modal, when calling open', () => {

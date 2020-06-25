@@ -50,7 +50,7 @@ export function reducer(state, action) {
         case fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS_SUCCESS: {
           const exchangeJobMappings: ExchangeJobMapping[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(exchangeJobMappings, featureState),
+            ...adapter.setAll(exchangeJobMappings, featureState),
             total: featureAction.payload.total,
             loading: false,
             loadingError: false

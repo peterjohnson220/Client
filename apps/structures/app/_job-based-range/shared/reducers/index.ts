@@ -57,6 +57,8 @@ export const getRoundingSettings = createSelector(
   selectSharedState, fromSharedReducer.getRoundingSettings
 );
 
+export const getRemovingRange = createSelector(selectSharedState, fromSharedReducer.getRemovingRange);
+
 // Model Settings Modal
 export const getModelSettingsModalOpen = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getModalOpen

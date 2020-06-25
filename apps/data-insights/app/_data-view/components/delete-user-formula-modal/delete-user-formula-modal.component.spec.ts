@@ -22,7 +22,7 @@ describe('Data Insights - Delete User FOrmula Modal Component', () => {
     });
     fixture = TestBed.createComponent(DeleteUserFormulaModalComponent);
     instance = fixture.componentInstance;
-    ngbModal = TestBed.get(NgbModal);
+    ngbModal = TestBed.inject(NgbModal);
 
     fixture.detectChanges();
   });

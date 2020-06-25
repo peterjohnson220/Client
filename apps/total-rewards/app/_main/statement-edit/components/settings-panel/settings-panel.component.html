@@ -53,13 +53,13 @@
         <h4 class="mb-3">Chart Colors</h4>
         <div class="d-flex mb-4">
           <div *ngFor="let chartColor of chartColors; let i = index;" class="color-picker-container mr-4">
-            <input 
-              [(colorPicker)]="chartColor"
+            <input
+              [colorPicker]="chartColor"
               [cpOKButton]="true"
               (colorPickerSelect)="onChartColorChange($event, i)"
               [cpPosition]="'left'"
-              [style.background]="chartColor" 
-              [style.caretColor]="chartColor" 
+              [style.background]="chartColor"
+              [style.caretColor]="chartColor"
               class="d-block w-100"
               [attr.tabindex]="isOpen ? 0 : -1" />
             <label title="{{ chartColor }}" class="w-100">{{ chartColor }}</label>

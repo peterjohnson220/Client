@@ -1,3 +1,6 @@
+<pf-async-container
+  [loading]="(countries$ | async)?.loading || (currencies$ | async)?.loading">
+</pf-async-container>
 <form [formGroup]="payMarketForm">
   <div class="form-group row pt-3">
     <label class="col-3 col-form-label">Pay Market Name <span class="text-danger">*</span></label>
@@ -8,8 +11,11 @@
         formControlName="PayMarketName"
         [maxlength]="DEFAULT_MAX_LENGTH"
         [style.width.px]="350"
-        [pfValidatable]="true">
+        [pfValidatable]="true"
+        (keyup)="onKey()"
+        ngbAutoFocus>
       <span *ngIf="f.PayMarketName.errors?.required" class="invalid-feedback">Pay market name is required</span>
+      <span *ngIf="!!(payMarketErrorMessage$ | async)" class="error-message">{{payMarketErrorMessage$ | async}}</span>
     </div>
   </div>
   <div class="form-group row">
@@ -19,7 +25,7 @@
         #linkedPayMarketCombobox
         data-qa-id="ddm-paymarket-form-linked-paymarket-name"
         class="form-control"
-        formControlName="LinkedPayMarket"
+        formControlName="LinkedPayMarketId"
         placeholder="Select a Pay Market..."
         [style.width.px]="350"
         [valueField]="'Value'"

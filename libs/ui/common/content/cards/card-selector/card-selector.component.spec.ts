@@ -64,59 +64,6 @@ describe('UI/Common/Content - CardSelector', () => {
     instance.cardDataError$ = of(false);
   });
 
-  it('should transclude content and templates', () => {
-    const hostComponent = TestBed.createComponent(TestHostComponent);
-
-    hostComponent.detectChanges();
-
-    expect(hostComponent).toMatchSnapshot();
-  });
-
-  it('should render pf-card components for each dataItem', () => {
-    instance.cardData$ = of([{Id: 1}, {Id: 2}]);
-    instance.cardDataLoading$ = of(false);
-    instance.cardIsDisabled = card => false;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should render no results message when there is no cardData', () => {
-    instance.cardData$ = of([]);
-    instance.cardDataLoading$ = of(false);
-    instance.cardIsDisabled = card => false;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should not render no results message when cardDataLoading', () => {
-    instance.cardData$ = of([]);
-    instance.cardDataLoading$ = of(true);
-    instance.cardIsDisabled = card => false;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should show selection container when a card is selected', () => {
-    spyOn(instance, 'handleCardSelectionEvent');
-    instance.cardData$ = of([{Id: 1}]);
-    instance.cardDataLoading$ = of(false);
-    instance.cardIsDisabled = card => false;
-
-    fixture.detectChanges();
-
-    instance.handleCardSelectionEvent({Id: 1});
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should emit an onReload event when handleReloadEvent is triggered', () => {
     spyOn(instance.onReload, 'emit');
     instance.cardData$ = of([{Id: 1}]);

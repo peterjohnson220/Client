@@ -32,7 +32,7 @@ describe('SecuritySettingsComponent', () => {
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(SecuritySettingsPageComponent);
     component = fixture.componentInstance;
     childFixture = TestBed.createComponent(SecurityManagementSettingsComponent);

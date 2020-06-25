@@ -35,9 +35,12 @@ exports[`TransferScheduleCardComponent should show a saveable form if the summar
       >
         Employees
       </h4>
+      
+      
       <pf-transfer-schedule-cron
         id="1"
       />
+      
       <div
         class="d-flex justify-content-end"
       >
@@ -93,9 +96,12 @@ exports[`TransferScheduleCardComponent should show an empty form if summary has 
       >
         Employees
       </h4>
+      
+      
       <pf-transfer-schedule-cron
         id="1"
       />
+      
       <div
         class="d-flex justify-content-end"
       >

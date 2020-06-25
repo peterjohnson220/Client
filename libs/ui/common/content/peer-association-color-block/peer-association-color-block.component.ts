@@ -7,20 +7,20 @@ import { ExchangeJobAssociation } from 'libs/features/peer/job-association/model
   templateUrl: './peer-association-color-block.component.html',
   styleUrls: ['./peer-association-color-block.component.scss']
 })
-export class PeerAssociationColorBlockComponent implements OnInit {
+export class PeerAssociationColorBlockComponent {
   @Input() unsavedExchangeJobAssociations: ExchangeJobAssociation[] = [];
   @Input() companyJobId: number;
   @Input() isAssociated: boolean;
   @Input() isPendingPeerUserReview: boolean;
   @Input() isApproved: boolean;
   @Input() isExchangeSpecific: boolean;
-  @Output() statusLabel = new EventEmitter<string>();
+  @Input() showStatusLabel: boolean;
+
+  get statusLabel() {
+    return this.getAssociationLabel();
+  }
 
   constructor() {}
-
-  ngOnInit(): void {
-    this.statusLabel.emit(this.getAssociationLabel());
-  }
 
   getAssociationClass(): string {
     if (this.isExchangeSpecific) {

@@ -2,13 +2,12 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { Store } from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import { ActionBarConfig,
   getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig,
-  GridRowActionsConfig,
-  PositionType
+  GridRowActionsConfig
 } from 'libs/features/pf-data-grid/models';
 import { PayMarketsPageViewId } from '../models';
 import { Observable, Subscription} from 'rxjs';
@@ -27,9 +26,9 @@ import * as fromPayMarketsPageReducer from '../reducers';
   styleUrls: ['./paymarkets.page.scss']
 })
 export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('gridRowActionsTemplate', { static: false }) gridRowActionsTemplate: ElementRef;
-  @ViewChild('defaultScopesColumn', { static: false }) defaultScopesColumn: ElementRef;
-  @ViewChild('payMarketNameColumn', { static: false }) payMarketNameColumn: ElementRef;
+  @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
+  @ViewChild('defaultScopesColumn') defaultScopesColumn: ElementRef;
+  @ViewChild('payMarketNameColumn') payMarketNameColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
 
   identity$: Observable<UserContext>;
@@ -47,10 +46,11 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   ];
   actionBarConfig: ActionBarConfig;
   pageViewId = PayMarketsPageViewId;
+  companyId: number;
   colTemplates = {};
   defaultPayMarketId: number;
   selectedPayMarketId: number;
-  selectedPopover: NgbPopover;
+  selectedPopover: NgbDropdown;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   permissions = Permissions;
 
@@ -71,6 +71,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.identitySubscription = this.identity$.subscribe(i => {
       if (!!i) {
         this.defaultPayMarketId = i.DefaultPayMarketId;
+        this.companyId =  i.CompanyId;
       }
     });
     window.addEventListener('scroll', this.scroll, true);
@@ -79,8 +80,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   ngAfterViewInit(): void {
     this.gridRowActionsConfig = {
       ...this.gridRowActionsConfig,
-      ActionsTemplate : this.gridRowActionsTemplate,
-      Position: PositionType.Right
+      ActionsTemplate : this.gridRowActionsTemplate
     };
     this.colTemplates = {
       'Default_Scope': { Template: this.defaultScopesColumn},
@@ -122,6 +122,10 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
       this.defaultPayMarketId = payMarketId;
       this.store.dispatch(new fromPayMarketsPageActions.SetDefaultPayMarket(payMarketId));
     }
+  }
+
+  editPayMarket(payMarketId: number): void {
+    this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenPayMarketModal({ payMarketId }));
   }
 
   scroll = (): void => {

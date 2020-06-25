@@ -8,10 +8,11 @@ import { DropDownFilterSettings, ComboBoxComponent, DropDownListComponent } from
 import { AsyncStateObj } from 'libs/models/state';
 import { PfValidators } from 'libs/forms/validators';
 import { KendoTypedDropDownItem } from 'libs/models/kendo';
-import { PayMarket, DefaultUserPayMarket } from 'libs/models';
+import { PayMarket, PayMarketWithMdScope } from 'libs/models';
 
 import * as fromPayMarketManagementReducer from '../../reducers';
 import * as fromGeneralFormActions from '../../actions/general-form.actions';
+import * as fromPayMarketModalActions from '../../actions/paymarket-modal.actions';
 import { MarketDataScopeComponent } from '../market-data-scope';
 
 @Component({
@@ -21,6 +22,7 @@ import { MarketDataScopeComponent } from '../market-data-scope';
 })
 export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   @Input() reset: boolean;
+  @Input() companyId: number;
 
   @ViewChild('linkedPayMarketCombobox', { static: true }) public linkedPayMarketCombobox: ComboBoxComponent;
   @ViewChild('countryComponent', { static: true }) public countryComponent: DropDownListComponent;
@@ -30,22 +32,26 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   countries$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   currencies$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
   linkedPayMarkets$: Observable<AsyncStateObj<KendoTypedDropDownItem[]>>;
-  defaultPayMarket$: Observable<AsyncStateObj<DefaultUserPayMarket>>;
+  payMarket$: Observable<AsyncStateObj<PayMarketWithMdScope>>;
+  payMarketErrorMessage$: Observable<string>;
 
   countriesSubscription: Subscription;
   currenciesSubscription: Subscription;
-  defaultPayMarketSubscription: Subscription;
+  linkedPayMarketsSubscription: Subscription;
+  payMarketSubscription: Subscription;
+  payMarketErrorMessageSubscription: Subscription;
 
   payMarketForm: FormGroup;
   filterSettings: DropDownFilterSettings = {
     caseSensitive: false,
     operator: 'startsWith'
   };
-  payMarket: PayMarket;
+  payMarket: PayMarketWithMdScope;
   countries: KendoTypedDropDownItem[];
   currencies: KendoTypedDropDownItem[];
+  linkedPayMarkets: KendoTypedDropDownItem[];
   hasLinkedPayMarket: boolean;
-  defaultPayMarket: DefaultUserPayMarket;
+  hasError = false;
 
   readonly DEFAULT_MAX_LENGTH = 255;
   readonly DEFAULT_COUNTRY = 'USA';
@@ -58,13 +64,14 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
     this.countries$ = this.store.select(fromPayMarketManagementReducer.getCountries);
     this.currencies$ = this.store.select(fromPayMarketManagementReducer.getCurrencies);
     this.linkedPayMarkets$ = this.store.select(fromPayMarketManagementReducer.getLinkedPayMarkets);
-    this.defaultPayMarket$ = this.store.select(fromPayMarketManagementReducer.getDefaultPayMarket);
+    this.payMarket$ = this.store.select(fromPayMarketManagementReducer.getPayMarket);
+    this.payMarketErrorMessage$ = this.store.select(fromPayMarketManagementReducer.getPayMarketErrorMessage);
   }
 
   get f() { return this.payMarketForm.controls; }
 
   get isNotValid(): boolean {
-    return !this.payMarketForm.valid || !(this.payMarketForm.dirty || this.payMarketForm.touched);
+    return !this.payMarketForm.valid || !(this.payMarketForm.dirty || this.payMarketForm.touched) || this.hasError;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -76,19 +83,21 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.createForm();
     this.initSubscriptions();
-    this.store.dispatch(new fromGeneralFormActions.GetCurrencies());
-    this.loadDefaultPayMarket();
-    this.loadLinkedPayMarkets();
+    this.loadCountries();
+    this.loadCurrencies();
   }
 
   ngOnDestroy(): void {
     this.countriesSubscription.unsubscribe();
     this.currenciesSubscription.unsubscribe();
-    this.defaultPayMarketSubscription.unsubscribe();
+    this.payMarketSubscription.unsubscribe();
   }
 
-  refresh(): void {
-    this.loadDefaultPayMarket();
+  onKey() {
+    if (this.hasError) {
+      this.hasError = false;
+      this.store.dispatch(new fromPayMarketModalActions.AddOrUpdatePayMarketError(''));
+    }
   }
 
   handleCountryChange(countryCode: string): void {
@@ -110,27 +119,30 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private initSubscriptions(): void {
-    this.defaultPayMarketSubscription = this.defaultPayMarket$.subscribe(asyncObj => {
+    this.payMarketSubscription = this.payMarket$.subscribe(asyncObj => {
       if (!!asyncObj && !asyncObj.loading && !!asyncObj.obj) {
-        this.defaultPayMarket = asyncObj.obj;
-        if (!this.countries || this.countries.length === 0) {
-          this.loadCountries();
-        } else {
-          this.updateCountryControl();
-          this.handleCountryChange(this.defaultPayMarket.CountryCode);
-        }
+        this.payMarket = asyncObj.obj;
+        this.loadLinkedPayMarkets();
       }
     });
     this.countriesSubscription = this.countries$.subscribe(results => {
-      if (results && !!results.obj) {
+      if (results && !results.loading && !!results.obj.length) {
         this.countries = results.obj;
-        this.updateCountryControl();
       }
     });
     this.currenciesSubscription = this.currencies$.subscribe(results => {
-      if (results && !!results.obj) {
+      if (results && !results.loading && !!results.obj) {
         this.currencies = results.obj;
-        this.updateCurrencyCode(this.DEFAULT_CURRENCY);
+      }
+    });
+    this.linkedPayMarketsSubscription = this.linkedPayMarkets$.subscribe(asyncObj => {
+      if (asyncObj && !asyncObj.loading && !!asyncObj.obj) {
+        this.updateForm();
+      }
+    });
+    this.payMarketErrorMessageSubscription = this.payMarketErrorMessage$.subscribe(error => {
+      if (error) {
+        this.hasError = true;
       }
     });
   }
@@ -138,12 +150,26 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
   private createForm(): void {
     this.payMarketForm = this.formBuilder.group({
       PayMarketName: ['', [PfValidators.required, PfValidators.maxLengthTrimWhitespace(this.DEFAULT_MAX_LENGTH)]],
-      LinkedPayMarket: null,
+      LinkedPayMarketId: null,
       LinkedPayMarketAdj: null,
       CountryCode: [null, PfValidators.required],
       CurrencyCode: [null, PfValidators.required],
       ShowInLinkedStructure: false
     });
+  }
+
+  private updateForm(): void {
+    if (!!this.payMarketForm && !!this.payMarket) {
+      this.hasLinkedPayMarket = !!this.payMarket.LinkedPayMarketId;
+      this.payMarketForm.patchValue({
+        PayMarketName: this.payMarket.PayMarket,
+        LinkedPayMarketId: this.payMarket.LinkedPayMarketId,
+        LinkedPayMarketAdj: this.payMarket.LinkedPayMarketAdj,
+        CountryCode: this.payMarket.CountryCode,
+        CurrencyCode: this.payMarket.CurrencyCode,
+        ShowInLinkedStructure: this.hasLinkedPayMarket ? this.payMarket.ShowInLinkedStructure : false
+      });
+    }
   }
 
   private resetForm(): void {
@@ -152,7 +178,7 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.payMarketForm.reset({
       PayMarketName: '',
-      LinkedPayMarket: '',
+      LinkedPayMarketId: null,
       LinkedPayMarketAdj: null,
       CountryCode: this.DEFAULT_COUNTRY,
       CurrencyCode: this.DEFAULT_CURRENCY,
@@ -164,39 +190,45 @@ export class GeneralFormComponent implements OnInit, OnDestroy, OnChanges {
     this.hasLinkedPayMarket = false;
   }
 
-  private updateCountryControl(): void {
-    const countryControl = this.payMarketForm.controls['CountryCode'];
-    let selectedValue = this.defaultPayMarket && !!this.defaultPayMarket.CountryCode
-      ? this.defaultPayMarket.CountryCode
-      : this.DEFAULT_COUNTRY;
-    if (!!this.payMarket && this.payMarket.CountryCode) {
-      selectedValue = this.payMarket.CountryCode;
-    }
-    countryControl.setValue(selectedValue);
-  }
-
   private updateCurrencyCode(currencyCode: string): void {
     const currenciesControl = this.payMarketForm.controls['CurrencyCode'];
-    let selectedValue = this.currencies.find(c => c.Value === currencyCode)
+    const selectedValue = this.currencies.some(c => c.Value === currencyCode)
       ? currencyCode
       : this.DEFAULT_CURRENCY;
-    if (!!this.payMarket && this.payMarket.CurrencyCode) {
-      selectedValue = this.payMarket.CurrencyCode;
-    }
     currenciesControl.setValue(selectedValue);
-  }
-
-  private loadDefaultPayMarket(): void {
-    this.store.dispatch(new fromGeneralFormActions.GetDefaultUserPayMarket());
   }
 
   private loadCountries(): void {
     this.store.dispatch(new fromGeneralFormActions.GetCountries());
   }
 
+  private loadCurrencies(): void {
+    this.store.dispatch(new fromGeneralFormActions.GetCurrencies());
+  }
+
   private loadLinkedPayMarkets(): void {
     const payMarketId = this.payMarket ? this.payMarket.CompanyPayMarketId : 0;
     this.store.dispatch(new fromGeneralFormActions.GetLinkedPayMarkets({ payMarketId }));
+  }
+
+  buildPayMarketDto(): PayMarket {
+    return {
+      CompanyPayMarketId: this.payMarket.CompanyPayMarketId ? this.payMarket.CompanyPayMarketId : null,
+      CompanyId: this.companyId,
+      PayMarket: this.f.PayMarketName.value,
+      IndustryLabel: this.mdScopeComponent.selectedIndustry.Label,
+      IndustryValue: this.mdScopeComponent.selectedIndustry.Value,
+      SizeLabel: this.mdScopeComponent.selectedSize.Label,
+      SizeValue: this.mdScopeComponent.selectedSize.Value,
+      GeoLabel: this.mdScopeComponent.selectedLocation.Label,
+      GeoValue: this.mdScopeComponent.selectedLocation.Value,
+      CountryCode: this.f.CountryCode.value,
+      CurrencyCode: this.f.CurrencyCode.value,
+      LinkedPayMarket: null,
+      LinkedPayMarketId: this.f.LinkedPayMarketId.value ? this.f.LinkedPayMarketId.value : null,
+      LinkedPayMarketAdj: this.f.LinkedPayMarketAdj.value ? this.f.LinkedPayMarketAdj.value : null,
+      ShowInLinkedStructure: this.f.ShowInLinkedStructure.value
+    };
   }
 
 }

@@ -41,7 +41,7 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
   savingDataViewSuccessSubscription: Subscription;
   permissions = Permissions;
 
-  @ViewChild(CreateDataViewModalComponent, { static: false }) public createDataViewModal: CreateDataViewModalComponent;
+  @ViewChild(CreateDataViewModalComponent) public createDataViewModal: CreateDataViewModalComponent;
   reportBuilderSettingEnabled: boolean;
 
   constructor(

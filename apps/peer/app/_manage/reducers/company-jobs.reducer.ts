@@ -106,7 +106,7 @@ export function reducer(state, action) {
         }
         case fromPeerCompanyJobs.LOAD_COMPANY_JOBS_SUCCESS: {
           return {
-            ...adapter.addAll(featureAction.payload.data, featureState),
+            ...adapter.setAll(featureAction.payload.data, featureState),
             total: featureAction.payload.total,
             loading: false,
             loadingError: false

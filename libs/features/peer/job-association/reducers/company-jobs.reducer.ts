@@ -70,7 +70,7 @@ export function reducer(state, action) {
         case fromCompanyJobsActions.LOAD_COMPANY_JOBS_SUCCESS: {
           const companyJobGridItems: CompanyJob[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(companyJobGridItems, featureState),
+            ...adapter.setAll(companyJobGridItems, featureState),
             total: featureAction.payload.total,
             loading: false,
             loadingError: false,
@@ -88,7 +88,7 @@ export function reducer(state, action) {
         case fromCompanyJobsActions.LOAD_COMPANY_JOBS_BAD_REQUEST: {
           const emptyResponse: CompanyJob[] = [];
           return {
-            ...adapter.addAll(emptyResponse, featureState),
+            ...adapter.setAll(emptyResponse, featureState),
             loading: false,
             badRequestMessage: featureAction.payload
           };

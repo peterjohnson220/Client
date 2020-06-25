@@ -37,4 +37,5 @@ export interface CompanyFormData {
   GroupName?: string;
   CompanyColor: string;
   OrgDataAutoloaderApiKey: string;
+  CompanyDescription: string;
 }

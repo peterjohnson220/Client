@@ -11,6 +11,8 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromTotalRewardsReducer from './../../reducers';
 import * as fromTotalRewardsStatementGridActions from '../../actions/statement-grid.actions';
+import * as fromStatementGridActions from '../../actions/statement-grid.actions';
+import { StatementListViewModel } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-statements-grid',
@@ -26,7 +28,7 @@ export class StatementsGridComponent implements OnInit {
   statementsLoading$: Observable<boolean>;
   statementsLoadingError$: Observable<boolean>;
 
-  openActionMenuStatementId$: Observable<string>;
+  openActionMenuStatement$: Observable<StatementListViewModel>;
 
   constructor(private store: Store<fromTotalRewardsReducer.State>, private router: Router) { }
 
@@ -35,7 +37,7 @@ export class StatementsGridComponent implements OnInit {
     this.statementsGridData$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsGridData));
     this.statementsLoading$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsLoading));
     this.statementsLoadingError$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsLoadingError));
-    this.openActionMenuStatementId$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsOpenActionMenuStatementId));
+    this.openActionMenuStatement$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsOpenActionMenuStatement));
     if (this.autoLoad) {
       this.store.dispatch(new fromTotalRewardsStatementGridActions.LoadStatements());
     }
@@ -46,32 +48,32 @@ export class StatementsGridComponent implements OnInit {
     this.store.dispatch(new fromTotalRewardsStatementGridActions.LoadStatements());
   }
 
-  onActionMenuOpen(statementId: string): void {
-    this.store.dispatch(new fromTotalRewardsStatementGridActions.OpenActionMenu(statementId));
+  onActionMenuOpen(statement: StatementListViewModel): void {
+    this.store.dispatch(new fromTotalRewardsStatementGridActions.OpenActionMenu(statement));
   }
 
   onActionMenuClose(): void {
     this.store.dispatch(new fromTotalRewardsStatementGridActions.CloseActionMenu());
   }
 
-  onActionMenuPreviewClick(statementId: string): void {
-    console.log('onActionMenuEditClick', statementId);
+  onActionMenuPreviewClick(statement: StatementListViewModel): void {
+    console.log('onActionMenuEditClick', statement);
   }
 
-  onActionMenuGenerateStatementClick(statementId: string): void {
-    console.log('onActionMenuGenerateStatementClick', statementId);
+  onActionMenuGenerateStatementClick(statement: StatementListViewModel): void {
+    console.log('onActionMenuGenerateStatementClick', statement);
   }
 
-  onActionMenuEditClick(statementId: string): void {
-    this.navigateToStatementEdit(statementId);
+  onActionMenuEditClick(statement: StatementListViewModel): void {
+    this.navigateToStatementEdit(statement.Id);
   }
 
-  onActionMenuCopyClick(statementId: string): void {
-    console.log('onActionMenuCopyClick', statementId);
+  onActionMenuCopyClick(statement: StatementListViewModel): void {
+    console.log('onActionMenuCopyClick', statement);
   }
 
-  onActionMenuDeleteClick(statementId: string): void {
-    console.log('onActionMenuDeleteClick', statementId);
+  onActionMenuDeleteClick(): void {
+    this.store.dispatch(new fromStatementGridActions.ConfirmDeleteStatement());
   }
 
   navigateToStatementEdit(statementId: string): void {

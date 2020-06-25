@@ -26,8 +26,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   statementSaving$: Observable<boolean>;
   statementSavingSuccess$: Observable<boolean>;
   statementSavingError$: Observable<boolean>;
-  cloningFromTemplate$: Observable<boolean>;
-  cloningFromTemplateError$: Observable<boolean>;
   mode$: Observable<models.StatementModeEnum>;
 
   isSettingsPanelOpen$: Observable<boolean>;
@@ -41,7 +39,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   statement: models.Statement;
   statementId: string;
-  templateId: string;
   employeeRewardsData: models.EmployeeRewardsData;
   mode: models.StatementModeEnum;
   modeEnum = models.StatementModeEnum;
@@ -60,8 +57,6 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.statementSaving$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementSaving));
     this.statementSavingSuccess$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementSavingSuccess));
     this.statementSavingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementSavingError));
-    this.cloningFromTemplate$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectCloningFromTemplate));
-    this.cloningFromTemplateError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectCloningFromTemplateError));
     this.mode$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectStatementMode));
 
     // SETTINGS
@@ -72,13 +67,8 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
     // SUBSCRIPTIONS
     this.urlParamSubscription = this.route.params.subscribe(params => {
-      if (params['id']) {
-        this.statementId = params['id'];
-        this.store.dispatch(new fromEditStatementPageActions.LoadStatement(this.statementId));
-      } else if (params['templateId']) {
-        this.templateId = params['templateId'];
-        this.store.dispatch(new fromEditStatementPageActions.CloneStatementFromTemplate(this.templateId));
-      }
+      this.statementId = params['id'];
+      this.store.dispatch(new fromEditStatementPageActions.LoadStatement(this.statementId));
     });
     this.statementSubscription = this.statement$.subscribe(s => {
       if (s) {
@@ -114,11 +104,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   }
 
   handleStatementReload() {
-    if (this.statementId) {
-      this.store.dispatch(new fromEditStatementPageActions.LoadStatement(this.statementId));
-    } else if (this.templateId) {
-      this.store.dispatch(new fromEditStatementPageActions.CloneStatementFromTemplate(this.templateId));
-    }
+    this.store.dispatch(new fromEditStatementPageActions.LoadStatement(this.statementId));
   }
 
   toggleStatementEditMode() {

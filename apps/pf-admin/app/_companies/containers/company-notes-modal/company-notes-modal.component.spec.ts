@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { MomentModule } from 'angular2-moment';
+import { MomentModule } from 'ngx-moment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -49,7 +49,7 @@ describe('CompanyNotesModalComponent', () => {
         schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(CompanyNotesModalComponent);
     component = fixture.componentInstance;
     });
@@ -57,7 +57,7 @@ describe('CompanyNotesModalComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(CompanyNotesModalComponent);
         component = fixture.componentInstance;
-        ngbModal = TestBed.get(NgbModal);
+        ngbModal = TestBed.inject(NgbModal);
         fixture.detectChanges();
     });
 

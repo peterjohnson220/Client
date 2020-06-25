@@ -75,3 +75,21 @@ pf-service-page {
     padding: 12px 15px;
   }
 }
+
+.service-page-grid-actions {
+  .k-list .k-item.k-state-selected {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
+  .k-dropdown-wrap {
+    background-color: #ffffff !important;
+  }
+
+  .k-dropdown > :hover {
+    background: none !important;
+  }
+
+  .k-dropdown .k-state-focused {
+    box-shadow: none !important;
+  }
+}

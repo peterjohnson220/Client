@@ -37,7 +37,7 @@ describe('LoaderDashboardGridComponent', () => {
 
     fixture = TestBed.createComponent(LoaderDashboardGridComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   }));
 

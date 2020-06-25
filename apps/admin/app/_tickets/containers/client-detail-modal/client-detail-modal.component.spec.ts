@@ -23,7 +23,7 @@ describe('ClientDetailModalComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   }));
 
   beforeEach(() => {

@@ -31,7 +31,7 @@ describe('Add Survey Titles modal', () => {
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(AddSurveyTitleModalComponent);
     component = fixture.componentInstance;

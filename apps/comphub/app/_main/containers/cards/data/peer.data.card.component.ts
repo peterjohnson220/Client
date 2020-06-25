@@ -26,7 +26,7 @@ import { ComphubPages } from '../../../data';
 })
 export class PeerDataCardComponent implements OnInit, OnDestroy {
   @ViewChild(MapComponent, {static: true}) map: MapComponent;
-  @ViewChild(ExchangeExplorerComponent, {static: false}) exchangeExplorer: ExchangeExplorerComponent;
+  @ViewChild(ExchangeExplorerComponent) exchangeExplorer: ExchangeExplorerComponent;
 
   displayMap = false;
   jobTitle: string;
@@ -162,7 +162,11 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
       }
     } else
     if (this.displayMap && this.selectedPageIdDelayed !== ComphubPages.Data) {
-      this.store.dispatch(new fromExchangeExplorerMapActions.SetPeerMapBounds({TopLeft: this.mapFilter.TopLeft, BottomRight: this.mapFilter.BottomRight, Centroid: null}));
+      this.store.dispatch(new fromExchangeExplorerMapActions.SetPeerMapBounds({
+          TopLeft: this.mapFilter.TopLeft,
+          BottomRight: this.mapFilter.BottomRight,
+          Centroid: null
+      }));
       this.displayMap = false;
       this.pageLoading = true;
     }

@@ -32,10 +32,10 @@ describe('ResetIntegrationPageComponent', () => {
     })
     .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(ResetIntegrationPageComponent);
     instance = fixture.componentInstance;
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
   }));
 
   it('should create', () => {

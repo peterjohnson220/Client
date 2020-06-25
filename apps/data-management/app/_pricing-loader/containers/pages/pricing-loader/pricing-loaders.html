@@ -11,111 +11,61 @@
         Pricing Loaders
       </ng-container>
       <ng-container page-actions>
-        <button class="btn btn-outline-primary">Download Pricing</button>
+        <button class="btn btn-outline-primary" (click)="goDownload()" *ngIf="selectedCompany !== null && selectedCompany !== undefined">Download Pricing</button>
       </ng-container>
       <ng-container page-content>
-        <div class="pb-3">
-          Select Company
-        </div>
-        <ng-container>
-          <div>
-            <div class="form-group">
-              <pf-company-selector>
-              </pf-company-selector>
+        <div class="d-flex flex-column mb-3 p-3">
+          <div class="title">Select Company <span class="text-danger">*</span></div>
+          <div class="company-selector row">
+            <div class="col-4 pl-0">
+              <pf-company-selector></pf-company-selector>
             </div>
           </div>
-        </ng-container>
-        <ng-container *ngIf="selectedCompany">
-          <div class="font-weight-bold pb-3">
-            Upload Pricing Files
-          </div>
-          <div class="shadow p-3 rounded container-background">
-            <div class="px-5">
-              <div class="row my-2 py-3 rounded">
-                <div class="col-sm-2">
-                  <div class="pb-3">
-                    Select import file type
+          <div [style.visibility]="!!selectedCompany?.CompanyId ? 'visible' : 'hidden'">
+            <pf-upload-pricing-file [companyId]="selectedCompany?.CompanyId"></pf-upload-pricing-file>
+            <ng-container>
+              <div class="shadow p-3 rounded container-background mt-3">
+                <div class="px-5">
+                  <div class="row my-2 py-3 rounded">
+                      <fa-icon class="fa-lg fa-arrow-right mr-3"
+                              (click)="isCollapsed = !isCollapsed"
+                              [style.cursor]="'pointer'"
+                              [icon]="['far', isCollapsed ? 'angle-right' : 'angle-down']" ></fa-icon>
+                      <h5>Pricing Loader Defaults</h5>
                   </div>
-                  <select class="form-control">
-                    <option *ngFor="let fileType of fileTypes" [ngValue]="fileType">{{fileType}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="row my-2 py-3 rounded"
-                   [style.background-color]="'white'"
-                   *ngFor="let entity of selectedEntities()">
-                <div id="column1container"
-                     class="col">
-                  <h5>{{entity.DisplayText}}</h5>
-
-                  <div class="rounded px-3 py-4 template-background">
-                    <b>Note:</b> File must be in csv format and file name must begin with '{{entity.FileBeginsWith}}'.
-                  </div>
-                </div>
-                <div id="column3container"
-                     class="col">
-                  <div class="h-100 mx-2">
-                    <pf-file-upload #fileUpload
-                                    (onFileDropped)="entity.File = $event"
-                                    (onColumnNamesRetrieved)="entity.columnNames = $event"
-                                    (onFileRemoved)="entity.File = null"
-                                    (onLoadingFinished)="entity.isLoadingFinish = $event"
-                                    [selectedFile]="entity.File"
-                                    [validFileExtensions]="['.csv']"
-                                    [validFileStartsWith]="entity.FileBeginsWith"
-                                    ></pf-file-upload>
-                  </div>
-                </div>
-            </div>
-              <div class="form-inline mt-3 justify-content-end">
-                <button type="button"
-                        class="btn mx-1 btn-md pf-secondary-btn">Validate Only</button>
-                <button type="button"
-                        class="btn mx-1 btn-md pf-secondary-btn">Upload</button>
-              </div>
-            </div>
-          </div>
-          <br/>
-          <div class="shadow p-3 rounded container-background">
-            <div class="px-5">
-              <div class="row my-2 py-3 rounded">
-                  <fa-icon class="fa-lg fa-arrow-right mr-3"
-                           (click)="isCollapsed = !isCollapsed"
-                           [style.cursor]="'pointer'"
-                           [icon]="['far', isCollapsed ? 'angle-right' : 'angle-down']" ></fa-icon>
-                  <h5>Pricing Loader Defaults</h5>
-              </div>
-              <div class="collapse show" [ngbCollapse]="isCollapsed">
-                <div class="card-body">
-                  <div class="row my-2 ml-2">
-                    <div class="col-sm-8">
-                      <h5>MRP Fields</h5>
-                    </div>
-                    <div class="col-sm-4">
-                      <h5>Adjustments</h5>
-                    </div>
-                  </div>
-                  <div class="row my-2 ml-2" *ngFor="let row of MRPFields">
-                    <div class="col-md-3" *ngFor="let col of row">
-                      <div class="row">
-                        <label class="col-sm-5">{{col.Name}}</label>
-                        <kendo-numerictextbox class="form-control col-sm-2"
-                                              [(ngModel)]="col.Value"
-                                              [format]="'n'"
-                                              [spinners]="false"
-                                              [decimals]="0"
-                                              [max]="col.Max"
-                                              [min]="col.Min"
-                                              [autoCorrect]="true">
-                        </kendo-numerictextbox>
+                  <div class="collapse show" [ngbCollapse]="isCollapsed">
+                    <div class="card-body">
+                      <div class="row my-2 ml-2">
+                        <div class="col-sm-8">
+                          <h5>MRP Fields</h5>
+                        </div>
+                        <div class="col-sm-4">
+                          <h5>Adjustments</h5>
+                        </div>
+                      </div>
+                      <div class="row my-2 ml-2" *ngFor="let row of MRPFields">
+                        <div class="col-md-3" *ngFor="let col of row">
+                          <div class="row">
+                            <label class="col-sm-5">{{col.Name}}</label>
+                            <kendo-numerictextbox class="form-control" [ngClass]="{'col-sm-2': textWidth(col.Value), 'col-sm-3': !textWidth(col.Value)}"
+                                                  [(ngModel)]="col.Value"
+                                                  [format]="'n'"
+                                                  [spinners]="false"
+                                                  [decimals]="col.Decimal"
+                                                  [max]="col.Max"
+                                                  [min]="col.Min"
+                                                  [autoCorrect]="true">
+                            </kendo-numerictextbox>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </ng-container>
           </div>
-        </ng-container>
+        </div>
     </ng-container>
   </pf-page-with-title-bar>
 </pf-async-container>

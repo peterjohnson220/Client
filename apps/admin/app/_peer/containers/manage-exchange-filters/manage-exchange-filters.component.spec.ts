@@ -58,10 +58,10 @@ describe('Manage Exchange Filters', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.snapshot.parent.params.id;
-    gridHelperService = TestBed.get(GridHelperService);
+    gridHelperService = TestBed.inject(GridHelperService);
 
     spyOn(store, 'dispatch');
 
@@ -134,6 +134,7 @@ describe('Manage Exchange Filters', () => {
     const filter = generateMockExchangeSearchFilterAggregate();
     const filters: ExchangeSearchFilterAggregate[] = [filter, filter];
     // Not crazy about this but it is the most straight forward way to mock the drag and drop event and test this method. [BG]
+    // @ts-ignore
     const ddEvent: CdkDragDrop<string[]> = new class implements CdkDragDrop<string[]> {
       container: CdkDropList<string[]>;
       currentIndex = 1;
