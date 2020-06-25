@@ -11,13 +11,9 @@ exports[`Page With Title Bar should show no back button when no URL is provided 
 >
   <div
     class="flex-column-container default"
-    ng-reflect-klass="flex-column-container"
-    ng-reflect-ng-class="default"
   >
     <div
       class="d-flex justify-content-between align-items-center page-header"
-      ng-reflect-klass="d-flex justify-content-between"
-      ng-reflect-ng-class="page-header"
     >
       
       <div
@@ -38,8 +34,6 @@ exports[`Page With Title Bar should show no back button when no URL is provided 
       </div>
       <div
         class="d-flex space-out-children"
-        ng-reflect-klass="d-flex space-out-children"
-        ng-reflect-ng-class=""
       />
     </div>
     <div
@@ -61,13 +55,9 @@ exports[`Page With Title Bar should show the back button, when provided a return
 >
   <div
     class="flex-column-container default"
-    ng-reflect-klass="flex-column-container"
-    ng-reflect-ng-class="default"
   >
     <div
       class="d-flex justify-content-between align-items-center page-header"
-      ng-reflect-klass="d-flex justify-content-between"
-      ng-reflect-ng-class="page-header"
     >
       
       <div
@@ -96,8 +86,6 @@ exports[`Page With Title Bar should show the back button, when provided a return
       </div>
       <div
         class="d-flex space-out-children"
-        ng-reflect-klass="d-flex space-out-children"
-        ng-reflect-ng-class=""
       />
     </div>
     <div
@@ -119,13 +107,9 @@ exports[`Page With Title Bar should show the back button, when provided an absol
 >
   <div
     class="flex-column-container default"
-    ng-reflect-klass="flex-column-container"
-    ng-reflect-ng-class="default"
   >
     <div
       class="d-flex justify-content-between align-items-center page-header"
-      ng-reflect-klass="d-flex justify-content-between"
-      ng-reflect-ng-class="page-header"
     >
       
       <div
@@ -158,8 +142,6 @@ exports[`Page With Title Bar should show the back button, when provided an absol
       </div>
       <div
         class="d-flex space-out-children"
-        ng-reflect-klass="d-flex space-out-children"
-        ng-reflect-ng-class=""
       />
     </div>
     <div

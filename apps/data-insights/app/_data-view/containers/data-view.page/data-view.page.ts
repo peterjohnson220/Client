@@ -28,11 +28,11 @@ import { DuplicateDataViewModalComponent } from '../duplicate-data-view-modal';
   styleUrls: ['./data-view.page.scss']
 })
 export class DataViewPageComponent implements OnInit, OnDestroy {
-  @ViewChild('editDataViewModal', { static: false }) public editDataViewModal: EditDataViewModalComponent;
-  @ViewChild('duplicateDataViewModal', { static: false }) public duplicateDataViewModal: DuplicateDataViewModalComponent;
-  @ViewChild('deleteWorkbookModal', { static: false }) public deleteUserWorkbookModalComponent: DeleteUserWorkbookModalComponent;
-  @ViewChild('shareReportModal', { static: false }) public shareReportModalComponent: ShareReportModalComponent;
-  @ViewChild(ConfigureSidebarComponent, { static: false }) public configureSidebar: ConfigureSidebarComponent;
+  @ViewChild('editDataViewModal') public editDataViewModal: EditDataViewModalComponent;
+  @ViewChild('duplicateDataViewModal') public duplicateDataViewModal: DuplicateDataViewModalComponent;
+  @ViewChild('deleteWorkbookModal') public deleteUserWorkbookModalComponent: DeleteUserWorkbookModalComponent;
+  @ViewChild('shareReportModal') public shareReportModalComponent: ShareReportModalComponent;
+  @ViewChild(ConfigureSidebarComponent) public configureSidebar: ConfigureSidebarComponent;
 
   userDataView$: Observable<AsyncStateObj<UserDataView>>;
   exportingUserDataReport$: Observable<boolean>;

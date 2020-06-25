@@ -4,6 +4,14 @@ export interface MarketDataFeedExport {
   Completed: boolean;
   Failed: boolean;
   FileName: string;
+  Status: FeedStatus;
+  DownloadUrl?: string;
+}
+
+export enum FeedStatus {
+  Queued,
+  InProgress,
+  Completed
 }
 
 export function generateMockMarketDataFeedExport(): MarketDataFeedExport[] {
@@ -13,14 +21,16 @@ export function generateMockMarketDataFeedExport(): MarketDataFeedExport[] {
       EffectiveDate: new Date('01/01/2000'),
       Completed: true,
       Failed: false,
-      FileName: 'MyReportFeed1234.csv'
+      FileName: 'MyReportFeed1234.csv',
+      Status: FeedStatus.Completed
     },
     {
       FeedId: 2,
       EffectiveDate: new Date('01/02/2001'),
       Completed: true,
       Failed: false,
-      FileName: 'MyReportFeed9876.csv'
+      FileName: 'MyReportFeed9876.csv',
+      Status: FeedStatus.Completed
     }
   ];
 }

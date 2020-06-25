@@ -1,10 +1,22 @@
-<pf-async-container [loading]="(transferScheduleSummaryLoading$ | async) || (transferScheduleSummarySaving$ | async)"
+<pf-async-container [loading]="((transferScheduleSummaryLoading$ | async) || (transferScheduleSummarySaving$ | async)) || (connectionSaving$ | async)"
                     [loadingError]="transferScheduleSummaryError$ | async"
                     [loadingErrorMessage]="'Error loading Transfer Schedule'">
   <div class="mt-4">
     <div class="float-right"><h5 style="opacity: 0.6;">STEP 5/5</h5></div>
     <h4>Transfer Schedule</h4>
-    <h5>Let us know how often you would like to refresh your company data.</h5>
+    <h5>Let us know how often you would like to refresh your company data.
+      <div class="float-right hris-validation-mode-toggle">
+        <kendo-switch
+          style="width:80px;"
+          [title]="''"
+          [checked]="!validationMode"
+          [onLabel]="'Live'"
+          [offLabel]="'Test'"
+          (valueChange)="handleValidationModeChanged()">
+        </kendo-switch>
+      </div>
+    </h5>
+
     <div class="row mt-5 mb-3">
       <ng-container *ngFor="let item of transferScheduleSummary; let i = index">
         <div class="col-sm-4">
@@ -13,24 +25,32 @@
             (changesPending)="updateCanFinish(i, $event)"
             (scheduleDisableSubmitted)="disableSchedule($event)"
             (scheduleEnableSubmitted)="enableSchedule($event)"
-            (scheduleSaveSubmitted)="saveSchedule($event)">
+            (scheduleSaveSubmitted)="saveSchedule($event)"
+            [validationMode]="validationMode">
           </pf-transfer-schedule-card>
         </div>
       </ng-container>
     </div>
     <div class="d-flex justify-content-end">
       <div class="p-2">
+        <button type="button" class="btn btn-secondary px-4" (click)="onEmailRecipients()">Email Recipients</button>
+      </div>
+      <div class="p-2">
         <button type="button" class="btn btn-outline-danger px-4" (click)="onCancel()">Cancel</button>
       </div>
       <div class="p-2">
         <button type="button" class="btn btn-secondary px-4" (click)="goBack()">Back</button>
       </div>
-      <div class="p-2" *ngIf="!workflowComplete">
-        <button type="button" class="btn btn-primary px-4" [disabled]="!canFinish()" (click)="onFinish()">Finish</button>
+      <div class="p-2" *ngIf="!workflowComplete || validationMode">
+        <button type="button" class="btn btn-primary px-4" [disabled]="!canFinish()" (click)="onFinish()">
+          <span *ngIf="workflowComplete && validationMode">Validate</span>
+          <span *ngIf="!workflowComplete || !validationMode">Finish</span>
+        </button>
       </div>
     </div>
   </div>
   <pf-modal-form
+    class="integration-setup-complete-modal"
     [title]="'Integration Setup Complete'"
     [size]="'md'"
     [showFooter]="false"
@@ -39,12 +59,24 @@
     [isOpen$]="showIntegrationFinishedModal$">
     <ng-container basic-content>
       <h5 class="mb-3 setup-complete-modal-header">Integration Setup Complete!</h5>
-      <div class="alert alert-success">
-        Your HRIS integration with Workday is ready to go! There is nothing else for you to do at this time.
-      </div>
+      <pf-transfer-schedule-summary
+        [validationMode]="validationMode">
+      </pf-transfer-schedule-summary>
       <div class="">
         <button class="btn btn-primary px-4 float-right" (click)="onOk()">Ok</button>
       </div>
     </ng-container>
   </pf-modal-form>
+
+  <pf-email-recipients-modal
+    class="float-right m-2"
+    *ngIf="companyId"
+    [companyId]="companyId"
+    [loaderConfigurationGroupId]="loaderConfigurationGroupId"
+    [loadType]="loadType"
+    [savingError$]="emailRecipientsSavingError$"
+    [removingError$]="emailRecipientsRemovingError$"
+    [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"
+    [recipients]="emailRecipients$ | async">
+  </pf-email-recipients-modal>
 </pf-async-container>

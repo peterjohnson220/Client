@@ -1,3 +1,14 @@
+@import 'colors';
+
+.wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: normal;
+  &.multi-line {
+    white-space: normal;
+  }
+}
+
 .offScreen {
   position: absolute;
   z-index: -100;
@@ -19,19 +30,17 @@ input[type=text] {
   }
 }
 
-.wrapper {
-  overflow: hidden;
-  white-space: nowrap;
-  &.multi-line {
-    white-space: normal;
-  }
-}
-
 .editable {
   cursor: pointer;
   color: inherit;
   &:hover {
     text-decoration: none;
+  }
+  &:focus {
+    border: 2px solid $link-color;
+  }
+  &:active {
+    border: 0; // suppress border while mouse is down on element
   }
 }
 

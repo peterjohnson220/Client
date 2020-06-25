@@ -21,7 +21,6 @@ exports[`Peer - Manage - Request Job - New Job Form should provide correct value
 >
   <div
     class="new-job-form-content d-flex flex-column ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
   >
     <div
       class="flex-column"
@@ -45,7 +44,6 @@ exports[`Peer - Manage - Request Job - New Job Form should provide correct value
               class="form-control ng-untouched ng-pristine ng-invalid"
               formcontrolname="jobTitle"
               id="job-title"
-              ng-reflect-name="jobTitle"
               type="text"
             />
             
@@ -84,7 +82,6 @@ exports[`Peer - Manage - Request Job - New Job Form should provide correct value
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="jobLevel"
               id="job-level"
-              ng-reflect-name="jobLevel"
               type="text"
             />
           </div>
@@ -120,7 +117,6 @@ exports[`Peer - Manage - Request Job - New Job Form should provide correct value
         formcontrolname="jobDescription"
         id="job-description"
         name="job-description"
-        ng-reflect-name="jobDescription"
         rows="9"
       />
     </div>
@@ -133,8 +129,6 @@ exports[`Peer - Manage - Request Job - New Job Form should provide correct value
         id="request-reason"
         maxlength="1000"
         name="reason"
-        ng-reflect-maxlength="1000"
-        ng-reflect-name="reason"
         placeholder="Please tell us why you would like to add this new job to the  exchange..."
         rows="3"
       />

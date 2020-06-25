@@ -2,6 +2,7 @@ import {
   Component, Input, Output, EventEmitter, ViewChild, OnInit, OnDestroy, OnChanges, SimpleChanges,
   ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable, of, BehaviorSubject, Subscription } from 'rxjs';
 import { CheckableSettings, TreeViewComponent, TreeItem } from '@progress/kendo-angular-treeview';
@@ -36,12 +37,13 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() compressChildValues = false;
   @Input() filterable = false;
   @Input() searchPlaceholder = 'Search...';
-  @Input() treeViewContainerHeight = 300;
+  @Input() treeViewContainerHeight: number;
   @Input() isPopup = true;
   @Input() checkedKeys: string[] = [];
   @Input() lazyLoad: boolean;
   @Input() lazyLoadDefaultAppliedItem: GroupedListItem;
   @Input() loading = false;
+  @Input() showDescriptionToolTip = false;
   @Output() applyClicked: EventEmitter<string[]> = new EventEmitter();
   @Output() expandNode: EventEmitter<string> = new EventEmitter();
   @Output() searchTermChanged: EventEmitter<string> = new EventEmitter();
@@ -56,12 +58,13 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'left', vertical: 'top' };
   searchTerm = '';
-  searchTermChanged$ = new BehaviorSubject<string>('');
+  searchTermChanged$ = new BehaviorSubject<string>(null);
   noSearchResults = false;
   filteredData: GroupedListItem[] = [];
   expandedKeys: string[] = [];
   modes = TreeViewMode;
   isSearching: boolean;
+  selectedTooltip: NgbTooltip;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
@@ -82,12 +85,13 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
       debounceTime(600),
       distinctUntilChanged()
     ).subscribe(searchTerm => {
-      if (this.lazyLoad) {
+      if (this.lazyLoad && searchTerm !== null) {
         this.searchTermChanged.emit(searchTerm);
         return;
       }
       this.handleSearchTermSubscription(searchTerm);
     });
+    window.addEventListener('scroll', this.scroll, true);
   }
 
   ngOnDestroy(): void {
@@ -107,6 +111,10 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
   clearSearchTerm(): void {
     this.searchTerm = '';
     this.searchTermChanged$.next('');
+  }
+
+  setCurrentToolTip(tooltip: NgbTooltip): void {
+    this.selectedTooltip = tooltip;
   }
 
   handleCloseClicked(event: MouseEvent): void {
@@ -145,6 +153,17 @@ export class PfTreeViewComponent implements OnInit, OnDestroy, OnChanges {
     this.isSearching = false;
     if (this.lazyLoad && event.dataItem.Children.length === 0) {
       this.expandNode.emit(event.dataItem.Value);
+    }
+  }
+
+  clearSelections(): void {
+    this.checkedKeys = [];
+    this.handleApplyClicked();
+  }
+
+  scroll = (): void => {
+    if (!!this.selectedTooltip) {
+      this.selectedTooltip.close();
     }
   }
 

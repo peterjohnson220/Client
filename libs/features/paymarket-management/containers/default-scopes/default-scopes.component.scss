@@ -1,0 +1,26 @@
+.btn-add {
+  padding-top: 25px;
+}
+
+.default-scopes-container {
+  height: 220px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.scope-row {
+  padding: 1rem 0;
+
+  .text {
+    padding-top: 0.3rem;
+  }
+}
+
+.scope-column {
+  width: 365px;
+  margin-right: 1rem;
+}
+
+.btn-secondary:disabled {
+  border-color: #cccccc;
+}

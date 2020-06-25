@@ -13,7 +13,11 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     children: [
       { path: '', loadChildren: () => import('apps/data-management/app/_main/main.module').then(m => m.MainModule) },
-      { path: '', loadChildren: () => import('apps/data-management/app/_pricing-loader/pricing-loader.module').then(m => m.PricingLoaderModule) }
+      { path: '', loadChildren: () => import('apps/data-management/app/_pricing-loader/pricing-loader.module').then(m => m.PricingLoaderModule) },
+      { path: 'pricing-loader',
+        loadChildren: () => import('apps/data-management/app/_pricing-loader-download/pricing-loader-download.module')
+          .then(m => m.PricingLoaderDownloadModule)
+      }
     ]
   },
   { path: 'access-denied', component: AccessDeniedPageComponent },

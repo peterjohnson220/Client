@@ -5,6 +5,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   COMMUNITY_POSTS_CONTAINER_ID={[Function String]}
   POST_ITEM_CLASS={[Function String]}
   browserDetectionService={[Function BrowserDetectionService]}
+  disableCommunityAttachments$={[Function Store]}
   executePageScrollDown="false"
   executePageScrollUp="false"
   getHasNextBatchPostsOnServer$={[Function Store]}
@@ -26,6 +27,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   postsChangedObserver={[Function MutationObserver]}
   postsComponent={[Function ElementRef]}
   router={[Function Object]}
+  settingService={[Function SettingsService]}
   showBackToTopButton="false"
   store={[Function Store]}
   targetNode="null"
@@ -124,8 +126,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
           >
             <div
               class="k-display-inline"
-              ng-reflect-klass="k-display-inline"
-              ng-reflect-ng-class="[object Object]"
             >
               
               <div
@@ -135,7 +135,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
               </div>
               <div
                 class="sticky-top"
-                ng-reflect-ng-class="[object Object]"
               >
                 <h5>
                   COMP & COFFEE
@@ -156,6 +155,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
         </div>
       </div>
     </div>
-  </div><pf-community-attachment-modal />
+  </div><pf-community-attachment-modal /><pf-community-attachment-warning-modal /><pf-community-cancel-post-modal /><pf-community-cancel-post-reply-modal />
 </pf-community-dashboard-page>
 `;

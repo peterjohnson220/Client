@@ -25,7 +25,7 @@ describe('Data-Insights ConfigureSidebarComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(ConfigureSidebarComponent);
     instance = fixture.componentInstance;
     fixture.detectChanges();

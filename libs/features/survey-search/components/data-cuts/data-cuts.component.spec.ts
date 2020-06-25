@@ -6,7 +6,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 
 import { DataCutsComponent } from './data-cuts.component';
-import { generateMockDataCut, generateMockSurveyJobResult, SurveyDataCut } from '../../models';
+import { generateMockDataCut, generateMockSurveyJobResult, DataCut } from '../../models';
 import * as fromSurveySearchReducer from '../../reducers';
 
 describe('Project - Survey Search - Data Cuts', () => {
@@ -28,7 +28,7 @@ describe('Project - Survey Search - Data Cuts', () => {
   });
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(DataCutsComponent);
     instance = fixture.componentInstance;
@@ -68,7 +68,7 @@ describe('Project - Survey Search - Data Cuts', () => {
   });
 
   it('should emit matchesMouseEnter event when mouse enter Matches field', () => {
-    const dataCut: SurveyDataCut = generateMockDataCut();
+    const dataCut: DataCut = generateMockDataCut();
     const mouseEnterEvent: MouseEvent = new MouseEvent('mouseenter');
 
     spyOn(instance.matchesMouseEnter, 'emit');

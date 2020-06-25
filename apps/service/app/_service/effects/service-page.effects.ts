@@ -10,7 +10,6 @@ import { UserTicketApiService } from 'libs/data/payfactors-api/index';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
@@ -68,7 +67,7 @@ export class ServicePageEffects {
         return this.userTicketApiService.getUserTicketStates()
           .pipe(
             map((response) => {
-              const ticketStates = PayfactorsApiModelMapper.mapTicketStatesToMultiSelectItemGroups(response);
+              const ticketStates = PayfactorsApiModelMapper.mapTicketStatesToGroupedListItems(response);
               return new fromServicePageActions.GetTicketStatesSuccess(ticketStates);
             }),
             catchError(() => of(new fromServicePageActions.GetTicketStatesError()))
@@ -87,7 +86,7 @@ export class ServicePageEffects {
       ),
       map(data => {
         const ticketStateField = TicketStateHelper.applySelectedTicketStatesToField(data.fields, data.selectedTicketStates);
-        if (data.selectedTicketStates && data.selectedTicketStates.length) {
+        if (data?.selectedTicketStates.length) {
           return new fromPfDataGridActions.UpdateFilter(ServicePageConfig.ServicePageViewId, ticketStateField);
         } else {
           return new fromPfDataGridActions.ClearFilter(ServicePageConfig.ServicePageViewId, ticketStateField, true);

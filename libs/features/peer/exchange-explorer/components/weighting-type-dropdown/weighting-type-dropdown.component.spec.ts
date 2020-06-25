@@ -29,6 +29,22 @@ describe('Weighting Type Toggle', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should load the dropdown with the label', () => {
+    instance.includeLabel = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should load the dropdown as if it was in a component', () => {
+    instance.inComponent = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should emit a weightingTypeChanged event with incWeighted value true when handleSwitchValueChanged is called', () => {
     spyOn(instance.weightingTypeChanged, 'emit');
 

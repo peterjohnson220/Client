@@ -41,7 +41,7 @@ export class CopySurveyModalComponent implements OnInit {
 
     this.companies$.subscribe(companies => {
       if (companies) {
-        this.companies = [{ CompanyId: null, CompanyName: 'Seed' }, ...companies];
+        this.companies = [{ CompanyId: null, CompanyName: 'Seed', CombinedDetail: null }, ...companies];
         this.selectedCompany = this.companies.filter(x => x.CompanyName === this.SelectedSurveyCompany)[0];
       }
     },

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -15,6 +15,8 @@ import * as fromDataManagementMainReducer from '../../reducers';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TransferScheduleSummaryComponent {
+  @Input() validationMode: boolean;
+
   transferScheduleSummary$: Observable<TransferScheduleSummary[]>;
 
   constructor(private store: Store<fromDataManagementMainReducer.State>) {

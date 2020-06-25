@@ -36,7 +36,7 @@ export function reducer(state = initialState, action: fromCompanySelectorActions
     }
     case fromCompanySelectorActions.LOADING_COMPANIES_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
+        ...adapter.setAll(action.payload, state),
         loadingCompanies: false,
         loadingCompaniesError: false,
       };

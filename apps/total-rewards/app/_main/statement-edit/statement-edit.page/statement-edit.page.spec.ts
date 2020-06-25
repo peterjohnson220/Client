@@ -40,12 +40,12 @@ describe('StatementEditPageComponent', () => {
         schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
   }));
 
   beforeEach(() => {
-    activatedRoute = TestBed.get(ActivatedRoute);
+    activatedRoute = TestBed.inject(ActivatedRoute);
     fixture = TestBed.createComponent(StatementEditPageComponent);
     component = fixture.componentInstance;
 

@@ -17,7 +17,7 @@ import {
 } from '@angular/forms';
 
 describe('Job Description Management - Templates - Template List - New Template Modal', () => {
-  let instance = NewTemplateModalComponent;
+  let instance: NewTemplateModalComponent;
   let fixture: ComponentFixture<NewTemplateModalComponent>;
   let store: Store<fromTemplateReducers.State>;
   let modal: NgbModal;
@@ -56,8 +56,8 @@ describe('Job Description Management - Templates - Template List - New Template 
     fixture = TestBed.createComponent(NewTemplateModalComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should not emit createTemplateComplete if template name exists', () => {

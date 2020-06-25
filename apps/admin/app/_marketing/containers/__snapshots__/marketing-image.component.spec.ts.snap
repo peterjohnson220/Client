@@ -17,7 +17,6 @@ exports[`MarketingComponent should NOT show error message, when errorMessage is 
     
     <form
       class="ng-untouched ng-pristine ng-valid"
-      ng-reflect-form="[object Object]"
       novalidate=""
     >
       <label
@@ -28,7 +27,6 @@ exports[`MarketingComponent should NOT show error message, when errorMessage is 
       <input
         class="w-100 ng-untouched ng-pristine ng-valid"
         formcontrolname="url"
-        ng-reflect-name="url"
         placeholder="http://"
         type="text"
       />
@@ -75,7 +73,6 @@ exports[`MarketingComponent should NOT show the preview image, when previewFileU
     
     <form
       class="ng-untouched ng-pristine ng-valid"
-      ng-reflect-form="[object Object]"
       novalidate=""
     >
       <label
@@ -86,7 +83,6 @@ exports[`MarketingComponent should NOT show the preview image, when previewFileU
       <input
         class="w-100 ng-untouched ng-pristine ng-valid"
         formcontrolname="url"
-        ng-reflect-name="url"
         placeholder="http://"
         type="text"
       />
@@ -132,7 +128,6 @@ exports[`MarketingComponent should show error message, when errorMessage is NOT 
     
     <form
       class="ng-untouched ng-pristine ng-valid"
-      ng-reflect-form="[object Object]"
       novalidate=""
     >
       <label
@@ -143,7 +138,6 @@ exports[`MarketingComponent should show error message, when errorMessage is NOT 
       <input
         class="w-100 ng-untouched ng-pristine ng-valid"
         formcontrolname="url"
-        ng-reflect-name="url"
         placeholder="http://"
         type="text"
       />
@@ -195,7 +189,6 @@ exports[`MarketingComponent should show the preview image, when previewFileUri i
     
     <form
       class="ng-untouched ng-pristine ng-valid"
-      ng-reflect-form="[object Object]"
       novalidate=""
     >
       <label
@@ -206,7 +199,6 @@ exports[`MarketingComponent should show the preview image, when previewFileUri i
       <input
         class="w-100 ng-untouched ng-pristine ng-valid"
         formcontrolname="url"
-        ng-reflect-name="url"
         placeholder="http://"
         type="text"
       />

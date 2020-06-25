@@ -1,11 +1,11 @@
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {NgbPopoverModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
-import {ExchangeJobSelectorComponent} from './exchange-job-selector.component';
-import {generateMockExchangeJobExchangeDetail} from '../models';
-import {StatusEnum} from '../../../models/common';
+import { ExchangeJobSelectorComponent } from './exchange-job-selector.component';
+import { generateMockExchangeJobExchangeDetail } from '../models';
+import { StatusEnum } from 'libs/models/common';
 
 describe('Features - Peer - Exchange Job Selector Component', () => {
   let fixture: ComponentFixture<ExchangeJobSelectorComponent>;
@@ -91,6 +91,5 @@ describe('Features - Peer - Exchange Job Selector Component', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
-
   });
 });

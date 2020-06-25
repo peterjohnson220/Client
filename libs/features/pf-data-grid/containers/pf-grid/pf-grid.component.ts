@@ -23,14 +23,15 @@ import { GridDataResult,
          GridComponent,
          ColumnReorderEvent,
          ColumnComponent,
-         ContentScrollEvent } from '@progress/kendo-angular-grid';
+         ContentScrollEvent,
+         ColumnResizeArgs } from '@progress/kendo-angular-grid';
 
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { DataGridState, SelectAllStatus } from '../../reducers/pf-data-grid.reducer';
-import { GridRowActionsConfig, PositionType } from '../../models';
+import { GridRowActionsConfig, PositionType, GridConfig, ColumnResize } from '../../models';
 import { MappedFieldNamePipe } from '../../pipes';
 
 @Component({
@@ -102,9 +103,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   positionType = PositionType;
 
+  gridConfigSubscription: Subscription;
+  gridConfig: GridConfig;
+
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
-  @ViewChild(GridComponent, { static: false }) grid: GridComponent;
+  @ViewChild(GridComponent) grid: GridComponent;
 
 
   constructor(private store: Store<fromReducer.State>, private ngZone: NgZone, private mappedFieldName: MappedFieldNamePipe) { }
@@ -145,6 +149,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         this.autoFitColumns(df.filter(d => d.IsSelected && d.IsSelectable && !d.Width).map(f => this.mappedFieldName.transform(f)));
       }
     });
+    this.gridConfigSubscription = this.store.select(fromReducer.getGridConfig, this.pageViewId).subscribe(gridConfig => this.gridConfig = gridConfig);
   }
 
   ngOnDestroy() {
@@ -156,6 +161,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.defaultSortDescriptorSubscription.unsubscribe();
     this.saveSortSubscription.unsubscribe();
     this.dataFieldsSubscription.unsubscribe();
+    this.gridConfigSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -198,7 +204,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   onColumnReorder(value: ColumnReorderEvent) {
     // If selection is enabled: the first column can't be reordered
     // For ColumnGroup the first index is also 0, but the level = 1
-    if (this.enableSelection && value.newIndex === 0 && value.column.level === 0) {
+    if ((this.enableSelection || this.gridRowActionsConfig?.Position === PositionType.Left) && (value.newIndex === 0) && value.column.level === 0) {
       value.preventDefault();
       return;
     }
@@ -210,7 +216,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         NewIndex: value.newIndex,
         Level: value.column.level,
         IsUseColumnGroupsEnabled: this.useColumnGroups,
-        IsSelectionEnabled: this.enableSelection
+        IsSelectionEnabled: this.enableSelection,
+        ActionsDefined: !!this.gridRowActionsConfig
       },
     ));
   }
@@ -313,6 +320,20 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   onSelectAllChange() {
     this.store.dispatch(new fromActions.SelectAll(this.pageViewId));
+  }
+
+  onColumnResize(event: ColumnResizeArgs[]): void {
+    if (!this.gridConfig?.PersistColumnWidth || event?.length < 1) {
+      return;
+    }
+    const column = event[0].column as ColumnComponent;
+    const columnResize: ColumnResize = {
+      FieldSourceName: column.field,
+      OldWidth: event[0].oldWidth,
+      NewWidth: event[0].newWidth
+    };
+    this.store.dispatch(new fromActions.UpdateColumnWidth(this.pageViewId, columnResize));
+    this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));
   }
 
   private autoFitColumns(columnFieldNames: string[]) {

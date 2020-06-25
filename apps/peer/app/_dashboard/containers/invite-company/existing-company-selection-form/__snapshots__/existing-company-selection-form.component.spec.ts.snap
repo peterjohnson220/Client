@@ -20,7 +20,6 @@ exports[`Peer - Dashboard - Invite Company - Existing Company Selection Form sho
 >
   <div
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
   >
     <pf-card-selector>
       
@@ -30,8 +29,6 @@ exports[`Peer - Dashboard - Invite Company - Existing Company Selection Form sho
         <pf-input-debounce
           class="ng-untouched ng-pristine ng-valid"
           id="search-box"
-          ng-reflect-model=""
-          ng-reflect-options="[object Object]"
           ngdefaultcontrol=""
         />
       </div>
@@ -43,7 +40,6 @@ exports[`Peer - Dashboard - Invite Company - Existing Company Selection Form sho
         class="form-control ng-untouched ng-pristine ng-valid"
         formcontrolname="companySelection"
         name="hasSelection"
-        ng-reflect-name="companySelection"
         type="hidden"
         value="[object Object]"
       />

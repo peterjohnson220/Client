@@ -39,8 +39,8 @@ describe('Job Description History Grid', () => {
     fixture = TestBed.createComponent(JobDescriptionHistoryGridComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
   });
 
   it('should go to current JD version for historyListItemClicked when historyListItem is the 1st item in jobDescriptionHistoryListItems',

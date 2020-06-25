@@ -17,7 +17,7 @@ export const TOGGLE_JOB_DESCRIPTION = '[Comphub/Data Card] Toggle Job Descriptio
 export const GET_PEER_QUICK_PRICE_DATA = '[Comphub/Data Card] Get Peer Quick Price Data';
 export const GET_PEER_QUICK_PRICE_DATA_SUCCESS = '[Comphub/Data Card] Get Peer Quick Price Data Success';
 export const GET_PEER_QUICK_PRICE_DATA_ERROR = '[Comphub/Data Card] Get Peer Quick Price Data Error';
-export const SET_FORCE_REFRESH_PEER_MAP = '[Comphub/Data Card] Set Force Refresh Peer Map'
+export const SET_FORCE_REFRESH_PEER_MAP = '[Comphub/Data Card] Set Force Refresh Peer Map';
 
 export class CardOpened implements Action {
   readonly type = CARD_OPENED;

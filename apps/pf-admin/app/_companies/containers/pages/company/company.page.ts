@@ -26,7 +26,7 @@ import { CompanyTagsModalComponent } from '../../../components';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompanyPageComponent implements OnInit, OnDestroy {
-  @ViewChild('companyPageForm', { static: false })
+  @ViewChild('companyPageForm')
   companyForm: CompanyFormComponent;
   @ViewChild(CompanyTagsModalComponent, { static: true })
   companyTagsModalComponent: CompanyTagsModalComponent;

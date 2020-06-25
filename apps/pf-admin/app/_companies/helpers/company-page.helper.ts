@@ -45,7 +45,8 @@ export class CompanyPageHelper {
       PasswordLengthRequirement: 8,
       GroupName: null,
       CompanyColor: null,
-      OrgDataAutoloaderApiKey: null
+      OrgDataAutoloaderApiKey: null,
+      CompanyDescription: null
     };
   }
 
@@ -88,7 +89,8 @@ export class CompanyPageHelper {
       EnableLiveChat: company.EnableLiveChat,
       EnableIntervalAgingFactor: company.EnableIntervalAgingFactor,
       CompanyColor: company.CompanyColor,
-      OrgDataAutoloaderApiKey: company.OrgDataAutoloaderApiKey
+      OrgDataAutoloaderApiKey: company.OrgDataAutoloaderApiKey,
+      CompanyDescription: company.CompanyDescription
     };
   }
 

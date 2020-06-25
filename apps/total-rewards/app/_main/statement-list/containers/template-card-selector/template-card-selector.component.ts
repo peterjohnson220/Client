@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
@@ -7,7 +7,6 @@ import * as fromTotalRewardsReducer from './../../reducers';
 import * as fromTemplateSelectorActions from '../../actions/template-selector.actions';
 
 import {Template} from '../../../../shared/models';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'pf-total-rewards-template-card-selector',
@@ -16,16 +15,22 @@ import {Router} from '@angular/router';
 })
 export class TemplateCardSelectorComponent implements OnInit {
   @Input() autoLoad = false;
+  @Output() onSelectClick = new EventEmitter<string>();
+
   templates$: Observable<Template[]>;
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
+  creatingStatement$: Observable<boolean>;
+  creatingStatementError$: Observable<boolean>;
 
-  constructor(private store: Store<fromTotalRewardsReducer.State>, private router: Router) {}
+  constructor(private store: Store<fromTotalRewardsReducer.State>) {}
 
   ngOnInit(): void {
     this.templates$ = this.store.pipe(select(fromTotalRewardsReducer.getTemplates));
     this.loading$ = this.store.pipe(select(fromTotalRewardsReducer.getTemplatesLoading));
     this.loadingError$ = this.store.pipe(select(fromTotalRewardsReducer.getTemplatesLoadingError));
+    this.creatingStatement$ = this.store.pipe(select(fromTotalRewardsReducer.getCreatingStatement));
+    this.creatingStatementError$ = this.store.pipe(select(fromTotalRewardsReducer.getCreatingStatementError));
     if (this.autoLoad) {
       this.store.dispatch(new fromTemplateSelectorActions.LoadTemplates());
     }
@@ -35,8 +40,8 @@ export class TemplateCardSelectorComponent implements OnInit {
     this.store.dispatch(new fromTemplateSelectorActions.LoadTemplates());
   }
 
-  onCreate(templateId: string) {
-    this.router.navigate(['/statement/edit/clone/', templateId]).then();
+  onSelect(templateId: string) {
+    this.onSelectClick.emit(templateId);
   }
 
   onPreview(templateId: string) {

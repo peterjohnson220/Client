@@ -39,7 +39,7 @@ describe('User Filter Feature - Saved Filters Popover', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(UserFilterPopoverComponent);
     instance = fixture.componentInstance;

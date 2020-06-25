@@ -35,7 +35,7 @@ describe('Common UI - PF Grid - Column Chooser Popover', () => {
     fixture = TestBed.createComponent(ColumnChooserComponent);
     instance = fixture.componentInstance;
 
-    modal = TestBed.get(NgbModal);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should emit array of PfGridColumns and close the popover, when calling saveButtonClicked', () => {

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {Subscription} from 'rxjs';
@@ -7,6 +7,7 @@ import {Store} from '@ngrx/store';
 import * as fromPageReducer from '../reducers/statement-assignment.page.reducer';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
+import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
 
 @Component({
   selector: 'pf-statement-assignment-page',
@@ -14,11 +15,25 @@ import * as fromAssignmentsModalActions from '../actions/statement-assignment-mo
   styleUrls: ['./statement-assignment.page.scss']
 })
 export class StatementAssignmentPageComponent implements AfterViewInit, OnDestroy, OnInit {
+  @ViewChild(StatementAssignmentModalComponent, {static: true}) public StatementAssignmentModalComponent: StatementAssignmentModalComponent;
+
   routeParamSubscription$ = new Subscription();
   queryParamSubscription$ = new Subscription();
 
   statementId: string;
   constructor(private store: Store<fromPageReducer.State>, private route: ActivatedRoute) { }
+
+  private setSearchContext() {
+    const setContextMessage: MessageEvent = {
+      data: {
+        payfactorsMessage: {
+          type: 'Set Context',
+          payload: {}
+        }
+      }
+    } as MessageEvent;
+    this.StatementAssignmentModalComponent.onMessage(setContextMessage);
+  }
 
   ngAfterViewInit(): void {
     this.queryParamSubscription$ = this.route.queryParams.subscribe( queryParams => {
@@ -35,6 +50,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
         this.store.dispatch(new fromPageActions.SetStatementId(this.statementId));
       }
     });
+    this.setSearchContext();
   }
 
   ngOnDestroy(): void {

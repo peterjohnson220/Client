@@ -32,8 +32,6 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
         <span
           class="ellipsis-overflowing-text pr-0"
           container="body"
-          ng-reflect-container="body"
-          ng-reflect-ngb-tooltip=""
         >
           
         </span>
@@ -84,8 +82,6 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
         <span
           class="ellipsis-overflowing-text pr-0"
           container="body"
-          ng-reflect-container="body"
-          ng-reflect-ngb-tooltip=""
         >
           
         </span>
@@ -155,9 +151,6 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
           itemsize="30"
           maxbufferpx="400"
           minbufferpx="200"
-          ng-reflect-item-size="30"
-          ng-reflect-max-buffer-px="400"
-          ng-reflect-min-buffer-px="200"
           style="height: 32px;"
         >
           <div
@@ -214,8 +207,6 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
         <span
           class="ellipsis-overflowing-text pr-0"
           container="body"
-          ng-reflect-container="body"
-          ng-reflect-ngb-tooltip=""
         >
           
         </span>
@@ -285,9 +276,6 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
           itemsize="30"
           maxbufferpx="400"
           minbufferpx="200"
-          ng-reflect-item-size="30"
-          ng-reflect-max-buffer-px="400"
-          ng-reflect-min-buffer-px="200"
           style="height: 32px;"
         >
           <div
@@ -344,8 +332,6 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
         <span
           class="ellipsis-overflowing-text pr-0"
           container="body"
-          ng-reflect-container="body"
-          ng-reflect-ngb-tooltip=""
         >
           
         </span>
@@ -396,8 +382,6 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
         <span
           class="ellipsis-overflowing-text pr-0"
           container="body"
-          ng-reflect-container="body"
-          ng-reflect-ngb-tooltip=""
         >
           
         </span>
@@ -467,9 +451,6 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
           itemsize="30"
           maxbufferpx="400"
           minbufferpx="200"
-          ng-reflect-item-size="30"
-          ng-reflect-max-buffer-px="400"
-          ng-reflect-min-buffer-px="200"
           style="height: 32px;"
         >
           <div
@@ -525,8 +506,6 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
         <span
           class="ellipsis-overflowing-text pr-0"
           container="body"
-          ng-reflect-container="body"
-          ng-reflect-ngb-tooltip=""
         >
           
         </span>

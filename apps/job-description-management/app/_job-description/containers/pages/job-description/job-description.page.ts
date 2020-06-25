@@ -7,6 +7,9 @@ import { filter, first, take, takeWhile } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
 import * as cloneDeep from 'lodash.clonedeep';
 
+import * as signalR from '@microsoft/signalr';
+import { LogLevel } from '@microsoft/signalr';
+
 import {
   JobDescription,
   UserContext,
@@ -55,6 +58,8 @@ import { JobDescriptionHelper } from '../../../helpers';
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
 import * as fromWorkflowTemplateListActions from '../../../../shared/actions/shared-workflow.actions';
+import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
+
 
 @Component({
   selector: 'pf-job-description-page',
@@ -63,16 +68,16 @@ import * as fromWorkflowTemplateListActions from '../../../../shared/actions/sha
 })
 export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild('discardDraftModal', { static: true }) public discardDraftModal: SimpleYesNoModalComponent;
-  @ViewChild('jobMatchesModalComponent', { static: false }) public jobMatchesModalComponent: JobMatchesModalComponent;
-  @ViewChild(ChangeApproverModalComponent, { static: false }) public changeApproverModal: ChangeApproverModalComponent;
-  @ViewChild(CopyJobDescriptionModalComponent, { static: false }) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
+  @ViewChild('jobMatchesModalComponent') public jobMatchesModalComponent: JobMatchesModalComponent;
+  @ViewChild(ChangeApproverModalComponent) public changeApproverModal: ChangeApproverModalComponent;
+  @ViewChild(CopyJobDescriptionModalComponent) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
   @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
   @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
   @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
   @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
-  @ViewChild(JobDescriptionAppliesToModalComponent, { static: false }) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
-  @ViewChild(WorkflowCancelModalComponent, { static: false }) public workflowCancelModal: WorkflowCancelModalComponent;
-  @ViewChild(WorkflowSetupModalComponent, { static: false }) public workflowSetupModal: WorkflowSetupModalComponent;
+  @ViewChild(JobDescriptionAppliesToModalComponent) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
+  @ViewChild(WorkflowCancelModalComponent) public workflowCancelModal: WorkflowCancelModalComponent;
+  @ViewChild(WorkflowSetupModalComponent) public workflowSetupModal: WorkflowSetupModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
@@ -80,6 +85,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   userAssignedRoles$: Observable<UserAssignedRole[]>;
   company$: Observable<CompanyDto>;
   enablePublicViewsInClient$: Observable<boolean>;
+  requireSSOLogin$: Observable<boolean>;
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
   editingJobDescription$: Observable<boolean>;
   savingJobDescription$: Observable<boolean>;
@@ -92,6 +98,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   completedStep$: Observable<boolean>;
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
+  jobDescriptionSSOLoginUrl$: Observable<string>;
+  jobDescriptionSSOAuthResult$: Observable<string>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
@@ -106,8 +114,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   editingSubscription: Subscription;
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
+  jobDescriptionSSOLoginUrlSubscription: Subscription;
 
   companyName: string;
+  emailAddress: string;
   companyLogoPath: string;
   jobDescription: JobDescription;
   enableLibraryForRoutedJobDescriptions: boolean;
@@ -121,6 +131,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   isFirstSave = true;
   queueSave = false;
   tokenId: string;
+  ssoTokenId: string;
+  ssoAgentId: string;
   identity: UserContext;
   identityInEmployeeAcknowledgement: boolean;
   isSiteAdmin = false;
@@ -151,6 +163,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMCoreUseClient
     );
+
+    this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
+    );
+
     this.controlTypesAsync$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersionAsync);
     this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
       PermissionCheckEnum.Single);
@@ -166,13 +183,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.employeeAcknowledgementErrorMessage$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementErrorMessage);
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
     this.completedStep$ = this.store.select(fromJobDescriptionReducers.getCompletedStep);
+    this.jobDescriptionSSOLoginUrl$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOLoginUrl);
+    this.jobDescriptionSSOAuthResult$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthResult);
     this.saveThrottle = new Subject();
   }
-
-  @HostListener('window:beforeunload')
-    onWindowClosed() {
-      this.unsetIsBeingViewed();
-    }
 
   ngOnInit(): void {
     this.initSubscriptions();
@@ -185,6 +199,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }
 
     if (this.tokenId && this.identityInWorkflow) {
+      this.initSignalRConnection(); // sets isBeingViewed to false on signalR disconnect
       this.store.dispatch(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewed({jwt: this.tokenId, isBeingViewed: true}));
     }
   }
@@ -437,6 +452,14 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   private initSubscriptions(): void {
+    this.jobDescriptionSSOLoginUrlSubscription = this.jobDescriptionSSOLoginUrl$.subscribe( ssoLoginUrl => {
+      if (ssoLoginUrl) {
+        // Redirect to SSO login. After logging in you will be redirected back here with tokenid and agentid params from the sso for use in authenticating.
+        const currentUrl = encodeURIComponent(window.location.href);
+        window.location.href = `${ssoLoginUrl}&appurl=${currentUrl}`;
+      }
+    });
+
     this.jobDescriptionExtendedInfoSubscription = this.jobDescriptionExtendedInfo$.subscribe(jdei => {
       if (!!jdei && jdei.WorkflowId === 0) {
         this.showRoutingHistory = false;
@@ -447,6 +470,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;
+      this.emailAddress = userContext.EmailAddress;
       this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
       if (this.identityInEmployeeAcknowledgement) {
         if (!userContext.EmployeeAcknowledgementInfo.IsLatest && !userContext.EmployeeAcknowledgementInfo.HasAcknowledged) {
@@ -485,6 +509,27 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       takeWhile(() => this.identity.IsPublic),
       filter(setting => setting === false)
     ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
+
+
+    this.requireSSOLogin$.subscribe(requireSSOLogin => {
+       if (requireSSOLogin && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
+         this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
+       } else if (requireSSOLogin && this.tokenId != null) {
+         this.store.dispatch(new fromJobDescriptionActions.AuthenticateSSOParams({tokenId: this.ssoTokenId, agentId: this.ssoAgentId}));
+         this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
+
+         this.jobDescriptionSSOAuthResult$.subscribe( result => {
+           if (result) {
+            const resultObj: any = result;
+            const userEmailDomain = this.emailAddress.slice(this.emailAddress.indexOf('@') + 1, this.emailAddress.length);
+
+              if (resultObj.EmailDomain.indexOf(userEmailDomain) === -1 && userEmailDomain.indexOf(resultObj.EmailDomain) === -1) {
+                this.router.navigate(['/forbidden']);
+              }
+            }
+         });
+       }
+    });
 
     this.controlTypesAsync$.pipe(
       filter(cts => !!cts && !!cts.obj),
@@ -527,6 +572,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       const viewName = params.queryParams['viewName'];
       const revisionNumber = params['versionNumber'];
       this.tokenId = params.queryParams['jwt'];
+      this.ssoTokenId = params.queryParams['tokenid'];
+      this.ssoAgentId = params.queryParams['agentid'];
+
       this.inHistory = !!revisionNumber;
       this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
         JobDescriptionId: jobDescriptionId,
@@ -615,10 +663,23 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async unsetIsBeingViewed() {
-    const xmlHttp = new XMLHttpRequest();
-    const url = `/odata/WorkflowStepUser/SetIsBeingViewedOnWorkflowUserStep?jwt=${this.tokenId}&isBeingViewed=false`;
-    xmlHttp.open('GET', url, false);
-    xmlHttp.send();
+  private initSignalRConnection() {
+
+    let signalRConnectionUrl = this.identity.ConfigSettings.find(c => c.Name === 'SignalR').Value;
+    const signalREnabled = this.identity.ConfigSettings.find(c => c.Name === 'SignalREnabled').Value;
+    const hubRoute = '/job-description-manager';
+
+    if (signalREnabled && !!signalRConnectionUrl) {
+
+        signalRConnectionUrl = `${signalRConnectionUrl}${hubRoute}?token=${this.tokenId}`;
+
+        const connection = new signalR.HubConnectionBuilder()
+          .withUrl(signalRConnectionUrl)
+          .withAutomaticReconnect()
+          .configureLogging(LogLevel.Error)
+          .build();
+
+        connection.start();
+      }
+    }
   }
-}

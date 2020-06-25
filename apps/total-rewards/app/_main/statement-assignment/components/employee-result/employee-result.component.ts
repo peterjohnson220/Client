@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { EmployeeSearchResult } from 'libs/models/payfactors-api/employee-search/response/employee-search-response.model';
+import { EmployeeSearchResult } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
 
 @Component({
   selector: 'pf-employee-result',

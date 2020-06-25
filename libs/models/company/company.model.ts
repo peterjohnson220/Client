@@ -8,4 +8,5 @@ export interface Company {
 export interface CompanyBaseInformation {
   CompanyId: number;
   Name: string;
+  CombinedDetail: string;
 }

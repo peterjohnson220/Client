@@ -45,7 +45,7 @@ describe('Auth - Forgot Password', () => {
       'email': ['test@test.com']
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
   });
 

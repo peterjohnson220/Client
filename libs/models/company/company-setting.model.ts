@@ -27,7 +27,10 @@ export enum CompanySettingsEnum {
   ManualOrgDataLoadLink = 'ManualOrgDataLoadLink',
   EnableJobsPageToggle = 'EnableJobsPageToggle',
   CanEditCurrentStructureRanges = 'CanEditCurrentStructureRanges',
-  DashboardPreferences = 'DashboardPreferences'
+  DashboardPreferences = 'DashboardPreferences',
+  EnableJobRangeStructureRangeTypes = 'EnableJobRangeStructureRangeTypes',
+  CommunityDisableAttachments = 'CommunityDisableAttachments',
+  JDMExternalWorkflowsRequireSSOLogin = 'JDMExternalWorkflowsRequireSSOLogin'
 }
 
 export interface CompanySetting {

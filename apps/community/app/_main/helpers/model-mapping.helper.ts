@@ -120,8 +120,6 @@ export function mapFileInfoToCommunityAddAttachment(file: FileInfo, cloudFileNam
 }
 
 export function mapFileExtensionToFileType(extension: string): AttachmentFileType {
-  // TODO full list of allowed file types: FORT-337
-
   if ( extension.toLocaleLowerCase().endsWith('doc') || extension.toLocaleLowerCase().endsWith('docx')) {
     return AttachmentFileType.Word;
   } else if ( extension.toLocaleLowerCase().endsWith('pdf')) {
@@ -130,6 +128,8 @@ export function mapFileExtensionToFileType(extension: string): AttachmentFileTyp
     return AttachmentFileType.Image;
   } else if ( extension.toLocaleLowerCase().endsWith('xls') || extension.toLocaleLowerCase().endsWith('xlsx')) {
     return AttachmentFileType.Excel;
+  } else if ( extension.toLocaleLowerCase().endsWith('ppt') || extension.toLocaleLowerCase().endsWith('pptx')) {
+    return AttachmentFileType.Powerpoint;
   }
   return AttachmentFileType.Unknown;
 }

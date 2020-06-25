@@ -1,11 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Weighting Type Toggle should load the dropdown as if it was in a component 1`] = `
+<pf-weighting-type-dropdown
+  inComponent={[Function Boolean]}
+  weightingTypeChanged={[Function EventEmitter]}
+>
+  <kendo-dropdownlist
+    class="weighting-type-dropdown-width k-dropdown-white"
+    id="weights-dropdown"
+  />
+</pf-weighting-type-dropdown>
+`;
+
 exports[`Weighting Type Toggle should load the dropdown with default options 1`] = `
 <pf-weighting-type-dropdown
   inComponent={[Function Boolean]}
   weightingTypeChanged={[Function EventEmitter]}
 >
   <kendo-dropdownlist
+    class="weighting-type-dropdown-width k-dropdown-white"
+    id="weights-dropdown"
+  />
+</pf-weighting-type-dropdown>
+`;
+
+exports[`Weighting Type Toggle should load the dropdown with the label 1`] = `
+<pf-weighting-type-dropdown
+  inComponent={[Function Boolean]}
+  includeLabel={[Function Boolean]}
+  weightingTypeChanged={[Function EventEmitter]}
+>
+  <label
+    for="weights-dropdown"
+  >
+    Weight: 
+  </label><kendo-dropdownlist
     class="weighting-type-dropdown-width k-dropdown-white"
     id="weights-dropdown"
   />

@@ -15,7 +15,7 @@ import { dateFormatCasing } from '../../helpers';
 })
 export class DateFieldFormattingModalComponent {
   @Output() saveClicked: EventEmitter<Field> = new EventEmitter<Field>();
-  @ViewChild('dateFieldFormatModal', { static: false }) public dateFieldFormatModal: any;
+  @ViewChild('dateFieldFormatModal') public dateFieldFormatModal: any;
 
   field: Field;
   selectedValue: string;

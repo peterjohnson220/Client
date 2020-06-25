@@ -56,10 +56,10 @@ describe('Data Insights - Report View Page Comopnent', () => {
 
     fixture = TestBed.createComponent(ReportViewPageComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
-    location = TestBed.get(Location);
-    winRef = TestBed.get(WindowRef);
+    store = TestBed.inject(Store);
+    route = TestBed.inject(ActivatedRoute);
+    location = TestBed.inject(Location);
+    winRef = TestBed.inject(WindowRef);
 
     fixture.detectChanges();
   });

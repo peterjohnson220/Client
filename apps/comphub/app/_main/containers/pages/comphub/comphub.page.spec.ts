@@ -30,7 +30,7 @@ describe('Comphub - Main - Comphub Page', () => {
     fixture = TestBed.createComponent(ComphubPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should dispatch a NavigateToCard action, when handling a card change and the page is enabled', () => {

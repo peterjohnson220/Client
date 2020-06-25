@@ -153,7 +153,7 @@ export function reducer(state, action) {
             );
 
           return {
-            ...adapter.addAll(exchangeJobs, featureState),
+            ...adapter.setAll(exchangeJobs, featureState),
             total: featureAction.payload.total,
             loading: false,
             loadingError: false,
@@ -174,7 +174,7 @@ export function reducer(state, action) {
         case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS_BAD_REQUEST: {
           const emptyResponse: ExchangeJob[] = [];
           return {
-            ...adapter.addAll(emptyResponse, featureState),
+            ...adapter.setAll(emptyResponse, featureState),
             loading: false,
             badRequestMessage: featureAction.payload
           };

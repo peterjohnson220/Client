@@ -1,0 +1,76 @@
+<pf-async-container
+  [loading]="(defaultScopes$ | async)?.loading"
+  [loadingError]="(defaultScopes$ | async)?.loadingError">
+</pf-async-container>
+<div class="d-flex flex-column">
+  <div>
+    <p class="pb-2 pr-3">
+      Select the survey scopes that you would normally use for job matches to this pay market and set them as default scopes. Default scopes can be used to filter your job match search results by the survey scopes you are most likely to use when market pricing a job for a certain pay market.
+    </p>
+    <hr>
+    <div class="d-flex">
+      <div class="scope-column">
+        <label>Survey</label>
+        <kendo-combobox #surveyCombobox
+          class="form-control"
+          [data]="(surveys$ | async)?.obj"
+          [loading]="(surveys$ | async)?.loading"
+          textField="DisplayName"
+          valueField="Id"
+          [valuePrimitive]="true"
+          [filterable]="true"
+          [(ngModel)]="surveyId"
+          (valueChange)="loadCombinedScopes()"
+          [attr.data-qa-id]="'ddm-paymarket-management-company-surveys'"
+          [placeholder]="'Choose a Survey...'">
+          <ng-template kendoDropDownListFooterTemplate>
+            <div *ngIf="hasMoreSurveys$ | async" class="d-flex justify-content-center p-3">
+              <button class="btn btn-secondary" type="button" (click)="loadSurveys(true)">Load More</button>
+            </div>
+          </ng-template>
+        </kendo-combobox>
+      </div>
+      <div class="scope-column">
+        <label>Scope</label>
+        <kendo-combobox class="form-control"
+          [data]="combinedScopes"  
+          textField="Name"
+          valueField="Value"
+          [valuePrimitive]="true"
+          [(ngModel)]="combinedScopeValue"
+          [attr.data-qa-id]="'ddm-paymarket-management-combined-scopes'"
+          [disabled]="(combinedScopes$ | async)?.loading || !surveyId"
+          [placeholder]="'Choose a Scope...'"
+          (valueChange)="duplicateError = false">
+        </kendo-combobox>
+      </div>
+      <div class="btn-add">
+        <button class="btn btn-secondary" type="button" (click)="addDefaultScope()" [disabled]="!surveyId || !combinedScopeValue">
+          <fa-icon icon="plus"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="default-scopes-container">
+    <p>
+      <span *ngIf="!defaultScopes?.length">
+        No default scopes have been added for this pay market.
+      </span>
+      <span class="text-danger" [style.visibility]="duplicateError ? 'visible' : 'hidden'">The selected default scope already exists</span>
+    </p>
+    <ng-container *ngIf="!!defaultScopes">
+      <ng-container *ngFor="let defaultScope of defaultScopes; let i = index">
+        <div class="d-flex scope-row">
+          <div class="scope-column text">{{defaultScope?.Survey?.DisplayName}}</div>
+          <div class="scope-column text">{{defaultScope?.Scope?.Name}}</div>
+          <div class="btn-delete">
+            <button class="btn btn-secondary" type="button" (click)="removeDefaultScope(i)">
+              <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

@@ -5,3 +5,4 @@ export * from './connections';
 export * from './mappings';
 export * from './sync-schedules';
 export * from './hris-api.service';
+export * from './on-demand-sync';

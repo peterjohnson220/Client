@@ -41,7 +41,7 @@ export function reducer(state, action) {
         case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_SUCCESS: {
           const companies: AvailableCompany[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(companies, featureState),
+            ...adapter.setAll(companies, featureState),
             total: featureAction.payload.total,
             loading: false
           };

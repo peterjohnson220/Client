@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap, concatMap, tap } from 'rxjs/operators';
+
+import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
 
 import * as fromTemplateSelectorActions from '../actions/template-selector.actions';
-import * as fromTotalRewardsReducer from '../reducers';
-import {TotalRewardsApiService} from '../../../../../../libs/data/payfactors-api/total-rewards';
-import {Template} from '../../../shared/models';
-
+import { Template } from '../../../shared/models';
 
 @Injectable()
 export class TemplateSelectorEffects {
@@ -25,10 +25,30 @@ export class TemplateSelectorEffects {
         ))
   );
 
+  @Effect()
+  createStatement$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTemplateSelectorActions.CREATE_STATEMENT),
+      concatMap((action: fromTemplateSelectorActions.CreateStatement) =>
+        this.totalRewardsApiService.createStatementFromTemplateId(action.payload.templateId).pipe(
+          map((statementId: string) => new fromTemplateSelectorActions.CreateStatementSuccess({ statementId })),
+          catchError(() => of(new fromTemplateSelectorActions.CreateStatementError()))
+        ))
+    );
+
+  @Effect({ dispatch: false })
+  navigateToCreatedStatement: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromTemplateSelectorActions.CREATE_STATEMENT_SUCCESS),
+      tap((action: fromTemplateSelectorActions.CreateStatementSuccess) => {
+        this.router.navigate(['statement/edit', action.payload.statementId]);
+      })
+    );
+
   constructor(
-    private store: Store<fromTotalRewardsReducer.State>,
     private actions$: Actions,
-    private totalRewardsApiService: TotalRewardsApiService) {}
+    private totalRewardsApiService: TotalRewardsApiService,
+    private router: Router) {}
 
   mapToTemplate(apiModels: any[]): Template[] {
     const templates = [];

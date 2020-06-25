@@ -3,11 +3,15 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { SurveySearchResultDataSources } from 'libs/constants';
 
 import { JobResultComponent } from './job-result.component';
-import { generateMockPayfactorsJobResult, generateMockSurveyJobResult, generateMockDataCut, SurveyDataCut,
-  MatchesDetailsTooltipData, DataCutDetails} from '../../models';
+import {
+  generateMockPayfactorsJobResult,
+  generateMockSurveyJobResult,
+  generateMockDataCut,
+  MatchesDetailsTooltipData,
+  DataCut
+} from '../../models';
 import * as fromSurveySearchReducer from '../../reducers';
 import * as fromSurveySearchResultsActions from '../../actions/survey-search-results.actions';
 
@@ -28,7 +32,7 @@ describe('Project - Survey Search - Job Result', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(JobResultComponent);
     instance = fixture.componentInstance;
@@ -132,7 +136,7 @@ describe('Project - Survey Search - Job Result', () => {
   });
 
   it('should show Load More link when there are more data cuts from server', () => {
-    const dataCut: SurveyDataCut = generateMockDataCut();
+    const dataCut: DataCut = generateMockDataCut();
     instance.job = generateMockSurveyJobResult();
     instance.job.DataCuts = [dataCut];
     instance.job.TotalDataCuts = 5;
@@ -146,7 +150,7 @@ describe('Project - Survey Search - Job Result', () => {
   });
 
   it('should not show Load More link when there are no more data cuts results', () => {
-    const dataCut: SurveyDataCut = generateMockDataCut();
+    const dataCut: DataCut = generateMockDataCut();
     instance.job = generateMockSurveyJobResult();
     instance.job.DataCuts = [dataCut];
     instance.job.TotalDataCuts = 1;

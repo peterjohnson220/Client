@@ -23,7 +23,7 @@ describe('FileUploadComponent', () => {
       declarations: [FileUploadComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(FileUploadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

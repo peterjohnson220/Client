@@ -43,6 +43,10 @@ export class CommunityAttachmentEditComponent implements OnInit {
         this.iconFile = 'file-excel';
         this.iconClass = 'excel';
         break;
+      case AttachmentFileType.Powerpoint.toLocaleLowerCase():
+        this.iconFile = 'file-powerpoint';
+        this.iconClass = 'powerpoint';
+        break;
       case AttachmentFileType.Image.toLocaleLowerCase():
         this.iconFile = 'file-image';
         this.iconClass = 'image';

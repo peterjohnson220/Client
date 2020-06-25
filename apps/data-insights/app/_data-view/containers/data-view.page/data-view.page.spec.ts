@@ -61,8 +61,8 @@ describe('Data Insights - Custom Report View Comopnent', () => {
 
     fixture = TestBed.createComponent(DataViewPageComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    route = TestBed.inject(ActivatedRoute);
 
     fixture.detectChanges();
   });

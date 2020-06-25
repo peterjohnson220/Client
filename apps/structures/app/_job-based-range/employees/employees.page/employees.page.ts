@@ -23,7 +23,7 @@ import { ColumnTemplateService } from '../../shared/services';
 export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
-  @ViewChild('rangeValue', { static: false }) rangeValueColumn: ElementRef;
+  @ViewChild('rangeValue') rangeValueColumn: ElementRef;
   @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
   @ViewChild('date', {static: true}) dateColumn: ElementRef;
 

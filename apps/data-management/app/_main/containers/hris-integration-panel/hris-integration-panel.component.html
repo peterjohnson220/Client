@@ -45,7 +45,9 @@
     <div class="row">
       <div class="col-sm-12">
         <!-- do outbound one here -->
-        <pf-transfer-schedule-summary *ngIf="transferMethodType === inbound"></pf-transfer-schedule-summary>
+        <pf-transfer-schedule-summary *ngIf="transferMethodType === inbound"
+          [validationMode]="connectionSummary?.validationMode">
+        </pf-transfer-schedule-summary>
         <pf-outbound-transfer-schedule-summary *ngIf="transferMethodType === outboundJdm"></pf-outbound-transfer-schedule-summary>
       </div>
     </div>

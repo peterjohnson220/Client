@@ -31,8 +31,6 @@ exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
     <pf-manage-exchange-section-header />
     <div
       class="d-flex company-invitation-grid-container no-collapse"
-      ng-reflect-klass="d-flex company-invitation-grid"
-      ng-reflect-ng-class="no-collapse"
     >
       <pf-async-container
         class="flex-grow-1"

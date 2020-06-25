@@ -1,8 +1,19 @@
 @import 'colors';
 
+.company-selector {
+  margin-bottom: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .container-background {
   background-color: #F1F1F1 !important;
 }
 .template-background {
   background-color: #D4E3F3 !important;
+}
+
+.title {
+  font-size: 16px;
+  margin-bottom: 1rem;
 }

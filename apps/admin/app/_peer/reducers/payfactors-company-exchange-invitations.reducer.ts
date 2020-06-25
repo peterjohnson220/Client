@@ -41,7 +41,7 @@ export function reducer(state, action) {
         case fromPayfactorsCompanyExchangeInvitationsActions.LOAD_PAYFACTORS_COMPANY_EXCHANGE_INVITATIONS_SUCCESS: {
           const requests: PayfactorsCompanyExchangeInvitation[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(requests, featureState),
+            ...adapter.setAll(requests, featureState),
             loading: false,
             total: action.payload.total
           };

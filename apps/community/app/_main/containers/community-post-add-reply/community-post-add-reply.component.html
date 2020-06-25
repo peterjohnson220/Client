@@ -1,30 +1,32 @@
-<form [formGroup]="communityPostReplyForm">
+<form [formGroup]="communityPostReplyForm" class="pt-3">
   <div *ngIf="(replyCount + addedRepliesCount) >= maximumReplies; else replyArea">
     <p class="alert alert-danger" role="alert">This post has reached the maximum number of replies. Please create another post to continue the discussion</p>
   </div>
   <ng-template #replyArea>
-    <pf-community-text-area class="reply-text-area"
+    <pf-community-text-area
       [parentForm]="communityPostReplyForm"
       [maxTextLength]="replyMaxLength"
       textPlaceholder="Add Reply...">
     </pf-community-text-area>
-
-    <!--<div class="float-left">
-      <button class="attachment-button" (click)="openAttachmentsModal()">
-        <fa-icon *ngIf="!scanningAttachments" icon="paperclip" size="lg" class="icon community-paperclip"></fa-icon>
-        <pf-loading-indicator *ngIf="scanningAttachments"></pf-loading-indicator>
-        Attachments <span *ngIf="scannedAttachmentsCount>0" class="attachment-count-text">({{scannedAttachmentsCount}})</span>
+    <div class="footer-container">
+      <div class="float-left">
+        <button *ngIf="!disableCommunityAttachments" class="btn btn-secondary btn-sm attachment-button" (click)="openAttachmentsModal()">
+          <fa-icon *ngIf="!scanningAttachments" icon="paperclip" size="lg" class="icon community-paperclip"></fa-icon>
+          <pf-loading-indicator *ngIf="scanningAttachments"></pf-loading-indicator>
+          Attachments <span *ngIf="scannedAttachmentsCount>0" class="attachment-count-text">({{scannedAttachmentsCount}})</span>
+        </button>
+        <div *ngIf="scanningAttachments && submitAttempted" class="text-danger">Processing attachments...</div>
+      </div> 
+      <button data-qa-id="btn-reply-cancel" class="btn btn-secondary btn-sm float-right ml-2"
+        (click)="discardReply()">Discard
       </button>
-      <div *ngIf="scanningAttachments && submitAttempted" class="text-danger">Processing attachments...</div>
-    </div>-->
-    <div class="text-right">
-      <button id="reply" type="button" class="btn-sm community-btn mr-2"
-              data-qa-id="btn-reply"
-              [disabled]="addingCommunityPostReply$ | async"
-              (click)="submitReply()">
-        <fa-icon icon="reply" size="lg"></fa-icon>
-        Reply
+      <button data-qa-id="btn-reply" class="btn btn-primary btn-sm float-right"
+        (click)="submitReply()">Reply
+        <pf-loading-indicator *ngIf="addingCommunityPostReply$ | async">
+        </pf-loading-indicator>
       </button>
     </div>
   </ng-template>
 </form>
+
+

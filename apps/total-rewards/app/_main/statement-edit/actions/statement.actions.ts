@@ -2,9 +2,6 @@ import { Action } from '@ngrx/store';
 import { Statement, StatementModeEnum } from '../../../shared/models';
 
 // STATEMENT
-export const CLONE_STATEMENT_FROM_TEMPLATE = '[Total Rewards/Edit Statement] Clone Statement from Template';
-export const CLONE_STATEMENT_FROM_TEMPLATE_SUCCESS = '[Total Rewards/Edit Statement] Clone Statement from Template Success';
-export const CLONE_STATEMENT_FROM_TEMPLATE_ERROR = '[Total Rewards/Edit Statement] Clone Statement from Template Error';
 export const LOAD_STATEMENT = '[Total Rewards/Edit Statement] Load Statement';
 export const LOAD_STATEMENT_SUCCESS = '[Total Rewards/Edit Statement] Load Statement Success';
 export const LOAD_STATEMENT_ERROR = '[Total Rewards/Edit Statement] Load Statement Error';
@@ -14,21 +11,6 @@ export const SAVE_STATEMENT_SUCCESS = '[Total Rewards/Edit Statement] Save State
 export const SAVE_STATEMENT_ERROR = '[Total Rewards/Edit Statement] Save Statement Error';
 export const TOGGLE_STATEMENT_EDIT_MODE = '[Total Rewards/Edit Statement] Toggle Statement Edit Mode';
 export const UPDATE_EFFECTIVE_DATE = '[Total Rewards/Edit Statement] Update Effective Date';
-
-export class CloneStatementFromTemplate implements Action {
-  readonly type = CLONE_STATEMENT_FROM_TEMPLATE;
-  constructor(public templateId: string) {}
-}
-
-export class CloneStatementFromTemplateSuccess implements  Action {
-  readonly type = CLONE_STATEMENT_FROM_TEMPLATE_SUCCESS;
-  constructor(public payload: any) {}
-}
-
-export class CloneStatementFromTemplateError implements  Action {
-  readonly type = CLONE_STATEMENT_FROM_TEMPLATE_ERROR;
-  constructor(public error: any) {}
-}
 
 export class LoadStatement implements Action {
   readonly type = LOAD_STATEMENT;
@@ -75,9 +57,6 @@ export class UpdateEffectiveDate implements Action {
 }
 
 export type StatementActions =
-  CloneStatementFromTemplate |
-  CloneStatementFromTemplateSuccess |
-  CloneStatementFromTemplateError |
   ToggleStatementEditMode |
   LoadStatement |
   LoadStatementSuccess |

@@ -30,7 +30,7 @@ describe('Custom Survey Title Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MapCompanyModalComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   });
 

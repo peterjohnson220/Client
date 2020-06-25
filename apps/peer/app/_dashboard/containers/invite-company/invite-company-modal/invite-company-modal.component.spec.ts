@@ -43,7 +43,7 @@ describe('Peer - Dashboard - Invite Company Modal', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(InviteCompanyModalComponent);
     instance = fixture.componentInstance;

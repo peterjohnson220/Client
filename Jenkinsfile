@@ -196,7 +196,7 @@ pipeline {
         script {
           nodejs(nodeVersion) {
             echo "Getting list of apps..."
-            sh 'ls -I "smallbiz" apps > dirs'
+            sh 'ls apps > dirs'
             sh """
               cat dirs | time parallel -j-3 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && echo "{} build complete"'
             """

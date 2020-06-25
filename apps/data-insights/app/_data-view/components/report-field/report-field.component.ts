@@ -15,7 +15,7 @@ export class ReportFieldComponent {
   @Output() displayNameUpdated: EventEmitter<string> = new EventEmitter<string>();
   @Output() fieldIsActive: EventEmitter<{field: Field, multipleSelection: boolean}> = new EventEmitter<{field: Field, multipleSelection: boolean}>();
 
-  @ViewChild('inputField', {static: false}) inputField: ElementRef;
+  @ViewChild('inputField') inputField: ElementRef;
 
   isEditing: boolean;
   multipleSelection: boolean;

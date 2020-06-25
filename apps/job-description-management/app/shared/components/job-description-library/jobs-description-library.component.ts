@@ -13,8 +13,7 @@ import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibrar
   styleUrls: ['./job-description-library.component.scss']
 })
 export class JobDescriptionLibraryComponent implements OnChanges {
-  @Input() jobTitle = '';
-  @Input() keyword = '';
+  @Input() jobTitle: string;
   @Input() buckets: JobDescriptionLibraryBucket[];
   @Input() results: JobDescriptionLibraryResult[];
   @Input() loadingBuckets: boolean;
@@ -27,6 +26,8 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   pageSize = 10;
   pageNumber = 1;
   jobLibraryResults: JobDescriptionLibraryResult[] = [];
+  keyword = '';
+  jobTitleSearch = '';
 
   constructor(
     private sanitizer: DomSanitizer
@@ -38,7 +39,7 @@ export class JobDescriptionLibraryComponent implements OnChanges {
 
   // Events
   handleJobTitleChange(value: any) {
-    this.jobTitle = value;
+    this.jobTitleSearch = value;
     this.searchChanged.emit(this.buildSearchRequest());
   }
 
@@ -78,7 +79,7 @@ export class JobDescriptionLibraryComponent implements OnChanges {
       Keyword: this.keyword,
       PageSize: this.pageSize,
       PageNumber: this.pageNumber,
-      JobTitle: this.jobTitle,
+      JobTitle: this.jobTitleSearch,
       JobDescriptionId: null
     };
 

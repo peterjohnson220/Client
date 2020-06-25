@@ -37,8 +37,8 @@ describe('Sso Config Page', () => {
     fixture = TestBed.createComponent(SsoConfigPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
   });
 
   it('should dispatch GetSsoConfigurations on Init', () => {

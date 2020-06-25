@@ -35,7 +35,7 @@ describe('EmailRecipientsComponent', () => {
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(EmailRecipientsComponent);
     component = fixture.componentInstance;
     component.recipients = [GenerateMockEmailRecipient()];

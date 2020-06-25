@@ -22,7 +22,7 @@ describe('Data Insights - Delete User Workbook Modal Component', () => {
     });
     fixture = TestBed.createComponent(DeleteUserWorkbookModalComponent);
     instance = fixture.componentInstance;
-    ngbModal = TestBed.get(NgbModal);
+    ngbModal = TestBed.inject(NgbModal);
 
     fixture.detectChanges();
   });

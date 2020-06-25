@@ -32,7 +32,7 @@ describe('PasswordManagementSettingsComponent', () => {
       ]
     }).compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(SecurityManagementSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

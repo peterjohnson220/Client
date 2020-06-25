@@ -8,7 +8,8 @@
          [maxLength]="maxCharacters"
          (blur)="disableEditState()"
          (change)="onChange()"
-         [ngClass]="isInEditState ? '' : 'offScreen'">
+         [ngClass]="isInEditState ? '' : 'offScreen'"
+         [attr.tabindex]="isInEditState ? 0 : -1">
   <a *ngIf="!isInEditState" href="javascript:void(0)" (click)="enableEditState()" class="editable d-flex" [ngClass]="showIcon === 'onHover' ? 'show-icon-on-hover' : '' ">
     <span class="edit-text d-inline-block mw-100">{{ getValueForDisplay() }}</span>
     <span class="edit-icon position-relative">

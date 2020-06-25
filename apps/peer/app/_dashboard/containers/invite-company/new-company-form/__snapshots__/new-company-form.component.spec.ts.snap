@@ -26,7 +26,6 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
 >
   <div
     class="new-company-form-content d-flex flex-column ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
   >
     <div
       class="flex-column"
@@ -57,7 +56,6 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
               class="form-control ng-untouched ng-pristine ng-invalid"
               formcontrolname="companyName"
               id="company-name"
-              ng-reflect-name="companyName"
               type="text"
             />
             
@@ -82,7 +80,6 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
               class="form-control ng-untouched ng-pristine ng-invalid"
               formcontrolname="contactName"
               id="contact-name"
-              ng-reflect-name="contactName"
               type="text"
             />
           </div>
@@ -99,7 +96,6 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="contactJobTitle"
               id="contact-job-title"
-              ng-reflect-name="contactJobTitle"
               type="text"
             />
           </div>
@@ -135,8 +131,6 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
               class="form-control ng-untouched ng-pristine ng-invalid"
               formcontrolname="contactEmailAddress"
               id="contact-email-address"
-              ng-reflect-email="true"
-              ng-reflect-name="contactEmailAddress"
               type="email"
             />
           </div>
@@ -153,7 +147,6 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="contactPhoneNumber"
               id="contact-phone-number"
-              ng-reflect-name="contactPhoneNumber"
               type="text"
             />
           </div>
@@ -169,8 +162,6 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
         id="request-reason"
         maxlength="1000"
         name="reason"
-        ng-reflect-maxlength="1000"
-        ng-reflect-name="reason"
         placeholder="Please tell us why you would like this company to be part of the  exchange..."
         rows="12"
       />

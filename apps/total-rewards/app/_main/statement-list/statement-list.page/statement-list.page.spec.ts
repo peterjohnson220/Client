@@ -33,7 +33,7 @@ describe('TotalRewardsPageComponent', () => {
     instance = fixture.componentInstance;
     fixture.detectChanges();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should create', () => {

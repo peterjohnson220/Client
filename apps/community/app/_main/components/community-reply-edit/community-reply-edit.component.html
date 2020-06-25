@@ -17,29 +17,30 @@
       [replyId]="reply.Id" 
       [hidePostActions]="true">
     </pf-community-post-header>
-
     <div class="clear-both">
       <pf-community-text-area
         [parentForm]="communityReplyEditForm"
         [maxTextLength]="editMaxLength"
         minimumHeight="75">
-      </pf-community-text-area>
-      
-      <div *ngIf="!!communityAttachments" class="attachment-container">
-        <div class="attachment-content pr-3" *ngFor="let attachment of communityAttachments">
-          <pf-community-attachment-edit 
+      </pf-community-text-area>    
+    </div>
+    <div class="footer-container">
+      <div *ngIf="communityAttachments" class="attachment-container float-left">
+        <div *ngFor="let attachment of communityAttachments" class="attachment-content pr-3 pb-2">
+          <pf-community-attachment-edit
             [attachment]="attachment" 
             (attachmentRemoved)="onAttachmentRemoved($event)">
           </pf-community-attachment-edit>
         </div>
-      </div>     
+      </div>
+      <div class="btn-container float-right">
+        <button data-qa-id="btn-post-edit-save" class="btn btn-primary"
+          (click)="savePost()">Save
+        </button>
+        <button data-qa-id="btn-post-edit-cancel" class="btn btn-secondary ml-2"
+          (click)="cancelEdit()">Discard
+        </button>
+      </div>  
     </div>
- 
-  </div>
-  <div class="overflow-hidden">
-    <button type="button" class="btn btn-cancel m-1 py-2 px-3 shadow-none float-right" (click)="cancelEdit()">Cancel
-    </button>
-    <button type="button" class="btn m-1 py-2 px-3 shadow-none float-right" (click)="savePost()">Save
-    </button>
   </div>
 </div>

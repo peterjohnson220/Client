@@ -20,7 +20,7 @@ export class ChangeApproverModalComponent implements OnDestroy {
   @Input() workflowId: number;
   @Input() jobDescriptionId: number;
   @Input() jobDescriptionRevision: number;
-  @ViewChild('changeApproverModal', { static: false }) public changeApproverModal: any;
+  @ViewChild('changeApproverModal') public changeApproverModal: any;
 
   newUser$: Observable<WorkflowUser>;
   rerouting$: Observable<boolean>;

@@ -42,12 +42,12 @@ describe('CommunityStartPollComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    formBuilder = TestBed.get(FormBuilder);
+    store = TestBed.inject(Store);
+    formBuilder = TestBed.inject(FormBuilder);
 
     spyOn(store, 'dispatch');
 
-    pfLinkifyService = TestBed.get(PfLinkifyService);
+    pfLinkifyService = TestBed.inject(PfLinkifyService);
     fixture = TestBed.createComponent(CommunityNewPollComponent);
     instance = fixture.componentInstance;
 

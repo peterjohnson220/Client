@@ -12,6 +12,7 @@ import { NgbAlertModule, NgbTabsetModule, NgbTooltipModule, NgbDropdownModule } 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { SwitchModule } from '@progress/kendo-angular-inputs';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
@@ -69,6 +70,7 @@ import {
   EntitySelectionEffects,
   FieldMappingEffects,
   HrisConnectionEffects,
+  OnDemandSyncEffects,
   OrganizationalDataPageEffects,
   OrgDataFieldMappingsEffects,
   OutboundJdmEffects,
@@ -101,6 +103,7 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
       EntitySelectionEffects,
       FieldMappingEffects,
       HrisConnectionEffects,
+      OnDemandSyncEffects,
       OrganizationalDataPageEffects,
       OrgDataFieldMappingsEffects,
       OutboundJdmEffects,
@@ -117,6 +120,7 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
     NgbAlertModule,
     UploadModule,
     LayoutModule,
+    SwitchModule,
 
     // Payfactors
     PfCommonModule,

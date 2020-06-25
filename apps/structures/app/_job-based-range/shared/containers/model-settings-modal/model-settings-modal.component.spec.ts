@@ -7,12 +7,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { PfCommonModule } from 'libs/core';
+import { generateMockStructureRangeDistributionTypes, generateMockRangeDistributionSetting } from 'libs/models/payfactors-api';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import { ModelSettingsModalComponent } from './model-settings-modal.component';
 import { UrlService } from '../../services';
 import { Pages } from '../../constants/pages';
+import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 
 describe('Job Based Ranges - Model Settings Modal', () => {
   let instance: ModelSettingsModalComponent;
@@ -31,7 +34,10 @@ describe('Job Based Ranges - Model Settings Modal', () => {
         }),
         PfCommonModule
       ],
-      declarations: [ ModelSettingsModalComponent ],
+      declarations: [
+        ModelSettingsModalComponent,
+        RangeDistributionSettingComponent
+      ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
         {
@@ -41,16 +47,18 @@ describe('Job Based Ranges - Model Settings Modal', () => {
         {
           provide: UrlService,
           useValue: { isInWorkflow: jest.fn()}
-        }
-
+        },
+        SettingsService
       ]
     });
 
     fixture = TestBed.createComponent(ModelSettingsModalComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
-    ngbModal = TestBed.get(NgbModal);
-    urlService = TestBed.get(UrlService);
+    instance.rdSettingComponent =
+      TestBed.createComponent(RangeDistributionSettingComponent).componentInstance;
+    store = TestBed.inject(Store);
+    ngbModal = TestBed.inject(NgbModal);
+    urlService = TestBed.inject(UrlService);
     // mock the metadata
     instance.metadata = {
       Paymarket: 'Boston',
@@ -63,8 +71,28 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       ControlPointDisplay: 'Base',
       SpreadMin: 10,
       SpreadMax: 10,
-      IsCurrent: false
+      IsCurrent: false,
+      RangeDistributionTypeId: 1,
+      RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
+      RangeDistributionSetting: generateMockRangeDistributionSetting()
 
+    };
+
+    instance.modelSetting = {
+      ControlPoint: 'Base',
+      ControlPointDisplay: 'Base',
+      Currency: 'USD',
+      IsCurrent: false,
+      ModelName: 'testModel',
+      Paymarket: 'Boston',
+      PaymarketId: 1,
+      Rate: 'Annual',
+      SpreadMax: 10,
+      SpreadMin: 10,
+      StructureName: 'testStruc',
+      RangeDistributionTypeId: 1,
+      RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
+      RangeDistributionSetting: generateMockRangeDistributionSetting()
     };
 
     instance.ngOnInit();
@@ -135,7 +163,10 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       ControlPointDisplay: 'Base',
       SpreadMin: 10,
       SpreadMax: 10,
-      IsCurrent: false
+      IsCurrent: false,
+      RangeDistributionTypeId: 1,
+      RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
+      RangeDistributionSetting: generateMockRangeDistributionSetting()
 
     };
 
@@ -178,7 +209,12 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     instance.rangeGroupId = 1;
     instance.page = Pages.Model;
     instance.roundingSettings = {};
-    const expectedAction = new fromModelSettingsModalActions.SaveModelSettings({ rangeGroupId: instance.rangeGroupId, rounding: instance.roundingSettings, fromPage: Pages.Model, formValue: instance.modelSettingsForm.value});
+    const expectedAction = new fromModelSettingsModalActions.SaveModelSettings({
+      rangeGroupId: instance.rangeGroupId,
+      formValue: instance.modelSetting,
+      fromPage: Pages.Model,
+      rounding: instance.roundingSettings
+    });
 
     instance.handleModalSubmit();
 

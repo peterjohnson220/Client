@@ -1,3 +1,12 @@
-.result {
-  height: 400px;
+@import 'legacy/legacy-variables';
+
+pf-search-results {
+  height: 390px;
+}
+
+.no-results-message-container{
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
+  font-weight: $legacy-bold-font-weight;
 }

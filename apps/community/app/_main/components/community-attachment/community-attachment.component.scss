@@ -2,6 +2,7 @@
 @import 'styles';
 
 .container {
+  cursor: pointer;
   display: flex;
   align-items: baseline;
   float: left; 
@@ -18,6 +19,15 @@
   color: $community-attachment-link-hover-color;
 }
 
+.disabledAttachment {
+  cursor: default;
+  color: $community-sub-text-color;
+}
+
+.disabledAttachment:hover {
+  color: $community-sub-text-color;
+}
+
 .icon {
   float: left;
   margin-right: 0.5rem;
@@ -31,10 +41,22 @@
   &.excel {
     color: $community-excel-badge-color;
   }
+  &.powerpoint {
+    color: $community-powerpoint-badge-color;
+  }
   &.image {
     color: $community-image-badge-color;
   }
   &.file {
     color: $community-sub-text-color;
   }
+}
+
+.disabledIcon {
+  color: $community-sub-text-color !important;
+  cursor: default;
+}
+
+.disabledIcon:hover {
+  cursor: default;
 }

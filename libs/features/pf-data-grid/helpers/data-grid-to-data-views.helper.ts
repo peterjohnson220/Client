@@ -4,11 +4,13 @@ import { DataView, DataViewField, DataViewFieldType, DataViewFilter, DataViewTyp
 
 import { isValueRequired } from '../components/grid-filter/helpers';
 import { PagingOptions } from '../../../models/payfactors-api/search/request';
+import { GridConfig } from '../models';
 
 export class DataGridToDataViewsHelper {
   static buildDataView(pageViewId: string, baseEntityId: number,
-                       fields: ViewField[], sortDescriptor: SortDescriptor[], name: string, type: DataViewType): DataView {
-    const selectedFields = this.mapFieldsToDataViewFields(fields, sortDescriptor);
+                       fields: ViewField[], sortDescriptor: SortDescriptor[], name: string, type: DataViewType,
+                       gridConfig: GridConfig): DataView {
+    const selectedFields = this.mapFieldsToDataViewFields(fields, sortDescriptor, gridConfig);
     // TODO: Change the way we save filters. This assumes we never save GlobalFilters and we never save filters for Named Views
     const filterFields = fields.filter(f => !f.IsGlobalFilter && f.FilterValue !== null && name !== null);
     return {
@@ -43,7 +45,7 @@ export class DataGridToDataViewsHelper {
     }));
   }
 
-  static mapFieldsToDataViewFields(fields: ViewField[], sortDescriptor: SortDescriptor[]): DataViewField[] {
+  static mapFieldsToDataViewFields(fields: ViewField[], sortDescriptor: SortDescriptor[], gridConfig?: GridConfig): DataViewField[] {
     return fields ? fields
         .filter(f => f.IsSelected || f.IsAlwaysInResponse)
         .map(f => {
@@ -61,7 +63,8 @@ export class DataGridToDataViewsHelper {
             Order: f.Order,
             FieldType: DataViewFieldType.DataElement,
             SortOrder: !!sortInfo ? sortInfo.SortOrder : null,
-            SortDirection: !!sortInfo ? sortInfo.SortDirection : null
+            SortDirection: !!sortInfo ? sortInfo.SortDirection : null,
+            Width: gridConfig?.PersistColumnWidth ? f.Width : null
           };
         })
       : [];

@@ -42,11 +42,11 @@ describe('CommunityPostAddReplyComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
 
-    pfLinkifyService = TestBed.get(PfLinkifyService);
+    pfLinkifyService = TestBed.inject(PfLinkifyService);
     fixture = TestBed.createComponent(CommunityPostAddReplyComponent);
     instance = fixture.componentInstance;
   });

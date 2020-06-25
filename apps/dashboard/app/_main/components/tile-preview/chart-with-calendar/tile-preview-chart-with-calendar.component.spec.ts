@@ -11,7 +11,7 @@ import { generateMockTilePreviewChartWithCalendarData, TilePreviewTypes } from '
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 import { SaveUiPersistenceSettingRequest } from 'libs/models/common/save-ui-persistence-setting-request.model';
 import * as fromTileGridActions from '../../../actions/tile-grid.actions';
-import { GenericNameValueDto } from 'libs/models/common';
+import { GenericKeyValue, GenericNameValueDto } from 'libs/models/common';
 
 
 describe('Tile Preview Chart With Calendar', () => {
@@ -35,7 +35,7 @@ describe('Tile Preview Chart With Calendar', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(TilePreviewChartWithCalendarComponent);
@@ -87,11 +87,11 @@ describe('Tile Preview Chart With Calendar', () => {
     instance.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting(clientSettingRequest));
 
     const successResponse = [{
-      Name: 'JobsTileEffectiveDate',
+      Key: 'JobsTileEffectiveDate',
       Value: instance.selectedDate
-    }] as GenericNameValueDto[];
+    }] as GenericKeyValue<string, string>[];
 
-    instance.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSettingSuccess(successResponse));
+    instance.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSettingSuccess([{ FeatureName: 'feature', Settings: successResponse }]));
 
     expect(instance.reloadTile).toHaveBeenCalled();
   });

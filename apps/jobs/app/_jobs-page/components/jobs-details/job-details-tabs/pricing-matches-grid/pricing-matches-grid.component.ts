@@ -14,10 +14,10 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
 
   @Input() pricingInfo: any[];
 
-  @ViewChild('jobTitleColumn', { static: false }) jobTitleColumn: ElementRef;
-  @ViewChild('agingColumn', { static: false }) agingColumn: ElementRef;
-  @ViewChild('currencyColumn', { static: false }) currencyColumn: ElementRef;
-  @ViewChild('pricingInfoColumn', { static: false }) pricingInfoColumn: ElementRef;
+  @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
+  @ViewChild('agingColumn') agingColumn: ElementRef;
+  @ViewChild('currencyColumn') currencyColumn: ElementRef;
+  @ViewChild('pricingInfoColumn') pricingInfoColumn: ElementRef;
 
   colTemplates = {};
 

@@ -19,7 +19,7 @@ export class MultiSelectFilterComponent implements OnChanges {
   @Output() selectedValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() changeOperator: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
 
-  @ViewChild('filterOptionsMultiSelect', {static: false}) public filterOptionsMultiSelect: MultiSelectComponent;
+  @ViewChild('filterOptionsMultiSelect') public filterOptionsMultiSelect: MultiSelectComponent;
   operators = [ Equals, DoesNotEqual, IsNullOrEmpty, IsNotNullOrEmpty ];
   readonly MIN_QUERY_LENGTH = 1;
   hideMultiSelect: boolean;

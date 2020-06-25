@@ -4,6 +4,7 @@ export interface Connection {
   company_ID: number;
   active: boolean;
   loaderConfigurationGroupId?: number;
+  validationMode: boolean;
 }
 
 export function generateMockConnection(): Connection {
@@ -13,5 +14,6 @@ export function generateMockConnection(): Connection {
     company_ID: 1,
     active: true,
     loaderConfigurationGroupId: 12345,
+    validationMode: false
   };
 }

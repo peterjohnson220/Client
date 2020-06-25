@@ -26,7 +26,7 @@ import { Workflow } from '../../shared/constants/workflow';
   styleUrls: ['./model.page.scss']
 })
 export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(AddJobsModalWrapperComponent, {static: false}) public AddJobsModalComponent: AddJobsModalWrapperComponent;
+  @ViewChild(AddJobsModalWrapperComponent) public AddJobsModalComponent: AddJobsModalWrapperComponent;
 
   metaData$: Observable<RangeGroupMetadata>;
   filters: PfDataGridFilter[];

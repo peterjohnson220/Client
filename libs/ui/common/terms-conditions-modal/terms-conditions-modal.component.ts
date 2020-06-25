@@ -29,7 +29,7 @@ export class TermsConditionsModalComponent implements OnInit {
   @Output() onAccept = new EventEmitter();
   @Output() onDecline = new EventEmitter();
 
-  @ViewChild(TemplateRef, { static: false }) templateRef: TemplateRef<any>;
+  @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
 
   constructor(private modalService: NgbModal) {
   }

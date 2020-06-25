@@ -29,7 +29,7 @@ export class AttachmentUploadComponent implements OnInit, OnDestroy {
         maxFileSize: Files.MAX_SIZE_LIMIT
     };
 
-    @ViewChild(UploadComponent, { static: false }) uploadComponent: UploadComponent;
+    @ViewChild(UploadComponent) uploadComponent: UploadComponent;
 
     constructor() { }
 

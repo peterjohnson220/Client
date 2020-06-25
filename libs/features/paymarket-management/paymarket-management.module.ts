@@ -8,13 +8,19 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
-import { PayMarketModalComponent, GeneralFormComponent, MarketDataScopeComponent } from './containers';
+import { PayMarketModalComponent, GeneralFormComponent, MarketDataScopeComponent,
+  DefaultScopesComponent, ExchangeScopesComponent
+} from './containers';
 import { reducers } from './reducers';
-import { GeneralFormEffects, MarketDataScopeEffects } from './effects';
+import { GeneralFormEffects, MarketDataScopeEffects, DefaultScopesEffects, ExchangeScopesEffects,
+  PayMarketModalEffects
+} from './effects';
+import * as fromFaIcons from './fa-icons';
 
 @NgModule({
   imports: [
@@ -25,12 +31,16 @@ import { GeneralFormEffects, MarketDataScopeEffects } from './effects';
     StoreModule.forFeature('feature_paymarket_management', reducers),
     EffectsModule.forFeature([
       GeneralFormEffects,
-      MarketDataScopeEffects
+      MarketDataScopeEffects,
+      DefaultScopesEffects,
+      ExchangeScopesEffects,
+      PayMarketModalEffects
     ]),
     DropDownsModule,
     NumericTextBoxModule,
     PerfectScrollbarModule,
     NgbModule,
+    FontAwesomeModule,
 
     // Payfactors
     PfCommonUIModule,
@@ -40,8 +50,14 @@ import { GeneralFormEffects, MarketDataScopeEffects } from './effects';
     // Containers
     PayMarketModalComponent,
     GeneralFormComponent,
-    MarketDataScopeComponent
+    MarketDataScopeComponent,
+    DefaultScopesComponent,
+    ExchangeScopesComponent
   ],
   exports: [ PayMarketModalComponent ]
 })
-export class PayMarketManagementModule { }
+export class PayMarketManagementModule {
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
+}

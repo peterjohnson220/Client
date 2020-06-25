@@ -37,7 +37,7 @@ describe('Data Management - Main - Transfer Data - Outbound Field Mapping Page',
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(OutboundFieldMappingPageComponent);
     instance = fixture.componentInstance;
 

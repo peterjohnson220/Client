@@ -27,7 +27,7 @@ describe('Project - Add Jobs - Search Results', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(SearchResultsComponent);
     instance = fixture.componentInstance;

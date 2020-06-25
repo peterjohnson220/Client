@@ -15,6 +15,7 @@ export class HeaderComponent implements OnChanges {
   @Input() userContext: UserContext;
   @Input() homePageLink: HomePageLink;
   @Input() enableCoreJdmInClient: boolean;
+  @Input() requireSSOLogin: boolean;
 
   homePageUrl: string;
 

@@ -27,7 +27,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
     fixture = TestBed.createComponent(JobDescriptionHistoryModalComponent);
     instance = fixture.componentInstance;
 
-    modal = TestBed.get(NgbModal);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should dispatch LoadJobDescriptionHistoryListItems event and open modal, when calling open', () => {

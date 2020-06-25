@@ -28,7 +28,7 @@ describe('ExchangeJobSearchComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
   }));
 

@@ -18,10 +18,18 @@
   .nav-tabs {
     border-bottom: 2px solid rgb(222,226,230);
   }
+
+  .tab-content {
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 .paymarket-modal-container {
   height: 435px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+}
+
+.edit-note {
+  font-style: italic;
 }

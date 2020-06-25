@@ -21,9 +21,9 @@ import { ColumnTemplateService } from '../../shared/services';
   styleUrls: ['./pricings.page.scss']
 })
 export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('source', {static: false}) sourceColumn: ElementRef;
-  @ViewChild('jobTitleCode', {static: false}) jobTitleCode: ElementRef;
-  @ViewChild('rangeValue', {static: false}) rangeValueColumn: ElementRef;
+  @ViewChild('source') sourceColumn: ElementRef;
+  @ViewChild('jobTitleCode') jobTitleCode: ElementRef;
+  @ViewChild('rangeValue') rangeValueColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
 

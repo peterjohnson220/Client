@@ -1,4 +1,4 @@
-import { HostListener, Injectable } from '@angular/core';
+import { HostListener, Injectable, Directive } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -11,6 +11,7 @@ import * as fromSearchPageActions from 'libs/features/search/actions/search-page
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
+@Directive()
 @Injectable()
 export abstract class SearchBase {
   numberOfResults$: Observable<number>;

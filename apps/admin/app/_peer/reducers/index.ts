@@ -24,6 +24,7 @@ import * as fromExchangeOptionsReducer from './exchange-job-association-utility/
 import * as fromAssociateJobsReducer from './exchange-job-association-utility/associate-jobs.reducer';
 import * as fromExchangeFiltersReducer from './exchange-filters.reducer';
 import * as fromTagCategoriesReducer from './tag-categories.reducer';
+import * as fromAssociateBulkImportReducer from './exchange-job-association-utility/associate-bulk-import.reducer';
 
 // Feature area state
 export interface PeerAdminState {
@@ -609,6 +610,11 @@ export const selectAssociateJobsState = createSelector(
   (state) => state.associateJobs
 );
 
+export const selectBulkAssociationImportState = createSelector(
+  selectExchangeJobAssociationUtilityState,
+  (state) => state.bulkAssociationImporter
+);
+
 // Company Options
 export const {
   selectAll: getCompanyOptions
@@ -767,4 +773,25 @@ export const getTagCategoriesGrid = createSelector(
   (data, total) => {
     return { data: data, total: total };
   }
+);
+
+// bulk job association import selectors
+export const getImportingBulkAssociations = createSelector(
+  selectBulkAssociationImportState,
+  fromAssociateBulkImportReducer.getImporting
+);
+
+export const getBulkAssociationsImportValidationErrors = createSelector(
+  selectBulkAssociationImportState,
+  fromAssociateBulkImportReducer.getValidationErrors
+);
+
+export const getBulkAssociationsImportSuccess = createSelector(
+  selectBulkAssociationImportState,
+  fromAssociateBulkImportReducer.getImportingSuccess
+);
+
+export const getBulkAssociationsImportError = createSelector(
+  selectBulkAssociationImportState,
+  fromAssociateBulkImportReducer.getImportingError
 );

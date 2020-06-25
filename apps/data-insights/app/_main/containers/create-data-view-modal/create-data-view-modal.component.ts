@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
@@ -17,7 +17,7 @@ import { FieldDataType } from '../../../_data-view/models';
   selector: 'pf-create-data-view-modal',
   templateUrl: './create-data-view-modal.component.html'
 })
-export class CreateDataViewModalComponent extends AbstractBaseDataViewModal {
+export class CreateDataViewModalComponent extends AbstractBaseDataViewModal implements OnChanges {
   @ViewChild('createDataViewModal', { static: true }) public createDataViewModal: any;
 
   activeEntity: Entity;
@@ -44,6 +44,10 @@ export class CreateDataViewModalComponent extends AbstractBaseDataViewModal {
     const baseDataView: BaseDataView = this.getDataViewToSave();
     this.store.dispatch(new fromDataViewActions.SaveUserReport(baseDataView));
     this.showErrorMessages = true;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    super.ngOnChanges(changes);
   }
 
   private getDataViewToSave(): BaseDataView {

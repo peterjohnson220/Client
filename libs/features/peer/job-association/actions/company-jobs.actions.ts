@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
-import { CompanyJob } from '../models';
+import { CompanyJob, CompanyJobWithMatches } from '../models';
 
 export const LOAD = '[Peer Job Association/Company Jobs] Load';
 export const LOAD_COMPANY_JOBS  = '[Peer Job Association/Company Jobs] Load Company Jobs';
@@ -56,7 +56,7 @@ export class SelectJobTitleOrCode implements Action {
 
 export class SelectCompanyJobsToAssociate implements Action {
   readonly type = SELECT_COMPANY_JOBS_TO_ASSOCIATE;
-  constructor(public payload: CompanyJob[]) {}
+  constructor(public payload: CompanyJobWithMatches[]) {}
 }
 
 export class  UpdateCompanyJobIdFilters implements Action {

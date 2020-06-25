@@ -17,7 +17,7 @@
             <td><a class="pl-3 float-right"
                  [ngbTooltip]="tipContent"
                  (click)="$event.stopPropagation()"
-                 href="../../marketdata/default.asp?user_id={{userInfo.UserId}}&impersonate=yes">
+                 href="../../odata/account/impersonate?userId={{userInfo.UserId}}">
                 <fa-icon icon="user"></fa-icon>
               </a></td>
           </tr>

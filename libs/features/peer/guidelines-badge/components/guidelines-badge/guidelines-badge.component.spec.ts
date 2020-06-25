@@ -3,6 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { GuidelinesBadgeComponent } from './guidelines-badge.component';
 import { DojGuidelinesService } from '../../services/doj-guidelines.service';
+import { ActivatedRoute } from '@angular/router';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   LngLatBounds: () => ({})
@@ -42,6 +43,7 @@ describe('Legacy Content - Peer - Guidelines Badge Component', () => {
     fixture = TestBed.createComponent(GuidelinesBadgeComponent);
     instance = fixture.componentInstance;
 
+    // TODO: Resolve type mismatch here and use .inject
     guidelinesService = TestBed.get(DojGuidelinesService);
     guidelinesService.passing = true;
   });

@@ -42,7 +42,7 @@ export function reducer(
     }
     case  fromJdmFilterActions.LOADING_FILTERS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload.userFilters, state),
+        ...adapter.setAll(action.payload.userFilters, state),
         loading: false
       };
     }

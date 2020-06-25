@@ -41,8 +41,8 @@ describe('Job Description Management - Job Description - Assign Jobs To Template
     fixture = TestBed.createComponent(AssignJobsToTemplateModalComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should dispatch LoadTemplateList action, open modal, emit current job and template id & close modal, when calling open & submit',
