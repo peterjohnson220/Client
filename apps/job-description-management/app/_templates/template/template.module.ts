@@ -17,7 +17,7 @@ import { PfFormsModule } from 'libs/forms';
 
 import * as fromFaIcons from '../fa-icons';
 import { SharedModule } from '../../shared/shared.module';
-import { ErrorGenerationService } from '../../shared';
+import { ErrorGenerationService } from 'libs/features/job-description-management/services';
 import { TemplatePageComponent } from './template.page';
 import { CompanyJobSearchPipe } from './pipes';
 import {

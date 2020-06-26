@@ -9,7 +9,7 @@ import { AsyncStateObj } from 'libs/models';
 import * as fromWorkflowReducer from '../reducers';
 import * as fromWorkflowAction from '../actions';
 import { RoutingWorkflowsUpsertModalComponent } from '../containers';
-import { WorkflowTemplate, WorkflowStep } from '../../../shared/models';
+import { WorkflowTemplate, WorkflowStep } from 'libs/features/job-description-management/models';
 
 @Component({
   selector: 'pf-routing-workflows',

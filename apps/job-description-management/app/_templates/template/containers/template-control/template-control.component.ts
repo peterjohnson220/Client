@@ -3,11 +3,11 @@ import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
 import { skip } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { TemplateControl, TemplateSettings, TemplateSettingsControl, ControlType } from 'libs/models';
 
-import * as fromJdmSharedReducer from '../../../../shared/reducers';
+import * as fromJdmSharedReducer from 'libs/features/job-description-management/reducers';
 
 @Component({
     selector: 'pf-template-control',

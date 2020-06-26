@@ -10,9 +10,9 @@ import { DragulaHelperService } from 'libs/core';
 import { TemplateSectionComponent, UpsertControlModalComponent } from '../components';
 import * as fromTemplateActions from '../actions';
 import * as fromTemplateReducers from '../reducers';
-import * as fromJdmSharedReducer from '../../../shared/reducers';
+
 import { TemplateService } from './template.service';
-import { JobDescriptionManagementService } from '../../../shared';
+import { JobDescriptionManagementService } from 'libs/features/job-description-management';
 
 @Injectable()
 export class TemplateDnDService {

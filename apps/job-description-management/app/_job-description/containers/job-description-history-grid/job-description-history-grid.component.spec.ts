@@ -10,7 +10,7 @@ import { generateDefaultAsyncStateObj } from 'libs/models';
 
 import * as fromJobDescriptionReducers from '../../reducers';
 import { JobDescriptionHistoryGridComponent } from './job-description-history-grid.component';
-import { generateMockJobDescriptionHistoryListItem } from '../../models';
+import { generateMockJobDescriptionHistoryListItem } from 'libs/features/job-description-management/models';
 
 describe('Job Description History Grid', () => {
   let instance: JobDescriptionHistoryGridComponent;

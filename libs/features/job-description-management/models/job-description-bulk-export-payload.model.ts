@@ -1,6 +1,4 @@
-import { AvailableJobInformationField, ControlLabel } from '../../shared/models';
-import { ListState } from './list-state.model';
-
+import { AvailableJobInformationField, ControlLabel, ListState } from './';
 
 export interface JobDescriptionBulkExportPayload {
   Query: string;

@@ -2,8 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { QueryListStateRequest } from 'libs/models/payfactors-api/job-description/request/query-liststate-request.model';
 
-import { ControlLabel } from '../../shared/models/control-label.model';
-import { JobDescriptionBulkExportPayload } from '../models/job-description-bulk-export-payload.model';
+import { ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/job-description-management/models';
 
 export const LOAD_CONTROL_LABELS = '[job-description-management / Bulk Export Popover] Load Control Labels';
 export const LOAD_CONTROL_LABELS_ERROR = '[job-description-management / Bulk Export Popover] Load Control Labels Error';

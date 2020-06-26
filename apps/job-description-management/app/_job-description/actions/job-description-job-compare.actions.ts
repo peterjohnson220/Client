@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { JobDescription } from 'libs/models/jdm';
 import { SaveError } from 'libs/models/common/save-error';
 
-import { JobCompareSaveJobDescriptionRequestModel } from '../models/request/job-compare-save-job-description-request.model';
+import { JobCompareSaveJobDescriptionRequestModel } from '../models/request/';
 
 export const LOAD_SOURCE_JOB_DESCRIPTION = '[Job Description Management Job Compare] Load Source Job Description';
 export const LOAD_SOURCE_JOB_DESCRIPTION_SUCCESS = '[Job Description Management Job Compare] Load Source Job Description Success';

@@ -1,8 +1,7 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import * as fromJobDescriptionAppliesToActions from '../../shared/actions/job-description-appliesto.actions';
-import { JobDescriptionAppliesToItem } from '../models/job-description-appliesto-item.model';
-import { AppliesToAttributesExist } from '../models/applies-to-attributes-exist.model';
+import * as fromJobDescriptionAppliesToActions from 'libs/features/job-description-management/actions/job-description-appliesto.actions';
+import { AppliesToAttributesExist, JobDescriptionAppliesToItem } from '../models';
 
 export interface State {
   appliesToAttributesExist: AppliesToAttributesExist;

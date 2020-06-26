@@ -10,14 +10,14 @@ import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 import { CompanyJob } from 'libs/models/company';
 import { UserContext } from 'libs/models/security';
 import { TemplateListItem } from 'libs/models/jdm';
-import { JobDescriptionViewConstants } from '../../../../shared/constants';
+import { JobDescriptionViewConstants } from 'libs/features/job-description-management/constants';
 
 import * as fromAddJobModalActions from '../../../actions/add-job-modal.actions';
-import * as fromCompanyFlsaStatusActions from '../../../../shared/actions/company-flsa-status.actions';
-import * as fromJobFamilyActions from '../../../../shared/actions/job-family.actions';
-import * as fromTemplateListActions from '../../../../shared/actions/template-list.actions';
+import * as fromCompanyFlsaStatusActions from 'libs/features/job-description-management/actions/company-flsa-status.actions';
+import * as fromJobFamilyActions from 'libs/features/job-description-management/actions/job-family.actions';
+import * as fromTemplateListActions from 'libs/features/job-description-management/actions/template-list.actions';
 import * as fromAddJobModalReducers from '../../../reducers';
-import * as fromSharedReducers from '../../../../shared/reducers';
+import * as fromSharedReducers from 'libs/features/job-description-management/reducers';
 
 @Component({
   selector: 'pf-add-job-modal',

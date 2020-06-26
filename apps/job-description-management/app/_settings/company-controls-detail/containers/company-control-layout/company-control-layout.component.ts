@@ -6,10 +6,8 @@ import { Subscription } from 'rxjs';
 import { ControlTypeAttribute, ControlType } from 'libs/models';
 
 import { CompanyControlsDndService, SmartListValidationService } from '../../services';
-import { JobDescriptionManagementService } from '../../../../shared/services';
+import { JobDescriptionManagementService } from 'libs/features/job-description-management';
 import { AttributeNamesAreUnique } from '../../validators';
-
-
 
 @Component({
   selector: 'pf-company-control-layout',

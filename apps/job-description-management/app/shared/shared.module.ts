@@ -47,8 +47,8 @@ import {
 import {
   WorkflowConfigComponent
 } from './containers';
-import { ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from './services';
-import { reducers } from './reducers';
+import { ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from 'libs/features/job-description-management/services';
+import { reducers } from 'libs/features/job-description-management/reducers';
 import {
   CompanyFlsaStatusEffects,
   ControlTypesEffects,

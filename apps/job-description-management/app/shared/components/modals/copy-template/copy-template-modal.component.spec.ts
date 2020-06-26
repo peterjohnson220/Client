@@ -12,7 +12,7 @@ import {of} from 'rxjs';
 import * as fromRootState from 'libs/state/state';
 import {JobDescriptionTemplateApiService} from 'libs/data/payfactors-api/jdm/index';
 
-import * as fromTemplateReducers from '../../../reducers';
+import * as fromTemplateReducers from 'libs/features/job-description-management/reducers';
 import {CopyTemplateModalComponent} from './copy-template-modal.component';
 
 describe('Job Description Management - Templates - Template List - Copy Template Modal', () => {

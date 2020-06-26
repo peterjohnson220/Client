@@ -2,7 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { TemplateListItem } from 'libs/models';
 
-import * as fromTemplateListActions from '../../shared/actions/template-list.actions';
+import * as fromTemplateListActions from 'libs/features/job-description-management/actions/template-list.actions';
 
 export interface State {
   loadingTemplateList: boolean;

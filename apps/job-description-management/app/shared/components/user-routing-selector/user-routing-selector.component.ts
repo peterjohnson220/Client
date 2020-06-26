@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 
-import * as fromJobDescriptionManagementSharedReducer from '../../reducers';
-import * as fromSharedWorkflowActions from '../../../shared/actions/shared-workflow.actions';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromSharedWorkflowActions from 'libs/features/job-description-management/actions/shared-workflow.actions';
 
-import { WorkflowUser } from '../../models';
+import { WorkflowUser } from 'libs/features/job-description-management/models';
 
 @Component({
   selector: 'pf-user-routing-selector',

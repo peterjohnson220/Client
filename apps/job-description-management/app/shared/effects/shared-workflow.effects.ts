@@ -7,8 +7,8 @@ import { Observable, of } from 'rxjs';
 
 import { JobDescriptionWorkflowApiService, JobDescriptionWorkflowTemplateApiService } from 'libs/data/payfactors-api/jdm';
 
-import * as fromSharedWorkflowActions from '../../shared/actions/shared-workflow.actions';
-import { JobDescriptionManagementService } from '../services';
+import * as fromSharedWorkflowActions from 'libs/features/job-description-management/actions/shared-workflow.actions';
+import { JobDescriptionManagementService } from 'libs/features/job-description-management/services';
 
 
 @Injectable()

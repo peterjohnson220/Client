@@ -6,8 +6,7 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
-
-import * as fromCompanyFlsaStatusActions from '../../shared/actions/company-flsa-status.actions';
+import * as fromCompanyFlsaStatusActions from 'libs/features/job-description-management/actions/company-flsa-status.actions';
 
 @Injectable()
 export class CompanyFlsaStatusEffects {

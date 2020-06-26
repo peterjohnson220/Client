@@ -6,9 +6,9 @@ import { of } from 'rxjs';
 
 import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api';
 
-import * as fromWorkflowConfigActions from '../actions/workflow-config.actions';
-import { WorkflowUser } from '../models';
-import { WorkflowConfigHelper } from '../helpers';
+import * as fromWorkflowConfigActions from 'libs/features/job-description-management/actions/workflow-config.actions';
+import { WorkflowUser } from 'libs/features/job-description-management/models';
+import { WorkflowConfigHelper } from 'libs/features/job-description-management/helpers';
 
 @Injectable()
 export class WorkflowConfigEffects {
