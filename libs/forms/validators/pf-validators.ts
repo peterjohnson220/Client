@@ -38,7 +38,7 @@ export class PfValidators {
 
   static maxLengthTrimWhitespace(length: number): ValidatorFn {
     return (control: FormControl) => {
-      return (control.value && control.value.trim().length >= length) ? { 'maxLengthTrimmed': true } : null;
+      return (control.value && control.value.trim().length > length) ? { 'maxLengthTrimmed': true } : null;
     };
   }
 
