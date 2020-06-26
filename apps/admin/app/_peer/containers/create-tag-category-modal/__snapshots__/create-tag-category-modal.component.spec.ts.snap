@@ -195,7 +195,6 @@ exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot
                   >
                     <span
                       class="k-icon"
-                      unselectable="on"
                     />
                   </span>
                   
