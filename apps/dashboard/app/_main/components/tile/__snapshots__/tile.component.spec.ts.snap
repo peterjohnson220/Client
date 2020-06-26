@@ -2,18 +2,20 @@
 
 exports[`Tile should show tile preview chart when that type is given 1`] = `
 <pf-tile
+  clientAppRoot={[Function String]}
+  enableCoreJdmInClient="null"
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   highlightMarketingContent="false"
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
+  settingsService={[Function SettingsService]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
   <div
     class="tile m-0 p-1 test cssClass"
     id="test-tile-tile"
-    ng-reflect-klass="tile m-0 p-1"
-    ng-reflect-ng-class="test cssClass"
-    ng-reflect-ng-switch="Chart"
   >
     
     <div>
@@ -21,8 +23,9 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
         test tile
       </h4>
     </div>
+    
     <a
-      class="tile-anchor-overlay"
+      class="anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
@@ -30,6 +33,7 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
     <div>
       
       <pf-tile-preview-chart />
+      
       
       
       
@@ -44,18 +48,20 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
 
 exports[`Tile should show tile preview icon when that type is given 1`] = `
 <pf-tile
+  clientAppRoot={[Function String]}
+  enableCoreJdmInClient="null"
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   highlightMarketingContent="false"
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
+  settingsService={[Function SettingsService]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
   <div
     class="tile m-0 p-1 test cssClass"
     id="test-tile-tile"
-    ng-reflect-klass="tile m-0 p-1"
-    ng-reflect-ng-class="test cssClass"
-    ng-reflect-ng-switch="Icon"
   >
     
     <div>
@@ -63,8 +69,9 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
         test tile
       </h4>
     </div>
+    
     <a
-      class="tile-anchor-overlay"
+      class="anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
@@ -78,6 +85,7 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
       
       
       
+      
     </div>
     
   </div>
@@ -86,18 +94,20 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
 
 exports[`Tile should show tile preview list when that type is given 1`] = `
 <pf-tile
+  clientAppRoot={[Function String]}
+  enableCoreJdmInClient="null"
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   highlightMarketingContent="false"
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
+  settingsService={[Function SettingsService]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
   <div
     class="tile m-0 p-1 test cssClass"
     id="test-tile-tile"
-    ng-reflect-klass="tile m-0 p-1"
-    ng-reflect-ng-class="test cssClass"
-    ng-reflect-ng-switch="List"
   >
     
     <div>
@@ -105,8 +115,9 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
         test tile
       </h4>
     </div>
+    
     <a
-      class="tile-anchor-overlay"
+      class="anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
@@ -116,6 +127,7 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
       
       
       <pf-tile-preview-list />
+      
       
       
       

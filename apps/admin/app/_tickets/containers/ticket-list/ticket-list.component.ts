@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -12,12 +12,10 @@ import { orderBy, cloneDeep } from 'lodash';
 import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
-import {KendoGridFilterHelper} from 'libs/core/helpers';
+import { KendoGridFilterHelper } from 'libs/core/helpers';
 
 import { TicketFieldType } from '../../constants/tickets-constants';
 import { SearchRequestFilterMapper, PickerHelper } from '../../helpers';
-import { TicketListFilterComponent } from '../filters/ticket-list-filter';
-import { TicketListDateRangeFilterComponent } from '../filters/ticket-list-date-range-filter';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketSharedActions from '../../actions/ticket-shared.actions';
@@ -31,8 +29,6 @@ import { PfServicesRep, UserTicketState, UserTicketTabItem, UserTicketType } fro
   styleUrls: ['./ticket-list.component.scss']
 })
 export class TicketListComponent  implements OnInit, OnDestroy {
-  @ViewChild('serviceUserFilter', { static: false }) serviceUserFilterComponent: TicketListFilterComponent;
-  @ViewChild('createDateRangeFilter', { static: false }) serviceDateRangeFilterComponent: TicketListDateRangeFilterComponent;
   gridView: GridDataResult = { data: [], total: 0 };
   defaultDateRange = { start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), end: new Date() };
   sortable: SortSettings = {
@@ -50,14 +46,14 @@ export class TicketListComponent  implements OnInit, OnDestroy {
         operator: 'contains'
       },
         {
-          field: 'Created',
+          field: 'UserModifiedDate',
           value: this.defaultDateRange,
           operator: 'contains'
         }
       ]
     },
     sort: [{
-      field: 'Id',
+      field: 'UserModifiedDate',
       dir: 'desc'
     }],
   };
@@ -93,6 +89,7 @@ export class TicketListComponent  implements OnInit, OnDestroy {
 
   isDirty = false;
   ticketsTab: number;
+  initFilterComplete = false;
 
   constructor(private store: Store<fromTicketReducer.State>,
     private rootStore: Store<fromRootState.State>,
@@ -176,13 +173,14 @@ export class TicketListComponent  implements OnInit, OnDestroy {
     const u = this.pfServiceReps.find(r => r.PfServicesRepId === this.userContext.UserId);
     if (u && queryParam.keys.length === 0) {
       this.defaultPfServiceRep = u.PfServicesRepId;
-      this.serviceUserFilterComponent.modifyFilter(u.PfServicesRepId);
+      this.state.filter.filters.push({field: this.ticketFieldType.SERVICEUSER, value: this.defaultPfServiceRep, operator: 'contains'});
     }
     if (queryParam.keys.length > 0) {
       KendoGridFilterHelper.updateFilter('Created', null, this.state);
-      this.serviceDateRangeFilterComponent.clearValue();
       this.state.filter.filters.push({field: this.ticketFieldType.COMPANYIDNAME, value: queryParam.get('company_name'), operator: 'contains'});
     }
+
+    this.initFilterComplete = true;
   }
 
   prepareFilter(): UserTicketSearchRequest {
@@ -235,8 +233,10 @@ export class TicketListComponent  implements OnInit, OnDestroy {
     this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
   }
 
-  filterChanged() {
+  filterChanged(f) {
     this.state.skip = 0;
+
+    if (f) {this.state.filter = f; }
     this.store.dispatch(new fromTicketListActions.LoadTickets(this.prepareFilter()));
   }
 

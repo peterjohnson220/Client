@@ -32,9 +32,21 @@ export class DashboardEffects {
     .pipe(
       ofType(fromDashboardActions.SENDING_IN_APP_MARKETING_EMAIL),
       switchMap((action: fromDashboardActions.SendingInAppMarketingEmail) =>
-        this.dashboardApiService.sendInAppMarketingEmail(action.payload).pipe(
+        this.dashboardApiService.sendInAppMarketingEmail(action.payload.tile, action.payload.action).pipe(
           map((response) => new fromDashboardActions.SendingInAppMarketingEmailSuccess(response)),
           catchError(error => of (new fromDashboardActions.SendingInAppMarketingEmailError(error)))
+        )
+      )
+    );
+
+  @Effect()
+  getDriftUserId$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromDashboardActions.GETTING_DRIFT_USER_ID),
+      switchMap((action: fromDashboardActions.GettingDriftUserId) =>
+        this.dashboardApiService.getDriftUserId(action.payload).pipe(
+          map((response) => new fromDashboardActions.GettingDriftUserIdSuccess(response)),
+          catchError(error => of (new fromDashboardActions.GettingDriftUserIdError(error)))
         )
       )
     );

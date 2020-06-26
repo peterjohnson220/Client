@@ -26,7 +26,6 @@ exports[`Peer - Exchange Request - Access Modal should provide correct values to
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="Request Access to an Exchange"
   >
     
@@ -39,9 +38,6 @@ exports[`Peer - Exchange Request - Access Modal should provide correct values to
           class="ng-untouched ng-pristine ng-valid"
           id="search-box"
           name="searchFilter"
-          ng-reflect-model=""
-          ng-reflect-name="searchFilter"
-          ng-reflect-options="[object Object]"
           ngdefaultcontrol=""
         />
       </div>
@@ -66,7 +62,6 @@ exports[`Peer - Exchange Request - Access Modal should provide correct values to
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="cardSelection"
         name="hasSelection"
-        ng-reflect-name="cardSelection"
         type="hidden"
         value=""
       />

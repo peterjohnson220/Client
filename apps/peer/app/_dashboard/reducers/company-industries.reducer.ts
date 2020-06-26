@@ -38,7 +38,7 @@ export function reducer(state = initialState, action: fromCompanyIndustriesActio
     case fromCompanyIndustriesActions.LOAD_COMPANY_INDUSTRIES_SUCCESS: {
       const exchangeJobMappings: string[] = action.payload;
       return {
-        ...adapter.addAll(exchangeJobMappings, state),
+        ...adapter.setAll(exchangeJobMappings, state),
         loading: false
       };
     }

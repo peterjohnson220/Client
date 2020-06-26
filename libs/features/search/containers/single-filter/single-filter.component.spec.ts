@@ -4,6 +4,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 
 import * as fromSearchPageActions from '../../actions/search-page.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
@@ -31,12 +33,16 @@ describe('Search Feature - Single Filter', () => {
 
     fixture = TestBed.createComponent(SingleFilterComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should dispatch a SearchAggregation action upon init', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromSingledFilterActions.SearchAggregation();
+    // TODO: Should this be load more?
+    const scrollPayload = {
+      scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER
+    };
+    const expectedAction = new fromInfiniteScrollActions.Load(scrollPayload);
 
     fixture.detectChanges();
 
@@ -95,7 +101,11 @@ describe('Search Feature - Single Filter', () => {
   it('should dispatch a SearchAggregation action for the singled filter when handling a search value changed', () => {
     spyOn(store, 'dispatch');
     const searchValue = 'Finance';
-    const expectedAction = new fromSingledFilterActions.SearchAggregation();
+    // TODO: Should this be load more?
+    const scrollPayload = {
+      scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER
+    };
+    const expectedAction = new fromInfiniteScrollActions.Load(scrollPayload);
 
     instance.handleSearchValueChanged(searchValue);
 

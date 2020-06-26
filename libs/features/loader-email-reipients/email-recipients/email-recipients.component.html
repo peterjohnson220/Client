@@ -7,9 +7,10 @@
 >
   <ng-container basic-content>
     <div class="email-recipients-container">
-      <pf-user-or-email-picker
+      <pf-user-or-email-picker #userEmailPicker
         [companyId]="companyId"
-        [loaderType]="'OrgData'"
+        [loaderType]="'Organizational Data'"
+        [loaderConfigurationGroupId]="loaderConfigurationGroupId"
         (selected)="onRecipientSelected($event)">
       </pf-user-or-email-picker>
 

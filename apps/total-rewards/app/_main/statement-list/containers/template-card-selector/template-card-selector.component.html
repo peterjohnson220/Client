@@ -1,0 +1,31 @@
+<pf-async-container [loading]="(loading$ | async) || (creatingStatement$ | async)" [loadingError]="(loadingError$ | async) || (creatingStatementError$ | async)" (reload)="reload()">
+  <p class="info p-0 m-0">Select a template to create a new statement.</p>
+  <ul class="m-0 p-0 list-unstyled d-flex" >
+    <li class="card m-3 d-inline" *ngFor="let template of (templates$ | async)">
+      <a href="javascript:void(0);" (click)="onSelect(template.id)">
+        <div class="p-3">
+          <img *ngIf="template.thumbnailUrl; else displayPlaceHolder"
+             class="mw-100 img-thumbnail card-img" src="{{template.thumbnailUrl}}" alt="{{template.name}} thumbnail"  />
+          <ng-template #displayPlaceHolder>
+            <div class="text-center img-placeholder">
+              <fa-icon [icon]="'image'" aria-hidden="true" class="fa-10x p-0 m-0"></fa-icon>
+            </div>
+          </ng-template>
+        </div>
+        <div class="card-body pt-1">
+          <h5 class="card-title">{{template.name}}</h5>
+          <p class="card-text">{{template.description}}</p>
+        </div>
+      </a>
+      <!-- This <div> is here so the buttons aren't apart of the <a> above -->
+      <div class="card-body pt-0 pb-3 text-center">
+        <button class="btn btn-trs btn-trs-secondary-btn mx-2" (click)="onPreview(template.id)">
+          <fa-icon [icon]="'search'" aria-hidden="true"></fa-icon> Preview
+        </button>
+        <button class="btn btn-trs btn-trs-primary" (click)="onSelect(template.id)">
+          <fa-icon [icon]="'plus'" aria-hidden="true"></fa-icon> Create
+        </button>
+      </div>
+    </li>
+  </ul>
+</pf-async-container>

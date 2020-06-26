@@ -1,13 +1,16 @@
-<div class="d-flex justify-content-between align-items-center h-100">
-  <div>
+<div class="d-flex">
+  <div perfectScrollbar class="pills-container pb-2" [style.maxWidth]="getMaxWidthCalc()">
+    <div *ngIf="lockedPillText" class="badge badge-pill">
+      {{ lockedPillText }}
+    </div>
     <div class="badge badge-pill" *ngFor="let field of fields" (click)="pillClicked(field)">
       {{ getPillDisplay(field) }}
       <fa-icon icon="times" aria-hidden="true"></fa-icon>
     </div>
   </div>
-  <div>
-    <button (click)="clearAll()" class="btn btn-secondary btn-sm">
-      Clear All Filters
+  <div *ngIf="fields.length > 0">
+    <button (click)="clearFilters()" class="btn btn-link py-0 pr-0">
+      Clear Filters
     </button>
   </div>
 </div>

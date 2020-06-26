@@ -11,9 +11,7 @@ exports[`CommunityAvatarComponent should display CompanyLogoSource if AvatarSour
   <img
     alt="avatar"
     class="float-left pf-avatar post-avatar"
-    ng-reflect-klass="float-left pf-avatar"
-    ng-reflect-ng-class="post-avatar"
-    src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/company_logos/companyLogo.png"
+    src="https://qa00filestore001.blob.core.windows.net/publicfiles/company_logos/companyLogo.png"
   />
 </pf-community-avatar>
 `;
@@ -28,8 +26,6 @@ exports[`CommunityAvatarComponent should display default avatar if AvatarSource 
 >
   <div
     class="float-left pf-avatar default-post-avatar"
-    ng-reflect-klass="float-left pf-avatar"
-    ng-reflect-ng-class="default-post-avatar"
   >
      
   
@@ -46,9 +42,7 @@ exports[`CommunityAvatarComponent should display post-size avatar if IsReply ===
   <img
     alt="avatar"
     class="float-left pf-avatar post-avatar"
-    ng-reflect-klass="float-left pf-avatar"
-    ng-reflect-ng-class="post-avatar"
-    src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/avatars/undefined"
+    src="https://qa00filestore001.blob.core.windows.net/publicfiles/avatars/undefined"
   />
 </pf-community-avatar>
 `;
@@ -62,9 +56,7 @@ exports[`CommunityAvatarComponent should display reply-size avatar if IsReply ==
   <img
     alt="avatar"
     class="float-left pf-avatar reply-avatar"
-    ng-reflect-klass="float-left pf-avatar"
-    ng-reflect-ng-class="reply-avatar"
-    src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/avatars/undefined"
+    src="https://qa00filestore001.blob.core.windows.net/publicfiles/avatars/undefined"
   />
 </pf-community-avatar>
 `;
@@ -78,9 +70,7 @@ exports[`CommunityAvatarComponent should show avatar component 1`] = `
   <img
     alt="avatar"
     class="float-left pf-avatar post-avatar"
-    ng-reflect-klass="float-left pf-avatar"
-    ng-reflect-ng-class="post-avatar"
-    src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/avatars/undefined"
+    src="https://qa00filestore001.blob.core.windows.net/publicfiles/avatars/undefined"
   />
 </pf-community-avatar>
 `;

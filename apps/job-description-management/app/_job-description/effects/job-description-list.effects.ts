@@ -10,7 +10,7 @@ import { JobDescriptionApiService, JobDescriptionTemplateApiService } from 'libs
 import * as fromJobDescriptionListActions from '../actions/job-description-list.actions';
 import { JobDescriptionListHelper } from '../helpers';
 import { SaveJobDescriptionTemplateIdSucessModel } from '../models';
-import { MessageHelper } from '../../shared';
+import { MessageHelper } from 'libs/core';
 
 @Injectable()
 export class JobDescriptionListEffects {

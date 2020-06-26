@@ -1,0 +1,46 @@
+.exchange-title {
+  line-height: 1;
+  font-size: 3.2rem;
+}
+
+.invite-text {
+  font-size: 1.2rem;
+}
+
+.register-message {
+  line-height: 1.2;
+  font-size: 2.5rem;
+  font-weight: 300;
+}
+
+ul.dashed {
+  list-style-type: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+ul.dashed li {
+  position: relative;
+  margin-left: 0;
+  padding-left: 2.4rem;
+}
+
+ul.dashed li:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0.9rem;
+  background-color: #ffb300;
+  width: 1.3rem;
+  height: 2px;
+}
+
+.payfactors-logo {
+  max-height: 50px;
+  margin-left: -20px;
+}
+
+.marketing-text {
+  margin-top: 5rem;
+}

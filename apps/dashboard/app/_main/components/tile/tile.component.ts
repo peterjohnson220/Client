@@ -1,15 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
-import { environment } from 'environments/environment';
+import { Observable, Subscription } from 'rxjs';
 
 import { userVoiceUrl } from 'libs/core/functions';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum, TileTypes } from 'libs/models';
+
 import {
-  Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType, TileTypes,
+  Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType,
   generateTilePreviewIconFromTile, generateTilePreviewChartFromTile,
   generateTilePreviewListFromTile, generateTilePreviewPlaceHolderFromTile,
   generateTilePreviewChartWithCalendarFromTile, generateTilePreviewChartWithListFromTile,
-  generateTilePreviewBasicListFromTile
+  generateTilePreviewBasicListFromTile, generateTilePreviewPeerFromTile, TilePreviewPeer
 } from '../../models';
+import { environment } from 'environments/environment';
 
 
 @Component({
@@ -17,16 +21,26 @@ import {
   templateUrl: './tile.component.html',
   styleUrls: ['./tile.component.scss']
 })
-export class TileComponent implements OnInit {
+export class TileComponent implements OnInit, OnDestroy {
   @Input() tile: Tile;
   @Input() userId: number;
 
   tilePreviewType: TilePreviewType = new TilePreviewType();
+  clientAppRoot = '/' + environment.hostPath + '/';
   ngAppRoot = environment.ngAppRoot;
   previewModel: TilePreviewBase;
   highlightMarketingContent = false;
+  enableCoreJdmInClient = false;
+  enableCoreJdmInClient$: Observable<boolean>;
+  enableCoreJdmInClientSubscription: Subscription;
 
-  static generatePreviewModel(tile: Tile): TilePreviewBase {
+  constructor(private settingsService: SettingsService) {
+    this.enableCoreJdmInClient$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.JDMCoreUseClient
+    );
+   }
+
+  generatePreviewModel(tile: Tile): TilePreviewBase {
     switch (tile.PreviewType) {
       case TilePreviewTypes.Icon:
         return generateTilePreviewIconFromTile(tile);
@@ -42,6 +56,8 @@ export class TileComponent implements OnInit {
         return generateTilePreviewChartWithListFromTile(tile);
       case TilePreviewTypes.BasicList:
         return generateTilePreviewBasicListFromTile(tile);
+      case TilePreviewTypes.Peer:
+        return <TilePreviewPeer>{...generateTilePreviewPeerFromTile(tile), TileUrl: this.getTileHref(tile) };
       default:
         return {
           PreviewType: TilePreviewTypes.Unknown,
@@ -63,10 +79,18 @@ export class TileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.previewModel = TileComponent.generatePreviewModel(this.tile);
+    this.previewModel = this.generatePreviewModel(this.tile);
+    this.enableCoreJdmInClientSubscription = this.enableCoreJdmInClient$.subscribe((setting) => this.enableCoreJdmInClient = setting);
+  }
+
+  ngOnDestroy() {
+    this.enableCoreJdmInClientSubscription.unsubscribe();
   }
 
   getTileHref(tile: Tile) {
+    if (tile.Type === 'JobDescriptions' && this.enableCoreJdmInClient === true) {
+      return this.clientAppRoot + tile.Url;
+    }
     const url = this.getUrl(tile.NgAppLink, tile.Url);
     if (tile.Type === TileTypes.Ideas) {
       return userVoiceUrl(url, this.userId);
@@ -74,7 +98,7 @@ export class TileComponent implements OnInit {
     return url;
   }
 
-  getUrl(ngApplink: boolean, url: string) {
+  getUrl(ngApplink: boolean, url: string): string {
     if (ngApplink) {
       return this.ngAppRoot + url;
     }

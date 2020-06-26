@@ -6,14 +6,12 @@ import { AuthorizationGuard, UserContextGuard } from 'libs/security';
 import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 
 export const routes: Routes = [
-  {
-    path: '', canActivate: [UserContextGuard, AuthorizationGuard], component: AppWrapperComponent,
-    loadChildren: () => import('apps/total-rewards/app/_main/main.module').then(m => m.MainModule)
+  { path: '',
+    canActivate: [UserContextGuard, AuthorizationGuard],
+    component: AppWrapperComponent,
+    loadChildren: () => import('./_main/main.module').then(m => m.MainModule)
   },
-  {
-    path: 'print',
-    loadChildren: () => import('apps/total-rewards/app/_print/print.module').then(m => m.PrintModule)
-  },
+  { path: 'print', loadChildren: () => import('./_print/print.module').then(m => m.PrintModule) },
   { path: 'access-denied', component: AccessDeniedPageComponent },
   { path: 'not-found', component: NotFoundErrorPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
@@ -23,4 +21,4 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

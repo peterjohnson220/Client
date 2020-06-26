@@ -1,11 +1,8 @@
 @import 'colors';
+@import 'libs/styles/ngbootstrap-tabset-overrides';
 
 .close-btn {
   cursor: pointer;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 900;
 }
 
 .close-btn:hover {
@@ -14,7 +11,7 @@
 
 .full-height {
   position: absolute;
-  top: 41px;
+  top: 45px;
   bottom: 0;
   left: 0;
   right: 0;
@@ -25,21 +22,26 @@
   padding: 0.75rem 1.0rem;
 }
 
-.nav-tabs .nav-link {
-  border-width: 0 !important;
+.job-details-bottom-border {
+  border-bottom: 2px solid #dee2e6;
 }
 
-.nav-tabs .nav-link.active {
-  border-bottom: 2px solid $link-color !important;
-  z-index: 999;
-  font-weight: bold;
-  background-color: inherit;
+.job-title-code {
+  white-space: nowrap;
+  max-width: 350px;
+  display: block;
 }
 
-.nav-tabs {
-  border-bottom: 2px solid rgb(222,226,230);
+@media only screen and (max-width: 1360px) {
+  .hide-sm {
+    display: none !important;
+  }
 }
 
-.job-details-container {
-  background-color: #ffffff;
+@media only screen and (max-width: 1550px) {
+  .job-title-code {
+    max-width: 190px !important;
+  }
 }
+
+@include pf-tabset;

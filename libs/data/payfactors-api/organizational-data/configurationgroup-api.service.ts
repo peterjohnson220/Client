@@ -20,7 +20,7 @@ export class ConfigurationGroupApiService {
       return this.payfactorsApiService.get(`${this.endpoint}/GetLoaderConfigurationGroups/${companyId}`, {params});
     }
 
-    saveConfigurationGroup(configurationGroup: ConfigurationGroup) {
+    saveConfigurationGroup(configurationGroup: ConfigurationGroup): Observable<ConfigurationGroup> {
       return this.payfactorsApiService.post(`${this.endpoint}/SaveConfigGroup`, configurationGroup);
     }
 }

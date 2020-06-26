@@ -1,0 +1,25 @@
+<span *ngIf="isEditable; else isNotEditable" class="wrapper w-100 d-inline-block" [ngClass]="{ 'multi-line': isMultiline }">
+  <input #textBox
+         class="input-text w-100"
+         type="text"
+         placeholder="{{placeholder}}"
+         [value]="getValueForInputControl()"
+         [minLength]="minCharacters"
+         [maxLength]="maxCharacters"
+         (blur)="disableEditState()"
+         (change)="onChange()"
+         [ngClass]="isInEditState ? '' : 'offScreen'"
+         [attr.tabindex]="isInEditState ? 0 : -1">
+  <a *ngIf="!isInEditState" href="javascript:void(0)" (click)="enableEditState()" class="editable d-flex" [ngClass]="showIcon === 'onHover' ? 'show-icon-on-hover' : '' ">
+    <span class="edit-text d-inline-block mw-100">{{ getValueForDisplay() }}</span>
+    <span class="edit-icon position-relative">
+      <fa-icon class="fa-xs ml-2" [icon]="icon" aria-hidden="true"></fa-icon>
+    </span>
+  </a>
+</span>
+
+<ng-template #isNotEditable>
+  <span class="wrapper w-100 d-inline-block" [ngClass]="{ 'multi-line': isMultiline }">
+    <span>{{ getValueForDisplay() }}</span>
+  </span>
+</ng-template>

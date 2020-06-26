@@ -27,6 +27,9 @@ export const LOAD_MAP_COUNT_ERROR  = '[Peer Dashboard/Page] Load Map Count Error
 export const LOAD_EXCHANGE_JOB_ORGS = '[Peer Dashboard/Page] Load Exchange Job Orgs';
 export const LOAD_EXCHANGE_JOB_ORGS_SUCCESS = '[Peer Dashboard/Page] Load Exchange Job Orgs Success';
 export const LOAD_EXCHANGE_JOB_ORGS_ERROR = '[Peer Dashboard/Page] Load Exchange Job Orgs Error';
+export const EXPORT_EXCHANGE_JOBS = '[Peer Dashboard/Page] Export Exchange Jobs';
+export const EXPORT_EXCHANGE_JOBS_SUCCESS = '[Peer Dashboard/Page] Export Exchange Jobs Success';
+export const EXPORT_EXCHANGE_JOBS_ERROR = '[Peer Dashboard/Page] Export Exchange Jobs Error';
 
 export class LoadCompanyChart implements Action {
   readonly type = LOAD_COMPANY_CHART;
@@ -153,11 +156,25 @@ export class LoadExchangeJobOrgs implements Action {
 export class LoadExchangeJobOrgsSuccess implements Action {
   readonly type = LOAD_EXCHANGE_JOB_ORGS_SUCCESS;
 
-  constructor(public payload: string[]) {}
+  constructor(public payload: ChartItem[]) {}
 }
 
 export class LoadExchangeJobOrgsError implements Action {
   readonly type = LOAD_EXCHANGE_JOB_ORGS_ERROR;
+}
+
+export class ExportExchangeJobs implements Action {
+  readonly type = EXPORT_EXCHANGE_JOBS;
+
+  constructor(public payload: { exchangeId: number }) {}
+}
+
+export class ExportExchangeJobsSuccess implements Action {
+  readonly type = EXPORT_EXCHANGE_JOBS_SUCCESS;
+}
+
+export class ExportExchangeJobsError implements Action {
+  readonly type = EXPORT_EXCHANGE_JOBS_ERROR;
 }
 
 export type Actions
@@ -185,4 +202,7 @@ export type Actions
   | LoadMapCountSuccess
   | LoadExchangeJobOrgs
   | LoadExchangeJobOrgsSuccess
-  | LoadExchangeJobOrgsError;
+  | LoadExchangeJobOrgsError
+  | ExportExchangeJobs
+  | ExportExchangeJobsSuccess
+  | ExportExchangeJobsError;

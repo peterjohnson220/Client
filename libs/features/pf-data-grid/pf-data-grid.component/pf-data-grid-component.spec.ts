@@ -5,7 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { of } from 'rxjs';
 
-import { generateMockViewField, generateMockViewFieldList } from 'libs/models/payfactors-api/reports/request';
+import { generateMockViewField, generateMockViewFieldList, DataViewType } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromReducer from '../reducers';
 import * as fromActions from '../actions';
@@ -29,7 +29,7 @@ describe('PfDataGridComponent', () => {
       declarations: [PfDataGridComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
 
@@ -83,7 +83,7 @@ describe('PfDataGridComponent', () => {
 
   it('should save the view with the user entered name', () => {
     const viewName = 'Hello';
-    const expectedSaveAction = new fromActions.SaveView(component.pageViewId, viewName);
+    const expectedSaveAction = new fromActions.SaveView(component.pageViewId, viewName, DataViewType.savedFilter);
     component.saveFilterHandler(viewName);
     expect(store.dispatch).toHaveBeenCalledWith(expectedSaveAction);
   });

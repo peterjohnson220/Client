@@ -1,13 +1,15 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { CommunityPost, CommunityTopic } from 'libs/models';
+import { CommunityAttachment, CommunityPost, CommunityTopic, CommunityUpdatePost } from 'libs/models';
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 import { Observable, Subscription } from 'rxjs';
-import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CommunityConstants } from '../../models';
 
 @Component({
   selector: 'pf-community-post-edit',
@@ -19,45 +21,74 @@ export class CommunityPostEditComponent implements OnInit, OnDestroy {
 
   communityTopicSubscription: Subscription;
 
-  pollsType = CommunityPollTypeEnum.DiscussionPoll;
-  communityTopics$: Observable<CommunityTopic[]>;
+  communityAttachments: CommunityAttachment[];
+  communityPostEditForm: FormGroup;
   communityTopics: CommunityTopic[];
+  editMaxLength =  CommunityConstants.DISCUSSION_MAX_TEXT_LENGTH;
+  pollsType = CommunityPollTypeEnum.DiscussionPoll;
+  selectedTopic: CommunityTopic;
   selectedTopicId: string;
-  selectedItem: CommunityTopic;
 
+  communityTopics$: Observable<CommunityTopic[]>;
 
-  constructor( public store: Store<fromCommunityPostReplyReducer.State>) {
+  get content() { return this.communityPostEditForm.get('content'); }
+  get topic() { return this.communityPostEditForm.get('topic'); }
+  get isFormValid() { return this.communityPostEditForm.valid; }
+
+  constructor( public store: Store<fromCommunityPostReplyReducer.State>, private formBuilder: FormBuilder) {
     this.communityTopics$ = this.store.select(fromCommunityPostReplyReducer.getTopics);
+
+    this.communityPostEditForm = this.formBuilder.group({
+      content:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.editMaxLength)]],
+      topic: [null, [ Validators.required ]]
+    });
   }
 
   ngOnInit() {
     this.communityTopicSubscription = this.communityTopics$.subscribe( topics => {
       if (topics) {
         this.communityTopics = topics;
-        this.selectedItem = topics.find(p => p.Id === this.post.Topic.Id);
+        this.selectedTopic = topics.find(p => p.Id === this.post.Topic.Id);
       }
     });
+
+    this.communityAttachments = this.post.Attachments;
+
+    setTimeout(() => {
+      this.content.setValue(this.post.Content);
+    });
+
   }
 
   ngOnDestroy() {
-    if (this.communityTopicSubscription) {
-      this.communityTopicSubscription.unsubscribe();
-    }
+    this.communityTopicSubscription.unsubscribe();
   }
 
   savePost() {
-    if (this.selectedItem != null) {
-      this.store.dispatch(new fromCommunityPostActions.SavingCommunityPostEdit(
-        {postId: this.post.Id, topic: this.selectedItem}
-      ));
+    this.topic.markAsTouched();
+    this.content.markAsDirty();
+
+    this.topic.setValue(this.selectedTopic);
+
+    if (!this.communityPostEditForm.valid) {
+      return;
     }
+
+    const updatedPost: CommunityUpdatePost = {
+      PostId: this.post.Id,
+      PostText: this.content.value,
+      Topic: this.selectedTopic,
+      Attachments: this.communityAttachments
+    };
+
+    this.store.dispatch(new fromCommunityPostActions.SavingCommunityPostEdit(updatedPost));
   }
 
   cancelEdit() {
     this.store.dispatch(new fromCommunityPostActions.CancelEditingCommunityPost());
   }
 
-  handleTopicChange(topic) {
-    this.selectedTopicId = topic;
+  onAttachmentRemoved(fileName: string) {
+    this.communityAttachments = this.communityAttachments.filter(x => x.CloudFileName !== fileName);
   }
 }

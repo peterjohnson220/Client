@@ -1,8 +1,0 @@
-<div class="mt-2">
-  <ng-container *ngFor="let reply of replies">
-    <pf-community-post-reply [reply]="reply"
-                             (replyHashTagClicked)="handleReplyHashTagClicked($event)">
-    </pf-community-post-reply>
-  </ng-container>
-  <pf-loading-indicator  class="loading-indicator reply-offset" *ngIf="loading && replies?.length < 1"></pf-loading-indicator>
-</div>

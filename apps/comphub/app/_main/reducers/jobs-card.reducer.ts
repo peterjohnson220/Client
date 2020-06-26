@@ -1,7 +1,10 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
+import {ExchangeJobSearchOption} from 'libs/models/peer/ExchangeJobSearchOption';
+
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import { TrendingJobGroup } from '../models';
+
 
 export interface State {
   trendingJobGroups: TrendingJobGroup[];
@@ -11,6 +14,8 @@ export interface State {
   jobSearchOptions: string[];
   loadingJobSearchOptionsError: boolean;
   selectedJob: string;
+  selectedExchangeJobId?: number;
+  exchangeJobSearchOptions: ExchangeJobSearchOption[];
 }
 
 const initialState: State = {
@@ -20,7 +25,9 @@ const initialState: State = {
   jobSearchOptions: [],
   loadingJobSearchOptions: false,
   loadingJobSearchOptionsError: false,
-  selectedJob: null
+  selectedJob: null,
+  selectedExchangeJobId: null,
+  exchangeJobSearchOptions: []
 };
 
 // Reducer function
@@ -78,13 +85,36 @@ export function reducer(state = initialState, action: fromJobsCardActions.Action
     case fromJobsCardActions.SET_SELECTED_JOB: {
       return {
         ...state,
-        selectedJob: action.payload.jobTitle
+        selectedJob: action.payload.jobTitle,
+        selectedExchangeJobId: action.payload.exchangeJobId
       };
     }
     case fromJobsCardActions.CLEAR_SELECTED_JOB: {
       return {
         ...state,
         selectedJob: null
+      };
+    }
+    case fromJobsCardActions.GET_EXCHANGE_JOB_SEARCH_OPTIONS: {
+      return {
+        ...state,
+        loadingJobSearchOptions: true,
+        loadingJobSearchOptionsError: false
+      };
+    }
+    case fromJobsCardActions.GET_EXCHANGE_JOB_SEARCH_OPTIONS_SUCCESS: {
+      return {
+        ...state,
+        loadingJobSearchOptions: false,
+        loadingJobSearchOptionsError: false,
+        exchangeJobSearchOptions: action.payload
+      };
+    }
+    case fromJobsCardActions.GET_EXCHANGE_JOB_SEARCH_OPTIONS_ERROR: {
+      return {
+        ...state,
+        loadingJobSearchOptions: false,
+        loadingJobSearchOptionsError: true
       };
     }
     default: {
@@ -101,3 +131,14 @@ export const getJobSearchOptions = (state: State) => state.jobSearchOptions;
 export const getLoadingJobSearchOptions = (state: State) => state.loadingJobSearchOptions;
 export const getLoadingJobSearchOptionsError = (state: State) => state.loadingJobSearchOptionsError;
 export const getSelectedJob = (state: State) => state.selectedJob;
+export const getExchangeJobSearchOptions = (state: State) => state.exchangeJobSearchOptions;
+export const getSelectedExchangeJobId = (state: State) => {
+  if (!!state.selectedExchangeJobId) {
+    return state.selectedExchangeJobId;
+  }
+
+  return state.selectedJob &&
+  state.exchangeJobSearchOptions.find(x => x.JobTitle === state.selectedJob) ?
+    state.exchangeJobSearchOptions.find(x => x.JobTitle === state.selectedJob).ExchangeJobId :
+    null;
+};

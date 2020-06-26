@@ -18,3 +18,8 @@ export * from './paging-response.model';
 export * from './community-link.model';
 export * from './community-dismiss-poll.model';
 export * from './community-topic.model';
+export * from './community-attachment.model';
+export * from './community-update-post.model';
+export * from './community-update-reply.model';
+export * from './community-attachment-modal-state.model';
+export * from './community-attachment-upload-status';

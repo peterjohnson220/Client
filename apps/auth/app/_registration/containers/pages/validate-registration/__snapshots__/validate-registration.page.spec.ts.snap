@@ -59,8 +59,6 @@ exports[`ValidateRegistrationPage should disable Submit password button when pas
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -131,8 +129,6 @@ exports[`ValidateRegistrationPage should disable the submit button when updatePa
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -202,8 +198,6 @@ exports[`ValidateRegistrationPage should enable Submit password button when pass
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -273,8 +267,6 @@ exports[`ValidateRegistrationPage should fade the form when the form is submitti
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -345,8 +337,6 @@ exports[`ValidateRegistrationPage should hide the error message when there is no
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -416,8 +406,6 @@ exports[`ValidateRegistrationPage should not show the submit spinner when the fo
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -487,8 +475,6 @@ exports[`ValidateRegistrationPage should should allow choosing password when pag
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -558,8 +544,6 @@ exports[`ValidateRegistrationPage should show a message after resending successf
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -629,8 +613,6 @@ exports[`ValidateRegistrationPage should show an error message after resending e
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -876,8 +858,6 @@ exports[`ValidateRegistrationPage should show an error message when page is load
           <p
             class="error invisible"
             id="au-lbl-resend-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -1013,8 +993,6 @@ exports[`ValidateRegistrationPage should show the error message when there is a 
           <p
             class="error visible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="visible"
           >
              An unexpected error has occurred 
           </p>
@@ -1113,8 +1091,6 @@ exports[`ValidateRegistrationPage should show the spinner when resending token 1
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>
@@ -1184,8 +1160,6 @@ exports[`ValidateRegistrationPage should show the submit spinner when the form i
           <p
             class="error invisible"
             id="au-lbl-submit-error"
-            ng-reflect-klass="error"
-            ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
           </p>

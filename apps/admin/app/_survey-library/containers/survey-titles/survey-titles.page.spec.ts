@@ -40,7 +40,7 @@ describe('Survey Titles Page', () => {
   });
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(SurveyTitlesPageComponent);
     component = fixture.componentInstance;

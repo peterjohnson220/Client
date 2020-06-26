@@ -9,7 +9,7 @@ import {PermissionCheckEnum} from '../../constants';
 export class PfSecuredResourceDirective implements DoCheck {
   private permissionsToAuthorize: string | string[];
   private _PermissionsService: PermissionService;
-  @ContentChild(FormControlName, { static: false }) control: FormControlName;
+  @ContentChild(FormControlName) control: FormControlName;
 
   @Input() set pfSecuredResource(permissionToAuthorize: string | string[]) {
     this.permissionsToAuthorize = permissionToAuthorize;

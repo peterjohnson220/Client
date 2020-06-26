@@ -38,6 +38,9 @@ import { reducers } from './reducers';
     // Pages
     SurveyParticipationPageComponent,
     MatchDetailsComponent
+  ],
+  exports: [
+    SurveyParticipationPageComponent,
   ]
 })
 export class MatchesModalModule { }

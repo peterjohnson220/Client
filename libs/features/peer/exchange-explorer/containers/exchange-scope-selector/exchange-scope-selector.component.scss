@@ -10,6 +10,16 @@
     text-align: left;
     @extend %ellipsis-overflowing-text;
 
+    .favorite-button {
+      position: absolute;
+      top: .25rem;
+      right: 2rem;
+
+      &:hover {
+        background: white;
+      }
+    }
+
     .selection {
       padding-left: .5rem;
       padding-right: .5rem;
@@ -49,7 +59,16 @@
   &.selected-scope {
     background-color: $selected-item-background-color !important;
   }
+  .action-buttons {
+    margin-top: 0.5rem;
+    display: flex;
+    max-height: 26px;
+  }
+
   &:hover {
+    .favorite-button {
+      opacity: 100;
+    }
     background: $selection-hover-background;
   }
 }
@@ -96,12 +115,14 @@
 
 // Popover overrides
 .custom-modal-popover ::ng-deep .popover {
-  top: 0 !important;
+  transform: initial !important;
+  left: 271px !important;
 }
 
 .custom-map-popover ::ng-deep .popover {
   top: 28px !important;
   width: 273px;
+  transform: initial !important;
 }
 
 .custom-modal-arrow ::ng-deep .arrow {
@@ -110,6 +131,16 @@
 
 .custom-map-arrow ::ng-deep .arrow {
   display: none;
+}
+.solid-star {
+  color: $solid-star-color !important;
+}
+
+.favorite-button {
+  display: inline-block;
+  &:not(.is-default) {
+    opacity: 0;
+  }
 }
 
 :host ::ng-deep .popover {

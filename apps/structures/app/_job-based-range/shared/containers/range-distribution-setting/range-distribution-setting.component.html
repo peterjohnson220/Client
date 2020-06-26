@@ -1,0 +1,245 @@
+<div class="form-group" *ngIf="(enableJobRangeTypes$ | async)" [formGroup]="rangeDistributionSettingForm">
+  <label for="rangeType">Range Type</label>
+  <div>
+    <ng-container *ngFor="let type of metadata.RangeDistributionTypes">
+      <label for="rangeType_{{type.Type}}" class="radio-inline mr-3"> 
+        <input type="radio" id="rangeType_{{type.Type}}" 
+          [value]='type.Id' 
+          formControlName="RangeDistributionTypeId" 
+          (change)="handleRangeTypeChange(type)">
+        {{type.Type}}
+      </label>
+    </ng-container>
+  </div>
+  <div class="rounding-group">                    
+    <div class="form-group row mb-5">
+      <label class="col-4 mt-2">Range Based On</label>
+      <kendo-combobox id="rangeBasedOn" class="form-control col-5"
+          formControlName="RangeBasedOn"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.RangeBasedOn.invalid }"
+          [loading]="controlPointsAsyncObj.loading"
+          [data]="controlPointCategory"
+          [textField]="'Category'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Range'"
+          [filterable]="true"
+          (filterChange)="handleRangeBasedOnFilterChange($event)"
+          (selectionChange)="handleRangeBasedOnSelectionChange($event)">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please select a range.
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-4 mt-2">Minimum</label>
+        <kendo-numerictextbox class="form-control col-5"
+                              id="range-spread-min"
+                              placeholder="Minimum"
+                              formControlName="Minimum"
+                              [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.Minimum.invalid }"
+                              [format]="'n'"
+                              [spinners]="false"
+                              [decimals]="2"
+                              [max]="200"
+                              [min]="1"
+                              [autoCorrect]="true">
+        </kendo-numerictextbox>
+        <div class="invalid-feedback">
+          Please provide a range spread minimum.
+        </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Tertile'">
+      <label class="col-4 mt-2">Top 1st 3rd</label>
+      <kendo-combobox id="firstTertile" class="form-control col-5"
+          formControlName="FirstTertile"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstTertile.invalid }"
+          [loading]="controlPointsAsyncObj.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select First Tertile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please select a range for first tertile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quartile'">
+      <label class="col-4 mt-2">Top 1st 4th</label>
+      <kendo-combobox id="firstQuartile" class="form-control col-5"
+          formControlName="FirstQuartile"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstQuartile.invalid }"
+          [loading]="controlPointsAsyncObj.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select First Quartile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please select a range for first quartile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
+      <label class="col-4 mt-2">Top 1st 5th</label>
+      <kendo-combobox id="firstQuintile" class="form-control col-5"
+          formControlName="FirstQuintile"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstQuintile.invalid }"
+          [loading]="controlPointsAsyncObj.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select First Quintile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please select a range for first quintile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
+      <label class="col-4 mt-2">Top 2nd 5th</label>
+      <kendo-combobox id="secondQuintile" class="form-control col-5"
+          formControlName="SecondQuintile"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondQuintile.invalid }"
+          [loading]="controlPointsAsyncObj.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Second Quintile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please select a range for second quintile.
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-4 mt-2">Midpoint</label>
+      <kendo-combobox id="midpoint" class="form-control col-5"
+          formControlName="ControlPoint"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.ControlPoint.invalid }"
+          [loading]="controlPointsAsyncObj.loading"
+          [data]="controlPoints"
+          [textField]="'Display'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Midpoint'"
+          [filterable]="true"
+          (filterChange)="handleControlPointFilterChange($event)"
+          (selectionChange)="handleControlPointSelectionChange()">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please select a midpoint.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Tertile'">
+      <label class="col-4 mt-2">Top 2nd 3rd</label>
+      <kendo-combobox id="secondTertile" class="form-control col-5"
+          formControlName="SecondTertile"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondTertile.invalid }"
+          [loading]="controlPointsAsyncObj.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Second Tertile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please select a range for second tertile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quartile'">
+      <label class="col-4 mt-2">Top 2nd 4th</label>
+      <kendo-combobox id="secondQuartile" class="form-control col-5"
+          formControlName="SecondQuartile"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondQuartile.invalid }"
+          [loading]="controlPointsAsyncObj.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Second Quartile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please select a range for second quartile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
+      <label class="col-4 mt-2">Top 3rd 5th</label>
+      <kendo-combobox id="thirdQuintile" class="form-control col-5"
+          formControlName="ThirdQuintile"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.ThirdQuintile.invalid }"
+          [loading]="controlPointsAsyncObj.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Third Quintile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please select a range for third quintile.
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
+      <label class="col-4 mt-2">Top 4th 5th</label>
+      <kendo-combobox id="thirdQuintile" class="form-control col-5"
+          formControlName="FourthQuintile"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FourthQuintile.invalid }"
+          [loading]="controlPointsAsyncObj.loading"
+          [data]="controlPointRanges"
+          [textField]="'RangeDisplayName'"
+          [valueField]="'FieldName'"
+          [clearButton]="false"
+          [valuePrimitive]="true"
+          [allowCustom]="false"
+          [placeholder]="'Select Fourth Quintile'"
+          [filterable]="false">
+      </kendo-combobox>
+      <div class="invalid-feedback">
+        Please select a range for fourth quintile.
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-4 mt-2">Maximum</label>
+      <kendo-numerictextbox  class="form-control col-5"
+                      placeholder="Maximum"
+                      formControlName="Maximum"
+                      [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.Maximum.invalid }"
+                      [format]="'n'"
+                      [spinners]="false"
+                      [decimals]="2"
+                      [max]="200"
+                      [min]="1"
+                      [autoCorrect]="true">
+      </kendo-numerictextbox>
+      <div class="invalid-feedback">
+        Please provide a range spread maximum.
+      </div>
+    </div>
+  </div>
+</div>

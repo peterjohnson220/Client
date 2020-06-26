@@ -47,13 +47,12 @@ describe('Comphub - Main - Data Card Component', () => {
     fixture = TestBed.createComponent(DataCardComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    windowRef = TestBed.get(WindowRef);
+    store = TestBed.inject(Store);
+    windowRef = TestBed.inject(WindowRef);
 
     instance.workflowContext = {
       ...generateMockWorkflowContext(),
-      selectedPageId: ComphubPages.Data,
-      selectedPageIdDelayed: ComphubPages.Data
+      selectedPageId: ComphubPages.Data
     };
     fixture.detectChanges();
   });
@@ -107,17 +106,8 @@ describe('Comphub - Main - Data Card Component', () => {
 
     instance.selectedJobTitle$ = of('Test job');
     instance.marketDataChange$ = of(true);
+    instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Data});
     instance.ngOnInit();
-    instance.ngOnChanges({
-      'workflowContext': {
-        previousValue: null,
-        firstChange: true,
-        isFirstChange: () => true,
-        currentValue: {
-          selectedPageId: ComphubPages.Data
-        }
-      }
-    });
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
@@ -134,17 +124,8 @@ describe('Comphub - Main - Data Card Component', () => {
     });
 
     instance.selectedJobTitle$ = of('Test job');
+    instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Jobs});
     instance.ngOnInit();
-    instance.ngOnChanges({
-      'workflowContext': {
-        previousValue: null,
-        firstChange: true,
-        isFirstChange: () => true,
-        currentValue: {
-          selectedPageId: ComphubPages.Jobs
-        }
-      }
-    });
 
     expect(store.dispatch).not.toBeCalledWith(expectedAction);
   });
@@ -263,17 +244,8 @@ describe('Comphub - Main - Data Card Component', () => {
 
     instance.selectedJobTitle$ = of('Test job');
     instance.marketDataChange$ = of(true);
+    instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Data});
     instance.ngOnInit();
-    instance.ngOnChanges({
-      'workflowContext': {
-        previousValue: null,
-        firstChange: true,
-        isFirstChange: () => true,
-        currentValue: {
-          selectedPageId: ComphubPages.Data
-        }
-      }
-    });
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });

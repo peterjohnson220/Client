@@ -1,14 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import {Observable, Subscription} from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import {TransferScheduleSummary} from 'libs/models/hris-api/sync-schedule/response';
+import { TransferScheduleSummary } from 'libs/models/hris-api/sync-schedule/response';
 
-import * as fromTransferScheduleActions from '../../actions/transfer-schedule.actions';
 import * as fromCronHelpers from '../../helpers/cron-helper';
 import * as fromDataManagementMainReducer from '../../reducers';
-import {GetSupportedSchedulesPipe} from '../../pipes';
 
 @Component({
   selector: 'pf-transfer-schedule-summary',
@@ -16,29 +14,13 @@ import {GetSupportedSchedulesPipe} from '../../pipes';
   styleUrls: ['./transfer-schedule-summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TransferScheduleSummaryComponent implements OnInit, OnDestroy {
+export class TransferScheduleSummaryComponent {
+  @Input() validationMode: boolean;
+
   transferScheduleSummary$: Observable<TransferScheduleSummary[]>;
-  transferScheduleSummaryLoading$: Observable<boolean>;
-  transferScheduleSummaryError$: Observable<boolean>;
-  transferScheduleSummary: TransferScheduleSummary[] = [];
-  transferScheduleSummarySubscription: Subscription;
 
   constructor(private store: Store<fromDataManagementMainReducer.State>) {
     this.transferScheduleSummary$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummary);
-    this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
-    this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
-
-    this.transferScheduleSummarySubscription = this.transferScheduleSummary$.subscribe(s => {
-      this.transferScheduleSummary = new GetSupportedSchedulesPipe().transform(s);
-    });
-  }
-
-  ngOnInit() {
-    this.store.dispatch(new fromTransferScheduleActions.GetTransferSummary());
-  }
-
-  ngOnDestroy() {
-    this.transferScheduleSummarySubscription.unsubscribe();
   }
 
   getSchedule(item: TransferScheduleSummary): string {

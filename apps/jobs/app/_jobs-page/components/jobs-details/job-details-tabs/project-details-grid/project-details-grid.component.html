@@ -1,0 +1,45 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [showTitle]="false"
+  [columnTemplates]="colTemplates"
+  [inboundFilters]="filters"
+  [defaultSort]="defaultSort"
+  [noRecordsFound]="'This job has not been added to any projects.'"
+  [headerClassName]="'jobs-page-sub-grid-header'"
+  [actionBarConfig]="actionBarConfig">
+</pf-data-grid>
+
+<ng-template kendoGridCellTemplate #projectAccessColumn let-dataRow="dataRow" let-rowIndex="rowIndex">
+  <ng-container *ngIf="dataRow['UserSessions_HasProjectAccess']; else noAccess">
+    <a
+      [attr.data-qa-id]="'lnk-access-project-' + rowIndex"
+      class="access-project-link"
+      href="../../../../marketdata/marketdata.asp?usersession_id={{dataRow['UserSessions_UserSession_ID']}}">
+      Access Project
+    </a>
+  </ng-container>
+  <ng-template #noAccess>
+    Owned by {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
+  </ng-template>
+</ng-template>
+
+<ng-template #projectOwnerColumn let-dataRow="dataRow">
+  {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
+</ng-template>
+
+
+<ng-template #payMarketFilter>
+  <kendo-dropdownlist
+    style="width: 250px"
+    [(ngModel)]="selectedPayMarket"
+    [textField]="'Value'"
+    [valueField]="'Id'"
+    [defaultItem]="{Value:'All Pay Markets', Id: null}"
+    [data]="filteredPayMarketOptions"
+    (valueChange)="handlePayMarketFilterChanged($event)"
+    [filterable]="true"
+    (filterChange)="handleFilter($event)"
+    [attr.data-qa-id]="'ddm-operator-'+payMarketField?.SourceName"
+    class="k-dropdown-white form-control">
+  </kendo-dropdownlist>
+</ng-template>

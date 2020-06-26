@@ -14,7 +14,7 @@
 </ng-template>
 <button title="Choose Columns" type="button" id="column-popover-btn" class="btn btn-secondary"
         placement="bottom-right"  #columnPopover="ngbPopover" popoverTitle="Choose Columns"
-        [ngbPopover]="popContent" (hidden)="filter=''" [autoClose]="'outside'">
+        [ngbPopover]="popContent" (hidden)="onHidden()" [autoClose]="'outside'">
   <fa-icon icon="table"></fa-icon>
 </button>
 
@@ -28,7 +28,7 @@
         <li *ngIf="listAreaColumn.ColumnDatabaseName === 'PublicView' && canRestrictJobDescriptionFromPublicView" class="column-item">
             <input type="checkbox" [ngModel]="listAreaColumn.Visible" (change)="columnChecked(listAreaColumn, $event.target.checked);">
             <span class="column-text">{{listAreaColumn.ColumnDisplayName}}</span>
-        </li> 
-    </ng-container>          
+        </li>
+    </ng-container>
 </ul>
 </ng-template>

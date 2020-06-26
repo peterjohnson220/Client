@@ -1,0 +1,18 @@
+<pf-modal-form
+  [size]="'sm'"
+  [title]="'Discard Reply'"
+  [showFooter]="true"
+  [centered]="true"
+  [isOpen$]="cancelingPostReply$"
+  [resetFormOnClose]="true"
+  [showSubmit]="true"
+  [primaryButtonText]="'Discard'"
+  [secondaryButtonText]="'Cancel'"
+  (onDismiss)="handleModalDismissed()"
+  (onSubmit)="handleModalSubmit()">
+  <ng-container basic-content>
+    <div class="container m-2">
+      <p>Are you sure you want to discard your reply? All text and attachments will be removed.</p>
+    </div>
+  </ng-container>
+</pf-modal-form>

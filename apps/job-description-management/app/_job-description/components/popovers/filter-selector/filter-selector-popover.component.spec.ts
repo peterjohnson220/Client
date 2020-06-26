@@ -23,7 +23,7 @@ describe('Job Description Management - Job Description - Filter Selector Popover
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPopoverModule.forRoot(),
+        NgbPopoverModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           jobdescriptonmanagement_jobdescription: combineReducers(fromJobDescriptionReducers.reducers),
@@ -44,8 +44,8 @@ describe('Job Description Management - Job Description - Filter Selector Popover
     fixture = TestBed.createComponent(FilterSelectorPopoverComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should return an empty string, when calling displayFilterDescription and no columns exist in listAreaColumns/customListAreaColumns',

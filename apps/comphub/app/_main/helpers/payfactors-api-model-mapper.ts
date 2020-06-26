@@ -15,7 +15,6 @@ import {
 } from '../models';
 import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api';
 import { MDScopeSizeCategory } from 'libs/constants';
-import { countryFlagMap } from '../data';
 
 export class PayfactorsApiModelMapper {
 
@@ -38,7 +37,8 @@ export class PayfactorsApiModelMapper {
         Industry: pm.IndustryValue,
         Location: pm.GeoValue,
         Size: pm.SizeValue,
-        SizeLabel: pm.SizeLabel
+        SizeLabel: pm.SizeLabel,
+        CurrencyCode: pm.CurrencyCode
       };
     });
   }
@@ -115,7 +115,7 @@ export class PayfactorsApiModelMapper {
           CurrencyCode: cdr.CurrencyCode,
           GeoLabel: cdr.GeoLabel,
           Active: cdr.Active,
-          FlagCode: countryFlagMap[cdr.CountryCode]
+          FlagCode: cdr.CountryCode
         };
       });
   }

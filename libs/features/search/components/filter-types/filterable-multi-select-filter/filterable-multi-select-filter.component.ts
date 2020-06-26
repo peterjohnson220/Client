@@ -1,17 +1,22 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { faFilter as solidFilter} from '@fortawesome/pro-solid-svg-icons';
 import { faFilter as borderFilter} from '@fortawesome/pro-light-svg-icons';
 
 import { Filter, FilterableMultiSelectFilter, FilterableMultiSelectOption } from 'libs/features/search/models';
+import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromInfiniteScrollReducer from 'libs/features/infinite-scroll/reducers';
 import * as fromChildFilterActions from 'libs/features/search/actions/child-filter.actions';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
 
 import { MultiSelectFilterComponent } from '../multi-select-filter';
+import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 
 @Component({
   selector: 'pf-filterable-multi-select-filter',
@@ -27,13 +32,15 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
   solidFilter = solidFilter;
   borderFilter = borderFilter;
   searchingChildFilter$: Observable<boolean>;
+  loadingChildOptions$: Observable<boolean>;
 
-  constructor(private store: Store<fromSearchReducer.State>) {
-    super();
+  constructor(private _store: Store<fromSearchReducer.State>) {
+    super(_store);
     this.childFilter$ = this.store.select(fromSearchReducer.getChildFilter);
     this.childFilterParentOptionValue$ = this.store.select(fromSearchReducer.getChildFilterParentOptionValue);
-    this.subFilters$ = this.store.select(fromSearchReducer.getSubFilters);
+    this.subFilters$ = this.store.select(fromSearchReducer.getChildFilters);
     this.searchingChildFilter$ = this.store.select(fromSearchReducer.getSearchingChildFilter);
+    this.loadingChildOptions$  = this.store.select(fromInfiniteScrollReducer.getLoading, ScrollIdConstants.SEARCH_CHILD_FILTER);
   }
 
   optionDisabled(option: FilterableMultiSelectOption) {
@@ -45,6 +52,7 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
     let existingChildFilter = null;
     let childFilterParentOptionValue = null;
     let searchingChildFilter = null;
+    let loadingChildOptions = null;
 
     this.subFilters$.pipe(take(1)).subscribe(x => {
       subFilters = x;
@@ -58,6 +66,10 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
     this.searchingChildFilter$.pipe(take(1)).subscribe(scf => {
       searchingChildFilter = scf;
     });
+    this.loadingChildOptions$.pipe(take(1)).subscribe(lco => {
+      loadingChildOptions = lco;
+    });
+
     const selectedChildFilter = subFilters.find(x => x.ParentBackingField === filter.BackingField);
 
     const childFilterExists = !(existingChildFilter === null || searchingChildFilter === false);
@@ -68,16 +80,16 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
     if (!childFilterExists) {
       this.store.dispatch(new fromChildFilterActions.SetChildFilter({filter: selectedChildFilter, parentOption: option}));
       this.store.dispatch(new fromSearchPageActions.ToggleChildFilterSearch());
-      this.store.dispatch(new fromChildFilterActions.SearchAggregation());
+      this.store.dispatch(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER}));
       return;
     }
-    if (currentChildFilterClicked) {
-    this.store.dispatch(new fromSearchPageActions.ToggleChildFilterSearch());
-    this.store.dispatch(new fromChildFilterActions.ClearChildFilter());
-    return;
-  }
-  this.store.dispatch(new fromChildFilterActions.SetChildFilter({filter: selectedChildFilter, parentOption: option}));
-  this.store.dispatch(new fromChildFilterActions.SearchAggregation());
+    if (currentChildFilterClicked && !loadingChildOptions) {
+      this.store.dispatch(new fromSearchPageActions.ToggleChildFilterSearch());
+      this.store.dispatch(new fromChildFilterActions.ClearChildFilter());
+      return;
+    }
+    this.store.dispatch(new fromChildFilterActions.SetChildFilter({filter: selectedChildFilter, parentOption: option}));
+    this.store.dispatch(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER}));
   }
 
   childFiltersAreEquivalent(filterA: Filter, filterB: Filter): boolean {
@@ -86,5 +98,28 @@ export class FilterableMultiSelectFilterComponent extends MultiSelectFilterCompo
 
   optionValuesAreEquivalent(optionValueA: any, optionValueB: any) {
     return (optionValueA && optionValueB) && optionValueA === optionValueB;
+  }
+
+  onOptionCheck(event$: MouseEvent, option, filter) {
+
+    if (this.optionDisabled(option)) {
+      return;
+    }
+
+    if (option.SubAggregationCount > 0 && option.SelectionsCount > 0) {
+      let subFilters = null;
+      this.subFilters$.pipe(take(1)).subscribe(x => {
+        subFilters = x;
+      });
+      const selectedChildFilter = subFilters.find(x => x.ParentBackingField === filter.BackingField);
+      this.store.dispatch(new fromSearchFiltersActions.ClearFilter({filterId: selectedChildFilter.Id, parentOptionValue: option.Value}));
+      this.store.dispatch(new fromChildFilterActions.ClearSelections());
+    } else {
+      this.optionSelected.emit({ filterId: filter.Id , option });
+    }
+  }
+
+  hasSubAggregationSelections(option: FilterableMultiSelectOption) {
+    return option.SubAggregationCount > 0 && option.SelectionsCount > 0;
   }
 }

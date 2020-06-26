@@ -4,7 +4,6 @@
 }
 
 .filters-sidebar{
-  height: 100%;
   min-width: 243px;
   position: relative;
 }
@@ -26,6 +25,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 3;
 }
 
 .buttons{

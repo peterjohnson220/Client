@@ -1,38 +1,50 @@
 @import 'colors';
 @import 'styles';
 
-$post-avatar-width: 50px;
-$post-avatar-height: 50px;
-
-.start-discussion-body {
-  display: flex;
+.footer-container {
+  display: inline-block;
   width: 100%;
+  margin-top: -10px;
 }
 
 #discussion-avatar {
-  width: $post-avatar-width;
-  min-width: $post-avatar-width;
-  height: $post-avatar-height;
+  width: $community-post-avatar-size;
+  min-width: $community-post-avatar-size;
+  height: $community-post-avatar-size;
   align-self: start;
 }
 
-#start-discussion-post-button {
-  clear: both;
+.btn {
+  border-radius: 4px;
 }
 
-.start-discussion-body button {
+.btn-primary {
   background-color: $community-post-button;
   border: 2px solid $community-post-button;
-  border-radius: 4px;
   width: 80px;
 }
 
-.start-discussion-body button:hover:enabled {
+.btn-primary:hover:enabled {
   background-color: $community-post-button-hover;
   border-color: $community-post-button-hover;
 }
 
-.start-discussion-body button:focus:enabled {
+.attachment-button fa-icon
+{
+  color: $community-categories-border;
+}
+
+.btn-primary:focus:enabled {
   background-color: $community-post-button-focus;
   border-color: $community-post-button;
+}
+
+.attachment-count-text
+{
+  color: #5CB85C;
+  font-weight: bold;
+}
+
+::ng-deep div.text-danger {
+  font-size: 85%;
 }

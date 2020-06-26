@@ -37,7 +37,7 @@ export interface State extends EntityState<CompanyResourceFolder> {
     switch (action.type) {
       case fromCompanyResourcesPageActions.GETTING_COMPANY_RESOURCES_SUCCESS: {
         return {
-          ...adapter.addAll(action.payload.Folders, state)
+          ...adapter.setAll(action.payload.Folders, state)
         };
       }
       case fromCompanyResourcesPageActions.ADDING_COMPANY_RESOURCE_TO_FOLDER_SUCCESS: {

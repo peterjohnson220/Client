@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DragulaModule } from 'ng2-dragula';
 import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -49,9 +50,10 @@ import { MainRoutingModule } from './main-routing.module';
     FontAwesomeModule,
     DropDownsModule,
     DragulaModule.forRoot(),
-    NgbPopoverModule.forRoot(),
+    NgbPopoverModule,
     NgbTooltipModule,
     NgbCollapseModule,
+    DateInputsModule,
 
     // Routing
     MainRoutingModule,

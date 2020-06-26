@@ -21,7 +21,7 @@ describe('Data Insights - Date Range Filter Component', () => {
 
     fixture = TestBed.createComponent(DateRangeFilterComponent);
     instance = fixture.componentInstance;
-    intlService = TestBed.get(IntlService);
+    intlService = TestBed.inject(IntlService);
 
     fixture.detectChanges();
   });
@@ -75,6 +75,7 @@ describe('Data Insights - Date Range Filter Component', () => {
     instance.selectedOperator = Between;
     instance.startDate = '2019-09-27';
     instance.endDate = '2019-09-28';
+    instance.selectedDate = new Date('2019-09-27');
     const currentOperator = IsBefore;
 
     fixture.detectChanges();

@@ -23,7 +23,7 @@ import * as fromSurveyTitlesActions from '../../actions/survey-titles.actions';
 })
 
 export class SurveyTitlesPageComponent implements OnInit {
-  @ViewChild('TitleSearch', { static: false }) titleSearch;
+  @ViewChild('TitleSearch') titleSearch;
   public filter: SurveyTitlesFilter;
   public publisher: string;
   public systemUserGroupsId: number;

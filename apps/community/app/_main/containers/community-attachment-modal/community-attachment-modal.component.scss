@@ -1,0 +1,45 @@
+@import 'colors';
+@import 'styles';
+
+::ng-deep kendo-upload .k-dropzone-hint {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+::ng-deep kendo-upload .k-upload-button
+{
+  background-color: #1872ae !important;
+  float: right !important;
+  color: #ffffff !important;
+}
+
+::ng-deep kendo-upload .k-upload-pct
+{
+    visibility:hidden;
+    display:none;
+}
+
+::ng-deep kendo-upload .k-upload-status
+{
+    visibility:hidden;
+    display:none;
+}
+
+.upload-in-progress {
+  color: $community-sub-text-color;
+}
+
+.upload-success {
+  color: $comunity-upload-success-color;
+}
+
+.upload-failed {
+  color: $community-invalid-input-color;
+}
+
+.attachments-container{
+  font-size: 90%;
+  width: 90%
+}
+

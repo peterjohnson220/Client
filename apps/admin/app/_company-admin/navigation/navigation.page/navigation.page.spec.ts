@@ -29,7 +29,7 @@ describe('Admin - Company-Admin - Navigation Page', () => {
     fixture = TestBed.createComponent(NavigationPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('Should dispatch a LoadLinks Action when the page is loaded', () => {

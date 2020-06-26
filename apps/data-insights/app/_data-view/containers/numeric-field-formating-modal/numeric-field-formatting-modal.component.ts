@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { FieldFormatType } from 'libs/models/payfactors-api';
 
 @Component({
   selector: 'pf-numeric-field-formatting-modal',
@@ -12,43 +13,44 @@ import * as cloneDeep from 'lodash.clonedeep';
 })
 export class NumericFieldFormattingModalComponent {
   @Output() saveClicked: EventEmitter<Field> = new EventEmitter<Field>();
-  @ViewChild('numericFieldFormatModal', { static: false }) public numericFieldFormatModal: any;
+  @ViewChild('numericFieldFormatModal') public numericFieldFormatModal: any;
 
   field: Field;
   decimals: number;
-  numberFormat: string;
-  value: number;
+  selectedFormatType: FieldFormatType;
+  formatTypes = FieldFormatType;
 
   constructor(
     private modalService: NgbModal
   ) { }
 
-  open(field, format): void {
+  open(field: Field): void {
     this.modalService.open(this.numericFieldFormatModal, {backdrop: 'static', centered: true});
     this.field = cloneDeep(field);
-    if (!!format) {
-      const parsedFormat = format.charAt(2);
+    this.selectedFormatType = FieldFormatType.Number;
+    this.decimals = 0;
+    if (!!this.field.FieldFormat.Format) {
+      const parsedFormat = this.field.FieldFormat.Format.charAt(2);
       this.decimals = parseInt(parsedFormat, 0);
-      this.value = this.decimals;
+      this.selectedFormatType = this.field.FieldFormat.Type;
     }
   }
 
   close(): void {
     this.decimals = 0;
-    this.value = 0;
     this.modalService.dismissAll();
   }
 
   save(): void {
-    this.numberFormat = `1.${this.decimals}-${this.decimals}`;
-    this.field.Format = this.numberFormat;
+    const digitsInfo = `1.${this.decimals}-${this.decimals}`;
+    const kendoFormat = this.selectedFormatType === FieldFormatType.Percent ? `p${this.decimals}` : `n${this.decimals}`;
+    this.field.FieldFormat = {
+      Value: `${this.selectedFormatType}:${digitsInfo}`,
+      Type: this.selectedFormatType,
+      Format: digitsInfo,
+      KendoNumericFormat: kendoFormat
+    };
     this.saveClicked.emit(this.field);
-    this.decimals = 0;
-    this.value = 0;
-    this.modalService.dismissAll();
-  }
-
-  handleNumericValueChange(value: number) {
-    this.decimals = value;
+    this.close();
   }
 }

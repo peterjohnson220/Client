@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { NgbDropdown, NgbModal, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbModal, NgbPopoverModule, NgbModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromRootState from 'libs/state/state';
@@ -10,8 +10,10 @@ import * as fromRootState from 'libs/state/state';
 import * as fromJobDescriptionReducers from '../../reducers';
 import { JobDescriptionGridComponent } from './job-description-grid.component';
 import { generateMockCompanyJobViewListItem } from '../../models';
-import { MomentModule } from 'angular2-moment';
+import { MomentModule } from 'ngx-moment';
 import { PermissionService } from 'libs/core';
+import { TruncateAfterPipe } from 'libs/core/pipes';
+
 
 describe('Job Description Management - Job Description - Job Description Grid', () => {
   let instance: JobDescriptionGridComponent;
@@ -22,7 +24,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPopoverModule.forRoot(),
+        NgbPopoverModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           jobdescriptonmanagement_jobdescription: combineReducers(fromJobDescriptionReducers.reducers),
@@ -30,7 +32,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
         MomentModule
       ],
       declarations: [
-        JobDescriptionGridComponent, NgbDropdown
+        JobDescriptionGridComponent, NgbDropdown,  NgbTooltip, TruncateAfterPipe
       ],
       providers: [
         {
@@ -48,8 +50,8 @@ describe('Job Description Management - Job Description - Job Description Grid', 
     fixture = TestBed.createComponent(JobDescriptionGridComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    modal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    modal = TestBed.inject(NgbModal);
   });
 
   it('should emit companyJobViewListItem found at specified rowIndex, when calling handleRowClick', () => {
@@ -60,7 +62,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
 
     instance.gridDataResult = { data: [cloneDeep(mockedCompanyJobViewListItem1), cloneDeep(mockedCompanyJobViewListItem2)], total: 2 };
 
-    instance.handleRowClick({index: 1, selectedRows: [{ dataItem: mockedCompanyJobViewListItem2 }]});
+    instance.handleRowClick({ ctrlKey: false, deselectedRows: [], selectedRows: [{ index: 1, dataItem: mockedCompanyJobViewListItem2 }]});
 
     expect(instance.navigateToJobDescription.emit).toHaveBeenLastCalledWith(mockedCompanyJobViewListItem2);
   });

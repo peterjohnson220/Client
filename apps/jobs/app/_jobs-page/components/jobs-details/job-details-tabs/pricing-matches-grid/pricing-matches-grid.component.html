@@ -1,0 +1,48 @@
+
+<pf-data-grid
+  [pageViewId]="pageViewId + '_' + filter.Value"
+  [showTitle]="false"
+  [columnTemplates]="colTemplates"
+  [customHeaderTemplate]="pricingMatchesHeader"
+  [inboundFilters]="[filter]"
+  [defaultSort]="defaultSort"
+  [pagingOptions]="defaultPagingOptions"
+  [compactGrid]="true"
+  [borders]="false"
+  [contentClassNamesOverrides]="'p-0'"
+  [backgroundColor]="'#F7F7F9'"
+  [noRecordsFound]="'This pricing has no data cuts.'"
+  [actionBarConfig]="actionBarConfig"
+  [headerClassName]="'jobs-page-sub-grid-header'"
+  [applyUserDefaultCompensationFields]="true">
+</pf-data-grid>
+
+
+<ng-template #pricingMatchesHeader>
+  <div class="row no-gutters text-center py-1" style="background-color: #F7F7F9">
+    <span class="wtg-adj-cell">Wtg.</span>|<span class="wtg-adj-cell">Adj. %</span>
+    <span style="width: 99%"></span>
+  </div>
+</ng-template>
+
+<ng-template #jobTitleColumn let-dataRow="dataRow">
+  <pf-pricing-matches-job-title [dataRow]="dataRow" [pricingInfo]="pricingInfo"></pf-pricing-matches-job-title>
+</ng-template>
+
+<ng-template #agingColumn  let-dataRow="dataRow" let-fieldName="fieldName">
+  <div class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | number: '1.1-1' | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #pricingInfoColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | humanizeNumber | emptyPlaceholder"></span>
+  </div>
+</ng-template>

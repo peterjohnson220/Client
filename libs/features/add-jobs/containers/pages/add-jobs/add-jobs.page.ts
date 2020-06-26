@@ -92,6 +92,10 @@ export class AddJobsPageComponent extends SearchBase implements OnInit, OnDestro
     this.store.dispatch(new fromAddJobsPageActions.AddSelectedJobs());
   }
 
+  handleAddAllClicked(): void {
+    this.store.dispatch(new fromAddJobsPageActions.AddAllJobs());
+  }
+
   handleClearSelectionsClicked(): void {
     this.store.dispatch(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
   }

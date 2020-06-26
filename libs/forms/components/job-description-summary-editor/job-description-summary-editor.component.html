@@ -1,0 +1,59 @@
+<div [ngClass]="{'card': layout === 'card'}">
+  <div [ngClass]="{'card-header': layout === 'card', 'pb-3': layout === 'simple'}">
+    <ng-container *ngTemplateOutlet="jobDescriptionHeader"></ng-container>
+  </div>
+  <div [ngClass]="{'card-block': layout === 'card'}">
+    <ng-container *ngTemplateOutlet="jobDescriptionTextBox"></ng-container>
+  </div>
+</div>
+
+<div *ngIf="f.JobDescription.errors?.minLengthNotRequired" [ngClass]="errorMessageClass" class="pt-2">
+  Job Description must be at least {{JOB_SUMMARY_MIN_LENGTH}} characters
+</div>
+
+<ng-template #jobDescriptionHeader>
+  <div class="d-flex">
+    <div>
+      <b class="align-middle">{{title}}</b>
+    </div>
+    <div *ngIf="jobDescriptionSummary?.JobDescriptionId" class="d-flex ml-auto" [pfSecuredResource]="permissions.JOB_DESCRIPTIONS">
+      <div
+        class="export-btn pr-3 export-word"
+        title="Export to Word"
+        (click)="exportJobDescription('docx')"
+        [attr.data-qa-id]="'btn-jobs-page-export-jd-word'">
+        <fa-icon fa-icon [icon]="['fal', 'file-word']" [size]="actionIconSize"></fa-icon>
+      </div>
+      <div
+        class="export-btn export-pdf"
+        title="Export to PDF"
+        (click)="exportJobDescription('pdf')"
+        [attr.data-qa-id]="'btn-jobs-page-export-jd-pdf'">
+        <fa-icon fa-icon [icon]="['fal', 'file-pdf']" [size]="actionIconSize"></fa-icon>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #jobDescriptionTextBox>
+  <form id="jobs-page-job-description-form" [formGroup]="jobDescriptionForm" autocomplete="nope">
+    <textarea
+      #jobDescriptionTextArea
+      data-qa-id="txt-jobs-page-job-description"
+      class="form-control"
+      [attr.rows]="rows"
+      formControlName="JobDescription"                
+      [readonly]="!(jobDescriptionSummary | editableJobDescription : isJdmEnabled)"
+      [placeholder]="'There is no Job Description loaded for this Job.'"
+      [pfValidatable]="true">
+    </textarea>              
+  </form>  
+</ng-template>
+
+<form
+  name="exportForm"
+  method="POST"
+  [action]="'/odata/JobDescription(' + jobDescriptionSummary?.JobDescriptionId + ')/Default.Export'">
+  <input type="hidden" name="export-uid" />
+  <input type="hidden" name="export-type" />
+</form>

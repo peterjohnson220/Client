@@ -11,6 +11,7 @@ export class UserMenuComponent {
 
   @Input() userContext: UserContext;
   @Input() dropdownNavigationLinks: NavigationLink[];
+  @Input() requireSSOLogin: boolean;
 
   constructor() { }
 

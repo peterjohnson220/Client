@@ -1,0 +1,83 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [showTitle]="false"
+  [inboundFilters]="filters"
+  [columnTemplates]="colTemplates"
+  [noRecordsFound] = "'This job has not been added to any Salary Structures.'"
+  [defaultSort]="defaultSort"
+  [headerClassName]="'jobs-page-sub-grid-header'"
+  [actionBarConfig]="actionBarConfig"
+  [defaultColumnWidth]="150"
+  [fieldsExcludedFromExport]="fieldsExcludedFromExport">
+</pf-data-grid>
+
+<ng-template #nameColumn let-dataRow="dataRow">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <ng-container *ngIf="dataRow.vw_CompanyJobsStructureInfo_RangeTypeId === rangeTypeIds.Job">
+      <a class="pf-link-hover" [href]="'/client/structures/' + dataRow['vw_CompanyJobsStructureInfo_CompanyStructuresRangeGroup_ID']">
+        {{dataRow['vw_CompanyJobsStructureInfo_Structure_Name']}} <small> ({{dataRow['vw_CompanyJobsStructureInfo_Structure_Code']}})</small>
+      </a>
+    </ng-container>
+    <ng-container *ngIf="dataRow.vw_CompanyJobsStructureInfo_RangeTypeId === rangeTypeIds.Grade">
+      <span>
+        {{dataRow['vw_CompanyJobsStructureInfo_Structure_Name']}} <small> ({{dataRow['vw_CompanyJobsStructureInfo_Structure_Code']}})</small>
+      </span>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['vw_CompanyJobsStructureInfo_Rate'] | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #midColumn let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
+  <ng-container *ngIf="!!dataRow.vw_CompanyJobsStructureInfo_Mid; else noValue">
+    <pf-midpoint-editor
+      [pageViewId]="pageViewId"
+      [rangeGroupType]="dataRow.vw_CompanyJobsStructureInfo_RangeTypeId"
+      [rangeGroupId]="dataRow.vw_CompanyJobsStructureInfo_CompanyStructuresRangeGroup_ID"
+      [rangeId]="dataRow.vw_CompanyJobsStructureInfo_CompanyStructuresRanges_ID"
+      [rate]="dataRow.vw_CompanyJobsStructureInfo_Rate"
+      [mid]="dataRow.vw_CompanyJobsStructureInfo_Mid"
+      [currentStructure]="true"
+      [textAlign]="'right'"
+      [dataRow]="dataRow"
+      [rowIndex]="rowIndex"
+      [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
+      [readonlyValueTemplate]="midReadOnly"
+      [truncateAnnualValueDisplay]="true">
+    </pf-midpoint-editor>
+  </ng-container>
+</ng-template>
+
+<ng-template #comparatioColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <span *ngIf="dataRow.vw_CompanyJobsStructureInfo_AvgEEComparatio else noValue;">
+    {{dataRow.vw_CompanyJobsStructureInfo_AvgEEComparatio}}
+  </span>
+</ng-template>
+
+<ng-template #noValue>
+  - -
+</ng-template>
+
+<ng-template #payMarketFilter>
+  <kendo-dropdownlist
+    style="width: 250px"
+    [(ngModel)]="selectedPayMarket"
+    [textField]="'Value'"
+    [valueField]="'Id'"
+    [defaultItem]="{Value:'All Pay Markets', Id: null}"
+    [data]="filteredPayMarketOptions"
+    (valueChange)="handlePayMarketFilterChanged($event)"
+    [filterable]="true"
+    (filterChange)="handleFilter($event)"
+    [attr.data-qa-id]="'ddm-operator-'+payMarketField?.SourceName"
+    class="k-dropdown-white form-control">
+  </kendo-dropdownlist>
+</ng-template>
+
+<ng-template #midReadOnly let-dataRow="dataRow" let-mid="mid">
+  {{mid | comp: dataRow['vw_CompanyJobsStructureInfo_Rate']}}
+</ng-template>

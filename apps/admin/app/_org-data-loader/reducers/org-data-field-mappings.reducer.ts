@@ -6,9 +6,6 @@ import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 export interface State extends EntityState<LoaderFieldSet> {
   loading: boolean;
   loadingError: boolean;
-  savingFieldMappings: boolean;
-  savingFieldMappingsError: boolean;
-  savingFieldMappingsSuccess: boolean;
 }
 
 export const adapter: EntityAdapter<LoaderFieldSet> = createEntityAdapter<LoaderFieldSet>({
@@ -17,10 +14,7 @@ export const adapter: EntityAdapter<LoaderFieldSet> = createEntityAdapter<Loader
 
 const initialState: State = adapter.getInitialState({
   loading: false,
-  loadingError: false,
-  savingFieldMappings: false,
-  savingFieldMappingsError: false,
-  savingFieldMappingsSuccess: false
+  loadingError: false
 });
 
 export function reducer( state = initialState, action: fromOrgDataFieldMappingsActions.Actions): State {
@@ -33,7 +27,7 @@ export function reducer( state = initialState, action: fromOrgDataFieldMappingsA
     }
     case fromOrgDataFieldMappingsActions.LOADING_FIELD_MAPPINGS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
+        ...adapter.setAll(action.payload, state),
         loading: false,
         loadingError: false
       };
@@ -45,30 +39,6 @@ export function reducer( state = initialState, action: fromOrgDataFieldMappingsA
         loadingError: true
       };
     }
-    case fromOrgDataFieldMappingsActions.SAVING_FIELD_MAPPINGS: {
-      return {
-        ...state,
-        savingFieldMappings: true,
-        savingFieldMappingsSuccess: false,
-        savingFieldMappingsError: false
-      };
-    }
-    case fromOrgDataFieldMappingsActions.SAVING_FIELD_MAPPINGS_ERROR: {
-      return {
-        ...state,
-        savingFieldMappings: false,
-        savingFieldMappingsError: true,
-        savingFieldMappingsSuccess: false
-      };
-    }
-    case fromOrgDataFieldMappingsActions.SAVING_FIELD_MAPPINGS_SUCCESS: {
-      return {
-        ...state,
-        savingFieldMappings: false,
-        savingFieldMappingsSuccess: true,
-        savingFieldMappingsError: false
-      };
-    }
     default: {
       return state;
     }
@@ -77,6 +47,3 @@ export function reducer( state = initialState, action: fromOrgDataFieldMappingsA
 
 export const getLoadingFieldMappings = (state: State) => state.loading;
 export const getLoadingFieldMappingsError = (state: State) => state.loadingError;
-export const getSavingFieldMappings = (state: State) => state.savingFieldMappings;
-export const getSavingFieldMappingsError = (state: State) => state.savingFieldMappingsError;
-export const getSavingFieldMappingsSuccess = (state: State) => state.savingFieldMappingsSuccess;

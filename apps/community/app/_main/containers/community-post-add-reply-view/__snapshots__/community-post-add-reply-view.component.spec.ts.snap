@@ -5,6 +5,9 @@ exports[`CommunityPostAddReplyViewComponent should show community add reply view
   addReplyViewStore={[Function Store]}
   addedRepliesSubscription={[Function Subscriber]}
   addedReplyView$={[Function Store]}
+  communityReplyEdited$={[Function Store]}
+  onAttachmentClickedEvent={[Function EventEmitter]}
+  replyEditedSubscription={[Function Subscriber]}
   replyHashTagClicked={[Function EventEmitter]}
   store={[Function Store]}
 >

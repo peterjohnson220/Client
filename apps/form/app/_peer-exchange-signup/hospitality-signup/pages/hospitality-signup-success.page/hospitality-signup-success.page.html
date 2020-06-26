@@ -1,0 +1,14 @@
+<div class="success-container text-white">
+  <img [src]="payfactorsLogo" class="payfactors-logo">
+  <div *ngIf="!(submitFormIsError$ | async)">
+    <div class="thanks-heading font-weight-bold">THANKS!</div>
+    <div class="success-message">
+      You've requested access to the Peer Hospitality Exchange. <br>
+      A Peer Services representative will contact you shortly with next steps!
+    </div>
+  </div>
+  <div class="success-message mt-5" *ngIf="submitFormIsError$ | async">
+    {{ submitFormMessage$ | async }} <br>
+    Please contact peer.services@payfactors.com for assistance.
+  </div>
+</div>

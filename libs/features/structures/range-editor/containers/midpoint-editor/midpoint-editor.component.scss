@@ -1,0 +1,11 @@
+::ng-deep kendo-numerictextbox {
+  &.right {
+    input {
+      text-align: right;
+    }
+  }
+
+  &.left {
+    text-align: left;
+  }
+}

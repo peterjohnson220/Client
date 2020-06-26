@@ -8,7 +8,9 @@ import {
   PayMarketDataResponse, SharePricingSummaryRequest, CreateQuickPriceProjectRequest, CountryDataSetResponse,
   AddCompletedPricingHistoryRequest
 } from '../../../models/payfactors-api/comphub';
+import { BaseExchangeDataSearchRequest } from '../../../models/payfactors-api/peer/exchange-data-search/request';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { ExchangeDataSet, PeerQuickPriceData } from '../../../../apps/comphub/app/_main/models';
 
 @Injectable()
 export class ComphubApiService {
@@ -21,8 +23,17 @@ export class ComphubApiService {
       { params: { countryCode: countryCode } });
   }
 
+  getTrendingExchangeJobs(exchangeId: number): Observable<TrendingJobGroupResponse[]>  {
+    return this.payfactorsApiService.get<TrendingJobGroupResponse[]>(`${this.endpoint}/GetTrendingExchangeJobs`,
+      { params: { exchangeId: exchangeId } });
+  }
+
   getQuickPriceData(request: QuickPriceRequest): Observable<QuickPriceResponse>  {
     return this.payfactorsApiService.post<QuickPriceResponse>(`${this.endpoint}/GetQuickPriceData`, request);
+  }
+
+  getPeerQuickPriceData(context: BaseExchangeDataSearchRequest): Observable<PeerQuickPriceData> {
+    return this.payfactorsApiService.post<PeerQuickPriceData>(`${this.endpoint}/GetPeerQuickPriceData`, context);
   }
 
   getJobPricingLimitInfo(): Observable<JobPricingLimitInfoResponse>  {
@@ -40,6 +51,9 @@ export class ComphubApiService {
 
   getCountryDataSets(): Observable<CountryDataSetResponse[]> {
     return this.payfactorsApiService.get<CountryDataSetResponse[]>(`${this.endpoint}/GetCountryDataSets`);
+  }
+  getExchangeDataSets(): Observable<ExchangeDataSet[]> {
+    return this.payfactorsApiService.get<ExchangeDataSet[]>(`${this.endpoint}/GetExchangeDataSets`);
   }
 
   persistActiveCountryDataSet(countryCode: string): Observable<any> {

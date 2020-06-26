@@ -1,0 +1,8 @@
+<div class="space-out-children-md">
+  <ng-container *ngIf="!metadata.IsCurrent">
+    <button [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" class="btn btn-secondary" (click)="handleAddJobsClicked()">Add Jobs</button>
+    <button [pfSecuredResource]="_Permissions.STRUCTURES_PUBLISH" class="btn btn-secondary" (click)="handlePublishModelClicked()">Publish</button>
+  </ng-container>
+
+  <pf-model-settings-btn [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" [metadata]="metadata" (clicked)="handleModelSettingsClicked()"></pf-model-settings-btn>
+</div>

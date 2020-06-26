@@ -1,2 +1,2 @@
 export * from './sftp-account-status/sftp-account-status.component';
-export * from './company-selector/company-selector.component';
+export * from './public-key-auth/public-key-auth.component';

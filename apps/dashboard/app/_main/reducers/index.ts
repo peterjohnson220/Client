@@ -50,6 +50,9 @@ export const {
 
 export const getFeaturesLoading = createSelector(selectFeatureState, fromDashboardReducer.getLoading);
 export const getFeaturesLoadingError = createSelector(selectFeatureState, fromDashboardReducer.getLoadingError);
+export const getAccountExecutiveDriftUserId = createSelector(selectFeatureState, fromDashboardReducer.getAccountExecutiveDriftUserId);
+export const getGettingDriftUserId = createSelector(selectFeatureState, fromDashboardReducer.getGettingDriftUserId);
+export const getGettingDriftUserIdError = createSelector(selectFeatureState, fromDashboardReducer.getGettingDriftUserIdError);
 
 // TileGrid
 export const {

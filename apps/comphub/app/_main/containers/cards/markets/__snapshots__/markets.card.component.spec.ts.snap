@@ -20,8 +20,11 @@ exports[`Comphub - Main - Markets Card Component should NOT hide the add paymark
   selectedPaymarket$={[Function Store]}
   showSkipButton$={[Function Store]}
   store={[Function Store]}
+  userContext$={[Function Store]}
   visiblePaymarkets$={[Function Store]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="map-marker-alt"
@@ -124,8 +127,11 @@ exports[`Comphub - Main - Markets Card Component should hide the add paymarkets 
   selectedPaymarket$={[Function Store]}
   showSkipButton$={[Function Store]}
   store={[Function Store]}
+  userContext$={[Function Store]}
   visiblePaymarkets$={[Function Store]}
   workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
 >
   <pf-card-layout
     pageiconclass="map-marker-alt"

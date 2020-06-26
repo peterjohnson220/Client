@@ -37,26 +37,12 @@ describe('Data Management - Main - Transfer Data Page', () => {
     fixture = TestBed.createComponent(TransferDataPageComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   });
 
-  it('should dispatch init action when page is initialized', () => {
-    spyOn(store, 'dispatch');
-
-    instance.ngOnInit();
-    fixture.detectChanges();
-
-    const expectedInitAction = new fromTransferDataPageActions.Init();
-    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedInitAction);
+  it('should create', () => {
+    expect(instance).toBeTruthy();
   });
 
-  it('should dispatch an action when cancel button is clicked', () => {
-    spyOn(store, 'dispatch');
-
-    instance.cancelTransferDataWorkflow();
-
-    const expectedResetWorkflowAction = new fromTransferDataPageActions.ResetTransferDataPageWorkflow();
-    expect(store.dispatch).toHaveBeenCalledWith(expectedResetWorkflowAction);
-  });
 });

@@ -1,15 +1,16 @@
 <ng-container *ngIf="filter.Options.length;else noOptions">
 
   <ng-container *ngFor="let option of filter.Options">
-    <div [class]="'option alt-color au-chk-'+filter.CssClassName"
-         [title]="option.Name"
-         [class.selected]="option.Selected"
-         [class.disabled]="optionDisabled(option)"
-         [class.locked]="filter.Locked"
-         (click)="handleOptionSelected(filter.Id, option)"
-         [ngClass]="{'child-selected': option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField}">
+
+    <span *ngIf="!fieldHasDescription" [class]="'option alt-color au-chk-'+filter.CssClassName"
+          [class.selected]="(option.Selected || hasSubAggregationSelections(option)) && !(option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField)"
+          [class.disabled]="optionDisabled(option)"
+          [class.locked]="filter.Locked"
+          [title]="option.Name"
+          (click)="onOptionCheck($event, option, filter)"
+          [ngClass]="{'child-selected': option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField}">
       <div class="option-check">
-        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" /> {{option.Name}}
+        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" [pfIndeterminateDirective]="hasSubAggregationSelections(option)"/> {{option.Name}}
       </div>
 
       <div *ngIf="!filter.OptionCountDisabled" class="option-count">
@@ -18,11 +19,54 @@
       <fa-icon *ngIf="option.SubAggregationCount > 0 && option.SelectionsCount > 0" [icon]="solidFilter" class="filter-icon" (click)="handleFilterableOptionSelected(filter, option);$event.stopPropagation()"></fa-icon>
       <fa-icon *ngIf="option.SubAggregationCount > 0 && option.SelectionsCount <= 0" [icon]="borderFilter" class="filter-icon" (click)="handleFilterableOptionSelected(filter, option);$event.stopPropagation()"></fa-icon>
 
-    </div>
+    </span>
+    <span *ngIf="fieldHasDescription" [class]="'option alt-color au-chk-'+filter.CssClassName"
+          [class.selected]="(option.Selected || hasSubAggregationSelections(option)) && !(option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField)"
+          [class.disabled]="optionDisabled(option)"
+          [class.locked]="filter.Locked"
+          [ngbPopover]="popContent"
+          [popoverTitle]="option.Name"
+          [popoverClass]="'description-popover'"
+          [placement]="'right right-top right-bottom auto'"
+          [autoClose]="'outside'"
+          [openDelay]="1000"
+          triggers="mouseenter:mouseleave"
+          container="body"
+          (mouseenter)="mouseEnter(option)"
+          (mouseleave)="onMouseLeave()"
+          (click)="onOptionCheck($event, option, filter)"
+          [ngClass]="{'child-selected': option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField}">
+      <div class="option-check">
+        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" [pfIndeterminateDirective]="option.SubAggregationCount > 0 && option.SelectionsCount > 0"/> {{option.Name}}
+      </div>
+
+      <div *ngIf="!filter.OptionCountDisabled" class="option-count">
+        {{option.Count}}
+      </div>
+      <fa-icon *ngIf="option.SubAggregationCount > 0 && option.SelectionsCount > 0" [icon]="solidFilter" class="filter-icon" (click)="handleFilterableOptionSelected(filter, option);$event.stopPropagation()"></fa-icon>
+      <fa-icon *ngIf="option.SubAggregationCount > 0 && option.SelectionsCount <= 0" [icon]="borderFilter" class="filter-icon" (click)="handleFilterableOptionSelected(filter, option);$event.stopPropagation()"></fa-icon>
+    </span>
   </ng-container>
 
 </ng-container>
 
 <ng-template #noOptions>
   <div class="no-data">No Data</div>
+</ng-template>
+
+<ng-template #popContent class="description-popover">
+  <div class="description-body">
+    <span *ngIf="(loadingCompanyDescription | async)">
+      <fa-icon icon="spinner" spin="true" class="" aria-hidden="true"></fa-icon>
+    </span>
+
+    <span *ngIf="!(loadingCompanyDescription | async)">
+      <span *ngIf="(companyDescription$|async) && (companyDescription$|async).length > 0">
+        {{ (companyDescription$|async) }}
+      </span>
+      <span *ngIf="!((companyDescription$|async) && (companyDescription$|async).length > 0)">
+        <i>No description available </i>
+      </span>
+    </span>
+  </div>
 </ng-template>

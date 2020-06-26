@@ -10,7 +10,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   exchangeId={[Function Number]}
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
-  exchangeJobMappingService={[Function Object]}
+  exchangeJobMappingGridService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
@@ -44,22 +44,18 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
     >
       Request Job
     </button>
-    <a
-      href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId=1"
+    <button
+      class="btn btn-secondary"
+      id="export-popover-btn"
+      placement="bottom"
+      title="Export to Excel"
+      type="button"
     >
-      <button
-        class="btn btn-secondary"
-        id="export-popover-btn"
-        placement="bottom"
-        title="Export to Excel"
-        type="button"
-      >
-        <fa-icon
-          aria-hidden="true"
-          icon="download"
-        />
-      </button>
-    </a>
+      <fa-icon
+        aria-hidden="true"
+        icon="download"
+      />
+    </button>
     <button
       class="btn btn-secondary"
       id="import-popover-btn"
@@ -104,7 +100,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   exchangeId={[Function Number]}
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
-  exchangeJobMappingService={[Function Object]}
+  exchangeJobMappingGridService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
@@ -125,7 +121,6 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       class="omni-box"
     >
       <pf-input-debounce
-        class=""
         id="company-job-search-box"
       />
       <pf-input-debounce
@@ -139,22 +134,18 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
     >
       Request Exchange Job
     </button>
-    <a
-      href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId=1"
+    <button
+      class="btn btn-secondary"
+      id="export-popover-btn"
+      placement="bottom"
+      title="Export to Excel"
+      type="button"
     >
-      <button
-        class="btn btn-secondary"
-        id="export-popover-btn"
-        placement="bottom"
-        title="Export to Excel"
-        type="button"
-      >
-        <fa-icon
-          aria-hidden="true"
-          icon="download"
-        />
-      </button>
-    </a>
+      <fa-icon
+        aria-hidden="true"
+        icon="download"
+      />
+    </button>
     <button
       class="btn btn-secondary"
       id="import-popover-btn"
@@ -194,7 +185,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   exchangeId={[Function Number]}
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
-  exchangeJobMappingService={[Function Object]}
+  exchangeJobMappingGridService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
@@ -228,22 +219,18 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
     >
       Request Job
     </button>
-    <a
-      href="/odata/ExchangeCompany/DownloadAssociationsToExcel?exchangeId=1"
+    <button
+      class="btn btn-secondary"
+      id="export-popover-btn"
+      placement="bottom"
+      title="Export to Excel"
+      type="button"
     >
-      <button
-        class="btn btn-secondary"
-        id="export-popover-btn"
-        placement="bottom"
-        title="Export to Excel"
-        type="button"
-      >
-        <fa-icon
-          aria-hidden="true"
-          icon="download"
-        />
-      </button>
-    </a>
+      <fa-icon
+        aria-hidden="true"
+        icon="download"
+      />
+    </button>
     <button
       class="btn btn-secondary"
       id="import-popover-btn"

@@ -42,11 +42,11 @@ describe('CommunityPostAddReplyComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
 
-    pfLinkifyService = TestBed.get(PfLinkifyService);
+    pfLinkifyService = TestBed.inject(PfLinkifyService);
     fixture = TestBed.createComponent(CommunityPostAddReplyComponent);
     instance = fixture.componentInstance;
   });
@@ -60,11 +60,13 @@ describe('CommunityPostAddReplyComponent', () => {
   it ('should dispatch AddingCommunityPostReply when calling submitReply', () => {
 
     instance.postId = '99';
-    instance.communityPostReplyForm.controls['context'].setValue('hello world');
+    instance.communityPostReplyForm.controls['content'].setValue('hello world');
 
     const newReply: any = {
       PostId: '99',
-      ReplyText: 'hello world'
+      ReplyText: 'hello world',
+      Attachments: [],
+      Links: undefined
     };
     const expectedAction = new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply);
 

@@ -2,7 +2,8 @@
 @import 'common/common-variables';
 
 .association-status {
-  width: 100%;
+  width: 11px;
+  float: left;
   height: 34px;
   margin-left: -4px;
   transition: background-color .4s ease-in-out;
@@ -15,4 +16,9 @@
   &.pending {
     background-color: $pending;
   }
+}
+
+.status-label {
+  font-weight: 600;
+  padding: 6px 20px;
 }

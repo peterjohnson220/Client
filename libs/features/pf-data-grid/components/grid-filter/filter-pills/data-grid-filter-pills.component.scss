@@ -1,4 +1,6 @@
 @import 'colors';
+@import 'libs/styles/perfect-scrollbar-overrides';
+
 
 .badge{
   font-size: 1rem;
@@ -8,4 +10,10 @@
   font-weight: normal;
   cursor: pointer;
   padding: .45rem .75rem;
+  overflow-y: hidden;
+}
+
+.pills-container {
+  position: relative;
+  white-space: nowrap;  
 }

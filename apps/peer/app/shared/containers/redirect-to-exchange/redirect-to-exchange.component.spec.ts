@@ -24,7 +24,7 @@ describe('Peer Dashboard - Redirect to Exchange', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPopoverModule.forRoot(),
+        NgbPopoverModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers),
@@ -47,8 +47,8 @@ describe('Peer Dashboard - Redirect to Exchange', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
 
     fixture = TestBed.createComponent(RedirectToExchangeComponent);
     instance = fixture.componentInstance;

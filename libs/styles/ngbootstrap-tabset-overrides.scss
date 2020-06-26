@@ -1,19 +1,38 @@
+@import 'colors';
 
-:host::ng-deep {
+@mixin pf-tabset-alt-deep {
+  :host::ng-deep {
 
-  .nav-tabs {
-    min-height: 34px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    display: block;
-  }
+    .nav-tabs {
+      min-height: 34px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      display: block;
+    }
 
-  .nav-tabs .nav-item {
-    float: none;
-    display: inline-block;
+    .nav-tabs .nav-item {
+      float: none;
+      display: inline-block;
+    }
   }
 }
 
+@mixin pf-tabset {
+  .nav-tabs .nav-link {
+    border-width: 0 !important;
+  }
+
+  .nav-tabs .nav-link.active {
+    border-bottom: 2px solid $link-color !important;
+    z-index: 999;
+    font-weight: bold;
+    background-color: inherit;
+  }
+
+  .nav-tabs {
+    border-bottom: 2px solid rgb(222,226,230);
+  }
+}
 
 

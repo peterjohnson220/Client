@@ -2,14 +2,13 @@ import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angu
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { UserContext } from 'libs/models';
-import { userVoiceUrl } from 'libs/core/functions';
+
+import { UserContext, SidebarLink } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import { environment } from 'environments/environment';
-
 import * as fromRootState from '../../../../state/state';
 import * as fromLeftSidebarActions from '../../actions/left-sidebar.actions';
-import { SidebarLink } from 'libs/models';
 import * as fromLayoutReducer from '../../reducers';
 
 @Component({
@@ -20,7 +19,9 @@ import * as fromLayoutReducer from '../../reducers';
 export class LeftSidebarComponent implements OnInit, OnDestroy {
   @Output() reload = new EventEmitter();
 
+  @Input() enableCoreJdmInClient = false;
   @Input() leftSidebarToggle = false;
+  clientAppRoot = '/' + environment.hostPath + '/';
   ngAppRoot = environment.ngAppRoot;
   leftSidebarNavigationLinks$: Observable<SidebarLink[]>;
   userContext$: Observable<UserContext>;
@@ -30,7 +31,8 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromRootState.State>,
-    private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>
+    private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>,
+    private settingsService: SettingsService
   ) {
     this.leftSidebarNavigationLinks$ = layoutStore.select(fromLayoutReducer.getLeftSidebarNavigationLinks);
     this.userContext$ = store.select(fromRootState.getUserContext);
@@ -54,6 +56,9 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   }
 
   getSidebarHref(sidebarLink: SidebarLink) {
+    if (sidebarLink.Name === 'Job Descriptions' && this.enableCoreJdmInClient === true) {
+      return this.clientAppRoot + sidebarLink.Url;
+    }
     return sidebarLink.NgAppLink ? this.ngAppRoot + sidebarLink.Url : sidebarLink.Url;
   }
 

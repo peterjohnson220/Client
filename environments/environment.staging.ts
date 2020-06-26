@@ -10,9 +10,7 @@ export const environment = {
   userVoiceLoginRedirect: '/payfactors/UserVoice/RedirectFromLogin',
   userVoiceForumId: 268517,
   ngAppRoot: '/ng/',
-  mapboxAccessToken: 'pk.eyJ1IjoicGZtYXBzIiwiYSI6ImNqaDk5bzgzYTAwa28zYXFrdjN5aG9jN2IifQ.cqCQzg8IyrwoKGrqb2wciA',
   tableauPayfactorsReportingServer: 'https://stagereports.payfactors.com/',
-  tableauPublicReportingServer: 'https://public.tableau.com/',
   defaultHomePage: '/client/dashboard',
   firstTimeLoginPage: '/client/auth/first-login',
   allowSelfRegistration: true,
@@ -23,5 +21,6 @@ export const environment = {
   hubspotRegistrationUrl: 'https://info.payfactors.com/payfactors-free-market-data-wh',
   siteAdminUrl: '/client/pf-admin',
   companyAdminUrl: '/client/admin/company-admin',
-  payfactorsFrontEndApiUrl: '/Payfactors/'
+  payfactorsFrontEndApiUrl: '/Payfactors/',
+  name: 'staging'
 };

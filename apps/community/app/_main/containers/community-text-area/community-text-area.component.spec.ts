@@ -61,17 +61,17 @@ describe('CommunityTextAreaComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
 
-    pfLinkifyService = TestBed.get(PfLinkifyService);
+    pfLinkifyService = TestBed.inject(PfLinkifyService);
 
     fixture = TestBed.createComponent(CommunityTextAreaComponent);
     instance = fixture.componentInstance;
 
     instance.parentForm = new FormBuilder().group({
-       context:   ['']
+       content:   ['']
      });
   });
 
@@ -112,7 +112,6 @@ describe('CommunityTextAreaComponent', () => {
 
   it('should onKeyDown not invoke prevent default if suggested tags empty and container is not visible', () => {
     instance.suggestedTags = [];
-    instance.suggestTagsContainerVisible = false;
 
     jest.spyOn(event, 'preventDefault');
 
@@ -125,7 +124,6 @@ describe('CommunityTextAreaComponent', () => {
     const tag = generateMockCommunityTag();
 
     instance.suggestedTags.push(tag);
-    instance.suggestTagsContainerVisible = false;
     jest.spyOn(event, 'preventDefault');
     instance.onKeyDown(event);
     expect(event.preventDefault).toBeCalledTimes(0);
@@ -175,7 +173,7 @@ describe('CommunityTextAreaComponent', () => {
     expect(instance.suggestedTags).toEqual([]);
   });
   it('should on key up empty tag suggestions ', () => {
-    instance.context.setValue('');
+    instance.content.setValue('');
     fixture.detectChanges();
 
     instance.onKeyUp(keyUp);
@@ -186,12 +184,11 @@ describe('CommunityTextAreaComponent', () => {
     const postId = '12345';
     const input = '#t';
     const matches = ['#t'];
-    const action = new fromCommunityTagActions.SuggestingCommunityTags({query: matches[0], postId: postId});
+    const action = new fromCommunityTagActions.SuggestingCommunityTags({query: matches[0]});
 
     instance.getMatches = jest.fn().mockReturnValue(matches);
-    instance.postId = postId;
 
-    instance.context.setValue(input);
+    instance.content.setValue(input);
     fixture.detectChanges();
 
     instance.onKeyUp(keyUp);

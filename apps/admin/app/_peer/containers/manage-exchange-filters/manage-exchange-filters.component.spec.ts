@@ -9,6 +9,7 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeSearchFilterAggregate, generateMockExchange, generateMockExchangeSearchFilterAggregate } from 'libs/models/peer';
+import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api/settings';
 
 import { ManageExchangeFiltersComponent } from './manage-exchange-filters.component';
 import { GridHelperService } from '../../services';
@@ -47,16 +48,20 @@ describe('Manage Exchange Filters', () => {
         {
           provide: GridHelperService,
           useValue: { loadExchangeFilters: jest.fn() }
+        },
+        {
+          provide: UiPersistenceSettingsApiService,
+          useValue: { getUiPersistenceSetting: jest.fn() }
         }
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.snapshot.parent.params.id;
-    gridHelperService = TestBed.get(GridHelperService);
+    gridHelperService = TestBed.inject(GridHelperService);
 
     spyOn(store, 'dispatch');
 
@@ -129,6 +134,7 @@ describe('Manage Exchange Filters', () => {
     const filter = generateMockExchangeSearchFilterAggregate();
     const filters: ExchangeSearchFilterAggregate[] = [filter, filter];
     // Not crazy about this but it is the most straight forward way to mock the drag and drop event and test this method. [BG]
+    // @ts-ignore
     const ddEvent: CdkDragDrop<string[]> = new class implements CdkDragDrop<string[]> {
       container: CdkDropList<string[]>;
       currentIndex = 1;

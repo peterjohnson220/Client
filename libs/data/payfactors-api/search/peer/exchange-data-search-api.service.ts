@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import {
   ExchangeDataSearchFilter, ExchangeMapResponse, SystemFilterRequest, SystemFilter,
-  FilterAggregateGroup, ExchangeExplorerContextInfo
+  FilterAggregateGroup, ExchangeExplorerContextInfo, PayMarketContext
 } from 'libs/models/peer';
 import { SearchFilter } from 'libs/models/payfactors-api/search/response';
 import {
@@ -12,7 +12,8 @@ import {
   SearchExchangeAggregationsRequest,
   ExchangeDataSearchResponse
 } from 'libs/models/payfactors-api/peer/exchange-data-search';
-import {ExchangeJobExchangeDetail} from '../../../../features/peer/models';
+import { ExchangeJobExchangeDetail } from '../../../../features/peer/models';
+import { ComphubExchangeExplorerContextRequest } from '../../../../models/peer/requests/comphub-exchange-explorer-context-request.model';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
 
@@ -31,9 +32,25 @@ export class ExchangeDataSearchApiService {
     });
   }
 
-  getExchangeExplorerContextInfo(payload: {companyJobId?: number, companyPayMarketId?: number}|{exchangeId: number}):
+  getExchangeExplorerContextInfo(
+    payload: ComphubExchangeExplorerContextRequest |
+    { companyJobId?: number, companyPayMarketId?: number } |
+    { exchangeId: number }):
     Observable<ExchangeExplorerContextInfo> {
+    const request: ComphubExchangeExplorerContextRequest = payload as ComphubExchangeExplorerContextRequest;
+    if (request && request.ExchangeJobId) {
+      return this.payfactorsApiService.post(`${this.endpoint}/GetExchangeExplorerContextInfo`, request);
+    }
+
     return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfo`, {
+      params: payload
+    });
+  }
+
+  getPayMarketContextInfo(payload: {companyJobId?: number, companyPayMarketId?: number, exchangeJobId?: number}|
+                                   {companyJobId?: number, exchangeJobId?: number, cutGuid?: string}):
+    Observable<PayMarketContext> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetPayMarketContextInfo`, {
       params: payload
     });
   }

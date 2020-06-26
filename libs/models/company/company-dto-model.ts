@@ -1,6 +1,7 @@
 import { Company } from './company.model';
 
 export interface CompanyDto extends Company {
+  AccountExecutiveUserId: number;
   PrimarySupportUserId: number;
   JDMSeniorAssociateUserId: number;
   SystemUserGroupsId: number;
@@ -40,4 +41,5 @@ export interface CompanyDto extends Company {
   Domain: string;
   CompanyColor: string;
   OrgDataAutoloaderApiKey: string;
+  CompanyDescription: string;
 }

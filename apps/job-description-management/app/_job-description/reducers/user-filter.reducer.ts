@@ -1,10 +1,9 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { JdmListFilter } from 'libs/models/user-profile';
+import { MessageHelper } from 'libs/core';
 
 import * as fromUserFilterActions from '../actions/user-filter.actions';
-
-import { MessageHelper } from '../../shared/helpers/message-helper';
 
 export interface State {
   addingUserFilter: boolean;

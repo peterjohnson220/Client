@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import { UserDataView } from '../../models';
   selector: 'pf-edit-data-view-modal',
   templateUrl: './edit-data-view-modal.component.html'
 })
-export class EditDataViewModalComponent extends AbstractBaseDataViewModal {
+export class EditDataViewModalComponent extends AbstractBaseDataViewModal implements OnChanges {
   @Input() userDataView: UserDataView;
 
   @ViewChild('editDataViewModal', { static: true }) public editDataViewModal: any;
@@ -52,6 +52,10 @@ export class EditDataViewModalComponent extends AbstractBaseDataViewModal {
         summary: this.userDataView.Summary
       });
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    super.ngOnChanges(changes);
   }
 
   private createUserDataView(): UserDataView {

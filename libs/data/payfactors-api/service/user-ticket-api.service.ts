@@ -5,10 +5,11 @@ import { Observable } from 'rxjs';
 import {
   UserTicketAttachmentDeleteRequest,
   UserTicketSearchRequest,
-  UserTicketCommentRequest
+  UserTicketCommentRequest,
+  UserTicketCreateRequest
 } from 'libs/models/payfactors-api/service/request';
 import {
-  UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse
+  UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse, SupportTeamResponse, UserTicketComment
 } from 'libs/models/payfactors-api/service/response';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { GenericKeyValue } from 'libs/models';
@@ -21,7 +22,7 @@ export class UserTicketApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  createUserTicket(uploadData: any): Observable<any> {
+  createUserTicket(uploadData: UserTicketCreateRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/CreateUserTicket`,
       { UserTicket: uploadData.UserTicket, FileData: uploadData.FileData });
   }
@@ -34,6 +35,9 @@ export class UserTicketApiService {
     return this.payfactorsApiService.get<UserTicketResponse>(`${this.endpoint}/GetUserTicket/${ticketId}`);
   }
 
+  getUserTicketUserView(ticketId: number): Observable<UserTicketResponse> {
+    return this.payfactorsApiService.get<UserTicketResponse>(`${this.endpoint}/GetUserTicketUserView/${ticketId}`);
+  }
   getCompanyDetails(companyId: number): Observable<UserTicketCompanyDetailResponse> {
     return this.payfactorsApiService
       .get<UserTicketCompanyDetailResponse>(`${this.endpoint}/GetUserTicketDetailsByCompany/${companyId}`);
@@ -72,6 +76,19 @@ export class UserTicketApiService {
 
   getUserDetail(userId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}/GetUserDetail/${userId}`);
+  }
+
+  getSupportTeam(): Observable<SupportTeamResponse[]> {
+    return this.payfactorsApiService.get<SupportTeamResponse[]>(`${this.endpoint}/GetSupportTeam`);
+  }
+
+  addNote(request: UserTicketCommentRequest): Observable<UserTicketComment> {
+    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/AddNote/${request.UserTicketId}`,
+      JSON.stringify(request.Comments), this.headers);
+  }
+
+  exportGrid(request: UserTicketSearchRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ExportTickets`, request);
   }
 
 }

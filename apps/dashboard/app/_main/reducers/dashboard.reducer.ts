@@ -7,6 +7,9 @@ import * as fromDashboardActions from '../actions/dashboard.actions';
 export interface State extends EntityState<Feature> {
   loading: boolean;
   loadingError: boolean;
+  accountExecutiveDriftUserId: number;
+  gettingDriftUserId: boolean;
+  gettingDriftUserIdError: boolean;
 }
 
 // Create entity adapter
@@ -16,7 +19,10 @@ export const adapter: EntityAdapter<Feature> = createEntityAdapter<Feature>({
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  loadingError: false
+  loadingError: false,
+  accountExecutiveDriftUserId: undefined,
+  gettingDriftUserId: false,
+  gettingDriftUserIdError: false
 });
 
 // Reducer
@@ -34,7 +40,7 @@ export function reducer(
       }
       case fromDashboardActions.LOADING_FEATURES_SUCCESS: {
         return {
-          ...adapter.addAll(action.payload, state),
+          ...adapter.setAll(action.payload, state),
           loading: false
         };
       }
@@ -43,6 +49,26 @@ export function reducer(
           ...state,
           loading: false,
           loadingError: true
+        };
+      }
+      case fromDashboardActions.GETTING_DRIFT_USER_ID: {
+        return {
+          ...state,
+          gettingDriftUserId: true
+        };
+      }
+      case fromDashboardActions.GETTING_DRIFT_USER_ID_SUCCESS: {
+        return {
+          ...state,
+          gettingDriftUserId: false,
+          accountExecutiveDriftUserId: action.payload
+        };
+      }
+      case fromDashboardActions.GETTING_DRIFT_USER_ID_ERROR: {
+        return {
+          ...state,
+          gettingDriftUserId: false,
+          gettingDriftUserIdError: true
         };
       }
       default: {
@@ -54,3 +80,6 @@ export function reducer(
 // Selector functions
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
+export const getAccountExecutiveDriftUserId = (state: State) => state.accountExecutiveDriftUserId;
+export const getGettingDriftUserId = (state: State) => state.gettingDriftUserId;
+export const getGettingDriftUserIdError = (state: State) => state.gettingDriftUserIdError;

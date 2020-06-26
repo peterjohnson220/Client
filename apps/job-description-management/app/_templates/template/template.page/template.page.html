@@ -1,0 +1,141 @@
+<pf-page-with-title-bar [returnUrl]="'/templates'">
+    <ng-container page-title>
+        <pf-template-inline [inputValue]="(template$ | async)?.TemplateName" (onSave)="saveTemplateName($event)"></pf-template-inline>
+        <span class="badge badge-danger template-indicator">Template</span>
+    </ng-container>
+
+	<ng-container page-actions *ngIf="(template$ | async)">
+		<pf-template-actions 
+            [template]="template$ | async"
+            [editingTemplate]="(editingTemplate$ | async)"
+            [editingTemplateSettings]="editingTemplateSettings"
+            [templatePublishing]="(templatePublishing$ | async)"
+            (publishTemplateClick)="publishTemplateClick($event)"
+            (discardDraftClick)="showDiscardDraftModal($event)"
+            (editClick)="beginEditing()"
+            (addSectionClick)="showAddSectionModal($event)"
+            (assignClick)="showAssignModal($event)"
+            (copyClick)="showCopyConfirmModal($event)"
+            (exportSettingsClick)="handleExportSettingsClick($event)"
+            (completeExportSettingsClick)="handleDoneWithExportSettings($event)"
+            (cancelExportSettingsClick)="handleCancelExportSettings($event)">
+		</pf-template-actions>
+	</ng-container>
+
+    <ng-container page-content>
+        <pf-async-container 
+            [smartLoadingMask]="false" 
+            [loading]="(templateLoading$ | async) || (templateCopying$ | async)" 
+            [loadingError]="(templateError$ | async)" 
+            [loadingErrorMessage]="(templateErrorMessge$ | async)"
+            [hideReloadButton]="true">
+        <div class="row pf-inner-page-content">
+            <div class="column-scroll-container col-10">
+                <div class="scroll-y column-scroll-inner">
+                    <pf-async-container [loading]="(templatePublishing$ | async)"></pf-async-container>
+                    <pf-template-job-information-section 
+                        [editing]="(editingTemplate$ | async) && !editingTemplateSettings"
+                        [availableJobInformationFields]="availableJobInformationFields$ | async"
+                        [availableJobInformationFieldsLoading]="availableJobInformationFieldsLoading$ | async"
+                        [currentJobInformationFields]="(template$ | async)?.JobInformationFields"
+                        [companyLogoPath]="companyLogoPath"
+                        [companyName]="companyName"
+                        [templateLogoPath]="(template$ | async)?.CompanyLogo"
+                        [publicBaseUrl]="publicBaseUrl"
+                        (fieldSelectorPopoverShown)="handleFieldSelectorPopoverShown()"
+                        (fieldSelectorPopoverSaved)="handleFieldSelectorPopoverSaved($event)"
+                        (uploadLogoClicked)="handleUploadLogoClicked($event)">
+                    </pf-template-job-information-section>
+
+                    <div id="template-section-container" dragula="template-section-bag">
+                      <div class="template-section" *ngFor="let section of (template$ | async)?.Sections; trackBy: trackByFn; let i = index" [attr.data-index]="i">
+                            <pf-template-section #templateSections
+                                [section]="section"
+                                [readOnly]="!(editingTemplate$ | async) || editingTemplateSettings"
+                                [templateSettings]="templateSettings$ | async"
+                                [editingTemplateSettings]="editingTemplateSettings"
+                                [controlTypesLoaded]="controlTypesLoaded$ | async"
+                                (editControlLabelClicked)="handleEditControlLabelClicked($event)"
+                                (deleteSectionClicked)="showConfirmDeleteSectionModal($event)"
+                                (editSectionClicked)="showEditSectionModal($event)"
+                                (deleteControlClicked)="showConfirmDeleteControlModal($event)"
+                                (controlDataChangesDetected)="handleControlDataChanges($event)"
+                                (controlBulkDataChangesDetected)="handleBulkControlDataChanges($event)"
+                                (controlAdditionalPropertiesChangesDetected)="handleControlAdditionalPropertiesChangesDetected($event)"
+                                (controlDataRowAdded)="handleControlDataRowAdded($event)"
+                                (controlDataRowDeleted)="handleControlDataRowDeleted($event)"
+                                (sectionSettingUpdated)="handleSectionSettingUpdated($event)"
+                                (controlSettingUpdated)="handleControlSettingUpdate($event)">
+                            </pf-template-section>
+                        </div>
+                    </div>
+                    <pf-async-container 
+                        [loading]="(templateSettingsLoading$ | async) || (templateSettingsSaving$ | async)" 
+                        [loadingError]="(templateSettingsLoadingError$ | async) || (templateSettingsSavingError$ | async)" 
+                        [loadingErrorMessage] = "(templateSettingsLoadingErrorMessage$ | async) || (templateSettingsSavingError$ | async)?.ErrorMessage"
+                        [hideReloadButton]="true">
+                    </pf-async-container>
+                </div>
+            </div>
+
+            <div class="column-scroll-container col-2">
+                <div class="scroll-y column-scroll-inner">
+                    <pf-control-container *ngIf="companyControlTypes.length"
+                        [containerName]="'Company Content Controls'"
+                        [controlTypes]="companyControlTypes"
+                        [readOnly]="!(editingTemplate$ | async) || editingTemplateSettings">
+                    </pf-control-container>
+
+                    <div *ngIf="(editingTemplate$ | async) && !editingTemplateSettings">
+                        <button type="button" class="btn btn-secondary mb-3" (click)="manageControlsClick()">
+                            <fa-icon icon="plus" aria-hidden="true"></fa-icon> Manage Company Controls
+                        </button>
+                    </div>
+
+                    <pf-control-container 
+                        [containerName]="'System Content Controls'"
+                        [controlTypes]="systemControlTypes"
+                        [readOnly]="!(editingTemplate$ | async) || editingTemplateSettings">
+                    </pf-control-container>
+
+                    <pf-async-container [loading]="(controlTypesLoading$ | async)"></pf-async-container>
+                </div>
+            </div>
+        </div>
+        </pf-async-container>
+	</ng-container>
+</pf-page-with-title-bar>
+
+<!--Modals-->
+<pf-new-section-modal (addSectionComplete)="handleAddSectionComplete($event)"></pf-new-section-modal>
+<pf-edit-section-modal [templateSection]="selectedSection" (editSectionComplete)="handleEditSectionComplete($event)"></pf-edit-section-modal>
+<pf-confirm-section-delete-modal [templateSection]="selectedSection" (deleteSectionConfirmed)="handleDeleteSectionConfirmed($event)"></pf-confirm-section-delete-modal>
+<pf-confirm-control-delete-modal [templateControl]="selectedControl" (deleteControlConfirmed)="handleDeleteControlConfirmed($event)"></pf-confirm-control-delete-modal>
+<pf-confirm-publish-template-modal [templateName]="(template$ | async)?.Name" [templateAssignmentSummary]="templateAssignmentSummary" (publishTemplateConfirmed)="handlePublishTemplateConfirmed()"></pf-confirm-publish-template-modal>
+<pf-select-template-logo-modal [companyId]="(template$ | async)?.CompanyId"
+                               (logoSelectedComplete)="handleTemplateLogoSelectedComplete($event)"></pf-select-template-logo-modal>
+<pf-upsert-control-modal [templateId]="(template$ | async)?.TemplateId"
+                             (controlAdditionalPropertiesChangesDetected)="handleControlAdditionalPropertiesChangesDetected($event)">
+</pf-upsert-control-modal>
+<pf-assign-template-to-job-modal></pf-assign-template-to-job-modal>
+<pf-copy-template-modal (copyTemplateComplete)="handleCopyTemplateComplete($event)"></pf-copy-template-modal>
+
+<pf-simple-yes-no-modal 
+	#discardDraftModal 
+	[opts]="discardDraftModalOptions" 
+	(actionConfirmed)="handleDiscardDraftConfirmed($event)">
+</pf-simple-yes-no-modal>
+
+<pf-conflict-error-modal 
+	#conflictErrorModal 
+	[errorMessage]="(templateSaveError$ | async)?.ErrorMessage" 
+	[goBackLink]="(templateSaveError$ | async)?.GoBackLink" 	
+	(onClose)="handleConflictOrSaveErrorModalClosed()">
+</pf-conflict-error-modal>
+
+<pf-save-error-modal 
+	#saveErrorModal 
+	[errorMessage]="(templateSaveError$ | async)?.ErrorMessage" 
+	[goBackLink]="(templateSaveError$ | async)?.GoBackLink" 
+	(onClose)="handleConflictOrSaveErrorModalClosed()">
+</pf-save-error-modal>

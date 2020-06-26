@@ -1,0 +1,58 @@
+@import 'libs/styles/perfect-scrollbar-overrides';
+
+.page {
+  background-color: #ffffff;
+  padding: 2rem;
+  height: 100%;
+
+  .title {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: #306589;
+  }
+}
+
+.status-column {
+  .circle-icon {
+    font-size: 0.7rem;
+    margin-right: 1rem;
+  }
+
+  .yellow {
+    color: #FCC303;
+  }
+
+  .green {
+    color: #71B344;
+  }
+
+  .blue {
+    color: #0074E0;
+  }
+
+  .light-blue {
+    color: #4F95D5
+  }
+}
+
+.ticket-type {
+  border: 1px solid red;
+}
+
+:host ::ng-deep .k-grid-norecords {
+  background-color: white !important;
+}
+
+.img-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.badge-private {
+  background-color: #808080;
+  color: #ffffff;
+  padding: 0.2rem 0.5rem;
+  margin-top: 4px;
+}

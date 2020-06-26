@@ -1,5 +1,9 @@
-<div 
-  class="association-status" 
-  [ngClass]="getAssociationClass()" 
-  [title]="getAssociationLabel()">
+<div
+  class="association-status"
+  [ngClass]="getAssociationClass()"
+  [title]="statusLabel">
+</div>
+
+<div *ngIf="showStatusLabel" class="status-label">
+  {{statusLabel}}
 </div>

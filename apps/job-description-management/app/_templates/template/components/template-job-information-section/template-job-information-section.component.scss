@@ -1,0 +1,38 @@
+.card-header {
+    font-size: 16px;
+}
+
+.table td {
+    padding: .5rem;
+}
+
+.template-logo-hover-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(36, 62, 206, 0.6);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .2s, visibility .2s;
+}
+
+.img-wrap:hover .template-logo-hover-overlay {
+  visibility: visible;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.img-description {
+  transition: .2s;
+  transform: translateY(1em);
+}
+
+.img-wrap:hover .img-description {
+  transform: translateY(0);
+}

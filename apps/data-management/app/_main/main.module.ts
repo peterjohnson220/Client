@@ -8,16 +8,16 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbAlertModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbTabsetModule, NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { SwitchModule } from '@progress/kendo-angular-inputs';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
-import { LoaderSettingsEffects } from 'libs/features/org-data-loader/state/effects/loader-settings.effects';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -27,8 +27,8 @@ import {
   EntityUploadComponent,
   FileMappingComponent,
   PfCheckboxComponent,
+  ProviderListComponent
 } from './components';
-import { FileUploadComponent } from './components/file-upload';
 import {
   CustomEmployeeIdentifierComponent,
   DataManagementHomePageComponent,
@@ -40,6 +40,7 @@ import {
   HrisIntegrationPanelComponent,
   HrisIntegrationSidebarComponent,
   HrisIntegrationStatusComponent,
+  HrisReAuthenticationModalComponent,
   OrgDataLoadComponent,
   PfTestAuthenticationComponent,
   ProviderCardComponent,
@@ -55,8 +56,8 @@ import {
   WorkdayRestAuthenticationComponent,
   InboundEntitySelectionPageComponent,
   InboundAuthenticationPageComponent,
+  InboundProvidersPageComponent,
   OutboundAuthenticationPageComponent,
-  OutboundEntitySelectionPageComponent,
   OutboundFieldMappingPageComponent,
   OutboundJdmViewSelectionPageComponent,
   OutboundProviderSelectionPageComponent,
@@ -68,18 +69,19 @@ import {
   EntityIdentifiersEffects,
   EntitySelectionEffects,
   FieldMappingEffects,
-  FileUploadEffects,
   HrisConnectionEffects,
+  OnDemandSyncEffects,
   OrganizationalDataPageEffects,
   OrgDataFieldMappingsEffects,
   OutboundJdmEffects,
   TransferDataPageEffects,
   TransferScheduleEffects,
+  ProviderListEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
-import { GetSupportedSchedulesPipe } from './pipes';
+import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pipes';
 
 @NgModule({
   imports: [
@@ -100,20 +102,25 @@ import { GetSupportedSchedulesPipe } from './pipes';
       EntityIdentifiersEffects,
       EntitySelectionEffects,
       FieldMappingEffects,
-      FileUploadEffects,
       HrisConnectionEffects,
+      OnDemandSyncEffects,
       OrganizationalDataPageEffects,
       OrgDataFieldMappingsEffects,
       OutboundJdmEffects,
       TransferDataPageEffects,
       TransferScheduleEffects,
+      EntityIdentifiersEffects,
+      EntitySelectionEffects,
+      ProviderListEffects
     ]),
     FontAwesomeModule,
+    NgbDropdownModule,
     NgbTabsetModule,
     NgbTooltipModule,
     NgbAlertModule,
     UploadModule,
     LayoutModule,
+    SwitchModule,
 
     // Payfactors
     PfCommonModule,
@@ -125,6 +132,7 @@ import { GetSupportedSchedulesPipe } from './pipes';
   ],
   declarations: [
     // Pipes
+    OrgDataEntityTypeToDisplayName,
     GetSupportedSchedulesPipe,
 
     // Pages
@@ -134,7 +142,6 @@ import { GetSupportedSchedulesPipe } from './pipes';
     InboundAuthenticationPageComponent,
     InboundEntitySelectionPageComponent,
     OutboundAuthenticationPageComponent,
-    OutboundEntitySelectionPageComponent,
     OutboundFieldMappingPageComponent,
     OutboundJdmViewSelectionPageComponent,
     OutboundProviderSelectionPageComponent,
@@ -150,12 +157,12 @@ import { GetSupportedSchedulesPipe } from './pipes';
     EntityUploadComponent,
     EntityMappingComponent,
     FileMappingComponent,
-    FileUploadComponent,
     FieldMappingCardComponent,
     HrisAuthenticationCardComponent,
     HrisIntegrationPanelComponent,
     HrisIntegrationSidebarComponent,
     HrisIntegrationStatusComponent,
+    HrisReAuthenticationModalComponent,
     OrgDataLoadComponent,
     PfCheckboxComponent,
     PfTestAuthenticationComponent,
@@ -177,14 +184,15 @@ import { GetSupportedSchedulesPipe } from './pipes';
     PfCheckboxComponent,
     InboundEntitySelectionPageComponent,
     InboundAuthenticationPageComponent,
+    InboundProvidersPageComponent,
     FieldMappingPageComponent,
     OutboundProviderSelectionPageComponent,
-    OutboundEntitySelectionPageComponent,
     OutboundFieldMappingPageComponent,
     OutboundAuthenticationPageComponent,
     OutboundTransferSchedulePageComponent,
     OutboundJdmViewSelectionPageComponent,
-    OutboundTransferScheduleSummaryComponent
+    OutboundTransferScheduleSummaryComponent,
+    ProviderListComponent
   ]
 })
 export class MainModule {

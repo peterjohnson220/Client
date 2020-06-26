@@ -8,21 +8,15 @@
   opacity: 0.5;
 }
 
-.sidebar-container{
+.sidebar-container {
   background: $data-grid-filter-panel-background-color;
 }
 
-.sidebar-header{
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  height: 40px;
-  border-bottom: 2px solid #eceeef;
-  background: $data-grid-filter-panel-background-color;
+.sidebar-header {
+  height: 53px;
 }
 
-.sidebar-content{
-  top: 40px;
+.sidebar-content {
   left: 0px;
   right: 0px;
   bottom: 0px;

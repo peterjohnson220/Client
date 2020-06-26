@@ -27,20 +27,6 @@ export class LoaderConfigurationGroupsEffects {
       )
     );
 
-  @Effect()
-  saveConfigurationGroup: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromConfigurationGroupActions.SAVING_CONFIGURATION_GROUP),
-      switchMap((action: fromConfigurationGroupActions.SavingConfigurationGroup) =>
-        this.loaderConfigurationGroupsApi.saveConfigurationGroup(action.payload).pipe(
-          map((result: ConfigurationGroup) => {
-            return new fromConfigurationGroupActions.SavingConfigurationGroupSuccess(result);
-          }),
-          catchError(error => of(new fromConfigurationGroupActions.SavingConfigurationGroupError()))
-        )
-      )
-    );
-
   constructor(private actions$: Actions,
               private loaderConfigurationGroupsApi: ConfigurationGroupApiService) {}
 }

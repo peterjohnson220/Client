@@ -16,6 +16,7 @@ export interface TicketDetail {
   TicketCssClass: string;
   Description: string;
   Comments: TicketComment[];
+  TicketTitle?: string;
 }
 
 export function generateMockTicketDetail() {

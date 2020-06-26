@@ -1,17 +1,27 @@
+import { find, isEmpty } from 'lodash';
+
 import { ImportDataType, OrgDataEntityType, TransferMethodTypes} from 'libs/constants/hris-api';
+import { LoaderFileFormat, LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
+import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import {
   AuthenticationTypeResponse,
   ConnectionPostRequest,
+  ConnectionSummaryResponse,
   CredentialsPackage,
+  FieldMappingsDTO,
+  LoaderSettingsDTO,
   MappingPackage,
+  MappingPayloadItem,
   PayfactorsEntityFieldsResponse,
   ProviderEntitiyFieldsResponse,
   ProviderResponse,
+  ProviderSupportedEntityDTO,
+  SyncScheduleDtoModel,
   TransferMethodResponse,
-  ProviderSupportedEntityDTO, TransferScheduleSummary, SyncScheduleDtoModel,
-  MappingPayloadItem,
-  ConnectionSummaryResponse
-} from 'libs/models/hris-api';
+  TransferScheduleSummary,
+  UserContext,
+  PatchProperty,
+} from 'libs/models';
 
 import {
   AuthenticationType,
@@ -101,12 +111,20 @@ export class PayfactorsApiModelMapper {
     }
   }
 
-  static createConnectionPostRequest(request: CredentialsPackage, companyId: number, providerId: number): ConnectionPostRequest {
+  static createConnectionPostRequest(
+    request: CredentialsPackage,
+    companyId: number,
+    providerId: number,
+    validationMode: boolean,
+    loaderConfigurationGroupId?: number,
+  ): ConnectionPostRequest {
     return {
       connection: {
         company_ID: companyId,
         provider_ID: providerId,
-        active: true
+        active: true,
+        loaderConfigurationGroupId,
+        validationMode: validationMode
       },
       credentialsPackage: request
     };
@@ -135,6 +153,8 @@ export class PayfactorsApiModelMapper {
         FieldName: pef.name,
         DisplayName: pef.name,
         HasAssociation: false,
+        Metadata: pef.metadata,
+        IsArray: pef.isArray,
         DataType: ImportDataType[pef.dataType]
       };
     });
@@ -145,12 +165,13 @@ export class PayfactorsApiModelMapper {
       mappingPayload: {
         items: Object.entries(request)
           .map(([entityType, fields]) => this.getMappingsForEntity(entityType, fields))
-          .filter( mpi => mpi.mappings.length > 0)
+          .filter( mpi => mpi.mappings.length > 0
+            && mpi.orgDataEntityType !== OrgDataEntityType.JobDescriptions ) // TODO: Remove this once we start on actual outbound integration
       }
     };
   }
 
-  static getMappingsForEntity(entityType: string , fields: EntityDataField[]): MappingPayloadItem {
+  static getMappingsForEntity(entityType: string, fields: EntityDataField[]): MappingPayloadItem {
     return {
       orgDataEntityType: entityType,
       mappings: fields.filter(field => field.AssociatedEntity && field.AssociatedEntity.length > 0)
@@ -159,13 +180,32 @@ export class PayfactorsApiModelMapper {
         sourceField: field.AssociatedEntity[0].FieldName,
         sourceMetadata: {
           dataType: field.AssociatedEntity[0].DataType,
-          isArray: false,
-          metaData: {},
+          isArray: field.AssociatedEntity[0].IsArray,
+          metaData: field.AssociatedEntity[0].Metadata,
           name: field.AssociatedEntity[0].FieldName
         }
       }))
     };
   }
+
+  static getLoadersMappings = (companyId: number, connectionSummary: ConnectionSummary, mappings: EntityField): FieldMappingsDTO => ({
+    companyId,
+    mappings: Object.entries(mappings)
+      .filter(([entityType]) => entityType !== OrgDataEntityType.JobDescriptions)
+      .map(([entityType, fields]: [string, EntityDataField[]]) => {
+        const result = {
+          LoaderType: entityType,
+          Mappings: fields.filter(field => !isEmpty(field.AssociatedEntity)).map(field => `${field.FieldName}__${field.FieldName}`),
+        };
+
+        if (find(fields, (field: EntityDataField) => field.FieldName === 'PayMarket' && isEmpty(field.AssociatedEntity))) {
+          result.Mappings.push('PayMarket__PayMarket');
+        }
+
+        return (result);
+    }),
+    loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId
+  })
 
   static mapEntitySelectionResponseToEntitySelection(response: ProviderSupportedEntityDTO[]): EntityChoice[] {
     return response.map(p => {
@@ -236,7 +276,9 @@ export class PayfactorsApiModelMapper {
       canEditMappings: connectionSummary.canEditMappings,
       statuses: connectionSummary.statuses,
       selectedEntities: connectionSummary.selectedEntities.map(e => OrgDataEntityType[e]),
-      connectionID: connectionSummary.connection_ID
+      connectionID: connectionSummary.connection_ID,
+      loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId,
+      validationMode: connectionSummary.validationMode
     };
   }
 
@@ -253,5 +295,46 @@ export class PayfactorsApiModelMapper {
     return entityChoices.filter(e => e.isChecked).map(e => {
       return e.dbName as OrgDataEntityType;
     });
+  }
+
+  static getLoaderSettingsForConnection = (summary: ConnectionSummary): LoaderSettings => ({
+    isActive: true,
+    isCompanyOnAutoloader: false,
+    delimiter: null,
+    dateFormat: null,
+    isEmployeesLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Employees),
+    isJobsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Jobs),
+    isPaymarketsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.PayMarkets),
+    isStructuresLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Structures),
+    isStructureMappingsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.StructureMappings),
+    fileFormat: LoaderFileFormat.JSON,
+
+    // TODO: we need a UI to determine these settings
+    isEmployeesFullReplace: false,
+    isStructureMappingsFullReplace: false,
+    validateOnly: summary.validationMode,
+  })
+
+  static getLoaderSettingsDtoForConnection = (userContext: UserContext, summary: ConnectionSummary): LoaderSettingsDTO => ({
+    companyId: userContext.CompanyId,
+    loaderConfigurationGroupId: summary.loaderConfigurationGroupId,
+    settings: OrgDataLoadHelper.getLoaderSettingsToSave(PayfactorsApiModelMapper.getLoaderSettingsForConnection(summary), []),
+  })
+
+  static getDisabledLoaderSettingsDtoForConnection = (userContext: UserContext, summary: ConnectionSummary): LoaderSettingsDTO => ({
+    companyId: userContext.CompanyId,
+    loaderConfigurationGroupId: summary.loaderConfigurationGroupId,
+    settings: [{
+      LoaderSettingsId: undefined,
+      KeyName: LoaderSettingsKeys.IsActive,
+      KeyValue: 'false',
+    }],
+  })
+
+  static getPatchPropertyListFromObject(obj: object): PatchProperty[] {
+    return Object.keys(obj).map(key => ({
+      PropertyName: key,
+      PropertyValue: obj[key],
+    }));
   }
 }

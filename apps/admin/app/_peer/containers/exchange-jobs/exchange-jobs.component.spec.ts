@@ -50,10 +50,10 @@ describe('Exchange Jobs', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.snapshot.parent.params.id;
-    gridHelperService = TestBed.get(GridHelperService);
+    gridHelperService = TestBed.inject(GridHelperService);
 
     spyOn(store, 'dispatch');
 

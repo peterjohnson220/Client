@@ -1,4 +1,7 @@
+import { FieldFormatType, DataViewField, DataViewFieldDataType, DataViewFieldType } from 'libs/models/payfactors-api/reports';
+
 import { DataViewAccessLevel } from './user-data-view.model';
+import { formatTypeMapping, getKendoNumericFormatFromFormat } from '../helpers/field-format.helper';
 
 export interface Field {
   EntityId: number;
@@ -10,12 +13,13 @@ export interface Field {
   KendoGridField?: string;
   DataType?: FieldDataType;
   IsSelected?: boolean;
+  IsActive?: boolean;
   IsSortable: boolean;
   Order?: number;
   DataElementOrder?: number;
   FormulaId?: number;
   FieldType: FieldType;
-  Format?: string;
+  FieldFormat?: FieldFormat;
   IsEditable?: boolean;
   Formula?: string;
   FormulaName?: string;
@@ -23,6 +27,18 @@ export interface Field {
   SortDirection?: 'asc' | 'desc';
   IsPublic?: boolean;
   AccessLevel: DataViewAccessLevel;
+  Is?: Is;
+  KendoGridConfig?: KendoGridConfig;
+}
+
+interface Is {
+  Numeric: boolean;
+  Date: boolean;
+  Formula: boolean;
+}
+
+interface KendoGridConfig {
+  ColumnMenuEnabled: boolean;
 }
 
 export interface FieldListItem {
@@ -30,6 +46,60 @@ export interface FieldListItem {
   IsSelected: boolean;
   DisplayName: string;
   FieldListItemId: string;
+}
+
+export interface FieldFormat {
+  Value: string;
+  Type: FieldFormatType;
+  Format: string;
+  KendoNumericFormat?: string;
+}
+
+export class FieldCreator {
+  static generateIsProperty(dataViewField: DataViewField): Is {
+    return {
+      Numeric: dataViewField.DataType === DataViewFieldDataType.Int || dataViewField.DataType === DataViewFieldDataType.Float,
+      Date: dataViewField.DataType === DataViewFieldDataType.DateTime,
+      Formula: dataViewField.FieldType === DataViewFieldType.Formula
+    };
+  }
+
+  static generateFieldFormatProperty(dataViewField: DataViewField): FieldFormat {
+    const isNumericField: boolean = dataViewField.DataType === DataViewFieldDataType.Int || dataViewField.DataType === DataViewFieldDataType.Float;
+    const isDateField: boolean = dataViewField.DataType === DataViewFieldDataType.DateTime;
+    if (!isNumericField && !isDateField) {
+      return null;
+    }
+    if (!dataViewField.Format) {
+      return {
+        Value: null,
+        Type: formatTypeMapping[dataViewField.DataType],
+        Format: isDateField ? 'MM/dd/yyyy' : null,
+        KendoNumericFormat: isNumericField ? 'n' : null
+      };
+    }
+    const parsedFormat: string[] = dataViewField.Format.split(':');
+    const format: string = parsedFormat.length === 2 ? parsedFormat[1] : dataViewField.Format;
+    const kendoFormat: string = isNumericField
+      ? getKendoNumericFormatFromFormat(format, dataViewField.FormatType)
+      : null;
+    const value: string = parsedFormat.length === 2 ? dataViewField.Format : `${dataViewField.FormatType}:${format}`;
+    return {
+      Value: value,
+      Type: dataViewField.FormatType,
+      Format: format,
+      KendoNumericFormat: kendoFormat
+    };
+  }
+
+  static generateKendoGridConfigProperty(dataViewField: DataViewField): KendoGridConfig {
+    const isNumericField: boolean = dataViewField.DataType === DataViewFieldDataType.Int || dataViewField.DataType === DataViewFieldDataType.Float;
+    const isDateField: boolean = dataViewField.DataType === DataViewFieldDataType.DateTime;
+    const isFormulaField: boolean = dataViewField.FieldType === DataViewFieldType.Formula;
+    return {
+      ColumnMenuEnabled: (isNumericField || isDateField || isFormulaField)
+    };
+  }
 }
 
 export enum FieldDataType {
@@ -60,8 +130,21 @@ export function generateMockField(): Field {
     KendoGridField: 'CompanyJobs.Job_Title',
     IsSortable: true,
     FieldType: FieldType.DataElement,
-    Format: 'N1',
+    FieldFormat: generateMockFieldFormat(),
     FormulaName: 'Formula Name',
-    AccessLevel: DataViewAccessLevel.Owner
+    AccessLevel: DataViewAccessLevel.Owner,
+    Is: {
+      Numeric: false,
+      Date: false,
+      Formula: false
+    }
+  };
+}
+
+export function generateMockFieldFormat(): FieldFormat {
+  return {
+    Value: 'percent:1.2-2',
+    Type: FieldFormatType.Percent,
+    Format: '1.2-2'
   };
 }

@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromFiltersActions from '../../actions/filters.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Filter, Field, GetFilterOptionsData, generateDefaultFilter } from '../../models';
+import { Field, FieldType, Filter, generateDefaultFilter, GetFilterOptionsData } from '../../models';
 
 @Component({
   selector: 'pf-data-view-filters',
@@ -14,37 +14,44 @@ import { Filter, Field, GetFilterOptionsData, generateDefaultFilter } from '../.
 })
 export class FiltersComponent implements OnInit, OnDestroy {
   pendingFilters$: Observable<Filter[]>;
+  activeFilters$: Observable<Filter[]>;
   filtersValid$: Observable<boolean>;
-  activeFiltersCount$: Observable<number>;
   selectedFields$: Observable<Field[]>;
 
   pendingFiltersSub: Subscription;
-  activeFiltersCountSub: Subscription;
+  activeFiltersSub: Subscription;
   selectedFieldsSub: Subscription;
 
   changesMade = false;
   pendingFilters: Filter[];
+  activeFilters: Filter[];
   activeFiltersCount: number;
-  selectedFields: Field[];
+  availableFieldsForFilters: Field[] = [];
 
   constructor(
     public store: Store<fromDataInsightsMainReducer.State>
   ) {
     this.pendingFilters$ = this.store.pipe(select(fromDataInsightsMainReducer.getPendingFilters));
+    this.activeFilters$ = this.store.pipe(select(fromDataInsightsMainReducer.getActiveFilters));
     this.filtersValid$ = this.store.pipe(select(fromDataInsightsMainReducer.getPendingFiltersValid));
-    this.activeFiltersCount$ = this.store.pipe(select(fromDataInsightsMainReducer.getActiveFiltersCount));
     this.selectedFields$ = this.store.pipe(select(fromDataInsightsMainReducer.getSelectedFields));
   }
 
   ngOnInit(): void {
     this.pendingFiltersSub = this.pendingFilters$.subscribe(filters => this.pendingFilters = filters);
-    this.activeFiltersCountSub = this.activeFiltersCount$.subscribe(count => this.activeFiltersCount = count);
-    this.selectedFieldsSub = this.selectedFields$.subscribe(fields => this.selectedFields = fields);
+    this.activeFiltersSub = this.activeFilters$.subscribe(filters => {
+      this.activeFilters = filters || [];
+      this.activeFiltersCount = this.activeFilters.length;
+      this.setAvailableFields(this.availableFieldsForFilters);
+    });
+    this.selectedFieldsSub = this.selectedFields$.subscribe(fields => {
+      this.setAvailableFields(fields);
+    });
   }
 
   ngOnDestroy(): void {
     this.pendingFiltersSub.unsubscribe();
-    this.activeFiltersCountSub.unsubscribe();
+    this.activeFiltersSub.unsubscribe();
     this.selectedFieldsSub.unsubscribe();
   }
 
@@ -53,10 +60,10 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   handleAddFilterClicked(): void {
-    if (!this.selectedFields) {
+    if (!this.availableFieldsForFilters) {
       return;
     }
-    const filter: Filter = generateDefaultFilter(this.selectedFields[0]);
+    const filter: Filter = generateDefaultFilter(this.availableFieldsForFilters[0]);
     this.store.dispatch(new fromFiltersActions.AddFilter(filter));
   }
 
@@ -79,6 +86,17 @@ export class FiltersComponent implements OnInit, OnDestroy {
   handleApplyFilterClicked(): void {
     this.store.dispatch(new fromFiltersActions.ApplyFilters());
     this.changesMade = false;
+  }
+
+  private existsInLockedFilter(field: Field): boolean {
+    if (field.FieldType === FieldType.DataElement) {
+      return this.activeFilters.some(a => a.IsLocked && a.Field.DataElementId === field.DataElementId);
+    }
+    return this.activeFilters.some(a => a.IsLocked && a.Field.FormulaId === field.FormulaId);
+  }
+
+  private setAvailableFields(fields: Field[]) {
+    this.availableFieldsForFilters = fields.filter(f => !this.existsInLockedFilter(f));
   }
 }
 

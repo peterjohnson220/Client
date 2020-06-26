@@ -9,28 +9,45 @@
 </div>
 <ng-template #job_not_sumbitted>
 <div class="form-group required-indicator" [formGroup]="communityJobForm" >
-    <label for="positionTitle" class="control-label col-3 px-0">Position Title</label>
-    <div class="input col-9 pt-2 pb-4 pr-0">
-      <input #positionTitle
+  <div class="row input-row">
+    <label for="positionTitle" class="control-label col-3 p-0">Position Title</label>
+    <div class="input col-9">
+      <input
+          [ngClass]="{ 'is-invalid': !positionTitle.valid && positionTitle.touched }"
           type="text"
           data-qa-id="txt-positionTitle"
-          class="form-control input-body community-border-radius"
+          class="form-control"
           formControlName="positionTitle"
           [maxLength]="textMaxLength">
+      <span *ngIf="!positionTitle.valid && positionTitle.touched" class="text-danger">Position is required</span>
     </div>
-    <label for="location" class="control-label col-3 px-0">Locations</label>
-    <div class="input col-9 pt-2 pb-4 pr-0">
-      <pf-location-search [parentForm]="communityJobForm" [textMaxLength]="textMaxLength" (suggestedLocationChanged)="onSuggestedLocationChange($event)"></pf-location-search>
+  </div>
+  <div class="row input-row">
+    <label for="location" class="control-label col-3 p-0">Locations</label>
+    <div class="input col-9">
+      <div  [ngClass]="{ 'is-invalid-input': !location.valid && location.touched }">
+        <pf-location-search
+          [parentForm]="communityJobForm" 
+          [textMaxLength]="textMaxLength" 
+          (suggestedLocationChanged)="onSuggestedLocationChange($event)">
+        </pf-location-search>
+      </div>
+      <span *ngIf="!location.valid && location.touched" class="text-danger">Location is required</span>
     </div>
-    <label for="postingUrl" class="control-label col-3 px-0">Posting URL</label>
-    <div class="input col-9 pb-4 pr-0">
-      <input #postingUrl
-          type="url"
-          data-qa-id="txt-positionUrl"
-          class="form-control input-body community-border-radius"
-          formControlName="postingUrl"
-          placeholder="http://"
-          pattern="https?://.+">
+  </div>
+  <div class="row posting-url-row">
+    <label for="postingUrl" class="control-label col-3 p-0">Posting URL</label>
+    <div class="input col-9">
+      <input
+        [ngClass]="{ 'is-invalid': !postingUrl.valid && postingUrl.touched }"
+        type="url"
+        data-qa-id="txt-positionUrl"
+        class="form-control"
+        formControlName="postingUrl"
+        placeholder="http://"
+        pattern="https?://.+">
+      <span *ngIf="!postingUrl.valid && postingUrl.touched" class="text-danger">Valid url is required</span>
     </div>
+  </div>
 </div>
 </ng-template>

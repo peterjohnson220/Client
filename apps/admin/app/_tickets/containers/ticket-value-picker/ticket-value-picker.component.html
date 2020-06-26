@@ -1,4 +1,4 @@
-<div *ngIf="showLabel" class="w-100"
+<div *ngIf="showLabel" class="w-100 label-view"
       (click)="switchView()">
   <div *ngIf="selectedValue">
     <img *ngIf="pickerType === ticketFieldType.STATUS"
@@ -9,7 +9,7 @@
     {{selectedValue[textField]}}
   </div>
   <span *ngIf="!selectedValue">&nbsp;</span>
-
+  <ng-content select="[beside-label]"></ng-content>
 </div>
 
 <kendo-combobox *ngIf="!showLabel"

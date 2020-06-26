@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -6,6 +6,9 @@ import { Observable, Subscription, Subject } from 'rxjs';
 import { filter, first, take, takeWhile } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
 import * as cloneDeep from 'lodash.clonedeep';
+
+import * as signalR from '@microsoft/signalr';
+import { LogLevel } from '@microsoft/signalr';
 
 import {
   JobDescription,
@@ -39,6 +42,7 @@ import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromJobDescriptionLibraryActions from '../../../../shared/actions/job-description-library.actions';
+import * as fromCompanyLogoActions from '../../../../shared/actions/company-logo.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
 import * as fromWorkflowActions from '../../../actions/workflow.actions';
 import { JobDescriptionActionsComponent } from '../../job-description-actions';
@@ -54,6 +58,8 @@ import { JobDescriptionHelper } from '../../../helpers';
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
 import * as fromWorkflowTemplateListActions from '../../../../shared/actions/shared-workflow.actions';
+import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
+
 
 @Component({
   selector: 'pf-job-description-page',
@@ -62,41 +68,42 @@ import * as fromWorkflowTemplateListActions from '../../../../shared/actions/sha
 })
 export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild('discardDraftModal', { static: true }) public discardDraftModal: SimpleYesNoModalComponent;
-  @ViewChild('jobMatchesModalComponent', { static: false }) public jobMatchesModalComponent: JobMatchesModalComponent;
-  @ViewChild(ChangeApproverModalComponent, { static: false }) public changeApproverModal: ChangeApproverModalComponent;
-  @ViewChild(CopyJobDescriptionModalComponent, { static: false }) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
+  @ViewChild('jobMatchesModalComponent') public jobMatchesModalComponent: JobMatchesModalComponent;
+  @ViewChild(ChangeApproverModalComponent) public changeApproverModal: ChangeApproverModalComponent;
+  @ViewChild(CopyJobDescriptionModalComponent) public copyJobDescriptionModal: CopyJobDescriptionModalComponent;
   @ViewChild(EmployeeAcknowledgementModalComponent, {static: true }) public employeeAcknowledgementModal: EmployeeAcknowledgementModalComponent;
   @ViewChild(ExportJobDescriptionModalComponent, { static: true }) public exportJobDescriptionModalComponent: ExportJobDescriptionModalComponent;
   @ViewChild(FlsaQuestionnaireModalComponent, { static: true }) public flsaQuestionnaireModal: FlsaQuestionnaireModalComponent;
   @ViewChild(JobDescriptionActionsComponent, { static: true }) public actionsComponent: JobDescriptionActionsComponent;
-  @ViewChild(JobDescriptionAppliesToModalComponent, { static: false }) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
-  @ViewChild(WorkflowCancelModalComponent, { static: false }) public workflowCancelModal: WorkflowCancelModalComponent;
-  @ViewChild(WorkflowSetupModalComponent, { static: false }) public workflowSetupModal: WorkflowSetupModalComponent;
+  @ViewChild(JobDescriptionAppliesToModalComponent) public jobDescriptionAppliesToModalComponent: JobDescriptionAppliesToModalComponent;
+  @ViewChild(WorkflowCancelModalComponent) public workflowCancelModal: WorkflowCancelModalComponent;
+  @ViewChild(WorkflowSetupModalComponent) public workflowSetupModal: WorkflowSetupModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishing$: Observable<boolean>;
   identity$: Observable<UserContext>;
   userAssignedRoles$: Observable<UserAssignedRole[]>;
-  company$: Observable<AsyncStateObj<CompanyDto>>;
+  company$: Observable<CompanyDto>;
   enablePublicViewsInClient$: Observable<boolean>;
+  requireSSOLogin$: Observable<boolean>;
   controlTypesAsync$: Observable<AsyncStateObj<ControlType[]>>;
   editingJobDescription$: Observable<boolean>;
   savingJobDescription$: Observable<boolean>;
   jobDescriptionLibraryBuckets$: Observable<AsyncStateObj<JobDescriptionLibraryBucket[]>>;
   jobDescriptionLibraryResults$: Observable<AsyncStateObj<JobDescriptionLibraryResult[]>>;
-  jobDescriptionRevision$: Observable<number>;
   jobDescriptionExtendedInfo$: Observable<JobDescriptionExtendedInfo>;
   acknowledging$: Observable<boolean>;
   employeeAcknowledgementInfo$: Observable<AsyncStateObj<EmployeeAcknowledgement>>;
   employeeAcknowledgementErrorMessage$: Observable<string>;
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   completedStep$: Observable<boolean>;
-
+  gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
+  jobDescriptionSSOLoginUrl$: Observable<string>;
+  jobDescriptionSSOAuthResult$: Observable<string>;
 
   jobDescriptionSubscription: Subscription;
   routerParamsSubscription: Subscription;
   identitySubscription: Subscription;
-  revisionSubscription: Subscription;
   companySubscription: Subscription;
   saveThrottleSubscription: Subscription;
   savingJobDescriptionSubscription: Subscription;
@@ -107,8 +114,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   editingSubscription: Subscription;
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
+  jobDescriptionSSOLoginUrlSubscription: Subscription;
 
   companyName: string;
+  emailAddress: string;
   companyLogoPath: string;
   jobDescription: JobDescription;
   enableLibraryForRoutedJobDescriptions: boolean;
@@ -122,6 +131,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   isFirstSave = true;
   queueSave = false;
   tokenId: string;
+  ssoTokenId: string;
+  ssoAgentId: string;
   identity: UserContext;
   identityInEmployeeAcknowledgement: boolean;
   isSiteAdmin = false;
@@ -145,13 +156,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     private jobDescriptionManagementDndService: JobDescriptionManagementDnDService,
     private jobDescriptionDnDService: JobDescriptionDnDService
 ) {
-    this.company$ = this.store.select(fromJobDescriptionReducers.getCompanyAsync);
+    this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
     this.userAssignedRoles$ = this.userContextStore.select(fromRootState.getUserAssignedRoles);
     this.enablePublicViewsInClient$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.JDMPublicViewsUseClient
+      CompanySettingsEnum.JDMCoreUseClient
     );
+
+    this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
+    );
+
     this.controlTypesAsync$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersionAsync);
     this.hasCanEditJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_EDIT_JOB_DESCRIPTION],
       PermissionCheckEnum.Single);
@@ -160,23 +176,31 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionLibraryBuckets$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getBucketsAsync);
     this.jobDescriptionLibraryResults$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getResultsAsync);
     this.jobDescriptionExtendedInfo$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfo);
+    this.gettingJobDescriptionExtendedInfoSuccess$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionExtendedInfoAsync);
     this.jobDescriptionPublishing$ = this.store.select(fromJobDescriptionReducers.getPublishingJobDescription);
     this.acknowledging$ = this.store.select(fromJobDescriptionReducers.getAcknowledging);
     this.employeeAcknowledgementInfo$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementAsync);
     this.employeeAcknowledgementErrorMessage$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementErrorMessage);
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
     this.completedStep$ = this.store.select(fromJobDescriptionReducers.getCompletedStep);
+    this.jobDescriptionSSOLoginUrl$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOLoginUrl);
+    this.jobDescriptionSSOAuthResult$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthResult);
     this.saveThrottle = new Subject();
-    this.defineDiscardDraftModalOptions();
   }
 
   ngOnInit(): void {
     this.initSubscriptions();
     this.initSaveThrottle();
+    this.defineDiscardDraftModalOptions();
 
     // we need the setting to check if we should redirect back to NG, but that call isn't made in public views, so fire an action to do that
     if (this.identity.IsPublic) {
       this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
+    }
+
+    if (this.tokenId && this.identityInWorkflow) {
+      this.initSignalRConnection(); // sets isBeingViewed to false on signalR disconnect
+      this.store.dispatch(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewed({jwt: this.tokenId, isBeingViewed: true}));
     }
   }
 
@@ -197,18 +221,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   appliesToFormCompleted(selected: any) {
-    // const newJobDescription = new CompanyJobViewListItem();
-    // newJobDescription.CompanyJobId = selected.companyJobId;
-    // var companyJobToAssign = newJobDescription.CompanyJobId;
-    // var companyJobToUnassign = [];
-    // if(selected.templateId == -1) {
-    //     this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
-    // } else {
-    //     this.templateService.saveCompanyJobsJobDescriptionTemplateId(selected.templateId,[companyJobToAssign],companyJobToUnassign).subscribe( () => {
-    //         this.createJobDescriptionAndNavigate(newJobDescription, selected.jobDescriptionAppliesTo);
-    //     });
-
-    // }
+    this.store.dispatch(new fromJobDescriptionActions.UpdateJobDescriptionAppliesToValues(selected.jobDescriptionAppliesTo));
+    this.saveThrottle.next(true);
   }
 
   goBack(): void {
@@ -318,6 +332,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   handleRouteForApprovalClicked(): void {
+    if ( !this.identity.IsPublic && this.jobDescription) {
+      this.store.dispatch(new fromWorkflowTemplateListActions.Load(this.jobDescription.CompanyJobId));
+    }
     this.workflowSetupModal.open();
   }
 
@@ -361,6 +378,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     appliesTo.AppliesToField = this.jobDescription.AppliesToField;
     appliesTo.AppliesToValue = this.jobDescription.AppliesToValue;
     appliesTo.JobDescriptionTitle = this.jobDescription.JobDescriptionTitle;
+    appliesTo.PublicView = this.jobDescription.PublicView;
 
     this.jobDescriptionAppliesToModalComponent.open(this.jobDescription.JobDescriptionId, this.jobDescription.CompanyJobId, appliesTo);
   }
@@ -434,6 +452,14 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   private initSubscriptions(): void {
+    this.jobDescriptionSSOLoginUrlSubscription = this.jobDescriptionSSOLoginUrl$.subscribe( ssoLoginUrl => {
+      if (ssoLoginUrl) {
+        // Redirect to SSO login. After logging in you will be redirected back here with tokenid and agentid params from the sso for use in authenticating.
+        const currentUrl = encodeURIComponent(window.location.href);
+        window.location.href = `${ssoLoginUrl}&appurl=${currentUrl}`;
+      }
+    });
+
     this.jobDescriptionExtendedInfoSubscription = this.jobDescriptionExtendedInfo$.subscribe(jdei => {
       if (!!jdei && jdei.WorkflowId === 0) {
         this.showRoutingHistory = false;
@@ -444,6 +470,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;
+      this.emailAddress = userContext.EmailAddress;
       this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
       if (this.identityInEmployeeAcknowledgement) {
         if (!userContext.EmployeeAcknowledgementInfo.IsLatest && !userContext.EmployeeAcknowledgementInfo.HasAcknowledged) {
@@ -454,24 +481,21 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       }
       this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
       this.companySubscription = this.company$.subscribe((company) => {
-        this.companyLogoPath = company && company.obj
-          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.obj.CompanyLogo
+        this.companyLogoPath = company
+          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
           : '';
-        if (company && company.obj) {
-          this.companyName = company.obj.CompanyName;
+        if (company) {
+          this.companyName = company.CompanyName;
         }
       });
       this.isSiteAdmin = userContext.AccessLevel === 'Admin';
       this.initRouterParams();
       if (!this.completedStep) {
-        this.store.dispatch(new fromJobDescriptionActions.LoadCompany(userContext.CompanyId));
+        this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
       }
     });
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
       this.handleJobDescriptionChanged(result.obj);
-      if ( !this.identity.IsPublic &&  result.obj ) {
-        this.store.dispatch(new fromWorkflowTemplateListActions.Load(result.obj.CompanyJobId));
-      }
     });
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
       if (userRoles) {
@@ -485,6 +509,27 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       takeWhile(() => this.identity.IsPublic),
       filter(setting => setting === false)
     ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
+
+
+    this.requireSSOLogin$.subscribe(requireSSOLogin => {
+       if (requireSSOLogin && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
+         this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
+       } else if (requireSSOLogin && this.tokenId != null) {
+         this.store.dispatch(new fromJobDescriptionActions.AuthenticateSSOParams({tokenId: this.ssoTokenId, agentId: this.ssoAgentId}));
+         this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
+
+         this.jobDescriptionSSOAuthResult$.subscribe( result => {
+           if (result) {
+            const resultObj: any = result;
+            const userEmailDomain = this.emailAddress.slice(this.emailAddress.indexOf('@') + 1, this.emailAddress.length);
+
+              if (resultObj.EmailDomain.indexOf(userEmailDomain) === -1 && userEmailDomain.indexOf(resultObj.EmailDomain) === -1) {
+                this.router.navigate(['/forbidden']);
+              }
+            }
+         });
+       }
+    });
 
     this.controlTypesAsync$.pipe(
       filter(cts => !!cts && !!cts.obj),
@@ -527,6 +572,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       const viewName = params.queryParams['viewName'];
       const revisionNumber = params['versionNumber'];
       this.tokenId = params.queryParams['jwt'];
+      this.ssoTokenId = params.queryParams['tokenid'];
+      this.ssoAgentId = params.queryParams['agentid'];
+
       this.inHistory = !!revisionNumber;
       this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
         JobDescriptionId: jobDescriptionId,
@@ -614,4 +662,24 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.jobDescriptionDisplayName = jobDescription.JobDescriptionTitle;
     }
   }
-}
+
+  private initSignalRConnection() {
+
+    let signalRConnectionUrl = this.identity.ConfigSettings.find(c => c.Name === 'SignalR').Value;
+    const signalREnabled = this.identity.ConfigSettings.find(c => c.Name === 'SignalREnabled').Value;
+    const hubRoute = '/job-description-manager';
+
+    if (signalREnabled && !!signalRConnectionUrl) {
+
+        signalRConnectionUrl = `${signalRConnectionUrl}${hubRoute}?token=${this.tokenId}`;
+
+        const connection = new signalR.HubConnectionBuilder()
+          .withUrl(signalRConnectionUrl)
+          .withAutomaticReconnect()
+          .configureLogging(LogLevel.Error)
+          .build();
+
+        connection.start();
+      }
+    }
+  }

@@ -8,8 +8,8 @@
     <h4>{{ tile.Label }}</h4>
   </div>
 
-  <a id="{{ tile.Label | stringReplace:' ': '-' | lowercase }}-tile-link"
-  class="tile-anchor-overlay"
+  <a *ngIf="!tile.IgnoreTileAnchorOverlay" id="{{ tile.Label | stringReplace:' ': '-' | lowercase }}-tile-link"
+  class="anchor-overlay"
   [href]="getTileHref(tile)"></a>
 
   <!-- Tile Inner Content -->
@@ -42,20 +42,24 @@
     <pf-basic-list *ngSwitchCase="tilePreviewType.BasicList"
                   [model]="previewModel">
     </pf-basic-list>
+
+    <pf-tile-preview-peer *ngSwitchCase="tilePreviewType.Peer"
+                   [model]="previewModel">
+    </pf-tile-preview-peer>
   </div>
 
-  <div #makretingTileOverlay *ngIf="tile.MarketingEnabled" 
+  <div #makretingTileOverlay *ngIf="tile.MarketingEnabled"
     class='marketing-overlay'
     (mouseover)="onMouseOver()"
     (mouseleave)="onMouseLeave()">
 
-    <div *ngIf="highlightMarketingContent" 
+    <div *ngIf="highlightMarketingContent"
       class="marketing-overlay-context p-2"
       [ngClass]="tile.CssClass">
-      <h4>{{ tile.Label }}</h4> 
+      <h4>{{ tile.Label }}</h4>
       <div class="pt-2 mx-3">{{tile.MarketingDescription}}</div>
-      <button id="id_btn_{{tile.Type}}" 
-          class="btn btn-primary btn-marketing">{{tile.MarketingButtonText}}</button> 
+      <button id="id_btn_{{tile.Type}}"
+          class="btn btn-primary btn-marketing">{{tile.MarketingButtonText}}</button>
     </div>
   </div>
 

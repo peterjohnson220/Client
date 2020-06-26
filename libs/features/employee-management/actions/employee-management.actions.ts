@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { CompanyEmployee, GenericKeyValue, KendoTypedDropDownItem } from 'libs/models';
+import { EmployeeValidation, Job, LoadJobsState, Structure } from '../models';
 
 export const HANDLE_API_ERROR = '[EmployeeManagement] Handle API Error';
 export const SHOW_EMPLOYEE_FORM = '[EmployeeManagement] Show Employee Form';
@@ -9,6 +10,7 @@ export const SAVE_EMPLOYEE_ERROR = '[EmployeeManagement] Save Employee Error';
 export const LOAD_COMPANYJOBS = '[EmployeeManagement] Load Company Jobs';
 export const LOAD_COMPANYJOBS_SUCCESS = '[EmployeeManagement] Load Company Jobs Success';
 export const LOAD_COMPANYJOBS_ERROR = '[EmployeeManagement] Load Company Jobs Error';
+export const LOAD_MORE_COMPANYJOBS_SUCCESS = '[EmployeeManagement] Load More Company Jobs Success';
 export const LOAD_PAYMARKETS = '[EmployeeManagement] Load Pay Markets';
 export const LOAD_PAYMARKETS_SUCCESS = '[EmployeeManagement] Load Pay Markets Success';
 export const LOAD_PAYMARKETS_ERROR = '[EmployeeManagement] Load Pay Markets Error';
@@ -36,6 +38,10 @@ export const GET_EMPLOYEE_SUCCESS = '[EmployeeManagement] Get Employee Success';
 export const GET_EMPLOYEE_ERROR = '[EmployeeManagement] Get Employee Error';
 export const UPDATE_EMPLOYEE = '[EmployeeManagement] Update Employee';
 export const ADD_EMPLOYEE = '[EmployeeManagement] Add Employee';
+export const VALIDATE_EMPLOYEE_KEYS = '[EmployeeManagement] Validate Employee Keys';
+export const VALIDATE_EMPLOYEE_KEYS_SUCCESS = '[EmployeeManagement] Validate Employee Keys Success';
+export const VALIDATE_EMPLOYEE_KEYS_ERROR = '[EmployeeManagement] Validate Employee Keys Error';
+export const LOAD_COMPANYJOB_BY_ID = '[EmployeeManagement] Load Company Jobs By ID';
 
 export class ShowEmployeeForm implements Action {
   readonly type = SHOW_EMPLOYEE_FORM;
@@ -64,12 +70,17 @@ export class HandleApiError implements Action {
 
 export class LoadCompanyJobs implements Action {
   readonly type = LOAD_COMPANYJOBS;
-  constructor() { }
+  constructor(public payload: LoadJobsState) { }
 }
 
 export class LoadCompanyJobsSuccess implements Action {
   readonly type = LOAD_COMPANYJOBS_SUCCESS;
-  constructor(public payload: KendoTypedDropDownItem[]) { }
+  constructor(public payload: {jobs: Job[], moreData: boolean}) { }
+}
+
+export class LoadMoreCompanyJobsSuccess implements Action {
+  readonly type = LOAD_MORE_COMPANYJOBS_SUCCESS;
+  constructor(public payload: {jobs: Job[], moreData: boolean}) { }
 }
 
 export class LoadCompanyJobsError implements Action {
@@ -154,12 +165,12 @@ export class LoadGradeCodesError implements Action {
 
 export class LoadStructures implements Action {
   readonly type = LOAD_STRUCTURES;
-  constructor(public payload: { jobId: number, paymarketId: number }) { }
+  constructor(public payload: { jobId: number, paymarketId: number, employeeId?: number }) { }
 }
 
 export class LoadStructuresSuccess implements Action {
   readonly type = LOAD_STRUCTURES_SUCCESS;
-  constructor(public payload: KendoTypedDropDownItem[]) { }
+  constructor(public payload: Structure[]) { }
 }
 
 export class LoadStructuresError implements Action {
@@ -221,6 +232,28 @@ export class AddEmployee implements Action {
   constructor() {}
 }
 
+export class ValidateEmployeeKeys implements Action {
+  readonly type = VALIDATE_EMPLOYEE_KEYS;
+
+  constructor(public payload: CompanyEmployee) {}
+}
+
+export class ValidateEmployeeKeysSuccess implements Action {
+  readonly type = VALIDATE_EMPLOYEE_KEYS_SUCCESS;
+
+  constructor(public payload: EmployeeValidation) {}
+}
+
+export class ValidateEmployeeKeysError implements Action {
+  readonly type = VALIDATE_EMPLOYEE_KEYS_ERROR;
+  constructor(public payload: string) {}
+}
+
+export class LoadCompanyJobById implements Action {
+  readonly type = LOAD_COMPANYJOB_BY_ID;
+  constructor(public payload: number) { }
+}
+
 export type Actions
   = HandleApiError
   | ShowEmployeeForm
@@ -259,4 +292,9 @@ export type Actions
   | GetEmployeeSuccess
   | GetEmployeeError
   | UpdateEmployee
-  | AddEmployee;
+  | AddEmployee
+  | ValidateEmployeeKeys
+  | ValidateEmployeeKeysSuccess
+  | ValidateEmployeeKeysError
+  | LoadCompanyJobById
+  | LoadMoreCompanyJobsSuccess;

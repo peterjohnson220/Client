@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
-import { map, switchMap, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { map, switchMap, catchError, mergeMap } from 'rxjs/operators';
 
 import { CompanyEmployeeApiService, CompanyJobApiService } from 'libs/data/payfactors-api/company';
-import { PayMarketApiService, CountryApiService, CurrencyApiService, LoaderFieldMappingsApiService } from 'libs/data/payfactors-api';
+import {
+  PayMarketApiService, CountryApiService, CurrencyApiService, LoaderFieldMappingsApiService,
+  EntityKeysValidationApiService
+} from 'libs/data/payfactors-api';
+import { ODataQuery } from 'libs/models/common';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromEmployeeManagementReducer from '../reducers';
@@ -20,20 +24,50 @@ export class EmployeeManagementEffects {
   loadCompanyJobs$ = this.actions$
     .pipe(
       ofType(fromEmployeeManagementActions.LOAD_COMPANYJOBS),
-      switchMap(() => {
-          return this.companyJobApiService.getAll(['JobTitle', 'CompanyJobId', 'JobCode']).pipe(
-            map((response) => {
-              return new fromEmployeeManagementActions.LoadCompanyJobsSuccess(
-                PayfactorsApiModelMapper.mapItemsToDropdownList(response, 'CompanyJobId', (item => {
-                  return `${item['JobCode']} - ${item['JobTitle']}`;
-                }))
-              );
-            }),
-            catchError(() => of(new fromEmployeeManagementActions.LoadCompanyJobsError()))
-          );
+      switchMap((action: fromEmployeeManagementActions.LoadCompanyJobs) => {
+        const query: ODataQuery = {
+          Fields: ['CompanyJobId', 'JobCode', 'JobTitle'],
+          Top: action.payload.Limit,
+          Skip: action.payload.Skip || 0,
+          OrderBy: 'JobCode'
+        };
+        if (action.payload.SearchTerm) {
+          query.Filter = `contains(JobCode,'${action.payload.SearchTerm}') or contains(JobTitle,'${action.payload.SearchTerm}')`;
         }
-      )
-    );
+        return this.companyJobApiService.getAll(query).pipe(
+          map((response) => {
+            const jobs = PayfactorsApiModelMapper.mapCompanyJobsToJobs(response);
+            if (action.payload.Skip) {
+              return new fromEmployeeManagementActions.LoadMoreCompanyJobsSuccess({ jobs: jobs, moreData: jobs.length === action.payload.Limit });
+            } else {
+              return new fromEmployeeManagementActions.LoadCompanyJobsSuccess({ jobs: jobs, moreData: jobs.length === action.payload.Limit });
+            }
+          }),
+          catchError(() => of(new fromEmployeeManagementActions.LoadCompanyJobsError()))
+        );
+      }
+    )
+  );
+
+  @Effect()
+  loadCompanyJobsById$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.LOAD_COMPANYJOB_BY_ID),
+      switchMap((action: fromEmployeeManagementActions.LoadCompanyJobById) => {
+        const query: ODataQuery = {
+          Fields: ['CompanyJobId', 'JobCode', 'JobTitle'],
+          Filter: `CompanyJobId eq ${action.payload}`
+        };
+        return this.companyJobApiService.getAll(query).pipe(
+          map((response) => {
+            const jobs = PayfactorsApiModelMapper.mapCompanyJobsToJobs(response);
+            return new fromEmployeeManagementActions.LoadCompanyJobsSuccess({ jobs: jobs, moreData: false });
+          }),
+          catchError(() => of(new fromEmployeeManagementActions.LoadCompanyJobsError()))
+        );
+      }
+    )
+  );
 
   @Effect()
   loadPaymarkets$ = this.actions$
@@ -125,10 +159,11 @@ export class EmployeeManagementEffects {
     .pipe(
       ofType(fromEmployeeManagementActions.LOAD_STRUCTURES),
       switchMap((action: fromEmployeeManagementActions.LoadStructures) => {
-          return this.companyEmployeeApiService.getStructureNames(action.payload.jobId, action.payload.paymarketId).pipe(
+        return this.companyEmployeeApiService.getStructureNames(action.payload.jobId, action.payload.paymarketId, action.payload.employeeId)
+          .pipe(
             map((response) => {
               return new fromEmployeeManagementActions.LoadStructuresSuccess(
-                PayfactorsApiModelMapper.mapToDropdownList(response, 'Value', 'Text')
+                PayfactorsApiModelMapper.mapEmployeeModalStructuresReponsesToStructures(response)
               );
             }),
             catchError(() => of(new fromEmployeeManagementActions.LoadStructuresError()))
@@ -205,6 +240,38 @@ export class EmployeeManagementEffects {
       })
     );
 
+  @Effect()
+  validateEmployeeKeys$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.VALIDATE_EMPLOYEE_KEYS),
+      switchMap((action: fromEmployeeManagementActions.ValidateEmployeeKeys) => {
+        return this.entityKeysValidationApiService.validateEmployeeKeys(action.payload)
+          .pipe(
+            map(response => {
+              const validation = PayfactorsApiModelMapper.mapEntityKeyFieldsResponseToEmployeeValidation(response, action.payload);
+              return new fromEmployeeManagementActions.ValidateEmployeeKeysSuccess(validation);
+            }),
+            catchError(() => of(new fromEmployeeManagementActions.ValidateEmployeeKeysError('There was an error validating employee')))
+          );
+      })
+    );
+
+  @Effect()
+  validateEmployeeKeysSuccess$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.VALIDATE_EMPLOYEE_KEYS_SUCCESS),
+      map((action: fromEmployeeManagementActions.ValidateEmployeeKeysSuccess) => {
+        if (action.payload.IsValid) {
+          if (!!action.payload.Employee.CompanyEmployeeId) {
+            return new fromEmployeeManagementActions.UpdateEmployee(action.payload.Employee);
+          } else {
+            return new fromEmployeeManagementActions.SaveEmployee(action.payload.Employee);
+          }
+        }
+        return { type: 'No Action' };
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private rootStore: Store<fromRootState.State>,
@@ -214,6 +281,7 @@ export class EmployeeManagementEffects {
     private countryApiService: CountryApiService,
     private currencyApiService: CurrencyApiService,
     private companyEmployeeApiService: CompanyEmployeeApiService,
-    private loaderFieldMappingsApiService: LoaderFieldMappingsApiService
+    private loaderFieldMappingsApiService: LoaderFieldMappingsApiService,
+    private entityKeysValidationApiService: EntityKeysValidationApiService
   ) {}
 }

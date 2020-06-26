@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { DecimalPipe } from '@angular/common';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -7,9 +6,9 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import * as fromFaIcons from './fa-icons';
 import { DebounceClickDirective, DisableFormControlDirective, DragDropDirective } from './directives';
 import {
-    CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
-    JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag,
-  EmptyPlaceholderPipe, ValidationErrorsPipe
+  CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
+  JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag,
+  EmptyPlaceholderPipe, ValidationErrorsPipe, TimeElapsedPipe, EditableJobDescriptionPipe
 } from './pipes';
 import { DragulaHelperService } from './services';
 
@@ -34,7 +33,9 @@ const declarations = [
   StripHtmlPipe,
   CompPipe,
   EmptyPlaceholderPipe,
-  ValidationErrorsPipe
+  ValidationErrorsPipe,
+  TimeElapsedPipe,
+  EditableJobDescriptionPipe
 ];
 
 const providers = [

@@ -1,6 +1,9 @@
 import { Action } from '@ngrx/store';
 
+import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOption';
+
 import { TrendingJobGroup } from '../models';
+
 
 export const GET_TRENDING_JOBS = '[Comphub/Jobs Card] Get Trending Jobs';
 export const GET_TRENDING_JOBS_SUCCESS = '[Comphub/Jobs Card] Get Trending Jobs Success';
@@ -12,6 +15,9 @@ export const CLEAR_JOB_SEARCH_OPTIONS = '[Comphub/Jobs Card] Clear Job Search Op
 export const SET_SELECTED_JOB = '[Comphub/Jobs Card] Set Selected Job';
 export const CLEAR_SELECTED_JOB = '[Comphub/Jobs Card] Clear Selected Job';
 export const PERSIST_ACTIVE_COUNTRY_DATA_SET = '[Comphub/Jobs Card] Persist Active Country Data Set';
+export const GET_EXCHANGE_JOB_SEARCH_OPTIONS = '[Comphub/Jobs Card] Get Exchange Job Search Options';
+export const GET_EXCHANGE_JOB_SEARCH_OPTIONS_SUCCESS = '[Comphub/Jobs Card] Get Exchange Job Search Options Success';
+export const GET_EXCHANGE_JOB_SEARCH_OPTIONS_ERROR = '[Comphub/Jobs Card] Get Exchange Job Search Options Error';
 
 export class GetTrendingJobs implements Action {
   readonly type = GET_TRENDING_JOBS;
@@ -58,7 +64,7 @@ export class ClearJobSearchOptions implements Action {
 export class SetSelectedJob implements Action {
   readonly type = SET_SELECTED_JOB;
 
-  constructor(public payload: { jobTitle: string, navigateToNextCard?: boolean }) {}
+  constructor(public payload: { jobTitle: string, exchangeJobId?: number, navigateToNextCard?: boolean }) {}
 }
 
 export class ClearSelectedJob implements Action {
@@ -72,6 +78,23 @@ export class PersistActiveCountryDataSet implements Action {
 
   constructor() {}
 }
+export class GetExchangeJobSearchOptions implements Action {
+  readonly type = GET_EXCHANGE_JOB_SEARCH_OPTIONS;
+
+  constructor(public payload: string) {}
+}
+
+export class GetExchangeJobSearchOptionsSuccess implements Action {
+  readonly type = GET_EXCHANGE_JOB_SEARCH_OPTIONS_SUCCESS;
+
+  constructor(public payload: ExchangeJobSearchOption[]) {}
+}
+
+export class GetExchangeJobSearchOptionsError implements Action {
+  readonly type = GET_EXCHANGE_JOB_SEARCH_OPTIONS_ERROR;
+
+  constructor() {}
+}
 
 export type Actions
   = GetTrendingJobs
@@ -82,4 +105,7 @@ export type Actions
   | GetJobSearchOptionsError
   | ClearJobSearchOptions
   | SetSelectedJob
-  | ClearSelectedJob;
+  | ClearSelectedJob
+  | GetExchangeJobSearchOptions
+  | GetExchangeJobSearchOptionsSuccess
+  | GetExchangeJobSearchOptionsError;

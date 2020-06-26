@@ -1,24 +1,101 @@
+@import 'colors';
+@import 'app-colors';
+@import 'total-rewards/statement-layout-variables';
+
+$spinner-easing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+
 .canvas {
-  margin-left: auto;
-  margin-right: auto;
-  width: 85%;
+  width: $canvas-width;
+  background: $trs-canvas-background-color;
+  padding-top: 3.5rem;
 }
 
-.header-row {
-  background-color: #434950;
-  color: #D9DADC;
-  padding: 15px 20px 5px 20px;
-  display: flex;
+// the wrapper is there to hide the document's contents from leaking through over the top of the header row
+.header-row-wrapper {
+  height: 68px;
+  top: 114px;
+  width: $canvas-width;
+  padding-top: 12px;
+  z-index: 10;
+  transition: $left-nav-transition;
+  background-color: $trs-edit-statement-page-background-color;
+
+  .header-row {
+    border: 1px solid $trs-soft-border-color;
+    border-top: 4px solid $trs-prominent-border-color;
+    background-color: white;
+    padding: 12px 20px 5px 20px;
+
+    a.settings {
+      font-size: 1.7rem;
+    }
+
+    .mode-button {
+      top: -3px;
+    }
+  }
 }
 
-.header-row-buttons {
-  align-self: flex-end;
-  flex-basis: 20%;
+.header-row-save-status {
+  align-self: center;
+  font-weight: 300;
+  font-size: 1.1rem;
+
+  .saved {
+    text-decoration: underline;
+  }
+
+  .spinner {
+    width: 4px;
+    border-radius: 4px;
+    height: 4px;
+    background-color: $pf-brand-secondary-color;
+  }
+
+  .spinner.one {
+    animation: moveSpinner $spinner-easing-function 2s infinite;
+  }
+
+  .spinner.two {
+    animation: moveSpinner $spinner-easing-function 2s .2s infinite;
+  }
+
+  .spinner.three {
+    animation: moveSpinner $spinner-easing-function 2s .4s infinite;
+  }
 }
 
 h3 {
-  min-width: 250px;
-  max-width: 80%;
-  flex-basis: 80%;
   font-weight: initial;
+}
+
+a.settings {
+  height: 2.2rem;
+
+  &.preview-mode {
+    pointer-events: none;
+  }
+}
+
+@keyframes moveSpinner {
+  0% {
+    transform: translateX(0);
+    background-color: $pf-brand-secondary-color;
+  }
+
+  25% {
+    background-color: $pf-brand-primary-color;
+  }
+
+  50% {
+    transform: translateX(34px);
+  }
+
+  75% {
+    background-color: $pf-brand-tertiary-color;
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }

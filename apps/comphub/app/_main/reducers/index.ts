@@ -91,6 +91,11 @@ export const getJobSearchOptions = createSelector(
   fromJobsCardReducer.getJobSearchOptions
 );
 
+export const getExchangeJobSearchOptions = createSelector(
+  selectJobsCardState,
+  fromJobsCardReducer.getExchangeJobSearchOptions
+);
+
 export const getLoadingJobSearchOptions = createSelector(
   selectJobsCardState,
   fromJobsCardReducer.getLoadingJobSearchOptions
@@ -104,6 +109,11 @@ export const getLoadingJobSearchOptionsError = createSelector(
 export const getSelectedJob = createSelector(
   selectJobsCardState,
   fromJobsCardReducer.getSelectedJob
+);
+
+export const getSelectedExchangeJobId = createSelector(
+  selectJobsCardState,
+  fromJobsCardReducer.getSelectedExchangeJobId
 );
 
 // Comphub Page
@@ -147,9 +157,29 @@ export const getCountryDataSets = createSelector(
   fromComphubPageReducer.getCountryDataSets
 );
 
+export const getExchangeDataSets = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getExchangeDataSets
+);
+
 export const getActiveCountryDataSet = createSelector(
   selectComphubPageState,
   fromComphubPageReducer.getActiveCountryDataSet
+);
+
+export const getActiveExchangeDataSet = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getActiveExchangeDataSet
+);
+
+export const getWorkflowContext = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getWorkflowContext
+);
+
+export const getQuickPriceType = createSelector(
+  getWorkflowContext,
+  (context) => context.quickPriceType
 );
 
 // Markets Card
@@ -243,6 +273,11 @@ export const getPeerBannerOpen = createSelector(
 export const getSelectedRate = createSelector(
   selectDataCardState,
   fromDataCardReducer.getSelectedRate
+);
+
+export const getForcePeerMapRefresh = createSelector(
+  selectDataCardState,
+  fromDataCardReducer.getForcePeerMapRefresh
 );
 
 // Add Pay Market Form

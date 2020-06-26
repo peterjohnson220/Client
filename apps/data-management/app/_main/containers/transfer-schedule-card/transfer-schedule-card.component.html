@@ -1,8 +1,30 @@
 <div class="card mb-3 shadow-sm p-3">
   <div class="card-body">
-    <fa-icon icon="pencil-alt" size="lg" class="pencil-top-right blue" *ngIf="canEdit()" (click)="setEditMode()"></fa-icon>
+    <fa-icon icon="pencil-alt"
+            size="lg"
+            class="pencil-top-right blue"
+            *ngIf="canEdit() && !validationMode"
+            (click)="setEditMode()"
+            [class.hide-buttons]="editMode"
+            [ngbTooltip]="'Edit'"
+            placement="top">
+    </fa-icon>
+    <fa-icon icon="times"
+            size="lg"
+            class="pencil-top-right blue"
+            *ngIf="canEdit() && !validationMode"
+            (click)="setEditMode()"
+            [class.hide-buttons]="!editMode"
+            [ngbTooltip]="'Cancel'"
+            placement="top">
+    </fa-icon>
     <h4 class="card-title pb-3">{{ transferSchedule.entityMappingTypeName }}</h4>
+    <div *ngIf="validationMode">
+      <label *ngIf="transferSchedule.lastValidationCompleted_Date" class="validationMode-label">Validated {{transferSchedule.lastValidationCompleted_Date | date:'short'}}.  Enable 'LIVE' mode to create a transfer schedule for <b>{{transferSchedule.entityMappingTypeName}}</b></label>
+      <label *ngIf="!transferSchedule.lastValidationCompleted_Date" class="validationMode-label">This feed has been set to validate only, you will receive an email with the validation results.  No records will be updated.  Enable 'LIVE' mode to create a transfer schedule for <b>{{transferSchedule.entityMappingTypeName}}</b></label>
+    </div>
     <pf-transfer-schedule-cron
+      *ngIf="!validationMode"
       [id]="transferSchedule.entityMappingType_ID"
       [cronExpression]="transferSchedule.expression"
       (cronExpressionChanges)="setCronExpression($event)"
@@ -11,7 +33,7 @@
       [lastRunDate]="transferSchedule.lastSync_Date"
       [showPublishButton]="showPublishButton"
     ></pf-transfer-schedule-cron>
-    <div class="d-flex justify-content-end" [class.hide-buttons]="!editMode">
+    <div class="d-flex justify-content-end" [class.hide-buttons]="!editMode" *ngIf="!validationMode">
       <div class="p-2">
         <button type="button" class="btn btn-outline-danger" *ngIf="active" (click)="toggleSchedule()">Disable</button>
       </div>

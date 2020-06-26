@@ -25,12 +25,14 @@ export interface DataViewField {
   FormulaId?: number;
   FieldType: DataViewFieldType;
   Format?: string;
+  FormatType?: FieldFormatType;
   Formula?: string;
   FormulaName?: string;
   SortOrder?: number;
   SortDirection?: 'asc' | 'desc';
   IsPublic?: boolean;
   AccessLevel?: DataViewAccessLevel;
+  Width?: number;
 }
 
 export interface BaseFilter {
@@ -43,6 +45,9 @@ export interface BaseFilter {
 export interface DataViewFilter extends BaseFilter {
   EntitySourceName: string;
   SourceName: string;
+  Value?: string;
+  DataElementId?: number;
+  IsLocked?: boolean;
 }
 
 export interface DataViewFilterIdentifier extends BaseFilter {
@@ -64,6 +69,12 @@ export enum DataViewFieldDataType {
 export enum DataViewFieldType {
   DataElement = 'dataElement',
   Formula = 'formula'
+}
+
+export enum FieldFormatType {
+  Date = 'date',
+  Number = 'number',
+  Percent = 'percent'
 }
 
 export function getMockDataViewFilter(): DataViewFilter {

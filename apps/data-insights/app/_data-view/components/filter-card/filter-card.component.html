@@ -4,13 +4,15 @@
       <div class="filters-container">
         <div class="filters-action-bar d-flex justify-content-end">
           <fa-icon icon="minus" class="filter-icons mr-2" data-qa-id="btn-toggleEditMode" (click)="toggleEditMode()"></fa-icon>
-          <fa-icon icon="times" id="delete-filter" class="filter-icons" data-qa-id="btn-deleteFilter" (click)="handleDeleteFilter(filter)"></fa-icon>
+          <fa-icon *ngIf="!filter.IsLocked" icon="times" id="delete-filter" class="filter-icons" data-qa-id="btn-deleteFilter" (click)="handleDeleteFilter()"></fa-icon>
+          <fa-icon *ngIf="filter.IsLocked" icon="lock-alt" class="filter-icons" data-qa-id="btn-lockedFilter"></fa-icon>
         </div>
       </div>
 
       <kendo-dropdownlist class="dropdown-list w-100"
                           [attr.data-qa-id]="'ddm-filter-fields'"
                           [data]="fields"
+                          [disabled]="filter.IsLocked"
                           [ngModel]="filter.Field"
                           [textField]="'DisplayName'"
                           [valueField]="'KendoGridField'"
@@ -52,20 +54,24 @@
         </pf-text-filter>
       </ng-container>
 
-      <ng-container *ngIf="filter.Field?.DataType === fieldDataType.Date">
+      <ng-container *ngIf="filter.Field?.Is.Date">
         <pf-date-range-filter
+          [field]="filter.Field"
           [selectedOperator]="filter.Operator"
+          [locked]="filter.IsLocked"
           [startDate]="filter?.SelectedOptions?.length > 0 ? filter.SelectedOptions[0] : null"
           [endDate]="filter?.SelectedOptions?.length === 2 ? filter.SelectedOptions[1] : null"
+          [dateFormat]="filter.Field?.FieldFormat?.Format"
           (selectedOptionsChanged)="handleSelectedOptionsChange($event)"
           (selectedOperatorChanged)="handleOperatorChanged($event)">
         </pf-date-range-filter>
       </ng-container>
 
-      <ng-container *ngIf="isNumericDataType">
+      <ng-container *ngIf="filter.Field?.Is.Numeric">
         <pf-numeric-filter
-          [dataType]="filter.Field?.DataType"
           [selectedOperator]="filter.Operator"
+          [format]="filter.Field?.FieldFormat?.KendoNumericFormat"
+          [step]="filter.Field?.FieldFormat?.Type === 'percent' ? 0.1 : 1"
           [value]="filter.SelectedOptions?.length ? filter.SelectedOptions[0] : null"
           (numericValuesChanged)="handleSelectedOptionsChange($event)"
           (changeOperator)="handleOperatorChanged($event)">
@@ -84,8 +90,8 @@
 
     <ng-template #displayMode>
       <div class="d-flex justify-content-between display-mode" (click)="toggleEditMode()">
-        <div class="filter-display-name" [title]="selectedField?.DisplayName">
-          {{selectedField?.DisplayName}}
+        <div class="filter-display-name" [title]="filter.Field?.DisplayName">
+          {{filter.Field?.DisplayName}}
         </div>
         <div class="filter-options">
           <span class="badge badge-info"> {{selectedOptionsCount}}</span>

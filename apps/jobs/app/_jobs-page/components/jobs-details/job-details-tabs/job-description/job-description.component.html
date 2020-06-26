@@ -1,0 +1,34 @@
+<pf-async-container [loading]="loading$ | async">
+  <div class="p-3">
+    <div class="py-3">
+      <pf-job-description-summary-editor
+        #jobDescriptionEditor
+        [actionIconSize]="'2x'"
+        [errorMessageClass]="'text-danger'"
+        [layout]="'card'"
+        [rows]="12"
+        [jobDescriptionSummary]="jobDescriptionSummary"
+        (jobDescriptionChanged)="jobDescriptionChanged($event)">
+      </pf-job-description-summary-editor>
+    </div>
+    <div class="d-flex">
+      <div class="text-danger">       
+        <div *ngIf="(jobDescriptionSummary$ | async).loadingError">
+          We encountered an error while loading your the job description for your job
+        </div>
+        <div *ngIf="(jobDescriptionSummary$ | async).savingError">
+          We encountered an error while saving your job description
+        </div>
+      </div>
+      <div *ngIf="(jobDescriptionSummary$ | async)?.savingSuccess">
+        <b>Job Description Updated!</b>
+      </div>
+      <button *ngIf="(jobDescriptionSummary$ | async).obj | editableJobDescription"
+              class="btn btn-primary ml-auto"
+              [disabled]="(updatedJobDescription$ | async) === (jobDescriptionSummary$ | async)?.obj?.JobSummary"
+              [innerText]="'Save'"
+              (click)="saveJobDescription()">
+      </button>
+    </div>
+  </div>
+</pf-async-container>

@@ -15,7 +15,6 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="New Poll"
   >
     
@@ -31,10 +30,9 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
       </label>
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
-        formcontrolname="context"
+        formcontrolname="content"
         id="poll-question"
         maxlength="150"
-        ng-reflect-name="context"
         pffocus=""
         placeholder="Question"
         type="text"
@@ -88,7 +86,6 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
     title="New Poll"
   >
     
@@ -104,10 +101,9 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
       </label>
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
-        formcontrolname="context"
+        formcontrolname="content"
         id="poll-question"
         maxlength="150"
-        ng-reflect-name="context"
         pffocus=""
         placeholder="Question"
         type="text"

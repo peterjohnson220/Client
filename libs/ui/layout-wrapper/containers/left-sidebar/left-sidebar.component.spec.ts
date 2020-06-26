@@ -6,6 +6,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { generateMockSidebarLink, generateMockUserContext } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import { LeftSidebarComponent } from './left-sidebar.component';
 import * as fromRootState from '../../../../state/state';
@@ -31,9 +32,10 @@ describe('Left Sidebar', () => {
       TruncateAfterPipe
     ],
     // Shallow Testing
-    schemas: [ NO_ERRORS_SCHEMA ]
+    schemas: [ NO_ERRORS_SCHEMA ],
+    providers: [SettingsService],
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(LeftSidebarComponent);
     instance = fixture.componentInstance;

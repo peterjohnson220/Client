@@ -11,8 +11,9 @@ import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
 import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataViewMainReducer from '../../reducers';
 import { DataViewGridComponent } from './data-view-grid.component';
-import { generateMockField } from '../../models';
+import { generateMockField, Field } from '../../models';
 import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
+import { DateFieldFormattingModalComponent } from '../date-field-formatting-modal';
 
 describe('Data Insights - Data View Grid', () => {
   let fixture: ComponentFixture<DataViewGridComponent>;
@@ -28,7 +29,7 @@ describe('Data Insights - Data View Grid', () => {
           dataView_main: combineReducers(fromDataViewMainReducer.reducers)
         })
       ],
-      declarations: [ DataViewGridComponent, NumericFieldFormattingModalComponent ],
+      declarations: [ DataViewGridComponent, NumericFieldFormattingModalComponent, DateFieldFormattingModalComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
         {
@@ -38,10 +39,10 @@ describe('Data Insights - Data View Grid', () => {
       ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(DataViewGridComponent);
     instance = fixture.componentInstance;
-    route = TestBed.get(ActivatedRoute);
+    route = TestBed.inject(ActivatedRoute);
   });
 
   it('should dispatch GetMoreData when not currently loading more data and having more data on server', () => {
@@ -101,18 +102,29 @@ describe('Data Insights - Data View Grid', () => {
     expect(store.dispatch).toHaveBeenCalledWith(sortFieldAction);
   });
 
-  it('should open number format modal when handleNumberFormatModalClicked', () => {
+  it('should open number format modal when handleFieldFormatModalClicked with number data type', () => {
     const field = generateMockField();
+    field.Is.Numeric = true;
     spyOn(instance.numericFieldFormattingModalComponent, 'open');
 
-    instance.handleNumberFormatModalClicked(field);
+    instance.handleFieldFormatModalClicked(field);
 
     expect(instance.numericFieldFormattingModalComponent.open).toHaveBeenCalled();
   });
 
-  it('should dispatch SetNumberFormatOnSelectedField number format modal when handleSaveClicked', () => {
+  it('should open date format modal when handleFieldFormatModalClicked with date data type', () => {
     const field = generateMockField();
-    const expectedAction = new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: field.Format});
+    field.Is.Date = true;
+    spyOn(instance.dateFieldFormattingModalComponent, 'open');
+
+    instance.handleFieldFormatModalClicked(field);
+
+    expect(instance.dateFieldFormattingModalComponent.open).toHaveBeenCalled();
+  });
+
+  it('should dispatch SetFormatOnSelectedField for number format modal or date format modal when handleSaveClicked', () => {
+    const field = generateMockField();
+    const expectedAction = new fromFieldsActions.SetFormatOnSelectedField(field);
     spyOn(store, 'dispatch');
 
     instance.handleSaveClicked(field);
@@ -120,9 +132,18 @@ describe('Data Insights - Data View Grid', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch SetNumberFormatOnSelectedField number format modal when handleClearFormatClicked', () => {
+  it('should dispatch SetFormatOnSelectedField for number format modal or date format modal when handleClearFormatClicked', () => {
     const field = generateMockField();
-    const expectedAction = new fromFieldsActions.SetNumberFormatOnSelectedField({field: field, numberFormat: null});
+    const formatClearedField: Field = {
+      ...field,
+      FieldFormat: {
+        ...field.FieldFormat,
+        Format: null,
+        Value: null,
+        KendoNumericFormat: null
+      }
+    };
+    const expectedAction = new fromFieldsActions.ClearFormating(formatClearedField);
     spyOn(store, 'dispatch');
 
     instance.handleClearFormatClicked(field);

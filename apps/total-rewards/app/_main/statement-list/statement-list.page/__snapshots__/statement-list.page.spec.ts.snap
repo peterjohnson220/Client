@@ -2,48 +2,236 @@
 
 exports[`TotalRewardsPageComponent should show the create new banner when no statements are returned 1`] = `
 <pf-total-rewards-statement-list-page
-  loadingStatements$={[Function Observable]}
-  searchTerm$={[Function Observable]}
-  statements$={[Function Observable]}
+  deletingStatement$={[Function Store]}
+  deletingStatementError$={[Function Store]}
+  deletingStatementSuccess$={[Function Store]}
+  focusedTab$={[Function Store]}
+  isDeleteStatetementModalOpen$={[Function Store]}
+  openActionMenuStatement$={[Function Store]}
+  statementsLoading$={[Function Observable]}
+  statementsLoadingError$={[Function Observable]}
+  statementsSearchTerm$={[Function Store]}
+  statementsTotal$={[Function Observable]}
   store={[Function Store]}
+  tabs={[Function NgbTabset]}
 >
   <pf-page-with-title-bar>
     
-    <fa-icon
-      aria-hidden="true"
-      class="mr-2"
-    />
-    Total Rewards Statements 
+    Total Rewards
     
     <pf-input-debounce
       class="mr-2"
     />
     
-    <pf-statements-grid />
+    <div
+      class="d-flex flex-column h-100"
+    >
+      <div
+        class="h-100"
+      >
+        <ngb-tabset>
+          <ul
+            class="nav nav-tabs justify-content-start"
+            role="tablist"
+          >
+            
+            <li
+              class="nav-item"
+            >
+              <a
+                aria-controls="Statements-panel"
+                aria-disabled="false"
+                aria-selected="true"
+                class="nav-link active"
+                href=""
+                id="Statements"
+                role="tab"
+              >
+                 Statements
+                
+              </a>
+            </li>
+            <li
+              class="nav-item"
+            >
+              <a
+                aria-controls="Templates-panel"
+                aria-disabled="false"
+                aria-selected="false"
+                class="nav-link"
+                href=""
+                id="Templates"
+                role="tab"
+              >
+                 Templates
+                
+              </a>
+            </li>
+          </ul>
+          <div
+            class="tab-content"
+          >
+            
+            
+            <div
+              aria-labelledby="Statements"
+              class="tab-pane active"
+              id="Statements-panel"
+              role="tabpanel"
+            >
+              
+              
+              <pf-create-new-statement-banner />
+              
+            </div>
+            
+            
+            <div
+              aria-labelledby="Templates"
+              class="tab-pane "
+              id="Templates-panel"
+              role="tabpanel"
+            >
+              
+              <pf-total-rewards-template-card-selector />
+            </div>
+            
+          </div>
+        </ngb-tabset>
+      </div>
+    </div>
+    <pf-modal-form
+      title="Delete Statement"
+    >
+      
+      <p>
+        Are you sure you want to delete 
+        <strong>
+          
+        </strong>
+        ? This action is permanent and cannot be recovered.
+      </p>
+    </pf-modal-form>
   </pf-page-with-title-bar>
 </pf-total-rewards-statement-list-page>
 `;
 
 exports[`TotalRewardsPageComponent should show the grid component when statements are returned 1`] = `
 <pf-total-rewards-statement-list-page
-  loadingStatements$={[Function Store]}
-  searchTerm$={[Function Store]}
-  statements$={[Function Observable]}
+  deletingStatement$={[Function Store]}
+  deletingStatementError$={[Function Store]}
+  deletingStatementSuccess$={[Function Store]}
+  focusedTab$={[Function Store]}
+  isDeleteStatetementModalOpen$={[Function Store]}
+  openActionMenuStatement$={[Function Store]}
+  statementsLoading$={[Function Store]}
+  statementsLoadingError$={[Function Store]}
+  statementsSearchTerm$={[Function Store]}
+  statementsTotal$={[Function Observable]}
   store={[Function Store]}
+  tabs={[Function NgbTabset]}
 >
   <pf-page-with-title-bar>
     
-    <fa-icon
-      aria-hidden="true"
-      class="mr-2"
-    />
-    Total Rewards Statements 
+    Total Rewards
     
     <pf-input-debounce
       class="mr-2"
     />
     
-    <pf-statements-grid />
+    <div
+      class="d-flex flex-column h-100"
+    >
+      <div
+        class="h-100"
+      >
+        <ngb-tabset>
+          <ul
+            class="nav nav-tabs justify-content-start"
+            role="tablist"
+          >
+            
+            <li
+              class="nav-item"
+            >
+              <a
+                aria-controls="Statements-panel"
+                aria-disabled="false"
+                aria-selected="true"
+                class="nav-link active"
+                href=""
+                id="Statements"
+                role="tab"
+              >
+                 Statements
+                
+              </a>
+            </li>
+            <li
+              class="nav-item"
+            >
+              <a
+                aria-controls="Templates-panel"
+                aria-disabled="false"
+                aria-selected="false"
+                class="nav-link"
+                href=""
+                id="Templates"
+                role="tab"
+              >
+                 Templates
+                
+              </a>
+            </li>
+          </ul>
+          <div
+            class="tab-content"
+          >
+            
+            
+            <div
+              aria-labelledby="Statements"
+              class="tab-pane active"
+              id="Statements-panel"
+              role="tabpanel"
+            >
+              
+              
+              <div
+                class="h-100"
+              >
+                <pf-statements-grid />
+              </div>
+              
+            </div>
+            
+            
+            <div
+              aria-labelledby="Templates"
+              class="tab-pane "
+              id="Templates-panel"
+              role="tabpanel"
+            >
+              
+              <pf-total-rewards-template-card-selector />
+            </div>
+            
+          </div>
+        </ngb-tabset>
+      </div>
+    </div>
+    <pf-modal-form
+      title="Delete Statement"
+    >
+      
+      <p>
+        Are you sure you want to delete 
+        <strong>
+          
+        </strong>
+        ? This action is permanent and cannot be recovered.
+      </p>
+    </pf-modal-form>
   </pf-page-with-title-bar>
 </pf-total-rewards-statement-list-page>
 `;

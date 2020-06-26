@@ -1,0 +1,17 @@
+<pf-model-grid
+  [singleRecordView]="false"
+  [inboundFilters]="filters"
+  [rangeGroupId]="rangeGroupId"
+  [splitViewTemplate]="graph"
+  (addJobs)="openAddJobsModal()"
+  [page]="page"
+  [reorderable]="true">
+</pf-model-grid>
+
+<pf-add-jobs-modal-wrapper></pf-add-jobs-modal-wrapper>
+
+<pf-publish-model-modal [rangeGroupId]="rangeGroupId"></pf-publish-model-modal>
+
+<ng-template #graph>
+  <pf-job-based-range-chart></pf-job-based-range-chart>
+</ng-template>

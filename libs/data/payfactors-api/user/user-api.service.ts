@@ -42,15 +42,21 @@ export class UserApiService {
       .get<UserAssignedRole[]>(`${this.endpoint}/Default.GetAvailableAndAssignedRolesForCurrentUser`);
   }
 
-  getEmailRecipientsSearchResults(companyId: number, searchTerm: string, loaderType: string) {
+  getEmailRecipientsSearchResults(companyId: number, searchTerm: string, loaderType: string, loaderConfigurationGroupId: number) {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/Default.GetEmailRecipientsSearchResults`,
       {
         params: {
           companyId: companyId,
           search: searchTerm,
-          loaderType: loaderType
+          loaderType: loaderType,
+          loaderConfigurationGroupId: loaderConfigurationGroupId
         }
       });
+  }
+
+  getPfAccountExecutives() {
+    return this.payfactorsApiService
+      .get<UserResponse[]>(`${this.endpoint}/Default.GetPfAccountExecutives`);
   }
 
   getPfServicesReps() {
@@ -101,4 +107,14 @@ export class UserApiService {
       }
     });
   }
+
+  jobPicker(searchTerm: string, jobId: number) {
+    return this.payfactorsApiService.get(this.endpoint + '/Default.JobPicker', {
+      params: {
+        search: searchTerm,
+        jobId: jobId
+      }
+    });
+  }
+
 }

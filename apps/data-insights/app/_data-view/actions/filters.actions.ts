@@ -17,6 +17,7 @@ export const RESET_FILTERS = '[Data Insights / Data View Filters] Reset Filters'
 export const SAVE_FILTERS = '[Data Insights / Data View Filters] Save Filters';
 export const SAVE_FILTERS_SUCCESS = '[Data Insights / Data View Filters] Save Filters Success';
 export const SAVE_FILTERS_ERROR = '[Data Insights / Data View Filters] Save Filters Error';
+export const UPDATE_FILTER_FORMAT = '[Data Insights / Data View Filters] Update Filter Format';
 
 export class AddFilter implements Action {
   readonly type = ADD_FILTER;
@@ -108,6 +109,12 @@ export class SaveFiltersError implements Action {
   constructor() {}
 }
 
+export class UpdateFilterFormat implements Action {
+  readonly type = UPDATE_FILTER_FORMAT;
+
+  constructor(public payload: Field) {}
+}
+
 export type Actions
   = AddFilter
   | UpdateFilter
@@ -123,4 +130,5 @@ export type Actions
   | ResetFilters
   | SaveFilters
   | SaveFiltersSuccess
-  | SaveFiltersError;
+  | SaveFiltersError
+  | UpdateFilterFormat;

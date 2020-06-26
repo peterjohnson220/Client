@@ -22,12 +22,12 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectJobManagementState =
+export const selectEmployeeManagementFeature =
   createFeatureSelector<EmployeeManagementState>('feature_employee_management');
 
 // View Selectors
 export const selectEmployeeDataState =
-  createSelector(selectJobManagementState, (state: EmployeeManagementState) => state.employeeData);
+  createSelector(selectEmployeeManagementFeature, (state: EmployeeManagementState) => state.employeeData);
 
 // User Form
 export const getShowEmployeeForm = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getShowEmployeeForm);
@@ -38,7 +38,9 @@ export const getCountries = createSelector(selectEmployeeDataState, fromEmployee
 export const getCurrencies = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getCurrencies);
 export const getDepartments = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getDepartments);
 export const getGradeCodes = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getGradeCodes);
-export const getStructureNames = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getStructureNames);
+export const getStructures = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getStructures);
 export const getEmployeesUserDefinedFields = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getEmployeesUserDefinedFields);
 export const getErrorMessage = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getErrorMessage);
 export const getEmployee = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getEmployeeAsync);
+export const getEmployeeValidationAsync = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getEmployeeValidationAsync);
+export const getMoreCompanyJobsToLoad = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getMoreCompanyJobsToLoad);

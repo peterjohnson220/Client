@@ -4,6 +4,11 @@
 @import 'colors';
 @import 'common/common-variables';
 
+@font-face {
+  font-family: "DejaVu Sans";
+  src: url("/client/comphub/assets/fonts/DejaVuSans.ttf");
+}
+
 %label {
   font-size: .85rem;
   text-transform: uppercase;
@@ -21,6 +26,12 @@
       font-weight: $comphub-bold-font-weight;
       font-size: 1.25rem;
     }
+
+    .f {
+      font-size: 1rem;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
 }
 
 .glossary-svg-disable {
@@ -37,6 +48,7 @@
     background: #f7f7f7;
     border-right: 4px solid rgba(0, 153, 204, 0.06);
     padding: .25rem 1rem;
+    overflow: auto;
 
     .item {
       @extend %info-item;
@@ -99,6 +111,17 @@
       }
     }
 
+    .incs-and-orgs {
+      width: 200px;
+      margin-top: 16px;
+      margin-bottom: -8px;
+
+      .v {
+        color: $comphub-header-blue;
+        font-weight: $comphub-bold-font-weight;
+        font-size: 1.25rem;
+      }
+    }
 
     .graphs {
       margin-top: 2rem;
@@ -121,14 +144,16 @@
           font-size: 2.25rem;
           color: $comphub-header-blue;
 
-          ::ng-deep .currency {
+          .currency {
             color: $pf-additional-colors-green;
             font-size: 70%;
           }
         }
       }
+    }
 
-
+    .job-description-wrapper {
+      margin-top: -20px;
     }
 
     .skills {
@@ -179,7 +204,6 @@
       }
     }
   }
-
 }
 
 .hide-export {
@@ -255,6 +279,17 @@
 
         .actions {
           display: none !important;
+        }
+      }
+    }
+    .graphs {
+      .g {
+        .v {
+          .currency {
+            font-family: "DejaVu Sans", sans-serif;
+            position: relative;
+            bottom: 4px;
+          }
         }
       }
     }

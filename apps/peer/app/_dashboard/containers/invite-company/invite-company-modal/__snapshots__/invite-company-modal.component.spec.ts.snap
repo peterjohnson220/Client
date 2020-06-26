@@ -15,7 +15,6 @@ exports[`Peer - Dashboard - Invite Company Modal should render company selection
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-valid"
-    ng-reflect-form="[object Object]"
     title="Invite a Company"
   >
     
@@ -48,7 +47,6 @@ exports[`Peer - Dashboard - Invite Company Modal should render new company form 
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-valid"
-    ng-reflect-form="[object Object]"
     title="Invite a Company"
   >
     

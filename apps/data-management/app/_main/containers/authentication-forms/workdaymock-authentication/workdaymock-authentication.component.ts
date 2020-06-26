@@ -9,8 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkdayMockAuthenticationComponent implements OnInit {
-
   @Input() validated = false;
+  @Input() waitingForAuthentication = false;
 
   @Output() submitClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();

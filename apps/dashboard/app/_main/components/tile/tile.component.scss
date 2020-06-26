@@ -27,15 +27,6 @@ $tile-border-thickness: 2px;
   background-color: $tile-green-color;
 }
 
-.tile-anchor-overlay{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-
 h1{
   font-size: 2rem;
 }
@@ -52,7 +43,7 @@ h1{
 }
 
 
-.marketing-overlay-context 
+.marketing-overlay-context
 {
   position: absolute;
   width: 100%;

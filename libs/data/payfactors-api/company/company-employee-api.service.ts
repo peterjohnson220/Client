@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { GenericTextValueDto } from 'libs/models/common';
 import { CompanyEmployee } from 'libs/models/company';
+import { EmployeeModalStructuresResponse } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -30,9 +31,12 @@ export class CompanyEmployeeApiService {
       { params: { jobId, paymarketId, companyStructureId } });
   }
 
-  getStructureNames(jobId: number, paymarketId: number): Observable<GenericTextValueDto[]> {
-    return this.payfactorsApiService.get<GenericTextValueDto[]>(`${this.endpoint}/Default.GetStructureRangeGroupAndStructuresNames`,
-      { params: { jobId, paymarketId } });
+  getStructureNames(jobId: number, paymarketId: number, employeeId: number = null): Observable<EmployeeModalStructuresResponse[]> {
+    if (jobId === 0 || paymarketId === 0) {
+      return of([]);
+    }
+    return this.payfactorsApiService.get<EmployeeModalStructuresResponse[]>(`${this.endpoint}/Default.GetEmployeeModalStructures`,
+      { params: { jobId, paymarketId, employeeId } });
   }
 
   createEmployee(employee: CompanyEmployee) {

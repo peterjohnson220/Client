@@ -1,39 +1,54 @@
-<div class="row mb-3">
-    <div class="col-4">
-      <div class="list-group">
-        <pf-community-tab
-          data-qa-id="cnt-postTypeDiscussion"
-          [type]="CommunityPostTypes.Discussion"
-          [active]="postType === CommunityPostTypes.Discussion"
-          (click)="onPostTypeClick(CommunityPostTypes.Discussion)">
-        </pf-community-tab>
-        <pf-community-tab
-          data-qa-id="cnt-postTypeQuestion"
-          [type]="CommunityPostTypes.Question"
-          [active]="postType === CommunityPostTypes.Question"
-          (click)="onPostTypeClick(CommunityPostTypes.Question)">
-        </pf-community-tab>
-        <pf-community-tab
-          data-qa-id="cnt-postTypeJob"
-          [type]="CommunityPostTypes.Job"
-          [active]="postType === CommunityPostTypes.Job"
-          (click)="onPostTypeClick(CommunityPostTypes.Job)">
-        </pf-community-tab>
-      </div>
+<div class="row mb-2">
+  <div class="col-4">
+    <div class="list-group">
+      <pf-community-tab
+        data-qa-id="cnt-postTypeDiscussion"
+        [type]="CommunityPostTypes.Discussion"
+        [active]="postType === CommunityPostTypes.Discussion"
+        (click)="onPostTypeClick(CommunityPostTypes.Discussion)">
+      </pf-community-tab>
+      <pf-community-tab
+        data-qa-id="cnt-postTypeQuestion"
+        [type]="CommunityPostTypes.Question"
+        [active]="postType === CommunityPostTypes.Question"
+        (click)="onPostTypeClick(CommunityPostTypes.Question)">
+      </pf-community-tab>
+      <pf-community-tab
+        data-qa-id="cnt-postTypeJob"
+        [type]="CommunityPostTypes.Job"
+        [active]="postType === CommunityPostTypes.Job"
+        (click)="onPostTypeClick(CommunityPostTypes.Job)">
+      </pf-community-tab>
     </div>
-  <div class="col-8 start-discussion-body pt-2 pb-2">
-        <div class="w-100 pl-3">
-          <pf-community-new-post #newPostComponent *ngIf="postType === CommunityPostTypes.Discussion"></pf-community-new-post>
-          <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>
-          <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
-
-          <div *ngIf="submitVisible" class="ml-3 p-0">
-            <button id="start-discussion-post-button" [disabled]="!submitEnabled"
-                    data-qa-id="btn-startDiscussionPost"
-                    (click)="submitContent()" class="btn btn-primary float-right shadow-none">Post
-              <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
-              </pf-loading-indicator></button>
-          </div>
-        </div>
+  </div>
+  <div class="col-8 pl-4 w-100">
+    <pf-community-new-post #newPostComponent *ngIf="postType === CommunityPostTypes.Discussion"
+      (formChanged)="handlePostFormChanged($event)">
+    </pf-community-new-post>
+    <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>
+    <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
+    <div class="footer-container">
+      <div class="float-left">
+        <button *ngIf="this.postType === this.CommunityPostTypes.Discussion && !disableCommunityAttachments" 
+          class="btn btn-secondary attachment-button"
+          (click)="openAttachmentsModal()">                 
+          <fa-icon *ngIf="!scanningAttachments && postType === CommunityPostTypes.Discussion" icon="paperclip" size="lg" class="icon community-paperclip"></fa-icon>
+          <pf-loading-indicator *ngIf="scanningAttachments"></pf-loading-indicator>
+          Attachments <span *ngIf="scannedAttachments?.length>0" class="attachment-count-text">({{scannedAttachments?.length}})</span>         
+        </button>
+        <div *ngIf="postType === CommunityPostTypes.Discussion && scanningAttachments && submitAttempted" class="text-danger">Processing attachments...</div>
+      </div>
+      <button data-qa-id="btn-reply-cancel" *ngIf="postType === CommunityPostTypes.Discussion"
+        class="btn btn-secondary float-right ml-2"
+        [disabled]="!newPostHasData && communityAttachments?.length <= 0"
+        (click)="discardPost()">Discard
+      </button>
+      <button id="start-discussion-post-button"
+              data-qa-id="btn-startDiscussionPost"
+              (click)="submitContent()" class="btn btn-primary float-right">Post
+        <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
+        </pf-loading-indicator>
+      </button>
+    </div>
   </div>
 </div>

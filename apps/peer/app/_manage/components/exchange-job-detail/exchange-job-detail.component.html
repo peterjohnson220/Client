@@ -1,49 +1,57 @@
-<section *ngIf="exchangeJob">
-  <div class="d-flex">
-    <h5 class="mb-3 font-weight-bold flex-grow-2">Exchange Job</h5>
-    <div *ngIf="selectedCompanyJob.IsPendingPeerUserReview">
-      <button class="approve mr-2" (click)="handleApproveClick()">
-        <fa-icon icon="check"></fa-icon><span>Approve</span>
-      </button>
-      <button class="reject" (click)="handleRejectClick()">
-        <fa-icon icon="times"></fa-icon><span>Reject</span>
-      </button>
+<section *ngIf="exchangeJob" class="h-100">
+  <div class="d-flex flex-column h-100">
+    <div class="d-flex pr-3">
+      <h5 class="mb-3 font-weight-bold flex-grow-2">Exchange Job</h5>
+      <div *ngIf="selectedCompanyJob.IsPendingPeerUserReview">
+        <button class="approve mr-2" (click)="handleApproveClick()">
+          <fa-icon icon="check"></fa-icon><span>Approve</span>
+        </button>
+        <button class="reject" (click)="handleRejectClick()">
+          <fa-icon icon="times"></fa-icon><span>Reject</span>
+        </button>
+      </div>
+      <div *ngIf="!selectedCompanyJob.IsPendingPeerUserReview && selectedCompanyJob.IsAssociated">
+        <button class="unmatch" (click)="handleUnmatchClick()">
+          <pf-unmatch-icon></pf-unmatch-icon><span>Unmatch</span>
+        </button>
+      </div>
     </div>
-    <div *ngIf="!selectedCompanyJob.IsPendingPeerUserReview && selectedCompanyJob.IsAssociated">
-      <button class="unmatch" (click)="handleUnmatchClick()">
-        <pf-unmatch-icon></pf-unmatch-icon><span>Unmatch</span>
-      </button>
+    <div class="position-relative exchange-job-information-body">
+      <pf-async-container
+        class="d-flex flex-column h-100"
+        [loading]="exchangeJobLoading || savingAssociation"
+        [loadingError]="exchangeJobLoadingError || savingAssociationError"
+        [loadingErrorMessage]="'Unexpected Error Occurred'"
+        [hideReloadButton]="true">
+        <div class="pr-3">
+          <div class="info-row">
+            <label class="font-weight-bold w-25 mb-0">Title:</label>
+            <span>{{ exchangeJob.ExchangeJobTitle }}</span>
+          </div>
+          <div class="info-row">
+            <label class="font-weight-bold w-25 mb-0">Family:</label>
+            <span>{{ exchangeJob.ExchangeJobFamily }}</span>
+          </div>
+          <div class="info-row">
+            <label class="font-weight-bold w-25 mb-0">Level:</label>
+            <span>{{ exchangeJob.ExchangeJobLevel }}</span>
+          </div>
+
+        <div class="info-row">
+          <label class="font-weight-bold w-25">Description:</label>
+        </div>
+        </div>
+        <div class="info-row border-0 pr-3 exchange-job-description-container">
+          <ng-container *ngIf="exchangeJob.ExchangeJobDescription && exchangeJob.ExchangeJobDescription !== '#N/A'; else noDescription">
+            <p [innerHTML]="exchangeJob.ExchangeJobDescription | jobDescriptionParser" class="exchange-job-description"></p>
+          </ng-container>
+          <ng-template #noDescription>
+            <p class="font-italic">
+              No Job Description Available
+            </p>
+          </ng-template>
+        </div>
+      </pf-async-container>
     </div>
-  </div>
-  <div class="position-relative">
-    <pf-async-container 
-      [loading]="exchangeJobLoading || savingAssociation" 
-      [loadingError]="exchangeJobLoadingError || savingAssociationError"
-      [loadingErrorMessage]="'Unexpected Error Occurred'"
-      [hideReloadButton]="true">
-      <div class="info-row">
-        <label class="font-weight-bold w-25 mb-0">Title:</label>
-        <span>{{ exchangeJob.ExchangeJobTitle }}</span>
-      </div>
-      <div class="info-row">
-        <label class="font-weight-bold w-25 mb-0">Family:</label>
-        <span>{{ exchangeJob.ExchangeJobFamily }}</span>
-      </div>
-      <div class="info-row">
-        <label class="font-weight-bold w-25 mb-0">Level:</label>
-        <span>{{ exchangeJob.ExchangeJobLevel }}</span>
-      </div>
-      <div class="info-row border-0">
-        <label class="font-weight-bold w-25">Description:</label>
-        <ng-container *ngIf="exchangeJob.ExchangeJobDescription && exchangeJob.ExchangeJobDescription !== '#N/A'; else noDescription">
-          <p [innerHTML]="exchangeJob.ExchangeJobDescription | jobDescriptionParser" class="exchange-job-description"></p>
-        </ng-container>
-        <ng-template #noDescription>
-          <p class="font-italic">
-            No Job Description Available
-          </p>
-        </ng-template>
-      </div>
-    </pf-async-container>
   </div>
 </section>

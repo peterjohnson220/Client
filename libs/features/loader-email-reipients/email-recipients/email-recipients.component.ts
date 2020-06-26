@@ -1,12 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { LoaderTypes } from 'libs/constants/loader-types';
+import { UserOrEmailPickerComponent } from 'libs/ui/common/user-email-picker/user-or-email-picker.component';
 
+import { LoadTypes } from '../../../constants';
+import { ConfigurationGroup, EmailRecipientModel } from '../../../models/data-loads';
 import * as fromOrgDataEmailRecipientsActions from '../state/actions/email-recipients.actions';
-import { EmailRecipientModel } from '../../../models/data-loads';
 
 @Component({
   selector: 'pf-email-recipients-modal',
@@ -15,10 +17,13 @@ import { EmailRecipientModel } from '../../../models/data-loads';
 })
 export class EmailRecipientsComponent implements OnInit {
   @Input() companyId: number;
+  @Input() loaderConfigurationGroupId: number;
   @Input() recipients: EmailRecipientModel[];
+  @Input() loadType: LoadTypes;
   @Input() savingError$: Observable<boolean>;
   @Input() removingError$: Observable<boolean>;
   @Input() emailRecipientsModalOpen$: Observable<boolean>;
+  @ViewChild('userEmailPicker') userOrEmailPickerComponent: UserOrEmailPickerComponent;
 
   errorText: string;
 
@@ -39,10 +44,20 @@ export class EmailRecipientsComponent implements OnInit {
   }
 
   onRecipientSelected(recipient: EmailRecipientModel) {
+    let configurationGroup: ConfigurationGroup;
+    if (!this.loaderConfigurationGroupId) {
+      configurationGroup = {
+        LoaderConfigurationGroupId: null,
+        CompanyId: this.companyId,
+        GroupName: this.loadType === LoadTypes.Sftp ? 'Sftp Saved Mappings' : 'Saved Manual Mappings',
+        LoadType: this.loadType
+      };
+    }
     this.errorText = '';
     recipient.CompanyId = this.companyId;
     recipient.LoaderType = LoaderTypes.OrgData;
-    this.store.dispatch(new fromOrgDataEmailRecipientsActions.SavingEmailRecipient(recipient));
+    recipient.LoaderConfigurationGroupId = this.loaderConfigurationGroupId;
+    this.store.dispatch(new fromOrgDataEmailRecipientsActions.SavingEmailRecipient(recipient, configurationGroup));
   }
 
   clearRecipient(recipient: EmailRecipientModel) {
@@ -52,5 +67,6 @@ export class EmailRecipientsComponent implements OnInit {
 
   handleModalDismissed(): void {
     this.store.dispatch(new fromOrgDataEmailRecipientsActions.CloseEmailRecipientsModal);
+    this.userOrEmailPickerComponent.clearModel();
   }
 }

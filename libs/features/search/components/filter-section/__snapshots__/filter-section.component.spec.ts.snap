@@ -3,12 +3,17 @@
 exports[`Search Feature - Filter Section should display the given title in the header 1`] = `
 <pf-filter-section
   clear={[Function EventEmitter]}
+  collapsed="undefined"
   cssReplacementRegex={[Function RegExp]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
+  persistedCollapsedSetting={[Function String]}
+  persistedCollapsedSetting$={[Function Observable]}
   search={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
+  settingsService={[Function Object]}
+  showLess={[Function EventEmitter]}
   showMore={[Function EventEmitter]}
 >
   <div
@@ -36,8 +41,6 @@ exports[`Search Feature - Filter Section should display the given title in the h
         
         <div
           class="clear-link au-btn-clear-au-txt-job-title"
-          ng-reflect-klass="clear-link"
-          ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
         >
           
           
@@ -65,9 +68,7 @@ exports[`Search Feature - Filter Section should display the transcluded content 
 <ng-component
   filter={[Function Object]}
 >
-  <pf-filter-section
-    ng-reflect-filter="[object Object]"
-  >
+  <pf-filter-section>
     <div
       class="filter"
     >
@@ -93,8 +94,6 @@ exports[`Search Feature - Filter Section should display the transcluded content 
           
           <div
             class="clear-link au-btn-clear-au-txt-job-title"
-            ng-reflect-klass="clear-link"
-            ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
           >
             
             
@@ -125,13 +124,17 @@ exports[`Search Feature - Filter Section should display the transcluded content 
 exports[`Search Feature - Filter Section should show a fa-angle-down icon in the header, when collapsed 1`] = `
 <pf-filter-section
   clear={[Function EventEmitter]}
-  collapsed={[Function Boolean]}
+  collapsed="undefined"
   cssReplacementRegex={[Function RegExp]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
+  persistedCollapsedSetting={[Function String]}
+  persistedCollapsedSetting$={[Function Observable]}
   search={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
+  settingsService={[Function Object]}
+  showLess={[Function EventEmitter]}
   showMore={[Function EventEmitter]}
 >
   <div
@@ -152,11 +155,6 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
         </span>
         
         
-        <div
-          class="ml-2"
-        >
-          <fa-icon />
-        </div>
       </div>
       <div
         class="header-right"
@@ -164,8 +162,6 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
         
         <div
           class="clear-link au-btn-clear-au-txt-job-title"
-          ng-reflect-klass="clear-link"
-          ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
         >
           
           
@@ -177,6 +173,14 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
       </div>
     </div>
     
+    <div>
+      
+      <div
+        class="content"
+      >
+        
+      </div>
+    </div>
   </div>
 </pf-filter-section>
 `;
@@ -185,12 +189,17 @@ exports[`Search Feature - Filter Section should show a search icon and show more
       not singled, and the number of options is >= the max 1`] = `
 <pf-filter-section
   clear={[Function EventEmitter]}
+  collapsed="undefined"
   cssReplacementRegex={[Function RegExp]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
+  persistedCollapsedSetting={[Function String]}
+  persistedCollapsedSetting$={[Function Observable]}
   search={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
+  settingsService={[Function Object]}
+  showLess={[Function EventEmitter]}
   showMore={[Function EventEmitter]}
   singled="false"
 >
@@ -219,8 +228,6 @@ exports[`Search Feature - Filter Section should show a search icon and show more
         
         <div
           class="clear-link au-btn-clear-au-chk-publisher"
-          ng-reflect-klass="clear-link"
-          ng-reflect-ng-class="au-btn-clear-au-chk-publisher"
         >
           
           
@@ -231,8 +238,6 @@ exports[`Search Feature - Filter Section should show a search icon and show more
         
         <div
           class="search au-btn-search-au-chk-publisher"
-          ng-reflect-klass="search"
-          ng-reflect-ng-class="au-btn-search-au-chk-publisher"
         >
           <fa-icon />
         </div>
@@ -246,9 +251,14 @@ exports[`Search Feature - Filter Section should show a search icon and show more
       >
         
         <div
-          class="show-more-link"
+          class="d-flex"
         >
-          Show More
+          <div
+            class="show-more-or-less-link"
+          >
+            Show More
+          </div>
+          
         </div>
       </div>
     </div>

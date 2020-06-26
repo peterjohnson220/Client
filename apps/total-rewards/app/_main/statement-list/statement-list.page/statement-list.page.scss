@@ -1,0 +1,21 @@
+@import 'colors';
+@import 'libs/styles/ngbootstrap-tabset-overrides';
+
+$navTabHeight: 40px;
+
+:host ::ng-deep {
+  .nav-tabs {
+    font-size: 1.2rem;
+    height: $navTabHeight;
+  }
+
+  @include pf-tabset;
+  .tab-pane {
+    height: 100%;
+  }
+
+  .tab-content {
+    padding-top: 20px;
+    height: calc(100% - #{$navTabHeight});
+  }
+}

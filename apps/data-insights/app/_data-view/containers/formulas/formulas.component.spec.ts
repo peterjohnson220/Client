@@ -45,8 +45,8 @@ describe('FormulasComponent', () => {
     fixture = TestBed.createComponent(FormulasComponent);
     instance = fixture.componentInstance;
     formBuilder = new FormBuilder();
-    ngbModal = TestBed.get(NgbModal);
-    store = TestBed.get(Store);
+    ngbModal = TestBed.inject(NgbModal);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });

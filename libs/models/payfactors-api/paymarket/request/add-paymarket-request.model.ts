@@ -1,7 +1,8 @@
 import { PayMarket } from 'libs/models/paymarket';
+import { NewlyAddedDefaultScope } from 'libs/features/paymarket-management/models';
 
 export interface AddPayMarketRequest {
-  DefaultExchangeScopes: [];
-  DefaultScopes: [];
+  DefaultExchangeScopes: string[];
+  DefaultScopes: NewlyAddedDefaultScope[];
   PayMarket: PayMarket;
 }

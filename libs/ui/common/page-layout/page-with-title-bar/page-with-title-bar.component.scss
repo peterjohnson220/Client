@@ -1,26 +1,63 @@
 @import 'colors';
 
+// Common
+.page-title {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3px;
+
+  :empty {
+    display: none;
+  }
+
+  .subtitle{
+    color: $detail-label;
+
+    :empty {
+      display: none;
+    }
+  }
+}
+
 .page-header{
-  background: $grey;
   border-bottom: 1px solid $border-grey;
   height: 67px;
   flex-shrink: 0;
   padding: 0 0.85rem;
 }
 
-.page-title {
-  margin-bottom: 3px;
-
-  :empty {
-    display: none;
-  }
-}
-
-.page-content {
-  background-color: #FFFFFF;
-}
-
 .back-btn{
   padding: 0.375rem 0.95rem;
   margin-right: 0.65rem;
+}
+
+// Default Theme
+.default {
+  .page-header {
+    background: $grey;
+  }
+
+  .page-content {
+    background-color: #FFFFFF;
+
+    &.no-padding {
+      padding: 0
+    }
+  }
+}
+
+// Next Gen Theme
+.next-gen {
+  .page-header {
+    background-color: white;
+  }
+
+  .page-content {
+    background: #F6F9FC;
+    height: 100%;
+
+    &.no-padding {
+      padding: 0
+    }
+  }
 }

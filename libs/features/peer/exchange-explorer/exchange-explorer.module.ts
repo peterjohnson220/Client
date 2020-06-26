@@ -55,7 +55,7 @@ const declarations = [
     ]),
     SwitchModule,
     DropDownListModule,
-    NgxMapboxGLModule.withConfig({accessToken: environment.mapboxAccessToken}),
+    NgxMapboxGLModule,
     NgbPopoverModule,
     FontAwesomeModule,
 

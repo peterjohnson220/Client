@@ -1,0 +1,22 @@
+<pf-page-with-title-bar [absoluteUrl]="'/client/labs'">
+  <ng-container page-title>
+    Loader Dashboard
+  </ng-container>
+  <ng-container page-content>
+    <div [ngClass]="'container my-5'">
+      <div class="row">
+        <div class="inner-content col w-100">
+          <div class="mb-4">
+            <pf-loader-dashboard-filter></pf-loader-dashboard-filter>
+          </div>
+          <div class="mb-4">
+            <pf-loader-dashboard-file-grid></pf-loader-dashboard-file-grid>
+          </div>
+          <div>
+            <pf-loader-dashboard-grid></pf-loader-dashboard-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>

@@ -24,7 +24,9 @@
 
     <pf-job-search-results [canSelectJobs]="canSelectJobs"
                            [useSmallBizStyles]="isSmallBiz"
-                           [customSearchResultsStyle]="addJobsConfig?.enablePaymarkets ? {'width': '67%'} : {}">
+                           [customSearchResultsStyle]="addJobsConfig?.enablePaymarkets ? {'width': '67%'} : {}"
+                           [showJobBasedRangesJobMetadata]="addJobsConfig?.enableAssignedStructuresMetadata || false" 
+                           [showJobSourceOrTitle]="addJobsConfig?.enabledJobSourceOrTitle">
     </pf-job-search-results>
 
     <pf-paymarkets *ngIf="addJobsConfig?.enablePaymarkets" [useSmallBizStyles]="isSmallBiz"></pf-paymarkets>
@@ -68,13 +70,27 @@
               [attr.data-qa-id]="'btn-cancelAddJobs'">
         Cancel
       </button>
+
+      <button (click)="handleAddAllClicked()"
+              class="btn btn-link mr-3 au-btn-addall"
+              [attr.data-qa-id]="'btn-addAllJobs'"
+              [disabled]="(addingData$ | async)
+                          || (numberOfSearchResults$ | async) === 0"
+              *ngIf="addJobsConfig?.enableAddAllJobs">
+        <ng-container>
+          Add All
+          <span *ngIf="(numberOfSearchResults$ | async) > 0">
+            {{ numberOfSearchResults$ | async }}
+          </span>
+        </ng-container>
+      </button>
     </span>
 
 
     <span class="error-adding-jobs text-danger" *ngIf="!!(addingDataError$ | async)">
       {{
       (addingDataErrorMessage$ | async)
-        ? (addingDataErrorMessage$ | async).error.error.message
+        ? (addingDataErrorMessage$ | async)
         : 'Error adding selected job(s).'
       }}
     </span>

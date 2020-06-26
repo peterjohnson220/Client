@@ -40,7 +40,7 @@ describe('Admin - Tickets - Ticket - TicketFields', () => {
 
     fixture = TestBed.createComponent(TicketFieldsComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should call getPfServiceRepsByCompany upon init.  pfServiceReps should contain API result', () => {

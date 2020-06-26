@@ -1,19 +1,15 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 
-import * as fromCommunityPostReducer from '../../reducers';
+import * as fromCommunityReducers from '../../reducers';
+
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
-
-import * as fromCommunityPostReplyReducer from '../../reducers';
-import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
-
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
-
-import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
+import * as fromCommunityAttachmentWarningActions from '../../actions/community-attachment-warning.actions';
 
 import { CommunityPost } from 'libs/models/community';
 import { environment } from 'environments/environment';
@@ -21,6 +17,8 @@ import { CommunityPollTypeEnum } from 'libs/models/community/community-constants
 import { CommunityTag } from 'libs/models/community/community-tag.model';
 import { Tag } from '../../models/tag.model';
 import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
+import { SettingsService } from 'libs/state/app-context/services';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 @Component({
   selector: 'pf-community-posts',
@@ -28,6 +26,7 @@ import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
   styleUrls: [ './community-posts.component.scss' ]
 })
 export class CommunityPostsComponent implements OnInit, OnDestroy {
+  @Input() disableCommunityAttachments: boolean;
   @Output() filtersModifiedEvent = new EventEmitter();
 
   avatarUrl = environment.avatarSource;
@@ -41,6 +40,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   filteredByPost$: Observable<boolean>;
   totalDiscussionResultsOnServer$: Observable<number>;
   communityPostEdited$: Observable<any>;
+  hideAttachmentWarning$: Observable<boolean>;
+  hideAttachmentWarning: boolean;
 
   communityPosts: CommunityPost[];
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
@@ -51,6 +52,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   hasNextBatchResultsOnServerSubscription: Subscription;
   hasPreviousBatchResultsOnServerSubscription: Subscription;
   postEditedSubscription: Subscription;
+  hideAttachmentWarningSubscription: Subscription;
 
   loadingNextBatchCommunityPosts: boolean;
   loadingPreviousBatchCommunityPosts: boolean;
@@ -60,23 +62,25 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
 
 
   constructor(private route: ActivatedRoute,
-              public store: Store<fromCommunityPostReducer.State>,
-              public replyStore: Store<fromCommunityPostReplyReducer.State>,
-              public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>,
-              public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
+              public store: Store<fromCommunityReducers.State>,
+              public replyStore: Store<fromCommunityReducers.State>,
+              public addReplyViewStore: Store<fromCommunityReducers.State>,
+              public filterStore: Store<fromCommunityReducers.State>,
+              private settingService: SettingsService) {
 
-    this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPostsCombinedWithReplies);
-    this.maximumReplies$ = this.store.select(fromCommunityPostReducer.getMaximumReplies);
+    this.communityPosts$ = this.store.select(fromCommunityReducers.getCommunityPostsCombinedWithReplies);
+    this.maximumReplies$ = this.store.select(fromCommunityReducers.getMaximumReplies);
 
-    this.loadingCommunityPosts$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPosts);
-    this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
-    this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
-    this.totalDiscussionResultsOnServer$ = this.store.select(fromCommunityPostReducer.getTotalDiscussionResultsOnServer);
-    this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
-    this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
-    this.filteredByPost$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);
-    this.communityPostEdited$ = this.store.select(fromCommunityPostReplyReducer.getCommunityPostEdited);
-
+    this.loadingCommunityPosts$ = this.store.select(fromCommunityReducers.getGettingCommunityPosts);
+    this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityReducers.getLoadingNextBatchPosts);
+    this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityReducers.getLoadingPreviousBatchPosts);
+    this.totalDiscussionResultsOnServer$ = this.store.select(fromCommunityReducers.getTotalDiscussionResultsOnServer);
+    this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityReducers.getHasNextBatchPostsOnServer);
+    this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityReducers.getHasPreviousBatchPostsOnServer);
+    this.filteredByPost$ = this.filterStore.select(fromCommunityReducers.getFilteredByPost);
+    this.communityPostEdited$ = this.store.select(fromCommunityReducers.getCommunityPostEdited);
+    this.hideAttachmentWarning$ = this.settingService.selectUiPersistenceSetting(
+      FeatureAreaConstants.Community, UiPersistenceSettingConstants.CommunityHideAttachmentWarningModal, 'boolean');
   }
 
   ngOnInit() {
@@ -135,6 +139,12 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.hasPreviousBatchResultsOnServerSubscription = this.getHasPreviousBatchPostsOnServer$.subscribe(value => {
       if (value != null) {
         this.hasPreviousBatchOnServer = value;
+      }
+    });
+
+    this.hideAttachmentWarningSubscription = this.hideAttachmentWarning$.subscribe(value => {
+      if (value != null) {
+        this.hideAttachmentWarning = value;
       }
     });
   }
@@ -203,4 +213,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.filtersModified();
   }
 
+  handleAttachmentClickedEvent(event) {
+    this.store.dispatch(new fromCommunityAttachmentWarningActions.OpenCommunityAttachmentsWarningModal(event));
+  }
 }

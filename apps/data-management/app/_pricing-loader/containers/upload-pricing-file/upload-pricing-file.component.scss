@@ -1,0 +1,49 @@
+@import 'kendo-checkbox-overrides';
+
+.title {
+  font-size: 16px;
+  margin-bottom: 1rem;
+}
+
+.content {
+  box-sizing: border-box;
+  border: 0.5px solid rgba(151,151,151,0.4);
+  border-radius: 6px;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.16);
+  margin: 0rem;
+  padding: 1rem;
+}
+
+.upload-notes {
+  box-sizing: border-box;
+  border: 1px solid #BCDFF1;
+  border-radius: 4px;
+  background-color: #D9EDF7;
+  padding: 1rem;
+  color: #31708F;
+}
+
+.form-group {
+  label {
+    width: 100px;
+  }
+}
+
+.error-message {
+  line-height: 2rem;
+}
+
+.btn-secondary:disabled {
+  border-color: #cccccc;
+}
+
+.body {
+  height: 187px;
+}
+
+.validation-only {
+  .k-checkbox-title {
+    margin-top: 0.2rem;
+  }
+}

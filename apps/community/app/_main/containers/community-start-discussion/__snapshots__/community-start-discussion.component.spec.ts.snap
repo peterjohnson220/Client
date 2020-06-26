@@ -2,15 +2,23 @@
 
 exports[`CommunityStartDiscussionComponent should show community start discussion 1`] = `
 <pf-community-start-discussion
+  addingCommunityDiscussionPollSuccess$={[Function Store]}
+  appNotificationStore={[Function Store]}
+  communityAttachments={[Function Array]}
+  currentAttachmentModalState$={[Function Store]}
+  discardingPostProceed$={[Function Store]}
+  getNotification$={[Function Store]}
+  newPostHasData="false"
   postType="0"
   route={[Function Object]}
-  showPostJobButton={[Function Boolean]}
   store={[Function Store]}
+  submitAttempted="false"
   submittingCommunityJobSuccess$={[Function Store]}
   submittingCommunityPost$={[Function Store]}
+  submittingCommunityPostSuccess$={[Function Store]}
 >
   <div
-    class="row mb-3"
+    class="row mb-2"
   >
     <div
       class="col-4"
@@ -30,15 +38,29 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
       </div>
     </div>
     <div
-      class="col-8 start-discussion-body pt-2 pb-2"
+      class="col-8 pl-4 w-100"
     >
+      
+      
+      
       <div
-        class="w-100 pl-3"
+        class="footer-container"
       >
+        <div
+          class="float-left"
+        >
+          
+          
+        </div>
         
-        
-        
-        
+        <button
+          class="btn btn-primary float-right"
+          data-qa-id="btn-startDiscussionPost"
+          id="start-discussion-post-button"
+        >
+          Post 
+          
+        </button>
       </div>
     </div>
   </div>
@@ -47,15 +69,23 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
 
 exports[`CommunityStartDiscussionComponent should show community start poll 1`] = `
 <pf-community-start-discussion
+  addingCommunityDiscussionPollSuccess$={[Function Store]}
+  appNotificationStore={[Function Store]}
+  communityAttachments={[Function Array]}
+  currentAttachmentModalState$={[Function Store]}
+  discardingPostProceed$={[Function Store]}
+  getNotification$={[Function Store]}
+  newPostHasData="false"
   postType={[Function Number]}
   route={[Function Object]}
-  showPostJobButton={[Function Boolean]}
   store={[Function Store]}
+  submitAttempted="false"
   submittingCommunityJobSuccess$={[Function Store]}
   submittingCommunityPost$={[Function Store]}
+  submittingCommunityPostSuccess$={[Function Store]}
 >
   <div
-    class="row mb-3"
+    class="row mb-2"
   >
     <div
       class="col-4"
@@ -75,15 +105,29 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
       </div>
     </div>
     <div
-      class="col-8 start-discussion-body pt-2 pb-2"
+      class="col-8 pl-4 w-100"
     >
+      
+      
+      
       <div
-        class="w-100 pl-3"
+        class="footer-container"
       >
+        <div
+          class="float-left"
+        >
+          
+          
+        </div>
         
-        
-        
-        
+        <button
+          class="btn btn-primary float-right"
+          data-qa-id="btn-startDiscussionPost"
+          id="start-discussion-post-button"
+        >
+          Post 
+          
+        </button>
       </div>
     </div>
   </div>

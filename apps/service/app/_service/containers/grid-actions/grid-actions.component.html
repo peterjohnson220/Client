@@ -1,0 +1,19 @@
+<div class="d-flex service-page-grid-actions">
+  <div>
+    <kendo-dropdownlist *ngIf="!!userId"
+      class="mr-3"
+      [popupSettings]="{appendTo: 'component'}"
+      [data]="ticketListModes"
+      [(ngModel)]="selectedTicketListMode"
+      (valueChange)="handleSelectedTicketListModeChanged($event)">
+    </kendo-dropdownlist>
+  </div>
+  <pf-treeview
+    *ngIf="!!(ticketStates$ | async)?.obj?.length"
+    [data]="(ticketStates$ | async)?.obj"
+    [placeholder]="'Status'"
+    class="filter"
+    [compressChildValues]="true"
+    (applyClicked)="handleSelectedStatesChanged($event)">
+  </pf-treeview>
+</div>

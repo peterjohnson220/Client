@@ -3,7 +3,6 @@
   pageSubTitle="Now, let's define the market"
   pageIconClass="map-marker-alt"
   [page]="comphubPages.Markets"
-  [workflowContext]="workflowContext"
   [nextButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Markets"
   [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Markets">
 
@@ -87,7 +86,6 @@
         </div>
         </div>
       </ng-container>
-
 
     </pf-async-container>
 

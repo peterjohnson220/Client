@@ -45,8 +45,8 @@ describe('Add Survey Titles modal', () => {
   }));
 
   beforeEach(() => {
-    activatedRoute = TestBed.get(ActivatedRoute);
-    store = TestBed.get(Store);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(SurveyComponent);
     component = fixture.componentInstance;
     component.userContext$ = of(generateMockUserContext());

@@ -5,8 +5,9 @@
                     [data]="filteredData"
                     [placeholder]="'Select Company'"
                     [suggest]="true"
-                    [textField]="'CompanyName'"
+                    [textField]="'CombinedDetail'"
                     [valueField]="'CompanyId'"
+                    [disabled]="isDisabled"
                     class="form-control"
                     id="companySearch"
                     (valueChange)="setSelectedCompany($event)">

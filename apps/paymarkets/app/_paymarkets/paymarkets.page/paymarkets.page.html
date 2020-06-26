@@ -1,0 +1,66 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [title]="'Pay Markets'"
+  [selectionField]="'PayMarket'"
+  [defaultSort]="defaultSort"
+  [actionBarConfig]="actionBarConfig"
+  [columnTemplates]="colTemplates"
+  [gridRowActionsConfig]="gridRowActionsConfig"
+  [gridActionsTemplate]="gridActions"
+  [customSortOptions]="customSortOptions">
+</pf-data-grid>
+
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+  <div ngbDropdown container="body" #p="ngbDropdown"
+    (openChange)="handleSelectedRowAction(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'], p)">
+    <fa-icon ngbDropdownToggle
+             icon="ellipsis-h"
+             id="paymarket-actions-{{dataRow['CompanyPayMarkets_CompanyPayMarket_ID']}}"
+             class="gray-text">
+    </fa-icon>
+    <div ngbDropdownMenu aria-labelledby="paymarket-actions-{{dataRow['CompanyPayMarkets_CompanyPayMarket_ID']}}">
+      <button ngbDropdownItem (click)="editPayMarket(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'])">Edit</button>
+      <button *ngIf="defaultPayMarketId !== dataRow['CompanyPayMarkets_CompanyPayMarket_ID']"
+        ngbDropdownItem
+        (click)="setDefaultPayMarket(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'])">
+        Set as default
+      </button>
+      <button ngbDropdownItem>Delete</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #payMarketNameColumn let-dataRow="dataRow" let-hover="hover">
+  <div class="d-flex">
+    <span pfEllipsisActive class="w-100 ellipsis-overflowing-text-wrap" *ngIf="!!dataRow['CompanyPayMarkets_PayMarket']">{{dataRow['CompanyPayMarkets_PayMarket']}} </span>
+    <span *ngIf="dataRow['CompanyPayMarkets_IsDefaultPayMarket'] === 1" class="badge default-badge btn flex-shrink-1 pl-2 pr-2">Default</span>
+  </div>
+</ng-template>
+
+<ng-template #defaultScopesColumn let-dataRow="dataRow" let-hover="hover">
+  <div class="flex">
+    <h5 *ngIf="!!dataRow['CompanyPayMarkets_SurveyScopesCount']" class="badge gray-badge mr-2">
+      {{dataRow['CompanyPayMarkets_SurveyScopesCount']}} Survey<span *ngIf="dataRow['CompanyPayMarkets_SurveyScopesCount'] > 1">s</span>
+    </h5>
+    <h5 *ngIf="!!dataRow['CompanyPayMarkets_ExchangeScopesCount']" class="badge gray-badge">
+      {{dataRow['CompanyPayMarkets_ExchangeScopesCount']}} Exchange<span *ngIf="dataRow['CompanyPayMarkets_ExchangeScopesCount'] > 1">s</span>
+    </h5>
+  </div>
+</ng-template>
+
+<ng-template #gridActions>
+  <pf-paymarkets-grid-actions></pf-paymarkets-grid-actions>
+</ng-template>
+
+<ng-template #gridGlobalActions>
+  <button
+    [pfSecuredResource]="permissions.PAY_MARKETS_ADD_EDIT_DELETE"
+    [attr.data-qa-id]="'btn-newPayMarket'"
+    type="button"
+    (click)="addNewPayMarket()"
+    class="btn btn-primary">
+    New Pay Market
+  </button>
+</ng-template>
+
+<pf-paymarket-modal [companyId]="companyId"></pf-paymarket-modal>

@@ -1,0 +1,156 @@
+<ng-container *ngIf="singleRecordView else fullGrid">
+  <pf-data-grid
+    [pageViewId]="modelPageViewId"
+    [showTitle]="false"
+    [compactGrid]="true"
+    [showHeaderWhenCompact]="true"
+    [inboundFilters]="inboundFilters"
+    [contentClassNamesOverrides]="'p-0'"
+    [allowSort]="false"
+    [applyDefaultFilters]="false"
+    [columnTemplates]="colTemplates"
+    [pageTheme]="'next-gen'"
+    [actionBarConfig]="singleRecordActionBarConfig"
+    [reorderable]="reorderable">
+  </pf-data-grid>
+</ng-container>
+
+<ng-template #fullGrid>
+  <pf-data-grid
+    [title]="(metaData$ | async)?.IsCurrent ? (metaData$ | async)?.StructureName : (metaData$ | async)?.ModelName"
+    [subtitle]="(metaData$ | async)?.IsCurrent ? '' : 'Structure: ' + (metaData$ | async)?.StructureName"
+    [navigationURL]="'/marketdata/structures.asp'"
+    [inboundFilters]="inboundFilters"
+    [defaultSort]="defaultSort"
+    [pageViewId]="modelPageViewId"
+    [pagingOptions]="defaultPagingOptions"
+    [columnTemplates]="colTemplates"
+    [gridContainerSplitViewWidth]="'60%'"
+    [splitViewTemplate]="splitViewTemplate"
+    [aboveGridTemplate]="aboveGridTemplate"
+    [splitOnSelection]="false"
+    [noRecordsFound]="'No ranges found.'"
+    [applyDefaultFilters]="false"
+    [actionBarConfig]="fullGridActionBarConfig"
+    [pageTheme]="'next-gen'"
+    [contentClassNamesOverrides]="'py-3 px-4'"
+    [pageable]="false"
+    [borders]="false"
+    [reorderable]="reorderable"
+    [syncScrollWithSplit]="true"
+    [gridRowActionsConfig] = "(!(selectedRecordId$ | async)) && !this.hideRowActions() ? gridRowActionsConfig: null">
+  </pf-data-grid>
+</ng-template>
+
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+  <fa-icon [icon]="['far', 'trash-alt']" title="Remove" *ngIf="metaData.IsCurrent"
+           [attr.data-qa-id]="'btn-model-grid-remove-range-' + dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']"
+           [pfSecuredResource]="permissions.STRUCTURES_ADD_EDIT_DELETE"
+           (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
+  <fa-icon [icon]="['far', 'trash-alt']" title="Remove" *ngIf="!metaData.IsCurrent"
+           [attr.data-qa-id]="'btn-model-grid-remove-range-' + dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']"
+           [pfSecuredResource]="permissions.STRUCTURES_CREATE_EDIT_MODEL"
+           (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
+</ng-template>
+
+<ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
+  <ng-container *ngIf="!!dataRow.CompanyStructures_Ranges_Mid; else noValue">
+    <pf-midpoint-editor
+      [pageViewId]="modelPageViewId"
+      [rangeGroupType]="rangeGroupType"
+      [rangeGroupId]="dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID"
+      [rangeId]="dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID"
+      [rate]="(metaData$ | async)?.Rate"
+      [mid]="dataRow.CompanyStructures_Ranges_Mid"
+      [currentStructure]="(metaData$ | async)?.IsCurrent"
+      [dataRow]="dataRow"
+      [rowIndex]="rowIndex"
+      [roundingSettings]="roundingSettings"
+      [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
+      [updateMetaInfo]="{ page: page }"
+      [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
+      [readonlyValueTemplate]="midReadOnly">
+    </pf-midpoint-editor>
+  </ng-container>
+</ng-template>
+
+<ng-template #eeCount let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_NumEmployees as numEmployees; else noValue">
+    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/{{rangeGroupId}}/employees/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
+      {{ numEmployees }}
+    </a>
+  </ng-container>
+</ng-template>
+
+<ng-template #mrpValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.CompanyStructures_RangeGroup_MarketReferencePointValue as mrpValue; else noValue">
+    <a class="temp-link-color-override" routerLinkActive="disabled" routerLink="/{{rangeGroupId}}/pricings/{{dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID}}">
+      {{ mrpValue | rangeValue: (metaData$ | async)?.Rate }}
+    </a>
+  </ng-container>
+</ng-template>
+
+<ng-template #rangeValue let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]; else noValue">{{ dataRow[fieldName] | rangeValue: (metaData$ | async)?.Rate }}</ng-container>
+</ng-template>
+
+<ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName] || dataRow[fieldName] === 0; else noValue">{{dataRow[fieldName]}}%</ng-container>
+</ng-template>
+
+<ng-template #noFormatting let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap" *ngIf="dataRow[fieldName]; else noValue">
+    {{dataRow[fieldName]}}
+  </div>
+</ng-template>
+
+<ng-template #gridGlobalActions>
+  <pf-global-actions
+    [metadata]="metaData$ | async"
+    (addJobsClicked)="handleAddJobsClicked()"
+    (modelSettingsClicked)="handleModelSettingsClicked()"
+    (publishModelClicked)="handlePublishModelClicked()">
+  </pf-global-actions>
+</ng-template>
+
+<ng-template #aboveGridTemplate>
+  <pf-grid-context [title]="'Job Ranges'" [metadata]="metaData$ | async"></pf-grid-context>
+</ng-template>
+
+<ng-template #noValue>
+  - -
+</ng-template>
+
+<ng-template #midReadOnly let-mid="mid">
+  {{mid | rangeValue: (metaData$ | async)?.Rate }}
+</ng-template>
+
+<pf-model-settings-modal [rangeGroupId]="rangeGroupId" [page]="page"></pf-model-settings-modal>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Remove a Job'"
+  [primaryButtonText]="'Remove'"
+  [primaryButtonClass]="'btn-danger'"
+  [primaryButtonTextSubmitting]="'Removing'"
+  [modalId]="'au-modal-model-grid-remove-range'"
+  [submitting]="(removingRange$ | async).loading"
+  [allowDismiss]="!(removingRange$ | async).loading"
+  [isOpen$]="showRemoveRangeModal$"
+  (onSubmit)="removeRange()"
+  (onDismiss)="showRemoveRangeModal.next(false)">
+
+  <ng-container basic-content>
+    <div class="remove-range">This job will be removed from this structure.  Are you sure you want to continue?</div>
+    <div *ngIf="removingRange$ | async as removingRange">
+      <div *ngIf="removingRange.loadingError">
+        <br>
+        <span class="text-danger">
+          <b *ngIf="removingRange.loadingErrorResponse.status !== 200">
+            We encountered a problem removing your job. Please try again or contact your account representative.
+          </b>
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>

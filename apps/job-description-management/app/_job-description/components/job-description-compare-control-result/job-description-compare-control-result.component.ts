@@ -43,7 +43,7 @@ export class JobDescriptionCompareControlResultComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersion).subscribe((controlTypes) => {
+    this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getControlTypes).subscribe((controlTypes) => {
       this.controlType = controlTypes.find(ct => ct.Type === this.control.Type && ct.ControlVersion === this.control.ControlVersion );
     });
 

@@ -2,7 +2,7 @@
                     [loadingError]="ticketListLoadingError$ | async"
                     [loadingErrorMessage]="'Error Loading Tickets'"
                     (reload)="handleTicketGridReload()">
-  <kendo-grid class="row-click-navigates"
+  <kendo-grid *ngIf="initFilterComplete" class="row-click-navigates"
               #ticketGrid
               [data]="gridView"
               [filterable]="true"
@@ -38,7 +38,7 @@
                                [valueField]="'UserTicketState'"
                                [filterField]="ticketFieldType.STATUS"
                                [defaultValue]="'Open'"
-                               (valueChange)="filterChanged()">
+                               (valueChange)="filterChanged($event)">
         </pf-ticket-list-filter>
       </ng-template>
     </kendo-grid-column>
@@ -49,11 +49,21 @@
                    let-dataItem>
         <pf-ticket-value-picker [data]="userTicketTypes"
                                 [ticketId]="dataItem.Id"
-                                [textField]="'TicketTypeDisplayName'"
+                                [textField]="'TicketTypeShortName'"
                                 [valueField]="'TicketTypeDisplayName'"
                                 [pickerType]="ticketFieldType.TYPE"
                                 [selectedValue]="getSelectedUserType(dataItem.Type)"
                                 [pickerOnly]="false">
+          <ng-container beside-label>
+            <div class="state-icons" *ngIf="dataItem.HasNewAttachments || dataItem.HasNotes">
+              <span class="text-info" title="New Attachment Added" *ngIf="dataItem.HasNewAttachments">
+                <fa-icon icon="paperclip"></fa-icon>
+              </span>
+              <span class="text-info" title="Client Note Added" *ngIf="dataItem.HasNotes">
+                <fa-icon icon="comment-alt-exclamation"></fa-icon>
+              </span>
+            </div>
+          </ng-container>
         </pf-ticket-value-picker>
       </ng-template>
       <ng-template kendoGridFilterCellTemplate
@@ -61,10 +71,10 @@
         <pf-ticket-list-filter #ticketTypeFilter
                                [filter]="filter"
                                [data]="userTicketTypes"
-                               [textField]="'TicketTypeDisplayName'"
+                               [textField]="'TicketTypeShortName'"
                                [valueField]="'TicketTypeDisplayName'"
                                [filterField]="ticketFieldType.TYPE"
-                               (valueChange)="filterChanged()">
+                               (valueChange)="filterChanged($event)">
         </pf-ticket-list-filter>
       </ng-template>
     </kendo-grid-column>
@@ -80,7 +90,7 @@
                                [filterField]="ticketFieldType.TICKETID"
                                [textField]="'Id'"
                                [valueField]="'Id'"
-                               (valueChange)="filterChanged()">
+                               (valueChange)="filterChanged($event)">
         </pf-ticket-list-filter>
       </ng-template>
       <ng-template kendoGridCellTemplate
@@ -102,7 +112,7 @@
                                [filterField]="ticketFieldType.COMPANYIDNAME"
                                [textField]="'CompanyName'"
                                [valueField]="'CompanyName'"
-                               (valueChange)="filterChanged()">
+                               (valueChange)="filterChanged($event)">
         </pf-ticket-list-filter>
       </ng-template>
       <ng-template kendoGridCellTemplate
@@ -123,7 +133,7 @@
                                [filterField]="ticketFieldType.OPENED_USERNAME"
                                [textField]="'OpenedUserFullName'"
                                [valueField]="'OpenedUserFullName'"
-                               (valueChange)="filterChanged()">
+                               (valueChange)="filterChanged($event)">
         </pf-ticket-list-filter>
       </ng-template>
       <ng-template kendoGridCellTemplate
@@ -140,9 +150,7 @@
                        [sortable]="false">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <div>
-          {{dataItem.Description.length > 150 ? dataItem.Description.substring(0,150) +  '...' : dataItem.Description}}
-        </div>
+        <div [innerHtml]="dataItem.Description | stripHtml | TruncateAfter:150"></div>
         <div class="pl-2 action-item text-underline"
              *ngFor="let attachment of dataItem.Attachments">
           <a href="/odata/CloudFiles.DownloadUserTicketAttachment?AttachmentId={{attachment.AttachmentId}}&TicketID={{dataItem.Id}}"
@@ -162,11 +170,25 @@
       </ng-template>
       <ng-template kendoGridFilterCellTemplate
                    let-filter>
-        <pf-ticket-list-date-range-filter #createDateRangeFilter
-                                          [filter]="filter"
+        <pf-ticket-list-date-range-filter [filter]="filter"
                                           [filterField]="ticketFieldType.CREATED"
+                                          (valueChange)="filterChanged($event)">
+        </pf-ticket-list-date-range-filter>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="UserModifiedDate"
+                       title="Modified"
+                       width="35">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div [innerHTML]="dataItem.UserModifiedDate | date:'LL/dd/yyyy'"></div>
+      </ng-template>
+      <ng-template kendoGridFilterCellTemplate
+                   let-filter>
+        <pf-ticket-list-date-range-filter [filter]="filter"
+                                          [filterField]="ticketFieldType.USER_MODIFIED"
                                           [defaultValue]="defaultDateRange"
-                                          (valueChange)="filterChanged()">
+                                          (valueChange)="filterChanged($event)">
         </pf-ticket-list-date-range-filter>
       </ng-template>
     </kendo-grid-column>
@@ -193,7 +215,7 @@
                                [valueField]="'PfServicesRepId'"
                                [filterField]="ticketFieldType.SERVICEUSER"
                                [defaultValue]="defaultPfServiceRep"
-                               (valueChange)="filterChanged()">
+                               (valueChange)="filterChanged($event)">
         </pf-ticket-list-filter>
       </ng-template>
     </kendo-grid-column>

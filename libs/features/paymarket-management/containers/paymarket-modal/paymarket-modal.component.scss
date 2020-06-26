@@ -1,0 +1,35 @@
+::ng-deep ngb-tabset {
+  .nav-link {
+    color: black !important;
+    padding: 0.75rem 1.0rem;
+    font-size: 16px;
+  }
+  
+  .nav-tabs .nav-link {
+    border-width: 0 !important;
+  }
+  
+  .nav-tabs .nav-link.active {
+    border-bottom: 3px solid #5FA1D2 !important;
+    z-index: 999;
+    background-color: inherit;
+  }
+  
+  .nav-tabs {
+    border-bottom: 2px solid rgb(222,226,230);
+  }
+
+  .tab-content {
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+.paymarket-modal-container {
+  height: 435px;
+}
+
+.edit-note {
+  font-style: italic;
+}

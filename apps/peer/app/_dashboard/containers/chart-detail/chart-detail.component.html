@@ -13,16 +13,28 @@
   <div class="card-body">
 
     <h4 *ngIf="!isCompanyChartType" class="mb-2">
-      {{ (detailChartCategory$ | async )}}
+      {{ (detailChartCategory$ | async)}}
     </h4>
 
-    <ng-container *ngIf="(loadingDetailChartItems$ | async) || (detailChartItems$ | async)?.length > 0; else noDetailChartItems">
+    <ng-container
+      *ngIf="(loadingDetailChartItems$ | async) || (detailChartItems$ | async)?.length > 0; else noDetailChartItems">
       <pf-async-container
         [loading]="loadingDetailChartItems$ | async"
         [loadingError]="loadingDetailChartItemsError$ | async"
         [loadingErrorMessage]="'Error loading participating companies.'">
         <div class="detail-item pt-2 pb-2" *ngFor="let chartItem of (detailChartItems$ | async)">
-          <div class="detail-category">
+          <div
+            [ngbPopover]="popContent"
+            [popoverTitle]="chartItem.Category"
+            [popoverClass]="'description-popover'"
+            [placement]="'left left-top left-bottom auto'"
+            [autoClose]="'outside'"
+            [openDelay]="1000"
+            triggers="mouseenter:mouseleave"
+            container="body"
+            (mouseenter)="mouseEnter(chartItem)"
+            (mouseleave)="onMouseLeave()"
+            class="detail-category">
             {{ chartItem.Category }}
           </div>
         </div>
@@ -31,7 +43,23 @@
     </ng-container>
 
     <ng-template #noDetailChartItems>
-      <div class="no-detail-items">No companies associated to {{ (detailChartCategory$ | async )}}.</div>
+      <div class="no-detail-items">No companies associated to {{ (detailChartCategory$ | async)}}.</div>
+    </ng-template>
+
+    <ng-template #popContent class="description-popover">
+      <div class="description-body">
+        <span *ngIf="(loadingCompanyDescription | async)">
+          <fa-icon icon="spinner" spin="true" class="" aria-hidden="true"></fa-icon>
+        </span>
+        <span *ngIf="!(loadingCompanyDescription | async)">
+          <span *ngIf="(companyDescription|async) && (companyDescription|async).length > 0">
+            {{ (companyDescription|async) }}
+          </span>
+          <span *ngIf="!(companyDescription|async) || (companyDescription|async).length === 0">
+            <i>No description available </i>
+          </span>
+        </span>
+      </div>
     </ng-template>
 
   </div>

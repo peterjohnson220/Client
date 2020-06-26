@@ -1,4 +1,4 @@
-import {SystemPermission} from './roles';
+import { CompanyClientTypeConstants } from '../../constants';
 
 export interface UserContext {
   AccessLevel: string;
@@ -22,6 +22,10 @@ export interface UserContext {
   WorkflowStepInfo: WorkflowStepInfo;
   IpAddress: string;
   SessionId: string;
+  RoleName: string;
+  ClientType: string;
+  DefaultPayMarketId: number;
+  MapboxAccessToken: string;
 }
 
 export interface ConfigSetting {
@@ -66,6 +70,10 @@ export function generateMockUserContext(): UserContext {
     UserPicture: 'FakePicture.Jpg',
     WorkflowStepInfo: null,
     IpAddress: '127.0.0.1',
-    SessionId: '335f3387-77b2-4aca-95b6-2809c78c6c6a'
+    SessionId: '335f3387-77b2-4aca-95b6-2809c78c6c6a',
+    RoleName: 'Company Administrator',
+    ClientType: CompanyClientTypeConstants.ENTERPRISE,
+    DefaultPayMarketId: 1,
+    MapboxAccessToken: 'SomeToken'
   };
 }

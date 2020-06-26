@@ -6,14 +6,13 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { of } from 'rxjs/internal/observable/of';
 
-
 import * as fromRootState from 'libs/state/state';
 import { generateMockGenericKeyValue, GenericKeyValue } from 'libs/models/common';
+import * as fromAssociateJobsActions from 'libs/features/peer/job-association-match/actions/associate-jobs.actions';
 
 import { ExchangeJobAssociationUtilityPageComponent } from './exchange-job-association-utility.page';
 import * as fromCompanyOptionsActions from '../../../actions/exchange-job-association-utility/company-options.actions';
 import * as fromExchangeOptionsActions from '../../../actions/exchange-job-association-utility/exchange-options.actions';
-import * as fromAssociateJobsActions from '../../../actions/exchange-job-association-utility/associate-jobs.actions';
 import * as fromPeerAdminReducer from '../../../reducers';
 
 describe('Admin - Exchange Job Association Utility Page', () => {
@@ -42,7 +41,7 @@ describe('Admin - Exchange Job Association Utility Page', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
 

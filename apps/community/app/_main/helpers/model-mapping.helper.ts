@@ -11,6 +11,10 @@ import { CommunityCompanySize } from 'libs/models/community/community-company-si
 import { Topic } from '../models/topic.model';
 import { TopicFilter } from '../models/topic-filter.model';
 import { CommunityIndustry } from 'libs/models/community/community-industry.model';
+import { FileInfo } from '@progress/kendo-angular-upload';
+import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
+import { AttachmentFileType } from '../models/attachment-file-type.model';
+import { CommunityAttachmentUploadStatus } from 'libs/models';
 
 export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: PagingOptions): PagingOptions {
   return {
@@ -102,5 +106,49 @@ export function populatePostReplies(post: any, addReplies: string[], filterRepli
       post.Replies.push(filteredReply);
     });
   }
+}
+
+export function mapFileInfoToCommunityAddAttachment(file: FileInfo, cloudFileName: string): CommunityAttachment {
+  return {
+    Id: file.uid,
+    Name: file.name,
+    Size: file.size,
+    FileType: mapFileExtensionToFileType(file.extension),
+    CloudFileName: cloudFileName,
+    Status: CommunityAttachmentUploadStatus.NotStarted
+  };
+}
+
+export function mapFileExtensionToFileType(extension: string): AttachmentFileType {
+  if ( extension.toLocaleLowerCase().endsWith('doc') || extension.toLocaleLowerCase().endsWith('docx')) {
+    return AttachmentFileType.Word;
+  } else if ( extension.toLocaleLowerCase().endsWith('pdf')) {
+    return AttachmentFileType.Pdf;
+  } else if ( extension.toLocaleLowerCase().endsWith('png')) {
+    return AttachmentFileType.Image;
+  } else if ( extension.toLocaleLowerCase().endsWith('xls') || extension.toLocaleLowerCase().endsWith('xlsx')) {
+    return AttachmentFileType.Excel;
+  } else if ( extension.toLocaleLowerCase().endsWith('ppt') || extension.toLocaleLowerCase().endsWith('pptx')) {
+    return AttachmentFileType.Powerpoint;
+  }
+  return AttachmentFileType.Unknown;
+}
+
+export function formatBytes(bytes, decimals = 2) {
+  if (bytes === 0) { return '0 Bytes'; }
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+export function attachmentsReadyForUpload(communityAttachments: CommunityAttachment[]) {
+  return communityAttachments && !communityAttachments.find((x) => x.Status === CommunityAttachmentUploadStatus.UploadInProgress
+    || x.Status === CommunityAttachmentUploadStatus.ScanInProgress
+    || x.Status === CommunityAttachmentUploadStatus.NotStarted);
 }
 

@@ -1,6 +1,7 @@
 @import 'legacy/legacy-variables';
 @import 'search/filters-variables';
 @import '../../styles/shared-styles.scss';
+
 .filter{
   padding-bottom: .75rem;
 }
@@ -32,7 +33,6 @@
     position: absolute;
     top: 75px;
     width: 100%;
-    overflow-y: scroll;
     bottom: 0;
   }
 }
@@ -76,7 +76,7 @@
   }
 }
 
-.show-more-link{
+.show-more-or-less-link{
   @extend %uppercase-link;
   padding: .5rem;
 

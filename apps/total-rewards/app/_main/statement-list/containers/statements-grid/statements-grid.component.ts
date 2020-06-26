@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -10,7 +10,9 @@ import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromTotalRewardsReducer from './../../reducers';
-import * as fromTotalRewardsStatementsActions from '../../actions/statement-list.page.actions';
+import * as fromTotalRewardsStatementGridActions from '../../actions/statement-grid.actions';
+import * as fromStatementGridActions from '../../actions/statement-grid.actions';
+import { StatementListViewModel } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-statements-grid',
@@ -19,12 +21,14 @@ import * as fromTotalRewardsStatementsActions from '../../actions/statement-list
 })
 export class StatementsGridComponent implements OnInit {
 
+  @Input() autoLoad = false;
+
   statementsGridData$: Observable<GridDataResult>;
   statementsGridState$: Observable<State>;
   statementsLoading$: Observable<boolean>;
   statementsLoadingError$: Observable<boolean>;
 
-  openActionMenuStatementId$: Observable<number>;
+  openActionMenuStatement$: Observable<StatementListViewModel>;
 
   constructor(private store: Store<fromTotalRewardsReducer.State>, private router: Router) { }
 
@@ -33,44 +37,46 @@ export class StatementsGridComponent implements OnInit {
     this.statementsGridData$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsGridData));
     this.statementsLoading$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsLoading));
     this.statementsLoadingError$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsLoadingError));
-    this.openActionMenuStatementId$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsOpenActionMenuStatementId));
+    this.openActionMenuStatement$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsOpenActionMenuStatement));
+    if (this.autoLoad) {
+      this.store.dispatch(new fromTotalRewardsStatementGridActions.LoadStatements());
+    }
   }
 
-  onDataStateChange(state: DataStateChangeEvent) {
+  onDataStateChange(state: DataStateChangeEvent): void {
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsStatements, state));
-    this.store.dispatch(new fromTotalRewardsStatementsActions.LoadStatements());
+    this.store.dispatch(new fromTotalRewardsStatementGridActions.LoadStatements());
   }
 
-  onActionMenuOpen(statementId: number) {
-    this.store.dispatch(new fromTotalRewardsStatementsActions.OpenActionMenu(statementId));
+  onActionMenuOpen(statement: StatementListViewModel): void {
+    this.store.dispatch(new fromTotalRewardsStatementGridActions.OpenActionMenu(statement));
   }
 
-  onActionMenuClose() {
-    this.store.dispatch(new fromTotalRewardsStatementsActions.CloseActionMenu());
+  onActionMenuClose(): void {
+    this.store.dispatch(new fromTotalRewardsStatementGridActions.CloseActionMenu());
   }
 
-  onActionMenuRunStatementClick(statement: any) {
-    console.log('onActionMenuRunStatementClick', statement);
-  }
-
-  onActionMenuEditClick(statement: any) {
+  onActionMenuPreviewClick(statement: StatementListViewModel): void {
     console.log('onActionMenuEditClick', statement);
+  }
+
+  onActionMenuGenerateStatementClick(statement: StatementListViewModel): void {
+    console.log('onActionMenuGenerateStatementClick', statement);
+  }
+
+  onActionMenuEditClick(statement: StatementListViewModel): void {
     this.navigateToStatementEdit(statement.Id);
   }
 
-  onActionMenuCopyClick(statement: any) {
+  onActionMenuCopyClick(statement: StatementListViewModel): void {
     console.log('onActionMenuCopyClick', statement);
   }
 
-  onActionMenuViewHistoryClick(statement: any) {
-    console.log('onActionMenuViewHistoryClick', statement);
+  onActionMenuDeleteClick(): void {
+    this.store.dispatch(new fromStatementGridActions.ConfirmDeleteStatement());
   }
 
-  onActionMenuDeleteClick(statement: any) {
-    console.log('onActionMenuDeleteClick', statement);
-  }
-
-  navigateToStatementEdit(id: any) {
-    this.router.navigate(['/statement/edit/', id]).then();
+  navigateToStatementEdit(statementId: string): void {
+    this.router.navigate(['/statement/edit/', statementId]).then();
   }
 }

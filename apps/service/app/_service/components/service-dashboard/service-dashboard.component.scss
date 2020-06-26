@@ -1,0 +1,77 @@
+@import 'common/common-variables';
+
+.dashboard-container {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #eaeaea;
+  height: 100%;
+  border-left: 1px solid #dee2e6;
+
+  .header {
+    padding: 0.5rem 1rem;
+    background-color: #0883BE;
+    color: #ffffff;
+    display: block;
+
+    &.closed {
+      height: 100%;
+    }
+
+    .icon {
+      cursor: pointer;
+    }
+
+    .title {
+      font-size: 16px;
+      font-weight: 500;
+      margin-left: 0.5rem;
+      cursor: default;
+      &.vertical {
+        writing-mode: vertical-lr;
+        -ms-writing-mode: tb-rl;
+        margin-top: 1rem;
+        margin-left: 0;
+      }
+    }
+  }
+
+  .content, .open-icon {
+    transition-delay: 0.23s;
+  }
+
+  .content {
+    position: relative;
+    background-color: #ffffff;
+
+    &.opened {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    &.closed {
+      display: none;
+    }
+  }
+}
+
+.dashboard-container.opened {
+  width: 362px;
+  transition: .4s ease-in-out;
+  overflow: hidden;
+}
+
+.dashboard-container.closed {
+  width: 40px;
+  transition: 0.3s;
+  overflow: hidden;
+}
+
+::ng-deep .popover-body {
+  padding: 0 !important;
+}
+
+.pop-content {
+  padding: 0.5rem 1rem;
+}

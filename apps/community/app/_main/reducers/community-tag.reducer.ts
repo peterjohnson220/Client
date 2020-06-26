@@ -5,14 +5,12 @@ export interface State {
   suggesting: boolean;
   suggestingError: boolean;
   entities: CommunityTag[];
-  postId: string;
 }
 
 export const initialState: State = {
   suggesting: false,
   suggestingError: false,
-  entities: [],
-  postId: ''
+  entities: []
 };
 
 export function reducer(state = initialState, action: communityTagActions.Actions): State {
@@ -22,8 +20,7 @@ export function reducer(state = initialState, action: communityTagActions.Action
       return {
         ...state,
         suggesting: true,
-        suggestingError: false,
-        postId: action.payload.postId
+        suggestingError: false
       };
     }
     case communityTagActions.SUGGESTING_COMMUNITY_TAGS_SUCCESS: {
@@ -49,4 +46,3 @@ export function reducer(state = initialState, action: communityTagActions.Action
 export const getSuggestingCommunityTags = (state: State) => state.suggesting;
 export const getSuggestingCommunityTagsError = (state: State) => state.suggestingError;
 export const getCommunityTags = (state: State) => state.entities;
-export const getCommunityTagsPostId = (state: State) => state.postId;

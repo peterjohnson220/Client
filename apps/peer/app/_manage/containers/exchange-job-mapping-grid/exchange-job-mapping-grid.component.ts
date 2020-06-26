@@ -9,9 +9,7 @@ import { GridTypeEnum, ExchangeJobMapping } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
-import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromPeerManagementReducer from '../../reducers';
-import { ExchangeJobMappingService } from '../../services';
 import { associationPending, associationStatus } from './exchange-job-mapping-grid-data-map';
 
 import * as cloneDeep from 'lodash.clonedeep';
@@ -59,7 +57,7 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
     // If the selected row is a pending request, revert selection.
     // This is kind of a "hacky" work-around, but the best that I could come up with. [JP]
     const invalidSelectionIndex = context.selectedRows.findIndex(
-      sr => sr.index === context.index && sr.dataItem.PendingRequest
+      sr => sr.dataItem.PendingRequest
     );
     if (invalidSelectionIndex > -1) {
       context.selectedRows = context.deselectedRows;

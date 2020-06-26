@@ -38,8 +38,8 @@ describe('DataManagementLandingPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DataManagementLandingPageComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    store = TestBed.inject(MockStore);
+    router = TestBed.inject(Router);
   });
 
   it('should create', () => {

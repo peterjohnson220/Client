@@ -12,12 +12,12 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
 import * as fromAddDataReducer from '../../../reducers';
 
-import { DataCutDetails } from '../../../../survey-search/models';
-import * as fromSurveySearchReducer from '../../../../survey-search/reducers';
-import * as fromContextActions from '../../../../survey-search/actions/context.actions';
-import { disableDatacutsDragging } from '../../../../survey-search/helpers';
-import * as fromSurveySearchResultsActions from '../../../../survey-search/actions/survey-search-results.actions';
-import { staticFilters } from '../../../../survey-search/data';
+import { DataCutDetails } from 'libs/features/survey-search/models';
+import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
+import * as fromContextActions from 'libs/features/survey-search/actions/context.actions';
+import { disableDatacutsDragging } from 'libs/features/survey-search/helpers';
+import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
+import { staticFilters } from 'libs/features/survey-search/data';
 
 @Component({
   selector: 'pf-add-survey-data-page',

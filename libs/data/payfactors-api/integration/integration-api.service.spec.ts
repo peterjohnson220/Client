@@ -38,8 +38,8 @@ describe('IntegrationApiService', () => {
       ],
     });
 
-    httpTestingController = TestBed.get(HttpTestingController);
-    service = TestBed.get(IntegrationApiService);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(IntegrationApiService);
   });
 
   it('should be created', () => {

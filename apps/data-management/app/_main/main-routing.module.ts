@@ -12,9 +12,9 @@ import {
   FieldMappingPageComponent,
   InboundAuthenticationPageComponent,
   InboundEntitySelectionPageComponent,
+  InboundProvidersPageComponent,
   OrgDataLoadComponent,
   OutboundAuthenticationPageComponent,
-  OutboundEntitySelectionPageComponent,
   OutboundFieldMappingPageComponent,
   OutboundJdmViewSelectionPageComponent,
   OutboundProviderSelectionPageComponent,
@@ -29,7 +29,7 @@ const routes: Routes = [
     path: 'org-data-load',
     component: OrgDataLoadComponent,
     canActivate: [AuthorizationGuard],
-    data: { Permissions: [Permissions.DATAMANAGEMENT_ORG_DATA_LOAD], Check: PermissionCheckEnum.Any }
+    data: { Permissions: [Permissions.COMPANY_ADMIN], Check: PermissionCheckEnum.Any }
   },
   {
     path: 'custom-employee-identifier',
@@ -41,7 +41,6 @@ const routes: Routes = [
     component: DataManagementHomePageComponent,
     canActivate: [AuthorizationGuard],
     data: { Permissions: [Permissions.DATA_MANAGEMENT], Check: PermissionCheckEnum.Any },
-    // TODO: Need to determine subpermissions and consolidate pages
     children: [
       {
         path: '',
@@ -54,7 +53,13 @@ const routes: Routes = [
         children: [
           {
             path: 'inbound',
+            canActivateChild: [AuthorizationGuard],
+            data: { Permissions: [Permissions.HRIS_INBOUND_INTEGRATION], Check: PermissionCheckEnum.Any },
             children: [
+              {
+                path: 'vendor',
+                component: InboundProvidersPageComponent
+              },
               {
                 path: 'entity-selection',
                 component: InboundEntitySelectionPageComponent
@@ -76,14 +81,12 @@ const routes: Routes = [
           },
           {
             path: 'outbound',
+            canActivateChild: [AuthorizationGuard],
+            data: { Permissions: [Permissions.HRIS_OUTBOUND_INTEGRATION], Check: PermissionCheckEnum.Any },
             children: [
               {
                 path: 'vendor',
                 component: OutboundProviderSelectionPageComponent
-              },
-              {
-                path: 'entity-selection',
-                component: OutboundEntitySelectionPageComponent
               },
               {
                 path: 'authentication',

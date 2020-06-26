@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { Ng5SliderModule } from 'ng5-slider';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
@@ -23,14 +23,15 @@ import { reducers } from './reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from './helpers';
 import { SearchFiltersEffects, SearchPageEffects } from './effects';
 import { SearchEffectsService } from './services';
+import {PfInfiniteScrollModule} from '../infinite-scroll';
+import { PfCompanyDescriptionModule } from '../company/company-detail/company-detail.module';
 
 const declarations = [
   // Components
   FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent, FilterableMultiSelectFilterComponent,
-  SearchLayoutComponent,
 
   // Containers
-  SearchFiltersComponent, SingleFilterComponent, ChildFilterComponent, ResultsHeaderComponent, SearchResultsComponent
+  SearchFiltersComponent, SingleFilterComponent, ChildFilterComponent, ResultsHeaderComponent, SearchResultsComponent, SearchLayoutComponent
 ];
 
 @NgModule({
@@ -43,6 +44,8 @@ const declarations = [
     PfFormsModule,
     PfCommonUIModule,
     PfUserFilterModule,
+    PfInfiniteScrollModule,
+    PfCompanyDescriptionModule,
 
     // 3rd Party
     StoreModule.forFeature('feature_search', reducers),
@@ -50,8 +53,9 @@ const declarations = [
     PerfectScrollbarModule,
     Ng5SliderModule,
     InfiniteScrollModule,
-    NgbPopoverModule.forRoot(),
-    FontAwesomeModule
+    NgbPopoverModule,
+    FontAwesomeModule,
+    NgbTooltipModule
   ],
   providers: [
     PayfactorsSearchApiHelper,

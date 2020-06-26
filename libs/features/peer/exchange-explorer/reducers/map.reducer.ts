@@ -125,8 +125,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
     case fromPeerMapActions.APPLY_SCOPE_CRITERIA_SUCCESS: {
       return {
         ...state,
-        applyingScope: false,
-        autoZooming: true
+        applyingScope: false
       };
     }
     case fromPeerMapActions.CLEAR_MAP_FILTER_BOUNDS: {

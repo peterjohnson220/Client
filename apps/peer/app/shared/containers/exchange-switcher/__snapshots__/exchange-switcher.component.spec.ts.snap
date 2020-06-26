@@ -15,9 +15,6 @@ exports[`Peer Dashboard - Exchange Selector should display the currently selecte
   <button
     class="btn btn-secondary"
     data-qa-id="btn-exchangeSelector"
-    ng-reflect-ngb-popover="[object Object]"
-    ng-reflect-placement="bottom"
-    ng-reflect-popover-title="My Current Exchanges"
     placement="bottom"
     popovertitle="My Current Exchanges"
     type="button"

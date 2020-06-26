@@ -31,7 +31,7 @@ export class PayfactorsSearchApiModelMapper {
     if (mappingDataObject !== null) {
       this.searchFilterMappingData = mappingDataObject;
     }
-    return searchFilters.map(sf => this.mapSearchFilterToFilter(sf));
+    return searchFilters.map(sf => this.mapSearchFilterToFilter(sf)).filter(ft => !!ft);
   }
 
    mapSearchFiltersToMultiSelectFilters(searchFilters: SearchFilter[], mappingDataObject: SearchFilterMappingDataObj = null): MultiSelectFilter[] {
@@ -39,15 +39,22 @@ export class PayfactorsSearchApiModelMapper {
   }
 
    mapSearchFilterToFilter(searchFilter: SearchFilter): Filter {
-    switch (this.getMappingData(searchFilter.Name).Type) {
-      case FilterType.Multi:
-        return this.mapSearchFilterToMultiFilter(searchFilter);
-      case FilterType.FilterableMulti:
-        return this.mapSearchFilterToFilterableMultiFilter(searchFilter);
-      case FilterType.Range:
-        return this.mapSearchFilterToRangeFilter(searchFilter);
-      default:
-        return null;
+    const mappingData = this.getMappingData(searchFilter.Name);
+    if (!!mappingData) {
+      switch (mappingData.Type) {
+        case FilterType.Multi:
+          return this.mapSearchFilterToMultiFilter(searchFilter);
+        case FilterType.FilterableMulti: {
+          if (searchFilter.IsParentWithoutChild) {
+            return this.mapSearchFilterToMultiFilter(searchFilter);
+          }
+          return this.mapSearchFilterToFilterableMultiFilter(searchFilter);
+        }
+        case FilterType.Range:
+          return this.mapSearchFilterToRangeFilter(searchFilter);
+        default:
+          return null;
+      }
     }
   }
 
@@ -145,7 +152,8 @@ export class PayfactorsSearchApiModelMapper {
     return {
       Name: filter.BackingField,
       DisplayName: filter.DisplayName,
-      Options: this.mapMultiSelectOptionsToSearchFilterOptions(filter.Options)
+      Options: this.mapMultiSelectOptionsToSearchFilterOptions(filter.Options),
+      AggregateCount: filter.AggregateCount
     };
   }
 
@@ -153,7 +161,8 @@ export class PayfactorsSearchApiModelMapper {
     return {
       Name: filter.BackingField,
       DisplayName: filter.DisplayName,
-      Options: this.mapFilterableMultiSelectOptionsToSearchFilterOptions(filter.Options)
+      Options: this.mapFilterableMultiSelectOptionsToSearchFilterOptions(filter.Options),
+      AggregateCount: filter.AggregateCount
     };
   }
 
@@ -190,7 +199,10 @@ export class PayfactorsSearchApiModelMapper {
       DefaultSelections: [],
       SaveDisabled: mappingData.SaveDisabled,
       Operator: mappingData.Operator,
-      ParentBackingField : mappingData.ParentBackingField
+      ParentBackingField : mappingData.ParentBackingField,
+      AggregateCount: searchFilter.AggregateCount,
+      IsChildWithoutParent: searchFilter.IsChildWithoutParent,
+      IsCollapsedByDefault: mappingData.IsCollapsedByDefault
     };
   }
 
@@ -209,7 +221,9 @@ export class PayfactorsSearchApiModelMapper {
       DefaultSelections: [],
       SaveDisabled: mappingData.SaveDisabled,
       Operator: mappingData.Operator,
-      ParentBackingField: mappingData.ParentBackingField
+      ParentBackingField: mappingData.ParentBackingField,
+      AggregateCount: searchFilter.AggregateCount,
+      IsCollapsedByDefault: mappingData.IsCollapsedByDefault
     };
   }
 
@@ -231,7 +245,8 @@ export class PayfactorsSearchApiModelMapper {
       SelectedMinValue: null,
       SelectedMaxValue: null,
       CssClassName: mappingData.DisplayName.toLowerCase().replace(/[\s]/g, '-'),
-      SaveDisabled: mappingData.SaveDisabled
+      SaveDisabled: mappingData.SaveDisabled,
+      IsCollapsedByDefault: mappingData.IsCollapsedByDefault
     };
   }
 

@@ -1,40 +1,46 @@
-.container {
-  border: #ffb300 solid 2px;
-  background: white;
-  max-width: 9.5in;
+@import "app-colors";
+
+@media screen {
+  .statement {
+    background: white;
+    width: 8.5in;
+    max-height: 11in;
+    margin-top: 50px;
+  }
 }
 
-.column {
-  border: lightgrey dashed 2px;
+.page-break {
+  page-break-after: always;
 }
 
-.tr-control {
-  padding: 4px;
+.row.vertical-divider > div[class*="col-"] {
+  border-left: 1px solid $trs-canvas-background-color;
+  border-right: 1px solid $trs-canvas-background-color;
+}
+
+// hide the middle divider for the top row
+.row.vertical-divider:first-child .trs-column {
+  border-width: 0;
+}
+
+.control-type-5 {
+  align-self: center;
 }
 
 @media print {
-  @page {
-    //margin: .25cm;
-  }
-
-  .page-break	{ display: block; page-break-before: always; }
-
-  .container {
-    border: none;
-    background: white;
+  .page-break	{
+    display: block;
+    page-break-before: always;
   }
 
   .column {
     border: none;
   }
-
-
 }
 
 @media screen {
-  .page-break	{ display: block; page-break-before: always; }
-
-  .container {
-    background: white;
+  .page-break	{
+    display: block;
+    page-break-before: always;
   }
 }

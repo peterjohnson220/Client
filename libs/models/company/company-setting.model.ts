@@ -20,8 +20,17 @@ export enum CompanySettingsEnum {
   DataInsightsThumbnailsViewDisplay = 'DataInsightsThumbnailsViewDisplay',
   EnableLibraryForRoutedJobDescriptions = 'EnableLibraryForRoutedJobDescriptions',
   DataInsightsFormulaBuilder = 'DataInsightsFormulaBuilder',
-  JDMPublicViewsUseClient = 'JDMPublicViewsUseClient',
-  JDMSettingsUseClient = 'JDMSettingsUseClient'
+  SessionTimeoutMinutes = 'SessionTimeoutMinutes',
+  JDMCoreUseClient = 'JDMCoreUseClient',
+  JDMSettingsUseClient = 'JDMSettingsUseClient',
+  JDMTemplatesUseClient = 'JDMTemplatesUseClient',
+  ManualOrgDataLoadLink = 'ManualOrgDataLoadLink',
+  EnableJobsPageToggle = 'EnableJobsPageToggle',
+  CanEditCurrentStructureRanges = 'CanEditCurrentStructureRanges',
+  DashboardPreferences = 'DashboardPreferences',
+  EnableJobRangeStructureRangeTypes = 'EnableJobRangeStructureRangeTypes',
+  CommunityDisableAttachments = 'CommunityDisableAttachments',
+  JDMExternalWorkflowsRequireSSOLogin = 'JDMExternalWorkflowsRequireSSOLogin'
 }
 
 export interface CompanySetting {

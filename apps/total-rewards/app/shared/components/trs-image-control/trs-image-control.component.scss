@@ -1,0 +1,21 @@
+@import 'app-colors';
+
+.trs-image {
+  height: 80px;
+
+  .remove-image {
+    visibility: hidden;
+    font-size: 1.5rem;
+  }
+  &:hover {
+    .remove-image {
+      visibility: visible;
+    }
+  }
+}
+
+.remove-image {
+  z-index: 5;
+  right: 8px;
+  top: 2px;
+}

@@ -16,6 +16,7 @@ export class PageWithTitleBarComponent {
   @Input() goBackToPreviousRoute: boolean;
   @Input() absoluteUrl: string;
   @Input() contentNoPadding: boolean;
+  @Input() theme: 'default' | 'next-gen' = 'default';
 
   // Application will be reloaded when the goBackUsingBrowserHistory
   // is used to navigate back to the previous view
@@ -30,7 +31,7 @@ export class PageWithTitleBarComponent {
 
   goBack() {
     if (this.goBackUsingBrowserHistory) {
-      this.location.back();
+      return this.location.back();
     }
 
     this.goBackToPreviousRoute

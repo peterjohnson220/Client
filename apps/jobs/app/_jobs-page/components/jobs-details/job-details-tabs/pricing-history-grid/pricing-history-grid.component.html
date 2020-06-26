@@ -1,0 +1,88 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [showTitle]="false"
+  [columnTemplates]="colTemplates"
+  [inboundFilters]="filters"
+  [defaultSort]="defaultSort"
+  [allowSort]="false"
+  [noRecordsFound]="'This job has not been priced and does not have any pricing history.'"  
+  [applyDefaultFilters]="false"
+  [headerClassName]="'jobs-page-sub-grid-header'"
+  [actionBarConfig]="actionBarConfig">
+</pf-data-grid>
+
+<ng-template #createUserColumn let-dataRow="dataRow">
+  <ng-container *ngIf="dataRow['Users_First_Name'] && dataRow['Users_Last_Name']; else pfAdmin">
+    {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
+  </ng-container>
+  <ng-template #pfAdmin>
+    Payfactors Admin
+  </ng-template>
+</ng-template>
+
+<ng-template #pricingActionsColumn let-dataRow="dataRow">
+  <div class="d-flex justify-content-end">
+    <button 
+      [attr.data-qa-id]="'btn-jobs-page-pricing-history-details'"
+      type="button"
+      (click)="pricingId = dataRow['CompanyJobs_Pricings_CompanyJobPricing_ID']"
+      class="btn btn-secondary mr-3">
+      View Pricing
+    </button>
+    <button 
+      [attr.data-qa-id]="'btn-jobs-page-pricing-history-delete'"
+      [pfSecuredResource]="permissions.PRICING_PROJECTS_DELETE"
+      type="button"
+      (click)="showDeletePricingModal(dataRow)"
+      class="btn btn-secondary pf-icon-btn-transparent">
+      <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+    </button>    
+  </div>
+</ng-template>
+
+<pf-pricing-details
+  [showModal$]="showPricingDetails$"
+  [pricingId]="pricingId"
+  (cancelChanges)="showPricingDetails.next(false); pricingId = null;"
+  (saveSuccess)="showPricingDetails.next(false); pricingId = null;">
+</pf-pricing-details>
+
+<pf-modal-form
+  [modalId]="'au-jobs-page-delete-pricing'"
+  [isOpen$]="showDeletePricing$"
+  [size]="'md'"
+  [title]="'Delete Pricing'"
+  [primaryButtonClass]="'btn-danger'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonTextSubmitting]="'Deleting'"
+  [submitting]="(deletingPricing$ | async).saving"
+  [allowDismiss]="!(deletingPricing$ | async).saving"
+  (onSubmit)="deletePricing()"
+  (onDismiss)="showDeletePricing.next(false)">
+  <ng-container basic-content>
+    <div>
+      This action will permanently delete this pricing. Would you like to continue?
+    </div>
+    <br>
+    <div class="text-danger" *ngIf="(deletingPricing$ | async).savingError">
+      We encountered an error deleting your pricing match. Please try again.
+    </div>
+  </ng-container>
+</pf-modal-form>
+
+<ng-template #payMarketFilter>
+  <kendo-dropdownlist
+    style="width: 250px"
+    [(ngModel)]="selectedPayMarket"
+    [textField]="'Value'"
+    [valueField]="'Id'"
+    [defaultItem]="{Value:'All Pay Markets', Id: null}"
+    [data]="filteredPayMarketOptions"
+    (valueChange)="handlePayMarketFilterChanged($event)"
+    [filterable]="true"
+    (filterChange)="handleFilter($event)"
+    [attr.data-qa-id]="'ddm-operator-'+payMarketField?.SourceName"
+    class="k-dropdown-white form-control">
+  </kendo-dropdownlist>
+</ng-template>
+

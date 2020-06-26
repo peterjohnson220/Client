@@ -1,22 +1,33 @@
-<pf-async-container [loading]="loading$ | async"
-                    [loadingError]="loadingError$ | async"
+<pf-async-container [loading]="(loading$ | async ) && (transferScheduleSummaryLoading$ | async)"
+                    [loadingError]="(loadingError$ | async) && (transferScheduleSummaryError$ | async)"
                     [loadingErrorMessage]="'Error loading HRIS landing page'">
   <div class="row">
     <div class="col-sm-12 col-md-6">
       <pf-hris-integration-panel
+        [pfSecuredResource]="permissions.HRIS_INBOUND_INTEGRATION"
         [transferMethodType]="inbound"
         [connectionSummary]="(connectionSummary$ | async)"
+        (onReAuthClicked)="openReauthModal()"
         (onCreateNewIntegrationClicked)="createNewIntegration($event)"
         (onMappingButtonClicked)="goToMappingPage($event)"
+        (onTransferScheduleButtonClick)="goToTransferSchedulePage($event)"
+        (onEntitySelectionButtonClick)="goToEntitySelectionPage($event)"
+        (onContinueIntegrationSetupClicked)="goToMappingPage($event)"
       ></pf-hris-integration-panel>
     </div>
     <div class="col-sm-12 col-md-6">
       <pf-hris-integration-panel
+        [pfSecuredResource]="permissions.HRIS_OUTBOUND_INTEGRATION"
         [transferMethodType]="outboundjdm"
         [connectionSummary]="(outboundConnectionSummary$ | async)?.obj"
         (onCreateNewIntegrationClicked)="createNewIntegration($event)"
         (onMappingButtonClicked)="goToMappingPage($event)"
+        (onTransferScheduleButtonClick)="goToTransferSchedulePage($event)"
+        (onEntitySelectionButtonClick)="goToEntitySelectionPage($event)"
+        (onContinueIntegrationSetupClicked)="goToMappingPage($event)"
       ></pf-hris-integration-panel>
     </div>
   </div>
+  <pf-hris-reauthentication-modal>
+  </pf-hris-reauthentication-modal>
 </pf-async-container>

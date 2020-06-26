@@ -17,8 +17,10 @@ import { CommunityCategoryEnum } from 'libs/models/community/community-category.
 import * as fromCommunityPostFilterOptionsReducer from '../reducers';
 import * as fromCommunityPostActions from '../actions/community-post.actions';
 import * as fromCommunityCategoriesActions from '../actions/community-categories.actions';
+import * as fromCommunityAttachmentActions from '../actions/community-attachment.actions';
 
 import { CommunityPostEffectsService } from '../services/community-post-effects-service';
+import { CommunitySearchResultTypeEnum } from 'libs/models/community/community-constants.model';
 
 
 @Injectable()
@@ -39,7 +41,8 @@ export class CommunityPostEffects {
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.Unanswered }),
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
-                  { communityCategory: CommunityCategoryEnum.Internal })
+                  { communityCategory: CommunityCategoryEnum.Internal }),
+                new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(CommunitySearchResultTypeEnum.Discussion)
               ];
             }  else {
               return [
@@ -47,7 +50,8 @@ export class CommunityPostEffects {
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.MyPosts }),
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
-                  { communityCategory: CommunityCategoryEnum.Unanswered })
+                  { communityCategory: CommunityCategoryEnum.Unanswered }),
+                new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(CommunitySearchResultTypeEnum.Discussion)
               ];
             }
           }),
@@ -94,7 +98,7 @@ export class CommunityPostEffects {
     .pipe(
       ofType(fromCommunityPostActions.SAVING_COMMUNITY_POST_EDIT),
       switchMap((action: fromCommunityPostActions.SavingCommunityPostEdit) =>
-        this.communityPostService.updatePost({'postId': action.payload.postId, 'topicId': action.payload.topic.Id}).pipe(
+        this.communityPostService.updatePost(action.payload).pipe(
           map(() => {
             return new fromCommunityPostActions.SavingCommunityPostEditSuccess(action.payload);
           }),
@@ -156,16 +160,30 @@ export class CommunityPostEffects {
       )
     );
 
+  @Effect()
+  gettingCommunityPost$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCommunityPostActions.GETTING_COMMUNITY_POST),
+      switchMap((action: fromCommunityPostActions.GettingCommunityPost) =>
+        this.communityPostService.getPost(action.payload).pipe(
+          map((post: CommunityPost) => {
+            return new fromCommunityPostActions.GettingCommunityPostSuccess(post);
+          }),
+          catchError(error => of(new fromCommunityPostActions.GettingCommunityPostError()))
+        )
+      )
+    );
+
     @Effect()
-    gettingCommunityPost$: Observable<Action> = this.actions$
+    disardingPostAttachments$: Observable<Action> = this.actions$
       .pipe(
-        ofType(fromCommunityPostActions.GETTING_COMMUNITY_POST),
-        switchMap((action: fromCommunityPostActions.GettingCommunityPost) =>
-          this.communityPostService.getPost(action.payload).pipe(
-            map((post: CommunityPost) => {
-              return new fromCommunityPostActions.GettingCommunityPostSuccess(post);
+        ofType(fromCommunityAttachmentActions.DISCARD_ATTACHMENTS),
+        switchMap((action: fromCommunityAttachmentActions.DiscardAttachments) =>
+          this.communityPostService.deleteCommunityAttachments(action.payload).pipe(
+            map(() => {
+              return new fromCommunityAttachmentActions.DiscardAttachmentsSuccess();
             }),
-            catchError(error => of(new fromCommunityPostActions.GettingCommunityPostError()))
+            catchError(error => of(new fromCommunityAttachmentActions.DiscardAttachmentsError()))
           )
         )
       );

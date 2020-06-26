@@ -47,7 +47,7 @@ export function reducer(state, action) {
 
           return {
             ...adapter.removeAll(featureState),
-            ...adapter.addAll(exchangeJobMappings, featureState),
+            ...adapter.setAll(exchangeJobMappings, featureState),
             total: featureAction.payload.total,
             loading: false
           };

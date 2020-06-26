@@ -56,8 +56,8 @@ describe('Peer - Map - Exchange Map Page', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    route = TestBed.inject(ActivatedRoute);
 
     spyOn(store, 'dispatch');
 
@@ -71,7 +71,7 @@ describe('Peer - Map - Exchange Map Page', () => {
 
   it('should show the exchange name as the page title', () => {
     store.dispatch(new fromSharedPeerExchangeActions.LoadExchangeSuccess(
-      { exchange: generateMockExchange(), isDashboard: false }
+      { exchange: generateMockExchange(), path: 'manage' }
     ));
 
     fixture.detectChanges();

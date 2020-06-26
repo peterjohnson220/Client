@@ -1,0 +1,231 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TotalRewardsStatementComponent should render a mock statement derived from template A 1`] = `
+<pf-total-rewards-statement
+  controlType={[Function Object]}
+  employeeCountSubscription={[Function Subscriber]}
+  employees={[Function Array]}
+  onCalculationControlCompFieldAdded={[Function EventEmitter]}
+  onCalculationControlCompFieldRemoved={[Function EventEmitter]}
+  onCalculationControlCompFieldTitleChange={[Function EventEmitter]}
+  onCalculationControlSummaryTitleChange={[Function EventEmitter]}
+  onChartControlToggleSettingsPanelClick={[Function EventEmitter]}
+  onControlTitleChange={[Function EventEmitter]}
+  onEffectiveDateChange={[Function EventEmitter]}
+  onRemoveImage={[Function EventEmitter]}
+  onRichTextControlContentChange={[Function EventEmitter]}
+  onSaveImage={[Function EventEmitter]}
+  route={[Function Object]}
+  statement={[Function Object]}
+>
+  <div
+    class="container statement mb-4 rounded medium-font-size default-font-family"
+  >
+    
+    <div>
+      <div
+        class="d-flex justify-content-end"
+      >
+        <pf-effective-date />
+      </div>
+      
+      <div
+        class="pb-4 trs-page mt-n4"
+      >
+        
+        <section
+          class="row vertical-divider trs-section"
+        >
+          
+          <div
+            class="trs-column col-3"
+          >
+            <div
+              class="row columnRow h-100"
+            >
+              
+              <div
+                class="col-12 control-type-2"
+              >
+                
+                
+                <div>
+                  <pf-trs-image-control
+                    class="p-1"
+                  />
+                </div>
+                
+                
+                
+                
+              </div>
+            </div>
+          </div>
+          <div
+            class="trs-column col-9"
+          >
+            <div
+              class="row columnRow h-100"
+            >
+              
+              <div
+                class="col-12 control-type-5"
+              >
+                
+                
+                
+                
+                
+                <div>
+                  <pf-trs-title-control
+                    class="p-1"
+                  />
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="row vertical-divider trs-section"
+        >
+          
+          <div
+            class="trs-column col-6"
+          >
+            <div
+              class="row columnRow h-100"
+            >
+              
+              <div
+                class="col-12 control-type-1"
+              >
+                
+                <div>
+                  <pf-trs-rich-text-control
+                    class="p-1"
+                  />
+                </div>
+                
+                
+                
+                
+                
+              </div>
+              <div
+                class="col-12 control-type-4"
+              >
+                
+                
+                
+                
+                <div>
+                  <pf-trs-chart-control
+                    class="p-1"
+                  />
+                </div>
+                
+                
+              </div>
+              <div
+                class="col-12 control-type-1"
+              >
+                
+                <div>
+                  <pf-trs-rich-text-control
+                    class="p-1"
+                  />
+                </div>
+                
+                
+                
+                
+                
+              </div>
+            </div>
+          </div>
+          <div
+            class="trs-column col-6"
+          >
+            <div
+              class="row columnRow h-100"
+            >
+              
+              <div
+                class="col-12 control-type-3"
+              >
+                
+                
+                
+                <div>
+                  <pf-trs-calculation-control />
+                </div>
+                
+                
+                
+              </div>
+              <div
+                class="col-12 control-type-3"
+              >
+                
+                
+                
+                <div>
+                  <pf-trs-calculation-control />
+                </div>
+                
+                
+                
+              </div>
+              <div
+                class="col-12 control-type-3"
+              >
+                
+                
+                
+                <div>
+                  <pf-trs-calculation-control />
+                </div>
+                
+                
+                
+              </div>
+              <div
+                class="col-12 control-type-3"
+              >
+                
+                
+                
+                <div>
+                  <pf-trs-calculation-control />
+                </div>
+                
+                
+                
+              </div>
+              <div
+                class="col-12 control-type-6"
+              >
+                
+                
+                
+                
+                
+                
+                <div>
+                  <pf-trs-summary-control
+                    class="p-1"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div
+        class="page-break"
+      />
+    </div>
+  </div>
+</pf-total-rewards-statement>
+`;

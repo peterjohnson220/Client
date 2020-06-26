@@ -15,6 +15,9 @@ import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
+import { JobAssociationMatchModule } from 'libs/features/peer/job-association-match';
+import { ExchangeJobMappingService, } from 'libs/features/peer/exchange-job-mapping/services';
+import { BoolFilterComponent } from 'libs/extensions/kendo/boolfilter/bool-filter.component';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import {
@@ -26,11 +29,9 @@ import {
   ExchangeEffects
 } from './effects';
 import { reducers } from './reducers';
-import { ExchangeJobMappingService, } from './services';
 import { ManageRoutingModule } from './manage-routing.module';
 import { RequestJobModalComponent } from './containers/request-job/request-job-modal';
 import { NewJobFormComponent } from './containers/request-job/new-job-form';
-import { BoolFilterComponent } from 'libs/extensions/kendo/boolfilter/bool-filter.component';
 import {
   AssociationImportModalComponent
 } from './containers/association-import-modal/association-import-modal.component';
@@ -47,6 +48,7 @@ import { ExchangeJobSearchComponent } from './containers/exchange-job-search/exc
 import { UnmatchIconComponent } from './components/unmatch-icon/unmatch-icon.component';
 import { ConfirmUnmatchModalComponent } from './containers/confirm-unmatch-modal/confirm-unmatch-modal.component';
 import { SharedModule } from '../shared/shared.module';
+import { ExchangeJobMappingGridService } from './services/exchange-job-mapping-grid.service';
 
 @NgModule({
   imports: [
@@ -68,6 +70,7 @@ import { SharedModule } from '../shared/shared.module';
     UploadModule,
     TooltipModule,
     FontAwesomeModule,
+    JobAssociationMatchModule,
 
     // Routing
     ManageRoutingModule,
@@ -95,7 +98,8 @@ import { SharedModule } from '../shared/shared.module';
     BoolFilterComponent,
   ],
   providers: [
-    ExchangeJobMappingService
+    ExchangeJobMappingService,
+    ExchangeJobMappingGridService
   ]
 })
 export class ManageModule {

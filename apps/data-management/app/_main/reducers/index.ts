@@ -9,13 +9,13 @@ import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
 import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
 import * as fromFieldMappingReducer from './field-mapping.reducer';
 import * as fromOrgDataFieldMappingsReducer from './organizational-data-field-mapping.reducer';
-import * as fromFileUploadReducer from './file-upload.reducer';
 import * as fromCustomFieldsReducer from './custom-fields.reducer';
 import * as fromTransferScheduleReducer from './transfer-schedule.reducer';
 import * as fromHrisConnectionReducer from './hris-connection.reducer';
 import * as fromEntityIdentifierReducer from './entity-identifiers.reducer';
 import * as fromEntitySelectionReducer from './entity-selection.reducer';
 import * as fromOutboundJdmReducer from './outbound-jdm.reducer';
+import * as fromProviderListReducer from './provider-list.reducer';
 import {SelectorHelper} from '../helpers';
 
 export interface DataManagementMainState {
@@ -23,7 +23,6 @@ export interface DataManagementMainState {
   fieldMappingPage: fromFieldMappingReducer.State;
   organizationalDataPage: fromOrganizationalDataPageReducer.State;
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.State;
-  fileUploadPage: fromFileUploadReducer.State;
   loaderSettings: fromLoaderSettingsReducer.State;
   customFieldsData: fromCustomFieldsReducer.State;
   emailRecipients: fromEmailRecipientsReducer.State;
@@ -32,6 +31,7 @@ export interface DataManagementMainState {
   entityIdentifiers: fromEntityIdentifierReducer.State;
   entitySelection: fromEntitySelectionReducer.State;
   outboundJdm: fromOutboundJdmReducer.State;
+  providerList: fromProviderListReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -43,7 +43,6 @@ export const reducers = {
   organizationalDataPage: fromOrganizationalDataPageReducer.reducer,
   fieldMappingPage: fromFieldMappingReducer.reducer,
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer,
-  fileUploadPage: fromFileUploadReducer.reducer,
   loaderSettings: fromLoaderSettingsReducer.reducer,
   emailRecipients: fromEmailRecipientsReducer.reducer,
   customFieldsData: fromCustomFieldsReducer.reducer,
@@ -52,6 +51,7 @@ export const reducers = {
   entityIdentifiers: fromEntityIdentifierReducer.reducer,
   entitySelection: fromEntitySelectionReducer.reducer,
   outboundJdm: fromOutboundJdmReducer.reducer,
+  providerList: fromProviderListReducer.reducer
 };
 
 // Select Feature Area
@@ -74,9 +74,6 @@ export const selectOrgDataFieldMappingsState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.orgDataFieldMappings
 );
-export const selectOrgDataFileUploadState = createSelector(
-  selectFeatureAreaState,
-  (state: DataManagementMainState) => state.fileUploadPage);
 export const selectLoaderSettingState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.loaderSettings
@@ -111,56 +108,28 @@ export const selectOutboundJdmState = createSelector(
   (state: DataManagementMainState) => state.outboundJdm,
 );
 
+export const selectProviderListState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.providerList
+);
+
 // Transfer Data Page
-export const getTransferMethods = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getTransferMethods
-);
-
-export const getProviders = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getProviders
-);
-
-export const getSelectedTransferMethod = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getSelectedTransferMethod
-);
-
-export const getSelectedProvider = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getSelectedProvider
-);
-
-export const getTransferDataPageLoading = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getLoading
-);
-
-export const getTransferDataPageLoadingError = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getLoadingError
-);
-
-export const getValidationErrors = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getValidationErrors
-);
 
 export const getWorkflowStep = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getWorkflowStep
 );
 
-export const getShowAuthenticatingModal = createSelector(
-  selectTransferDataPageState,
-  fromTransferDataPageReducer.getShowAuthenticatingModal
-);
-
 export const getTransferDataPageActiveConnection = createSelector(
   selectTransferDataPageState,
   fromTransferDataPageReducer.getActiveConnection
 );
+
+// provider list
+export const getSelectedTransferMethod = createSelector(selectProviderListState, fromProviderListReducer.getSelectedTransferMethod);
+export const getProviders = createSelector(selectProviderListState, fromProviderListReducer.getProviders);
+export const getTransferMethods = createSelector(selectProviderListState, fromProviderListReducer.getTransferMethods);
+export const getSelectedProvider = createSelector(selectProviderListState, fromProviderListReducer.getSelectedProvider);
 
 // Organizational Data Page
 export const getOrganizationalHeadersLink = createSelector(
@@ -271,22 +240,7 @@ export const getLoadingLoaderSettingsError = createSelector(selectLoaderSettingS
 export const { selectAll: getLoaderSettings } = fromLoaderSettingsReducer.adapter.getSelectors(selectLoaderSettingState);
 
 
-// File Upload
 
-export const getGettingColumnNames = createSelector(
-  selectOrgDataFileUploadState,
-  fromFileUploadReducer.GetGettingColumnNames
-);
-
-export const getColumnNames = createSelector(
-  selectOrgDataFileUploadState,
-  fromFileUploadReducer.GetColumnNames
-);
-
-export const getColumnNamesError = createSelector(
-  selectOrgDataFileUploadState,
-  fromFileUploadReducer.GetColumnNamesError
-);
 // Custom Fields
 export const getCustomJobField =
   createSelector(selectOrgDataCustomFieldsState, fromCustomFieldsReducer.GetCustomJobFields
@@ -347,6 +301,11 @@ export const getEmailRecipientsModalOpen = createSelector(
   fromEmailRecipientsReducer.getEmailRecipientsModalOpen
 );
 
+export const getCreatedConfigurationGroup = createSelector(
+  selectEmailRecipientsState,
+  fromEmailRecipientsReducer.getCreatedConfigurationGroup
+);
+
 
 // Transfer Schedule
 export const getTransferScheduleSummary = createSelector(selectTransferScheduleState, fromTransferScheduleReducer.getTransferScheduleSummary);
@@ -366,6 +325,11 @@ export const getHrisActiveConnectionSaving = createSelector(selectHrisConnection
 export const getHrisActiveConnectionSavingError = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getSavingError);
 export const getHrisActiveConnectionDeleteCompleted = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getDeleteCompleted);
 export const getHrisConnectionSummary = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getConnectionSummary);
+export const getIsValidCredentials = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getIsValidCredentials);
+export const getValidationErrors = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getValidationErrors);
+export const getShowAuthenticationWarning = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getShowAuthenticationWarning);
+export const getActiveConnectionId = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getActiveConnectionId);
+export const getHrisReauthenticationModalOpen = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getReauthenticationModalOpen);
 
 // entity identifiers
 export const getEmployeeIdentifiers = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.GetEmployeeIdentifiers);
@@ -382,6 +346,7 @@ export const getEntitySelectionShouldRedirect = createSelector(getHrisConnection
 export const getEntitySelectionPageSelections = createSelector(getSelectedEntities, getProviderSupportedEntitiesObj, (s1, s2) => {
   return { selections: s1, providerSupportedEntities: s2.obj };
 });
+export const getShowRemoveEntityModal = createSelector(selectEntitySelectionState, fromEntitySelectionReducer.getShowRemoveEntityModal);
 
 // Outbound
 export const getOutboundProviders = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundProviders);

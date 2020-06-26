@@ -1,34 +1,32 @@
 
   <div class="d-flex">
     <div class="p-1 col-11 pf-comment">
-      <div class="row" *ngIf="comment.UserFullName && comment.CreateDate">
-        <div class="col col-12 mb-2">
-          <div class="d-flex flex-row">
-            <div class="pr-2">
-              Created by: <b>{{comment.UserFullName}}</b>
-            </div>
-            <div class="px-2">
-              Date: <b>{{comment.CreateDate | date:'shortDate'}}</b>&nbsp; Time:
-              <b>{{comment.CreateDate | date:'shortTime'}}</b>
-            </div>
+      <div class="d-flex flex-column">
+        <div class="d-flex">
+          <span class="user-name">{{comment.UserFullName}}</span>
+          <span *ngIf="comment.Level === commentLevel.User" class="badge badge-pill badge-client">Client Note</span>
+        </div>
+        <div class="row pt-3">
+          <div class="col col-12" *ngIf="!editMode">
+            <quill-view-html [content]="comment.Comments" theme="snow"></quill-view-html>
+          </div>
+          <div class="col col-12" *ngIf="editMode || comment.Comments === ''">
+            <textarea
+              autofocus
+              data-qa-id="txt-ticketsCommentsTextArea"
+              spellcheck="false" rows="1"
+              class="w-100 p-3" 
+              [pfFocus]="true"
+              (keyup)="updateText($event)"
+              (focusin)="updateText($event)">{{commentText}}</textarea>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col col-12 pf-comment-text" *ngIf="!editMode" [innerText]="comment.Comments"></div>
-        <div class="col col-12 pf-comment-text" *ngIf="editMode || comment.Comments === ''">
-          <textarea
-            autofocus
-            data-qa-id="txt-ticketsCommentsTextArea"
-            spellcheck="false" rows="1"
-            class="w-100 p-3" 
-            [pfFocus]="true"
-            (keyup)="updateText($event)"
-            (focusin)="updateText($event)">{{commentText}}</textarea>
+        <div *ngIf="!!comment?.CreateDate" class="comment-date text-muted">
+          Date: {{comment.CreateDate | date:'shortDate'}}&nbsp; Time: {{comment.CreateDate | date:'shortTime'}}
         </div>
       </div>
     </div>
-    <div class="p-1 col-1 align-self-center">
+    <div *ngIf="comment.Level === commentLevel.Admin" class="p-1 col-1 align-self-center">
       <div class="d-flex">
         <div class="ml-auto p-2" *ngIf="comment.Comments !== commentText">
           <a title="save" (click)="saveComment(comment)">

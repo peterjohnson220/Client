@@ -2,439 +2,559 @@
 
 exports[`CompanyJobDetailComponent should hide a link to download the jdm description via omitting the \`show\` class when no jdm descriptions exists 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
-  <h5
-    class="mb-3 font-weight-bold"
+  <div
+    class="d-flex flex-column h-100"
   >
-    Company Job
-  </h5><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+    <div
+      class="pr-3"
     >
-      Title:
-    </label>
-    <span>
-      MockCompanyJobTitle
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+      <h5
+        class="mb-3 font-weight-bold"
+      >
+        Company Job
+      </h5>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Title:
+        </label>
+        <span>
+          MockCompanyJobTitle
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Family:
+        </label>
+        <span>
+          MockJobFamily
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Level:
+        </label>
+        <span>
+          MockJobLevel
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25"
+        >
+          Description:
+        </label>
+      </div>
+    </div>
+    <div
+      class="info-row border-0 pr-3 company-job-description-container"
     >
-      Family:
-    </label>
-    <span>
-      MockJobFamily
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
-    >
-      Level:
-    </label>
-    <span>
-      MockJobLevel
-    </span>
-  </div><div
-    class="info-row border-0"
-  >
-    <label
-      class="font-weight-bold w-25"
-    >
-      Description:
-    </label>
-    <a
-      class="jdm mr-2"
-      href="javascript:void(0)"
-    >
-      View Full Job Description
-    </a>
-    
-    
-    
-    
-    
-    <p
-      class="font-italic"
-    >
-       No Job Description Available 
-    </p>
-    
-    
+      <a
+        class="jdm mr-2 d-none"
+        href="javascript:void(0)"
+      >
+        View Full Job Description
+      </a>
+      
+      
+      
+      
+      
+      <p
+        class="font-italic"
+      >
+         No Job Description Available 
+      </p>
+      
+      
+    </div>
   </div>
 </pf-company-job-detail>
 `;
 
 exports[`CompanyJobDetailComponent should render the selected company jobs props 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
-  <h5
-    class="mb-3 font-weight-bold"
+  <div
+    class="d-flex flex-column h-100"
   >
-    Company Job
-  </h5><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+    <div
+      class="pr-3"
     >
-      Title:
-    </label>
-    <span>
-      MockCompanyJobTitle
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+      <h5
+        class="mb-3 font-weight-bold"
+      >
+        Company Job
+      </h5>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Title:
+        </label>
+        <span>
+          MockCompanyJobTitle
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Family:
+        </label>
+        <span>
+          MockJobFamily
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Level:
+        </label>
+        <span>
+          MockJobLevel
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25"
+        >
+          Description:
+        </label>
+      </div>
+    </div>
+    <div
+      class="info-row border-0 pr-3 company-job-description-container"
     >
-      Family:
-    </label>
-    <span>
-      MockJobFamily
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
-    >
-      Level:
-    </label>
-    <span>
-      MockJobLevel
-    </span>
-  </div><div
-    class="info-row border-0"
-  >
-    <label
-      class="font-weight-bold w-25"
-    >
-      Description:
-    </label>
-    <a
-      class="jdm mr-2"
-      href="javascript:void(0)"
-    >
-      View Full Job Description
-    </a>
-    
-    
-    
-    
-    
-    <p
-      class="font-italic"
-    >
-       No Job Description Available 
-    </p>
-    
-    
+      <a
+        class="jdm mr-2 d-none"
+        href="javascript:void(0)"
+      >
+        View Full Job Description
+      </a>
+      
+      
+      
+      
+      
+      <p
+        class="font-italic"
+      >
+         No Job Description Available 
+      </p>
+      
+      
+    </div>
   </div>
 </pf-company-job-detail>
 `;
 
 exports[`CompanyJobDetailComponent should show a link to download the jdm description via the \`show\` class when one jdm description id exists 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
-  <h5
-    class="mb-3 font-weight-bold"
+  <div
+    class="d-flex flex-column h-100"
   >
-    Company Job
-  </h5><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+    <div
+      class="pr-3"
     >
-      Title:
-    </label>
-    <span>
-      MockCompanyJobTitle
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+      <h5
+        class="mb-3 font-weight-bold"
+      >
+        Company Job
+      </h5>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Title:
+        </label>
+        <span>
+          MockCompanyJobTitle
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Family:
+        </label>
+        <span>
+          MockJobFamily
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Level:
+        </label>
+        <span>
+          MockJobLevel
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25"
+        >
+          Description:
+        </label>
+      </div>
+    </div>
+    <div
+      class="info-row border-0 pr-3 company-job-description-container"
     >
-      Family:
-    </label>
-    <span>
-      MockJobFamily
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
-    >
-      Level:
-    </label>
-    <span>
-      MockJobLevel
-    </span>
-  </div><div
-    class="info-row border-0"
-  >
-    <label
-      class="font-weight-bold w-25"
-    >
-      Description:
-    </label>
-    <a
-      class="jdm mr-2 show"
-      href="javascript:void(0)"
-    >
-      View Full Job Description
-    </a>
-    
-    
-    
-    
-    
-    
-    
+      <a
+        class="jdm mr-2"
+        href="javascript:void(0)"
+      >
+        View Full Job Description
+      </a>
+      
+      
+      
+      
+      
+      
+      
+    </div>
   </div>
 </pf-company-job-detail>
 `;
 
 exports[`CompanyJobDetailComponent should show a spinner when downloading a jdm description 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
   jdmDescriptionLoading={[Function Boolean]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
-  <h5
-    class="mb-3 font-weight-bold"
+  <div
+    class="d-flex flex-column h-100"
   >
-    Company Job
-  </h5><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+    <div
+      class="pr-3"
     >
-      Title:
-    </label>
-    <span>
-      MockCompanyJobTitle
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+      <h5
+        class="mb-3 font-weight-bold"
+      >
+        Company Job
+      </h5>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Title:
+        </label>
+        <span>
+          MockCompanyJobTitle
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Family:
+        </label>
+        <span>
+          MockJobFamily
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Level:
+        </label>
+        <span>
+          MockJobLevel
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25"
+        >
+          Description:
+        </label>
+      </div>
+    </div>
+    <div
+      class="info-row border-0 pr-3 company-job-description-container"
     >
-      Family:
-    </label>
-    <span>
-      MockJobFamily
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
-    >
-      Level:
-    </label>
-    <span>
-      MockJobLevel
-    </span>
-  </div><div
-    class="info-row border-0"
-  >
-    <label
-      class="font-weight-bold w-25"
-    >
-      Description:
-    </label>
-    <a
-      class="jdm mr-2 show"
-      href="javascript:void(0)"
-    >
-      View Full Job Description
-    </a>
-    
-    
-    <pf-loading-indicator />
-    
-    
-    
-    
-    
+      <a
+        class="jdm mr-2"
+        href="javascript:void(0)"
+      >
+        View Full Job Description
+      </a>
+      
+      
+      <pf-loading-indicator />
+      
+      
+      
+      
+      
+    </div>
   </div>
 </pf-company-job-detail>
 `;
 
 exports[`CompanyJobDetailComponent should show an error message if the jdm description download fails 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
   jdmDescriptionLoading="false"
   jdmDescriptionLoadingError={[Function Boolean]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
-  <h5
-    class="mb-3 font-weight-bold"
+  <div
+    class="d-flex flex-column h-100"
   >
-    Company Job
-  </h5><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+    <div
+      class="pr-3"
     >
-      Title:
-    </label>
-    <span>
-      MockCompanyJobTitle
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+      <h5
+        class="mb-3 font-weight-bold"
+      >
+        Company Job
+      </h5>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Title:
+        </label>
+        <span>
+          MockCompanyJobTitle
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Family:
+        </label>
+        <span>
+          MockJobFamily
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Level:
+        </label>
+        <span>
+          MockJobLevel
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25"
+        >
+          Description:
+        </label>
+      </div>
+    </div>
+    <div
+      class="info-row border-0 pr-3 company-job-description-container"
     >
-      Family:
-    </label>
-    <span>
-      MockJobFamily
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
-    >
-      Level:
-    </label>
-    <span>
-      MockJobLevel
-    </span>
-  </div><div
-    class="info-row border-0"
-  >
-    <label
-      class="font-weight-bold w-25"
-    >
-      Description:
-    </label>
-    <a
-      class="jdm mr-2 show"
-      href="javascript:void(0)"
-    >
-      View Full Job Description
-    </a>
-    
-    
-    
-    <p
-      class="jdm-error d-inline-block mb-0"
-    >
-       Unable to load job description 
-    </p>
-    
-    
-    
-    
+      <a
+        class="jdm mr-2"
+        href="javascript:void(0)"
+      >
+        View Full Job Description
+      </a>
+      
+      
+      
+      <p
+        class="jdm-error d-inline-block mb-0"
+      >
+         Unable to load job description 
+      </p>
+      
+      
+      
+      
+    </div>
   </div>
 </pf-company-job-detail>
 `;
 
 exports[`CompanyJobDetailComponent should show an informational message when multiple jdm ids exist 1`] = `
 <pf-company-job-detail
+  enableCoreJdmInClient$={[Function Store]}
+  enableCoreJdmInClientSubscription={[Function Subscriber]}
   jdmDescriptionIds={[Function Array]}
+  jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
+  settingService={[Function SettingsService]}
   viewJdmDescriptionClick={[Function EventEmitter]}
 >
-  <h5
-    class="mb-3 font-weight-bold"
+  <div
+    class="d-flex flex-column h-100"
   >
-    Company Job
-  </h5><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
+    <div
+      class="pr-3"
     >
-      Title:
-    </label>
-    <span>
-      MockCompanyJobTitle
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
-    >
-      Family:
-    </label>
-    <span>
-      MockJobFamily
-    </span>
-  </div><div
-    class="info-row"
-  >
-    <label
-      class="font-weight-bold w-25 mb-0"
-    >
-      Level:
-    </label>
-    <span>
-      MockJobLevel
-    </span>
-  </div><div
-    class="info-row border-0"
-  >
-    <label
-      class="font-weight-bold w-25"
-    >
-      Description:
-    </label>
-    <a
-      class="jdm mr-2"
-      href="javascript:void(0)"
-    >
-      View Full Job Description
-    </a>
-    
-    <p
-      class="mb-1"
-    >
-       There is more than one Job Description for this job. Please refer to the 
-      <a
-        href="/ng/job-description-management/job-descriptions"
-        target="_blank"
+      <h5
+        class="mb-3 font-weight-bold"
       >
-        Job Description Management Tile
+        Company Job
+      </h5>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Title:
+        </label>
+        <span>
+          MockCompanyJobTitle
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Family:
+        </label>
+        <span>
+          MockJobFamily
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Level:
+        </label>
+        <span>
+          MockJobLevel
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25"
+        >
+          Description:
+        </label>
+      </div>
+    </div>
+    <div
+      class="info-row border-0 pr-3 company-job-description-container"
+    >
+      <a
+        class="jdm mr-2 d-none"
+        href="javascript:void(0)"
+      >
+        View Full Job Description
       </a>
-       to view each description. 
-    </p>
-    
-    
-    
-    
-    
-    
+      
+      <p
+        class="mb-1"
+      >
+         There is more than one Job Description for this job. Please refer to the 
+        <a
+          href="/ng/job-description-management/job-descriptions"
+          target="_blank"
+        >
+          Job Description Management Tile
+        </a>
+         to view each description. 
+      </p>
+      
+      
+      
+      
+      
+      
+    </div>
   </div>
 </pf-company-job-detail>
 `;

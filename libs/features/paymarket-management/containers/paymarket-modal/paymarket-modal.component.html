@@ -1,0 +1,56 @@
+<pf-modal-form
+  [modalId]="'au-modal-paymarket-management'"
+  [isOpen$]="modalOpen$"
+  [size]="'lg'"
+  [centered]="false"
+  [allowDismiss]="true"
+  [primaryButtonText]="'Save'"
+  [primaryButtonTextSubmitting]="'Saving'"
+  [title]="!!(payMarketId$ | async) ? 'Edit Pay Market' : 'Add Pay Market'"
+  [submitEnabled]="!submitDisabled"
+  [windowClass]="'add-pay-market-modal'"
+  (onDismiss)="closeModal()"
+  (onSubmit)="savePayMarket()">
+
+  <ng-container basic-content>
+    <pf-async-container
+      [loading]="(payMarket$ | async)?.loading"
+      [loadingError]="(payMarket$ | async)?.loadingError">
+      <div class="paymarket-modal-container px-3">
+        <ngb-tabset #payMarketTabs [destroyOnHide]="false">
+          <ngb-tab [title]="'General'" [id]="payMarketModalTabs.General">
+            <ng-template ngbTabContent>
+              <div class="pt-3">
+                <pf-general-form
+                  [reset]="!(modalOpen$ | async)"
+                  [companyId]="companyId">
+                </pf-general-form>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab [title]="'Default Scopes'" [id]="payMarketModalTabs.DefaultScopes">
+            <ng-template ngbTabContent>
+              <div class="pt-3">
+                <pf-default-scopes [reset]="!(modalOpen$ | async)"></pf-default-scopes>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab *ngIf="hasPeerAccess" [title]="'Exchange Scopes'" [id]="payMarketModalTabs.ExchangeScopes">
+            <ng-template ngbTabContent>
+              <div class="pt-3">
+                <pf-exchange-scopes [reset]="!(modalOpen$ | async)"></pf-exchange-scopes>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </pf-async-container>
+  </ng-container>
+
+  <ng-container footer-left>
+    <div *ngIf="!!(payMarketId$ | async)">
+      <span class="edit-note">Note: changing a pay market will not affect previously created pricings or projects</span>
+    </div>
+  </ng-container>
+
+</pf-modal-form>

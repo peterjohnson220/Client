@@ -31,9 +31,8 @@ describe('RegistrationFormPageComponent', () => {
     })
     .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
-    delete global.window.location;
   }));
 
   beforeEach(() => {

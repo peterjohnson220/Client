@@ -1,0 +1,16 @@
+  <div  class="peerExchangeMatches" [style.top.px]="offset.top" [style.left.px]="offset.left">
+    <pf-async-container   [loading]="!(peerMatchesLoaded$ | async)">
+      <b>Exchange Job Matches</b>
+      <hr>
+    <ul *ngIf="peerMatches">
+      <li *ngFor="let pm of peerMatches">
+         <span style="color: black">{{pm.ExchangeJobTitle}} </span> <i>({{pm.ExchangeName}} Exchange)</i>
+      </li>
+    </ul>
+      <div *ngIf="(peerMatchesLoaded$ | async) && (!peerMatches || peerMatches.length === 0 )">
+        No Data
+      </div>
+    </pf-async-container>
+  </div>
+
+

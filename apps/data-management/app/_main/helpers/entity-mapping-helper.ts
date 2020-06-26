@@ -1,3 +1,5 @@
+import { isEmpty, isObject } from 'lodash';
+
 import { OrgDataEntityType } from 'libs/constants';
 import { MappingPackage } from 'libs/models/hris-api';
 
@@ -60,15 +62,20 @@ export class EntityMappingHelper {
 
   static mapCustomUdfFieldsToPayfactorsEntity(customFields: any[], payfactorsFields: EntityDataField[]): EntityDataField[] {
     const udfFields = payfactorsFields.filter(x => x.FieldName.toLowerCase().startsWith('udf'));
-
-    if (udfFields.length > 0) {
-      customFields.forEach(customField => {
-        const udfField = udfFields.find(udf => udf.FieldName + 'Name' === customField.Key);
-        udfField.DisplayName = customField.Value;
-      });
+    const nonUdfFields = payfactorsFields.filter(x => !x.FieldName.toLowerCase().startsWith('udf'));
+    let definedUdfFields: EntityDataField[] = [];
+    if (!isEmpty(udfFields) && !isEmpty(customFields)) {
+      definedUdfFields = customFields
+        .map(customField => {
+          const udfField = udfFields.find(udf => (udf.FieldName.split('_').join('') + 'Name').toLowerCase() === customField.Key.toLowerCase());
+          if (isObject(udfField)) {
+            udfField.DisplayName = customField.Value;
+          }
+          return udfField;
+        })
+        .filter(isObject);
     }
-
-    return payfactorsFields.filter(x => !x.DisplayName.toLowerCase().startsWith('udf'));
+    return [...nonUdfFields, ...definedUdfFields];
   }
 
   static mapMappedFieldsTpProviderAndPayfactorsFields(providerFields: EntityField,

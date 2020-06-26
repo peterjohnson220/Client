@@ -2,10 +2,10 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
+import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers/data-cut-validation.reducer';
 
 // Import feature reducers
 import * as fromUpsertDataCutPageReducer from './upsert-data-cut-page.reducer';
-import * as fromDataCutValidationReducer from './data-cut-validation.reducer';
 import * as fromAssociateCompanyJobReducer from './associate-company-job.reducer';
 import * as fromPaymarketExchangeScopeReducer from './paymarket-exchange-scope.reducer';
 import * as fromRequestPeerAccessReducer from './request-peer-access.reducer';
@@ -14,7 +14,6 @@ import * as fromTaggingEntitiesReducer from './tagging-entities.reducer';
 // Feature area state
 export interface UpsertPeerDataState {
   upsertDataCutPage: fromUpsertDataCutPageReducer.State;
-  dataCutValidation: fromDataCutValidationReducer.State;
   associateCompanyJob: fromAssociateCompanyJobReducer.State;
   paymarketExchangeScope: fromPaymarketExchangeScopeReducer.State;
   requestPeerAccess: fromRequestPeerAccessReducer.State;
@@ -29,7 +28,6 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   upsertDataCutPage: fromUpsertDataCutPageReducer.reducer,
-  dataCutValidation: fromDataCutValidationReducer.reducer,
   associateCompanyJob: fromAssociateCompanyJobReducer.reducer,
   paymarketExchangeScope: fromPaymarketExchangeScopeReducer.reducer,
   requestPeerAccess: fromRequestPeerAccessReducer.reducer,
@@ -43,8 +41,6 @@ export const selectUpsertPeerDataState =
 // Feature Selectors
 export const selectUpsertDataCutState =
   createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.upsertDataCutPage);
-export const selectDataCutValidationState =
-  createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.dataCutValidation);
 export const selectAssociateCompanyJobState =
   createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.associateCompanyJob);
 export const selectPaymarketExchangeState =
@@ -76,20 +72,7 @@ export const getUpsertDataCutLoadingDataCutError = createSelector(
   fromUpsertDataCutPageReducer.getLoadingDataCutDetailsError
 );
 
-// Data Cut Validation Selectors
-export const {
-  selectAll: getDataCutValidationInfo
-} = fromDataCutValidationReducer.adapter.getSelectors(selectDataCutValidationState);
-export const getDataCutValidationInfoLoading =
-  createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoading);
-export const getDataCutValidationInfoLoadingError
-  = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoadingError);
-export const getEmployeeSimilarityError
-  = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getEmployeeSimilarityError);
-export const getEmployeeCheckPassed = createSelector(selectDataCutValidationState,
-  fromDataCutValidationReducer.getEmployeeSimilarityPassed);
-export const getIsEmployeeSimilarityLoading = createSelector(selectDataCutValidationState,
-  fromDataCutValidationReducer.getValidatingEmployeeSimilarity);
+
 // Associate Company Job Selectors
 export const getExchangeSearchResult = createSelector(
   selectAssociateCompanyJobState,

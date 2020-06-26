@@ -19,7 +19,7 @@
     <div *ngFor="let filter of pendingFilters; let i = index; trackBy: trackByFn">
       <pf-filter-card
         [filterIndex]="i"
-        [fields]="selectedFields"
+        [fields]="availableFieldsForFilters"
         [filter]="filter"
         (deleteFilter)="handleDeleteFilter($event)"
         (filterChanged)="handleFilterChanged(i, $event)"

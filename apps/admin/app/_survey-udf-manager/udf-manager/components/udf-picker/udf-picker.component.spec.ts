@@ -30,9 +30,8 @@ describe('UdfPickerComponent', () => {
     ];
     instance.selectedCompany = {
       CompanyId: 1,
-      CompanyName: 'Company Name',
-      CompanyNameShort: 'Company',
-      Status: 'Active'
+      Name: 'Company Name',
+      CombinedDetail: 'Company Name (1)'
     };
     instance.isLoading = false;
     instance.isLoadingError = false;

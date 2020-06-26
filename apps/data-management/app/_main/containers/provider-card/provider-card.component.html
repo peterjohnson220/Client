@@ -3,7 +3,7 @@
   [class.active-background]="provider.ProviderId === selectedProvider && provider.Active"
   [class.inactive-provider]="!provider.Active"
   style="max-width: 21rem;" 
-  (click)="selectProviderClick($event)">
+  (click)="selectProviderClick(provider)">
   <div
     class="px-2 selected-badge"
     [class.active]="provider.ProviderId === selectedProvider && provider.Active">

@@ -1,7 +1,7 @@
 <ng-template #jobDescriptionAppliesToModal let-modal>
   <form [formGroup]="appliesToform" (ngSubmit)="submit()">
     <div class="modal-header">
-      <h4 class="modal-title">{{ this.editing ? 'Update Job Description' : 'Create New Job Description' }}</h4>
+      <h4 class="modal-title">{{ this.editing ? 'Update Job Description' : 'Create Sibling Job Description' }}</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -44,7 +44,6 @@
         <label class="col-4 col-form-label">Applies To:</label>
         <div class="col-8">
           <kendo-combobox class="form-control" formControlName="appliesToField"
-                          [clearButton]="false"
                           [suggest]="true"
                           [data]="jobDescriptionAppliesToItems$ | async"
                           [textField]="'DisplayName'"
@@ -64,10 +63,10 @@
 		             	<kendo-combobox class="form-control" formControlName="appliesToValue"
                                   [disabled]="jobDescriptionAppliesToValuesLoading$ | async"
                                   [data]="data"
-                                  [clearButton]="false"
                                   [suggest]="true"
                                   [filterable]="true"
-                                  [valuePrimitive]="true"
+                                  [virtual]="virtual"
+                                  [valuePrimitive]="true"                                  
                                   (filterChange)="handleFilter($event)"
                                   (valueChange)="handleAppliesToValueChanged()">
 				        </kendo-combobox>

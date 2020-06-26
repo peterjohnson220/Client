@@ -18,6 +18,8 @@ import * as fromCommunitySearchReducer from './community-search.reducer';
 import * as fromCommunityIndustryReducer from './community-industry.reducer';
 import * as fromCommunityCompanySizeReducer from './community-company-size.reducer';
 import * as fromCommunityTopicReducer from './community-topic.reducer';
+import * as fromCommunityAttachmentReducer from './community-attachment.reducer';
+import * as fromCommunityAttachmentWarningReducer from './community-attachment-warning.reducer';
 import { CommunityConstants } from '../models';
 import { populatePostReplies } from '../helpers/model-mapping.helper';
 
@@ -38,6 +40,8 @@ export interface CommunityState {
   communityIndustries: fromCommunityIndustryReducer.State;
   communityCompanySizes: fromCommunityCompanySizeReducer.State;
   communityTopic: fromCommunityTopicReducer.State;
+  communityAttachments: fromCommunityAttachmentReducer.State;
+  communityAttachmentsWarning: fromCommunityAttachmentWarningReducer.State;
 }
 
 // Extend root state with feature area state
@@ -61,7 +65,9 @@ export const reducers = {
   communitySearch: fromCommunitySearchReducer.reducer,
   communityIndustries: fromCommunityIndustryReducer.reducer,
   communityCompanySizes: fromCommunityCompanySizeReducer.reducer,
-  communityTopic: fromCommunityTopicReducer.reducer
+  communityTopic: fromCommunityTopicReducer.reducer,
+  communityAttachments: fromCommunityAttachmentReducer.reducer,
+  communityAttachmentsWarning: fromCommunityAttachmentWarningReducer.reducer
 };
 
 // select feature area
@@ -142,6 +148,16 @@ export const selectFromCommunityTopicState = createSelector(
 export const selectFromCommunityCompanySizeState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityCompanySizes
+);
+
+export const selectFromCommunityAttachmentsState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityAttachments
+);
+
+export const selectFromCommunityAttachmentsWarningModalState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityAttachmentsWarning
 );
 
 // Community Poll Selectors
@@ -331,6 +347,16 @@ export const getCommunityPostEdited = createSelector(
   fromCommunityPostReducer.getCommunityPostEdited
 );
 
+export const getDiscardingPost = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getDiscardingPost
+);
+
+export const getDiscardingPostProceed = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getDiscardingPostProceed
+);
+
 // Community Post Reply Selectors
 
 export const {
@@ -361,6 +387,26 @@ export const getAddingCommunityPostReplyError = createSelector(
 export const getAddingCommunityPostReplySuccess = createSelector(
   selectFromCommunityPostReplyState,
   fromCommunityPostReplyReducer.getAddingCommunityPostReplySuccess
+);
+
+export const getCommunityReplyEdited = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getCommunityReplyEdited
+);
+
+export const getDiscardingPostReplyId = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getDiscardingPostReplyId
+);
+
+export const getDiscardingPostReply = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getDiscardingPostReply
+);
+
+export const getDiscardingPostReplyProceed = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getDiscardingPostReplyProceed
 );
 
 // Community Post Add Reply View selector
@@ -439,11 +485,6 @@ export const getSuggestingCommunityTags = createSelector(
 export const getCommunityTags = createSelector(
   selectFromCommunityTagState,
   fromCommunityTagReducer.getCommunityTags
-);
-
-export const getSuggestingCommunityTagsPostId = createSelector(
-  selectFromCommunityTagState,
-  fromCommunityTagReducer.getCommunityTagsPostId
 );
 
 export const getSuggestingCommunityTagsError = createSelector(
@@ -662,4 +703,26 @@ export const getLoadingTopicsError = createSelector(
 export const getTopics = createSelector(
   selectFromCommunityTopicState,
   fromCommunityTopicReducer.getCommunityTopics
+);
+
+// Community Attachment Selectors
+export const getCurrentAttachmentModalState = createSelector(
+  selectFromCommunityAttachmentsState,
+  fromCommunityAttachmentReducer.getCurrentAttachmentModalState
+);
+
+export const getCurrentAttachmentModalOpen = createSelector(
+  selectFromCommunityAttachmentsState,
+  fromCommunityAttachmentReducer.getCurrentAttachmentModalOpen
+);
+
+// Community Attachment Warning Modal Selectors
+export const getCurrentAttachmentWarningModalState = createSelector(
+  selectFromCommunityAttachmentsWarningModalState,
+  fromCommunityAttachmentWarningReducer.getCurrentAttachmentWarningModalOpen
+);
+
+export const getCurrentAttachmentDownloadUrl = createSelector(
+  selectFromCommunityAttachmentsWarningModalState,
+  fromCommunityAttachmentWarningReducer.getCurrentAttachmentDownloadUrl
 );

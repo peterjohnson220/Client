@@ -1,16 +1,13 @@
 @import 'colors';
 
-label { 
+label {
   min-width: 90px;
 }
 
 a.jdm {
-  opacity: 0;
   transition: opacity .3s ease-in-out;
-  pointer-events: none;
-  &.show {
-    opacity: 1;
-    pointer-events: initial;
+  &.d-none {
+    display:none;
   }
   &:hover {
     color: $link-color;
@@ -19,4 +16,9 @@ a.jdm {
 
 .jdm-error {
   color: tomato;
+}
+
+.company-job-description-container {
+  flex:1;
+  overflow-y:auto;
 }

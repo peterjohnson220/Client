@@ -1,6 +1,7 @@
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MomentModule } from 'ngx-moment';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -9,6 +10,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { NgbTabsetModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { ImgFallbackModule } from 'ngx-img-fallback';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
@@ -18,9 +20,9 @@ import { UserManagementModule } from 'libs/features/user-management';
 import * as fromFaIcons from './fa-icons';
 import { CompanySearchPipe } from './pipes';
 import { CompaniesListPageComponent, CompaniesListComponent, CompanyPageComponent, CompanyFormComponent,
-  CompanyTabsComponent } from './containers';
-import { SecondarySurveyFieldsModalComponent, CompanyTagsModalComponent } from './components';
-import { CompaniesEffects, CompanyPageEffects } from './effects';
+  CompanyTabsComponent, CompanyNotesModalComponent } from './containers';
+import { SecondarySurveyFieldsModalComponent, CompanyTagsModalComponent, CompanyNotesListComponent } from './components';
+import { CompaniesEffects, CompanyPageEffects, CompanyNotesEffects } from './effects';
 import { reducers } from './reducers';
 import { CompanyRoutingModule } from './company-routing.module';
 
@@ -33,7 +35,8 @@ import { CompanyRoutingModule } from './company-routing.module';
     StoreModule.forFeature('pf-admin_companies', reducers),
     EffectsModule.forFeature([
       CompaniesEffects,
-      CompanyPageEffects
+      CompanyPageEffects,
+      CompanyNotesEffects
     ]),
     GridModule,
     LayoutModule,
@@ -41,6 +44,8 @@ import { CompanyRoutingModule } from './company-routing.module';
     NgbTabsetModule,
     NgbModalModule,
     FontAwesomeModule,
+    ImgFallbackModule,
+    MomentModule,
 
     // Routing
     CompanyRoutingModule,
@@ -63,6 +68,8 @@ import { CompanyRoutingModule } from './company-routing.module';
     CompanyTabsComponent,
     SecondarySurveyFieldsModalComponent,
     CompanyTagsModalComponent,
+    CompanyNotesModalComponent,
+    CompanyNotesListComponent,
 
     // Pages
     CompaniesListPageComponent,

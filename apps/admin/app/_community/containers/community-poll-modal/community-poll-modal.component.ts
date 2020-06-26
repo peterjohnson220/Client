@@ -36,7 +36,7 @@ export class CommunityPollModalComponent implements OnInit, OnDestroy {
 
   get communityPollId() { return this.addCommunityPollForm.get('communityPollId'); }
   get status() { return this.addCommunityPollForm.get('status'); }
-  get context() { return this.addCommunityPollForm.get('context'); }
+  get content() { return this.addCommunityPollForm.get('content'); }
   get choices() { return this.addCommunityPollForm.get('choices') as FormArray; }
 
   constructor(private store: Store<fromCommunityPollReducer.State>, private fb: FormBuilder) {
@@ -63,7 +63,7 @@ export class CommunityPollModalComponent implements OnInit, OnDestroy {
 
         this.communityPollId.setValue(poll.CommunityPollId);
         this.status.setValue(poll.Status);
-        this.context.setValue(poll.Question);
+        this.content.setValue(poll.Question);
 
         poll.ResponseOptions.forEach(ro => {
           this.choices.push(CommunityPollChoicesComponent.buildItem(ro.ResponseText, this.enableEditingResponseOptions));
@@ -92,7 +92,7 @@ export class CommunityPollModalComponent implements OnInit, OnDestroy {
 
     const communityPollEditRequest: CommunityPollUpsertRequest = {
       CommunityPollId: this.communityPollId.value,
-      Question: this.context.value,
+      Question: this.content.value,
       ResponseOptions: responseOptions,
       Status: this.status.value,
       Links: [],
@@ -120,7 +120,7 @@ export class CommunityPollModalComponent implements OnInit, OnDestroy {
   createForm(): void {
     this.addCommunityPollForm = this.fb.group({
       'communityPollId': [''],
-      'context': ['', [PfValidators.required]],
+      'content': ['', [PfValidators.required]],
       'status': [0],
       'choices': this.fb.array([])
     });
@@ -137,7 +137,7 @@ export class CommunityPollModalComponent implements OnInit, OnDestroy {
   private updateStatusMode(poll: CommunityPollList) {
 
     this.status.enable();
-    this.context.enable();
+    this.content.enable();
     this.enableEditingResponseOptions = true;
     this.pollStatusOptions = this.CommunityPollStatuses;
 
@@ -146,7 +146,7 @@ export class CommunityPollModalComponent implements OnInit, OnDestroy {
     }
 
     if (poll.Status === CommunityPollStatusEnum.Live) {
-      this.context.disable();
+      this.content.disable();
       this.enableEditingResponseOptions = false;
 
       // remove DRAFT option from the menu
@@ -154,7 +154,7 @@ export class CommunityPollModalComponent implements OnInit, OnDestroy {
 
     } else if (poll.Status === CommunityPollStatusEnum.Archived) {
       this.status.disable();
-      this.context.disable();
+      this.content.disable();
       this.enableEditingResponseOptions = false;
     }
   }

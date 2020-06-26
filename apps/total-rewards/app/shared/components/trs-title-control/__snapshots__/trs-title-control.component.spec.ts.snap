@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TrsTitleControlComponent should show in edit mode 1`] = `
+<pf-trs-title-control
+  controlData={[Function Object]}
+  mode="0"
+  modeEnum={[Function Object]}
+  titleChange={[Function EventEmitter]}
+>
+  <div
+    class="col-12 h-100 position-relative edit-mode"
+  >
+    <h2
+      class="my-auto trs-statement-title"
+    >
+      <pf-string-editor />
+    </h2>
+    <h3
+      class="employee font-weight-normal p-1"
+    >
+      <span
+        class="employee-name"
+      >
+        Employee Name
+      </span>
+      
+      <span>
+         (
+        <span
+          class="employee-id"
+        >
+          Employee Id
+        </span>
+        ) 
+      </span>
+    </h3>
+  </div>
+</pf-trs-title-control>
+`;
+
+exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
+<pf-trs-title-control
+  controlData={[Function Object]}
+  mode={[Function Number]}
+  modeEnum={[Function Object]}
+  titleChange={[Function EventEmitter]}
+>
+  <div
+    class="col-12 h-100 position-relative"
+  >
+    <h2
+      class="my-auto trs-statement-title"
+    >
+      <pf-string-editor />
+    </h2>
+    <h3
+      class="employee font-weight-normal p-1"
+    >
+      <span
+        class="employee-name"
+      >
+        
+      </span>
+      
+    </h3>
+  </div>
+</pf-trs-title-control>
+`;

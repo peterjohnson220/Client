@@ -43,7 +43,7 @@ describe('Peer - Exchange Job Comparison Grid', () => {
       ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(ExchangeJobComparisonGridComponent);
     instance = fixture.componentInstance;

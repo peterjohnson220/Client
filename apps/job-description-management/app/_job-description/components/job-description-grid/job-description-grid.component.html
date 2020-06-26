@@ -83,15 +83,25 @@
           <pf-status-pill [status]="dataItem.JobDescriptionStatus"></pf-status-pill>
         </ng-template>
       </ng-container>
-      <!-- End of Kendo Grid Templates -->
 
+      <ng-container *ngIf="listAreaColumn.ColumnDatabaseName === 'CurrentReviewer'">
+        <ng-template kendoGridCellTemplate let-dataItem>
+        <div (mouseover)="showCurrentReviewerTooltip(dataItem.CurrentReviewer, currentReviewerTooltip)" (mouseleave)="hideCurrentReviewerTooltip(currentReviewerTooltip)">
+          <div ngbTooltip="{{dataItem.CurrentReviewer}}" [autoClose]="false" triggers="manual" #currentReviewerTooltip="ngbTooltip" container="body"></div>
+          <div>
+            {{dataItem.CurrentReviewer | TruncateAfter: currentReviewerThreshold}}
+          </div>
+        </div>
+        </ng-template>
+      </ng-container>
+      <!-- End of Kendo Grid Templates -->
     </kendo-grid-column>
 
     <kendo-grid-column *ngIf="!isPublic" class="cancel-row-click" [width]="50"
       [style]="{'text-align': 'center', 'overflow': 'inherit'}">
       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
         <div ngbDropdown #jobDescriptionActionsDropDown="ngbDropdown" class="d-inline-block k-grid-ignore-click"
-          placement="bottom-right">
+          [pfSecuredResource]="permissions.JOB_DESCRIPTIONS_ADD" placement="bottom-right">
           <button ngbDropdownToggle class="btn btn-secondary btn-sm" id="jd-list-view-actions-dropdown">
             <fa-icon icon="ellipsis-h"></fa-icon>
           </button>
@@ -99,7 +109,7 @@
             aria-labelledby="job-description-actions-dropdown">
             <button class="dropdown-item" [disabled]="dataItem.JobDescriptionStatus === 'Not Started'"
               (click)="handleNewJobDescriptionClick(dataItem)">
-              New Job Description
+              Add Sibling Description
             </button>
             <div #toolTipWrapper *ngIf="hasDeleteJobDescriptionPermission === true"
               [ngbTooltip]="tooltipForDeleteButton(dataItem.JobDescriptionCount)">

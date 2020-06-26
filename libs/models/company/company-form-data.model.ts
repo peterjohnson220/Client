@@ -8,6 +8,7 @@ export interface CompanyFormData {
   Status: string;
   Website: string;
   Domain: string;
+  AccountExecutiveUserId?: string;
   PrimarySupportUserId?: string;
   JDMSeniorAssociateUserId?: string;
   SystemUserGroupsId: number;
@@ -36,4 +37,5 @@ export interface CompanyFormData {
   GroupName?: string;
   CompanyColor: string;
   OrgDataAutoloaderApiKey: string;
+  CompanyDescription: string;
 }

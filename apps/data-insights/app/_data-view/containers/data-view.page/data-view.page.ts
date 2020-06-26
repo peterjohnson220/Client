@@ -13,8 +13,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
 import * as fromFiltersActions from '../../actions/filters.actions';
-import * as fromFieldsActions from '../../actions/fields.actions';
-import { SharedDataViewUser, UserDataView, DataViewAccessLevel } from '../../models';
+import { SharedDataViewUser, UserDataView, DataViewAccessLevel, Filter } from '../../models';
 import {
   DeleteUserWorkbookModalComponent,
   ShareReportModalComponent,
@@ -29,11 +28,11 @@ import { DuplicateDataViewModalComponent } from '../duplicate-data-view-modal';
   styleUrls: ['./data-view.page.scss']
 })
 export class DataViewPageComponent implements OnInit, OnDestroy {
-  @ViewChild('editDataViewModal', { static: false }) public editDataViewModal: EditDataViewModalComponent;
-  @ViewChild('duplicateDataViewModal', { static: false }) public duplicateDataViewModal: DuplicateDataViewModalComponent;
-  @ViewChild('deleteWorkbookModal', { static: false }) public deleteUserWorkbookModalComponent: DeleteUserWorkbookModalComponent;
-  @ViewChild('shareReportModal', { static: false }) public shareReportModalComponent: ShareReportModalComponent;
-  @ViewChild(ConfigureSidebarComponent, { static: false }) public configureSidebar: ConfigureSidebarComponent;
+  @ViewChild('editDataViewModal') public editDataViewModal: EditDataViewModalComponent;
+  @ViewChild('duplicateDataViewModal') public duplicateDataViewModal: DuplicateDataViewModalComponent;
+  @ViewChild('deleteWorkbookModal') public deleteUserWorkbookModalComponent: DeleteUserWorkbookModalComponent;
+  @ViewChild('shareReportModal') public shareReportModalComponent: ShareReportModalComponent;
+  @ViewChild(ConfigureSidebarComponent) public configureSidebar: ConfigureSidebarComponent;
 
   userDataView$: Observable<AsyncStateObj<UserDataView>>;
   exportingUserDataReport$: Observable<boolean>;
@@ -43,6 +42,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
   sharedUserPermissions$: Observable<AsyncStateObj<SharedDataViewUser[]>>;
   loadingErrorMessage$: Observable<string>;
   formulaBuilderEnabled$: Observable<boolean>;
+  activeFilters$: Observable<Filter[]>;
 
   editReportSuccessSubscription: Subscription;
   duplicateReportSuccessSubscription: Subscription;
@@ -71,6 +71,7 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
     this.shareableUsers$ = this.store.pipe(select(fromDataViewMainReducer.getShareableUsersAsync));
     this.sharedUserPermissions$ = this.store.pipe(select(fromDataViewMainReducer.getSharedUserPermissionsAsync));
     this.loadingErrorMessage$ = this.store.pipe(select(fromDataViewMainReducer.getLoadingErrorMessage));
+    this.activeFilters$ = this.store.pipe(select(fromDataViewMainReducer.getActiveFilters));
     this.formulaBuilderEnabled$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.DataInsightsFormulaBuilder
     );
@@ -96,7 +97,6 @@ export class DataViewPageComponent implements OnInit, OnDestroy {
     const dataViewIdObj = { dataViewId };
     this.store.dispatch(new fromFiltersActions.ResetFilters());
     this.store.dispatch(new fromDataViewActions.GetUserDataView(dataViewIdObj));
-    this.store.dispatch(new fromFieldsActions.GetReportFields(dataViewIdObj));
     this.store.dispatch(new fromDataViewActions.GetExportingUserReport(dataViewIdObj));
   }
 

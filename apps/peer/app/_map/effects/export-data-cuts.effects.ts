@@ -9,6 +9,7 @@ import { ExchangeDataCutsApiService } from 'libs/data/payfactors-api/peer';
 import { ExchangeDataCutsExportRequest } from 'libs/models/peer/requests';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api/settings';
+import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { ExchangeDataSearchFilter } from 'libs/models/peer';
@@ -16,6 +17,7 @@ import * as fromLibsPeerMapReducers from 'libs/features/peer/map/reducers';
 
 import * as fromPeerMapReducer from '../reducers/';
 import * as fromSharedPeerReducer from '../../shared/reducers';
+import { PayfactorsApiModelMapper } from '../../shared/helpers/payfactors-api-model-mapper';
 
 import * as fromExportDataCutsActions from '../actions/export-data-cuts.actions';
 
@@ -65,7 +67,8 @@ export class ExportDataCutsEffects {
           FilterModel: action.payload.exportCurrentMap ? filterContext : null,
           SelectedRate: action.payload.selectedRate,
           SelectedExchangeScopeGuids: action.payload.scopes,
-          SelectedWeightingType: action.payload.selectedWeightingType
+          SelectedWeightingType: action.payload.selectedWeightingType,
+          SelectedCurrency: action.payload.selectedCurrency
         };
       }),
     switchMap((payload: ExchangeDataCutsExportRequest<BaseExchangeDataSearchRequest>) => {
@@ -112,6 +115,20 @@ export class ExportDataCutsEffects {
       })
     );
 
+    @Effect()
+    loadCurrencies$: Observable<Action> = this.actions$
+      .pipe(
+        ofType(fromExportDataCutsActions.LOAD_CURRENCIES),
+        switchMap(() =>
+          this.currencyApiService.getCurrencies().pipe(
+            map((response) => {
+              return new fromExportDataCutsActions.LoadCurrenciesSuccess({currencies: PayfactorsApiModelMapper.mapCurrencyDtosToCurrency(response)});
+            }),
+            catchError(() => of(new fromExportDataCutsActions.LoadCurrenciesError)
+            )
+          )
+        ));
+
   constructor(
     private actions$: Actions,
     private store: Store<fromPeerMapReducer.State>,
@@ -119,6 +136,7 @@ export class ExportDataCutsEffects {
     private libsPeerMapStore: Store<fromLibsPeerMapReducers.State>,
     private exchangeExplorerContextService: ExchangeExplorerContextService,
     private exchangeDataCutsApiService: ExchangeDataCutsApiService,
-    private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService
+    private uiPersistenceSettingsApiService: UiPersistenceSettingsApiService,
+    private currencyApiService: CurrencyApiService
   ) {}
 }

@@ -22,21 +22,31 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectJobManagementState =
+export const selectJobManagementFeature =
   createFeatureSelector<JobManagementState>('feature_job_management');
 
 // View Selectors
 export const selectJobDataState =
-  createSelector(selectJobManagementState, (state: JobManagementState) => state.jobData);
+  createSelector(selectJobManagementFeature, (state: JobManagementState) => state.jobData);
 
-// User Form
+// Company Info
 export const getState = createSelector(selectJobDataState, fromJobManagementReducer.getState);
 export const getLoading = createSelector(selectJobDataState, fromJobManagementReducer.getLoading);
-export const getShowJobForm = createSelector(selectJobDataState, fromJobManagementReducer.getShowJobForm);
-export const getCompanyJob = createSelector(selectJobDataState, fromJobManagementReducer.getCompanyJob);
+export const getLoadingJobOptions = createSelector(selectJobDataState, fromJobManagementReducer.getLoadingJobOptions);
+export const getLoadingStructurePayMarketGrade = createSelector(selectJobDataState, fromJobManagementReducer.getLoadingStructurePayMarketGrade);
+export const getJobId = createSelector(selectJobDataState, fromJobManagementReducer.getJobId);
+export const getJobFormData = createSelector(selectJobDataState, fromJobManagementReducer.getJobFormData);
+export const getJobDescriptionSummary = createSelector(selectJobDataState, fromJobManagementReducer.getJobDescriptionSummary);
+export const getAttachments = createSelector(selectJobDataState, fromJobManagementReducer.getAttachments);
+export const getStructures = createSelector(selectJobDataState, fromJobManagementReducer.getStructures);
+export const getSelectedStructureId = createSelector(selectJobDataState, fromJobManagementReducer.getSelectedStructureId);
 export const getJobFamilies = createSelector(selectJobDataState, fromJobManagementReducer.getJobFamilies);
+export const getIsJdmEnabled = createSelector(selectJobDataState, fromJobManagementReducer.getIsJdmEnabled);
 export const getCompanyFlsaStatuses = createSelector(selectJobDataState, fromJobManagementReducer.getCompanyFlsaStatuses);
 export const getCompanyJobUdfs = createSelector(selectJobDataState, fromJobManagementReducer.getCompanyJobUdfs);
 export const getSaving = createSelector(selectJobDataState, fromJobManagementReducer.getSaving);
+export const getStructuresList = createSelector(selectJobDataState, fromJobManagementReducer.getStructuresList);
+export const getPaymarketGradeList = createSelector(selectJobDataState, fromJobManagementReducer.getPaymarketGradeList);
 export const getDuplicateJobCodeError = createSelector(selectJobDataState, fromJobManagementReducer.getDuplicateJobCodeError);
 export const getErrorMessage = createSelector(selectJobDataState, fromJobManagementReducer.getErrorMessage);
+

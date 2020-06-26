@@ -9,6 +9,7 @@ import * as fromSingledFilterReducer from './singled-filter.reducer';
 import * as fromSearchResultsReducer from './search-results.reducer';
 import * as fromSearchPageReducer from './search-page.reducer';
 import * as fromChildFilterReducer from './child-filter.reducer';
+import {getParentOptionValue} from './child-filter.reducer';
 
 // Feature area state
 export interface SearchFeatureState {
@@ -73,19 +74,15 @@ export const getAllFilters = createSelector(
   fromSearchFiltersReducer.getAllFilters
 );
 
-export const getSubFilters = createSelector(
+export const getChildFilters = createSelector(
   selectSearchFiltersState,
-  fromSearchFiltersReducer.getSubFilters
+  fromSearchFiltersReducer.getChildFilters
 );
 
 export const getChildFilterName = createSelector(
   selectChildFilterState,
-  selectSearchFiltersState,
-  (childFilter, filters) => {
-    if (childFilter.parentOptionValue) {
-      const parentFilter = <MultiSelectFilter>filters.filters.filter(x => x.BackingField === childFilter.filter.ParentBackingField)[0];
-      return parentFilter.Options.filter(x => x.Value === childFilter.parentOptionValue)[0].Name;
-    }
+  (childFilter) => {
+    return childFilter.parentOptionName;
   }
 );
 
@@ -126,26 +123,6 @@ export const getChildFilterParentOptionValue = createSelector(
   fromChildFilterReducer.getParentOptionValue
 );
 
-export const getLoadingOptions = createSelector(
-  selectSingledFilterState,
-  fromSingledFilterReducer.getLoadingOptions
-);
-
-export const getChildLoadingOptions = createSelector(
-  selectChildFilterState,
-  fromChildFilterReducer.getLoadingOptions
-);
-
-export const getLoadingOptionsError = createSelector(
-  selectSingledFilterState,
-  fromSingledFilterReducer.getLoadingOptionsError
-);
-
-export const getChildLoadingOptionsError = createSelector(
-  selectChildFilterState,
-  fromChildFilterReducer.getLoadingOptionsError
-);
-
 export const getSingledFilterSearchValue = createSelector(
   selectSingledFilterState,
   fromSingledFilterReducer.getSearchValue
@@ -167,10 +144,12 @@ export const getSingledFilterSelectionCount = createSelector(
 
 export const getChildFilterSelectionCount = createSelector(
   getChildFilter,
-  getParentFilters,
-  (childFilter, filters) => {
-    const backingFilter = <MultiSelectFilter>filters.find(f => f.Id === childFilter.Id);
-    return !!backingFilter ? backingFilter.Options.filter(o => o.Selected).length : 0;
+  getChildFilters,
+  getParentOptionValue,
+  (childFilter, filters, parentOptionValue) => {
+    const backingFilter = <MultiSelectFilter>filters.find(f => childFilter && f.Id === childFilter.Id);
+
+    return !!backingFilter ? backingFilter.Options.filter(o => o.Selected && JSON.parse(o.Value).ParentOptionValue === parentOptionValue).length : 0;
   }
 );
 

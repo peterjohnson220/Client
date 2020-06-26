@@ -1,5 +1,5 @@
-<pf-async-container [loading]="isProcessingMapping$ | async">
-  <pf-page-with-title-bar>
+<pf-async-container [loading]="isProcessingMapping$ | async" [spinnerType]="spinnerType" [loadingProgress]="loadingProgress">
+  <pf-page-with-title-bar *ngIf="!hideAccess">
     <ng-container custom-button>
       <button class="btn btn-secondary px-3 mr-2"
               (click)="goBack()">
@@ -12,7 +12,6 @@
     </ng-container>
     <ng-container page-content>
 
-
       <div class=" w-100 d-flex justify-content-center">
         <div class="w-100">
           <h4 class="my-2">Load Organizational Data <span *ngIf="this.selectedCompany"> -
@@ -23,12 +22,29 @@
                        [type]="'danger'"
                        (close)="setModalOpen(false)">Unable to download file. Please contact services.
             </ngb-alert>
-            <div class="font-weight-bold pb-3">{{this.StepHeaders[this.stepIndex - 1]}}
-              <span *ngIf="stepIndex === stepEnum.Files"
-                    class="text-info float-right small py-2">
+
+            <div class="font-weight-bold pb-3">
+              <ng-template closable="true"
+                           #tipContent>
+                <span class="tool-tip-close">
+                  <fa-icon icon="times-circle"></fa-icon>
+                </span>
+                We recommend downloading your organization's data before processing a new data load in the event you
+                need to restore your data.
+              </ng-template>
+              {{this.StepHeaders[this.stepIndex - 1]}}
+              <span [hidden]="stepIndex !== stepEnum.Files"
+                    class="text-info float-right py-2">
                 <span class="org-data-link"
                       (click)="orgDataExportAction()"
-                      id="data-download-link">Download Data</span> - <a href="#"
+                      id="data-download-link"
+                      tooltipClass="org-download-tooltip"
+                      [ngbTooltip]="tipContent"
+                      placement="bottom"
+                      [autoClose]="'inside'"
+                      triggers="manual"
+                      #downloadToolTip="ngbTooltip">
+                  Download Data</span> - <a href="#"
                    (click)="goToLink($event,this.organizationalDataTemplateLink)"
                    id="template">Field Descriptions</a>
               </span>
@@ -72,11 +88,15 @@
               </div>
 
             </ng-container>
-
             <div class="form-inline mt-3 justify-content-end">
-              <div class="form-check mr-3" *ngIf="this.stepIndex == stepEnum.FieldMapping">
-                <input type="checkbox" class="form-check-input" id="validateOnly" [(ngModel)]="isValidateOnly">
-                <label class="form-check-label" for="validateOnly">Validate Only</label>
+              <div class="form-check mr-3"
+                   *ngIf="this.stepIndex == stepEnum.FieldMapping">
+                <input type="checkbox"
+                       class="form-check-input"
+                       id="validateOnly"
+                       [(ngModel)]="isValidateOnly">
+                <label class="form-check-label"
+                       for="validateOnly">Validate Only</label>
               </div>
               <button type="button"
                       *ngIf="this.stepIndex !== stepEnum.Company && this.stepIndex !== stepEnum.FieldMapping"
@@ -109,6 +129,8 @@
       <pf-email-recipients-modal class="float-right m-2"
                                  *ngIf="selectedCompany && stepIndex === stepEnum.FieldMapping"
                                  [companyId]="selectedCompany.CompanyId"
+                                 [loaderConfigurationGroupId]="loaderConfigGroup ? loaderConfigGroup.LoaderConfigurationGroupId : undefined"
+                                 [loadType]="loadType"
                                  [savingError$]="emailRecipientsSavingError$"
                                  [removingError$]="emailRecipientsRemovingError$"
                                  [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"

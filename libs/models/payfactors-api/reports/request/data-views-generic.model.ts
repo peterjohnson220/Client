@@ -1,9 +1,10 @@
-import { DataViewFieldDataType, DataViewFilter } from './data-view-data-request.model';
+import { DataViewFieldDataType, DataViewField, DataViewFilter } from './data-view-data-request.model';
 
 export interface DataViewConfig {
   Entity: DataViewEntity;
   Fields: ViewField[];
   Name: string;
+  ExportViewId: number;
 }
 
 export interface SimpleDataView {
@@ -56,12 +57,32 @@ export interface ViewField {
   FilterPlaceholder: string;
   FilterValue: string;
   FilterOperator: string;
+  SortOrder?: number;
+  SortDirection?: 'asc' | 'desc';
+  GroupOrder?: number;
+  DefaultOrder?: number;
+  // TODO: Replace FilterValue with FilterValues.
+  // Update filter builder and filter panel accordingly.
+  FilterValues?: string[];
+  IsSortable: boolean;
+  IsAlwaysInResponse: boolean;
 }
 
-export interface SaveDataViewRequest {
+export interface DataView {
   EntityId: number;
   PageViewId: string;
-  Elements: any[];
+  Elements: DataViewField[];
+  Filters: DataViewFilter[];
+  Name?: string;
+  Type?: DataViewType;
+}
+
+export enum DataViewType {
+  dataInsights = 'DataInsights',
+  pfDataGrid = 'PfDataGrid',
+  userDefault = 'UserDefault',
+  savedFilter = 'SavedFilter',
+  export = 'Export'
 }
 
 export function generateMockViewConfig() {
@@ -95,7 +116,9 @@ export function generateMockViewField(mockNumber: number = 1): ViewField {
     CustomFilterStrategy: null,
     FilterPlaceholder: null,
     FilterValue: null,
-    FilterOperator: null
+    FilterOperator: null,
+    IsSortable: true,
+    IsAlwaysInResponse: null
   };
 }
 

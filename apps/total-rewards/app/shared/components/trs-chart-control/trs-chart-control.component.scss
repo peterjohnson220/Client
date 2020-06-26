@@ -1,0 +1,25 @@
+.trs-chart {
+  .heading {
+    width: 105%;
+    h4 {
+      width: 90%;
+    }
+  }
+
+  kendo-chart {
+    height: 250px;
+  }
+  
+  a.settings {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    transition: opacity .3s ease-in-out;
+  }
+
+  &.preview-mode {
+    a.settings {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}

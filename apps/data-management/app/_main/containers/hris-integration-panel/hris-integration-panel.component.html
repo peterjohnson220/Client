@@ -1,16 +1,43 @@
-<div class="card mb-3 shadow-sm p-3">
+<div class="card mb-3 shadow-sm">
   <div class="card-body">
-    <h4 class="card-title" *ngIf="transferMethodType === inbound">HRIS Integration</h4>
-    <h4 class="card-title" *ngIf="transferMethodType === outboundJdm">Outbound Job Description Integration</h4>
-    <!-- TODO: When we support more statuses, this can probably live as its own component -->
-    <span *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticated')" class="position-absolute integration-status integration-status-good">
-      Authenticated <fa-icon icon="check-circle" class="good-icon"></fa-icon>
-    </span>
+    <div class="row" *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticated')">
+      <span
+        class="text-success d-inline-block text-right text-nowrap flex-shrink-0 flex-grow-0 col-12">
+        Authenticated <fa-icon icon="check-circle"></fa-icon>
+      </span>
+    </div>
+    <div class="row" *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('Authenticating')">
+      <span
+        class="text-info d-inline-block text-right text-nowrap flex-shrink-0 flex-grow-0 col-12">
+        <i>Authenticating</i> <fa-icon icon="spinner" spin="true" class="p-2"></fa-icon>
+      </span>
+    </div>
     <div class="row">
-      <div class="col-sm-12 p-0">
+      <div class="col d-flex justify-content-between">
+        <h4 class="card-title d-inline-block flex-grow-1">
+          <span *ngIf="transferMethodType === inbound">Inbound HRIS Integration</span>
+          <span *ngIf="transferMethodType === outboundJdm">Outbound Job Description Integration</span>
+        </h4>
+      </div>
+    </div>
+    <div>
+      <div class="col-sm-12">
+        <div *ngIf="connectionSummary?.hasConnection && matchesConnectionStatus('AuthenticationError')" class="row">
+          <div class="alert alert-danger w-100" role="alert">
+            <h4 class="alert-heading">Authentication Required</h4>
+            <p>
+              Click <a href="javascript: void(0);" title="Authenticate" (click)="openReAuthModal()" class="alert-link">here</a> to verify your {{connectionSummary?.provider?.ProviderName}} credentials.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
         <pf-hris-integration-status
           [connectionSummary]="connectionSummary"
           (onCreateNewIntegrationClicked)="createNewIntegration()"
+          (onContinueIntegrationSetupClicked)="continueIntegrationSetup()"
           [transferMethod]="transferMethodType">
         </pf-hris-integration-status>
       </div>
@@ -18,17 +45,23 @@
     <div class="row">
       <div class="col-sm-12">
         <!-- do outbound one here -->
-        <pf-transfer-schedule-summary *ngIf="transferMethodType === inbound"></pf-transfer-schedule-summary>
+        <pf-transfer-schedule-summary *ngIf="transferMethodType === inbound"
+          [validationMode]="connectionSummary?.validationMode">
+        </pf-transfer-schedule-summary>
         <pf-outbound-transfer-schedule-summary *ngIf="transferMethodType === outboundJdm"></pf-outbound-transfer-schedule-summary>
       </div>
     </div>
-    <div class="row pt-3">
-      <div class="col-sm-12 text-right" *ngIf="connectionSummary?.canEditMappings">
-        <div class="p-2">
-          <button type="button" class="btn btn-outline-primary" (click)="goToDataMapping()">View Data Mapping</button>
-        </div>
-        <div class="p-2">
-          <button type="button" *ngIf="false" class="btn btn-outline-primary">Edit</button>
+    <div class="row">
+      <div class="col-sm-12 text-right pt-3" *ngIf="connectionSummary?.hasConnection">
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-primary px-4" id="dropdownBasic1" ngbDropdownToggle><span class="mr-1">Edit</span></button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
+            <button ngbDropdownItem class="dropdown-item" (click)="goToTransferSchedule()">Transfer Schedule</button>
+            <button ngbDropdownItem class="dropdown-item" (click)="goToDataMapping()">Field Mapping</button>
+            <button ngbDropdownItem class="dropdown-item" (click)="goToEntitySelection()">
+              {{transferMethodType === outboundJdm ? 'JDM View Selection' : 'Entity Selection'}}
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import {
   ReorderControlDataDto,
   JobDescriptionLibraryDropModel
 } from '../models';
+import { JobDescriptionAppliesTo } from '../../shared';
 
 export const GET_JOB_DESCRIPTION = '[job-description-management / Job Description] Get Job Description';
 export const GET_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Get Job Description Success';
@@ -18,9 +19,6 @@ export const SAVE_JOB_DESCRIPTION = '[job-description-management / Job Descripti
 export const SAVE_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Save Job Description Success';
 export const SAVE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Save Job Description Error';
 export const TOGGLE_PUBLISH_BUTTON = '[job-description-management / Job Description] Toggle Publish Button';
-export const LOAD_COMPANY = '[job-description-management / Job Description] Load Company';
-export const LOAD_COMPANY_SUCCESS = '[job-description-management / Job Description] Load Company Success';
-export const LOAD_COMPANY_ERROR = '[job-description-management / Job Description] Load Company Error';
 export const UNDO_JOB_DESCRIPTION_CHANGES = '[job-description-management / Job Description] Undo Job Description Changes';
 export const PUBLISH_JOB_DESCRIPTION = '[job-description-management / Job Description] Publish Job Description';
 export const PUBLISH_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Publish Job Description Success';
@@ -43,11 +41,24 @@ export const REPLACE_CONTROL_DATA = '[job-description-management / Job Descripti
 export const UPDATE_CONTROL_DATA = '[job-description-management / Job Description] Update Control Data';
 export const UPDATE_CONTROL_ADDITIONAL_PROPERTIES = '[job-description-management / Job Description] Update Control Additional Properties';
 export const REPLACE_JOB_DESCRIPTION_VIA_COPY = '[job-description-management / Job Description] Replace Job Description Via Copy';
+export const RESET_REPLACE_JOB_DESCRIPTION_VIA_COPY = '[job-description-management / Job Description] Reset Replace Job Description Via Copy';
 export const REORDER_CONTROL_DATA = '[job-description-management / Job Description] Reorder Control Data';
 export const ADD_SOURCE_DATA_TO_CONTROL = '[job-description-management / Job Description] Add Source Data to Control';
 export const DELETE_JOB_DESCRIPTION = '[job-description-management / Job Description] Delete Job Description';
 export const DELETE_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Delete Job Description Success';
 export const DELETE_JOB_DESCRIPTION_ERROR = '[job-description-management / Job Description] Delete Job Description Error';
+export const UPDATE_JOB_DESCRIPTION_APPLIES_TO = '[job-description-management / Job Description Applies To] Update Job Description Applies To Values';
+export const SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED = '[job-description-management / Job Description Page] Set Workflow User Step To Is Being Viewed';
+export const SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_SUCCESS =
+  '[job-description-management / Job Description Page] Set Workflow User Step To Is Being Viewed Success';
+export const SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_ERROR =
+  '[job-description-management / Job Description Page] Set Workflow User Step To Is Being Viewed Error';
+
+export const AUTHENTICATE_SSO_PARAMS = '[job-description-management / Job Description Page] Authenticate SSO parameters';
+export const AUTHENTICATE_SSO_PARAMS_SUCCESS = '[job-description-management / Job Description Page] Authenticate SSO parameters success';
+export const AUTHENTICATE_SSO_PARAMS_ERROR = '[job-description-management / Job Description Page] Authenticate SSO parameters error';
+export const GET_SSO_LOGIN_URL = '[job-description-management / Job Description Page] Get SSO Login URL';
+export const GET_SSO_LOGIN_URL_SUCCESS = '[job-description-management / Job Description Page] Get SSO Login URL Success';
 
 export class GetJobDescription implements Action {
   readonly type = GET_JOB_DESCRIPTION;
@@ -93,19 +104,6 @@ export class TogglePublishButton implements Action {
   readonly type = TOGGLE_PUBLISH_BUTTON;
 
   constructor(public payload: { enabled: boolean }) {}
-}
-
-export class LoadCompany implements Action {
-  readonly type = LOAD_COMPANY;
-  constructor(public payload: number) {}
-}
-export class LoadCompanySuccess implements Action {
-  readonly type = LOAD_COMPANY_SUCCESS;
-  constructor(public payload: CompanyDto) {}
-}
-export class LoadCompanyError implements Action {
-  readonly type = LOAD_COMPANY_ERROR;
-  constructor() {}
 }
 
 export class UndoJobDescriptionChanges implements Action {
@@ -241,6 +239,10 @@ export class ReplaceJobDescriptionViaCopy implements Action {
   constructor(public payload: JobDescription) {}
 }
 
+export class ResetReplaceJobDescriptionViaCopy implements Action {
+  readonly type = RESET_REPLACE_JOB_DESCRIPTION_VIA_COPY;
+}
+
 export class ReorderControlData implements Action {
   readonly type = REORDER_CONTROL_DATA;
 
@@ -267,6 +269,52 @@ export class DeleteJobDescriptionError implements Action {
   readonly type = DELETE_JOB_DESCRIPTION_ERROR;
 }
 
+export class UpdateJobDescriptionAppliesToValues implements Action {
+  readonly type = UPDATE_JOB_DESCRIPTION_APPLIES_TO;
+
+  constructor(public payload: JobDescriptionAppliesTo) {}
+}
+
+export class SetWorkflowUserStepToIsBeingViewed implements Action {
+  readonly type = SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED;
+
+  constructor(public payload: { jwt: string, isBeingViewed: boolean  }) {}
+}
+
+export class SetWorkflowUserStepToIsBeingViewedSuccess implements Action {
+  readonly type = SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_SUCCESS;
+
+  constructor(public payload) {}
+}
+
+export class SetWorkflowUserStepToIsBeingViewedError implements Action {
+  readonly type = SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED_ERROR;
+}
+
+export class AuthenticateSSOParams implements Action {
+  readonly type = AUTHENTICATE_SSO_PARAMS;
+
+  constructor(public payload: { tokenId: string, agentId: string }) {}
+}
+
+export class AuthenticateSSOParamsSuccess implements Action {
+  readonly type = AUTHENTICATE_SSO_PARAMS_SUCCESS;
+  constructor(public payload) {}
+}
+
+export class AuthenticateSSOParamsError implements Action {
+  readonly type = AUTHENTICATE_SSO_PARAMS_ERROR;
+  constructor(public payload) {}
+}
+
+export class GetSSOLoginUrl implements Action {
+  readonly type = GET_SSO_LOGIN_URL;
+}
+export class GetSSOLoginUrlSuccess implements Action {
+  readonly type = GET_SSO_LOGIN_URL_SUCCESS;
+  constructor(public payload) {}
+}
+
 export type Actions
   = GetJobDescription
   | GetJobDescriptionSuccess
@@ -276,9 +324,6 @@ export type Actions
   | SaveJobDescriptionSuccess
   | SaveJobDescriptionError
   | TogglePublishButton
-  | LoadCompany
-  | LoadCompanySuccess
-  | LoadCompanyError
   | UndoJobDescriptionChanges
   | PublishJobDescription
   | PublishJobDescriptionSuccess
@@ -301,8 +346,18 @@ export type Actions
   | UpdateControlData
   | UpdateControlAdditionalProperties
   | ReplaceJobDescriptionViaCopy
+  | ResetReplaceJobDescriptionViaCopy
   | ReorderControlData
   | AddSourceDataToControl
   | DeleteJobDescription
   | DeleteJobDescriptionSuccess
-  | DeleteJobDescriptionError;
+  | DeleteJobDescriptionError
+  | UpdateJobDescriptionAppliesToValues
+  | SetWorkflowUserStepToIsBeingViewed
+  | SetWorkflowUserStepToIsBeingViewedSuccess
+  | SetWorkflowUserStepToIsBeingViewedError
+  | AuthenticateSSOParams
+  | AuthenticateSSOParamsSuccess
+  | AuthenticateSSOParamsError
+  | GetSSOLoginUrl
+  | GetSSOLoginUrlSuccess;

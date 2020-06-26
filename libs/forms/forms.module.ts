@@ -6,10 +6,23 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromFaIcons from './fa-icons';
-import { FocusDirective, PfValidatableDirective, PfSecuredResourceDirective, PfDebounceValueChangedDirective } from './directives';
-import { ConfirmPasswordComponent, InputDebounceComponent, PfModalFormComponent,
-  LocationSearchComponent, ActionButtonComponent, TypeaheadComponent } from './components';
 import { PfCommonUIModule } from '../ui/common';
+
+import { PfCommonModule } from 'libs/core';
+import { FocusDirective,
+  PfValidatableDirective,
+  PfSecuredResourceDirective,
+  PfDebounceValueChangedDirective,
+  PfIndeterminateDirectiveDirective } from './directives';
+import {
+  ConfirmPasswordComponent,
+  InputDebounceComponent,
+  PfModalFormComponent,
+  LocationSearchComponent,
+  ActionButtonComponent,
+  TypeaheadComponent,
+  JobDescriptionSummaryEditorComponent
+} from './components';
 
 const declarations = [
   // Directives
@@ -17,18 +30,21 @@ const declarations = [
   FocusDirective,
   PfSecuredResourceDirective,
   PfDebounceValueChangedDirective,
+  PfIndeterminateDirectiveDirective,
   // declarations
   ConfirmPasswordComponent,
   PfModalFormComponent,
   InputDebounceComponent,
   LocationSearchComponent,
   ActionButtonComponent,
-  TypeaheadComponent
+  TypeaheadComponent,
+  JobDescriptionSummaryEditorComponent
 ];
 
 @NgModule({
   imports: [
     CommonModule,
+    PfCommonModule,
     PfCommonUIModule,
     ReactiveFormsModule,
     FormsModule,

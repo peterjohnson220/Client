@@ -1,8 +1,14 @@
+@import 'colors';
 @import '~dragula/dist/dragula.min.css';
 
 html,
 body {
   background-color: #FFFFFF !important;
+}
+
+.modal-body {
+  max-height: calc(90vh);
+  overflow-y: auto;
 }
 
 .matches-modal-content {
@@ -32,16 +38,36 @@ div.matches-list-container>div:nth-of-type(odd) {
   overflow-y: auto;
 }
 
-.page-content {
-  padding: 0;
-  background-color: #f7f7f9 !important;
+// TODO: Discuss if these toast rules should be global for the whole company
+.toast-top-center{
+  margin-top: 3.75rem;
 }
 
-// TODO: Discuss if these should be global for the whole company
 .toast-container .toast-close-button {
   top: 0.1em !important;
 }
 
 .toast-container .toast-title {
   padding: 10px 30px 10px 10px !important;
+}
+
+// TODO: Discuss if these nav rules should be global for the whole company
+.nav-link {
+  color: black !important;
+  padding: 0.75rem 1.0rem;
+}
+
+.nav-tabs .nav-link {
+  border-width: 0 !important;
+}
+
+.nav-tabs .nav-link.active {
+  border-bottom: 2px solid $link-color !important;
+  z-index: 999;
+  font-weight: bold;
+  background-color: inherit;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid rgb(222,226,230);
 }

@@ -40,6 +40,12 @@
   @extend %ellipsis-overflowing-text;
 }
 
+.ellipsis-overflowing-text-wrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 tr.row-disabled {
   @extend %disabled-row;
 }
@@ -50,6 +56,14 @@ tr.row-disabled {
 
 .space-out-children > * {
   margin-left: 0.5rem;
+}
+
+.space-out-children-md > * {
+  margin-left: 0.75rem;
+}
+
+.space-out-children-lg > * {
+  margin-left: 1rem;
 }
 
 .space-out-children-right > *:not(:last-child) {
@@ -63,6 +77,14 @@ tr.row-disabled {
 .pf-link:not(.disabled) {
   cursor: pointer;
   color: $link-color;
+}
+
+.pf-link-hover {
+  @extend .pf-link;
+
+  &:hover {
+    text-decoration: underline !important;;
+  }
 }
 
 .pf-link-underline {
@@ -88,6 +110,14 @@ tr.row-disabled {
   background-color: #F2E366;
 }
 
+a.anchor-overlay{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
 
 .pf-primary-btn, %pf-primary-btn {
   background-color: $pf-primary-blue;

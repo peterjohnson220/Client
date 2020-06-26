@@ -100,7 +100,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   registerOnTouched() { }
 
   getClearButtonCss(): any {
-    let cssClasses = ''
+    let cssClasses = '';
 
     if (!this.disabled) {
       cssClasses += 'action-item';

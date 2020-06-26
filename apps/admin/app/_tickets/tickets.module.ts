@@ -14,6 +14,7 @@ import { BodyModule, ColumnResizingService, GridModule, RowFilterModule, SharedM
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { QuillModule } from 'ngx-quill';
 
 import { PfCommonModule } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
@@ -59,6 +60,7 @@ import { TicketSharedEffects } from './effects/ticket-shared.effects';
     RowFilterModule,
     FontAwesomeModule,
     DateInputsModule,
+    QuillModule.forRoot(),
 
     // Routing
     TicketsRoutingModule,

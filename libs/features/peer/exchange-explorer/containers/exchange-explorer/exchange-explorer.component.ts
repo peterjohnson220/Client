@@ -2,11 +2,15 @@ import { Component, Input } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {take} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { PayMarket } from 'libs/models/paymarket';
 import { SearchBase } from 'libs/features/search/containers/search-base';
 import { ExchangeMapSummary } from 'libs/models/peer';
+import { ExchangeJobExchangeDetail } from 'libs/features/peer/models';
+import { SettingsService } from 'libs/state/app-context/services';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { ComphubExchangeExplorerContextRequest } from 'libs/models/peer/requests/comphub-exchange-explorer-context-request.model';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
@@ -18,10 +22,6 @@ import * as fromExchangeExplorerContextInfoActions from '../../actions/exchange-
 import * as fromExchangeFilterContextActions from '../../actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerDataCutsActions from '../../actions/exchange-data-cut.actions';
 
-import { ExchangeJobExchangeDetail } from '../../../models';
-
-
-
 @Component({
   selector: 'pf-exchange-explorer',
   templateUrl: './exchange-explorer.component.html',
@@ -32,6 +32,8 @@ export class ExchangeExplorerComponent extends SearchBase {
   @Input() shouldShowPayMarketBoundsFilter = true;
   @Input() shouldShowExcludeIndirectJobMatchesFilter = true;
   @Input() shouldShowExchangeScopeSelector = true;
+  @Input() jobSelectorRequiresPayMarket = true;
+  @Input() exchangeJobSelectorStatic = false;
 
   // Observables
   pageShown$: Observable<boolean>;
@@ -46,10 +48,14 @@ export class ExchangeExplorerComponent extends SearchBase {
   searchingChildFilters$: Observable<boolean>;
 
   exchangeId: number;
+  companyJobId: number;
+  cutGuid: string;
+  exchangeJobId: number;
 
   constructor(
     private exchangeExplorerStore: Store<fromExchangeExplorerReducer.State>,
-    protected store: Store<fromSearchReducer.State>
+    protected store: Store<fromSearchReducer.State>,
+    private settingsService: SettingsService
   ) {
     super(store);
 
@@ -58,9 +64,7 @@ export class ExchangeExplorerComponent extends SearchBase {
     this.searchingChildFilters$ = this.store.pipe(select(fromSearchReducer.getSearchingChildFilter));
 
     this.limitToPayMarket$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getFilterContextLimitToPayMarket));
-    this.excludeIndirectJobMatches$ = this.exchangeExplorerStore.pipe(
-      select(fromExchangeExplorerReducer.getFilterContextExcludeIndirectJobMatches)
-    );
+    this.excludeIndirectJobMatches$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getFilterContextExcludeIndirectJobMatches));
     this.hasAdditionalJobLevels$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getFilterContextHasSimilarJobLevels));
     this.payMarket$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getExchangeExplorerPayMarket));
     this.mapSummary$ = this.exchangeExplorerStore.pipe(select(fromExchangeExplorerReducer.getPeerMapSummary));
@@ -85,6 +89,23 @@ export class ExchangeExplorerComponent extends SearchBase {
   }
 
   handleExchangeJobSelected(payload: {exchangeJobId: number, similarExchangeJobIds: number[]}): void {
+    // We want to refresh the paymarket context if the exchange job is changed.
+    if (!!this.companyJobId && !!this.companyPayMarketId) {
+      const systemFilterRequest = {
+        companyJobId: this.companyJobId,
+        companyPayMarketId: this.companyPayMarketId,
+        exchangeJobId: payload.exchangeJobId
+      };
+      this.store.dispatch(new fromExchangeExplorerContextInfoActions.RefreshPayMarketContext(systemFilterRequest));
+    }
+    if (!!this.companyJobId && !!this.cutGuid) {
+      const systemFilterRequest = {
+        companyJobId: this.companyJobId,
+        exchangeJobId: payload.exchangeJobId,
+        cutGuid: this.cutGuid,
+      };
+      this.store.dispatch(new fromExchangeExplorerContextInfoActions.RefreshPayMarketContext(systemFilterRequest));
+    }
     this.store.dispatch(new fromExchangeFilterContextActions.SetExchangeJobSelection(payload));
   }
 
@@ -103,13 +124,33 @@ export class ExchangeExplorerComponent extends SearchBase {
   onSetContext(payload: any) {
     if (!!payload.cutGuid && payload.cutGuid !== '') {
       const systemFilterRequest = {exchangeDataCutGuid: payload.cutGuid, companyJobId: payload.companyJobId};
+      this.cutGuid = payload.cutGuid;
       this.store.dispatch(new fromExchangeExplorerDataCutsActions.LoadExchangeDataCut(systemFilterRequest));
       return;
     }
+    this.companyJobId = payload.companyJobId;
     this.companyPayMarketId = payload.companyPayMarketId;
     if (payload.isExchangeSpecific) {
       this.exchangeId = payload.exchangeId;
-      this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({exchangeId: this.exchangeId}));
+      if (!!payload.exchangeJobId) {
+        this.exchangeJobId = payload.exchangeJobId;
+        const request: ComphubExchangeExplorerContextRequest = {
+          ExchangeId : payload.exchangeId,
+          ExchangeJobId : payload.exchangeJobId,
+          CompanyPayMarketId : payload.companyPayMarketId
+        };
+        this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(request));
+      } else {
+        const defaultScopeId$ = this.settingsService.selectUiPersistenceSettingFromDictionary<string>(
+          FeatureAreaConstants.PeerManageScopes, UiPersistenceSettingConstants.PeerDefaultExchangeScopes, payload.exchangeId
+        );
+        defaultScopeId$.pipe(take(1)).subscribe(s => {
+          if (!!s) {
+            this.store.dispatch(new fromExchangeFilterContextActions.SetExchangeScopeSelection(<any>{Id: s, ExchangeId: payload.exchangeId, IsDefault: true}));
+          }
+          this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({exchangeId: this.exchangeId, defaultScopeId: s}));
+        });
+      }
     } else {
       const systemFilterRequest = {
         companyJobId: payload.companyJobId,

@@ -43,7 +43,10 @@ export class PayfactorsApiModelMapper {
         TicketCssClass: ut.TicketCssClass,
         OpenedUserFullName: ut.OpenedUserFullName,
         OpenedUserId: ut.OpenedUserId,
-        Attachments: this.mapUserTicketFilesToTicketAttachment(ut.UserTicketFiles)
+        Attachments: this.mapUserTicketFilesToTicketAttachment(ut.UserTicketFiles),
+        HasNotes: ut.HasNotes,
+        HasNewAttachments: ut.HasNewAttachments,
+        UserModifiedDate: ut.UserModifiedDate
       };
     });
   }
@@ -62,6 +65,7 @@ export class PayfactorsApiModelMapper {
         TicketState: response.UserTicketState,
         LastUpdatedText: response.LastUpdatedText,
         Description: response.UserTicket,
+        TicketTitle: response.TicketTitle,
         UserTicketType: {
           UserTicketTypeId: response.UserTicketTypeId,
           TicketFileTypeId: response.TicketFileTypeId,
@@ -70,6 +74,7 @@ export class PayfactorsApiModelMapper {
           TicketTypeName: response.UserTicketType,
           TicketSubTypeName: response.FileType,
           TicketCssClass: response.TicketCssClass,
+          TicketTypeShortName: response.FileType || response.UserTicketType
         },
         Comments: this.mapUserTicketCommentsToTicketComment(response.UserTicketComments),
         TicketCssClass: response.TicketCssClass
@@ -110,7 +115,7 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapUserTicketTypeResponseToTicketType(response: UserTicketTypeResponse[]): UserTicketType[] {
-    return response.map(utt => {
+    return response.filter(r => r.Active).map(utt => {
       return {
         UserTicketTypeId: utt.UserTicketTypeId,
         TicketFileTypeId: utt.TicketFileTypeId,
@@ -118,7 +123,8 @@ export class PayfactorsApiModelMapper {
         SortOrder: utt.SortOrder,
         TicketSubTypeName: utt.TicketSubTypeName,
         TicketTypeDisplayName: utt.TicketTypeDisplayName,
-        TicketCssClass: utt.TicketCssClass
+        TicketCssClass: utt.TicketCssClass,
+        TicketTypeShortName: utt.TicketSubTypeName || utt.TicketTypeName
       };
     });
   }
@@ -137,7 +143,7 @@ export class PayfactorsApiModelMapper {
   static mapUserTicketFilesToTicketAttachment(userTicketFiles: UserTicketFile[], fileState?: number): TicketAttachment[] {
     return userTicketFiles.map(utf => {
       return {
-        AttachmentId: utf.UserTicketsFileId,
+        AttachmentId: utf.Id,
         DisplayName: utf.DisplayName,
         FileName: utf.FileName,
         ExtensionType: getFileExtensionType(utf.DisplayName),
@@ -155,7 +161,8 @@ export class PayfactorsApiModelMapper {
         UserEmail: utf.UserEmail,
         UserFullName: utf.UserFullName,
         Comments: utf.Comments,
-        CreateDate: utf.CreateDate
+        CreateDate: utf.CreateDate,
+        Level: utf.Level
       };
     });
   }

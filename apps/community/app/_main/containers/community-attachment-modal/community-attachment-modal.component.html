@@ -1,0 +1,61 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Attachments'"
+  [showFooter]="true"
+  [centered]="true"
+  [isOpen$]="currentAttachmentModalOpen$"
+  [resetFormOnClose]="true"
+  [backdrop]="true"
+  [showSubmit]="false"
+  [secondaryButtonText]="'Done'"
+  (onDismiss)="handleModalDismissed()">
+  <ng-container basic-content>
+    <pf-async-container
+      [loadingErrorMessage]="'Error Loading Community Attachments'">
+      <p class="font-weight-bold mb-3">{{uploadedFiles.length}}/5 Files uploaded</p>
+      <p *ngIf="showFileCountWarning" class="alert-warning">A maximum number of 5 attachments may be uploaded</p>
+      <kendo-upload #uploadWidget
+                    [multiple]="true"
+                    [saveUrl]="saveAttachmentUrl"
+                    [removeUrl]="removeAttachmentUrl"
+                    [concurrent]="false"
+                    [restrictions]="uploadRestrictions"
+                    [accept]="uploadRestrictions.allowedExtensions"
+                    (upload)="uploadAttachmentEventHandler($event)"         
+                    (error)="errorEventHandler($event)"
+                    (success)="successEventHandler($event)"
+                    [ngModel]="uploadedFilesKendo">
+        <kendo-upload-messages
+          select="Browse" 
+          dropFilesHere={{fileRestrictionsMessage}}>
+        </kendo-upload-messages>
+        <ng-template kendoUploadFileTemplate let-files let-state="state">
+          <div class="attachments-container">
+            <span class="{{getStatusClass(files[0])}}">
+              {{files[0].name}} ({{formattedBytes(files[0].size)}})                
+            </span>
+            <span class="float-right pr-3" *ngIf="getUploadStatus(files[0]) == communityAttachmentUploadStatus.UploadInProgress">
+              <i>Uploading file</i>
+              <pf-loading-indicator class="pl-2"></pf-loading-indicator>
+            </span>
+            <span class="float-right pr-3" *ngIf="getUploadStatus(files[0]) == communityAttachmentUploadStatus.ScanInProgress">
+              <i>Scanning for viruses</i>
+              <pf-loading-indicator class="pl-2"></pf-loading-indicator>
+            </span>
+            <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == communityAttachmentUploadStatus.UploadFailed">
+              <i>Sorry, there was an error uploading your file. Please choose a different file.</i>
+            </span>
+            <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == communityAttachmentUploadStatus.ScanFailed">
+              <i>Sorry, there is an error with our upload service. Please try again later.</i>
+            </span>
+          </div>
+          <button
+            (click)="removeAttachmentEventHandler(files[0])"
+            class="btn btn-secondary float-right">
+            Remove
+          </button>   
+        </ng-template>
+      </kendo-upload>
+    </pf-async-container>
+  </ng-container>
+</pf-modal-form>

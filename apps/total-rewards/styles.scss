@@ -1,34 +1,274 @@
 @import 'colors';
+@import 'app-colors';
+@import 'total-rewards/statement-settings';
+@import 'total-rewards/statement-layout-variables';
+@import 'total-rewards/rich-text-editor';
+
+.left-sidebar {
+  z-index: 1040;
+}
+
+.btn-trs {
+  font-size: 1.1rem;
+}
+
+.btn-trs-primary, %btn-trs-primary {
+  background-color: $pf-primary-blue;
+  border: 1px solid $pf-primary-blue;
+  color: white;
+
+  &:hover, &:not(:disabled):not(.disabled):active{
+    background-color: darken($pf-primary-blue, 5%);
+    border-color: darken($pf-primary-blue, 5%);
+  }
+
+  &:disabled {
+    background-color: rgba($pf-primary-blue, .65);
+    border-color: rgba($pf-primary-blue, .65);
+  }
+}
+
+.btn-trs-secondary-btn {
+  background-color: $pf-secondary-background;
+  border: 1px solid $pf-secondary-border;
+  color: $pf-secondary-text;
+
+  &:hover, &:not(:disabled):not(.disabled):active{
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+
+  &:disabled {
+    background-color: $pf-secondary-background;
+    border-color: $pf-secondary-border-disabled;
+    color: $pf-secondary-text-disabled;
+  }
+}
 
 pf-total-rewards-statement-list-page {
-  .page-title {
+  .loading-blanket + .k-grid .k-grid-norecords {
+    display: none; // hide no records found message in the grid when loading
+  }
+}
+
+pf-statement-edit.page {
+  .tooltip.show {
+    min-width: 300px;
+  }
+  .page-content {
+    overflow-x: hidden; // let settings panel hide out to the right
+    background-color: $trs-edit-statement-page-background-color !important;
+  }
+  a.settings {
+    color: inherit;
     svg {
-      color: $pf-brand-primary-color;
+      transition: all .25s ease-in-out;
+      opacity: .65;
+      &:hover {
+        opacity: 1;
+        transform: rotate(45deg);
+      }
+    }
+    &.preview-mode svg {
+      opacity: .5;
+    }
+  }
+}
+
+pf-total-rewards-statement {
+  // disable mouse interaction for the chart so the legend cannot be clicked
+  .trs-chart .k-widget svg {
+    pointer-events: none;
+  }
+
+  // when we have a group of calculation controls together, hide all but the first secondary header, ie Contribution column header
+  .control-type-3 ~ .control-type-3 .secondary-header {
+    display: none;
+  }
+}
+
+pf-settings-panel {
+  button.cp-ok-button-class {
+    width: 100%;
+    color: white;
+    background-color: #333;
+    height: 2.1rem;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    opacity: .8;
+    transition: opacity .3s ease-in-out;
+    outline: none;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+pf-trs-calculation-control {
+  .edit-mode {
+    .trs-calculation-row {
+      &:hover {
+        .edit-icon {
+          visibility: visible;
+        }
+      }
+    }
+  }
+}
+
+pf-trs-image-control {
+  &>div {
+    border: 2px dashed transparent;
+  }
+  .edit-mode {
+    border: 2px dashed $trs-canvas-background-color;
+    border-radius: 5px;
+  }
+  .edit-mode.show-image {
+    border: 2px dashed transparent;
+    transition: border .6s ease-in-out;
+    &:hover{
+      border: 2px dashed rgba($link-color, .5);
     }
   }
 
-  pf-statements-grid {
-    kendo-grid.k-grid {
-      td {
+  // Custom CSS to adjust Kendo Upload component
+  .trs-image {
+    svg {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .help-text {
+      font-size: .9rem;
+      bottom: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      display: inline-block;
+    }
+    .k-widget {
+      height: inherit;
+      max-height: 80px;
+      border: none;
+      .k-header {
         border: none;
       }
-      th.k-header {
-        font-weight: 500;
-        text-transform: uppercase;
+      .k-dropzone {
+        padding-top: 4px;
+        height: 80px;
+        background: $trs-edit-statement-page-background-color;
+
+        .k-button.k-upload-button {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+      .k-upload-files {
+        position: relative;
+        padding: 0;
+        border: none;
+        top: -20px;
+        font-size: 1rem;
+        color: $color-danger;
+      }
+      .k-file {
+        padding: 0;
+        background: $trs-edit-statement-page-background-color;
+        border: none;
+      }
+      .k-file-extension-wrapper, .k-file-size, .k-file-invalid-extension-wrapper, .k-file-name {
+        display: none;
+      }
+      .k-upload-status {
+        padding: 0;
+        margin: 0;
+        font-size: 0;
+      }
+      .k-file-name-size-wrapper {
+        margin: 0;
       }
     }
   }
+}
 
-  .loading-blanket + .k-grid .k-grid-norecords {
-    display: none;
+pf-effective-date {
+  .k-state-disabled {
+    opacity: 1; // kendo wants this to be .65 but keep at 1 so it doesn't look faded in preview/print
+  }
+  .k-picker-wrap {
+    height: 22px;
+    width: 130px;
+    .k-input {
+      height: 22px;
+      text-align: center;
+      font-size: .95rem;
+      line-height: .95rem;
+      padding: .25rem 0 .35rem 0;
+      transition: transform .3s ease-in-out;
+    }
+  }
+
+  .k-icon.k-i-calendar::before {
+    opacity: .8;
+    transition: opacity .3s ease-in-out;
+  }
+
+  .k-icon.k-i-calendar:hover {
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  .field-wrapper {
+    transition: opacity .15s ease-in-out, transform .3s ease-in-out;
+  }
+
+  .preview-mode {
+    .k-picker-wrap, .k-dateinput-wrap {
+      border-color: transparent;
+      background-color: transparent; // in preview this element gets pushed into the gutter, so make it transparent
+    }
+    .k-select {
+      display: none;
+    }
+    .k-input {
+      transform: translateX(-3rem);
+    }
+    .field-wrapper {
+      transform: translateX(4rem);
+    }
+    .field-wrapper.empty-date {
+      opacity: 0;
+    }
+  }
+}
+
+pf-statement-assignment-modal {
+  .modal-body{
+    height: 450px;
+    max-height: 450px;
+    overflow-y: auto;
+    padding: 15px 12px;
   }
 }
 
 @media print {
   @page {
     size: letter portrait;
-    //margin: 0;
     margin-left: .1in;
     margin-right: .1in;
+  }
+
+  html {
+    font-size: 18px;
+  }
+
+  .container {
+    border: none;
+    background: white;
+    max-width: 100% !important;
+    min-width: 100% !important;
   }
 }

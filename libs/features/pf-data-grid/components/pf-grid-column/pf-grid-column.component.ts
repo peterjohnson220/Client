@@ -22,10 +22,12 @@ export class PfGridColumnComponent {
   getColumnType(col: any): string {
     if (this.columnTemplates && this.columnTemplates[col.SourceName]) {
       return PfDataGridColType.template;
-    } else if (this.columnTemplates && this.columnTemplates[PfDataGridColType.currency] && col.Template === PfDataGridColType.currency) {
-      return PfDataGridColType.currency;
+    } else if (this.columnTemplates && this.columnTemplates[col.Template]) {
+      return PfDataGridColType.sharedTemplate;
     } else if (col.DataType === PfDataGridColType.dateTime) {
       return PfDataGridColType.dateTime;
+    } else if (col.DataType === PfDataGridColType.bit) {
+      return PfDataGridColType.bit;
     } else {
       return PfDataGridColType.default;
     }

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { CompanyJob, Match, CompanyJobToMapTo, LatestCompanyJob } from 'libs/models';
+import { CompanyJob, Match, CompanyJobToMapTo, LatestCompanyJob, JobInfoResponse, CompanyJobAttachment, ODataQuery, generateQueryObject } from 'libs/models';
 import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
+import { ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 
 @Injectable()
 export class CompanyJobApiService {
@@ -39,6 +40,10 @@ export class CompanyJobApiService {
     );
   }
 
+  getCompanyJob(companyJobId: number): Observable<JobInfoResponse> {
+    return (this.payfactorsApiService.get<JobInfoResponse>(`${this.endpoint}(${companyJobId})/Default.GetEditJobModalInfo`));
+  }
+
   getCompanyFLSAStatuses(): Observable<string[]> {
     return this.payfactorsApiService.get<string[]>(`${this.endpoint}/Default.GetCompanyFLSAStatuses`);
   }
@@ -47,18 +52,33 @@ export class CompanyJobApiService {
     return this.payfactorsApiService.get<CompanyJobUdfColumn[]>(`${this.endpoint}.GetJobUserDefinedFields`);
   }
 
-  createCompanyJob(request: CompanyJob): Observable<CompanyJob> {
-    return this.payfactorsApiService.post<CompanyJob>(`${this.endpoint}/`, request);
-  }
-
   getJobSummary(companyJobId: number) {
     return this.payfactorsApiService.get(`${this.endpoint}(${companyJobId})/Default.GetJobSummary`);
+  }
+
+  changeJobStatus(request: ChangeJobStatusRequest) {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.SetStatusForJobs`, request);
+  }
+
+  saveCompanyJob(request: CompanyJob): Observable<CompanyJob> {
+    return request.CompanyJobId ? this.patchCompanyJob(request) : this.createCompanyJob(request);
+  }
+
+  uploadAttachments(attachments: File[]): Observable<CompanyJobAttachment[]> {
+    return (this.payfactorsApiService.postFormData(`CloudFiles.UploadJobAttachment`, attachments));
+  }
+
+  createCompanyJob(request: CompanyJob): Observable<CompanyJob> {
+    return this.payfactorsApiService.post<CompanyJob>(`${this.endpoint}/`, request);
   }
 
   patchCompanyJob(request: CompanyJob): Observable<CompanyJob> {
     return this.payfactorsApiService.patch<CompanyJob>(`${this.endpoint}(${request.CompanyJobId})/`, request);
   }
 
+  deleteCompanyJob(jobId: number): Observable<CompanyJob> {
+    return this.payfactorsApiService.delete(`${this.endpoint}(${jobId})/`);
+  }
 
   getJobsByFamilyNotAssignedToTemplate(jobFamily: string, templateId: Number) {
     return this.payfactorsApiService.get(`${this.endpoint}/Default.GetJobsByFamilyNotAssignedToTemplate`,
@@ -70,11 +90,14 @@ export class CompanyJobApiService {
         {params: {jobFamily: jobFamily, templateId: templateId}});
   }
 
-  getAll(fields: string[]): Observable<CompanyJob[]> {
-    const fieldOptions = {
-      $select: fields.join()
-    };
+  getAll(query: ODataQuery): Observable<CompanyJob[]> {
+    const fieldOptions = generateQueryObject(query);
     return this.payfactorsApiService.get<CompanyJob[]>(`${this.endpoint}`, { params: fieldOptions });
+  }
+
+  getCompanyJobDescriptionInformation(companyJobIds: number[]) {
+    return this.payfactorsApiService.post<any[]>(`${this.endpoint}/Default.GetCompanyJobDescriptionsInReview`,
+      {companyJobIds: companyJobIds});
   }
 }
 

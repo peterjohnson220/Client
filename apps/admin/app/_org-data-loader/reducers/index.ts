@@ -10,6 +10,8 @@ import * as fromCompanySelectorReducer from './company-selector.reducer';
 import * as fromOrgDataFieldMappingsReducer from './org-data-field-mappings.reducer';
 import * as fromOrgDataFilenamePatternsReducer from './org-data-filename-patterns.reducer';
 import * as fromConfigurationGroupReducer from './configuration-group.reducer';
+import * as fromSftpUserReducer from './sftp-user.reducer';
+import * as fromOrgDataConfigurationReducer from './org-data-configuration.reducer';
 
 // Feature area state
 export interface OrgDataLoaderState {
@@ -19,6 +21,8 @@ export interface OrgDataLoaderState {
   loaderSettings: fromLoaderSettingsReducer.State;
   orgDataFilenamePatternSet: fromOrgDataFilenamePatternsReducer.State;
   configurationGroups: fromConfigurationGroupReducer.State;
+  sftpUser: fromSftpUserReducer.State;
+  orgDataConfiguration: fromOrgDataConfigurationReducer.State;
 }
 
 // Extend root state with feature area state
@@ -33,7 +37,9 @@ export const reducers = {
   emailRecipients: fromOrgDataEmailRecipientsReducer.reducer,
   loaderSettings: fromLoaderSettingsReducer.reducer,
   orgDataFilenamePatternSet: fromOrgDataFilenamePatternsReducer.reducer,
-  configurationGroups: fromConfigurationGroupReducer.reducer
+  configurationGroups: fromConfigurationGroupReducer.reducer,
+  sftpUser: fromSftpUserReducer.reducer,
+  orgDataConfiguration: fromOrgDataConfigurationReducer.reducer
 };
 
 // Select Feature Area
@@ -52,6 +58,10 @@ export const selectOrgDataFilenamePatternSetState =
   createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.orgDataFilenamePatternSet);
 export const selectConfigurationGroupsState =
   createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.configurationGroups);
+export const selectSftpUserState =
+  createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.sftpUser);
+export const selectOrgDataConfigurationState =
+  createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.orgDataConfiguration);
 
 export const {
   selectAll: getCompanies
@@ -69,12 +79,6 @@ export const getLoadingFieldMappings =
   createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappings);
 export const getLoadingFieldMappingsError =
   createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappingsError);
-export const getSavingFieldMappings =
-  createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getSavingFieldMappings);
-export const getSavingFieldMappingsError =
-  createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getSavingFieldMappingsError);
-export const getSavingFieldMappingsSuccess =
-  createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getSavingFieldMappingsSuccess);
 
 export const {
   selectAll: getEmailRecipients
@@ -113,6 +117,11 @@ export const getRemovingRecipientError = createSelector(
 export const getEmailRecipientsModalOpen = createSelector(
   selectEmailRecipientsState,
   fromOrgDataEmailRecipientsReducer.getEmailRecipientsModalOpen
+);
+
+export const getCreatedConfigurationGroup = createSelector(
+  selectEmailRecipientsState,
+  fromOrgDataEmailRecipientsReducer.getCreatedConfigurationGroup
 );
 
 export const {
@@ -163,17 +172,61 @@ export const getLoadingConfigurationGroupsError = createSelector(
   fromConfigurationGroupReducer.getLoadingConfigurationGroupsError
 );
 
-export const getSavingConfigurationGroup = createSelector(
-  selectConfigurationGroupsState,
-  fromConfigurationGroupReducer.getSavingConfigurationGroup
+// Sftp User
+
+export const getSftpUser = createSelector(
+  selectSftpUserState,
+  fromSftpUserReducer.getSftpUser
 );
 
-export const getSavingConfigurationGroupError = createSelector(
-  selectConfigurationGroupsState,
-  fromConfigurationGroupReducer.getSavingConfigurationGroupError
+export const getSftpUserName = createSelector(
+  selectSftpUserState,
+  fromSftpUserReducer.getSftpUserName
 );
 
-export const getSavedConfigurationGroup = createSelector(
-  selectConfigurationGroupsState,
-  fromConfigurationGroupReducer.getSavedConfigurationGroup
+export const getSftpPublicKey = createSelector(
+  selectSftpUserState,
+  fromSftpUserReducer.getSftpPublicKey
+);
+
+export const getLoadingSftpUser = createSelector(
+  selectSftpUserState,
+  fromSftpUserReducer.getLoadingSftpUser
+);
+
+export const getLoadingSftpUserError = createSelector(
+  selectSftpUserState,
+  fromSftpUserReducer.getLoadingSftpUserError
+);
+
+export const getValidatingUserName = createSelector(
+  selectSftpUserState,
+  fromSftpUserReducer.getValidatingUserName
+);
+
+export const getValidatingUserNameError = createSelector(
+  selectSftpUserState,
+  fromSftpUserReducer.getValidatingUserNameError
+);
+
+export const getIsUserNameValid = createSelector(
+  selectSftpUserState,
+  fromSftpUserReducer.getIsUserNameValid
+);
+
+// Autoloader Configuration
+
+export const getSavingConfiguration = createSelector(
+  selectOrgDataConfigurationState,
+  fromOrgDataConfigurationReducer.getSavingConfiguration
+);
+
+export const getSavingConfigurationSuccess = createSelector(
+  selectOrgDataConfigurationState,
+  fromOrgDataConfigurationReducer.getSavingConfigurationSuccess
+);
+
+export const getSavingConfigurationError = createSelector(
+  selectOrgDataConfigurationState,
+  fromOrgDataConfigurationReducer.getSavingConfigurationError
 );

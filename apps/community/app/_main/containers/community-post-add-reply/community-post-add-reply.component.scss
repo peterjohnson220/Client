@@ -1,23 +1,30 @@
-.reply-text-area{
-  border: none !important;
+@import 'colors';
+@import 'styles';
+
+.attachment-count-text
+{
+  color: #5CB85C;
+  font-weight: bold;
 }
 
-.reply{
-  background: #ffffff;
+.footer-container {
+  display: inline-block;
+  width: 100%;
+  margin-top: -10px;
 }
 
-.community-reply-body, .community-btn  {
-  border-color: #a9a9a9;
-  border-width: 1px;
-  border-style: solid;
+.btn{
+  border-radius: 4px;
+  height: 30px !important;
+  text-align: center;
+  align-items: baseline;
 }
 
-.community-btn {
-  background-color: #ffffff;
-  color: #99A0A4;
+.attachment-button fa-icon
+{
+  color: $community-categories-border;
 }
 
-textarea {
-  outline: none;
-  resize: none;
+::ng-deep div.text-danger {
+  font-size: 85%;
 }

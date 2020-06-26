@@ -62,6 +62,29 @@ export function reducer(state = initialState, action: fromExchangeExplorerContex
         loadingError: true
       };
     }
+    case fromExchangeExplorerContextInfoActions.REFRESH_PAYMARKET_CONTEXT: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case fromExchangeExplorerContextInfoActions.REFRESH_PAYMARKET_CONTEXT_SUCCESS: {
+      const payload = action.payload;
+
+      return {
+        ...state,
+        loading: false,
+        payMarket: payload.payMarket,
+        payMarketGeoData: payload.payMarketGeoData,
+      };
+    }
+    case fromExchangeExplorerContextInfoActions.REFRESH_PAYMARKET_CONTEXT_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
     default: {
       return state;
     }

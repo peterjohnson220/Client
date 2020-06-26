@@ -1,0 +1,8 @@
+<button class="btn btn-secondary" (click)="clicked.emit()">
+  <ng-container *ngIf="metadata.IsCurrent; else cogs">
+    Create Model
+  </ng-container>
+  <ng-template #cogs>
+    <fa-icon icon="cogs"></fa-icon>
+  </ng-template>
+</button>

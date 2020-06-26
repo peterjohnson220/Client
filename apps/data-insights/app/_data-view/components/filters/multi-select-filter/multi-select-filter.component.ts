@@ -2,7 +2,7 @@ import { Component, Output, Input, EventEmitter, ViewChild, OnChanges, SimpleCha
 
 import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
 
-import { FilterOperator, Equals, DoesNotEqual } from '../../../models';
+import { FilterOperator, Equals, DoesNotEqual, IsNullOrEmpty, IsNotNullOrEmpty } from '../../../models';
 
 @Component({
   selector: 'pf-multi-select-filter',
@@ -19,14 +19,21 @@ export class MultiSelectFilterComponent implements OnChanges {
   @Output() selectedValuesChanged: EventEmitter<string[]> = new EventEmitter<string[]>();
   @Output() changeOperator: EventEmitter<FilterOperator> = new EventEmitter<FilterOperator>();
 
-  @ViewChild('filterOptionsMultiSelect', {static: false}) public filterOptionsMultiSelect: MultiSelectComponent;
-  operators = [ Equals, DoesNotEqual ];
+  @ViewChild('filterOptionsMultiSelect') public filterOptionsMultiSelect: MultiSelectComponent;
+  operators = [ Equals, DoesNotEqual, IsNullOrEmpty, IsNotNullOrEmpty ];
   readonly MIN_QUERY_LENGTH = 1;
+  hideMultiSelect: boolean;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes && !!changes.options && !!changes.options.currentValue &&
-      !!this.filterValue && !!this.filterOptionsMultiSelect) {
-      this.filterOptionsMultiSelect.toggle(true);
+    if (!!changes) {
+      if (!!changes.selectedOperator && !!changes.selectedOperator.currentValue) {
+        const operatorName = changes.selectedOperator.currentValue.Name;
+        this.hideMultiSelect = operatorName === 'is null or empty' || operatorName === 'is not null or empty';
+      }
+      if (!!changes.options && !!changes.options.currentValue &&
+        !!this.filterValue && !!this.filterOptionsMultiSelect) {
+        this.filterOptionsMultiSelect.toggle(true);
+      }
     }
   }
 

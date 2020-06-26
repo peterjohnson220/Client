@@ -1,0 +1,35 @@
+<pf-modal-form
+  [modalId]="'statement-assignment-modal'"
+  [title]="'Assign Employees'"
+  [isOpen$]="isOpen$"
+  [size]="'lg'"
+  [primaryButtonText]="'Assign'"
+  [submitting]="false"
+  [backdrop]="true"
+  [resetFormOnClose]="true"
+  (onSubmit)="onCloseModal('save')"
+  (onDismiss)="onCloseModal('discard')"
+>
+  <ng-container basic-content>
+    <pf-search-layout [countLabel]="'Employees'" [resultsCount]="numberOfResults$ | async" class="h-100">
+
+      <ng-container sidebar>
+        <pf-search-filters
+          [defaultFocusedFilterId]="'trsOmniSearch'"
+          [visible]="!(searchingFilter$ | async)">
+        </pf-search-filters>
+
+        <pf-single-filter
+          *ngIf="!!(searchingFilter$ | async)">
+        </pf-single-filter>
+      </ng-container>
+
+      <ng-container content>
+        <pf-results-header class="position-relative" [savedFiltersEnabled]="false"></pf-results-header>
+        <pf-employee-search-results class="position-relative"></pf-employee-search-results>
+      </ng-container>
+
+    </pf-search-layout>
+  </ng-container>
+
+</pf-modal-form>

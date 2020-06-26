@@ -1,0 +1,40 @@
+<div>
+  <h3>Queued Company File Packages</h3>
+
+  <kendo-grid
+    [data]="gridView"
+    [loading]="(fileDataObj$ | async).loading"
+    [sortable]="{
+      allowUnsort: true,
+      mode: 'single'
+    }"
+    [sort]="sort"
+    (sortChange)="sortChange($event)"
+    [rowClass]="rowCallback"
+  >
+    <kendo-grid-column field="companyFilePackage_ID" title="Package ID"></kendo-grid-column>
+    <kendo-grid-column field="company_ID" title="CID"></kendo-grid-column>
+    <kendo-grid-column field="company_Name" title="Company"></kendo-grid-column>
+    <kendo-grid-column field="lastModifiedDate" title="Last Modified">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>{{ dataItem.lastModifiedDate | date: 'MM/dd/yyyy hh:mm a' }}</div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="loadType" title="Load Type">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>
+          {{ dataItem.loadType }}
+          <fa-icon *ngIf="dataItem.validationOnly"
+                   icon="vial"
+                   title="Validation Only"
+                   class="pl-2"></fa-icon>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="loaderConfigurationGroup_ID" title="Config Group ID"></kendo-grid-column>
+    <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showIfFilePackageHasFiles">
+      <pf-loader-dashboard-file-grid-detail [dataItem]="dataItem.files"></pf-loader-dashboard-file-grid-detail>
+    </ng-template>
+  </kendo-grid>
+
+</div>

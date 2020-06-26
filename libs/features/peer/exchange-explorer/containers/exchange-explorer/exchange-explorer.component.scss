@@ -11,7 +11,7 @@ $group-header-bg-color: #eaeaea;
 
   display: flex;
   flex-direction: column;
-  min-width:253px !important;
+  min-width:273px !important;
 
   pf-single-filter {
     height: 100%;
@@ -63,16 +63,11 @@ $group-header-bg-color: #eaeaea;
 
 .child-filters-sidebar{
   min-height: 100%;
-  width: 243px;
+  width: 273px;
   position: absolute;
   top:0;
   left:0;
   z-index:1;
-  background-color:rgba(255,255,255,.75);
-}
-
-.child-filters-sidebar:hover{
-  z-index:3;
-  background-color:rgba(255,255,255,1);
+  background-color:rgb(255,255,255);
 }
 

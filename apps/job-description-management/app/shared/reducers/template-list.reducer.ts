@@ -1,6 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { TemplateListItem } from 'libs/models/jdm';
+import { TemplateListItem } from 'libs/models';
 
 import * as fromTemplateListActions from '../../shared/actions/template-list.actions';
 

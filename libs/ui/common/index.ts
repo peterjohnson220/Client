@@ -7,3 +7,4 @@ export * from './validation';
 export * from './terms-conditions-modal';
 export * from './directives';
 export * from './simple-yes-no';
+export * from './pf-treeview';

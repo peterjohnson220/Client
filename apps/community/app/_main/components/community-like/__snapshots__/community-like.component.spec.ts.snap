@@ -16,8 +16,6 @@ exports[`CommunityLikeComponent should display as liked if LikedByCurrentUser ==
     class="community-like p-0 community-btn-clicked"
     data-qa-id="ctn-communityLikePost"
     id="like-reply"
-    ng-reflect-klass="community-like p-0"
-    ng-reflect-ng-class="community-btn-clicked"
     placement="auto"
   >
     
@@ -53,8 +51,6 @@ exports[`CommunityLikeComponent should display as not liked if LikedByCurrentUse
     class="community-like p-0 community-btn"
     data-qa-id="ctn-communityLikePost"
     id="like-reply"
-    ng-reflect-klass="community-like p-0"
-    ng-reflect-ng-class="community-btn"
     placement="auto"
   >
     
@@ -94,8 +90,6 @@ exports[`CommunityLikeComponent should show like component 1`] = `
     class="community-like p-0 community-btn"
     data-qa-id="ctn-communityLikePost"
     id="like-reply"
-    ng-reflect-klass="community-like p-0"
-    ng-reflect-ng-class="community-btn"
     placement="auto"
   >
     

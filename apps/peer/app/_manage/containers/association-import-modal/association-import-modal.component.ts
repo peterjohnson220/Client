@@ -8,13 +8,13 @@ import { SuccessEvent, FileInfo } from '@progress/kendo-angular-upload';
 
 import { Exchange } from 'libs/models/peer';
 import { ImportActionEnum } from 'libs/constants';
+import { ExchangeJobMappingService } from 'libs/features/peer/exchange-job-mapping/services';
 
 import * as fromSharedPeerReducer from '../../../shared/reducers';
 import * as fromPeerManagementReducer from '../../reducers';
 import * as importAssociationAction from '../../actions/import.actions';
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 import { ImportStatusEnum } from '../../actions/import.actions';
-import { ExchangeJobMappingService } from '../../services';
 
 @Component({
     selector: 'pf-association-import-modal',

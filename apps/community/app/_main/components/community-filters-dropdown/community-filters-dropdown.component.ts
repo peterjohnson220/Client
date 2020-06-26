@@ -17,7 +17,7 @@ export class CommunityFiltersDropdownComponent implements OnInit, AfterViewInit 
   @Input() filterType: string;
 
   @Output() filtersSelected: EventEmitter<any> = new EventEmitter<any>();
-  @ViewChild('multiselect', { static: false }) public multiselect: MultiSelectComponent;
+  @ViewChild('multiselect') public multiselect: MultiSelectComponent;
 
   filterIsOpen: boolean;
 

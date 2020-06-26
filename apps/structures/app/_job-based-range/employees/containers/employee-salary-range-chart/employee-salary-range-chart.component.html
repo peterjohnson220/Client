@@ -1,0 +1,8 @@
+<highcharts-chart class="rangeChart"
+  [Highcharts]="Highcharts"
+  [constructorType]="chartConstructor"
+  [options]="chartOptions"
+  [(update)]="updateFlag"
+  (chartInstance)="rangeChartCallback($event)"
+></highcharts-chart>
+

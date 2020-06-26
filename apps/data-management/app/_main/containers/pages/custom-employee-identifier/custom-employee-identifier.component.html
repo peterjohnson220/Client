@@ -82,7 +82,7 @@
               </pf-async-container>
               <div class="text-right mt-3">
                 <button type="button"
-                        (click)="refreshIdentifiers()"
+                        (click)="goBack()"
                         class="btn mx-1 btn-md pf-secondary-btn"
                         [disabled]="isFetchingData$ | async">
                   <span *ngIf="isFetchingData$ | async">

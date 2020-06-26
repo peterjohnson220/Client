@@ -19,15 +19,18 @@ export interface State {
   inHistory: boolean;
   publishButtonEnabled: boolean;
   jobDescriptionIsFullscreen: boolean;
+  GettingJobDescriptionExtendedInfoAsync: AsyncStateObj<boolean>;
   jobDescriptionExtendedInfo: JobDescriptionExtendedInfo;
   jobDescriptionRecentChange: JobDescription;
   jobDescriptionChangeHistory: JobDescription[];
-  companyAsync: AsyncStateObj<CompanyDto>;
   jobDescriptionViewsAsync: AsyncStateObj<string[]>;
   undoChangesComplete: boolean;
+  replaceJobDescriptionComplete: boolean;
   deleting: boolean;
   deletingError: boolean;
   deletingSuccess: boolean;
+  ssoLoginUrl: string;
+  ssoAuthResult: any;
 }
 
 export const initialState: State = {
@@ -38,46 +41,22 @@ export const initialState: State = {
   publishButtonEnabled: true,
   inHistory: false,
   jobDescriptionIsFullscreen: false,
+  GettingJobDescriptionExtendedInfoAsync: generateDefaultAsyncStateObj<boolean>(false),
   jobDescriptionExtendedInfo: null,
   jobDescriptionRecentChange: null,
   jobDescriptionChangeHistory: [],
-  companyAsync: generateDefaultAsyncStateObj<CompanyDto>(null),
   jobDescriptionViewsAsync: generateDefaultAsyncStateObj<string[]>([]),
   undoChangesComplete: false,
+  replaceJobDescriptionComplete: false,
   deleting: false,
   deletingError: false,
-  deletingSuccess: false
+  deletingSuccess: false,
+  ssoLoginUrl: null,
+  ssoAuthResult: null
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.Actions): State {
   switch (action.type) {
-    case fromJobDescriptionActions.LOAD_COMPANY: {
-      const companyAsync = cloneDeep(state.companyAsync);
-      companyAsync.loading = true;
-      companyAsync.loadingError = false;
-      return {
-        ...state,
-        companyAsync: companyAsync
-      };
-    }
-    case fromJobDescriptionActions.LOAD_COMPANY_ERROR: {
-      const companyAsync: AsyncStateObj<CompanyDto> = cloneDeep(state.companyAsync);
-      companyAsync.loading = false;
-      companyAsync.loadingError = true;
-      return {
-        ...state,
-        companyAsync: companyAsync
-      };
-    }
-    case fromJobDescriptionActions.LOAD_COMPANY_SUCCESS: {
-      const companyAsync: AsyncStateObj<CompanyDto> = cloneDeep(state.companyAsync);
-      companyAsync.loading = false;
-      companyAsync.obj = action.payload;
-      return {
-        ...state,
-        companyAsync: companyAsync
-      };
-    }
     case fromJobDescriptionActions.GET_JOB_DESCRIPTION: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
       asyncStateObjClone.loading = true;
@@ -220,7 +199,9 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
     }
     case fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION_SUCCESS: {
       const asyncStateObjClone = cloneDeep(state.jobDescriptionAsync);
-      asyncStateObjClone.obj = action.payload;
+      asyncStateObjClone.obj = cloneDeep(action.payload);
+      asyncStateObjClone.obj.Sections = cloneDeep(state.jobDescriptionAsync.obj.Sections);
+
       const recentChange = state.jobDescriptionAsync.obj;
       return {
         ...state,
@@ -271,10 +252,35 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionIsFullscreen: !jobDescriptionFullscreenStatus
       };
     }
-    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_EXTENDED_INFO: {
+    case fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO: {
+      const asyncStateObjClone = cloneDeep(state.GettingJobDescriptionExtendedInfoAsync);
+      asyncStateObjClone.loading = true;
+      asyncStateObjClone.error = false;
+      asyncStateObjClone.success = false;
       return {
         ...state,
+        GettingJobDescriptionExtendedInfoAsync: asyncStateObjClone
+      };
+    }
+    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_EXTENDED_INFO: {
+      const asyncStateObjClone = cloneDeep(state.GettingJobDescriptionExtendedInfoAsync);
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.error = false;
+      asyncStateObjClone.success = true;
+      return {
+        ...state,
+        GettingJobDescriptionExtendedInfoAsync: asyncStateObjClone,
         jobDescriptionExtendedInfo: action.payload
+      };
+    }
+    case fromJobDescriptionActions.GET_JOB_DESCRIPTION_EXTENDED_INFO_ERROR: {
+      const asyncStateObjClone = cloneDeep(state.GettingJobDescriptionExtendedInfoAsync);
+      asyncStateObjClone.loading = false;
+      asyncStateObjClone.error = true;
+      asyncStateObjClone.success = false;
+      return {
+        ...state,
+        GettingJobDescriptionExtendedInfoAsync: asyncStateObjClone
       };
     }
     case fromJobDescriptionActions.ADD_DATA_ROW_TO_CONTROL: {
@@ -356,13 +362,20 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         jobDescriptionAsync: asyncStateObjClone
       };
     }
+    case fromJobDescriptionActions.RESET_REPLACE_JOB_DESCRIPTION_VIA_COPY: {
+      return {
+        ...state,
+        replaceJobDescriptionComplete: false
+      };
+    }
     case fromJobDescriptionActions.REPLACE_JOB_DESCRIPTION_VIA_COPY: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
       asyncStateObjClone.obj = action.payload;
 
       return {
         ...state,
-        jobDescriptionAsync: asyncStateObjClone
+        jobDescriptionAsync: asyncStateObjClone,
+        replaceJobDescriptionComplete: true
       };
     }
     case fromJobDescriptionActions.ADD_SOURCE_DATA_TO_CONTROL: {
@@ -405,6 +418,29 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
       };
     }
 
+    case fromJobDescriptionActions.UPDATE_JOB_DESCRIPTION_APPLIES_TO:
+      const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
+      asyncStateObjClone.obj.AppliesToField = action.payload.AppliesToField;
+      asyncStateObjClone.obj.AppliesToValue = action.payload.AppliesToValue;
+      asyncStateObjClone.obj.JobDescriptionTitle = action.payload.JobDescriptionTitle;
+      asyncStateObjClone.obj.PublicView = action.payload.PublicView;
+
+      return {
+        ...state,
+        jobDescriptionAsync: asyncStateObjClone
+      };
+    case fromJobDescriptionActions.GET_SSO_LOGIN_URL_SUCCESS: {
+      return {
+        ...state,
+        ssoLoginUrl: action.payload
+      };
+    }
+    case fromJobDescriptionActions.AUTHENTICATE_SSO_PARAMS_SUCCESS: {
+      return {
+        ...state,
+        ssoAuthResult: action.payload
+      };
+    }
     default:
       return state;
   }
@@ -413,7 +449,6 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
 export const getJobDescriptionAsync = (state: State) => state.jobDescriptionAsync;
 export const getEditingJobDescription = (state: State) => state.editing;
 export const getSavingJobDescription = (state: State) => state.saving;
-export const getCompanyAsync = (state: State) => state.companyAsync;
 export const getJobDescriptionChangeHistory = (state: State) => state.jobDescriptionChangeHistory;
 export const getPublishingJobDescription = (state: State) => state.publishing;
 export const getPublishButtonEnabled = (state: State) => state.publishButtonEnabled;
@@ -425,4 +460,8 @@ export const getUndoJobDescriptionChangesComplete = (state: State) => state.undo
 export const getDeletingJobDescription = (state: State) => state.deleting;
 export const getDeletingJobDescriptionSuccess = (state: State) => state.deletingSuccess;
 export const getDeletingJobDescriptionError = (state: State) => state.deletingError;
+export const getJobDescriptionExtendedInfoAsync = (state: State) => state.GettingJobDescriptionExtendedInfoAsync;
+export const getReplaceJobDescriptionComplete = (state: State) => state.replaceJobDescriptionComplete;
+export const getJobDescriptionSSOLoginUrl = (state: State) => state.ssoLoginUrl;
+export const getJobDescriptionSSOAuthResult = (state: State) => state.ssoAuthResult;
 

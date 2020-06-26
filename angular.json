@@ -11,6 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/notifications",
             "index": "apps/notifications/index.html",
             "main": "apps/notifications/main.ts",
@@ -59,6 +60,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -72,10 +79,20 @@
                 {
                   "replace": "apps/notifications/../../environments/environment.ts",
                   "with": "apps/notifications/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/notifications/../../assets/js/new-relic.js",
+                  "with": "apps/notifications/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -93,6 +110,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -199,6 +222,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/admin",
             "index": "apps/admin/index.html",
             "main": "apps/admin/main.ts",
@@ -248,6 +272,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -261,10 +291,20 @@
                 {
                   "replace": "apps/admin/../../environments/environment.ts",
                   "with": "apps/admin/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/admin/../../assets/js/new-relic.js",
+                  "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -286,6 +326,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -396,6 +442,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/dashboard",
             "index": "apps/dashboard/index.html",
             "main": "apps/dashboard/main.ts",
@@ -446,6 +493,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -459,10 +512,20 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
+                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -484,6 +547,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -595,6 +664,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/peer",
             "index": "apps/peer/index.html",
             "main": "apps/peer/main.ts",
@@ -647,6 +717,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -660,10 +736,20 @@
                 {
                   "replace": "apps/peer/../../environments/environment.ts",
                   "with": "apps/peer/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/peer/../../assets/js/new-relic.js",
+                  "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -685,6 +771,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -798,6 +890,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/legacy-content",
             "index": "apps/legacy-content/index.html",
             "main": "apps/legacy-content/main.ts",
@@ -849,6 +942,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -862,10 +961,20 @@
                 {
                   "replace": "apps/legacy-content/../../environments/environment.ts",
                   "with": "apps/legacy-content/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/legacy-content/../../assets/js/new-relic.js",
+                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -887,6 +996,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -999,6 +1114,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/auth",
             "index": "apps/auth/index.html",
             "main": "apps/auth/main.ts",
@@ -1049,6 +1165,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1062,10 +1184,20 @@
                 {
                   "replace": "apps/auth/../../environments/environment.ts",
                   "with": "apps/auth/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/auth/../../assets/js/new-relic.js",
+                  "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1087,6 +1219,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1197,6 +1335,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/project",
             "index": "apps/project/index.html",
             "main": "apps/project/main.ts",
@@ -1246,6 +1385,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1259,10 +1404,20 @@
                 {
                   "replace": "apps/project/../../environments/environment.ts",
                   "with": "apps/project/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/project/../../assets/js/new-relic.js",
+                  "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1284,6 +1439,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1394,6 +1555,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/community",
             "index": "apps/community/index.html",
             "main": "apps/community/main.ts",
@@ -1444,6 +1606,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1457,10 +1625,20 @@
                 {
                   "replace": "apps/community/../../environments/environment.ts",
                   "with": "apps/community/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/community/../../assets/js/new-relic.js",
+                  "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1482,6 +1660,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1592,6 +1776,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/smallbiz/browser",
             "index": "apps/smallbiz/index.html",
             "main": "apps/smallbiz/main.ts",
@@ -1640,6 +1825,12 @@
           "configurations": {
             "local-universal": {
               "baseHref": "/app/",
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1651,6 +1842,12 @@
               "buildOptimizer": true
             },
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1664,11 +1861,21 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
+                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
               "baseHref": "/app/",
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1691,6 +1898,12 @@
             },
             "sales": {
               "baseHref": "/app/",
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1728,7 +1941,8 @@
                   "with": "apps/smallbiz/../../environments/environment.staging.ts"
                 }
               ]
-            },
+            ,              "optimization": true
+},
             "production": {
               "fileReplacements": [
                 {
@@ -1740,7 +1954,8 @@
                   "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
-            }
+            ,              "optimization": true
+}
           }
         },
         "serve": {
@@ -1830,6 +2045,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/jobs",
             "index": "apps/jobs/index.html",
             "main": "apps/jobs/main.ts",
@@ -1878,6 +2094,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1891,10 +2113,20 @@
                 {
                   "replace": "apps/jobs/../../environments/environment.ts",
                   "with": "apps/jobs/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/jobs/../../assets/js/new-relic.js",
+                  "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1916,6 +2148,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2026,6 +2264,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/comphub",
             "index": "apps/comphub/index.html",
             "main": "apps/comphub/main.ts",
@@ -2068,7 +2307,9 @@
               "assets/scss/client.scss",
               "apps/comphub/styles.scss",
               "apps/comphub/outside-view-encapsulation.scss",
-              "apps/comphub/assets/css/flags.min.css"
+              "apps/comphub/assets/css/flags.min.css",
+              "node_modules/mapbox-gl/dist/mapbox-gl.css",
+              "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
               "assets/js/pendo.js"
@@ -2076,6 +2317,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2089,10 +2336,20 @@
                 {
                   "replace": "apps/comphub/../../environments/environment.ts",
                   "with": "apps/comphub/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/comphub/../../assets/js/new-relic.js",
+                  "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2114,6 +2371,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2224,6 +2487,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/pf-admin",
             "index": "apps/pf-admin/index.html",
             "main": "apps/pf-admin/main.ts",
@@ -2272,6 +2536,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2285,10 +2555,20 @@
                 {
                   "replace": "apps/pf-admin/../../environments/environment.ts",
                   "with": "apps/pf-admin/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/pf-admin/../../assets/js/new-relic.js",
+                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2310,6 +2590,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2420,6 +2706,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/data-insights",
             "index": "apps/data-insights/index.html",
             "main": "apps/data-insights/main.ts",
@@ -2464,11 +2751,18 @@
               "apps/data-insights/outside-view-encapsulation.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/tableau-2.2.0.min.js"
             ]
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2482,10 +2776,20 @@
                 {
                   "replace": "apps/data-insights/../../environments/environment.ts",
                   "with": "apps/data-insights/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/data-insights/../../assets/js/new-relic.js",
+                  "with": "apps/data-insights/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2507,6 +2811,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2560,7 +2870,8 @@
             "polyfills": "apps/data-insights/polyfills.ts",
             "tsConfig": "apps/data-insights/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/tableau-2.2.0.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -2617,6 +2928,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/job-description-management",
             "index": "apps/job-description-management/index.html",
             "main": "apps/job-description-management/main.ts",
@@ -2665,6 +2977,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2678,10 +2996,20 @@
                 {
                   "replace": "apps/job-description-management/../../environments/environment.ts",
                   "with": "apps/job-description-management/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/job-description-management/../../assets/js/new-relic.js",
+                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2703,6 +3031,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2813,6 +3147,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/structures",
             "index": "apps/structures/index.html",
             "main": "apps/structures/main.ts",
@@ -2862,6 +3197,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2875,10 +3216,20 @@
                 {
                   "replace": "apps/structures/../../environments/environment.ts",
                   "with": "apps/structures/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/structures/../../assets/js/new-relic.js",
+                  "with": "apps/structures/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2900,6 +3251,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3010,6 +3367,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/data-management",
             "index": "apps/data-management/index.html",
             "main": "apps/data-management/main.ts",
@@ -3058,6 +3416,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3071,10 +3435,20 @@
                 {
                   "replace": "apps/data-management/../../environments/environment.ts",
                   "with": "apps/data-management/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/data-management/../../assets/js/new-relic.js",
+                  "with": "apps/data-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3096,6 +3470,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3206,6 +3586,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/resources",
             "index": "apps/resources/index.html",
             "main": "apps/resources/main.ts",
@@ -3254,6 +3635,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3267,10 +3654,20 @@
                 {
                   "replace": "apps/resources/../../environments/environment.ts",
                   "with": "apps/resources/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/resources/../../assets/js/new-relic.js",
+                  "with": "apps/resources/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3292,6 +3689,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3402,6 +3805,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/employees",
             "index": "apps/employees/index.html",
             "main": "apps/employees/main.ts",
@@ -3445,11 +3849,17 @@
               "apps/employees/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js",
+              "assets/js/pendo.js"
             ]
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3463,10 +3873,20 @@
                 {
                   "replace": "apps/employees/../../environments/environment.ts",
                   "with": "apps/employees/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/employees/../../assets/js/new-relic.js",
+                  "with": "apps/employees/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3488,6 +3908,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3598,6 +4024,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/total-rewards",
             "index": "apps/total-rewards/index.html",
             "main": "apps/total-rewards/main.ts",
@@ -3643,6 +4070,12 @@
           },
           "configurations": {
             "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3656,10 +4089,20 @@
                 {
                   "replace": "apps/total-rewards/../../environments/environment.ts",
                   "with": "apps/total-rewards/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/total-rewards/../../assets/js/new-relic.js",
+                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3681,6 +4124,12 @@
               ]
             },
             "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3782,13 +4231,1081 @@
           }
         }
       }
+    },
+    "service": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "aot": true,
+            "outputPath": "dist/apps/service",
+            "index": "apps/service/index.html",
+            "main": "apps/service/main.ts",
+            "tsConfig": "apps/service/tsconfig.app.json",
+            "polyfills": "apps/service/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/service/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/service/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/service",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/service",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/service/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/service/../../environments/environment.ts",
+                  "with": "apps/service/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/service/../../assets/js/new-relic.js",
+                  "with": "apps/service/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/service/../../environments/environment.ts",
+                  "with": "apps/service/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/service/../../assets/js/new-relic.js",
+                  "with": "apps/service/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/service/../../environments/environment.ts",
+                  "with": "apps/service/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/service/../../assets/js/new-relic.js",
+                  "with": "apps/service/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "service:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "service:build:staging"
+            },
+            "production": {
+              "browserTarget": "service:build:production"
+            },
+            "sales": {
+              "browserTarget": "service:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "service:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/service/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/service/polyfills.ts",
+            "tsConfig": "apps/service/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/service/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/service/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/service",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/service",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "labs": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "aot": true,
+            "outputPath": "dist/apps/labs",
+            "index": "apps/labs/index.html",
+            "main": "apps/labs/main.ts",
+            "tsConfig": "apps/labs/tsconfig.app.json",
+            "polyfills": "apps/labs/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/labs/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/labs/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/labs",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/labs",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/labs/styles.scss"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/labs/../../environments/environment.ts",
+                  "with": "apps/labs/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/labs/../../assets/js/new-relic.js",
+                  "with": "apps/labs/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/labs/../../environments/environment.ts",
+                  "with": "apps/labs/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/labs/../../assets/js/new-relic.js",
+                  "with": "apps/labs/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/labs/../../environments/environment.ts",
+                  "with": "apps/labs/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/labs/../../assets/js/new-relic.js",
+                  "with": "apps/labs/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "labs:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "labs:build:staging"
+            },
+            "production": {
+              "browserTarget": "labs:build:production"
+            },
+            "sales": {
+              "browserTarget": "labs:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "labs:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/labs/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/labs/polyfills.ts",
+            "tsConfig": "apps/labs/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/labs/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/labs/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/labs",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/labs",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "paymarkets": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "aot": true,
+            "outputPath": "dist/apps/paymarkets",
+            "index": "apps/paymarkets/index.html",
+            "main": "apps/paymarkets/main.ts",
+            "tsConfig": "apps/paymarkets/tsconfig.app.json",
+            "polyfills": "apps/paymarkets/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/paymarkets/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/paymarkets/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/paymarkets",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/paymarkets",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/paymarkets/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/paymarkets/../../environments/environment.ts",
+                  "with": "apps/paymarkets/../../environments/environment.staging.ts"
+                },
+                {
+                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
+                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/paymarkets/../../environments/environment.ts",
+                  "with": "apps/paymarkets/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
+                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/paymarkets/../../environments/environment.ts",
+                  "with": "apps/paymarkets/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
+                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "paymarkets:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "paymarkets:build:staging"
+            },
+            "production": {
+              "browserTarget": "paymarkets:build:production"
+            },
+            "sales": {
+              "browserTarget": "paymarkets:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "paymarkets:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/paymarkets/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/paymarkets/polyfills.ts",
+            "tsConfig": "apps/paymarkets/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/paymarkets/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/paymarkets/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/paymarkets",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/paymarkets",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "user-settings": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "aot": true,
+            "outputPath": "dist/apps/user-settings",
+            "index": "apps/user-settings/index.html",
+            "main": "apps/user-settings/main.ts",
+            "tsConfig": "apps/user-settings/tsconfig.app.json",
+            "polyfills": "apps/user-settings/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/user-settings/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/user-settings/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/user-settings",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/user-settings",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/user-settings/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/user-settings/../../environments/environment.ts",
+                  "with": "apps/user-settings/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/user-settings/../../environments/environment.ts",
+                  "with": "apps/user-settings/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/user-settings/../../assets/js/new-relic.js",
+                  "with": "apps/user-settings/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "15kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/user-settings/../../environments/environment.ts",
+                  "with": "apps/user-settings/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/user-settings/../../assets/js/new-relic.js",
+                  "with": "apps/user-settings/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "user-settings:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "user-settings:build:staging"
+            },
+            "production": {
+              "browserTarget": "user-settings:build:production"
+            },
+            "sales": {
+              "browserTarget": "user-settings:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "user-settings:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/user-settings/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/user-settings/polyfills.ts",
+            "tsConfig": "apps/user-settings/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/user-settings/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/user-settings/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/user-settings",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/user-settings",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "form": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/form",
+            "index": "apps/form/index.html",
+            "main": "apps/form/main.ts",
+            "tsConfig": "apps/form/tsconfig.app.json",
+            "polyfills": "apps/form/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/form/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/form/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/form",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/form",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/form/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/form/../../environments/environment.ts",
+                  "with": "apps/form/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/form/../../environments/environment.ts",
+                  "with": "apps/form/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/form/../../assets/js/new-relic.js",
+                  "with": "apps/form/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/form/../../environments/environment.ts",
+                  "with": "apps/form/../../environments/environment.sales.ts"
+                },
+                {
+                  "replace": "apps/form/../../assets/js/new-relic.js",
+                  "with": "apps/form/../../libs/ui/common/assets/js/new-relic.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "form:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "form:build:staging"
+            },
+            "production": {
+              "browserTarget": "form:build:production"
+            },
+            "sales": {
+              "browserTarget": "form:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "form:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/form/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/form/polyfills.ts",
+            "tsConfig": "apps/form/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/form/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/form/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/form",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/form",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "admin",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "pf",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "pf"

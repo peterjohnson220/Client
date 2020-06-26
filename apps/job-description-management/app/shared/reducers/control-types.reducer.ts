@@ -13,7 +13,7 @@ const initialState: State = {
   controlTypesAsync: generateDefaultAsyncStateObj<ControlType[]>([])
 };
 
-export function reducer(state = initialState, action: fromControlTypes.Actions): State {
+export function reducer(state = initialState, action: fromControlTypes.ControlTypeActions): State {
   switch (action.type) {
     case fromControlTypes.LOAD_CONTROL_TYPES: {
       const controlTypeAsyncClone = cloneDeep(state.controlTypesAsync);
@@ -43,7 +43,9 @@ export function reducer(state = initialState, action: fromControlTypes.Actions):
 }
 
 export const getControlTypesLoaded = (state: State) => !state.controlTypesAsync.loading;
-export const getControlTypeAndVersion = (state: State) => state.controlTypesAsync.obj;
-export const getControlTypeAndVersionAsync = (state: State) => state.controlTypesAsync;
+export const getControlTypesLoading = (state: State) => state.controlTypesAsync.loading;
+export const getControlTypes = (state: State) => state.controlTypesAsync.obj;
+export const getLatestControlTypes = (state: State) => state.controlTypesAsync.obj.filter((control => control.IsLatest === true));
+export const getControlTypesAsync = (state: State) => state.controlTypesAsync;
 
 

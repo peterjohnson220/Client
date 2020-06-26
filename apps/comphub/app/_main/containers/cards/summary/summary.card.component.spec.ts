@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { PfCommonModule } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
 import { RateType } from 'libs/data/data-sets';
+import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 
 import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -26,6 +27,7 @@ describe('Comphub - Main - Summary Card Component', () => {
   let fixture: ComponentFixture<SummaryCardComponent>;
   let store: Store<fromComphubMainReducer.State>;
   let currencyPipe: CurrencyPipe;
+  let exchangeExplorerContextService: ExchangeExplorerContextService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,6 +45,10 @@ describe('Comphub - Main - Summary Card Component', () => {
         {
           provide: CurrencyPipe,
           useValue: { transform: (x) => x }
+        },
+        {
+          provide: ExchangeExplorerContextService,
+          useValue: { selectFilterContext: jest.fn() }
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -51,15 +57,16 @@ describe('Comphub - Main - Summary Card Component', () => {
     fixture = TestBed.createComponent(SummaryCardComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
-    currencyPipe = TestBed.get(CurrencyPipe);
+    store = TestBed.inject(Store);
+    currencyPipe = TestBed.inject(CurrencyPipe);
+    exchangeExplorerContextService = TestBed.inject(ExchangeExplorerContextService);
+
+    fixture.detectChanges();
 
     instance.workflowContext = {
       ...generateMockWorkflowContext(),
-      selectedPageId: ComphubPages.Summary,
-      selectedPageIdDelayed: ComphubPages.Summary
+      selectedPageId: ComphubPages.Summary
     };
-    fixture.detectChanges();
   });
 
   it('should dispatch a PriceNewJob action, when handling a Price New Job click', () => {
@@ -190,17 +197,8 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
     instance.lastJobData = generateFakeJobData();
+    instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Summary});
     instance.ngOnInit();
-    instance.ngOnChanges({
-      'workflowContext': {
-        previousValue: null,
-        firstChange: true,
-        isFirstChange: () => true,
-        currentValue: {
-          selectedPageId: ComphubPages.Summary
-        }
-      }
-    });
 
     const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
     const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
@@ -215,17 +213,8 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.selectedJobData$ = of(generateFakeJobData());
     instance.lastJobData = generateFakeJobData();
+    instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Summary});
     instance.ngOnInit();
-    instance.ngOnChanges({
-      'workflowContext': {
-        previousValue: null,
-        firstChange: true,
-        isFirstChange: () => true,
-        currentValue: {
-          selectedPageId: ComphubPages.Summary
-        }
-      }
-    });
 
     const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
     const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
@@ -240,17 +229,8 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
     instance.lastJobData = generateFakeJobData();
+    instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Markets});
     instance.ngOnInit();
-    instance.ngOnChanges({
-      'workflowContext': {
-        previousValue: null,
-        firstChange: true,
-        isFirstChange: () => true,
-        currentValue: {
-          selectedPageId: ComphubPages.Markets
-        }
-      }
-    });
 
     const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
     const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);

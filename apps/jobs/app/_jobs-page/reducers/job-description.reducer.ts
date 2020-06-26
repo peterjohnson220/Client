@@ -1,58 +1,50 @@
 import * as fromJobDescriptionActions from '../actions';
+import { JobDescriptionSummary, AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObjHelper } from 'libs/core';
 
 export interface State {
   jobId: number;
-  jobDescriptionManagementEnabled: boolean;
-  jobDescription: string;
   updatedJobDescription: string;
-  saving: boolean;
-  jobDescriptionLoaded: boolean;
+  jobDescriptionSummary: AsyncStateObj<JobDescriptionSummary>;
 }
 
 export const initialState: State = {
   jobId: null,
-  jobDescriptionManagementEnabled: true,
-  jobDescription: null,
   updatedJobDescription: null,
-  saving: false,
-  jobDescriptionLoaded: false
+  jobDescriptionSummary: generateDefaultAsyncStateObj<JobDescriptionSummary>(null),
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionActions.JobDescriptionActions): State {
   switch (action.type) {
-    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_SUCCESS: {
+    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION: {
       return {
-        ...state,
-        jobDescriptionManagementEnabled: action.payload.JobDescriptionManagementEnabled,
-        jobDescription: action.payload.JobSummary,
-        updatedJobDescription: action.payload.JobSummary,
-        jobDescriptionLoaded: true,
+        ...AsyncStateObjHelper.loading(state, 'jobDescriptionSummary'),
+        jobId: action.payload
       };
+    }
+    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'jobDescriptionSummary', action.payload);
     }
     case fromJobDescriptionActions.CHANGE_JOB_DESCRIPTION: {
       return {
         ...state,
-        updatedJobDescription: action.payload
-      };
-    }
-    case fromJobDescriptionActions.LOAD_JOB_DESCRIPTION: {
-      return {
-        ...state,
-        jobDescriptionLoaded: false,
-      };
-    }
-    case fromJobDescriptionActions.SAVE_JOB_DESCRIPTION_SUCCESS: {
-      return {
-        ...state,
-        jobDescription: state.updatedJobDescription,
-        saving: false,
+        updatedJobDescription: action.payload,
+        jobDescriptionSummary: {
+          ...state.jobDescriptionSummary,
+          savingSuccess: false,
+          loadingError: false,
+          savingError: false
+        }
       };
     }
     case fromJobDescriptionActions.SAVE_JOB_DESCRIPTION: {
-      return {
-        ...state,
-        saving: true,
-      };
+      return AsyncStateObjHelper.saving(state, 'jobDescriptionSummary');
+    }
+    case fromJobDescriptionActions.SAVE_JOB_DESCRIPTION_SUCCESS: {
+      return AsyncStateObjHelper.savingSuccess(state, 'jobDescriptionSummary');
+    }
+    case fromJobDescriptionActions.SAVE_JOB_DESCRIPTION_SUCCESS: {
+      return AsyncStateObjHelper.savingError(state, 'jobDescriptionSummary');
     }
     default: {
       return state;
@@ -60,12 +52,11 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
   }
 }
 
-export const getJobDescriptionManagementEnabled = (state: State) => state.jobDescriptionManagementEnabled;
-export const getJobDescription = (state: State) => state.jobDescription;
-export const getJobDescriptionUpdated = (state: State) => state.jobDescription !== state.updatedJobDescription;
-export const getSavingState = (state: State) => state.saving;
-export const getJobDescriptionLoaded = (state: State) => state.jobDescriptionLoaded;
-
-
+export const getJobId = (state: State) => state.jobId;
+export const getLoading = (state: State) => {
+  return state.jobDescriptionSummary.loading || state.jobDescriptionSummary.saving;
+};
+export const getJobDescriptionSummary = (state: State) => state.jobDescriptionSummary;
+export const getUpdatedJobDescription = (state: State) => state.updatedJobDescription;
 
 

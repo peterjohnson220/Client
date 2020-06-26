@@ -50,8 +50,6 @@ export class PayfactorsApiService implements OnDestroy {
     );
   }
 
-
-
   postWithHeader<T>(url: string, body: any = {}, headers: any,
                     baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<T> {
     return this.http.post<T>(this.formatUrl(baseUrlLocation, url, useUtilities), body, { headers: headers }).pipe(
@@ -74,7 +72,6 @@ export class PayfactorsApiService implements OnDestroy {
       map((response: any) => {
         const blob = response.body;
         const fileName = this.getHeaderTokenValue(response.headers, 'filename', 'Content-Disposition');
-
         return this.fileApiService.saveBlobAsFile(blob, fileName, openInNewTab);
       })
     );
@@ -96,9 +93,6 @@ export class PayfactorsApiService implements OnDestroy {
                baseUrlLocation: BaseUrlLocation = BaseUrlLocation.Default, useUtilities: boolean = false): Observable<any> {
 
     const formData = this.buildFormData(formDataParams);
-
-    const headers = new Headers();
-    headers.append('Accept', 'application/json');
 
     const options = {
       headers: new HttpHeaders().append('Accept', 'application/json')

@@ -24,7 +24,7 @@ export class GenericMessageFormatter {
             default:
                 break;
         }
-        const shouldAddLink = (level === NotificationLevel.Success && messagePayload.FileDownloadLink.length > 0);
+        const shouldAddLink = (level === NotificationLevel.Success && (messagePayload.FileDownloadLink && messagePayload.FileDownloadLink.length > 0));
         display += `</div><div class="col pr-0 pl-2">`;
         if (shouldAddLink) {
             display += `<u><a href="${messagePayload.FileDownloadLink}">`;
@@ -37,6 +37,6 @@ export class GenericMessageFormatter {
         return display;
     }
     static getProgressMessage(message: string): string {
-        throw new Error('not implemented');
+      return `<div class='message-container'>${message}</div>`;
     }
 }

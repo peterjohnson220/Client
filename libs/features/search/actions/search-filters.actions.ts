@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Filter, MultiSelectFilter } from '../models';
+import { Filter, MultiSelectFilter, MultiSelectOption } from '../models';
 
 export const ADD_FILTERS = '[Search/Search Filters] Add Filters';
 export const ADD_FILTER_AND_SELECT_ALL_OPTIONS = '[Search/Search Filters] Add filter and select all options';
@@ -17,6 +17,9 @@ export const SET_DEFAULT_VALUE = '[Search/Search Filters] Set Default Value';
 export const TOGGLE_MULTI_SELECT_OPTION = '[Search/Search Filters] Toggle Multi Select Option';
 export const UPDATE_FILTER_VALUE = '[Search/Search Filters] Update Value';
 export const UPDATE_RANGE_FILTER = '[Search/Search Filters] Update Range';
+export const SHOW_MORE = '[Search/Search Filters] Show More';
+export const SHOW_LESS = '[Search/Search Filters] Show Less';
+export const ADD_FILTER_OPTIONS = '[Search/Search Filters] Add Filter Options';
 
 export class AddFilters implements Action {
   readonly type = ADD_FILTERS;
@@ -110,6 +113,28 @@ export class UpdateRangeFilter implements Action {
   constructor(public payload: any) {}
 }
 
+export class ShowMore implements Action {
+  readonly type = SHOW_MORE;
+
+  constructor(public payload: { backingField: string }) {}
+}
+
+export class ShowLess implements Action {
+  readonly type = SHOW_LESS;
+
+  constructor(public payload: { backingField: string }) {}
+}
+
+export class AddFilterOptions implements Action {
+  readonly type = ADD_FILTER_OPTIONS;
+
+  constructor(public payload: {
+    backingField: string,
+    newOptions: MultiSelectOption[],
+    currentSelections: MultiSelectOption[]
+  }) {}
+}
+
 export type Actions
   = RemoveFilters
   | ApplySavedFilters
@@ -125,5 +150,8 @@ export type Actions
   | RemoveFilterValue
   | ReplaceFilters
   | AddFilterAndSelectAllOptions
-  | ClearFilters;
+  | ClearFilters
+  | ShowMore
+  | ShowLess
+  | AddFilterOptions;
 

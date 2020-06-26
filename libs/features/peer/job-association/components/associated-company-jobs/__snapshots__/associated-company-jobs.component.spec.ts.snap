@@ -62,12 +62,12 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
                 <td
                   class="font-italic show-tooltip"
                 >
-                  Job Title
+                  jobTitle
                 </td>
                 <td
                   class="font-italic show-tooltip"
                 >
-                  001
+                  jobCode
                 </td>
               </tr>
               
@@ -174,12 +174,12 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                 <td
                   class="font-italic show-tooltip"
                 >
-                  Job Title
+                  jobTitle
                 </td>
                 <td
                   class="font-italic show-tooltip"
                 >
-                  001
+                  jobCode
                 </td>
               </tr>
               
@@ -261,17 +261,13 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                 </td>
                 <td
                   class="show-tooltip"
-                  ng-reflect-klass="show-tooltip"
-                  ng-reflect-ng-class=""
                 >
-                   Job Title 
+                   jobTitle 
                 </td>
                 <td
                   class="show-tooltip"
-                  ng-reflect-klass="show-tooltip"
-                  ng-reflect-ng-class=""
                 >
-                   001 
+                   jobCode 
                 </td>
               </tr>
             </tbody>
@@ -380,12 +376,12 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
                 <td
                   class="font-italic show-tooltip"
                 >
-                  Job Title
+                  jobTitle
                 </td>
                 <td
                   class="font-italic show-tooltip"
                 >
-                  001
+                  jobCode
                 </td>
               </tr>
               

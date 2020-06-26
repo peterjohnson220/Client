@@ -7,9 +7,14 @@ import {
   JobSearchPricingDataRequest,
   JobSearchPricingDataResponse,
   JobSearchRequest,
+  JobSearchRequestStructuresRangeGroup,
   JobSearchResponse,
   SearchFilter,
-  JobSearchAutocompleteRequest
+  JobSearchAutocompleteRequest,
+  JobBasedRangeJobSearchResponse,
+  JobSearchStructuresAggregationRequest,
+  ProjectJobSearchPricingDataRequest,
+  StructuresJobSearchPricingDataRequest
 } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
@@ -20,19 +25,27 @@ export class JobSearchApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getModelBasedJobResults(searchRequest: JobSearchRequest): Observable<JobSearchResponse> {
-    return this.payfactorsApiService.post(`${this.endpoint}/GetJobResults`, searchRequest);
+  getModelBasedJobResults(searchRequest: JobSearchRequestStructuresRangeGroup): Observable<JobBasedRangeJobSearchResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetStructureRangeGroupJobResults`, searchRequest);
   }
 
   getJobResults(searchRequest: JobSearchRequest): Observable<JobSearchResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetJobResults`, searchRequest);
   }
 
+  searchStructuresJobAggregations(searchRequest: JobSearchStructuresAggregationRequest): Observable<SearchFilter> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SearchJobAggregations`, searchRequest);
+  }
+
   searchJobAggregations(searchRequest: JobSearchAggregationRequest): Observable<SearchFilter> {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchJobAggregations`, searchRequest);
   }
 
-  getJobPricingData(jobPriceRequest: JobSearchPricingDataRequest): Observable<JobSearchPricingDataResponse> {
+  getJobPricingData(jobPriceRequest: ProjectJobSearchPricingDataRequest): Observable<JobSearchPricingDataResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetJobPriceData`, jobPriceRequest);
+  }
+
+  getStructureJobPricingData(jobPriceRequest: StructuresJobSearchPricingDataRequest): Observable<JobSearchPricingDataResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetJobPriceData`, jobPriceRequest);
   }
 

@@ -43,26 +43,27 @@ describe('CommunityNewPostComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
-    pfLinkifyService = TestBed.get(PfLinkifyService);
+    pfLinkifyService = TestBed.inject(PfLinkifyService);
 
     fixture = TestBed.createComponent(CommunityNewPostComponent);
     instance = fixture.componentInstance;
 
-    instance.communityDiscussionForm.get('context').setValue('hello world');
+    instance.communityDiscussionForm.get('content').setValue('hello world');
     instance.communityDiscussionForm.get('topic').setValue('TestTopic');
   });
 
   it('should dispatch SubmittingCommunityPost when calling submit', () => {
-    instance.submit();
+    instance.submit([]);
 
     const newPost: CommunityAddPost = {
       PostText: 'hello world',
       IsInternalOnly: false,
       Links: undefined,
-      TopicId: 'TestTopic'
+      TopicId: 'TestTopic',
+      Attachments: []
     };
 
      const expectedAction = new fromCommunityPostActions.SubmittingCommunityPost(newPost);
@@ -76,48 +77,48 @@ describe('CommunityNewPostComponent', () => {
     expect(value).toBeTruthy();
 
   });
-  it('form invalid when context is empty', () => {
-    instance.communityDiscussionForm.get('context').setValue('hello world');
+  it('form invalid when content is empty', () => {
+    instance.communityDiscussionForm.get('content').setValue('hello world');
     instance.communityDiscussionForm.get('topic').setValue('');
     expect(instance.communityDiscussionForm.valid).toBeFalsy();
   });
   it('form invalid when topic is empty', () => {
-    instance.communityDiscussionForm.get('context').setValue('');
+    instance.communityDiscussionForm.get('content').setValue('');
     instance.communityDiscussionForm.get('topic').setValue('TestTopic');
     expect(instance.communityDiscussionForm.valid).toBeFalsy();
   });
-  it('form valid when context and topic are not empty', () => {
-    instance.communityDiscussionForm.get('context').setValue('hello world');
+  it('form valid when content and topic are not empty', () => {
+    instance.communityDiscussionForm.get('content').setValue('hello world');
     instance.communityDiscussionForm.get('topic').setValue('TestTopic');
     expect(instance.communityDiscussionForm.valid).toBeTruthy();
   });
 
   it('submitting invalid form does not submit post', () => {
-    instance.communityDiscussionForm.get('context').setValue('hello world');
+    instance.communityDiscussionForm.get('content').setValue('hello world');
     instance.communityDiscussionForm.get('topic').setValue('');
     expect(instance.communityDiscussionForm.valid).toBeFalsy();
 
-    instance.submit();
+    instance.submit([]);
 
     expect(store.dispatch).toBeCalledTimes(0);
   });
 
   it('submitting invalid form does not submit post', () => {
-    instance.communityDiscussionForm.get('context').setValue('');
+    instance.communityDiscussionForm.get('content').setValue('');
     instance.communityDiscussionForm.get('topic').setValue('TestTopic');
     expect(instance.communityDiscussionForm.valid).toBeFalsy();
 
-    instance.submit();
+    instance.submit([]);
 
     expect(store.dispatch).toBeCalledTimes(0);
   });
 
   it('submitting valid form submits post', () => {
-    instance.communityDiscussionForm.get('context').setValue('hello world');
+    instance.communityDiscussionForm.get('content').setValue('hello world');
     instance.communityDiscussionForm.get('topic').setValue('TestTopic');
     expect(instance.communityDiscussionForm.valid).toBeTruthy();
 
-    instance.submit();
+    instance.submit([]);
 
     expect(store.dispatch).toBeCalledTimes(1);
   });

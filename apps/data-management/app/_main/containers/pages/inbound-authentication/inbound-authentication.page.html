@@ -1,9 +1,0 @@
-<pf-hris-authentication-card
-  [connectionSummary]="connectionSummary$ | async"
-  transferMethod="HRIS Integration"
-  [validatedCredentials]="(currentWorkflowStep$ | async) === workflowStep.Validated"
-  (backClicked)="back()"
-  (cancelClicked)="cancel()"
-  (saveClicked)="next($event)"
-  (validateCredentials)="validateCredentials($event)">
-</pf-hris-authentication-card>

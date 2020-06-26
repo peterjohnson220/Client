@@ -7,14 +7,15 @@ import { Action, select, Store } from '@ngrx/store';
 import { Observable, of, forkJoin } from 'rxjs';
 import { catchError, filter, mergeMap, withLatestFrom, tap, map, switchMap } from 'rxjs/operators';
 
-import { PayMarketApiService, LoaderFieldMappingsApiService } from 'libs/data/payfactors-api';
-import { MappingsHrisApiService } from 'libs/data/payfactors-api/hris-api';
+import { LoaderFieldMappingsApiService, MappingsHrisApiService, PayMarketApiService } from 'libs/data/payfactors-api';
 import { OrgDataEntityType } from 'libs/constants';
+import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { PayMarket } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 
 import { PayfactorsApiModelMapper, EntityMappingHelper } from '../helpers';
 import * as fromFieldMappingActions from '../actions/field-mapping.actions';
+import * as fromOrgDataFieldMappingsActions from '../actions/organizational-data-field-mapping.actions';
 import * as fromReducers from '../reducers';
 
 @Injectable()
@@ -91,7 +92,6 @@ export class FieldMappingEffects {
         obj.payfactorsFields.Employees.some(field => field.FieldName === 'PayMarket' && isEmpty(field.AssociatedEntity)) ?
           new fromFieldMappingActions.OpenDefaultPaymarketModal() :
           new fromFieldMappingActions.SaveMapping();
-
       return [ nextAction ];
     }),
     catchError((error) => of(new fromFieldMappingActions.SaveMappingError()))
@@ -121,12 +121,20 @@ export class FieldMappingEffects {
       const mappingPackage = PayfactorsApiModelMapper.createMappingPackage(obj.payfactorsFields);
       return this.mappingsHrisApiService.saveMappingFields(obj.userContext, mappingPackage)
         .pipe(
-          map((response: any) => {
-            return new fromFieldMappingActions.SaveMappingSuccess(obj.connectionSummary.hasConnection);
-          })
-        );
-    }),
-    catchError((error) => of(new fromFieldMappingActions.SaveMappingError()))
+          mergeMap((response: any) => {
+            const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, obj.connectionSummary);
+
+            const loadersMappingPackage = PayfactorsApiModelMapper.getLoadersMappings(obj.userContext.CompanyId, obj.connectionSummary, obj.payfactorsFields);
+
+            return [
+              new fromLoaderSettingsActions.SavingLoaderSettings(loaderSettingsDto),
+              new fromOrgDataFieldMappingsActions.SavingFieldMappings(loadersMappingPackage),
+              new fromFieldMappingActions.SaveMappingSuccess(obj.connectionSummary.hasConnection),
+            ];
+          }),
+          catchError((error) => of(new fromFieldMappingActions.SaveMappingError())
+        ));
+    })
   );
 
   @Effect({dispatch: false})

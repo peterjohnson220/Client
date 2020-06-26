@@ -90,7 +90,7 @@ export class AddPayMarketFormEffects {
         return [
           new fromAddPayMarketFormActions.CloseForm(),
           new fromMarketsCardActions.GetPaymarkets({ countryCode: data.countryDataSet.CountryCode }),
-          new fromMarketsCardActions.SetSelectedPaymarket(data.action.payload),
+          new fromMarketsCardActions.SetSelectedPaymarket({paymarket: data.action.payload}),
           new fromMarketsCardActions.SetPaymarketFilter('')
         ];
       })

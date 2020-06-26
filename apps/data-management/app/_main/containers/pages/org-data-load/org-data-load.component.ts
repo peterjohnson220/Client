@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+
 import { environment } from 'environments/environment';
 import { LoaderTypes, LoadTypes } from 'libs/constants';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
@@ -16,15 +18,18 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 import * as fromCompanySelectorActions from 'libs/features/company/actions';
 import { CompanySelectorItem } from 'libs/features/company/models';
 import * as fromCompanyReducer from 'libs/features/company/reducers';
+import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
-import { LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
+import { LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
 import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';
+import {CompanySetting, CompanySettingsEnum} from 'libs/models/company';
 import * as fromRootState from 'libs/state/state';
+import {LoadingProgressBarModel} from 'libs/ui/common/loading/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -41,7 +46,9 @@ import { EntityChoice, FileUploadDataModel, getEntityChoicesForOrgLoader, OrgUpl
 
 export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
-  @ViewChild('entityUpload', { static: false }) uploadComponent: EntityUploadComponent;
+  @ViewChild('entityUpload') uploadComponent: EntityUploadComponent;
+  @ViewChild('downloadToolTip') public tooltip: NgbTooltip;
+
   private defaultDelimiter = ',';
 
   loadOptions: EntityChoice[];
@@ -85,10 +92,11 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   loaderConfigGroup: ConfigurationGroup;
   isValidateOnly: boolean;
   emailRecipients: EmailRecipientModel[] = [];
+  loadType = LoadTypes.Manual;
 
   existingLoaderSettings: LoaderSetting[];
   private configGroupSeed: ConfigurationGroup = {
-    LoaderConfigurationGroupId: -1, GroupName: 'Add New Mapping', CompanyId: -1, LoadType: LoadTypes.Manual
+    LoaderConfigurationGroupId: -1, GroupName: 'Add New Mapping', CompanyId: -1, LoadType: this.loadType
   };
   private fileUploadData: FileUploadDataModel;
   StepHeaders: string[] = [
@@ -122,35 +130,25 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private loaderSaveCoordination: LoaderSaveCoordination;
   showFieldMapperTooltip = false;
 
-  notification: { success: AppNotification<NotificationPayload>, error: AppNotification<NotificationPayload> } = {
-    success: {
-      NotificationId: '',
-      Level: NotificationLevel.Info,
-      From: NotificationSource.GenericNotificationMessage,
-      Payload: {
-        Title: 'Organizational Data Loader',
-        Message: '' // This will be populated when the 'Process' button has been clicked. See this.fileUploadData$ subscription
-      },
-      EnableHtml: true,
-      Type: NotificationType.Event
-    },
-    error: {
-      NotificationId: '',
-      Level: NotificationLevel.Error,
-      From: NotificationSource.GenericNotificationMessage,
-      Payload: {
-        Title: 'Organizational Data Loader',
-        Message: 'Your file upload has failed. Please contact free@payfactors.com'
-      },
-      EnableHtml: true,
-      Type: NotificationType.Event
-    }
-  };
+  notification: { success: AppNotification<NotificationPayload>, error: AppNotification<NotificationPayload> };
   private gettingColumnNames: boolean;
+  private createdConfigurationGroup$: Observable<ConfigurationGroup>;
+  private companySettings$: Observable<CompanySetting[]>;
+  companySettings: CompanySetting[];
+  hideAccess: boolean;
+  spinnerType: string;
+  loadingProgress: LoadingProgressBarModel = {
+    interval: 10,
+    intervalValue: 10,
+    animated: true,
+    progressive: false,
+    title: 'Uploading Files...'
+  };
 
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
     private cdr: ChangeDetectorRef) {
+
     this.loadOptions = getEntityChoicesForOrgLoader();
     this.AddAndSetSelectedMapping(this.configGroupSeed);
 
@@ -167,11 +165,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.fileUploadDataFailed$ = this.mainStore.select(fromDataManagementMainReducer.fileUploadDataFailed);
     this.isProcessingMapping$ = this.mainStore.select(fromDataManagementMainReducer.isProcessingMapping);
     this.savedConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getSavedConfigurationGroup);
-    this.gettingColumnNames$ = this.mainStore.select(fromDataManagementMainReducer.getGettingColumnNames);
+    this.gettingColumnNames$ = this.mainStore.select(fromFileUploadReducer.getGettingColumnNames);
     this.emailRecipients$ = this.mainStore.select(fromDataManagementMainReducer.getEmailRecipients);
     this.emailRecipientsSavingError$ = this.mainStore.select(fromDataManagementMainReducer.getSavingRecipientError);
     this.emailRecipientsRemovingError$ = this.mainStore.select(fromDataManagementMainReducer.getRemovingRecipientError);
     this.emailRecipientsModalOpen$ = this.mainStore.select(fromDataManagementMainReducer.getEmailRecipientsModalOpen);
+    this.createdConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getCreatedConfigurationGroup);
+    this.companySettings$ = this.mainStore.select(fromRootState.getCompanySettings);
 
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$)
@@ -179,11 +179,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.selectedCompany = f;
       this.clearSelections();
       if (f) {
-        this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, LoadTypes.Manual));
-        this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
-          companyId: this.selectedCompany.CompanyId,
-          loaderType: LoaderTypes.OrgData
-        }));
+        this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, this.loadType));
         this.getPayfactorCustomFields(f.CompanyId);
       }
     });
@@ -235,11 +231,19 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       takeUntil(this.unsubscribe$)).subscribe(f => this.organizationalDataTemplateLink = f);
 
     this.configGroups$.pipe(
-      filter(configGroups => configGroups.length > 0),
+      filter(configGroups => !!configGroups && !!this.selectedCompany),
       takeUntil(this.unsubscribe$)
     ).subscribe(f => {
-      this.getSettings(f[0]);
-      this.loaderConfigGroup = f[0];
+      if (f.length > 0) {
+        this.getSettings(f[0]);
+        this.loaderConfigGroup = f[0];
+      }
+
+      this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
+        companyId: this.selectedCompany.CompanyId,
+        loaderType: LoaderTypes.OrgData,
+        loaderConfigurationGroupId: this.loaderConfigGroup ? this.loaderConfigGroup.LoaderConfigurationGroupId : undefined
+      }));
     });
 
     this.customJobFields$.pipe(
@@ -286,6 +290,18 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.uploadFiles(configurationGroup.LoaderConfigurationGroupId);
     });
 
+    this.createdConfigurationGroup$.pipe(
+      filter(configurationGroup => !!configurationGroup),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(configurationGroup => {
+      this.AddAndSetSelectedMapping(configurationGroup);
+    });
+
+    const companySettingSubscription =  this.companySettings$.pipe(
+      filter(companySetting => !!companySetting),
+      take(1),
+      takeUntil(this.unsubscribe$)
+    );
 
     const userSubscription = this.userContext$
       .pipe(
@@ -299,8 +315,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       take(1),
       takeUntil(this.unsubscribe$));
 
-    forkJoin({ user: userSubscription, company: companiesSubscription })
+    forkJoin({ user: userSubscription, company: companiesSubscription, companySetting: companySettingSubscription })
       .subscribe(f => {
+        this.companySettings = f.companySetting;
         this.userContext = f.user;
         this.companies = f.company;
         this.setInitValues();
@@ -322,6 +339,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.hideAccess = true;
     this.mainStore.dispatch(new fromOrganizationalDataActions.GetOrganizationalHeadersLink());
     this.mainStore.dispatch(new fromCompanySelectorActions.GetCompanies());
   }
@@ -336,6 +354,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   setInitValues() {
+    if (this.validateAccess()) {
+      window.location.href = this.env.companyAdminUrl;
+      return;
+    }
+    this.hideAccess = false;
+    this.spinnerType = 'SVG';
+    this.notificationMessageInit();
     this.mainStore.dispatch(new fromCompanySelectorActions.SetSelectedCompany(null));
     if (this.userContext.AccessLevel === 'Admin') {
       this.stepIndex = OrgUploadStep.Company;
@@ -346,6 +371,41 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
     // reset any checked loads
     this.loadOptions = getEntityChoicesForOrgLoader();
+  }
+
+  validateAccess() {
+    if (this.userContext === undefined || this.companySettings === undefined) {
+      return true;
+    }
+    return (this.userContext.AccessLevel !== 'Admin' &&
+      this.companySettings.find( cs => cs.Key === CompanySettingsEnum.ManualOrgDataLoadLink).Value !== 'true');
+  }
+
+  notificationMessageInit() {
+    this.notification = {
+      success: {
+        NotificationId: '',
+        Level: NotificationLevel.Info,
+        From: NotificationSource.GenericNotificationMessage,
+        Payload: {
+          Title: 'Organizational Data Loader',
+          Message: '' // This will be populated when the 'Process' button has been clicked. See this.fileUploadData$ subscription
+        },
+        EnableHtml: true,
+        Type: NotificationType.Event
+      },
+      error: {
+        NotificationId: '',
+        Level: NotificationLevel.Error,
+        From: NotificationSource.GenericNotificationMessage,
+        Payload: {
+          Title: 'Organizational Data Loader',
+          Message: 'Your file upload has failed. Please contact free@payfactors.com'
+        },
+        EnableHtml: true,
+        Type: NotificationType.Event
+      }
+    };
   }
 
   getPayfactorCustomFields(companyId) {
@@ -494,7 +554,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return true;
     }
 
-    if (this.stepIndex === OrgUploadStep.FieldMapping && !this.showFieldMapperTooltip && !(this.isValidateOnly && this.emailRecipients.length <= 0)) {
+    if (this.stepIndex === OrgUploadStep.FieldMapping && !this.showFieldMapperTooltip && !(this.emailRecipients.length <= 0)) {
       return true;
     }
 
@@ -506,10 +566,18 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       if (this.stepIndex !== OrgUploadStep.FieldMapping) {
         this.stepIndex += 1;
       }
+
+      if (this.stepIndex === OrgUploadStep.Files) {
+        this.tooltip.open();
+      }
     }
   }
 
   public orgDataExportAction() {
+    if (this.tooltip) {
+      this.tooltip.close();
+    }
+
     if (this.selectedCompany) {
       this.mainStore.dispatch(new fromOrganizationalDataActions.PublishDownloadOrgDataMessage(this.selectedCompany.CompanyId));
     }
@@ -534,7 +602,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.isValidateOnly && this.emailRecipients.length <= 0) {
+    if (this.emailRecipients.length <= 0) {
       return;
     }
     const loaderSettingsToSave = this.getLoaderSettingsToSave();
@@ -557,13 +625,14 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         CompanyId: this.selectedCompany.CompanyId,
         GroupName: 'Saved Manual Mappings',
         LoaderConfigurationGroupId: null,
-        LoadType: LoadTypes.Manual
+        LoadType: this.loadType
       };
       this.mainStore.dispatch(new fromOrganizationalDataActions.SaveConfigGroup(newConfigGroup));
     }
   }
 
   private uploadFiles(loaderConfigurationGroupId: number) {
+    this.spinnerType = 'PROGRESS';
     const files: File[] = [];
     let filesDataRequest: FileUploadDataRequestModel;
     this.loadOptions.forEach((l) => {
@@ -693,6 +762,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
+    newLoaderSettings.fileFormat = LoaderFileFormat.CSV;
     newLoaderSettings.validateOnly = this.isValidateOnly;
 
     return OrgDataLoadHelper.getLoaderSettingsToSave(newLoaderSettings, this.existingLoaderSettings);
@@ -707,7 +777,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   getFieldMapperTooltip() {
-    if (this.isValidateOnly && this.emailRecipients.length <= 0) {
+    if (this.emailRecipients.length <= 0) {
       return 'Please enter an email recipient to receive the results of this load.';
     }
 

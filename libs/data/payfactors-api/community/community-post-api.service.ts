@@ -32,6 +32,10 @@ export class CommunityPostApiService {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/UpdatePost`, payload);
   }
 
+  updateReply(payload: any): Observable<boolean> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/UpdateReply`, payload);
+  }
+
   addReply(payload: any): Observable<CommunityReply> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddReply`, payload);
   }
@@ -72,4 +76,7 @@ export class CommunityPostApiService {
     });
   }
 
+  deleteCommunityAttachments(payload: string[]) {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteCommunityAttachments`, payload);
+  }
 }

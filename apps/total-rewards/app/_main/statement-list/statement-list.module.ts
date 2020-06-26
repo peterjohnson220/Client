@@ -6,18 +6,17 @@ import {EffectsModule} from '@ngrx/effects';
 
 import { GridModule } from '@progress/kendo-angular-grid';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {NgbTabsetModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {PfCommonModule} from 'libs/core';
 import {PfCommonUIModule} from 'libs/ui/common';
 import {PfFormsModule} from 'libs/forms';
 
-import {SharedModule} from '../../shared';
-
 import {reducers} from './reducers';
-import {StatementListPageEffects} from './effects/statement-list.page.effects';
+import {StatementGridEffects, TemplateSelectorEffects} from './effects';
 import {StatementListPageComponent} from './statement-list.page';
-import {StatementsGridComponent} from './containers/statements-grid';
-import {GridActionMenuComponent} from './components/grid-action-menu/grid-action-menu.component';
+import {StatementsGridComponent, TemplateCardSelectorComponent} from './containers';
+import {CreateNewStatementBannerComponent, GridActionMenuComponent} from './components';
+import {StatementListRoutingModule} from './statement-list-routing.module';
 
 @NgModule({
   imports: [
@@ -26,25 +25,26 @@ import {GridActionMenuComponent} from './components/grid-action-menu/grid-action
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementList', reducers),
-    EffectsModule.forFeature([StatementListPageEffects]),
+    EffectsModule.forFeature([StatementGridEffects, TemplateSelectorEffects]),
     FontAwesomeModule,
     GridModule,
+    NgbTabsetModule,
 
     // Payfactors
-    PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    SharedModule,
+
+    // Routing,
+    StatementListRoutingModule
   ],
   declarations: [
+    CreateNewStatementBannerComponent,
+    GridActionMenuComponent,
     StatementListPageComponent,
     StatementsGridComponent,
-    GridActionMenuComponent,
+    TemplateCardSelectorComponent
   ],
-  exports: [
-    StatementListPageComponent,
-    StatementsGridComponent
-  ]
+  exports: []
 })
 export class StatementListModule {
   constructor() {}

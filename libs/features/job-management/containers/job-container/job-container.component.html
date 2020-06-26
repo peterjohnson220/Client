@@ -1,0 +1,34 @@
+<pf-async-container [loading]="loading$ | async">
+  <div class="px-3">
+    <ngb-tabset #jobsTabs [destroyOnHide]="false" (tabChange)="tabChange($event)">
+      <ngb-tab [title]="'Standard Fields'" [id]="jobManagementTabs.StandardFields">
+        <ng-template ngbTabContent>
+          <perfect-scrollbar class="mt-4 tab-content overflow-hidden">
+            <pf-standard-fields #standardFieldsComponent></pf-standard-fields>
+          </perfect-scrollbar>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab *ngIf="(jobUserDefinedFields$ | async).length" [title]="'User Defined Fields'" [id]="jobManagementTabs.UserDefinedFields">
+        <ng-template ngbTabContent>
+          <perfect-scrollbar class="mt-4 tab-content overflow-hidden">
+            <pf-user-defined-fields #userDefinedFieldsComponent></pf-user-defined-fields>
+          </perfect-scrollbar>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab [title]="'Structure Mapping'" [id]="jobManagementTabs.Structures">
+        <ng-template ngbTabContent>
+          <div class="mt-4 tab-content">
+            <pf-job-structures #structuresComponent></pf-job-structures>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab [title]="'Attachments'" [id]="jobManagementTabs.Attachments">
+        <ng-template ngbTabContent>
+          <perfect-scrollbar class="mt-4 tab-content overflow-hidden">
+            <pf-job-attachments #attachmentsComponent></pf-job-attachments>
+          </perfect-scrollbar>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</pf-async-container>

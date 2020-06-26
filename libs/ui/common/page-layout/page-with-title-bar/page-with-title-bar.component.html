@@ -1,34 +1,27 @@
-<div class="flex-column-container">
-  <div class="d-flex justify-content-between align-items-center"
-       [ngClass]="isFullHeader?'page-header':''">
-    <div class="d-flex"
-         *ngIf="isFullHeader">
-      <button *ngIf="returnUrl || goBackToPreviousRoute"
-              class="btn btn-secondary back-btn"
-              (click)="goBack()">
-        <fa-icon icon="long-arrow-alt-left"
-                 aria-hidden="true"></fa-icon>
+<div class="flex-column-container" [ngClass]="theme">
+  <div class="d-flex justify-content-between align-items-center" [ngClass]="isFullHeader?'page-header':''">
+    <div class="d-flex align-items-center" *ngIf="isFullHeader">
+      <button *ngIf="returnUrl || goBackToPreviousRoute" class="btn btn-secondary back-btn" (click)="goBack()">
+        <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
       </button>
-      <a href="{{absoluteUrl}}"
-         *ngIf="absoluteUrl">
+      <a href="{{absoluteUrl}}" *ngIf="absoluteUrl">
         <button class="btn btn-secondary back-btn">
-          <fa-icon icon="long-arrow-alt-left"
-                   aria-hidden="true"></fa-icon>
+          <fa-icon icon="long-arrow-alt-left" aria-hidden="true"></fa-icon>
         </button>
       </a>
       <ng-content select="[custom-button]"></ng-content>
-      <h3 class="page-title">
-        <ng-content select="[page-title]"></ng-content>
-      </h3>
+      <div class="page-title">
+        <h3 class="mb-0"><ng-content select="[page-title]"></ng-content></h3>
+        <h6 class="subtitle mb-0"><ng-content select="[page-subtitle]"></ng-content></h6>
+      </div>
+      <ng-content select="[page-title-actions]"></ng-content>
       <ng-content select="[page-header-left]"></ng-content>
     </div>
-    <div class="d-flex space-out-children"
-         [ngClass]="!isFullHeader?'flex-fill':''">
+    <div class="d-flex space-out-children" [ngClass]="!isFullHeader?'flex-fill':''">
       <ng-content select="[page-actions]"></ng-content>
     </div>
   </div>
-  <div class="page-content"
-       [class.p-0]="contentNoPadding">
+  <div class="page-content" [class.no-padding]="contentNoPadding">
     <ng-content select="[page-content]"></ng-content>
   </div>
 </div>

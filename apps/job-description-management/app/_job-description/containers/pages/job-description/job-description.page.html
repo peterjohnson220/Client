@@ -137,6 +137,7 @@
                                           [showSubway]="jobDescription?.JobDescriptionStatus === 'In Review'"
                                           [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
                                           [jobDescription]="jobDescription"
+                                          [gettingJobDescriptionExtendedInfoSuccess]="(gettingJobDescriptionExtendedInfoSuccess$ | async)?.success"
                                           (closed)="showRoutingHistory = false"
                                          (changeApproverClicked)="handleChangeApproverClicked($event)">
               </pf-workflow-watch-sidebar>

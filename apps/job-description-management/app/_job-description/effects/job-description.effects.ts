@@ -4,14 +4,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap, tap, withLatestFrom, concatMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { JobDescription } from 'libs/models/jdm';
 
 import * as fromRootState from 'libs/state/state';
-import { JobDescriptionApiService, JobDescriptionTemplateApiService, JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm';
+import { JobDescriptionApiService, JobDescriptionManagementApiService, JobDescriptionWorkflowStepUserApiService } from 'libs/data/payfactors-api/jdm';
+import { AccountApiService } from 'libs/data/payfactors-api/auth';
+import { SsoConfigApiService } from 'libs/data/payfactors-api/sso';
 import { ExtendedInfoResponse } from 'libs/models/payfactors-api/job-description/response';
-import { CompanyDto } from 'libs/models/company';
 import { CompanyApiService } from 'libs/data/payfactors-api/company';
 
 import * as fromJobDescriptionActions from '../actions/job-description.actions';
@@ -77,20 +78,6 @@ export class JobDescriptionEffects {
     );
 
   @Effect()
-  loadCompanyLogo$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromJobDescriptionActions.LOAD_COMPANY),
-      switchMap((action: fromJobDescriptionActions.LoadCompany) => {
-        return this.companyApiService.get(action.payload).pipe(
-          map((response: CompanyDto) => {
-            return new fromJobDescriptionActions.LoadCompanySuccess(response);
-          }),
-          catchError(response => of(new fromJobDescriptionActions.LoadCompanyError()))
-        );
-      })
-    );
-
-  @Effect()
   publishJobDescription$ = this.actions$
     .pipe(
       ofType(fromJobDescriptionActions.PUBLISH_JOB_DESCRIPTION),
@@ -123,19 +110,23 @@ export class JobDescriptionEffects {
       switchMap((action: fromJobDescriptionActions.DiscardDraft) => {
         return this.jobDescriptionApiService.discardDraft(action.payload.jobDescriptionId)
           .pipe(
-            map((response) => {
+            concatMap((response) => {
               if (response === '') {
-                return new fromJobDescriptionActions.DiscardDraftSuccess();
+                return [new fromJobDescriptionActions.DiscardDraftSuccess()];
               }
               const jobDescription: JobDescription = JSON.parse(response);
               const requestData: GetJobDescriptionData = {
                 JobDescriptionId: action.payload.jobDescriptionId,
                 InWorkflow: action.payload.inWorkflow
               };
-              return new fromJobDescriptionActions.GetJobDescriptionSuccess({
+              return [
+                new fromJobDescriptionActions.GetJobDescriptionSuccess({
                 jobDescription,
-                requestData
-              });
+                requestData }),
+                new fromJobDescriptionActions.GetJobDescriptionExtendedInfo({
+                jobDescriptionId: jobDescription.JobDescriptionId,
+                revision: jobDescription.JobDescriptionRevision }),
+              ];
             }),
             catchError(() => of(new fromJobDescriptionActions.DiscardDraftError()))
           );
@@ -203,6 +194,50 @@ export class JobDescriptionEffects {
       })
     );
 
+  @Effect()
+  setWorkflowUserStepToIsBeingViewed$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.SET_WORKFLOW_USER_STEP_TO_IS_BEING_VIEWED),
+      switchMap((action: fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewed) => {
+        return this.jobDescriptionWorkflowStepUserApiService.setWorkflowUserStepToIsBeingViewed(action.payload.jwt, action.payload.isBeingViewed).pipe(
+          map((response) => {
+            return new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedSuccess(response);
+          }),
+          catchError(() => of(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedError()))
+        );
+      })
+    );
+
+  @Effect()
+  authenticateSSOParams$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.AUTHENTICATE_SSO_PARAMS),
+      switchMap((action: fromJobDescriptionActions.AuthenticateSSOParams) => {
+        return   this.accountApiService.authenticateSSOParams(action.payload.tokenId, action.payload.agentId).pipe(
+          map((response) => {
+            return new fromJobDescriptionActions.AuthenticateSSOParamsSuccess(response);
+          }),
+          catchError(error => {
+            return of(new fromJobDescriptionActions.AuthenticateSSOParamsError(error));
+          })
+        );
+      })
+    );
+
+  @Effect()
+  getSSOLoginUrl$ = this.actions$
+    .pipe(
+      ofType(fromJobDescriptionActions.GET_SSO_LOGIN_URL),
+      switchMap((action: fromJobDescriptionActions.GetSSOLoginUrl) => {
+        return this.ssoConfigurationService.getSsoLoginUrl().pipe(
+          map((response) => {
+            return new fromJobDescriptionActions.GetSSOLoginUrlSuccess(response);
+          }),
+          catchError(() => of(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewedError()))
+        );
+      })
+    );
+
   private redirectForUnauthorized(error: HttpErrorResponse) {
     if (error.status === 403) {
       return error.error.error.message;
@@ -213,9 +248,11 @@ export class JobDescriptionEffects {
     private actions$: Actions,
     private jobDescriptionApiService: JobDescriptionApiService,
     private companyApiService: CompanyApiService,
-    private jobDescriptionTemplateApiService: JobDescriptionTemplateApiService,
     private jobDescriptionManagementApiService: JobDescriptionManagementApiService,
     private router: Router,
     private userContextStore: Store<fromRootState.State>,
+    private jobDescriptionWorkflowStepUserApiService: JobDescriptionWorkflowStepUserApiService,
+    private accountApiService: AccountApiService,
+    private ssoConfigurationService: SsoConfigApiService
   ) {}
 }

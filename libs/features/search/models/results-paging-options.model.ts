@@ -1,3 +1,5 @@
+// TODO: Move to infinite-scroll module
+
 export interface ResultsPagingOptions {
   page: number;
   pageSize: number;

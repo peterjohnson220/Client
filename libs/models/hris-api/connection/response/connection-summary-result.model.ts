@@ -8,4 +8,6 @@ export interface ConnectionSummaryResponse {
   canEditConnection: boolean;
   canEditMappings: boolean;
   selectedEntities: string[];
+  loaderConfigurationGroupId?: number;
+  validationMode: boolean;
 }

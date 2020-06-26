@@ -1,15 +1,13 @@
 @import 'colors';
 @import 'styles';
 
-$post-avatar-width: 50px;
-
 .tag {
   color: #515151;
   background-color: $community-tag-color;
 }
 
 .post-offset {
-  margin-left: $post-avatar-width + 10px;
+  margin-left: $community-post-avatar-size + 10px;
 }
 
 .hide {

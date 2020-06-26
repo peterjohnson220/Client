@@ -15,6 +15,7 @@ import { junkExpression } from '../../helpers';
 export class TransferScheduleCardComponent implements OnChanges {
   @Input() transferSchedule: TransferScheduleSummary;
   @Input() showPublishButton: boolean;
+  @Input() validationMode: boolean;
   @Output() changesPending = new EventEmitter();
   @Output() scheduleEnableSubmitted = new EventEmitter();
   @Output() scheduleDisableSubmitted = new EventEmitter();

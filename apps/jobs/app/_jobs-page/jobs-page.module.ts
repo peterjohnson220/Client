@@ -1,27 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 
-import { NgbTooltipModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbTabsetModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from './fa-icons';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
+import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
-import { JobManagementModule } from 'libs/features/job-management/job-management.module';
+import { PfDataGridModule, JobManagementModule, PricingDetailsModule, RangeEditorModule, NotesManagerModule } from 'libs/features';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
+import { MatchesModalModule } from '../_matches-modal/matches-modal.module';
 
 import {
   JobsDetailsComponent,
@@ -30,30 +31,41 @@ import {
   JobDescriptionComponent,
   StructureGridComponent,
   PricingMatchesGridComponent,
-  ProjectDetailsComponent,
-  PricingHistoryComponent
+  ProjectDetailsGridComponent,
+  PricingHistoryGridComponent,
+  NotPricedPaymarketsGridComponent,
+  ExportListPopoverComponent,
+  PricingDetailsMrpColumnComponent,
+  PeerExchangeMatchesComponent,
+  PricingMatchesJobTitleComponent
 } from './components';
 import { reducers } from './reducers';
-import { JobsPageEffects, JobDescriptionEffects } from './effects';
-import { PricingMatchesJobTitleComponent } from './grid-column-templates';
+import { JobsPageEffects, JobDescriptionEffects, ModifyPricingsEffects, JobPeerMatchesEffects } from './effects';
+
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+
 
     // 3rd Party
     LayoutModule,
     SwitchModule,
+    NgbModule,
     NgbTooltipModule,
+    NgbTabsetModule,
     StoreModule.forFeature('jobsPageMain', reducers),
     EffectsModule.forFeature([
       JobsPageEffects,
       JobDescriptionEffects,
+      JobPeerMatchesEffects,
+      ModifyPricingsEffects
     ]),
     FontAwesomeModule,
-    NgbTabsetModule,
+    TooltipModule,
     DropDownListModule,
 
     // Routing
@@ -64,24 +76,34 @@ import { PricingMatchesJobTitleComponent } from './grid-column-templates';
     PfCommonUIModule,
     PfFormsModule,
     PfDataGridModule,
-    JobManagementModule
+    JobManagementModule,
+    MatchesModalModule,
+    PricingDetailsModule,
+    RangeEditorModule,
+    NotesManagerModule
   ],
   declarations: [
     // Pages
     JobsPageComponent,
 
-    // Components
+    // Job Details Components
     JobsDetailsComponent,
     EmployeesGridComponent,
     PricingDetailsGridComponent,
     PricingMatchesGridComponent,
     JobDescriptionComponent,
     StructureGridComponent,
-    ProjectDetailsComponent,
-    PricingHistoryComponent,
+    ProjectDetailsGridComponent,
+    PricingHistoryGridComponent,
+    NotPricedPaymarketsGridComponent,
 
     // Column Templates
-    PricingMatchesJobTitleComponent
+    PricingMatchesJobTitleComponent,
+    PricingDetailsMrpColumnComponent,
+
+    // Jobs Grid Components
+    PeerExchangeMatchesComponent,
+    ExportListPopoverComponent
   ]
 })
 export class JobsPageModule {

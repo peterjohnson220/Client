@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Action } from '@ngrx/store';
 
 import { ComphubPages } from '../data';
-import { CountryDataSet, JobPricingLimitInfo } from '../models';
+import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet } from '../models';
 
 export const INIT = '[Comphub/Comphub Page] Init Comphub Page';
 export const NAVIGATE_TO_CARD = '[Comphub/Comphub Page] Navigate to Card';
@@ -20,6 +20,10 @@ export const GET_COUNTRY_DATA_SETS = '[Comphub/Comphub Page] Get Active Country 
 export const GET_COUNTRY_DATA_SETS_SUCCESS = '[Comphub/Comphub Page] Get Country Data Sets Success';
 export const HANDLE_API_ERROR = '[Comphub/Comphub Page] Handle API Error';
 export const UPDATE_ACTIVE_COUNTRY_DATA_SET = '[Comphub/Comphub Page] Update Active Country Data Set';
+export const GET_EXCHANGE_DATA_SETS = '[Comphub/Comphub Page] Get Exchange Data Sets';
+export const GET_EXCHANGE_DATA_SETS_SUCCESS = '[Comphub/Comphub Page] Get Exchange Data Sets Success';
+export const UPDATE_ACTIVE_EXCHANGE_DATA_SET = '[Comphub/Comphub Page] Update Active Exchange Data Set';
+export const SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT = '[Comphub/Comphub Page] Set Quick Price Type In Workflow Context';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -109,6 +113,28 @@ readonly type = HANDLE_API_ERROR;
   constructor(public payload: HttpErrorResponse) {}
 }
 
+export class GetExchangeDataSets implements Action {
+  readonly type = GET_EXCHANGE_DATA_SETS;
+}
+
+export class GetExchangeDataSetsSuccess implements Action {
+  readonly type = GET_EXCHANGE_DATA_SETS_SUCCESS;
+
+  constructor(public payload: ExchangeDataSet[]) { }
+}
+
+export class UpdateActiveExchangeDataSet implements Action {
+  readonly type = UPDATE_ACTIVE_EXCHANGE_DATA_SET ;
+
+  constructor(public payload: number) { }
+}
+
+export class SetQuickPriceTypeInWorkflowContext implements Action {
+  readonly type = SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT;
+
+  constructor(public payload: string) {}
+}
+
 export type Actions
   = Init
   | NavigateToCard
@@ -124,4 +150,8 @@ export type Actions
   | GetCountryDataSets
   | GetCountryDataSetsSuccess
   | UpdateActiveCountryDataSet
-  | HandleApiError;
+  | HandleApiError
+  | GetExchangeDataSets
+  | GetExchangeDataSetsSuccess
+  | UpdateActiveExchangeDataSet
+  | SetQuickPriceTypeInWorkflowContext;

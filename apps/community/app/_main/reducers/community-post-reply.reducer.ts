@@ -11,6 +11,10 @@ export interface State extends EntityState<CommunityReply> {
   addingReply: boolean;
   addingReplyError: boolean;
   addingReplySuccess: boolean;
+  editedReplyId: string;
+  discardingPostReplyId: string;
+  discardingPostReply: boolean;
+  discardingPostReplyProceed: boolean;
 }
 
 function sortByTime(a: CommunityReply, b: CommunityReply) {
@@ -29,7 +33,11 @@ export const initialState: State = adapter.getInitialState({
   updatingLikeError: false,
   addingReply: false,
   addingReplyError: false,
-  addingReplySuccess: false
+  addingReplySuccess: false,
+  editedReplyId: null,
+  discardingPostReplyId: null,
+  discardingPostReply: false,
+  discardingPostReplyProceed: false
 });
 
 export function reducer(
@@ -111,6 +119,66 @@ export function reducer(
         ...adapter.removeOne(replyId, state)
       };
     }
+    case communityPostReplyActions.EDITING_COMMUNITY_POST_REPLY: {
+      const postId = action.payload;
+
+      return {
+        ...state,
+        editedReplyId: postId
+      };
+    }
+    case communityPostReplyActions.CANCEL_EDITING_COMMUNITY_POST_REPLY: {
+      return {
+        ...state,
+        editedReplyId: null
+      };
+    }
+    case communityPostReplyActions.SAVING_COMMUNITY_POST_REPLY_EDIT: {
+      return {
+        ...state
+      };
+    }
+    case communityPostReplyActions.SAVING_COMMUNITY_POST_REPLY_EDIT_SUCCESS: {
+      return {...adapter.updateOne(
+        {
+          id: action.payload.ReplyId, changes: {
+            ReplyText: action.payload.ReplyText,
+            Attachments: action.payload.Attachments
+          }
+        },
+          state),
+        editedReplyId: null
+      };
+    }
+    case communityPostReplyActions.SAVING_COMMUNITY_POST_REPLY_EDIT_ERROR: {
+      return {
+        ...state,
+        editedReplyId: null
+      };
+    }
+    case communityPostReplyActions.DISCARDING_COMMUNITY_POST_REPLY: {
+      return {
+        ...state,
+        discardingPostReplyId: action.postId,
+        discardingPostReply: action.showWarning ? true : false,
+        discardingPostReplyProceed: false
+      };
+    }
+    case communityPostReplyActions.DISCARDING_COMMUNITY_POST_REPLY_PROCEED: {
+      return {
+        ...state,
+        discardingPostReply: false,
+        discardingPostReplyProceed: true
+      };
+    }
+    case communityPostReplyActions.DISCARDING_COMMUNITY_POST_REPLY_CANCEL: {
+      return {
+        ...state,
+        discardingPostReplyId: null,
+        discardingPostReply: false,
+        discardingPostReplyProceed: false
+      };
+    }
     default: {
       return state;
     }
@@ -124,3 +192,8 @@ export const getAddingCommunityPostReply = (state: State) => state.addingReply;
 export const getAddingCommunityPostReplyError = (state: State) => state.addingReplyError;
 export const getAddingCommunityPostReplySuccess = (state: State ) => state.addingReplySuccess;
 
+export const getCommunityReplyEdited = (state: State) => state.editedReplyId;
+
+export const getDiscardingPostReplyId = (state: State) => state.discardingPostReplyId;
+export const getDiscardingPostReply = (state: State) => state.discardingPostReply;
+export const getDiscardingPostReplyProceed = (state: State) => state.discardingPostReplyProceed;

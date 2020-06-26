@@ -32,7 +32,7 @@ describe('Admin - Tickets - Ticket Value Picker', () => {
     })
     .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(TicketValuePickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

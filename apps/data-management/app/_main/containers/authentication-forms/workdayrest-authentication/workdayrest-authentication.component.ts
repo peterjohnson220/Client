@@ -15,6 +15,7 @@ import { EntityTypeModel } from '../../../models';
 export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
   @Input() validated = false;
   @Input() selectedEntities: EntityTypeModel[] = [];
+  @Input() waitingForAuthentication = false;
 
   @Output() submitClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();
@@ -90,7 +91,7 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
       if (e) {
         const ctrl = this.workdayRestForm.get(key);
         if (this.selectedEntities.includes(this.controlToEntityTypeMap[key])) {
-          ctrl.setValidators([Validators.required, Validators.pattern(/^https:\/\/([a-z0-9_-]+\.)+workday.com\//)]);
+          ctrl.setValidators([Validators.required, Validators.pattern(/^https:\/\/([a-z0-9_-]+\.)+(my)?workday.com\//)]);
           this.ctrlVisibility[key] = true;
         } else {
           ctrl.clearValidators();

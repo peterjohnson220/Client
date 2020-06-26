@@ -1,3 +1,5 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
 import {CredentialsPackage} from 'libs/models/hris-api/connection/request';
 
 import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
@@ -11,6 +13,10 @@ export interface State {
   savingError: boolean;
   deleteCompleted: boolean;
   summary: ConnectionSummary;
+  validationErrors: string[];
+  isValidCredentials: boolean;
+  showAuthenticationWarning: boolean;
+  openReauthenticationModal: boolean;
 }
 
 export const initialState: State = {
@@ -20,11 +26,16 @@ export const initialState: State = {
   saving: false,
   savingError: false,
   deleteCompleted: null,
-  summary: null
+  summary: null,
+  validationErrors: null,
+  isValidCredentials: false,
+  showAuthenticationWarning: false,
+  openReauthenticationModal: false
 };
 
 export function reducer(state: State = initialState, action: fromHrisConnectionActions.Actions) {
   switch (action.type) {
+    case fromHrisConnectionActions.TOGGLE_VALIDATION_MODE:
     case fromHrisConnectionActions.GET_CURRENT_HRIS_CONNECTION: {
       return {
         ...state,
@@ -40,6 +51,7 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
         activeConnection: action.payload
       };
     }
+    case fromHrisConnectionActions.TOGGLE_VALIDATION_MODE_ERROR:
     case fromHrisConnectionActions.GET_CURRENT_HRIS_CONNECTION_ERROR: {
       return {
         ...state,
@@ -92,6 +104,85 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
         loadingError: true
       };
     }
+    case fromHrisConnectionActions.VALIDATE_SUCCESS: {
+      return {
+        ...state,
+        validationErrors: null,
+        loading: false,
+        loadingError: false,
+        isValidCredentials: action.payload.success,
+        showAuthenticationWarning: action.payload.skipValidation,
+        saving: false
+      };
+    }
+    case fromHrisConnectionActions.VALIDATE_ERROR: {
+      if (action.payload) {
+        return {
+          ...state,
+          loading: false,
+          loadingError: false,
+          validationErrors: action.payload,
+          isValidCredentials: false,
+          saving: false
+        };
+      }
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
+    case fromHrisConnectionActions.OUTBOUND_JDM_VALIDATE:
+    case fromHrisConnectionActions.CREATE_CONNECTION: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case fromHrisConnectionActions.OUTBOUND_JDM_VALIDATE_SUCCESS: {
+      return {
+        ...state,
+        loading: false
+      };
+    }
+    case fromHrisConnectionActions.CREATE_CONNECTION_SUCCESS: {
+      const connectionSummary = cloneDeep(state.summary);
+      connectionSummary.connectionID = action.payload.connectionId;
+
+      return {
+        ...state,
+        activeConnection: action.payload.credentials,
+        summary: connectionSummary
+      };
+    }
+    case fromHrisConnectionActions.CREATE_CONNECTION_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
+    case fromHrisConnectionActions.OPEN_REAUTHENTICATION_MODAL: {
+      return {
+        ...state,
+        openReauthenticationModal: action.payload
+      };
+    }
+    case fromHrisConnectionActions.PATCH_CONNECTION: {
+      return {
+        ...state,
+        saving: true
+      };
+    }
+    case fromHrisConnectionActions.PATCH_CONNECTION_SUCCESS: {
+      const connectionSummary = cloneDeep(state.summary);
+      connectionSummary.connectionID = action.payload;
+
+      return {
+        ...state,
+        connectionSummary: connectionSummary
+      };
+    }
     default:
       return state;
   }
@@ -104,3 +195,8 @@ export const getSaving = (state: State) => state.saving;
 export const getSavingError = (state: State) => state.savingError;
 export const getDeleteCompleted = (state: State) => state.deleteCompleted;
 export const getConnectionSummary = (state: State) => state.summary;
+export const getShowAuthenticationWarning = (state: State) => state.showAuthenticationWarning;
+export const getValidationErrors = (state: State) => state.validationErrors;
+export const getActiveConnectionId = (state: State) => state.summary && state.summary.connectionID ? state.summary.connectionID : null;
+export const getReauthenticationModalOpen = (state: State) => state.openReauthenticationModal;
+export const getIsValidCredentials = (state: State) => state.isValidCredentials;

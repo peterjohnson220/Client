@@ -19,6 +19,7 @@
     <kendo-dropdownlist class="view-dropdown p-3"
                         [defaultItem]="'Default'"
                         [data]="jobDescriptionListViews"
+                        [popupSettings]="{appendTo: 'component'}"
                         (valueChange)="handleViewChanged($event)">
     </kendo-dropdownlist>
   </ng-container>

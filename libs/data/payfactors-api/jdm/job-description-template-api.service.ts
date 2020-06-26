@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { SaveCompanyJobsJobDescriptionTemplateIdRequest } from '../../../models/payfactors-api/job-description-template/request';
-import { TemplateListItemResponse } from '../../../models/payfactors-api/job-description-template/response';
 import {
-  LoadTemplateListByCompanyIdRequest
-} from 'apps/job-description-management/app/shared/models/requests/load-template-list-by-company-id.request.model';
-import {Template} from 'apps/job-description-management/app/_templates/models';
+  SaveCompanyJobsJobDescriptionTemplateIdRequest,
+  TemplateListItemResponse,
+  LoadTemplateListByCompanyIdRequest } from '../../../models/payfactors-api';
+import { Template, TemplateSettings } from '../../../models/jdm';
+
 
 @Injectable()
 export class JobDescriptionTemplateApiService {
@@ -47,6 +47,10 @@ export class JobDescriptionTemplateApiService {
       {templateJsonAsString: JSON.stringify(template)});
   }
 
+  publishAsync(template: Template): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${template.TemplateId})/Default.PublishAsync`, { templateName: template.TemplateName});
+  }
+
   saveCompanyJobsJobDescriptionTemplateId(templateId: number, request: SaveCompanyJobsJobDescriptionTemplateIdRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}(${templateId})/Default.SaveCompanyJobsJobDescriptionTemplateId`,
       request);
@@ -64,5 +68,39 @@ export class JobDescriptionTemplateApiService {
   getTemplateAssignmentSummary(templateId: number) {
       return this.payfactorsApiService.get(`${this.endpoint}(${templateId})/Default.GetTemplateAssignmentSummary`);
   }
+
+  saveTemplateName(templateId: number, templateName: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}(${templateId})/Default.SaveTemplateName`, { templateName: templateName});
+  }
+
+  getAvailableJobInformationFields() {
+      return this.payfactorsApiService.get(`${this.endpoint}/Default.GetAvailableJobInformationFields`);
+  }
+
+  getSettings(templateId: number) {
+      return this.payfactorsApiService.get(`${this.endpoint}(${templateId})/Default.GetSettings`);
+  }
+
+  saveSettings(settings: TemplateSettings) {
+      const obj = {
+          templateSettingsJsonAsString: JSON.stringify(settings)
+      };
+      return this.payfactorsApiService.post(`${this.endpoint}(${settings.TemplateId})/Default.SaveSettings`, obj)
+      .map((payload: string) => JSON.parse(payload));
+  }
+
+  publish(templateId: number) {
+      return this.payfactorsApiService.post(`${this.endpoint}(${templateId})/Default.Publish`);
+  }
+
+  controlLabelExists(templateId: number, controlLabel: string) {
+      return this.payfactorsApiService.get(`${this.endpoint}(${templateId})/Default.ControlLabelExists?controlLabel=${controlLabel}`);
+  }
+
+  discardDraft(templateId: number) {
+      return this.payfactorsApiService.post(`${this.endpoint}(${templateId})/Default.DiscardDraft`, {},
+      (payload: string) => payload.length ? JSON.parse(payload) : '');
+  }
+
 
 }

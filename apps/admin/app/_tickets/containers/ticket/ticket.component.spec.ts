@@ -32,7 +32,7 @@ describe('Admin - Tickets - Ticket', () => {
     fixture = TestBed.createComponent(TicketComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should dispatch InitializeTicket action upon init. Containing the ticketId assigned to the component', () => {

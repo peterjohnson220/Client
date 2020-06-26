@@ -306,11 +306,6 @@ export const getSavingJobDescription = createSelector(
   fromJobDescriptionReducer.getSavingJobDescription
 );
 
-export const getCompanyAsync = createSelector(
-  selectJobDescriptionState,
-  fromJobDescriptionReducer.getCompanyAsync
-);
-
 export const getJobDescriptionChangeHistory = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getJobDescriptionChangeHistory
@@ -341,6 +336,11 @@ export const getUndoJobDescriptionChangesComplete = createSelector(
   fromJobDescriptionReducer.getUndoJobDescriptionChangesComplete
 );
 
+export const getReplaceJobDescriptionComplete = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getReplaceJobDescriptionComplete
+);
+
 export const getJobDescriptionExtendedInfo = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getJobDescriptionExtendedInfo
@@ -364,6 +364,21 @@ export const getDeletingJobDescriptionSuccess = createSelector(
 export const getDeletingJobDescriptionError = createSelector(
   selectJobDescriptionState,
   fromJobDescriptionReducer.getDeletingJobDescriptionError
+);
+
+export const getJobDescriptionExtendedInfoAsync = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionExtendedInfoAsync
+);
+
+export const getJobDescriptionSSOLoginUrl = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionSSOLoginUrl
+);
+
+export const getJobDescriptionSSOAuthResult = createSelector(
+  selectJobDescriptionState,
+  fromJobDescriptionReducer.getJobDescriptionSSOAuthResult
 );
 
 // Job Description Grid

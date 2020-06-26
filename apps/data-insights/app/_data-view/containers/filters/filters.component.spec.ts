@@ -29,7 +29,7 @@ describe('Data Insights - Filters Comopnent', () => {
 
     fixture = TestBed.createComponent(FiltersComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });
@@ -41,9 +41,10 @@ describe('Data Insights - Filters Comopnent', () => {
       Operator: getDefaultOperatorByDataType(firstSelectedfield),
       Options: [],
       SelectedOptions: [],
-      IsValid: false
+      IsValid: false,
+      IsLocked: false
     };
-    instance.selectedFields = [firstSelectedfield];
+    instance.availableFieldsForFilters = [firstSelectedfield];
     const expectedAction = new fromFiltersActions.AddFilter(filter);
     spyOn(store, 'dispatch');
 

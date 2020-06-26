@@ -4,9 +4,9 @@
         <input type="checkbox" [attr.data-qa-id]="'chk-' + prm.SystemPermissionId" [disabled]="disableCheckboxes"  (change)="handleCheckBoxCheck(prm)" [checked]="prm.IsChecked"/>
         {{prm.Name}}
         <ul class="list-group nav">
-          <li class="nav-item pl-2 subPermission" *ngFor="let cprm of prm.ChildPermission">
-            <input type="checkbox" [attr.data-qa-id]="'chk-' + cprm.SystemPermissionId" [disabled]="disableCheckboxes || !prm.IsChecked" (change)="handleCheckBoxCheck(cprm)" [checked]="cprm.IsChecked"/>
-            {{cprm.Name}}
+          <li class="nav-item pl-2 subPermission" *ngFor="let cprm of prm.ChildPermission | visiblePermission">
+              <input type="checkbox" [attr.data-qa-id]="'chk-' + cprm.SystemPermissionId" [disabled]="disableCheckboxes || !prm.IsChecked" (change)="handleCheckBoxCheck(cprm)" [checked]="cprm.IsChecked"/>
+              {{cprm.Name}}
           </li>
         </ul>
       </li>

@@ -1,0 +1,67 @@
+@import 'colors';
+@import 'app-colors';
+@import 'common/common-variables';
+
+aside.settings-panel {
+  top: 62px;
+  right: 0;
+  z-index: 100;
+  background-color: white;
+  box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.3);
+  border-left: 9px solid $trs-prominent-border-color;
+  &.expanded {
+    transition: transform .35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(0);
+  }
+  &.collapsed {
+    box-shadow: none;
+    transition: transform .35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(100%);
+  }
+  h2 {
+    font-size: 1.8rem;
+  }
+  a.close {
+    font-size: 1.6rem;
+    transition: opacity .3s ease-out;
+  }
+  .font-family-container, .font-size-container {
+    a {
+      transition: background-color .25s ease-in-out;
+      color: inherit;
+      &:hover {
+        background-color: #f8f9fa;
+        text-decoration: none;
+      }
+    }
+  }
+  .font-size-container {
+    a.small {
+      font-size: .9rem;
+    }
+    a.medium {
+      font-size: 1.1rem;
+    }
+    a.large {
+      font-size: 1.3rem;
+    }
+  }
+  .color-picker-container {
+    max-width: 56px;
+    overflow-x: hidden;
+    input {
+      border-radius: 4px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    label {
+      font-family: monospace;
+      font-size: .9rem;
+      @extend %ellipsis-overflowing-text;
+    }
+  }
+  a.reset-settings {
+    transition: color .25s ease-out;
+  }
+}

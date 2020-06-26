@@ -11,10 +11,13 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { WindowCommunicationService } from 'libs/core/services';
-import {PfPeerMapModule, ExchangeSelectorComponent, ExchangeJobSelectorComponent} from 'libs/features/peer/';
+import { PfPeerMapModule, ExchangeSelectorModule, ExchangeJobSelectorComponent } from 'libs/features/peer/';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/';
 import { PfCommonModule } from 'libs/core';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
+import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guidelines-badge.module';
+import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+import { DataCutValidationEffects } from 'libs/features/peer/guidelines-badge/effects';
 
 import * as fromFaIcons from './fa-icons';
 import {
@@ -27,12 +30,10 @@ import {
 } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import {
-  AssociateCompanyJobEffects, DataCutValidationEffects, PaymarketExchangeScopeEffects,
+  AssociateCompanyJobEffects, PaymarketExchangeScopeEffects,
   RequestPeerAccessEffects, UpsertDataCutPageEffects, TaggingEntitiesEffects
 } from './effects';
 import { reducers } from './reducers';
-import { GuidelinesBadgeComponent } from './components';
-import { DojGuidelinesService } from './services/doj-guidelines.service';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    GuidelinesBadgeModule,
 
     // 3rd party
     StoreModule.forFeature('legacy_upsertPeerData', reducers),
@@ -64,13 +66,12 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     PfCommonModule,
     PfFormsModule,
     PfPeerMapModule,
+    ExchangeSelectorModule,
     PfExchangeExplorerModule
   ],
   declarations: [
     // Components
-    GuidelinesBadgeComponent,
     JobInfoContainerComponent,
-    ExchangeSelectorComponent,
     CompanyJobMapResultComponent,
     ApplyMappingButtonComponent,
 

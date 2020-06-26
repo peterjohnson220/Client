@@ -37,6 +37,7 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
   changesSubject: Subject<any>;
   bulkChangesSubject: Subject<any>;
   undoChanges$: Observable<boolean>;
+  replaceContents$: Observable<boolean>;
 
   constructor(
     private sharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
@@ -44,11 +45,12 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
     this.changesSubject = new Subject();
     this.bulkChangesSubject = new Subject();
     this.undoChanges$ = this.store.select(fromJobDescriptionReducers.getUndoJobDescriptionChangesComplete);
+    this.replaceContents$ = this.store.select(fromJobDescriptionReducers.getReplaceJobDescriptionComplete);
   }
 
   ngOnInit() {
     this.controlTypeSubscription = this.sharedStore
-      .select(fromJobDescriptionManagementSharedReducer.getControlTypeAndVersion).pipe(
+      .select(fromJobDescriptionManagementSharedReducer.getControlTypes).pipe(
         filter(cts => !!cts)
       ).subscribe(cts => {
         const ct = cts.find(control => control.Type === this.jobDescriptionControl.Type
@@ -116,9 +118,7 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
 
     this.changesSubscription = this.changesSubject.subscribe(dataRowChangeObj => this.dataChangesDetected.emit(dataRowChangeObj));
 
-    this.bulkChangesSubject.pipe(
-      skip(this.jobDescriptionControl.Data.length ? 1 : 0)
-    ).subscribe(bulkDataChangeObj => this.bulkDataChangesDetected.emit(bulkDataChangeObj));
+    this.bulkChangesSubject.subscribe(bulkDataChangeObj => this.bulkDataChangesDetected.emit(bulkDataChangeObj));
   }
 
   private getRTEWithDataCount() {

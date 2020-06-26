@@ -1,21 +1,84 @@
 <pf-page-with-title-bar [returnUrl]="'/'">
-  <ng-container page-title>
-    <span>{{pageTitle}}</span>
-  </ng-container>
+  <ng-container page-title>Total Rewards Statement</ng-container>
   <ng-container page-content>
-    <div class="canvas">
-      <div class="header-row">
-        <h3>
-          <pf-inline-string-editor
-            [placeholder]="'New Statement Name'"
-            [minCharacters]="1"
-            [maxCharacters]="statementNameMaxLength"
-            [icon]="'pencil'"
-            (valueChange)="onStatementNameValueChange($event)"
-          ></pf-inline-string-editor>
-        </h3>
-        <div class="header-row-buttons"></div>
+    <pf-async-container [loading]="(statementLoading$ | async)"
+                        [loadingError]="(statementLoadingError$ | async) || (statementSavingError$ | async) || (settingsSavingError$ | async)"
+                        (reload)="handleStatementReload()">
+      <div class="canvas mx-auto pb-1 mt-2">
+        <div class="header-row-wrapper position-fixed">
+          <div class="header-row d-flex w-100">
+            <h3 class="flex-fill">
+              <pf-string-editor
+                [placeholder]="'New Statement Name'"
+                [maxCharacters]="statementNameMaxLength"
+                [value]="getStatementName()"
+                [inEditMode]="(mode === modeEnum.Edit)"
+                [showIcon]="'always'"
+                (valueChange)="onStatementNameValueChange($event)"
+              ></pf-string-editor>
+            </h3>
+            <span *ngIf="(mode === modeEnum.Preview)" class="font-italic flex-grow-1 pt-1">
+              Canvas cannot be edited in preview mode
+            </span>
+            <div class="header-row-save-status pb-2 mr-3">
+              <div *ngIf="(statementSaving$ | async) || (settingsSaving$ | async)">
+                <label class="d-block mb-0 font-n">Saving</label>
+                <span class="spinner one position-absolute d-inline-block mt-1"></span>
+                <span class="spinner two position-absolute d-inline-block mt-1"></span>
+                <span class="spinner three position-absolute d-inline-block mt-1"></span>
+              </div>
+              <span *ngIf="!(statementSaving$ | async) && !(settingsSaving$ | async)"
+                class="saved font-italic"
+                [title]="'Statement last saved on ' + ((statement?.AuditRecord?.EditedDateTime || statement?.AuditRecord?.CreatedDateTime) | date: 'MMM dd yyyy hh:mm:ss a')">
+                Saved {{ (statement?.AuditRecord?.EditedDateTime || statement?.AuditRecord?.CreatedDateTime) | TimeElapsedPipe }}
+              </span>
+            </div>
+            <button ngbButton class="mode-button btn btn-outline-dark position-relative mr-2"
+                    data-toggle="button"
+                    aria-pressed="false"
+                    (click)="toggleStatementEditMode()">
+                    <fa-icon [icon]="(mode === modeEnum.Edit) ? 'search' : 'pencil'" aria-hidden="true"></fa-icon>
+                    {{(mode === modeEnum.Edit) ? 'Preview' : 'Edit'}}
+            </button>
+            <span [title]="mode === modeEnum.Preview ? 'Settings disabled in preview mode' : 'Settings'">
+              <a (click)="handleToggleSettingsPanelClick()" href="javascript:void(0)"
+                class="settings position-relative ml-2 pt-1"
+                [ngClass]="{'preview-mode': mode === modeEnum.Preview}">
+                <fa-icon [icon]="'cog'" aria-hidden="true"></fa-icon>
+              </a>
+            </span>
+          </div>
+        </div>
+        <pf-total-rewards-statement
+          [statement]="statement"
+          [mode]="mode"
+          [employeeRewardsData]="employeeRewardsData"
+          (onControlTitleChange)="handleOnControlTitleChange($event)"
+          (onCalculationControlCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
+          (onCalculationControlSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"
+          (onCalculationControlCompFieldRemoved)="handleOnCalculationControlCompFieldRemoved($event)"
+          (onCalculationControlCompFieldAdded)="handleOnCalculationControlCompFieldAdded($event)"
+          (onRichTextControlContentChange)="handleOnRichTextControlContentChange($event)"
+          (onChartControlToggleSettingsPanelClick)="handleOnChartControlToggleSettingsPanelClick()"
+          (onSaveImage)="handleSaveImage($event)"
+          (onRemoveImage)="handleRemoveImage($event)"
+          (onEffectiveDateChange)="handleEffectiveDateChange($event)"
+        ></pf-total-rewards-statement>
       </div>
-    </div>
+    </pf-async-container>
+    <pf-settings-panel
+      [isOpen]="isSettingsPanelOpen$ | async"
+      [fontSize]="(statement$ | async)?.Settings.FontSize"
+      [fontFamily]="(statement$ | async)?.Settings.FontFamily"
+      [chartColors]="(statement$ | async)?.Settings.ChartColors"
+      [isSavingError]="settingsSavingError$ | async"
+      (fontSizeChange)="handleSettingsFontSizeChange($event)"
+      (fontFamilyChange)="handleSettingsFontFamilyChange($event)"
+      (chartColorChange)="handleSettingsChartColorChange($event)"
+      (resetSettings)="handleResetSettings()"
+      (close)="handleCloseSettingsClick()"
+    ></pf-settings-panel>
+    <pf-footer-bar (assignEmployeesButtonClick)="handleAssignEmployeesButtonClick()">
+    </pf-footer-bar>
   </ng-container>
 </pf-page-with-title-bar>

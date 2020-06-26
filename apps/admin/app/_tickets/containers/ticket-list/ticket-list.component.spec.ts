@@ -5,15 +5,14 @@ import { ActivatedRoute } from '@angular/router';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { PfCommonModule } from 'libs/core';
 
 import { TicketListComponent } from './ticket-list.component';
 import * as fromTicketReducer from '../../reducers';
-import * as fromTicketLookupActions from '../../actions/ticket-lookup.actions';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketList from '../../actions/ticket.actions';
 
 import { generateMockUserTicketGridItem, UserTicketGridItem, UserTicketTabItem } from '../../models';
-import {FilterService} from '@progress/kendo-angular-grid';
 
 
 describe('Admin - Tickets - Ticket List', () => {
@@ -30,7 +29,8 @@ describe('Admin - Tickets - Ticket List', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           ticketsAdminMain: combineReducers(fromTicketReducer.reducers),
-        })
+        }),
+        PfCommonModule
       ],
       declarations: [TicketListComponent],
       schemas: [NO_ERRORS_SCHEMA],
@@ -44,7 +44,7 @@ describe('Admin - Tickets - Ticket List', () => {
     fixture = TestBed.createComponent(TicketListComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should dispatch a InitTickets action upon init', () => {

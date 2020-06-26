@@ -24,8 +24,9 @@
       <tr>
         <th width="5%">&nbsp;</th>
         <th width="40%" scope="col">Display Name</th>
-        <th width="15%" scope="col">Field Name</th>
-        <th width="40%" scope="col">&nbsp;</th>
+        <th width="25%" scope="col">Field Name</th>
+        <th width="10%" scope="col"></th>
+        <th width="20%" scope="col"></th>
       </tr>
       </thead>
       <tbody  cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="searching">
@@ -43,8 +44,8 @@
               (onSave)="handleSaveFilterDisplayName($event, efs.Id)"
             ></pf-editable-tag-category-display-name>
           </th>
-          <td width="15%">{{efs.FieldName}}</td>
-          <td width="40%">
+          <td width="25%">{{efs.FieldName}}</td>
+          <td width="10%">
             <div class="d-flex justify-content-end">
               <kendo-switch
                 class="switch"
@@ -56,6 +57,18 @@
             </div>
 
 
+          </td>
+
+          <td width = "20%">
+            <div class="d-flex justify-content-end">
+              <kendo-switch
+                class="switch-collapsed"
+                onLabel="Expanded"
+                offLabel="Collapsed"
+                [checked] = "!efs.IsCollapsedByDefault"
+                (valueChange)="handleCollapsedSwitchToggled(efs)">
+              </kendo-switch>
+            </div>
           </td>
         </tr>
 

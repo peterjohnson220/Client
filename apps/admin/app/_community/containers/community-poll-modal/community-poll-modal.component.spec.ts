@@ -33,7 +33,7 @@ describe('CommunityPollModalComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch');
 
@@ -65,7 +65,7 @@ describe('CommunityPollModalComponent', () => {
   it('should dispatch fromCommunityPollActions.EditingCommunityPoll when calling handleFormSubmit with isEditMode equal to true', () => {
 
     instance.isEditMode = true;
-    instance.context.setValue('test');
+    instance.content.setValue('test');
     instance.communityPollId.setValue('1');
 
     instance.handleFormSubmit();
@@ -86,7 +86,7 @@ describe('CommunityPollModalComponent', () => {
   it('should dispatch fromCommunityPollActions.AddingCommunityPoll when calling handleFormSubmit with isEditMode equal to false', () => {
 
     instance.isEditMode = false;
-    instance.context.setValue('test');
+    instance.content.setValue('test');
     instance.communityPollId.setValue('1');
 
     fixture.detectChanges();

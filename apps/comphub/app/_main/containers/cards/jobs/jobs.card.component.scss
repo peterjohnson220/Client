@@ -49,3 +49,16 @@
     width: 105px;
   }
 }
+
+.exchange-selector {
+  kendo-dropdownlist {
+    width: 200px;
+  }
+
+  .exchange-dropdown-label{
+    position:absolute;
+    top: -20px;
+    right:215px;
+    width:100px;
+  }
+}

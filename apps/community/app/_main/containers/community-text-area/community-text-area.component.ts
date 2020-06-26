@@ -22,13 +22,10 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
   suggestedTags: CommunityTag[] = [];
   activeTag: string;
-  suggestTagsContainerVisible = true;
 
   suggestedCommunityTags$: Observable<CommunityTag[]>;
-  suggestedCommunityTagsPostId$: Observable<string>;
 
   suggestedCommunityTagsSubscription: Subscription;
-  suggestedCommunityTagsPostIdSubscription: Subscription;
   textValueChangesSubscription: Subscription;
 
   @Input() public parentForm: FormGroup;
@@ -36,7 +33,6 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   @Input() public warningStartNumber = 1500;
   @Input() public dangerStartNumber = 1950;
   @Input() public textPlaceholder: string;
-  @Input() public postId: string;
   @Input() public minimumHeight = 75;
 
   @ViewChild('discussionTextArea', { static: true }) discussionTextArea: ElementRef;
@@ -44,9 +40,9 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   @ViewChild('textAreaContainer', { static: true }) textAreaContainer: ElementRef;
   @ViewChild('textAreaContainerScrollable', { static: true }) textAreaContainerScrollable: ElementRef;
 
-  @ViewChild('suggestTagsContainer', { static: false }) suggestTagsContainer: ElementRef;
+  @ViewChild('suggestTagsContainer') suggestTagsContainer: ElementRef;
 
-  get context() { return this.parentForm.get('context'); }
+  get content() { return this.parentForm.get('content'); }
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
@@ -58,7 +54,6 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
   constructor(public store: Store<fromCommunityTagReducer.State>,
               public pfLinkifyService: PfLinkifyService) {
-    this.suggestedCommunityTagsPostId$ = this.store.select(fromCommunityTagReducer.getSuggestingCommunityTagsPostId);
     this.suggestedCommunityTags$ = this.store.select(fromCommunityTagReducer.getCommunityTags);
    }
 
@@ -73,21 +68,13 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
       this.suggestedTags = data.map(tag => this.mapToCommunityTags(tag));
     });
 
-    this.suggestedCommunityTagsPostIdSubscription = this.suggestedCommunityTagsPostId$.subscribe((data) => {
-         this.suggestTagsContainerVisible = data === this.postId;
-    });
-
-    this.textValueChangesSubscription = this.context.valueChanges.subscribe(values => {
+    this.textValueChangesSubscription = this.content.valueChanges.subscribe(values => {
       this.autogrow();
    });
 
   }
 
   ngOnDestroy() {
-    if (this.suggestedCommunityTagsPostIdSubscription) {
-      this.suggestedCommunityTagsPostIdSubscription.unsubscribe();
-    }
-
     if (this.suggestedCommunityTagsSubscription) {
       this.suggestedCommunityTagsSubscription.unsubscribe();
     }
@@ -102,7 +89,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   }
 
   onKeyDown(event) {
-    if (this.suggestedTags.length > 0 && this.suggestTagsContainerVisible) {
+    if (this.suggestedTags.length > 0) {
       if (event.key === 'ArrowUp') {
         event.preventDefault();
         this.suggestedTagsSelectionMoveUp();
@@ -115,14 +102,14 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
   onSuggestedTagChange(tag: CommunityTag) {
     const regExp = new RegExp('\\' + this.activeTag + '\\b');
-    const textWitheNewTags =  this.context.value.replace(regExp, tag);
-    this.context.setValue(textWitheNewTags);
+    const textWitheNewTags =  this.content.value.replace(regExp, tag);
+    this.content.setValue(textWitheNewTags);
 
     this.suggestedTags = [];
   }
 
   private updateTagSuggestions(currentPos: any) {
-    const origText = this.context.value;
+    const origText = this.content.value;
     const slicedTextBeforeSelection = origText.slice(0, currentPos);
 
     let matches = this.getMatches(slicedTextBeforeSelection);
@@ -145,7 +132,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
     if (matches && matches.length > 0) {
       this.activeTag = matches[0];
-      this.store.dispatch(new fromCommunityTagActions.SuggestingCommunityTags({query: this.activeTag, postId: this.postId}));
+      this.store.dispatch(new fromCommunityTagActions.SuggestingCommunityTags({query: this.activeTag}));
     }
   }
 

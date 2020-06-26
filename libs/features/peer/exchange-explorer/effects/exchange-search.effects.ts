@@ -9,7 +9,7 @@ import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/pe
 import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { ExchangeMapResponse } from 'libs/models/peer';
-import { ExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
+import { ExchangeDataSearchRequest, SearchExchangeAggregationsRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { OperatorEnum } from 'libs/constants';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
@@ -17,10 +17,13 @@ import * as fromExchangeExplorerReducer from '../reducers';
 import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
 import * as fromSearchResultsActions from '../../../search/actions/search-results.actions';
 import * as fromSearchFiltersActions from '../../../search/actions/search-filters.actions';
-import * as fromSingledFilterActions from '../../../search/actions/singled-filter.actions';
-import * as fromChildFilterActions from '../../../search/actions/child-filter.actions';
+
 import * as fromMapActions from '../actions/map.actions';
 import { ExchangeExplorerContextService } from '../services';
+import * as fromInfiniteScrollActions from '../../../infinite-scroll/actions/infinite-scroll.actions';
+import { ScrollIdConstants } from '../../../infinite-scroll/models';
+import { SearchFilter } from '../../../../models/payfactors-api/search/response';
+import { MultiSelectFilter } from '../../../search/models';
 
 @Injectable()
 export class ExchangeSearchEffects {
@@ -39,23 +42,41 @@ export class ExchangeSearchEffects {
         this.store.pipe(select(fromSearchReducer.getSearchingFilter)),
         this.store.pipe(select(fromSearchReducer.getSearchingChildFilter)),
         this.store.pipe(select(fromSearchReducer.getSingledFilter)),
-        (action: any, searchingFilter, searchingChildFilter, singledFilter) =>
-          ({action, searchingFilter, searchingChildFilter, singledFilter})
+        this.store.pipe(select(fromSearchReducer.getChildFilter)),
+        (action: any, searchingFilter, searchingChildFilter, singledFilter, childFilter) =>
+          ({action, searchingFilter, searchingChildFilter, singledFilter, childFilter})
 
       ),
       mergeMap( payload => {
         const actions = [];
-          if ( payload.searchingFilter &&
-               ((payload.action.payload && payload.action.payload.getSingledFilteredAggregates ) ||
-                 payload.singledFilter.Operator === OperatorEnum.And || payload.searchingChildFilter)) {
-            actions.push(new fromSingledFilterActions.SearchAggregation());
+
+        if (payload.action.payload && payload.action.payload.isMapMove) {
+          if (payload.searchingFilter) {
+            actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER}));
+          }
+          if (payload.searchingChildFilter) {
+            actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER}));
+          }
+        } else {
+          const singleFilterRefreshNecessary = (payload.action.payload.getSingledFilteredAggregates ||
+            (payload.singledFilter && payload.singledFilter.Operator === OperatorEnum.And));
+
+          const childFilterRefreshNecessary = payload.childFilter && (!payload.searchingFilter || payload.searchingFilter &&
+             payload.singledFilter.BackingField !== payload.childFilter.ParentBackingField) &&
+            (payload.action.payload.getChildFilteredAggregates || (payload.childFilter && payload.childFilter.Operator === OperatorEnum.And));
+
+          if (singleFilterRefreshNecessary) {
+            actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER}));
           }
 
-          if (payload.searchingChildFilter) {
-            actions.push(new fromChildFilterActions.SearchAggregation());
+          if (childFilterRefreshNecessary) {
+            if (payload.action.payload.getChildFilteredAggregates || payload.childFilter.Operator === OperatorEnum.And) {
+              actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER}));
+            }
           }
+        }
         return actions;
-      }
+        }
       )
     );
 
@@ -114,6 +135,40 @@ export class ExchangeSearchEffects {
       }
 
       return actions;
+    })
+  );
+
+  @Effect()
+  searchFilterShowMore$ = this.actions$.pipe(
+    ofType(fromSearchFiltersActions.SHOW_MORE),
+    withLatestFrom(
+      this.exchangeExplorerContextService.selectFilterContext(),
+      this.store.pipe(select(fromSearchReducer.getAllFilters)),
+      (
+        action: fromSearchFiltersActions.ShowMore, filterContext, filters
+      ) => ({payload: action.payload, filterContext, filters})
+    ),
+    switchMap(data => {
+      const filter = data.filters.find(f => f.BackingField === data.payload.backingField);
+      const request: SearchExchangeAggregationsRequest = {
+        ...data.filterContext,
+        SearchField: data.payload.backingField,
+        TextQuery: '',
+        PagingOptions: {From: 0, Count: filter.AggregateCount}
+      };
+
+      return this.exchangeDataSearchApiService.searchExchangeAggregations(request).pipe(
+        map((response: SearchFilter) => {
+          const matchingFilter = <MultiSelectFilter>data.filters.find(f => f.BackingField === data.payload.backingField);
+          const currentSelections = matchingFilter.Options.filter(o => o.Selected);
+
+          return new fromSearchFiltersActions.AddFilterOptions({
+            backingField: data.payload.backingField,
+            newOptions: this.payfactorsSearchApiModelMapper.mapSearchFilterOptionsToFilterableMultiSelectOptions(response.Options),
+            currentSelections
+          });
+        })
+      );
     })
   );
 

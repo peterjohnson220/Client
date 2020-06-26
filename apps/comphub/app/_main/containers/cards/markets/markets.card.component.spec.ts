@@ -5,6 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
+import { QuickPriceType } from 'libs/constants';
 
 import { MarketsCardComponent } from './markets.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -40,12 +41,11 @@ describe('Comphub - Main - Markets Card Component', () => {
     fixture = TestBed.createComponent(MarketsCardComponent);
     instance = fixture.componentInstance;
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     instance.workflowContext = {
       ...generateMockWorkflowContext(),
-      selectedPageId: ComphubPages.Markets,
-      selectedPageIdDelayed: ComphubPages.Markets
+      selectedPageId: ComphubPages.Markets
     };
     fixture.detectChanges();
   });
@@ -118,7 +118,8 @@ describe('Comphub - Main - Markets Card Component', () => {
   it('should dispatch a SetSelectedPayMarket action, when handling a paymarket being checked', () => {
     spyOn(store, 'dispatch');
     const selectedPayMarket = generateMockPricingPaymarket();
-    const expectedAction = new fromMarketsCardActions.SetSelectedPaymarket(selectedPayMarket);
+    const expectedAction = new fromMarketsCardActions.SetSelectedPaymarket(
+      {paymarket: selectedPayMarket, initialLoad: false, quickPriceType: QuickPriceType.ENTERPRISE});
 
     instance.handlePaymarketChecked(selectedPayMarket);
 

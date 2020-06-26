@@ -12,10 +12,9 @@
 
   <kendo-numerictextbox
     [autoCorrect]="true"
-    [decimals]="decimals"
-    [format]="numberFormat"
+    [step]="step"
+    [format]="format"
     (valueChange)="handleNumericValueChange($event)"
     [value]="numberValue">
-
   </kendo-numerictextbox>
 </ng-container>

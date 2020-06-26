@@ -17,10 +17,13 @@ export class PayfactorsSearchApiHelper {
     const rangeFilters = this.payfactorsSearchApiModelMapper.mapRangeFiltersToSearchFilters(
       FiltersHelper.getRangeFiltersWithSelections(filters));
     const filterableMultiSelects = this.payfactorsSearchApiModelMapper.mapFilterableMultiSelectFiltersToSearchFilters(
-      FiltersHelper.getFilterableMultiSelectFiltersWithSelections(filters)
-    );
+      FiltersHelper.getFilterableMultiSelectFiltersWithSelections(filters));
+    const filtersWithAggCounts = this.payfactorsSearchApiModelMapper.mapMultiSelectFiltersToSearchFilters(
+      FiltersHelper.getFiltersWithAggregateCountsAndNoSelections(filters));
+    const filterableMultiSelectsWithAggCounts = this.payfactorsSearchApiModelMapper.mapFilterableMultiSelectFiltersToSearchFilters(
+      FiltersHelper.getFilterableMultiSelectFiltersWithAggregateCountsAndNoSelections(filters));
 
-    return multiSelects.concat(filterableMultiSelects).concat(rangeFilters);
+    return multiSelects.concat(filterableMultiSelects).concat(rangeFilters).concat(filtersWithAggCounts).concat(filterableMultiSelectsWithAggCounts);
   }
 
   getTextFiltersWithValuesAsSearchFields(filters: Filter[]): SearchField[] {

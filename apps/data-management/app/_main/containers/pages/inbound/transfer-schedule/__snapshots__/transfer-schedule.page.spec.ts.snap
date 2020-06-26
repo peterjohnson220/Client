@@ -1,0 +1,279 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransferSchedulePageComponent should show only supported entities 1`] = `
+<pf-transfer-schedule
+  backRoute={[Function String]}
+  connectionSaving$={[Function Store]}
+  connectionSummarySub={[Function Subscriber]}
+  editStates={[Function Array]}
+  emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
+  identity$={[Function Store]}
+  identitySubscription={[Function Subscriber]}
+  loadType={[Function String]}
+  restoreCompletedSubscription={[Function Subscriber]}
+  router={[Function Object]}
+  showIntegrationFinishedModal$={[Function Store]}
+  store={[Function MockStore]}
+  syncSchedulesBackup={[Function Array]}
+  transferScheduleSummary={[Function Array]}
+  transferScheduleSummary$={[Function Observable]}
+  transferScheduleSummaryError$={[Function Store]}
+  transferScheduleSummaryLoading$={[Function Store]}
+  transferScheduleSummarySaving$={[Function Store]}
+  transferScheduleSummarySubscription={[Function Subscriber]}
+  userContextStore={[Function MockStore]}
+  validationMode={[Function Boolean]}
+>
+  <pf-async-container>
+    <div
+      class="mt-4"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          style="opacity: 0.6;"
+        >
+          STEP 5/5
+        </h5>
+      </div>
+      <h4>
+        Transfer Schedule
+      </h4>
+      <h5>
+        Let us know how often you would like to refresh your company data. 
+        <div
+          class="float-right hris-validation-mode-toggle"
+        >
+          <kendo-switch
+            class="k-widget k-switch k-switch-off"
+            dir="ltr"
+            style="width:80px;"
+            title=""
+          >
+            <p>
+              Mock Product Settings Component
+            </p>
+          </kendo-switch>
+        </div>
+      </h5>
+      <div
+        class="row mt-5 mb-3"
+      >
+        
+      </div>
+      <div
+        class="d-flex justify-content-end"
+      >
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-secondary px-4"
+            type="button"
+          >
+            Email Recipients
+          </button>
+        </div>
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-outline-danger px-4"
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-secondary px-4"
+            type="button"
+          >
+            Back
+          </button>
+        </div>
+        
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-primary px-4"
+            type="button"
+          >
+            
+            
+            <span>
+              Finish
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <pf-modal-form
+      class="integration-setup-complete-modal"
+      title="Integration Setup Complete"
+    >
+      
+      <h5
+        class="mb-3 setup-complete-modal-header"
+      >
+        Integration Setup Complete!
+      </h5>
+      <pf-transfer-schedule-summary />
+      <div>
+        <button
+          class="btn btn-primary px-4 float-right"
+        >
+          Ok
+        </button>
+      </div>
+    </pf-modal-form>
+    
+  </pf-async-container>
+</pf-transfer-schedule>
+`;
+
+exports[`TransferSchedulePageComponent should show only supported entities and overflow correctly 1`] = `
+<pf-transfer-schedule
+  backRoute={[Function String]}
+  connectionSaving$={[Function Store]}
+  connectionSummarySub={[Function Subscriber]}
+  editStates={[Function Array]}
+  emailRecipients$={[Function Store]}
+  emailRecipientsModalOpen$={[Function Store]}
+  emailRecipientsRemovingError$={[Function Store]}
+  emailRecipientsSavingError$={[Function Store]}
+  identity$={[Function Store]}
+  identitySubscription={[Function Subscriber]}
+  loadType={[Function String]}
+  restoreCompletedSubscription={[Function Subscriber]}
+  router={[Function Object]}
+  showIntegrationFinishedModal$={[Function Store]}
+  store={[Function MockStore]}
+  syncSchedulesBackup={[Function Array]}
+  transferScheduleSummary={[Function Array]}
+  transferScheduleSummary$={[Function Observable]}
+  transferScheduleSummaryError$={[Function Store]}
+  transferScheduleSummaryLoading$={[Function Store]}
+  transferScheduleSummarySaving$={[Function Store]}
+  transferScheduleSummarySubscription={[Function Subscriber]}
+  userContextStore={[Function MockStore]}
+  validationMode={[Function Boolean]}
+>
+  <pf-async-container>
+    <div
+      class="mt-4"
+    >
+      <div
+        class="float-right"
+      >
+        <h5
+          style="opacity: 0.6;"
+        >
+          STEP 5/5
+        </h5>
+      </div>
+      <h4>
+        Transfer Schedule
+      </h4>
+      <h5>
+        Let us know how often you would like to refresh your company data. 
+        <div
+          class="float-right hris-validation-mode-toggle"
+        >
+          <kendo-switch
+            class="k-widget k-switch k-switch-off"
+            dir="ltr"
+            style="width:80px;"
+            title=""
+          >
+            <p>
+              Mock Product Settings Component
+            </p>
+          </kendo-switch>
+        </div>
+      </h5>
+      <div
+        class="row mt-5 mb-3"
+      >
+        
+      </div>
+      <div
+        class="d-flex justify-content-end"
+      >
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-secondary px-4"
+            type="button"
+          >
+            Email Recipients
+          </button>
+        </div>
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-outline-danger px-4"
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-secondary px-4"
+            type="button"
+          >
+            Back
+          </button>
+        </div>
+        
+        <div
+          class="p-2"
+        >
+          <button
+            class="btn btn-primary px-4"
+            type="button"
+          >
+            
+            
+            <span>
+              Finish
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <pf-modal-form
+      class="integration-setup-complete-modal"
+      title="Integration Setup Complete"
+    >
+      
+      <h5
+        class="mb-3 setup-complete-modal-header"
+      >
+        Integration Setup Complete!
+      </h5>
+      <pf-transfer-schedule-summary />
+      <div>
+        <button
+          class="btn btn-primary px-4 float-right"
+        >
+          Ok
+        </button>
+      </div>
+    </pf-modal-form>
+    
+  </pf-async-container>
+</pf-transfer-schedule>
+`;

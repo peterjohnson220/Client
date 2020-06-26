@@ -19,6 +19,14 @@ export interface PayMarket {
  ShowInLinkedStructure?: boolean;
 }
 
+export interface PayMarketWithMdScope extends PayMarket {
+  IndustryGroup: string;
+  Region: string;
+  State: string;
+  Metro: string;
+  City: string;
+}
+
 export function generateMockPayMarket(): PayMarket {
   return {
     CompanyPayMarketId: 23504,

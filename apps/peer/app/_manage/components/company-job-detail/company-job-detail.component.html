@@ -1,34 +1,42 @@
-<h5 class="mb-3 font-weight-bold">Company Job</h5>
-<div class="info-row">
-  <label class="font-weight-bold w-25 mb-0">Title:</label>
-  <span>{{ selectedCompanyJob.JobTitle }}</span>
-</div>
-<div class="info-row">
-  <label class="font-weight-bold w-25 mb-0">Family:</label>
-  <span>{{ selectedCompanyJob.JobFamily }}</span>
-</div>
-<div class="info-row">
-  <label class="font-weight-bold w-25 mb-0">Level:</label>
-  <span>{{ selectedCompanyJob.JobLevel }}</span>
-</div>
-<div class="info-row border-0">
-  <label class="font-weight-bold w-25">Description:</label>
-  <a href="javascript:void(0)" [class.show]="jdmDescriptionIds.length === 1" class="jdm mr-2" (click)="handleViewJdmDescriptionClick()">View Full Job Description</a>
-  <p class="mb-1" *ngIf="jdmDescriptionIds.length > 1">
-    There is more than one Job Description for this job. Please refer to the 
-      <a href="/ng/job-description-management/job-descriptions" target="_blank">Job Description Management Tile</a> 
-    to view each description.
-  </p>
-  <pf-loading-indicator *ngIf="jdmDescriptionLoading"></pf-loading-indicator>
-  <p *ngIf="jdmDescriptionLoadingError" class="jdm-error d-inline-block mb-0">
-    Unable to load job description
-  </p>
-  <ng-container *ngIf="selectedCompanyJob.JobDescription && selectedCompanyJob.JobDescription !== '#N/A'; else noDescription">
-    <p [innerHTML]="selectedCompanyJob.JobDescription | jobDescriptionParser" class="job-description"></p>
-  </ng-container>
-  <ng-template #noDescription>
-    <p *ngIf="!jdmDescriptionIds.length > 0" class="font-italic">
-      No Job Description Available
+<div class="d-flex flex-column h-100">
+  <div class="pr-3">
+    <h5 class="mb-3 font-weight-bold">Company Job</h5>
+    <div class="info-row">
+      <label class="font-weight-bold w-25 mb-0">Title:</label>
+      <span>{{ selectedCompanyJob.JobTitle }}</span>
+    </div>
+    <div class="info-row">
+      <label class="font-weight-bold w-25 mb-0">Family:</label>
+      <span>{{ selectedCompanyJob.JobFamily }}</span>
+    </div>
+    <div class="info-row">
+      <label class="font-weight-bold w-25 mb-0">Level:</label>
+      <span>{{ selectedCompanyJob.JobLevel }}</span>
+    </div>
+
+    <div class="info-row">
+      <label class="font-weight-bold w-25">Description:</label>
+    </div>
+  </div>
+
+  <div class="info-row border-0 pr-3 company-job-description-container">
+    <a href="javascript:void(0)" [class.d-none]="jdmDescriptionIds.length !== 1" class="jdm mr-2" (click)="handleViewJdmDescriptionClick()">View Full Job Description</a>
+    <p class="mb-1" *ngIf="jdmDescriptionIds.length > 1">
+      There is more than one Job Description for this job. Please refer to the
+        <a href="{{jdmUrl}}" target="_blank">Job Description Management Tile</a>
+      to view each description.
     </p>
-  </ng-template>
+    <pf-loading-indicator *ngIf="jdmDescriptionLoading"></pf-loading-indicator>
+    <p *ngIf="jdmDescriptionLoadingError" class="jdm-error d-inline-block mb-0">
+      Unable to load job description
+    </p>
+    <ng-container *ngIf="selectedCompanyJob.JobDescription && selectedCompanyJob.JobDescription !== '#N/A'; else noDescription">
+      <p [innerHTML]="selectedCompanyJob.JobDescription | jobDescriptionParser" class="job-description"></p>
+    </ng-container>
+    <ng-template #noDescription>
+      <p *ngIf="!jdmDescriptionIds.length > 0" class="font-italic">
+        No Job Description Available
+      </p>
+    </ng-template>
+  </div>
 </div>

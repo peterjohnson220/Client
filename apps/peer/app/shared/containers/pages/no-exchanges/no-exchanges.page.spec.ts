@@ -21,7 +21,7 @@ describe('Peer Dashboard - Exchange Selector', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbPopoverModule.forRoot(),
+        NgbPopoverModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
           peer_shared: combineReducers(fromPeerSharedReducer.reducers),
@@ -34,7 +34,7 @@ describe('Peer Dashboard - Exchange Selector', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(NoExchangesPageComponent);
     instance = fixture.componentInstance;

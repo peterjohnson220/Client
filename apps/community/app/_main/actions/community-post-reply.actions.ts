@@ -17,6 +17,21 @@ export const DELETING_COMMUNITY_POST_REPLY = '[Community/Post Replies] Deleting 
 export const DELETING_COMMUNITY_POST_REPLY_SUCCESS = '[Community/Post Replies] Deleting Community Post Reply Success';
 export const DELETING_COMMUNITY_POST_REPLY_ERROR = '[Community/Post Replies] Deleting Community Post Reply Delete';
 
+export const EDITING_COMMUNITY_POST_REPLY = '[Community/Post Replies] Editing Community Post Reply';
+export const EDITING_COMMUNITY_POST_REPLY_SUCCESS = '[Community/Post Replies] Editing Community Post Reply Success';
+export const EDITING_COMMUNITY_POST_REPLY_ERROR = '[Community/Post Replies] Editing Community Post Reply Error';
+
+export const CANCEL_EDITING_COMMUNITY_POST_REPLY = '[Community/Post Replies] Cancel Editing Community Post Reply';
+export const CANCEL_EDITING_COMMUNITY_POST_REPLY_SUCCESS = '[Community/Post Replies] Cancel Editing Community Post Reply Success';
+export const CANCEL_EDITING_COMMUNITY_POST_REPLY_ERROR = '[Community/Post Replies] Cancel Editing Community Post Reply Error';
+
+export const SAVING_COMMUNITY_POST_REPLY_EDIT = '[Community/Post Replies] Saving Community Post Reply Edit';
+export const SAVING_COMMUNITY_POST_REPLY_EDIT_SUCCESS = '[Community/Post Replies] Saving Community Post Reply Edit Success';
+export const SAVING_COMMUNITY_POST_REPLY_EDIT_ERROR = '[Community/Post Replies] Saving Community Post Reply Edit Error';
+
+export const DISCARDING_COMMUNITY_POST_REPLY = '[Community/Post Replies] Discarding Community Post Reply';
+export const DISCARDING_COMMUNITY_POST_REPLY_PROCEED = '[Community/Post Replies] Discarding Community Post Reply Proceed';
+export const DISCARDING_COMMUNITY_POST_REPLY_CANCEL = '[Community/Post Replies] Canceling Community Post Reply Cancel';
 
 export class GettingCommunityPostReplies implements Action {
   readonly type = GETTING_COMMUNITY_POST_REPLIES;
@@ -79,6 +94,57 @@ export class DeletingCommunityPostReplyError implements Action {
   readonly type = DELETING_COMMUNITY_POST_REPLY_ERROR;
 }
 
+export class EditingCommunityPostReply implements Action {
+  constructor(public payload: any) {}
+  readonly type = EDITING_COMMUNITY_POST_REPLY;
+}
+
+export class EditingCommunityPostReplySuccess implements Action {
+  readonly type = EDITING_COMMUNITY_POST_REPLY_SUCCESS;
+}
+
+export class EditingCommunityPostReplyError implements Action {
+  readonly type = EDITING_COMMUNITY_POST_REPLY_ERROR;
+}
+
+export class CancelEditingCommunityPostReply implements Action {
+  readonly type = CANCEL_EDITING_COMMUNITY_POST_REPLY;
+}
+
+export class CancelEditingCommunityPostReplySuccess implements Action {
+  readonly type = CANCEL_EDITING_COMMUNITY_POST_REPLY_SUCCESS;
+}
+
+export class CancelEditingCommunityPostReplyError implements Action {
+  readonly type = CANCEL_EDITING_COMMUNITY_POST_REPLY_ERROR;
+}
+
+export class SavingCommunityPostReplyEdit implements Action {
+  constructor(public payload: any) {}
+  readonly type = SAVING_COMMUNITY_POST_REPLY_EDIT;
+}
+
+export class SavingCommunityPostReplyEditSuccess implements Action {
+  constructor(public payload: any) {}
+  readonly type = SAVING_COMMUNITY_POST_REPLY_EDIT_SUCCESS;
+}
+
+export class SavingCommunityPostReplyEditError implements Action {
+  readonly type = SAVING_COMMUNITY_POST_REPLY_EDIT_ERROR;
+}
+
+export class DiscardingCommunityPostReply implements Action {
+  readonly type = DISCARDING_COMMUNITY_POST_REPLY;
+  constructor(public postId: string, public showWarning: boolean) {}
+}
+
+export class DiscardingCommunityPostReplyProceed implements Action {
+  readonly type = DISCARDING_COMMUNITY_POST_REPLY_PROCEED;
+}
+
+export class DiscardingCommunityPostReplyCancel implements Action {
+  readonly type = DISCARDING_COMMUNITY_POST_REPLY_CANCEL;
+}
 
 export type Actions
   = GettingCommunityPostReplies
@@ -93,4 +159,16 @@ export type Actions
   | ClearingCommunityPostReplies
   | DeletingCommunityPostReply
   | DeletingCommunityPostReplySuccess
-  | DeletingCommunityPostReplyError;
+  | DeletingCommunityPostReplyError
+  | EditingCommunityPostReply
+  | EditingCommunityPostReplySuccess
+  | EditingCommunityPostReplyError
+  | CancelEditingCommunityPostReply
+  | CancelEditingCommunityPostReplySuccess
+  | CancelEditingCommunityPostReplyError
+  | SavingCommunityPostReplyEdit
+  | SavingCommunityPostReplyEditSuccess
+  | SavingCommunityPostReplyEditError
+  | DiscardingCommunityPostReply
+  | DiscardingCommunityPostReplyProceed
+  | DiscardingCommunityPostReplyCancel;

@@ -13,11 +13,11 @@ import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockExchangeMapResponse, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
 import { SettingsService } from 'libs/state/app-context/services';
+import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 
 import * as fromUpsertDataCutActions from '../../../actions/upsert-data-cut-page.actions';
-import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
 import * as fromLegacyAddPeerDataReducer from '../../../reducers';
-import { DojGuidelinesService } from '../../../services/doj-guidelines.service';
 import { UpsertDataCutPageComponent } from './upsert-data-cut.page';
 import * as fromRequestPeerAccessActions from '../../../actions/request-peer-access.actions';
 
@@ -41,7 +41,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
   let fixture: ComponentFixture<UpsertDataCutPageComponent>;
   let instance: UpsertDataCutPageComponent;
   let store: Store<fromRootState.State>;
-  let route: ActivatedRouteStub;
+  let route: ActivatedRoute;
   let guidelinesService: DojGuidelinesStub;
   const mockDataCutGUID = 'MockCutGUID';
   const queryStringParams = { companyPayMarketId: 1, companyJobId: 2, userSessionId: 3, dataCutGuid: null };
@@ -73,8 +73,9 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    route = TestBed.inject(ActivatedRoute);
+    // TODO: Resolve type mismatch here and use .inject
     guidelinesService = TestBed.get(DojGuidelinesService);
 
     spyOn(store, 'dispatch');

@@ -1,0 +1,17 @@
+.hide-dropdown-arrow::after {
+  display: none !important;
+}
+
+.loading-icon-container {
+  display: inline-block;
+}
+
+.survey-participation-modal-container{
+  overflow: auto;
+  max-height: calc(100vh - 200px);
+  min-height: 200px;
+}
+
+.multi-match-container {
+  height: calc(100vh - 200px);
+}

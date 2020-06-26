@@ -17,10 +17,11 @@
   top: 0;
   right: 0;
   left: 0;
-  bottom: 0;
+  bottom: 0;  
 }
 
 .split-view-container {
+  overflow: hidden;
   position: relative;
   height: 100%;
   width: 100%;
@@ -29,12 +30,20 @@
 .sidebar-filter-container {
   position: relative;
   flex: 0 0 450px;
+  background: $data-grid-filter-panel-background-color;
 }
 
-input[type=text]::-ms-clear{
+input[type=text]::-ms-clear {
   display: none;
 }
 
-.gridActionTemplate{
-  height: 44px;
- }
+.sub-header {
+  height: 42px;
+  border: none !important;
+}
+
+.grid-actions-container::ng-deep {
+  .btn,.vertical-separator {
+    margin-right: 1rem;
+  }
+}

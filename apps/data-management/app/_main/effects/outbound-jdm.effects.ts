@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
+
+import { Router } from '@angular/router';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-
-import { isObject } from 'lodash';
 import { Observable, of } from 'rxjs';
-import { delay, switchMap, withLatestFrom } from 'rxjs/operators';
+import { delay, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
+import { isEmpty, isObject } from 'lodash';
+
+import { OrgDataEntityType } from 'libs/constants';
+
+import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromOutboundJdmActions from '../actions/outbound-jdm.actions';
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
-import { ConnectionSummary } from '../models';
+import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
+import { TransferDataWorkflowStep } from '../data/transfer-data-workflow-step.data';
+import { ConnectionSummary, getMockOutboundJdmDestinationFields, getMockOutboundJdmSourceFields } from '../models';
 import * as fromDataManagementMainReducer from '../reducers';
 
 @Injectable()
@@ -17,7 +25,7 @@ export class OutboundJdmEffects {
   @Effect()
   loadConnectionSummary$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromOutboundJdmActions.LOAD_CONNECTION_SUMMARY),
+      ofType<fromOutboundJdmActions.LoadConnectionSummary>(fromOutboundJdmActions.LOAD_CONNECTION_SUMMARY),
       delay(0),
       withLatestFrom(
         this.store.select(fromDataManagementMainReducer.getJdmConnectionSummaryObj),
@@ -33,7 +41,7 @@ export class OutboundJdmEffects {
   @Effect()
   resetConnectionSummary$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromOutboundJdmActions.RESET_CONNECTION_SUMMARY),
+      ofType<fromOutboundJdmActions.ResetConnectionSummary>(fromOutboundJdmActions.RESET_CONNECTION_SUMMARY),
       switchMap(() => {
         const summary: ConnectionSummary = {
           connectionID: null,
@@ -50,16 +58,21 @@ export class OutboundJdmEffects {
           canEditConnection: false,
           canEditMappings: false,
           selectedEntities: [],
+          loaderConfigurationGroupId: null,
+          validationMode: false
         };
 
-        return of(new fromOutboundJdmActions.LoadConnectionSummarySuccess(summary));
+        return [
+          new fromOutboundJdmActions.ResetFieldMappings(),
+          new fromOutboundJdmActions.LoadConnectionSummarySuccess(summary),
+        ];
       })
     );
 
   @Effect()
   saveCredentials$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromOutboundJdmActions.SAVE_CREDENTIALS),
+      ofType<fromOutboundJdmActions.SaveCredentials>(fromOutboundJdmActions.SAVE_CREDENTIALS),
       withLatestFrom(
         this.store.select(fromDataManagementMainReducer.getJdmConnectionSummaryObj),
         (action, existingSummary) => existingSummary,
@@ -71,6 +84,7 @@ export class OutboundJdmEffects {
           canEditMappings: true,
           statuses: ['Authenticated']
         };
+
         return of(new fromOutboundJdmActions.SaveConnectionSummarySuccess(summary));
       }),
     );
@@ -78,10 +92,71 @@ export class OutboundJdmEffects {
   @Effect()
   validateCredentials$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromTransferDataPageActions.OUTBOUND_JDM_VALIDATE),
+      ofType<fromHrisConnectionActions.OutboundJdmValidate>(fromHrisConnectionActions.OUTBOUND_JDM_VALIDATE),
       delay(5000),
-      switchMap(() => {
-        return of(new fromTransferDataPageActions.ValidateSuccess());
+      switchMap(() => [
+          new fromHrisConnectionActions.OutboundJdmValidateSuccess(),
+          new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Validated)
+      ]),
+    );
+
+  @Effect()
+  initFieldMapping$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromOutboundJdmActions.InitFieldMappings>(fromOutboundJdmActions.INIT_FIELD_MAPPINGS),
+      delay(0),
+      withLatestFrom(
+        this.store.select(fromDataManagementMainReducer.getPayfactorsFields),
+        this.store.select(fromDataManagementMainReducer.getProviderFields),
+        (action, payfactorsFields, providerFields) => ({
+          payfactorsFields,
+          providerFields,
+        }),
+      ),
+      switchMap(({ payfactorsFields, providerFields }) => {
+        const hasMappings = isObject(payfactorsFields) &&
+          !isEmpty(payfactorsFields.JobDescriptions) &&
+          isObject(providerFields) &&
+          !isEmpty(providerFields.JobDescriptions) ;
+
+        const actions = hasMappings ? [] : [
+          // for outbound jdm, the payfactors and provider fields switch sides
+          // TODO: make the terms used in the components agnostic so we don't have to play mind games
+          // may also want to refactor api/db layer to use alternate terms
+          // perhaps source/destination instead of provider/payfactors?
+          new fromFieldMappingActions.LoadProviderFieldsByEntitySuccess({
+            entity: OrgDataEntityType.JobDescriptions,
+            providerEntityFields: getMockOutboundJdmSourceFields(),
+          }),
+          new fromFieldMappingActions.LoadPayfactorsFieldsByEntitySuccess({
+            entity: OrgDataEntityType.JobDescriptions,
+            payfactorsEntityFields: getMockOutboundJdmDestinationFields(),
+          }),
+        ];
+
+        return [
+          ...actions,
+          new fromFieldMappingActions.InitFieldMappingCardSuccess(),
+        ];
+      }),
+    );
+
+  @Effect()
+  resetFieldMapping$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromOutboundJdmActions.ResetFieldMappings>(fromOutboundJdmActions.RESET_FIELD_MAPPINGS),
+      delay(0),
+      switchMap((existingMappings) => {
+        return [
+          new fromFieldMappingActions.LoadProviderFieldsByEntitySuccess({
+            entity: OrgDataEntityType.JobDescriptions,
+            providerEntityFields: [],
+          }),
+          new fromFieldMappingActions.LoadPayfactorsFieldsByEntitySuccess({
+            entity: OrgDataEntityType.JobDescriptions,
+            payfactorsEntityFields: [],
+          }),
+        ];
       }),
     );
 
@@ -102,8 +177,27 @@ export class OutboundJdmEffects {
       }),
     );
 
+  @Effect()
+  saveMappings$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromFieldMappingActions.SaveOutboundJdmFieldMappings>(fromFieldMappingActions.SAVE_OUTBOUND_MAPPINGS),
+      delay(500),
+      withLatestFrom(
+        this.store.select(fromDataManagementMainReducer.getJdmConnectionSummaryObj),
+        (action, existingSummary) => existingSummary,
+      ),
+      switchMap((existingSummary) => of(new fromFieldMappingActions.SaveOutboundJdmFieldMappingsSuccess(existingSummary.obj.hasConnection))),
+      tap((action: fromFieldMappingActions.SaveOutboundJdmFieldMappingsSuccess) => {
+        if (action.payload) {
+          return this.router.navigate(['']);
+        }
+        return this.router.navigate(['/transfer-data/outbound/transfer-schedule']);
+      }),
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromDataManagementMainReducer.State>,
+    private router: Router,
   ) {}
 }

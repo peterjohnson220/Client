@@ -23,6 +23,7 @@ export class CompanyPageEffects {
     ofType(fromCompanyPageActions.LOAD_FORM_DATA),
     mergeMap((action: fromCompanyPageActions.LoadFormData) => [
       new fromCompanyPageActions.GetSystemUserGroups(),
+      new fromCompanyPageActions.GetPfAccountExecutives(),
       new fromCompanyPageActions.GetPfServicesReps(),
       new fromCompanyPageActions.GetPfJdmSrAssociates(),
       new fromCompanyPageActions.GetPfCustomerSuccessManagers(),
@@ -42,6 +43,18 @@ export class CompanyPageEffects {
       this.companyApiService.getSystemUserGroups()
       .pipe(
         map((response) => new fromCompanyPageActions.GetSystemUserGroupsSuccess(response))
+      )
+    )
+  );
+
+  @Effect()
+  getPfAccountExecutives$ = this.actions$
+  .pipe(
+    ofType(fromCompanyPageActions.GET_PF_ACCOUNT_EXECUTIVES),
+    switchMap(() =>
+      this.userApiService.getPfAccountExecutives()
+      .pipe(
+        map((response) => new fromCompanyPageActions.GetPfAccountExecutivesSuccess(response))
       )
     )
   );

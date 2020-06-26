@@ -11,6 +11,13 @@ export const LOAD_ENTITY_SELECTION_SUCCESS = '[Data Management/Entity Selection 
 export const UPDATE_ENTITY_SELECTIONS = '[Data Management/Entity Selection Page] Update Entity Selections';
 export const UPDATE_ENTITY_SELECTIONS_ERROR = '[Data Management/Entity Selection Page] Update Entity Selections Error';
 export const UPDATE_ENTITY_SELECTIONS_SUCCESS = '[Data Management/Entity Selection Page] Update Entity Selections Success';
+export const SET_ENTITY_SELECTION = '[Data Management/Entity Selection Page] Set Entity Selections';
+export const OPEN_REMOVE_ENTITY_MODAL = '[Data Management/Entity Selection Page] Open Remove Entity Modal';
+
+
+export const DEACTIVATE_MAPPINGS_FOR_ENTITIES = '[Data Management/Entity Selection Page] Deactivate Field Mappings For Entity';
+export const DEACTIVATE_MAPPINGS_FOR_ENTITIES_ERROR = '[Data Management/Entity Selection Page] Deactivate Field Mappings For Entity Error';
+export const DEACTIVATE_MAPPINGS_FOR_ENTITIES_SUCCESS = '[Data Management/Entity Selection Page] Deactivate Field Mappings For Entity Success';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -35,7 +42,7 @@ export class LoadEntitySelectionSuccess implements Action {
 export class UpdateEntitySelections implements Action {
   readonly type = UPDATE_ENTITY_SELECTIONS;
 
-  constructor(public payload: { connectionId: number, selectedEntities: OrgDataEntityType[]}) {}
+  constructor(public payload: { connectionId: number, selectedEntities: OrgDataEntityType[], redirectRoute: string}) {}
 }
 
 export class UpdateEntitySelectionsError implements Action {
@@ -44,6 +51,38 @@ export class UpdateEntitySelectionsError implements Action {
 
 export class UpdateEntitySelectionsSuccess implements Action {
   readonly type = UPDATE_ENTITY_SELECTIONS_SUCCESS;
+
+  constructor(public payload: string) {}
+}
+
+export class SetEntitySelections implements Action {
+  readonly type = SET_ENTITY_SELECTION;
+
+  constructor(public payload: {connectionId: number, selectedEntities: OrgDataEntityType[]}) {}
+}
+
+export class OpenRemoveEntityModal implements Action {
+  readonly type = OPEN_REMOVE_ENTITY_MODAL;
+
+  constructor(public payload: boolean) {}
+}
+
+export class DeactivateMappingForEntities implements Action {
+  readonly type = DEACTIVATE_MAPPINGS_FOR_ENTITIES;
+
+  constructor(public payload: { entityMappingsToRemove: string[], deactivateRedirectRoute: string, selectedEntities: OrgDataEntityType[] }) {}
+}
+
+export class DeactivateMappingForEntitiesError implements Action {
+  readonly type = DEACTIVATE_MAPPINGS_FOR_ENTITIES_ERROR;
+
+  constructor() {}
+}
+
+export class DeactivateMappingForEntitiesSuccess implements Action {
+  readonly type = DEACTIVATE_MAPPINGS_FOR_ENTITIES_SUCCESS;
+
+  constructor() {}
 }
 
 export type Actions
@@ -53,4 +92,9 @@ export type Actions
   | LoadEntitySelectionSuccess
   | UpdateEntitySelections
   | UpdateEntitySelectionsError
-  | UpdateEntitySelectionsSuccess;
+  | UpdateEntitySelectionsSuccess
+  | SetEntitySelections
+  | OpenRemoveEntityModal
+  | DeactivateMappingForEntities
+  | DeactivateMappingForEntitiesError
+  | DeactivateMappingForEntitiesSuccess;

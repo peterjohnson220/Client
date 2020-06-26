@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 
-import { Statement } from '../../../shared/models';
-import * as fromTotalRewardsReducer from '../reducers';
-import * as fromTotalRewardsStatementsActions from '../actions/statement-list.page.actions';
+import * as fromStatementListReducers from '../reducers';
+import * as fromStatementListPageActions from '../actions/statement-list.page.actions';
+import * as fromStatementGridActions from '../actions/statement-grid.actions';
+import * as fromTemplateSelectorActions from '../actions/template-selector.actions';
+import { StatementListViewModel } from '../../../shared/models';
 
 @Component({
   selector: 'pf-total-rewards-statement-list-page',
@@ -14,22 +17,62 @@ import * as fromTotalRewardsStatementsActions from '../actions/statement-list.pa
 })
 export class StatementListPageComponent implements OnInit {
 
-  statements$: Observable<Statement[]>;
-  searchTerm$: Observable<string>;
-  loadingStatements$: Observable<boolean>;
+  focusedTab$: Observable<'Statements' | 'Templates'>;
+  statementsLoading$: Observable<boolean>;
+  statementsLoadingError$: Observable<boolean>;
+  statementsSearchTerm$: Observable<string>;
+  statementsTotal$: Observable<number>;
 
-  constructor(private store: Store<fromTotalRewardsReducer.State>) { }
+  isDeleteStatetementModalOpen$: Observable<boolean>;
+  deletingStatement$: Observable<boolean>;
+  deletingStatementSuccess$: Observable<boolean>;
+  deletingStatementError$: Observable<boolean>;
+  openActionMenuStatement$: Observable<StatementListViewModel>;
 
-  ngOnInit() {
-    this.statements$ = this.store.pipe(select(fromTotalRewardsReducer.getStatements));
-    this.searchTerm$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementListSearchTerm));
-    this.loadingStatements$ = this.store.pipe(select(fromTotalRewardsReducer.getStatementsLoading));
+  @ViewChild('tabs')
+  tabs: NgbTabset;
 
-    this.store.dispatch(new fromTotalRewardsStatementsActions.LoadStatements());
+  constructor(private store: Store<fromStatementListReducers.State>) { }
+
+  ngOnInit(): void {
+    this.focusedTab$ = this.store.pipe(select(fromStatementListReducers.getFocusedTab));
+    this.statementsLoading$ = this.store.pipe(select(fromStatementListReducers.getStatementsLoading));
+    this.statementsLoadingError$ = this.store.pipe(select(fromStatementListReducers.getStatementsLoadingError));
+    this.statementsTotal$ = this.store.pipe(select(fromStatementListReducers.getStatementsTotal));
+    this.statementsSearchTerm$ = this.store.pipe(select(fromStatementListReducers.getStatementsSearchTerm));
+
+    this.isDeleteStatetementModalOpen$ = this.store.pipe(select(fromStatementListReducers.getIsDeleteStatetementModalOpen));
+    this.deletingStatement$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatetement));
+    this.deletingStatementSuccess$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatetementSuccess));
+    this.deletingStatementError$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatetementError));
+    this.openActionMenuStatement$ = this.store.pipe(select(fromStatementListReducers.getStatementsOpenActionMenuStatement));
+
+    this.store.dispatch(new fromStatementListPageActions.SetTab('Statements'));
+    this.store.dispatch(new fromStatementGridActions.LoadStatements());
   }
 
   onSearchTermChange(searchTerm: string): void {
-    this.store.dispatch(new fromTotalRewardsStatementsActions.UpdateSearchTerm(searchTerm));
-    this.store.dispatch(new fromTotalRewardsStatementsActions.LoadStatements());
+    this.store.dispatch(new fromStatementGridActions.UpdateSearchTerm(searchTerm));
+    this.store.dispatch(new fromStatementGridActions.LoadStatements());
+  }
+
+  onTabChange(): void  {
+    this.store.dispatch(new fromStatementListPageActions.ToggleTab());
+  }
+
+  onCreateNewClicked(): void {
+    this.tabs.select('Templates');
+  }
+
+  onTemplateSelected(templateId: string) {
+    this.store.dispatch(new fromTemplateSelectorActions.CreateStatement({ templateId }));
+  }
+
+  onConfirmDeleteStatement() {
+    this.store.dispatch(new fromStatementGridActions.DeleteStatement());
+  }
+
+  onCancelDeleteStatement() {
+    this.store.dispatch(new fromStatementGridActions.CloseDeleteStatement());
   }
 }

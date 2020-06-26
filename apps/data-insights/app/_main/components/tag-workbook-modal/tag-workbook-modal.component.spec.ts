@@ -29,7 +29,7 @@ describe('Data Insights - Tag Workbook Modal Component', () => {
 
     fixture = TestBed.createComponent(TagWorkbookModalComponent);
     instance = fixture.componentInstance;
-    ngbModal = TestBed.get(NgbModal);
+    ngbModal = TestBed.inject(NgbModal);
 
     fixture.detectChanges();
   });

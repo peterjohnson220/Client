@@ -56,12 +56,16 @@ export class Permissions {
   public static USER_ROLES = 'User Roles';
   public static PEER_IMPORT_ASSOCIATIONS = 'Peer_Import_Associations';
   public static PEER_MANAGE_JOBS = 'Peer_Manage_Jobs';
-  public static PASSWORD_MANAGEMENT = 'Password Management';
+  public static SECURITY_SETTINGS = 'Security Settings';
   public static DATA_MANAGEMENT = 'Data Management';
+  public static MODIFY_PRICINGS = 'Modify Pricings';
+  public static HRIS_INBOUND_INTEGRATION = 'HRIS Inbound Integration';
+  public static HRIS_OUTBOUND_INTEGRATION = 'HRIS Outbound Integration';
 
   // DKG: Note there are two similar Org Loader permissions for different tiles, one for Company-Admin and one for Data-Management
   public static DATAMANAGEMENT_ORG_DATA_LOAD = 'Load Organizational Data';
   public static TABULAR_REPORT_BUILDER = 'Tabular_Report_Builder';
+  public static PRICING_LOADER = 'Pricing Loader';
 }
 
 export enum PermissionCheckEnum {

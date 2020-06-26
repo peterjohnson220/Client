@@ -16,26 +16,43 @@ import { CommunityReply } from 'libs/models/community';
 })
 export class CommunityPostAddReplyViewComponent implements  OnInit, OnDestroy {
   @Input() postId: string;
+  @Input() disableCommunityAttachments: boolean;
+  @Input() hideAttachmentWarning: boolean;
   @Output() replyHashTagClicked = new EventEmitter();
+  @Output() onAttachmentClickedEvent = new EventEmitter<string>();
+
   addedReplyView$: Observable<CommunityReply[]>;
+  communityReplyEdited$: Observable<any>;
   filteredAddedReplies: CommunityReply[];
   addedRepliesSubscription: Subscription;
+  editedReplyId: string;
+  replyEditedSubscription: Subscription;
 
   constructor(public store: Store<fromCommunityPostReplyReducer.State>,
               public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>) {
     this.addedReplyView$ = this.addReplyViewStore.select(fromCommunityPostReplyReducer.getFilteredCommunityPostAddReplyView);
+    this.communityReplyEdited$ = this.addReplyViewStore.select(fromCommunityPostReplyReducer.getCommunityReplyEdited);
   }
   ngOnInit() {
 
     this.addedRepliesSubscription = this.addedReplyView$.subscribe(results => {
       this.filteredAddedReplies = results.filter(x => x.PostId === this.postId);
     });
+
+    this.replyEditedSubscription = this.communityReplyEdited$.subscribe( replyId => {
+      this.editedReplyId = replyId;
+    });
   }
   ngOnDestroy() {
     this.addedRepliesSubscription.unsubscribe();
+    this.replyEditedSubscription.unsubscribe();
   }
 
-  handleHashTagClicked(event: any) {
+  handleReplyHashTagClicked(event: any) {
     this.replyHashTagClicked.emit(event);
+  }
+
+  handleAttachmentClickedEvent(event) {
+    this.onAttachmentClickedEvent.emit(event);
   }
 }

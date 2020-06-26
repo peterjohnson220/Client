@@ -45,8 +45,8 @@ describe('Peer Dashboard - Chart Detail', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    store = TestBed.inject(Store);
+    activatedRoute = TestBed.inject(ActivatedRoute);
 
     fixture = TestBed.createComponent(ChartDetailComponent);
     instance = fixture.componentInstance;

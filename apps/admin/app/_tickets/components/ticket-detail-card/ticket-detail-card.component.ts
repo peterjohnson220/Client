@@ -9,6 +9,4 @@ import { TicketDetail } from '../../models';
 })
 export class TicketDetailCardComponent {
   @Input() ticketDetail: TicketDetail;
-
-  constructor() { }
 }

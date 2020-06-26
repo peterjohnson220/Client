@@ -6,6 +6,7 @@ export class SystemPermission {
   IsParent: boolean;
   IsChecked: boolean;
   ChildPermission: SystemPermission[];
+  UiVisible: boolean;
 }
 
 

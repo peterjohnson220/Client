@@ -1,0 +1,65 @@
+@import 'colors';
+
+.wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: normal;
+  &.multi-line {
+    white-space: normal;
+  }
+}
+
+.offScreen {
+  position: absolute;
+  z-index: -100;
+  opacity: 0;
+}
+
+input[type=text] {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: none;
+  background-color: transparent; // inherit should work here but doesn't for IE 11, so make transparent as a workaround
+  color: inherit;
+  font-weight: inherit;
+  // standardize to chrome's default selection styling so the input's bg color doesn't go white, which looks off for a dark background input
+  &::selection {
+    background-color: #3297FD;
+    color: white;
+  }
+}
+
+.editable {
+  cursor: pointer;
+  color: inherit;
+  &:hover {
+    text-decoration: none;
+  }
+  &:focus {
+    border: 2px solid $link-color;
+  }
+  &:active {
+    border: 0; // suppress border while mouse is down on element
+  }
+}
+
+.edit-text {
+  overflow: hidden;
+}
+
+.edit-icon {
+  top: -2px;
+}
+
+.show-icon-on-hover {
+  .edit-icon {
+    transition: opacity .15s ease-in-out;
+    opacity: 0;
+  }
+  &:hover {
+    .edit-icon {
+      opacity: 1;
+    }
+  }
+}

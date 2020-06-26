@@ -1,6 +1,8 @@
+@import '_colors';
+@import 'common/common-variables';
+
 .pf-data-grid-header {
   font-weight: bold !important;
-  text-align: center !important;
   vertical-align: middle !important;
   background-color: white !important;
 }
@@ -22,7 +24,21 @@
 }
 
 .k-grid {
-  border: 0;
+  border-width: 0;
+
+  // Temporary hack. Scroll mode of none will cause a differing dom structure and classes causing the thead
+  // to inherit its border color differently. Ensuring we have a consistent border-color here [BC]
+  thead {
+    border-color: rgba(0,0,0,0.03)
+  }
+
+  .k-grid-header th>.k-link>.k-icon {
+    display: none;
+  }
+
+  .k-grid-header th>.k-link>.k-sort-order {
+    display: none;
+  }
 }
 
 .k-grid .k-hierarchy-cell {
@@ -46,10 +62,73 @@ html .k-grid tr:hover {
 }
 
 .k-detail-cell {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding: 0 !important;
+}
+
+.k-drag-clue {
+  background-color: $pf-brand-secondary-color;
+}
+
+.k-header.k-drag-clue {
+  @extend %ellipsis-overflowing-text;
+  display: block;
+  padding-bottom: 30.75px !important
+}
+
+.k-grid-pager .k-pager-input .k-numerictextbox {
+  width: 3em !important;
+  margin: 0 7px !important;
 }
 
 .pf-grid-checkbox {
   text-overflow: clip !important;
+}
+
+.sort-icon {
+  margin-right: 0.5rem;
+}
+
+.ellipsis-text {
+  @extend %ellipsis-overflowing-text;
+}
+
+.default-cursor {
+  cursor: default !important;
+}
+
+.k-grid.next-gen {
+  height: auto;
+
+  .k-grid-header {
+    padding-right: 0 !important;
+
+    th {
+      text-transform: uppercase;
+      color: #5c5c5c;
+      font-size: 85%;
+      background-color: white !important;
+    }
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 0 0.65rem;
+  }
+
+  tr, .k-alt:not(.k-state-selected) {
+    &:hover {
+      background-color: darken(#F3F3F4, 3%) !important;
+    }
+
+    background-color: #F3F3F4 !important;
+  }
+
+  .k-grid-content {
+    overflow-y: visible;
+  }
+
+  .k-widget.k-grid {
+    height: auto !important;
+    min-height: 100%;
+  }
 }

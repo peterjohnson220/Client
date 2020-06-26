@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { TemplateListItem } from 'libs/models/jdm';
-import { LoadTemplateListRequest, LoadTemplateListByCompanyIdRequest } from '../models/requests';
+import { LoadTemplateListRequest, LoadTemplateListByCompanyIdRequest } from 'libs/models/payfactors-api';
 
 export const LOAD_TEMPLATE_LIST = '[job-description-management / Template List] Load Template List';
 export const LOAD_TEMPLATE_LIST_ERROR = '[job-description-management / Template List] Load Template List Error';

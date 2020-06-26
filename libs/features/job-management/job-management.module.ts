@@ -8,7 +8,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import * as fromFaIcons from './fa-icons';
+
+import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
@@ -16,7 +22,13 @@ import { JobManagementEffects } from './effects/job-management.effects';
 import { reducers } from './reducers';
 
 import { JobManagementComponent } from './job-management/job-management.component';
-import { JobFormComponent } from './containers';
+import {
+  StandardFieldsComponent,
+  UserDefinedFieldsComponent,
+  JobContainerComponent,
+  JobAttachmentsComponent,
+  JobStructuresComponent
+} from './containers';
 
 @NgModule({
   imports: [
@@ -31,8 +43,12 @@ import { JobFormComponent } from './containers';
     GridModule,
     LayoutModule,
     DropDownsModule,
+    NgbModule,
+    FontAwesomeModule,
+    PerfectScrollbarModule,
 
     // Payfactors
+    PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
   ],
@@ -41,11 +57,19 @@ import { JobFormComponent } from './containers';
     JobManagementComponent,
 
     // Components
-    JobFormComponent
+    StandardFieldsComponent,
+    UserDefinedFieldsComponent,
+    JobContainerComponent,
+    JobAttachmentsComponent,
+    JobStructuresComponent,
   ],
   exports: [
     JobManagementComponent,
   ]
 })
 
-export class JobManagementModule { }
+export class JobManagementModule {
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
+}

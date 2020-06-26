@@ -14,7 +14,11 @@ export interface UserTileDto {
   Url: string;
   Sidebar: boolean;
   NgAppLink: boolean;
-  TilePreviewData: any;
-  ChartType: string;
+  SidebarNew: boolean;
+  TileClassName: string;
+  IconClassNew: string;
+  TilePreviewData?: any;
+  ChartType?: string;
   MarketingEnabled: boolean;
+  HideOnDashboard: boolean;
 }

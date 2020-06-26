@@ -2,44 +2,72 @@
 
 exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
 <pf-community-post-add-reply
-  addReplyViewStore={[Function Store]}
   addedRepliesCount="0"
   addedRepliesSubscription={[Function Subscriber]}
   addedReplyView$={[Function Store]}
   addingCommunityPostReply$={[Function Store]}
   addingCommunityPostReplySuccess$={[Function Store]}
   addingCommunityPostReplySuccessSubscription={[Function Subscriber]}
+  appNotificationStore={[Function Store]}
+  attachmentModalId={[Function String]}
+  communityAttachments={[Function Array]}
   communityPostReplyForm={[Function FormGroup]}
+  currentAttachmentModalState$={[Function Store]}
+  discardingPostId$={[Function Store]}
+  discardingPostIdSubscription={[Function Subscriber]}
+  discardingPostReplyProceed$={[Function Store]}
+  discardingPostReplyProceedSubscription={[Function Subscriber]}
   formBuilder={[Function FormBuilder]}
+  getNotification$={[Function Store]}
+  getNotificationSubscription={[Function Subscriber]}
   pfLinkifyService={[Function Object]}
   replyMaxLength={[Function Number]}
   replySubmitted={[Function EventEmitter]}
   store={[Function Store]}
+  submitAttempted="false"
 >
   <form
-    class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
+    class="pt-3 ng-untouched ng-pristine ng-invalid"
     novalidate=""
   >
     
     <pf-community-text-area
-      class="reply-text-area"
       textplaceholder="Add Reply..."
     />
     <div
-      class="text-right"
+      class="footer-container"
     >
-      <button
-        class="btn-sm community-btn mr-2"
-        data-qa-id="btn-reply"
-        id="reply"
-        type="button"
+      <div
+        class="float-left"
       >
-        <fa-icon
-          icon="reply"
-          size="lg"
-        />
-         Reply 
+        
+        <button
+          class="btn btn-secondary btn-sm attachment-button"
+        >
+          
+          <fa-icon
+            class="icon community-paperclip"
+            icon="paperclip"
+            size="lg"
+          />
+          
+           Attachments 
+          
+        </button>
+        
+      </div>
+      <button
+        class="btn btn-secondary btn-sm float-right ml-2"
+        data-qa-id="btn-reply-cancel"
+      >
+        Discard 
+      </button>
+      <button
+        class="btn btn-primary btn-sm float-right"
+        data-qa-id="btn-reply"
+      >
+        Reply 
+        
       </button>
     </div>
     

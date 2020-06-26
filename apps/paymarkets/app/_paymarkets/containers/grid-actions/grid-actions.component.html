@@ -1,0 +1,34 @@
+<div class="d-flex">
+  <pf-treeview
+    *ngIf="!!(sizes$ | async)?.obj?.length"
+    [data]="(sizes$ | async)?.obj"
+    [label]="'Size'"
+    [placeholder]="'All'"
+    class="filter"
+    [filterable]="true"
+    [searchPlaceholder]="'Search for a size...'"
+    (applyClicked)="handleSelectedSizesChanged($event)">
+  </pf-treeview>
+  <pf-treeview
+    *ngIf="!!(industries$ | async)?.obj && !! !!(industries$ | async)?.obj?.length"
+    [data]="(industries$ | async).obj"
+    [label]="'Industry'"
+    [placeholder]="'All'"
+    class="filter"
+    [compressChildValues]="true"
+    [filterable]="true"
+    [searchPlaceholder]="'Search for an industry...'"
+    (applyClicked)="handleIndustryFilterChanged($event)">
+  </pf-treeview>
+  <pf-treeview
+    *ngIf="!!(locations$ | async)?.obj && !! !!(locations$ | async)?.obj?.length"
+    [data]="(locations$ | async).obj"
+    [label]="'Location'"
+    [placeholder]="'All'"
+    class="filter"
+    [compressChildValues]="true"
+    [filterable]="true"
+    [searchPlaceholder]="'Search for a location...'"
+    (applyClicked)="handleLocationFilterChanged($event)">
+  </pf-treeview>
+</div>

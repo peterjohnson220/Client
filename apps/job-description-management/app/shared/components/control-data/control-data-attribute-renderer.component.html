@@ -18,7 +18,7 @@
 
   <ng-template [ngIf]="attribute.Type === 'RadioButton'">
     <div class="form-check form-check-inline" *ngFor="let choice of attribute.Choices">
-      <label class="form-check-label form-check-label-disabled">
+      <label class="form-check-label form-check-label-disabled pl-0">
         <input type="radio"
                class="form-check-input"
                [value]="choice.value"
@@ -38,7 +38,7 @@
 
   <!--Rich Text Editor-->
   <div *ngIf="attribute.Type === 'RichText'" class="rte-container">
-    <p-editor [pfEditorModel]="dataRow[attribute.Name]" [ngModel]="dataRow[attribute.Name]" [style]="{'min-height': attribute.RTEHeight }"
+    <p-editor [pfEditorModel]="dataRow[attribute.Name]" [ngModel]="dataRow[attribute.Name]" [style]="attribute.RTEHeight ? {'min-height': attribute.RTEHeight} : {'min-height': '200px' }"
               (onTextChange)="handleDataChangesDetected(dataRow.Id, attribute.Name, $event.htmlValue || '')">
       <p-header>
         <select class="ql-size">

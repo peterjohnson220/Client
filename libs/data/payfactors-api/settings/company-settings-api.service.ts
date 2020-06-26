@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CompanySetting } from 'libs/models/company';
+import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings/request';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings/request';
 
 @Injectable()
 export class CompanySettingsApiService {

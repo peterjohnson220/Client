@@ -1,0 +1,74 @@
+@import 'app-colors';
+@import 'colors';
+@import 'total-rewards/control-common';
+
+.trs-calculation {
+  table {
+    table-layout: fixed;
+    .field-column {
+      width: 65%;
+    }
+    .contribution-column {
+      width: 25%;
+    }
+    .button-column {
+      width: 10%;
+    }
+  }
+}
+
+.table-sm td {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.trs-calculation-row {
+  .remove-btn {
+    visibility: hidden;
+    margin: 0;
+    padding: .2rem;
+    line-height: 1;
+  }
+  .last-before-summary {
+    padding-bottom: .5rem;
+  }
+  td.summary {
+    font-weight: 500;
+    border-top: 1px solid $trs-soft-border-color;
+    padding-top: .3rem;
+  }
+}
+
+.dropdown-toggle::after{
+  display:none;
+}
+
+.dropdown-menu {
+  min-width: 0;
+  max-width: 15rem;
+  padding: .3rem;
+  white-space: nowrap;
+}
+
+.add-button {
+  border: none;
+  color: inherit;
+  opacity: .6;
+  &:hover {
+    color: white;
+  }
+}
+
+.add-comp-field-item:hover {
+  cursor: pointer;
+  color: $link-color !important;
+}
+
+.edit-mode {
+  .trs-calculation-row:hover {
+    .remove-btn {
+      visibility: visible;
+      position: relative;
+    }
+  }
+}

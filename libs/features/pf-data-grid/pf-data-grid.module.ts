@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -24,16 +25,23 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { reducers } from './reducers';
 import { PfDataGridEffects } from './effects';
 import { PfDataGridComponent } from './pf-data-grid.component/pf-data-grid.component';
-import { ActionBarComponent, PfGridComponent } from './containers';
+import { ActionBarComponent, PfGridComponent, FilterChooserComponent } from './containers';
 import {
   PfGridColumnComponent,
   FilterPanelComponent,
-  FilterChooserComponent,
   FilterBuilderComponent,
   PfDataGridFilterPillsComponent,
   PfDataGridSaveViewModalComponent,
-  ColumnChooserComponent
+  ColumnChooserComponent,
+  ColumnGroupComponent,
+  ColumnGroupListComponent
 } from './components';
+import {
+  IsSortablePipe,
+  SortDirectionPipe,
+  IsColumnVisiblePipe,
+  MappedFieldNamePipe,
+} from './pipes';
 
 @NgModule({
   imports: [
@@ -58,8 +66,10 @@ import {
     NumericTextBoxModule,
     FontAwesomeModule,
     SwitchModule,
+    PerfectScrollbarModule,
   ],
   declarations: [
+    // Components
     PfDataGridComponent,
     ActionBarComponent,
     PfGridComponent,
@@ -70,6 +80,14 @@ import {
     PfDataGridFilterPillsComponent,
     PfDataGridSaveViewModalComponent,
     ColumnChooserComponent,
+    ColumnGroupComponent,
+    ColumnGroupListComponent,
+
+    // Pipes
+    IsSortablePipe,
+    SortDirectionPipe,
+    IsColumnVisiblePipe,
+    MappedFieldNamePipe,
   ],
   exports: [
     PfDataGridComponent

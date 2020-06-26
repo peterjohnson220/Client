@@ -8,14 +8,11 @@
           <div>
             <h3>Company</h3>
           </div>
-          <pf-company-selector
-            [loading]="companiesLoading$ | async"
-            [companies]="companies$ | async"
-            (companySelected)="onCompanySelected($event)">
+          <pf-company-selector #companySelector>
           </pf-company-selector>
         </div>
 
-        <div class="list-group-item" *ngIf="selectedCompany">
+        <div class="list-group-item position-relative" *ngIf="selectedCompany">
           <h3>SFTP</h3>
           <div class="container-fluid">
             <pf-sftp-account-status
@@ -23,6 +20,17 @@
             [SftpPort]="(sftpPortConfig$ | async)?.Value"
             [LoadingLoadersettings]="loaderSettingsLoading$ | async"
             [CompanyAutoloaderStatus]="isCompanyOnAutoloader"></pf-sftp-account-status>
+          </div>
+        </div>
+
+        <div class="list-group-item" *ngIf="selectedCompany">
+          <h3>Public Key Authentication <span class="optional">(optional: for clients with passwordless authentication)</span></h3>
+          <div class="container-fluid">
+            <pf-public-key-auth
+              [SftpUser]="sftpUser"
+              [CompanyId]="selectedCompany.CompanyId">
+
+            </pf-public-key-auth>
           </div>
         </div>
 
@@ -115,12 +123,17 @@
           </kendo-tabstrip>
 
           <div class="float-right m-2">
-            <button
-              type="button"
-              class="btn btn-primary m-2"
-              [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete) || delimiter === ''"
-              (click)="SaveMappings()"
-            >Update</button>
+            <div class="d-inline"
+              [ngbTooltip]="(emailRecipients$ | async).length === 0
+                  ? 'Please enter an email recipient to receive the results of this load.'
+                  : !this.isValidExtension(sftpPublicKey) ? 'Invalid Public key File format. Please upload a file in these formats: ' + acceptedFileExtensions.join(', ') : ''">
+              <button
+                type="button"
+                class="btn btn-primary m-2"
+                [disabled]="shouldDisableBtn()"
+                (click)="SaveConfiguration()"
+              >Update</button>
+            </div>
             <button class="btn btn-secondary" (click)="openEmailRecipientsModal()">Email Recipients</button>
           </div>
 
@@ -131,7 +144,9 @@
       <pf-email-recipients-modal
         class="float-right m-2"
         *ngIf="selectedCompany"
-        [companyId]="selectedCompany"
+        [companyId]="selectedCompany.CompanyId"
+        [loaderConfigurationGroupId]="selectedConfigGroup ? selectedConfigGroup.LoaderConfigurationGroupId : undefined"
+        [loadType]="loadType"
         [savingError$]="emailRecipientsSavingError$"
         [removingError$]="emailRecipientsRemovingError$"
         [emailRecipientsModalOpen$]="emailRecipientsModalOpen$"

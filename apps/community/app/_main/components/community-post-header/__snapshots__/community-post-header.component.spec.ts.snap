@@ -2,6 +2,7 @@
 
 exports[`CommunityPostHeaderComponent should show community post header 1`] = `
 <pf-community-post-header
+  hideEdit="false"
   isExpiredPoll="false"
   isInternalOnly="false"
   isReply="false"
@@ -23,12 +24,23 @@ exports[`CommunityPostHeaderComponent should show community post header 1`] = `
     >
        @ Company Name | 3 days ago
     </span>
-  </p>
+  </p><div>
+    
+    <span>
+      <span
+        class="community-badge-text"
+      >
+        Comp Collective Member
+      </span>
+      
+    </span>
+  </div>
 </pf-community-post-header>
 `;
 
 exports[`CommunityPostHeaderComponent should show internal community post header 1`] = `
 <pf-community-post-header
+  hideEdit="false"
   isExpiredPoll="false"
   isInternalOnly={[Function Boolean]}
   isReply="false"
@@ -42,6 +54,7 @@ exports[`CommunityPostHeaderComponent should show internal community post header
     data-qa-id="lbl-communityInternal"
   >
     Internal
+  
   </div><p
     class="m-0"
   >
@@ -55,6 +68,16 @@ exports[`CommunityPostHeaderComponent should show internal community post header
     >
        @ Company Name | 3 days ago
     </span>
-  </p>
+  </p><div>
+    
+    <span>
+      <span
+        class="community-badge-text"
+      >
+        Comp Collective Member
+      </span>
+      
+    </span>
+  </div>
 </pf-community-post-header>
 `;

@@ -10,6 +10,7 @@ export interface ExchangeDataCutsExportRequest<TFilterType> {
   SelectedRate: string;
   SelectedExchangeScopeGuids: string[];
   SelectedWeightingType: string;
+  SelectedCurrency: string;
 }
 
 export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExportRequest<ExchangeDataSearchFilter> {
@@ -20,6 +21,7 @@ export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExp
     FilterModel: generateMockExchangeDataSearchFilter(),
     SelectedRate: RateType.Annual,
     SelectedExchangeScopeGuids: ['1234567890'],
-    SelectedWeightingType: WeightType.Inc
+    SelectedWeightingType: WeightType.Inc,
+    SelectedCurrency: 'USD'
   };
 }

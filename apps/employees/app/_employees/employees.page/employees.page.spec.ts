@@ -1,22 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import { PfCommonModule } from 'libs/core';
 
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
 import { EmployeesPageComponent } from './employees.page';
 import { of } from 'rxjs';
 
+
 describe('Employees - Employees Page', () => {
   let instance: EmployeesPageComponent;
   let fixture: ComponentFixture<EmployeesPageComponent>;
   let store: Store<fromEmployeesReducer.State>;
   let ngbModal: NgbModal;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,7 +29,8 @@ describe('Employees - Employees Page', () => {
           ...fromRootState.reducers,
           employees_main: combineReducers(fromEmployeesReducer.reducers),
           pfDataGrids: combineReducers(fromPfGridReducer.reducers)
-        })
+        }),
+        PfCommonModule
       ],
       declarations: [ EmployeesPageComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],
@@ -33,14 +38,19 @@ describe('Employees - Employees Page', () => {
         {
           provide: NgbModal,
           useValue: { open: jest.fn(), dismissAll: jest.fn() }
-        }
+        },
+        {
+          provide: Router,
+          useValue: { navigate: jest.fn() },
+        },
       ]
     });
 
     fixture = TestBed.createComponent(EmployeesPageComponent);
     instance = fixture.componentInstance;
-    store = TestBed.get(Store);
-    ngbModal = TestBed.get(NgbModal);
+    store = TestBed.inject(Store);
+    ngbModal = TestBed.inject(NgbModal);
+    router = TestBed.inject(Router);
     instance.selectedCompanyEmployeeIdsSubscription = of([]).subscribe();
     instance.pricingJobsSubscription = of(false).subscribe();
   });
@@ -99,6 +109,14 @@ describe('Employees - Employees Page', () => {
     instance.pricingJobs = true;
 
     expect(instance.priceJobsDisabled).toEqual(true);
+  });
+
+  it('should navigate to the employee history page when date changed', () => {
+    spyOn(router, 'navigate');
+
+    instance.handleEmployeeHistoryDateChange('2005-2-2');
+
+    expect(router.navigate).toHaveBeenCalledWith(['history/2005-2-2']);
   });
 
 });

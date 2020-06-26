@@ -5,7 +5,9 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
   job={[Function Object]}
   jobClicked={[Function EventEmitter]}
   jobDetailClicked={[Function EventEmitter]}
+  showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
+  showJobSourceOrTitle={[Function Boolean]}
 >
   <div
     class="result job-result-row"
@@ -41,7 +43,10 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
     >
       
       <div>
-        PayFactors
+        
+        <div>
+          PayFactors
+        </div>
       </div>
     </div>
     <div
@@ -97,6 +102,7 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
               Finance
             </td>
           </tr>
+          
           <tr>
             <th>
               FLSA:
@@ -140,7 +146,9 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
   job={[Function Object]}
   jobClicked={[Function EventEmitter]}
   jobDetailClicked={[Function EventEmitter]}
+  showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
+  showJobSourceOrTitle={[Function Boolean]}
 >
   <div
     class="result job-result-row"
@@ -176,7 +184,10 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
     >
       
       <div>
-        PayFactors
+        
+        <div>
+          PayFactors
+        </div>
       </div>
     </div>
     <div
@@ -198,7 +209,9 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
   job={[Function Object]}
   jobClicked={[Function EventEmitter]}
   jobDetailClicked={[Function EventEmitter]}
+  showJobBasedRangesJobMetadata="false"
   showJobLevelFamilyDescription="false"
+  showJobSourceOrTitle={[Function Boolean]}
 >
   <div
     class="result job-result-row"
@@ -227,7 +240,10 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
     >
       
       <div>
-        PayFactors
+        
+        <div>
+          PayFactors
+        </div>
       </div>
     </div>
     <div
@@ -283,6 +299,7 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
               Finance
             </td>
           </tr>
+          
           <tr>
             <th>
               FLSA:

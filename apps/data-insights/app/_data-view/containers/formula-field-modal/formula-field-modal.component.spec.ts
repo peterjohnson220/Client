@@ -40,8 +40,8 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
 
     fixture = TestBed.createComponent(FormulaFieldModalComponent);
     instance = fixture.componentInstance;
-    ngbModal = TestBed.get(NgbModal);
-    store = TestBed.get(Store);
+    ngbModal = TestBed.inject(NgbModal);
+    store = TestBed.inject(Store);
 
     fixture.detectChanges();
   });

@@ -28,7 +28,7 @@ describe('TransferScheduleSummaryComponent', () => {
     })
       .compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(TransferScheduleSummaryComponent);
     component = fixture.componentInstance;
   }));
@@ -37,13 +37,4 @@ describe('TransferScheduleSummaryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should dispatch getTransferSummary when page is initialized', () => {
-    spyOn(store, 'dispatch');
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    const expectedInitAction = new fromTransferSchedulePageActions.GetTransferSummary();
-    expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedInitAction);
-  });
 });

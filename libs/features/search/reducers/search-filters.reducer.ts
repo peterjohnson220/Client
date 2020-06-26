@@ -2,7 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
 
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-import {Filter, isFilterableMultiFilter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter} from '../models';
+import { Filter, isFilterableMultiFilter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
 import { ClientServerFilterHelper, FiltersHelper } from '../helpers';
 
 export interface State {
@@ -127,7 +127,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const newSingleFilter = ClientServerFilterHelper.mergeNewFiltersWithSingleFilter(
         {
           singledFilter: singleFilter,
-          subFilters: newMultiSelectFilters.filter(f => f.ParentBackingField !== null)
+          subFilters: newMultiSelectFilters.filter(f => f.ParentBackingField !== null && !f.IsChildWithoutParent)
         }
       );
 
@@ -238,6 +238,54 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: filtersCopy
       };
     }
+    case fromSearchFiltersActions.SHOW_MORE: {
+      const filtersCopy = cloneDeep(state.filters);
+      const showMoreFilter = filtersCopy.find(f => f.BackingField === action.payload.backingField);
+      if (showMoreFilter.AggregateCount == null || showMoreFilter.AggregateCount === 0) {
+        showMoreFilter.AggregateCount = 15;
+      } else {
+        showMoreFilter.AggregateCount += 10;
+      }
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
+    case fromSearchFiltersActions.SHOW_LESS: {
+      const filtersCopy = cloneDeep(state.filters);
+      const showLessFilter = filtersCopy.find(f => f.BackingField === action.payload.backingField);
+      if (showLessFilter.AggregateCount != null && showLessFilter.AggregateCount !== 5) {
+        showLessFilter.AggregateCount -= 10;
+
+        if (isMultiFilter(showLessFilter) || isFilterableMultiFilter(showLessFilter)) {
+          ClientServerFilterHelper.removeNonSelectedMultiSelectFilterOptionsToMatchAggregateCount(showLessFilter);
+        }
+      }
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
+    case fromSearchFiltersActions.ADD_FILTER_OPTIONS: {
+      const filtersCopy = cloneDeep(state.filters);
+      const updateFilter = filtersCopy.find(f => f.BackingField === action.payload.backingField && (isMultiFilter(f) || isFilterableMultiFilter(f)));
+      const serverOptions = cloneDeep(action.payload.newOptions);
+      const clientOptions = updateFilter.Options;
+      const newOptions = serverOptions.filter(nO => clientOptions.findIndex(o => o.Value === nO.Value) < 0);
+      const finalOptions = clientOptions.concat(newOptions);
+
+      updateFilter.Options = finalOptions.map(o => {
+        o.Selected = action.payload.currentSelections.some(so => so.Value === o.Value);
+        return o;
+      }).sort((a, b) => b.Count - a.Count);
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
     default: {
       return state;
     }
@@ -245,6 +293,6 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
 }
 
 // Selector functions
-export const getParentFilters = (state: State) => state.filters.filter(f => f.ParentBackingField == null);
-export const getSubFilters = (state: State) => state.filters.filter(f => f.ParentBackingField !== null);
+export const getParentFilters = (state: State) => state.filters.filter(f => !f.ParentBackingField || !!f.IsChildWithoutParent);
+export const getChildFilters = (state: State) => state.filters.filter(f => !!f.ParentBackingField && !f.IsChildWithoutParent);
 export const getAllFilters = (state: State) => state.filters;
