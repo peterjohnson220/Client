@@ -1,11 +1,11 @@
 import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 
 @Component({
-  selector: 'pf-data-cut-property',
-  templateUrl: './data-cut-property.component.html',
-  styleUrls: ['./data-cut-property.component.scss']
+  selector: 'pf-pricing-match-property',
+  templateUrl: './pricing-match-property.component.html',
+  styleUrls: ['./pricing-match-property.component.scss']
 })
-export class DataCutPropertyComponent implements OnInit, OnChanges {
+export class PricingMatchPropertyComponent implements OnInit, OnChanges {
 
   @Input() value: any;
   @Input() label: string;
@@ -20,7 +20,7 @@ export class DataCutPropertyComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.currentLabel = this.value && (this.value.length === 1 || typeof this.value === 'string') ? this.label : this.labelPlural;
+    this.currentLabel = (!this.value || this.value.length === 1 || typeof this.value === 'string') ? this.label : this.labelPlural;
     if (!this.value || this.value.length === 0) {
       this.currentValue = this.singleValue ? null : 'All';
     } else {

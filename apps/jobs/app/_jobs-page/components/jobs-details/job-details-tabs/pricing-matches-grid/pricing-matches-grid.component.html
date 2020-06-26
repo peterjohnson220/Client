@@ -1,7 +1,7 @@
 
 <pf-data-grid
-  kendoTooltip filter="pf-job-title-code.hasTooltip"
-  [tooltipTemplate]="exchangeDataCut"
+  kendoTooltip filter="pf-job-title-code"
+  [tooltipTemplate]="pricingMatch"
   tooltipClass="kendoTooltipWhiteTheme"
   [pageViewId]="pageViewId + '_' + filter.Value"
   [showTitle]="false"
@@ -20,9 +20,15 @@
   [applyUserDefaultCompensationFields]="true">
 </pf-data-grid>
 
-<ng-template #exchangeDataCut let-anchor>
-  <div class="exchangeDataCut" *ngIf="anchor.nativeElement.getAttribute('data-filterGUID')">
-    <pf-exchange-data-cuts [filterGUID]="anchor.nativeElement.getAttribute('data-filterGUID')" ></pf-exchange-data-cuts>
+<ng-template #pricingMatch let-anchor>
+  <div class="pricingMatch">
+    <pf-pricing-match
+      [pricingId]="anchor.nativeElement.getAttribute('data-pricingId')"
+      [filterGUID]="anchor.nativeElement.getAttribute('data-filterGUID')"
+      [surveyId]="anchor.nativeElement.getAttribute('data-surveyId')"
+      [slottedCompanyJobId]="anchor.nativeElement.getAttribute('data-slottedCompanyJobId')"
+      [mDJobId]="anchor.nativeElement.getAttribute('data-mDjobCode')"
+    ></pf-pricing-match>
   </div>
 </ng-template>
 

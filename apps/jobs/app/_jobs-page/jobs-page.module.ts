@@ -25,7 +25,7 @@ import {
   RangeEditorModule,
   NotesManagerModule,
   MultiMatchModule,
-  ExchangeDataCutsModule
+  PricingMatchModule
 } from 'libs/features';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
@@ -89,7 +89,7 @@ import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects } from '.
     RangeEditorModule,
     NotesManagerModule,
     MultiMatchModule,
-    ExchangeDataCutsModule,
+    PricingMatchModule,
   ],
   declarations: [
     // Pages

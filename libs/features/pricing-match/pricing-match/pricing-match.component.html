@@ -1,0 +1,16 @@
+<pf-async-container [loading]="(loading$ | async)">
+  <div class="pricingMatch p-2">
+    <div *ngIf="!(loading$ | async) && !(showError$ | async) && (pricingMatch$ | async)">
+      <pf-peer-pricing-match *ngIf="filterGUID" [pricingMatch] = "pricingMatch$ | async"></pf-peer-pricing-match>
+      <pf-pricing-match-details *ngIf="surveyId" [pricingMatch] = "pricingMatch$ | async"  [pricingMatchType]="pricingMatchTypes.SURVEY">
+      </pf-pricing-match-details>
+      <pf-pricing-match-details *ngIf="mDJobId" [pricingMatch] = "pricingMatch$ | async"  [pricingMatchType]="pricingMatchTypes.MD_JOB">
+      </pf-pricing-match-details>
+      <pf-pricing-match-details *ngIf="slottedCompanyJobId" [pricingMatch] = "pricingMatch$ | async"  [pricingMatchType]="pricingMatchTypes.SLOTTED_COMPANY_JOB">
+    </pf-pricing-match-details>
+    </div>
+  <div *ngIf="(showError$ | async)">
+    There was a problem retrieving data.
+  </div>
+  </div>
+</pf-async-container>
