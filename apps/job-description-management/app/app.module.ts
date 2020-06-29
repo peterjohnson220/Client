@@ -17,6 +17,7 @@ import { JwtQueryStringAuthInterceptor, SentryService, SentryErrorHandler } from
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
+import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { SharedModule } from './shared/shared.module';
     PfSecurityModule,
     PfStateModule,
     SharedModule,
+    PfJobDescriptionManagementModule,
 
     // Routing
     AppRoutingModule
