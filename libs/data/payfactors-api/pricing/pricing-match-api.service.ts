@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Observable } from 'rxjs';
-import { PricingNote } from 'libs/models/payfactors-api';
 
 
 @Injectable()
@@ -13,12 +11,12 @@ export class PricingMatchApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getMDJobPricingMatch(mdJobId: string, pricingId: number): Observable<any> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetMDJobPricingMatch?mdJobId=${mdJobId}&pricingId=${pricingId}`);
+  getMDJobPricingMatch(mdJobCode: string, pricingId: number): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetMDJobPricingMatch?mdJobCode=${mdJobCode}&pricingId=${pricingId}`);
   }
 
-  getSurveyPricingMatch(surveyId: number): Observable<any> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetSurveyPricingMatch?surveyId=${surveyId}`);
+  getSurveyPricingMatch(surveyDataId: number): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetSurveyPricingMatch?surveyDataId=${surveyDataId}`);
   }
 
   getSlottedCompanyJobPricingMatch(companyJobId: number): Observable<any> {

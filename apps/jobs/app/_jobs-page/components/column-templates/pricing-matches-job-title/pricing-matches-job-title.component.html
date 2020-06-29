@@ -1,17 +1,18 @@
-<div class="d-flex">
+<div kendoTooltip
+    filter="div.kendo-tooltip-container"
+    tooltipClass="kendoTooltipWhiteTheme"
+    [tooltipTemplate]="pricingMatch"
+    offset='0'
+    class="d-flex">
   <div class="ellipsis-overflowing-text wtg-adj-cell">
     {{dataRow.CompanyJobs_PricingsMatches_Match_Weight | number: '1.2-2' | emptyPlaceholder}}
   </div>
   <div class="ellipsis-overflowing-text wtg-adj-cell">
     {{dataRow.CompanyJobs_PricingsMatches_Match_Adjustment | number: '1.2-2' | emptyPlaceholder}}
   </div>
-  <div [class.collapsed]="isCollapsed" #jobTitleText>
-    <pf-job-title-code [attr.data-pricingId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']"
-      [attr.data-filterGUID]="dataRow['ExchangeDataCut_FilterGUID']"
-                       [attr.data-surveyId]="dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID']"
-                       [attr.data-slottedCompanyJobId]="dataRow['CompanyJobs_PricingsMatches_Slotted_CompanyJob_ID']"
-                       [attr.data-mDjobCode]="dataRow['CompanyJobs_PricingsMatches_MDJob_Code']"
-                       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
+  <div [class.collapsed]="isCollapsed" class="kendo-tooltip-container" #jobTitleText>
+    <pf-job-title-code      
+      [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code">
     </pf-job-title-code>
   </div>
@@ -48,6 +49,18 @@
     </button>
   </div>
 </div>
+
+<ng-template #pricingMatch>
+  <div class="pricingMatch">
+    <pf-pricing-match
+      [pricingId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']"
+      [filterGUID]="dataRow['ExchangeDataCut_FilterGUID']"
+      [surveyDataId]="dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID']"
+      [slottedCompanyJobId]="dataRow['CompanyJobs_PricingsMatches_Slotted_CompanyJob_ID']"
+      [mdJobCode]="dataRow['CompanyJobs_PricingsMatches_MDJob_Code']"
+    ></pf-pricing-match>
+  </div>
+</ng-template>
 
 <pf-modal-form
   [modalId]="'au-delete-pricing-match'"
