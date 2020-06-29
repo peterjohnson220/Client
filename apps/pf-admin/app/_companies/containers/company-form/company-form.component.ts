@@ -142,6 +142,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       assets: [0, PfValidators.isNotNumeric],
       revenue: [0, PfValidators.isNotNumeric],
       industry: [''],
+      companyDescription: ['', Validators.maxLength(300)],
       repository: [''],
       customFieldValue: ['', Validators.maxLength(50)],
       enablePricingReview: [false],
@@ -214,6 +215,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       FTEs: !!ftes ? ftes.toString() : null,
       Assets: !!assets ? assets.toString() : null,
       Revenue: !!revenue ? revenue.toString() : null,
+      CompanyDescription: this.companyForm.get('companyDescription').value,
       CompanyLogo: this.companyLogo,
       CustomerSuccessMgrUserId: !!customerSuccessMgrUserId ? customerSuccessMgrUserId.toString() : null,
       DataInsightsAssociateUserId: this.companyFormData.DataInsightsAssociateUserId,
@@ -233,8 +235,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
       EnableLiveChat: false,
       EnableIntervalAgingFactor: false,
       CompanyColor: this.companyForm.get('companyColorText').value,
-      OrgDataAutoloaderApiKey: this.companyFormData.OrgDataAutoloaderApiKey,
-      CompanyDescription: this.companyFormData.CompanyDescription
+      OrgDataAutoloaderApiKey: this.companyFormData.OrgDataAutoloaderApiKey
     };
   }
 
@@ -342,6 +343,7 @@ export class CompanyFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.companyForm.get('ftes').setValue(this.companyFormData.FTEs);
     this.companyForm.get('assets').setValue(this.companyFormData.Assets);
     this.companyForm.get('revenue').setValue(this.companyFormData.Revenue);
+    this.companyForm.get('companyDescription').setValue(this.companyFormData.CompanyDescription);
     this.companyForm.get('industry').setValue(this.companyFormData.Industry);
     this.companyForm.get('repository').setValue(this.companyFormData.SystemUserGroupsId);
     this.companyForm.get('customFieldValue').setValue(this.companyFormData.CustomFieldValue);
