@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -19,6 +19,7 @@ import { MultiSelectOption, FilterType, MultiSelectFilter } from '../../models';
   styleUrls: ['./single-filter.component.scss']
 })
 export class SingleFilterComponent implements OnInit, OnDestroy {
+  @Input() displayDescriptions = false;
   filter$: Observable<MultiSelectFilter>;
   selectionCount$: Observable<number>;
   loadingOptions$: Observable<boolean>;
