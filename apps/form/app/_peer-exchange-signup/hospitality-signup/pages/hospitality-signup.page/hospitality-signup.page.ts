@@ -35,17 +35,17 @@ export class HospitalitySignupPageComponent implements OnInit, OnDestroy {
   formLoadingSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder, private store: Store<fromSharedReducer.State>, private captchaService: CaptchaService, private zone: NgZone) {
-    this.formLoading = true;
     this.submittingFormAsyncObj$ = this.store.pipe(
       select(fromSharedReducer.getSubmittingFormAsyncObj)
     );
     this.exchangeSignupCompaniesAsyncObj$ = this.store.pipe(
       select(fromSharedReducer.getExchangeSignupCompaniesAsyncObj)
     );
-    this.initForm();
   }
 
   ngOnInit(): void {
+    this.formLoading = true;
+    this.initForm();
     this.formUpdateSubscription = this.signupForm.valueChanges.subscribe(() => {
       const formValue = this.signupForm.value;
       formValue.CompanyId = parseInt(formValue.CompanyId, 10);
