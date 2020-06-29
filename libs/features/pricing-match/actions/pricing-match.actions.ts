@@ -30,12 +30,12 @@ export class GetPricingMatchError  implements Action {
 
 export class LoadSurveyMatch implements Action {
   readonly type = LOAD_SURVEY_MATCH;
-  constructor(public surveyId: number) { }
+  constructor(public surveyDataId: number) { }
 }
 
 export class LoadMdJobMatch implements Action {
   readonly type = LOAD_MDJOB_MATCH;
-  constructor(public mdJobId: string, public pricingId: number) { }
+  constructor(public mdJobCode: string, public pricingId: number) { }
 }
 
 
@@ -51,4 +51,4 @@ export type Actions
   | LoadSurveyMatch
   | LoadMdJobMatch
   | LoadPricingMatchSuccess
-  | LoadSlottedCompanyJobMatch
+  | LoadSlottedCompanyJobMatch;

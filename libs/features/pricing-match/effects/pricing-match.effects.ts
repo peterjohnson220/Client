@@ -38,7 +38,7 @@ export class PricingMatchEffects {
       ofType(fromPricingMatchActions.LOAD_SURVEY_MATCH),
       switchMap(
         (action: fromPricingMatchActions.LoadSurveyMatch) =>
-          this.pricingMatchService.getSurveyPricingMatch(action.surveyId).pipe(
+          this.pricingMatchService.getSurveyPricingMatch(action.surveyDataId).pipe(
             map((surveyMatch: any) => new fromPricingMatchActions.LoadPricingMatchSuccess(surveyMatch)),
             catchError(response => of(new fromPricingMatchActions.GetPricingMatchError()))
           )
@@ -50,7 +50,7 @@ export class PricingMatchEffects {
       ofType(fromPricingMatchActions.LOAD_MDJOB_MATCH),
       switchMap(
         (action: fromPricingMatchActions.LoadMdJobMatch) =>
-          this.pricingMatchService.getMDJobPricingMatch(action.mdJobId, action.pricingId).pipe(
+          this.pricingMatchService.getMDJobPricingMatch(action.mdJobCode, action.pricingId).pipe(
             map((mdJobMatch: any) => new fromPricingMatchActions.LoadPricingMatchSuccess(mdJobMatch)),
             catchError(response => of(new fromPricingMatchActions.GetPricingMatchError()))
           )

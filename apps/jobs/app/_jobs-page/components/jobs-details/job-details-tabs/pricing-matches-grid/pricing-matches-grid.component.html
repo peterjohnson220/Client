@@ -1,8 +1,5 @@
 
 <pf-data-grid
-  kendoTooltip filter="pf-job-title-code"
-  [tooltipTemplate]="pricingMatch"
-  tooltipClass="kendoTooltipWhiteTheme"
   [pageViewId]="pageViewId + '_' + filter.Value"
   [showTitle]="false"
   [columnTemplates]="colTemplates"
@@ -19,18 +16,6 @@
   [headerClassName]="'jobs-page-sub-grid-header'"
   [applyUserDefaultCompensationFields]="true">
 </pf-data-grid>
-
-<ng-template #pricingMatch let-anchor>
-  <div class="pricingMatch">
-    <pf-pricing-match
-      [pricingId]="anchor.nativeElement.getAttribute('data-pricingId')"
-      [filterGUID]="anchor.nativeElement.getAttribute('data-filterGUID')"
-      [surveyId]="anchor.nativeElement.getAttribute('data-surveyId')"
-      [slottedCompanyJobId]="anchor.nativeElement.getAttribute('data-slottedCompanyJobId')"
-      [mDJobId]="anchor.nativeElement.getAttribute('data-mDjobCode')"
-    ></pf-pricing-match>
-  </div>
-</ng-template>
 
 <ng-template #pricingMatchesHeader>
   <div class="row no-gutters text-center py-1" style="background-color: #F7F7F9">

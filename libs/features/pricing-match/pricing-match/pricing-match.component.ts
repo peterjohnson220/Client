@@ -15,9 +15,9 @@ import {PricingMatchTypes} from '../constants';
 export class PricingMatchComponent implements OnInit, OnChanges {
   @Input() pricingId: number;
   @Input() filterGUID: string;
-  @Input() surveyId: number;
+  @Input() surveyDataId: number;
   @Input() slottedCompanyJobId: number;
-  @Input() mDJobId: number;
+  @Input() mdJobCode: number;
   pricingMatchTypes = PricingMatchTypes;
   loading$: Observable<boolean>;
   showError$: Observable<boolean>;
@@ -37,14 +37,14 @@ export class PricingMatchComponent implements OnInit, OnChanges {
     if (changes['filterGUID'] && changes['filterGUID'].currentValue) {
       this.store.dispatch(new fromPricingMatchActions.LoadPeerMatch(changes['filterGUID'].currentValue));
     }
-    if (changes['surveyId'] && changes['surveyId'].currentValue) {
-      this.store.dispatch(new fromPricingMatchActions.LoadSurveyMatch(changes['surveyId'].currentValue));
+    if (changes['surveyDataId'] && changes['surveyDataId'].currentValue) {
+      this.store.dispatch(new fromPricingMatchActions.LoadSurveyMatch(changes['surveyDataId'].currentValue));
     }
     if (changes['slottedCompanyJobId'] && changes['slottedCompanyJobId'].currentValue) {
       this.store.dispatch(new fromPricingMatchActions.LoadSlottedCompanyJobMatch(changes['slottedCompanyJobId'].currentValue));
     }
-    if (changes['mDJobId'] && changes['mDJobId'].currentValue && changes['pricingId'] && changes['pricingId'].currentValue) {
-      this.store.dispatch(new fromPricingMatchActions.LoadMdJobMatch(changes['mDJobId'].currentValue, changes['pricingId'].currentValue));
+    if (changes['mdJobCode'] && changes['mdJobCode'].currentValue && changes['pricingId'] && changes['pricingId'].currentValue) {
+      this.store.dispatch(new fromPricingMatchActions.LoadMdJobMatch(changes['mdJobCode'].currentValue, changes['pricingId'].currentValue));
     }
   }
 }
