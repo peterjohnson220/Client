@@ -13,7 +13,7 @@ export class PayfactorsApiModelMapper {
   /// IN
   static mapTicketTypeResponseToTicketTypes(response: UserTicketTypeResponse[]): TicketType[] {
     const allTicketType: TicketType = {
-      Active: true,
+      Active: false,
       SortOrder: 0,
       TicketFileTypeId: null,
       TicketTypeDisplayName: 'All',
