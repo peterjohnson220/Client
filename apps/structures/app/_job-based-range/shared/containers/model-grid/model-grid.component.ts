@@ -39,6 +39,7 @@ import { ColumnTemplateService, StructuresPagesService } from '../../services';
 })
 export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('mid') midColumn: ElementRef;
+  @ViewChild('rangeField') rangeFieldColumn: ElementRef;
   @ViewChild('eeCount') eeCountColumn: ElementRef;
   @ViewChild('rangeValue') rangeValueColumn: ElementRef;
   @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
@@ -178,11 +179,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.store.dispatch(new fromSharedJobBasedRangeActions.RemovingRange({StructuresRangeId: this.rangeIdToRemove, IsCurrent: this.metaData.IsCurrent }));
   }
 
-
-
   getColumnTemplates() {
     return {
       'mid': this.midColumn,
+      'rangeField': this.rangeFieldColumn,
       'noFormatting': this.noFormattingColumn,
       'eeCount': this.eeCountColumn,
       'rangeValue': this.rangeValueColumn,

@@ -1,7 +1,7 @@
 <kendo-numerictextbox  *ngIf="editable"
                        class="form-control"
                        [ngClass]="textAlign"
-                       [value]="value"
+                       [value]="fieldValue"
                        [spinners]="false"
                        [format]="format"
                        [decimals]="decimals"
@@ -17,5 +17,5 @@
 <ng-container
   *ngIf="!editable"
   [ngTemplateOutlet]="readonlyValueTemplate"
-  [ngTemplateOutletContext]="{dataRow: dataRow, mid: mid}">
+  [ngTemplateOutletContext]="{dataRow: dataRow, fieldName: fieldName}">
 </ng-container>

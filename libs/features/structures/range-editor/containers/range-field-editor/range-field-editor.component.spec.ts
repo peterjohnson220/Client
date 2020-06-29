@@ -12,17 +12,17 @@ import { generateMockRoundingSettingsDataObj } from 'libs/models/structures/rang
 import { getMockDataViewFilter } from 'libs//models/payfactors-api/reports/request';
 import { PermissionService } from 'libs/core/services';
 
-import * as fromMidpointActions from '../../actions/midpoint-edit.actions';
-import { MidpointEditorComponent } from './midpoint-editor.component';
+import * as fromRangeFieldEditorActions from '../../actions/range-field-edit.actions';
+import { RangeFieldEditorComponent } from './range-field-editor.component';
 
 describe('Features - Structures - Midpoint Editor', () => {
-  let instance: MidpointEditorComponent;
-  let fixture: ComponentFixture<MidpointEditorComponent>;
+  let instance: RangeFieldEditorComponent;
+  let fixture: ComponentFixture<RangeFieldEditorComponent>;
   let store: MockStore<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ MidpointEditorComponent ],
+      declarations: [ RangeFieldEditorComponent ],
       providers: [
         provideMockStore({}),
         {
@@ -37,7 +37,7 @@ describe('Features - Structures - Midpoint Editor', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MidpointEditorComponent);
+    fixture = TestBed.createComponent(RangeFieldEditorComponent);
     instance = fixture.componentInstance;
     store = TestBed.inject(MockStore);
   });
@@ -122,7 +122,7 @@ describe('Features - Structures - Midpoint Editor', () => {
 
   it('should set the value to the mid when focusing', () => {
     instance.value = 89.6;
-    instance.mid = 89599;
+    instance.fieldValue = 89599;
 
     instance.handleFocus();
 
@@ -160,14 +160,16 @@ describe('Features - Structures - Midpoint Editor', () => {
       pageViewId: instance.pageViewId,
       rangeGroupId: instance.rangeGroupId,
       rangeId: instance.rangeId,
-      mid: 97888,
+      fieldValue: 97888,
+      fieldName: 'Mid',
+      isMid: undefined,
       rowIndex: instance.rowIndex,
       roundingSettings: instance.roundingSettings,
       refreshRowDataViewFilter: instance.refreshRowDataViewFilter,
       metaInfo: instance.updateMetaInfo,
       successCallBackFn: instance.updateSuccessCallbackFn
     };
-    const expectedAction = new fromMidpointActions.UpdateMid(expectedActionPayload);
+    const expectedAction = new fromRangeFieldEditorActions.UpdateRangeField(expectedActionPayload);
 
     instance.handleValueChange({ target: { value: 97888 }}, 0);
 
@@ -184,7 +186,7 @@ describe('Features - Structures - Midpoint Editor', () => {
   });
 });
 
-function buildDefaultInputs(instance: MidpointEditorComponent): void {
+function buildDefaultInputs(instance: RangeFieldEditorComponent): void {
   instance.pageViewId = '8881A5B6-2506-4755-B756-9D310EBFF8A1';
   instance.rangeGroupType = RangeGroupType.Job;
   instance.currentStructure = true;
@@ -199,7 +201,8 @@ function buildDefaultInputs(instance: MidpointEditorComponent): void {
   instance.rangeGroupId = 123;
   instance.rangeId = 987;
   instance.rate = RateType.Annual;
-  instance.mid = 55000;
+  instance.fieldValue = 55000;
+  instance.fieldName = 'Mid'
   instance.dataRow = {};
   instance.rowIndex = 0;
 }

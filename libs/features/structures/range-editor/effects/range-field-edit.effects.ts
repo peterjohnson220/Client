@@ -13,27 +13,30 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 
 import { PayfactorsApiModelMapper } from '../helpers';
-import * as fromMidpointEditActions from '../actions/midpoint-edit.actions';
+import * as fromRangeFieldActions from '../actions/range-field-edit.actions';
 
 @Injectable()
-export class MidpointEditEffects {
+export class RangeFieldEditEffects {
+
   @Effect()
   updateMid$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromMidpointEditActions.UPDATE_MID),
+      ofType(fromRangeFieldActions.UPDATE_RANGE_FIELD),
       switchMap(
-        (action: fromMidpointEditActions.UpdateMid) =>
+        (action: fromRangeFieldActions.UpdateRangeField) =>
           this.structureModelingApiService.recalculateRangeMinMax(PayfactorsApiModelMapper.mapUpdateRangeInputToRecalcAndSaveRangeMinMaxRequest(
             action.payload.rangeGroupId,
             action.payload.rangeId,
-            action.payload.mid,
+            action.payload.fieldValue,
+            action.payload.fieldName,
+            action.payload.isMid,
             action.payload.rowIndex,
             action.payload.roundingSettings))
             .pipe(
               mergeMap((response) => {
                 const actions = [];
 
-                actions.push(new fromMidpointEditActions.UpdateMidSuccess({
+                actions.push(new fromRangeFieldActions.UpdateRangeFieldSuccess({
                   pageViewId: action.payload.pageViewId,
                   refreshRowDataViewFilter: action.payload.refreshRowDataViewFilter,
                   rowIndex: action.payload.rowIndex
@@ -48,14 +51,14 @@ export class MidpointEditEffects {
               catchError(() => {
                 const actions = [];
 
-                actions.push(new fromMidpointEditActions.UpdateMidError());
+                actions.push(new fromRangeFieldActions.UpdateRangeFieldError());
 
                 actions.push(new fromNotificationActions.AddNotification({
                   EnableHtml: true,
                   From: NotificationSource.GenericNotificationMessage,
                   Level: NotificationLevel.Error,
                   NotificationId: '',
-                  Payload: { Title: 'Error', Message: `Unable to update midpoint value`},
+                  Payload: { Title: 'Error', Message: `Unable to update value`},
                   Type: NotificationType.Event
                 }));
 
@@ -68,8 +71,8 @@ export class MidpointEditEffects {
   @Effect()
   updateMidSuccess$ = this.actions$
     .pipe(
-      ofType<fromMidpointEditActions.UpdateMidSuccess>(fromMidpointEditActions.UPDATE_MID_SUCCESS),
-      mergeMap((action: fromMidpointEditActions.UpdateMidSuccess) =>
+      ofType<fromRangeFieldActions.UpdateRangeFieldSuccess>(fromRangeFieldActions.UPDATE_RANGE_FIELD_SUCCESS),
+      mergeMap((action: fromRangeFieldActions.UpdateRangeFieldSuccess) =>
         of(action).pipe(
           withLatestFrom(
             this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, action.payload.pageViewId)),
@@ -77,7 +80,7 @@ export class MidpointEditEffects {
             this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, action.payload.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, action.payload.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, action.payload.pageViewId)),
-            (a: fromMidpointEditActions.UpdateMidSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
+            (a: fromRangeFieldActions.UpdateRangeFieldSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
               ({ a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters }))
           )
       ),
