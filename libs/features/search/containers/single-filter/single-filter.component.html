@@ -17,6 +17,7 @@
       <ng-container *ngSwitchCase="filterTypes.Multi">
         <pf-multi-select-filter
           [filter]="filter$ | async"
+          [displayDescriptions]="displayDescriptions"
           (optionSelected)="handleMultiSelectOptionSelected($event)">
         </pf-multi-select-filter>
       </ng-container>
@@ -24,6 +25,7 @@
       <ng-container *ngSwitchCase="filterTypes.FilterableMulti">
         <pf-filterable-multi-select-filter
           [filter]="filter$ | async"
+          [displayDescriptions]="displayDescriptions"
           (optionSelected)="handleMultiSelectOptionSelected($event)">
         </pf-filterable-multi-select-filter>
       </ng-container>

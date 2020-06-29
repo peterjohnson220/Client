@@ -2,7 +2,7 @@
 
   <ng-container *ngFor="let option of filter.Options">
 
-    <span *ngIf="!fieldHasDescription" [class]="'option alt-color au-chk-'+filter.CssClassName"
+    <span *ngIf="!fieldHasDescription()" [class]="'option alt-color au-chk-'+filter.CssClassName"
           [class.selected]="(option.Selected || hasSubAggregationSelections(option)) && !(option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField)"
           [class.disabled]="optionDisabled(option)"
           [class.locked]="filter.Locked"
@@ -20,7 +20,7 @@
       <fa-icon *ngIf="option.SubAggregationCount > 0 && option.SelectionsCount <= 0" [icon]="borderFilter" class="filter-icon" (click)="handleFilterableOptionSelected(filter, option);$event.stopPropagation()"></fa-icon>
 
     </span>
-    <span *ngIf="fieldHasDescription" [class]="'option alt-color au-chk-'+filter.CssClassName"
+    <span *ngIf="fieldHasDescription()" [class]="'option alt-color au-chk-'+filter.CssClassName"
           [class.selected]="(option.Selected || hasSubAggregationSelections(option)) && !(option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField)"
           [class.disabled]="optionDisabled(option)"
           [class.locked]="filter.Locked"
