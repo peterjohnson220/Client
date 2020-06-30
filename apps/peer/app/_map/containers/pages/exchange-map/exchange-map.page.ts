@@ -1,14 +1,18 @@
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Exchange, ExchangeScopeItem } from 'libs/models';
-import { MapComponent } from 'libs/features/peer/map/containers/map/map.component';
-import * as fromLibsPeerMapActions from 'libs/features/peer/map/actions/map.actions';
-import * as fromLibsFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
-import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
+import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
+import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
+import { ExchangeExplorerMapComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer-map';
+import * as fromLibsPeerExchangeExplorerExchangeScopeActions from 'libs/features/peer/exchange-explorer/actions/exchange-scope.actions';
+import * as fromLibsPeerExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
+import * as fromLibsExchangeExplorerReducer from 'libs/features/peer/exchange-explorer/reducers';
+import * as fromLibsSearchReducer from 'libs/features/search/reducers';
+import * as fromLibsExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 
 import * as fromExchangeScopeActions from '../../../actions/exchange-scope.actions';
 import * as fromExportDataCutsActions from '../../../actions/export-data-cuts.actions';
@@ -21,34 +25,34 @@ import * as fromPeerMapReducer from '../../../reducers';
   styleUrls: ['./exchange-map.page.scss']
 })
 export class ExchangeMapPageComponent implements OnInit, OnDestroy {
-  @ViewChild(MapComponent, { static: true }) map: MapComponent;
+  @ViewChild(ExchangeExplorerMapComponent, { static: true }) map: ExchangeExplorerMapComponent;
+  @ViewChild(ExchangeExplorerComponent, { static: true }) exchangeExplorer: ExchangeExplorerComponent;
 
   exchangeId: number;
   exchange$: Observable<Exchange>;
-  initialMapMoveComplete$: Observable<boolean>;
   peerMapLoadingError$: Observable<boolean>;
   numberOfCompanySelections$: Observable<number>;
   numberOfSelections$: Observable<number>;
   peerMapCompaniesCount$: Observable<number>;
   exchangeJobIdsInScope$: Observable<number[]>;
-  exchangeScopes$: Observable<ExchangeScopeItem[]>;
+  exchangeScopeItems$: Observable<ExchangeScopeItem[]>;
   selectedExchangeScope$: Observable<ExchangeScopeItem>;
 
   constructor(
     private route: ActivatedRoute,
-    private libsPeerMapStore: Store<fromLibsPeerMapReducer.State>,
+    private libsExchangeExplorerStore: Store<fromLibsExchangeExplorerReducer.State>,
     private sharedPeerStore: Store<fromSharedPeerReducer.State>,
-    private peerMapStore: Store<fromPeerMapReducer.State>
+    private peerMapStore: Store<fromPeerMapReducer.State>,
+    private exchangeExplorerContextService: ExchangeExplorerContextService
   ) {
     this.exchange$ = this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchange));
-    this.initialMapMoveComplete$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapInitialMapMoveComplete));
-    this.peerMapLoadingError$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapLoadingError));
-    this.numberOfCompanySelections$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getNumberOfCompanySelections));
-    this.numberOfSelections$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerFilterSelectionsCount));
-    this.peerMapCompaniesCount$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapCompaniesCount));
-    this.exchangeJobIdsInScope$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapExchangeJobIdsFromSummary));
-    this.exchangeScopes$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getExchangeScopes));
-    this.selectedExchangeScope$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerFilterScopeSelection));
+    this.peerMapLoadingError$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapLoadingError));
+    this.numberOfCompanySelections$ = this.exchangeExplorerContextService.selectCountOfCompanyFiltersSelected();
+    this.numberOfSelections$ = this.sharedPeerStore.pipe(select(fromLibsSearchReducer.getOverallFilterSelectionsCount));
+    this.peerMapCompaniesCount$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapOrgCount));
+    this.exchangeJobIdsInScope$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapExchangeJobIds));
+    this.exchangeScopeItems$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducers.getExchangeScopes));
+    this.selectedExchangeScope$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducers.getFilterContextScopeSelection));
     this.exchangeId = +this.route.snapshot.params.id;
   }
 
@@ -57,11 +61,12 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
   }
 
   handleUpsertExchangeScopeEvent(scopeItem: any) {
-    const zoomLevel = this.map.getZoomLevel();
-    this.peerMapStore.dispatch(new fromExchangeScopeActions.UpsertExchangeScope({
+    this.peerMapStore.dispatch(new fromLibsPeerExchangeExplorerExchangeScopeActions.UpsertExchangeScope({
+      ExchangeId: this.exchangeId,
+      ExchangeScopeGuid: null,
       ExchangeScopeName: scopeItem.Name,
       ExchangeScopeDescription: scopeItem.Description,
-      ZoomLevel: zoomLevel
+      IsDefault: scopeItem.IsDefault
     }));
   }
 
@@ -70,12 +75,21 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.libsPeerMapStore.dispatch(new fromLibsPeerMapActions.ResetState());
-    this.libsPeerMapStore.dispatch(new fromLibsFilterSidebarActions.ResetState());
+    this.libsExchangeExplorerStore.dispatch(new fromLibsPeerExchangeExplorerActions.ResetExchangeExplorerState());
   }
 
   ngOnInit() {
-    this.libsPeerMapStore.dispatch(new fromLibsFilterSidebarActions.LimitToExchange(this.exchangeId));
-    this.libsPeerMapStore.dispatch(new fromLibsPeerMapActions.LoadPeerMapData());
+    const setContextMessage: MessageEvent = {
+      data: {
+        payfactorsMessage: {
+          type: 'Set Context',
+          payload: {
+            exchangeId: this.exchangeId,
+            isExchangeSpecific: true
+          }
+        }
+      }
+    } as MessageEvent;
+    this.exchangeExplorer.onMessage(setContextMessage);
   }
 }

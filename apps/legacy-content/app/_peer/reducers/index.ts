@@ -63,15 +63,6 @@ export const getUpsertDataCutPageInViewInIframe = createSelector(
   selectUpsertDataCutState,
   fromUpsertDataCutPageReducer.getPageInViewInIframe
 );
-export const getUpsertDataCutLoadingDataCutDetails = createSelector(
-  selectUpsertDataCutState,
-  fromUpsertDataCutPageReducer.getLoadingDataCutDetails
-);
-export const getUpsertDataCutLoadingDataCutError = createSelector(
-  selectUpsertDataCutState,
-  fromUpsertDataCutPageReducer.getLoadingDataCutDetailsError
-);
-
 
 // Associate Company Job Selectors
 export const getExchangeSearchResult = createSelector(

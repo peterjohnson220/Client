@@ -23,8 +23,7 @@ export function reducer(
   action: fromExportDataCutsActions.Actions
 ): State {
   switch (action.type) {
-    case fromExportDataCutsActions.EXPORT_DATA_CUTS:
-    case fromExportDataCutsActions.EXPORT_DATA_CUTS_NEW: {
+    case fromExportDataCutsActions.EXPORT_DATA_CUTS: {
       return {
         ...state,
         exporting: true,
