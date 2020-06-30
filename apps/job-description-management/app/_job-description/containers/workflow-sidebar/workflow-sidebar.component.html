@@ -8,6 +8,8 @@
         Comment Required for Rejection
       </div>
 
+      <div class="form-control-feedback" *ngIf="(workflowCompleteStepError$ | async)">An error has occurred, please refresh and try again</div>
+
       <button *ngIf="workflowStepInfo.IsFirstStep" type="submit" class="btn btn-secondary" [disabled]="(workflowStepApproving$ | async) || (workflowStepRejecting$ | async)">
         <span *ngIf="workflowStepRejecting$ | async"><pf-loading-indicator></pf-loading-indicator> Cancelling Approval...</span>
         <span *ngIf="!(workflowStepRejecting$ | async)"><fa-icon icon="times" aria-hidden="true"></fa-icon> Cancel Approval</span>

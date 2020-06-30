@@ -208,11 +208,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     if (this.identity.IsPublic) {
       this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
     }
-
-    if (this.tokenId && this.identityInWorkflow) {
-      this.initSignalRConnection(); // sets isBeingViewed to false on signalR disconnect
-      this.store.dispatch(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewed({jwt: this.tokenId, isBeingViewed: true}));
-    }
   }
 
   ngOnDestroy(): void {
@@ -470,7 +465,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         const currentURLWithToken = `${currentURL.slice(0, currentURL.indexOf('?'))}?jwt=${this.tokenId}`;
         const encodedUrl = encodeURIComponent(currentURLWithToken);
 
-        window.location.href = `${ssoLoginUrl}&appurl=${encodedUrl}`;
+         window.location.href = `${ssoLoginUrl}&appurl=${encodedUrl}`;
       }
     });
 
@@ -525,16 +520,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
 
 
-    this.requireSSOLogin$.subscribe(requireSSOLogin => {
+    this.requireSSOLogin$.subscribe(requireSSOLoginResult => {
+      if (requireSSOLoginResult === false && this.tokenId && this.identityInWorkflow) {
+          this.setWorkflowUserStepToIsBeingViewed();
+      }
 
-      if (requireSSOLogin  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
+      if (requireSSOLoginResult  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
 
          this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
 
-       } else if (requireSSOLogin && this.tokenId != null) {
+       } else if (requireSSOLoginResult && this.tokenId != null) {
 
          this.store.dispatch(new fromJobDescriptionActions.AuthenticateSSOParams({tokenId: this.ssoTokenId, agentId: this.ssoAgentId}));
-         this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
 
          this.jobDescriptionSSOAuthResult$.subscribe( result => {
            if (result) {
@@ -545,6 +542,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
                 this.router.navigate(['/forbidden']);
               }
 
+             this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
+             this.setWorkflowUserStepToIsBeingViewed();
              this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
             }
          });
@@ -554,7 +553,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
              this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
            }
          });
-       } else if (requireSSOLogin != null) {
+       } else if (requireSSOLoginResult != null) {
           this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
        }
     });
@@ -587,6 +586,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
     this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
     this.editingSubscription = this.editingJobDescription$.subscribe(value => this.editing = value);
+  }
+
+  private setWorkflowUserStepToIsBeingViewed() {
+    this.initSignalRConnection(); // sets isBeingViewed to false on signalR disconnect
+    this.store.dispatch(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewed({jwt: this.tokenId, isBeingViewed: true}));
   }
 
   private initRouterParams(): void {
