@@ -13,7 +13,7 @@
                     <input type="checkbox"
                       (change)="toggleCompanyTile(companyTile)"
                       [disabled]="companyTile.Disabled" [checked]="companyTile.Checked" />
-                    {{companyTile.TileName}}
+                    {{companyTile.TileDisplayName}}
                   </label>
                 </div>
               </ng-container>
@@ -123,7 +123,7 @@
                   <label>
                     <input type="checkbox"
                            (change)="toggleMarketingTile(marketingTile)" [checked]="marketingTile.MarketingEnabled" [disabled]="marketingTile.Checked" />
-                    {{marketingTile.TileName}}
+                    {{marketingTile.TileDisplayName}}
                   </label>
                 </div>
               </ng-container>
