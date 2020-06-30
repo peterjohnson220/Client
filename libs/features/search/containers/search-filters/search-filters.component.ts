@@ -20,6 +20,7 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
   @Input() defaultDisplayValue = 'block';
   @Input() defaultFocusedFilterId: string;
   @Input() serverShowMore = false;
+  @Input() displayDescriptions = false;
 
   filters$: Observable<Filter[]>;
   subFilters$: Observable<Filter[]>;

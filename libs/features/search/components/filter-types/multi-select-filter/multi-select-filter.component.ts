@@ -14,6 +14,7 @@ import * as fromCompanyDescriptionReducer from '../../../../company/company-deta
 })
 export class MultiSelectFilterComponent {
   @Input() filter: MultiSelectFilter;
+  @Input() displayDescriptions = false;
   @Output() optionSelected: EventEmitter<{filterId: string, option: MultiSelectOption}> = new EventEmitter();
 
   companyDescription$: Observable<string>;
@@ -40,7 +41,7 @@ export class MultiSelectFilterComponent {
     this.optionSelected.emit({ filterId, option });
   }
   fieldHasDescription(): boolean {
-    return this.filter.BackingField === 'company_name' || this.filter.BackingField === 'subsidiary_name';
+    return this.displayDescriptions && (this.filter.BackingField === 'company_name' || this.filter.BackingField === 'subsidiary_name');
   }
 
   mouseEnter(option: MultiSelectOption) {

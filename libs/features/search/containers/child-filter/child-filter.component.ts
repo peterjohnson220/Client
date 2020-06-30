@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -18,6 +18,7 @@ import * as fromSearchReducer from '../../reducers';
   styleUrls: ['./child-filter.component.scss']
 })
 export class ChildFilterComponent extends SingleFilterComponent {
+  @Input() displayDescriptions = false;
   childFilterParentOptionValue$: Observable<string>;
   childFilterName$: Observable<string>;
 

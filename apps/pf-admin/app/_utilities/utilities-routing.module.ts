@@ -16,8 +16,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'yoy-default-scopes', pathMatch: 'full' },
   { path: 'yoy-default-scopes', component: SelectCompanyPageComponent, canActivate: [PfAdminGuard] },
   { path: 'yoy-default-scopes/:id', component: YoyDefaultScopesPageComponent, canActivate: [PfAdminGuard] },
-  { path: 'loadjobdescriptions', component: UtilitiesSelectCompanyPageComponent },
-  { path: 'loadjobdescriptions/:id', component: JobDescriptionLoaderPageComponent, canActivate: [LoadJobDescriptionLoaderGuard] },
+  { path: 'loadjobdescriptions', component: UtilitiesSelectCompanyPageComponent, canActivate: [PfAdminGuard] },
+  { path: 'loadjobdescriptions/:id', component: JobDescriptionLoaderPageComponent, canActivate: [LoadJobDescriptionLoaderGuard, PfAdminGuard] },
   { path: 'not-found', component: NotFoundErrorPageComponent },
 ];
 

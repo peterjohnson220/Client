@@ -25,6 +25,7 @@ import * as fromSearchFiltersActions from '../../../actions/search-filters.actio
 })
 export class FilterableMultiSelectFilterComponent extends MultiSelectFilterComponent {
   @Input() filter: FilterableMultiSelectFilter;
+  @Input() displayDescriptions = false;
   @Output() optionSelected: EventEmitter<{filterId: string, option: FilterableMultiSelectOption}> = new EventEmitter();
   childFilter$: Observable<Filter>;
   childFilterParentOptionValue$: Observable<any>;
