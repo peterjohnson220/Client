@@ -37,8 +37,11 @@
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
-    <span [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>
+    <span *ngIf="!fieldName.includes('Pct'); else pctValue" [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>
   </div>
+  <ng-template #pctValue>
+    <span [innerHTML]="dataRow[fieldName] | comp: rate : 'full' | emptyPlaceholder"></span>
+  </ng-template>
 </ng-template>
 
 <ng-template #pricingInfoColumn let-dataRow="dataRow" let-fieldName="fieldName">
