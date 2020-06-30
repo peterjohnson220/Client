@@ -24,11 +24,15 @@ export class PricingMatchDetailsComponent implements OnInit, OnChanges {
     if (changes['pricingMatchType'] && changes['pricingMatchType'].currentValue) {
       switch (this.pricingMatchType) {
         case PricingMatchTypes.MD_JOB:
+          const industry = `${this.pricingMatch.IndustryValue} ${this.pricingMatch.IndustryValue === 'All' ? 'Industries' : ''}`;
+          const size = `${this.pricingMatch.SizeValue} ${this.pricingMatch.SizeValue === 'All' ? 'Sizes' : '(' + this.pricingMatch.SizeLabel + ')'}`;
+          const location = `${this.pricingMatch.GeoValue} ${this.pricingMatch.GeoValue === 'All' ? 'Locations' : ''}`;
+          const scopeDescription = `${this.pricingMatch.IndustryValue ? industry + '/ ' : ''}
+            ${this.pricingMatch.SizeValue ? size + '/ ' : ''}
+            ${this.pricingMatch.GeoValue ? location : ''}`.trim();
+          this.scope = `${this.pricingMatch.Name}${scopeDescription ? ' - ' + scopeDescription : ''}`;
+
           this.source = `Payfactors effective`;
-          this.scope = `${this.pricingMatch.Name} -
-            ${this.pricingMatch.IndustryValue} ${this.pricingMatch.IndustryValue === 'All' ? 'Industries' : this.pricingMatch.IndustryValue}/
-            ${this.pricingMatch.SizeValue} ${this.pricingMatch.SizeValue === 'All' ? 'Sizes' : '(' + this.pricingMatch.SizeLabel + ')'}/
-            ${this.pricingMatch.GeoValue} ${this.pricingMatch.GeoValue === 'All' ? 'Locations' : ''}`;
           break;
         case PricingMatchTypes.SURVEY:
           this.source = `${this.pricingMatch.Publisher} ${this.pricingMatch.SurveyName} effective`;
