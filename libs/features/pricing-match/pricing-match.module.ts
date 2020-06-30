@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import {reducers} from './reducers';
-import {StoreModule} from '@ngrx/store';
-import {PricingMatchComponent} from './pricing-match/pricing-match.component';
-import {EffectsModule} from '@ngrx/effects';
-import {PricingMatchEffects} from './effects';
-import {PfCommonUIModule} from '../../ui/common/common-ui-module';
-import {PfCommonModule} from '../../core';
-import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { reducers } from './reducers';
+import { StoreModule } from '@ngrx/store';
+import { PricingMatchComponent } from './pricing-match/pricing-match.component';
+import { EffectsModule } from '@ngrx/effects';
+import { PricingMatchEffects } from './effects';
+import { PfCommonUIModule } from '../../ui/common/common-ui-module';
+import { PfCommonModule, EmptyPlaceholderPipe } from '../../core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PricingMatchDetailsComponent } from './containers/pricing-match-details/pricing-match-details.component';
 import { PeerPricingMatchComponent } from './containers/peer-pricing-match/peer-pricing-match.component';
-import {PricingMatchPropertyComponent} from './containers/pricing-match-property/pricing-match-property.component';
+import { PricingMatchPropertyComponent } from './containers/pricing-match-property/pricing-match-property.component';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from './fa-icons';
@@ -30,10 +30,15 @@ import * as fromFaIcons from './fa-icons';
     EffectsModule.forFeature([
       PricingMatchEffects,
     ]),
-    FontAwesomeModule,
+    FontAwesomeModule
   ],
-  declarations: [PricingMatchComponent, PricingMatchPropertyComponent,
-    PricingMatchDetailsComponent, PeerPricingMatchComponent],
+  declarations: [
+    // Components
+    PricingMatchComponent,
+    PricingMatchPropertyComponent,
+    PricingMatchDetailsComponent,
+    PeerPricingMatchComponent,
+  ],
   exports: [PricingMatchComponent],
 })
 export class PricingMatchModule {
