@@ -1,4 +1,4 @@
-export interface CompanyNote {
+export interface SurveyNote {
     Id: number;
     Note: string;
     CreateDate?: Date;
@@ -6,10 +6,10 @@ export interface CompanyNote {
     FirstName: string;
     LastName: string;
     UserPicture?: string;
-    CompanyId: number;
+    SurveyId: number;
 }
 
-export function getDefaultCompanyNote(): CompanyNote {
+export function getDefaultSurveyNote(): SurveyNote {
     return {
         Id: 0,
         Note: '',
@@ -18,6 +18,6 @@ export function getDefaultCompanyNote(): CompanyNote {
         FirstName: '',
         LastName: '',
         UserPicture: '',
-        CompanyId: 1
+        SurveyId: 1
     };
 }

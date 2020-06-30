@@ -26,6 +26,7 @@
             <th># Published Matches</th>
             <th># Project Matches</th>
             <th>Map Companies</th>
+            <th>Notes</th>
             <th></th>
           </tr>
         </thead>
@@ -39,8 +40,8 @@
             <td>{{item.ParticipantCount}}</td>
             <td>{{item.PublishMatchCount}}</td>
             <td>{{item.ProjectMatchCount}}</td>
-            <td (click)="mapCompaniesClick(item.SurveyId)"
-                style="cursor: pointer"><u>{{item.CompanyCount}}</u></td>
+            <td (click)="mapCompaniesClick(item.SurveyId)"><u>{{item.CompanyCount}}</u></td>
+            <td (click)="openNotesModal($event, item)"><u>{{item.NotesCount}}</u></td>
             <td>
               <button type="button"
                       class="btn btn-info btn-sm"
@@ -96,3 +97,4 @@
 </pf-copy-survey-modal>
 <pf-delete-confirmation-modal [publishedMatchCount]="selectedItemMatchCount"
                               [surveyId]="selectedSurveyId"></pf-delete-confirmation-modal>
+<pf-survey-notes-modal></pf-survey-notes-modal>                              
