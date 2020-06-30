@@ -18,7 +18,6 @@ import { PageViewIds } from '../../../constants';
   selector: 'pf-pricing-matches-job-title',
   templateUrl: './pricing-matches-job-title.component.html',
   styleUrls: ['./pricing-matches-job-title.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked, OnDestroy {
   permissions = Permissions;
