@@ -69,7 +69,7 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
     progressive: false,
     title: 'Uploading...'
   };
-  spinnerType: string;
+  spinnerType = 'PROGRESS';
 
   constructor(
     private companyStore: Store<fromCompanyReducer.State>,
@@ -162,7 +162,6 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
     if (!this.selectedCompany) {
       return;
     }
-    this.spinnerType = 'SVG';
     this.store.dispatch(new fromPricingLoaderActions.SaveConfig());
   }
 
@@ -216,7 +215,6 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
     if (!this.selectedCompany || !this.userContext || !this.pricingFileUpload.selectedFile) {
       return;
     }
-    this.spinnerType = 'PROGRESS';
     this.store.dispatch(new fromPricingLoaderActions.UploadFile({
       companyId: this.selectedCompany.CompanyId,
       userContext: this.userContext,
