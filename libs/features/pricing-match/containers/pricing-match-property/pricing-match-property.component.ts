@@ -10,7 +10,7 @@ export class PricingMatchPropertyComponent implements OnInit, OnChanges {
   @Input() value: any;
   @Input() label: string;
   @Input() labelPlural: string;
-  @Input() singleValue: boolean = false;
+  @Input() singleValue = false;
 
   currentLabel: string;
   currentValue: string;

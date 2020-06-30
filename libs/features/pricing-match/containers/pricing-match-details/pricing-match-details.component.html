@@ -1,33 +1,66 @@
 <div>
   <div class="d-flex justify-content-between">
-     <div><h5>{{pricingMatch.JobTitle}} ({{pricingMatch.JobCode}})</h5></div>
-      <div style="cursor: pointer" *ngIf="pricingMatch.JobDescription"><fa-icon [icon]="['fas','clipboard']" (click)="onClipboardClick()" aria-hidden="true"></fa-icon></div>
-  </div>
-  <div class="d-flex">
-    <pf-pricing-match-property [label]="'Family'" [value]="pricingMatch.JobFamily"></pf-pricing-match-property>
-    <pf-pricing-match-property class="pl-2" [label]="'Job Category'" [value]="pricingMatch.Category"></pf-pricing-match-property>
-    <pf-pricing-match-property class="pl-2"  [label]="'Job Level'" [value]="pricingMatch.JobLevel"></pf-pricing-match-property>
-  </div>
-
-  <div class="d-flex" *ngIf="pricingMatchType == pricingMatchTypes.MD_JOB">
-    <pf-pricing-match-property [label]="'FLSA Status'" [value]="pricingMatch.FlsaStatus"></pf-pricing-match-property>
-    <pf-pricing-match-property class="pl-2" [label]="'EEO'" [value]="pricingMatch.Eeo"></pf-pricing-match-property>
-  </div>
-  <div class="pt-2" *ngIf="pricingMatchType == pricingMatchTypes.MD_JOB || pricingMatchType == pricingMatchTypes.SURVEY">
-    <pf-pricing-match-property [label]="'Source'" [value]="source + ' ' + (pricingMatch.EffectiveDate | date:'yyyy-MM-dd')" [singleValue]="true"></pf-pricing-match-property>
-  </div>
-  <div class="pt-2" *ngIf="pricingMatchType == pricingMatchTypes.MD_JOB">
-    <pf-pricing-match-property  [label]="'Country Code'" [value]="pricingMatch.CountryCode"></pf-pricing-match-property>
-  </div>
-  <div class="d-flex pt-2" *ngIf="pricingMatchType == pricingMatchTypes.MD_JOB || pricingMatchType == pricingMatchTypes.SURVEY">
-    <pf-pricing-match-property [label]="'Scope'" [value]="scope" [singleValue]="true"></pf-pricing-match-property>
-    <pf-pricing-match-property  class="pl-2" [label]="'Weighting'" [value]="pricingMatch.WeightingType" [singleValue]="true"></pf-pricing-match-property>
+    <div>
+      <h5>{{pricingMatch.JobTitle}} ({{pricingMatch.JobCode}})</h5>
+    </div>
+    <div style="cursor: pointer" *ngIf="pricingMatch.JobDescription" title="Copy Job Description">
+      <fa-icon [icon]="['fas','clipboard']" (click)="onClipboardClick()" aria-hidden="true"></fa-icon>
+    </div>
   </div>
 
-  <div class="pt-2" *ngIf="pricingMatchType == pricingMatchTypes.SLOTTED_COMPANY_JOB">
-      <pf-pricing-match-property *ngFor="let cf of pricingMatch.CustomFields" [label]="cf.DisplayName" [value]="cf.Value" [singleValue]="true"></pf-pricing-match-property>
+  <div *ngIf="pricingMatchType == pricingMatchTypes.MD_JOB">
+    <div>
+      <strong>Family: </strong><span class="pr-2">{{pricingMatch.JobFamily}}</span>
+      <strong>Job Category: </strong><span class="pr-2">{{pricingMatch.Category}}</span>
+      <strong>Level: </strong><span>{{pricingMatch.JobLevel}}</span>
+    </div>
+    <div>
+      <strong>FLSA: </strong><span class="pr-2">{{pricingMatch.FlsaStatus}}</span>
+      <strong>EEO: </strong><span>{{pricingMatch.Eeo}}</span>
+    </div>
+    <div class="pt-2">
+      <strong>Source: </strong><span>{{source}} {{pricingMatch.EffectiveDate | date:'MM/dd/yyyy'}}</span>
+    </div>
+    <div class="pt-2">
+      <strong>Country: </strong><span>{{pricingMatch.CountryCode}}</span>
+    </div>
+    <div class="pt-2">
+      <strong>Scope: </strong><span>{{scope}}</span>
+    </div>
   </div>
-  <div class="jobDescription pt-2">
-    {{pricingMatch.JobDescription}}
+  <div *ngIf="pricingMatchType == pricingMatchTypes.SURVEY">
+    <div>
+      <strong>Family: </strong><span class="pr-2">{{pricingMatch.JobFamily}}</span>
+      <strong>Level: </strong><span>{{pricingMatch.JobLevel}}</span>
+    </div>
+    <div class="pt-2">
+      <strong>Source: </strong><span>{{source}} {{pricingMatch.EffectiveDate | date:'MM/dd/yyyy'}}</span>
+    </div>
+    <div class="pt-2">
+      <strong>Scope: </strong><span class="pr-2">{{scope}}</span>
+      <strong>Weighting: </strong><span class="pr-2">{{pricingMatch.WeightingType}}</span>
+    </div>
+  </div>
+  <div *ngIf="pricingMatchType == pricingMatchTypes.SLOTTED_COMPANY_JOB">
+    <div>
+      <strong>Family: </strong><span class="pr-2">{{pricingMatch.JobFamily}}</span>
+      <strong>Level: </strong><span>{{pricingMatch.JobLevel}}</span>
+    </div>
+    <div class="pt-2">
+      <ng-container *ngFor="let field of pricingMatch.CustomFields">
+        <ng-container *ngIf="field.Value !== null">
+          <strong>{{field.DisplayName}}: </strong><span class="pr-2">{{field.Value}}</span>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div  class="pt-2">
+    <div class="pb-1">
+      <strong>Job Description: </strong>
+    </div>
+    <div class="jobDescription">
+      {{pricingMatch.JobDescription}}
+    </div>
   </div>
 </div>
