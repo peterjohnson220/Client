@@ -1,22 +1,23 @@
-<div kendoTooltip
-    filter="div.kendo-tooltip-container"
-    tooltipClass="kendoTooltipWhiteTheme"
-    [tooltipTemplate]="pricingMatch"
-    offset='0'
-    class="d-flex">
+<div class="d-flex"
+  kendoTooltip
+  filter="div.kendo-tooltip-container"
+  tooltipClass="kendoTooltipWhiteTheme"  
+  position="right"
+  [tooltipTemplate]="pricingMatch"
+>
   <div class="ellipsis-overflowing-text wtg-adj-cell">
     {{dataRow.CompanyJobs_PricingsMatches_Match_Weight | number: '1.2-2' | emptyPlaceholder}}
   </div>
   <div class="ellipsis-overflowing-text wtg-adj-cell">
     {{dataRow.CompanyJobs_PricingsMatches_Match_Adjustment | number: '1.2-2' | emptyPlaceholder}}
   </div>
-  <div [class.collapsed]="isCollapsed" class="kendo-tooltip-container" #jobTitleText>
+  <div [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
     <pf-job-title-code      
       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code">
     </pf-job-title-code>
   </div>
-  <div class="d-flex justify-content-end ml-auto pl-3">
+  <div class="d-flex justify-content-end ml-auto">
     <div>
       <button
         [attr.data-qa-id]="'btn-jobs-page-pricing-match-delete-' + dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID"
