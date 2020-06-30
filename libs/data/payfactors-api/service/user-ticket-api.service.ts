@@ -6,7 +6,8 @@ import {
   UserTicketAttachmentDeleteRequest,
   UserTicketSearchRequest,
   UserTicketCommentRequest,
-  UserTicketCreateRequest
+  UserTicketCreateRequest,
+  UserTicketUpdatePublicOrPrivateTicketRequest
 } from 'libs/models/payfactors-api/service/request';
 import {
   UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse, SupportTeamResponse, UserTicketComment
@@ -91,4 +92,7 @@ export class UserTicketApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/ExportTickets`, request);
   }
 
+  togglePublicOrPrivateUserTicket(request: UserTicketUpdatePublicOrPrivateTicketRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/UpdatePublicOrPrivateUserTicket`, request);
+  }
 }

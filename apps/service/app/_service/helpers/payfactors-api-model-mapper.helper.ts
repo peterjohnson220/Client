@@ -75,7 +75,8 @@ export class PayfactorsApiModelMapper {
         TicketDetails: response.UserTicket,
         Attachments: response.UserTicketFiles,
         Notes: this.mapUserTicketCommentsToTicketNotes(response.UserTicketComments),
-        NoteAccessLevel: response.UserId === userId ? NoteAccessLevel.Owner : NoteAccessLevel.ReadOnly
+        NoteAccessLevel: response.UserId === userId ? NoteAccessLevel.Owner : NoteAccessLevel.ReadOnly,
+        IsPrivate: response.IsPrivate
       };
   }
 
