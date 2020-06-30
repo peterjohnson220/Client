@@ -670,6 +670,11 @@ export const getCompletedStep = createSelector(
   fromWorkflowReducer.getCompletedStep
 );
 
+export const getCompletedStepError = createSelector(
+  selectWorkflowState,
+  fromWorkflowReducer.getCompletedStepError
+);
+
 
 // Employee Acknowledgement
 export const getEmployeeAcknowledgementError = createSelector(
