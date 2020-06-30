@@ -9,7 +9,23 @@
           <h4>{{ticket?.TicketSummary}}</h4>
         </ng-container>
       </div>
-      <div (click)="close()" class="close-btn">
+      <div *ngIf="ticket.NoteAccessLevel === noteAccessLevel.Owner" class="public-private-switch mr-5">
+        <span
+          [ngbPopover]="publicSwitchContent"
+          placement="left"
+          triggers="mouseenter:mouseleave"
+          popoverTitle="Public vs Private"
+          container="body">
+          <kendo-switch
+            class="k-switch-lg"
+            onLabel="Private"
+            offLabel="Public"
+            [checked]="ticket.IsPrivate"
+            (valueChange)="handlePublicOrPrivateToggleSwitch($event, ticket.TicketId)">
+        </kendo-switch>
+        </span>
+      </div>
+      <div (click)="close()" class="close-btn mt-2">
         <fa-icon [icon]="['far', 'times']" size="lg"></fa-icon>
       </div>
     </div>
@@ -40,4 +56,6 @@
     </pf-ticket-notes>
   </ng-template>
 </div>
-
+<ng-template #publicSwitchContent>
+  <div class="p-3">Private tickets can only be viewed by you. Public tickets will be accessible to all users at your company.</div>
+</ng-template>

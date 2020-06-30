@@ -125,6 +125,10 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.store.dispatch(new fromServicePageActions.ShowNewTicketModal(true));
   }
 
+  togglePublicOrPrivateSwitch(payload: { value: boolean, ticketId: number }) {
+    this.store.dispatch(new fromServicePageActions.TogglePublicOrPrivateUserTicket(payload));
+  }
+
   private createInboundFilters(userContext: UserContext): void {
     if (!userContext) {
       return;

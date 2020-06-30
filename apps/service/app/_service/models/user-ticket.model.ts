@@ -9,6 +9,7 @@ export interface UserTicket {
   Attachments?: UserTicketFile[];
   Notes?: TicketNote[];
   NoteAccessLevel?: NoteAccessLevel;
+  IsPrivate: boolean;
 }
 
 export interface TicketNote {
@@ -36,6 +37,7 @@ export function generateMockUserTicket(): UserTicket {
     TicketSummary: 'Summary',
     TicketStatus: 'New',
     TicketType: 'Product Issue/Bug',
-    TicketDetails: 'Here are my details'
+    TicketDetails: 'Here are my details',
+    IsPrivate: false
   };
 }

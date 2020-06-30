@@ -20,7 +20,8 @@
     [userId]="userId"
     [jobDetailsFilters]="splitViewFilters"
     [selectedTicketId]="selectedTicketId$ | async"
-    (onClose)="splitViewEmitter.emit('close')">
+    (onClose)="splitViewEmitter.emit('close')"
+    (togglePublicOrPrivateSwitch)="togglePublicOrPrivateSwitch($event)">
   </pf-tickets-details>
 </ng-template>
 

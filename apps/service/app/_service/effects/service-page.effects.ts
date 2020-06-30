@@ -10,6 +10,7 @@ import { UserTicketApiService } from 'libs/data/payfactors-api/index';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import { UserTicketUpdatePublicOrPrivateTicketRequest } from 'libs/models/payfactors-api/service/request';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
@@ -134,6 +135,7 @@ export class ServicePageEffects {
         ];
       })
     );
+
   @Effect()
     getUserTicket$ = this.actions$
       .pipe(
@@ -162,6 +164,34 @@ export class ServicePageEffects {
       });
     })
   );
+
+  @Effect()
+  togglePublicOrPrivateUserTicket = this.actions$
+    .pipe(
+      ofType(fromServicePageActions.TOGGLE_PUBLIC_OR_PRIVATE_USER_TICKET),
+      switchMap((action: fromServicePageActions.TogglePublicOrPrivateUserTicket) => {
+        const request: UserTicketUpdatePublicOrPrivateTicketRequest = {
+          Value: action.payload.value,
+          TicketId: action.payload.ticketId
+        };
+        return this.userTicketApiService.togglePublicOrPrivateUserTicket(request)
+          .pipe(
+            map((response) => {
+              return new fromServicePageActions.TogglePublicOrPrivateUserTicketSuccess();
+            }),
+            catchError((error) => of(new fromServicePageActions.TogglePublicOrPrivateUserTicketError()))
+          );
+      })
+    );
+
+  @Effect()
+  togglePublicOrPrivateUserTicketSuccess$ = this.actions$
+    .pipe(
+      ofType(fromServicePageActions.TOGGLE_PUBLIC_OR_PRIVATE_USER_TICKET_SUCCESS),
+      map(() =>
+        new fromPfDataGridActions.LoadData(ServicePageConfig.ServicePageViewId)
+      )
+    );
 
   constructor(
     private actions$: Actions,
