@@ -2,6 +2,7 @@
   <div class="ticket-labels"><h6 class="attachment-label">Attachments</h6></div>
   <div class="attachments-container w-100">
     <kendo-upload class="mb-2"
+                  *ngIf="canAddAttachments"
                   [multiple]="true"
                   [saveUrl]="uploadSaveUrl"
                   [restrictions]="uploadRestrictions"

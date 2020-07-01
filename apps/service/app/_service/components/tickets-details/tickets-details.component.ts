@@ -5,7 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj } from 'libs/models/state';
-import { UserContext } from 'libs/models/security';
 
 import * as fromServicePageReducer from '../../reducers';
 import * as fromServicePageActions from '../../actions/service-page.actions';
