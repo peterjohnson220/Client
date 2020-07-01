@@ -1,18 +1,20 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+
 import { ActivatedRoute } from '@angular/router';
-import {SortDescriptor} from '@progress/kendo-data-query';
-import {Store} from '@ngrx/store';
-import {Subscription} from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
-import {environment} from 'environments/environment';
-import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
-import {ViewField} from 'libs/models/payfactors-api/reports/request';
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+
+import { SortDescriptor } from '@progress/kendo-data-query';
+
+import { environment } from 'environments/environment';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import { JOB_PRICING_PAGEVIEW_ID } from '../../../constants';
-
-
 
 @Component({
   selector: 'pf-pricing-loader-download',
@@ -25,18 +27,18 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
 
   pageViewId = JOB_PRICING_PAGEVIEW_ID;
   gridFieldSubscription: Subscription;
-  company = {Id: null, Name: null};
+  company = { Id: null, Name: null };
   filterTemplates = {};
   filters = [{
     SourceName: 'Linked_CompanyJobPricing_ID',
     Operator: 'isnull',
     Value: null
-    },
-    {
+  },
+  {
     SourceName: 'CompanyJobPricing_ID',
     Operator: 'notnull',
     Value: null
-    }
+  }
   ];
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -55,13 +57,15 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
   env = environment;
 
   constructor(private route: ActivatedRoute,
-              private pfGridStore: Store<fromPfDataGridReducer.State>) {
+    private pfGridStore: Store<fromPfDataGridReducer.State>) {
     this.gridFieldSubscription = this.pfGridStore.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.recencyField = fields.find(f => f.SourceName === 'Recency');
         this.selectedRecency = this.recencyField.FilterValue !== null ?
-          { Value: this.filteredRecencyOptions.find(r => r.Id === parseInt(this.recencyField.FilterValue, 0)).Value ,
-            Id: this.recencyField.FilterValue } : null;
+          {
+            Value: this.filteredRecencyOptions.find(r => r.Id === parseInt(this.recencyField.FilterValue, 0)).Value,
+            Id: this.recencyField.FilterValue
+          } : null;
       }
     });
 
@@ -70,7 +74,7 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const queryParam = this.route.snapshot.queryParamMap;
     if (queryParam.keys.length > 0) {
-      this.company = {Id: queryParam.get('company').split('-')[0], Name: queryParam.get('company').split('-')[1]};
+      this.company = { Id: queryParam.get('company').split('-')[0], Name: queryParam.get('company').split('-')[1] };
       this.filters.push({
         SourceName: 'Company_ID',
         Operator: '=',
@@ -85,7 +89,8 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
       AllowSaveFilter: true,
       ExportSourceName: this.company.Name + ' Pricings',
       CustomExportType: 'PricingNotes',
-      ColumnChooserType: ColumnChooserType.Column
+      ColumnChooserType: ColumnChooserType.Column,
+      ColumnChooserSubmitText: 'Refresh'
     };
   }
 

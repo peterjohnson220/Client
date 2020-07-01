@@ -12,6 +12,7 @@ export interface ActionBarConfig {
   ActionBarClassName?: string;
   GlobalActionsTemplate?: ElementRef<any>;
   GlobalFiltersTemplates?: { [key: string]: ElementRef<any> };
+  ColumnChooserSubmitText: string;
 }
 
 
@@ -29,6 +30,7 @@ export function getDefaultActionBarConfig(): ActionBarConfig {
     AllowExport: false,
     AllowSaveFilter: true,
     ExportSourceName: '',
-    ColumnChooserType: ColumnChooserType.Column
+    ColumnChooserType: ColumnChooserType.Column,
+    ColumnChooserSubmitText: 'Save'
   };
 }

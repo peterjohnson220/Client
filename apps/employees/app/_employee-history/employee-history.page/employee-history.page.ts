@@ -55,7 +55,8 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
       AllowExport: true,
       AllowSaveFilter: false,
       ExportSourceName: 'Employee History',
-      ColumnChooserType: ColumnChooserType.ColumnGroup
+      ColumnChooserType: ColumnChooserType.ColumnGroup,
+      ColumnChooserSubmitText: 'Save'
     };
     this.setHistoryDate(this.route.snapshot.params.date);
   }
