@@ -547,7 +547,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
       this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeTertile].setData(this.salaryRangeSeriesDataModel.Tertile, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
-      this.chartInstance.series[JobRangeModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileFirst, false);
+      this.chartInstance.series[JobRangeModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
     }
 
     // Quartile: salary range + data points
