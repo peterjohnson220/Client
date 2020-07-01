@@ -117,40 +117,38 @@
             </div>
           </ng-template>
         </ngb-tab>
-        <div  *ngIf="(jobUserDefinedFields$ | async).length">
-          <ngb-tab title="User Defined Fields">
-            <ng-template ngbTabContent>
-              <div class="row pt-3 user-defined-fields-section">
-                <div class="col-6 px-0">
-                  <div *ngFor="let jobUserDefinedField of (jobUserDefinedFields$ | async)
-							      	 	let index =index;
-			             				let isOdd=odd;
-			             				let isEven=even">
-                    <div *ngIf="!isOdd" class="form-group row">
-                      <label class="col-4 col-form-label">{{jobUserDefinedField.DispName }}:</label>
-                      <div class="col-8">
-                        <input type="text" class="form-control" [formControlName]="jobUserDefinedField.ColumnName">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 px-0">
-                  <div *ngFor="let jobUserDefinedField of (jobUserDefinedFields$ | async)
-							      	 	let index =index;
-			             				let isOdd=odd;
-			             				let isEven=even">
-                    <div *ngIf="isOdd" class="form-group row">
-                      <label class="col-4 col-form-label">{{jobUserDefinedField.DispName }}:</label>
-                      <div class="col-8">
-                        <input type="text" class="form-control" [formControlName]="jobUserDefinedField.ColumnName">
-                      </div>
+        <ngb-tab *ngIf="(jobUserDefinedFields$ | async).length" title="User Defined Fields">
+          <ng-template ngbTabContent>
+            <div class="row pt-3 user-defined-fields-section">
+              <div class="col-6 px-0">
+                <div *ngFor="let jobUserDefinedField of (jobUserDefinedFields$ | async)
+						      	 	let index =index;
+			           				let isOdd=odd;
+			           				let isEven=even">
+                  <div *ngIf="!isOdd" class="form-group row">
+                    <label class="col-4 col-form-label">{{jobUserDefinedField.DispName }}:</label>
+                    <div class="col-8">
+                      <input type="text" class="form-control" [formControlName]="jobUserDefinedField.ColumnName">
                     </div>
                   </div>
                 </div>
               </div>
-            </ng-template>
-          </ngb-tab>
-        </div>
+              <div class="col-6 px-0">
+                <div *ngFor="let jobUserDefinedField of (jobUserDefinedFields$ | async)
+						      	 	let index =index;
+			           				let isOdd=odd;
+			           				let isEven=even">
+                  <div *ngIf="isOdd" class="form-group row">
+                    <label class="col-4 col-form-label">{{jobUserDefinedField.DispName }}:</label>
+                    <div class="col-8">
+                      <input type="text" class="form-control" [formControlName]="jobUserDefinedField.ColumnName">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
       </ngb-tabset>
     </div>
     <div class="modal-footer">
