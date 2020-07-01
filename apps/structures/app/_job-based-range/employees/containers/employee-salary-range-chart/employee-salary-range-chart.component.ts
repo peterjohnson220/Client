@@ -149,18 +149,18 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     });
 
     this.hasCurrentStructure = jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint === null;
-    const delta = StructuresHighchartsService.formatMidPointDelta(this.hasCurrentStructure, jobRangeData,
-      this.chartLocale, this.metaData);
+    const delta = StructuresHighchartsService.formatDataPointDelta(this.hasCurrentStructure, this.chartLocale, this.metaData,
+      jobRangeData.CompanyStructures_Ranges_Mid, jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint);
 
     this.midPointSeries.push({
       x: xCoordinate,
       y: this.jobRangeData.CompanyStructures_Ranges_Mid,
       jobTitle: jobRangeData.CompanyJobs_Job_Title,
-      midPoint: StructuresHighchartsService.formatCurrentMidPoint(this.hasCurrentStructure, 'Midpoint',
+      midPoint: StructuresHighchartsService.formatCurrentDataPoint(this.hasCurrentStructure, 'Midpoint',
         jobRangeData.CompanyStructures_Ranges_Mid, this.chartLocale, this.metaData),
-      currentMidPoint: StructuresHighchartsService.formatNewMidPoint(this.hasCurrentStructure, 'Current Mid',
+      currentMidPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'Current Mid',
         jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint, this.chartLocale, this.metaData),
-      newMidPoint: StructuresHighchartsService.formatNewMidPoint(this.hasCurrentStructure, 'New Mid',
+      newMidPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'New Mid',
         jobRangeData.CompanyStructures_Ranges_Mid, this.chartLocale, this.metaData),
       delta: !!delta ? delta.message : delta,
       icon: !!delta ? delta.icon : delta,
@@ -179,7 +179,8 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addSalaryBand() {
-    this.chartInstance.yAxis[0].addPlotBand(this.plotLinesAndBands.find(plb => plb.id === EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRange)));
+    this.chartInstance.yAxis[0]
+      .addPlotBand(this.plotLinesAndBands.find(plb => plb.id === EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRange)));
   }
 
   private removeLinesAndBands() {

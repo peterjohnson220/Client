@@ -36,34 +36,33 @@ export class StructuresHighchartsService {
     return formattedValue + (rate === RateType.Hourly ? '' : 'k');
   }
 
-  static formatCurrentMidPoint(hasCurrentStructure, midPointType, value, chartLocale, md: RangeGroupMetadata) {
+  static formatCurrentDataPoint(hasCurrentStructure, dataPointType, value, chartLocale, md: RangeGroupMetadata) {
     return md.IsCurrent || hasCurrentStructure ?
-    StructuresHighchartsService.formatMidPoint(midPointType, value, chartLocale, md.Currency, md.Rate) : null;
+    StructuresHighchartsService.formatDataPoint(dataPointType, value, chartLocale, md.Currency, md.Rate) : null;
   }
 
-  static formatNewMidPoint(hasCurrentStructure, midPointType, value, chartLocale, md: RangeGroupMetadata) {
+  static formatNewDataPoint(hasCurrentStructure, dataPointType, value, chartLocale, md: RangeGroupMetadata) {
     return !md.IsCurrent && !hasCurrentStructure ?
-      StructuresHighchartsService.formatMidPoint(midPointType, value, chartLocale, md.Currency, md.Rate) : null;
+      StructuresHighchartsService.formatDataPoint(dataPointType, value, chartLocale, md.Currency, md.Rate) : null;
   }
 
-  static formatMidPointDelta(hasCurrentStructure, currentRow, chartLocale, md: RangeGroupMetadata) {
-    return md.IsCurrent === false && !hasCurrentStructure ? StructuresHighchartsService.formatDeltaInMidPointForExistingStruct(
-      currentRow.CompanyStructures_Ranges_Mid,
-      currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint,
-      chartLocale, md.Currency, md.Rate) : null;
+  static formatDataPointDelta(hasCurrentStructure, chartLocale, md: RangeGroupMetadata, dataPoint, currentDataPoint) {
+    return md.IsCurrent === false && !hasCurrentStructure
+      ? StructuresHighchartsService.formatDeltaInDataPointForExistingStruct(dataPoint, currentDataPoint, chartLocale, md.Currency, md.Rate)
+      : null;
   }
 
-  static formatMidPoint(midPointType, value, locale, currency, rate) {
-    return !!value ? `${midPointType}: ${StructuresHighchartsService.formatCurrency(value, locale, currency, rate)}` : null;
+  static formatDataPoint(dataPointType, value, locale, currency, rate) {
+    return !!value ? `${dataPointType}: ${StructuresHighchartsService.formatCurrency(value, locale, currency, rate)}` : null;
   }
 
-  static formatDeltaInMidPointForExistingStruct(newValue, currentValue, locale, currency, rate) {
+  static formatDeltaInDataPointForExistingStruct(newValue, currentValue, locale, currency, rate) {
     if (!!newValue && !!currentValue) {
       if (Math.round(newValue) > Math.round(currentValue)) {
         const percentChange = Math.round(((newValue - currentValue) / currentValue) * 100);
         return {
           message: `${StructuresHighchartsService.formatCurrency(newValue - currentValue, locale, currency, rate)}
-              (${percentChange}%) increase in mid`,
+              (${percentChange}%) increase`,
           icon: '&#8593;',
           color: '#6DD400'
       };
@@ -71,7 +70,7 @@ export class StructuresHighchartsService {
         const percentChange = Math.round(((currentValue - newValue) / currentValue) * 100);
         return {
           message: `${StructuresHighchartsService.formatCurrency(currentValue - newValue, locale, currency, rate)}
-            (${percentChange}%) decrease in mid`,
+            (${percentChange}%) decrease`,
           icon: '&#8595;',
           color: 'red'
         };
