@@ -49,7 +49,7 @@ import {
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects } from './effects';
-import { CannontDeletePricingMatchMessage, ShowingActiveJobs } from './pipes';
+import { CannontDeletePricingMatchMessage, ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe } from './pipes';
 
 
 @NgModule({
@@ -117,7 +117,9 @@ import { CannontDeletePricingMatchMessage, ShowingActiveJobs } from './pipes';
 
     // Pipes
     CannontDeletePricingMatchMessage,
-    ShowingActiveJobs
+    ShowingActiveJobs,
+    PricingMatchTypePipe,
+    JobTitleCodePipe
   ]
 })
 export class JobsPageModule {

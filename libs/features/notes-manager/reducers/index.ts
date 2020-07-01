@@ -29,8 +29,9 @@ export const selectNotesManagerFeature =
 export const selectNotesManagerState =
   createSelector(selectNotesManagerFeature, (state: NotesManagerState) => state.notesManager);
 
-// Company Info
+// Notes
 export const getState = createSelector(selectNotesManagerState, fromNotesManagerReducer.getState);
 export const getLoading = createSelector(selectNotesManagerState, fromNotesManagerReducer.getLoading);
 export const getNotes = createSelector(selectNotesManagerState, fromNotesManagerReducer.getNotes);
+export const getAddingNote = createSelector(selectNotesManagerState, fromNotesManagerReducer.getAddingNote);
 

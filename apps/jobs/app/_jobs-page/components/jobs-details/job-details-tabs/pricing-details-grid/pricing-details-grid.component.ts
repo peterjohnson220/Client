@@ -1,5 +1,5 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
-import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
+import { Subscription, BehaviorSubject } from 'rxjs';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 
@@ -10,14 +10,18 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'li
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
+import { NotesManagerConfiguration } from 'libs/models/notes';
+import { NotesEntities } from 'libs/features/notes-manager/constants';
+import * as fromNotesManagerActions from 'libs/features/notes-manager/actions';
+
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-
-import * as fromNotesManagerActions from 'libs/features/notes-manager/actions';
 
 import * as fromJobsPageActions from '../../../../actions';
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
+import { JobTitleCodePipe } from '../../../../pipes';
+
 
 @Component({
   selector: 'pf-pricing-details-grid',
@@ -34,6 +38,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('matchInfoColumn') matchInfoColumn: ElementRef;
   @ViewChild('genericMrpColumn') genericMrpColumn: ElementRef;
+  @ViewChild('pricingNotesHeader') pricingNotesHeader: TemplateRef<any>;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
   mrpFields = ['AllowMRP', 'BaseMRP', 'BonusMRP', 'BonusPctMRP', 'BonusTargetMRP', 'BonusTargetPctMRP', 'FixedMRP', 'LTIPMRP', 'LTIPPctMRP', 'RemunMRP',
@@ -58,15 +63,26 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   pricedDataFilteredPayMarketOptions: any;
   pricedDataSelectedPayMarket: any;
 
-  selectedRow: any = {};
+  selectedPricingPayMarket: string;
   getNotesSuccessSubscription: Subscription;
+  getAddingPricingMatchNoteSuccessSubscription: Subscription;
   showNotesManager = new BehaviorSubject<boolean>(false);
   showNotesManager$ = this.showNotesManager.asObservable();
 
-  selectedRow$: Observable<any>;
+  // This is needed to refresh the matches grid after adding a new note to increment count
+  notesManagerPricingId: number;
+  notesManagerConfiguration: NotesManagerConfiguration;
+  selectedJobRow: any;
+  selectedJobRowSubscription: Subscription;
+
+  jobTitleCodePipe: JobTitleCodePipe;
 
   constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
-    this.selectedRow$ = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs);
+    this.jobTitleCodePipe = new JobTitleCodePipe();
+
+    this.selectedJobRowSubscription = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs).subscribe(row => {
+      this.selectedJobRow = row;
+    });
 
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
@@ -89,9 +105,31 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
         this.showNotesManager.next(true);
       });
 
+    this.getAddingPricingMatchNoteSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromNotesManagerActions.ADD_NOTE_SUCCESS))
+      .subscribe(data => {
+        switch (data['payload']['Entity']) {
+          case 'Pricing Matches':
+            this.store.dispatch(new fromPfGridActions.LoadData(`${PageViewIds.PricingMatches}_${this.notesManagerPricingId}`));
+            break;
+        }
+
+        this.showNotesManager.next(false);
+      });
+
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
+    };
+
+    this.notesManagerConfiguration = {
+      ModalTitle: 'Pricing Notes',
+      ShowModal$: this.showNotesManager$,
+      EnableAdd: false,
+      NotesHeader: undefined,
+      Entity: 'Pricings',
+      EntityId: undefined,
+      PlaceholderText: undefined
     };
   }
 
@@ -123,6 +161,8 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     this.companyPayMarketsSubscription.unsubscribe();
     this.pricedDataGridFieldSubscription.unsubscribe();
     this.getNotesSuccessSubscription.unsubscribe();
+    this.getAddingPricingMatchNoteSuccessSubscription.unsubscribe();
+    this.selectedJobRowSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -156,8 +196,36 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     this.store.dispatch(new fromJobsPageActions.ChangePricingDetailsView('Not Priced'));
   }
 
-  openNotesManager(event: any, selectedRow: any) {
-    this.selectedRow = selectedRow;
+  openPricingNotesManager(event: any, selectedPricing: any) {
+    this.selectedPricingPayMarket = selectedPricing['CompanyPayMarkets_PayMarket'];
+    this.notesManagerPricingId = selectedPricing['CompanyJobs_Pricings_CompanyJobPricing_ID'];
+    this.notesManagerConfiguration = {
+      ...this.notesManagerConfiguration,
+      Entity: NotesEntities.Pricings,
+      EntityId: selectedPricing['CompanyJobs_Pricings_CompanyJobPricing_ID'],
+      EnableAdd: false,
+      ModalTitle: `Pricing Notes -
+        ${this.jobTitleCodePipe.transform(this.selectedJobRow,
+        'CompanyJobs',
+          'Job_Title',
+        'Job_Code')}`,
+      NotesHeader: this.pricingNotesHeader,
+      PlaceholderText: undefined
+    };
+
     event.stopPropagation();
+  }
+
+  openPricingMatchNotesManager(event: any) {
+    this.notesManagerPricingId = event.ParentPricingId;
+    this.notesManagerConfiguration = {
+      ...this.notesManagerConfiguration,
+      Entity: NotesEntities.PricingMatches,
+      EntityId: event.Configuration.EntityId,
+      EnableAdd: event.Configuration.EnableAdd,
+      ModalTitle: event.Configuration.ModalTitle,
+      NotesHeader: event.Configuration.NotesHeader,
+      PlaceholderText: 'Please add any notes you would like to attach to this match.'
+    };
   }
 }

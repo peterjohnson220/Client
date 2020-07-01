@@ -1,7 +1,7 @@
 <div class="d-flex"
   kendoTooltip
   filter="div.kendo-tooltip-container"
-  tooltipClass="kendoTooltipWhiteTheme"  
+  tooltipClass="kendoTooltipWhiteTheme"
   position="right"
   [tooltipTemplate]="pricingMatch"
 >
@@ -12,11 +12,18 @@
     {{dataRow.CompanyJobs_PricingsMatches_Match_Adjustment | number: '1.2-2' | emptyPlaceholder}}
   </div>
   <div [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
-    <pf-job-title-code      
+    <pf-job-title-code
       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code"
       [jobTitleClass]="'pf-brand-secondary-color'">
     </pf-job-title-code>
+  </div>
+  <div *ngIf="!pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name">
+    <em>
+      <small>
+        <a class="add-notes-link" (click)="openAddNotesModal()">Notes ({{dataRow.CompanyJobs_PricingsMatches_MatchNotesCount}})</a>
+      </small>
+    </em>
   </div>
   <div *ngIf="jobsGridJobStatusField | showingActiveJobs" class="d-flex justify-content-end ml-auto pl-3">
     <div>
@@ -55,10 +62,8 @@
   <div class="pricingMatch">
     <pf-pricing-match
       [pricingId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']"
-      [filterGUID]="dataRow['ExchangeDataCut_FilterGUID']"
-      [surveyDataId]="dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID']"
-      [slottedCompanyJobId]="dataRow['CompanyJobs_PricingsMatches_Slotted_CompanyJob_ID']"
-      [mdJobCode]="dataRow['CompanyJobs_PricingsMatches_MDJob_Code']"
+      [matchId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID']"
+      [matchType]="dataRow | pricingMatchType"
     ></pf-pricing-match>
   </div>
 </ng-template>

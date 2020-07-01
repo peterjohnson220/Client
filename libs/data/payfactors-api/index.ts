@@ -33,3 +33,4 @@ export * from './validation';
 export * from './hris-api';
 export * from './organizational-data';
 export * from './structures';
+export * from './notes';
