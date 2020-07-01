@@ -98,7 +98,7 @@ export class PayfactorsApiModelMapper {
     if (listType === TicketListMode.AllCompanyTickets) {
       return [{
         SourceName: 'Is_Private',
-        Operator: '=',
+        Operator: 'equalsornull',
         Value: '0'
       }];
     }
