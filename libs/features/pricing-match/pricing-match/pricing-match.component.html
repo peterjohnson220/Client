@@ -1,4 +1,4 @@
-<pf-async-container [loading]="(loading$ | async)" [smartLoadingMask]="true">
+<pf-async-container [loading]="(loading$ | async)">
   <div class="pricingMatch p-2">
     <div *ngIf="!(loading$ | async) && !(showError$ | async) && (pricingMatch$ | async)">
       <pf-peer-pricing-match *ngIf="filterGUID" [pricingMatch]="pricingMatch$ | async"></pf-peer-pricing-match>
