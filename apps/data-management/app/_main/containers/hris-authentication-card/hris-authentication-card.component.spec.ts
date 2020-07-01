@@ -53,7 +53,7 @@ describe('Data Management - Main - Hris Authentication Card', () => {
     mockCredsPackage.syncJobs = mockConnectionSummary.selectedEntities.includes(OrgDataEntityType.Jobs);
     mockCredsPackage.syncPaymarkets = mockConnectionSummary.selectedEntities.includes(OrgDataEntityType.PayMarkets);
     mockCredsPackage.syncStructures = mockConnectionSummary.selectedEntities.includes(OrgDataEntityType.Structures);
-    mockCredsPackage.syncStructureMappings = mockConnectionSummary.selectedEntities.includes(OrgDataEntityType.StructureMappings);
+    mockCredsPackage.syncStructureMappings = mockConnectionSummary.selectedEntities.includes(OrgDataEntityType.StructureMapping);
     const mockFormValues = {
       username: 'MockUserName',
       password: 'MockPassword'

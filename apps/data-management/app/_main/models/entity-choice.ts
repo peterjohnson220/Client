@@ -88,7 +88,7 @@ export function getEntityChoicesForOrgLoader(): EntityChoice[] {
       isFullReplace: null,
       dateFormat: null,
       isLoadingFinish: true,
-      dbName: 'StructureMappings'
+      dbName: 'StructureMapping'
     },
     {
       isChecked: false,

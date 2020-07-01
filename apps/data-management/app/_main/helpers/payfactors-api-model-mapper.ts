@@ -79,7 +79,7 @@ export class PayfactorsApiModelMapper {
       syncJobs: connectionSummary.selectedEntities.includes(OrgDataEntityType.Jobs),
       syncPaymarkets: connectionSummary.selectedEntities.includes(OrgDataEntityType.PayMarkets),
       syncStructures: connectionSummary.selectedEntities.includes(OrgDataEntityType.Structures),
-      syncStructureMappings: connectionSummary.selectedEntities.includes(OrgDataEntityType.StructureMappings),
+      syncStructureMappings: connectionSummary.selectedEntities.includes(OrgDataEntityType.StructureMapping),
     } as CredentialsPackage;
 
     switch (connectionSummary.provider.ProviderCode) {
@@ -239,8 +239,8 @@ export class PayfactorsApiModelMapper {
         case OrgDataEntityType.Jobs:
             type = OrgDataEntityType.Jobs;
             break;
-        case OrgDataEntityType.StructureMappings:
-            type = OrgDataEntityType.StructureMappings;
+        case OrgDataEntityType.StructureMapping:
+            type = OrgDataEntityType.StructureMapping;
             break;
         case OrgDataEntityType.Structures:
             type = OrgDataEntityType.Structures;
@@ -306,7 +306,7 @@ export class PayfactorsApiModelMapper {
     isJobsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Jobs),
     isPaymarketsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.PayMarkets),
     isStructuresLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Structures),
-    isStructureMappingsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.StructureMappings),
+    isStructureMappingsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.StructureMapping),
     fileFormat: LoaderFileFormat.JSON,
 
     // TODO: we need a UI to determine these settings
