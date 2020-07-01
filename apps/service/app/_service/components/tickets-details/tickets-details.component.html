@@ -48,6 +48,7 @@
     <hr>
     <pf-ticket-attachments
       [ticketId]="selectedTicketId"
+      [canAddAttachments]="ticket.NoteAccessLevel === noteAccessLevel.Owner"
       [attachments]="ticket?.Attachments">
     </pf-ticket-attachments>
     <pf-ticket-notes
