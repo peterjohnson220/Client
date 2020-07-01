@@ -57,8 +57,11 @@
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div class="ellipsis-overflowing-text">
-    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
+    <span *ngIf="!fieldName.includes('Pct'); else pctValue" [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
   </div>
+  <ng-template #pctValue>
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] : 'full' | emptyPlaceholder"></span>
+  </ng-template>
 </ng-template>
 
 <ng-template #matchInfoColumn let-dataRow="dataRow" let-fieldName="fieldName">
