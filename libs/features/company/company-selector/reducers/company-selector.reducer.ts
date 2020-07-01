@@ -1,4 +1,4 @@
-import * as fromCompanySelectorActions from '../actions/';
+import * as fromCompanySelectorActions from '../actions';
 import { CompanySelectorItem } from '../models';
 
 export interface State {

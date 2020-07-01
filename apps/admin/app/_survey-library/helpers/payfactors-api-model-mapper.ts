@@ -1,4 +1,4 @@
-import { CompanySelectorItem } from 'libs/features/company/models';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import { CompanyBaseInformation } from 'libs/models/company';
 
 export class PayfactorsApiModelMapper {

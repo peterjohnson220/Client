@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockCustomerConnection } from 'libs/models/sso';
 import { SsoUrl } from 'libs/constants';
+import { generateMockCustomerConnection } from 'libs/models/sso';
+import { MockSelectedCompany } from 'libs/features/company/company-selector/models';
 
 import * as fromSsoConfigActions from '../../actions/sso-config.actions';
 import { AddSsoConfigModalComponent } from './add-sso-config-modal.component';
 import * as fromSsoConfigReducers from '../../reducers';
-import { MockSelectedCompany } from '../../../../../../libs/features/company/models';
 
 describe('Add Sso Config Modal', () => {
   let instance: AddSsoConfigModalComponent;

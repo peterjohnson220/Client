@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import {select, Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 import { ChartItem, ExchangeChartTypeEnum } from 'libs/models';
-import * as fromCompanyDescriptionActions from 'libs/features/company/company-detail/actions';
-import * as fromCompanyDescriptionReducer from 'libs/features/company/company-detail/reducers';
+import { EntityDescriptionTypeEnum } from 'libs/models/entity-description/entity-description-type.enum';
+
 
 import * as fromPeerDashboardReducer from '../../reducers';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -21,15 +21,12 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
   detailChartItems$: Observable<ChartItem[]>;
   loadingDetailChartItems$: Observable<boolean>;
   loadingDetailChartItemsError$: Observable<boolean>;
-  companyDescription: Observable<string>;
-  loadingCompanyDescription: Observable<boolean>;
 
   detailChartTypeSubscription: Subscription;
   detailChartCategorySubscription: Subscription;
 
   detailChartType: ExchangeChartTypeEnum;
   detailChartCategory: ExchangeChartTypeEnum;
-  hoveredChartItem: ChartItem;
 
   constructor(
     private store: Store<fromPeerDashboardReducer.State>
@@ -39,8 +36,6 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
     this.detailChartItems$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardDetailChartItems);
     this.loadingDetailChartItems$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardLoadingDetailChart);
     this.loadingDetailChartItemsError$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardLoadingDetailChartError);
-    this.companyDescription = this.store.pipe(select(fromCompanyDescriptionReducer.getCompanyDescription));
-    this.loadingCompanyDescription = this.store.pipe(select(fromCompanyDescriptionReducer.getCompanyDescriptionLoading));
   }
 
   get isCompanyChartType(): boolean {
@@ -52,14 +47,14 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
       case  ExchangeChartTypeEnum.ExchangeJobOrgs :
         return 'Exchange Job Orgs';
       case  ExchangeChartTypeEnum.Company :
-        return this.detailChartCategory == ExchangeChartTypeEnum.Subsidiary ? "Participating Properties" : "Participating Companies";
+        return this.detailChartCategory === ExchangeChartTypeEnum.Subsidiary ? 'Participating Properties' : 'Participating Companies';
       default:
         return 'Participating Companies';
     }
   }
 
   get companyParticipantType(): string {
-    return this.detailChartCategory == ExchangeChartTypeEnum.Subsidiary ? "properties" : "companies";
+    return this.detailChartCategory === ExchangeChartTypeEnum.Subsidiary ? 'properties' : 'companies';
   }
 
   closeSidebar(): void {
@@ -80,22 +75,11 @@ export class ChartDetailComponent implements OnInit, OnDestroy {
     this.detailChartCategorySubscription.unsubscribe();
   }
 
-  mouseEnter(chartItem: ChartItem) {
-    this.hoveredChartItem = chartItem;
-    setTimeout( () => {
-      const companyId = chartItem.Value;
-      if (this.hoveredChartItem && this.hoveredChartItem.Category === chartItem.Category) {
-        if(this.detailChartType == ExchangeChartTypeEnum.Company && this.detailChartCategory == ExchangeChartTypeEnum.Subsidiary){
-          this.store.dispatch(new fromCompanyDescriptionActions.GetSubsidiaryDescription(companyId));
-        }
-        else {
-          this.store.dispatch(new fromCompanyDescriptionActions.GetCompanyDescription(companyId));
-        }
-      }
-    }, 500);
-  }
-
-  onMouseLeave() {
-    this.hoveredChartItem = null;
+  getEntityType() {
+    if (this.detailChartCategory === ExchangeChartTypeEnum.Subsidiary) {
+      return EntityDescriptionTypeEnum.Subsidiary;
+    } else {
+      return EntityDescriptionTypeEnum.Company;
+    }
   }
 }

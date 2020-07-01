@@ -8,7 +8,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { CompanyApiService } from 'libs/data/payfactors-api/company';
 import { CompanyBaseInformation } from 'libs/models/company';
 
-import * as fromCompanySelectorActions from '../actions/';
+import * as fromCompanySelectorActions from '../actions';
 import { PayfactorsApiModelMapper } from '../helpers';
 
 @Injectable()
