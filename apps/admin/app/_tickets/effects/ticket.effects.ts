@@ -7,6 +7,7 @@ import { catchError, delay, map, mergeMap, switchMap, withLatestFrom } from 'rxj
 
 import { UserTicketApiService } from 'libs/data/payfactors-api';
 import { UserTicketCompanyDetailResponse, UserTicketResponse } from 'libs/models/payfactors-api/service/response';
+import { UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';
 
 import * as fromTicketListActions from '../actions/ticket-list.actions';
 import * as fromTicketLookupActions from '../actions/ticket-lookup.actions';
@@ -143,6 +144,25 @@ export class TicketEffects {
       )
     )
   );
+
+  @Effect()
+  replyClientNote$ = this.actions$
+    .pipe(
+      ofType(fromTicketActions.REPLY_CLIENT_NOTE),
+      switchMap((action: fromTicketActions.ReplyClientNote) => {
+        const request: UserTicketCommentRequest = {
+          UserTicketId: action.payload.comment.TicketId,
+          ParentTicketCommentId: action.payload.comment.CommentId,
+          Comments: action.payload.content,
+          Level: 'Admin'
+        };
+        return this.userTicketApiService.replyComment(request)
+          .pipe(
+            map((response) => new fromTicketActions.ReplyClientNoteSuccess(PayfactorsApiModelMapper.mapTicketCommentsToReplies(response))),
+            catchError((error) => of(new fromTicketActions.ReplyClientNoteError()))
+          );
+      })
+    );
 
   constructor(
     private actions$: Actions,

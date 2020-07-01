@@ -2,6 +2,8 @@ export interface UserTicketCommentRequest {
   UserTicketsCommentId?: number;
   UserTicketId?: number;
   Comments?: string;
+  ParentTicketCommentId?: number;
+  Level?: string;
 }
 
 export function generateMockUserTicketCommentRequest(): UserTicketCommentRequest {

@@ -66,8 +66,7 @@ export class UserTicketApiService {
   }
 
   addComment(request: UserTicketCommentRequest) {
-    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/AddComment/${request.UserTicketId}`,
-      JSON.stringify(request.Comments), this.headers);
+    return this.payfactorsApiService.post(`${this.endpoint}/AddComment`, request);
   }
 
   updateComment(request: UserTicketCommentRequest) {
@@ -84,8 +83,7 @@ export class UserTicketApiService {
   }
 
   addNote(request: UserTicketCommentRequest): Observable<UserTicketComment> {
-    return this.payfactorsApiService.postWithHeader(`${this.endpoint}/AddNote/${request.UserTicketId}`,
-      JSON.stringify(request.Comments), this.headers);
+    return this.payfactorsApiService.post(`${this.endpoint}/AddNote`, request);
   }
 
   exportGrid(request: UserTicketSearchRequest): Observable<any> {
@@ -94,5 +92,9 @@ export class UserTicketApiService {
 
   togglePublicOrPrivateUserTicket(request: UserTicketUpdatePublicOrPrivateTicketRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdatePublicOrPrivateUserTicket`, request);
+  }
+
+  replyComment(request: UserTicketCommentRequest): Observable<UserTicketComment[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ReplyComment`, request);
   }
 }

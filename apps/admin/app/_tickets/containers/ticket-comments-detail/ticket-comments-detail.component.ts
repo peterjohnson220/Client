@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -22,6 +22,7 @@ export class TicketCommentsDetailComponent implements OnChanges {
   @Input() ticketId: number;
 
   _comments: TicketComment[];
+  commentLevel = TicketCommentLevel;
 
   constructor(private store: Store<fromTicketAdminReducer.State>) {
   }
@@ -35,7 +36,7 @@ export class TicketCommentsDetailComponent implements OnChanges {
     const ticketId = this.ticketId;
     const comment: TicketComment = {
       TicketId: ticketId,
-      Comments: '',
+      Content: '',
       Level: TicketCommentLevel.Admin
     };
     commentsCopy.unshift(comment);
@@ -43,10 +44,10 @@ export class TicketCommentsDetailComponent implements OnChanges {
   }
 
   removeComment(comment: TicketComment) {
-    if (comment.UserTicketsCommentsId) {
+    if (comment.CommentId) {
       const request: UserTicketCommentRequest = {
         UserTicketId: comment.TicketId,
-        UserTicketsCommentId: comment.UserTicketsCommentsId
+        UserTicketsCommentId: comment.CommentId
       };
       this.store.dispatch(new fromTicketActions.DeleteComment(request));
     } else {
@@ -62,5 +63,9 @@ export class TicketCommentsDetailComponent implements OnChanges {
     } else {
       this.store.dispatch(new fromTicketActions.CreateComment(comment));
     }
+  }
+
+  handleReply(content: string, comment: TicketComment): void {
+    this.store.dispatch(new fromTicketActions.ReplyClientNote({ comment, content }));
   }
 }

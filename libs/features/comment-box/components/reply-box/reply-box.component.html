@@ -1,0 +1,58 @@
+<div class="d-flex flex-column">
+  <div class="d-flex actions mb-2">
+    <fa-icon icon="reply" class="reply-icon"></fa-icon>
+    <span class="action-button" (click)="toggleTextBox()">Reply</span>
+  </div>
+
+  <div [class.hidden]="!showReplyBox" class="d-flex flex-column">
+    <div>
+      <div class="reply-box-container">
+        <textarea #contentTextArea class="textarea-content"
+          placeholder="{{commentPlaceholder}}"
+          autofocus="true"
+          (keyup)="updateContent($event)"
+          spellcheck="false"></textarea>
+      </div>
+      <pf-text-counter #textCounter
+        *ngIf="!!maxCharacters"
+        class="radial-counter"
+        [textToCount]="content">
+      </pf-text-counter>
+    </div>
+  
+    <div class="reply-box-footer d-flex">
+      <div class="d-flex justify-content-end w-100">
+        <button
+          class="btn btn-primary btn-sm mr-2"
+          [style.width.px]="80"
+          [disabled]="!content?.length"
+          (click)="submitReply()">
+          Reply
+          <pf-loading-indicator *ngIf="submitting"></pf-loading-indicator>
+        </button>
+        <button
+          class="btn btn-secondary btn-sm"
+          (click)="handleDiscardClicked()">
+          Discard
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Discard Reply'"
+  [centered]="true"
+  [primaryButtonText]="'Discard'"
+  [primaryButtonClass]="'btn-primary'"
+  [modalId]="'au-modal-comment-box-discard-reply'"
+  [isOpen$]="discardReplyModalOpen$"
+  (onSubmit)="discardReply()"
+  (onDismiss)="dismissDiscardReplyModal()">
+
+  <ng-container basic-content>
+    <p>Are you sure you want to discard your reply?</p>
+  </ng-container>
+
+</pf-modal-form>

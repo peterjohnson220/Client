@@ -48,6 +48,9 @@ export interface UserTicketComment {
   Comments?: string;
   CreateDate?: Date;
   Level?: TicketCommentLevel;
+  ParentTicketCommentId?: number;
+  ReplyCount?: number;
+  Replies?: UserTicketComment[];
 }
 
 export enum TicketCommentLevel {

@@ -1,0 +1,19 @@
+<div *ngIf="replyCount > 0" class="d-flex flex-column">
+  <div class="d-flex view-replies-btn" (click)="toggleShowReplies()">
+    <span class="mr-1">
+      <svg height="5" width="20">
+        <line class="line" x1="0" y1="0" x2="100" y2="0"/>
+      </svg>
+    </span>
+    <span *ngIf="!showReplies" class="text-muted">View Replies ({{ replyCount }})</span>
+    <span *ngIf="showReplies" class="text-muted">Hide Replies</span>
+  </div>
+
+  <div *ngIf="showReplies" class="d-flex flex-column reply-container">
+    <pf-loading-indicator *ngIf="loadingReplies"></pf-loading-indicator>
+    <ng-container *ngFor="let reply of replies">
+      <pf-comment-content [comment]="reply"></pf-comment-content>
+      <br/>
+    </ng-container>
+  </div>
+</div>

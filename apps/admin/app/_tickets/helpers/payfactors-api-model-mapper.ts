@@ -1,3 +1,5 @@
+import { orderBy } from 'lodash';
+
 import {
   UserTicketComment,
   UserTicketCompanyDetailResponse,
@@ -21,6 +23,7 @@ import {
   TicketComment
 } from '../models';
 import { getFileExtensionType, getFileExtensionCssClass } from 'libs/core/functions';
+import { TicketCommentHelper } from 'libs/models/payfactors-api/service/helpers';
 
 export class PayfactorsApiModelMapper {
   static mapUserTicketResponseToUserTicketGridItem(response: UserTicketResponse[]): UserTicketGridItem[] {
@@ -154,17 +157,38 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapUserTicketCommentsToTicketComment(userTicketComments: UserTicketComment[]): TicketComment[] {
-    return userTicketComments.map(utf => {
+    const commentsWithReplyCount = TicketCommentHelper.mapUserTicketCommentWithReplyCount(userTicketComments);
+    return commentsWithReplyCount.map(utf => {
       return {
         TicketId: utf.UserTicketId,
-        UserTicketsCommentsId: utf.UserTicketsCommentsId,
+        CommentId: utf.UserTicketsCommentsId,
         UserEmail: utf.UserEmail,
-        UserFullName: utf.UserFullName,
-        Comments: utf.Comments,
+        FullName: utf.UserFullName,
+        Content: utf.Comments,
         CreateDate: utf.CreateDate,
-        Level: utf.Level
+        Level: utf.Level,
+        ReplyCount: utf.ReplyCount,
+        Replies: this.mapTicketCommentsToReplies(utf.Replies)
       };
     });
+  }
+
+  static mapTicketCommentsToReplies(userTicketComments: UserTicketComment[]): TicketComment[] {
+    const replies = userTicketComments.map(utf => {
+      return {
+        TicketId: utf.UserTicketId,
+        CommentId: utf.UserTicketsCommentsId,
+        UserEmail: utf.UserEmail,
+        FullName: utf.UserFullName,
+        Content: utf.Comments,
+        CreateDate: utf.CreateDate,
+        Level: utf.Level,
+        ParentCommentId: utf.ParentTicketCommentId,
+        CompanyName: utf.Level === 'Admin' ? 'Payfactors' : ''
+      };
+    });
+    const orderedReplies = orderBy(replies, ['CreateDate']);
+    return orderedReplies;
   }
 
   private static squashComments(userTicketComments: UserTicketComment[]): string {
