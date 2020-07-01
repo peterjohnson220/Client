@@ -10,7 +10,8 @@
         *ngFor="let job of jobsToPrice$ | async; trackBy: trackByJobId"
         [job]="job"
         [dragging]="isDragging$ | async"
-        [rate]="(searchContext$ | async)?.Rate"
+        [rate]="(projectSearchContext$ | async)?.Rate || (modifyPricingSearchContext$ | async)?.Rate"
+        [featureImplementation]="featureImplementation"
         (loadDataCuts)="handleLoadDataCuts($event)"
         (cutDeleted)="handleCutDeleted($event)" >
       </pf-job-to-price>

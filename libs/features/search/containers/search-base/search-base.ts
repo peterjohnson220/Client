@@ -48,6 +48,11 @@ export abstract class SearchBase {
   }
 
   private resetApp() {
+    this.resetActions();
+    this.onResetApp();
+  }
+
+  resetActions() {
     this.store.dispatch(new fromSearchPageActions.HidePage());
     this.store.dispatch(new fromSaveFilterModalActions.CloseSaveModal());
     this.store.dispatch(new fromSearchFiltersActions.RemoveFilters());
@@ -56,9 +61,7 @@ export abstract class SearchBase {
     this.store.dispatch(new fromUserFilterActions.Reset());
     this.store.dispatch(new fromUserFilterPopoverActions.ClosePopover());
     this.store.dispatch(new fromSearchResultsActions.ClearResults());
-    this.onResetApp();
   }
-
   onResetApp?(): void;
   onSetContext?(payload: any): void;
 }

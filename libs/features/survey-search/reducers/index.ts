@@ -57,6 +57,11 @@ export const getJobContext = createSelector(
   fromContextReducer.getJobContext
 );
 
+export const getModifyPricingsSearchContext = createSelector(
+  selectContextState,
+  fromContextReducer.getModifyPricingsSearchContext
+);
+
 // Search Results Selectors
 export const getResults = createSelector(
   selectSearchResultsState,

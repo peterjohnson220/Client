@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/index';
 
 import { Store, ActionsSubject } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -13,6 +14,7 @@ import { ViewField, CreateProjectRequest, ChangeJobStatusRequest, MatchedSurveyJ
 import { Permissions } from 'libs/constants';
 import { ActionBarConfig, ColumnChooserType, getDefaultGridRowActionsConfig, GridRowActionsConfig } from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
+import { MODIFY_PRICINGS } from 'libs/features/multi-match/constants';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -20,12 +22,12 @@ import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 
+import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
+import * as fromModifyPricingsReducer from 'libs/features/multi-match/reducers';
+
 import { PageViewIds } from '../constants';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
-import * as fromModifyPricingsActions from '../actions';
-import * as fromModifyPricingsReducer from '../reducers';
-import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -121,6 +123,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   jobDescriptionsInReview: any[] = [];
 
   loadViewConfigSuccessSubscription = new Subscription;
+
+  multiMatchImplementation = MODIFY_PRICINGS;
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -442,7 +446,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   modifyPricings() {
-    this.showModifyingPricings.next(true);
     this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(this.selectedPricingIds));
   }
 }
