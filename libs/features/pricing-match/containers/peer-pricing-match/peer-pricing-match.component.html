@@ -1,0 +1,25 @@
+<div class="d-flex">
+  <div>
+    <h5>Peer Data Cut</h5>
+    <div class="pricingMatchProperties pr-3">
+      <pf-pricing-match-property [value]="pricingMatch['ExchangeScopeName']" [label]="'Exchange Scope'" [labelPlural]="'Exchange Scopes'" [singleValue]="true"></pf-pricing-match-property>
+      <pf-pricing-match-property [value]="pricingMatch['ExchangeJobTitles']" [label]="'Exchange Job'" [labelPlural]="'Exchange Jobs'"></pf-pricing-match-property>
+      <pf-pricing-match-property [value]="pricingMatch['ExchangeNames']" [label]="'Exchange'" [labelPlural]="'Exchanges'"></pf-pricing-match-property>
+      <pf-pricing-match-property [value]="pricingMatch['PayMarketName']" [label]="'Pay Market'" [labelPlural]="'Pay Market'" [singleValue]="true" ></pf-pricing-match-property>
+      <div *ngFor="let filter of pricingMatch['Filters']">
+        <pf-pricing-match-property [value]="filter.FilterSelections" [label]="filter.DisplayName" [labelPlural]="filter.DisplayName"></pf-pricing-match-property>
+      </div>
+    </div>
+  </div>
+  <div class="flex-fill justify-content-center" [class]="badImageUrl?'badImage' : ''">
+    <img *ngIf="!badImageUrl" height='225px' width='225px' alt="Peer Data Cut Map"
+         [src]="mapUrl"/>
+    <strong class="text-center align-middle" *ngIf="badImageUrl">
+      No Data
+    </strong>
+  </div>
+</div>
+
+
+
+

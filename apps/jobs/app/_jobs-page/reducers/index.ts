@@ -7,14 +7,12 @@ import * as fromRoot from 'libs/state/state';
 import * as fromJobsPageReducer from './jobs-page.reducer';
 import * as fromJobDescriptionReducer from './job-description.reducer';
 import * as fromJobPeerMatchesReducer from './peer-matches-exchange.reducer';
-import * as fromModifyPricingsReducer from './modify-pricings.reducer';
 
 // Feature area state
 export interface JobsPageStateMain {
   jobsPage: fromJobsPageReducer.State;
   jobDescription: fromJobDescriptionReducer.State;
   peerMatches: fromJobPeerMatchesReducer.State;
-  modifyPricings: fromModifyPricingsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -26,8 +24,7 @@ export interface State extends fromRoot.State {
 export const reducers = {
   jobsPage: fromJobsPageReducer.reducer,
   jobDescription: fromJobDescriptionReducer.reducer,
-  peerMatches: fromJobPeerMatchesReducer.reducer,
-  modifyPricings: fromModifyPricingsReducer.reducer
+  peerMatches: fromJobPeerMatchesReducer.reducer
 };
 
 // Select Feature Area
@@ -65,9 +62,3 @@ export const selectJobPeerMatchesState =
 
 export const getPeerMatchesLoaded = createSelector(selectJobPeerMatchesState, fromJobPeerMatchesReducer.getPeerMatchesLoaded);
 export const getPeerMatches = createSelector(selectJobPeerMatchesState, fromJobPeerMatchesReducer.getPeerMatches);
-
-// Modify Pricings
-export const selectModifyPricingsState =
-  createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.modifyPricings);
-
-export const getPricingsToModify = createSelector(selectModifyPricingsState, fromModifyPricingsReducer.getPricingsToModify);

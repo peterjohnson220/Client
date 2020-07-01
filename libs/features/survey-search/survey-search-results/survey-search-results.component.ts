@@ -7,7 +7,7 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
 
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
-import { DataCutDetails, JobResult, MatchesDetailsTooltipData, SearchContext } from '../models';
+import { DataCutDetails, JobResult, MatchesDetailsTooltipData, ProjectSearchContext } from '../models';
 import { TooltipContainerComponent } from '../containers/tooltip-container';
 import * as fromSurveySearchReducer from '../reducers';
 import { hasMoreDataCuts } from '../helpers';
@@ -24,7 +24,7 @@ export class SurveySearchResultsComponent {
   // Observables
   jobResults$: Observable<JobResult[]>;
   loadingResults$: Observable<boolean>;
-  projectSearchContext$: Observable<SearchContext>;
+  projectSearchContext$: Observable<ProjectSearchContext>;
 
   constructor(
     private store: Store<fromSurveySearchReducer.State>

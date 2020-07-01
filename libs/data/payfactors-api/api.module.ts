@@ -73,6 +73,7 @@ import { CountryApiService } from './country';
 import { EntityKeysValidationApiService } from './validation';
 import { CaptchaApiService } from './captcha';
 import { ECommerceApiService } from './ecommerce';
+import { PricingMatchApiService } from './pricing/pricing-match-api.service';
 import { MarketDataFeedApiService } from './market-data-feed';
 
 @NgModule({
@@ -152,6 +153,7 @@ import { MarketDataFeedApiService } from './market-data-feed';
     ExchangeSignupFormApiService,
     ECommerceApiService,
     MarketDataFeedApiService,
+    PricingMatchApiService,
 
     // PEER
     ExchangeApiService,

@@ -22,7 +22,7 @@ const initialState: State = {
 };
 
 // Reducer function
-export function reducer(state = initialState, action: fromJobsToPriceActions.Actions): State {
+export function reducer(state = initialState, action: fromJobsToPriceActions.JobsToPriceActions): State {
   switch (action.type) {
 
     case fromJobsToPriceActions.GET_JOBS_TO_PRICE: {
@@ -43,6 +43,16 @@ export function reducer(state = initialState, action: fromJobsToPriceActions.Act
         ...state,
         loadingJobs: false,
         loadingJobsError: true
+      };
+    }
+    case fromJobsToPriceActions.GET_PRICING_MATCHES: {
+      const jobToPriceId = action.pricingId;
+      const jobsToPriceCopy = cloneDeep(state.jobsToPrice);
+      const jobToPrice = jobsToPriceCopy.find(x => x.Id === jobToPriceId);
+      jobToPrice.LoadingDataCuts = true;
+      return {
+        ...state,
+        jobsToPrice: jobsToPriceCopy
       };
     }
     case fromJobsToPriceActions.GET_MATCH_JOB_CUTS: {

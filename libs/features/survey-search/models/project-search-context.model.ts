@@ -1,4 +1,4 @@
-export interface SearchContext {
+export interface ProjectSearchContext {
   PayMarketId: number;
   CurrencyCode: string;
   ProjectId: number;
@@ -7,7 +7,7 @@ export interface SearchContext {
   Rate?: string;
 }
 
-export function generateMockProjectSearchContext(): SearchContext {
+export function generateMockProjectSearchContext(): ProjectSearchContext {
   return {
     PayMarketId: 1234,
     CurrencyCode: 'USD',

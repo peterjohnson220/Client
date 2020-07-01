@@ -27,8 +27,8 @@ export class AsyncContainerComponent implements OnChanges {
   // 'Smart' Loading mask
   showLoadingMask = false;
   private startTime: number;
-  private smartLoadingMaskWindowMin = 200;
-  private smartLoadingMaskWindowMax = 300;
+  private smartLoadingMaskWindowMin = 300;
+  private smartLoadingMaskWindowMax = 500;
   private smartLoadingMaskBuffer = 100;
   private loadingMaskShowTimerId: number;
   private loadingMaskBufferTimerId: number;

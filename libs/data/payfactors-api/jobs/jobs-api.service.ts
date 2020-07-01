@@ -30,6 +30,10 @@ export class JobsApiService {
   }
 
   getPricingsToModify(pricingIds: number[]) {
-    return this.payfactorsApiService.post<MatchedSurveyJob[]>(`${this.endpoint}/GetPricingsToModify`, pricingIds);
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/GetPricingsToModify`, pricingIds);
+  }
+
+  getPricingCuts(request: any) {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/GetPricingCuts`, request);
   }
 }

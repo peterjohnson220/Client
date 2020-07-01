@@ -9,7 +9,7 @@ import {
 } from 'libs/models/payfactors-api';
 import { generateGuid } from 'libs/core/functions';
 
-import { DataCut, DataCutDetails, JobContext, JobResult, PeerJobInfo, SearchContext } from '../models';
+import { DataCut, DataCutDetails, JobContext, JobResult, PeerJobInfo, ProjectSearchContext } from '../models';
 
 export class PayfactorsSurveySearchApiModelMapper {
 
@@ -19,7 +19,7 @@ export class PayfactorsSurveySearchApiModelMapper {
   static buildAddSurveyDataCutRequest(
     excludeFromParticipation: boolean,
     jobContext: JobContext,
-    projectSearchContext: SearchContext,
+    projectSearchContext: ProjectSearchContext,
     selectedDataCuts: DataCutDetails[]): AddSurveyDataCutRequest {
     return {
       CompanyJobId: jobContext.CompanyJobId,
