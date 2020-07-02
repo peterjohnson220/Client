@@ -29,15 +29,17 @@ export class SurveySearchEffectsService {
         this.store.select(fromSearchReducer.getResultsPagingOptions),
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
-        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, projectSearchContext, selectedDataCuts) =>
-          ({ action, filters, pagingOptions, projectSearchContext, selectedDataCuts })
+        this.store.select(fromSurveySearchReducer.getModifyPricingsSearchContext),
+        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, projectSearchContext, selectedDataCuts, modifyPricingsSearchContext) =>
+          ({ action, filters, pagingOptions, projectSearchContext, selectedDataCuts, modifyPricingsSearchContext })
       ),
 
       switchMap(l => {
         const searchRequest = this.payfactorsSurveySearchApiHelper.buildSurveySearchRequest({
           Filters: l.filters,
           ProjectSearchContext: l.projectSearchContext,
-          PagingOptions: l.pagingOptions
+          PagingOptions: l.pagingOptions,
+          ModifyPricingsSearchContext: l.modifyPricingsSearchContext
         });
 
         return this.surveySearchApiService.searchSurveyJobs(searchRequest)

@@ -4,12 +4,13 @@ import { SurveySearchRequest } from 'libs/models/payfactors-api';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { Filter, ResultsPagingOptions } from 'libs/features/search/models';
 
-import { SearchContext } from '../models';
+import {ModifyPricingsSearchContext, ProjectSearchContext} from '../models';
 
 interface LatestDataFromStoreForSearchRequest {
   Filters: Filter[];
   PagingOptions: ResultsPagingOptions;
-  ProjectSearchContext: SearchContext;
+  ProjectSearchContext: ProjectSearchContext;
+  ModifyPricingsSearchContext: ModifyPricingsSearchContext;
 }
 
 @Injectable()

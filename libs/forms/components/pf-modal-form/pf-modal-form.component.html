@@ -1,5 +1,5 @@
 <ng-template>
-  <div class="modal-header">
+  <div *ngIf="showHeader" class="modal-header">
     <div class="d-flex flex-column w-100">
       <h4 class="modal-title">
         {{title}}
@@ -8,7 +8,7 @@
         <h5><small class="text-muted">{{subTitle}}</small></h5>
       </ng-container>
     </div>
-    <button 
+    <button
       *ngIf="allowDismiss"
       type="button"
       class="close"
@@ -27,21 +27,21 @@
     </div>
     <div class="flex-grow-1 d-flex justify-content-end space-out-children">
       <ng-content select="[button-container-left]"></ng-content>
-      <button 
+      <button
         *ngIf="showSubmit"
         type="button"
         class="btn"
         [ngClass]="primaryButtonClass"
         [class.order-1]="flipPrimarySecondaryBtns"
         [disabled]="submitDisabled"
-        (click)="submit()">        
+        (click)="submit()">
         <span *ngIf="submitting">
           <pf-loading-indicator *ngIf="showSpinner"></pf-loading-indicator> {{primaryButtonTextSubmitting}}
         </span>
         <span *ngIf="!submitting">{{primaryButtonText}}</span>
       </button>
       <button
-        *ngIf="showDismiss" 
+        *ngIf="showDismiss"
         type="button"
         class="btn btn-secondary"
         [disabled]="!allowDismiss"
