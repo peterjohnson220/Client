@@ -143,6 +143,16 @@ export class JobRangeModelChartService {
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.MinMidMax
         },
         {
+          name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeMinMidMaxHidden),
+          type: 'columnrange',
+          animation: false,
+          color: 'transparent',
+          enableMouseTracking: false,
+          pointWidth: 42,
+          showInLegend: false,
+          stacking: 'normal'
+        },
+        {
           name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeTertile),
           type: 'columnrange',
           animation: false,
