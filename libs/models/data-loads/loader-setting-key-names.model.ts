@@ -1,5 +1,6 @@
 export enum LoaderSettingKeyName {
   ValidateOnly = 'ValidateOnly',
+  FileFormat = 'FileFormat',
   // Pricings
   PricingsSheetName = 'PricingsSheetName',
   PricingNotesSheetName = 'PricingNotesSheetName',
