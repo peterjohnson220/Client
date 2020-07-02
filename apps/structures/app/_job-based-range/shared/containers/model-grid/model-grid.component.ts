@@ -89,6 +89,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   invalidMidPointRanges: number[];
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
+  filterTemplates = {};
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -106,7 +107,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.fullGridActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: true,
-      ShowColumnChooser: true
+      ShowColumnChooser: true,
+      ShowFilterChooser: true
     };
     this.invalidMidPointRanges = [];
   }

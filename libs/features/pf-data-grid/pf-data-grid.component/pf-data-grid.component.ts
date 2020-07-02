@@ -41,6 +41,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
+  @Input() gridActionsRightTemplate: TemplateRef<any>;
   @Input() gridRowActionsConfig: GridRowActionsConfig;
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() filterPanelTemplates: TemplateRef<any>;
