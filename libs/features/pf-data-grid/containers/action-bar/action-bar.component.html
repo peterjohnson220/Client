@@ -1,41 +1,48 @@
 <ng-container *ngIf="!!actionBarConfig && (dataFields$ | async)?.length">
-  <div class="d-flex align-items-center justify-content-between" id="action-bar-container" *ngIf="actionBarConfig.ShowActionBar">
+  <div class="d-flex align-items-center justify-content-between"
+       id="action-bar-container"
+       *ngIf="actionBarConfig.ShowActionBar">
     <div class="d-flex space-out-children-lg">
       <div *ngFor="let gl of globalFilters; trackBy: trackByFn;">
         <ng-container *ngIf="actionBarConfig.GlobalFiltersTemplates && actionBarConfig.GlobalFiltersTemplates[gl.SourceName]; else omnisearchFilter"
-          [ngTemplateOutlet]="actionBarConfig.GlobalFiltersTemplates[gl.SourceName]"
-          [ngTemplateOutletContext]="{field: gl}">
+                      [ngTemplateOutlet]="actionBarConfig.GlobalFiltersTemplates[gl.SourceName]"
+                      [ngTemplateOutletContext]="{field: gl}">
         </ng-container>
 
         <ng-template #omnisearchFilter>
-          <pf-input-debounce
-            [placeholderText]="gl.FilterPlaceholder"
-            [hideClearBtn]="false"
-            [minWidth]="300"
-            [delay]="400"
-            [(ngModel)]="getNgModel(gl).FilterValue"
-            (valueChanged)="handleGlobalFilterValueChanged(gl, $event)"
-            [id]="'txt-' + gl.SourceName">
+          <pf-input-debounce [placeholderText]="gl.FilterPlaceholder"
+                             [hideClearBtn]="false"
+                             [minWidth]="300"
+                             [delay]="400"
+                             [(ngModel)]="getNgModel(gl).FilterValue"
+                             (valueChanged)="handleGlobalFilterValueChanged(gl, $event)"
+                             [id]="'txt-' + gl.SourceName">
           </pf-input-debounce>
         </ng-template>
       </div>
-      <ng-container class="d-flex " *ngIf="actionBarConfig.GlobalActionsTemplate" [ngTemplateOutlet]="actionBarConfig.GlobalActionsTemplate"></ng-container>
+      <ng-container class="d-flex "
+                    *ngIf="actionBarConfig.GlobalActionsTemplate"
+                    [ngTemplateOutlet]="actionBarConfig.GlobalActionsTemplate"></ng-container>
     </div>
     <div class="d-flex space-out-children-md">
-        <button *ngIf="actionBarConfig.AllowExport && !!actionBarConfig.ExportSourceName?.length"
-                type="button" id="export-popover-btn" class="btn btn-secondary"
-                placement="bottom-right" popoverTitle="Choose Content to Export"
-                [disabled]="(exporting$ | async) || (loadingExportingStatus$ | async) || !(data$ | async) || (data$ | async).total === 0"
-                [attr.title]="getExportTitleTooltip(exporting$ | async, loadingExportingStatus$ | async, data$ | async)"
-                (click)="handleExportClicked()">
-          <fa-icon icon="download"></fa-icon>
-        </button>
-        <pf-column-chooser *ngIf="actionBarConfig.ShowColumnChooser"
-          [dataFields]="dataFields$ | async"
-          [columnChooserType]="actionBarConfig.ColumnChooserType"
-          [reorderable]="reorderable"
-          (saveColumns)="updateFields($event)">
-        </pf-column-chooser>      
+      <button *ngIf="actionBarConfig.AllowExport && !!actionBarConfig.ExportSourceName?.length"
+              type="button"
+              id="export-popover-btn"
+              class="btn btn-secondary"
+              placement="bottom-right"
+              popoverTitle="Choose Content to Export"
+              [disabled]="(exporting$ | async) || (loadingExportingStatus$ | async) || !(data$ | async) || (data$ | async).total === 0"
+              [attr.title]="getExportTitleTooltip(exporting$ | async, loadingExportingStatus$ | async, data$ | async)"
+              (click)="handleExportClicked()">
+        <fa-icon icon="download"></fa-icon>
+      </button>
+      <pf-column-chooser *ngIf="actionBarConfig.ShowColumnChooser"
+                         [dataFields]="dataFields$ | async"
+                         [columnChooserType]="actionBarConfig.ColumnChooserType"
+                         [reorderable]="reorderable"
+                         (saveColumns)="updateFields($event)"
+                         [submitButtonText]="actionBarConfig.ColumnChooserSubmitText">
+      </pf-column-chooser>
     </div>
   </div>
 </ng-container>

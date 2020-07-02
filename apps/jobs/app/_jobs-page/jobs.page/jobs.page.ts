@@ -242,7 +242,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       AllowExport: false,
       AllowSaveFilter: true,
       ExportSourceName: '',
-      ColumnChooserType: ColumnChooserType.Column
+      ColumnChooserType: ColumnChooserType.Column,
+      ColumnChooserSubmitText: 'Save'
     };
 
     this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));

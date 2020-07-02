@@ -1,15 +1,18 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ViewField, SimpleDataView } from 'libs/models/payfactors-api';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
 
-import * as cloneDeep from 'lodash.clonedeep';
 import { orderBy } from 'lodash';
+import * as cloneDeep from 'lodash.clonedeep';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { GridDataResult } from '@progress/kendo-angular-grid';
+
+import { ViewField } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
 import { ActionBarConfig } from '../../models';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'pf-action-bar',

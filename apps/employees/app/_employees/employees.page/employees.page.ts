@@ -75,7 +75,8 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       AllowExport: true,
       AllowSaveFilter: false,
       ExportSourceName: 'Employees',
-      ColumnChooserType: ColumnChooserType.ColumnGroup
+      ColumnChooserType: ColumnChooserType.ColumnGroup,
+      ColumnChooserSubmitText: 'Save'
     };
     this.gridConfig = {
       PersistColumnWidth: true
