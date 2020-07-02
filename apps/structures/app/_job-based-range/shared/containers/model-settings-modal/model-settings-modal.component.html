@@ -118,7 +118,8 @@
                   <kendo-dropdownlist id="rate" class="form-control k-dropdown-white"
                                       formControlName="Rate"
                                       [data]="['Annual', 'Hourly']"
-                                      [valuePrimitive]="true">
+                                      [valuePrimitive]="true"
+                                      (selectionChange)="handleRateSelectionChange($event)">
                   </kendo-dropdownlist>
                   <div class="invalid-feedback">
                     Please provide a rate.

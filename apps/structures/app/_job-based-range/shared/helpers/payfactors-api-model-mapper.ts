@@ -82,21 +82,19 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapRoundingSettingsModalFormToRoundRangesRequest(roundingSettings: RoundingSettingsDataObj): RoundRangesRequest {
-    let min: RoundingSetting;
-    let mid: RoundingSetting;
-    let max: RoundingSetting;
-
-    min = roundingSettings['min'];
-    mid = roundingSettings['mid'];
-    max = roundingSettings['max'];
-
     return {
-      MinRoundingType: min.RoundingType,
-      MinRoundingPoint: min.RoundingPoint,
-      MidRoundingType: mid.RoundingType,
-      MidRoundingPoint: mid.RoundingPoint,
-      MaxRoundingType: max.RoundingType,
-      MaxRoundingPoint: max.RoundingPoint
+      Min: roundingSettings['min'],
+      Mid: roundingSettings['mid'],
+      Max: roundingSettings['max'],
+      FirstTertile: roundingSettings['firstTertile'],
+      SecondTertile: roundingSettings['secondTertile'],
+      FirstQuartile: roundingSettings['firstQuartile'],
+      SecondQuartile: roundingSettings['secondQuartile'],
+      FirstQuintile: roundingSettings['firstQuintile'],
+      SecondQuintile: roundingSettings['secondQuintile'],
+      ThirdQuintile: roundingSettings['thirdQuintile'],
+      FourthQuintile: roundingSettings['fourthQuintile']
+    
     };
   }
 
