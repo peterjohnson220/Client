@@ -1,18 +1,19 @@
-import { Component, OnInit, ViewChild, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { SortDescriptor } from '@progress/kendo-data-query';
-import { IntlService } from '@progress/kendo-angular-intl';
 
-import { UserContext } from 'libs/models';
+import { IntlService } from '@progress/kendo-angular-intl';
+import { SortDescriptor } from '@progress/kendo-data-query';
+
 import { Permissions } from 'libs/constants';
-import { ActionBarConfig, ColumnChooserType, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 
 import { EmployeeHistoryPageViewId } from '../models';
-
 
 @Component({
   selector: 'pf-employee-history-page',
@@ -49,14 +50,13 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
   ) {
     this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.actionBarConfig = {
-      ShowActionBar: true,
+      ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
       ShowFilterChooser: true,
       AllowExport: true,
       AllowSaveFilter: false,
       ExportSourceName: 'Employee History',
-      ColumnChooserType: ColumnChooserType.ColumnGroup,
-      ColumnChooserSubmitText: 'Save'
+      ColumnChooserType: ColumnChooserType.ColumnGroup
     };
     this.setHistoryDate(this.route.snapshot.params.date);
   }
