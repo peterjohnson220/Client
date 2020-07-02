@@ -28,6 +28,7 @@ import * as fromModifyPricingsReducer from 'libs/features/multi-match/reducers';
 import { PageViewIds } from '../constants';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
+import { ShowingActiveJobs } from '../pipes';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -37,6 +38,7 @@ import * as fromJobsPageReducer from '../reducers';
 
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   permissions = Permissions;
+  readonly showingActiveJobsPipe = new ShowingActiveJobs();
 
   pageViewId = PageViewIds.Jobs;
   filteredPayMarketOptions: any;
@@ -326,7 +328,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const summary: ChangeJobStatusRequest = {
       CompanyJobIds: this.selectedJobIds,
       JobsInReview: this.jobDescriptionsInReview,
-      StatusToSet: this.isActiveJobs() ? 0 : 1
+      StatusToSet: this.showingActiveJobsPipe.transform(this.jobStatusField) ? 0 : 1
     };
     this.store.dispatch(new fromJobsPageActions.ChangingJobStatus(summary));
   }
@@ -395,10 +397,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handleStructureGradeNameDropdownFilter(value: string) {
     this.filteredStructureGradeNameOptions = this.structureGradeNameOptions.filter(o => o.Id.toLowerCase().indexOf(value.toLowerCase()) > -1);
-  }
-
-  isActiveJobs() {
-    return this.jobStatusField ? this.jobStatusField.FilterValue : true;
   }
 
   toggleJobManagmentModal(toggle: boolean, jobId: number = null, event = null) {
