@@ -10,7 +10,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { environment } from 'environments/environment';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import { ActionBarConfig, ColumnChooserType } from 'libs/features/pf-data-grid/models';
+import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
@@ -82,14 +82,12 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
       });
     }
     this.actionBarConfig = {
-      ShowActionBar: true,
+      ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
       ShowFilterChooser: true,
       AllowExport: true,
-      AllowSaveFilter: true,
       ExportSourceName: this.company.Name + ' Pricings',
       CustomExportType: 'PricingNotes',
-      ColumnChooserType: ColumnChooserType.Column,
       ColumnChooserSubmitText: 'Refresh'
     };
   }
