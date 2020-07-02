@@ -539,6 +539,10 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
     // set the series data (0 - salaryRange, 1 - midPoint, 2 - avg salary, 3 - outliers)
     this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeMinMidMax].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
+
+    // we need this hidden salary range => will prevent from messing up when we hide salary range from the legend
+    this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeMinMidMaxHidden].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
+
     this.chartInstance.series[JobRangeModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
     this.chartInstance.series[JobRangeModelChartSeries.Average].setData(this.averageSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
