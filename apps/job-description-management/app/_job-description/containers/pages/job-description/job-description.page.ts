@@ -135,6 +135,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionIsFullscreen = false;
   isFirstSave = true;
   queueSave = false;
+  jobDescriptionId: number;
+  viewName: string;
+  revisionNumber: number;
   tokenId: string;
   ssoTokenId: string;
   ssoAgentId: string;
@@ -200,7 +203,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new fromJobDescriptionActions.LoadingPage(true));
-    this.initSubscriptions();
+    this.initRouterParams();
     this.initSaveThrottle();
     this.defineDiscardDraftModalOptions();
 
@@ -476,6 +479,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     });
 
     this.completedStepSubscription = this.completedStep$.subscribe(cs => this.completedStep = cs);
+
     this.identitySubscription = this.identity$.subscribe(userContext => {
       this.identity = userContext;
       this.companyName = userContext.CompanyName;
@@ -498,14 +502,20 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         }
       });
       this.isSiteAdmin = userContext.AccessLevel === 'Admin';
-      this.initRouterParams();
+
       if (!this.completedStep) {
         this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
       }
+
+      if (!this.identityInWorkflow) {
+        this.getJobDescriptionDetails();
+      }
     });
+
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
       this.handleJobDescriptionChanged(result.obj);
     });
+
     this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
       if (userRoles) {
         this.isCompanyAdmin = userRoles.some( x => x.RoleName === 'Company Admin' && x.Assigned);
@@ -522,8 +532,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
     this.requireSSOLogin$.subscribe(requireSSOLoginResult => {
       if (requireSSOLoginResult === false && this.tokenId && this.identityInWorkflow) {
-          this.setWorkflowUserStepToIsBeingViewed();
-      }
+          this.getJobDescriptionDetails();
+          this.setWorkflowStepIsBeingViewed();
+        }
 
       if (requireSSOLoginResult  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
 
@@ -543,7 +554,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
               }
 
              this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
-             this.setWorkflowUserStepToIsBeingViewed();
+             this.getJobDescriptionDetails();
+             this.setWorkflowStepIsBeingViewed();
              this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
             }
          });
@@ -588,7 +600,17 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.editingSubscription = this.editingJobDescription$.subscribe(value => this.editing = value);
   }
 
-  private setWorkflowUserStepToIsBeingViewed() {
+  private getJobDescriptionDetails() {
+    this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
+      JobDescriptionId: this.jobDescriptionId,
+      ViewName: this.viewName,
+      RevisionNumber: !!this.identity.EmployeeAcknowledgementInfo ? this.identity.EmployeeAcknowledgementInfo.Version : this.revisionNumber,
+      InHistory: !!this.revisionNumber,
+      InWorkflow: this.identityInWorkflow
+    }));
+  }
+
+  private setWorkflowStepIsBeingViewed() {
     this.initSignalRConnection(); // sets isBeingViewed to false on signalR disconnect
     this.store.dispatch(new fromJobDescriptionActions.SetWorkflowUserStepToIsBeingViewed({jwt: this.tokenId, isBeingViewed: true}));
   }
@@ -600,21 +622,16 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       (params, queryParams) => ({ ...params, queryParams: queryParams })
     );
     this.routerParamsSubscription = urlParams.subscribe(params => {
-      const jobDescriptionId = params['id'];
-      const viewName = params.queryParams['viewName'];
-      const revisionNumber = params['versionNumber'];
+      this.jobDescriptionId = params['id'];
+      this.viewName = params.queryParams['viewName'];
+      this.revisionNumber = params['versionNumber'];
       this.tokenId = params.queryParams['jwt'];
       this.ssoTokenId = params.queryParams['tokenid'];
       this.ssoAgentId = params.queryParams['agentid'];
 
-      this.inHistory = !!revisionNumber;
-      this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
-        JobDescriptionId: jobDescriptionId,
-        ViewName: viewName,
-        RevisionNumber: !!this.identity.EmployeeAcknowledgementInfo ? this.identity.EmployeeAcknowledgementInfo.Version : revisionNumber,
-        InHistory: !!revisionNumber,
-        InWorkflow: this.identityInWorkflow
-      }));
+      this.inHistory = !!this.revisionNumber;
+
+      this.initSubscriptions();
     });
   }
 
