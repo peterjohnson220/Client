@@ -153,13 +153,17 @@ export class CommunityAttachmentModalComponent implements OnInit {
   selectEventHandler(e: SelectEvent): void {
      const file = e.files[0];
 
-      if (file.validationErrors && file.validationErrors.includes('invalidFileExtension')) {
-        const cloudFileName = `${file.uid}_${file.name}`;
-        const fileToUpload = mapFileInfoToCommunityAddAttachment(file, cloudFileName);
-        fileToUpload.Status = CommunityAttachmentUploadStatus.InvalidExtension;
-        this.uploadedFiles.push(fileToUpload);
-        this.uploadWidget.autoUpload = false;
-      }
+    if (!this.uploadWidget.autoUpload) {
+      this.uploadWidget.autoUpload = true;
+    }
+
+    if (file.validationErrors && file.validationErrors.includes('invalidFileExtension')) {
+      const cloudFileName = `${file.uid}_${file.name}`;
+      const fileToUpload = mapFileInfoToCommunityAddAttachment(file, cloudFileName);
+      fileToUpload.Status = CommunityAttachmentUploadStatus.InvalidExtension;
+      this.uploadedFiles.push(fileToUpload);
+      this.uploadWidget.autoUpload = false;
+    }
   }
 
   getUploadStatus(file: FileInfo) {
