@@ -82,12 +82,6 @@
   border-color: #ccc;
 }
 
-.btn-secondary.focus, .btn-secondary:focus {
-  background-color: #fff;
-  border-color: #ccc;
-  box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5);
-}
-
 .badge-info {
   background-color: #5bc0de;
 }
@@ -227,10 +221,4 @@ pf-workflow-config {
   .dropdown-item.active, .dropdown-item:active {
     background-color: #1872ae;
   }
-}
-
-.btn-success.focus, .btn-success:focus {
-  box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5);
-  background-color: #28a745;
-  border-color: #28a745;
 }
