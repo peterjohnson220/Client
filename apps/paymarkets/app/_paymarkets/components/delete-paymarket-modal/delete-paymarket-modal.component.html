@@ -17,8 +17,13 @@
     <div class="delete-paymarket-modal-container px-3">
       <p>Are you sure you want to delete the pay market <b>{{payMarketName}}</b>?</p>
     </div>
+    <div class="px-3">
+      <pf-paymarket-associations
+        [companyPaymarketId]="selectedPayMarketId">
+      </pf-paymarket-associations>
+    </div>
     <form [formGroup]="deletePayMarketForm">
-      <div class="d-flex border-top p-3">
+      <div class="d-flex border-top p-3 mt-3">
         <input
         type="checkbox"
         (change)="checked = !checked"

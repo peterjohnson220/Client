@@ -1,0 +1,68 @@
+<pf-async-container
+  [loading]="(payMarketAssociationsSummary$ | async)?.loading"
+  [loadingError]="(payMarketAssociationsSummary$ | async)?.loadingError"
+  [loadingErrorMessage]="'Error Loading PayMarket Associations'">
+
+  <ng-container *ngIf="anyAssociations; else noAssociations">
+    <div class="associations-intro">
+      <div class="associations-intro-text">
+        <strong>{{(payMarketAssociationsSummary$ | async)?.obj?.PaymarketName}}</strong> is associated with the following:
+      </div>
+      <div class="associations-intro-linked-paymarket" *ngIf="(payMarketAssociationsSummary$ | async)?.obj?.LinkedPaymarketName">Linked to: {{(payMarketAssociationsSummary$ | async)?.obj?.LinkedPaymarketName}}</div>
+    </div>
+
+    <ngb-accordion #accordion class="associations-accordion" [closeOthers]="true" #acc="ngbAccordion">
+      <ngb-panel *ngIf="payMarketAssociationsSummary?.PricingProjectsCount > 0" id="{{associationType.PricingProjects}}">
+        <ng-template ngbPanelHeader>
+          <div class="group-header d-flex align-items-center justify-content-between" (click)="togglePanel(associationType.PricingProjects)">
+            <h5>Pricing Projects</h5>
+            <span class="badge gray-badge">{{payMarketAssociationsSummary.PricingProjectsCount}}</span>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <pf-pricing-projects [companyPaymarketId]="companyPaymarketId" [totalCount]="payMarketAssociationsSummary.PricingProjectsCount"></pf-pricing-projects>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel *ngIf="payMarketAssociationsSummary?.PublishedPricingsCount > 0" id="{{associationType.PublishedPricings}}">
+        <ng-template ngbPanelHeader>
+          <div class="group-header d-flex align-items-center justify-content-between" (click)="togglePanel(associationType.PublishedPricings)">
+            <h5>Published Pricings</h5>
+            <span class="badge gray-badge">{{payMarketAssociationsSummary.PublishedPricingsCount}}</span>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <pf-pricings [companyPaymarketId]="companyPaymarketId" [totalCount]="payMarketAssociationsSummary.PublishedPricingsCount"></pf-pricings>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel *ngIf="payMarketAssociationsSummary?.EmployeeCount > 0" id="{{associationType.EmployeeRecords}}">
+        <ng-template ngbPanelHeader>
+          <div class="group-header d-flex align-items-center justify-content-between" (click)="togglePanel(associationType.EmployeeRecords)">
+            <h5>Employee Records</h5>
+            <span class="badge gray-badge">{{payMarketAssociationsSummary.EmployeeCount}}</span>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <pf-employee-records [companyPaymarketId]="companyPaymarketId" [totalCount]="payMarketAssociationsSummary.EmployeeCount"></pf-employee-records>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel *ngIf="!!payMarketAssociationsSummary?.StructuresCount" id="{{associationType.Structures}}">
+        <ng-template ngbPanelHeader>
+          <div class="group-header d-flex align-items-center justify-content-between" (click)="togglePanel(associationType.Structures)">
+            <h5>Structures</h5>
+            <span class="badge gray-badge">{{payMarketAssociationsSummary.StructuresCount}}</span>
+          </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <pf-structures [companyPaymarketId]="companyPaymarketId" [totalCount]="payMarketAssociationsSummary.StructuresCount"></pf-structures>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </ng-container>
+
+  <ng-template #noAssociations>
+    <div *ngIf="!(payMarketAssociationsSummary$ | async)?.loading">
+      There are no existing associations for this pay market.
+    </div>
+  </ng-template>
+
+</pf-async-container>

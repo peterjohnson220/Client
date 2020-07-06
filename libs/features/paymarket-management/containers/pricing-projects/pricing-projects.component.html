@@ -1,0 +1,34 @@
+<div class="data-view-grid" *ngIf="(pricingProjects$ | async) as dataAsync">
+  <div class="loading-message" *ngIf="dataAsync.loading">
+    <pf-loading-indicator></pf-loading-indicator> Loading data. Please wait ...
+  </div>
+  <div class="loading-message loading-error" *ngIf="dataAsync.loadingError">
+    <fa-icon icon="exclamation-triangle" class="icon"></fa-icon> Error loading data.
+  </div>
+  <div class="grid-container">
+    <kendo-grid
+      *ngIf="!dataAsync.loading"
+      [kendoGridBinding]="dataAsync.obj"
+      [resizable]="true"
+      (scrollBottom)="handleScrollBottom()">
+      <kendo-grid-column [field]="'UserSessions_Session_Name'"
+                         [title]="'Project Name'"
+                         [headerStyle]="{'font-size': '14px', 'font-weight': '300'}"
+                         width="150">
+      </kendo-grid-column>
+      <kendo-grid-column [field]="'Users_First_Name'"
+                         [title]="'Created By'"
+                         [headerStyle]="{'font-size': '14px', 'font-weight': '300'}"
+                         width="150">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{dataItem['Users_First_Name']}}  {{dataItem['Users_Last_Name']}}
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  </div>
+  <div class="d-flex">
+    <div class="loading-more-row" *ngIf="loadingMoreData$ | async">
+      <pf-loading-indicator></pf-loading-indicator> Loading more results...
+    </div>
+  </div>
+</div>

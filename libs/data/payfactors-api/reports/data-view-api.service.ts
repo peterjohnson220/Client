@@ -22,7 +22,7 @@ import {
   ValidateFormulaResponse,
   ValidateFormulaRequest,
   UpsertFormulaFieldRequest,
-  DeleteUserFormulaRequest, DataViewConfig, ExportGridRequest
+  DeleteUserFormulaRequest, DataViewConfig, ExportGridRequest, BasicDataViewDataRequest
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -69,6 +69,10 @@ export class DataViewApiService {
   }
 
   getData(request: DataViewDataRequest): Observable<any[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetData`, request);
+  }
+
+  getDataWithBasicDataRequest(request: BasicDataViewDataRequest): Observable<any[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetData`, request);
   }
 

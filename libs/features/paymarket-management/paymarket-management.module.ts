@@ -9,16 +9,23 @@ import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { PayMarketModalComponent, GeneralFormComponent, MarketDataScopeComponent,
-  DefaultScopesComponent, ExchangeScopesComponent
+  DefaultScopesComponent, ExchangeScopesComponent, PaymarketAssociationsComponent,
+  PricingProjectsComponent,
+  PricingsComponent,
+  EmployeeRecordsComponent,
+  StructuresComponent
 } from './containers';
+import { BasicDataGridComponent } from './components';
 import { reducers } from './reducers';
 import { GeneralFormEffects, MarketDataScopeEffects, DefaultScopesEffects, ExchangeScopesEffects,
-  PayMarketModalEffects
+  PayMarketModalEffects, PaymarketAssociationsEffects, BasicDataGridEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 
@@ -34,13 +41,17 @@ import * as fromFaIcons from './fa-icons';
       MarketDataScopeEffects,
       DefaultScopesEffects,
       ExchangeScopesEffects,
-      PayMarketModalEffects
+      PayMarketModalEffects,
+      PaymarketAssociationsEffects,
+      BasicDataGridEffects
     ]),
     DropDownsModule,
     NumericTextBoxModule,
     PerfectScrollbarModule,
     NgbModule,
     FontAwesomeModule,
+    GridModule,
+    InfiniteScrollModule,
 
     // Payfactors
     PfCommonUIModule,
@@ -52,9 +63,17 @@ import * as fromFaIcons from './fa-icons';
     GeneralFormComponent,
     MarketDataScopeComponent,
     DefaultScopesComponent,
-    ExchangeScopesComponent
+    ExchangeScopesComponent,
+    PaymarketAssociationsComponent,
+    PricingProjectsComponent,
+    PricingsComponent,
+    EmployeeRecordsComponent,
+    StructuresComponent,
+
+    // Components
+    BasicDataGridComponent
   ],
-  exports: [ PayMarketModalComponent ]
+  exports: [ PayMarketModalComponent, PaymarketAssociationsComponent ]
 })
 export class PayMarketManagementModule {
   constructor(library: FaIconLibrary) {

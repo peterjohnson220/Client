@@ -1,0 +1,17 @@
+.card-container {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-top: 1.25rem;
+
+  .card {
+    border: 0 !important;
+  }
+
+  .data-item-card-body {
+    padding: 0rem 1.25rem !important;
+  }
+  
+  .title {
+    font-weight: 500;
+  }
+}

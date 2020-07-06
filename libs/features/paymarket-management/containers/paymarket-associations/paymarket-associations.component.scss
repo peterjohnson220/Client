@@ -1,0 +1,26 @@
+.gray-badge {
+  background-color: #818A91;
+  color: white;
+  height: 19px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 20px;
+  line-height: 12px;
+}
+
+.group-header {
+  width: 100%;
+  cursor: pointer;
+}
+
+.associations-intro {
+  margin-bottom: 2rem;
+  .associations-intro-linked-paymarket {
+    font-style: italic;
+  }
+}
+
+.associations-accordion ::ng-deep.card-body {
+  padding: 0;
+}
+
