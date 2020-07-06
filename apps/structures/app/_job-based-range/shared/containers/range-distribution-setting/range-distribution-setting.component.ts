@@ -109,8 +109,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       this.setFormValidators(this.metadata.RangeDistributionTypeId);
     }
 
-    // load show min /max here
-    this.loadMinMaxState();
   }
 
   handleRangeBasedOnFilterChange(value: string) {
@@ -163,6 +161,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
          break;
       }
    }
+   this.loadMinMaxState();
   }
 
   handleMinMaxPercentileToggle(min: boolean) {
@@ -219,7 +218,8 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
   resetFormValidators() {
     for (const controlName in this.rangeDistributionSettingForm.controls) {
-      if (controlName.includes('Tertile') || controlName.includes('Quartile') || controlName.includes('Quintile')) {
+      if (controlName.includes('Tertile') || controlName.includes('Quartile') || controlName.includes('Quintile')
+         || controlName === 'Minimum' || controlName === 'Maximum' || controlName === 'MinPercentile' || controlName === 'MaxPercentile') {
         this.rangeDistributionSettingForm.get(controlName).reset();
         this.rangeDistributionSettingForm.get(controlName).clearValidators();
         this.rangeDistributionSettingForm.get(controlName).updateValueAndValidity();
