@@ -9,7 +9,7 @@ import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
 import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
 import { SearchFilter, SearchSurveyAggregationsRequest } from 'libs/models/payfactors-api';
 import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
-import { InfiniteScrollActionContext, InfiniteScrollEffectsService } from 'libs/features/infinite-scroll/services';
+import { InfiniteScrollEffectsService } from 'libs/features/infinite-scroll/services';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
@@ -25,7 +25,7 @@ export class SingledFilterEffects {
       withLatestFrom(
         this.store.select(fromSearchReducer.getSingledFilter),
         this.store.select(fromSearchReducer.getParentFilters),
-        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
         this.store.select(fromSearchReducer.getSingledFilterSearchValue),
         (infiniteScrollActionContext, singledFilter, filters, context, searchValue) => (
           { infiniteScrollActionContext, singledFilter, filters, context, searchValue}
@@ -36,7 +36,6 @@ export class SingledFilterEffects {
           Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
           CountryCode: data.context.CountryCode,
           CurrencyCode: data.context.CurrencyCode,
-          ProjectId: data.context.ProjectId,
           SearchField: data.singledFilter.BackingField,
           TextQuery: data.searchValue,
           PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.infiniteScrollActionContext.pagingOptions)

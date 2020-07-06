@@ -13,8 +13,7 @@ exports[`Project - MultiMatch - JobToPrice Container Component should get job ma
   jobsToPrice$={[Function Store]}
   jobsToPriceComponents={[Function QueryList]}
   loadingJobs$={[Function Store]}
-  modifyPricingSearchContext$={[Function Store]}
-  projectSearchContext$={[Function Store]}
+  pricingMatchDataSearchContext$={[Function Store]}
   selectedCuts={[Function Array]}
   selectedCuts$={[Function Store]}
   selectedDataCutsSubscription={[Function Subscriber]}
@@ -51,8 +50,7 @@ exports[`Project - MultiMatch - JobToPrice Container Component should not get jo
   jobsToPrice$={[Function Store]}
   jobsToPriceComponents={[Function QueryList]}
   loadingJobs$={[Function Store]}
-  modifyPricingSearchContext$={[Function Store]}
-  projectSearchContext$={[Function Store]}
+  pricingMatchDataSearchContext$={[Function Store]}
   selectedCuts={[Function Array]}
   selectedCuts$={[Function Store]}
   selectedDataCutsSubscription={[Function Subscriber]}

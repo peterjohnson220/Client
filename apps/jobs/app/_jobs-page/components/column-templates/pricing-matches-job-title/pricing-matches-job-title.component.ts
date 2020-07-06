@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked, HostListener, ChangeDetectorRef, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked,
+  HostListener, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ActionsSubject, Store } from '@ngrx/store';

@@ -36,7 +36,7 @@ export class MultiMatchEffects {
                 const searchContext = {
                   CountryCode: response.CountryCode,
                   CurrencyCode: response.CurrencyCode,
-                  PayMarketId: response.PaymarketId,
+                  PaymarketId: response.PaymarketId,
                   ProjectId: response.ProjectId,
                   Rate: response.Rate,
                   RestrictToCountryCode: projectContext.RestrictToCountryCode
@@ -57,6 +57,7 @@ export class MultiMatchEffects {
       )
     );
 
+  // TODO: Refactor to use the pricingMatchDataSearchContext as part of the save updates story for the jobs page
   @Effect()
   saveJobMatchUpdates$ = this.actions$
     .pipe(
@@ -73,7 +74,7 @@ export class MultiMatchEffects {
                                   || (!!j.DeletedJobMatchCutIds && j.DeletedJobMatchCutIds.length));
           return this.surveySearchApiService.updateUserJobMatches({
             ProjectId: contextAndJobs.projectContext.ProjectId,
-            CompanyPayMarketId: contextAndJobs.projectSearchContext.PayMarketId,
+            CompanyPayMarketId: contextAndJobs.projectSearchContext.PaymarketId,
             SurveyJobMatchUpdates: this.buildMatchUpdates(jobsWithUpdates)
           })
             .pipe(

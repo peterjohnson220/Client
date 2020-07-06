@@ -1,10 +1,7 @@
-// TODO: Unify this and project search context into 1 search context class (ENG-319)
-export interface ModifyPricingsSearchContext {
+import {PricingMatchDataSearchContext} from './pricing-match-data-search-context.model';
+
+export interface ModifyPricingsSearchContext extends PricingMatchDataSearchContext {
   PricingIds: number[];
-  PaymarketId: number;
-  CountryCode: string;
-  CurrencyCode: string;
-  Rate: string;
 }
 
 export function generateMockModifyPricingsSearchContextModel(): ModifyPricingsSearchContext {
