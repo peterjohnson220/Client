@@ -11,14 +11,14 @@ import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
 
-import * as fromMidpointActions from '../../actions/midpoint-edit.actions';
+import * as fromRangeFieldActions from '../../actions/range-field-edit.actions';
 
 @Component({
-  selector: 'pf-midpoint-editor',
-  templateUrl: './midpoint-editor.component.html',
-  styleUrls: ['./midpoint-editor.component.scss']
+  selector: 'pf-range-field-editor',
+  templateUrl: './range-field-editor.component.html',
+  styleUrls: ['./range-field-editor.component.scss']
 })
-export class MidpointEditorComponent implements OnChanges {
+export class RangeFieldEditorComponent implements OnChanges {
   // The PageViewId of the pf-data-grid this editor is on
   @Input() pageViewId: string;
 
@@ -31,10 +31,10 @@ export class MidpointEditorComponent implements OnChanges {
   // Optional rounding settings to be applied to the range values upon changing the mid
   @Input() roundingSettings: RoundingSettingsDataObj;
 
-  // The filter to get the updated data row upon success of the midpoint being updated.
+  // The filter to get the updated data row upon success of the field being updated.
   @Input() refreshRowDataViewFilter: DataViewFilter;
 
-  // Alignment of the midpoint value in the textbox
+  // Alignment of the field value in the textbox
   @Input() textAlign: 'left' | 'right' = 'left';
 
   // A callback function which will be invoked when the update of the midpoint has succeeded. It will be passed
@@ -44,7 +44,7 @@ export class MidpointEditorComponent implements OnChanges {
   // Additional meta info to pass to the updateSuccessCallbackFn
   @Input() updateMetaInfo: any;
 
-  // A template formatting how to display the mid value. It will be passed the data row and
+  // A template formatting how to display the field value. It will be passed the data row and
   @Input() readonlyValueTemplate: TemplateRef<any>;
 
   // Truncate annual values to one decimal place upon blur. Ex. 65678 would become 65.7
@@ -54,9 +54,11 @@ export class MidpointEditorComponent implements OnChanges {
   @Input() rangeGroupId: number;
   @Input() rangeId: number;
   @Input() rate: string;
-  @Input() mid: number;
+  @Input() fieldValue: number;
   @Input() dataRow: any;
   @Input() rowIndex: number;
+  @Input() fieldName: string;
+  @Input() isMid: boolean;
 
   canEditCurrentStructureRanges: boolean;
   value: number;
@@ -98,7 +100,7 @@ export class MidpointEditorComponent implements OnChanges {
 
   handleFocus() {
     this.focused = true;
-    this.value = this.mid;
+    this.value = this.fieldValue;
   }
 
   handleBlur() {
@@ -116,7 +118,9 @@ export class MidpointEditorComponent implements OnChanges {
       rangeId: this.rangeId,
       rangeGroupId: this.rangeGroupId,
       rowIndex: index,
-      mid: targetValue,
+      fieldValue: targetValue,
+      fieldName: this.fieldName,
+      isMid: this.isMid,
       roundingSettings: this.roundingSettings,
       refreshRowDataViewFilter: this.refreshRowDataViewFilter,
       metaInfo: this.updateMetaInfo,
@@ -124,7 +128,7 @@ export class MidpointEditorComponent implements OnChanges {
     };
 
     // TODO - we really should be just persisting rounding settings rather than passing every time, but that is coming later.
-    this.store.dispatch(new fromMidpointActions.UpdateMid(payload));
+    this.store.dispatch(new fromRangeFieldActions.UpdateRangeField(payload));
 
     this.value = targetValue;
   }

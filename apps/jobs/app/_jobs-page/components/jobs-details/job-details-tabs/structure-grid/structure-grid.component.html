@@ -34,13 +34,15 @@
 
 <ng-template #midColumn let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
   <ng-container *ngIf="!!dataRow.vw_CompanyJobsStructureInfo_Mid; else noValue">
-    <pf-midpoint-editor
+    <pf-range-field-editor
       [pageViewId]="pageViewId"
       [rangeGroupType]="dataRow.vw_CompanyJobsStructureInfo_RangeTypeId"
       [rangeGroupId]="dataRow.vw_CompanyJobsStructureInfo_CompanyStructuresRangeGroup_ID"
       [rangeId]="dataRow.vw_CompanyJobsStructureInfo_CompanyStructuresRanges_ID"
       [rate]="dataRow.vw_CompanyJobsStructureInfo_Rate"
-      [mid]="dataRow.vw_CompanyJobsStructureInfo_Mid"
+      [fieldValue]="dataRow.vw_CompanyJobsStructureInfo_Mid"
+      [fieldName]="'Mid'"
+      [isMid]="true"
       [currentStructure]="true"
       [textAlign]="'right'"
       [dataRow]="dataRow"
@@ -48,7 +50,7 @@
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
       [readonlyValueTemplate]="midReadOnly"
       [truncateAnnualValueDisplay]="true">
-    </pf-midpoint-editor>
+    </pf-range-field-editor>
   </ng-container>
 </ng-template>
 
@@ -78,6 +80,6 @@
   </kendo-dropdownlist>
 </ng-template>
 
-<ng-template #midReadOnly let-dataRow="dataRow" let-mid="mid">
-  {{mid | comp: dataRow['vw_CompanyJobsStructureInfo_Rate']}}
+<ng-template #midReadOnly let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow.vw_CompanyJobsStructureInfo_Mid; else noValue">{{ dataRow.vw_CompanyJobsStructureInfo_Mid | comp: dataRow['vw_CompanyJobsStructureInfo_Rate']}}</ng-container>
 </ng-template>

@@ -11,7 +11,8 @@ import {
   RecalculateRangesWithoutMidRequest,
   AddJobRangesRequest,
   JobSearchRequestStructuresRangeGroup,
-  RemoveRangeRequest
+  RemoveRangeRequest,
+  OverrideAndSaveRangeFieldRequest
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange } from 'libs/models/structures';
 
@@ -36,6 +37,10 @@ export class StructureModelingApiService {
 
   recalculateRangeMinMax(request: RecalcAndSaveRangeMinMaxRequest): Observable<RecalcAndSaveRangeMinMaxResponse> {
     return this.payfactorsApiService.post<RecalcAndSaveRangeMinMaxResponse>(`${this.endpoint}/RecalculateRangeMinMax`, request);
+  }
+
+  overrideRangeField(request: OverrideAndSaveRangeFieldRequest): Observable<boolean> {
+    return this.payfactorsApiService.post<boolean>(`${this.endpoint}/OverrideRangeField`, request);
   }
 
   recalculateRangesWithoutMid(request: RecalculateRangesWithoutMidRequest): Observable<StructureRangeGroupResponse> {

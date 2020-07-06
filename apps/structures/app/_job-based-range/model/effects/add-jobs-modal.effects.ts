@@ -128,7 +128,8 @@ export class AddJobsModalEffects {
   }
 
   private hasRequiredSettingsForRecalculation(metaData: RangeGroupMetadata) {
-    return !!(metaData.ControlPoint && metaData.Currency && metaData.Rate && metaData.SpreadMin && metaData.SpreadMax);
+    return !!(metaData.ControlPoint && metaData.Currency && metaData.Rate &&
+      (metaData.SpreadMin || metaData.RangeDistributionSetting.MinPercentile) && (metaData.SpreadMax || metaData.RangeDistributionSetting.MaxPercentile));
   }
 
   constructor(
