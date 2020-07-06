@@ -323,7 +323,6 @@ export type TemplateActions
   | MoveSection
   | DeleteControlFromSection
   | AddControlToSection
-  | DeleteControlFromSection
   | AddDataRowToControl
   | ReorderControlData
   | ReplaceControlData
