@@ -12,7 +12,7 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 import { environment } from 'environments/environment';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import { ConfigurationGroup, EmailRecipientModel } from 'libs/models/data-loads';
-import { LoadTypes } from 'libs/constants';
+import { LoadTypes, CompositeDataLoadTypes } from 'libs/constants';
 import { UserContext } from 'libs/models';
 import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
 
@@ -175,6 +175,7 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
       GroupName: '',
       CompanyId: this.selectedCompany.CompanyId,
       LoadType: LoadTypes.Manual,
+      PrimaryCompositeDataLoadType: CompositeDataLoadTypes.Pricings,
       CreateNewConfigOverride: true
     };
     this.store.dispatch(new fromPricingLoaderActions.SetConfigGroup(configGroup));
@@ -191,7 +192,6 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
       EmailAddress: userContext.EmailAddress,
       FirstName: userContext.FirstName,
       LastName: userContext.LastName,
-      LoaderType: 'Pricings',
       IsCompanyServicesRep: false,
       UserPicture: '',
       LoaderConfigurationGroupId: null

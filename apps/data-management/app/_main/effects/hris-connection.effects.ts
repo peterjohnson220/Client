@@ -7,7 +7,7 @@ import { isEmpty, isNumber, isObject } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import { LoadTypes } from 'libs/constants';
+import { LoadTypes, CompositeDataLoadTypes } from 'libs/constants';
 import { ConnectionsHrisApiService, ConfigurationGroupApiService, LoaderSettingsApiService } from 'libs/data/payfactors-api';
 import { ConnectionSummaryResponse, CredentialsPackage, ValidateCredentialsResponse, PatchProperty } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
@@ -41,6 +41,7 @@ export class HrisConnectionEffects {
           GroupName: 'HRIS Loader Config',
           LoaderConfigurationGroupId: null,
           LoadType: LoadTypes.Hris,
+          PrimaryCompositeDataLoadType: CompositeDataLoadTypes.OrgData
         }).pipe(
           map(configGroup => ({...obj, configGroup})),
         ),
