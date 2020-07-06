@@ -11,8 +11,9 @@ export class HrisApiService {
   constructor(private http: HttpClient) { }
 
   get<T>(url: string, options: any = {}): Observable<T> {
+    const date = new Date().getUTCMilliseconds();
     options = addJwtAuthInterceptorHeader(options);
-    return this.http.get<T>(`${url}`, options).pipe(
+    return this.http.get<T>(`${url}?${date}`, options).pipe(
       map((response: any) => <T>response)
     );
   }
