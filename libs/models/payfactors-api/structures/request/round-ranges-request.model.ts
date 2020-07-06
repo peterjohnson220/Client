@@ -1,10 +1,15 @@
-import { RoundingTypes } from 'libs/constants/structures/rounding-type';
+import { RoundingSetting } from 'libs/models';
 
 export interface RoundRangesRequest {
-  MinRoundingType: RoundingTypes;
-  MidRoundingType: RoundingTypes;
-  MaxRoundingType: RoundingTypes;
-  MinRoundingPoint: number;
-  MidRoundingPoint: number;
-  MaxRoundingPoint: number;
+  Min: RoundingSetting;
+  Mid: RoundingSetting;
+  Max: RoundingSetting;
+  FirstTertile?: RoundingSetting;
+  SecondTertile?: RoundingSetting;
+  FirstQuartile?: RoundingSetting;
+  SecondQuartile?: RoundingSetting;
+  FirstQuintile?: RoundingSetting;
+  SecondQuintile?: RoundingSetting;
+  ThirdQuintile?: RoundingSetting;
+  FourthQuintile?: RoundingSetting;
 }
