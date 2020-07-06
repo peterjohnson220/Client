@@ -22,6 +22,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import {
+  AuthenticationStatusComponent,
   DefaultPaymarketConfirmationModalComponent,
   EntityPickerComponent,
   EntityUploadComponent,
@@ -82,6 +83,7 @@ import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
 import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pipes';
+import { HrisAuthenticationGuard } from './guards';
 
 @NgModule({
   imports: [
@@ -151,6 +153,7 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
     TransferSchedulePageComponent,
 
     // Components
+    AuthenticationStatusComponent,
     CustomEmployeeIdentifierComponent,
     DefaultPaymarketConfirmationModalComponent,
     EntityPickerComponent,
@@ -193,6 +196,10 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
     OutboundJdmViewSelectionPageComponent,
     OutboundTransferScheduleSummaryComponent,
     ProviderListComponent
+  ],
+  providers: [
+    // Guards
+    HrisAuthenticationGuard
   ]
 })
 export class MainModule {
