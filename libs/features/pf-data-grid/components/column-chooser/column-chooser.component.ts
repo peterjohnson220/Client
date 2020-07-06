@@ -21,6 +21,7 @@ export class ColumnChooserComponent implements OnChanges {
   @Input() columnChooserType: ColumnChooserType;
   @Input() reorderable: boolean;
   @Input() submitButtonText = 'Save';
+  @Input() showSelectAllColumns: boolean;
 
   @Output() saveColumns = new EventEmitter();
 
@@ -37,6 +38,14 @@ export class ColumnChooserComponent implements OnChanges {
     if (changes['dataFields']) {
       this.listAreaColumns = orderBy(cloneDeep(changes['dataFields'].currentValue), ['DefaultOrder'], ['asc']);
     }
+  }
+
+  selectAllClicked() {
+    if (this.columnChooserType === ColumnChooserType.ColumnGroup) {
+      throw new Error('selectAll not implemented for column groups ');
+    }
+
+    this.listAreaColumns.filter(f => f.IsSelectable === true).forEach(f => f.IsSelected = true);
   }
 
   saveButtonClicked() {

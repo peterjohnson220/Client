@@ -88,7 +88,8 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
       AllowExport: true,
       ExportSourceName: this.company.Name + ' Pricings',
       CustomExportType: 'PricingNotes',
-      ColumnChooserSubmitText: 'Refresh'
+      ColumnChooserSubmitText: 'Refresh',
+      ShowSelectAllColumns: true
     };
   }
 

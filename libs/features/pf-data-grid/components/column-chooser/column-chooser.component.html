@@ -29,10 +29,17 @@
       </div>
     </div>
   </div>
-  <div class="popover-body-footer d-flex justify-content-end p-2">
-    <button [attr.data-qa-id]="'btn-columnChooserSave'"
-            (click)="saveButtonClicked()"
-            class="btn btn-primary">{{submitButtonText}}</button>
+  <div class="popover-body-footer d-flex ">
+    <div class="p-2"
+         *ngIf="showSelectAllColumns">
+      <button (click)="selectAllClicked()"
+              class="btn btn-secondary">Select All</button>
+    </div>
+    <div class="justify-content-end p-2">
+      <button [attr.data-qa-id]="'btn-columnChooserSave'"
+              (click)="saveButtonClicked()"
+              class="btn btn-primary">{{submitButtonText}}</button>
+    </div>
   </div>
 </ng-template>
 <button title="Choose Columns"
