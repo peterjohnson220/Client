@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';
-import { CompanyDetail, UserTicketItem, UserTicketTabItem } from '../models';
+import { CompanyDetail, UserTicketItem, UserTicketTabItem, TicketComment } from '../models';
 import { GenericKeyValue } from 'libs/models';
 
 export const LOAD_COMPANY_DETAIL = '[Admin / Tickets] Load Company Detail';
@@ -24,7 +24,9 @@ export const DELETE_COMMENT = '[Admin Tickets / Ticket ] Delete Comment';
 export const DELETE_COMMENT_ERROR = '[Admin Tickets / Ticket ] Delete Comment Error';
 export const UPDATE_COMMENT = '[Admin Tickets / Ticket ] Update Comment';
 export const UPDATE_COMMENT_ERROR = '[Admin Tickets / Ticket ] Update Comment Error';
-
+export const REPLY_CLIENT_NOTE = '[Admin Tickets / Ticket ] Reply Client Note';
+export const REPLY_CLIENT_NOTE_SUCCESS = '[Admin Tickets / Ticket ] Reply Client Note Success';
+export const REPLY_CLIENT_NOTE_ERROR = '[Admin Tickets / Ticket ] Reply Client Note Error';
 
 export class LoadCompanyDetail implements Action {
   readonly type = LOAD_COMPANY_DETAIL;
@@ -124,6 +126,21 @@ export class UpdateCommentError implements Action {
   readonly type = UPDATE_COMMENT_ERROR;
 }
 
+export class ReplyClientNote implements Action {
+  readonly type = REPLY_CLIENT_NOTE;
+  constructor(public payload: { comment: TicketComment, content: string }) {}
+}
+
+export class ReplyClientNoteSuccess implements Action {
+  readonly type = REPLY_CLIENT_NOTE_SUCCESS;
+  constructor(public payload: TicketComment[]) {}
+}
+
+export class ReplyClientNoteError implements Action {
+  readonly type = REPLY_CLIENT_NOTE_ERROR;
+  constructor() {}
+}
+
 export type Actions
   = LoadCompanyDetail
   | LoadCompanyDetailSuccess
@@ -143,4 +160,7 @@ export type Actions
   | DeleteComment
   | DeleteCommentError
   | UpdateComment
-  | UpdateCommentError;
+  | UpdateCommentError
+  | ReplyClientNote
+  | ReplyClientNoteSuccess
+  | ReplyClientNoteError;

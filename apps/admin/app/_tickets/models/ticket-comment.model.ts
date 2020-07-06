@@ -1,22 +1,19 @@
 import { TicketCommentLevel } from 'libs/models/payfactors-api/service/response';
+import { Comment } from 'libs/features/comment-box/models';
 
-export interface TicketComment {
-    TicketId: number;
-    UserTicketsCommentsId?: number;
-    UserEmail?: string;
-    UserFullName?: string;
-    Comments?: string;
-    CreateDate?: Date;
-    Level?: TicketCommentLevel;
-  }
+export interface TicketComment extends Comment {
+  TicketId: number;
+  UserEmail?: string;
+  Level?: TicketCommentLevel;
+}
 
-  export function generateMockTicketComment(): TicketComment {
-      return {
-          TicketId: 1,
-          UserTicketsCommentsId: 1,
-          UserEmail: 'MockUserTicketCommentEmail',
-          UserFullName: 'MockCreatedUser',
-          Comments: 'MockComment',
-          CreateDate: new Date()
-      };
-  }
+export function generateMockTicketComment(): TicketComment {
+  return {
+    TicketId: 1,
+    CommentId: 1,
+    UserEmail: 'MockUserTicketCommentEmail',
+    FullName: 'MockCreatedUser',
+    Content: 'MockComment',
+    CreateDate: new Date()
+  };
+}
