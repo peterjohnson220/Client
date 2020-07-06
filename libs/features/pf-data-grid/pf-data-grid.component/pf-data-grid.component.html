@@ -38,7 +38,10 @@
             <div *ngIf="gridActionsTemplate" class="d-flex grid-actions-container">
               <ng-container [ngTemplateOutlet]="gridActionsTemplate"></ng-container>
             </div>
-            <div class="ml-auto my-auto" *ngIf="actionBarConfig.ShowFilterChooser">
+            <div class="ml-auto my-auto" *ngIf="gridActionsRightTemplate">
+              <ng-container [ngTemplateOutlet]="gridActionsRightTemplate"></ng-container>
+            </div>
+            <div [ngClass]="{'ml-auto my-auto': !gridActionsRightTemplate}" *ngIf="actionBarConfig.ShowFilterChooser">
               <pf-filter-chooser [pageViewId]="pageViewId" [hideToggleButtons]="displayFilterPanel$ | async"></pf-filter-chooser>
             </div>
           </div>

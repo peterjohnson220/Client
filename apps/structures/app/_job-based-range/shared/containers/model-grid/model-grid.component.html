@@ -27,7 +27,6 @@
     [columnTemplates]="colTemplates"
     [gridContainerSplitViewWidth]="'60%'"
     [splitViewTemplate]="splitViewTemplate"
-    [aboveGridTemplate]="aboveGridTemplate"
     [splitOnSelection]="false"
     [noRecordsFound]="'No ranges found.'"
     [applyDefaultFilters]="false"
@@ -38,8 +37,19 @@
     [borders]="false"
     [reorderable]="reorderable"
     [syncScrollWithSplit]="true"
-    [gridRowActionsConfig] = "(!(selectedRecordId$ | async)) && !this.hideRowActions() ? gridRowActionsConfig: null">
+    [gridRowActionsConfig] = "(!(selectedRecordId$ | async)) && !this.hideRowActions() ? gridRowActionsConfig: null"
+    [filterPanelTemplates]="filterTemplates"
+    [gridActionsTemplate]="gridActions"
+    [gridActionsRightTemplate]="gridActionsRightTemplate">
   </pf-data-grid>
+</ng-template>
+
+<ng-template #gridActions>
+  <pf-grid-context [title]="'Job Ranges'"></pf-grid-context>
+</ng-template>
+
+<ng-template #gridActionsRightTemplate>
+  <pf-grid-context [enableReturnBtn]="false" [metadata]="metaData$ | async"></pf-grid-context>
 </ng-template>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
@@ -135,10 +145,6 @@
     (modelSettingsClicked)="handleModelSettingsClicked()"
     (publishModelClicked)="handlePublishModelClicked()">
   </pf-global-actions>
-</ng-template>
-
-<ng-template #aboveGridTemplate>
-  <pf-grid-context [title]="'Job Ranges'" [metadata]="metaData$ | async"></pf-grid-context>
 </ng-template>
 
 <ng-template #noValue>
