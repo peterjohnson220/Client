@@ -1,11 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges, ViewChild, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { AsyncStateObj } from 'libs/models/state';
 import { FileUploadComponent } from 'libs/features/org-data-loader/components';
 import { LoaderSettingKeyName } from 'libs/models/data-loads';
+import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromPricingLoaderMainReducer from '../../reducers';
 import * as fromUploadPricingFileActions from '../../actions/upload-pricing-file.actions';
@@ -31,7 +31,7 @@ export class UploadPricingFileComponent implements OnChanges, OnInit, OnDestroy 
   notesSheetNameSubscription: Subscription;
   validationOnlySubscription: Subscription;
 
-  readonly validFileExtensions = ['.xlsx', '.xlsm', '.xlsb'];
+  readonly validFileExtensions = ['.xlsx'];
   worksheetNamePlaceholder = 'Upload file to map tabs';
   selectedFile: File;
   pricingsSheetName: string;
