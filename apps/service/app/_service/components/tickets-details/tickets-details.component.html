@@ -45,7 +45,6 @@
         <quill-view-html class="view-only" [content]="ticket?.TicketDetails" theme="snow"></quill-view-html>
       </span>
     </div>
-    <hr>
     <pf-ticket-attachments
       [ticketId]="selectedTicketId"
       [canAddAttachments]="ticket.NoteAccessLevel === noteAccessLevel.Owner"
