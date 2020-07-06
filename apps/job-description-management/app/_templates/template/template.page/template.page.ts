@@ -454,7 +454,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.templateSettingsSubscription = this.templateSettings$.subscribe(setting => this.templateSettings = setting);
     this.templateSaveSubscription = this.template$.subscribe(template => {
       if (template) {
-        this.template = template;
+        this.template = cloneDeep(template);
         this.templateDnDService.setTemplate(template);
       }
     });

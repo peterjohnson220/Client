@@ -1,6 +1,6 @@
 <pf-page-with-title-bar [returnUrl]="'/templates'">
     <ng-container page-title>
-        <pf-template-inline [inputValue]="(template$ | async)?.TemplateName" (onSave)="saveTemplateName($event)"></pf-template-inline>
+        <pf-template-inline [template]="(template$ | async)" (onSave)="saveTemplateName($event)"></pf-template-inline>
         <span class="badge badge-danger template-indicator">Template</span>
     </ng-container>
 
