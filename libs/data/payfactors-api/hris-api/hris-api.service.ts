@@ -13,7 +13,13 @@ export class HrisApiService {
   get<T>(url: string, options: any = {}): Observable<T> {
     const date = new Date().getUTCMilliseconds();
     options = addJwtAuthInterceptorHeader(options);
-    return this.http.get<T>(`${url}?${date}`, options).pipe(
+    options = {
+      ...options,
+      params: {
+        cacheKey: date
+      }
+    };
+    return this.http.get<T>(`${url}`, options).pipe(
       map((response: any) => <T>response)
     );
   }
