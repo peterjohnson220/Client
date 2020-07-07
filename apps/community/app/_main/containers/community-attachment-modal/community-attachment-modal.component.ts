@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import * as fromCommunityAttachmentsReducer from '../../reducers';
 import * as fromCommunityAttachmentsActions from '../../actions/community-attachment.actions';
 import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
-import { FileRestrictions, SuccessEvent, UploadEvent, FileInfo, SelectEvent } from '@progress/kendo-angular-upload';
+import { FileRestrictions, SuccessEvent, UploadEvent, FileInfo, SelectEvent, RemoveEvent } from '@progress/kendo-angular-upload';
 import { mapFileInfoToCommunityAddAttachment, formatBytes } from '../../helpers/model-mapping.helper';
 import { CommunityFiles } from '../../constants/community-files';
 import { CommunityAttachmentModalState, CommunityAttachmentUploadStatus } from 'libs/models';
@@ -105,6 +105,10 @@ export class CommunityAttachmentModalComponent implements OnInit {
 
     this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
     this.store.dispatch(new fromCommunityAttachmentsActions.SaveCommunityAttachmentsState(this.currentCommunityAttachmentModal));
+  }
+
+  removeEventHandler(e: RemoveEvent) {
+    e.data = { uid: e.files[0].uid };
   }
 
   removeAttachmentEventHandler(file: FileInfo) {
