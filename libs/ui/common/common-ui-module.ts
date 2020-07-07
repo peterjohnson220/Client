@@ -10,6 +10,8 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
 import { PopupModule } from '@progress/kendo-angular-popup';
+import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
+import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 
 import * as fromFaIcons from './fa-icons';
 import { EllipsisViewMoreComponent } from './content';
@@ -30,6 +32,14 @@ import { SimpleYesNoModalComponent } from './simple-yes-no';
 import { LoadingProgressBarService } from './loading/service';
 import { PfTreeViewComponent, TreeViewCheckDirective } from './pf-treeview';
 import { JobTitleCodeComponent } from './job-title-code/job-title-code.component';
+import {
+  ListAreaFilterBooleanComponent,
+  ListAreaFilterDateComponent,
+  ListAreaFilterNumberComponent,
+  ListAreaFilterPillsComponent,
+  ListAreaFilterSidebarComponent,
+  ListAreaFilterTextComponent
+} from './content/list-area-filter';
 
 const components = [
   // Content
@@ -59,11 +69,19 @@ const components = [
   TermsConditionsModalComponent,
 
   // Validation
-  ValidationResultsComponent
+  ValidationResultsComponent,
+
+  // List Area
+  ListAreaFilterBooleanComponent,
+  ListAreaFilterDateComponent,
+  ListAreaFilterNumberComponent,
+  ListAreaFilterPillsComponent,
+  ListAreaFilterSidebarComponent,
+  ListAreaFilterTextComponent,
 ];
 
 @NgModule({
-  imports:      [
+  imports: [
     CommonModule,
     RouterModule,
     PfCommonModule,
@@ -77,7 +95,9 @@ const components = [
     ScrollingModule,
     DropDownsModule,
     TreeViewModule,
-    PopupModule
+    PopupModule,
+    NumericTextBoxModule,
+    DatePickerModule
   ],
   declarations: components,
   exports: components,

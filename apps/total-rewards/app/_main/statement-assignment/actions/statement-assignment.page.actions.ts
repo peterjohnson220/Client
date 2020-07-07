@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CompanyEmployee } from 'libs/models/company';
+import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
 
 import { Statement } from '../../../shared/models';
 
@@ -16,6 +16,12 @@ export const CLOSE_GENERATE_STATEMENT_MODAL = '[Total Rewards/Statement Assignme
 export const GENERATE_STATEMENTS = '[Total Rewards/Statement Assignment] Generate Statements';
 export const GENERATE_STATEMENTS_SUCCESS = '[Total Rewards/Statement Assignment] Generate Statements Success';
 export const GENERATE_STATEMENTS_ERROR = '[Total Rewards/Statement Assignment] Generate Statements Error';
+
+export const LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS = '[Total Rewards/Statement Assignment] Load Assigned Employees List Area Columns';
+export const LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_SUCCESS = '[Total Rewards/Statement Assignment] Load Assigned Employees List Area Columns Success';
+export const LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_ERROR = '[Total Rewards/Statement Assignment] Load Assigned Employees List Area Columns Error';
+
+export const TOGGLE_GRID_FILTERS = '[Total Rewards/Statement Assignment] Toggle Grid Filters';
 
 export class ResetState implements Action {
   readonly type = RESET_STATE;
@@ -57,6 +63,23 @@ export class GenerateStatementsError implements Action {
   constructor(public payload: any) {}
 }
 
+export class LoadAssignedEmployeesListAreaColumns implements Action {
+  readonly type = LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS;
+}
+
+export class LoadAssignedEmployeesListAreaColumnsSuccess implements Action {
+  readonly type = LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_SUCCESS;
+  constructor(public payload: ListAreaColumnResponse[]) {}
+}
+
+export class LoadAssignedEmployeesListAreaColumnsError implements Action {
+  readonly type = LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_ERROR;
+}
+
+export class ToggleGridFilters implements Action {
+  readonly type = TOGGLE_GRID_FILTERS;
+}
+
 export type StatementAssignmentPageActions =
   ResetState |
   LoadStatement |
@@ -66,5 +89,8 @@ export type StatementAssignmentPageActions =
   CloseGenerateStatementModal |
   GenerateStatements |
   GenerateStatementsSuccess |
-  GenerateStatementsError;
-
+  GenerateStatementsError |
+  LoadAssignedEmployeesListAreaColumns |
+  LoadAssignedEmployeesListAreaColumnsSuccess |
+  LoadAssignedEmployeesListAreaColumnsError |
+  ToggleGridFilters;

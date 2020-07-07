@@ -19,11 +19,10 @@ export class AssignedEmployeesGridEffects {
     ofType(fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES),
     withLatestFrom(
       this.store.select(fromTotalRewardsReducer.getStatement),
-      this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
-      (action, statement, gridState) => ({ action, statementId: statement.StatementId, gridState })
+      (action: fromAssignedEmployeesGridActions.LoadAssignedEmployees, statement) => ({ action, statementId: statement.StatementId })
     ),
     switchMap(combined =>
-      this.totalRewardsSearchApi.getAssignedEmployees({ StatementId: combined.statementId, GridListState: combined.gridState }).pipe(
+      this.totalRewardsSearchApi.getAssignedEmployees({ StatementId: combined.statementId, GridListState: combined.action.payload }).pipe(
         map((response: GridDataResult) => new fromAssignedEmployeesGridActions.LoadAssignedEmployeesSuccess(response)),
         catchError(() => of(new fromAssignedEmployeesGridActions.LoadAssignedEmployeesError()))
       )

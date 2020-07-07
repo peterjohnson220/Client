@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { GridModule, SharedModule } from '@progress/kendo-angular-grid';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
@@ -12,6 +13,7 @@ import { PfSearchModule } from 'libs/features/search';
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { WindowCommunicationService } from 'libs/core/services';
+import { ListAreaService } from 'libs/features/job-description-management';
 
 import { reducers } from './reducers';
 import { StatementAssignmentRoutingModule } from './statement-assignment-routing.module';
@@ -42,6 +44,7 @@ import * as fromTrsShared from '../../shared';
     SharedModule,
     GridModule,
     TooltipModule,
+    FontAwesomeModule,
 
     // Payfactors
     PfCommonUIModule,
@@ -63,7 +66,8 @@ import * as fromTrsShared from '../../shared';
   providers: [
     { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },
     { provide: UserFilterTypeData, useValue: EmployeeSearchUserFilterType},
-    WindowCommunicationService
+    WindowCommunicationService,
+    ListAreaService
   ]
 })
 export class StatementAssignmentModule {
