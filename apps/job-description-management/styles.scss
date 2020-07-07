@@ -222,3 +222,10 @@ pf-workflow-config {
     background-color: #1872ae;
   }
 }
+
+.btn:focus {
+  outline: none !important;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
