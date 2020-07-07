@@ -135,6 +135,10 @@ function setRangeDistributionType(metadata: RangeGroupMetadata, state) {
     defaultRoundingSetting.RoundingPoint = 2;
   }
 
+  addRoundingSetting('min', defaultRoundingSetting, state.roundingSettings);
+  addRoundingSetting('mid', defaultRoundingSetting, state.roundingSettings);
+  addRoundingSetting('max', defaultRoundingSetting, state.roundingSettings);
+
   switch (metadata.RangeDistributionTypeId) {
     case RangeDistributionTypeIds.Tertile: {
       addRoundingSetting('firstTertile', defaultRoundingSetting, state.roundingSettings);
