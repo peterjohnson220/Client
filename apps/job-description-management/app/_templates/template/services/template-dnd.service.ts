@@ -159,7 +159,7 @@ export class TemplateDnDService {
             const controlId = dropModel.element.dataset.controlId;
             const addAtIndex = this.getControlAddAtIndex(dropModel);
 
-            const control = this.template.Sections.find(s => s.Id === droppedFromSectionId).Controls.find(c => c.Id === controlId);
+            const control = this.template.Sections.find(s => s.Id === droppedFromSectionId).Controls.find(c => c.Id === parseInt(controlId, 10));
             this.moveControlToSection(control, droppedIntoSectionId, addAtIndex);
         }
     }
