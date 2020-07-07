@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -21,6 +22,7 @@ import {
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
 
     // 3rd party
     FontAwesomeModule,

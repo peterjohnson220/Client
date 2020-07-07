@@ -184,7 +184,7 @@ export class PayfactorsApiModelMapper {
         CreateDate: utf.CreateDate,
         Level: utf.Level,
         ParentCommentId: utf.ParentTicketCommentId,
-        CompanyName: utf.Level === 'Admin' ? 'Payfactors' : ''
+        CompanyName: utf.CompanyName
       };
     });
     const orderedReplies = orderBy(replies, ['CreateDate']);

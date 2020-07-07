@@ -53,3 +53,7 @@
   margin: 0.5rem 0;
   font-size: 13px;
 }
+
+.client-note ::ng-deep.view-only .ql-editor {
+  padding: 0!important;
+}

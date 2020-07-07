@@ -1,18 +1,19 @@
 <div class="d-flex flex-column">
-  <div class="d-flex actions mb-2">
+  <div class="d-flex actions mb-2 mt-2">
     <fa-icon icon="reply" class="reply-icon"></fa-icon>
     <span class="action-button" (click)="toggleTextBox()">Reply</span>
   </div>
 
   <div [class.hidden]="!showReplyBox" class="d-flex flex-column">
-    <div>
-      <div class="reply-box-container">
-        <textarea #contentTextArea class="textarea-content"
-          placeholder="{{commentPlaceholder}}"
-          autofocus="true"
-          (keyup)="updateContent($event)"
-          spellcheck="false"></textarea>
-      </div>
+    <div class="reply-box-container">
+      <quill-editor #quillEditor
+        class="textarea-content"
+        [styles]="{ height: '100px' }"
+        [required]="true"
+        [modules]="quillConfig"
+        [placeholder]="commentPlaceholder"
+        (onContentChanged)="updateContent($event)">
+      </quill-editor>
       <pf-text-counter #textCounter
         *ngIf="!!maxCharacters"
         class="radial-counter"

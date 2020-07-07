@@ -1,5 +1,8 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+
 import { BehaviorSubject, Observable } from 'rxjs';
+import { QuillEditorComponent } from 'ngx-quill';
+
 import { TextCounterComponent } from '../text-counter';
 
 @Component({
@@ -15,12 +18,22 @@ export class ReplyBoxComponent {
   @Input() commentPlaceholder = 'Add reply...';
   @Output() replyClicked: EventEmitter<string> = new EventEmitter();
 
-  @ViewChild('contentTextArea', { static: false }) contentTextArea: ElementRef;
+  @ViewChild('quillEditor', { static: false }) quill: QuillEditorComponent;
   @ViewChild('textCounter', { static: false }) textCounter: TextCounterComponent;
   discardReplyModalOpen: BehaviorSubject<boolean>;
   discardReplyModalOpen$: Observable<boolean>;
   showReplyBox: boolean;
   content: string;
+  contentHtml: string;
+  quillConfig = {
+    toolbar: {
+      container: [
+        ['bold', 'italic', 'underline'],
+        [{ 'color': [] }],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ]
+    }
+  };
 
   constructor() {
     this.discardReplyModalOpen = new BehaviorSubject<boolean>(false);
@@ -58,17 +71,21 @@ export class ReplyBoxComponent {
   }
 
   submitReply(): void {
-    this.replyClicked.emit(this.content);
+    this.replyClicked.emit(this.contentHtml);
     this.clearTextBox();
   }
 
   updateContent(event: any) {
-    this.content = event.target.value;
+    this.content = event.text.trim();
+    this.contentHtml = event.html;
+    const editor = event.editor;
+    if (this.maxCharacters && this.content.length > this.maxCharacters) {
+      editor.deleteText(this.maxCharacters, this.content.length);
+    }
   }
 
   private clearTextBox(): void {
-    this.contentTextArea.nativeElement.value = '';
-    this.content = '';
+    this.quill.quillEditor.deleteText(0, this.content.length);
     this.textCounter.reset();
   }
 }

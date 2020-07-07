@@ -10,6 +10,7 @@
         (saveCommentEvent)="upsertComment($event)">
       </pf-ticket-comment>
       <pf-comment-box *ngIf="comment.Level === commentLevel.User"
+        class="client-note"
         [comment]="comment"
         [hasCustomCommentContent]="true"
         (reply)="handleReply($event, comment)">
@@ -20,7 +21,7 @@
             <span class="badge badge-pill badge-client ml-2">Client Note</span>
           </div>
           <div class="content pt-3">
-            <quill-view-html [content]="comment.Content" theme="snow"></quill-view-html>
+            <quill-view-html [content]="comment.Content" theme="snow" class="view-only"></quill-view-html>
           </div>
           <div class="comment-date text-muted">
             Date: {{comment.CreateDate | date:'shortDate'}}&nbsp; Time: {{comment.CreateDate | date:'shortTime'}}
