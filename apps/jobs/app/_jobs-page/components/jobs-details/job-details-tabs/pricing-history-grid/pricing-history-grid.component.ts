@@ -44,6 +44,9 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'CompanyPayMarkets_PayMarket'
+  }, {
+    dir: 'desc',
+    field: 'CompanyJobs_Pricings_Effective_Date'
   }];
 
   permissions = Permissions;
