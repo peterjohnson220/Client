@@ -6,11 +6,11 @@ import { of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
 import { UserTicketApiService } from 'libs/data/payfactors-api/service';
+import { UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';
+import { TicketCommentHelper } from 'libs/models/payfactors-api/service/helpers';
 
 import * as fromServicePageReducer from '../reducers';
 import * as fromTicketNotesActions from '../actions/ticket-notes.actions';
-import { PayfactorsApiModelMapper } from '../helpers';
-import { UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';
 
 @Injectable()
 export class TicketNotesEffects {
@@ -27,8 +27,7 @@ export class TicketNotesEffects {
         return this.userTicketApiService.addNote(request)
           .pipe(
             map((response) => {
-              const notes = PayfactorsApiModelMapper.mapUserTicketCommentsToTicketNotes([response]);
-              const addedNote = !!notes && !!notes.length ? notes[0] : null;
+              const addedNote = TicketCommentHelper.mapNewlyAddedTicketCommentToComment(response);
               return new fromTicketNotesActions.AddNoteSuccess(addedNote);
           }),
             catchError((error) => of(new fromTicketNotesActions.AddNoteError()))

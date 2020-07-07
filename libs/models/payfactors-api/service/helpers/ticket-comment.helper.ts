@@ -1,3 +1,7 @@
+import { orderBy } from 'lodash';
+
+import { Comment } from 'libs/features/comment-box/models';
+
 import { UserTicketComment } from '../response';
 
 export class TicketCommentHelper {
@@ -13,5 +17,45 @@ export class TicketCommentHelper {
       };
     });
     return results;
+  }
+
+  static mapUserTicketCommentsToComments(userTicketComments: UserTicketComment[]): Comment[] {
+    const commentsWithReplyCount = TicketCommentHelper.mapUserTicketCommentWithReplyCount(userTicketComments);
+    return commentsWithReplyCount.map(utf => {
+      return {
+        CommentId: utf.UserTicketsCommentsId,
+        FullName: utf.UserFullName,
+        Content: utf.Comments,
+        CreateDate: utf.CreateDate,
+        ReplyCount: utf.ReplyCount,
+        Replies: this.mapTicketCommentsToReplies(utf.Replies)
+      };
+    });
+  }
+
+  static mapNewlyAddedTicketCommentToComment(utf: UserTicketComment): Comment {
+    return {
+      CommentId: utf.UserTicketsCommentsId,
+      FullName: utf.UserFullName,
+      Content: utf.Comments,
+      CreateDate: utf.CreateDate,
+      ReplyCount: 0,
+      Replies: []
+    };
+  }
+
+  static mapTicketCommentsToReplies(userTicketComments: UserTicketComment[]): Comment[] {
+    const replies = userTicketComments.map(utf => {
+      return {
+        Content: utf.Comments,
+        CommentId: utf.UserTicketsCommentsId,
+        FullName: utf.UserFullName,
+        CreateDate: utf.CreateDate,
+        ParentCommentId: utf.ParentTicketCommentId,
+        CompanyName: utf.CompanyName
+      };
+    });
+    const orderedReplies = orderBy(replies, ['CreateDate']);
+    return orderedReplies;
   }
 }
