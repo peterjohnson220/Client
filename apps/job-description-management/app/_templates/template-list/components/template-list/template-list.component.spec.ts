@@ -1,4 +1,4 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -9,6 +9,11 @@ import * as fromRootState from 'libs/state/state';
 import * as fromTemplateReducers from '../../reducers';
 import {TemplateListComponent} from './template-list.component';
 import {generateMockTemplateListItem} from 'libs/models';
+
+export class MockElementRef extends ElementRef {
+  constructor() { super(null); }
+  nativeElement = { blur: () => { }};
+}
 
 describe('Job Description Management - Templates - Template List',
   () => {
@@ -34,6 +39,10 @@ describe('Job Description Management - Templates - Template List',
       {
         provide: NgbModal,
         useValue: {open: jest.fn()}
+      },
+      {
+        provide: ElementRef,
+        useClass: MockElementRef
       }
     ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -41,6 +50,8 @@ describe('Job Description Management - Templates - Template List',
 
     fixture = TestBed.createComponent(TemplateListComponent);
     instance = fixture.componentInstance;
+    instance.copyBtn = TestBed.get(ElementRef);
+    instance.deleteBtn = TestBed.get(ElementRef);
 
     store = TestBed.inject(Store);
     modal = TestBed.inject(NgbModal);
