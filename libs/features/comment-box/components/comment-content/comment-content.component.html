@@ -1,11 +1,11 @@
 <div *ngIf="!!comment" class="d-flex flex-column">
-  <div class="d-flex">
+  <div class="d-flex mb-2">
     <span class="user-name">{{comment.FullName}}</span>
-    <span *ngIf="!!comment.CompanyName" class="text-muted">@ {{comment.CompanyName}}</span>
+    <span *ngIf="!!comment.CompanyName" class="text-muted ml-2">@ {{comment.CompanyName}}</span>
     <fa-icon icon="circle" class="circle-icon"></fa-icon>
     <span class="text-muted">{{comment.CreateDate | date:'MM/dd/yyyy' }}</span>
   </div>
   <div class="content">
-    <quill-view-html [content]="comment.Content" theme="snow"></quill-view-html>
+    <quill-view-html [content]="comment.Content" theme="snow" class="view-only"></quill-view-html>
   </div>
 </div>

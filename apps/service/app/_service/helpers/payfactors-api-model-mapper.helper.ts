@@ -1,10 +1,11 @@
 import {
-  SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse, UserTicketComment
+  SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse,
 } from 'libs/models/payfactors-api/service/response';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { GroupedListItem } from 'libs/models/list';
+import { TicketCommentHelper } from 'libs/models/payfactors-api/service/helpers';
 
-import { TicketType, SupportTeamUser, TicketNote, NoteAccessLevel, TicketListMode } from '../models';
+import { TicketType, SupportTeamUser, NoteAccessLevel, TicketListMode } from '../models';
 import { TicketStateHelper } from './ticket-state.helper';
 import { UserTicket } from '../models';
 
@@ -74,23 +75,10 @@ export class PayfactorsApiModelMapper {
         TicketType:  !!response.FileType ? response.FileType : response.UserTicketType,
         TicketDetails: response.UserTicket,
         Attachments: response.UserTicketFiles,
-        Notes: this.mapUserTicketCommentsToTicketNotes(response.UserTicketComments),
+        Notes: TicketCommentHelper.mapUserTicketCommentsToComments(response.UserTicketComments),
         NoteAccessLevel: response.UserId === userId ? NoteAccessLevel.Owner : NoteAccessLevel.ReadOnly,
         IsPrivate: response.IsPrivate
       };
-  }
-
-  static mapUserTicketCommentsToTicketNotes(comments: UserTicketComment[]): TicketNote[] {
-    if (!comments || comments.length === 0) {
-      return [];
-    }
-    return comments.map((comment) => {
-      return {
-        Content: comment.Comments,
-        PostedDate: comment.CreateDate,
-        UserName: comment.UserFullName
-      };
-    });
   }
 
   // OUT

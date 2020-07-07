@@ -1,4 +1,5 @@
 import { UserTicketFile } from 'libs/models/payfactors-api/service/response';
+import { Comment } from 'libs/features/comment-box/models';
 
 export interface UserTicket {
   TicketId: number;
@@ -7,15 +8,9 @@ export interface UserTicket {
   TicketType: string;
   TicketDetails: string;
   Attachments?: UserTicketFile[];
-  Notes?: TicketNote[];
+  Notes?: Comment[];
   NoteAccessLevel?: NoteAccessLevel;
   IsPrivate: boolean;
-}
-
-export interface TicketNote {
-  UserName: string;
-  Content: string;
-  PostedDate: Date;
 }
 
 export enum NoteAccessLevel {

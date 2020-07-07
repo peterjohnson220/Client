@@ -49,6 +49,7 @@ export interface UserTicketComment {
   CreateDate?: Date;
   Level?: TicketCommentLevel;
   ParentTicketCommentId?: number;
+  CompanyName?: string;
   ReplyCount?: number;
   Replies?: UserTicketComment[];
 }
