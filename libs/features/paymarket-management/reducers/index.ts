@@ -51,9 +51,12 @@ export const selectExchangeScopesState =
 
 // Pay Market Modal
 export const getPayMarketModalOpen = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarketModalOpen);
+export const getDeletePayMarketModalOpen = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getDeletePayMarketModalOpen);
 export const getPayMarketId = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarketId);
 export const getPayMarket = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarket);
 export const getPayMarketErrorMessage = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarketErrorMessage);
+export const getDeletingPayMarketStatus = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getDeletingPayMarketStatus);
+export const getDeletingPayMarketErrorStatus = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getDeletingPayMarketErrorStatus);
 
 // General Form
 export const getCountries = createSelector(selectGeneralFormState, fromGeneralFormReducer.getCountries);

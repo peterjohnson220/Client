@@ -11,21 +11,21 @@
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
-  <div ngbDropdown container="body" #p="ngbDropdown"
-    (openChange)="handleSelectedRowAction(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'], p)">
+  <div *ngIf="hasDropdownOptions(dataRow['CompanyPayMarkets_IsDefaultPayMarket'] === 1, permissions.PAY_MARKETS_ADD_EDIT_DELETE)" ngbDropdown container="body" #p="ngbDropdown"
+    (openChange)="handleSelectedRowAction(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'], dataRow['CompanyPayMarkets_PayMarket'], p)">
     <fa-icon ngbDropdownToggle
              icon="ellipsis-h"
              id="paymarket-actions-{{dataRow['CompanyPayMarkets_CompanyPayMarket_ID']}}"
              class="gray-text">
     </fa-icon>
     <div ngbDropdownMenu aria-labelledby="paymarket-actions-{{dataRow['CompanyPayMarkets_CompanyPayMarket_ID']}}">
-      <button ngbDropdownItem (click)="editPayMarket(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'])">Edit</button>
+      <button [pfSecuredResource]="permissions.PAY_MARKETS_ADD_EDIT_DELETE" ngbDropdownItem (click)="editPayMarket(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'])">Edit</button>
       <button *ngIf="defaultPayMarketId !== dataRow['CompanyPayMarkets_CompanyPayMarket_ID']"
         ngbDropdownItem
         (click)="setDefaultPayMarket(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'])">
         Set as default
       </button>
-      <button ngbDropdownItem>Delete</button>
+      <button *ngIf="dataRow['CompanyPayMarkets_IsDefaultPayMarket'] !== 1" [pfSecuredResource]="permissions.PAY_MARKETS_ADD_EDIT_DELETE" ngbDropdownItem (click)="deletePayMarket()">Delete</button>
     </div>
   </div>
 </ng-template>
@@ -63,3 +63,7 @@
 </ng-template>
 
 <pf-paymarket-modal [companyId]="companyId"></pf-paymarket-modal>
+<pf-delete-paymarket-modal #deletePayMarketModal
+                           [payMarketName]="selectedPayMarketName"
+                           [selectedPayMarketId]="selectedPayMarketId"
+></pf-delete-paymarket-modal>
