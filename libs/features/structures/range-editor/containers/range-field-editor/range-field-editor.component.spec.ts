@@ -179,7 +179,7 @@ describe('Features - Structures - Midpoint Editor', () => {
   it('should set and format the value anytime we receive a new mid', () => {
     instance.value = 64000;
     instance.ngOnChanges({
-      mid: { previousValue: 64000, currentValue: 78999, firstChange: false, isFirstChange(): boolean { return false; }}
+      fieldValue: { previousValue: 64000, currentValue: 78999, firstChange: false, isFirstChange(): boolean { return false; }}
     });
 
     expect(instance.value).toBe(78999);

@@ -134,8 +134,8 @@ export class RangeFieldEditorComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes.mid && !!changes.mid.currentValue) {
-      this.value = this.formatNumber(changes.mid.currentValue);
+    if (!!changes.fieldValue && !!changes.fieldValue.currentValue) {
+      this.value = this.formatNumber(changes.fieldValue.currentValue);
     }
   }
 
