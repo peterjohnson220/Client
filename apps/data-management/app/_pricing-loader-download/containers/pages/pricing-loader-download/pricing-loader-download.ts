@@ -45,30 +45,10 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
     field: 'CompanyJobs_PricingsMatches_CompanyJobPricing_ID'
   }];
   actionBarConfig: ActionBarConfig;
-  selectedRecency: any;
-  filteredRecencyOptions = [
-    {
-      Id: 1,
-      Value: 'Most Recent'
-    }
-  ];
-  recencyField: ViewField;
-  fieldsExcludedFromExport = ['Recency'];
   env = environment;
 
   constructor(private route: ActivatedRoute,
     private pfGridStore: Store<fromPfDataGridReducer.State>) {
-    this.gridFieldSubscription = this.pfGridStore.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
-      if (fields) {
-        this.recencyField = fields.find(f => f.SourceName === 'Recency');
-        this.selectedRecency = this.recencyField.FilterValue !== null ?
-          {
-            Value: this.filteredRecencyOptions.find(r => r.Id === parseInt(this.recencyField.FilterValue, 0)).Value,
-            Id: this.recencyField.FilterValue
-          } : null;
-      }
-    });
-
   }
 
   ngOnInit() {
@@ -97,13 +77,6 @@ export class PricingLoaderDownloadComponent implements OnInit, AfterViewInit {
     this.filterTemplates = {
       'Recency': { Template: this.recencyFilter }
     };
-  }
-
-  handleRecencyFilterChanged(value: any) {
-    const field = cloneDeep(this.recencyField);
-    field.FilterValue = value.Id;
-    field.FilterOperator = '=';
-    this.updateField(field);
   }
 
   updateField(field) {
