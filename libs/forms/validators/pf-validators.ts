@@ -15,7 +15,7 @@ export class PfValidators {
     const stripHtml = new StripHtmlPipe();
     return !control.value
       || control.value.trim() === ''
-      || stripHtml.transform(control.value).trim() === ''
+      || stripHtml.transform(control.value).trim().replace(/&nbsp;/g, '') === ''
       ? { 'required': true } : null;
   }
 
