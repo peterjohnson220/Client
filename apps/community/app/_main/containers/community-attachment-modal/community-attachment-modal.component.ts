@@ -88,6 +88,17 @@ export class CommunityAttachmentModalComponent implements OnInit {
     this.store.dispatch(new fromCommunityAttachmentsActions.CloseCommunityAttachmentsModal(this.currentCommunityAttachmentModal.Id));
   }
 
+  selectEventHandler(e: SelectEvent): void {
+    e.files.forEach((file) => {
+      if (file.validationErrors && file.validationErrors.includes('invalidFileExtension')) {
+        const cloudFileName = `${file.uid}_${file.name}`;
+        const fileToUpload = mapFileInfoToCommunityAddAttachment(file, cloudFileName);
+        fileToUpload.Status = CommunityAttachmentUploadStatus.InvalidExtension;
+        this.uploadedFiles.push(fileToUpload);
+      }
+    });
+  }
+
   uploadAttachmentEventHandler(e: UploadEvent) {
     if (this.uploadedFiles.length >= this.maxFileCount) {
       e.preventDefault();
@@ -150,22 +161,6 @@ export class CommunityAttachmentModalComponent implements OnInit {
 
   }
 
-  selectEventHandler(e: SelectEvent): void {
-     const file = e.files[0];
-
-    if (!this.uploadWidget.autoUpload) {
-      this.uploadWidget.autoUpload = true;
-    }
-
-    if (file.validationErrors && file.validationErrors.includes('invalidFileExtension')) {
-      const cloudFileName = `${file.uid}_${file.name}`;
-      const fileToUpload = mapFileInfoToCommunityAddAttachment(file, cloudFileName);
-      fileToUpload.Status = CommunityAttachmentUploadStatus.InvalidExtension;
-      this.uploadedFiles.push(fileToUpload);
-      this.uploadWidget.autoUpload = false;
-    }
-  }
-
   getUploadStatus(file: FileInfo) {
     const attachment = this.uploadedFiles.find(f => f.Id === file.uid);
     if (attachment) {
@@ -185,6 +180,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
         return 'upload-success';
       case CommunityAttachmentUploadStatus.UploadFailed:
       case CommunityAttachmentUploadStatus.ScanFailed:
+      case CommunityAttachmentUploadStatus.InvalidExtension:
         return 'upload-failed';
       default:
         return 'upload-in-progress';
