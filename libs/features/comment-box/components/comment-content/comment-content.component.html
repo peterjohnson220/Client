@@ -1,5 +1,5 @@
 <div *ngIf="!!comment" class="d-flex flex-column">
-  <div class="d-flex mb-2">
+  <div class="d-flex mb-2 flex-wrap">
     <span class="user-name">{{comment.FullName}}</span>
     <span *ngIf="!!comment.CompanyName" class="text-muted ml-2">@ {{comment.CompanyName}}</span>
     <fa-icon icon="circle" class="circle-icon"></fa-icon>
