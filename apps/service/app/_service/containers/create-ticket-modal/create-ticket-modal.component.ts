@@ -88,7 +88,7 @@ export class CreateTicketModalComponent {
         PfValidators.required,
         PfValidators.maxLengthTrimWhitespace(50)]],
       TicketType: [null, [Validators.required]],
-      UserTicket: ['', [PfValidators.required]],
+      UserTicket: ['', [PfValidators.richTextRequired]],
       IsPrivate: false,
       UserTicketState: 'New'
     });

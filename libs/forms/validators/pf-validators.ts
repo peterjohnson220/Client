@@ -1,5 +1,7 @@
 import { FormControl, ValidatorFn } from '@angular/forms';
 
+import { StripHtmlPipe } from 'libs/core/pipes';
+
 interface ValidationResult {
   [key: string]: boolean;
 }
@@ -7,6 +9,14 @@ interface ValidationResult {
 export class PfValidators {
   static required(control: FormControl): ValidationResult {
     return !control.value || control.value.trim() === '' ? { 'required': true } : null;
+  }
+
+  static richTextRequired(control: FormControl): ValidationResult {
+    const stripHtml = new StripHtmlPipe();
+    return !control.value
+      || control.value.trim() === ''
+      || stripHtml.transform(control.value).trim() === ''
+      ? { 'required': true } : null;
   }
 
   static notBlackListed(blackList: any[]): ValidatorFn {
