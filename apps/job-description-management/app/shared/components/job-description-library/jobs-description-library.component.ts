@@ -28,7 +28,7 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   jobLibraryResults: JobDescriptionLibraryResult[] = [];
   keyword = '';
   jobTitleSearch = '';
-
+  
   constructor(
     private sanitizer: DomSanitizer
   ) { }
@@ -60,6 +60,9 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.jobTitle.isFirstChange) {
+      this.jobTitleSearch = changes.jobTitle.currentValue;
+    }
     if (changes.buckets && this.buckets.length) {
       if (this.activeBucket) {
         this.activeBucket = this.buckets.find( x => x.Key === this.activeBucket.Key);
