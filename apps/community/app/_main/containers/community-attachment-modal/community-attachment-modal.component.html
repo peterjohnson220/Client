@@ -25,6 +25,7 @@
                     (error)="errorEventHandler($event)"
                     (success)="successEventHandler($event)"
                     (select)="selectEventHandler($event)"
+                    (remove)="removeEventHandler($event)"
                     [ngModel]="uploadedFilesKendo">
         <kendo-upload-messages
           select="Browse" 
