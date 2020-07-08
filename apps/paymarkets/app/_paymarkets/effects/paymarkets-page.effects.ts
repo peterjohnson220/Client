@@ -49,6 +49,18 @@ export class PayMarketsPageEffects {
       })
     );
 
+  @Effect()
+  deletePayMarketSuccess$ = this.actions$
+    .pipe(
+      ofType(fromPayMarketModalActions.DELETE_PAY_MARKET_SUCCESS),
+      mergeMap(() => {
+        const actions = [];
+        actions.push(new fromPayMarketModalActions.CloseDeletePayMarketModal());
+        actions.push(new fromPfDataGridActions.LoadData(PayMarketsPageViewId));
+        return actions;
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private payMarketApiService: PayMarketApiService

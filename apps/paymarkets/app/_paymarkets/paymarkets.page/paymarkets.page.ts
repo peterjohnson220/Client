@@ -16,6 +16,7 @@ import * as fromRootState from 'libs/state/state';
 import { Permissions } from 'libs/constants';
 import * as fromPayMarketManagementReducers from 'libs/features/paymarket-management/reducers';
 import * as fromPayMarketModalActions from 'libs/features/paymarket-management/actions/paymarket-modal.actions';
+import { PfSecuredResourceDirective } from 'libs/forms/directives';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
 import * as fromPayMarketsPageReducer from '../reducers';
@@ -30,6 +31,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   @ViewChild('defaultScopesColumn') defaultScopesColumn: ElementRef;
   @ViewChild('payMarketNameColumn') payMarketNameColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
+  @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
 
   identity$: Observable<UserContext>;
   identitySubscription: Subscription;
@@ -50,6 +52,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   colTemplates = {};
   defaultPayMarketId: number;
   selectedPayMarketId: number;
+  selectedPayMarketName: string;
   selectedPopover: NgbDropdown;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   permissions = Permissions;
@@ -112,8 +115,9 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     return sortDescriptor;
   }
 
-  handleSelectedRowAction(payMarketId: number, popover: any) {
+  handleSelectedRowAction(payMarketId: number, payMarketName: string, popover: any) {
     this.selectedPayMarketId = payMarketId;
+    this.selectedPayMarketName = payMarketName;
     this.selectedPopover = popover;
   }
 
@@ -138,6 +142,10 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenPayMarketModal());
   }
 
+  deletePayMarket(): void {
+    this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenDeletePayMarketModal());
+  }
+
   private getSizeColumnSort(sizeSortInfo: SortDescriptor): SortDescriptor[] {
     return [
       {
@@ -153,5 +161,8 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
         dir: sizeSortInfo.dir
       }
     ];
+  }
+  private hasDropdownOptions(isDefaultPayMarket: boolean, permission: string): boolean {
+    return !(!this.pfSecuredResourceDirective.doAuthorize(permission) && isDefaultPayMarket);
   }
 }
