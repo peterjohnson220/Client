@@ -103,6 +103,8 @@ export class JobRangeModelChartService {
         opposite: true,
         gridLineWidth: 1,
         gridLineDashStyle: 'Dash',
+        gridLineColor: '#bdbdbd',
+        gridZIndex: 5,
         lineWidth: 0,
         tickPixelInterval: 200,
         title: {

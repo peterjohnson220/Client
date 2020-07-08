@@ -94,7 +94,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     // also make sure the comparison value is at least zero, aka not NULL. This is to prevent negative y-axis values
     let comparisonValue = currentRow.CompanyStructures_Ranges_Min == null ? 0 : currentRow.CompanyStructures_Ranges_Min;
 
-    // Tertile
+    // Tertile - Quartile - Quintile
     if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
       if (!!currentRow.CompanyStructures_Ranges_Tertile_First && currentRow.CompanyStructures_Ranges_Tertile_First < comparisonValue) {
         comparisonValue = currentRow.CompanyStructures_Ranges_Tertile_First;
@@ -103,10 +103,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       if (!!currentRow.CompanyStructures_Ranges_Tertile_Second && currentRow.CompanyStructures_Ranges_Tertile_Second < comparisonValue) {
         comparisonValue = currentRow.CompanyStructures_Ranges_Tertile_Second;
       }
-    }
-
-    // Quartile
-    if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
+    } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
       if (!!currentRow.CompanyStructures_Ranges_Quartile_First
         && currentRow.CompanyStructures_Ranges_Quartile_First < comparisonValue) {
         comparisonValue = currentRow.CompanyStructures_Ranges_Quartile_First;
@@ -116,10 +113,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         && currentRow.CompanyStructures_Ranges_Quartile_Second < comparisonValue) {
         comparisonValue = currentRow.CompanyStructures_Ranges_Quartile_Second;
       }
-    }
-
-    // Quintile
-    if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
+    } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
       if (!!currentRow.CompanyStructures_Ranges_Quintile_First
         && currentRow.CompanyStructures_Ranges_Quintile_First < comparisonValue) {
         comparisonValue = currentRow.CompanyStructures_Ranges_Quintile_First;
@@ -162,7 +156,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     // otherwise just use CompanyStructures_Ranges_Max
     let comparisonValue = currentRow.CompanyStructures_Ranges_Max;
 
-    // Tertile
+    // Tertile - Quartile - Quintile
     if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
       if (!!currentRow.CompanyStructures_Ranges_Tertile_First && currentRow.CompanyStructures_Ranges_Tertile_First > comparisonValue) {
         comparisonValue = currentRow.CompanyStructures_Ranges_Tertile_First;
@@ -171,10 +165,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       if (!!currentRow.CompanyStructures_Ranges_Tertile_Second && currentRow.CompanyStructures_Ranges_Tertile_Second > comparisonValue) {
         comparisonValue = currentRow.CompanyStructures_Ranges_Tertile_Second;
       }
-    }
-
-    // Quartile
-    if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
+    } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
       if (!!currentRow.CompanyStructures_Ranges_Quartile_First
         && currentRow.CompanyStructures_Ranges_Quartile_First > comparisonValue) {
         comparisonValue = currentRow.CompanyStructures_Ranges_Quartile_First;
@@ -184,10 +175,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         && currentRow.CompanyStructures_Ranges_Quartile_Second > comparisonValue) {
         comparisonValue = currentRow.CompanyStructures_Ranges_Quartile_Second;
       }
-    }
-
-    // Quintile
-    if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
+    } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
       if (!!currentRow.CompanyStructures_Ranges_Quintile_First
         && currentRow.CompanyStructures_Ranges_Quintile_First > comparisonValue) {
         comparisonValue = currentRow.CompanyStructures_Ranges_Quintile_First;
@@ -510,20 +498,14 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       // always add to midPoint
       this.addMidPoint(currentRow);
 
-      // Tertile: salary range + data points
+      // Tertile - Quartile - Quintile: salary range + data points
       if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
         this.addSalaryRangeTertile(i, currentRow);
         this.addTertilePoint(currentRow);
-      }
-
-      // Quartile: salary range + data points
-      if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
+      } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
         this.addSalaryRangeQuartile(i, currentRow);
         this.addQuartilePoint(currentRow);
-      }
-
-      // Quintile: salary ranges + data points
-      if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
+      } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
         this.addSalaryRangeQuintile(i, currentRow);
         this.addQuintilePoint(currentRow);
       }
@@ -547,22 +529,16 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.chartInstance.series[JobRangeModelChartSeries.Average].setData(this.averageSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
 
-    // Tertile: salary range + data points
+    // Tertile - Quartile - Quintile: salary range + data points
     if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
       this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeTertile].setData(this.salaryRangeSeriesDataModel.Tertile, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
-    }
-
-    // Quartile: salary range + data points
-    if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
+    } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
       this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartile].setData(this.salaryRangeSeriesDataModel.Quartile, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
-    }
-
-    // Quintile: salary range + data points
-    if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
+    } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
       this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeQuintileFirst].setData(this.dataPointSeriesDataModel.QuintileFirst, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeQuintileSecond].setData(this.dataPointSeriesDataModel.QuintileSecond, false);
