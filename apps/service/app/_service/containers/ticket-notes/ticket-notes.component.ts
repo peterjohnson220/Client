@@ -20,6 +20,7 @@ export class TicketNotesComponent {
 
   ticketNotes$: Observable<Comment[]>;
   quillConfig = ServicePageConfig.quillConfig;
+  content = '';
   note: string;
 
   constructor(
@@ -29,7 +30,7 @@ export class TicketNotesComponent {
   }
 
   handleAddNoteClicked(): void {
-    if (!this.ticketId || !this.note || this.note.length === 0) {
+    if (!this.ticketId || !this.note || this.note.length === 0 || !this.content.length) {
       return;
     }
     this.store.dispatch(new fromTicketNotesActions.AddNote({ ticketId: this.ticketId, note: this.note }));
@@ -45,5 +46,9 @@ export class TicketNotesComponent {
       commentId: note.CommentId,
       content
     }));
+  }
+
+  updateContent(event: any) {
+    this.content = event.text.trim();
   }
 }

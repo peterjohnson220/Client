@@ -8,12 +8,13 @@
           [styles]="{height: '150px'}"
           [required]="true"
           [modules]="quillConfig"
-          [(ngModel)]="note">
+          [(ngModel)]="note"
+          (onContentChanged)="updateContent($event)">
         </quill-editor>
         <div class="d-flex justify-content-end actions">
           <button
             class="btn btn-primary"
-            [disabled]="!note || note.length === 0"
+            [disabled]="!note || note.length === 0 || this.content.length === 0"
             (click)="handleAddNoteClicked()">
             Add Note
           </button>
