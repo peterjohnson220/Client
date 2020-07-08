@@ -20,7 +20,7 @@
         <span *ngIf="(description$|async) && (description$|async).length > 0">
           {{ (description$|async) }}
         </span>
-        <span *ngIf="(description$|async)?.length === 0">
+        <span *ngIf="!(description$|async)?.length">
           <i>No description available </i>
         </span>
     </span>
