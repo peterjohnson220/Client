@@ -35,4 +35,15 @@ export class TicketNotesComponent {
     this.store.dispatch(new fromTicketNotesActions.AddNote({ ticketId: this.ticketId, note: this.note }));
     this.note = '';
   }
+
+  handleReply(note: Comment, content: string): void {
+    if (!this.canAddNote || !note || !content) {
+      return;
+    }
+    this.store.dispatch(new fromTicketNotesActions.ReplyNote({
+      ticketId: this.ticketId,
+      commentId: note.CommentId,
+      content
+    }));
+  }
 }

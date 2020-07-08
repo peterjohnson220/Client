@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, orderBy } from 'lodash';
 
 import { Comment } from 'libs/features/comment-box/models';
 
@@ -32,9 +32,10 @@ export function reducer(state: State = initialState, action: fromTicketNotesActi
       };
     }
     case fromTicketNotesActions.ADD_NOTE_SUCCESS: {
-      const ticketNotesClone: Comment[] = cloneDeep(state.ticketNotes);
+      let ticketNotesClone: Comment[] = cloneDeep(state.ticketNotes);
       if (action.payload) {
         ticketNotesClone.push(action.payload);
+        ticketNotesClone = orderBy(ticketNotesClone, ['CreateDate'], ['desc']);
       }
       return {
         ...state,
@@ -47,6 +48,18 @@ export function reducer(state: State = initialState, action: fromTicketNotesActi
         ...state,
         addingNote: false,
         addingNoteError: true
+      };
+    }
+    case fromTicketNotesActions.REPLY_NOTE_SUCCESS: {
+      const ticketNotesClone: Comment[] = cloneDeep(state.ticketNotes);
+      const updatedNote = ticketNotesClone.find(n => n.CommentId === action.payload.commentId);
+      if (updatedNote) {
+        updatedNote.Replies = action.payload.replies;
+        updatedNote.ReplyCount = action.payload.replies.length;
+      }
+      return {
+        ...state,
+        ticketNotes: ticketNotesClone
       };
     }
     default: {

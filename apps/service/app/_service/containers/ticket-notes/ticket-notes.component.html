@@ -23,7 +23,8 @@
         <ng-container *ngFor="let note of (ticketNotes$ | async)">
           <pf-comment-box
             [comment]="note"
-            [replyEnabled]="false">
+            [replyEnabled]="canAddNote"
+            (reply)="handleReply(note, $event)">
           </pf-comment-box>
           <hr>
         </ng-container>
