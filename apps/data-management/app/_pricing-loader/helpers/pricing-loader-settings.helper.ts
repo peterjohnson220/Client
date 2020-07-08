@@ -1,6 +1,7 @@
 import { ConfigurationGroup, LoaderSetting, LoaderSettingKeyName, SavePricingLoaderConfigRequest } from 'libs/models';
+import { LoaderFileFormat } from 'libs/features/org-data-loader/constants';
 
-import { MRPFieldConfig, PricingLoaderSetting } from '../models';
+import { PricingLoaderSetting, MRPFieldConfig } from '../models';
 
 export class PricingLoaderSettingsHelper {
   static generateFileUploadSettings(): LoaderSetting[] {
@@ -8,7 +9,7 @@ export class PricingLoaderSettingsHelper {
       { KeyName: LoaderSettingKeyName.PricingsSheetName, LoaderSettingsId: 0, KeyValue: null },
       { KeyName: LoaderSettingKeyName.PricingNotesSheetName, LoaderSettingsId: 0, KeyValue: null },
       { KeyName: LoaderSettingKeyName.ValidateOnly, LoaderSettingsId: 0, KeyValue: null },
-      { KeyName: LoaderSettingKeyName.FileFormat, LoaderSettingsId: 0, KeyValue: 'XLSX' }
+      { KeyName: LoaderSettingKeyName.FileFormat, LoaderSettingsId: 0, KeyValue: LoaderFileFormat.XLSX }
     ];
   }
 

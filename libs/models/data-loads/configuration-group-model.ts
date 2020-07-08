@@ -1,4 +1,4 @@
-import { LoadTypes } from '../../constants';
+import { LoadTypes, CompositeDataLoadTypes } from '../../constants';
 
 export interface ConfigurationGroup {
   LoaderConfigurationGroupId: number;
@@ -6,6 +6,7 @@ export interface ConfigurationGroup {
   CompanyId: number;
   LoadType: LoadTypes;
   CreateNewConfigOverride?: boolean;
+  PrimaryCompositeDataLoadType: CompositeDataLoadTypes;
 }
 
 export function generateMockConfigurationGroup(): ConfigurationGroup {
@@ -13,7 +14,8 @@ export function generateMockConfigurationGroup(): ConfigurationGroup {
     CompanyId: 1,
     GroupName: 'TestGroup',
     LoaderConfigurationGroupId: 1,
-    LoadType: LoadTypes.Sftp
+    LoadType: LoadTypes.Sftp,
+    PrimaryCompositeDataLoadType: CompositeDataLoadTypes.OrgData
   };
 }
 

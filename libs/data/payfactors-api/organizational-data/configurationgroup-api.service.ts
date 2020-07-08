@@ -15,8 +15,8 @@ export class ConfigurationGroupApiService {
         private payfactorsApiService: PayfactorsApiService
     ) { }
 
-    getConfigurationGroups(companyId: number, loadType: string): Observable<ConfigurationGroup[]> {
-      const params = new HttpParams().set('loadType', loadType);
+    getConfigurationGroups(companyId: number, loadType: string, primaryCompositeDataLoadType: string): Observable<ConfigurationGroup[]> {
+      const params = new HttpParams().set('loadType', loadType).set('primaryCompositeDataLoadType', primaryCompositeDataLoadType);
       return this.payfactorsApiService.get(`${this.endpoint}/GetLoaderConfigurationGroups/${companyId}`, {params});
     }
 

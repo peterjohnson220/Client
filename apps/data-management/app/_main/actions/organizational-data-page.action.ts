@@ -57,7 +57,7 @@ export class SetModalStateOpen implements Action {
 
 export class GetConfigGroups implements Action {
   readonly type = GET_CONFIGURATION_GROUPS;
-  constructor(public companyId: number, public loadType: string) { }
+  constructor(public companyId: number, public loadType: string, public primaryCompositeDataLoadType: string) { }
 }
 
 export class GetConfigGroupsSuccess implements Action {

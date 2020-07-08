@@ -7,7 +7,7 @@ import {filter, take, takeUntil} from 'rxjs/operators';
 import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
 
 import { environment } from 'environments/environment';
-import { LoaderTypes } from 'libs/constants/loader-types';
+import { CompositeDataLoadTypes } from 'libs/constants/composite-data-load-types';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 import { LoaderFileFormat } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
@@ -96,6 +96,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   selectedConfigGroup: ConfigurationGroup;
   private unsubscribe$ = new Subject();
   loadType = LoadTypes.Sftp;
+  primaryCompositeDataLoadType = CompositeDataLoadTypes.OrgData;
   sftpUserName$: Observable<string>;
   sftpPublicKey$: Observable<File>;
   private sftpUserName: string;
@@ -276,7 +277,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
         if (this.selectedCompany) {
           this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
             companyId: this.selectedCompany.CompanyId,
-            loaderType: LoaderTypes.OrgData,
+            loaderType: CompositeDataLoadTypes.OrgData,
             loaderConfigurationGroupId: this.selectedConfigGroup ? this.selectedConfigGroup.LoaderConfigurationGroupId : undefined
           }));
         }
@@ -406,7 +407,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   private getConfigurationGroups() {
     this.store.dispatch(new fromConfigurationGroupsActions.LoadingConfigurationGroups({
       CompanyId: this.selectedCompany.CompanyId,
-      LoadType: LoadTypes.Sftp
+      LoadType: this.loadType,
+      PrimaryCompositeDataLoadType: this.primaryCompositeDataLoadType
     }));
   }
 
