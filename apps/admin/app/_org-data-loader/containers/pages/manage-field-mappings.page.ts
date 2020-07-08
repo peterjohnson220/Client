@@ -23,10 +23,10 @@ import {
   LoaderSetting, MappingModel
 } from 'libs/models/data-loads';
 import { LoadTypes } from 'libs/constants';
-import * as fromCompanySelectorActions from 'libs/features/company/actions';
-import { CompanySelectorItem } from 'libs/features/company/models';
-import * as fromCompanyReducer from 'libs/features/company/reducers';
-import {CompanySelectorComponent} from 'libs/features/company/components';
+import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
+import {CompanySelectorComponent} from 'libs/features/company/company-selector/components';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
 import { SftpUserModel } from 'libs/models/Sftp';
 

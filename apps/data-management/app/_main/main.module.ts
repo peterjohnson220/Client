@@ -15,7 +15,7 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 
 import { PfCommonModule } from 'libs/core';
-import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { PfFormsModule } from 'libs/forms';

@@ -5,7 +5,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {provideMockStore} from '@ngrx/store/testing';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import * as fromCompanyReducer from 'libs/features/company/reducers';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 
 describe('PricingLoadersComponent', () => {
   let instance: PricingLoadersComponent;

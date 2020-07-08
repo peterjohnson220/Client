@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import * as fromCompanySelectorActions from 'libs/features/company/actions/';
-import * as fromCompanyReducer from 'libs/features/company/reducers/';
+import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 
 import { CompanySelectorItem } from '../../models';
 

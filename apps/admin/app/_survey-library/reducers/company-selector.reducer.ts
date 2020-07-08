@@ -1,4 +1,4 @@
-import { CompanySelectorItem } from 'libs/features/company/models';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 
 import * as fromCompanySelectorActions from '../actions/company-selector.actions';
 

@@ -6,7 +6,7 @@ import {skip, takeUntil} from 'rxjs/operators';
 
 import { isObject } from 'lodash';
 
-import * as fromCompanyReducer from 'libs/features/company/reducers';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 
 import * as fromLoaderDashboardPageActions from '../../actions/loader-dashboard-page.actions';
 import * as fromLoaderDashboardPageReducer from '../../reducers';

@@ -1,14 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators } from '@angular/forms';
+
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
-import { CompanySelectorItem } from 'libs/features/company/models';
-import * as fromSsoConfigReducers from '../../reducers';
-import * as fromCompanyReducer from 'libs/features/company/reducers';
-import * as fromSsoConfigActions from '../../actions/sso-config.actions';
 import { CustomerConnection } from 'libs/models/sso';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
+
+import * as fromSsoConfigReducers from '../../reducers';
+import * as fromSsoConfigActions from '../../actions/sso-config.actions';
+
 import { SsoUrl } from 'libs/constants';
 
 

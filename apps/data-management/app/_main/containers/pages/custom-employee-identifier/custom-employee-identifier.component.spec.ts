@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { MockSelectedCompany } from 'libs/features/company/models/';
+import { MockSelectedCompany } from 'libs/features/company/company-selector/models/';
 
 import * as fromEntityIdentifierActions from '../../../actions/entity-identifier.actions';
 import { CustomEmployeeIdentifierComponent } from './custom-employee-identifier.component';

@@ -5,12 +5,12 @@ import { Store } from '@ngrx/store';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromCompanyReducer from 'libs/features/company/reducers';
-import * as fromCompanySelectorActions from 'libs/features/company/actions';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
+import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { environment } from 'environments/environment';
-import { CompanySelectorItem } from 'libs/features/company/models';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import { ConfigurationGroup, EmailRecipientModel } from 'libs/models/data-loads';
 import { LoadTypes } from 'libs/constants';
 import { UserContext } from 'libs/models';

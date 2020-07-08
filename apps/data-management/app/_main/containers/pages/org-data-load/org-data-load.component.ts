@@ -15,9 +15,9 @@ import {
     AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
 } from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
-import * as fromCompanySelectorActions from 'libs/features/company/actions';
-import { CompanySelectorItem } from 'libs/features/company/models';
-import * as fromCompanyReducer from 'libs/features/company/reducers';
+import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';

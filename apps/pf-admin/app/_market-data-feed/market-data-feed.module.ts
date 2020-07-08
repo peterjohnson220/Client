@@ -8,7 +8,7 @@ import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 
 import { MarketDataFeedExportCardComponent } from './components';
 

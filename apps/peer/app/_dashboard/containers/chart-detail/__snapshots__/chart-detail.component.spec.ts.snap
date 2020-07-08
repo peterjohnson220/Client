@@ -2,7 +2,6 @@
 
 exports[`Peer Dashboard - Chart Detail should NOT show card body header when detailChartType$ is Company 1`] = `
 <pf-chart-detail-component
-  companyDescription={[Function Store]}
   detailChartCategory="null"
   detailChartCategory$={[Function Store]}
   detailChartCategorySubscription={[Function Subscriber]}
@@ -10,7 +9,6 @@ exports[`Peer Dashboard - Chart Detail should NOT show card body header when det
   detailChartType={[Function String]}
   detailChartType$={[Function Observable]}
   detailChartTypeSubscription={[Function Subscriber]}
-  loadingCompanyDescription={[Function Store]}
   loadingDetailChartItems$={[Function Store]}
   loadingDetailChartItemsError$={[Function Store]}
   store={[Function Store]}
@@ -42,9 +40,8 @@ exports[`Peer Dashboard - Chart Detail should NOT show card body header when det
       <div
         class="no-detail-items"
       >
-        No companies associated to Participating Companies.
+        No companies associated to Participating Companies. 
       </div>
-      
       
       
     </div>
@@ -54,7 +51,6 @@ exports[`Peer Dashboard - Chart Detail should NOT show card body header when det
 
 exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Job Orgs' when the detailCharType$ is ExchangeJobOrgs 1`] = `
 <pf-chart-detail-component
-  companyDescription={[Function Store]}
   detailChartCategory="null"
   detailChartCategory$={[Function Store]}
   detailChartCategorySubscription={[Function Subscriber]}
@@ -62,7 +58,6 @@ exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Jo
   detailChartType={[Function String]}
   detailChartType$={[Function Observable]}
   detailChartTypeSubscription={[Function Subscriber]}
-  loadingCompanyDescription={[Function Store]}
   loadingDetailChartItems$={[Function Store]}
   loadingDetailChartItemsError$={[Function Store]}
   store={[Function Store]}
@@ -98,9 +93,8 @@ exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Jo
       <div
         class="no-detail-items"
       >
-        No companies associated to .
+        No companies associated to . 
       </div>
-      
       
       
       
@@ -111,7 +105,6 @@ exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Jo
 
 exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`] = `
 <pf-chart-detail-component
-  companyDescription={[Function Store]}
   detailChartCategory="null"
   detailChartCategory$={[Function Store]}
   detailChartCategorySubscription={[Function Subscriber]}
@@ -119,7 +112,6 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
   detailChartType="null"
   detailChartType$={[Function Store]}
   detailChartTypeSubscription={[Function Subscriber]}
-  loadingCompanyDescription={[Function Store]}
   loadingDetailChartItems$={[Function Store]}
   loadingDetailChartItemsError$={[Function Store]}
   store={[Function Store]}
@@ -155,9 +147,8 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
       <div
         class="no-detail-items"
       >
-        No companies associated to .
+        No companies associated to . 
       </div>
-      
       
       
       
