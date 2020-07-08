@@ -36,7 +36,7 @@ export class CreateTicketModalComponent {
   uploadedFilesData: UploadedFile[] = [];
   errorMessage = '';
   uploadError = false;
-  selectedTicketType: string;
+  selectedTicketType: TicketType;
 
   get f() { return this.ticketForm.controls; }
   public uploadRestrictions: FileRestrictions = {
@@ -68,12 +68,12 @@ export class CreateTicketModalComponent {
   }
 
   handleSelectionChange(ticketType: TicketType) {
-    this.selectedTicketType = ticketType.TicketTypeDisplayName;
+    this.selectedTicketType = ticketType;
   }
 
   onDismiss() {
     this.store.dispatch(new fromServicesPageActions.ShowNewTicketModal(false));
-    this.selectedTicketType = '';
+    this.selectedTicketType = null;
     this.resetForm();
   }
 
@@ -151,9 +151,8 @@ export class CreateTicketModalComponent {
 
   private getUserTicket(): UserTicketDto {
     const userTicket: UserTicketDto = this.ticketForm.getRawValue();
-    const ticketType: TicketType = this.ticketForm.get('TicketType').value;
-    userTicket.UserTicketType = ticketType.TicketTypeName;
-    userTicket.FileType = ticketType.TicketSubTypeName;
+    userTicket.UserTicketType = this.selectedTicketType.TicketTypeName;
+    userTicket.FileType = this.selectedTicketType.TicketSubTypeName;
     return userTicket;
   }
 }
