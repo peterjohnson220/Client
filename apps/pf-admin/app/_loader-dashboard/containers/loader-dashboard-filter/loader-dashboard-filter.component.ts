@@ -32,12 +32,7 @@ export class LoaderDashboardFilterComponent implements OnInit, OnDestroy {
     this.store.select(fromCompanyReducer.getSelectedCompany).pipe(skip(1), takeUntil(this.unsubscribe$)).subscribe(v => {
       this.updateSelectedCompany(isObject(v) ? v.CompanyId : null);
     });
-    this.store.select(fromLoaderDashboardPageReducer.getGridSearchPayload).pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
-      if (!isObject(v)) {
-        this.store.dispatch(new fromLoaderDashboardPageActions.Init(this.generateDefaultSearchPayload()));
-      }
-    });
-    this.refresh();
+    this.store.dispatch(new fromLoaderDashboardPageActions.Init(this.generateDefaultSearchPayload()));
   }
 
   ngOnDestroy(): void {
