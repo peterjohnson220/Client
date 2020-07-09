@@ -7,6 +7,7 @@ import {Store, select} from '@ngrx/store';
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
+import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
 import { Statement } from '../../../shared/models';
 
@@ -23,8 +24,13 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   sendingGenerateRequest$: Observable<boolean>;
   sendingGenerateRequestSuccess$: Observable<boolean>;
   sendingGenerateRequestError$: Observable<boolean>;
-  selectedCompanyEmployeeIds$: Observable<number[]>;
+  selectedAssignedCompanyEmployeeIds$: Observable<number[]>;
+  assignedEmployeesLoading$: Observable<boolean>;
+  assignedEmployeesTotal$: Observable<number>;
 
+  statement: Statement;
+
+  statementSubscription$ = new Subscription();
   routeParamSubscription$ = new Subscription();
   queryParamSubscription$ = new Subscription();
 
@@ -48,11 +54,17 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.sendingGenerateRequest$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequest));
     this.sendingGenerateRequestSuccess$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequestSuccess));
     this.sendingGenerateRequestError$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequestError));
-    this.selectedCompanyEmployeeIds$ = this.store.pipe(select(fromPageReducer.getAssignmentsGridSelectedCompanyEmployeeIds));
+
+    // assigned employees
+    this.selectedAssignedCompanyEmployeeIds$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
+    this.assignedEmployeesLoading$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesLoading));
+    this.assignedEmployeesTotal$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotal));
 
     this.routeParamSubscription$ = this.route.params.subscribe(params => {
       this.store.dispatch(new fromPageActions.LoadStatement({ statementId: params['id'] }));
     });
+
+    this.statementSubscription$ = this.statement$.subscribe(s => this.statement = s);
 
     this.setSearchContext();
   }
@@ -66,6 +78,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   }
 
   ngOnDestroy(): void {
+    this.statementSubscription$.unsubscribe();
     this.routeParamSubscription$.unsubscribe();
     this.queryParamSubscription$.unsubscribe();
     this.store.dispatch(new fromPageActions.ResetState());
@@ -84,12 +97,16 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.store.dispatch(new fromPageActions.GenerateStatements());
   }
 
+  handleAssignEmployeesClick() {
+    this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
+  }
+
   // footer methods
   handleOpenGenerateStatementModalClick() {
     this.store.dispatch(new fromPageActions.OpenGenerateStatementModal());
   }
 
-  handleAssignEmployeesClick() {
-    this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
+  handleBackToCanvasClick() {
+    this.router.navigate(['/statement/edit/' + this.statement.StatementId]);
   }
 }

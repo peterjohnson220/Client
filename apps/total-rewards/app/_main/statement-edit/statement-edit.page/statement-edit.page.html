@@ -80,7 +80,9 @@
     ></pf-settings-panel>
     <pf-footer-bar
       [primaryButtonText]="'Assign Employees'"
+      [secondaryButtonText]="'Back to Statements'"
       (primaryButtonClick)="handleAssignEmployeesClick()"
+      (secondaryButtonClick)="handleBackToStatementsClick()"
     ></pf-footer-bar>
   </ng-container>
 </pf-page-with-title-bar>

@@ -1,16 +1,20 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromRoot from 'libs/state/state';
+import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
+import { CompanyEmployee } from 'libs/models/company';
 
 import * as fromPageReducer from './statement-assignment.page.reducer';
 import * as fromAssignmentModalReducer from './statement-assignment-modal.reducer';
 import * as fromEmployeeSearchResultsReducer from './employee-search-results.reducer';
+import * as fromAssignedEmployeesGridReducer from './assigned-employees-grid.reducer';
 
 // Page Module State
 export interface StatementAssignmentState {
   page: fromPageReducer.State;
   assignmentsModal: fromAssignmentModalReducer.State;
   employeeSearch: fromEmployeeSearchResultsReducer.State;
+  assignedEmployees: IFeatureGridState<fromAssignedEmployeesGridReducer.State>;
 }
 
 // Extend root state with Page Module State
@@ -21,7 +25,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   page: fromPageReducer.reducer,
   assignmentsModal: fromAssignmentModalReducer.reducer,
-  employeeSearch: fromEmployeeSearchResultsReducer.reducer
+  employeeSearch: fromEmployeeSearchResultsReducer.reducer,
+  assignedEmployees: fromAssignedEmployeesGridReducer.reducer
 };
 
 // Select Feature Area
@@ -43,35 +48,20 @@ export const selectEmployeeSearchState = createSelector(
   (state: StatementAssignmentState) => state.employeeSearch
 );
 
+export const selectAssignedEmployeesState = createSelector(
+  selectFeatureAreaState,
+  (state: StatementAssignmentState) => state.assignedEmployees
+);
+
 // Page Selectors
-export const getAssignedEmployees = createSelector(
+export const getStatement = createSelector(
   selectPageState,
-  fromPageReducer.getAssignedEmployees
-);
-
-export const getAssignedEmployeesLoading = createSelector(
-  selectPageState,
-  fromPageReducer.getAssignedEmployeesLoading
-);
-
-export const getAssignedEmployeesLoadingError = createSelector(
-  selectPageState,
-  fromPageReducer.getAssignedEmployeesLoadingError
-);
-
-export const getAssignedEmployeesCount = createSelector(
-  selectPageState,
-  fromPageReducer.getAssignedEmployeesCount
+  (state: fromPageReducer.State) => state.statement?.obj
 );
 
 export const getIsGenerateStatementModalOpen = createSelector(
   selectPageState,
   (state: fromPageReducer.State) => state.isGenerateStatementModalOpen
-);
-
-export const getStatement = createSelector(
-  selectPageState,
-  (state: fromPageReducer.State) => state.statement?.obj
 );
 
 export const getSendingGenerateStatementRequest = createSelector(
@@ -87,11 +77,6 @@ export const getSendingGenerateStatementRequestSuccess = createSelector(
 export const getSendingGenerateStatementRequestError = createSelector(
   selectPageState,
   fromPageReducer.getSendingGenerateStatementRequestError
-);
-
-export const getAssignmentsGridSelectedCompanyEmployeeIds = createSelector(
-  selectPageState,
-  fromPageReducer.getSelectedCompanyEmployeeIds
 );
 
 // Assignments Modal Selectors
@@ -134,4 +119,50 @@ export const getSelectedCompanyEmployeeIds = createSelector(
 export const getSelectedEmployeesCount = createSelector(
   selectEmployeeSearchState,
   fromEmployeeSearchResultsReducer.getSelectedEmployeesCount
+);
+
+// Assigned Employee Grid Selectors
+export const getAssignedEmployeesFeatureState = createSelector(
+  selectAssignedEmployeesState,
+  (state: IFeatureGridState<fromAssignedEmployeesGridReducer.State>) => state.feature
+);
+
+export const getAssignedEmployeesGridState = createSelector(
+  selectAssignedEmployeesState,
+  (state: IFeatureGridState<fromAssignedEmployeesGridReducer.State>) => state.grid.grid
+);
+
+export const {
+  selectAll: getAssignedEmployees
+} = fromAssignedEmployeesGridReducer.adapter.getSelectors(getAssignedEmployeesFeatureState);
+
+export const getAssignedEmployeesTotal = createSelector(
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getAssignedEmployeesTotal
+);
+
+export const getAssignedEmployeesGridData = createSelector(
+  getAssignedEmployees,
+  getAssignedEmployeesTotal,
+  (data: CompanyEmployee[], total: number) => ({ data, total })
+);
+
+export const getAssignedEmployeesLoading = createSelector(
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getAssignedEmployeesLoading
+);
+
+export const getAssignedEmployeesLoadingError = createSelector(
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getAssignedEmployeesLoadingError
+);
+
+export const getAssignedEmployeesSelectedCompanyEmployeeIds = createSelector(
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getSelectedCompanyEmployeeIds
+);
+
+export const getAssignedEmployeesSelectedCompanyEmployeeIdCount = createSelector(
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getSelectedCompanyEmployeeIdCount
 );

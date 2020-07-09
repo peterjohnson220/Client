@@ -57,7 +57,7 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
   constructor(store: Store<fromSearchReducer.State>) {
     super(store);
     this.userContext$ = store.select(fromRootState.getUserContext);
-    this.assignedEmployeesCount$ = store.select(fromStatementAssignmentsReducers.getAssignedEmployeesCount);
+    this.assignedEmployeesCount$ = store.select(fromStatementAssignmentsReducers.getAssignedEmployeesSelectedCompanyEmployeeIdCount);
     this.selectedEmployeesCount$ = store.select(fromStatementAssignmentsReducers.getSelectedEmployeesCount);
     this.searchResultsCount$ = store.select(fromSearchReducer.getNumberOfResultsOnServer);
     this.assignEmployeesLoading$ = store.select(fromStatementAssignmentsReducers.getAssignEmployeesLoading);

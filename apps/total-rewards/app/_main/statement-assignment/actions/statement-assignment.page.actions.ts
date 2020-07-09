@@ -17,13 +17,6 @@ export const GENERATE_STATEMENTS = '[Total Rewards/Statement Assignment] Generat
 export const GENERATE_STATEMENTS_SUCCESS = '[Total Rewards/Statement Assignment] Generate Statements Success';
 export const GENERATE_STATEMENTS_ERROR = '[Total Rewards/Statement Assignment] Generate Statements Error';
 
-export const GET_ASSIGNED_EMPLOYEES = '[Total Rewards/Statement Assignment] Get Assigned Employees';
-export const GET_ASSIGNED_EMPLOYEES_SUCCESS = '[Total Rewards/Statement Assignment] Get Assigned Employees Success';
-export const GET_ASSIGNED_EMPLOYEES_ERROR = '[Total Rewards/Statement Assignment] Get Assigned Employees Error';
-export const REPLACE_ASSIGNED_EMPLOYEES = '[Total Rewards/Statement Assignment] Replace Assigned Employees';
-
-export const TOGGLE_SELECTED_EMPLOYEE = '[Total Rewards/Statement Assignment] Toggle Selected Employee';
-
 export class ResetState implements Action {
   readonly type = RESET_STATE;
 }
@@ -64,30 +57,6 @@ export class GenerateStatementsError implements Action {
   constructor(public payload: any) {}
 }
 
-export class ToggleSelectedEmployee implements Action {
-  readonly type = TOGGLE_SELECTED_EMPLOYEE;
-
-  constructor(public payload: { CompanyEmployeeId: number }) {}
-}
-
-export class GetAssignedEmployees implements Action {
-  readonly type = GET_ASSIGNED_EMPLOYEES;
-}
-
-export class GetAssignedEmployeesSuccess implements Action {
-  readonly type = GET_ASSIGNED_EMPLOYEES_SUCCESS;
-}
-
-export class GetAssignedEmployeesError implements Action {
-  readonly type = GET_ASSIGNED_EMPLOYEES_ERROR;
-}
-
-export class ReplaceAssignedEmployees implements Action {
-  readonly type = REPLACE_ASSIGNED_EMPLOYEES;
-
-  constructor(public payload: CompanyEmployee[]) {}
-}
-
 export type StatementAssignmentPageActions =
   ResetState |
   LoadStatement |
@@ -97,9 +66,5 @@ export type StatementAssignmentPageActions =
   CloseGenerateStatementModal |
   GenerateStatements |
   GenerateStatementsSuccess |
-  GenerateStatementsError |
-  GetAssignedEmployees |
-  GetAssignedEmployeesSuccess |
-  GetAssignedEmployeesError |
-  ReplaceAssignedEmployees |
-  ToggleSelectedEmployee;
+  GenerateStatementsError;
+

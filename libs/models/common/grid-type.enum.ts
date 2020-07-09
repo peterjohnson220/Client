@@ -15,5 +15,6 @@ export enum GridTypeEnum {
   ExchangeFilters = 'EXCHANGE_FILTERS',
   TagCategories = 'TAG_CATEGORIES',
   PeerManageCompanyJobs = 'PEER_MANAGE_COMPANY_JOBS',
-  TotalRewardsStatements = 'TOTAL_REWARDS_STATEMENTS'
+  TotalRewardsStatements = 'TOTAL_REWARDS_STATEMENTS',
+  TotalRewardsAssignedEmployees = 'TOTAL_REWARDS_ASSIGNED_EMPLOYEES',
 }

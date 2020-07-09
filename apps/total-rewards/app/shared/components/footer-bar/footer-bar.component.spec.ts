@@ -35,4 +35,28 @@ describe('FooterBarComponent', () => {
     // assert
     expect(component.primaryButtonClick.emit).toHaveBeenCalledTimes(1);
   });
+
+  it('should hide the secondary button when it`s text is falsy', () => {
+    // arrange
+    component.secondaryButtonText = '';
+
+    // act
+    const secondaryButton = fixture.debugElement.nativeElement.querySelector('a.secondary');
+
+    // assert
+    expect(secondaryButton).toBeFalsy();
+  });
+
+  it('should show the secondary button when it`s text is supplied', () => {
+    // arrange
+    component.secondaryButtonText = 'Back to Canvas';
+    fixture.detectChanges();
+
+    // act
+    const secondaryButton = fixture.debugElement.nativeElement.querySelector('a.secondary');
+
+    // assert
+    expect(secondaryButton).toBeTruthy();
+    expect(secondaryButton.textContent).toContain('Back to Canvas');
+  });
 });

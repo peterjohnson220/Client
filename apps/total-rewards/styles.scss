@@ -3,6 +3,7 @@
 @import 'total-rewards/statement-settings';
 @import 'total-rewards/statement-layout-variables';
 @import 'total-rewards/rich-text-editor';
+@import 'common/common-variables';
 
 .left-sidebar {
   z-index: 1040;
@@ -47,10 +48,14 @@
   }
 }
 
-pf-total-rewards-statement-list-page {
+pf-total-rewards-statement-list-page, pf-assigned-employees-grid {
   .loading-blanket + .k-grid .k-grid-norecords {
     display: none; // hide no records found message in the grid when loading
   }
+}
+
+.ellipsize {
+  @extend %ellipsis-overflowing-text;
 }
 
 pf-statement-edit.page {

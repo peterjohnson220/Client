@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CompanyEmployee } from '../../../models/company';
+import { MappingHelper } from '../../../core/helpers';
 
 @Injectable()
 export class TotalRewardsSearchApiService {
@@ -17,7 +18,7 @@ export class TotalRewardsSearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchEmployeesAggregations`, searchRequest);
   }
 
-  getAssignedEmployees(request: any): Observable<CompanyEmployee[]> {
-    return this.payfactorsApiService.post(`${this.endpoint}/GetAssignedEmployees`, request);
+  getAssignedEmployees(request: any): Observable<GridDataResult> {
+    return this.payfactorsApiService.post<GridDataResult>(`${this.endpoint}/GetAssignedEmployees`, request, MappingHelper.mapListAreaResultToGridDataResult);
   }
 }
