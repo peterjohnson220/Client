@@ -130,19 +130,20 @@ export class StructuresHighchartsService {
       dataPointTitle = 'Top 2nd 5th';
       currentDataPointTitle = 'Current Top 2nd 5th';
       newDataPointTitle = 'New Top 2nd 5th';
-    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.QuintileFirst) {
-      dataPointValue = jobRangeData.CompanyStructures_Ranges_Quintile_First;
-      dataPointCurrentValue = jobRangeData.CompanyStructures_Ranges_Quintile_CurrentFirst;
+    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.QuintileThird) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Quintile_Third;
+      dataPointCurrentValue = jobRangeData.CompanyStructures_Ranges_Quintile_CurrentThird;
       dataPointTitle = 'Top 3rd 5th';
       currentDataPointTitle = 'Current Top 3rd 5th';
       newDataPointTitle = 'New Top 3rd 5th';
-    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.QuintileSecond) {
-      dataPointValue = jobRangeData.CompanyStructures_Ranges_Quintile_Second;
-      dataPointCurrentValue = jobRangeData.CompanyStructures_Ranges_Quintile_CurrentSecond;
+    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.QuintileFourth) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Quintile_Fourth;
+      dataPointCurrentValue = jobRangeData.CompanyStructures_Ranges_Quintile_CurrentFourth;
       dataPointTitle = 'Top 4th 5th';
       currentDataPointTitle = 'Current Top 4th 5th';
       newDataPointTitle = 'New Top 4th 5th';
     }
+
 
     const delta = StructuresHighchartsService.formatDataPointDelta(hasCurrentStructure, chartLocale, metaData, dataPointValue, dataPointCurrentValue);
     return {
