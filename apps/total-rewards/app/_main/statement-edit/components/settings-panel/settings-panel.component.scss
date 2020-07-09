@@ -7,16 +7,13 @@ aside.settings-panel {
   right: 0;
   z-index: 100;
   background-color: white;
-  box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.3);
   border-left: 9px solid $trs-prominent-border-color;
+  box-shadow: none;
+  transition: transform .35s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(100%);
   &.expanded {
-    transition: transform .35s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateX(0);
-  }
-  &.collapsed {
-    box-shadow: none;
-    transition: transform .35s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateX(100%);
+    box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.3);
   }
   h2 {
     font-size: 1.8rem;
