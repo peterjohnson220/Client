@@ -93,6 +93,7 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
     ).subscribe(f => {
       this.selectedCompany = f;
       this.setConfigGroup();
+      this.setEmailRecipient(this.userContext);
     });
 
     this.companies$.pipe(
@@ -108,7 +109,6 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
       if (!!userContext) {
         this.userContext = userContext;
-        this.setEmailRecipient(userContext);
       }
     });
     this.companyStore.dispatch(new fromCompanySelectorActions.GetCompanies());
@@ -187,7 +187,7 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
     }
     const emailRecipient: EmailRecipientModel = {
       DataLoadEmailRecipientId: 0,
-      CompanyId: userContext.CompanyId,
+      CompanyId: this.selectedCompany.CompanyId,
       UserId: userContext.UserId,
       EmailAddress: userContext.EmailAddress,
       FirstName: userContext.FirstName,
