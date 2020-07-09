@@ -12,7 +12,13 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField, CreateProjectRequest, ChangeJobStatusRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
 import { Permissions } from 'libs/constants';
-import { ActionBarConfig, ColumnChooserType, getDefaultGridRowActionsConfig, GridRowActionsConfig } from 'libs/features/pf-data-grid/models';
+import {
+  ActionBarConfig,
+  ColumnChooserType,
+  getDefaultGridRowActionsConfig,
+  GridConfig,
+  GridRowActionsConfig
+} from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
 import { MODIFY_PRICINGS } from 'libs/features/multi-match/constants';
 
@@ -128,6 +134,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   multiMatchImplementation = MODIFY_PRICINGS;
 
+  gridConfig: GridConfig;
+
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
   @ViewChild('jobMatchCount') jobMatchCount: ElementRef;
@@ -142,7 +150,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('structureGradeFilter') structureGradeFilter: ElementRef;
 
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private companyJobApiService: CompanyJobApiService) { }
+  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private companyJobApiService: CompanyJobApiService) {
+    this.gridConfig = {
+      PersistColumnWidth: true
+    };
+  }
 
   ngOnInit() {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
