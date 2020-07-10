@@ -27,6 +27,7 @@ import {
 export class UserFilterPopoverComponent implements OnInit, OnDestroy {
   @Input() hasFiltersToSave: boolean;
   @Input() setAsDefaultLabel = 'Default';
+  @Input() legacyImplementation: boolean;
   @ViewChild(NgbPopover, { static: true }) popover: NgbPopover;
 
   loading$: Observable<boolean>;

@@ -78,6 +78,7 @@
   [savingFilters]="savingFilter$ | async"
   [isOpen$]="saveFilterModalOpen$"
   [modalData]="filterDataToEdit$ | async"
+  [legacyImplementation]="legacyImplementation"
   (saveFilter)="handleSaveFilter($event)"
   (dismissed)="handleSaveFilterModalDismissed()">
 </pf-save-filter-modal>
