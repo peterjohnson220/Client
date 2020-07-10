@@ -1,5 +1,6 @@
 @import 'colors';
 @import '~dragula/dist/dragula.min.css';
+@import 'legacy/legacy-variables';
 
 html,
 body {
@@ -83,3 +84,27 @@ div.matches-list-container>div:nth-of-type(odd) {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+
+.matches {
+  color: #006699;
+}
+
+.matches:hover{
+  cursor: pointer;
+}
+
+.tooltip-container {
+  width: 400px;
+  max-width: none;
+  max-height: 300px;
+  margin-left: 0;
+  padding: 5px;
+  border: 1px dotted black;
+  position: fixed;
+  background: white;
+  z-index: 999;
+}
+
+.survey-search-save-filter-modal > .modal-dialog {
+  padding-top: 10px;
+}

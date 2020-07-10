@@ -17,6 +17,7 @@ import * as fromSearchReducer from '../../reducers';
 export class ResultsHeaderComponent implements OnInit, OnDestroy {
   @Input() savedFiltersEnabled = true;
   @Input() userFilterDefaultLabel = 'Default';
+  @Input() legacyImplementation: boolean;
 
   filters$: Observable<Filter[]>;
   filtersSub: Subscription;

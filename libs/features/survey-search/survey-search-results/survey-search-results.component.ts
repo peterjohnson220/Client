@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
@@ -17,7 +17,7 @@ import {hasMoreDataCuts} from '../helpers';
   templateUrl: './survey-search-results.component.html',
   styleUrls: ['./survey-search-results.component.scss']
 })
-export class SurveySearchResultsComponent {
+export class SurveySearchResultsComponent implements OnInit{
   @ViewChild('tooltipContainer', { static: true }) tooltipContainer: TooltipContainerComponent;
   @Input() cutsDraggable: boolean;
   @Input() implementation: string;
@@ -26,6 +26,7 @@ export class SurveySearchResultsComponent {
   jobResults$: Observable<JobResult[]>;
   loadingResults$: Observable<boolean>;
   pricingMatchDataSearchContext$: Observable<PricingMatchDataSearchContext>;
+  legacyIframeImplementation: boolean;
 
   constructor(
     private store: Store<fromSurveySearchReducer.State>
@@ -33,6 +34,10 @@ export class SurveySearchResultsComponent {
     this.jobResults$ = this.store.select(fromSurveySearchReducer.getResults);
     this.pricingMatchDataSearchContext$ = this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext);
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
+  }
+
+  ngOnInit() {
+    this.legacyIframeImplementation = this.implementation === 'component';
   }
 
   // Events

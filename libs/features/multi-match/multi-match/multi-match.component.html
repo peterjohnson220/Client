@@ -40,7 +40,11 @@
       </ng-container>
 
       <ng-container content>
-        <pf-results-header *ngIf="pageShown$ | async" [userFilterDefaultLabel]="'PayMarket Default'"></pf-results-header>
+        <pf-results-header
+          *ngIf="pageShown$ | async"
+          [userFilterDefaultLabel]="'PayMarket Default'"
+          [legacyImplementation]="display === 'component'"
+        ></pf-results-header>
         <ng-container *ngIf="display === 'modal'; else searchResultsAndJobs">
           <pf-async-container
             [loading]="loadingResults$ | async"

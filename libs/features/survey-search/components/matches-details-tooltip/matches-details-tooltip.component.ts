@@ -9,11 +9,12 @@ import { calculateTooltipTopPx, TooltipContainerData } from '../../helpers';
 })
 export class MatchesDetailsTooltipComponent implements OnChanges, AfterViewChecked {
   @Input() matchesDetails: string[];
-  @Input() tooltipRightPx: number;
+  @Input() tooltipLeftOrRightPx: number;
   @Input() tooltipTopPx: number;
   @Input() visible: boolean;
   @Input() containerHeight: number;
   @Input() containerWidth: number;
+  @Input() legacyIframeImplementation = true;
 
   @ViewChild('tooltip', { static: true }) private tooltipElement: ElementRef;
 
@@ -48,7 +49,12 @@ export class MatchesDetailsTooltipComponent implements OnChanges, AfterViewCheck
     };
     this.tooltipTopPx = calculateTooltipTopPx(tooltipContainerData);
     this.tooltipElement.nativeElement.style.top = `${this.tooltipTopPx}px`;
-    this.tooltipElement.nativeElement.style.right = `${this.tooltipRightPx + this.rightPadding}px`;
+
+    if (this.legacyIframeImplementation) {
+      this.tooltipElement.nativeElement.style.right = `${this.tooltipLeftOrRightPx + this.rightPadding}px`;
+    } else {
+      this.tooltipElement.nativeElement.style.left = `${this.tooltipLeftOrRightPx}px`;
+    }
   }
 
   updateScrollTop(): void {

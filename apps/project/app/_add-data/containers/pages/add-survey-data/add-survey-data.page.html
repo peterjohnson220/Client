@@ -15,8 +15,8 @@
 
   <ng-container content>
 
-    <pf-results-header *ngIf="pageShown$ | async" [userFilterDefaultLabel]="'PayMarket Default'"></pf-results-header>
-    <pf-survey-search-results [cutsDraggable]="false"></pf-survey-search-results>
+    <pf-results-header *ngIf="pageShown$ | async" [userFilterDefaultLabel]="'PayMarket Default'" [legacyImplementation]="true"></pf-results-header>
+    <pf-survey-search-results [cutsDraggable]="false" [implementation]="featureImplementation"></pf-survey-search-results>
 
   </ng-container>
 

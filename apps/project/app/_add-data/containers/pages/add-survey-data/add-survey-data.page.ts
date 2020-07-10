@@ -29,6 +29,7 @@ export class AddSurveyDataPageComponent extends SearchBase {
   addingData$: Observable<boolean>;
   pageShown$: Observable<boolean>;
   excludeFromParticipation: boolean;
+  featureImplementation = 'component';
 
   constructor(
     store: Store<fromSearchReducer.State>,

@@ -1,6 +1,6 @@
 <pf-search-results
   [numberOfCurrentResults]="(jobResults$ | async)?.length"
-  [useAsync]="implementation === 'component'"
+  [useAsync]="legacyIframeImplementation"
 >
   <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
     <pf-job-result
@@ -8,6 +8,7 @@
       [job]="jobResult"
       [cutsDraggable]="cutsDraggable"
       [currencyCode]="(pricingMatchDataSearchContext$ | async)?.CurrencyCode"
+      [legacyIframeImplementation]="legacyIframeImplementation"
       (loadDataCuts)="handleLoadDataCuts($event)"
       (cutSelected)="handleCutSelectionToggle($event)"
       (matchesMouseEnter)="handleMatchesMouseEnter($event)"
@@ -25,4 +26,6 @@
 
 </pf-search-results>
 
-<pf-tooltip-container #tooltipContainer></pf-tooltip-container>
+<pf-tooltip-container #tooltipContainer
+  [legacyIframeImplementation]="legacyIframeImplementation"
+></pf-tooltip-container>
