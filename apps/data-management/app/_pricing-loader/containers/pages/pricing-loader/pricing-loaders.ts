@@ -192,6 +192,7 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
       EmailAddress: userContext.EmailAddress,
       FirstName: userContext.FirstName,
       LastName: userContext.LastName,
+      LoaderType: CompositeDataLoadTypes.Pricings,
       IsCompanyServicesRep: false,
       UserPicture: '',
       LoaderConfigurationGroupId: null
