@@ -20,7 +20,7 @@ export class EmailRecipientsComponent implements OnInit {
   @Input() loaderConfigurationGroupId: number;
   @Input() recipients: EmailRecipientModel[];
   @Input() loadType: LoadTypes;
-  @Input() primaryCompositeDataLoadType: CompositeDataLoadTypes;
+  @Input() primaryCompositeDataLoadType: string;
   @Input() savingError$: Observable<boolean>;
   @Input() removingError$: Observable<boolean>;
   @Input() emailRecipientsModalOpen$: Observable<boolean>;
@@ -58,6 +58,7 @@ export class EmailRecipientsComponent implements OnInit {
     this.errorText = '';
     recipient.CompanyId = this.companyId;
     recipient.LoaderConfigurationGroupId = this.loaderConfigurationGroupId;
+    recipient.LoaderType = this.primaryCompositeDataLoadType === CompositeDataLoadTypes.OrgData ? 'Organizational Data' : this.primaryCompositeDataLoadType;
     this.store.dispatch(new fromOrgDataEmailRecipientsActions.SavingEmailRecipient(recipient, configurationGroup));
   }
 
