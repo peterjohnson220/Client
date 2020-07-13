@@ -14,8 +14,6 @@ import * as fromEmployeeManagementReducers from 'libs/features/employee-manageme
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
 import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import { UserContext } from 'libs/models';
-import * as fromRootState from 'libs/state/state';
 
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
@@ -33,7 +31,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild('salaryColumn') salaryColumn: ElementRef;
   @ViewChild('rateBasedSalaryColumn') rateBasedSalaryColumn: ElementRef;
   permissions = Permissions;
-  userContext$: Observable<UserContext>;
   pricingJobs$: Observable<boolean>;
   pricingJobsError$: Observable<boolean>;
 
@@ -60,14 +57,12 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   gridConfig: GridConfig;
 
   constructor(
-    private rootStore: Store<fromRootState.State>,
     public store: Store<fromEmployeesReducer.State>,
     public employeeManagementStore: Store<fromEmployeeManagementReducers.State>,
     private pfGridStore: Store<fromPfGridReducer.State>,
     private modalService: NgbModal,
     private router: Router
   ) {
-    this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.pricingJobs$ = this.store.pipe(select(fromEmployeesReducer.getPricingJobs));
     this.pricingJobsError$ = this.store.pipe(select(fromEmployeesReducer.getPricingsJobsError));
     this.actionBarConfig = {
@@ -105,10 +100,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   ngOnDestroy(): void {
     this.selectedCompanyEmployeeIdsSubscription.unsubscribe();
     this.pricingJobsSubscription.unsubscribe();
-  }
-
-  getPageTitle(companyName: string): string {
-    return companyName ? `${companyName} Employees` : '';
   }
 
   public get priceJobsDisabled(): boolean {

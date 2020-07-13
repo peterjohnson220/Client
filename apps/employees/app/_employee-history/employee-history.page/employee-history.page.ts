@@ -2,16 +2,14 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { select, Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { IntlService } from '@progress/kendo-angular-intl';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import { UserContext } from 'libs/models';
-import * as fromRootState from 'libs/state/state';
 
 import { EmployeeHistoryPageViewId } from '../models';
 
@@ -25,7 +23,6 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
   @ViewChild('salaryColumn', { static: false }) salaryColumn: ElementRef;
   @ViewChild('rateBasedSalaryColumn', { static: false }) rateBasedSalaryColumn: ElementRef;
   permissions = Permissions;
-  userContext$: Observable<UserContext>;
 
   pageViewId = EmployeeHistoryPageViewId;
   defaultSort: SortDescriptor[] = [{
@@ -43,12 +40,10 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
   historyDate: Date;
 
   constructor(
-    private rootStore: Store<fromRootState.State>,
     private router: Router,
     private route: ActivatedRoute,
     private intlService: IntlService
   ) {
-    this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
@@ -86,10 +81,6 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
     }
-  }
-
-  getPageTitle(companyName: string): string {
-    return companyName ? `${companyName} Employee History` : '';
   }
 
   handleEmployeeHistoryDateChange(date: string): void {
