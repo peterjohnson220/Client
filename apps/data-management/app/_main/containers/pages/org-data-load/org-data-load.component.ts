@@ -246,7 +246,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
       this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
         companyId: this.selectedCompany.CompanyId,
-        loaderType: CompositeDataLoadTypes.OrgData,
+        loaderType: 'Organizational Data',
         loaderConfigurationGroupId: this.loaderConfigGroup ? this.loaderConfigGroup.LoaderConfigurationGroupId : undefined
       }));
     });

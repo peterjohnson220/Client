@@ -277,7 +277,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
         if (this.selectedCompany) {
           this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
             companyId: this.selectedCompany.CompanyId,
-            loaderType: CompositeDataLoadTypes.OrgData,
+            loaderType: 'Organizational Data',
             loaderConfigurationGroupId: this.selectedConfigGroup ? this.selectedConfigGroup.LoaderConfigurationGroupId : undefined
           }));
         }
