@@ -103,7 +103,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
           this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
             companyId: this.companyId,
             loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId,
-            loaderType: CompositeDataLoadTypes.OrgData,
+            loaderType: 'Organizational Data',
           }));
         }
       });
