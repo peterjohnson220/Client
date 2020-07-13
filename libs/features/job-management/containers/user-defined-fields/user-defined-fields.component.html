@@ -1,10 +1,10 @@
 <form id="user-form" [formGroup]="udfsForm" autocomplete="nope">
   <div class="d-flex flex-wrap">
     <div *ngFor="let udf of (jobUserDefinedFields$ | async)" class="form-group col-6 row no-gutters">
-      <label class="col-4 col-form-label">{{udf.DispName}}</label>
+      <label class="col-4 col-form-label text-break">{{udf.DispName}}</label>
       <div class="col-8">
         <input
-          [attr.data-qa-id]="'txt-job-form-' + udf.ColumnName" 
+          [attr.data-qa-id]="'txt-job-form-' + udf.ColumnName"
           [maxlength]="DEFAULT_MAX_LENGTH"
           [formControlName]="udf.ColumnName"
           type="text"

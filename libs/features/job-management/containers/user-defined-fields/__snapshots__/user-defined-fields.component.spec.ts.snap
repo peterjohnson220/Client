@@ -25,7 +25,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
         class="form-group col-6 row no-gutters"
       >
         <label
-          class="col-4 col-form-label"
+          class="col-4 col-form-label text-break"
         >
           UDF1
         </label>
@@ -44,7 +44,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
         class="form-group col-6 row no-gutters"
       >
         <label
-          class="col-4 col-form-label"
+          class="col-4 col-form-label text-break"
         >
           UDF2
         </label>
