@@ -54,6 +54,7 @@ const declarations = [
     PerfectScrollbarModule,
     Ng5SliderModule,
     InfiniteScrollModule,
+    NgbPopoverModule,
     FontAwesomeModule,
     NgbTooltipModule
   ],
