@@ -70,7 +70,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       ShowColumnChooser: true,
       ShowFilterChooser: true,
       AllowExport: true,
-      AllowSaveFilter: false,
+      AllowSaveFilter: true,
       ExportSourceName: 'Employees',
       ColumnChooserType: ColumnChooserType.ColumnGroup
     };
@@ -121,7 +121,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
   handleEmployeeDelete() {
     this.showDeleteEmployeeModal.next(false);
-    return this.store.dispatch(new fromEmployeesPageActions.DeleteEmployee({ pageViewId: this.pageViewId, companyEmployeeIds: this.selectedCompanyEmployeeIds }));
+    return this.store.dispatch(new fromEmployeesPageActions.DeleteEmployee({
+      pageViewId: this.pageViewId,
+      companyEmployeeIds: this.selectedCompanyEmployeeIds
+    }));
   }
 
   handleEditClicked(): void {
