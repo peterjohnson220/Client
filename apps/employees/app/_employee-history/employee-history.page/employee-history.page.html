@@ -1,7 +1,7 @@
 <pf-data-grid
   [reorderable]="true"
   [pageViewId]="pageViewId"
-  [title]="getPageTitle((userContext$ | async)?.CompanyName)"
+  [title]="'Employee History'"
   [selectionField]="'CompanyEmployeeHistory_ID'"
   [filterPanelTemplates]="filterTemplates"
   [lockedPillText]="historyDate ? 'Effective Date ' + (historyDate | date: 'MM/dd/yyyy') : ''"
