@@ -113,6 +113,12 @@ export class PricingProjectsComponent implements OnInit, OnChanges, OnDestroy {
 
   private updateFilters(payMarketId: number): void {
     const pricingProjectsFilters: DataViewFilter[] = PayMarketAssociationsHelper.getPayMarketFilters('UserScopeListTemp', payMarketId);
+    pricingProjectsFilters.push({
+      EntitySourceName: 'UserSessions',
+      SourceName: 'UserSession_ID',
+      FilterType: 'ProjectNotOrphanedFilterStrategy',
+      Operator: null
+    });
     this.store.dispatch(new fromBasicDataGridActions.UpdateFilters(PayMarketAssociationType.PricingProjects, pricingProjectsFilters));
   }
 
