@@ -1,29 +1,24 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { Observable, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
-import * as fromRootState from 'libs/state/state';
-import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
-import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
+import { environment } from 'environments/environment';
+import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
-import { environment } from 'environments/environment';
+import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
-import { ConfigurationGroup, EmailRecipientModel } from 'libs/models/data-loads';
-import { LoadTypes, CompositeDataLoadTypes } from 'libs/constants';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import { UserContext } from 'libs/models';
+import { ConfigurationGroup, EmailRecipientModel } from 'libs/models/data-loads';
+import * as fromRootState from 'libs/state/state';
 import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
 
 import * as fromPricingLoaderActions from '../../../actions/pricing-loader.actions';
 import * as fromPricingLoaderMainReducer from '../../../reducers';
-import {
-  EntityChoice,
-  getEntityChoicesForPricingLoader,
-  PricingUploadNotification,
-  buildPricingUploadNotification
-} from '../../../models';
+import { buildPricingUploadNotification, EntityChoice, getEntityChoicesForPricingLoader, PricingUploadNotification } from '../../../models';
 import { FILETYPES, MRPFIELDS } from '../../../constants';
 import { UploadPricingFileComponent } from '../../upload-pricing-file';
 
@@ -77,7 +72,7 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
     private rootStore: Store<fromRootState.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>
   ) {
-    this.entities  = getEntityChoicesForPricingLoader();
+    this.entities = getEntityChoicesForPricingLoader();
     this.companies$ = this.companyStore.select(fromCompanyReducer.getCompanies);
     this.selectedCompany$ = this.companyStore.select(fromCompanyReducer.getSelectedCompany);
     this.userContext$ = this.rootStore.select(fromRootState.getUserContext);
@@ -150,7 +145,7 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
   }
 
   textWidth(value: number) {
-   return value.toString().length <= 3;
+    return value.toString().length <= 3;
   }
 
   goDownload() {
@@ -182,7 +177,7 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
   }
 
   private setEmailRecipient(userContext: UserContext): void {
-    if (!userContext) {
+    if (!userContext || !this.selectedCompany) {
       return;
     }
     const emailRecipient: EmailRecipientModel = {
