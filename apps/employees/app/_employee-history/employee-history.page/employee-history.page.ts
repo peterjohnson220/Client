@@ -49,7 +49,7 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
       ShowColumnChooser: true,
       ShowFilterChooser: true,
       AllowExport: true,
-      AllowSaveFilter: false,
+      AllowSaveFilter: true,
       ExportSourceName: 'Employee History',
       ColumnChooserType: ColumnChooserType.ColumnGroup
     };
