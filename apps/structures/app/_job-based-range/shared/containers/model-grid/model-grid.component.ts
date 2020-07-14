@@ -53,6 +53,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() page: Pages;
   @Input() reorderable: boolean;
+  @Input() saveSort = false;
   @Output() addJobs = new EventEmitter();
   @Output() publishModel = new EventEmitter();
   @Output() openModelSettings = new EventEmitter();
