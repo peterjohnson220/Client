@@ -1,6 +1,6 @@
 <ng-container *ngIf="filter.Options.length;else noOptions">
 
-  <ng-container *ngFor="let option of filter.Options">
+  <ng-container *ngFor="let option of filter.Options; trackBy: trackByOptionValue">
 
     <span *ngIf="!fieldHasDescription()" [class]="'option alt-color au-chk-'+filter.CssClassName"
           [class.selected]="(option.Selected || hasSubAggregationSelections(option)) && !(option.Value.toString() === (childFilterParentOptionValue$ | async) && filter.BackingField === (childFilter$ | async).ParentBackingField)"

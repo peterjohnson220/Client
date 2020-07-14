@@ -55,4 +55,8 @@ export class MultiSelectFilterComponent {
         return EntityDescriptionTypeEnum.Subsidiary;
     }
   }
+
+  trackByOptionValue(index, item: MultiSelectOption) {
+    return item.Value;
+  }
 }

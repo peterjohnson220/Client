@@ -1,6 +1,6 @@
 <ng-container *ngIf="filter.Options.length;else noOptions">
 
-  <ng-container *ngFor="let option of filter.Options">
+  <ng-container *ngFor="let option of filter.Options; trackBy: trackByOptionValue">
     <div *ngIf="!fieldHasDescription()" class="option alt-color"
          [title]="option.Name"
          [class.selected]="option.Selected"
