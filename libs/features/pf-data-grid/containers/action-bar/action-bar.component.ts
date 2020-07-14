@@ -23,7 +23,6 @@ export class ActionBarComponent implements OnChanges {
   @Input() reorderable: boolean;
 
   dataFields$: Observable<ViewField[]>;
-  selectableFields$: Observable<ViewField[]>;
   selectedRecordId$: Observable<number>;
   exporting$: Observable<boolean>;
   loadingExportingStatus$: Observable<boolean>;
@@ -34,7 +33,6 @@ export class ActionBarComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['pageViewId']) {
       this.dataFields$ = this.store.select(fromReducer.getFields, changes['pageViewId'].currentValue);
-      this.selectableFields$ = this.store.select(fromReducer.getSelectableFields, changes['pageViewId'].currentValue);
       this.selectedRecordId$ = this.store.select(fromReducer.getSelectedRecordId, this.pageViewId);
       this.exporting$ = this.store.select(fromReducer.getExportingGrid, this.pageViewId);
       this.loadingExportingStatus$ = this.store.select(fromReducer.getLoadingExportingStatus, this.pageViewId);

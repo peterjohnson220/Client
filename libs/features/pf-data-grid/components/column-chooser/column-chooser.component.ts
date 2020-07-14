@@ -24,7 +24,7 @@ export class ColumnChooserComponent implements OnChanges {
   @Output() saveColumns = new EventEmitter();
 
   listAreaColumns = [];
-
+  selectableColumns = [];
   @ViewChild('p', { static: true }) public p: any;
   @ViewChild('columnGroupList') public columnGroupList: ColumnGroupListComponent;
 
@@ -35,6 +35,7 @@ export class ColumnChooserComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['dataFields']) {
       this.listAreaColumns = orderBy(cloneDeep(changes['dataFields'].currentValue), ['DefaultOrder'], ['asc']);
+      this.selectableColumns = this.listAreaColumns.filter(f => f.IsSelectable);
     }
   }
 
