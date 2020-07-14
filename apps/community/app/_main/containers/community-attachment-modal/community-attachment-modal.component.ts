@@ -114,6 +114,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
       this.showFileCountWarning = false;
     }
 
+    file.name = `${file.uid}_${file.name}`;
     this.uploadWidget.removeFilesByUid(file.uid);
 
     this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
