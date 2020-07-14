@@ -108,3 +108,11 @@ div.matches-list-container>div:nth-of-type(odd) {
 .survey-search-save-filter-modal > .modal-dialog {
   padding-top: 10px;
 }
+
+.ps__rail-x {
+  top: inherit !important;
+}
+
+pf-filter-pills > .pills-container {
+  width: 1130px;
+}
