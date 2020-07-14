@@ -6,9 +6,9 @@
     <div class="popover-body-content">
       <pf-async-container [loading]="loading"></pf-async-container>
       <div *ngIf="!loading" class="list-group">
-        <h5 *ngIf="!(listAreaColumns | filterArrayByName: filter : 'DisplayName').length">No Columns</h5>
+        <h5 *ngIf="!(selectableColumns | filterArrayByName: filter : 'DisplayName').length">No Columns</h5>
         <ng-container *ngIf="columnChooserType === columnChooserTypes.Column; else columnGroupsTemplate">
-          <ng-container *ngFor="let col of listAreaColumns | filterArrayByName: filter : 'DisplayName'">
+          <ng-container *ngFor="let col of selectableColumns | filterArrayByName: filter : 'DisplayName'">
             <div *ngIf="col.IsSelectable" class="px-2 py-1">
               <input type="checkbox" [attr.data-qa-id]="'chk-' + col.SourceName" [(ngModel)]="col.IsSelected" [disabled]="col.IsLocked">
               <span class="pl-2">
