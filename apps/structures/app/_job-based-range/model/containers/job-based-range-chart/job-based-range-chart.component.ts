@@ -48,6 +48,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   hasCurrentStructure: boolean;
   metaData: RangeGroupMetadata;
   rangeDistributionTypeId: number;
+  filterPanelSub: Subscription;
 
   constructor(
     public store: Store<any>,
@@ -68,6 +69,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
           JobRangeModelChartService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate, this.rangeDistributionTypeId);
       }
     });
+
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
       if (data && this.rate && this.currency) {
@@ -349,11 +351,19 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
+    this.filterPanelSub = this.store.select(fromPfGridReducer.getFilterPanelOpen, this.pageViewId).subscribe(filterPanelOpen => {
+      if (filterPanelOpen === false) {
+        setTimeout(() => {
+          this.chartInstance.reflow();
+        }, 0);
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
     this.pageViewIdSubscription.unsubscribe();
+    this.filterPanelSub.unsubscribe();
   }
 }

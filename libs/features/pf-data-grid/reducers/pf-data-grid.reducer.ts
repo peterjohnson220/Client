@@ -147,6 +147,8 @@ export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: stri
   return filterCount;
 };
 export const getGridConfig = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].gridConfig : null;
+export const getFilterPanelOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].filterPanelOpen : null;
+
 
 
 
