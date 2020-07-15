@@ -110,6 +110,11 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit() {
       this.controlTypeSubscription = this.sharedJdmStore.select(fromJdmSharedReducer.getControlTypes).subscribe((controlTypes) => {
         this.controlType = controlTypes.find(ct => ct.Type === this.templateControl.Type && ct.ControlVersion === this.templateControl.ControlVersion );
+
+        if (!this.templateControl.Data.length && this.controlType?.EditorType !== 'SmartList') {
+          this.addDataRow(false);
+        }
+
         if (this.controlType) {
             this.watchForControlDataChanges();
         }
