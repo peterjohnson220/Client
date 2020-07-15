@@ -30,7 +30,8 @@ export enum CompanySettingsEnum {
   DashboardPreferences = 'DashboardPreferences',
   EnableJobRangeStructureRangeTypes = 'EnableJobRangeStructureRangeTypes',
   CommunityDisableAttachments = 'CommunityDisableAttachments',
-  JDMExternalWorkflowsRequireSSOLogin = 'JDMExternalWorkflowsRequireSSOLogin'
+  JDMExternalWorkflowsRequireSSOLogin = 'JDMExternalWorkflowsRequireSSOLogin',
+  EnableUserNotifications = 'EnableUserNotifications'
 }
 
 export interface CompanySetting {

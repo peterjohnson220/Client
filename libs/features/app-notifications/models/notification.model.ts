@@ -17,7 +17,8 @@ export enum NotificationLevel {
 
 export enum NotificationType {
   Event = 'Event',
-  Progress = 'Progress'
+  Progress = 'Progress',
+  User = 'User'
 }
 
 export interface NotificationPayload {

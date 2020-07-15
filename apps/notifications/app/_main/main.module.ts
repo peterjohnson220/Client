@@ -9,8 +9,8 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { NotificationsPageComponent, DataViewsExportListComponent } from './containers';
-import { DataViewsExportEffects, TotalRewardsStatementPdfEffects } from './effects';
+import { NotificationsPageComponent, DataViewsExportListComponent, UserNotificationListComponent } from './containers';
+import { DataViewsExportEffects, TotalRewardsStatementPdfEffects, UserNotificationListEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
@@ -29,7 +29,8 @@ import { FileDownloadCardComponent } from './components/file-download-card/file-
     StoreModule.forFeature('notifications_main', reducers),
     EffectsModule.forFeature([
       DataViewsExportEffects,
-      TotalRewardsStatementPdfEffects
+      TotalRewardsStatementPdfEffects,
+      UserNotificationListEffects
     ]),
     FontAwesomeModule,
 
@@ -48,6 +49,7 @@ import { FileDownloadCardComponent } from './components/file-download-card/file-
 
     // Components
     FileDownloadCardComponent,
+    UserNotificationListComponent,
 
     // Pages
     NotificationsPageComponent,
