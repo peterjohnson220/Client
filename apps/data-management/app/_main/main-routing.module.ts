@@ -23,6 +23,7 @@ import {
   TransferDataPageComponent,
   TransferSchedulePageComponent,
 } from './containers';
+import { HrisAuthenticationGuard } from './guards';
 
 const routes: Routes = [
   {
@@ -66,7 +67,8 @@ const routes: Routes = [
               },
               {
                 path: 'field-mapping',
-                component: FieldMappingPageComponent
+                component: FieldMappingPageComponent,
+                canActivate: [HrisAuthenticationGuard]
               },
               {
                 path: 'authentication',
@@ -75,6 +77,7 @@ const routes: Routes = [
               {
                 path: 'transfer-schedule',
                 component: TransferSchedulePageComponent,
+                canActivate: [HrisAuthenticationGuard],
                 data: { FullPage: true }
               },
             ]

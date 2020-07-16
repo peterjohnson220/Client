@@ -1,29 +1,27 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-
-import { Observable, Subscription } from 'rxjs';
-import { BehaviorSubject } from 'rxjs/index';
-
-import { Store, ActionsSubject } from '@ngrx/store';
-import { ofType } from '@ngrx/effects';
-
-import { SortDescriptor } from '@progress/kendo-data-query';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { ViewField, CreateProjectRequest, ChangeJobStatusRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
+import { ofType } from '@ngrx/effects';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/index';
+
+import { SortDescriptor } from '@progress/kendo-data-query';
+
 import { Permissions } from 'libs/constants';
-import { ActionBarConfig, ColumnChooserType, getDefaultGridRowActionsConfig, GridRowActionsConfig } from 'libs/features/pf-data-grid/models';
-import { AsyncStateObj, UserContext } from 'libs/models';
-import { MODIFY_PRICINGS } from 'libs/features/multi-match/constants';
-
-import * as fromRootState from 'libs/state/state';
-
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
-
 import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
+import { MODIFY_PRICINGS } from 'libs/features/multi-match/constants';
 import * as fromModifyPricingsReducer from 'libs/features/multi-match/reducers';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import {
+    ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig
+} from 'libs/features/pf-data-grid/models';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import { AsyncStateObj, UserContext } from 'libs/models';
+import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
+import * as fromRootState from 'libs/state/state';
 
 import { PageViewIds } from '../constants';
 import * as fromJobsPageActions from '../actions';
@@ -186,8 +184,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.jobStatusField = fields.find(f => f.SourceName === 'JobStatus');
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.structureGradeSearchField = fields.find(f => f.SourceName === 'Grade_Name');
-        this.selectedStructureGrade = this.structureGradeSearchField.FilterValue !== null ?
-          { Value: this.structureGradeSearchField.FilterValue, Id: this.structureGradeSearchField.FilterValue } : null;
+        this.selectedStructureGrade = this.structureGradeSearchField?.FilterValue !== null ?
+          { Value: this.structureGradeSearchField?.FilterValue, Id: this.structureGradeSearchField?.FilterValue } : null;
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
@@ -236,13 +234,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.actionBarConfig = {
-      ShowActionBar: true,
+      ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
-      ShowFilterChooser: true,
-      AllowExport: false,
-      AllowSaveFilter: true,
-      ExportSourceName: '',
-      ColumnChooserType: ColumnChooserType.Column
+      ShowFilterChooser: true
     };
 
     this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));

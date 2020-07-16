@@ -3,34 +3,40 @@
 exports[`EmployeeResultComponent should display employee info when available 1`] = `
 <pf-employee-result
   employee={[Function Object]}
+  employeeClicked={[Function EventEmitter]}
 >
-  <div
-    class="result employee-result-row position-relative"
+  <a
+    class="employee-result-row"
+    href="javascript:void(0)"
   >
     <div
-      class="d-flex justify-content-between"
+      class="result position-relative"
     >
-      <h4
-        class="d-flex"
+      <div
+        class="d-flex justify-content-between"
       >
-        
-        <span
-          class="employee-name font-weight-bold pr-2"
+        <h4
+          class="d-flex"
         >
-           Test Employee 
-        </span>
-        <span
-          class="employee-id"
-        >
-           (EMP123) 
-        </span>
-      </h4>
+          
+          <span
+            class="employee-name font-weight-bold pr-2"
+          >
+             Test Employee 
+          </span>
+          <span
+            class="employee-id"
+          >
+             (EMP123) 
+          </span>
+        </h4>
+      </div>
+      <h5
+        class="flex-column job-title my-1"
+      >
+         Test Job Title 
+      </h5>
     </div>
-    <h5
-      class="flex-column job-title my-1"
-    >
-       Test Job Title 
-    </h5>
-  </div>
+  </a>
 </pf-employee-result>
 `;

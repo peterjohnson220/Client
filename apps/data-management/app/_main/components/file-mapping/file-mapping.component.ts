@@ -13,7 +13,7 @@ import {
 } from 'libs/features/org-data-loader/constants';
 import {LoaderEntityStatus, VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
 import { LoaderFieldSet } from 'libs/models/data-loads';
-import {CompanySelectorItem} from 'libs/features/company/models';
+import {CompanySelectorItem} from 'libs/features/company/company-selector/models';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';

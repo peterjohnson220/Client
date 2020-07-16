@@ -1,0 +1,19 @@
+@import 'kendo-checkbox-overrides';
+
+.k-checkbox-label::before {
+  top: 16px;
+  margin-left: -4px;
+}
+
+.k-checkbox:checked + .k-checkbox-label::before {
+  background-color: #DC3545 !important;
+  border-color: #E9ECEF;
+  border-radius: 4px;
+  top: 16px;
+  padding: 16px 16px 0 0;
+}
+
+.k-checkbox:checked + .k-checkbox-label::after {
+  top: 18px;
+  left: -2.5px;
+}

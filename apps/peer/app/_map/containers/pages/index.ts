@@ -1,2 +1,2 @@
 export * from './exchange-map';
-export * from './exchange-map-new';
+export * from './exchange-map';

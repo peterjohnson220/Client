@@ -18,6 +18,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/pf-data-grid';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
+import { PfCommentBoxModule } from 'libs/features/comment-box/';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -58,7 +59,8 @@ import { ServiceRoutingModule } from './service-routing.module';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfDataGridModule
+    PfDataGridModule,
+    PfCommentBoxModule
   ],
   declarations: [
     // Pages

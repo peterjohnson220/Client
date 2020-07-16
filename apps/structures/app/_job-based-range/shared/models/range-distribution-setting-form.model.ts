@@ -13,4 +13,6 @@ export interface RangeDistributionSettingForm {
     Maximum: number;
     RangeBasedOn: string;
     ControlPoint: string;
+    MinPercentile: string;
+    MaxPercentile: string;
 }

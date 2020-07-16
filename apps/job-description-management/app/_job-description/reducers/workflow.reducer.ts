@@ -19,6 +19,7 @@ export interface State {
   saving: boolean;
   message: string;
   completedStep: boolean;
+  completedStepError: boolean;
 }
 
 export const initialState: State = {
@@ -33,7 +34,8 @@ export const initialState: State = {
   workFlowSaveObj: null,
   saving: false,
   message: '',
-  completedStep: false
+  completedStep: false,
+  completedStepError: false
 };
 
 export function reducer(state = initialState, action: fromWorkflowActions.Actions): State {
@@ -93,7 +95,17 @@ export function reducer(state = initialState, action: fromWorkflowActions.Action
       return {
         ...state,
         approving: false,
-        rejecting: false
+        rejecting: false,
+        completedStepError: false
+      };
+    }
+    case fromWorkflowActions.COMPLETE_WORKFLOW_STEP_ERROR: {
+
+      return {
+        ...state,
+        approving: false,
+        rejecting: false,
+        completedStepError: true
       };
     }
     case fromWorkflowActions.GET_WORKFLOW_LINK: {
@@ -201,3 +213,4 @@ export const getWorkflowSaveObj = (state: State) => state.workFlowSaveObj;
 export const getWorkflowSaving = (state: State) => state.saving;
 export const getMessage = (state: State) => state.message;
 export const getCompletedStep = (state: State) => state.completedStep;
+export const getCompletedStepError = (state: State) => state.completedStepError;

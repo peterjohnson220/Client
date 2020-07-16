@@ -1,0 +1,43 @@
+<div class="d-flex flex-column mt-3 pricing-loader-content">
+  <div class="d-flex" (click)="isCollapsed = !isCollapsed" [style.cursor]="'pointer'">
+    <fa-icon
+      class="fa-lg fa-arrow-right mr-3 arrow-icon"
+      [icon]="['far', isCollapsed ? 'angle-right' : 'angle-down']">
+    </fa-icon>
+    <span class="title">Pricing Loader Defaults</span>
+  </div>
+  <div class="collapse pt-3" [ngbCollapse]="isCollapsed">
+    <div class="d-flex field-container">
+      <div>
+        <p class="field-group-title">MRP Fields</p>
+        <div class="d-flex">
+          <div *ngFor="let group of groupedMRPFields" class="group">
+            <div class="d-flex flex-column">
+              <ng-container *ngFor="let setting of group.items">
+                <pf-pricing-loader-setting
+                  [setting]="setting"
+                  [labelWidth]="setting.GroupColumnSize"
+                  (textBoxFocus)="onEditSetting()"
+                  (textBoxBlur)="handleNumericValueChange(setting.KeyName, setting.DefaultValue)">
+                </pf-pricing-loader-setting>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="field-group-title">Adjustments</p>
+        <div class="d-flex flex-column">
+          <ng-container *ngFor="let setting of adjustmentsFields">
+            <pf-pricing-loader-setting
+              [setting]="setting"
+              [labelWidth]="100"
+              (textBoxFocus)="onEditSetting()"
+              (textBoxBlur)="handleNumericValueChange(setting.KeyName, setting.DefaultValue)">
+            </pf-pricing-loader-setting>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,1 @@
-export * from './midpoint-edit.effects';
+export * from './range-field-edit.effects';

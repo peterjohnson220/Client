@@ -24,6 +24,8 @@ import { TrsSummaryControlComponent } from './components/trs-summary-control/trs
 import { TrsRichTextControlComponent } from './components/trs-rich-text-control/trs-rich-text-control.component';
 import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
 import { EffectiveDateComponent } from './components/effective-date/effective-date.component';
+import { FooterBarComponent } from './components/footer-bar/footer-bar.component';
+import { NoRecordsFoundCallToActionComponent } from './components/no-records-found-call-to-action/no-records-found-call-to-action.component';
 
 @NgModule({
   imports: [
@@ -56,11 +58,15 @@ import { EffectiveDateComponent } from './components/effective-date/effective-da
     TrsRichTextControlComponent,
     CompensationFieldPipe,
     EffectiveDateComponent,
+    FooterBarComponent,
+    NoRecordsFoundCallToActionComponent,
   ],
   exports: [
     StringEditorComponent,
     TotalRewardsStatementComponent,
     CompensationFieldPipe,
+    FooterBarComponent,
+    NoRecordsFoundCallToActionComponent
   ],
   providers: [
     CurrencyPipe

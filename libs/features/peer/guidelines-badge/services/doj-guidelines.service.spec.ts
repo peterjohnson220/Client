@@ -10,7 +10,7 @@ import {
   generateMockExchangeStatCompanyMakeup
 } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
-import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
+import * as fromExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import { DojGuidelinesService } from './doj-guidelines.service';
@@ -31,7 +31,7 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          feature_peerMap: combineReducers(fromPeerMapReducer.reducers),
+          feature_peer_exchangeExplorer: combineReducers(fromExchangeExplorerReducers.reducers),
           legacy_upsertPeerData: combineReducers(fromDataCutValidationReducer.reducers)
         })
       ],

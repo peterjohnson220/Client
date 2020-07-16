@@ -37,7 +37,7 @@ describe('Admin - Tickets - Comments Detail', () => {
     spyOn(instance.saveCommentEvent, 'emit');
 
     const comment = generateMockTicketComment();
-    instance.commentText = comment.Comments + ' test';
+    instance.commentText = comment.Content + ' test';
 
     instance.saveComment(comment);
 

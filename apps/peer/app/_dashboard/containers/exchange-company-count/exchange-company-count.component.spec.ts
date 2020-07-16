@@ -61,15 +61,32 @@ describe('Peer Dashboard - Exchange Company Count', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a LoadDetailChart action of Category "Parcipitating Companies" on participatingCompaniesCountClick', () => {
+  it('should dispatch a LoadDetailChart action of Category "Participating Companies" on participatingCompaniesCountClick when showing Companies', () => {
     fixture.detectChanges();
 
     const action = new fromExchangeDashboardActions.LoadDetailChart({
       ExchangeId: 1,
       ChartType: ExchangeChartTypeEnum.Company,
-      Category: 'Participating Companies'
+      Category: ExchangeChartTypeEnum.Company
     });
 
+    instance.category = ExchangeChartTypeEnum.Company;
+    instance.participatingCompaniesCountClick();
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a LoadDetailChart action of Category "Participating Properties" on participatingCompaniesCountClick when showing Properties', () => {
+    fixture.detectChanges();
+
+    const action = new fromExchangeDashboardActions.LoadDetailChart({
+      ExchangeId: 1,
+      ChartType: ExchangeChartTypeEnum.Company,
+      Category: ExchangeChartTypeEnum.Subsidiary
+    });
+
+    instance.category = ExchangeChartTypeEnum.Subsidiary;
     instance.participatingCompaniesCountClick();
     fixture.detectChanges();
 

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { SurveyLibraryApiService } from 'libs/data/payfactors-api';
-import { CompanySelectorItem } from 'libs/features/company/models';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 
 import * as fromSurveysReducer from '../../reducers';
 import * as fromSurveyActions from '../../actions/survey-actions';

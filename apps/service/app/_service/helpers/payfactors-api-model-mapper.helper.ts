@@ -1,10 +1,11 @@
 import {
-  SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse, UserTicketComment
+  SupportTeamResponse, UserTicketTypeResponse, UserTicketStateResponse, UserTicketResponse,
 } from 'libs/models/payfactors-api/service/response';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { GroupedListItem } from 'libs/models/list';
+import { TicketCommentHelper } from 'libs/models/payfactors-api/service/helpers';
 
-import { TicketType, SupportTeamUser, TicketNote, NoteAccessLevel, TicketListMode } from '../models';
+import { TicketType, SupportTeamUser, NoteAccessLevel, TicketListMode } from '../models';
 import { TicketStateHelper } from './ticket-state.helper';
 import { UserTicket } from '../models';
 
@@ -12,8 +13,18 @@ export class PayfactorsApiModelMapper {
 
   /// IN
   static mapTicketTypeResponseToTicketTypes(response: UserTicketTypeResponse[]): TicketType[] {
-    return response.map(t => {
-      return {
+    const allTicketType: TicketType = {
+      Active: false,
+      SortOrder: 0,
+      TicketFileTypeId: null,
+      TicketTypeDisplayName: 'All',
+      UserTicketTypeId: null,
+      TicketSubTypeName: null,
+      TicketTypeName: 'All'
+    };
+    const ticketTypes: TicketType[] = [ allTicketType ];
+    response.forEach(t => {
+      ticketTypes.push({
         Active: t.Active,
         SortOrder: t.SortOrder,
         TicketFileTypeId: t.TicketFileTypeId,
@@ -21,8 +32,9 @@ export class PayfactorsApiModelMapper {
         UserTicketTypeId: t.UserTicketTypeId,
         TicketSubTypeName: t.TicketSubTypeName,
         TicketTypeName: t.TicketTypeName
-      };
+      });
     });
+    return ticketTypes;
   }
 
   static mapTicketStatesToGroupedListItems(response: UserTicketStateResponse[]): GroupedListItem[] {
@@ -63,22 +75,10 @@ export class PayfactorsApiModelMapper {
         TicketType:  !!response.FileType ? response.FileType : response.UserTicketType,
         TicketDetails: response.UserTicket,
         Attachments: response.UserTicketFiles,
-        Notes: this.mapUserTicketCommentsToTicketNotes(response.UserTicketComments),
-        NoteAccessLevel: response.UserId === userId ? NoteAccessLevel.Owner : NoteAccessLevel.ReadOnly
+        Notes: TicketCommentHelper.mapUserTicketCommentsToComments(response.UserTicketComments),
+        NoteAccessLevel: response.UserId === userId ? NoteAccessLevel.Owner : NoteAccessLevel.ReadOnly,
+        IsPrivate: response.IsPrivate
       };
-  }
-
-  static mapUserTicketCommentsToTicketNotes(comments: UserTicketComment[]): TicketNote[] {
-    if (!comments || comments.length === 0) {
-      return [];
-    }
-    return comments.map((comment) => {
-      return {
-        Content: comment.Comments,
-        PostedDate: comment.CreateDate,
-        UserName: comment.UserFullName
-      };
-    });
   }
 
   // OUT
@@ -86,7 +86,7 @@ export class PayfactorsApiModelMapper {
     if (listType === TicketListMode.AllCompanyTickets) {
       return [{
         SourceName: 'Is_Private',
-        Operator: '=',
+        Operator: 'equalsornull',
         Value: '0'
       }];
     }

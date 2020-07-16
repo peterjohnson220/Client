@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { ListAreaBaseFilter } from '../list-area-base-filter';
-import { BooleanOperatorOptions } from '../../../models/list-area-options.model';
-import { JobDescriptionViewConstants } from '../../../constants';
-
+import { BooleanOperatorOptions } from 'libs/features/job-description-management/models/list-area-options.model';
+import { JobDescriptionViewConstants } from 'libs/features/job-description-management/constants';
 
 @Component({
     selector: 'pf-list-area-filter-boolean',

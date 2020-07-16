@@ -20,6 +20,7 @@ import { PfCommonModule } from 'libs/core';
 import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfCommentBoxModule } from 'libs/features';
 
 import { TicketDetailCardComponent } from './components';
 import {
@@ -68,7 +69,8 @@ import { TicketSharedEffects } from './effects/ticket-shared.effects';
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
-    PfCommonModule
+    PfCommonModule,
+    PfCommentBoxModule
   ],
   declarations: [
     // Pipes

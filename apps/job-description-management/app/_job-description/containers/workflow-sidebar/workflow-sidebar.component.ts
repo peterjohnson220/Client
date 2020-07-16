@@ -30,6 +30,7 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
   workflowStepApproving$: Observable<boolean>;
   workflowStepRejecting$: Observable<boolean>;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
+  workflowCompleteStepError$: Observable<boolean>;
   workflowStepCommentForm: FormGroup;
   commentFormSubmitted: boolean;
   jobDescriptionSubscription: Subscription;
@@ -41,6 +42,7 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy {
     this.workflowLogEntriesAsync$ = this.store.select(fromWorkflowReducer.getWorkflowLogEntries);
     this.workflowLogLoading$ = this.store.select(fromWorkflowReducer.getWorkflowLogLoading);
     this.workflowStepApproving$ = this.store.select(fromWorkflowReducer.getWorkflowStepApproving);
+    this.workflowCompleteStepError$ = this.store.select(fromWorkflowReducer.getCompletedStepError);
     this.workflowStepRejecting$ = this.store.select(fromWorkflowReducer.getWorkflowStepRejecting);
     this.jobDescriptionAsync$ = this.store.select(fromWorkflowReducer.getJobDescriptionAsync);
   }

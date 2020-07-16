@@ -10,9 +10,9 @@ import { environment } from 'environments/environment';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
-import * as fromCompanySelectorActions from 'libs/features/company/actions';
-import { CompanySelectorItem } from 'libs/features/company/models';
-import * as fromCompanyReducer from 'libs/features/company/reducers';
+import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import { UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 

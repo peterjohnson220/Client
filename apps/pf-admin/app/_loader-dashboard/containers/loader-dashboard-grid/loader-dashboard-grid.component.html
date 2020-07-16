@@ -25,7 +25,7 @@
     <kendo-grid-column field="company_Name" title="Company"></kendo-grid-column>
     <kendo-grid-column field="validationErrorOutputUri" title="Error(s)">
       <ng-template kendoGridCellTemplate let-dataItem>
-        <div *ngIf="dataItem.validationErrorOutputUri || dataItem.fixableDataConditionException || dataItem.terminalException">
+        <div *ngIf="hasErrorCondition(dataItem)">
           <button
             *ngIf="dataItem.validationErrorOutputUri"
             class="btn btn-secondary" (click)="downloadFile(dataItem.externalId)">Download</button>

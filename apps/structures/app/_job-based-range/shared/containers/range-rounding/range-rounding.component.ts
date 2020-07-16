@@ -59,6 +59,7 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new fromSharedJobBasedRangeActions.ResetRoundingSetting());
     this.unsubscribe();
   }
 

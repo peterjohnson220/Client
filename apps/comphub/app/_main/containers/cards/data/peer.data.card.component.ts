@@ -4,7 +4,6 @@ import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { debounceTime } from 'rxjs/operators';
 
-import { MapComponent } from 'libs/features/peer/map/containers/map';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
@@ -25,7 +24,6 @@ import { ComphubPages } from '../../../data';
     './shared.data.card.component.scss']
 })
 export class PeerDataCardComponent implements OnInit, OnDestroy {
-  @ViewChild(MapComponent, {static: true}) map: MapComponent;
   @ViewChild(ExchangeExplorerComponent) exchangeExplorer: ExchangeExplorerComponent;
 
   displayMap = false;

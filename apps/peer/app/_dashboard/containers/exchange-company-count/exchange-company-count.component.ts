@@ -18,6 +18,7 @@ import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.
 export class ExchangeCompanyCountComponent implements OnInit, OnDestroy {
   exchangeId: number;
   participatingCompaniesChartItem: ChartItem;
+  category: ExchangeChartTypeEnum;
   companyChartItems$: Observable<ChartItem[]>;
   companyChartItemsSubscription: Subscription;
   loadingCompanyChartItems$: Observable<boolean>;
@@ -37,7 +38,7 @@ export class ExchangeCompanyCountComponent implements OnInit, OnDestroy {
     const getDetailChartRequest: GetDetailChartRequest = {
       ExchangeId: this.exchangeId,
       ChartType: ExchangeChartTypeEnum.Company,
-      Category: 'Participating Companies'
+      Category: this.category
     };
     this.store.dispatch(new fromExchangeDashboardActions.LoadDetailChart(getDetailChartRequest));
   }
@@ -46,6 +47,13 @@ export class ExchangeCompanyCountComponent implements OnInit, OnDestroy {
     this.companyChartItemsSubscription = this.companyChartItems$.subscribe(companyChartItem => {
       if (companyChartItem) {
         this.participatingCompaniesChartItem = companyChartItem[0];
+        if(this.participatingCompaniesChartItem.Category.includes('Propert')) {
+          this.category = ExchangeChartTypeEnum.Subsidiary;
+        }
+
+        else {
+          this.category = ExchangeChartTypeEnum.Company;
+        }
       }
     });
   }

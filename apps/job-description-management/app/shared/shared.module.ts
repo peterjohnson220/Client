@@ -5,8 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
 import { GridModule, FilterMenuModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { DragulaModule } from 'ng2-dragula';
 import { EditorModule } from 'primeng/editor';
@@ -47,19 +45,7 @@ import {
 import {
   WorkflowConfigComponent
 } from './containers';
-import { ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from './services';
-import { reducers } from './reducers';
-import {
-  CompanyFlsaStatusEffects,
-  ControlTypesEffects,
-  JobDescriptionLibraryEffects,
-  JobDescriptionAppliesToEffects,
-  JobFamilyEffects,
-  TemplateListEffects,
-  SharedWorkflowEffects,
-  WorkflowConfigEffects,
-  CompanyLogoEffects
-} from './effects';
+
 import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
 import { PeditorAutoFocusFixDirective } from './directives';
 
@@ -69,18 +55,6 @@ import { PeditorAutoFocusFixDirective } from './directives';
     CommonModule,
 
     // 3rd Party
-    StoreModule.forFeature('jobDescriptionManagement_shared', reducers),
-    EffectsModule.forFeature([
-      CompanyFlsaStatusEffects,
-      JobDescriptionAppliesToEffects,
-      JobFamilyEffects,
-      ControlTypesEffects,
-      TemplateListEffects,
-      JobDescriptionLibraryEffects,
-      SharedWorkflowEffects,
-      WorkflowConfigEffects,
-      CompanyLogoEffects
-    ]),
     FontAwesomeModule,
     PfJobDescriptionManagementModule,
     DragulaModule.forRoot(),
@@ -153,11 +127,6 @@ import { PeditorAutoFocusFixDirective } from './directives';
 
     // Directives
     PeditorAutoFocusFixDirective
-  ],
-  providers: [
-    ListAreaService,
-    JobDescriptionManagementService,
-    JobDescriptionManagementDnDService
   ]
 })
 export class SharedModule {

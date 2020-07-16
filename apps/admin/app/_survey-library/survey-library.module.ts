@@ -9,6 +9,8 @@ import { StoreModule } from '@ngrx/store';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
+import { MomentModule } from 'ngx-moment';
+import { ImgFallbackModule } from 'ngx-img-fallback';
 
 import { PfCommonModule } from 'libs/core';
 import { PfApiModule, SurveyLibraryApiService } from 'libs/data/payfactors-api';
@@ -22,12 +24,12 @@ import { AddSurveyModalComponent } from './containers/add-survey-modal/add-surve
 import { SurveyLibraryStateService } from './services/survey-library-state.service';
 import {
     AddSurveyTitleModalComponent, CustomSurveyTitleComponent, MapCompanyModalComponent, SurveyTitleListItemComponent,
-    SurveyTitlesPageComponent
+    SurveyTitlesPageComponent, SurveyNotesModalComponent
 } from './containers';
-import { ExpandCollapseIconComponent, SurveyTitleCompaniesListComponent } from './components';
+import { ExpandCollapseIconComponent, SurveyTitleCompaniesListComponent, SurveyNotesListComponent } from './components';
 import { CollapserDirective } from './directives';
 import { reducers } from './reducers';
-import { CompanySelectorEffects, SurveyEffects, SurveyTitlesEffects } from './effects';
+import { CompanySelectorEffects, SurveyEffects, SurveyTitlesEffects, SurveyNotesEffects } from './effects';
 import { CopySurveyModalComponent } from './containers/copy-survey-modal/copy-survey-modal.component';
 import { DeleteConfirmationModalComponent } from './containers/delete-confirmation-modal/delete-confirmation-modal.component';
 
@@ -44,12 +46,15 @@ import { DeleteConfirmationModalComponent } from './containers/delete-confirmati
     EffectsModule.forFeature([
       SurveyTitlesEffects,
       CompanySelectorEffects,
-      SurveyEffects
+      SurveyEffects,
+      SurveyNotesEffects
     ]),
     NgbPopoverModule,
     NgbTooltipModule,
     NgbModule,
     FontAwesomeModule,
+    ImgFallbackModule,
+    MomentModule,
 
     // PF Modules
     PfFormsModule,
@@ -75,6 +80,8 @@ import { DeleteConfirmationModalComponent } from './containers/delete-confirmati
     ExpandCollapseIconComponent,
     CopySurveyModalComponent,
     DeleteConfirmationModalComponent,
+    SurveyNotesModalComponent,
+    SurveyNotesListComponent,
 
     // Directives
     CollapserDirective

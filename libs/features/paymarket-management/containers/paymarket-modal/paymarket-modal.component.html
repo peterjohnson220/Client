@@ -35,7 +35,7 @@
               </div>
             </ng-template>
           </ngb-tab>
-          <ngb-tab *ngIf="hasPeerAccess" [title]="'Exchange Scopes'" [id]="payMarketModalTabs.ExchangeScopes">
+          <ngb-tab *ngIf="hasPeerAccess" [title]="'Network Scopes'" [id]="payMarketModalTabs.NetworkScopes">
             <ng-template ngbTabContent>
               <div class="pt-3">
                 <pf-exchange-scopes [reset]="!(modalOpen$ | async)"></pf-exchange-scopes>

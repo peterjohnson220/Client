@@ -5,11 +5,11 @@
 <div class="d-flex flex-column">
   <div>
     <p class="pb-2 pr-3">
-      Select an Exchange Scope to associate to this Pay Market. This will generate a Peer data cut for Company Jobs you are pricing in the selected Pay Market</p>
+      Select a network scope to associate to this pay market. This will generate a Peer data cut for the company jobs you are pricing in the selected pay market.</p>
     <hr>
     <div class="d-flex">
       <div class="scope-column">
-        <label>Exchange</label>
+        <label>Network</label>
         <kendo-combobox
           class="form-control"
           [data]="exchangeScopesFilter"
@@ -22,7 +22,7 @@
           (valueChange)="selectExchange($event)"
           [(ngModel)]="selectedExchangeId"
           [attr.data-qa-id]="'ddm-paymarket-management-exchange-scopes'"
-          [placeholder]="'Choose an Exchange...'">
+          [placeholder]="'Choose a Network...'">
         </kendo-combobox>
       </div>
       <div class="scope-column">
@@ -53,9 +53,9 @@
   <div class="exchange-scopes-container">
     <p>
       <span *ngIf="!selectedExchangeScopes.length">
-        No exchange scopes have been added for this pay market.
+        No network scopes have been added for this pay market.
       </span>
-      <span class="text-danger" [style.visibility]="duplicateError ? 'visible' : 'hidden'">The selected exchange scope already exists</span>
+      <span class="text-danger" [style.visibility]="duplicateError ? 'visible' : 'hidden'">The selected network scope already exists</span>
     </p>
     <ng-container *ngIf="selectedExchangeScopes">
       <ng-container *ngFor="let exchangeScope of selectedExchangeScopes; let i = index">

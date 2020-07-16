@@ -2,7 +2,7 @@ import { Input, Output, OnChanges, EventEmitter, Directive } from '@angular/core
 
 import { FilterDescriptor } from '@progress/kendo-data-query';
 
-import { FilterOperator } from '../../models/list-area-options.model';
+import { FilterOperator } from 'libs/features/job-description-management/models';
 
 @Directive()
 export abstract class ListAreaBaseFilter implements OnChanges {

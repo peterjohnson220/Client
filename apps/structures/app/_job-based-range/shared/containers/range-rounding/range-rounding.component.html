@@ -28,6 +28,122 @@
       </div>
     </div>
   </div>
+  <div class="form-group rounding-group" *ngIf="(metaData$ | async)?.RangeDistributionTypeId === 2">
+    <label>Top 1st 3rd</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="first-tertile-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.firstTertile.RoundingType"
+                            (valueChange)="handleTypeChange('firstTertile', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="first-tertile-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [defaultItem]=""
+                            [value]="roundingSettings.firstTertile.RoundingPoint"
+                            (valueChange)="handlePointChange('firstTertile', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+  <div class="form-group rounding-group" *ngIf="(metaData$ | async)?.RangeDistributionTypeId === 3">
+    <label>Top 1st 4th</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="first-quartile-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.firstQuartile.RoundingType"
+                            (valueChange)="handleTypeChange('firstQuartile', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="first-quartile-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [defaultItem]=""
+                            [value]="roundingSettings.firstQuartile.RoundingPoint"
+                            (valueChange)="handlePointChange('firstQuartile', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+  <div class="form-group rounding-group" *ngIf="(metaData$ | async)?.RangeDistributionTypeId === 4">
+    <label>Top 1st 5th</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="first-quintile-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.firstQuintile.RoundingType"
+                            (valueChange)="handleTypeChange('firstQuintile', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="first-quintile-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [defaultItem]=""
+                            [value]="roundingSettings.firstQuintile.RoundingPoint"
+                            (valueChange)="handlePointChange('firstQuintile', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+  <div class="form-group rounding-group" *ngIf="(metaData$ | async)?.RangeDistributionTypeId === 4">
+    <label>Top 2nd 5th</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="second-quintile-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.secondQuintile.RoundingType"
+                            (valueChange)="handleTypeChange('secondQuintile', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="second-quintile-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [defaultItem]=""
+                            [value]="roundingSettings.secondQuintile.RoundingPoint"
+                            (valueChange)="handlePointChange('secondQuintile', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
   <div class="form-group rounding-group">
     <label>Mid</label>
     <div class="form-row">
@@ -52,6 +168,122 @@
                             [valuePrimitive]="true"
                             [value]="roundingSettings.mid.RoundingPoint"
                             (valueChange)="handlePointChange('mid', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+  <div class="form-group rounding-group" *ngIf="(metaData$ | async)?.RangeDistributionTypeId === 2">
+    <label>Top 2nd 3rd</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="second-tertile-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.secondTertile.RoundingType"
+                            (valueChange)="handleTypeChange('secondTertile', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="second-tertile-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [defaultItem]=""
+                            [value]="roundingSettings.secondTertile.RoundingPoint"
+                            (valueChange)="handlePointChange('secondTertile', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+  <div class="form-group rounding-group" *ngIf="(metaData$ | async)?.RangeDistributionTypeId === 3">
+    <label>Top 2nd 4th</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="second-quartile-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.secondQuartile.RoundingType"
+                            (valueChange)="handleTypeChange('secondQuartile', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="second-quartile-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [defaultItem]=""
+                            [value]="roundingSettings.secondQuartile.RoundingPoint"
+                            (valueChange)="handlePointChange('secondQuartile', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+  <div class="form-group rounding-group" *ngIf="(metaData$ | async)?.RangeDistributionTypeId === 4">
+    <label>Top 3rd 5th</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="third-quintile-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.thirdQuintile.RoundingType"
+                            (valueChange)="handleTypeChange('thirdQuintile', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="third-quintile-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [defaultItem]=""
+                            [value]="roundingSettings.thirdQuintile.RoundingPoint"
+                            (valueChange)="handlePointChange('thirdQuintile', $event)">
+        </kendo-dropdownlist>
+      </div>
+    </div>
+  </div>
+  <div class="form-group rounding-group" *ngIf="(metaData$ | async)?.RangeDistributionTypeId === 4">
+    <label>Top 4th 5th</label>
+    <div class="form-row">
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="fourth-quintile-rounding-type" class="form-control k-dropdown-white"
+                            [data]="staticRoundingTypes"
+                            [textField]="'TypeDisplay'"
+                            [valueField]="'Type'"
+                            [valuePrimitive]="true"
+                            [value]="roundingSettings.fourthQuintile.RoundingType"
+                            (valueChange)="handleTypeChange('fourthQuintile', $event)">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group col-2 to-nearest">
+        {{toNearest}}
+      </div>
+      <div class="form-group col-5">
+        <kendo-dropdownlist id="fourth-quintile-rounding-point" class="form-control k-dropdown-white"
+                            [data]="staticRoundingPoints"
+                            [textField]="'PointDisplay'"
+                            [valueField]="'Point'"
+                            [valuePrimitive]="true"
+                            [defaultItem]=""
+                            [value]="roundingSettings.fourthQuintile.RoundingPoint"
+                            (valueChange)="handlePointChange('fourthQuintile', $event)">
         </kendo-dropdownlist>
       </div>
     </div>

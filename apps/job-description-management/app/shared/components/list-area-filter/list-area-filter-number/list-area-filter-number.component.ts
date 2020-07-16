@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NumericOperatorOptions } from '../../../models/list-area-options.model';
+import { NumericOperatorOptions } from 'libs/features/job-description-management/models/list-area-options.model';
 import { ListAreaBaseFilter } from '../list-area-base-filter';
 
 @Component({

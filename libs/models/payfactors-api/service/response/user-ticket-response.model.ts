@@ -28,6 +28,7 @@ export interface UserTicketResponse {
   HasNotes: boolean;
   HasNewAttachments: boolean;
   UserModifiedDate?: Date;
+  IsPrivate: boolean;
 }
 
 export interface UserTicketFile {
@@ -47,6 +48,10 @@ export interface UserTicketComment {
   Comments?: string;
   CreateDate?: Date;
   Level?: TicketCommentLevel;
+  ParentTicketCommentId?: number;
+  CompanyName?: string;
+  ReplyCount?: number;
+  Replies?: UserTicketComment[];
 }
 
 export enum TicketCommentLevel {
@@ -73,7 +78,8 @@ export function generateMockUserTicketViewModel(): UserTicketResponse {
     UserTicketTypeSortOrder: 1,
     HasNotes: false,
     HasNewAttachments: false,
-    UserModifiedDate: new Date('01/01/2020')
+    UserModifiedDate: new Date('01/01/2020'),
+    IsPrivate: false
   };
 }
 

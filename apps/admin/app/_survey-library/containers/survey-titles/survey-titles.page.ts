@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { CompanySelectorItem } from 'libs/features/company/models';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import { UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 

@@ -34,7 +34,7 @@ import { reducers } from './reducers';
 import { UtilitiesRoutingModule } from './utilities-routing.module';
 import { JobDescriptionLoaderValidationErrorsPipe } from './pipes';
 import { LoadJobDescriptionLoaderGuard } from './guards';
-import { SharedModule } from '../../../job-description-management/app/shared/shared.module';
+import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
 
 @NgModule({
   imports: [
@@ -59,8 +59,8 @@ import { SharedModule } from '../../../job-description-management/app/shared/sha
     PfFormsModule,
     PfCommonModule,
     FormsModule,
-    CompanyModule,
-    SharedModule
+    PfJobDescriptionManagementModule,
+    CompanyModule
   ],
   declarations: [
     // Components

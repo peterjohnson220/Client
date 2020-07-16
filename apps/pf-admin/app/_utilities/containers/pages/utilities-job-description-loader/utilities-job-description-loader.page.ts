@@ -10,7 +10,7 @@ import { TemplateListItem } from 'libs/models/jdm/template-list-item.model';
 import { ValidateStepResultItem } from 'libs/models/jdm/validation-step-result-item.model';
 
 import * as fromUtilitiesReducer from '../../../reducers';
-import * as fromTemplateListReducer from '../../../../../../job-description-management/app/shared/reducers';
+import * as fromTemplateListReducer from 'libs/features/job-description-management/reducers';
 import * as fromJobDescriptionLoaderActions from '../../../actions/job-description-loader.actions.js';
 import { ConfirmDeleteJobDescriptionsModalComponent } from '../../../components/confirm-delete-job-descriptions-modal';
 

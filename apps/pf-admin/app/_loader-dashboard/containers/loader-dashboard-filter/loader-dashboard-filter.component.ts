@@ -6,7 +6,7 @@ import {skip, takeUntil} from 'rxjs/operators';
 
 import { isObject } from 'lodash';
 
-import * as fromCompanyReducer from 'libs/features/company/reducers';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 
 import * as fromLoaderDashboardPageActions from '../../actions/loader-dashboard-page.actions';
 import * as fromLoaderDashboardPageReducer from '../../reducers';
@@ -32,12 +32,7 @@ export class LoaderDashboardFilterComponent implements OnInit, OnDestroy {
     this.store.select(fromCompanyReducer.getSelectedCompany).pipe(skip(1), takeUntil(this.unsubscribe$)).subscribe(v => {
       this.updateSelectedCompany(isObject(v) ? v.CompanyId : null);
     });
-    this.store.select(fromLoaderDashboardPageReducer.getGridSearchPayload).pipe(takeUntil(this.unsubscribe$)).subscribe(v => {
-      if (!isObject(v)) {
-        this.store.dispatch(new fromLoaderDashboardPageActions.Init(this.generateDefaultSearchPayload()));
-      }
-    });
-    this.refresh();
+    this.store.dispatch(new fromLoaderDashboardPageActions.Init(this.generateDefaultSearchPayload()));
   }
 
   ngOnDestroy(): void {

@@ -4,7 +4,8 @@ import { FilterDescriptor } from '@progress/kendo-data-query';
 
 import { ListAreaColumn } from 'libs/models/common';
 
-import { DateOperatorOptions, NumericOperatorOptions, TextOperatorOptions, BooleanOperatorOptions } from '../../../models/list-area-options.model';
+import { DateOperatorOptions, NumericOperatorOptions, TextOperatorOptions, BooleanOperatorOptions
+} from 'libs/features/job-description-management/models/list-area-options.model';
 
 @Component({
   selector: 'pf-list-area-filter-sidebar',

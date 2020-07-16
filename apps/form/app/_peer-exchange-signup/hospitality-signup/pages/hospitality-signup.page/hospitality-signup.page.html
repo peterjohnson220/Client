@@ -126,6 +126,7 @@
             formControlName="CompanyId"
             [class.is-invalid]="showControlValidation('CompanyId')"
             required>
+            <option disabled selected value="">Select Company</option>
             <option *ngFor="let company of (exchangeSignupCompaniesAsyncObj$ | async).obj" [value]="company.CompanyId" [attr.data-qa-id]="'ddm-parent-company-' + company.CompanyId">
               {{ company.Name }}
             </option>

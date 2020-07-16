@@ -166,8 +166,10 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       debounceTime(PfConstants.DEBOUNCE_DELAY),
       distinctUntilChanged())
       .subscribe(searchTerm => {
-        this.jobSearchTerm = searchTerm;
-        this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobs({SearchTerm: searchTerm, Limit: this.PAGE_SIZE}));
+        if (searchTerm || !this.jobsCombobox.value) {
+          this.jobSearchTerm = searchTerm;
+          this.store.dispatch(new fromEmployeeManagementActions.LoadCompanyJobs({SearchTerm: searchTerm, Limit: this.PAGE_SIZE}));
+        }
       });
   }
 

@@ -109,13 +109,17 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
   }
 
   handleExportButtonClick(): void {
-    this.store.dispatch(new fromAssociateJobsActions.DownloadAssociations({entityId: this.exportCompanySelectionControl.value, entityType: ExchangeJobAssociationEntityTypes.COMPANY}));
+    this.store.dispatch(new fromAssociateJobsActions.DownloadAssociations({
+      entityId: this.exportCompanySelectionControl.value,
+      entityType: ExchangeJobAssociationEntityTypes.COMPANY}));
   }
 
   handleCompanyFilterChange(value: string) {
     this.companyOptionsFiltered = this.companyOptions.filter(co =>
       co.Value.toLowerCase().indexOf(value.toLowerCase()) !== -1
     ).slice(0, 10);
+
+    this.includeSelectedCompany();
 
     if (this.companyOptionsFiltered.length < 1) {
       this.companyList.toggle(false);
@@ -135,10 +139,13 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
   handleCompanySelectionChange(value: GenericKeyValue<number, string>) {
     this.exchangeSelectionControl.reset();
 
+    this.companySelection = value;
+
     const companySelected = !!value;
     if (companySelected) {
       this.store.dispatch(new fromExchangeOptionsActions.LoadExchangeOptions(value.Key));
     }
+    this.includeSelectedCompany();
   }
 
   handleProcessButtonClick(): void {
@@ -158,6 +165,12 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
 
   handleFileClear() {
     this.fileName = '';
+  }
+
+  includeSelectedCompany(): void {
+    if (this.companySelection && this.companyOptionsFiltered.findIndex(a => a.Key === this.companySelection.Key) < 0) {
+      this.companyOptionsFiltered.push(this.companySelection);
+    }
   }
   // Life-cycle Events
 

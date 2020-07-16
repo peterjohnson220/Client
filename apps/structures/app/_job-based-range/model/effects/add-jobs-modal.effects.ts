@@ -22,8 +22,8 @@ import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
 import { UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
-import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { RangeGroupMetadata } from '../../shared/models';
+import { PagesHelper } from '../../shared/helpers/pages.helper';
 
 @Injectable()
 export class AddJobsModalEffects {
@@ -120,14 +120,16 @@ export class AddJobsModalEffects {
         rounding: data.roundingSettings
       }));
     } else {
-      actions.push(new pfDataGridActions.LoadData(PageViewIds.Model));
+      const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+      actions.push(new pfDataGridActions.LoadData(modelPageViewId));
     }
 
     return actions;
   }
 
   private hasRequiredSettingsForRecalculation(metaData: RangeGroupMetadata) {
-    return !!(metaData.ControlPoint && metaData.Currency && metaData.Rate && metaData.SpreadMin && metaData.SpreadMax);
+    return !!(metaData.ControlPoint && metaData.Currency && metaData.Rate &&
+      (metaData.SpreadMin || metaData.RangeDistributionSetting.MinPercentile) && (metaData.SpreadMax || metaData.RangeDistributionSetting.MaxPercentile));
   }
 
   constructor(

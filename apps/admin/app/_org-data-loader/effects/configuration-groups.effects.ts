@@ -18,7 +18,9 @@ export class LoaderConfigurationGroupsEffects {
     .pipe(
       ofType(fromConfigurationGroupActions.LOADING_CONFIGURATION_GROUPS),
       switchMap((action: fromConfigurationGroupActions.LoadingConfigurationGroups) =>
-        this.loaderConfigurationGroupsApi.getConfigurationGroups(action.payload.CompanyId, action.payload.LoadType).pipe(
+        this.loaderConfigurationGroupsApi.getConfigurationGroups(action.payload.CompanyId,
+                                                                 action.payload.LoadType,
+                                                                 action.payload.PrimaryCompositeDataLoadType).pipe(
           map((result: ConfigurationGroup[]) => {
             return new fromConfigurationGroupActions.LoadingConfigurationGroupsSuccess(result);
           }),

@@ -15,9 +15,6 @@ import { JdmBulkExportSchedulerRoutingModule } from './bulk-export-scheduler-rou
 import { reducers } from './reducers';
 import { JdmBulkExportScheduleEffects, JdmFiltersEffects, JdmViewEffects } from './effects';
 
-
-
-
 @NgModule({
   imports: [
     // Angular

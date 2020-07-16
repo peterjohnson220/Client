@@ -10,6 +10,8 @@ export interface RangeDistributionSetting {
   SecondQuintile: string;
   ThirdQuintile: string;
   FourthQuintile: string;
+  MinPercentile: string;
+  MaxPercentile: string;
 }
 
 export function generateMockRangeDistributionSetting(): RangeDistributionSetting {
@@ -24,6 +26,8 @@ export function generateMockRangeDistributionSetting(): RangeDistributionSetting
     FirstQuintile: '',
     SecondQuintile: '',
     ThirdQuintile: '',
-    FourthQuintile: ''
+    FourthQuintile: '',
+    MinPercentile: '',
+    MaxPercentile: ''
   };
 }

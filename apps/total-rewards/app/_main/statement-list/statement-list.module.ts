@@ -15,8 +15,9 @@ import {reducers} from './reducers';
 import {StatementGridEffects, TemplateSelectorEffects} from './effects';
 import {StatementListPageComponent} from './statement-list.page';
 import {StatementsGridComponent, TemplateCardSelectorComponent} from './containers';
-import {CreateNewStatementBannerComponent, GridActionMenuComponent} from './components';
+import {GridActionMenuComponent} from './components';
 import {StatementListRoutingModule} from './statement-list-routing.module';
+import * as fromTrsShared from '../../shared';
 
 @NgModule({
   imports: [
@@ -33,12 +34,12 @@ import {StatementListRoutingModule} from './statement-list-routing.module';
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
+    fromTrsShared.SharedModule,
 
     // Routing,
     StatementListRoutingModule
   ],
   declarations: [
-    CreateNewStatementBannerComponent,
     GridActionMenuComponent,
     StatementListPageComponent,
     StatementsGridComponent,

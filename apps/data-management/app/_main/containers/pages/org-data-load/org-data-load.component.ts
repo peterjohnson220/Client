@@ -9,15 +9,15 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from 'environments/environment';
-import { LoaderTypes, LoadTypes } from 'libs/constants';
+import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import {
     AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
 } from 'libs/features/app-notifications/models';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
-import * as fromCompanySelectorActions from 'libs/features/company/actions';
-import { CompanySelectorItem } from 'libs/features/company/models';
-import * as fromCompanyReducer from 'libs/features/company/reducers';
+import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
@@ -93,10 +93,15 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   isValidateOnly: boolean;
   emailRecipients: EmailRecipientModel[] = [];
   loadType = LoadTypes.Manual;
+  primaryCompositeDataLoadType = CompositeDataLoadTypes.OrgData;
 
   existingLoaderSettings: LoaderSetting[];
   private configGroupSeed: ConfigurationGroup = {
-    LoaderConfigurationGroupId: -1, GroupName: 'Add New Mapping', CompanyId: -1, LoadType: this.loadType
+    LoaderConfigurationGroupId: -1,
+    GroupName: 'Add New Mapping',
+    CompanyId: -1,
+    LoadType: this.loadType,
+    PrimaryCompositeDataLoadType: this.primaryCompositeDataLoadType
   };
   private fileUploadData: FileUploadDataModel;
   StepHeaders: string[] = [
@@ -179,7 +184,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.selectedCompany = f;
       this.clearSelections();
       if (f) {
-        this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, this.loadType));
+        this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, this.loadType, this.primaryCompositeDataLoadType));
         this.getPayfactorCustomFields(f.CompanyId);
       }
     });
@@ -241,7 +246,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
       this.mainStore.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
         companyId: this.selectedCompany.CompanyId,
-        loaderType: LoaderTypes.OrgData,
+        loaderType: 'Organizational Data',
         loaderConfigurationGroupId: this.loaderConfigGroup ? this.loaderConfigGroup.LoaderConfigurationGroupId : undefined
       }));
     });
@@ -625,7 +630,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         CompanyId: this.selectedCompany.CompanyId,
         GroupName: 'Saved Manual Mappings',
         LoaderConfigurationGroupId: null,
-        LoadType: this.loadType
+        LoadType: this.loadType,
+        PrimaryCompositeDataLoadType: this.primaryCompositeDataLoadType
       };
       this.mainStore.dispatch(new fromOrganizationalDataActions.SaveConfigGroup(newConfigGroup));
     }

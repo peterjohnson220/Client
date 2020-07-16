@@ -20,7 +20,7 @@ import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent
 import { ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects } from './effects';
 import { RangeValuePipe } from './pipes';
 import { reducers } from './reducers';
-import { UrlService } from './services';
+import { StructuresPagesService, UrlService } from './services';
 import * as fromFaIcons from './fa-icons';
 
 @NgModule({
@@ -66,7 +66,8 @@ import * as fromFaIcons from './fa-icons';
     RangeValuePipe
   ],
   providers: [
-    UrlService
+    UrlService,
+    StructuresPagesService
   ]
 })
 export class SharedModule {

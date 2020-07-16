@@ -8,18 +8,15 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfPeerMapModule } from 'libs/features/peer/map';
 import { PfFormsModule } from 'libs/forms';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 
 import { MapRoutingModule } from './map-routing.module';
 
 import {
-  ExchangeMapPageComponent,
-  SaveExchangeScopeModalComponent,
   ExportDataCutsModalComponent,
-  ExchangeMapNewPageComponent,
-  SaveExchangeScopeModalNewComponent
+  ExchangeMapPageComponent,
+  SaveExchangeScopeModalComponent
 } from './containers';
 import { ExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects } from './effects';
 import { reducers } from './reducers';
@@ -44,15 +41,14 @@ import { reducers } from './reducers';
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
-    PfExchangeExplorerModule,
-    PfPeerMapModule
+    PfExchangeExplorerModule
   ],
   declarations: [
     // Pages
-    ExchangeMapPageComponent, ExchangeMapNewPageComponent,
+    ExchangeMapPageComponent, ExchangeMapPageComponent,
 
     // Containers
-    SaveExchangeScopeModalComponent, SaveExchangeScopeModalNewComponent, ExportDataCutsModalComponent
+    SaveExchangeScopeModalComponent, SaveExchangeScopeModalComponent, ExportDataCutsModalComponent
   ]
 })
 export class MapModule { }

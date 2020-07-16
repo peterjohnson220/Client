@@ -81,7 +81,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
             >
               
               
-              <pf-create-new-statement-banner />
+              <pf-no-records-found-call-to-action />
               
             </div>
             

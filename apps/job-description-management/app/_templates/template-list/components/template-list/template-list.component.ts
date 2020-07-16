@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, HostListener } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -12,6 +12,9 @@ import * as fromTemplateReducers from '../../reducers';
    styleUrls: ['./template-list.component.scss']
 })
 export class TemplateListComponent {
+  @ViewChild('copyBtn') copyBtn: ElementRef;
+  @ViewChild('deleteBtn') deleteBtn: ElementRef;
+
   constructor(private store: Store<fromTemplateReducers.State>) { }
 
   @Input() templateListItems: TemplateListItem[];
@@ -21,11 +24,13 @@ export class TemplateListComponent {
 
   handleDeleteClick(event: Event, templateListItem: TemplateListItem) {
     event.stopPropagation();
+    this.deleteBtn.nativeElement.blur();
     this.openDeleteModal.emit(templateListItem);
   }
 
   handleCopyClick(event: Event, templateListItem: TemplateListItem) {
     event.stopPropagation();
+    this.copyBtn.nativeElement.blur();
     this.openCopyModal.emit(templateListItem);
   }
 }

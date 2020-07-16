@@ -85,7 +85,7 @@ import { ListAreaColumnSearchPipe, UserFilterSearchPipe } from './pipes';
 import { JobDescriptionDnDService, JobDescriptionJobCompareService, JobDescriptionVersionCompareService } from './services';
 import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from './guards';
 import { SharedModule } from '../shared/shared.module';
-import { ListAreaService } from '../shared/services';
+import { ListAreaService } from 'libs/features/job-description-management';
 
 @NgModule({
   imports: [

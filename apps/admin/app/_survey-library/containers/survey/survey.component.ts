@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
 import { UserContext } from 'libs/models';
@@ -12,6 +13,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromSurveyActions from '../../actions/survey-actions';
 import * as fromSurveyState from '../../reducers';
 import { EnumSurveyDelete } from '../../constants/survey-delete-enum';
+import { SurveyNotesModalComponent } from '../survey-notes-modal';
 
 @Component({
   selector: 'pf-survey',
@@ -19,6 +21,8 @@ import { EnumSurveyDelete } from '../../constants/survey-delete-enum';
   styleUrls: ['./survey.component.scss']
 })
 export class SurveyComponent implements OnInit {
+
+  @ViewChild(SurveyNotesModalComponent, { static: true }) surveyNotesModal: SurveyNotesModalComponent;
 
   public surveyYearId: number;
   public pageTitle: string;
@@ -142,6 +146,15 @@ export class SurveyComponent implements OnInit {
     this.selectedSurveyId = surveyId;
     this.selectedCompany = company;
     this.store.dispatch(new fromSurveyActions.SetCopySurveyModalOpen(true));
+  }
+
+  openNotesModal($event: any, item: any) {
+    $event.stopPropagation();
+
+    const surveyItem = cloneDeep(item);
+    surveyItem.tbxSearch = this.tbxSearch;
+
+    this.surveyNotesModal.open(surveyItem);
   }
 
   public mapCompaniesClick(surveyId: number) {

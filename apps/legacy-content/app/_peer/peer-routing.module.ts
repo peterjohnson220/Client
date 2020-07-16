@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
-import { PeerTileEnabledGuard, PeerExchangeExplorerEnabledGuard } from 'libs/security/guards';
+import { PeerTileEnabledGuard } from 'libs/security/guards';
 
 import {
   AssociateCompanyJobComponent, PaymarketExchangeScopeComponent,
-  UpsertDataCutPageComponent, UpsertDataCutNewPageComponent
+  UpsertDataCutPageComponent
 } from './containers';
 import { TaggingEntitiesPageComponent } from './containers/pages/tagging-entities';
 
@@ -15,8 +15,7 @@ const routes: Routes = [
   { path: 'associate-exchange-job', component: AssociateCompanyJobComponent },
   { path: 'exchange-paymarket-scope', component: PaymarketExchangeScopeComponent, canActivate: [PeerTileEnabledGuard] },
   { path: 'tag-entities', component: TaggingEntitiesPageComponent },
-  { path: 'upsert-data-cut', component: UpsertDataCutPageComponent, canActivate: [PeerExchangeExplorerEnabledGuard] },
-  { path: 'upsert-data-cut/new', component: UpsertDataCutNewPageComponent },
+  { path: 'upsert-data-cut', component: UpsertDataCutPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
 

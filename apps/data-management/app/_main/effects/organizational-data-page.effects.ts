@@ -47,7 +47,7 @@ export class OrganizationalDataPageEffects {
   getConfigurationGroup$: Observable<Action> = this.actions$.pipe(
     ofType(fromOrganizationalDataActions.GET_CONFIGURATION_GROUPS),
     switchMap((action: fromOrganizationalDataActions.GetConfigGroups) =>
-      this.configurationGroupApiService.getConfigurationGroups(action.companyId, action.loadType).pipe(
+      this.configurationGroupApiService.getConfigurationGroups(action.companyId, action.loadType, action.primaryCompositeDataLoadType).pipe(
         map((configGroups: ConfigurationGroup[]) => {
           return new fromOrganizationalDataActions.GetConfigGroupsSuccess(configGroups);
         }),

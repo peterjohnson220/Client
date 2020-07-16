@@ -30,20 +30,20 @@ import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 import { CompanyJobViewListItem } from '../../../models';
-import { AvailableJobInformationField, ControlLabel } from '../../../../shared/models';
-import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
+import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/job-description-management/models';
+import { JobDescriptionViewConstants } from 'libs/features/job-description-management/constants/job-description-view-constants';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
-import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 import { AddJobModalComponent } from '../../../components/modals/add-job';
-import { JobDescriptionBulkExportPayload } from '../../../models/job-description-bulk-export-payload.model';
+
 import {
   JobDescriptionAppliesToModalComponent
 } from '../../../../shared/components/modals/job-description-applies-to';
 import {
   DeleteJobDescriptionModalComponent
-} from '../../../../shared/components/modals/delete-job-description-modal/delete-job-description-modal.component';
-import * as fromTemplateReducer from '../../../../shared/reducers';
-import * as fromTemplateActions from '../../../../shared/actions/template-list.actions';
+} from '../../../../shared/components/modals/delete-job-description-modal';
+import * as fromTemplateReducer from 'libs/features/job-description-management/reducers';
+import * as fromTemplateActions from 'libs/features/job-description-management/actions/template-list.actions';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

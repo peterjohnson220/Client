@@ -22,7 +22,7 @@ export class TicketCommentComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.commentText = this.comment.Comments;
+    this.commentText = this.comment.Content;
   }
 
   toggleEditMode() {
@@ -46,13 +46,13 @@ export class TicketCommentComponent implements OnInit {
     this.removeCommentEvent.emit(comment);
   }
 
-  saveComment(comment: any) {
-    if (this.commentText === '' || comment.Comments === this.commentText) {
+  saveComment(comment: TicketComment) {
+    if (this.commentText === '' || comment.Content === this.commentText) {
       return;
     } else {
       const request: UserTicketCommentRequest = {
         UserTicketId: comment.TicketId,
-        UserTicketsCommentId: comment.UserTicketsCommentsId,
+        UserTicketsCommentId: comment.CommentId,
         Comments: this.commentText
       };
       this.saveCommentEvent.emit(request);

@@ -8,12 +8,13 @@
           [styles]="{height: '150px'}"
           [required]="true"
           [modules]="quillConfig"
-          [(ngModel)]="note">
+          [(ngModel)]="note"
+          (onContentChanged)="updateContent($event)">
         </quill-editor>
         <div class="d-flex justify-content-end actions">
           <button
             class="btn btn-primary"
-            [disabled]="!note || note.length === 0"
+            [disabled]="!note || note.length === 0 || this.content.length === 0"
             (click)="handleAddNoteClicked()">
             Add Note
           </button>
@@ -21,13 +22,11 @@
       </ng-container>
       <div *ngIf="!!(ticketNotes$ | async)?.length" class="notes-container">
         <ng-container *ngFor="let note of (ticketNotes$ | async)">
-          <div class="d-flex flex-column note">
-            <div class="d-flex">
-              <span class="name">{{note.UserName}}</span>
-              <span class="text-muted mb-2">{{note.PostedDate | date:'MM/dd/yyyy' }}</span>
-            </div>
-            <quill-view-html class="view-only" [content]="note.Content" theme="snow"></quill-view-html>
-          </div>
+          <pf-comment-box
+            [comment]="note"
+            [replyEnabled]="canAddNote"
+            (reply)="handleReply(note, $event)">
+          </pf-comment-box>
           <hr>
         </ng-container>
       </div>

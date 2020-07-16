@@ -12,7 +12,8 @@ import * as fromTemplateActions from '../../template/actions';
 import * as fromTemplateReducers from '../../template/reducers';
 import * as fromTemplateListActions from '../actions';
 import * as fromTemplateListReducers from '../reducers';
-import { CopyTemplateModalComponent, SaveError } from '../../../shared';
+import { CopyTemplateModalComponent } from '../../../shared';
+import { SaveError } from 'libs/features/job-description-management';
 
 @Component({
   selector: 'pf-job-description-template-list',

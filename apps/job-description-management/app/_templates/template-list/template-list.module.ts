@@ -15,7 +15,7 @@ import { PfJobDescriptionManagementModule } from 'libs/features/job-description-
 
 import * as fromFaIcons from '../fa-icons';
 import {SharedModule} from '../../shared/shared.module';
-import { ErrorGenerationService } from '../../shared';
+import { ErrorGenerationService } from 'libs/features/job-description-management';
 import { reducers } from './reducers';
 import { TemplateListPageComponent } from './template-list.page';
 import { TemplateListEffects } from './effects';

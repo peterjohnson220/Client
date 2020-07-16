@@ -9,11 +9,11 @@ import { of } from 'rxjs';
 import { generateMockExchangeScopeItem } from 'libs/models/peer/exchange-scope';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
-import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
 
 import { ExchangeScopeSelectorComponent } from './exchange-scope-selector.component';
 import * as fromLibsExchangeFilterContextActions from '../../actions/exchange-filter-context.actions';
 import * as fromLibsExchangeScopeActions from '../../actions/exchange-scope.actions';
+import * as fromExchangeExplorerReducer from '../../reducers';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   LngLatBounds: () => ({})
@@ -31,7 +31,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
         NgbPopoverModule,
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          feature_map: combineReducers(fromLibsPeerMapReducer.reducers)
+          feature_peer_exchangeExplorer: combineReducers(fromExchangeExplorerReducer.reducers)
         }),
       ],
       declarations: [
