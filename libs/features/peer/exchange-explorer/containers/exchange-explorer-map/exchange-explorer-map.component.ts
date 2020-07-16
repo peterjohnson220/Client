@@ -89,6 +89,10 @@ export class ExchangeExplorerMapComponent implements OnInit, OnDestroy {
     return JSON.parse(this.selectedPoint.properties.Companies).slice(0, 10);
   }
 
+  getZoomLevel(): number {
+    return this.map.getZoom();
+  }
+
   // Map events
   handleZoomEnd(e: any) {
     this.peerMapInitialZoomComplete$.pipe(take(1)).subscribe(iz => {

@@ -1,4 +1,5 @@
 import { UserTicketFile } from 'libs/models/payfactors-api/service/response';
+import { Comment } from 'libs/features/comment-box/models';
 
 export interface UserTicket {
   TicketId: number;
@@ -7,14 +8,9 @@ export interface UserTicket {
   TicketType: string;
   TicketDetails: string;
   Attachments?: UserTicketFile[];
-  Notes?: TicketNote[];
+  Notes?: Comment[];
   NoteAccessLevel?: NoteAccessLevel;
-}
-
-export interface TicketNote {
-  UserName: string;
-  Content: string;
-  PostedDate: Date;
+  IsPrivate: boolean;
 }
 
 export enum NoteAccessLevel {
@@ -36,6 +32,7 @@ export function generateMockUserTicket(): UserTicket {
     TicketSummary: 'Summary',
     TicketStatus: 'New',
     TicketType: 'Product Issue/Bug',
-    TicketDetails: 'Here are my details'
+    TicketDetails: 'Here are my details',
+    IsPrivate: false
   };
 }

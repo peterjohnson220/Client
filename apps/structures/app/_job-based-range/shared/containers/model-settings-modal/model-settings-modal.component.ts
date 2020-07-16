@@ -10,6 +10,7 @@ import { RoundingSettingsDataObj } from 'libs/models/structures';
 import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 
+import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
@@ -122,8 +123,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'ModelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
       'PayMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
       'ControlPoint': new FormControl(this.metadata.ControlPoint, [Validators.required]),
-      'SpreadMin': new FormControl(this.metadata.SpreadMin, [Validators.required]),
-      'SpreadMax': new FormControl(this.metadata.SpreadMax, [Validators.required]),
+      'SpreadMin': new FormControl(this.metadata.SpreadMin, [this.enableJobRangeTypes ? Validators.nullValidator : Validators.required]),
+      'SpreadMax': new FormControl(this.metadata.SpreadMax, [this.enableJobRangeTypes ? Validators.nullValidator : Validators.required]),
       'Rate': new FormControl(this.metadata.Rate || 'Annual', [Validators.required]),
       'Currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required]),
       'RangeDistributionSetting': new FormControl(this.metadata.RangeDistributionSetting),
@@ -205,6 +206,11 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleStructureNameChanged(value: string) {
     this.store.dispatch(new fromModelSettingsModalActions.GetStructureNameSuggestions({ filter: value }));
+  }
+
+  handleRateSelectionChange(value: string) {
+    const roundingPoint = value.toLowerCase() === 'hourly' ? 2 : 0;
+    this.store.dispatch(new fromMetadataActions.UpdateRoundingPoints({RoundingPoint: roundingPoint}));
   }
 
   clearModelNameExistsFailure() {

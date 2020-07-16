@@ -29,7 +29,7 @@ export class DataGridToDataViewsHelper {
 
     return {
       BaseEntityId: baseEntityId,
-      Fields: this.mapFieldsToDataViewFields(fields, sortDescriptor),
+      Fields: this.mapFieldsToDataViewFields(fields, sortDescriptor, null, true),
       Filters: filters,
       PagingOptions: pagingOptions,
       WithCount: withCount,
@@ -45,9 +45,12 @@ export class DataGridToDataViewsHelper {
     }));
   }
 
-  static mapFieldsToDataViewFields(fields: ViewField[], sortDescriptor: SortDescriptor[], gridConfig?: GridConfig): DataViewField[] {
+  static mapFieldsToDataViewFields(fields: ViewField[], sortDescriptor: SortDescriptor[],
+                                   gridConfig?: GridConfig, includeIsAlwaysInResponse = false): DataViewField[] {
     return fields ? fields
-        .filter(f => f.IsSelected || f.IsAlwaysInResponse)
+        .filter(f => includeIsAlwaysInResponse
+          ? f.IsSelected || f.IsAlwaysInResponse
+          : f.IsSelected)
         .map(f => {
           const sortInfo = this.getSortInformation(f, sortDescriptor);
           return {

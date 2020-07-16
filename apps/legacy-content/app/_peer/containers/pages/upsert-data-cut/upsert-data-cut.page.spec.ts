@@ -7,10 +7,8 @@ import { of } from 'rxjs/internal/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
-import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
-import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
-import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
+import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
+import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import { generateMockExchangeMapResponse, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
 import { SettingsService } from 'libs/state/app-context/services';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
@@ -52,7 +50,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          feature_peerMap: combineReducers(fromPeerMapReducer.reducers),
+          feature_peer_exchangeExplorer: combineReducers(fromLibsPeerExchangeExplorerReducers.reducers),
           legacy_upsertPeerData: combineReducers(fromLegacyAddPeerDataReducer.reducers)
         })
       ],
@@ -86,6 +84,10 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     instance.untaggedIncumbentCount$ = of(0);
     instance.hasRequestedPeerAccess$ = of(false);
     instance.hasAcceptedPeerTerms$ = of(true);
+
+    instance.exchangeExplorer = {
+      onMessage: jest.fn
+    } as any;
   });
 
   it('should display the upsert data cut page with an Add button', () => {
@@ -102,27 +104,29 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch the LoadSystemFilter action on init when dataCutGuid param is null', () => {
+  it(`should call onMessage on the exchange explorer on init to set the context`, () => {
     queryStringParams.dataCutGuid = null;
-    const expectedAction = (new fromFilterSidebarActions.LoadSystemFilter({
-      CompanyJobId: queryStringParams.companyJobId,
-      CompanyPayMarketId: queryStringParams.companyPayMarketId
-    }));
+    const expectedSetContextMessage: MessageEvent = {
+      data: {
+        payfactorsMessage: {
+          type: 'Set Context',
+          payload: {
+            companyJobId: 2,
+            companyPayMarketId: 1,
+            userSessionId: 3,
+            isPayMarketOverride: false,
+            cutGuid: null,
+            isExchangeSpecific: false
+          }
+        }
+      }
+    } as MessageEvent;
+
+    spyOn(instance.exchangeExplorer, 'onMessage');
 
     fixture.detectChanges();
-    instance.upsert();
 
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch the LoadDataCutDetails action on init when dataCutGuid param is NOT null', () => {
-    queryStringParams.dataCutGuid = mockDataCutGUID;
-    const expectedAction = (new fromUpsertDataCutActions.LoadDataCutDetails(queryStringParams.dataCutGuid));
-
-    fixture.detectChanges();
-    instance.upsert();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(instance.exchangeExplorer.onMessage).toHaveBeenCalledWith(expectedSetContextMessage);
   });
 
   it('should dispatch the LoadDataCutValidation action on init', () => {
@@ -186,7 +190,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     queryStringParams.dataCutGuid = null;
     mapResponse.MapSummary.OverallMapStats.CompanyCount = 5;
 
-    store.dispatch(new fromPeerMapActions.LoadPeerMapDataSuccess(mapResponse));
+    guidelinesService.passing = true;
 
     fixture.detectChanges();
 
@@ -231,7 +235,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
   });
 
   it(`should dispatch a ToggleIncludeUntaggedEmployees action when handleUntaggedIncumbentsChecked is called`, () => {
-    const expectedAction = new fromFilterSidebarActions.ToggleIncludeUntaggedEmployees();
+    const expectedAction = new fromLibsExchangeExplorerFilterContextActions.ToggleIncludeUntaggedEmployees();
 
     instance.includeUntaggedIncumbents$ = of(false);
     instance.untaggedIncumbentCount$ = of(1);

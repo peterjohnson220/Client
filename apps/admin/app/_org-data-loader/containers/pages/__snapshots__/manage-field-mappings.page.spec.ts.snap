@@ -41,6 +41,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
@@ -248,6 +249,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
@@ -455,6 +457,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
@@ -662,6 +665,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
@@ -759,6 +763,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}

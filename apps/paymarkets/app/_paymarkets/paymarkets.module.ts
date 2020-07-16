@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -19,12 +20,15 @@ import { reducers } from './reducers';
 import { PayMarketsPageComponent } from './paymarkets.page';
 import { PayMarketsRoutingModule } from './paymarkets-routing.module';
 import { GridActionsComponent } from './containers';
+import { DeletePaymarketModalComponent } from './components';
 import { GridActionsBarEffects, PayMarketsPageEffects } from './effects';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     // Routing
     PayMarketsRoutingModule,
@@ -51,7 +55,10 @@ import { GridActionsBarEffects, PayMarketsPageEffects } from './effects';
     PayMarketsPageComponent,
 
     // Containers
-    GridActionsComponent
+    GridActionsComponent,
+
+    // Components
+    DeletePaymarketModalComponent
   ],
   providers: [
     { provide: 'DataViewService', useClass: DataViewApiService}

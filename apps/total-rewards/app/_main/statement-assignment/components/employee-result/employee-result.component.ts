@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EmployeeSearchResult } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
 
@@ -7,12 +7,15 @@ import { EmployeeSearchResult } from 'libs/models/payfactors-api/total-rewards/r
   templateUrl: './employee-result.component.html',
   styleUrls: ['./employee-result.component.scss']
 })
-export class EmployeeResultComponent implements OnInit {
+export class EmployeeResultComponent {
   @Input() employee: EmployeeSearchResult;
+
+  @Output() employeeClicked: EventEmitter<EmployeeSearchResult> = new EventEmitter<EmployeeSearchResult>();
 
   constructor() { }
 
-  ngOnInit() {
+  handleEmployeeClicked() {
+    return this.employeeClicked.emit(this.employee);
   }
 
 }

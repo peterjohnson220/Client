@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { Permissions } from 'libs/constants';
 import { TransferMethodTypes } from 'libs/constants/hris-api';
@@ -22,19 +23,22 @@ import * as fromDataManagementMainReducer from '../../../reducers';
   templateUrl: './data-management-landing.page.html',
   styleUrls: ['./data-management-landing.page.scss']
 })
-export class DataManagementLandingPageComponent implements OnInit {
+export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   public inbound = TransferMethodTypes.HRIS_INTEGRATION;
   public outboundjdm = TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION;
 
   public permissions = Permissions;
 
   // TODO:  Turn this into an AsyncStateObj
+  private unsubscribe$ = new Subject();
   connectionSummary$: Observable<ConnectionSummary>;
   outboundConnectionSummary$: Observable<AsyncStateObj<ConnectionSummary>>;
   transferScheduleSummaryLoading$: Observable<boolean>;
   transferScheduleSummaryError$: Observable<boolean>;
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
+
+  connectionNeedsAuthentication: boolean;
 
 
   constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
@@ -44,12 +48,26 @@ export class DataManagementLandingPageComponent implements OnInit {
     this.loadingError$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoadingError);
     this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
     this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
+
+    this.connectionSummary$.pipe(filter(cs => !!cs),
+    takeUntil(this.unsubscribe$)).subscribe(cs => {
+      if (cs) {
+        this.connectionNeedsAuthentication = (!cs.hasConnection &&
+        (cs.statuses.length && cs.statuses.includes('AuthenticationError')));
+      }
+    });
   }
 
   ngOnInit() {
     this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());
     this.store.dispatch(new fromOutboundJdmActions.LoadConnectionSummary());
     this.store.dispatch(new fromTransferScheduleActions.GetTransferSummary());
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+
+    this.unsubscribe$.unsubscribe();
   }
 
   goToMappingPage($event: TransferMethodTypes) {
@@ -115,5 +133,25 @@ export class DataManagementLandingPageComponent implements OnInit {
 
   openReauthModal() {
     this.store.dispatch(new fromHrisConnectionActions.OpenReAuthenticationModal(true));
+  }
+
+  continueSetup($event: TransferMethodTypes) {
+    if (this.connectionNeedsAuthentication) {
+      switch ($event) {
+        case TransferMethodTypes.HRIS_INTEGRATION: {
+          this.store.dispatch(new fromTransferDataPageActions.UpdateWorkflowstep(TransferDataWorkflowStep.Authentication));
+          this.router.navigate(['/transfer-data/inbound/authentication']);
+          break;
+        }
+        case TransferMethodTypes.HRIS_OUTBOUND_JDM_INTEGRATION: {
+          this.router.navigate(['transfer-data/outbound/authentication']);
+          break;
+        }
+        default:
+          break;
+      }
+    } else {
+      this.goToMappingPage($event);
+    }
   }
 }

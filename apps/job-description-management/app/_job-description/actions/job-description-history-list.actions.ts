@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { JobDescriptionHistoryListItem } from '../models/job-description-history-list-item.model';
+import { JobDescriptionHistoryListItem } from 'libs/features/job-description-management/models';
 
 export const LOAD_JOB_DESCRIPTION_HISTORY_LIST_ITEMS =
   '[job-description-management / Job Description History List] Load Job Description History List';

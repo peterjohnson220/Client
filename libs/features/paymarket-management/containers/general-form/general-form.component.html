@@ -3,31 +3,29 @@
 </pf-async-container>
 <form [formGroup]="payMarketForm">
   <div class="form-group row pt-3">
-    <label class="col-3 col-form-label">Pay Market Name <span class="text-danger">*</span></label>
-    <div class="col-9">
+    <label class="col-2 col-form-label">Pay Market Name <span class="text-danger">*</span></label>
+    <div class="col-4">
       <input
         data-qa-id="txt-paymarket-form-paymarket-name"
         type="text" class="form-control"
         formControlName="PayMarketName"
         [maxlength]="DEFAULT_MAX_LENGTH"
-        [style.width.px]="350"
+        [style.width.px]="238"
         [pfValidatable]="true"
         (keyup)="onKey()"
         ngbAutoFocus>
       <span *ngIf="f.PayMarketName.errors?.required" class="invalid-feedback">Pay market name is required</span>
       <span *ngIf="!!(payMarketErrorMessage$ | async)" class="error-message">{{payMarketErrorMessage$ | async}}</span>
     </div>
-  </div>
-  <div class="form-group row">
-    <label class="col-3 col-form-label">Linked Pay Market</label>
-    <div class="col-9">
+    <label class="col-2 col-form-label">Linked Pay Market</label>
+    <div class="col-4">
       <kendo-combobox
         #linkedPayMarketCombobox
         data-qa-id="ddm-paymarket-form-linked-paymarket-name"
         class="form-control"
         formControlName="LinkedPayMarketId"
         placeholder="Select a Pay Market..."
-        [style.width.px]="350"
+        [style.width.px]="238"
         [valueField]="'Value'"
         [textField]="'Name'"
         [valuePrimitive]="true"
@@ -42,26 +40,30 @@
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-3 col-form-label"></label>
-    <div class="col-9 d-flex" [class.disabled]="!hasLinkedPayMarket">
-      <input
-        type="checkbox"
-        class="form-control k-checkbox"
-        data-qa-id="chk-paymarket-form-showInLinkedStructure"
-        id="paymarket-form-showInLinkedStructure"
-        formControlName="ShowInLinkedStructure">
-      <label class="k-checkbox-label" for="paymarket-form-showInLinkedStructure"
-        [class.text-muted]="!hasLinkedPayMarket">Include in parent pay market structure</label>
+    <label class="col-2 col-form-label">Country</label>
+    <div class="col-4">
+      <kendo-dropdownlist
+        #countryComponent
+        class="form-control"
+        data-qa-id="ddl-paymarket-form-country"
+        formControlName="CountryCode"
+        [style.width.px]="238"
+        [data]="(countries$ | async)?.obj"
+        [valueField]="'Value'"
+        [textField]="'Value'"
+        [valuePrimitive]="true"
+        [filterable]="true"
+        [kendoDropDownFilter]="filterSettings"
+        [pfValidatable]="true"
+        (valueChange)="handleCountryChange($event)">
+      </kendo-dropdownlist>
     </div>
-  </div>
-  <div class="form-group row">
-    <label class="col-3 col-form-label">Linked Pay Market Adj.</label>
-    <div class="col-9">
-      <div class="input-group" [style.width.px]="150">
+    <label class="col-2 col-form-label">Linked Pay Market Adj.</label>
+    <div class="col-4">
+      <div class="input-group" [style.width.px]="238">
         <kendo-numerictextbox
           data-qa-id="txt-paymarket-form-linked-paymarket-adj"
           aria-describedby="btnPayMarketFormLinkedPayMarketAdj"
-          [style.width.px]="100"
           class="form-control"
           formControlName="LinkedPayMarketAdj"
           [spinners]="false"
@@ -75,32 +77,12 @@
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-3 col-form-label">Country</label>
-    <div class="col-9">
-      <kendo-dropdownlist
-        #countryComponent
-        class="form-control"
-        data-qa-id="ddl-paymarket-form-country"
-        formControlName="CountryCode"
-        [style.width.px]="150"
-        [data]="(countries$ | async)?.obj"
-        [valueField]="'Value'"
-        [textField]="'Value'"
-        [valuePrimitive]="true"
-        [filterable]="true"
-        [kendoDropDownFilter]="filterSettings"
-        [pfValidatable]="true"
-        (valueChange)="handleCountryChange($event)">
-      </kendo-dropdownlist>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label class="col-3 col-form-label">Currency Code</label>
-    <div class="col-9">
+    <label class="col-2 col-form-label">Currency Code</label>
+    <div class="col-4">
       <kendo-dropdownlist
         #currencyComponent
         class="form-control"
-        [style.width.px]="150"
+        [style.width.px]="238"
         data-qa-id="ddl-paymarket-form-currency"
         formControlName="CurrencyCode"
         [data]="(currencies$ | async)?.obj"
@@ -113,9 +95,19 @@
         [pfValidatable]="true">
       </kendo-dropdownlist>
     </div>
+    <div class="col-6 d-flex pl-0" [class.disabled]="!hasLinkedPayMarket">
+      <input
+        type="checkbox"
+        class="form-control k-checkbox"
+        data-qa-id="chk-paymarket-form-showInLinkedStructure"
+        id="paymarket-form-showInLinkedStructure"
+        formControlName="ShowInLinkedStructure">
+      <label class="k-checkbox-label" for="paymarket-form-showInLinkedStructure"
+             [class.text-muted]="!hasLinkedPayMarket">Include in parent pay market structure</label>
+    </div>
   </div>
   <ng-container>
-    <br><hr>
+    <hr>
     <div class="form-group scope-container">
       <pf-market-data-scope #mdScopeComponent></pf-market-data-scope>
     </div>

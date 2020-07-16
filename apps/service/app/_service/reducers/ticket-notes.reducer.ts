@@ -1,10 +1,11 @@
-import { orderBy, cloneDeep } from 'lodash';
+import { cloneDeep, orderBy } from 'lodash';
+
+import { Comment } from 'libs/features/comment-box/models';
 
 import * as fromTicketNotesActions from '../actions/ticket-notes.actions';
-import { TicketNote } from '../models';
 
 export interface State {
-  ticketNotes: TicketNote[];
+  ticketNotes: Comment[];
   addingNote: boolean;
   addingNoteError: boolean;
 }
@@ -20,7 +21,7 @@ export function reducer(state: State = initialState, action: fromTicketNotesActi
     case fromTicketNotesActions.SET_TICKET_NOTES: {
       return {
         ...state,
-        ticketNotes: orderTicketNotes(action.payload)
+        ticketNotes: action.payload
       };
     }
     case fromTicketNotesActions.ADD_NOTE: {
@@ -31,13 +32,14 @@ export function reducer(state: State = initialState, action: fromTicketNotesActi
       };
     }
     case fromTicketNotesActions.ADD_NOTE_SUCCESS: {
-      const ticketNotesClone: TicketNote[] = cloneDeep(state.ticketNotes);
+      let ticketNotesClone: Comment[] = cloneDeep(state.ticketNotes);
       if (action.payload) {
         ticketNotesClone.push(action.payload);
+        ticketNotesClone = orderBy(ticketNotesClone, ['CreateDate'], ['desc']);
       }
       return {
         ...state,
-        ticketNotes: orderTicketNotes(ticketNotesClone),
+        ticketNotes: ticketNotesClone,
         addingNote: false
       };
     }
@@ -48,17 +50,22 @@ export function reducer(state: State = initialState, action: fromTicketNotesActi
         addingNoteError: true
       };
     }
+    case fromTicketNotesActions.REPLY_NOTE_SUCCESS: {
+      const ticketNotesClone: Comment[] = cloneDeep(state.ticketNotes);
+      const updatedNote = ticketNotesClone.find(n => n.CommentId === action.payload.commentId);
+      if (updatedNote) {
+        updatedNote.Replies = action.payload.replies;
+        updatedNote.ReplyCount = action.payload.replies.length;
+      }
+      return {
+        ...state,
+        ticketNotes: ticketNotesClone
+      };
+    }
     default: {
       return state;
     }
   }
-}
-
-function orderTicketNotes(ticketNotes: TicketNote[]): TicketNote[] {
-  if (!ticketNotes || ticketNotes.length === 0) {
-    return [];
-  }
-  return orderBy(ticketNotes, ['PostedDate'], ['desc']);
 }
 
 export const getTicketNotes = (state: State) => state.ticketNotes;

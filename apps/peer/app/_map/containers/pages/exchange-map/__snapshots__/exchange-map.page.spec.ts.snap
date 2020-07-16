@@ -3,238 +3,12 @@
 exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope button when numberOfCompanySelections$ is > 0 and < 5 1`] = `
 <pf-exchange-map-page
   exchange$={[Function Store]}
+  exchangeExplorer={[Function Object]}
+  exchangeExplorerContextService={[Function Object]}
   exchangeId={[Function Number]}
   exchangeJobIdsInScope$={[Function Store]}
-  exchangeScopes$={[Function Store]}
-  initialMapMoveComplete$={[Function Store]}
-  libsPeerMapStore={[Function Store]}
-  map={[Function Object]}
-  numberOfCompanySelections$={[Function Observable]}
-  numberOfSelections$={[Function Observable]}
-  peerMapCompaniesCount$={[Function Observable]}
-  peerMapLoadingError$={[Function Store]}
-  peerMapStore={[Function Store]}
-  route={[Function Object]}
-  selectedExchangeScope$={[Function Store]}
-  sharedPeerStore={[Function Store]}
->
-  <pf-page-with-title-bar>
-    
-      
-    
-    <pf-scope-selector />
-    <button
-      class="btn btn-secondary"
-      disabled=""
-      type="button"
-    >
-       Create Scope 
-    </button>
-    <button
-      class="btn btn-primary"
-      type="button"
-    >
-       Export Data Cuts 
-    </button>
-    
-    <pf-async-container>
-      <div
-        class="d-flex h-100"
-      >
-        <div
-          class="sidebar"
-        >
-          <pf-peer-data-cut-filter-sidebar />
-        </div>
-        <div
-          class="map"
-        >
-          <pf-peer-data-cut-map />
-        </div>
-      </div>
-    </pf-async-container>
-  </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
-</pf-exchange-map-page>
-`;
-
-exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope button when numberOfSelections$ is  0 1`] = `
-<pf-exchange-map-page
-  exchange$={[Function Store]}
-  exchangeId={[Function Number]}
-  exchangeJobIdsInScope$={[Function Store]}
-  exchangeScopes$={[Function Store]}
-  initialMapMoveComplete$={[Function Store]}
-  libsPeerMapStore={[Function Store]}
-  map={[Function Object]}
-  numberOfCompanySelections$={[Function Observable]}
-  numberOfSelections$={[Function Observable]}
-  peerMapCompaniesCount$={[Function Observable]}
-  peerMapLoadingError$={[Function Store]}
-  peerMapStore={[Function Store]}
-  route={[Function Object]}
-  selectedExchangeScope$={[Function Store]}
-  sharedPeerStore={[Function Store]}
->
-  <pf-page-with-title-bar>
-    
-      
-    
-    <pf-scope-selector />
-    <button
-      class="btn btn-secondary"
-      disabled=""
-      type="button"
-    >
-       Create Scope 
-    </button>
-    <button
-      class="btn btn-primary"
-      type="button"
-    >
-       Export Data Cuts 
-    </button>
-    
-    <pf-async-container>
-      <div
-        class="d-flex h-100"
-      >
-        <div
-          class="sidebar"
-        >
-          <pf-peer-data-cut-filter-sidebar />
-        </div>
-        <div
-          class="map"
-        >
-          <pf-peer-data-cut-map />
-        </div>
-      </div>
-    </pf-async-container>
-  </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
-</pf-exchange-map-page>
-`;
-
-exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cuts Button when exchangeJobIdsInScope$ is empty or null 1`] = `
-<pf-exchange-map-page
-  exchange$={[Function Store]}
-  exchangeId={[Function Number]}
-  exchangeJobIdsInScope$={[Function Observable]}
-  exchangeScopes$={[Function Store]}
-  initialMapMoveComplete$={[Function Store]}
-  libsPeerMapStore={[Function Store]}
-  map={[Function Object]}
-  numberOfCompanySelections$={[Function Observable]}
-  numberOfSelections$={[Function Observable]}
-  peerMapCompaniesCount$={[Function Observable]}
-  peerMapLoadingError$={[Function Store]}
-  peerMapStore={[Function Store]}
-  route={[Function Object]}
-  selectedExchangeScope$={[Function Store]}
-  sharedPeerStore={[Function Store]}
->
-  <pf-page-with-title-bar>
-    
-      
-    
-    <pf-scope-selector />
-    <button
-      class="btn btn-secondary"
-      type="button"
-    >
-       Create Scope 
-    </button>
-    <button
-      class="btn btn-primary"
-      type="button"
-    >
-       Export Data Cuts 
-    </button>
-    
-    <pf-async-container>
-      <div
-        class="d-flex h-100"
-      >
-        <div
-          class="sidebar"
-        >
-          <pf-peer-data-cut-filter-sidebar />
-        </div>
-        <div
-          class="map"
-        >
-          <pf-peer-data-cut-map />
-        </div>
-      </div>
-    </pf-async-container>
-  </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
-</pf-exchange-map-page>
-`;
-
-exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cuts Button when peerMapCompaniesCount$ is < 5 1`] = `
-<pf-exchange-map-page
-  exchange$={[Function Store]}
-  exchangeId={[Function Number]}
-  exchangeJobIdsInScope$={[Function Observable]}
-  exchangeScopes$={[Function Store]}
-  initialMapMoveComplete$={[Function Store]}
-  libsPeerMapStore={[Function Store]}
-  map={[Function Object]}
-  numberOfCompanySelections$={[Function Observable]}
-  numberOfSelections$={[Function Observable]}
-  peerMapCompaniesCount$={[Function Observable]}
-  peerMapLoadingError$={[Function Store]}
-  peerMapStore={[Function Store]}
-  route={[Function Object]}
-  selectedExchangeScope$={[Function Store]}
-  sharedPeerStore={[Function Store]}
->
-  <pf-page-with-title-bar>
-    
-      
-    
-    <pf-scope-selector />
-    <button
-      class="btn btn-secondary"
-      type="button"
-    >
-       Create Scope 
-    </button>
-    <button
-      class="btn btn-primary"
-      disabled=""
-      type="button"
-    >
-       Export Data Cuts 
-    </button>
-    
-    <pf-async-container>
-      <div
-        class="d-flex h-100"
-      >
-        <div
-          class="sidebar"
-        >
-          <pf-peer-data-cut-filter-sidebar />
-        </div>
-        <div
-          class="map"
-        >
-          <pf-peer-data-cut-map />
-        </div>
-      </div>
-    </pf-async-container>
-  </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
-</pf-exchange-map-page>
-`;
-
-exports[`Peer - Map - Exchange Map Page should show the exchange name as the page title 1`] = `
-<pf-exchange-map-page
-  exchange$={[Function Store]}
-  exchangeId={[Function Number]}
-  exchangeJobIdsInScope$={[Function Store]}
-  exchangeScopes$={[Function Store]}
-  initialMapMoveComplete$={[Function Store]}
-  libsPeerMapStore={[Function Store]}
+  exchangeScopeItems$={[Function Store]}
+  libsExchangeExplorerStore={[Function Store]}
   map={[Function Object]}
   numberOfCompanySelections$={[Function Observable]}
   numberOfSelections$={[Function Observable]}
@@ -249,7 +23,93 @@ exports[`Peer - Map - Exchange Map Page should show the exchange name as the pag
     
      Mock Exchange 
     
-    <pf-scope-selector />
+    <pf-exchange-scope-selector />
+    <button
+      class="btn btn-secondary"
+      disabled=""
+      type="button"
+    >
+       Create Scope 
+    </button>
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+       Export Data Cuts 
+    </button>
+    
+    <pf-exchange-explorer />
+  </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
+</pf-exchange-map-page>
+`;
+
+exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope button when numberOfSelections$ is  0 1`] = `
+<pf-exchange-map-page
+  exchange$={[Function Store]}
+  exchangeExplorer={[Function Object]}
+  exchangeExplorerContextService={[Function Object]}
+  exchangeId={[Function Number]}
+  exchangeJobIdsInScope$={[Function Store]}
+  exchangeScopeItems$={[Function Store]}
+  libsExchangeExplorerStore={[Function Store]}
+  map={[Function Object]}
+  numberOfCompanySelections$={[Function Observable]}
+  numberOfSelections$={[Function Observable]}
+  peerMapCompaniesCount$={[Function Observable]}
+  peerMapLoadingError$={[Function Store]}
+  peerMapStore={[Function Store]}
+  route={[Function Object]}
+  selectedExchangeScope$={[Function Store]}
+  sharedPeerStore={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Mock Exchange 
+    
+    <pf-exchange-scope-selector />
+    <button
+      class="btn btn-secondary"
+      disabled=""
+      type="button"
+    >
+       Create Scope 
+    </button>
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+       Export Data Cuts 
+    </button>
+    
+    <pf-exchange-explorer />
+  </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
+</pf-exchange-map-page>
+`;
+
+exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cuts Button when exchangeJobIdsInScope$ is empty or null 1`] = `
+<pf-exchange-map-page
+  exchange$={[Function Store]}
+  exchangeExplorer={[Function Object]}
+  exchangeExplorerContextService={[Function Object]}
+  exchangeId={[Function Number]}
+  exchangeJobIdsInScope$={[Function Observable]}
+  exchangeScopeItems$={[Function Store]}
+  libsExchangeExplorerStore={[Function Store]}
+  map={[Function Object]}
+  numberOfCompanySelections$={[Function Observable]}
+  numberOfSelections$={[Function Observable]}
+  peerMapCompaniesCount$={[Function Observable]}
+  peerMapLoadingError$={[Function Store]}
+  peerMapStore={[Function Store]}
+  route={[Function Object]}
+  selectedExchangeScope$={[Function Store]}
+  sharedPeerStore={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Mock Exchange 
+    
+    <pf-exchange-scope-selector />
     <button
       class="btn btn-secondary"
       type="button"
@@ -263,22 +123,92 @@ exports[`Peer - Map - Exchange Map Page should show the exchange name as the pag
        Export Data Cuts 
     </button>
     
-    <pf-async-container>
-      <div
-        class="d-flex h-100"
-      >
-        <div
-          class="sidebar"
-        >
-          <pf-peer-data-cut-filter-sidebar />
-        </div>
-        <div
-          class="map"
-        >
-          <pf-peer-data-cut-map />
-        </div>
-      </div>
-    </pf-async-container>
+    <pf-exchange-explorer />
+  </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
+</pf-exchange-map-page>
+`;
+
+exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cuts Button when peerMapCompaniesCount$ is < 5 1`] = `
+<pf-exchange-map-page
+  exchange$={[Function Store]}
+  exchangeExplorer={[Function Object]}
+  exchangeExplorerContextService={[Function Object]}
+  exchangeId={[Function Number]}
+  exchangeJobIdsInScope$={[Function Observable]}
+  exchangeScopeItems$={[Function Store]}
+  libsExchangeExplorerStore={[Function Store]}
+  map={[Function Object]}
+  numberOfCompanySelections$={[Function Observable]}
+  numberOfSelections$={[Function Observable]}
+  peerMapCompaniesCount$={[Function Observable]}
+  peerMapLoadingError$={[Function Store]}
+  peerMapStore={[Function Store]}
+  route={[Function Object]}
+  selectedExchangeScope$={[Function Store]}
+  sharedPeerStore={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Mock Exchange 
+    
+    <pf-exchange-scope-selector />
+    <button
+      class="btn btn-secondary"
+      type="button"
+    >
+       Create Scope 
+    </button>
+    <button
+      class="btn btn-primary"
+      disabled=""
+      type="button"
+    >
+       Export Data Cuts 
+    </button>
+    
+    <pf-exchange-explorer />
+  </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
+</pf-exchange-map-page>
+`;
+
+exports[`Peer - Map - Exchange Map Page should show the exchange name as the page title 1`] = `
+<pf-exchange-map-page
+  exchange$={[Function Store]}
+  exchangeExplorer={[Function Object]}
+  exchangeExplorerContextService={[Function Object]}
+  exchangeId={[Function Number]}
+  exchangeJobIdsInScope$={[Function Store]}
+  exchangeScopeItems$={[Function Store]}
+  libsExchangeExplorerStore={[Function Store]}
+  map={[Function Object]}
+  numberOfCompanySelections$={[Function Observable]}
+  numberOfSelections$={[Function Observable]}
+  peerMapCompaniesCount$={[Function Observable]}
+  peerMapLoadingError$={[Function Store]}
+  peerMapStore={[Function Store]}
+  route={[Function Object]}
+  selectedExchangeScope$={[Function Store]}
+  sharedPeerStore={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Mock Exchange 
+    
+    <pf-exchange-scope-selector />
+    <button
+      class="btn btn-secondary"
+      type="button"
+    >
+       Create Scope 
+    </button>
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+       Export Data Cuts 
+    </button>
+    
+    <pf-exchange-explorer />
   </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
 </pf-exchange-map-page>
 `;

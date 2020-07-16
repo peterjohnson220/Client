@@ -21,7 +21,15 @@ import {
   TemplateSettingsControl } from 'libs/models';
 import { MessageHelper } from 'libs/core';
 
-import { CompanyLogo } from '../../../shared/models';
+import {
+  CompanyLogo,
+  AvailableJobInformationField,
+  JobInformationField,
+  SaveError,
+  JobDescriptionManagementService,
+  JobDescriptionManagementDnDService,
+  JobDescriptionManagementDndSource } from 'libs/features/job-description-management';
+
 import * as fromTemplateActions from '../actions';
 import * as fromTemplateReducers from '../reducers';
 import {
@@ -34,16 +42,14 @@ import {
   SelectTemplateLogoModalComponent,
   UpsertControlModalComponent,
   ConfirmPublishTemplateModalComponent } from '../components';
-import { AvailableJobInformationField, JobInformationField, SaveError } from '../../../shared/models';
-import * as fromJdmSharedReducer from '../../../shared/reducers';
-import * as fromJdmSharedActions from '../../../shared/actions';
+
+import * as fromJdmSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromJdmSharedActions from 'libs/features/job-description-management/actions';
 import {
   SaveErrorModalComponent,
   ConflictErrorModalComponent,
   CopyTemplateModalComponent,
-  JobDescriptionManagementService,
-  JobDescriptionManagementDnDService,
-  JobDescriptionManagementDndSource} from '../../../shared';
+  } from '../../../shared';
 import { TemplateDnDService, TemplateService } from '../services';
 
 @Component({
@@ -448,7 +454,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.templateSettingsSubscription = this.templateSettings$.subscribe(setting => this.templateSettings = setting);
     this.templateSaveSubscription = this.template$.subscribe(template => {
       if (template) {
-        this.template = template;
+        this.template = cloneDeep(template);
         this.templateDnDService.setTemplate(template);
       }
     });

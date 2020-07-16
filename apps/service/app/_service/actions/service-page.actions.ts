@@ -26,6 +26,9 @@ export const GET_USER_TICKET_SUCCESS = '[Service / Service Page] Get User Ticket
 export const GET_USER_TICKET_ERROR = '[Service / Service Page] Get User Ticket Error';
 export const ADD_ATTACHMENTS_SUCCESS = '[Service / Service Page] Add Attachments Success';
 export const SAVE_SUPPORT_TEAM_DASHBOARD_OPEN = '[Service / Service Page] Save Support Team Dashboard Open';
+export const TOGGLE_PUBLIC_OR_PRIVATE_USER_TICKET = '[Service / Service Page] Toggle Public Or Private User Ticket';
+export const TOGGLE_PUBLIC_OR_PRIVATE_USER_TICKET_SUCCESS = '[Service / Service Page] Toggle Public Or Private User Ticket Success';
+export const TOGGLE_PUBLIC_OR_PRIVATE_USER_TICKET_ERROR = '[Service / Service Page] Toggle Public Or Private User Ticket Error';
 
 export class LoadTicketTypes implements Action {
   readonly type = LOAD_TICKET_TYPES;
@@ -145,6 +148,24 @@ export class SaveSupportTeamDashboardOpenSetting implements Action {
   constructor(public payload: { settingValue: boolean }) {}
 }
 
+export class TogglePublicOrPrivateUserTicket implements Action {
+  readonly type = TOGGLE_PUBLIC_OR_PRIVATE_USER_TICKET;
+
+  constructor(public payload: { value: boolean, ticketId: number }) {}
+}
+
+export class TogglePublicOrPrivateUserTicketSuccess implements Action {
+  readonly type = TOGGLE_PUBLIC_OR_PRIVATE_USER_TICKET_SUCCESS;
+
+  constructor() {}
+}
+
+export class TogglePublicOrPrivateUserTicketError implements Action {
+  readonly type = TOGGLE_PUBLIC_OR_PRIVATE_USER_TICKET_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = LoadTicketTypes
   | LoadTicketTypesSuccess
@@ -165,4 +186,7 @@ export type Actions
   | GetUserTicketSuccess
   | GetUserTicketError
   | AddAttachmentsSuccess
-  | SaveSupportTeamDashboardOpenSetting;
+  | SaveSupportTeamDashboardOpenSetting
+  | TogglePublicOrPrivateUserTicket
+  | TogglePublicOrPrivateUserTicketSuccess
+  | TogglePublicOrPrivateUserTicketError;

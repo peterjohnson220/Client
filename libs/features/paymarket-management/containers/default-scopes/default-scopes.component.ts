@@ -67,8 +67,10 @@ export class DefaultScopesComponent implements OnInit, OnDestroy, OnChanges, Aft
       debounceTime(PfConstants.DEBOUNCE_DELAY),
       distinctUntilChanged())
       .subscribe(searchTerm => {
-        this.surveySearchTerm = searchTerm;
-        this.loadSurveys();
+        if (searchTerm || !this.surveyCombobox.value) {
+          this.surveySearchTerm = searchTerm;
+          this.loadSurveys();
+        }
       });
   }
 

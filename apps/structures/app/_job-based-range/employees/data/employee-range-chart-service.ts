@@ -1,23 +1,51 @@
-import {EmployeeSalaryRangeChartSeries} from './employee-salary-range-chart-series-constants';
+import { EmployeeSalaryRangeChartSeries } from './employee-salary-range-chart-series-constants';
+import { RangeDistributionTypeIds } from '../../shared/constants/range-distribution-type-ids';
 
 export class EmployeeRangeChartService {
 
   static getFormattedSeriesName(series: EmployeeSalaryRangeChartSeries, controlPointDisplay: string = '') {
     switch (series) {
-      case EmployeeSalaryRangeChartSeries.SalaryRange: {
+      case EmployeeSalaryRangeChartSeries.SalaryRangeMinMidMax: {
         return 'Salary range';
+      }
+      case EmployeeSalaryRangeChartSeries.SalaryRangeTertile: {
+        return 'Salary range Tertile';
+      }
+      case EmployeeSalaryRangeChartSeries.SalaryRangeQuartile: {
+        return 'Salary range Quartile';
+      }
+      case EmployeeSalaryRangeChartSeries.SalaryRangeQuintile: {
+        return 'Salary range Quintile';
       }
       case EmployeeSalaryRangeChartSeries.RangeMid: {
         return 'Range Mid';
       }
-      case EmployeeSalaryRangeChartSeries.RangeMidHidden: {
-        return 'Range Mid - hidden';
+      case EmployeeSalaryRangeChartSeries.RangeTertileFirst: {
+        return 'Top 1st 3rd';
+      }
+      case EmployeeSalaryRangeChartSeries.RangeTertileSecond: {
+        return 'Top 2nd 3rd';
+      }
+      case EmployeeSalaryRangeChartSeries.RangeQuartileFirst: {
+        return 'Top 1st 4th';
+      }
+      case EmployeeSalaryRangeChartSeries.RangeQuartileSecond: {
+        return 'Top 3rd 4th';
+      }
+      case EmployeeSalaryRangeChartSeries.RangeQuintileFirst: {
+        return 'Top 1st 5th';
+      }
+      case EmployeeSalaryRangeChartSeries.RangeQuintileSecond: {
+        return 'Top 2nd 5th';
+      }
+      case EmployeeSalaryRangeChartSeries.RangeQuintileThird: {
+        return 'Top 3rd 5th';
+      }
+      case EmployeeSalaryRangeChartSeries.RangeQuintileFourth: {
+        return 'Top 4th 5th';
       }
       case EmployeeSalaryRangeChartSeries.Average: {
         return 'Average ' + controlPointDisplay;
-      }
-      case EmployeeSalaryRangeChartSeries.AverageHidden: {
-        return 'Average ' + controlPointDisplay + ' -hidden';
       }
       case EmployeeSalaryRangeChartSeries.Employee: {
         return 'Employee ' + controlPointDisplay;
@@ -29,11 +57,10 @@ export class EmployeeRangeChartService {
         // should never happen, but in case someone adds a value later and forgets.
         return '';
       }
-
     }
   }
 
-  static getEmployeeRangeOptions(locale, currencyCode, controlPointDisplay, rate) {
+  static getEmployeeRangeOptions(locale, currencyCode, controlPointDisplay, rangeDistributionTypeId) {
     return {
       chart: {
         inverted: true,
@@ -72,6 +99,8 @@ export class EmployeeRangeChartService {
         opposite: true,
         gridLineWidth: 1,
         gridLineDashStyle: 'Dash',
+        gridLineColor: '#bdbdbd',
+        gridZIndex: 5,
         lineWidth: 0,
         tickPixelInterval: 300,
         title: {
@@ -89,34 +118,10 @@ export class EmployeeRangeChartService {
       },
       plotOptions: {
         series: {
-          events: {
-            legendItemClick: function (event) {
-              const plotLinesOrBandsData = [
-                EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Average, controlPointDisplay),
-                EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeMid),
-                EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRange)
-              ];
-              // check to see if we need to remove or add a line/band OR we just want to perform the default function
-              if (plotLinesOrBandsData.includes(event.target.userOptions.name)) {
-                // look for the line or band in question on the chart
-                const lineOrBand = event.target.chart.yAxis[0].plotLinesAndBands.find(plb => plb.id === event.target.userOptions.name);
-                // if we find one, remove it. else add it
-                if (lineOrBand) {
-                  event.target.chart.yAxis[0].removePlotLine(event.target.userOptions.name);
-                  event.target.chart.yAxis[0].series[EmployeeSalaryRangeChartSeries.Average].visible = false;
-                } else {
-                  // find from static options and add
-                  const options = event.target.chart.collectionsWithUpdate.find(plb => plb.id === event.target.userOptions.name);
-                  event.target.chart.yAxis[0].addPlotLine(options);
-                  event.target.chart.yAxis[0].series[EmployeeSalaryRangeChartSeries.Average].visible = true;
-                }
-              } else {
-                return true;
-              }
-
-
-            }
-          },
+          stickyTracking: false,
+          groupPadding: 0,
+          pointPadding: 0.1,
+          borderWidth: 0,
           marker: {
             states: {
               hover: {
@@ -126,101 +131,328 @@ export class EmployeeRangeChartService {
           }
         }
       },
-      series: [{
-        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRange),
-        type: 'polygon',
-        animation: false,
-        color: 'rgba(36,134,210,0.45)',
-        enableMouseTracking: false,
-
-      }, {
-        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeMid),
-        type: 'line',
-        color: '#CD8C01',
-        marker: {
-          enabled: false
-        }
-      }, {
-        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeMidHidden, controlPointDisplay),
-        type: 'scatter',
-        color: 'transparent',
-        showInLegend: false,
-        enableMouseTracking: true,
-        tooltip: {
-          backgroundColor: '#000000',
-          useHTML: true,
-          padding: 0,
-          headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
-          pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
-            '<div>{point.midPoint}</div>' +
-            '<div>{point.currentMidPoint}</div>' +
-            '<div>{point.newMidPoint}</div>' +
-            '<div><span style="font-size:25px; color:{point.iconColor};">{point.icon}</span>{point.delta}</div>',
-          footerFormat: '</div>'
-        }
-      }, {
-        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Average, controlPointDisplay),
-        type: 'line',
-        color: '#6236FF',
-        marker: {
-          enabled: false
+      series: [
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRangeMinMidMax),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(174,210,238)',
+          enableMouseTracking: false,
+          pointWidth: 60,
+          stacking: 'normal',
+          borderRadius: 0,
+          showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.MinMidMax
         },
-      }, {
-        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.AverageHidden, controlPointDisplay),
-        type: 'scatter',
-        color: 'transparent',
-        showInLegend: false,
-        enableMouseTracking: true,
-        tooltip: {
-          backgroundColor: '#000000',
-          useHTML: true,
-          padding: 0,
-          headerFormat: '<div style="display: inline-block; background-color: black">',
-          pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
-            '<div style="color: white">{point.avgSalary}</div>' +
-            '<div style="color: white">Average Comparatio: {point.avgComparatio}%</div>' +
-            '<div style="color: white">Average Position in range: {point.avgPositioninRange}%</div>',
-          footerFormat: '</div>'
-        }
-      }, {
-        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Employee, controlPointDisplay),
-        type: 'scatter',
-        marker: {
-          enabled: true,
-          // tslint:disable-next-line:max-line-length
-          symbol: `url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTFweCIgaGVpZ2h0PSIxMXB4IiB2aWV3Qm94PSIwIDAgMTEgMTEiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDY0ICg5MzUzNykgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+bGFiZWwtZGFuZ2VyPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IldvcmtpbmciIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJTdHJ1Y3R1cmVzLS0tR2VuZXJhbCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0NDMuMDAwMDAwLCAtNjE5LjAwMDAwMCkiIGZpbGw9IiMwODgzQkUiPgogICAgICAgICAgICA8ZyBpZD0ibGFiZWwtZGFuZ2VyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDQzLjAwMDAwMCwgNjE5LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHJlY3QgaWQ9IkJHIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTEiIGhlaWdodD0iMTEiIHJ4PSI1LjUiPjwvcmVjdD4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+)`,
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRangeTertile),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(210,230,246)',
+          enableMouseTracking: false,
+          pointWidth: 60,
+          stacking: 'normal',
+          borderRadius: 0,
+          showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Tertile
         },
-        enableMouseTracking: true,
-        tooltip: {
-          backgroundColor: '#000000',
-          useHTML: true,
-          padding: 0,
-          headerFormat: '<div style="display: inline-block; background-color: black">',
-          pointFormat: '<div style="color: white; font-weight: bold">{point.empDisplay}</div>' +
-            '<div style="color: white">{point.salaryDisplay}</div>',
-          footerFormat: '</div>'
-        }
-      }, {
-        name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.EmployeeOutliers, controlPointDisplay),
-        type: 'scatter',
-        marker: {
-          enabled: true,
-          // tslint:disable-next-line:max-line-length
-          symbol: `url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTFweCIgaGVpZ2h0PSIxMXB4IiB2aWV3Qm94PSIwIDAgMTEgMTEiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDY0ICg5MzUzNykgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+bGFiZWwtZGFuZ2VyPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IldvcmtpbmciIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJTdHJ1Y3R1cmVzLS0tR2VuZXJhbCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0NDMuMDAwMDAwLCAtNjE5LjAwMDAwMCkiIGZpbGw9IiNEOTUzNEYiPgogICAgICAgICAgICA8ZyBpZD0ibGFiZWwtZGFuZ2VyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDQzLjAwMDAwMCwgNjE5LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHJlY3QgaWQ9IkJHIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTEiIGhlaWdodD0iMTEiIHJ4PSI1LjUiPjwvcmVjdD4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+)`,
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRangeQuartile),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(210,230,246)',
+          enableMouseTracking: false,
+          pointWidth: 60,
+          stacking: 'normal',
+          borderRadius: 0,
+          showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quartile
         },
-        showInLegend: false,
-        enableMouseTracking: true,
-        linkedTo: ':previous',
-        tooltip: {
-          backgroundColor: '#000000',
-          useHTML: true,
-          padding: 0,
-          headerFormat: '<div style="display: inline-block; background-color: black">',
-          pointFormat: '<div style="color: white; font-weight: bold">{point.empDisplay}</div>' +
-            '<div style="color: white">{point.salaryDisplay}</div>',
-          footerFormat: '</div>'
-        }
-      }]
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.SalaryRangeQuintile),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(210,230,246)',
+          enableMouseTracking: false,
+          pointWidth: 60,
+          stacking: 'normal',
+          borderRadius: 0,
+          showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quintile
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeMid),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#CD8C01',
+            radius: 30,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
+            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
+            footerFormat: '</div>'
+          }
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeTertileFirst),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: 'transparent',
+            radius: 30,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
+            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeTertileSecond),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: 'transparent',
+            radius: 30,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
+            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeQuartileFirst),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: 'transparent',
+            radius: 30,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
+            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeQuartileSecond),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: 'transparent',
+            radius: 30,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
+            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeQuintileFirst),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: 'transparent',
+            radius: 30,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
+            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeQuintileSecond),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: 'transparent',
+            radius: 30,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
+            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeQuintileThird),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: 'transparent',
+            radius: 30,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
+            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.RangeQuintileFourth),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: 'transparent',
+            radius: 30,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black; color: white">',
+            pointFormat: '<div><b>{point.jobTitle}</b></div><div>' +
+              '<div>{point.dataPoint}</div>' +
+              '<div>{point.currentDataPoint}</div>' +
+              '<div>{point.newDataPoint}</div>' +
+              '<div><span style="font-size: 25px; color: {point.iconColor};">{point.icon}</span>{point.delta}</div>',
+            footerFormat: '</div>'
+          },
+          showInLegend: false
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Average),
+          type: 'scatter',
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#6236FF',
+            radius: 30,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.avgSalary}</div>' +
+              '<div style="color: white">Average Comparatio: {point.avgComparatio}%</div>' +
+              '<div style="color: white">Average Position in range: {point.avgPositioninRange}%</div>',
+            footerFormat: '</div>'
+          }
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.Employee, controlPointDisplay),
+          type: 'scatter',
+          marker: {
+            enabled: true,
+            // tslint:disable-next-line:max-line-length
+            symbol: `url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTFweCIgaGVpZ2h0PSIxMXB4IiB2aWV3Qm94PSIwIDAgMTEgMTEiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDY0ICg5MzUzNykgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+bGFiZWwtZGFuZ2VyPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IldvcmtpbmciIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJTdHJ1Y3R1cmVzLS0tR2VuZXJhbCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0NDMuMDAwMDAwLCAtNjE5LjAwMDAwMCkiIGZpbGw9IiMwODgzQkUiPgogICAgICAgICAgICA8ZyBpZD0ibGFiZWwtZGFuZ2VyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDQzLjAwMDAwMCwgNjE5LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHJlY3QgaWQ9IkJHIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTEiIGhlaWdodD0iMTEiIHJ4PSI1LjUiPjwvcmVjdD4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+)`,
+          },
+          enableMouseTracking: true,
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.empDisplay}</div>' +
+              '<div style="color: white">{point.salaryDisplay}</div>',
+            footerFormat: '</div>'
+          }
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.EmployeeOutliers, controlPointDisplay),
+          type: 'scatter',
+          marker: {
+            enabled: true,
+            // tslint:disable-next-line:max-line-length
+            symbol: `url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTFweCIgaGVpZ2h0PSIxMXB4IiB2aWV3Qm94PSIwIDAgMTEgMTEiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDY0ICg5MzUzNykgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+bGFiZWwtZGFuZ2VyPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IldvcmtpbmciIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJTdHJ1Y3R1cmVzLS0tR2VuZXJhbCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0NDMuMDAwMDAwLCAtNjE5LjAwMDAwMCkiIGZpbGw9IiNEOTUzNEYiPgogICAgICAgICAgICA8ZyBpZD0ibGFiZWwtZGFuZ2VyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDQzLjAwMDAwMCwgNjE5LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHJlY3QgaWQ9IkJHIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTEiIGhlaWdodD0iMTEiIHJ4PSI1LjUiPjwvcmVjdD4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+)`,
+          },
+          showInLegend: false,
+          enableMouseTracking: true,
+          linkedTo: ':previous',
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.empDisplay}</div>' +
+              '<div style="color: white">{point.salaryDisplay}</div>',
+            footerFormat: '</div>'
+          }
+        }]
     };
   }
 }

@@ -1,5 +1,5 @@
 import * as fromAvailableJobInfoFieldActions from '../actions';
-import { AvailableJobInformationField } from '../../../shared';
+import { AvailableJobInformationField } from 'libs/features/job-description-management';
 
 export interface State {
     loading: boolean;

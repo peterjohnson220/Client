@@ -11,7 +11,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { WindowCommunicationService } from 'libs/core/services';
-import { PfPeerMapModule, ExchangeSelectorModule, ExchangeJobSelectorComponent } from 'libs/features/peer/';
+import { ExchangeSelectorModule } from 'libs/features/peer/';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/';
 import { PfCommonModule } from 'libs/core';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
@@ -25,8 +25,8 @@ import {
   ApplyMappingButtonComponent
 } from './../../../peer/app/_manage/components';
 import {
-  AssociateCompanyJobComponent, PaymarketExchangeScopeComponent, UpsertDataCutPageComponent,
-  TaggingEntitiesPageComponent, UpsertDataCutNewPageComponent
+  AssociateCompanyJobComponent, PaymarketExchangeScopeComponent,
+  TaggingEntitiesPageComponent, UpsertDataCutPageComponent
 } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import {
@@ -65,7 +65,6 @@ import { reducers } from './reducers';
     PfCommonUIModule,
     PfCommonModule,
     PfFormsModule,
-    PfPeerMapModule,
     ExchangeSelectorModule,
     PfExchangeExplorerModule
   ],
@@ -80,10 +79,7 @@ import { reducers } from './reducers';
     PaymarketExchangeScopeComponent,
     UpsertDataCutPageComponent,
     TaggingEntitiesPageComponent,
-    UpsertDataCutNewPageComponent
-  ],
-  exports: [
-    ExchangeJobSelectorComponent
+    UpsertDataCutPageComponent
   ],
   providers: [
     WindowCommunicationService, DojGuidelinesService, CompanyJobApiService

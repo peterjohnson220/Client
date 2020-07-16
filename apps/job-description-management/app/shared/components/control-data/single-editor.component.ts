@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ControlTypeAttribute } from 'libs/models/common';
 
-import { JobDescriptionManagementService } from '../../services';
+import { JobDescriptionManagementService } from 'libs/features/job-description-management/services';
 
 @Component({
   selector: 'pf-single-editor',

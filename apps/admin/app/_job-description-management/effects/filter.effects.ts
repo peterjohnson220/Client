@@ -7,10 +7,9 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 
 import { UserProfileApiService } from 'libs/data/payfactors-api/user';
 import { GetUserFilterListResponse } from 'libs/models/payfactors-api/user-filter/response/get-user-filter-list-response.model';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 
 import * as fromJdmFilterActions from '../actions/filter.actions';
-import { PayfactorsApiModelMapper } from '../../../../job-description-management/app/shared/helpers';
-
 
 @Injectable()
 export class JdmFiltersEffects {

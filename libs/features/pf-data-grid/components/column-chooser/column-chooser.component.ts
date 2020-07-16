@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
 import { orderBy } from 'lodash';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField } from 'libs/models/payfactors-api';
 
@@ -20,6 +20,8 @@ export class ColumnChooserComponent implements OnChanges {
   @Input() disabled = false;
   @Input() columnChooserType: ColumnChooserType;
   @Input() reorderable: boolean;
+  @Input() submitButtonText = 'Save';
+  @Input() showSelectAllColumns: boolean;
 
   @Output() saveColumns = new EventEmitter();
 
@@ -37,6 +39,14 @@ export class ColumnChooserComponent implements OnChanges {
       this.listAreaColumns = orderBy(cloneDeep(changes['dataFields'].currentValue), ['DefaultOrder'], ['asc']);
       this.selectableColumns = this.listAreaColumns.filter(f => f.IsSelectable);
     }
+  }
+
+  selectAllClicked() {
+    if (this.columnChooserType === ColumnChooserType.ColumnGroup) {
+      throw new Error('selectAll not implemented for column groups ');
+    }
+
+    this.listAreaColumns.filter(f => f.IsSelectable === true).forEach(f => f.IsSelected = true);
   }
 
   saveButtonClicked() {

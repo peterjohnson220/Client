@@ -12,12 +12,10 @@ import * as fromRootState from 'libs/state/state';
 import { CompanyDto } from 'libs/models/company';
 
 import * as fromJobDescriptionReducer from '../../../reducers';
-import * as fromCompanyLogoActions from '../../../../shared/actions/company-logo.actions';
+import * as fromCompanyLogoActions from 'libs/features/job-description-management/actions/company-logo.actions';
 import * as fromJobDescriptionWorkflowCompareActions from '../../../actions/job-description-workflow-compare.actions';
-import * as fromJobDescriptionHistoryListActions from '../../../actions/job-description-history-list.actions';
-import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
-import * as fromControlTypeActions from '../../../../shared/actions/control-types.actions';
-import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromControlTypeActions from 'libs/features/job-description-management/actions/control-types.actions';
 import { JobDescriptionWorkflowCompareListItem } from '../../../models/';
 
 @Component({

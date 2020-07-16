@@ -7,10 +7,13 @@ export interface ActionBarConfig {
   AllowSaveFilter: boolean;
   AllowExport: boolean;
   ExportSourceName: string;
+  CustomExportType?: string;
   ColumnChooserType?: ColumnChooserType;
   ActionBarClassName?: string;
   GlobalActionsTemplate?: ElementRef<any>;
   GlobalFiltersTemplates?: { [key: string]: ElementRef<any> };
+  ColumnChooserSubmitText: string;
+  ShowSelectAllColumns: boolean;
 }
 
 
@@ -28,6 +31,8 @@ export function getDefaultActionBarConfig(): ActionBarConfig {
     AllowExport: false,
     AllowSaveFilter: true,
     ExportSourceName: '',
-    ColumnChooserType: ColumnChooserType.Column
+    ColumnChooserType: ColumnChooserType.Column,
+    ColumnChooserSubmitText: 'Save',
+    ShowSelectAllColumns: false
   };
 }

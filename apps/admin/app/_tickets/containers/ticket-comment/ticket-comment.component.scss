@@ -49,3 +49,7 @@
   margin-top: 1rem;
   font-size: 13px;
 }
+
+.pf-comment ::ng-deep.ql-editor {
+  padding: 0 !important;
+}

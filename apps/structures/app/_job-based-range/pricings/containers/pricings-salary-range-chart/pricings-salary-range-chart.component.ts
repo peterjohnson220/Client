@@ -1,5 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 
 import * as Highcharts from 'highcharts';
@@ -11,12 +10,16 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { appendOrdinalSuffix } from 'libs/core/functions';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
-import { StructuresHighchartsService } from '../../../shared/services';
+import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
 import { PageViewIds } from '../../../shared/constants/page-view-ids';
 import { PricingsSalaryRangeChartSeries, PricingsSalaryRangeChartService } from '../../data';
 import { PricingMatchHelper } from '../../helpers';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-
+import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
+import { DataPointSeries } from '../../../shared/models/data-point-series.model';
+import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
+import { RangeGroupMetadata } from '../../../shared/models';
+import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/range-distribution-data-point-type-ids';
 
 @Component({
   selector: 'pf-pricings-salary-range-chart',
@@ -31,7 +34,8 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   chartConstructor = 'chart'; // optional string, defaults to 'chart'
   chartMin: number;
   chartMax: number;
-  salaryRangeSeriesData: any;
+  salaryRangeSeriesDataModel: SalaryRangeSeries;
+  dataPointSeriesDataModel: DataPointSeries;
   pricingsSeriesData: any;
   chartLocale: string; // en-US
   chartInstance: Highcharts.Chart;
@@ -39,43 +43,50 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   jobDataSubscription: Subscription;
   metadataSubscription: Subscription;
   pageViewId = PageViewIds.Pricings;
-  jobRangeViewId = PageViewIds.Model;
+  jobRangeViewId: string;
+  jobRangeViewIdSubscription: Subscription;
   currency: string;
   jobRangeGroupData: any;
   pricingsData: any;
   jobRangeData: any;
   controlPointDisplay: string;
-  plotLinesAndBands: any;
   rate: string;
+  hasCurrentStructure: boolean;
+  metaData: RangeGroupMetadata;
+  rangeDistributionTypeId: number;
 
   constructor(
     public store: Store<any>,
-    private route: ActivatedRoute
+    private structuresPagesService: StructuresPagesService
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
+        this.metaData = md;
         this.currency = md.Currency;
         this.controlPointDisplay = md.ControlPointDisplay;
         this.rate = md.Rate;
         this.chartLocale = getUserLocale();
+        this.rangeDistributionTypeId = md.RangeDistributionTypeId;
         this.clearData();
-        this.chartOptions = PricingsSalaryRangeChartService.getPricingsRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate);
+        this.chartOptions =
+          PricingsSalaryRangeChartService.getPricingsRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rangeDistributionTypeId);
       }
     });
+
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
       if (data) {
         this.pricingsData = data;
         this.processChartData();
       }
     });
+
+    this.jobRangeViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.jobRangeViewId = pv);
     this.jobDataSubscription = this.store.select(fromPfGridReducer.getData, this.jobRangeViewId).subscribe(data => {
       if (data) {
         this.jobRangeGroupData = data;
         this.processChartData();
       }
     });
-
-
   }
 
   rangeChartCallback(chart: Highcharts.Chart = null) {
@@ -83,12 +94,6 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     if (chart) {
       this.chartInstance = chart;
     }
-
-  }
-
-  private setInitialMinMax(currentRange) {
-    this.chartMin = currentRange.CompanyStructures_Ranges_Min;
-    this.chartMax = currentRange.CompanyStructures_Ranges_Max;
   }
 
   private reassessMinMax(currentRow) {
@@ -100,22 +105,6 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     if (!this.chartMin || (currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup < this.chartMin)) {
       this.chartMin = currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup;
     }
-  }
-
-  private clearData(): void {
-    if (this.jobRangeGroupData) {
-      this.jobRangeGroupData = {...this.jobRangeGroupData, data: []};
-    }
-
-    if (this.pricingsData) {
-      this.pricingsData = {...this.pricingsData, data: []};
-    }
-  }
-
-  private renameSeries() {
-    // 1 ==  'Pricings ' + controlPointDisplay
-    this.chartInstance.series[PricingsSalaryRangeChartSeries.Pricings].name =
-      PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.Pricings, this.controlPointDisplay);
   }
 
   private addPricingsMRP(xCoordinate, currentRow, jobRangeData) {
@@ -131,11 +120,82 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
       titleAndEffectiveDate: (title ? title + ' - ' : '') + formattedDate,
       mrpLabel: mrpLabel
     });
-
   }
 
-  private addSalaryBand() {
-    this.chartInstance.yAxis[0].addPlotBand(this.plotLinesAndBands.find(plb => plb.id === 'Salary range'));
+  private addSalaryRangeMinMidMax(xCoordinate) {
+    this.salaryRangeSeriesDataModel.MinMidMax.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Min, this.jobRangeData.CompanyStructures_Ranges_Max));
+  }
+
+  private addSalaryRangeTertile(xCoordinate) {
+    this.salaryRangeSeriesDataModel.Tertile.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Tertile_First, this.jobRangeData.CompanyStructures_Ranges_Tertile_Second));
+  }
+
+  private addSalaryRangeQuartile(xCoordinate) {
+    this.salaryRangeSeriesDataModel.Quartile.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Quartile_First, this.jobRangeData.CompanyStructures_Ranges_Quartile_Second));
+  }
+
+  private addSalaryRangeQuintile(xCoordinate) {
+    this.salaryRangeSeriesDataModel.Quintile.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Quintile_First, this.jobRangeData.CompanyStructures_Ranges_Quintile_Second));
+
+    this.salaryRangeSeriesDataModel.Quintile.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Quintile_Third, this.jobRangeData.CompanyStructures_Ranges_Quintile_Fourth));
+  }
+
+  private addMidPoint(xCoordinate) {
+    this.dataPointSeriesDataModel.Mid.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.Mid, this.jobRangeData, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
+  }
+
+  private addTertilePoint(xCoordinate) {
+    this.dataPointSeriesDataModel.TertileFirst.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.TertileFirst, this.jobRangeData, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
+
+    this.dataPointSeriesDataModel.TertileSecond.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.TertileSecond, this.jobRangeData, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
+  }
+
+  private addQuartilePoint(xCoordinate) {
+    this.dataPointSeriesDataModel.QuartileFirst.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuartileFirst, this.jobRangeData, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
+
+    this.dataPointSeriesDataModel.QuartileSecond.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuartileSecond, this.jobRangeData, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
+  }
+
+  private addQuintilePoint(xCoordinate) {
+    this.dataPointSeriesDataModel.QuintileFirst.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileFirst, this.jobRangeData, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
+
+    this.dataPointSeriesDataModel.QuintileSecond.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileSecond, this.jobRangeData, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
+
+    this.dataPointSeriesDataModel.QuintileThird.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileThird, this.jobRangeData, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
+
+    this.dataPointSeriesDataModel.QuintileFourth.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileFourth, this.jobRangeData, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
   }
 
   private updateChartLabels() {
@@ -144,7 +204,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     const rate = this.rate;
     this.chartInstance.yAxis[0].update({
       labels: {
-        formatter: function() {
+        formatter: function () {
           return StructuresHighchartsService.formatYAxisLabel(this.value, locale, currencyCode, rate);
         }
       }
@@ -152,28 +212,34 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private processChartData() {
-    this.removeLinesAndBands();
     // make sure all the proper data is present. If not present, don't do anything yet. this is because we can't control the order in which both datasets appear
     if (this.jobRangeGroupData && this.jobRangeGroupData.data.length && this.pricingsData && this.pricingsData.data.length) {
-      // first we need to plot anything that applies to the chart as a whole, including salary range, midpoint and avg
-
       this.jobRangeData = this.jobRangeGroupData.data.find(jr => jr.CompanyStructures_Ranges_CompanyStructuresRanges_ID === this.rangeId);
+      this.hasCurrentStructure = this.jobRangeData.CompanyStructures_RangeGroup_CurrentStructureMidPoint === null;
 
-      this.plotLinesAndBands = [
-        {
-          id: 'Salary range',
-          from: this.jobRangeData.CompanyStructures_Ranges_Min,
-          to: this.jobRangeData.CompanyStructures_Ranges_Max,
-          color: 'rgba(36,134,210,0.45)',
-          zIndex: 0
-        }
-      ];
+      this.salaryRangeSeriesDataModel = {
+        MinMidMax: [],
+        Quartile: [],
+        Quintile: [],
+        Tertile: []
+      };
+
+      this.dataPointSeriesDataModel = {
+        Mid: [],
+        TertileFirst: [],
+        TertileSecond: [],
+        QuartileFirst: [],
+        QuartileSecond: [],
+        QuintileFirst: [],
+        QuintileSecond: [],
+        QuintileThird: [],
+        QuintileFourth: [],
+      };
 
       this.pricingsSeriesData = [];
 
-      this.setInitialMinMax(this.jobRangeData);
-
-      this.addSalaryBand();
+      this.chartMin = StructuresHighchartsService.getChartMin(this.jobRangeData, this.rangeDistributionTypeId);
+      this.chartMax = StructuresHighchartsService.getChartMax(this.jobRangeData, this.rangeDistributionTypeId);
 
       // then we need to loop through and plot pricings data
       for (let i = 0; i < this.pricingsData.data.length; i++) {
@@ -185,35 +251,77 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         // add pricing plot points
         this.addPricingsMRP(i, currentRow, this.jobRangeData);
 
+        // always add to salary range group
+        this.addSalaryRangeMinMidMax(i);
+
+        // always add to midPoint
+        this.addMidPoint(i);
+
+        // Tertile - Quartile - Quintile: salary range + data points
+        if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
+          this.addSalaryRangeTertile(i);
+          this.addTertilePoint(i);
+        } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
+          this.addSalaryRangeQuartile(i);
+          this.addQuartilePoint(i);
+        } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
+          this.addSalaryRangeQuintile(i);
+          this.addQuintilePoint(i);
+        }
       }
 
       // set the min/max
       this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
 
       this.updateChartLabels();
-
-      this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRange].setData(this.salaryRangeSeriesData, false);
+      this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
+      this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeMinMidMax].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
       this.chartInstance.series[PricingsSalaryRangeChartSeries.Pricings].setData(this.pricingsSeriesData, true);
-
       this.renameSeries();
 
-      // store the plotLinesAndBands in one of the unused chart properties so we can access it
-      this.chartInstance.collectionsWithUpdate = this.plotLinesAndBands;
+      // Tertile - Quartile - Quintile: salary range + data points
+      if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeTertile].setData(this.salaryRangeSeriesDataModel.Tertile, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
+      } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeQuartile].setData(this.salaryRangeSeriesDataModel.Quartile, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
+      } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
+        console.log('DataModel');
+        console.log(this.dataPointSeriesDataModel);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuintileFirst].setData(this.dataPointSeriesDataModel.QuintileFirst, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuintileSecond].setData(this.dataPointSeriesDataModel.QuintileSecond, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuintileThird].setData(this.dataPointSeriesDataModel.QuintileThird, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuintileFourth].setData(this.dataPointSeriesDataModel.QuintileFourth, false);
+      }
 
       this.chartInstance.setSize(null, GraphHelper.getChartHeight(this.pricingsData.data, true));
     }
   }
 
-  private removeLinesAndBands() {
-    if (this.plotLinesAndBands) {
-      this.chartInstance.yAxis[0].removePlotBand(PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRange));
+  private renameSeries() {
+    // 1 ==  'Pricings ' + controlPointDisplay
+    this.chartInstance.series[PricingsSalaryRangeChartSeries.Pricings].name =
+      PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.Pricings, this.controlPointDisplay);
+  }
+
+  private clearData(): void {
+    if (this.jobRangeGroupData) {
+      this.jobRangeGroupData = {...this.jobRangeGroupData, data: []};
+    }
+
+    if (this.pricingsData) {
+      this.pricingsData = {...this.pricingsData, data: []};
     }
   }
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
     Highcharts.SVGRenderer.prototype.symbols.vline =
-      function(x, y, width, height) {
+      function (x, y, width, height) {
         return ['M', x, y + width / 2, 'L', x + height, y + width / 2];
       };
   }
@@ -222,6 +330,6 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     this.dataSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
     this.jobDataSubscription.unsubscribe();
+    this.jobRangeViewIdSubscription.unsubscribe();
   }
-
 }

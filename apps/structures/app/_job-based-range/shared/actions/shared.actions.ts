@@ -14,6 +14,8 @@ export const SHOW_REMOVE_RANGE_MODAL = '[Structures - Job Based Range - Shared] 
 export const REMOVING_RANGE = '[Structures - Job Based Range - Shared] Removing Range';
 export const REMOVING_RANGE_SUCCESS = '[Structures - Job Based Range - Shared] Removing Range Success';
 export const REMOVING_RANGE_ERROR = '[Structures - Job Based Range - Shared] Removing Range Error';
+export const RESET_ROUNDING_SETTING = '[Structures - Job Based Range - Shared] Reset Rounding Setting';
+export const UPDATE_ROUNDING_POINTS = '[Structures - Job Based Range - Shared] Update Rounding Points';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -59,6 +61,16 @@ export class RemovingRangeError implements Action {
   constructor(public error: any) {}
 }
 
+export class ResetRoundingSetting implements Action {
+  readonly type = RESET_ROUNDING_SETTING;
+  constructor() {}
+}
+
+export class UpdateRoundingPoints implements Action {
+  readonly type = UPDATE_ROUNDING_POINTS;
+  constructor(public payload: { RoundingPoint: number } ) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -68,4 +80,6 @@ export type SharedActions
   | RemovingRangeSuccess
   | RemovingRangeError
   | ShowRemoveRangeModal
-  | UpdateRoundingPoint;
+  | UpdateRoundingPoint
+  | ResetRoundingSetting
+  | UpdateRoundingPoints;

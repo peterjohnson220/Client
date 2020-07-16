@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ExchangeMapNewPageComponent, ExchangeMapPageComponent } from './containers/pages';
-import { PeerExchangeExplorerEnabledGuard } from 'libs/security/guards';
+import { ExchangeMapPageComponent } from './containers/pages';
 
 const routes: Routes = [
-  { path: '', component: ExchangeMapPageComponent, canActivate: [PeerExchangeExplorerEnabledGuard] },
-  { path: 'new', component: ExchangeMapNewPageComponent }
+  { path: '', component: ExchangeMapPageComponent }
 ];
 
 @NgModule({

@@ -59,8 +59,8 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
   }
 
   rowCallback(context: RowClassArgs): string {
-    const di = context.dataItem;
-    if (di.validationErrorOutputUri || di.fixableDataConditionException || di.terminalException) {
+    const dataItem = context.dataItem as CompositeDataLoadViewResponse;
+    if (!!dataItem.fixableDataConditionException || !!dataItem.terminalException || dataItem.entityLoadSummaries.filter(v => v.invalidCount).length > 0) {
       return 'failed-load';
     }
     return '';
@@ -95,5 +95,9 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
 
   showIfLoadHasSummaries(dataItem: CompositeDataLoadViewResponse, index: number): boolean {
     return dataItem && dataItem.entityLoadSummaries && dataItem.entityLoadSummaries.length > 0;
+  }
+
+  hasErrorCondition(dataItem: CompositeDataLoadViewResponse): boolean {
+    return !!dataItem.fixableDataConditionException || !!dataItem.terminalException || dataItem.entityLoadSummaries.filter(v => v.invalidCount > 0).length > 0;
   }
 }

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
-import { JobInformationField } from '../../../../shared/models';
+import { JobInformationField } from 'libs/features/job-description-management';
 
 @Component({
     selector: 'pf-template-job-information-section',

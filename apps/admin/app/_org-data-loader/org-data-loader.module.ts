@@ -18,7 +18,7 @@ import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
-import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 
 import * as fromFaIcons from './fa-icons';
 import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';

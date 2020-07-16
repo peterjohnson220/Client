@@ -9,11 +9,11 @@ import * as fromRootState from 'libs/state/state';
 
 
 import * as fromJobDescriptionManagementReducer from '../../reducers';
-import * as fromJobDescriptionSharedReducer from '../../../shared/reducers';
-import * as fromJobFamilyActions from '../../../shared/actions/job-family.actions';
+import * as fromJobDescriptionSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromJobFamilyActions from 'libs/features/job-description-management/actions/job-family.actions';
 import * as fromCopyJobDescriptionModalActions from '../../actions/copy-job-description-modal.actions';
 import * as fromJobDescriptionActions from '../../actions/job-description.actions';
-import { JobDescriptionExtendedInfo, JobDescriptionSource } from '../../models';
+import { JobDescriptionExtendedInfo, JobDescriptionSource } from 'libs/features/job-description-management/models';
 
 @Component({
   selector: 'pf-copy-job-description-modal',

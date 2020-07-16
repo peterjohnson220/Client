@@ -6,16 +6,22 @@ import * as fromPayMarketModalActions from '../actions/paymarket-modal.actions';
 
 export interface State {
   payMarketModalOpen: boolean;
+  deletePayMarketModalOpen: boolean;
   payMarketId: number;
   payMarket: AsyncStateObj<PayMarketWithMdScope>;
   payMarketErrorMessage: string;
+  deletingPayMarket: boolean;
+  deletingPayMarketError: boolean;
 }
 
 export const initialState: State = {
   payMarketModalOpen: false,
+  deletePayMarketModalOpen: false,
   payMarketId: null,
   payMarket: generateDefaultAsyncStateObj<PayMarketWithMdScope>(null),
-  payMarketErrorMessage: ''
+  payMarketErrorMessage: '',
+  deletingPayMarket: false,
+  deletingPayMarketError: false
 };
 
 export function reducer(state = initialState, action: fromPayMarketModalActions.Actions): State {
@@ -35,6 +41,18 @@ export function reducer(state = initialState, action: fromPayMarketModalActions.
         payMarketId: null,
         payMarket: generateDefaultAsyncStateObj<PayMarketWithMdScope>(null),
         payMarketErrorMessage: ''
+      };
+    }
+    case fromPayMarketModalActions.OPEN_DELETE_PAY_MARKET_MODAL: {
+      return {
+        ...state,
+        deletePayMarketModalOpen: true
+      };
+    }
+    case fromPayMarketModalActions.CLOSE_DELETE_PAY_MARKET_MODAL: {
+      return {
+        ...state,
+        deletePayMarketModalOpen: false
       };
     }
     case fromPayMarketModalActions.LOAD_PAY_MARKET: {
@@ -70,6 +88,27 @@ export function reducer(state = initialState, action: fromPayMarketModalActions.
         payMarketErrorMessage: action.payload
       };
     }
+    case fromPayMarketModalActions.DELETE_PAY_MARKET: {
+      return {
+        ...state,
+        deletingPayMarket: true,
+        deletingPayMarketError: false
+      };
+    }
+    case fromPayMarketModalActions.DELETE_PAY_MARKET_SUCCESS: {
+      return {
+        ...state,
+        deletingPayMarket: false,
+        deletingPayMarketError: false
+      };
+    }
+    case fromPayMarketModalActions.DELETE_PAY_MARKET_ERROR: {
+      return {
+        ...state,
+        deletingPayMarket: false,
+        deletingPayMarketError: true
+      };
+    }
 
     default: {
       return state;
@@ -78,6 +117,9 @@ export function reducer(state = initialState, action: fromPayMarketModalActions.
 }
 
 export const getPayMarketModalOpen = (state: State) => state.payMarketModalOpen;
+export const getDeletePayMarketModalOpen = (state: State) => state.deletePayMarketModalOpen;
 export const getPayMarket = (state: State) => state.payMarket;
 export const getPayMarketId = (state: State) => state.payMarketId;
 export const getPayMarketErrorMessage = (state: State) => state.payMarketErrorMessage;
+export const getDeletingPayMarketStatus = (state: State) => state.deletingPayMarket;
+export const getDeletingPayMarketErrorStatus = (state: State) => state.deletingPayMarketError;

@@ -1,0 +1,44 @@
+<pf-modal-form
+  [modalId]="'au-modal-delete-paymarket'"
+  [isOpen$]="modalOpen$"
+  [size]="'md'"
+  [centered]="false"
+  [submitting]="deleting$ | async"
+  [allowDismiss]="true"
+  [primaryButtonClass]="'btn-danger'"
+  [primaryButtonText]="'Delete'"
+  [primaryButtonTextSubmitting]="'Deleting...'"
+  [title]="'Delete Pay Market'"
+  [submitEnabled]="checked"
+  (onDismiss)="closeModal()"
+  (onSubmit)="deletePayMarket()">
+
+  <ng-container basic-content>
+    <div class="delete-paymarket-modal-container px-3">
+      <p>Are you sure you want to delete the pay market <b>{{payMarketName}}</b>?</p>
+    </div>
+    <form [formGroup]="deletePayMarketForm">
+      <div class="d-flex border-top p-3">
+        <input
+        type="checkbox"
+        (change)="checked = !checked"
+        class="align-self-center k-checkbox"
+        data-qa-id="delete-paymarket-form-confirmation"
+        id="confirmation"
+        formControlName="ConfirmPayMarketDelete">
+        <label class="k-checkbox-label d-inline-block" for="confirmation">
+          I understand that once this pay market is deleted, all associated projects,
+          pricings, employees and structures will also be deleted and that this action cannot be undone.
+          <span class="text-danger">*</span>
+        </label>
+      </div>
+    </form>
+  </ng-container>
+
+  <ng-container footer-left>
+    <div *ngIf="deletingError$ | async">
+      <span class="font-italic text-danger">There was an error deleting this pay market</span>
+    </div>
+  </ng-container>
+
+</pf-modal-form>

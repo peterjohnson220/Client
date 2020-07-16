@@ -1,4 +1,10 @@
-<pf-async-container>
+<pf-async-container
+  [loading]="processing$ | async"
+  [loadingError]="processingError$ | async"
+  [loadingErrorMessage]="errorMessage$ | async"
+  [hideReloadButton]="true"
+  [loadingProgress]="loadingProgress"
+  [spinnerType]="spinnerType">
   <pf-page-with-title-bar>
     <ng-container custom-button>
       <button class="btn btn-secondary px-3 mr-2"
@@ -17,53 +23,20 @@
         <div class="d-flex flex-column mb-3 p-3">
           <div class="title">Select Company <span class="text-danger">*</span></div>
           <div class="company-selector row">
-            <div class="col-4 pl-0">
+            <div class="col col-lg-4 pl-0">
               <pf-company-selector></pf-company-selector>
             </div>
           </div>
           <div [style.visibility]="!!selectedCompany?.CompanyId ? 'visible' : 'hidden'">
-            <pf-upload-pricing-file [companyId]="selectedCompany?.CompanyId"></pf-upload-pricing-file>
-            <ng-container>
-              <div class="shadow p-3 rounded container-background mt-3">
-                <div class="px-5">
-                  <div class="row my-2 py-3 rounded">
-                      <fa-icon class="fa-lg fa-arrow-right mr-3"
-                              (click)="isCollapsed = !isCollapsed"
-                              [style.cursor]="'pointer'"
-                              [icon]="['far', isCollapsed ? 'angle-right' : 'angle-down']" ></fa-icon>
-                      <h5>Pricing Loader Defaults</h5>
-                  </div>
-                  <div class="collapse show" [ngbCollapse]="isCollapsed">
-                    <div class="card-body">
-                      <div class="row my-2 ml-2">
-                        <div class="col-sm-8">
-                          <h5>MRP Fields</h5>
-                        </div>
-                        <div class="col-sm-4">
-                          <h5>Adjustments</h5>
-                        </div>
-                      </div>
-                      <div class="row my-2 ml-2" *ngFor="let row of MRPFields">
-                        <div class="col-md-3" *ngFor="let col of row">
-                          <div class="row">
-                            <label class="col-sm-5">{{col.Name}}</label>
-                            <kendo-numerictextbox class="form-control" [ngClass]="{'col-sm-2': textWidth(col.Value), 'col-sm-3': !textWidth(col.Value)}"
-                                                  [(ngModel)]="col.Value"
-                                                  [format]="'n'"
-                                                  [spinners]="false"
-                                                  [decimals]="col.Decimal"
-                                                  [max]="col.Max"
-                                                  [min]="col.Min"
-                                                  [autoCorrect]="true">
-                            </kendo-numerictextbox>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ng-container>
+            <pf-upload-pricing-file #pricingFileUpload
+              [companyId]="selectedCompany?.CompanyId"
+              [editing]="isEditingSetting"
+              (processClicked)="handleProcessClicked()">
+            </pf-upload-pricing-file>
+            <pf-default-settings
+              [companyId]="selectedCompany?.CompanyId"
+              (editSetting)="isEditingSetting = $event">
+            </pf-default-settings>
           </div>
         </div>
     </ng-container>

@@ -1,7 +1,7 @@
 import {Component } from '@angular/core';
 
 import { ListAreaBaseFilter } from '../list-area-base-filter';
-import { DateOperatorOptions } from '../../../models/list-area-options.model';
+import { DateOperatorOptions } from 'libs/features/job-description-management/models/list-area-options.model';
 
 @Component({
   selector: 'pf-list-area-filter-date',
