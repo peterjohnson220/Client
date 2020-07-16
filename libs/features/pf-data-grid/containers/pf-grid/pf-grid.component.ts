@@ -260,9 +260,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  onCellClick({ dataItem, rowIndex, originalEvent }) {
-
-    if (originalEvent.button !== 0) {
+  onCellClick({ dataItem, rowIndex, originalEvent, column }) {
+    if (originalEvent.button !== 0 || column?.title === this.gridRowActionsConfig.Title) {
       return;
     }
 

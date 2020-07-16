@@ -13,8 +13,26 @@
   [columnTemplates]="colTemplates"
   [actionBarConfig]="actionBarConfig"
   [fieldsExcludedFromExport]="fieldsExcludedFromExport"
-  [gridConfig]="gridConfig">
+  [gridConfig]="gridConfig"
+  [gridRowActionsConfig]="gridRowActionsConfig">
 </pf-data-grid>
+
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
+  <div ngbDropdown container="body" #p="ngbDropdown"
+       (openChange)="handleSelectedRowAction(dataRow['CompanyEmployees_CompanyEmployee_ID'], p)">
+    <fa-icon ngbDropdownToggle
+             icon="ellipsis-h"
+             id="paymarket-actions-{{dataRow['CompanyEmployees_CompanyEmployee_ID']}}"
+             class="gray-text">
+    </fa-icon>
+    <div ngbDropdownMenu aria-labelledby="employee-actions-{{dataRow['CompanyEmployees_CompanyEmployee_ID']}}">
+      <button [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE" ngbDropdownItem (click)="handleEditClicked(true)">Edit</button>
+      <button [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]" ngbDropdownItem (click)="handlePriceJobsClicked(true)">Create Project</button>
+      <button [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE" ngbDropdownItem (click)="handleDeleteSingleEmployeeClicked()">Delete</button>
+    </div>
+  </div>
+</ng-template>
+
 <ng-template #gridActions>
   <button
     type="button"
@@ -104,6 +122,8 @@
   {{dataRow[fieldName] | comp: dataRow['CompanyEmployees_HiddenRate'] : 'rounded'}}
 </ng-template>
 
+<ng-template #deleteSingleEmployeeMessage>Are you sure you want to delete the <b>1</b> selected employee?</ng-template>
+
 <pf-modal-form
   [size]="'md'"
   [title]="'Delete Employees'"
@@ -112,10 +132,9 @@
   [modalId]="'au-modal-employees-page-delete-employee'"
   [isOpen$]=" showDeleteEmployeeModal$"
   (onSubmit)="handleEmployeeDelete()"
-  (onDismiss)="showDeleteEmployeeModal.next(false)">
-
+  (onDismiss)="handleModalDismissed()">
   <ng-container basic-content>
-    <p>Are you sure you want to delete the <b>{{selectedCompanyEmployeeIds?.length}}</b> selected employee<span *ngIf="selectedCompanyEmployeeIds?.length > 1">s</span>?</p>
+    <p *ngIf="!deleteSingleEmployee; else deleteSingleEmployeeMessage">Are you sure you want to delete the <b>{{selectedCompanyEmployeeIds?.length}}</b> selected employee<span *ngIf="selectedCompanyEmployeeIds?.length > 1">s</span>?</p>
   </ng-container>
 
 </pf-modal-form>

@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -32,7 +32,7 @@ describe('Employees - Employees Page', () => {
         }),
         PfCommonModule
       ],
-      declarations: [ EmployeesPageComponent ],
+      declarations: [ EmployeesPageComponent, NgbDropdown ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
         {
