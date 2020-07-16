@@ -110,8 +110,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       ...getDefaultActionBarConfig(),
       ShowActionBar: true,
       ShowColumnChooser: true,
-      ShowFilterChooser: true
+      ShowFilterChooser: true,
+      AllowExport: true,
+      ExportSourceName: 'Job Range Structures',
+      CustomExportType: 'JobRangeStructures',
     };
+
     this.invalidMidPointRanges = [];
   }
 
