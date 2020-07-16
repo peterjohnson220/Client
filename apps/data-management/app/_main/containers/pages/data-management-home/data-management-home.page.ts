@@ -12,6 +12,7 @@ export class DataManagementHomePageComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private eventsSubscription: Subscription;
   fullPage = false;
+  fullerPage = false;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
@@ -23,6 +24,7 @@ export class DataManagementHomePageComponent implements OnInit, OnDestroy {
       }
       const x = route.data;
       this.fullPage = x && x.FullPage === true;
+      this.fullerPage = x && x.FullerPage === true;
     });
     this.eventsSubscription = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
@@ -37,11 +39,20 @@ export class DataManagementHomePageComponent implements OnInit, OnDestroy {
       mergeMap(route => route.data)
     ).subscribe(data => {
         this.fullPage = data && data.FullPage === true;
+        this.fullerPage = data && data.FullerPage === true;
     });
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.eventsSubscription.unsubscribe();
+  }
+
+  getPageStyles() {
+    return {
+      'container-fluid flexible-width p-0 fuller-page': this.fullerPage && !this.fullPage,
+      'container-fluid flexible-width p-0 full-page': !this.fullerPage && this.fullPage,
+      'container my-5 data-management-page': !this.fullerPage && !this.fullPage,
+    };
   }
 }
