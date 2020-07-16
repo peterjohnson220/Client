@@ -1,0 +1,18 @@
+<div class="row" *ngIf="hasConnection && matchesAuthenticationStatus('Authenticated')">
+  <span
+    class="text-success d-inline-block text-right text-nowrap flex-shrink-0 flex-grow-0 col-12">
+    Authenticated <fa-icon icon="check-circle"></fa-icon>
+  </span>
+</div>
+<div class="row" *ngIf="hasConnection && matchesAuthenticationStatus('Authenticating')">
+  <span
+    class="text-info d-inline-block text-right text-nowrap flex-shrink-0 flex-grow-0 col-12">
+    <i>Authenticating</i> <fa-icon icon="spinner" spin="true" class="p-2"></fa-icon>
+  </span>
+</div>
+<div class="row" *ngIf="!hasConnection && matchesAuthenticationStatus('AuthenticationError')">
+  <span
+    class="text-danger d-inline-block text-right text-nowrap flex-shrink-0 flex-grow-0 col-12">
+    <i>Authentication Error</i> <fa-icon icon="times" class="p-2"></fa-icon>
+  </span>
+</div>

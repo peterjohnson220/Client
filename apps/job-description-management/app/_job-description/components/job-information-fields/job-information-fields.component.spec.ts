@@ -7,7 +7,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromJobDescriptionReducers from '../../reducers';
 import { JobInformationFieldsComponent } from './job-information-fields.component';
-import { generateMockAvailableJobInformationField } from '../../../shared/models/available-job-information-field.model';
+import { generateMockAvailableJobInformationField } from 'libs/features/job-description-management/models/available-job-information-field.model';
 
 describe('Job Description Management - Job Description - Job Description Grid', () => {
   let instance: JobInformationFieldsComponent;

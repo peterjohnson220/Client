@@ -1,5 +1,5 @@
 import * as fromJobDescriptionVersionCompareActions from '../actions/job-description-version-compare.actions';
-import { JobDescriptionHistoryListItem } from '../models';
+import { JobDescriptionHistoryListItem } from 'libs/features/job-description-management';
 
 export interface State {
   historyList: JobDescriptionHistoryListItem[];

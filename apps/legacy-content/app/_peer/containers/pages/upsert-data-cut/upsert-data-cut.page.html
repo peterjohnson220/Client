@@ -3,86 +3,83 @@
                     [loadingErrorMessage]="'Error adding data cut, please close the modal and try again.'"
                     [hideReloadButton]="true">
 
-  <div class="d-flex h-100 w-100">
-    <div class="filters-container">
-      <pf-peer-data-cut-filter-sidebar [companyPayMarketId]="companyPayMarketId"
-                                       [shouldShowPayMarketBoundsFilter]="hasAcceptedPeerTerms$ | async"
-                                       [shouldShowExcludeIndirectJobMatchesFilter]="hasAcceptedPeerTerms$ | async"
-                                       [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async"
-                                       [companyJobId]="companyJobId">
-      </pf-peer-data-cut-filter-sidebar>
-    </div>
-    <div class="flex-grow-1 d-flex flex-column h-100 w-100">
-      <div class="map-container flex-grow-1 d-flex flex-column">
-        <pf-peer-data-cut-map *ngIf="systemFilter$ | async"
-                              [canFitBounds]="upsertDataCutPageInViewInIframe$ | async">
-        </pf-peer-data-cut-map>
-        <div class="alert alert-mustard mb-0"
-             *ngIf="!(hasAcceptedPeerTerms$ | async)">
-          <div class="request-access-message mb-2">
-            {{!(hasRequestedPeerAccess$ | async) ? requestPeerAccessMessage : accessRequestedMessage }}
-          </div>
-          <div class="d-flex justify-content-end mt-0">
-            <button type="button"
-                    class="btn btn-primary mr-2"
-                    [disabled]="(requestingPeerAccess$ | async) || (hasRequestedPeerAccess$ | async)"
-                    (click)="requestPeerAccess()">
+  <pf-exchange-explorer
+    [companyPayMarketId]="companyPayMarketId"
+    [shouldShowPayMarketBoundsFilter]="hasAcceptedPeerTerms$ | async"
+    [shouldShowExcludeIndirectJobMatchesFilter]="hasAcceptedPeerTerms$ | async"
+    [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async">
+
+    <ng-container map-footer>
+
+      <div class="alert alert-mustard mb-0"
+           *ngIf="!(hasAcceptedPeerTerms$ | async)">
+        <div class="request-access-message mb-2">
+          {{!(hasRequestedPeerAccess$ | async) ? requestPeerAccessMessage : accessRequestedMessage }}
+        </div>
+        <div class="d-flex justify-content-end mt-0">
+          <button type="button"
+                  class="btn btn-primary mr-2"
+                  [disabled]="(requestingPeerAccess$ | async) || (hasRequestedPeerAccess$ | async)"
+                  (click)="requestPeerAccess()">
               <span *ngIf="requestingPeerAccess$ | async">
                 <pf-loading-indicator></pf-loading-indicator> Requesting Access...
               </span>
-              <span *ngIf="!(requestingPeerAccess$ | async)">
+            <span *ngIf="!(requestingPeerAccess$ | async)">
                 {{(hasRequestedPeerAccess$ | async) ? 'Access Requested' : 'Request Access'}}
               </span>
-            </button>
-            <button type="button"
-                    class="btn btn-secondary"
-                    (click)="cancel()">Cancel</button>
-          </div>
+          </button>
+          <button type="button"
+                  class="btn btn-secondary"
+                  (click)="cancel()">Cancel</button>
         </div>
       </div>
-      <div class="button-container d-flex flex-row justify-content-between align-items-center"
-           *ngIf="(hasAcceptedPeerTerms$ | async)">
-        <div class="d-flex"
-             *ngIf="((untaggedIncumbentCount$ | async) > 0)">
 
-          <label for="include-untagged-incs">
-            Include {{untaggedIncumbentCount$ | async | number }} non geotagged employees
-            that do not have location data?
+    </ng-container>
 
-            <input id="include-untagged-incs"
-                   type="checkbox"
-                   [ngModel]="includeUntaggedIncumbents$ | async"
-                   (click)="handleUntaggedIncumbentsChecked()">
-          </label>
-        </div>
-        <div class="d-flex flex-grow-1 justify-content-end">
-          <label style="font-style: italic;"
-                 class="text-muted"
-                 *ngIf="(isEmployeeCheckLoading$ | async)">
-            <fa-icon icon="spinner" spin></fa-icon>&nbsp;<b>Validating...</b>
-          </label>
-        </div>
-        <div class="flex-grow-1 d-flex justify-content-end">
-          <pf-guidelines-badge *ngIf="(initialMapMoveComplete$ | async)">
-          </pf-guidelines-badge>
-
-          <div class="buttons">
-            <button type="button"
-                    class="btn legacy-primary-btn au-btn-add"
-                    *ngIf="(hasAcceptedPeerTerms$ | async)"
-                    [disabled]="failsGuidelines || !(hasAcceptedPeerTerms$ | async) || (isEmployeeCheckLoading$ | async)"
-                    (click)="upsert()">
-
-              {{primaryButtonText}}
-            </button>
-
-            <button type="button"
-                    class="btn btn-secondary au-btn-cancel"
-                    (click)="cancel()">Cancel</button>
-          </div>
-        </div>
+    <ng-container action-left>
+      <div class="d-flex mr-4">
+          <pf-weighting-type-dropdown
+            [selectedWeightingType]="selectedWeightingType"
+            [includeLabel]="false"
+            (weightingTypeChanged)="handleWeightingTypeChanged($event)">
+          </pf-weighting-type-dropdown>
       </div>
-    </div>
-  </div>
+
+      <div class="d-flex" *ngIf="((untaggedIncumbentCount$ | async) > 0)">
+        <label for="include-untagged-incs">
+          {{untaggedIncumbentMessage}}
+          <input id="include-untagged-incs"
+                 type="checkbox"
+                 [ngModel]="includeUntaggedIncumbents$ | async"
+                 (click)="handleUntaggedIncumbentsChecked()">
+        </label>
+      </div>
+      <div class="d-flex flex-grow-1 justify-content-end">
+        <label class="text-muted font-italic" *ngIf="(isEmployeeCheckLoading$ | async)">
+          <i class='fa fa-spinner fa-spin'></i>&nbsp;<b>Validating...</b>
+        </label>
+      </div>
+    </ng-container>
+
+    <ng-container action-buttons>
+
+      <pf-guidelines-badge></pf-guidelines-badge>
+
+       <button type="button"
+                class="btn legacy-primary-btn au-btn-add ml-2"
+                *ngIf="(hasAcceptedPeerTerms$ | async)"
+                [disabled]="failsGuidelines || !(hasAcceptedPeerTerms$ | async) || (isEmployeeCheckLoading$ | async)"
+                (click)="upsert()">
+
+          {{primaryButtonText}}
+        </button>
+
+        <button type="button"
+                class="btn btn-secondary au-btn-cancel ml-2"
+                (click)="cancel()">Cancel</button>
+
+    </ng-container>
+
+  </pf-exchange-explorer>
 
 </pf-async-container>

@@ -3,9 +3,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import * as fromJobDescriptionAppliesToReducers from '../../../reducers';
+import * as fromJobDescriptionAppliesToReducers from 'libs/features/job-description-management/reducers';
 import { JobDescriptionInfoHeaderBase } from '../job-description-info-header-base';
-import { JobDescriptionAppliesToItem } from '../../../models';
+import { JobDescriptionAppliesToItem } from 'libs/features/job-description-management/models';
 
 @Component({
   selector: 'pf-job-description-info-header-no-logo',

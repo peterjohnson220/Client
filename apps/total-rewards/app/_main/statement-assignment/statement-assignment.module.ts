@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
+import { GridModule, SharedModule } from '@progress/kendo-angular-grid';
+import { TooltipModule } from '@progress/kendo-angular-tooltip';
+
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
@@ -13,17 +16,12 @@ import { WindowCommunicationService } from 'libs/core/services';
 import { reducers } from './reducers';
 import { StatementAssignmentRoutingModule } from './statement-assignment-routing.module';
 import { StatementAssignmentPageComponent } from './statement-assignment.page';
-import { StatementAssignmentModalComponent } from './containers';
-import { EmployeeSearchResultsComponent } from './containers/employee-search-results/employee-search-results.component';
-import {
-  EmployeeSearchFiltersEffects,
-  EmployeeSearchResultsEffects,
-  EmployeeSearchSingleFilterEffects,
-  EmployeeSearchUserFilterEffects,
-  StatementAssignmentModalEffects
-} from './effects';
-import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
+import { StatementAssignmentModalComponent, AssignedEmployeesGridComponent, EmployeeSearchResultsComponent } from './containers';
+import * as effects from './effects';
 import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
+import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
+import { GenerateStatementModalComponent } from './components/generate-statement-modal/generate-statement-modal.component';
+import * as fromTrsShared from '../../shared';
 
 @NgModule({
   imports: [
@@ -33,16 +31,23 @@ import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementAssignment', reducers),
     EffectsModule.forFeature([
-      EmployeeSearchFiltersEffects,
-      EmployeeSearchResultsEffects,
-      EmployeeSearchSingleFilterEffects,
-      EmployeeSearchUserFilterEffects,
-      StatementAssignmentModalEffects]),
+      effects.EmployeeSearchFiltersEffects,
+      effects.EmployeeSearchResultsEffects,
+      effects.EmployeeSearchSingleFilterEffects,
+      effects.EmployeeSearchUserFilterEffects,
+      effects.StatementAssignmentModalEffects,
+      effects.StatementAssignmentPageEffects,
+      effects.AssignedEmployeesGridEffects
+    ]),
+    SharedModule,
+    GridModule,
+    TooltipModule,
 
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
     PfSearchModule,
+    fromTrsShared.SharedModule,
 
     // Routing
     StatementAssignmentRoutingModule,
@@ -51,7 +56,9 @@ import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
     StatementAssignmentPageComponent,
     StatementAssignmentModalComponent,
     EmployeeSearchResultsComponent,
-    EmployeeResultComponent
+    EmployeeResultComponent,
+    GenerateStatementModalComponent,
+    AssignedEmployeesGridComponent
   ],
   providers: [
     { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },

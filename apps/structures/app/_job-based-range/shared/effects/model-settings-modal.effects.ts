@@ -23,6 +23,7 @@ import { Pages } from '../constants/pages';
 import { RangeGroupMetadata } from '../models';
 import { UrlService } from '../services';
 import { Workflow } from '../constants/workflow';
+import { PagesHelper } from '../helpers/pages.helper';
 
 @Injectable()
 export class ModelSettingsModalEffects {
@@ -31,9 +32,15 @@ export class ModelSettingsModalEffects {
   cancelInNewWorkflow$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromModelSettingsModalActions.CANCEL),
+      withLatestFrom(this.store.pipe(select(fromSharedReducer.getMetadata)),
+        (action, metadata: RangeGroupMetadata) => {
+          return { action, metadata };
+        }
+      ),
       filter(() => this.urlService.isInWorkflow(Workflow.NewJobBasedRange)),
-      map(() => {
-        return new fromDataGridActions.LoadData(PageViewIds.Model);
+      map((data) => {
+        const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+        return new fromDataGridActions.LoadData(modelPageViewId);
       })
     );
 
@@ -134,7 +141,9 @@ export class ModelSettingsModalEffects {
                     PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
                   ));
                   actions.push(new fromModelSettingsModalActions.CloseModal());
-                  actions.push(new fromDataGridActions.LoadData(PageViewIds.Model));
+                  const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+                  actions.push(new fromDataGridActions.LoadData(modelPageViewId));
+
 
                   switch (data.action.payload.fromPage) {
                     case Pages.Employees: {

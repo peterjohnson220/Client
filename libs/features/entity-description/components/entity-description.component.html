@@ -1,0 +1,28 @@
+<div [ngbPopover]="popContent"
+     [popoverTitle]="entityName"
+     [popoverClass]="'description-popover'"
+     [placement]="placement"
+     [autoClose]="'outside'"
+     [openDelay]="1000"
+     triggers="mouseenter:mouseleave"
+     container="body"
+     (mouseenter)="onMouseEnter()"
+     (mouseleave)="onMouseLeave()">
+  <ng-content></ng-content>
+</div>
+
+<ng-template #popContent class="description-popover">
+  <div class="description-body">
+    <div *ngIf="(loadingDescription$ | async)" class="description-loading-container">
+        <fa-icon icon="spinner" spin="true" class="ml-auto mr-auto" aria-hidden="true"></fa-icon>
+    </div>
+    <span *ngIf="!(loadingDescription$ | async)">
+        <span *ngIf="(description$|async) && (description$|async).length > 0">
+          {{ (description$|async) }}
+        </span>
+        <span *ngIf="!(description$|async)?.length">
+          <i>No description available </i>
+        </span>
+    </span>
+  </div>
+</ng-template>

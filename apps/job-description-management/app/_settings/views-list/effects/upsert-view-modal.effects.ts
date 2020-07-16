@@ -15,7 +15,7 @@ import * as fromViewsListReducer from '../reducers';
 import * as fromUpsertViewModalActions from '../actions/upsert-view-modal.actions';
 import * as fromViewsListActions from '../actions/views-list.actions';
 import * as fromViewEditActions from '../../view-edit/actions/view-edit.actions';
-import { PayfactorsApiModelMapper } from '../../../shared/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 import { PayfactorsApiModelMapper as PayfactorsApiModelMapperSettingsHelper } from '../../shared/helpers';
 
 @Injectable()

@@ -9,12 +9,12 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj } from 'libs/models/state';
 import { Permissions } from 'libs/constants';
 
-import * as fromJDMSharedReduder from '../../../shared/reducers';
-import * as fromWorkflowConfigActions from '../../../shared/actions/workflow-config.actions';
-import * as fromWorkflowTemplateListActions from '../../../shared/actions/shared-workflow.actions';
+import * as fromJDMSharedReduder from 'libs/features/job-description-management/reducers';
+import * as fromWorkflowConfigActions from 'libs/features/job-description-management/actions/workflow-config.actions';
+
 import * as fromJobDescriptionManagementReducer from '../../reducers';
 import * as fromWorkflowSetupModalActions from '../../actions/workflow-setup-modal.actions';
-import { WorkflowTemplate, WorkflowStep } from '../../../shared/models';
+import { WorkflowTemplate, WorkflowStep } from 'libs/features/job-description-management/models';
 import { Workflow } from '../../models';
 
 @Component({

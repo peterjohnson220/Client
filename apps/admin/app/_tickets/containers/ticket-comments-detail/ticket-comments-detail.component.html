@@ -4,11 +4,31 @@
     <button type="button" class="btn btn-primary pf-secondary-background px-4 py-2" (click)="addNewComment()">Add Note</button>
     <div *ngFor="let comment of _comments; let firstComment = first">
       <hr class="w-100" *ngIf="firstComment" />
-      <pf-ticket-comment
+      <pf-ticket-comment *ngIf="comment.Level === commentLevel.Admin"
         [comment]="comment"
         (removeCommentEvent)="removeComment($event)"
         (saveCommentEvent)="upsertComment($event)">
       </pf-ticket-comment>
+      <pf-comment-box *ngIf="comment.Level === commentLevel.User"
+        class="client-note"
+        [comment]="comment"
+        [hasCustomCommentContent]="true"
+        (reply)="handleReply($event, comment)">
+
+        <ng-container custom-comment-content>
+          <div class="comment-content d-flex">
+            <span class="user-name">{{comment.FullName}} </span>
+            <span class="badge badge-pill badge-client ml-2">Client Note</span>
+          </div>
+          <div class="content pt-3">
+            <quill-view-html [content]="comment.Content" theme="snow" class="view-only"></quill-view-html>
+          </div>
+          <div class="comment-date text-muted">
+            Date: {{comment.CreateDate | date:'shortDate'}}&nbsp; Time: {{comment.CreateDate | date:'shortTime'}}
+          </div>
+        </ng-container>
+
+      </pf-comment-box>
       <hr class="w-100"/>
     </div>
   </div>

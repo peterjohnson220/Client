@@ -8,8 +8,8 @@ import { StoreModule } from '@ngrx/store';
 
 import { SettingsService } from 'libs/state/app-context/services';
 
-import { MidpointEditorComponent } from './containers';
-import { MidpointEditEffects } from './effects';
+import { RangeFieldEditorComponent } from './containers';
+import { RangeFieldEditEffects } from './effects';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { MidpointEditEffects } from './effects';
     // 3rd Party
     StoreModule,
     EffectsModule.forFeature([
-      MidpointEditEffects
+      RangeFieldEditEffects
     ]),
     NumericTextBoxModule
   ],
@@ -28,10 +28,10 @@ import { MidpointEditEffects } from './effects';
     SettingsService
   ],
   declarations: [
-    MidpointEditorComponent
+    RangeFieldEditorComponent
   ],
   exports: [
-    MidpointEditorComponent
+    RangeFieldEditorComponent
   ]
 })
 

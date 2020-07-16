@@ -3,7 +3,6 @@ import { Action } from '@ngrx/store';
 import { Currency } from 'libs/models/common';
 
 export const EXPORT_DATA_CUTS = '[Peer Main/Map/Export Data Cuts] Export Data Cuts';
-export const EXPORT_DATA_CUTS_NEW = '[Peer Main/Map/Export Data Cuts New] Export Data Cuts New';
 export const EXPORT_DATA_CUTS_SUCCESS = '[Peer Main/Map/Export Data Cuts] Export Data Cuts Success';
 export const EXPORT_DATA_CUTS_ERROR = '[Peer Main/Map/Export Data Cuts] Export Data Cuts Error';
 export const OPEN_EXPORT_DATA_CUTS_MODAL = '[Peer Main/Map/Export Data Cuts] Open Export Data Cuts Modal';
@@ -18,12 +17,6 @@ export const LOAD_CURRENCIES_ERROR = '[Peer Main/Map/Export Data Cuts] Load Curr
 
 export class ExportDataCuts implements Action {
   readonly type = EXPORT_DATA_CUTS;
-
-  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean, selectedWeightingType: string, selectedCurrency: string}) {}
-}
-
-export class ExportDataCutsNew implements Action {
-  readonly type = EXPORT_DATA_CUTS_NEW;
 
   constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean, selectedWeightingType: string, selectedCurrency: string}) {}
 }
@@ -80,7 +73,6 @@ export class LoadCurrenciesError implements Action {
 
 export type Actions
   = ExportDataCuts
-  | ExportDataCutsNew
   | ExportDataCutsSuccess
   | ExportDataCutsError
   | OpenExportDataCutsModal

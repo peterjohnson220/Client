@@ -11,7 +11,7 @@ import { ControlLabelResponse } from 'libs/models/payfactors-api/job-description
 import * as fromBulkExportPopoverActions from '../actions/bulk-export-popover.actions';
 import * as fromJobInformationFieldsActions from '../actions/job-information-fields.actions';
 import * as fromBulkExportPopoverReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../../shared/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 
 @Injectable()
 export class BulkExportPopoverEffects {

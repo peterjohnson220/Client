@@ -9,7 +9,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { JwtAuthInterceptor } from 'libs/core/services/jwt-auth-interceptor.service';
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { AppComponent, PfAppRootModule } from 'libs/features/app-root';
-import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 import { PfSecurityModule } from 'libs/security/security.module';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';

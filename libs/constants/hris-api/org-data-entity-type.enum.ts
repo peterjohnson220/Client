@@ -4,7 +4,7 @@ export enum OrgDataEntityType {
   Jobs = 'Jobs',
   PayMarkets = 'PayMarkets',
   Structures = 'Structures',
-  StructureMappings = 'StructureMappings',
+  StructureMapping = 'StructureMapping',
 }
 
 export function getOrgDataEntityTypeDisplayName(entity: OrgDataEntityType) {
@@ -23,7 +23,7 @@ export function getOrgDataEntityTypeDisplayName(entity: OrgDataEntityType) {
     case OrgDataEntityType.PayMarkets:
       name = 'PayMarkets';
       break;
-    case OrgDataEntityType.StructureMappings:
+    case OrgDataEntityType.StructureMapping:
       name = 'Structure Mappings';
       break;
     case OrgDataEntityType.Structures:

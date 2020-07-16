@@ -35,7 +35,9 @@ export class CommunityAttachmentWarningModalComponent implements OnInit {
     });
 
     this.savingSettingSuccess$.subscribe(savingSettingSuccess => {
-      if (savingSettingSuccess && (this.savingSettingName === UiPersistenceSettingConstants.CommunityHideAttachmentWarningModal)) {
+      if (savingSettingSuccess
+        && (this.savingSettingName === UiPersistenceSettingConstants.CommunityHideAttachmentWarningModal)
+        && this.attachmentDownloadUrl) {
         this.store.dispatch(new fromCommunityAttachmentWarningActions.CloseCommunityAttachmentsWarningModal());
         window.location.href = this.attachmentDownloadUrl;
       }

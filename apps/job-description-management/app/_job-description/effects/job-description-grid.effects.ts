@@ -14,7 +14,7 @@ import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/
 
 import * as fromJobDescriptionGridActions from '../actions/job-description-grid.actions';
 import * as fromJobDescriptionGridReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../../shared/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 import { MappingHelper } from 'libs/core/helpers';
 
 

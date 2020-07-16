@@ -4,10 +4,10 @@ import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { Observable, of } from 'rxjs';
-import { catchError, map, withLatestFrom, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, withLatestFrom, switchMap } from 'rxjs/operators';
 
-import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
+import * as fromLibsExchangeExplorerReducer from 'libs/features/peer/exchange-explorer/reducers';
 
 import * as fromExchangeCompanyJobGridActions from '../actions/exchange-company-job-grid.actions';
 import * as fromPeerMapReducer from '../reducers';
@@ -22,7 +22,7 @@ export class ExchangeCompanyJobsGridEffects {
       withLatestFrom(
         this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridState)),
         this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchangeId)),
-        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapExchangeJobIdsFromSummary)),
+        this.libsExchangeExplorerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapExchangeJobIds)),
         (action, listState, exchangeId, exchangeJobIds) => {
           return {exchangeId, listState, exchangeJobIds};
         }
@@ -63,7 +63,7 @@ export class ExchangeCompanyJobsGridEffects {
     private exchangeCompanyApiService: ExchangeCompanyApiService,
     private store: Store<fromPeerMapReducer.State>,
     private sharedPeerStore: Store<fromSharedPeerReducer.State>,
-    private libsPeerMapStore: Store<fromLibsPeerMapReducer.State>
+    private libsExchangeExplorerStore: Store<fromLibsExchangeExplorerReducer.State>
   ) {}
 }
 

@@ -17,6 +17,7 @@ import { PageViewIds } from '../../constants/page-view-ids';
 import { Pages } from '../../constants/pages';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
+import { StructuresPagesService } from '../../services';
 
 describe('Job Range Structures - Model page', () => {
   let instance: ModelGridComponent;
@@ -44,7 +45,8 @@ describe('Job Range Structures - Model page', () => {
         {
           provide: PermissionService,
           useValue: { CheckPermission: jest.fn()}
-        }
+        },
+        StructuresPagesService
       ]
     });
 

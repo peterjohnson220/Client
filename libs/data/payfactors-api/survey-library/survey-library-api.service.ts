@@ -9,6 +9,7 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { SaveCustomCompanySurveyTitleRequestModel } from '../../../models/payfactors-api/survey-library/request';
 import { SurveyTitlesFilter } from '../../../../apps/admin/app/_survey-library/models';
 import { UdfSettingsRequestModel } from '../../../models/payfactors-api/survey/request/udf-settings-request.model';
+import { SurveyNote } from 'libs/models/payfactors-api/survey-library/survey-note-model';
 
 @Injectable()
 export class SurveyLibraryApiService {
@@ -76,6 +77,16 @@ export class SurveyLibraryApiService {
         SearchText: searchText
       }
     );
+  }
+
+  getSurveyNotes(surveyId: number): Observable<SurveyNote[]> {
+    return this.payfactorsApiService.get<SurveyNote[]>(`${this.endpoint}/GetSurveyNotes`,
+      { params: {surveyId: surveyId} });
+  }
+
+  saveSurveyNote(note: SurveyNote, action: string) {
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveSurveyNote`,
+      { User: note.CreateUser, Action: action, SurveyNoteId: note.Id, SurveyId: note.SurveyId, Note: note.Note, Date: note.CreateDate });
   }
 
   insertCompanySurvey(surveyId: number, companyId: number) {

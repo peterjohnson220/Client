@@ -24,6 +24,8 @@
                     (upload)="uploadAttachmentEventHandler($event)"         
                     (error)="errorEventHandler($event)"
                     (success)="successEventHandler($event)"
+                    (select)="selectEventHandler($event)"
+                    (remove)="removeEventHandler($event)"
                     [ngModel]="uploadedFilesKendo">
         <kendo-upload-messages
           select="Browse" 
@@ -43,10 +45,13 @@
               <pf-loading-indicator class="pl-2"></pf-loading-indicator>
             </span>
             <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == communityAttachmentUploadStatus.UploadFailed">
-              <i>Sorry, there was an error uploading your file. Please choose a different file.</i>
+              <i><fa-icon icon="exclamation-circle" aria-hidden="true"></fa-icon> Sorry, there was an error uploading your file. Please choose a different file.</i>
             </span>
             <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == communityAttachmentUploadStatus.ScanFailed">
-              <i>Sorry, there is an error with our upload service. Please try again later.</i>
+              <i><fa-icon icon="exclamation-circle" aria-hidden="true"></fa-icon> Sorry, there is an error with our upload service. Please try again later.</i>
+            </span>
+            <span class="float-right pr-3 upload-failed" *ngIf="getUploadStatus(files[0]) == communityAttachmentUploadStatus.InvalidExtension">   
+              <i><fa-icon icon="exclamation-circle" aria-hidden="true"></fa-icon> Invalid file type.</i> 
             </span>
           </div>
           <button

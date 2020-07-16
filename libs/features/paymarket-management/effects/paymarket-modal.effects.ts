@@ -88,6 +88,19 @@ export class PayMarketModalEffects {
       })
     );
 
+  @Effect()
+  deletePayMarket$ = this.actions$
+    .pipe(
+      ofType(fromPayMarketModalActions.DELETE_PAY_MARKET),
+      switchMap((action: fromPayMarketModalActions.DeletePayMarket) => {
+        return this.payMarketApiService.deletePayMarket(action.payload)
+          .pipe(
+            map(() => new fromPayMarketModalActions.DeletePayMarketSuccess()),
+            catchError(() => of(new fromPayMarketModalActions.DeletePayMarketError()))
+          );
+      })
+    );
+
   constructor(
     private store: Store<fromPayMarketManagementReducer.State>,
     private actions$: Actions,

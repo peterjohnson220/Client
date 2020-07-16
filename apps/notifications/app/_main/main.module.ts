@@ -9,12 +9,13 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { DataViewsExportCardComponent } from './components';
 import { NotificationsPageComponent, DataViewsExportListComponent } from './containers';
-import { DataViewsExportEffects } from './effects';
+import { DataViewsExportEffects, TotalRewardsStatementPdfEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
+import { TotalRewardsStatementPdfListComponent } from './containers/total-rewards-statement-pdf-list/total-rewards-statement-pdf-list.component';
+import { FileDownloadCardComponent } from './components/file-download-card/file-download-card.component';
 
 
 
@@ -27,7 +28,8 @@ import { MainRoutingModule } from './main-routing.module';
     // 3rd Party
     StoreModule.forFeature('notifications_main', reducers),
     EffectsModule.forFeature([
-      DataViewsExportEffects
+      DataViewsExportEffects,
+      TotalRewardsStatementPdfEffects
     ]),
     FontAwesomeModule,
 
@@ -42,13 +44,13 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Containers
     DataViewsExportListComponent,
+    TotalRewardsStatementPdfListComponent,
 
     // Components
-    DataViewsExportCardComponent,
+    FileDownloadCardComponent,
 
     // Pages
     NotificationsPageComponent,
-
   ]
 })
 export class MainModule {

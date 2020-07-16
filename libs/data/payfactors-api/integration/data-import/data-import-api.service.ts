@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-import { FileUploadDataRequestModel } from 'libs/features/org-data-loader/models';
-import { UserContext } from 'libs/models';
+import { FileUploadDataRequestModel, ExcelFileUploadRequest } from 'libs/features/org-data-loader/models';
 
 import { IntegrationApiService } from '../integration-api.service';
 
@@ -19,6 +19,15 @@ export class DataImportApiService {
     return this.integrationApiService.fetchAuthToken().pipe(
       switchMap(token => {
         return this.integrationApiService.putFormData(url, token, userContext, filesUploadData);
+      }),
+    );
+  }
+
+  sendExcelFile(request: ExcelFileUploadRequest): Observable<any> {
+    const url = `/company/${request.CompanyId}/DataImport/File/Excel`;
+    return this.integrationApiService.fetchAuthToken().pipe(
+      switchMap(token => {
+        return this.integrationApiService.putFormData(url, token, request.UserContext, request.FormData);
       }),
     );
   }

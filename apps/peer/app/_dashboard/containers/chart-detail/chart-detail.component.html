@@ -23,42 +23,25 @@
         [loadingError]="loadingDetailChartItemsError$ | async"
         [loadingErrorMessage]="'Error loading participating companies.'">
         <div class="detail-item pt-2 pb-2" *ngFor="let chartItem of (detailChartItems$ | async)">
-          <div
-            [ngbPopover]="popContent"
-            [popoverTitle]="chartItem.Category"
-            [popoverClass]="'description-popover'"
-            [placement]="'left left-top left-bottom auto'"
-            [autoClose]="'outside'"
-            [openDelay]="1000"
-            triggers="mouseenter:mouseleave"
-            container="body"
-            (mouseenter)="mouseEnter(chartItem)"
-            (mouseleave)="onMouseLeave()"
-            class="detail-category">
-            {{ chartItem.Category }}
-          </div>
+          <pf-entity-description-popover
+            [entityType]="getEntityType()"
+            [entityName]="chartItem.Category"
+            [entityId]="chartItem.Value"
+            [placement]="'left left-top left-bottom auto'">
+            <div class="detail-category">
+              {{ chartItem.Category }}
+            </div>
+          </pf-entity-description-popover>
         </div>
-
       </pf-async-container>
     </ng-container>
 
     <ng-template #noDetailChartItems>
-      <div class="no-detail-items">No companies associated to {{ (detailChartCategory$ | async)}}.</div>
-    </ng-template>
-
-    <ng-template #popContent class="description-popover">
-      <div class="description-body">
-        <span *ngIf="(loadingCompanyDescription | async)">
-          <fa-icon icon="spinner" spin="true" class="" aria-hidden="true"></fa-icon>
-        </span>
-        <span *ngIf="!(loadingCompanyDescription | async)">
-          <span *ngIf="(companyDescription|async) && (companyDescription|async).length > 0">
-            {{ (companyDescription|async) }}
-          </span>
-          <span *ngIf="!(companyDescription|async) || (companyDescription|async).length === 0">
-            <i>No description available </i>
-          </span>
-        </span>
+      <div *ngIf="(detailChartType$ | async) != 'Company'" class="no-detail-items">No companies associated
+        to {{ (detailChartCategory$ | async)}}.
+      </div>
+      <div *ngIf="(detailChartType$ | async) == 'Company'" class="no-detail-items">No {{companyParticipantType}}
+        associated to {{ cardHeaderText }}.
       </div>
     </ng-template>
 

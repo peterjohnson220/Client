@@ -1,0 +1,36 @@
+<div *ngIf="!!(totalRewardsStatementPdfs$ | async)?.obj?.length;" class="total-rewards-statement-pdfs">
+  <div class="page-header d-flex align-items-center">
+    <div>
+      <span class="title">Recent Total Rewards Statements</span>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div *ngFor="let statementPdf of (totalRewardsStatementPdfs$ | async)?.obj; let i = index" class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
+      <pf-file-download-card
+        [class.d-none]="i > (displayLimit - 1) && !showAll"
+        [fileDisplayName]="statementPdf.FileDisplayName.replace('.pdf', '')"
+        [fileName]="statementPdf.FileName"
+        [createdDateTime]="statementPdf.CreatedDateTime"
+        [downloadPath]="statementPdf.DownloadPath"
+        [iconName]="'file-pdf'">
+      </pf-file-download-card>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center" *ngIf="(totalRewardsStatementPdfs$ | async)?.obj?.length > displayLimit">
+    <div [attr.data-qa-id]="'cnt-trs-showMore'" (click)="toggleShowAll()">
+      <ng-container *ngIf="!showAll; else showLess">
+        <div class="btn show-more-btn">
+          Show More
+        </div>
+      </ng-container>
+      <ng-template #showLess>
+        <div class="btn show-less-btn">
+          Show Less
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+</div>

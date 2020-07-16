@@ -23,12 +23,13 @@ import { reducers } from './reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from './helpers';
 import { SearchFiltersEffects, SearchPageEffects } from './effects';
 import { SearchEffectsService } from './services';
-import {PfInfiniteScrollModule} from '../infinite-scroll';
-import { PfCompanyDescriptionModule } from '../company/company-detail/company-detail.module';
+import { PfInfiniteScrollModule } from '../infinite-scroll';
+import { PfEntityDescriptionModule } from '../entity-description/entity-description.module';
 
 const declarations = [
   // Components
-  FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent, FilterableMultiSelectFilterComponent,
+  FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent,
+  RangeFilterComponent, FilterableMultiSelectFilterComponent,
 
   // Containers
   SearchFiltersComponent, SingleFilterComponent, ChildFilterComponent, ResultsHeaderComponent, SearchResultsComponent, SearchLayoutComponent
@@ -45,7 +46,7 @@ const declarations = [
     PfCommonUIModule,
     PfUserFilterModule,
     PfInfiniteScrollModule,
-    PfCompanyDescriptionModule,
+    PfEntityDescriptionModule,
 
     // 3rd Party
     StoreModule.forFeature('feature_search', reducers),
@@ -62,7 +63,9 @@ const declarations = [
     PayfactorsSearchApiModelMapper,
     SearchEffectsService
   ],
-  declarations: declarations,
+  declarations: [
+    declarations,
+  ],
   exports: declarations
 })
 export class PfSearchModule {

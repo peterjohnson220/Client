@@ -8,6 +8,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { PfValidators } from 'libs/forms/validators/pf-validators';
 import { ExchangeScopeApiService } from 'libs/data/payfactors-api';
 import { Exchange } from 'libs/models/peer';
+import * as fromExchangeExplorerReducer from 'libs/features/peer/exchange-explorer/reducers';
 
 import * as fromExchangeScopeActions from '../../actions/exchange-scope.actions';
 import * as fromPeerMapReducer from '../../reducers';
@@ -31,14 +32,15 @@ export class SaveExchangeScopeModalComponent {
     private store: Store<fromPeerMapReducer.State>,
     private fb: FormBuilder,
     private exchangeScopeApiService: ExchangeScopeApiService) {
-    this.upsertingExchangeScope$ = this.store.pipe(select(fromPeerMapReducer.getExchangeScopeUpserting));
-    this.upsertingExchangeScopeError$ = this.store.pipe(select(fromPeerMapReducer.getExchangeScopeUpsertingError));
+    this.upsertingExchangeScope$ = this.store.pipe(select(fromExchangeExplorerReducer.getExchangeScopeUpserting));
+    this.upsertingExchangeScopeError$ = this.store.pipe(select(fromExchangeExplorerReducer.getExchangeScopeUpsertingError));
     this.saveExchangeScopeModalOpen$ = this.store.pipe(select(fromPeerMapReducer.getSaveExchangeScopeModalOpen));
     this.createForm();
   }
 
   get exchangeScopeNameControl() { return this.saveExchangeScopeForm.get('exchangeScopeName'); }
   get exchangeScopeDescriptionControl() { return this.saveExchangeScopeForm.get('exchangeScopeDescription'); }
+  get isDefaultScopeControl() { return this.saveExchangeScopeForm.get('isDefaultScope'); }
 
   get descriptionPlaceholder(): string {
     return `Add a brief description about the Exchange Scope you are creating...`;
@@ -47,13 +49,14 @@ export class SaveExchangeScopeModalComponent {
   createForm(): void {
     this.saveExchangeScopeForm = this.fb.group({
       'exchangeScopeName': ['', [PfValidators.required, Validators.minLength(3)], [this.exchangeScopeNameValidator()]],
-      'exchangeScopeDescription': ['']
+      'exchangeScopeDescription': [''],
+      'isDefaultScope': [false]
     });
   }
 
   handleFormSubmit(): void {
     this.upsertExchangeScopeEvent.emit({ Name: this.exchangeScopeNameControl.value,
-                                               Description: this.exchangeScopeDescriptionControl.value });
+                                               Description: this.exchangeScopeDescriptionControl.value, IsDefault: this.isDefaultScopeControl.value });
   }
 
   handleModalDismissed(): void {

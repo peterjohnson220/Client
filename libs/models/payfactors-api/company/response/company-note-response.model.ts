@@ -5,7 +5,7 @@ export interface CompanyNote {
     CreateUser?: number;
     FirstName: string;
     LastName: string;
-    UserPiture?: string;
+    UserPicture?: string;
     CompanyId: number;
 }
 
@@ -17,7 +17,7 @@ export function getDefaultCompanyNote(): CompanyNote {
         CreateUser: -1,
         FirstName: '',
         LastName: '',
-        UserPiture: '',
+        UserPicture: '',
         CompanyId: 1
     };
 }

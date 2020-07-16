@@ -5,11 +5,10 @@ import { CompanyDto, ControlType, JobDescription, JobDescriptionControl } from '
 
 import {
   GetJobDescriptionData,
-  JobDescriptionExtendedInfo,
   ReorderControlDataDto,
   JobDescriptionLibraryDropModel
 } from '../models';
-import { JobDescriptionAppliesTo } from '../../shared';
+import { JobDescriptionAppliesTo, JobDescriptionExtendedInfo } from 'libs/features/job-description-management/models';
 
 export const GET_JOB_DESCRIPTION = '[job-description-management / Job Description] Get Job Description';
 export const GET_JOB_DESCRIPTION_SUCCESS = '[job-description-management / Job Description] Get Job Description Success';
@@ -59,6 +58,9 @@ export const AUTHENTICATE_SSO_PARAMS_SUCCESS = '[job-description-management / Jo
 export const AUTHENTICATE_SSO_PARAMS_ERROR = '[job-description-management / Job Description Page] Authenticate SSO parameters error';
 export const GET_SSO_LOGIN_URL = '[job-description-management / Job Description Page] Get SSO Login URL';
 export const GET_SSO_LOGIN_URL_SUCCESS = '[job-description-management / Job Description Page] Get SSO Login URL Success';
+
+export const LOADING_PAGE = '[job-description-management / Job Description Page] Loading Page';
+export const LOADING_PAGE_ERROR = '[job-description-management / Job Description Page] Loading Page Error';
 
 export class GetJobDescription implements Action {
   readonly type = GET_JOB_DESCRIPTION;
@@ -315,6 +317,18 @@ export class GetSSOLoginUrlSuccess implements Action {
   constructor(public payload) {}
 }
 
+export class LoadingPage implements Action {
+  readonly type = LOADING_PAGE;
+
+  constructor(public payload: boolean) {}
+}
+
+export class LoadingPageError implements Action {
+  readonly type = LOADING_PAGE_ERROR;
+
+  constructor(public payload: boolean) {}
+}
+
 export type Actions
   = GetJobDescription
   | GetJobDescriptionSuccess
@@ -360,4 +374,6 @@ export type Actions
   | AuthenticateSSOParamsSuccess
   | AuthenticateSSOParamsError
   | GetSSOLoginUrl
-  | GetSSOLoginUrlSuccess;
+  | GetSSOLoginUrlSuccess
+  | LoadingPage
+  | LoadingPageError;

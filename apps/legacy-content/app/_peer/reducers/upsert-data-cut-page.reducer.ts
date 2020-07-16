@@ -4,8 +4,6 @@ export interface State {
   upsertingDataCut: boolean;
   upsertingDataCutError: boolean;
   pageInViewInIframe: boolean;
-  loadingDataCutDetails: boolean;
-  loadingDataCutError: boolean;
 }
 
 // Initial State
@@ -13,8 +11,6 @@ export const initialState: State = {
   upsertingDataCut: false,
   upsertingDataCutError: false,
   pageInViewInIframe: false,
-  loadingDataCutDetails: false,
-  loadingDataCutError: false
 };
 
 // Reducer
@@ -57,27 +53,6 @@ export function reducer(
         pageInViewInIframe: true
       };
     }
-    case fromUpsertDataCutPageActions.LOAD_DATA_CUT_DETAILS: {
-      return {
-        ...state,
-        loadingDataCutDetails: true,
-        loadingDataCutError: false
-      };
-    }
-    case fromUpsertDataCutPageActions.LOAD_DATA_CUT_DETAILS_SUCCESS: {
-      return {
-        ...state,
-        loadingDataCutDetails: false,
-        pageInViewInIframe: true
-      };
-    }
-    case fromUpsertDataCutPageActions.LOAD_DATA_CUT_DETAILS_ERROR: {
-      return {
-        ...state,
-        loadingDataCutDetails: false,
-        loadingDataCutError: true
-      };
-    }
     default: {
       return state;
     }
@@ -88,5 +63,3 @@ export function reducer(
 export const getUpsertingDataCut = (state: State) => state.upsertingDataCut;
 export const getUpsertingDataCutError = (state: State) => state.upsertingDataCutError;
 export const getPageInViewInIframe = (state: State) => state.pageInViewInIframe;
-export const getLoadingDataCutDetails = (state: State) => state.loadingDataCutDetails;
-export const getLoadingDataCutDetailsError = (state: State) => state.loadingDataCutError;

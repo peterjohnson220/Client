@@ -44,6 +44,9 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   controlPointCategory: ControlPoint[];
   controlPointRanges: ControlPoint[];
   rangeDistributionSetting: RangeDistributionSetting;
+  showMinSpread: boolean;
+  showMaxSpread: boolean;
+
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -59,7 +62,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   set value(value: RangeDistributionSettingForm) {
-    this.rangeDistributionSettingForm.setValue(value);
+    this.rangeDistributionSettingForm.patchValue(value);
     this.onChange(value);
     this.onTouched();
   }
@@ -71,8 +74,11 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   buildForm() {
     this.rangeDistributionSettingForm = new FormGroup({
       'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
-      'RangeDistributionTypeId': new FormControl({value: this.metadata.RangeDistributionTypeId,
-        disabled: this.metadata.ControlPoint !== null}, [Validators.required]),
+      'RangeDistributionTypeId': new FormControl({
+        value: this.metadata.RangeDistributionTypeId,
+        disabled: true // we always want to disable
+        }, [Validators.required]
+      ),
       'ControlPoint': new FormControl({value: this.metadata.ControlPoint, disabled: true}, [Validators.required]),
       'RangeBasedOn': new FormControl(this.metadata.ControlPoint, [Validators.required]),
       'Minimum': new FormControl(this.metadata.SpreadMin, [Validators.required]),
@@ -85,6 +91,8 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       'SecondQuintile': new FormControl(null),
       'ThirdQuintile': new FormControl(null),
       'FourthQuintile': new FormControl(null),
+      'MinPercentile': new FormControl(null),
+      'MaxPercentile': new FormControl(null),
     });
 
     this.activeRangeTypeTab = this.metadata.RangeDistributionTypes.find(t => t.Id === this.metadata.RangeDistributionTypeId).Type;
@@ -100,6 +108,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     if (!!this.metadata.RangeDistributionTypeId) {
       this.setFormValidators(this.metadata.RangeDistributionTypeId);
     }
+
   }
 
   handleRangeBasedOnFilterChange(value: string) {
@@ -152,11 +161,65 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
          break;
       }
    }
+   this.loadMinMaxState();
+  }
+
+  handleMinMaxPercentileToggle(min: boolean) {
+    if (min) {
+      this.showMinSpread = !this.showMinSpread;
+      if (this.showMinSpread) {
+        this.formControls.MinPercentile.patchValue(null);
+        this.setValidation('MinPercentile', 'Minimum');
+      } else {
+        this.formControls.Minimum.patchValue(null);
+        this.setValidation('Minimum', 'MinPercentile');
+      }
+    } else {
+      this.showMaxSpread = !this.showMaxSpread;
+      if (this.showMaxSpread) {
+        this.formControls.MaxPercentile.patchValue(null);
+        this.setValidation('MaxPercentile', 'Maximum');
+      } else {
+        this.formControls.Maximum.patchValue(null);
+        this.setValidation('Maximum', 'MaxPercentile');
+      }
+
+    }
+  }
+
+  loadMinMaxState() {
+    const minSpread = !!this.metadata.SpreadMin;
+    const maxSpread = !!this.metadata.SpreadMax;
+    const minPercentile = !!this.metadata.RangeDistributionSetting?.MinPercentile;
+    const maxPercentile = !!this.metadata.RangeDistributionSetting?.MaxPercentile;
+
+    // default to using spread
+    if (minSpread || (!minSpread && !minPercentile)) {
+      this.showMinSpread = true;
+      this.setValidation('MinPercentile', 'Minimum');
+    } else {
+      this.showMinSpread = false;
+      this.setValidation('Minimum', 'MinPercentile');
+    }
+
+    if (maxSpread || (!maxSpread && !maxPercentile)) {
+      this.showMaxSpread = true;
+      this.setValidation('MaxPercentile', 'Maximum');
+    } else {
+      this.showMaxSpread = false;
+      this.setValidation('Maximum', 'MaxPercentile');
+    }
+  }
+
+  setValidation(notRequired: string, required: string) {
+    this.clearRequiredValidator(notRequired);
+    this.setRequired(required);
   }
 
   resetFormValidators() {
     for (const controlName in this.rangeDistributionSettingForm.controls) {
-      if (controlName.includes('Tertile') || controlName.includes('Quartile') || controlName.includes('Quintile')) {
+      if (controlName.includes('Tertile') || controlName.includes('Quartile') || controlName.includes('Quintile')
+         || controlName === 'Minimum' || controlName === 'Maximum' || controlName === 'MinPercentile' || controlName === 'MaxPercentile') {
         this.rangeDistributionSettingForm.get(controlName).reset();
         this.rangeDistributionSettingForm.get(controlName).clearValidators();
         this.rangeDistributionSettingForm.get(controlName).updateValueAndValidity();
@@ -164,11 +227,15 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     }
   }
 
+  setRequired(controlName: string) {
+    this.rangeDistributionSettingForm.get(controlName).setValidators([Validators.required]);
+    this.rangeDistributionSettingForm.get(controlName).updateValueAndValidity();
+  }
+
   setRequiredValidator(baseRangeType: string) {
     for (const controlName in this.rangeDistributionSettingForm.controls) {
       if (controlName.includes(baseRangeType)) {
-        this.rangeDistributionSettingForm.get(controlName).setValidators([Validators.required]);
-        this.rangeDistributionSettingForm.get(controlName).updateValueAndValidity();
+       this.setRequired(controlName);
       }
     }
   }
@@ -241,6 +308,8 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       SecondQuintile: value.SecondQuintile,
       ThirdQuintile: value.ThirdQuintile,
       FourthQuintile: value.FourthQuintile,
+      MinPercentile: value.MinPercentile,
+      MaxPercentile: value.MaxPercentile
     };
   }
 

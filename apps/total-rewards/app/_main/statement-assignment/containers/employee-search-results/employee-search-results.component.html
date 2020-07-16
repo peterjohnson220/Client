@@ -1,9 +1,10 @@
-<pf-search-results [numberOfCurrentResults]="(employeeResults$ | async)?.length" class="result p-1">
+<pf-search-results [numberOfCurrentResults]="(employeeResults$ | async)?.length" class="result p-1 h-100">
 
   <ng-container *ngIf="(employeeResults$ | async)?.length > 0; else noResultsMessage">
     <pf-employee-result
       *ngFor="let employeeResult of employeeResults$ | async; trackBy: trackByEmployeeId"
       [employee]="employeeResult"
+      (employeeClicked)="handleEmployeeSelectionToggle($event)"
     ></pf-employee-result>
   </ng-container>
 

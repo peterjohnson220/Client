@@ -14,7 +14,7 @@ import * as fromPublishModelModalActions from '../actions/publish-model-modal.ac
 import * as fromSharedActions from '../actions/shared.actions';
 import * as fromSharedReducer from '../reducers';
 import { RangeGroupMetadata } from '../models';
-import { PageViewIds } from '../constants/page-view-ids';
+import { PagesHelper } from '../helpers/pages.helper';
 
 @Injectable()
 export class PublishModelModalEffects {
@@ -34,7 +34,9 @@ export class PublishModelModalEffects {
               const actions = [];
               actions.push(new fromPublishModelModalActions.PublishModelSuccess());
               actions.push(new fromPublishModelModalActions.CloseModal());
-              actions.push(new pfDataGridActions.LoadData(PageViewIds.Model));
+
+              const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+              actions.push(new pfDataGridActions.LoadData(modelPageViewId));
 
               const updatedMetaData = {
                 ...data.metadata,

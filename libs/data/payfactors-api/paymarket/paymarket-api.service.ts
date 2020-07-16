@@ -50,6 +50,10 @@ export class PayMarketApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}(${companyPayMarketId})/Default.Update`, request);
   }
 
+  deletePayMarket(companyPayMarketId: number): Observable<number> {
+    return this.payfactorsApiService.delete(`${this.endpoint}(${companyPayMarketId})/`);
+  }
+
   setDefaultPayMarket(companyPayMarketId: number): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.SetDefaultPayMarket`, { CompanyPayMarketId: companyPayMarketId });
   }

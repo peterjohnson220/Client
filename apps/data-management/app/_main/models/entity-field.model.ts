@@ -6,5 +6,5 @@ export class EntityField {
   Jobs: EntityDataField[] = [];
   PayMarkets: EntityDataField[] = [];
   Structures: EntityDataField[] = [];
-  StructureMappings: EntityDataField[] = [];
+  StructureMapping: EntityDataField[] = [];
 }

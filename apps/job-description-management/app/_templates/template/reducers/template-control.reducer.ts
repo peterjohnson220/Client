@@ -31,7 +31,7 @@ export const reducer = (state, action) => {
     return newState;
   }
   case fromTemplateActions.MOVE_CONTROL_TO_SECTION: {
-    const templateControl: TemplateControl = action.payload.templateControl;
+    const templateControl: TemplateControl = cloneDeep(action.payload.templateControl);
     const newSectionId: number = action.payload.newSectionId;
     const index: number = action.payload.index;
     const newState = cloneDeep(state);

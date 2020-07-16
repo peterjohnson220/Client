@@ -25,8 +25,8 @@ export class JobDescriptionTemplateApiService {
     return this.payfactorsApiService.delete(`${this.endpoint}(${templateId})`);
   }
 
-  exists(templateName: string) {
-    return this.payfactorsApiService.get(`${this.endpoint}/Default.TemplateExists?templateName=` + templateName);
+  exists(templateName: string, templateId: number = 0) {
+    return this.payfactorsApiService.get(`${this.endpoint}(${templateId})/Default.TemplateExists?templateName=${templateName}`);
   }
 
   get(): Observable<TemplateListItemResponse[]> {

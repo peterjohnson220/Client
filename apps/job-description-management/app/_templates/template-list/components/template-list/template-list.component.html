@@ -30,14 +30,14 @@
               <pf-status-pill [status]="templateListItem.Status"></pf-status-pill>
             </td>
             <td>
-              <button class="btn btn-secondary btn-sm list-button"
+              <button #deleteBtn class="btn btn-secondary btn-sm list-button"
                       *ngIf="templateListItem.AssignedJobsCount == 0"
                       (click)="handleDeleteClick($event, templateListItem)">
                 <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
               </button>
             </td>
             <td>
-              <button class="btn btn-secondary btn-sm list-button"
+              <button #copyBtn class="btn btn-secondary btn-sm list-button"
                       (click)="handleCopyClick($event, templateListItem)">
                 <fa-icon icon="copy" aria-hidden="true"></fa-icon>
               </button>

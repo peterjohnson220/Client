@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges, Input, EventEmitter, Output } from '@angu
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api';
+import { Template } from 'libs/models/jdm/template';
 
 import { TemplateNameIsInUse } from '../../validators';
 
@@ -15,10 +16,11 @@ export class TemplateInlineComponent implements OnInit, OnChanges {
   public editing = false;
   public inlineEditForm: FormGroup;
   public value: string;
+  public templateId: number;
   public hoveringEditLink: boolean;
   private preValue = '';
 
-  @Input() inputValue: string;
+  @Input() template: Template;
   @Output() onSave = new EventEmitter();
 
   get inlineEditControl() { return this.inlineEditForm.controls['inlineEditControl']; }
@@ -56,22 +58,22 @@ export class TemplateInlineComponent implements OnInit, OnChanges {
               Validators.required,
               Validators.maxLength(50), Validators.minLength(1)
               ],
-              TemplateNameIsInUse(this.jobDescriptionTemplateApiService, this.inputValue)
+              TemplateNameIsInUse(this.jobDescriptionTemplateApiService, this.value, this.templateId)
          ]
       });
   }
 
   ngOnInit() {
-      this.value = this.inputValue;
       this.buildForm();
-
   }
 
   ngOnChanges(changes: any): void {
-    const inputValueChange: string = changes.inputValue.currentValue;
+    const inputValueChange: string = changes.template.currentValue;
     if (inputValueChange) {
-          this.value = this.inputValue;
+          this.value = this.template.TemplateName;
+          this.templateId = this.template.TemplateId;
           this.editing = false;
+          this.buildForm();
     }
   }
 

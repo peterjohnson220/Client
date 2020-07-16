@@ -6,9 +6,11 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
   defaultScopeToggled="false"
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   isExchangeJobSpecific={[Function Boolean]}
@@ -16,6 +18,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
   scopeToDelete="null"
   scopeToDelete$={[Function Store]}
   scopeToDeleteSubscription={[Function Subscriber]}
+  selectedExchangeScopeItem="null"
   selectedExchangeScopeItem$={[Function Observable]}
   selectedExchangeScopeItemSubscription={[Function Subscriber]}
   settingsService={[Function Object]}
@@ -30,6 +33,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
     
     <button
       class="btn btn-secondary selector"
+      disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
@@ -92,9 +96,11 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
   defaultScopeToggled="false"
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   isExchangeJobSpecific={[Function Boolean]}
@@ -102,6 +108,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
   scopeToDelete="null"
   scopeToDelete$={[Function Store]}
   scopeToDeleteSubscription={[Function Subscriber]}
+  selectedExchangeScopeItem="null"
   selectedExchangeScopeItem$={[Function Observable]}
   selectedExchangeScopeItemSubscription={[Function Subscriber]}
   settingsService={[Function Object]}
@@ -116,6 +123,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
     
     <button
       class="btn btn-secondary selector"
+      disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
@@ -178,9 +186,11 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
   defaultScopeToggled="false"
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   isExchangeJobSpecific={[Function Boolean]}
@@ -188,6 +198,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
   scopeToDelete="null"
   scopeToDelete$={[Function Store]}
   scopeToDeleteSubscription={[Function Subscriber]}
+  selectedExchangeScopeItem="null"
   selectedExchangeScopeItem$={[Function Observable]}
   selectedExchangeScopeItemSubscription={[Function Subscriber]}
   settingsService={[Function Object]}
@@ -202,6 +213,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
     
     <button
       class="btn btn-secondary selector"
+      disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
@@ -264,6 +276,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should load the exc
   defaultScopeToggled="false"
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
@@ -274,6 +287,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should load the exc
   scopeToDelete="null"
   scopeToDelete$={[Function Store]}
   scopeToDeleteSubscription={[Function Subscriber]}
+  selectedExchangeScopeItem="null"
   selectedExchangeScopeItem$={[Function Observable]}
   selectedExchangeScopeItemSubscription={[Function Subscriber]}
   settingsService={[Function Object]}
@@ -288,6 +302,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should load the exc
     
     <button
       class="btn btn-secondary selector big-map-min-width"
+      disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
@@ -350,15 +365,18 @@ exports[`Features - Peer - Exchange Scope Selector Component should load the exc
   defaultScopeToggled="false"
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   popover={[Function NgbPopover]}
   scopeToDelete="null"
   scopeToDelete$={[Function Store]}
   scopeToDeleteSubscription={[Function Subscriber]}
+  selectedExchangeScopeItem="null"
   selectedExchangeScopeItem$={[Function Observable]}
   selectedExchangeScopeItemSubscription={[Function Subscriber]}
   settingsService={[Function Object]}
@@ -373,6 +391,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should load the exc
     
     <button
       class="btn btn-secondary selector big-map-min-width"
+      disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
@@ -435,9 +454,11 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   defaultScopeToggled="false"
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   isExchangeJobSpecific={[Function Boolean]}
@@ -445,6 +466,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   scopeToDelete="null"
   scopeToDelete$={[Function Store]}
   scopeToDeleteSubscription={[Function Subscriber]}
+  selectedExchangeScopeItem="null"
   selectedExchangeScopeItem$={[Function Observable]}
   selectedExchangeScopeItemSubscription={[Function Subscriber]}
   settingsService={[Function Object]}
@@ -459,6 +481,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
     
     <button
       class="btn btn-secondary selector"
+      disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
@@ -521,9 +544,11 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   defaultScopeToggled="false"
   deleteMode="false"
   deletingExchangeScope$={[Function Store]}
+  exchangeScopeItems={[Function Array]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   exchangeScopeItemsSubscription={[Function Subscriber]}
+  filteredExchangeScopeItems={[Function Array]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   isExchangeJobSpecific="false"
@@ -531,6 +556,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   scopeToDelete="null"
   scopeToDelete$={[Function Store]}
   scopeToDeleteSubscription={[Function Subscriber]}
+  selectedExchangeScopeItem="null"
   selectedExchangeScopeItem$={[Function Observable]}
   selectedExchangeScopeItemSubscription={[Function Subscriber]}
   settingsService={[Function Object]}
@@ -545,6 +571,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
     
     <button
       class="btn btn-secondary selector big-map-min-width"
+      disabled=""
       popovertitle="Select a Scope"
       type="button"
     >

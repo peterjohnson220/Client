@@ -29,8 +29,12 @@
                 <pf-statements-grid></pf-statements-grid>
               </div>
               <ng-template #doNotShowGrid>
-                <pf-create-new-statement-banner (createNewClicked)="onCreateNewClicked()">
-                </pf-create-new-statement-banner>
+                <pf-no-records-found-call-to-action 
+                  [headerText]="'No Total Rewards Statements'"
+                  [preLinkText]="'Create a'"
+                  [linkText]="'new Total Rewards Statement'"
+                  (callToActionClick)="onCreateNewClicked()">
+                </pf-no-records-found-call-to-action>
               </ng-template>
             </ng-template>
           </ngb-tab>

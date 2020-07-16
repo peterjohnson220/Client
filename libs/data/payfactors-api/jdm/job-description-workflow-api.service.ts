@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { WorkflowUser } from 'apps/job-description-management/app/shared/models';
+import { WorkflowUser } from 'libs/features/job-description-management/models';
 
 
 @Injectable()

@@ -14,12 +14,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  GridSearchPayload: {
-    Company_ID: null,
-    StartDate: null,
-    EndDate: null,
-    ExcludeTestCompanies: false
-  },
+  GridSearchPayload: null,
   CompositeLoadsObj: generateDefaultAsyncStateObj<CompositeDataLoadViewResponse[]>([]),
   FilePackagesObj: generateDefaultAsyncStateObj<CompanyFilePackagesResponse[]>([])
 };
