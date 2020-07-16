@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule , FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from '@progress/kendo-angular-dateinputs';
 
 import { PfCommonModule } from 'libs/core';
@@ -32,6 +32,7 @@ import { SharedModule } from '../shared/shared.module';
       EmployeesPageEffects
     ]),
     NgbTooltipModule,
+    NgbDropdownModule,
     CalendarModule,
 
     // Routing
