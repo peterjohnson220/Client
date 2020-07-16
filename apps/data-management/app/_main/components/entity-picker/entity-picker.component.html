@@ -3,7 +3,7 @@
   <pf-checkbox [isChecked]="entity.isChecked"
                [DisplayText]="entity.DisplayText"
                [ToolTip]="entity.ToolTip"
-               (valueChange)="entity.isChecked = $event">
-
+               (valueChange)="entity.isChecked = $event"
+               [QADataId]="entity.FileBeginsWith">
   </pf-checkbox>
 </div>
