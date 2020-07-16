@@ -6,6 +6,17 @@
   <ng-container page-content>
     <div class="flex-column-container">
       <div class="d-flex mb-2">
+        <div class="d-flex grid-actions-container">
+          <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length === 0" (click)="handleClearSelectionsClick()">
+            <fa-icon [icon]="['far', 'times']"></fa-icon>
+            Clear Selections
+          </button>
+          <div class="vertical-separator mr-3"></div>
+          <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length === 0" (click)="handleOpenUnassignModalClick()">
+            <fa-icon [icon]="'user-slash'" aria-hidden="true"></fa-icon>
+            Unassign
+          </button>
+        </div>
         <pf-list-area-filter-pills
           *ngIf="assignedEmployeesGridState?.filter?.filters?.length"
           [listAreaColumns]="assignedEmployeesListAreaColumns$ | async"
@@ -53,6 +64,18 @@
         (generateStatementsClick)="handleGenerateStatementsClick()"
         (cancelClick)="handleCancelGenerateStatementModal()"
       ></pf-generate-statement-modal>
+      <pf-unassign-employees-modal
+        [isOpen$]="isUnassignEmployeesModalOpen$"
+        [statementName]="(statement$ | async).StatementName"
+        [singleEmployee]="openActionMenuEmployee$ | async"
+        [isSingleEmployeeUnassign]="isSingleEmployeeAction$ | async"
+        [sendingUnassignRequest]="sendingUnassignRequest$ | async"
+        [sendingUnassignRequestSuccess]="sendingUnassignRequestSuccess$ | async"
+        [sendingUnassignRequestError]="sendingUnassignRequestError$ | async"
+        [selectedCompanyEmployeeIds]="assignedEmployeesSelectedCompanyEmployeeIds$ | async"
+        (unassignEmployeesClick)="handleUnassignEmployeesClick()"
+        (cancelClick)="handleCancelUnassignEmployeesModal()"
+      ></pf-unassign-employees-modal>
     </div>
   </ng-container>
 </pf-page-with-title-bar>

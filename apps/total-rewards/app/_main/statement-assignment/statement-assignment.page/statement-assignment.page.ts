@@ -7,10 +7,12 @@ import { distinctUntilChanged, debounceTime, take, filter } from 'rxjs/operators
 import { Store, select } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
+import { CompanyEmployee } from 'libs/models/company';
+
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
-import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
+import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
 import { Statement } from '../../../shared/models';
 
@@ -23,6 +25,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   @ViewChild(StatementAssignmentModalComponent, {static: true}) public StatementAssignmentModalComponent: StatementAssignmentModalComponent;
 
   statement$: Observable<Statement>;
+
   isGenerateStatementModalOpen$: Observable<boolean>;
   sendingGenerateRequest$: Observable<boolean>;
   sendingGenerateRequestSuccess$: Observable<boolean>;
@@ -30,14 +33,24 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   getIsFiltersPanelOpen$: Observable<boolean>;
 
   assignedEmployeesSelectedCompanyEmployeeIds$: Observable<number[]>;
+
+  isUnassignEmployeesModalOpen$: Observable<boolean>;
+  sendingUnassignRequest$: Observable<boolean>;
+  sendingUnassignRequestSuccess$: Observable<boolean>;
+  sendingUnassignRequestError$: Observable<boolean>;
+  isSingleEmployeeAction$: Observable<boolean>;
+  openActionMenuEmployee$: Observable<CompanyEmployee>;
+  unassignEmployeesSuccess$: Observable<boolean>;
+
   assignedEmployeesLoading$: Observable<boolean>;
   assignedEmployeesTotal$: Observable<number>;
   assignedEmployeesListAreaColumns$: Observable<any[]>;
 
   statement: Statement;
+  assignedEmployeesGridTakeCount = 20;
   assignedEmployeesGridState: any = {
     skip: 0,
-    take: 20,
+    take: this.assignedEmployeesGridTakeCount,
     filter: {
       filters: [],
       logic: 'and'
@@ -49,6 +62,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   routeParamSubscription$ = new Subscription();
   queryParamSubscription$ = new Subscription();
   filterChangeSubscription = new Subscription();
+  unassignEmployeesSuccessSubscription = new Subscription();
 
   filterChangeSubject = new Subject<FilterDescriptor[]>();
 
@@ -70,13 +84,24 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   ngOnInit(): void {
     // observables
     this.statement$ = this.store.pipe(select(fromPageReducer.getStatement));
+
+    // Generate Modal
     this.isGenerateStatementModalOpen$ = this.store.pipe(select(fromPageReducer.getIsGenerateStatementModalOpen));
     this.sendingGenerateRequest$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequest));
     this.sendingGenerateRequestSuccess$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequestSuccess));
     this.sendingGenerateRequestError$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequestError));
     this.getIsFiltersPanelOpen$ = this.store.pipe(select(fromPageReducer.getIsFiltersPanelOpen));
 
-    // observables, assigned employees
+    // Unassign Modal
+    this.isUnassignEmployeesModalOpen$ = this.store.pipe(select(fromPageReducer.getIsUnassignEmployeesModalOpen));
+    this.sendingUnassignRequest$ = this.store.pipe(select(fromPageReducer.getSendingUnassignRequest));
+    this.sendingUnassignRequestSuccess$ = this.store.pipe(select(fromPageReducer.getSendingUnassignRequestSuccess));
+    this.sendingUnassignRequestError$ = this.store.pipe(select(fromPageReducer.getSendingUnassignRequestError));
+    this.isSingleEmployeeAction$ = this.store.pipe(select(fromPageReducer.getIsSingleEmployeeAction));
+    this.openActionMenuEmployee$ = this.store.pipe(select(fromPageReducer.getOpenActionMenuEmployee));
+    this.unassignEmployeesSuccess$ = this.store.pipe(select(fromPageReducer.getSendingUnassignRequestSuccess));
+
+    // assigned employees
     this.assignedEmployeesSelectedCompanyEmployeeIds$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
     this.assignedEmployeesLoading$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesLoading));
     this.assignedEmployeesTotal$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotal));
@@ -95,6 +120,14 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
       this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
       this.assignedEmployeesGridState.filter.filters = filters;
       this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+    });
+    this.unassignEmployeesSuccessSubscription = this.unassignEmployeesSuccess$.subscribe(u => {
+      if ( u ) {
+        this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
+        this.assignedEmployeesGridState.skip = 0;
+        this.assignedEmployeesGridState.take = this.assignedEmployeesGridTakeCount;
+        this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+      }
     });
 
     // dispatches, search init
@@ -172,7 +205,23 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
   }
 
-  // footer handler methods
+  handleOpenUnassignModalClick() {
+    this.store.dispatch(new fromPageActions.OpenUnassignModal());
+  }
+
+  handleUnassignEmployeesClick() {
+    this.store.dispatch(new fromPageActions.UnassignEmployees());
+  }
+
+  handleCancelUnassignEmployeesModal() {
+    this.store.dispatch(new fromPageActions.CloseUnassignModal());
+  }
+
+  handleClearSelectionsClick() {
+    this.store.dispatch(new fromAssignedEmployeesGridActions.ClearSelections());
+  }
+
+  // footer methods
   handleOpenGenerateStatementModalClick() {
     this.store.dispatch(new fromPageActions.OpenGenerateStatementModal());
   }

@@ -12,6 +12,7 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromAssignedEmployeesGridReducer from '../../reducers';
 import * as fromAssignedEmployeesGridActions from '../../actions/assigned-employees-grid.actions';
+import * as fromAssignedEmployeesPageActions from '../../actions/statement-assignment.page.actions';
 
 @Component({
   selector: 'pf-assigned-employees-grid',
@@ -28,6 +29,7 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
   assignedEmployeesDataLoadingError$: Observable<boolean>;
   assignedEmployeesTotal$: Observable<number>;
   selectedCompanyEmployeeIds$: Observable<number[]>;
+  openActionMenuEmployee$: Observable<CompanyEmployee>;
 
   selectedCompanyEmployeeIds: number[];
   selectedCompanyEmployeeIdsSubscription = new Subscription();
@@ -39,8 +41,9 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     this.assignedEmployeesDataLoading$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesLoading));
     this.assignedEmployeesDataLoadingError$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesLoadingError));
     this.assignedEmployeesTotal$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesTotal));
-
+    this.openActionMenuEmployee$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getOpenActionMenuEmployee));
     this.selectedCompanyEmployeeIds$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
+
     this.selectedCompanyEmployeeIdsSubscription = this.selectedCompanyEmployeeIds$.subscribe(ids => this.selectedCompanyEmployeeIds = ids);
   }
 
@@ -69,6 +72,18 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     } else {
       this.tooltipDir.hide();
     }
+  }
+
+  onActionMenuOpen(event: CompanyEmployee): void {
+    this.store.dispatch(new fromAssignedEmployeesGridActions.OpenActionMenu(event));
+  }
+
+  onActionMenuClose(): void {
+    this.store.dispatch(new fromAssignedEmployeesGridActions.CloseActionMenu());
+  }
+
+  onActionMenuUnassignClick(): void {
+    this.store.dispatch(new fromAssignedEmployeesPageActions.OpenSingleEmployeeUnassignModal());
   }
 
 }

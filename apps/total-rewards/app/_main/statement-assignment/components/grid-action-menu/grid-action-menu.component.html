@@ -1,0 +1,11 @@
+<div pfClickElsewhere (clickElsewhere)="onClickElsewhere()">
+  <a href="javascript:void(0)" (click)="onEllipsisClick()" class="open-actions" title="Actions">
+    <fa-icon [icon]="'ellipsis-h'" aria-hidden="true" class="ellipsis-menu"></fa-icon>
+  </a>
+  <div [class.open]="isOpen" class="actions position-absolute shadow-sm p-3">
+    <a href="javascript:void(0)" (click)="onUnassignClick()" class="grid-action-link d-block" >
+      <fa-icon [icon]="'user-slash'" aria-hidden="true" class="grid-action-icon"></fa-icon>
+      <label class="ml-2">Unassign</label>
+    </a>
+  </div>
+</div>
