@@ -22,6 +22,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { PermissionService } from 'libs/core/services';
 import * as fromReducer from 'libs/features/pf-data-grid/reducers';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 import { PageViewIds } from '../../constants/page-view-ids';
 import { RangeGroupMetadata } from '../../models';
@@ -31,7 +32,8 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { ColumnTemplateService, StructuresPagesService } from '../../services';
+import { StructuresPagesService } from '../../services';
+
 
 @Component({
   selector: 'pf-model-grid',
@@ -191,22 +193,19 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.store.dispatch(new fromSharedJobBasedRangeActions.RemovingRange({ StructuresRangeId: this.rangeIdToRemove, IsCurrent: this.metaData.IsCurrent }));
   }
 
-  getColumnTemplates() {
-    return {
-      'mid': this.midColumn,
-      'rangeField': this.rangeFieldColumn,
-      'noFormatting': this.noFormattingColumn,
-      'noFormattingInfoCircle': this.noFormattingInfoCircleColumn,
-      'eeCount': this.eeCountColumn,
-      'rangeValue': this.rangeValueColumn,
-      'mrpValue': this.mrpValueColumn,
-      'percentage': this.percentageColumn
-    };
-  }
-
   // Lifecycle
   ngAfterViewInit() {
-    this.colTemplates = ColumnTemplateService.configureJobRangeTemplates(this.getColumnTemplates());
+    this.colTemplates = {
+      'Mid': { Template: this.midColumn },
+      'NumEmployees': { Template: this.eeCountColumn },
+      'Job_Title': { Template: this.noFormattingInfoCircleColumn },
+      'MarketReferencePointValue': { Template: this.mrpValueColumn },
+      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
+      [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn },
+      [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeFieldColumn },
+      [PfDataGridColType.percentage]: { Template: this.percentageColumn }
+
+    };
 
     this.fullGridActionBarConfig = {
       ...this.fullGridActionBarConfig,
