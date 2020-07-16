@@ -78,7 +78,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   rangeGroupType = RangeGroupType.Job;
   defaultPagingOptions: PagingOptions = {
     From: 0,
-    Count: 9999
+    Count: 50
   };
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
