@@ -19,6 +19,7 @@
         <input hidden
                type="file"
                #fileInput
+               [attr.data-qa-id]="QAInputId ? 'cnt-' + QAInputId : null"
                (change)="onFileChange($event)">
       </div>
       <div class="d-flex justify-content-center text-center">

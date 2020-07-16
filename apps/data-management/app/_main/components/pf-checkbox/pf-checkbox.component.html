@@ -1,6 +1,7 @@
 <span class="cursor-pointer"
       (click)="valueChanged()"
-      [style.opacity]="isDisabled ? .6 : 1">
+      [style.opacity]="isDisabled ? .6 : 1"
+      [attr.data-qa-id]="QADataId ? 'chk-' + QADataId : null">
 
   <fa-icon *ngIf="!isChecked"
            class="fa-lg unchecked-icon"
