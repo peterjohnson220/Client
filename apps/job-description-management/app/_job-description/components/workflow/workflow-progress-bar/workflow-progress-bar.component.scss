@@ -101,6 +101,15 @@
   background-color: #d9534f;
 }
 
+.link-btn {
+  color: #1872AE;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 #change-approver-btn {
   color: #1872AE;
   font-weight: bold;
@@ -111,11 +120,3 @@
   cursor: pointer;
 }
 
-#copy-link-btn {
-  color: #1872AE;
-}
-
-#copy-link-btn:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}

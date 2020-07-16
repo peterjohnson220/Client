@@ -26,6 +26,7 @@ export class WorkflowWatchSidebarComponent implements OnChanges, OnInit, OnDestr
   @Input () gettingJobDescriptionExtendedInfoSuccess: boolean;
   @Output() changeApproverClicked = new EventEmitter();
   @Output() copyWorkflowLinkClicked = new EventEmitter();
+  @Output() emailResendClicked = new EventEmitter();
   @Output() closed = new EventEmitter();
 
   workflowLogEntriesAsync$: Observable<AsyncStateObj<WorkflowLogEntry[]>>;
@@ -54,6 +55,10 @@ export class WorkflowWatchSidebarComponent implements OnChanges, OnInit, OnDestr
 
   copyWorkflowLink() {
     copyTextToClipboard(this.workflowLink);
+  }
+
+  resendEmail() {
+    this.store.dispatch(new fromWorkflowActions.ResendEmail({workflowId: this.workflowId}));
   }
 
   ngOnInit() {
