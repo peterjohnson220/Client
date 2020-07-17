@@ -13,8 +13,10 @@ export class WorkflowProgressBarComponent {
   @Input() isCompanyAdmin: boolean;
   @Output() changeApproverClicked = new EventEmitter();
   @Output() copyWorkflowLinkClicked = new EventEmitter();
+  @Output() emailResendClicked = new EventEmitter();
 
   private linkCopied = false;
+  private emailSent = false;
 
   constructor() { }
 
@@ -24,6 +26,14 @@ export class WorkflowProgressBarComponent {
 
     // after 3 seconds, set linkCopied back to false
     setTimeout(() => { this.linkCopied = false; }, 3000);
+  }
+
+  resendEmail() {
+    this.emailResendClicked.emit();
+    this.emailSent = true;
+
+    // after 3 seconds, set emailSent back to false
+    setTimeout(() => { this.emailSent = false; }, 3000);
   }
 
 }

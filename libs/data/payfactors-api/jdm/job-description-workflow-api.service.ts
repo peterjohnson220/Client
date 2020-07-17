@@ -40,5 +40,9 @@ export class JobDescriptionWorkflowApiService {
     return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.RerouteStep`, { newUser: newUser, comment: comment });
   }
 
+  resendEmail(workflowId: number) {
+    return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.ResendEmail`);
+  }
+
 }
 

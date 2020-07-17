@@ -54,8 +54,11 @@
           {{ workflowStepSummaryItem.Owner }}
         </a>
         <br />
-        <a *ngIf="!linkCopied" id="copy-link-btn" (click)="copyWorkflowLink()">Copy Link</a>
+        <a *ngIf="!linkCopied" class="link-btn" (click)="copyWorkflowLink()">Copy Link</a>
         <span *ngIf="linkCopied" class="text-muted">Link Copied</span>
+        <br />
+        <a *ngIf="!emailSent" class="link-btn" (click)="resendEmail()">Resend email</a>
+        <span *ngIf="emailSent" class="text-muted">Email sent</span>
       </div>
       <div *ngIf="workflowStepSummaryItem.Status != 'In Progress' || !(isSiteAdmin || isCompanyAdmin) || workflowStepSummaryItem.OwnersCount != 1" class="owner-name">
         {{ workflowStepSummaryItem.Owner }}
