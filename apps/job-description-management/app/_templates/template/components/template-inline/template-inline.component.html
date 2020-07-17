@@ -1,8 +1,8 @@
-<div class="inlineEditWrapper" (clickOutside)="close()">
+<div pfClickElsewhere class="inlineEditWrapper" (clickElsewhere)="close()">
     <span (click)="edit(value)" [hidden]="editing"
-        (mouseenter)="hoveringEditLink = true" 
-        (mouseleave)="hoveringEditLink = false" 
-        [class.edit-link]="!hoveringEditLink" 
+        (mouseenter)="hoveringEditLink = true"
+        (mouseleave)="hoveringEditLink = false"
+        [class.edit-link]="!hoveringEditLink"
         [class.edit-link-hover]="hoveringEditLink">{{ value }}
     </span>
 
