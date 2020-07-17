@@ -212,8 +212,10 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
       };
     }
     case fromFieldMappingActions.LOAD_MAPPED_FIELDS: {
+
       return {
         ...state,
+        payfactorsFields: EntityMappingHelper.removeUnselectedEntities(action.payload.selectedEntities, state.payfactorsFields),
         mappedFields: action.payload.mappedFields
       };
     }
