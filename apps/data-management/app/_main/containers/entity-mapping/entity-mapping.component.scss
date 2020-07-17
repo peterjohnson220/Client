@@ -1,9 +1,9 @@
 fa-icon {
-  color: #398ced;
+  opacity: 0.5;
 }
 
 .pf-entity-table {
-  max-height: 400px;
+  max-height: 475px;
   overflow-y: auto;
 
   .pf-entity-table-header {
@@ -11,6 +11,12 @@ fa-icon {
   }
   .payfactors-field-list-item {
     font-size: 1.2rem;
+    background-color: #fff;
+    .entity-btn-group {
+      &.dropdown-toggle::after {
+        display:none;
+      }
+    }
 
     .associated-field-item {
       background-color: rgba(0, 0, 0, 0.08);

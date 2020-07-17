@@ -3,8 +3,8 @@
     Data Management
   </ng-container>
   <ng-container page-content>
-    <div [ngClass]="{ 'container-fluid flexible-width p-0': fullPage, 'container my-5 data-management-page': !fullPage }">
-      <div class="row">
+    <div [ngClass]="getPageStyles()">
+      <div class="row m-0">
         <div class="inner-content col w-100">
           <router-outlet></router-outlet>
         </div>

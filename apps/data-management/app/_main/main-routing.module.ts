@@ -68,7 +68,8 @@ const routes: Routes = [
               {
                 path: 'field-mapping',
                 component: FieldMappingPageComponent,
-                canActivate: [HrisAuthenticationGuard]
+                canActivate: [HrisAuthenticationGuard],
+                data: { FullerPage: true }
               },
               {
                 path: 'authentication',
@@ -97,7 +98,8 @@ const routes: Routes = [
               },
               {
                 path: 'field-mapping',
-                component: OutboundFieldMappingPageComponent
+                component: OutboundFieldMappingPageComponent,
+                data: { FullerPage: true }
               },
               {
                 path: 'transfer-schedule',
