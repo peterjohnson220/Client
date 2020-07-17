@@ -10,6 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
+import { PfSecuredResourceDirective } from 'libs/forms/directives';
 import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
 import * as fromEmployeeManagementReducers from 'libs/features/employee-management/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
@@ -38,6 +39,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild('salaryColumn') salaryColumn: ElementRef;
   @ViewChild('rateBasedSalaryColumn') rateBasedSalaryColumn: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
+  @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
   permissions = Permissions;
   pricingJobs$: Observable<boolean>;
   pricingJobsError$: Observable<boolean>;
@@ -67,6 +69,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   fieldsExcludedFromExport = ['CompanyEmployee_ID', 'HiddenRate'];
   gridConfig: GridConfig;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
+  hasDropdownOptions: boolean;
 
   constructor(
     public store: Store<fromEmployeesReducer.State>,
@@ -112,6 +115,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       'salary': { Template: this.salaryColumn },
       'rateBasedSalary': { Template: this.rateBasedSalaryColumn }
     };
+    // to combat ExpressionChangedAfterItHasBeenCheckedError
+    setTimeout(() => {
+      this.hasDropdownOptions = this.checkHasDropdownOptions([this.permissions.EMPLOYEES_ADD_EDIT_DELETE, this.permissions.NEW_PROJECT]);
+    }, 0);
   }
 
   ngOnDestroy(): void {
@@ -199,6 +206,12 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.deleteSingleEmployee = false;
     this.selectedCompanyEmployeeId = null;
     this.showDeleteEmployeeModal.next(false);
+  }
+
+  checkHasDropdownOptions(permissions: string[]): boolean {
+    if (this.pfSecuredResourceDirective) {
+      return this.pfSecuredResourceDirective.doAuthorizeAny(permissions);
+    }
   }
 
   private handlePricingJobsStatusChanged(value: boolean): void {
