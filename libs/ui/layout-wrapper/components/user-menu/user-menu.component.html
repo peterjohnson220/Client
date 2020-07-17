@@ -1,5 +1,5 @@
 <ul class="navbar-nav" [class.d-none]="(userContext.IsPublic || !!userContext.WorkflowStepInfo) && !requireSSOLogin">
-  <li class="nav-item" ngbDropdown placement="bottom-right">
+  <li class="nav-item" ngbDropdown placement="bottom-right" *ngIf="!userContext.IsPublic">
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>
       <span class="text-white pr-1">{{ userContext.FirstName }} {{ userContext.LastName }}
         <span *ngIf="userContext.ImpersonatorId > 0">({{ userContext.CompanyName }})</span>
@@ -20,3 +20,10 @@
     </div>
   </li>
 </ul>
+
+<ng-template *ngIf="userContext.IsPublic && requireSSOLogin" ngFor let-dropdownNavigationLink [ngForOf]="dropdownNavigationLinks">
+  <a *ngIf="dropdownNavigationLink.Name ==='Log Out'" class="btn btn-secondary" [href]="dropdownNavigationLink.Url">
+    <fa-icon *ngIf="dropdownNavigationLink.Name ==='Log Out'"  icon="sign-out" size="lg"></fa-icon>
+    {{dropdownNavigationLink.Name}}
+  </a>
+</ng-template>

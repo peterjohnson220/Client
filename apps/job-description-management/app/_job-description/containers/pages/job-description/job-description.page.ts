@@ -119,7 +119,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   editingSubscription: Subscription;
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
+  requireSSOLoginSubscription: Subscription;
   jobDescriptionSSOLoginUrlSubscription: Subscription;
+  jobDescriptionSSOAuthResultSubscription: Subscription;
+  jobDescriptionSSOAuthErrorSubscription: Subscription;
 
   companyName: string;
   emailAddress: string;
@@ -227,6 +230,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionViewsAsyncSubscription.unsubscribe();
     this.editingSubscription.unsubscribe();
     this.completedStepSubscription.unsubscribe();
+    this.requireSSOLoginSubscription.unsubscribe();
+    this.jobDescriptionSSOLoginUrlSubscription?.unsubscribe();
+    this.jobDescriptionSSOAuthResultSubscription?.unsubscribe()
+    this.jobDescriptionSSOAuthErrorSubscription?.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -236,7 +243,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     if (!!this.identity && (this.identity.IsPublic || this.identity.WorkflowStepInfo)) {
-      this.router.navigate(['/'], { queryParams: { jwt: this.tokenId } });
+
+      if (!this.ssoTokenId || !this.ssoAgentId) {
+        this.router.navigate(['/'], { queryParams: { jwt: this.tokenId } });
+      } else {
+        this.router.navigate(['/'], { queryParams: { jwt: this.tokenId,
+            tokenid: this.ssoTokenId, agentid: this.ssoAgentId } });
+      }
     } else {
       this.router.navigate(['/']);
     }
@@ -465,7 +478,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       if (ssoLoginUrl) {
         // Redirect to SSO login. After logging in you will be redirected back here with tokenid and agentid params from the sso for use in authenticating.
         const currentURL = window.location.href;
-        const currentURLWithToken = `${currentURL.slice(0, currentURL.indexOf('?'))}?jwt=${this.tokenId}`;
+        let currentURLWithToken = `${currentURL.slice(0, currentURL.indexOf('?'))}?jwt=${this.tokenId}`;
+
+        if (this.viewName) {
+          currentURLWithToken += `&viewName=${this.viewName}`;
+        }
+
         const encodedUrl = encodeURIComponent(currentURLWithToken);
 
          window.location.href = `${ssoLoginUrl}&appurl=${encodedUrl}`;
@@ -530,21 +548,21 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
 
 
-    this.requireSSOLogin$.subscribe(requireSSOLoginResult => {
+    this.requireSSOLoginSubscription = this.requireSSOLogin$.subscribe(requireSSOLoginResult => {
       if (requireSSOLoginResult === false && this.tokenId && this.identityInWorkflow) {
           this.getJobDescriptionDetails();
           this.setWorkflowStepIsBeingViewed();
         }
 
-      if (requireSSOLoginResult  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
+      if (requireSSOLoginResult  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null && this.identityInWorkflow) {
 
          this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
 
-       } else if (requireSSOLoginResult && this.tokenId != null) {
+       } else if (requireSSOLoginResult && this.tokenId != null && this.identityInWorkflow) {
 
          this.store.dispatch(new fromJobDescriptionActions.AuthenticateSSOParams({tokenId: this.ssoTokenId, agentId: this.ssoAgentId}));
 
-         this.jobDescriptionSSOAuthResult$.subscribe( result => {
+        this.jobDescriptionSSOAuthResultSubscription = this.jobDescriptionSSOAuthResult$.subscribe( result => {
            if (result) {
             const resultObj: any = result;
             const userEmailDomain = this.emailAddress.slice(this.emailAddress.indexOf('@') + 1, this.emailAddress.length);
@@ -555,12 +573,16 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
              this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
              this.getJobDescriptionDetails();
-             this.setWorkflowStepIsBeingViewed();
+
+             if (this.identityInWorkflow) {
+               this.setWorkflowStepIsBeingViewed();
+             }
+
              this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
             }
          });
 
-         this.jobDescriptionSSOAuthError$.subscribe( result => {
+        this.jobDescriptionSSOAuthErrorSubscription = this.jobDescriptionSSOAuthError$.subscribe( result => {
            if (result) {
              this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
            }
