@@ -74,3 +74,4 @@ export const getLoadingExportingStatus = createSelector(selectPfDataGridState, f
 export const getFieldsFilterCount = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFieldsFilterCount);
 export const getGridConfig = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGridConfig);
 export const getFilterPanelOpen = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilterPanelOpen);
+export const getModifiedKeys = createSelector(selectPfDataGridState, fromPfDataGridReducer.getModifiedKeys);

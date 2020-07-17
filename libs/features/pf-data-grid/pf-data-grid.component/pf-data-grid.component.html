@@ -93,7 +93,8 @@
                         [pageable]="pageable"
                         [theme]="pageTheme"
                         [customSortOptions]="customSortOptions"
-                        (scrolled)="handleGridScroll($event)">
+                        (scrolled)="handleGridScroll($event)"
+                        [modifiedKey]="modifiedKey">
                       </pf-grid>
                     </div>
                   </div>

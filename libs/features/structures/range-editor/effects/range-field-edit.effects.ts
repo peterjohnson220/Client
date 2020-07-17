@@ -46,6 +46,8 @@ export class RangeFieldEditEffects {
                   action.payload.successCallBackFn(this.store, action.payload.metaInfo);
                 }
 
+                actions.push(new fromPfDataGridActions.UpdateModifiedKey(action.payload.pageViewId, action.payload.rangeId));
+
                 return actions;
               }),
               catchError(() => {
@@ -58,7 +60,7 @@ export class RangeFieldEditEffects {
                   From: NotificationSource.GenericNotificationMessage,
                   Level: NotificationLevel.Error,
                   NotificationId: '',
-                  Payload: { Title: 'Error', Message: `Unable to update value`},
+                  Payload: { Title: 'Error', Message: `Unable to update value` },
                   Type: NotificationType.Event
                 }));
 
@@ -82,14 +84,14 @@ export class RangeFieldEditEffects {
             this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, action.payload.pageViewId)),
             (a: fromRangeFieldActions.UpdateRangeFieldSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
               ({ a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters }))
-          )
+        )
       ),
       switchMap((data) => {
         return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
           data.baseEntity.Id,
           data.fields,
           [...DataGridToDataViewsHelper.mapFieldsToFiltersUseValuesProperty(data.fields), data.a.payload.refreshRowDataViewFilter],
-          { From: 0, Count: 1},
+          { From: 0, Count: 1 },
           data.sortDescriptor,
           false,
           false
