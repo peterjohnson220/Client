@@ -14,11 +14,11 @@
   [actionBarConfig]="actionBarConfig"
   [fieldsExcludedFromExport]="fieldsExcludedFromExport"
   [gridConfig]="gridConfig"
-  [gridRowActionsConfig]="gridRowActionsConfig">
+  [gridRowActionsConfig]="hasDropdownOptions ? gridRowActionsConfig : null">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
-  <div ngbDropdown container="body" #p="ngbDropdown"
+  <div [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]" ngbDropdown container="body" #p="ngbDropdown"
        (openChange)="handleSelectedRowAction(dataRow['CompanyEmployees_CompanyEmployee_ID'], p)">
     <fa-icon ngbDropdownToggle
              icon="ellipsis-h"
@@ -27,7 +27,7 @@
     </fa-icon>
     <div ngbDropdownMenu aria-labelledby="employee-actions-{{dataRow['CompanyEmployees_CompanyEmployee_ID']}}">
       <button [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE" ngbDropdownItem (click)="handleEditClicked(true)">Edit</button>
-      <button [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]" ngbDropdownItem (click)="handlePriceJobsClicked(true)">Create Project</button>
+      <button [pfSecuredResource]="permissions.NEW_PROJECT" ngbDropdownItem (click)="handlePriceJobsClicked(true)">Create Project</button>
       <button [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE" ngbDropdownItem (click)="handleDeleteSingleEmployeeClicked()">Delete</button>
     </div>
   </div>
