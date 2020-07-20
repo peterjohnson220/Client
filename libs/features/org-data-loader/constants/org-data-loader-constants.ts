@@ -85,7 +85,9 @@ export const ORG_DATA_PF_EMPLOYEE_FIELDS = [
   'Ethnicity_PF',
   'DateOfEntry_PF',
   'STIElig',
-  'LTIElig'
+  'LTIElig',
+  'Structure_Code',
+  'Grade_Code'
 ];
 
 export const DATE_FORMATS: DateFormatItem[] = [
