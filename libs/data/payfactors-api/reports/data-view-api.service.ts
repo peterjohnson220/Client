@@ -109,7 +109,7 @@ export class DataViewApiService {
       pageViewId: pageViewId
     };
     if (name) {
-      params['viewName'] = name;
+      params['viewName'] = encodeURIComponent(name);
     }
 
     if (applyUserDefaultCompensationFields != null) {
