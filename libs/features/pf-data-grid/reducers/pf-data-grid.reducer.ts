@@ -1055,6 +1055,7 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
       if (fieldToUpdate) {
         fieldToUpdate.FilterOperator = filter.Operator;
         fieldToUpdate.FilterValue = filter.Value;
+        fieldToUpdate.ExcludeFieldInFilterSave = filter.ExcludeFromFilterSave;
       }
     });
 
