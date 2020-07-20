@@ -202,13 +202,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onColumnReorder(value: ColumnReorderEvent) {
-    // If selection is enabled: the first column can't be reordered
-    // For ColumnGroup the first index is also 0, but the level = 1
-    if ((this.enableSelection || this.gridRowActionsConfig?.Position === PositionType.Left) && (value.newIndex === 0) && value.column.level === 0) {
-      value.preventDefault();
+    if (this.shouldIgnoreColumnReorderEvent(value)) {
       return;
     }
-
     this.store.dispatch(new fromActions.ReorderColumns(
       this.pageViewId,
       {
@@ -220,6 +216,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         ActionsDefined: !!this.gridRowActionsConfig
       },
     ));
+    this.reorderActionsColumnOnTheLeft();
   }
 
   getColWidth(col: any) {
@@ -341,5 +338,30 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         return col === c.field;
       })));
     });
+  }
+
+  private shouldIgnoreColumnReorderEvent(event: ColumnReorderEvent): boolean {
+    // If selection is enabled: the first column can't be reordered
+    // For ColumnGroup the first index is also 0, but the level = 1
+    const isReplacingSelectionColumn = this.enableSelection && event.newIndex === 0 && event.column.level === 0;
+    const hasActionsColumnOnTheLeft = this.gridRowActionsConfig?.Position === PositionType.Left;
+    const actionsColumnIndex = this.enableSelection ? 1 : 0;
+    if (isReplacingSelectionColumn || (hasActionsColumnOnTheLeft && event.newIndex === actionsColumnIndex)) {
+      if (event.column.reorderable) {
+        event.preventDefault();
+      }
+      return true;
+    }
+    return false;
+  }
+
+  private reorderActionsColumnOnTheLeft(): void {
+    if (this.gridRowActionsConfig?.Position !== PositionType.Left) {
+      return;
+    }
+    const actionsColumnIndex = this.enableSelection ? 1 : 0;
+    const actionsColumn = this.grid.columns.toArray()[actionsColumnIndex];
+    const destIndex = 0;
+    setTimeout(() => this.grid.reorderColumn(actionsColumn, destIndex), 1);
   }
 }
