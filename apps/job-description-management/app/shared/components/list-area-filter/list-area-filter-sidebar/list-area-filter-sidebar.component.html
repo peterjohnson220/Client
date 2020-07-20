@@ -3,7 +3,7 @@
     Filter
     <div class="filter-buttons">
       <button *ngIf="saveFiltersVisible === true" [disabled]="filters?.length < 1" (click)="saveFilter()" type="button" class="btn btn-secondary btn-sm">Save Filter</button>
-      <button title="Close Filter" (click)="closeSidebar()" type="button" class="btn btn-secondary btn-sm close-filter">
+      <button title="Close Filter" (click)="closeSidebar()" type="button" class="btn btn-secondary btn-sm">
         <fa-icon icon="times"></fa-icon>
       </button>
     </div>

@@ -13,7 +13,7 @@ import { DateOperatorOptions, NumericOperatorOptions, TextOperatorOptions, Boole
   styleUrls: ['./list-area-filter-sidebar.component.scss']
 })
 export class ListAreaFilterSidebarComponent implements OnChanges {
-  @Input() customListAreaColumns: ListAreaColumn[] = [];
+  @Input() customListAreaColumns: ListAreaColumn[];
   @Input('filters') set _filters(value: FilterDescriptor[]) {
     if (value) {
       this.filters = JSON.parse(JSON.stringify(value));

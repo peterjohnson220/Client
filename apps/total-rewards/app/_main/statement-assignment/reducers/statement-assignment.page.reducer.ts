@@ -2,29 +2,25 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
-import { ListAreaColumn } from 'libs/models/common/list-area';
+import { CompanyEmployee } from 'libs/models/company';
 
 import * as fromActions from '../actions/statement-assignment.page.actions';
 import { Statement } from '../../../shared/models';
 
 export interface State {
   statement: AsyncStateObj<Statement>;
-  listAreaColumns: AsyncStateObj<any[]>;
   isGenerateStatementModalOpen: boolean;
   sendingGenerateStatementRequest: boolean;
   sendingGenerateStatementRequestSuccess: boolean;
   sendingGenerateStatementRequestError: boolean;
-  isFiltersPanelOpen: boolean;
 }
 
 export const initialState: State = {
   statement: generateDefaultAsyncStateObj<Statement>(null),
-  listAreaColumns: generateDefaultAsyncStateObj<ListAreaColumn[]>([]),
   isGenerateStatementModalOpen: false,
   sendingGenerateStatementRequest: false,
   sendingGenerateStatementRequestSuccess: false,
   sendingGenerateStatementRequestError: false,
-  isFiltersPanelOpen: false
 };
 
 export function reducer(state = initialState, action: fromActions.StatementAssignmentPageActions): State {
@@ -45,17 +41,6 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
     }
     case fromActions.LOAD_STATEMENT_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'statement', action.payload);
-    }
-    case fromActions.LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS: {
-      const localState: State = cloneDeep(state);
-      return AsyncStateObjHelper.loading(localState, 'listAreaColumns');
-    }
-    case fromActions.LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_SUCCESS: {
-      const localState = cloneDeep(state);
-      return AsyncStateObjHelper.loadingSuccess(state, 'listAreaColumns', action.payload);
-    }
-    case fromActions.LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_ERROR: {
-      return AsyncStateObjHelper.loadingError(state, 'listAreaColumns');
     }
     case fromActions.OPEN_GENERATE_STATEMENT_MODAL: {
       return {
@@ -93,12 +78,6 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
         sendingGenerateStatementRequestError: true,
       };
     }
-    case fromActions.TOGGLE_GRID_FILTERS: {
-      return {
-        ...state,
-        isFiltersPanelOpen: !state.isFiltersPanelOpen
-      };
-    }
     default: {
       return state;
     }
@@ -114,8 +93,3 @@ export const getStatementLoadingError = (state: State) => state.statement?.loadi
 export const getSendingGenerateStatementRequest = (state: State) => state.sendingGenerateStatementRequest;
 export const getSendingGenerateStatementRequestSuccess = (state: State) => state.sendingGenerateStatementRequestSuccess;
 export const getSendingGenerateStatementRequestError = (state: State) => state.sendingGenerateStatementRequestError;
-
-export const getListAreaColumns = (state: State) => state.listAreaColumns.obj.filter(lac =>
-  lac.ColumnDatabaseName !== 'CompanyEmployeeId' && lac.ColumnDatabaseName !== 'AssignedStatementId');
-
-export const getIsFiltersPanelOpen = (state: State) => state.isFiltersPanelOpen;
