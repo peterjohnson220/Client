@@ -20,6 +20,12 @@ import * as fromFaIcons from './fa-icons';
 import {
   JobDescriptionAppliesToModalComponent,
   JobDescriptionInfoHeaderNoLogoComponent,
+  ListAreaFilterBooleanComponent,
+  ListAreaFilterDateComponent,
+  ListAreaFilterNumberComponent,
+  ListAreaFilterPillsComponent,
+  ListAreaFilterSidebarComponent,
+  ListAreaFilterTextComponent,
   StatusPillComponent,
   ControlDataAttributeRendererComponent,
   ControlDataRendererComponent,
@@ -72,6 +78,8 @@ import { PeditorAutoFocusFixDirective } from './directives';
   ],
   exports: [
     StatusPillComponent,
+    ListAreaFilterPillsComponent,
+    ListAreaFilterSidebarComponent,
     JobDescriptionAppliesToModalComponent,
     JobDescriptionInfoHeaderNoLogoComponent,
     JobDescriptionInfoHeaderWithLogoComponent,
@@ -87,6 +95,12 @@ import { PeditorAutoFocusFixDirective } from './directives';
   ],
   declarations: [
     // Components
+    ListAreaFilterBooleanComponent,
+    ListAreaFilterDateComponent,
+    ListAreaFilterNumberComponent,
+    ListAreaFilterPillsComponent,
+    ListAreaFilterSidebarComponent,
+    ListAreaFilterTextComponent,
     ConflictErrorModalComponent,
     SaveErrorModalComponent,
     StatusPillComponent,

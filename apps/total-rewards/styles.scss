@@ -263,41 +263,6 @@ pf-statement-assignment-modal {
   }
 }
 
-pf-statement-assignment-page {
-  button.btn-secondary.clear-all-filters {
-    margin-top: -.25rem; // negate a p-1 on the button's container div that looks better in jdm's implementation
-    border: none;
-    font-size: 1rem;
-    &:focus, &:hover, &:active {
-      background-color: transparent;
-      box-shadow: none;
-    }
-    &:hover span {
-      text-decoration: underline;
-    }
-    span {
-      color: $link-color;
-    }
-  }
-  button.close-filter {
-    background-color: transparent;
-    border-color: transparent;
-    font-size: 1.2rem;
-  }
-  .row {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
-// style kendo dropdown highlighted item in statement assignment page > filter
-.k-list-optionlabel.k-state-selected, .k-list .k-item.k-state-selected {
-  background-color: #1872ae;
-}
-.k-dropdown .k-dropdown-wrap {
-  background-color: white;
-}
-
 @media print {
   @page {
     size: letter portrait;

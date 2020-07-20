@@ -10,48 +10,47 @@
       class="h-100"
       [loading]="assignedEmployeesDataLoading$ | async" 
       [loadingError]="assignedEmployeesDataLoadingError$ | async">
-      <kendo-grid 
-        class="assigned-employees"
-        [data]="assignedEmployeesGridData$ | async"
-        [pageSize]="gridState.take"
-        [skip]="gridState.skip"
-        [sort]="gridState.sort"
-        [resizable]="true"
-        [sortable]="true"
-        [scrollable]="true"
-        [pageable]="{ buttonCount: 5, info: true }"
-        (dataStateChange)="handleDataStateChange($event)">
-        <kendo-grid-checkbox-column [width]="35">
-          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-            <input 
-              type="checkbox" 
-              [checked]="isEmployeeSelected(dataItem)"
-              (click)="handleCheckboxClick(dataItem)" />
-          </ng-template>
-        </kendo-grid-checkbox-column>
-        <kendo-grid-column field="LastName" title="Last Name" class="ellipsize"></kendo-grid-column>
-        <kendo-grid-column field="FirstName" title="First Name" class="ellipsize"></kendo-grid-column>
-        <kendo-grid-column field="EmployeeId" title="Employee Id" class="ellipsize"></kendo-grid-column>
-        <kendo-grid-column field="JobTitle" title="Job Title" class="ellipsize"></kendo-grid-column>
-        <kendo-grid-column field="JobCode" title="Job Code" class="ellipsize"></kendo-grid-column>
-        <kendo-grid-column field="JobFamily" title="Job Family" class="ellipsize"></kendo-grid-column>
-        <kendo-grid-column field="FlsaStatus" title="FLSA Status" class="ellipsize"></kendo-grid-column>
-        <kendo-grid-column field="TotalRewardsLastStatementGeneratedDate" title="Last Generated (Date)" class="ellipsize">
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <label>
-              {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
+        <kendo-grid 
+          class="assigned-employees"
+          [data]="assignedEmployeesGridData$ | async"
+          [pageSize]="(gridState$ | async)?.take"
+          [skip]="(gridState$ | async)?.skip"
+          [sort]="(gridState$ | async)?.sort"
+          [filter]="(gridState$ | async)?.filter"
+          [resizable]="true"
+          [sortable]="true"
+          [scrollable]="true"
+          [pageable]="{ buttonCount: 5, info: true }"
+          (dataStateChange)="handleDataStateChange($event)">
+          <kendo-grid-checkbox-column [width]="35">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+              <input 
+                type="checkbox" 
+                [checked]="isEmployeeSelected(dataItem)"
+                (click)="handleCheckboxClick(dataItem)" />
+            </ng-template>
+          </kendo-grid-checkbox-column>
+          <kendo-grid-column field="LastName" title="Last Name" class="ellipsize"></kendo-grid-column>
+          <kendo-grid-column field="FirstName" title="First Name" class="ellipsize"></kendo-grid-column>
+          <kendo-grid-column field="EmployeeId" title="Employee Id" class="ellipsize"></kendo-grid-column>
+          <kendo-grid-column field="JobTitle" title="Job Title" class="ellipsize"></kendo-grid-column>
+          <kendo-grid-column field="JobCode" title="Job Code" class="ellipsize"></kendo-grid-column>
+          <kendo-grid-column field="TotalRewardsLastStatementGeneratedDate" title="Last Generated (Date)" class="ellipsize">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <label>
+                {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
+              </label>
+            </ng-template>
+          </kendo-grid-column>
+          <ng-template kendoPagerTemplate>
+            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+            <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
+            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+            <label class="ml-auto mr-2 mt-2">
+              {{ (assignedEmployeesTotal$ | async) | number }} Assigned Employee{{ (assignedEmployeesTotal$ | async) != 1 ? 's' : '' }}
             </label>
           </ng-template>
-        </kendo-grid-column>
-        <ng-template kendoPagerTemplate>
-          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
-          <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
-          <kendo-pager-next-buttons></kendo-pager-next-buttons>
-          <label class="ml-auto mr-2 mt-2">
-            {{ (assignedEmployeesTotal$ | async) | number }} Assigned Employee{{ (assignedEmployeesTotal$ | async) != 1 ? 's' : '' }}
-          </label>
-        </ng-template>
-      </kendo-grid>
+        </kendo-grid>
     </pf-async-container>
   </div>
 </div>
