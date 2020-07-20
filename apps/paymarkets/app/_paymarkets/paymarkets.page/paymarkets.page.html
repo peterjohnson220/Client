@@ -75,7 +75,7 @@
   [showSubmit]="false"
   [modalId]="'au-modal-view-summary'"
   [isOpen$]=" showSummaryModal$"
-  (onDismiss)="showSummaryModal.next(false)">
+  (onDismiss)="closeSummaryModal()">
 
   <ng-container basic-content>
     <pf-paymarket-associations

@@ -150,6 +150,11 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.summaryPaymarketId = payMarketId;
   }
 
+  closeSummaryModal(): void {
+    this.showSummaryModal.next(false);
+    this.summaryPaymarketId = null;
+  }
+
   deletePayMarket(): void {
     this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenDeletePayMarketModal());
   }
