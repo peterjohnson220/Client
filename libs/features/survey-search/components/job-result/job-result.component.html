@@ -87,6 +87,7 @@
                     [numberCutsSelected]="(selectedCuts$ | async)?.length"
                     [cutsDraggable]="cutsDraggable"
                     [currencyCode]="currencyCode"
+                    [legacyIframeImplementation]="legacyIframeImplementation"
                     (dataCutSelected)="handleDataCutSelected($event)"
                     (payFactorsCutSelected)="handlePayfactorsCutSelected()"
                     (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
