@@ -26,7 +26,7 @@ export class StructuresComponent implements OnInit, OnChanges, OnDestroy {
   structuresSubscription: Subscription;
 
   currentRecordCount: number;
-  baseEntity = 'CompanyStructures';
+  baseEntity = 'CompanyStructures_RangeGroup';
   structuresFields: BasicDataViewField[] = [
     {
       EntitySourceName: 'CompanyStructures',
@@ -86,7 +86,7 @@ export class StructuresComponent implements OnInit, OnChanges, OnDestroy {
       PayMarketAssociationType.Structures,
       {
         BaseEntity: this.baseEntity,
-        ApplyDefaultFilters: true,
+        ApplyDefaultFilters: false,
         Fields: this.structuresFields,
         Filters: [],
         Distinct: true
