@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { DataStateChangeEvent } from '@progress/kendo-angular-grid';
-import { State, SortDescriptor, orderBy } from '@progress/kendo-data-query';
+import { State } from '@progress/kendo-data-query';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { CompanyEmployee } from 'libs/models/company';
@@ -20,21 +20,17 @@ import * as fromAssignedEmployeesGridActions from '../../actions/assigned-employ
 })
 export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
   @ViewChild(TooltipDirective, { static: true }) public tooltipDir: TooltipDirective;
+  @Input() gridState: any;
+  @Output() gridStateChange = new EventEmitter<any>();
 
   assignedEmployeesGridData$: Observable<{ data: CompanyEmployee[], total: number }>;
   assignedEmployeesDataLoading$: Observable<boolean>;
   assignedEmployeesDataLoadingError$: Observable<boolean>;
   assignedEmployeesTotal$: Observable<number>;
-  gridState$: Observable<State>;
   selectedCompanyEmployeeIds$: Observable<number[]>;
 
   selectedCompanyEmployeeIds: number[];
   selectedCompanyEmployeeIdsSubscription = new Subscription();
-
-  defaultSort: SortDescriptor[] = [
-    { field: 'LastName', dir: 'asc' },
-    { field: 'FirstName', dir: 'asc' },
-  ];
 
   constructor(private store: Store<fromAssignedEmployeesGridReducer.State>) { }
 
@@ -43,15 +39,9 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     this.assignedEmployeesDataLoading$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesLoading));
     this.assignedEmployeesDataLoadingError$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesLoadingError));
     this.assignedEmployeesTotal$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesTotal));
-    this.gridState$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesGridState));
 
     this.selectedCompanyEmployeeIds$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
     this.selectedCompanyEmployeeIdsSubscription = this.selectedCompanyEmployeeIds$.subscribe(ids => this.selectedCompanyEmployeeIds = ids);
-
-    this.store.dispatch(new fromGridActions.SortChange(GridTypeEnum.TotalRewardsAssignedEmployees, this.defaultSort));
-
-    // avoid ExpressionChangedAfterItHasBeenCheckedError
-    setTimeout(() => { this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees()); }, 0);
   }
 
   ngOnDestroy(): void {
@@ -65,8 +55,8 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
   }
 
   handleDataStateChange(state: DataStateChangeEvent): void {
-    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, state));
-    this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees());
+    // emit up to the parent here since we need the filters in that component's state to be passed in the load call
+    this.gridStateChange.emit(state);
   }
 
   isEmployeeSelected(companyEmployee: CompanyEmployee) {
