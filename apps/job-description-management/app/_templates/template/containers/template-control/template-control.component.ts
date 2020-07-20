@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy
 
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
-import { skip } from 'rxjs/operators';
+import { skip, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 import { TemplateControl, TemplateSettings, TemplateSettingsControl, ControlType } from 'libs/models';
@@ -157,9 +157,7 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
         const editingTemplateSettingsStatus = changes.editingTemplateSettings;
         if (editingTemplateSettingsStatus && editingTemplateSettingsStatus.currentValue) {
             this.hideBody = true;
-        }
 
-        if (changes.readOnly) {
             if (!this.templateControl.Data.length && this.controlType.EditorType !== 'SmartList') {
                 this.addDataRow(false);
             }
@@ -172,7 +170,12 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
         const controlDataChanges$ = RTEWithDataCount > 0 ? this.changesSubject.pipe(skip(RTEWithDataCount)) : this.changesSubject;
         const bulkControlDataChanges$ = this.bulkChangesSubject.pipe(skip(this.templateControl.Data.length ? 1 : 0));
 
-        controlDataChanges$.subscribe(dataRowChangeObj => this.dataChangesDetected.emit(dataRowChangeObj));
+        controlDataChanges$.pipe(
+            debounceTime(500),
+            distinctUntilChanged()).subscribe(dataRowChangeObj =>
+                this.dataChangesDetected.emit(dataRowChangeObj)
+            );
+
         bulkControlDataChanges$.subscribe(bulkDataChangeObj => this.bulkDataChangesDetected.emit(bulkDataChangeObj));
     }
 
