@@ -39,7 +39,7 @@ export function reducer(state = initialState, action: fromBasicDataGridAction.Ac
             fields: action.configuration.Fields,
             filters: action.configuration.Filters,
             applyDefaultFilters: action.configuration.ApplyDefaultFilters,
-            distinct: action.configuration.ApplyDefaultFilters,
+            distinct: action.configuration.Distinct,
             pagingOptions: { From: 0, Count: 25 },
             data: generateDefaultAsyncStateObj<any[]>([]),
             loadingMoreData: false
