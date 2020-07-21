@@ -1,6 +1,10 @@
 @import 'kendo-grid';
 @import 'common/common-variables';
 
+.data-view-grid {
+  position: relative;
+}
+
 .text-align-right {
   text-align: right;
 }
@@ -21,4 +25,12 @@
 
 .grid-container ::ng-deep kendo-grid {
   max-height: 200px;
+  height: 200px !important;
+}
+
+.loading-more-container {
+  position: absolute;
+  bottom: 0;
+  background-color: #ffffff;
+  width: 100%;
 }
