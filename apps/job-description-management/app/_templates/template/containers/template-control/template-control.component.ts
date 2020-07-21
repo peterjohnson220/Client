@@ -158,12 +158,6 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
         if (editingTemplateSettingsStatus && editingTemplateSettingsStatus.currentValue) {
             this.hideBody = true;
         }
-
-        if (changes.readOnly) {
-            if (!this.templateControl.Data.length && this.controlType.EditorType !== 'SmartList') {
-                this.addDataRow(false);
-            }
-        }
     }
     // Private Methods
     private watchForControlDataChanges() {
