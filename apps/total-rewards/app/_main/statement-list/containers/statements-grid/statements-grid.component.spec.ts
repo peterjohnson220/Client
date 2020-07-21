@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
-import {NgbTabsetModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTabsetModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromTotalRewardsReducer from '../../reducers/statement-grid.reducer';
@@ -24,7 +24,7 @@ describe('TotalRewardsStatementsGridComponent', () => {
           ...fromRootState.reducers,
           totalRewards: combineReducers(fromTotalRewardsReducer.reducer)
         }),
-        ReactiveFormsModule, NgbTabsetModule],
+        ReactiveFormsModule, NgbTabsetModule, NgbDropdownModule],
       declarations: [ StatementsGridComponent ],
       providers: [{provide: Router, useValue: { navigate: jest.fn() }}],
       schemas: [ NO_ERRORS_SCHEMA ]

@@ -62,7 +62,7 @@ describe('AssignedEmployeesGridComponent', () => {
 
     // assert
     const pageTextContent = fixture.nativeElement.textContent;
-    expect(pageTextContent.indexOf('Test Statement Name - Assigned Employees')).toBeGreaterThan(-1);
+    expect(pageTextContent.indexOf('Test Statement Name: Assigned Employees')).toBeGreaterThan(-1);
   });
 
   it('should hide the filter pill section when no filters are applied', () => {

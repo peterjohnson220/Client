@@ -1,5 +1,5 @@
 <pf-page-with-title-bar [returnUrl]="'/'">
-  <ng-container page-title>Total Rewards Statement</ng-container>
+  <ng-container page-title>Total Rewards</ng-container>
   <ng-container page-content>
     <pf-async-container [loading]="(statementLoading$ | async)"
                         [loadingError]="(statementLoadingError$ | async) || (statementSavingError$ | async) || (settingsSavingError$ | async)"
