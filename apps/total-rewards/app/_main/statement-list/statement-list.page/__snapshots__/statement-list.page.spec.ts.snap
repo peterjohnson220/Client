@@ -19,6 +19,15 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
     
     Total Rewards
     
+    <a
+      class="pt-2 pr-2"
+      data-qa-id="lnk-recentDownloads"
+      href="/client/notifications"
+      id="recent-download"
+      target="_blank"
+    >
+      Recently Generated
+    </a>
     <pf-input-debounce
       class="mr-2"
     />
@@ -135,6 +144,15 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
     
     Total Rewards
     
+    <a
+      class="pt-2 pr-2"
+      data-qa-id="lnk-recentDownloads"
+      href="/client/notifications"
+      id="recent-download"
+      target="_blank"
+    >
+      Recently Generated
+    </a>
     <pf-input-debounce
       class="mr-2"
     />
