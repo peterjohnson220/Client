@@ -30,7 +30,9 @@ import {
   PfTestCredentialsPackage,
   Provider,
   TransferMethod,
-  WorkdayRestCredentialsPackage, WorkdaySoapCredentialsPackage,
+  WorkdayRestCredentialsPackage,
+  WorkdaySoapCredentialsPackage,
+  PublicApiCredentialsPackage,
   EntityChoice,
   EntityField,
   ConnectionSummary
@@ -57,7 +59,17 @@ export class PayfactorsApiModelMapper {
       ImageUrl: response.providerImageUrl,
       AuthenticationTypeId: response.authenticationType_ID,
       Active: response.active,
+      UsesFieldSelection: this.mapProviderResponseToFieldSelection(response)
     };
+  }
+
+  static mapProviderResponseToFieldSelection(response: ProviderResponse): boolean {
+    switch (response.providerCode.toLowerCase()) {
+      case 'publicapi':
+        return true;
+      default:
+        return false;
+    }
   }
 
   static mapProviderResponsesToProviders(response: ProviderResponse[]): Provider[] {
@@ -83,6 +95,11 @@ export class PayfactorsApiModelMapper {
     } as CredentialsPackage;
 
     switch (connectionSummary.provider.ProviderCode) {
+      case 'PUBLICAPI':
+        return {
+          ...c,
+          apiKey: request.apikey
+        } as PublicApiCredentialsPackage;
       case 'WORKDAY':
       case 'WDMOCK':
         return {
@@ -137,6 +154,7 @@ export class PayfactorsApiModelMapper {
         EntityType: entityType,
         FieldName: pef.fieldName,
         DisplayName: pef.fieldName,
+        DtoName: pef.dtoName,
         IsRequired: pef.requiredField,
         HasDescription: pef.hasDescription,
         Description: pef.description,

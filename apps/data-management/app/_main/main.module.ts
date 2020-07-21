@@ -28,15 +28,18 @@ import {
   EntityUploadComponent,
   FileMappingComponent,
   PfCheckboxComponent,
-  ProviderListComponent
+  ProviderListComponent,
+  IntegrationCompleteModalComponent
 } from './components';
 import {
   CustomEmployeeIdentifierComponent,
   DataManagementHomePageComponent,
   DataManagementLandingPageComponent,
   EntityMappingComponent,
+  EntityFieldSelectionComponent,
   FieldMappingPageComponent,
   FieldMappingCardComponent,
+  FieldSelectionCardComponent,
   HrisAuthenticationCardComponent,
   HrisIntegrationPanelComponent,
   HrisIntegrationSidebarComponent,
@@ -44,6 +47,7 @@ import {
   HrisReAuthenticationModalComponent,
   OrgDataLoadComponent,
   PfTestAuthenticationComponent,
+  PublicApiAuthenticationComponent,
   ProviderCardComponent,
   ResetIntegrationPageComponent,
   TransferDataPageComponent,
@@ -156,11 +160,14 @@ import { HrisAuthenticationGuard } from './guards';
     AuthenticationStatusComponent,
     CustomEmployeeIdentifierComponent,
     DefaultPaymarketConfirmationModalComponent,
+    IntegrationCompleteModalComponent,
     EntityPickerComponent,
     EntityUploadComponent,
     EntityMappingComponent,
+    EntityFieldSelectionComponent,
     FileMappingComponent,
     FieldMappingCardComponent,
+    FieldSelectionCardComponent,
     HrisAuthenticationCardComponent,
     HrisIntegrationPanelComponent,
     HrisIntegrationSidebarComponent,
@@ -177,6 +184,7 @@ import { HrisAuthenticationGuard } from './guards';
     WorkdayAuthenticationComponent,
     WorkdayMockAuthenticationComponent,
     WorkdayRestAuthenticationComponent,
+    PublicApiAuthenticationComponent,
     DataManagementLandingPageComponent,
     HrisIntegrationPanelComponent,
     HrisIntegrationStatusComponent,
@@ -195,7 +203,8 @@ import { HrisAuthenticationGuard } from './guards';
     OutboundTransferSchedulePageComponent,
     OutboundJdmViewSelectionPageComponent,
     OutboundTransferScheduleSummaryComponent,
-    ProviderListComponent
+    ProviderListComponent,
+    FieldSelectionCardComponent
   ],
   providers: [
     // Guards

@@ -1,0 +1,56 @@
+<div class="row mt-5">
+  <div class="col-sm-8">
+    <h5>{{targetName}} Fields</h5>
+    <div class="row">
+      <div class="col">
+        <pf-input-debounce [id]="'payfactorsEntitySearch-' + entityType.toLowerCase()" [delay]="400"
+                           (valueChanged)="handleSearchTermChanged($event, 'payfactors')" [placeholderText]="'Search'" pfClickElsewhere>
+        </pf-input-debounce>
+      </div>
+    </div>
+    <div class="container-fluid my-3 border rounded pf-entity-table" *ngIf="filteredPayfactorsFields.length > 0">
+      <div class="row p-3 border-bottom sticky-top pf-entity-table-header">
+        <h5>FIELD NAME</h5>
+      </div>
+      <div class="pf-entity-table-body">
+        <div
+          class="row py-3 payfactors-field-list-item"
+          [class.border-top]="!isFirst"
+          *ngFor="let field of filteredPayfactorsFields; index as i; first as isFirst"
+          [attr.payfactors-entity-id]="field.EntityFieldId"
+          (click)="addAssociatedItem(field.EntityFieldId, field)"
+        >
+          <div
+            class="p-2"
+            [class.col]="field.AssociatedEntity.length === 0"
+            [class.col-sm-5]="field.AssociatedEntity.length > 0"
+          >
+            <div class="w-100 d-flex d-inline-flex align-items-center">
+              <div style=" width: 21px; height: 31px;" class="mx-2" *ngIf="!field.HasDescription">&nbsp;</div>
+              <fa-icon icon="info-circle" placement="left" [ngbTooltip]="field.Description" class="mx-2" container="body"
+                       style="font-size: 1.6rem;" *ngIf="field.HasDescription"></fa-icon>
+              <label
+                class="w-100 mb-0 ellipsis-overflowing-text"
+                [class.font-weight-bold]="field.IsRequired"
+                [ngbTooltip]="field.DtoName"
+                placement="top-left"
+                container="body"
+              >{{field.DtoName}} {{ field.DtoName.startsWith('Udf') ? '(' + field.DisplayName + ')' : '' }} </label>
+            </div>
+          </div>
+          <div
+            *ngIf="field.AssociatedEntity.length > 0"
+            id="associated-entity"
+            class="col-sm-7 p-2 associated-field-item"
+            (click)="removeAssociatedItem(field.EntityFieldId, field.AssociatedEntity[0])"
+          >
+            <fa-icon icon="check-circle" class="text-success"></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h5><b>Bolded</b> fields are required</h5>
+  </div>
+</div>
+<!--<pf-integration-complete-modal [isOpen$]="this.showModel$"-->
+<!--                               [friendlyName]="'Payfactors'" (dismissed)="goHome()"></pf-integration-complete-modal>-->

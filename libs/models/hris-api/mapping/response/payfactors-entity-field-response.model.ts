@@ -3,6 +3,7 @@ export interface PayfactorsEntityField {
   entityMappingType_ID: number;
   entityMappingTypeCode: string;
   fieldName: string;
+  dtoName?: string;
   dataType_ID: number;
   dataType: string;
   requiredField: boolean;

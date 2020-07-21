@@ -1,0 +1,16 @@
+<ngb-tabset [destroyOnHide]="false">
+  <ngb-tab *ngFor="let entity of selectedEntities"
+           [id]="'tab-'+ entity.toLowerCase()">
+    <ng-template ngbTabTitle>
+      <h4 class="font-weight-lighter">{{entity | orgDataEntityTypeToDisplayName}}</h4>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <pf-entity-field-selection
+        [entityType]="entity"
+        [entityGroupName]="entity.toLowerCase() + '-associated-bag'"
+        [sourceName]="sourceName"
+        [targetName]="targetName">
+      </pf-entity-field-selection>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

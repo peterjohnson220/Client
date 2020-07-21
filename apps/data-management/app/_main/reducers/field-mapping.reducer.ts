@@ -22,7 +22,7 @@ export interface State {
   isDirty: boolean;
 }
 
-const initialState: State = {
+export const initialState: State = {
   loading: true,
   loadingError: false,
   mappedFields: null,
