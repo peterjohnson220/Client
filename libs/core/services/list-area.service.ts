@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 
 import { ListAreaColumn } from 'libs/models/common';
 
-import { DateOperatorOptions, NumericOperatorOptions, TextOperatorOptions } from '../models/list-area-options.model';
+import { DateOperatorOptions, NumericOperatorOptions, TextOperatorOptions } from '../../features/job-description-management/models/list-area-options.model';
 
 @Injectable()
 export class ListAreaService {

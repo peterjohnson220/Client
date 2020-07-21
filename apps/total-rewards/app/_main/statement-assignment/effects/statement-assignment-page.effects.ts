@@ -5,7 +5,10 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { TotalRewardsApiService, TotalRewardsPdfGenerationService, TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
+import { UserProfileApiService } from 'libs/data/payfactors-api/user';
+import { TotalRewardsApiService, TotalRewardsPdfGenerationService } from 'libs/data/payfactors-api/total-rewards';
+import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
+import { MappingHelper } from 'libs/core/helpers';
 
 import { Statement } from '../../../shared/models';
 import * as fromStatementAssignmentPageActions from '../actions/statement-assignment.page.actions';
@@ -25,6 +28,20 @@ export class StatementAssignmentPageEffects {
         )
       )
     );
+
+  @Effect()
+  getListAreaColumns$ = this.actions$
+    .pipe(
+      ofType(fromStatementAssignmentPageActions.LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS),
+      switchMap((action: fromStatementAssignmentPageActions.LoadAssignedEmployeesListAreaColumns) =>
+        this.userProfileApiService.getListAreaColumns({ ListAreaName: 'TotalRewardsAssignedEmployees', UdfType: null }).pipe(
+          map((response: ListAreaColumnResponse[]) => {
+            const listAreaColumns =  MappingHelper.mapListAreaColumnResponseListToListAreaColumnList(response);
+            return new fromStatementAssignmentPageActions.LoadAssignedEmployeesListAreaColumnsSuccess(listAreaColumns);
+          }),
+          catchError(response => of(new fromStatementAssignmentPageActions.LoadAssignedEmployeesListAreaColumnsError()))
+        )
+      ));
 
   @Effect()
   generateStatements$ = this.actions$
@@ -51,5 +68,6 @@ export class StatementAssignmentPageEffects {
     private actions$: Actions,
     private totalRewardsApi: TotalRewardsApiService,
     private totalRewardsPdfGenerationService: TotalRewardsPdfGenerationService,
+    private userProfileApiService: UserProfileApiService,
     private store: Store<fromTotalRewardsReducer.State>) {}
 }

@@ -1,0 +1,27 @@
+.filter-wrapper {
+  height: calc(100% - 47px);
+  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
+  flex: 0 0 0;
+  overflow-x: hidden;
+  opacity: 0;
+  padding-left: 0;
+  background-color: #f7f7f9;
+  border-top: 1px solid #dee2e6;
+  &.expanded {
+    flex: 0 0 400px;
+    overflow-x: auto;
+    opacity: 1;
+    padding-left: 1rem;
+  }
+}
+
+a.filter-toggle {
+  transition: color .3s ease-in-out;
+  font-size: 1.1rem;
+  &:hover {
+    text-decoration: none;
+  }
+  span {
+    vertical-align: 1px;
+  }
+}

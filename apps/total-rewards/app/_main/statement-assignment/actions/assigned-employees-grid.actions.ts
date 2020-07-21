@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
+import { State } from '@progress/kendo-data-query';
 
 export const RESET = '[Total Rewards/Assigned Employees Grid] Reset';
 
@@ -15,6 +16,7 @@ export class Reset implements Action {
 
 export class LoadAssignedEmployees implements Action {
   readonly type = LOAD_ASSIGNED_EMPLOYEES;
+  constructor(public payload: State) {}
 }
 
 export class LoadAssignedEmployeesSuccess implements Action {
