@@ -49,7 +49,9 @@ export class PricingsComponent implements OnInit, OnChanges, OnDestroy {
       SourceName: 'Effective_Date',
       DisplayName: 'Effective Date',
       DataType: DataViewFieldDataType.DateTime,
-      KendoGridField: 'CompanyJobs_Pricings_Effective_Date'
+      KendoGridField: 'CompanyJobs_Pricings_Effective_Date',
+      SortOrder: 1,
+      SortDirection: 'asc'
     }
   ];
 
