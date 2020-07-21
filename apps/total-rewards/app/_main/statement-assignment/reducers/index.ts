@@ -79,6 +79,16 @@ export const getSendingGenerateStatementRequestError = createSelector(
   fromPageReducer.getSendingGenerateStatementRequestError
 );
 
+export const getListAreaColumns = createSelector(
+  selectPageState,
+  fromPageReducer.getListAreaColumns
+);
+
+export const getIsFiltersPanelOpen = createSelector(
+  selectPageState,
+  fromPageReducer.getIsFiltersPanelOpen
+);
+
 // Assignments Modal Selectors
 export const getIsAssignmentsModalOpen = createSelector(
   selectAssignmentsModalState,

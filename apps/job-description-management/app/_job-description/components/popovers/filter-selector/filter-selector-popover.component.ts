@@ -5,7 +5,7 @@ import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { ListAreaColumn } from 'libs/models/common';
 import { JdmListFilter } from 'libs/models/user-profile';
 
-import { ListAreaService } from 'libs/features/job-description-management/services/list-area.service';
+import { ListAreaService } from 'libs/core/services/list-area.service';
 
 @Component({
   selector: 'pf-filter-selector-popover',

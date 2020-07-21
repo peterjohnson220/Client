@@ -4,7 +4,7 @@ import { FilterDescriptor } from '@progress/kendo-data-query';
 
 import { ListAreaColumn } from 'libs/models/common';
 
-import { ListAreaService } from 'libs/features/job-description-management/services';
+import { ListAreaService } from 'libs/core/services/list-area.service';
 
 @Component({
   selector: 'pf-list-area-filter-pills',
