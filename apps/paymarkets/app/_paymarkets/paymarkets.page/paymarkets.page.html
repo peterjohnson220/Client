@@ -67,6 +67,7 @@
 <pf-delete-paymarket-modal #deletePayMarketModal
                            [payMarketName]="selectedPayMarketName"
                            [selectedPayMarketId]="selectedPayMarketId"
+                           (resetSelectedPayMarketID)="handleDeleteModalClose()"
 ></pf-delete-paymarket-modal>
 
 <pf-modal-form

@@ -124,6 +124,10 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.selectedPopover = popover;
   }
 
+  handleDeleteModalClose(): void {
+    this.selectedPayMarketId = null;
+  }
+
   setDefaultPayMarket(payMarketId: number) {
     if (!!payMarketId) {
       this.defaultPayMarketId = payMarketId;
