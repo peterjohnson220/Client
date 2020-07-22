@@ -8,6 +8,8 @@ import { Store, select } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
 import { CompanyEmployee } from 'libs/models/company';
+import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import { AppNotification } from 'libs/features/app-notifications/models';
 
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
@@ -31,6 +33,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   sendingGenerateRequestSuccess$: Observable<boolean>;
   sendingGenerateRequestError$: Observable<boolean>;
   getIsFiltersPanelOpen$: Observable<boolean>;
+  getNotification$: Observable<AppNotification<any>[]>;
 
   assignedEmployeesSelectedCompanyEmployeeIds$: Observable<number[]>;
 
@@ -66,7 +69,11 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
 
   filterChangeSubject = new Subject<FilterDescriptor[]>();
 
-  constructor(private store: Store<fromPageReducer.State>, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private store: Store<fromPageReducer.State>,
+    private route: ActivatedRoute, private router: Router,
+    private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
+  ) { }
 
   private setSearchContext() {
     const setContextMessage: MessageEvent = {
@@ -91,6 +98,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.sendingGenerateRequestSuccess$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequestSuccess));
     this.sendingGenerateRequestError$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequestError));
     this.getIsFiltersPanelOpen$ = this.store.pipe(select(fromPageReducer.getIsFiltersPanelOpen));
+    this.getNotification$ = this.appNotificationStore.pipe(select(fromAppNotificationsMainReducer.getNotifications));
 
     // Unassign Modal
     this.isUnassignEmployeesModalOpen$ = this.store.pipe(select(fromPageReducer.getIsUnassignEmployeesModalOpen));

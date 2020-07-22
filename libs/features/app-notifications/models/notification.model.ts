@@ -24,6 +24,12 @@ export enum NotificationType {
 export interface NotificationPayload {
   Title: string;
   Message: string;
+  FileType?: string;
+}
+
+export enum NotificationPayloadFileType {
+  Excel = 'Excel',
+  Pdf = 'Pdf'
 }
 
 export interface NotificationWithFilePayload extends NotificationPayload {

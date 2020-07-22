@@ -12,7 +12,7 @@ export class TotalRewardsPdfGenerationService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  generateStatements(request: GenerateStatementsRequest) {
+  generateStatements(request: GenerateStatementsRequest): Observable<string> {
     return this.payfactorsApiService.post(`${this.endpoint}/Create`, request);
   }
 }

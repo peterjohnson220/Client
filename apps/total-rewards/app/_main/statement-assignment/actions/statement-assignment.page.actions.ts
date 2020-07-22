@@ -64,6 +64,7 @@ export class GenerateStatements implements Action {
 
 export class GenerateStatementsSuccess implements Action {
   readonly type = GENERATE_STATEMENTS_SUCCESS;
+  constructor(public payload: { eventId: string }) {}
 }
 
 export class GenerateStatementsError implements Action {
