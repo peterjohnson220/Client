@@ -1,4 +1,5 @@
 export * from './statement';
+export * from './statement-for-print';
 export * from './compensation-field';
 export * from './statement-list-view-model';
 export * from './page';
