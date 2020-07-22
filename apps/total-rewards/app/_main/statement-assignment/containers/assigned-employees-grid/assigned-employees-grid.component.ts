@@ -64,7 +64,7 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
   }
 
   showGridTooltip(e: any): void {
-    if (e.target.offsetWidth < e.target.scrollWidth) {
+    if ((e.target.offsetWidth < e.target.scrollWidth) && e.target.classList.contains('show-tooltip')) {
       this.tooltipDir.toggle(e.target);
     } else {
       this.tooltipDir.hide();

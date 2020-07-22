@@ -18,7 +18,7 @@
         </button>
       </div>
       <div class="d-flex h-100">
-        <div>
+        <div class="grid-wrapper" [class.expanded-filters]="getIsFiltersPanelOpen$ | async">
           <pf-assigned-employees-grid
             [gridState]="assignedEmployeesGridState"
             (gridStateChange)="handleAssignedEmployeesGridStateChange($event)">
