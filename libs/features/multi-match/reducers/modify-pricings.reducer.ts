@@ -21,7 +21,7 @@ export function reducer(state = initialState, action: fromModifyPricingsActions.
       return AsyncStateObjHelper.loadingError(state, 'pricingsToModify');
     }
     case fromModifyPricingsActions.GET_PRICINGS_TO_MODIFY_SUCCESS: {
-      return AsyncStateObjHelper.loadingSuccess(state, 'pricingsToModify')
+      return AsyncStateObjHelper.loadingSuccess(state, 'pricingsToModify');
     }
     default:
       return state;

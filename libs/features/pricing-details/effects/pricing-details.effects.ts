@@ -8,7 +8,7 @@ import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/opera
 import * as fromPricingDetailsReducer from '../reducers';
 import * as fromPricingDetailsActions from '../actions';
 
-import { PricingLegacyApiService, JobsApiService, PricingApiService } from 'libs/data/payfactors-api';
+import { PricingLegacyApiService, JobsApiService, PricingEdmxApiService } from 'libs/data/payfactors-api';
 import { PricingInfo } from 'libs/models/payfactors-api';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class PricingDetailsEffects {
     private actions$: Actions,
     private store: Store<fromPricingDetailsReducer.State>,
     private pricingLegacyApiService: PricingLegacyApiService,
-    private pricingApiService: PricingApiService,
+    private pricingEdmxApiService: PricingEdmxApiService,
     private jobsApiService: JobsApiService
   ) { }
 
@@ -66,7 +66,7 @@ export class PricingDetailsEffects {
         ),
       ),
     switchMap((data) => {
-      return this.pricingApiService.patchPricingStatus(data.action.pricingId, data.newStatus).pipe(
+      return this.pricingEdmxApiService.patchPricingStatus(data.action.pricingId, data.newStatus).pipe(
         map(() => {
           return new fromPricingDetailsActions.SavingPricingSuccess();
         }),

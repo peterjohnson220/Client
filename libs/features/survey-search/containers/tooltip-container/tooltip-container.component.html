@@ -1,11 +1,12 @@
 <pf-matches-details-tooltip
   *ngIf="matchesDetailsTooltipData"
   [matchesDetails]="matchesDetailsTooltipData.MatchesDetails"
-  [tooltipRightPx]="matchesDetailsTooltipData.TargetX"
+  [tooltipLeftOrRightPx]="matchesDetailsTooltipData.TargetX"
   [tooltipTopPx]="matchesDetailsTooltipData.TargetY"
   [visible]="matchesDetailsTooltipOpen$ | async"
   [containerHeight]="searchResultsContainerHeight"
   [containerWidth]="searchResultsContainerWidth"
+  [legacyIframeImplementation]="legacyIframeImplementation"
   (mouseenter)="setMatchesTooltipHovered(true)"
   (mouseleave)="setMatchesTooltipHovered(false)">
 </pf-matches-details-tooltip>

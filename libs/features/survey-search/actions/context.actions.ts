@@ -6,7 +6,7 @@ export const SET_JOB_CONTEXT = '[Survey Search/Context] Set Job Context';
 export const SET_PROJECT_SEARCH_CONTEXT = '[Survey Search/Context] Set Project Search Context';
 export const TOGGLE_FILTER_SEARCH = '[Survey Search/Context] Toggle Filter Search';
 export const HIDE_FILTER_SEARCH = '[Survey Search/Context] Hide Filter Search';
-export const SET_MODIFY_PRICINGS_SEARCH_CONTEXT = '[Survey Search/Context] Set Modify Pricings Context'
+export const SET_MODIFY_PRICINGS_SEARCH_CONTEXT = '[Survey Search/Context] Set Modify Pricings Context';
 
 export class SetJobContext implements Action {
   readonly type = SET_JOB_CONTEXT;

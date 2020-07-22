@@ -49,6 +49,7 @@ import {
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects } from './effects';
+import { CannontDeletePricingMatchMessage, ShowingActiveJobs } from './pipes';
 
 
 @NgModule({
@@ -112,7 +113,11 @@ import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects } from '.
 
     // Jobs Grid Components
     PeerExchangeMatchesComponent,
-    ExportListPopoverComponent
+    ExportListPopoverComponent,
+
+    // Pipes
+    CannontDeletePricingMatchMessage,
+    ShowingActiveJobs
   ]
 })
 export class JobsPageModule {

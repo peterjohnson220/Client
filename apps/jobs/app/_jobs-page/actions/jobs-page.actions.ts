@@ -117,10 +117,7 @@ export class DeletingPricingError implements Action {
 
 export class DeletingPricingMatch implements Action {
   readonly type = DELETING_PRICING_MATCH;
-  constructor(
-    public pricingMatchId: number,
-    public pricingId: number,
-    public pricingToRecalculateFilter: DataViewFilter) { }
+  constructor(public pricingMatchId: number) { }
 }
 
 export class DeletingPricingMatchSuccess implements Action {

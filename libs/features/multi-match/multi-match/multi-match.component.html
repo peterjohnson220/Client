@@ -6,7 +6,7 @@
       [modalId]="'au-modal-multi-match'"
       [isOpen$]="showMultiMatchModal$"
       [showFooter]="true"
-      [showHeader]="false"
+      [title]="'Modify Pricings'"
       [primaryButtonText]="'Save'"
       [windowClass]="'multi-match-modal'"
       (onDismiss)="handleCancelClicked()"
@@ -26,36 +26,57 @@
 </ng-template>
 
 <ng-template #multiMatchContent>
-  <pf-search-layout [resultsCount]="numberOfResults$ | async">
-    <ng-container sidebar>
-      <pf-search-filters
-        [defaultFocusedFilterId]="'jobTitleCode'"
-        [visible]="!(searchingFilter$ | async)">
-      </pf-search-filters>
+  <div class="multi-match-content">
+    <pf-search-layout [resultsCount]="numberOfResults$ | async">
+      <ng-container sidebar>
+        <pf-search-filters
+          [defaultFocusedFilterId]="'jobTitleCode'"
+          [visible]="!(searchingFilter$ | async)">
+        </pf-search-filters>
 
-      <pf-single-filter
-        *ngIf="searchingFilter$ | async">
-      </pf-single-filter>
-    </ng-container>
+        <pf-single-filter
+          *ngIf="searchingFilter$ | async">
+        </pf-single-filter>
+      </ng-container>
 
-    <ng-container content>
-      <pf-results-header *ngIf="pageShown$ | async" [userFilterDefaultLabel]="'PayMarket Default'"></pf-results-header>
-      <pf-survey-search-results [cutsDraggable]="true"></pf-survey-search-results>
-      <pf-jobs-to-price-container
-        [featureImplementation]="featureImplementation"
-      ></pf-jobs-to-price-container>
-    </ng-container>
-
-    <ng-container action-buttons *ngIf="display !== 'modal'">
-      <button [disabled]="!changesToSave || (savingChanges$ | async)" (click)="handleSaveClicked()" class="btn btn-sm legacy-primary-btn mr-3">
-        <ng-container *ngIf="!(savingChanges$ | async); else savingChanges">
-          Save
+      <ng-container content>
+        <pf-results-header
+          *ngIf="pageShown$ | async"
+          [userFilterDefaultLabel]="'PayMarket Default'"
+          [legacyImplementation]="display === 'component'"
+        ></pf-results-header>
+        <ng-container *ngIf="display === 'modal'; else searchResultsAndJobs">
+          <pf-async-container
+            [loading]="loadingResults$ | async"
+            [loadingError]="searchError$ | async"
+            [hideReloadButton]="true"
+          >
+            <ng-container [ngTemplateOutlet]="searchResultsAndJobs"></ng-container>
+          </pf-async-container>
         </ng-container>
-      </button>
+      </ng-container>
 
-      <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3">
-        Cancel
-      </button>
-    </ng-container>
-  </pf-search-layout>
+      <ng-container action-buttons *ngIf="display !== 'modal'">
+        <button [disabled]="!changesToSave || (savingChanges$ | async)" (click)="handleSaveClicked()" class="btn btn-sm legacy-primary-btn mr-3">
+          <ng-container *ngIf="!(savingChanges$ | async); else savingChanges">
+            Save
+          </ng-container>
+        </button>
+
+        <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3">
+          Cancel
+        </button>
+      </ng-container>
+    </pf-search-layout>
+  </div>
+</ng-template>
+
+<ng-template #searchResultsAndJobs>
+  <pf-survey-search-results
+    [cutsDraggable]="true"
+    [implementation]="display"
+  ></pf-survey-search-results>
+  <pf-jobs-to-price-container
+    [featureImplementation]="featureImplementation"
+  ></pf-jobs-to-price-container>
 </ng-template>
