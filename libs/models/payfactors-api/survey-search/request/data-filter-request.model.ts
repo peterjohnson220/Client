@@ -4,5 +4,5 @@ export interface DataFilterRequest {
   SearchFields: SearchField[];
   Filters: SearchFilter[];
   CurrencyCode: string;
-  ProjectId: number;
+  Rate: string;
 }

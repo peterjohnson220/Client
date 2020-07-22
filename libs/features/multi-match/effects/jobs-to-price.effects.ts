@@ -60,7 +60,6 @@ export class JobsToPriceEffects {
       )
     );
 
-  // TODO: Refactor this into the same action/effect as the projects page. Handle API calls there. Part of ENG-319
   @Effect()
   getPricingMatches$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobsToPriceActions.GET_PRICING_MATCHES),

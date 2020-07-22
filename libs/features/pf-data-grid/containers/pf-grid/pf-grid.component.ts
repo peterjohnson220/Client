@@ -265,6 +265,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     if (getSelection().toString()) {
       // User is highlighting text so we don't want to mark this as a click
     } else if (this.allowSplitView) {
+      this.resetKendoGridWidth();
       this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
     } else if (this.expandedRowTemplate) {
       if (this.expandedRows.includes(rowIndex)) {
@@ -319,7 +320,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onColumnResize(event: ColumnResizeArgs[]): void {
-    if (!this.gridConfig?.PersistColumnWidth || event?.length < 1) {
+    if ( !this.gridConfig?.PersistColumnWidth || event?.length < 1) {
       return;
     }
     const column = event[0].column as ColumnComponent;
@@ -363,5 +364,15 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     const actionsColumn = this.grid.columns.toArray()[actionsColumnIndex];
     const destIndex = 0;
     setTimeout(() => this.grid.reorderColumn(actionsColumn, destIndex), 1);
+  }
+
+  private resetKendoGridWidth() {
+    const grids =  window.document.getElementsByTagName('kendo-grid') || [];
+    Array.from(grids).forEach(  (g: HTMLElement) => {
+      const tables = g.getElementsByTagName('table') || [];
+      Array.from(tables).forEach((t: HTMLElement) => {
+        t.setAttribute('style', null);
+      });
+    });
   }
 }

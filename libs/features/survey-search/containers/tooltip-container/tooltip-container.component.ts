@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, Input} from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -13,6 +13,8 @@ import * as fromSharedSurveySearchReducer from '../../reducers';
   styleUrls: ['./tooltip-container.component.scss']
 })
 export class TooltipContainerComponent implements OnInit, OnDestroy {
+  @Input() legacyIframeImplementation;
+
   searchResultsContainerWidth: number;
   searchResultsContainerHeight: number;
 

@@ -13,7 +13,7 @@ export class ContextEffects {
   @Effect()
   setProjectContext$ = this.actions$
     .pipe(
-      ofType(fromContextActions.SET_PROJECT_SEARCH_CONTEXT),
+      ofType(fromContextActions.SET_PROJECT_SEARCH_CONTEXT, fromContextActions.SET_MODIFY_PRICINGS_SEARCH_CONTEXT),
       map(() => {
         return new fromSearchPageActions.ShowPage();
       })

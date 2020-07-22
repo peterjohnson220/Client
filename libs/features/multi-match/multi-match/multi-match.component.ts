@@ -34,6 +34,9 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
   jobsToPrice$: Observable<JobToPrice[]>;
   savingChanges$: Observable<boolean>;
   pageShown$: Observable<boolean>;
+  loadingResults$: Observable<boolean>;
+  loadingMoreResults$: Observable<boolean>;
+  searchError$: Observable<boolean>;
   changesToSave: boolean;
 
   showMultiMatchModal = new BehaviorSubject<boolean>(false);
@@ -53,6 +56,9 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.jobsToPrice$ = this.store.select(fromMultiMatchReducer.getJobsToPrice);
     this.savingChanges$ = this.store.select(fromMultiMatchReducer.getSavingJobMatchUpdates);
+    this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
+    this.loadingMoreResults$ = this.store.select(fromSearchReducer.getLoadingMoreResults);
+    this.searchError$ = this.store.select(fromSearchReducer.getSearchResultsError);
 
     this.pricingsToModifySubscription = this.actionsSubject
       .pipe(ofType(fromModifyPricingsActions.GET_PRICINGS_TO_MODIFY_SUCCESS))

@@ -16,7 +16,7 @@ import { MODIFY_PRICINGS } from 'libs/features/multi-match/constants';
 import * as fromModifyPricingsReducer from 'libs/features/multi-match/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import {
-    ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig
+    ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig
 } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { AsyncStateObj, UserContext } from 'libs/models';
@@ -26,6 +26,7 @@ import * as fromRootState from 'libs/state/state';
 import { PageViewIds } from '../constants';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
+import { ShowingActiveJobs } from '../pipes';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -35,6 +36,7 @@ import * as fromJobsPageReducer from '../reducers';
 
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   permissions = Permissions;
+  readonly showingActiveJobsPipe = new ShowingActiveJobs();
 
   pageViewId = PageViewIds.Jobs;
   filteredPayMarketOptions: any;
@@ -124,6 +126,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   multiMatchImplementation = MODIFY_PRICINGS;
 
+  gridConfig: GridConfig;
+
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
   @ViewChild('jobMatchCount') jobMatchCount: ElementRef;
@@ -138,7 +142,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('structureGradeFilter') structureGradeFilter: ElementRef;
 
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private companyJobApiService: CompanyJobApiService) { }
+  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private companyJobApiService: CompanyJobApiService) {
+    this.gridConfig = {
+      PersistColumnWidth: true
+    };
+  }
 
   ngOnInit() {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
@@ -320,7 +328,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const summary: ChangeJobStatusRequest = {
       CompanyJobIds: this.selectedJobIds,
       JobsInReview: this.jobDescriptionsInReview,
-      StatusToSet: this.isActiveJobs() ? 0 : 1
+      StatusToSet: this.showingActiveJobsPipe.transform(this.jobStatusField) ? 0 : 1
     };
     this.store.dispatch(new fromJobsPageActions.ChangingJobStatus(summary));
   }
@@ -389,10 +397,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handleStructureGradeNameDropdownFilter(value: string) {
     this.filteredStructureGradeNameOptions = this.structureGradeNameOptions.filter(o => o.Id.toLowerCase().indexOf(value.toLowerCase()) > -1);
-  }
-
-  isActiveJobs() {
-    return this.jobStatusField ? this.jobStatusField.FilterValue : true;
   }
 
   toggleJobManagmentModal(toggle: boolean, jobId: number = null, event = null) {

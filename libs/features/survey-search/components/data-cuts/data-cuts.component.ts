@@ -16,6 +16,7 @@ export class DataCutsComponent implements OnDestroy {
   @Input() dataCuts: DataCut[];
   @Input() cutsDraggable: boolean;
   @Input() currencyCode: string;
+  @Input() legacyIframeImplementation: boolean;
 
   @Output() dataCutSelected: EventEmitter<DataCut> = new EventEmitter();
   @Output() payFactorsCutSelected: EventEmitter<any> = new EventEmitter();
@@ -58,7 +59,7 @@ export class DataCutsComponent implements OnDestroy {
       JobType: MatchesDetailsRequestJobTypes.SurveyData
     };
     const data: MatchesDetailsTooltipData = {
-      TargetX: event.offsetX,
+      TargetX: this.legacyIframeImplementation ? event.offsetX : event.pageX + 10,
       TargetY: event.clientY,
       Request: request
     };

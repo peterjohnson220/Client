@@ -885,7 +885,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: fieldsClone
+            fields: fieldsClone,
+            groupedFields: buildGroupedFields(fieldsClone)
           }
         }
       };

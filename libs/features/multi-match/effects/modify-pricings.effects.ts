@@ -14,6 +14,7 @@ import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
 import * as fromContextActions from '../../survey-search/actions/context.actions';
 import * as fromSearchFiltersActions from '../../search/actions/search-filters.actions';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
+import * as fromSurveySearchFiltersActions from '../../survey-search/actions/survey-search-filters.actions';
 
 @Injectable()
 export class ModifyPricingsEffects {
@@ -30,6 +31,7 @@ export class ModifyPricingsEffects {
         mergeMap(response => {
           const actions = [];
           actions.push(new fromContextActions.SetModifyPricingsSearchContext(response.Context));
+          actions.push(new fromSurveySearchFiltersActions.GetDefaultScopesFilter());
           actions.push(new fromSearchFiltersActions.AddFilters(staticFilters));
           actions.push(new fromJobsToPriceActions.GetJobsToPriceSuccess(
             PayfactorsApiModelMapper.mapMatchedSurveyJobToJobsToPrice(response.PricingsToModify)));

@@ -1375,8 +1375,7 @@
             ],
             "styles": [
               "assets/scss/client.scss",
-              "apps/project/styles.scss",
-              "apps/project/outside-view-encapsulation.scss"
+              "apps/project/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js"
