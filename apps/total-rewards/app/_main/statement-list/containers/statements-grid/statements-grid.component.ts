@@ -59,8 +59,8 @@ export class StatementsGridComponent implements OnInit {
     this.store.dispatch(new fromTotalRewardsStatementGridActions.CloseActionMenu());
   }
 
-  onActionMenuDeleteClick(): void {
-    this.store.dispatch(new fromStatementGridActions.ConfirmDeleteStatement());
+  onActionMenuDeleteClick(statement: StatementListViewModel): void {
+    this.store.dispatch(new fromStatementGridActions.ConfirmDeleteStatement(statement));
   }
 
   navigateToStatementEdit(statementId: string): void {
