@@ -118,7 +118,13 @@ export function reducer(state, action) {
         }
       }
     }, {
-      take: 50
+      take: 20,
+      sort: [
+        {
+          field: 'CreatedDate',
+          dir: 'desc'
+        }
+      ]
     })(state, action);
 }
 
