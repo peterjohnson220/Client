@@ -37,7 +37,7 @@
         <fa-icon icon="download"></fa-icon>
       </button>
       <pf-column-chooser *ngIf="actionBarConfig.ShowColumnChooser"
-                         [dataFields]="dataFields$ | async"
+                         [dataFields]="selectableFields$ | async"
                          [columnChooserType]="actionBarConfig.ColumnChooserType"
                          [reorderable]="reorderable"
                          (saveColumns)="updateFields($event)"
