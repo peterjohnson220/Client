@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { RouterModule, Routes } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
-import { PermissionCheckEnum, Permissions } from 'libs/constants';
-import { AuthorizationGuard, PfAdminGuard } from 'libs/security/guards';
+import {PermissionCheckEnum, Permissions} from 'libs/constants';
+import {AuthorizationGuard, PfAdminGuard} from 'libs/security/guards';
 
 import {
   CustomEmployeeIdentifierComponent,
