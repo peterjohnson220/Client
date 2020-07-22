@@ -17,7 +17,7 @@ export class TotalRewardsAssignmentApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/AssignAllEmployees`, searchRequest);
   }
 
-  getAssignedEmployees(request: any): Observable<CompanyEmployee[]> {
-    return this.payfactorsApiService.post(`${this.endpoint}/GetAssignedEmployees`, request);
+  unassignEmployees(request: any) {
+    return this.payfactorsApiService.put(`${this.endpoint}/UnassignEmployees`, request);
   }
 }

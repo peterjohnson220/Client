@@ -24,6 +24,8 @@ import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
 import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
 import { GenerateStatementModalComponent } from './components/generate-statement-modal/generate-statement-modal.component';
 import * as fromTrsShared from '../../shared';
+import { UnassignEmployeesModalComponent } from './components/unassign-employees-modal/unassign-employees-modal.component';
+import { GridActionMenuComponent } from './components/grid-action-menu/grid-action-menu.component';
 
 @NgModule({
   imports: [
@@ -61,7 +63,9 @@ import * as fromTrsShared from '../../shared';
     EmployeeSearchResultsComponent,
     EmployeeResultComponent,
     GenerateStatementModalComponent,
-    AssignedEmployeesGridComponent
+    AssignedEmployeesGridComponent,
+    UnassignEmployeesModalComponent,
+    GridActionMenuComponent
   ],
   providers: [
     { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },

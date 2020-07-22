@@ -29,6 +29,17 @@
               (click)="handleCheckboxClick(dataItem)" />
           </ng-template>
         </kendo-grid-checkbox-column>
+        <kendo-grid-column width="65" title="Action">
+          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+            <pf-grid-action-menu
+              [isOpen]="(openActionMenuEmployee$ | async)?.CompanyEmployeeId === dataItem?.CompanyEmployeeId"
+              [employee]="dataItem"
+              (open)="onActionMenuOpen($event)"
+              (close)="onActionMenuClose()"
+              (unassignClick)="onActionMenuUnassignClick()"
+            ></pf-grid-action-menu>
+          </ng-template>
+        </kendo-grid-column>
         <kendo-grid-column field="LastName" title="Last Name" class="ellipsize show-tooltip"></kendo-grid-column>
         <kendo-grid-column field="FirstName" title="First Name" class="ellipsize show-tooltip"></kendo-grid-column>
         <kendo-grid-column field="EmployeeId" title="Employee Id" class="ellipsize show-tooltip"></kendo-grid-column>

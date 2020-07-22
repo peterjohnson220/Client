@@ -15,6 +15,12 @@ export interface State {
   sendingGenerateStatementRequestSuccess: boolean;
   sendingGenerateStatementRequestError: boolean;
   isFiltersPanelOpen: boolean;
+
+  isUnassignModalOpen: boolean;
+  isSingleEmployeeAction: boolean;
+  UnassignEmployees: boolean;
+  UnassignEmployeesSuccess: boolean;
+  UnassignEmployeesError: boolean;
 }
 
 export const initialState: State = {
@@ -24,7 +30,12 @@ export const initialState: State = {
   sendingGenerateStatementRequest: false,
   sendingGenerateStatementRequestSuccess: false,
   sendingGenerateStatementRequestError: false,
-  isFiltersPanelOpen: false
+  isFiltersPanelOpen: false,
+  isUnassignModalOpen: false,
+  isSingleEmployeeAction: false,
+  UnassignEmployees: false,
+  UnassignEmployeesSuccess: false,
+  UnassignEmployeesError: false
 };
 
 export function reducer(state = initialState, action: fromActions.StatementAssignmentPageActions): State {
@@ -58,45 +69,102 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
       return AsyncStateObjHelper.loadingError(state, 'listAreaColumns');
     }
     case fromActions.OPEN_GENERATE_STATEMENT_MODAL: {
+      const localState = cloneDeep(state);
       return {
-        ...state,
+        ...localState,
         isGenerateStatementModalOpen: true
       };
     }
     case fromActions.CLOSE_GENERATE_STATEMENT_MODAL: {
+      const localState = cloneDeep(state);
       return {
-        ...state,
+        ...localState,
         isGenerateStatementModalOpen: false
       };
     }
     case fromActions.GENERATE_STATEMENTS: {
+      const localState = cloneDeep(state);
       return {
-        ...state,
+        ...localState,
         sendingGenerateStatementRequest: true,
         sendingGenerateStatementRequestSuccess: false,
         sendingGenerateStatementRequestError: false,
       };
     }
     case fromActions.GENERATE_STATEMENTS_SUCCESS: {
+      const localState = cloneDeep(state);
       return {
-        ...state,
+        ...localState,
         sendingGenerateStatementRequest: false,
         sendingGenerateStatementRequestSuccess: true,
         sendingGenerateStatementRequestError: false,
       };
     }
     case fromActions.GENERATE_STATEMENTS_ERROR: {
+      const localState = cloneDeep(state);
       return {
-        ...state,
+        ...localState,
         sendingGenerateStatementRequest: false,
         sendingGenerateStatementRequestSuccess: false,
         sendingGenerateStatementRequestError: true,
       };
     }
     case fromActions.TOGGLE_GRID_FILTERS: {
+      const localState = cloneDeep(state);
       return {
-        ...state,
+        ...localState,
         isFiltersPanelOpen: !state.isFiltersPanelOpen
+      };
+    }
+    case fromActions.OPEN_UNASSIGN_MODAL: {
+      const localState = cloneDeep(state);
+      return {
+        ...localState,
+        isUnassignModalOpen: true,
+        isSingleEmployeeAction: false
+      };
+    }
+    case fromActions.CLOSE_UNASSIGN_MODAL: {
+      const localState = cloneDeep(state);
+      return {
+        ...localState,
+        isUnassignModalOpen: false
+      };
+    }
+    case fromActions.OPEN_SINGLE_EMPLOYEE_UNASSIGN_MODAL: {
+      const localState = cloneDeep(state);
+      return {
+        ...localState,
+        isUnassignModalOpen: true,
+        isSingleEmployeeAction: true
+      };
+    }
+    case fromActions.UNASSIGN_EMPLOYEES: {
+      const localState = cloneDeep(state);
+      return {
+        ...localState,
+        UnassignEmployees: true,
+        UnassignEmployeesSuccess: false,
+        UnassignEmployeesError: false
+      };
+    }
+    case fromActions.UNASSIGN_EMPLOYEES_SUCCESS: {
+      const localState = cloneDeep(state);
+      return {
+        ...localState,
+        isSingleEmployeeAction: false,
+        UnassignEmployees: false,
+        UnassignEmployeesSuccess: true,
+        UnassignEmployeesError: false
+      };
+    }
+    case fromActions.UNASSIGN_EMPLOYEES_ERROR: {
+      const localState = cloneDeep(state);
+      return {
+        ...localState,
+        UnassignEmployees: false,
+        UnassignEmployeesSuccess: false,
+        UnassignEmployeesError: true
       };
     }
     default: {
@@ -119,3 +187,9 @@ export const getListAreaColumns = (state: State) => state.listAreaColumns.obj.fi
   lac.ColumnDatabaseName !== 'CompanyEmployeeId' && lac.ColumnDatabaseName !== 'AssignedStatementId');
 
 export const getIsFiltersPanelOpen = (state: State) => state.isFiltersPanelOpen;
+
+export const getIsUnassignModalOpen = (state: State) => state.isUnassignModalOpen;
+export const getIsSingleEmployeeAction = (state: State) => state.isSingleEmployeeAction;
+export const getUnassignEmployees = (state: State) => state.UnassignEmployees;
+export const getUnassignEmployeesSuccess = (state: State) => state.UnassignEmployeesSuccess;
+export const getUnassignEmployeesError = (state: State) => state.UnassignEmployeesError;

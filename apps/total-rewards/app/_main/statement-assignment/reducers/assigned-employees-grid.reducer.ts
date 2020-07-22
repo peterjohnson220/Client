@@ -12,6 +12,7 @@ export interface State extends EntityState<CompanyEmployee> {
   assignedEmployeesLoadingError: boolean;
   assignedEmployeesTotal: number;
   selectedCompanyEmployeeIds: number[];
+  openActionMenuEmployee: CompanyEmployee;
 }
 
 export const adapter: EntityAdapter<CompanyEmployee> = createEntityAdapter<CompanyEmployee>({
@@ -23,6 +24,7 @@ const initialState: State = adapter.getInitialState({
   assignedEmployeesLoadingError: false,
   assignedEmployeesTotal: 0,
   selectedCompanyEmployeeIds: [],
+  openActionMenuEmployee: null,
 });
 
 export function reducer(state, action) {
@@ -73,6 +75,27 @@ export function reducer(state, action) {
             selectedCompanyEmployeeIds
           };
         }
+        case fromAssignedEmployeesGridActions.OPEN_ACTION_MENU: {
+          const localFeatureState: State = cloneDeep(featureState);
+          return {
+            ...localFeatureState,
+            openActionMenuEmployee: action.payload
+          };
+        }
+        case fromAssignedEmployeesGridActions.CLOSE_ACTION_MENU: {
+          const localFeatureState: State = cloneDeep(featureState);
+          return {
+            ...localFeatureState,
+            openActionMenuEmployee: null
+          };
+        }
+        case fromAssignedEmployeesGridActions.CLEAR_SELECTIONS: {
+          const localFeatureState: State = cloneDeep(featureState);
+          return {
+            ...localFeatureState,
+            selectedCompanyEmployeeIds: []
+          };
+        }
         default: {
           return featureState;
         }
@@ -88,3 +111,4 @@ export const getAssignedEmployeesTotal = (state: State) => state.assignedEmploye
 
 export const getSelectedCompanyEmployeeIds = (state: State) => state.selectedCompanyEmployeeIds;
 export const getSelectedCompanyEmployeeIdCount = (state: State) => state.selectedCompanyEmployeeIds?.length;
+export const getOpenActionMenuEmployee = (state: State) => state.openActionMenuEmployee;
