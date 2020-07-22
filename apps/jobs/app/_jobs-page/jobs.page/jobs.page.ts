@@ -460,4 +460,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(payload));
   }
+
+  matchModalSaved() {
+    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails));
+    this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PricingDetails));
+  }
 }
