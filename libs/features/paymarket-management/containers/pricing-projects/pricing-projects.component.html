@@ -5,7 +5,7 @@
   <div class="loading-message loading-error" *ngIf="dataAsync.loadingError">
     <fa-icon icon="exclamation-triangle" class="icon"></fa-icon> Error loading data.
   </div>
-  <div class="grid-container">
+  <div class="grid-container d-flex flex-column">
     <kendo-grid
       *ngIf="!dataAsync.loading"
       [kendoGridBinding]="dataAsync.obj"
