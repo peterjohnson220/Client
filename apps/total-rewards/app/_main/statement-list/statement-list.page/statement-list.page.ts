@@ -53,7 +53,6 @@ export class StatementListPageComponent implements OnInit {
 
   onSearchTermChange(searchTerm: string): void {
     this.store.dispatch(new fromStatementGridActions.UpdateSearchTerm(searchTerm));
-    this.store.dispatch(new fromStatementGridActions.LoadStatements());
   }
 
   onTabChange(): void  {
