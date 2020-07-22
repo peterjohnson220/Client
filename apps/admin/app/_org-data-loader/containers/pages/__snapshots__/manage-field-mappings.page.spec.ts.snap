@@ -67,7 +67,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
 >
   <pf-page-with-title-bar>
     
-    Org Data Autoloader Field Mappings
+    Autoloader Configuration
     
     <div
       class="list-group list-group-flush"
@@ -275,7 +275,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
 >
   <pf-page-with-title-bar>
     
-    Org Data Autoloader Field Mappings
+    Autoloader Configuration
     
     <div
       class="list-group list-group-flush"
@@ -483,7 +483,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
 >
   <pf-page-with-title-bar>
     
-    Org Data Autoloader Field Mappings
+    Autoloader Configuration
     
     <div
       class="list-group list-group-flush"
@@ -691,7 +691,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
 >
   <pf-page-with-title-bar>
     
-    Org Data Autoloader Field Mappings
+    Autoloader Configuration
     
     <div
       class="list-group list-group-flush"
@@ -789,7 +789,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
 >
   <pf-page-with-title-bar>
     
-    Org Data Autoloader Field Mappings
+    Autoloader Configuration
     
     <div
       class="list-group list-group-flush"
