@@ -27,7 +27,7 @@ export class PayfactorsSurveySearchApiModelMapper {
       JobDataCuts: this.mapDataCutDetailsToJobDataCuts(selectedDataCuts),
       ExcludeFromParticipation: excludeFromParticipation,
       PayMarketId : jobContext.JobPayMarketId,
-      CompanyPayMarketId: projectSearchContext.PayMarketId,
+      CompanyPayMarketId: projectSearchContext.PaymarketId,
       JobCode: jobContext.JobCode,
       PeerDataCuts: this.mapDataCutDetailsToPeerCuts(selectedDataCuts)
     };

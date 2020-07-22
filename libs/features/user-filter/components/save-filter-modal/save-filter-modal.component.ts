@@ -21,6 +21,7 @@ export class SaveFilterModalComponent implements OnInit, OnChanges {
   @Input() isOpen$: Observable<boolean>;
   @Input() modalData: SaveFilterModalData;
   @Input() setAsDefaultLabel = 'Default';
+  @Input() legacyImplementation: boolean;
   @Output() saveFilter = new EventEmitter<SaveFilterModalData>();
   @Output() dismissed = new EventEmitter();
 

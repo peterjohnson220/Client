@@ -18,14 +18,13 @@
       [jobTitleClass]="'pf-brand-secondary-color'">
     </pf-job-title-code>
   </div>
-  <div class="d-flex justify-content-end ml-auto">
+  <div *ngIf="jobsGridJobStatusField | showingActiveJobs" class="d-flex justify-content-end ml-auto pl-3">
     <div>
       <button
         [attr.data-qa-id]="'btn-jobs-page-pricing-match-delete-' + dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID"
         [pfSecuredResource]="permissions.MODIFY_PRICINGS"
-        [disabled]="(pricingMatchesData$ | async)?.total <= 1"
-        [title]="(pricingMatchesData$ | async)?.total <= 1 ?
-          'A pricing must have at least one match. You cannot delete the last match from a pricing.': ''"
+        [disabled]="(pricingMatchesData$ | async)?.total | cannotDeletePricingMatchMessage : pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name"
+        [title]="(pricingMatchesData$ | async)?.total | cannotDeletePricingMatchMessage : pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name"
         type="button"
         (click)="openDeletePricingMatchModal()"
         class="btn btn-secondary pf-icon-btn-transparent">

@@ -1,37 +1,43 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
-import { SurveySearchResultDataSources } from 'libs/constants';
+import {SurveySearchResultDataSources} from 'libs/constants';
 
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
-import { DataCutDetails, JobResult, MatchesDetailsTooltipData, ProjectSearchContext } from '../models';
-import { TooltipContainerComponent } from '../containers/tooltip-container';
+import {DataCutDetails, JobResult, MatchesDetailsTooltipData, PricingMatchDataSearchContext} from '../models';
+import {TooltipContainerComponent} from '../containers/tooltip-container';
 import * as fromSurveySearchReducer from '../reducers';
-import { hasMoreDataCuts } from '../helpers';
+import {hasMoreDataCuts} from '../helpers';
 
 @Component({
   selector: 'pf-survey-search-results',
   templateUrl: './survey-search-results.component.html',
   styleUrls: ['./survey-search-results.component.scss']
 })
-export class SurveySearchResultsComponent {
+export class SurveySearchResultsComponent implements OnInit{
   @ViewChild('tooltipContainer', { static: true }) tooltipContainer: TooltipContainerComponent;
   @Input() cutsDraggable: boolean;
+  @Input() implementation: string;
 
   // Observables
   jobResults$: Observable<JobResult[]>;
   loadingResults$: Observable<boolean>;
-  projectSearchContext$: Observable<ProjectSearchContext>;
+  pricingMatchDataSearchContext$: Observable<PricingMatchDataSearchContext>;
+  legacyIframeImplementation: boolean;
 
   constructor(
     private store: Store<fromSurveySearchReducer.State>
   ) {
     this.jobResults$ = this.store.select(fromSurveySearchReducer.getResults);
-    this.projectSearchContext$ = this.store.select(fromSurveySearchReducer.getProjectSearchContext);
+    this.pricingMatchDataSearchContext$ = this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext);
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
+  }
+
+  ngOnInit() {
+    this.legacyIframeImplementation = this.implementation === 'component';
   }
 
   // Events

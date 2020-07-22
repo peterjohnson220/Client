@@ -15,7 +15,6 @@ export * from './data-loads';
 export * from './app-environment';
 export * from './service';
 export * from './pricing';
-export * from './pricing-legacy';
 export * from './company-job-pricing-match';
 export * from './project';
 export * from './comphub';

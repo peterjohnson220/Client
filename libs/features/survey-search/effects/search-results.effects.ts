@@ -30,14 +30,14 @@ export class SearchResultsEffects {
       ofType(fromSurveySearchResultsActions.GET_SURVEY_DATA_RESULTS),
       withLatestFrom(
         this.store.select(fromSearchReducer.getParentFilters),
-        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
-        (action: fromSurveySearchResultsActions.GetSurveyDataResults, filters, projectSearchContext, selectedDataCuts) =>
-          ({ action, filters, projectSearchContext, selectedDataCuts })),
+        (action: fromSurveySearchResultsActions.GetSurveyDataResults, filters, pricingMatchDataSearchContext, selectedDataCuts) =>
+          ({ action, filters, pricingMatchDataSearchContext, selectedDataCuts })),
       mergeMap((data) => {
           const surveyJobId = data.action.payload.Id;
-          const currencyCode = data.projectSearchContext.CurrencyCode;
-          const projectId = data.projectSearchContext.ProjectId;
+          const currencyCode = data.pricingMatchDataSearchContext.CurrencyCode;
+          const rate = data.pricingMatchDataSearchContext.Rate;
           const searchFieldsRequestObj = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters);
           const filtersRequestObj = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters);
           const pagingOptions: PagingOptions = {
@@ -49,8 +49,8 @@ export class SearchResultsEffects {
             SearchFields: searchFieldsRequestObj,
             Filters: filtersRequestObj,
             CurrencyCode: currencyCode,
-            ProjectId: projectId,
-            PagingOptions: pagingOptions
+            PagingOptions: pagingOptions,
+            Rate: rate
           })
             .pipe(
               map(response => new fromSurveySearchResultsActions.GetSurveyDataResultsSuccess({
@@ -69,15 +69,15 @@ export class SearchResultsEffects {
       ofType(fromSurveySearchResultsActions.GET_EXCHANGE_DATA_RESULTS),
       withLatestFrom(
         this.store.select(fromSearchReducer.getParentFilters),
-        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
-        (action: fromSurveySearchResultsActions.GetExchangeDataResults, filters, projectSearchContext, selectedDataCuts) =>
-          ({ action, filters, projectSearchContext, selectedDataCuts })),
+        (action: fromSurveySearchResultsActions.GetExchangeDataResults, filters, pricingMatchDataSearchContext, selectedDataCuts) =>
+          ({ action, filters, pricingMatchDataSearchContext, selectedDataCuts })),
       mergeMap((data) => {
           const exchangeJobId = data.action.payload.PeerJobInfo.ExchangeJobId;
-          const currencyCode = data.projectSearchContext.CurrencyCode;
-          const countryCode = data.projectSearchContext.CountryCode;
-          const projectId = data.projectSearchContext.ProjectId;
+          const currencyCode = data.pricingMatchDataSearchContext.CurrencyCode;
+          const countryCode = data.pricingMatchDataSearchContext.CountryCode;
+          const rate = data.pricingMatchDataSearchContext.Rate;
           const searchFieldsRequestObj = this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters);
           const filtersRequestObj = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters);
 
@@ -86,8 +86,8 @@ export class SearchResultsEffects {
             SearchFields: searchFieldsRequestObj,
             Filters: filtersRequestObj,
             CurrencyCode: currencyCode,
-            ProjectId: projectId,
-            CountryCode: countryCode
+            CountryCode: countryCode,
+            Rate: rate
           })
             .pipe(
               map(response => new fromSurveySearchResultsActions.GetExchangeDataResultsSuccess({

@@ -8,7 +8,7 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 import * as fromNotesManagerReducer from '../reducers';
 import * as fromNotesManagerActions from '../actions';
 
-import { PricingApiService } from 'libs/data/payfactors-api';
+import { PricingEdmxApiService } from 'libs/data/payfactors-api';
 import { PricingNote } from 'libs/models/payfactors-api';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class NotesManagerEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromNotesManagerReducer.State>,
-    private pricingApiService: PricingApiService,
+    private pricingEdmxApiService: PricingEdmxApiService,
   ) { }
 
   @Effect()
@@ -26,7 +26,7 @@ export class NotesManagerEffects {
       ofType(fromNotesManagerActions.GET_NOTES),
       switchMap(
         (action: fromNotesManagerActions.GetNotes) =>
-          this.pricingApiService.getNotes(action.payload).pipe(
+          this.pricingEdmxApiService.getNotes(action.payload).pipe(
             map((pricingNotes: PricingNote[]) => {
               pricingNotes.sort((a, b) => b.CompanyJobPricingNoteId - a.CompanyJobPricingNoteId);
               return new fromNotesManagerActions.GetNotesSuccess(pricingNotes);

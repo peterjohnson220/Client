@@ -15,12 +15,17 @@ exports[`Search Feature - Search Results should show a message, when loading mor
   resultsContainer={[Function ElementRef]}
   spinnerType={[Function String]}
   store={[Function Store]}
+  useAsync={[Function Boolean]}
 >
   <div
     class="results"
     infinite-scroll=""
   >
-    <pf-async-container />
+    
+    <pf-async-container>
+      
+      
+    </pf-async-container>
     
     <div
       class="m-3"

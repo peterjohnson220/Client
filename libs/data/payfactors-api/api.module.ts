@@ -67,8 +67,7 @@ import { TotalRewardsApiService, TotalRewardsSearchApiService, TotalRewardsPdfGe
 import { SsoConfigApiService } from './sso';
 import { CurrencyApiService } from './currency';
 import { CompositeFieldApiService } from './composite-field';
-import { PricingApiService } from './pricing';
-import { PricingLegacyApiService } from './pricing-legacy';
+import { PricingApiService, PricingEdmxApiService, PricingLegacyApiService } from './pricing';
 import { CountryApiService } from './country';
 import { EntityKeysValidationApiService } from './validation';
 import { CaptchaApiService } from './captcha';
@@ -140,8 +139,9 @@ import { MarketDataFeedApiService } from './market-data-feed';
     SsoConfigApiService,
     CurrencyApiService,
     CompositeFieldApiService,
-    PricingLegacyApiService,
     PricingApiService,
+    PricingEdmxApiService,
+    PricingLegacyApiService,
     CountryApiService,
     CompanyEmployeeApiService,
     EntityKeysValidationApiService,

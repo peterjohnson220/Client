@@ -1,17 +1,15 @@
 import * as fromContextActions from '../actions/context.actions';
 
-import {JobContext, ModifyPricingsSearchContext, ProjectSearchContext} from '../models';
+import {JobContext, PricingMatchDataSearchContext} from '../models';
 
 export interface State {
   jobContext: JobContext;
-  projectSearchContext: ProjectSearchContext;
-  modifyPricingsSearchContext: ModifyPricingsSearchContext;
+  pricingMatchDataSearchContext: PricingMatchDataSearchContext;
 }
 
 const initialState: State = {
   jobContext: null,
-  projectSearchContext: null,
-  modifyPricingsSearchContext: null
+  pricingMatchDataSearchContext: null
 };
 
 // Reducer function
@@ -23,16 +21,11 @@ export function reducer(state = initialState, action: fromContextActions.Actions
         jobContext: action.payload
       };
     }
-    case fromContextActions.SET_PROJECT_SEARCH_CONTEXT: {
-      return {
-        ...state,
-        projectSearchContext: action.payload
-      };
-    }
+    case fromContextActions.SET_PROJECT_SEARCH_CONTEXT:
     case fromContextActions.SET_MODIFY_PRICINGS_SEARCH_CONTEXT: {
       return {
         ...state,
-        modifyPricingsSearchContext: action.payload
+        pricingMatchDataSearchContext: action.payload
       };
     }
     default: {
@@ -43,5 +36,4 @@ export function reducer(state = initialState, action: fromContextActions.Actions
 
 // Selector functions
 export const getJobContext = (state: State) => state.jobContext;
-export const getProjectSearchContext = (state: State) => state.projectSearchContext;
-export const getModifyPricingsSearchContext = (state: State) => state.modifyPricingsSearchContext;
+export const getPricingMatchDataSearchContext  = (state: State) => state.pricingMatchDataSearchContext;

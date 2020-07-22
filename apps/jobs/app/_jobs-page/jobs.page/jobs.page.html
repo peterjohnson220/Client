@@ -2,7 +2,6 @@
   [pageViewId]="pageViewId"
   [title]="'Jobs'"
   [titleActionsTemplate]="oldJobsPageToggleTemplate"
-  [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
   [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
@@ -11,6 +10,7 @@
   [defaultSort]="defaultSort"
   [enableSelection]="true"
   [splitViewTemplate]="jobsDetails"
+  [gridConfig]="gridConfig"
   [splitViewDisplayFields]="['CompanyJobs_Job_Family']"
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
   [actionBarConfig]="actionBarConfig"
@@ -126,7 +126,7 @@
     [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]">
   </div>
   <button
-    [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
+    [disabled]="!(jobStatusField | showingActiveJobs) || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-jobs-page-create-project'"
     type="button"
@@ -136,13 +136,13 @@
   >
     <fa-icon [icon]="['far', 'calculator']" ></fa-icon>
     Create Project
-    <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && isActiveJobs()">
+    <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && (jobStatusField | showingActiveJobs)">
       ({{selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length}})
     </span>
   </button>
   <button
     [pfSecuredResource]="permissions.MODIFY_PRICINGS"
-    [disabled]="!isActiveJobs() || !selectedPricingIds.length"
+    [disabled]="!(jobStatusField | showingActiveJobs) || !selectedPricingIds.length"
     [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
     (click)="modifyPricings()"
     type="button"
@@ -150,7 +150,7 @@
     <fa-icon *ngIf="!(pricingsToModify$ | async).loading" [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
     <pf-loading-indicator *ngIf="(pricingsToModify$ | async).loading"></pf-loading-indicator
   >
-    Modify Pricings <span *ngIf="selectedPricingIds.length && isActiveJobs()">({{selectedPricingIds.length}})</span>
+    Modify Pricings <span *ngIf="selectedPricingIds.length && (jobStatusField | showingActiveJobs)">({{selectedPricingIds.length}})</span>
   </button>
   <button
     [disabled]="!(selectedJobIds.length)"
@@ -164,14 +164,14 @@
     <fa-layers [fixedWidth]="true"  class="mr-2" >
       <fa-icon [icon]="['far', 'briefcase']" class="mr-0"></fa-icon>
       <fa-icon [icon]="['fas', 'circle']" [inverse]="true" transform="shrink-4 down-7 right-7" class="mr-0"></fa-icon>
-      <fa-icon *ngIf="isActiveJobs()"
+      <fa-icon *ngIf="(jobStatusField | showingActiveJobs)"
         [icon]="['fas', 'times']" transform="shrink-7 down-7 right-7" class="mr-0">
       </fa-icon>
-      <fa-icon *ngIf="!isActiveJobs()"
+      <fa-icon *ngIf="!(jobStatusField | showingActiveJobs)"
         [icon]="['fas', 'check']" transform="shrink-7 down-7 right-7" class="mr-0">
       </fa-icon>
     </fa-layers>
-    {{isActiveJobs() ? 'Inactivate' : 'Activate'}}
+    {{(jobStatusField | showingActiveJobs) ? 'Inactivate' : 'Activate'}}
     <span *ngIf="selectedJobIds.length" >
       ({{selectedJobIds.length}})
     </span>
@@ -263,9 +263,9 @@
 
 <pf-modal-form
   [size]="'md'"
-  [title]="(isActiveJobs() ? 'Inactivate' : 'Activate') + ' Jobs'"
-  [primaryButtonText]="(isActiveJobs() ? 'Inactivate' : 'Activate')"
-  [primaryButtonTextSubmitting]="isActiveJobs() ? 'Inactivating' : 'Activating'"
+  [title]="((jobStatusField | showingActiveJobs) ? 'Inactivate' : 'Activate') + ' Jobs'"
+  [primaryButtonText]="((jobStatusField | showingActiveJobs) ? 'Inactivate' : 'Activate')"
+  [primaryButtonTextSubmitting]="(jobStatusField | showingActiveJobs) ? 'Inactivating' : 'Activating'"
   [modalId]="'au-modal-jobs-page-inactivate-activate-jobs'"
   [submitting]="(changingJobStatus$ | async).saving"
   [allowDismiss]="!(changingJobStatus$ | async).saving"
@@ -275,9 +275,9 @@
 
   <ng-container basic-content>
     You are about to make {{selectedJobIds.length}} job{{selectedJobIds.length > 1 ? 's' : ''}}
-    {{isActiveJobs() ? 'Inactive' : 'Active'}}.
+    {{(jobStatusField | showingActiveJobs) ? 'Inactive' : 'Active'}}.
     <br><br>
-    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}}
+    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{(jobStatusField | showingActiveJobs) ? 'unavailable' : 'available'}}
     for use throughout the system.
     <div *ngIf="jobDescriptionsInReview.length >= 1">
       <br>
@@ -293,7 +293,7 @@
       <br>
       <span class="text-danger">
         <b>
-          We encountered a problem {{isActiveJobs() ? 'Inactivating' : 'Activating'}} the jobs you selected.
+          We encountered a problem {{(jobStatusField | showingActiveJobs) ? 'Inactivating' : 'Activating'}} the jobs you selected.
           Please try again or contact your account representative.
         </b>
       </span>

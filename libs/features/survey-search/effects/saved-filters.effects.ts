@@ -41,13 +41,13 @@ export class SavedFiltersEffects {
       ofType(fromUserFilterActions.GET_SUCCESS),
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getJobContext),
-        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
-        (action: fromUserFilterActions.GetSuccess, jobContext, projectSearchContext) =>
-          ({action, jobContext, projectSearchContext})),
+        this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
+        (action: fromUserFilterActions.GetSuccess, jobContext, pricingMatchDataSearchContext) =>
+          ({action, jobContext, pricingMatchDataSearchContext})),
       mergeMap(data => {
         const actions = [];
         const savedFilters = data.action.payload;
-        const payMarketId = this.savedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
+        const payMarketId = data.pricingMatchDataSearchContext.PaymarketId;
         const defaultFilterForThisPayMarket = this.savedFilterHelper.getDefaultFilter(payMarketId, savedFilters);
         const defaultFilterId = defaultFilterForThisPayMarket ? defaultFilterForThisPayMarket.Id : '';
         actions.push(new fromUserFilterActions.SetDefault(defaultFilterId));
@@ -61,14 +61,14 @@ export class SavedFiltersEffects {
       ofType(fromSaveFilterModalActions.SAVE),
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getJobContext),
-        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
         this.store.select(fromUserFilterReducer.getSavedFilters),
-        (action: fromSaveFilterModalActions.Save, jobContext, projectSearchContext, savedFilters) =>
-          ({action, jobContext, projectSearchContext, savedFilters})),
+        (action: fromSaveFilterModalActions.Save, jobContext, pricingMatchDataSearchContext, savedFilters) =>
+          ({action, jobContext, pricingMatchDataSearchContext, savedFilters})),
       switchMap((data) => {
         const actions = [];
         const modalData = data.action.payload;
-        const payMarketId = this.savedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
+        const payMarketId = data.pricingMatchDataSearchContext.PaymarketId;
         const upsertRequest = this.savedFilterHelper.buildUpsertRequest(payMarketId, modalData);
         const isPayMarketDefault = this.savedFilterHelper.isPayMarketDefaultFilter(modalData.SavedFilter, payMarketId);
         let currentDefault = null;
@@ -107,13 +107,13 @@ export class SavedFiltersEffects {
       ofType(fromUserFilterActions.APPLY_DEFAULT),
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getJobContext),
-        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
         this.store.select(fromUserFilterReducer.getSavedFilters),
-        (action: fromUserFilterActions.ApplyDefault, jobContext, projectSearchContext, savedFilters) =>
-          ({ action, jobContext, projectSearchContext, savedFilters })),
+        (action: fromUserFilterActions.ApplyDefault, jobContext, pricingMatchDataSearchContext, savedFilters) =>
+          ({ action, jobContext, pricingMatchDataSearchContext, savedFilters })),
       mergeMap(data => {
         const actions = [];
-        const payMarketId = this.savedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
+        const payMarketId = data.pricingMatchDataSearchContext.PaymarketId;
         const defaultFilterForThisPayMarket = this.savedFilterHelper.getDefaultFilter(payMarketId, data.savedFilters);
         const defaultFilterId = defaultFilterForThisPayMarket ? defaultFilterForThisPayMarket.Id : '';
         actions.push(new fromUserFilterActions.SetDefault(defaultFilterId));
@@ -133,12 +133,12 @@ export class SavedFiltersEffects {
       ofType(fromUserFilterPopoverActions.EDIT),
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getJobContext),
-        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
-        (action: fromUserFilterPopoverActions.Edit, jobContext, projectSearchContext) =>
-          ({ action, jobContext, projectSearchContext })),
+        this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
+        (action: fromUserFilterPopoverActions.Edit, jobContext, pricingMatchDataSearchContext) =>
+          ({ action, jobContext, pricingMatchDataSearchContext })),
       mergeMap(data => {
         const actions = [];
-        const payMarketId = this.savedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
+        const payMarketId = data.pricingMatchDataSearchContext.PaymarketId;
         const isPayMarketDefault = this.savedFilterHelper.isPayMarketDefaultFilter(data.action.payload, payMarketId);
 
         actions.push(new fromSaveFilterModalActions.SetModalData({
