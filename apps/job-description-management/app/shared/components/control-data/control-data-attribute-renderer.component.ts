@@ -16,7 +16,7 @@ export class ControlDataAttributeRendererComponent {
   @Output() dataChangesDetected = new EventEmitter();
 
   constructor(
-    private sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer
   ) {
   }
 
