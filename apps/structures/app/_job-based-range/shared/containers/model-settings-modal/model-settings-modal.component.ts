@@ -19,6 +19,7 @@ import { Pages } from '../../constants/pages';
 import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
+import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
 
 @Component({
   selector: 'pf-model-settings-modal',
@@ -81,8 +82,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableJobRangeStructureRangeTypes
     );
-    this.minSpreadTooltip = 'The minimum range spread calculation is (midpoint) / (1 + min range spread value)';
-    this.maxSpreadTooltip = 'The maximum range spread calculation is (min value) * (1 + (min range spread + max range spread))';
+    this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
+    this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
   }
 
   get formControls() {
