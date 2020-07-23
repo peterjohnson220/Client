@@ -1,17 +1,19 @@
-import { NotificationLevel, NotificationPayload, SuccessStatusPayLoad } from './notification.model';
+import { NotificationLevel, NotificationPayload, SuccessStatusPayLoad, NotificationPayloadFileType } from './notification.model';
 
 export class ReportBuilderMessageFormatter {
 
   static getEventMessage(level: NotificationLevel, payload: NotificationPayload): string {
     switch (level) {
       case NotificationLevel.Info: {
-        return `<div class="message-container"><div class="file-excel-icon mr-3"></div>${payload.Message}</div>`;
+        const icon = this.getIconDiv(payload);
+        return `<div class="message-container">${icon}${payload.Message}</div>`;
       }
       case NotificationLevel.Success: {
         const successPayload = payload as SuccessStatusPayLoad;
+        const icon = this.getIconDiv(payload);
         return `
           <a class="message-container w-100" href="${successPayload.ExportedViewLink}">
-            <div class='file-excel-icon mr-3'></div>
+            ${icon}
             ${successPayload.Message}
             <div class='check-circle-icon ml-auto'></div>
           </a>`;
@@ -24,6 +26,14 @@ export class ReportBuilderMessageFormatter {
 
   static getProgressMessage(message: string): string {
     return `<div class='message-container'>${message}</div>`;
+  }
+
+  static getIconDiv(payload: NotificationPayload): string {
+    let icon = '<div class="file-excel-icon mr-3"></div>';
+    if (payload.FileType === NotificationPayloadFileType.Pdf) {
+      icon = '<div class="file-pdf-icon mr-3"></div>';
+    }
+    return icon;
   }
 
 }

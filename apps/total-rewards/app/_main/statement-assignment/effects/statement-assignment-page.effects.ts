@@ -61,8 +61,8 @@ export class StatementAssignmentPageEffects {
       ),
       switchMap((combined) =>
         this.totalRewardsPdfGenerationService.generateStatements({ CompanyEmployeeIds: combined.companyEmployeeIds, StatementId: combined.statementId }).pipe(
-          mergeMap(() => [
-            new fromStatementAssignmentPageActions.GenerateStatementsSuccess(),
+          mergeMap((response) => [
+            new fromStatementAssignmentPageActions.GenerateStatementsSuccess({ eventId: response }),
             new fromStatementAssignmentPageActions.CloseGenerateStatementModal()
           ]),
           catchError(error => of(new fromStatementAssignmentPageActions.GenerateStatementsError(error)))

@@ -15,12 +15,12 @@ export interface State {
   sendingGenerateStatementRequestSuccess: boolean;
   sendingGenerateStatementRequestError: boolean;
   isFiltersPanelOpen: boolean;
-
   isUnassignModalOpen: boolean;
   isSingleEmployeeAction: boolean;
   UnassignEmployees: boolean;
   UnassignEmployeesSuccess: boolean;
   UnassignEmployeesError: boolean;
+  generateStatementEventId: string;
 }
 
 export const initialState: State = {
@@ -35,7 +35,8 @@ export const initialState: State = {
   isSingleEmployeeAction: false,
   UnassignEmployees: false,
   UnassignEmployeesSuccess: false,
-  UnassignEmployeesError: false
+  UnassignEmployeesError: false,
+  generateStatementEventId: null
 };
 
 export function reducer(state = initialState, action: fromActions.StatementAssignmentPageActions): State {
@@ -98,6 +99,7 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
         sendingGenerateStatementRequest: false,
         sendingGenerateStatementRequestSuccess: true,
         sendingGenerateStatementRequestError: false,
+        generateStatementEventId: action.payload.eventId
       };
     }
     case fromActions.GENERATE_STATEMENTS_ERROR: {
