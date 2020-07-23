@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { WorkflowStepSummaryItem } from '../../../models';
+import { PermissionService } from 'libs/core';
+import { Permissions, PermissionCheckEnum } from 'libs/constants';
 
 @Component({
   selector: 'pf-workflow-progress-bar',
@@ -15,10 +17,13 @@ export class WorkflowProgressBarComponent {
   @Output() copyWorkflowLinkClicked = new EventEmitter();
   @Output() emailResendClicked = new EventEmitter();
 
-  private linkCopied = false;
-  private emailSent = false;
+  public linkCopied = false;
+  public emailSent = false;
+  public hasWorkflowUserManagementPermission: boolean;
 
-  constructor() { }
+  constructor(private permissionService: PermissionService) {
+    this.hasWorkflowUserManagementPermission = this.permissionService.CheckPermission([Permissions.WORKFLOW_USER_MANAGEMENT], PermissionCheckEnum.Single);
+  }
 
   copyWorkflowLink() {
     this.copyWorkflowLinkClicked.emit();
