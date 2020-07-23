@@ -119,6 +119,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
       // the filters component mutates the gridState's filters directly so workaround a potential read only error by cloning
       this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
       this.assignedEmployeesGridState.filter.filters = filters;
+      this.assignedEmployeesGridState.skip = 0;
       this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
     });
     this.unassignEmployeesSuccessSubscription = this.unassignEmployeesSuccess$.subscribe(u => {
