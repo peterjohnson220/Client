@@ -12,9 +12,7 @@
 
 .inline-link {
   font-size: 11px;
-  padding: 5px;
-  padding-top: 7px;
-  padding-left: 25px;
+  padding: 7px 5px 5px 25px;
 }
 
 .inline-link:focus{
@@ -23,4 +21,8 @@
 
 .no-inline-links {
   margin-right: 12rem;
+}
+
+.info-icon {
+  margin: 5px 0px 3px 5px;
 }

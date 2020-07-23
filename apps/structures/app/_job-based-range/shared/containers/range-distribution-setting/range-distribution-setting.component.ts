@@ -11,6 +11,7 @@ import { RangeDistributionSetting } from 'libs/models/payfactors-api';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ControlPoint, RangeGroupMetadata, RangeDistributionSettingForm } from '../../models';
+import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
 
 @Component({
   selector: 'pf-range-distribution-setting',
@@ -39,14 +40,14 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   subscriptions: Subscription[] = [];
   controlPoints: ControlPoint[];
   rangeDistributionSettingForm: FormGroup;
-  enableJobRangeTypes: boolean;
   activeRangeTypeTab: string;
   controlPointCategory: ControlPoint[];
   controlPointRanges: ControlPoint[];
   rangeDistributionSetting: RangeDistributionSetting;
   showMinSpread: boolean;
   showMaxSpread: boolean;
-
+  minSpreadTooltip: string;
+  maxSpreadTooltip: string;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -55,6 +56,8 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableJobRangeStructureRangeTypes
     );
+    this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
+    this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
   }
 
   get value(): RangeDistributionSettingForm {
