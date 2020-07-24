@@ -45,6 +45,7 @@ export interface DataGridState {
   loadingExportingStatus: boolean;
   fieldsExcludedFromExport: [];
   gridConfig: GridConfig;
+  modifiedKeys: any[];
 }
 
 export interface DataGridStoreState {
@@ -148,6 +149,7 @@ export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: stri
 };
 export const getGridConfig = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].gridConfig : null;
 export const getFilterPanelOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].filterPanelOpen : null;
+export const getModifiedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].modifiedKeys : null;
 
 
 
@@ -951,6 +953,32 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state
           };
       }
+    case fromPfGridActions.UPDATE_MODIFIED_KEYS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            modifiedKeys: action.payload
+          }
+        }
+      };
+    case fromPfGridActions.UPDATE_MODIFIED_KEY:
+      if (state.grids[action.pageViewId].modifiedKeys.includes(action.payload)) {
+        return state;
+      }
+
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            modifiedKeys: [...state.grids[action.pageViewId].modifiedKeys, action.payload]
+          }
+        }
+      };
     default:
       return state;
   }

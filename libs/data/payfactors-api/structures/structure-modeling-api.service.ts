@@ -58,4 +58,10 @@ export class StructureModelingApiService {
   addJobsFromSearchToRangeGroup(request: JobSearchRequestStructuresRangeGroup): Observable<CompanyStructureRange[]> {
     return this.payfactorsApiService.post<CompanyStructureRange[]>(`${this.endpoint}/AddAllJobRangesFromSearch`, request);
   }
+
+  getOverriddenRangeIds(rangeGroupId: number): Observable<any> {
+    return this.payfactorsApiService.get<number[]>(`${this.endpoint}/GetOverriddenRangeIds`, {
+      params: { rangeGroupId }
+    });
+  }
 }

@@ -55,7 +55,7 @@ export class ColumnTemplateService {
       ['Job_Code']: {Template: columnTemplateRefs['noFormatting']},
       ['Job_Family']: {Template: columnTemplateRefs['noFormatting']},
       ['Job_Level']: {Template: columnTemplateRefs['noFormatting']},
-      ['Job_Title']: {Template: columnTemplateRefs['noFormatting']},
+      ['Job_Title']: {Template: columnTemplateRefs['noFormattingInfoCircle']},
       ['RangeSpreadMin']: {Template: columnTemplateRefs['noFormatting']},
       ['RangeSpreadMax']: {Template: columnTemplateRefs['noFormatting']},
       ['MrpPercentile']: {Template: columnTemplateRefs['noFormatting']}

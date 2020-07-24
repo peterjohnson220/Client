@@ -9,22 +9,24 @@ import {
   ViewChild,
   OnDestroy,
   NgZone,
-  ElementRef,
-  EventEmitter, Output
+  EventEmitter,
+  Output
 } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { filter, take } from 'rxjs/operators';
-import { GridDataResult,
-         PageChangeEvent,
-         RowClassArgs,
-         GridComponent,
-         ColumnReorderEvent,
-         ColumnComponent,
-         ContentScrollEvent,
-         ColumnResizeArgs } from '@progress/kendo-angular-grid';
+import {
+  GridDataResult,
+  PageChangeEvent,
+  RowClassArgs,
+  GridComponent,
+  ColumnReorderEvent,
+  ColumnComponent,
+  ContentScrollEvent,
+  ColumnResizeArgs
+} from '@progress/kendo-angular-grid';
 
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
@@ -66,6 +68,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() pageable = true;
   @Input() theme: 'default' | 'next-gen' = 'default';
   @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
+  @Input() modifiedKey: string = null;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
   gridState$: Observable<DataGridState>;
@@ -106,12 +109,15 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   gridConfigSubscription: Subscription;
   gridConfig: GridConfig;
 
+  modifiedKeys: any[];
+  modifiedKeysSubscription: Subscription;
+
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
   @ViewChild(GridComponent) grid: GridComponent;
 
 
-  constructor(private store: Store<fromReducer.State>, private ngZone: NgZone, private mappedFieldName: MappedFieldNamePipe) { }
+  constructor(private store: Store<fromReducer.State>, private ngZone: NgZone, private mappedFieldName: MappedFieldNamePipe) {}
 
   ngOnInit() {
     this.dataSubscription = this.store.select(fromReducer.getData, this.pageViewId).subscribe(newData => {
@@ -162,6 +168,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.saveSortSubscription.unsubscribe();
     this.dataFieldsSubscription.unsubscribe();
     this.gridConfigSubscription.unsubscribe();
+    this.modifiedKeysSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -182,6 +189,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       this.defaultSortDescriptor$ = this.store.select(fromReducer.getDefaultSortDescriptor, changes['pageViewId'].currentValue);
       this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
       this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
+      this.modifiedKeysSubscription = this.store.select(fromReducer.getModifiedKeys, changes['pageViewId'].currentValue).subscribe(
+        modifiedKeys => this.modifiedKeys = modifiedKeys
+      );
     }
 
     if (changes['selectedRecordId']) {
@@ -288,11 +298,15 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     return `${this.customHeaderClass || ''} pf-grid-checkbox`.trim();
   }
 
-  getRowClasses = (context: RowClassArgs) => ({
-    'pf-data-grid-clickable-row': this.selectionField,
-    'pf-data-grid-non-clickable-row': this.compactGrid,
-    'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.primaryKey] === this.selectedRecordId)
-  })
+  getRowClasses = (context: RowClassArgs) => {
+    return {
+      'pf-data-grid-clickable-row': this.selectionField,
+      'pf-data-grid-non-clickable-row': this.compactGrid,
+      'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.primaryKey] === this.selectedRecordId),
+      'pf-data-grid-modified-row': this.modifiedKey !== null && this.modifiedKeys != null
+        && this.modifiedKeys.includes(context.dataItem[this.modifiedKey])
+    };
+  }
 
   getColumnClasses(col: ViewField): string {
     return this.columnTemplates && this.columnTemplates[col.SourceName] && this.columnTemplates[col.SourceName].IsCompact

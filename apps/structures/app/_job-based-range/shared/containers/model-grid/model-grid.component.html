@@ -11,7 +11,8 @@
     [columnTemplates]="colTemplates"
     [pageTheme]="'next-gen'"
     [actionBarConfig]="singleRecordActionBarConfig"
-    [reorderable]="reorderable">
+    [reorderable]="reorderable"
+    [modifiedKey]="modifiedKey">
   </pf-data-grid>
 </ng-container>
 
@@ -41,7 +42,8 @@
     [filterPanelTemplates]="filterTemplates"
     [gridActionsTemplate]="gridActions"
     [gridActionsRightTemplate]="gridActionsRightTemplate"
-    [saveSort]="saveSort">
+    [saveSort]="saveSort"
+    [modifiedKey]="modifiedKey">
   </pf-data-grid>
 </ng-template>
 
@@ -136,6 +138,15 @@
 <ng-template #noFormatting let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text-wrap" *ngIf="dataRow[fieldName]; else noValue">
     {{dataRow[fieldName]}}
+  </div>
+</ng-template>
+
+<ng-template #noFormattingInfoCircle let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap no-formatting-info-circle-wrapper" *ngIf="dataRow[fieldName]; else noValue">
+    <div>{{dataRow[fieldName]}}</div>
+    <div class="no-formatting-info-circle" *ngIf="modifiedKey !== null && modifiedKeys != null && modifiedKeys.includes(dataRow[modifiedKey])">
+      <fa-icon [icon]="['fas','info-circle']"></fa-icon>
+    </div>
   </div>
 </ng-template>
 
