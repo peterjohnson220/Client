@@ -22,7 +22,7 @@ export class Reset implements Action {
 
 export class LoadAssignedEmployees implements Action {
   readonly type = LOAD_ASSIGNED_EMPLOYEES;
-  constructor(public payload: State) {}
+  constructor(public payload?: State) {}
 }
 
 export class LoadAssignedEmployeesSuccess implements Action {
