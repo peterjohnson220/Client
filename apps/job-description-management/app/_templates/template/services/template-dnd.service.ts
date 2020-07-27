@@ -86,7 +86,7 @@ export class TemplateDnDService {
 
         this.dragulaService.createGroup('control-bag', {
             copy: function (el, source) {
-                return source.className === 'control-type-container';
+                return source.className.includes('control-type-container');
             },
             accepts: function (el, target) {
                 return target.className !== 'control-type-container';
