@@ -200,7 +200,7 @@ pipeline {
             sh """
               cat dirs | time parallel -j-3 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && echo "{} build complete"'
             """
-            sh "cp apps/data-insights/reports.asp dist/apps/data-insights/reports.asp"
+            sh "cp apps/data-insights/reports.html dist/apps/data-insights/reports.html"
           }
         }
       }
