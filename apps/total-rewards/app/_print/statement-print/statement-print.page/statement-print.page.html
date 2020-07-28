@@ -1,0 +1,7 @@
+<div *ngFor="let employeeRewardsData of (statement$ | async)?.EmployeeRewardsData;">
+  <pf-total-rewards-statement
+    [statement]="(statement$ | async)"
+    [employeeRewardsData]="employeeRewardsData"
+    [mode]="printMode"
+  ></pf-total-rewards-statement>
+</div>
