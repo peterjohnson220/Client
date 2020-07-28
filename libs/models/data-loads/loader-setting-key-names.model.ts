@@ -31,5 +31,7 @@ export enum LoaderSettingKeyName {
   PricingsTCCPlusAllowMRP = 'PricingsTCCPlusAllowMRP',
   // Adjustments
   PricingsMatchWeight = 'PricingsMatchWeight',
-  PricingsCompositeAdj = 'PricingsCompositeAdj'
+  PricingsCompositeAdj = 'PricingsCompositeAdj',
+  PricingsAging = 'PricingsAging',
+  PricingsMatchAdj = 'PricingsMatchAdjustment'
 }
