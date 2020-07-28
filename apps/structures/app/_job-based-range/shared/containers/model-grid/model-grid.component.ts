@@ -122,6 +122,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     };
 
     this.invalidMidPointRanges = [];
+    this.modifiedKeys = [];
   }
 
   hideRowActions(): boolean {
