@@ -144,7 +144,7 @@
 <ng-template #noFormattingInfoCircle let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text-wrap no-formatting-info-circle-wrapper" *ngIf="dataRow[fieldName]; else noValue">
     <div>{{dataRow[fieldName]}}</div>
-    <div class="no-formatting-info-circle" *ngIf="modifiedKey !== null && modifiedKeys !== null && modifiedKeys.includes(dataRow[modifiedKey])">
+    <div class="no-formatting-info-circle" *ngIf="modifiedKey !== null && modifiedKeys != null && modifiedKeys.includes(dataRow[modifiedKey])">
       <fa-icon [icon]="['fas','info-circle']"></fa-icon>
     </div>
   </div>

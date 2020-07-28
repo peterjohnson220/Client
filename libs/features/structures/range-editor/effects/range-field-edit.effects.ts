@@ -14,6 +14,7 @@ import * as fromNotificationActions from 'libs/features/app-notifications/action
 
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromRangeFieldActions from '../actions/range-field-edit.actions';
+import { PageViewIds } from '../../../../../apps/structures/app/_job-based-range/shared/constants/page-view-ids';
 
 @Injectable()
 export class RangeFieldEditEffects {
@@ -46,7 +47,16 @@ export class RangeFieldEditEffects {
                   action.payload.successCallBackFn(this.store, action.payload.metaInfo);
                 }
 
-                actions.push(new fromPfDataGridActions.UpdateModifiedKey(action.payload.pageViewId, action.payload.rangeId));
+                // We should dispatch this action only for Model/Employees/Pricings pages
+                // we don't want to dispatch this action on Jobs page
+                if (action.payload.pageViewId === PageViewIds.ModelMinMidMax
+                  || action.payload.pageViewId === PageViewIds.ModelTertile
+                  || action.payload.pageViewId === PageViewIds.ModelQuartile
+                  || action.payload.pageViewId === PageViewIds.ModelQuintile
+                  || action.payload.pageViewId === PageViewIds.Employees
+                  || action.payload.pageViewId === PageViewIds.Pricings) {
+                  actions.push(new fromPfDataGridActions.UpdateModifiedKey(action.payload.pageViewId, action.payload.rangeId));
+                }
 
                 return actions;
               }),
