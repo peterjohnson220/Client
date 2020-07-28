@@ -49,7 +49,7 @@
         </ng-template>
       </div>
       <span class="dot"></span>
-      <div *ngIf="workflowStepSummaryItem.Status == 'In Progress' && (isSiteAdmin || isCompanyAdmin) && workflowStepSummaryItem.OwnersCount==1" class="owner-name">
+      <div *ngIf="workflowStepSummaryItem.Status === 'In Progress' && (isSiteAdmin || isCompanyAdmin || hasWorkflowUserManagementPermission) && workflowStepSummaryItem.OwnersCount === 1" class="owner-name">
         <a id="change-approver-btn" (click)="changeApproverClicked.emit({isLastStep:(i == (workflowStepSummary.length -1)), currentStepUserName: workflowStepSummaryItem.Owner})">
           {{ workflowStepSummaryItem.Owner }}
         </a>
@@ -57,12 +57,10 @@
         <a *ngIf="!linkCopied" class="link-btn" (click)="copyWorkflowLink()">Copy Link</a>
         <span *ngIf="linkCopied" class="text-muted">Link Copied</span>
         <br />
-        <ng-container *ngIf="hasWorkflowUserManagementPermission">
-          <a *ngIf="!emailSent" class="link-btn" (click)="resendEmail()">Resend email</a>
-          <span *ngIf="emailSent" class="text-muted">Email sent</span>
-        </ng-container>
+        <a *ngIf="!emailSent" class="link-btn" (click)="resendEmail()">Resend email</a>
+        <span *ngIf="emailSent" class="text-muted">Email sent</span>
       </div>
-      <div *ngIf="workflowStepSummaryItem.Status != 'In Progress' || !(isSiteAdmin || isCompanyAdmin) || workflowStepSummaryItem.OwnersCount != 1" class="owner-name">
+      <div *ngIf="workflowStepSummaryItem.Status !== 'In Progress' || !(isSiteAdmin || isCompanyAdmin || hasWorkflowUserManagementPermission) || workflowStepSummaryItem.OwnersCount != 1" class="owner-name">
         {{ workflowStepSummaryItem.Owner }}
       </div>
     </div>
