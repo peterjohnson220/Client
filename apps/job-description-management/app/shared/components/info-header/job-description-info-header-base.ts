@@ -55,6 +55,12 @@ export abstract class JobDescriptionInfoHeaderBase implements OnInit, OnChanges 
     const jobInfoFields = this.jobInformationFields;
 
     jobInfoFields.forEach((jif, index) => {
+      if (jif.FieldName === 'TemplateName'
+        && (this.jobDescription
+        && !this.jobDescription['WorkflowId']
+        && this.jobDescription['JobDescriptionStatus'] !== 'Draft')) {
+        return;
+      }
       if (index % 2 === 0) {
         const lastInfoField = typeof jobInfoFields[index + 1] === 'undefined'
           ? { DisplayName: '', FieldName: '' }  : jobInfoFields[index + 1];
