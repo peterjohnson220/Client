@@ -60,7 +60,7 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.jobTitle.isFirstChange) {
+    if (changes.jobTitle.firstChange) {
       this.jobTitleSearch = changes.jobTitle.currentValue;
     }
     if (changes.buckets && this.buckets.length) {
