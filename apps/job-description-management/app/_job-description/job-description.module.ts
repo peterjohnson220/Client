@@ -16,6 +16,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
+import { PfListAreaModule } from 'libs/features/list-area/list-area.module';
 
 import * as fromFaIcons from './fa-icons';
 import { JobDescriptionRoutingModule } from './job-description-routing.module';
@@ -125,6 +126,8 @@ import { ListAreaService } from 'libs/core/services/list-area.service';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
+    PfJobDescriptionManagementModule,
+    PfListAreaModule,
 
     // 3rd Party
     ReactiveFormsModule,
@@ -135,7 +138,6 @@ import { ListAreaService } from 'libs/core/services/list-area.service';
     FilterMenuModule,
     SharedModule,
     FontAwesomeModule,
-    PfJobDescriptionManagementModule,
     MomentModule,
   ],
   declarations: [

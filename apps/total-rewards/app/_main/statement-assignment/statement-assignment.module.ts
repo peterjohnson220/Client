@@ -14,6 +14,7 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { WindowCommunicationService } from 'libs/core/services';
 import { ListAreaService } from 'libs/core/services/list-area.service';
+import { PfListAreaModule } from 'libs/features/list-area/list-area.module';
 
 import { reducers } from './reducers';
 import { StatementAssignmentRoutingModule } from './statement-assignment-routing.module';
@@ -52,6 +53,7 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
     PfCommonUIModule,
     PfFormsModule,
     PfSearchModule,
+    PfListAreaModule,
     fromTrsShared.SharedModule,
 
     // Routing
