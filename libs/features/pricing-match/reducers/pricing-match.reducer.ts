@@ -35,7 +35,7 @@ export function reducer(state = initialState, action: fromPricingMatchActions.Ac
         loading: false,
         pricingMatch: null
       };
-    case fromPricingMatchActions.GET_PRICING_MATCH_ERROR:
+    case fromPricingMatchActions.LOAD_PRICING_MATCH_ERROR:
       return {
         ...state,
         loading: false,

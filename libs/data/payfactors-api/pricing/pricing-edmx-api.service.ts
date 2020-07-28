@@ -4,8 +4,6 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Observable } from 'rxjs';
-import { PricingNote } from 'libs/models/payfactors-api';
-
 
 @Injectable()
 export class PricingEdmxApiService {
@@ -19,9 +17,5 @@ export class PricingEdmxApiService {
 
   patchPricingStatus(pricingId: number, status: string): Observable<any> {
     return this.payfactorsApiService.patch(`${this.endpoint}(${pricingId})`, { Status: status });
-  }
-
-  getNotes(pricingId: number): Observable<PricingNote[]> {
-    return this.payfactorsApiService.get<PricingNote[]>(`${this.endpoint}/GetNotes?pricingID=${pricingId}`);
   }
 }

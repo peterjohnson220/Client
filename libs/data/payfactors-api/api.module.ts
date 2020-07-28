@@ -74,6 +74,7 @@ import { CaptchaApiService } from './captcha';
 import { ECommerceApiService } from './ecommerce';
 import { PricingMatchApiService } from './pricing/pricing-match-api.service';
 import { MarketDataFeedApiService } from './market-data-feed';
+import { NotesApiService } from './notes';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -154,6 +155,7 @@ import { MarketDataFeedApiService } from './market-data-feed';
     ECommerceApiService,
     MarketDataFeedApiService,
     PricingMatchApiService,
+    NotesApiService,
 
     // PEER
     ExchangeApiService,
