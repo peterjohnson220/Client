@@ -21,6 +21,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   minPaymarketMinimumWage$={[Function Observable]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
+  rates={[Function Array]}
   salaryTrendData$={[Function Store]}
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
@@ -1066,6 +1067,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
+  rates={[Function Array]}
   salaryTrendData$={[Function Store]}
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
@@ -2111,6 +2113,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
+  rates={[Function Array]}
   salaryTrendData$={[Function Store]}
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
@@ -3156,6 +3159,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   minPaymarketMinimumWage$={[Function Observable]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
+  rates={[Function Array]}
   salaryTrendData$={[Function Store]}
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
@@ -4201,6 +4205,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   minPaymarketMinimumWage$={[Function Observable]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
+  rates={[Function Array]}
   salaryTrendData$={[Function Store]}
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
@@ -5246,6 +5251,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
+  rates={[Function Array]}
   salaryTrendData$={[Function Store]}
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
@@ -6291,6 +6297,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
+  rates={[Function Array]}
   salaryTrendData$={[Function Store]}
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
@@ -7336,6 +7343,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   minPaymarketMinimumWage$={[Function Store]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
+  rates={[Function Array]}
   salaryTrendData$={[Function Store]}
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
