@@ -20,7 +20,8 @@ export interface ActionBarConfig {
 
 export enum ColumnChooserType {
   Column,
-  ColumnGroup
+  ColumnGroup,
+  Hybrid
 }
 
 export function getDefaultActionBarConfig(): ActionBarConfig {

@@ -5,7 +5,7 @@ import { orderBy } from 'lodash';
 import { groupBy } from '@progress/kendo-data-query';
 
 import { ViewField } from 'libs/models/payfactors-api/reports';
-import { ColumnGroup } from '../../models';
+import { ColumnChooserType, ColumnGroup } from '../../models';
 
 @Component({
   selector: 'pf-column-group-list',
@@ -16,9 +16,11 @@ import { ColumnGroup } from '../../models';
 export class ColumnGroupListComponent implements OnChanges {
   @Input() fields: ViewField[];
   @Input() searchTerm: string;
+  @Input() columnChooserType: ColumnChooserType;
 
   columnGroups: ColumnGroup[] = [];
   allFields: ViewField[];
+  nonGroupedFields: ViewField[];
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes && changes.fields && changes.fields.currentValue) {
@@ -50,6 +52,9 @@ export class ColumnGroupListComponent implements OnChanges {
         FilteredFields: orderedFields
       };
     });
+    if (this.columnChooserType === ColumnChooserType.Hybrid) {
+      this.nonGroupedFields = this.createNonGroupedFields(cloneDeep(this.fields));
+    }
   }
 
   private createGroupedFields(fields: ViewField[]): any[] {
@@ -57,6 +62,12 @@ export class ColumnGroupListComponent implements OnChanges {
     groupedFields = groupedFields.filter(g => g.value !== null && g.items.length !== 0 && g.items[0].items.length !== 0);
     groupedFields = orderBy(groupedFields, [(g: any) => g.items[0].value, (g: any) => g.value.toLowerCase()], 'asc');
     return groupedFields;
+  }
+
+  private createNonGroupedFields(fields: ViewField[]): any[] {
+    let nonGroupedFields = fields.filter(f => f.Group == null && f.IsSelectable);
+    nonGroupedFields = orderBy(nonGroupedFields, ['DisplayName']);
+    return nonGroupedFields;
   }
 
   private handleFilterChange(): void {

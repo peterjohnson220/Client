@@ -4,17 +4,19 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
-import { ColumnTemplateService, StructuresPagesService } from '../../shared/services';
+import { StructuresPagesService } from '../../shared/services';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
+
 
 @Component({
   selector: 'pf-pricings-page',
@@ -57,7 +59,8 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
-      ShowColumnChooser: true
+      ShowColumnChooser: true,
+      ColumnChooserType: ColumnChooserType.Hybrid
     };
 
     this._Permissions = Permissions;
@@ -74,17 +77,13 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     return;
   }
 
-  getColumnTemplates() {
-    return {
-      'source': this.sourceColumn,
-      'jobTitleCode': this.jobTitleCode,
-      'rangeValue': this.rangeValueColumn,
-      'noFormatting': this.noFormattingColumn
-    };
-  }
-
   ngAfterViewInit(): void {
-    this.colTemplates = ColumnTemplateService.configurePricingsTemplates(this.getColumnTemplates());
+    this.colTemplates = {
+      'Source': { Template: this.sourceColumn },
+      'Job_Title': { Template: this.jobTitleCode },
+      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
+      [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn }
+    };
 
     this.actionBarConfig = {
       ...this.actionBarConfig,

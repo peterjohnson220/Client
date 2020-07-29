@@ -7,14 +7,16 @@ import { Observable, Subscription } from 'rxjs';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
-import { ColumnTemplateService, StructuresPagesService } from '../../shared/services';
+import { StructuresPagesService } from '../../shared/services';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
+
 
 @Component({
   selector: 'pf-employees-page',
@@ -75,17 +77,15 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     return;
   }
 
-  getColumnTemplates() {
-    return {
-      'rangeValue': this.rangeValueColumn,
-      'percentage': this.percentageColumn,
-      'noFormatting': this.noFormattingColumn,
-      'date': this.dateColumn
-    };
-  }
+
 
   ngAfterViewInit(): void {
-    this.colTemplates = ColumnTemplateService.configureEmployeeTemplates(this.getColumnTemplates());
+    this.colTemplates = {
+      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
+      [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn },
+      [PfDataGridColType.date]: { Template: this.dateColumn },
+      [PfDataGridColType.percentage]: { Template: this.percentageColumn }
+    };
 
     this.actionBarConfig = {
       ...this.actionBarConfig,
