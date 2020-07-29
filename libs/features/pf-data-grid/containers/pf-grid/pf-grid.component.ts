@@ -69,6 +69,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() theme: 'default' | 'next-gen' = 'default';
   @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
   @Input() modifiedKey: string = null;
+  @Input() resetWidthForSplitView = false;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
   gridState$: Observable<DataGridState>;
@@ -275,7 +276,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     if (getSelection().toString()) {
       // User is highlighting text so we don't want to mark this as a click
     } else if (this.allowSplitView) {
-      this.resetKendoGridWidth();
+      if (this.resetWidthForSplitView) {
+        this.resetKendoGridWidth();
+      }
       this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
     } else if (this.expandedRowTemplate) {
       if (this.expandedRows.includes(rowIndex)) {
