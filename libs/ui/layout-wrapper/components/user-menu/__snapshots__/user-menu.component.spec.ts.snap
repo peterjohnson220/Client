@@ -8,7 +8,6 @@ exports[`User Menu should prepend /ng/ to the dropdown url, when the navigation 
   <ul
     class="navbar-nav"
   >
-    
     <li
       class="nav-item"
       ngbdropdown=""
@@ -54,7 +53,6 @@ exports[`User Menu should show a divider for log out 1`] = `
   <ul
     class="navbar-nav"
   >
-    
     <li
       class="nav-item"
       ngbdropdown=""
@@ -107,7 +105,6 @@ exports[`User Menu should show a divider for referrals 1`] = `
   <ul
     class="navbar-nav"
   >
-    
     <li
       class="nav-item"
       ngbdropdown=""
@@ -156,7 +153,6 @@ exports[`User Menu should show a list of dropdown navigation links, when provide
   <ul
     class="navbar-nav"
   >
-    
     <li
       class="nav-item"
       ngbdropdown=""
@@ -218,7 +214,6 @@ exports[`User Menu should show an icon for log out 1`] = `
   <ul
     class="navbar-nav"
   >
-    
     <li
       class="nav-item"
       ngbdropdown=""
@@ -271,7 +266,6 @@ exports[`User Menu should show the app users name 1`] = `
   <ul
     class="navbar-nav"
   >
-    
     <li
       class="nav-item"
       ngbdropdown=""
@@ -309,7 +303,6 @@ exports[`User Menu should show the app users name with client name if user is im
   <ul
     class="navbar-nav"
   >
-    
     <li
       class="nav-item"
       ngbdropdown=""
