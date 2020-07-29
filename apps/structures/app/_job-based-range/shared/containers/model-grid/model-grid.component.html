@@ -67,7 +67,7 @@
 </ng-template>
 
 <ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
-  <ng-container *ngIf="!!dataRow.CompanyStructures_Ranges_Mid; else noValue">
+  <ng-container>
     <pf-range-field-editor
       [pageViewId]="modelPageViewId"
       [rangeGroupType]="rangeGroupType"
@@ -90,7 +90,7 @@
 </ng-template>
 
 <ng-template #rangeField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
-  <ng-container *ngIf="!!dataRow[fieldName]; else noValue">
+  <ng-container>
     <pf-range-field-editor
       [pageViewId]="modelPageViewId"
       [rangeGroupType]="rangeGroupType"
