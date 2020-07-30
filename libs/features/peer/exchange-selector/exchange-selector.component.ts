@@ -14,16 +14,19 @@ import { isNullOrUndefined } from 'libs/core/functions/';
 })
 export class ExchangeSelectorComponent implements OnInit, OnDestroy {
     @Input() exchanges$: Observable<GenericKeyValue<number, string>[]>;
+    @Input() activeExchange$: Observable<number>;
     @Input() isDisabled: boolean;
     @Output() onExchangeSelected = new EventEmitter<number>();
 
     @ViewChild('exchangeList', { static: true }) exchangeList: ComboBoxComponent;
 
     exchangeOptionsFiltered: GenericKeyValue<number, string>[];
+    activeExchange: number;
     exchangeForm: FormGroup;
     allData: GenericKeyValue<number, string>[];
 
     exchangesSubscription: Subscription;
+    activeExchangeSubscription: Subscription;
 
     constructor() {
       this.isDisabled = false;
@@ -51,17 +54,30 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
         });
 
         this.exchangesSubscription = this.exchanges$.subscribe(data => {
-            this.exchangeOptionsFiltered = data;
-            this.allData = data;
-            if (!!data && data.length === 1 && !isNullOrUndefined(data[0])) {
-              this.exchangeForm.get('exchangeSelection').setValue(data[0]);
-              this.onExchangeSelected.emit(data[0].Key);
+            if(!!data) {
+              this.exchangeOptionsFiltered = data;
+              this.allData = data;
+              if (data.length === 1 && !isNullOrUndefined(data[0])) {
+                this.exchangeForm.get('exchangeSelection').setValue(data[0].Key);
+                this.onExchangeSelected.emit(data[0].Key);
+              }
             }
         });
+
+        this.activeExchangeSubscription = this.activeExchange$.subscribe(exchangeId => {
+            if(exchangeId) {
+                this.activeExchange = exchangeId;
+                if(this.allData?.find(ex => ex.Key == this.activeExchange)) {
+                    this.exchangeForm.get('exchangeSelection').setValue(this.activeExchange);
+                    this.onExchangeSelected.emit(this.activeExchange);
+                }
+            }
+        })
     }
 
     ngOnDestroy(): void {
       this.exchangesSubscription.unsubscribe();
+      this.activeExchangeSubscription.unsubscribe();
     }
 }
 

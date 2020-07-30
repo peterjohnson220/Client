@@ -14,7 +14,8 @@
                             [allowCustom]="false"
                             [filterable]="true"
                             (filterChange)="onFilterChanged($event)"
-                            (selectionChange)="onSelectionChanged($event)">
+                            (selectionChange)="onSelectionChanged($event)"
+                            [ngModel]="activeExchange">
             </kendo-combobox>
         </div>
     </div>
