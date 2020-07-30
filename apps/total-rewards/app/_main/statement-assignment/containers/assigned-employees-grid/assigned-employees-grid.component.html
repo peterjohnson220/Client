@@ -6,11 +6,11 @@
     [tooltipTemplate]="template"
     filter=".k-grid td"
     (mouseover)="showGridTooltip($event)">
-    <pf-async-container 
+    <pf-async-container
       class="h-100"
-      [loading]="assignedEmployeesDataLoading$ | async" 
+      [loading]="assignedEmployeesDataLoading$ | async"
       [loadingError]="assignedEmployeesDataLoadingError$ | async">
-      <kendo-grid 
+      <kendo-grid
         class="assigned-employees"
         [data]="assignedEmployeesGridData$ | async"
         [pageSize]="gridState.take"
@@ -21,10 +21,16 @@
         [scrollable]="true"
         [pageable]="{ buttonCount: 5, info: true }"
         (dataStateChange)="handleDataStateChange($event)">
-        <kendo-grid-checkbox-column [width]="35">
+        <kendo-grid-checkbox-column [width]="35" showSelectAll="true">
+          <ng-template kendoGridHeaderTemplate>
+            <input type="checkbox" id="selectAllCheckboxId"
+                   [checked]="(selectAllState$ | async) === selectAllStatus.checked"
+                   [indeterminate]="(selectAllState$ | async) === selectAllStatus.indeterminate"
+                   (click)="onSelectAllChange()">
+          </ng-template>
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-            <input 
-              type="checkbox" 
+            <input
+              type="checkbox"
               [checked]="isEmployeeSelected(dataItem)"
               (click)="handleCheckboxClick(dataItem)" />
           </ng-template>
