@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { Observable, Subscription, Subject } from 'rxjs';
-import { distinctUntilChanged, debounceTime, take, filter } from 'rxjs/operators';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
@@ -17,6 +17,7 @@ import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees
 import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
 import { Statement } from '../../../shared/models';
+import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
 
 @Component({
   selector: 'pf-statement-assignment-page',
@@ -50,16 +51,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   assignedEmployeesListAreaColumns$: Observable<any[]>;
 
   statement: Statement;
-  assignedEmployeesGridTakeCount = 20;
-  assignedEmployeesGridState: any = {
-    skip: 0,
-    take: this.assignedEmployeesGridTakeCount,
-    filter: {
-      filters: [],
-      logic: 'and'
-    },
-    sort: []
-  };
+  assignedEmployeesGridState = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState;
 
   statementSubscription$ = new Subscription();
   routeParamSubscription$ = new Subscription();
@@ -131,10 +123,10 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
       this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
     });
     this.unassignEmployeesSuccessSubscription = this.unassignEmployeesSuccess$.subscribe(u => {
-      if ( u ) {
+      if (u) {
         this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
         this.assignedEmployeesGridState.skip = 0;
-        this.assignedEmployeesGridState.take = this.assignedEmployeesGridTakeCount;
+        this.assignedEmployeesGridState.take = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState.take;
         this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
       }
     });

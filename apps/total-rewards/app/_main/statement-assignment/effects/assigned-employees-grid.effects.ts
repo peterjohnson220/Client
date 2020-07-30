@@ -10,6 +10,7 @@ import { TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rew
 
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
+import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
 
 @Injectable()
 export class AssignedEmployeesGridEffects {
@@ -19,10 +20,11 @@ export class AssignedEmployeesGridEffects {
     ofType(fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES),
     withLatestFrom(
       this.store.select(fromTotalRewardsReducer.getStatement),
-      (action: fromAssignedEmployeesGridActions.LoadAssignedEmployees, statement) => ({ action, statementId: statement.StatementId })
+      (action: fromAssignedEmployeesGridActions.LoadAssignedEmployees, statement) => ({ payload: action.payload, statementId: statement.StatementId })
     ),
+    map(data => ({ statementId: data.statementId, gridListState: data.payload || TotalRewardsAssignmentService.defaultAssignedEmployeesGridState })),
     switchMap(combined =>
-      this.totalRewardsSearchApi.getAssignedEmployees({ StatementId: combined.statementId, GridListState: combined.action.payload }).pipe(
+      this.totalRewardsSearchApi.getAssignedEmployees({ StatementId: combined.statementId, GridListState: combined.gridListState }).pipe(
         map((response: GridDataResult) => new fromAssignedEmployeesGridActions.LoadAssignedEmployeesSuccess(response)),
         catchError(() => of(new fromAssignedEmployeesGridActions.LoadAssignedEmployeesError()))
       )

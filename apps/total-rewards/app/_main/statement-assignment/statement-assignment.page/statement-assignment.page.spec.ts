@@ -72,7 +72,7 @@ describe('AssignedEmployeesGridComponent', () => {
         filters: [],
         logic: 'and'
       }
-    };
+    } as any;
 
     // act
     fixture.detectChanges();
@@ -88,7 +88,7 @@ describe('AssignedEmployeesGridComponent', () => {
         filters: [{ field: 'LastName', operator: 'contains', value: 'a' }],
         logic: 'and'
       }
-    };
+    } as any;
 
     // act
     fixture.detectChanges();

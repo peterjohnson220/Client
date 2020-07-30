@@ -91,7 +91,8 @@ export class StatementAssignmentPageEffects {
           mergeMap(() => [
             new fromStatementAssignmentPageActions.UnassignEmployeesSuccess(),
             new fromAssignedEmployeesGridActions.ClearSelections(),
-            new fromStatementAssignmentPageActions.CloseUnassignModal()
+            new fromStatementAssignmentPageActions.CloseUnassignModal(),
+            new fromAssignedEmployeesGridActions.LoadAssignedEmployees()
           ]),
           catchError(() => of(new fromStatementAssignmentPageActions.UnassignEmployeesError()))
         )
