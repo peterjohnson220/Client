@@ -1,12 +1,12 @@
 <pf-async-container [loading]="(loading$ | async)">
   <div class="pricingMatch p-2">
     <div *ngIf="!(loading$ | async) && !(showError$ | async) && (pricingMatch$ | async)">
-      <pf-peer-pricing-match *ngIf="matchType === pricingMatchTypes.PEER" [pricingMatch]="pricingMatch$ | async"></pf-peer-pricing-match>
-      <pf-pricing-match-details *ngIf="matchType === pricingMatchTypes.SURVEY" [pricingMatch]="pricingMatch$ | async" [pricingMatchType]="matchType">
+      <pf-peer-pricing-match *ngIf="matchType === pricingMatchTypes.PEER" [pricingMatch]="(pricingMatch$ | async).obj"></pf-peer-pricing-match>
+      <pf-pricing-match-details *ngIf="matchType === pricingMatchTypes.SURVEY" [pricingMatch]="(pricingMatch$ | async).obj" [pricingMatchType]="matchType">
       </pf-pricing-match-details>
-      <pf-pricing-match-details *ngIf="matchType === pricingMatchTypes.MD_JOB" [pricingMatch]="pricingMatch$ | async" [pricingMatchType]="matchType">
+      <pf-pricing-match-details *ngIf="matchType === pricingMatchTypes.MD_JOB" [pricingMatch]="(pricingMatch$ | async).obj" [pricingMatchType]="matchType">
       </pf-pricing-match-details>
-      <pf-pricing-match-details *ngIf="matchType === pricingMatchTypes.SLOTTED_COMPANY_JOB" [pricingMatch]="pricingMatch$ | async" [pricingMatchType]="matchType">
+      <pf-pricing-match-details *ngIf="matchType === pricingMatchTypes.SLOTTED_COMPANY_JOB" [pricingMatch]="(pricingMatch$ | async).obj" [pricingMatchType]="matchType">
       </pf-pricing-match-details>
     </div>
     <div *ngIf="(showError$ | async)">
