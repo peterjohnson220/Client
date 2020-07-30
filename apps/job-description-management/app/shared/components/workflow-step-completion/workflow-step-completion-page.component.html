@@ -8,6 +8,14 @@
       <p>{{workflowCompleteMessage$ | async}}</p>
 
       <p>It is now okay to close this window.</p>
+
+      <ng-container *ngIf="requireSSOLogin">
+        <div *ngFor="let link of navigationLinks" class="button-container">
+          <a *ngIf="link.Name ==='Log Out'" class="btn btn-primary" [href]="link.Url">
+            <fa-icon icon="sign-out" size="lg"></fa-icon> {{link.Name}}
+          </a>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
