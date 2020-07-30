@@ -110,6 +110,20 @@ export const getExchangeDictionaryForCompany = createSelector(
   fromAssociateCompanyJobReducer.getExchangeDictionary
 );
 
+export const getLoadingActiveExchange = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getLoadingActiveExchange
+);
+
+export const getLoadingActiveExchangeError = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getLoadingActiveExchangeError
+);
+export const getActiveExchange = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getActiveExchange
+);
+
 // Paymarket Exchange Scope Selectors
 export const getExchangeScopesIsLoading = createSelector(
   selectPaymarketExchangeState,

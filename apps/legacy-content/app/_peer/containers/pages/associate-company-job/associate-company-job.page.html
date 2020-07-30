@@ -17,7 +17,13 @@
         <div class="col h-100">
             <div class="row">
                 <div class="col">
+                  <h6>Select Network</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <pf-exchange-selector [exchanges$]="exchanges$"
+                                          [activeExchange$] = "activeExchange$"
                                           (onExchangeSelected)="setSelectedKey($event)">
                     </pf-exchange-selector>
                 </div>

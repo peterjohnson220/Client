@@ -15,6 +15,9 @@ export const LOAD_COMPANY_JOB_ERROR = '[Legacy Content/Exchange Jobs] Load Compa
 export const LOAD_EXCHANGE_DICTIONARY = '[Legacy Content/Exchange Jobs] Load Exchange Dictionary';
 export const LOAD_EXCHANGE_DICTIONARY_SUCCESS = '[Legacy Content/Exchange Jobs] Load Exchange Dictionary Success';
 export const LOAD_EXCHANGE_DICTIONARY_ERROR = '[Legacy Content/Exchange Jobs] Load Exchange Dictionary Error';
+export const LOAD_ACTIVE_EXCHANGE = '[Legacy Content/Exchange Jobs] Load Active Exchange';
+export const LOAD_ACTIVE_EXCHANGE_SUCCESS = '[Legacy Content/Exchange Jobs] Load Active Exchange Success';
+export const LOAD_ACTIVE_EXCHANGE_ERROR = '[Legacy Content/Exchange Jobs] Load Active Exchange Error';
 
 export class LoadExchangeJobs implements Action {
     readonly type = LOAD_EXCHANGE_JOBS;
@@ -77,6 +80,20 @@ export class LoadExchangeDictionaryError implements Action {
   readonly type = LOAD_EXCHANGE_DICTIONARY_ERROR;
 }
 
+export class LoadActiveExchange implements Action {
+  readonly type = LOAD_ACTIVE_EXCHANGE;
+}
+
+export class LoadActiveExchangeSuccess implements Action {
+  readonly type = LOAD_ACTIVE_EXCHANGE_SUCCESS;
+
+  constructor(public payload: number) {}
+}
+
+export class LoadActiveExchangeError implements Action {
+  readonly type = LOAD_ACTIVE_EXCHANGE_ERROR;
+}
+
 export type Actions
     = LoadExchangeJobs
     | LoadExchangeJobsSuccess
@@ -89,4 +106,7 @@ export type Actions
     | MapExchangeJobsError
     | LoadExchangeDictionary
     | LoadExchangeDictionarySuccess
-    | LoadExchangeDictionaryError;
+    | LoadExchangeDictionaryError
+    | LoadActiveExchange
+    | LoadActiveExchangeSuccess
+    | LoadActiveExchangeError;

@@ -13,6 +13,9 @@ export interface State {
     loadingExchangeDictionary: boolean;
     loadingExchangeDictionaryError: boolean;
     exchangeDictionary: GenericKeyValue<number, string>[];
+    loadingActiveExchange: boolean;
+    loadingActiveExchangeError: boolean;
+    activeExchange: number;
 }
 
 // Initial State
@@ -25,7 +28,10 @@ export const initialState: State = {
     exchangeJobSearch: null,
     loadingExchangeDictionary: false,
     loadingExchangeDictionaryError: false,
-    exchangeDictionary: null
+    exchangeDictionary: null,
+    loadingActiveExchange: false,
+    loadingActiveExchangeError: false,
+    activeExchange: null
 };
 
 
@@ -140,6 +146,28 @@ export function reducer(
             loadingExchangeDictionaryError: true
           };
         }
+        case fromAssociateCompanyJobActions.LOAD_ACTIVE_EXCHANGE: {
+          return {
+            ...featureState,
+            loadingActiveExchange: true,
+            loadingActiveExchangeError: false
+          };
+        }
+        case fromAssociateCompanyJobActions.LOAD_ACTIVE_EXCHANGE_SUCCESS: {
+          return {
+            ...featureState,
+            activeExchange: featureAction.payload,
+            loadingActiveExchange: false,
+            loadingActiveExchangeError: false
+          };
+        }
+        case fromAssociateCompanyJobActions.LOAD_ACTIVE_EXCHANGE_ERROR: {
+          return {
+            ...featureState,
+            loadingActiveExchange: false,
+            loadingActiveExchangeError: true
+          };
+        }
         default: {
             return featureState;
         }
@@ -155,3 +183,6 @@ export const getCompanyJob = (state: State) => state.companyJob;
 export const getLoadingExchangeDictionary = (state: State) => state.loadingExchangeDictionary;
 export const getLoadingExchangeDictionaryError = (state: State) => state.loadingExchangeDictionaryError;
 export const getExchangeDictionary = (state: State) => state.exchangeDictionary;
+export const getLoadingActiveExchange = (state: State) => state.loadingActiveExchange
+export const getLoadingActiveExchangeError = (state: State) => state.loadingActiveExchangeError
+export const getActiveExchange = (state: State) => state.activeExchange;
