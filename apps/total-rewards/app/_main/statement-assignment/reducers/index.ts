@@ -206,3 +206,8 @@ export const getOpenActionMenuEmployee = createSelector(
   getAssignedEmployeesFeatureState,
   fromAssignedEmployeesGridReducer.getOpenActionMenuEmployee
 );
+
+export const getSelectAllState = createSelector(
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getSelectAllState
+);

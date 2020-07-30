@@ -1,8 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import * as cloneDeep from 'lodash.clonedeep';
+import { cloneDeep, difference, uniq } from 'lodash';
 
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
-import { GridTypeEnum } from 'libs/models/common';
+import { GridTypeEnum, SelectAllStatus } from 'libs/models/common';
 import { CompanyEmployee } from 'libs/models/company';
 
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
@@ -13,6 +13,7 @@ export interface State extends EntityState<CompanyEmployee> {
   assignedEmployeesTotal: number;
   selectedCompanyEmployeeIds: number[];
   openActionMenuEmployee: CompanyEmployee;
+  selectAllStatus: string;
 }
 
 export const adapter: EntityAdapter<CompanyEmployee> = createEntityAdapter<CompanyEmployee>({
@@ -25,6 +26,7 @@ const initialState: State = adapter.getInitialState({
   assignedEmployeesTotal: 0,
   selectedCompanyEmployeeIds: [],
   openActionMenuEmployee: null,
+  selectAllStatus: 'unchecked'
 });
 
 export function reducer(state, action) {
@@ -45,11 +47,19 @@ export function reducer(state, action) {
         }
         case fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES_SUCCESS: {
           const localFeatureState: State = cloneDeep(featureState);
+          const selectedCompanyEmployeeIds = localFeatureState.selectedCompanyEmployeeIds;
+          const visibleCompanyEmployeeIds = action.payload.data.map(x => x.CompanyEmployeeId);
+          const selectedVisibleCompanyEmployeeIds = visibleCompanyEmployeeIds.filter(x => selectedCompanyEmployeeIds.includes(x));
+          const loadAssignedEmployeesSelectAllState =
+            selectedVisibleCompanyEmployeeIds.length === 0 ? SelectAllStatus.unchecked :
+              selectedVisibleCompanyEmployeeIds.length === visibleCompanyEmployeeIds.length ? SelectAllStatus.checked : SelectAllStatus.indeterminate;
+
           return {
             ...adapter.setAll(featureAction.payload.data, featureState),
             assignedEmployeesTotal: action.payload.total,
             assignedEmployeesLoading: false,
             assignedEmployeesLoadingError: false,
+            selectAllStatus: loadAssignedEmployeesSelectAllState
           };
         }
         case fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES_ERROR: {
@@ -62,6 +72,8 @@ export function reducer(state, action) {
         }
         case fromAssignedEmployeesGridActions.TOGGLE_EMPLOYEE_SELECTION: {
           const localFeatureState: State = cloneDeep(featureState);
+          const visibleCompanyEmployeeIds = localFeatureState.ids;
+          let selectAllStateToSet = SelectAllStatus.unchecked;
           let selectedCompanyEmployeeIds = cloneDeep(localFeatureState.selectedCompanyEmployeeIds);
 
           if (selectedCompanyEmployeeIds.find((e: number) => e === action.payload.CompanyEmployeeId)) {
@@ -70,9 +82,16 @@ export function reducer(state, action) {
             selectedCompanyEmployeeIds.push(action.payload.CompanyEmployeeId);
           }
 
+          if (visibleCompanyEmployeeIds && visibleCompanyEmployeeIds.every(x => selectedCompanyEmployeeIds.includes(x))) {
+            selectAllStateToSet = SelectAllStatus.checked;
+          } else if (selectedCompanyEmployeeIds.length !== 0) {
+            selectAllStateToSet = SelectAllStatus.indeterminate;
+          }
+
           return {
             ...localFeatureState,
-            selectedCompanyEmployeeIds
+            selectedCompanyEmployeeIds,
+            selectAllStatus: selectAllStateToSet
           };
         }
         case fromAssignedEmployeesGridActions.OPEN_ACTION_MENU: {
@@ -93,7 +112,28 @@ export function reducer(state, action) {
           const localFeatureState: State = cloneDeep(featureState);
           return {
             ...localFeatureState,
-            selectedCompanyEmployeeIds: []
+            selectedCompanyEmployeeIds: [],
+            selectAllStatus: SelectAllStatus.unchecked
+          };
+        }
+        case fromAssignedEmployeesGridActions.SELECT_ALL: {
+          const localFeatureState: State = cloneDeep(featureState);
+          const selectAllStateToSet = localFeatureState.selectAllStatus === SelectAllStatus.checked ?
+            SelectAllStatus.unchecked : SelectAllStatus.checked;
+
+          const visibleCompanyEmployeeIds = localFeatureState.ids;
+          const selectedCompanyEmployeeIds = localFeatureState.selectedCompanyEmployeeIds;
+          let newSelectedCompanyEmployeeIds = [];
+          if (selectAllStateToSet === SelectAllStatus.checked) {
+            newSelectedCompanyEmployeeIds = selectedCompanyEmployeeIds.length === 0 ?
+              visibleCompanyEmployeeIds : uniq([...selectedCompanyEmployeeIds, ...visibleCompanyEmployeeIds]);
+          } else {
+            newSelectedCompanyEmployeeIds = difference(selectedCompanyEmployeeIds, visibleCompanyEmployeeIds);
+          }
+          return {
+            ...localFeatureState,
+            selectAllStatus: selectAllStateToSet,
+            selectedCompanyEmployeeIds: newSelectedCompanyEmployeeIds
           };
         }
         default: {
@@ -112,3 +152,4 @@ export const getAssignedEmployeesTotal = (state: State) => state.assignedEmploye
 export const getSelectedCompanyEmployeeIds = (state: State) => state.selectedCompanyEmployeeIds;
 export const getSelectedCompanyEmployeeIdCount = (state: State) => state.selectedCompanyEmployeeIds?.length;
 export const getOpenActionMenuEmployee = (state: State) => state.openActionMenuEmployee;
+export const getSelectAllState = (state: State) => state.selectAllStatus;

@@ -15,6 +15,7 @@ export const OPEN_ACTION_MENU = '[Total Rewards/Assigned Employees Grid] Open Ac
 export const CLOSE_ACTION_MENU = '[Total Rewards/Assigned Employees Grid] Close Action Menu';
 
 export const CLEAR_SELECTIONS = '[Total Rewards/Assigned Employees Grid] Clear Selections';
+export const SELECT_ALL = '[Total Rewards/Assigned Employees Grid] Select All';
 
 export class Reset implements Action {
   readonly type = RESET;
@@ -53,6 +54,10 @@ export class ClearSelections implements Action {
   readonly type = CLEAR_SELECTIONS;
 }
 
+export class SelectAll implements Action {
+  readonly type = SELECT_ALL;
+}
+
 export type AssignedEmployeesGridActions =
   Reset |
   LoadAssignedEmployees |
@@ -61,4 +66,5 @@ export type AssignedEmployeesGridActions =
   ToggleEmployeeSelection |
   OpenActionMenu |
   CloseActionMenu |
-  ClearSelections;
+  ClearSelections |
+  SelectAll;

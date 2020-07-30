@@ -7,7 +7,7 @@ import { State } from '@progress/kendo-data-query';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { CompanyEmployee } from 'libs/models/company';
-import { GridTypeEnum } from 'libs/models/common';
+import { GridTypeEnum, SelectAllStatus } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromAssignedEmployeesGridReducer from '../../reducers';
@@ -30,8 +30,11 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
   assignedEmployeesTotal$: Observable<number>;
   selectedCompanyEmployeeIds$: Observable<number[]>;
   openActionMenuEmployee$: Observable<CompanyEmployee>;
+  selectAllState$: Observable<string>;
 
   selectedCompanyEmployeeIds: number[];
+  selectAllStatus = SelectAllStatus;
+
   selectedCompanyEmployeeIdsSubscription = new Subscription();
 
   constructor(private store: Store<fromAssignedEmployeesGridReducer.State>) { }
@@ -43,7 +46,7 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     this.assignedEmployeesTotal$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesTotal));
     this.openActionMenuEmployee$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getOpenActionMenuEmployee));
     this.selectedCompanyEmployeeIds$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
-
+    this.selectAllState$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getSelectAllState));
     this.selectedCompanyEmployeeIdsSubscription = this.selectedCompanyEmployeeIds$.subscribe(ids => this.selectedCompanyEmployeeIds = ids);
   }
 
@@ -86,4 +89,7 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromAssignedEmployeesPageActions.OpenSingleEmployeeUnassignModal());
   }
 
+  onSelectAllChange() {
+    this.store.dispatch(new fromAssignedEmployeesGridActions.SelectAll());
+  }
 }
