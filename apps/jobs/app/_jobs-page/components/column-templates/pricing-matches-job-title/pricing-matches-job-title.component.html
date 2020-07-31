@@ -18,7 +18,7 @@
       [jobTitleClass]="'pf-brand-secondary-color'">
     </pf-job-title-code>
   </div>
-  <div *ngIf="!pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name">
+  <div class="notes-link-container" *ngIf="!pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name">
     <em>
       <small>
         <a class="add-notes-link" (click)="openAddNotesModal()">Notes ({{dataRow.CompanyJobs_PricingsMatches_MatchNotesCount}})</a>

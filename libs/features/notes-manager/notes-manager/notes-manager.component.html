@@ -12,7 +12,7 @@
   [primaryButtonText]="'Save'"
   [primaryButtonTextSubmitting]="'Saving'"
   [allowDismiss]="!(loading$ | async)"
-  [secondaryButtonText]="'Close'"
+  [secondaryButtonText]="notesManagerConfiguration?.EnableAdd ? 'Cancel' : 'Close'"
   (onSubmit)="addNote()"
   (onDismiss)="onCancelChanges()">
 
@@ -22,18 +22,22 @@
         <ng-container [ngTemplateOutlet]="notesManagerConfiguration?.NotesHeader"></ng-container>
       </div>
       <hr>
-      <div *ngIf="notesManagerConfiguration?.EnableAdd" class="add-note-text-container p-2">
-        <textarea
-          class="note-text-area form-control"
-          [attr.data-qa-id]="'txt-add-notes'"
-          [placeholder]="notesManagerConfiguration?.PlaceholderText"
-          [(ngModel)]="noteText"
-          [pfFocus]="true"
-          [pfFocusElementShowing]="notesManagerConfiguration?.ShowModal$ | async"
-          [attr.rows]="5"
-        >
-        </textarea>
-      </div>
+      <form id="notes-manager-form" *ngIf="notesManagerConfiguration?.EnableAdd" [formGroup]="noteForm">
+        <div class="add-note-text-container p-2">
+          <textarea
+            class="note-text-area form-control"
+            formControlName="Notes"
+            [ngClass]="{ 'is-invalid': !f.Notes.valid && f.Notes.touched }"
+            [attr.data-qa-id]="'txt-add-notes'"
+            [placeholder]="notesManagerConfiguration?.PlaceholderText"
+            [pfFocus]="true"
+            [pfFocusElementShowing]="notesManagerConfiguration?.ShowModal$ | async"
+            [attr.rows]="5"
+          >
+          </textarea>
+          <span *ngIf="f.Notes.errors?.required" class="invalid-feedback">Please enter a note</span>
+        </div>
+      </form>
       <div class="note-list-container p-2">
         <div *ngFor="let note of (notes$ | async)?.obj" class="d-flex">
           <div>

@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
@@ -9,6 +10,7 @@ import { environment } from 'environments/environment';
 import { AsyncStateObj } from 'libs/models';
 import { Images } from 'libs/constants';
 import { NotesBase, NotesManagerConfiguration } from 'libs/models/notes';
+import { PfValidators } from 'libs/forms/validators';
 
 import * as fromNotesManagerReducer from '../reducers';
 import * as fromNotesManagerActions from '../actions';
@@ -28,12 +30,18 @@ export class NotesManagerComponent implements OnChanges {
 
   avatarUrl = environment.avatarSource;
   defaultUserImage = Images.DEFAULT_USER;
-  noteText = undefined;
 
-  constructor(private store: Store<fromNotesManagerReducer.State>) {
+  noteForm: FormGroup;
+  get f() { return this.noteForm.controls; }
+
+  constructor(private store: Store<fromNotesManagerReducer.State>, private formBuilder: FormBuilder) {
     this.loading$ = this.store.select(fromNotesManagerReducer.getLoading);
     this.notes$ = this.store.select(fromNotesManagerReducer.getNotes);
     this.addingNote$ = this.store.select(fromNotesManagerReducer.getAddingNote);
+
+    this.noteForm = this.formBuilder.group({
+      Notes: ['', PfValidators.required]
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -46,17 +54,19 @@ export class NotesManagerComponent implements OnChanges {
   }
 
   onCancelChanges() {
-    this.noteText = undefined;
+    this.noteForm.reset();
     this.store.dispatch(new fromNotesManagerActions.ResetState());
     this.cancelChanges.emit();
   }
 
   addNote() {
-    this.store.dispatch(new fromNotesManagerActions.AddNote({
-      Entity: this.notesManagerConfiguration.Entity,
-      EntityId: this.notesManagerConfiguration.EntityId,
-      Notes: this.noteText
-    }));
+    if (this.noteForm.valid) {
+      this.store.dispatch(new fromNotesManagerActions.AddNote({
+        Entity: this.notesManagerConfiguration.Entity,
+        EntityId: this.notesManagerConfiguration.EntityId,
+        Notes: this.f.Notes.value
+      }));
+    }
   }
 
 }
