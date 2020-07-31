@@ -1,18 +1,19 @@
 <div class="fixed-bottom center text-right p-2">
   <div class="d-flex align-items-center justify-content-end">
-    <a 
-      *ngIf="secondaryButtonText" 
+    <a
+      *ngIf="secondaryButtonText"
       class="secondary mr-3"
       href="javascript:void(0)"
       (click)="onSecondaryButtonClick()">
       <fa-icon class="back-icon mr-1" icon="chevron-left"></fa-icon>{{ secondaryButtonText }}
     </a>
-    <button 
+    <button
       class="btn btn-trs btn-trs-primary px-3 mr-2"
       [disabled]="!primaryButtonEnabled"
       [title]="primaryButtonToolTip"
       (click)="onPrimaryButtonClick()">
       {{ primaryButtonText }}
+      <span *ngIf="selectedCompanyEmployeeCount > 0">({{selectedCompanyEmployeeCount}})</span>
     </button>
   </div>
 </div>

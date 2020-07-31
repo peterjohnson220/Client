@@ -9,7 +9,7 @@
         <div class="d-flex grid-actions-container">
           <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length === 0" (click)="handleClearSelectionsClick()">
             <fa-icon [icon]="['far', 'times']"></fa-icon>
-            Clear Selections
+            Clear Selections <span *ngIf="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length > 0">({{(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length}})</span>
           </button>
           <div class="vertical-separator mr-3"></div>
           <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length === 0" (click)="handleOpenUnassignModalClick()">
@@ -50,6 +50,7 @@
         [primaryButtonEnabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length"
         [primaryButtonToolTip]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length ? '' : 'Select employees to generate statements'"
         [secondaryButtonText]="'Back to Canvas'"
+        [selectedCompanyEmployeeCount]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length"
         (primaryButtonClick)="handleOpenGenerateStatementModalClick()"
         (secondaryButtonClick)="handleBackToCanvasClick()"
       ></pf-footer-bar>
