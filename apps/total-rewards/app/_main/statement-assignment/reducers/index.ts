@@ -211,3 +211,8 @@ export const getSelectAllState = createSelector(
   getAssignedEmployeesFeatureState,
   fromAssignedEmployeesGridReducer.getSelectAllState
 );
+
+export const getEmployeeSearchTerm = createSelector(
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getEmployeeSearchTerm
+);

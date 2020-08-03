@@ -1,6 +1,13 @@
 <pf-page-with-title-bar [returnUrl]="'/statement/edit/' + (statement$ | async)?.StatementId">
   <ng-container page-title>{{ (statement$ | async)?.StatementName }}: Assigned Employees</ng-container>
   <ng-container page-actions>
+    <pf-input-debounce class="mr-2" [style.width.px]="300"
+                       [value]="(employeeSearchTerm$ | async)"
+                       [disabled]="(!(assignedEmployeesTotal$ | async) && !(employeeSearchTerm$ | async))"
+                       [placeholderText]="'Search for an employee by Name or ID'"
+                       [automationClassName]="'au-tb-assigned-employee-search'"
+                       (valueChanged)="onSearchTermChange($event)">
+    </pf-input-debounce>
     <button type="button" class="btn btn-primary open-assign-modal" (click)="openAssignModal()">Assign Employees</button>
   </ng-container>
   <ng-container page-content>

@@ -50,6 +50,8 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   assignedEmployeesTotal$: Observable<number>;
   assignedEmployeesListAreaColumns$: Observable<any[]>;
 
+  employeeSearchTerm$: Observable<string>;
+
   statement: Statement;
   assignedEmployeesGridState = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState;
 
@@ -83,6 +85,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   ngOnInit(): void {
     // observables
     this.statement$ = this.store.pipe(select(fromPageReducer.getStatement));
+    this.employeeSearchTerm$ = this.store.pipe(select(fromPageReducer.getEmployeeSearchTerm));
 
     // Generate Modal
     this.isGenerateStatementModalOpen$ = this.store.pipe(select(fromPageReducer.getIsGenerateStatementModalOpen));
@@ -127,7 +130,6 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
         this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
         this.assignedEmployeesGridState.skip = 0;
         this.assignedEmployeesGridState.take = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState.take;
-        this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
       }
     });
 
@@ -229,5 +231,9 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
 
   handleBackToCanvasClick() {
     this.router.navigate(['/statement/edit/' + this.statement.StatementId]);
+  }
+
+  onSearchTermChange(searchTerm: string) {
+    this.store.dispatch(new fromAssignedEmployeesGridActions.UpdateEmployeeSearchTerm({ searchTerm, gridState: this.assignedEmployeesGridState }));
   }
 }
