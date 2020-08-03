@@ -27,7 +27,7 @@
           <textarea
             class="note-text-area form-control"
             formControlName="Notes"
-            [ngClass]="{ 'is-invalid': !f.Notes.valid && f.Notes.touched }"
+            [ngClass]="{ 'is-invalid': !f.Notes.valid && formSubmitted }"
             [attr.data-qa-id]="'txt-add-notes'"
             [placeholder]="notesManagerConfiguration?.PlaceholderText"
             [pfFocus]="true"
