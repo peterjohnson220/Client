@@ -31,6 +31,7 @@ export class NotesManagerComponent implements OnChanges {
   avatarUrl = environment.avatarSource;
   defaultUserImage = Images.DEFAULT_USER;
 
+  formSubmitted = false;
   noteForm: FormGroup;
   get f() { return this.noteForm.controls; }
 
@@ -46,6 +47,7 @@ export class NotesManagerComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['notesManagerConfiguration'] && changes['notesManagerConfiguration'].currentValue['EntityId']) {
+      this.resetForm();
       this.store.dispatch(new fromNotesManagerActions.GetNotes({
         Entity: changes['notesManagerConfiguration'].currentValue['Entity'],
         EntityId: changes['notesManagerConfiguration'].currentValue['EntityId']
@@ -54,12 +56,13 @@ export class NotesManagerComponent implements OnChanges {
   }
 
   onCancelChanges() {
-    this.noteForm.reset();
+    this.resetForm();
     this.store.dispatch(new fromNotesManagerActions.ResetState());
     this.cancelChanges.emit();
   }
 
   addNote() {
+    this.formSubmitted = true;
     if (this.noteForm.valid) {
       this.store.dispatch(new fromNotesManagerActions.AddNote({
         Entity: this.notesManagerConfiguration.Entity,
@@ -67,6 +70,11 @@ export class NotesManagerComponent implements OnChanges {
         Notes: this.f.Notes.value
       }));
     }
+  }
+
+  resetForm() {
+    this.noteForm.reset();
+    this.formSubmitted = false;
   }
 
 }
