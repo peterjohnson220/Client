@@ -575,14 +575,11 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       filter(setting => setting === false)
     ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
 
-    this.controlTypesAsync$.pipe(
-      filter(cts => !!cts && !!cts.obj),
-      take(1)
-    ).subscribe(ct => {
-      if (!ct.obj.length) {
-        this.jobDescriptionManagementService.getControlTypes();
-      }
-    });
+    if (this.inHistory) {
+      this.jobDescriptionManagementService.getHistoricalControlTypes();
+    } else {
+      this.jobDescriptionManagementService.getControlTypes();
+    }
     this.controlTypesSubscription = this.controlTypesAsync$.subscribe(value => this.controlTypes = value.obj);
 
     this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,

@@ -21,6 +21,16 @@ export class ControlTypesEffects {
     })
   );
 
+  @Effect()
+  loadHistoricalControlTypes$: Observable<Action> = this.actions$.pipe(
+    ofType(fromControlTypeActions.LOAD_HISTORICAL_CONTROL_TYPES),
+    switchMap(() => {
+      return this.jobDescriptionManagementApiService.getHistoricalControls().pipe(
+        map((response: any) => new fromControlTypeActions.LoadHistoricalControlTypesSuccess(response))
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private jobDescriptionManagementApiService: JobDescriptionManagementApiService

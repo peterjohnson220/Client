@@ -54,6 +54,10 @@ export class JobDescriptionManagementApiService {
     return this.payfactorsApiService.get(`${this.endpoint}.GetAvailableControls`, {}, (response) => JSON.parse(response.value));
   }
 
+  getHistoricalControls(): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}.GetHistoricalControls`, {}, (response) => JSON.parse(response.value));
+  }
+
   getLibrarySearchResultsByBucket(searchRequest: LibrarySearchRequest): Observable<JobDescriptionLibraryBucket[]> {
     return this.payfactorsApiService.get(`${this.endpoint}.GetLibrarySearchResultsByBucket`, {
       params: {
