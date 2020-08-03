@@ -21,7 +21,8 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
     @ViewChild('exchangeList', { static: true }) exchangeList: ComboBoxComponent;
 
     exchangeOptionsFiltered: GenericKeyValue<number, string>[];
-    activeExchange: number;
+    selectedExchangeId: number;
+    defaultExchangeId: number;
     exchangeForm: FormGroup;
     allData: GenericKeyValue<number, string>[];
 
@@ -61,18 +62,26 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
                 this.exchangeForm.get('exchangeSelection').setValue(data[0].Key);
                 this.onExchangeSelected.emit(data[0].Key);
               }
+              else {
+                this.applyDefaultExchange();
+              }
             }
         });
 
         this.activeExchangeSubscription = this.activeExchange$.subscribe(exchangeId => {
             if(exchangeId) {
-                this.activeExchange = exchangeId;
-                if(this.allData?.find(ex => ex.Key == this.activeExchange)) {
-                    this.exchangeForm.get('exchangeSelection').setValue(this.activeExchange);
-                    this.onExchangeSelected.emit(this.activeExchange);
-                }
+                this.defaultExchangeId = exchangeId;
+                this.applyDefaultExchange();
             }
         })
+    }
+
+    applyDefaultExchange(): void {
+      if(!this.selectedExchangeId && this.allData?.find(ex => ex.Key == this.defaultExchangeId)) {
+        this.selectedExchangeId = this.defaultExchangeId;
+        this.exchangeForm.get('exchangeSelection').setValue(this.selectedExchangeId);
+        this.onExchangeSelected.emit(this.selectedExchangeId);
+      }
     }
 
     ngOnDestroy(): void {
