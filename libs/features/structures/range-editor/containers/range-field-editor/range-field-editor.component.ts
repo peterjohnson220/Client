@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, TemplateRef, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -59,6 +59,7 @@ export class RangeFieldEditorComponent implements OnChanges {
   @Input() rowIndex: number;
   @Input() fieldName: string;
   @Input() isMid: boolean;
+  @ViewChild('rangeField') public rangeFieldElement: ElementRef;
 
   canEditCurrentStructureRanges: boolean;
   value: number;
@@ -101,11 +102,13 @@ export class RangeFieldEditorComponent implements OnChanges {
   handleFocus() {
     this.focused = true;
     this.value = this.fieldValue;
+    this.rangeFieldElement['placeholder'] = '';
   }
 
   handleBlur() {
     this.focused = false;
     this.value = this.formatNumber(this.value);
+    this.rangeFieldElement['placeholder'] = '--';
   }
 
   handleValueChange(event: any, index: number) {
@@ -136,6 +139,9 @@ export class RangeFieldEditorComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes.fieldValue && !!changes.fieldValue.currentValue) {
       this.value = this.formatNumber(changes.fieldValue.currentValue);
+    }
+    if (!!changes.dataRow && changes.dataRow.currentValue !== changes.dataRow.previousValue) {
+      this.value = this.fieldValue;
     }
   }
 

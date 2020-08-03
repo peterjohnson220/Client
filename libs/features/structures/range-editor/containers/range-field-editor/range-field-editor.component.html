@@ -1,17 +1,19 @@
 <kendo-numerictextbox  *ngIf="editable"
-                       class="form-control"
-                       [ngClass]="textAlign"
-                       [value]="value"
-                       [spinners]="false"
-                       [format]="format"
-                       [decimals]="decimals"
-                       (change)="handleValueChange($event, rowIndex)"
-                       (blur)="handleBlur()"
-                       (focus)="handleFocus()"
-                       [min]="1"
-                       [step]="0"
-                       [max]="999999999999999"
-                       [autoCorrect]="true">
+                     class="form-control"
+                     #rangeField
+                     [ngClass]="textAlign"
+                     [value]="value"
+                     [spinners]="false"
+                     [format]="format"
+                     [decimals]="decimals"
+                     (change)="handleValueChange($event, rowIndex)"
+                     (blur)="handleBlur()"
+                     (focus)="handleFocus()"
+                     placeholder="--"
+                     [min]="1"
+                     [step]="0"
+                     [max]="999999999999999"
+                     [autoCorrect]="true">
 </kendo-numerictextbox>
 
 <ng-container
