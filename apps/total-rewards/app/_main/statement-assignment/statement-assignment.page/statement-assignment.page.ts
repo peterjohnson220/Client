@@ -57,9 +57,9 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
 
   statementSubscription$ = new Subscription();
   routeParamSubscription$ = new Subscription();
-  queryParamSubscription$ = new Subscription();
   filterChangeSubscription = new Subscription();
   unassignEmployeesSuccessSubscription = new Subscription();
+  assignedEmployeesTotalSubscription = new Subscription();
 
   filterChangeSubject = new Subject<FilterDescriptor[]>();
 
@@ -141,17 +141,21 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   }
 
   ngAfterViewInit(): void {
-    this.queryParamSubscription$ = this.route.queryParams.subscribe( queryParams => {
-      if (queryParams['openModal'] && (queryParams['openModal'] === '1')) {
-        this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
-      }
-    });
+    setTimeout(() => {
+      this.assignedEmployeesTotalSubscription = this.assignedEmployeesTotal$.subscribe(count => {
+        if (count === 0) {
+          this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
+        } else {
+          this.store.dispatch(new fromAssignmentsModalActions.CloseModal());
+        }
+      });
+    }, 0);
   }
 
   ngOnDestroy(): void {
     this.statementSubscription$.unsubscribe();
+    this.assignedEmployeesTotalSubscription.unsubscribe();
     this.routeParamSubscription$.unsubscribe();
-    this.queryParamSubscription$.unsubscribe();
     this.store.dispatch(new fromPageActions.ResetState());
   }
 

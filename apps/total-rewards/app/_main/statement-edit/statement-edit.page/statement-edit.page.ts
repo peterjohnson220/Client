@@ -117,7 +117,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   // FOOTER METHODS
   handleAssignEmployeesClick() {
-    this.router.navigate(['statement/edit/' + this.statementId + '/assignments'], { queryParams: { openModal: 1 } } ).then();
+    this.router.navigate(['statement/edit/' + this.statementId + '/assignments']).then();
   }
 
   handleBackToStatementsClick() {
