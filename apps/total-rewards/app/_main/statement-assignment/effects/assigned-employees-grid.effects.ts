@@ -20,16 +20,36 @@ export class AssignedEmployeesGridEffects {
     ofType(fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES),
     withLatestFrom(
       this.store.select(fromTotalRewardsReducer.getStatement),
-      (action: fromAssignedEmployeesGridActions.LoadAssignedEmployees, statement) => ({ payload: action.payload, statementId: statement.StatementId })
+      this.store.select(fromTotalRewardsReducer.getEmployeeSearchTerm),
+      (action: fromAssignedEmployeesGridActions.LoadAssignedEmployees, statement, employeeSearchTerm) =>
+        ({ payload: action.payload, statementId: statement.StatementId, employeeSearchTerm })
     ),
-    map(data => ({ statementId: data.statementId, gridListState: data.payload || TotalRewardsAssignmentService.defaultAssignedEmployeesGridState })),
-    switchMap(combined =>
-      this.totalRewardsSearchApi.getAssignedEmployees({ StatementId: combined.statementId, GridListState: combined.gridListState }).pipe(
+    map(data => ({
+      statementId: data.statementId,
+      gridListState: data.payload || TotalRewardsAssignmentService.defaultAssignedEmployeesGridState,
+      employeeSearchTerm: data.employeeSearchTerm
+    })),
+    switchMap(combined => {
+      const request = {
+        StatementId: combined.statementId,
+        EmployeeSearchTerm: combined.employeeSearchTerm,
+        GridListState: combined.gridListState
+      };
+      return this.totalRewardsSearchApi.getAssignedEmployees(request).pipe(
         map((response: GridDataResult) => new fromAssignedEmployeesGridActions.LoadAssignedEmployeesSuccess(response)),
         catchError(() => of(new fromAssignedEmployeesGridActions.LoadAssignedEmployeesError()))
-      )
-    )
+      );
+    })
   );
+
+  @Effect()
+  updateEmployeeSearchTerm$ = this.actions$
+    .pipe(
+      ofType(fromAssignedEmployeesGridActions.UPDATE_EMPLOYEE_SEARCH_TERM),
+      map((action: fromAssignedEmployeesGridActions.UpdateEmployeeSearchTerm) => {
+        return new fromAssignedEmployeesGridActions.LoadAssignedEmployees(action.payload.gridState);
+      })
+    );
 
   constructor(
     private actions$: Actions,

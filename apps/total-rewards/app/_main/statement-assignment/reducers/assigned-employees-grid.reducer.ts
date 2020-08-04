@@ -14,6 +14,7 @@ export interface State extends EntityState<CompanyEmployee> {
   selectedCompanyEmployeeIds: number[];
   openActionMenuEmployee: CompanyEmployee;
   selectAllStatus: string;
+  employeeSearchTerm: string;
 }
 
 export const adapter: EntityAdapter<CompanyEmployee> = createEntityAdapter<CompanyEmployee>({
@@ -26,7 +27,8 @@ const initialState: State = adapter.getInitialState({
   assignedEmployeesTotal: 0,
   selectedCompanyEmployeeIds: [],
   openActionMenuEmployee: null,
-  selectAllStatus: 'unchecked'
+  selectAllStatus: 'unchecked',
+  employeeSearchTerm: null
 });
 
 export function reducer(state, action) {
@@ -136,6 +138,12 @@ export function reducer(state, action) {
             selectedCompanyEmployeeIds: newSelectedCompanyEmployeeIds
           };
         }
+        case fromAssignedEmployeesGridActions.UPDATE_EMPLOYEE_SEARCH_TERM: {
+          return {
+            ...featureState,
+            employeeSearchTerm: featureAction.payload.searchTerm
+          };
+        }
         default: {
           return featureState;
         }
@@ -153,3 +161,4 @@ export const getSelectedCompanyEmployeeIds = (state: State) => state.selectedCom
 export const getSelectedCompanyEmployeeIdCount = (state: State) => state.selectedCompanyEmployeeIds?.length;
 export const getOpenActionMenuEmployee = (state: State) => state.openActionMenuEmployee;
 export const getSelectAllState = (state: State) => state.selectAllStatus;
+export const getEmployeeSearchTerm = (state: State) => state.employeeSearchTerm;
