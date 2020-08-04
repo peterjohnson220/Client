@@ -3,7 +3,6 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ViewChild } 
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { DataStateChangeEvent } from '@progress/kendo-angular-grid';
-import { State } from '@progress/kendo-data-query';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { CompanyEmployee } from 'libs/models/company';
@@ -36,6 +35,7 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
   selectAllStatus = SelectAllStatus;
 
   selectedCompanyEmployeeIdsSubscription = new Subscription();
+  pageSizes = [20, 50, 100, 250];
 
   constructor(private store: Store<fromAssignedEmployeesGridReducer.State>) { }
 

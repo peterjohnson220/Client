@@ -64,6 +64,7 @@
           <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
           <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
           <kendo-pager-next-buttons></kendo-pager-next-buttons>
+          <kendo-pager-page-sizes [pageSizes]="pageSizes"></kendo-pager-page-sizes>
           <label class="ml-auto mr-2 mt-2">
             {{ (assignedEmployeesTotal$ | async) | number }} Assigned Employee{{ (assignedEmployeesTotal$ | async) != 1 ? 's' : '' }}
           </label>
