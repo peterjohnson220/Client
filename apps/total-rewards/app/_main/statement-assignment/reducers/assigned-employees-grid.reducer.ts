@@ -24,7 +24,7 @@ export const adapter: EntityAdapter<CompanyEmployee> = createEntityAdapter<Compa
 const initialState: State = adapter.getInitialState({
   assignedEmployeesLoading: false,
   assignedEmployeesLoadingError: false,
-  assignedEmployeesTotal: 0,
+  assignedEmployeesTotal: null,
   selectedCompanyEmployeeIds: [],
   openActionMenuEmployee: null,
   selectAllStatus: 'unchecked',
