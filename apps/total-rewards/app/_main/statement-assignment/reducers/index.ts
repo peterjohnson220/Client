@@ -206,6 +206,12 @@ export const getAssignedEmployeesSelectedCompanyEmployeeIdCount = createSelector
   fromAssignedEmployeesGridReducer.getSelectedCompanyEmployeeIdCount
 );
 
+export const getAssignedEmployeesTotalOrSelectedCount = createSelector(
+  getAssignedEmployeesTotal,
+  getAssignedEmployeesSelectedCompanyEmployeeIdCount,
+  (total, selected) => selected || total
+);
+
 export const getOpenActionMenuEmployee = createSelector(
   getAssignedEmployeesFeatureState,
   fromAssignedEmployeesGridReducer.getOpenActionMenuEmployee
