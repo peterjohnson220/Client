@@ -11,6 +11,7 @@ import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
+import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
@@ -70,6 +71,10 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   // Events
   handleModelSettingsBtnClicked() {
     this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+  }
+
+  handleDuplicateModelBtnClicked() {
+    this.store.dispatch(new fromDuplicateModelModalActions.OpenModal());
   }
 
   // Lifecycle

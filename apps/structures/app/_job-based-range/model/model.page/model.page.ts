@@ -40,6 +40,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   pageViewId: string;
   pageViewIdSubscription: Subscription;
+  _Permissions = null;
 
   constructor(
     private store: Store<any>,
@@ -68,6 +69,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       PermissionCheckEnum.Single);
 
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
+    this._Permissions = Permissions;
   }
 
   // Events
