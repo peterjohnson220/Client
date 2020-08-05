@@ -1,0 +1,12 @@
+:host::ng-deep ngb-popover-window::ng-deep .arrow{
+  display: none !important;
+}
+
+.popover-body-container {
+  padding: 0.5rem 0.75rem;
+  width: 115px;
+
+  span {
+    cursor: pointer;
+  }
+}

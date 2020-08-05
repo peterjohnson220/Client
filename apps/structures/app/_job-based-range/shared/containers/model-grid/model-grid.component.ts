@@ -28,6 +28,7 @@ import { PageViewIds } from '../../constants/page-view-ids';
 import { RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
+import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
@@ -192,6 +193,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   removeRange() {
     this.store.dispatch(new fromSharedJobBasedRangeActions.RemovingRange({ StructuresRangeId: this.rangeIdToRemove, IsCurrent: this.metaData.IsCurrent }));
+  }
+
+  handleDuplicateModelClicked() {
+    this.store.dispatch(new fromDuplicateModelModalActions.OpenModal());
   }
 
   // Lifecycle

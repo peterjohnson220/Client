@@ -1,8 +1,7 @@
-import { RecalcAndSaveRangeMinMaxRequest, SaveModelSettingsRequest, StructureRangeGroupResponse, RoundRangesRequest,
-  RecalculateRangesWithoutMidRequest } from 'libs/models/payfactors-api/structures';
+import { SaveModelSettingsRequest, StructureRangeGroupResponse, RoundRangesRequest, RecalculateRangesWithoutMidRequest } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
-import { RoundingSettingsDataObj, RoundingSetting } from 'libs/models/structures';
+import { RoundingSettingsDataObj } from 'libs/models/structures';
 
 import { ControlPoint, Currency, RangeGroupMetadata } from '../models';
 
@@ -94,7 +93,6 @@ export class PayfactorsApiModelMapper {
       SecondQuintile: roundingSettings['secondQuintile'],
       ThirdQuintile: roundingSettings['thirdQuintile'],
       FourthQuintile: roundingSettings['fourthQuintile']
-    
     };
   }
 

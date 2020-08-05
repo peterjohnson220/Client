@@ -12,7 +12,9 @@ import {
   AddJobRangesRequest,
   JobSearchRequestStructuresRangeGroup,
   RemoveRangeRequest,
-  OverrideAndSaveRangeFieldRequest
+  OverrideAndSaveRangeFieldRequest,
+  DuplicateModelResponse,
+  DuplicateModelRequest
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange } from 'libs/models/structures';
 
@@ -32,7 +34,7 @@ export class StructureModelingApiService {
   }
 
   saveModelSettings(request: SaveModelSettingsRequest): Observable<SaveModelSettingsResponse> {
-    return this.payfactorsApiService.post<SaveModelSettingsResponse>(`${this.endpoint}/SaveModelSettings`, request );
+    return this.payfactorsApiService.post<SaveModelSettingsResponse>(`${this.endpoint}/SaveModelSettings`, request);
   }
 
   recalculateRangeMinMax(request: RecalcAndSaveRangeMinMaxRequest): Observable<RecalcAndSaveRangeMinMaxResponse> {
@@ -63,5 +65,9 @@ export class StructureModelingApiService {
     return this.payfactorsApiService.get<number[]>(`${this.endpoint}/GetOverriddenRangeIds`, {
       params: { rangeGroupId }
     });
+  }
+
+  duplicateModel(request: DuplicateModelRequest): Observable<DuplicateModelResponse> {
+    return this.payfactorsApiService.post<DuplicateModelResponse>(`${this.endpoint}/DuplicateModel`, request);
   }
 }

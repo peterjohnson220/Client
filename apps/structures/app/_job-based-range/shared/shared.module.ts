@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
-import { NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabsetModule, NgbTooltipModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AutoCompleteModule, ComboBoxModule, DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
@@ -16,8 +16,8 @@ import { RangeEditorModule } from 'libs/features/structures';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
-import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent, RangeDistributionSettingComponent } from './containers';
-import { ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects } from './effects';
+import { ModelGridComponent, ModelSettingsModalComponent, RangeRoundingComponent, RangeDistributionSettingComponent, DuplicateModelModalComponent } from './containers';
+import { ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects } from './effects';
 import { RangeValuePipe } from './pipes';
 import { reducers } from './reducers';
 import { StructuresPagesService, UrlService } from './services';
@@ -31,12 +31,13 @@ import * as fromFaIcons from './fa-icons';
 
     // 3rd Party
     StoreModule.forFeature('structures_jobBasedRange_shared', reducers),
-    EffectsModule.forFeature([ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects]),
+    EffectsModule.forFeature([ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects]),
     FontAwesomeModule,
     NgbTabsetModule,
     AutoCompleteModule,
     ComboBoxModule,
     NgbTooltipModule,
+    NgbPopoverModule,
 
     // Payfactors
     PfDataGridModule,
@@ -55,7 +56,8 @@ import * as fromFaIcons from './fa-icons';
     ModelSettingsBtnComponent,
     RangeValuePipe,
     GlobalActionsComponent,
-    RangeDistributionSettingComponent
+    RangeDistributionSettingComponent,
+    DuplicateModelModalComponent
   ],
   exports: [
     ModelGridComponent,
@@ -63,7 +65,8 @@ import * as fromFaIcons from './fa-icons';
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,
     FontAwesomeModule,
-    RangeValuePipe
+    RangeValuePipe,
+    DuplicateModelModalComponent
   ],
   providers: [
     UrlService,
