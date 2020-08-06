@@ -114,6 +114,16 @@ export const getSendingUnassignRequestError = createSelector(
   fromPageReducer.getUnassignEmployeesError
 );
 
+export const getIsExportingAssignedEmployees = createSelector(
+  selectPageState,
+  fromPageReducer.getIsExporting
+);
+
+export const getExportEventAsync = createSelector(
+  selectPageState,
+  fromPageReducer.getExportEventAsync
+);
+
 // Assignments Modal Selectors
 export const getIsAssignmentsModalOpen = createSelector(
   selectAssignmentsModalState,
@@ -216,3 +226,5 @@ export const getEmployeeSearchTerm = createSelector(
   getAssignedEmployeesFeatureState,
   fromAssignedEmployeesGridReducer.getEmployeeSearchTerm
 );
+
+

@@ -21,6 +21,8 @@ export interface State {
   UnassignEmployeesSuccess: boolean;
   UnassignEmployeesError: boolean;
   generateStatementEventId: string;
+  isExporting: boolean;
+  exportEventId: AsyncStateObj<string>;
 }
 
 export const initialState: State = {
@@ -36,7 +38,9 @@ export const initialState: State = {
   UnassignEmployees: false,
   UnassignEmployeesSuccess: false,
   UnassignEmployeesError: false,
-  generateStatementEventId: null
+  generateStatementEventId: null,
+  isExporting: false,
+  exportEventId: generateDefaultAsyncStateObj<string>(null),
 };
 
 export function reducer(state = initialState, action: fromActions.StatementAssignmentPageActions): State {
@@ -169,6 +173,61 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
         UnassignEmployeesError: true
       };
     }
+    case fromActions.START_EXPORT_ASSIGNED_EMPLOYEES: {
+      return {
+        ...state,
+        isExporting: true
+      };
+    }
+    case fromActions.START_EXPORT_ASSIGNED_EMPLOYEES_SUCCESS: {
+      const asyncClone = cloneDeep(state.exportEventId);
+      asyncClone.obj = action.payload;
+      return {
+        ...state,
+        exportEventId: asyncClone
+      };
+    }
+    case fromActions.START_EXPORT_ASSIGNED_EMPLOYEES_ERROR: {
+      return {
+        ...state,
+        isExporting: false
+      };
+    }
+    case fromActions.EXPORT_ASSIGNED_EMPLOYEES_COMPLETE: {
+      const asyncClone = cloneDeep(state.exportEventId);
+      asyncClone.obj = null;
+      return {
+        ...state,
+        isExporting: false,
+        exportEventId: asyncClone
+      };
+    }
+    case fromActions.GET_EXPORTING_ASSIGNED_EMPLOYEES: {
+      const asyncClone = cloneDeep(state.exportEventId);
+      asyncClone.loading = true;
+      return {
+        ...state,
+        exportEventId: asyncClone
+      };
+    }
+    case fromActions.GET_EXPORTING_ASSIGNED_EMPLOYEES_SUCCESS: {
+      const asyncClone = cloneDeep(state.exportEventId);
+      asyncClone.loading = false;
+      asyncClone.obj = action.payload;
+      return {
+        ...state,
+        exportEventId: asyncClone,
+        isExporting: action.payload?.length > 0
+      };
+    }
+    case fromActions.GET_EXPORTING_ASSIGNED_EMPLOYEES_ERROR: {
+      const asyncClone = cloneDeep(state.exportEventId);
+      asyncClone.loading = false;
+      return {
+        ...state,
+        exportEventId: asyncClone
+      };
+    }
     default: {
       return state;
     }
@@ -195,3 +254,5 @@ export const getIsSingleEmployeeAction = (state: State) => state.isSingleEmploye
 export const getUnassignEmployees = (state: State) => state.UnassignEmployees;
 export const getUnassignEmployeesSuccess = (state: State) => state.UnassignEmployeesSuccess;
 export const getUnassignEmployeesError = (state: State) => state.UnassignEmployeesError;
+export const getIsExporting = (state: State) => state.isExporting;
+export const getExportEventAsync = (state: State) => state.exportEventId;
