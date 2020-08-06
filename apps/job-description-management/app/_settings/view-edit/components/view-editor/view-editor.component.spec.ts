@@ -16,6 +16,7 @@ describe('Job Description Management - Settings - View Editor', () => {
 
     fixture = TestBed.createComponent(ViewEditorComponent);
     instance = fixture.componentInstance;
+    instance.templateViewCopy = generateMockJobDescriptionView();
   });
 
   it('should stop emit a add hidden element id event with a toggle obj, when handling a control click, and the control is not hidden', () => {
@@ -25,9 +26,10 @@ describe('Job Description Management - Settings - View Editor', () => {
     const expectedToggleObj = {
       ViewName: mockJobDescriptionView.Name,
       TemplateId: mockJobDescriptionView.TemplateId,
-      ControlId: controlId
+      ElementId: controlId
     };
     instance.templateView = mockJobDescriptionView;
+    instance.templateViewCopy = mockJobDescriptionView;
 
     instance.handleControlClicked(controlId);
 
@@ -41,9 +43,10 @@ describe('Job Description Management - Settings - View Editor', () => {
     const expectedToggleObj = {
       ViewName: mockJobDescriptionView.Name,
       TemplateId: mockJobDescriptionView.TemplateId,
-      ControlId: controlId
+      ElementId: controlId
     };
     instance.templateView = mockJobDescriptionView;
+    instance.templateViewCopy = mockJobDescriptionView;
 
     instance.handleControlClicked(controlId);
 
@@ -54,6 +57,7 @@ describe('Job Description Management - Settings - View Editor', () => {
     const controlId = 123;
     const mockJobDescriptionView = {...generateMockJobDescriptionView(), HiddenElementIds: [controlId]};
     instance.templateView = mockJobDescriptionView;
+    instance.templateViewCopy = mockJobDescriptionView;
 
     const result = instance.isHiddenControl(controlId);
 
@@ -64,6 +68,7 @@ describe('Job Description Management - Settings - View Editor', () => {
     const controlId = 123;
     const mockJobDescriptionView = {...generateMockJobDescriptionView(), HiddenElementIds: [777]};
     instance.templateView = mockJobDescriptionView;
+    instance.templateViewCopy = mockJobDescriptionView;
 
     const result = instance.isHiddenControl(controlId);
 

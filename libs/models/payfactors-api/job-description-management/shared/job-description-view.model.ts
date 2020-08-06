@@ -4,6 +4,8 @@ export interface JobDescriptionViewApi {
   Name: string;
   TemplateId: number;
   HiddenElementIds: number[];
+  HiddenControlNameElementIds: number[];
+  HiddenSubHeadingElementIds: number[];
   Template?: any;
   JobInformationFields: number[];
 }

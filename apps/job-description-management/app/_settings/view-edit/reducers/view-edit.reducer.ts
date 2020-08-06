@@ -5,9 +5,9 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 
-import { ControlViewToggleObj } from '../models';
 
 import { JobDescriptionView } from '../../shared/models';
+import { ElementViewToggleObj } from '../models';
 
 export interface State {
   viewName: string;
@@ -46,7 +46,7 @@ export function reducer(state = initialState, action: fromViewEditActions.Action
       const newTemplateViewsAsyncObj = cloneDeep(state.templateViewsAsyncObj);
       const templateView = findTemplateView(newTemplateViewsAsyncObj, action.payload);
 
-      templateView.HiddenElementIds.push(action.payload.ControlId);
+      templateView.HiddenElementIds.push(action.payload.ElementId);
 
       return {
         ...state,
@@ -57,7 +57,51 @@ export function reducer(state = initialState, action: fromViewEditActions.Action
       const newTemplateViewsAsyncObj = cloneDeep(state.templateViewsAsyncObj);
       const templateView = findTemplateView(newTemplateViewsAsyncObj, action.payload);
 
-      templateView.HiddenElementIds = templateView.HiddenElementIds.filter(e => e !== action.payload.ControlId);
+      templateView.HiddenElementIds = templateView.HiddenElementIds.filter(e => e !== action.payload.ElementId);
+
+      return {
+        ...state,
+        templateViewsAsyncObj: newTemplateViewsAsyncObj
+      };
+    }
+    case fromViewEditActions.ADD_HIDDEN_CONTROL_NAME_ELEMENT_ID: {
+      const newTemplateViewsAsyncObj = cloneDeep(state.templateViewsAsyncObj);
+      const templateView = findTemplateView(newTemplateViewsAsyncObj, action.payload);
+
+      templateView.HiddenControlNameElementIds.push(action.payload.ElementId);
+
+      return {
+        ...state,
+        templateViewsAsyncObj: newTemplateViewsAsyncObj
+      };
+    }
+    case fromViewEditActions.REMOVE_HIDDEN_CONTROL_NAME_ELEMENT_ID: {
+      const newTemplateViewsAsyncObj = cloneDeep(state.templateViewsAsyncObj);
+      const templateView = findTemplateView(newTemplateViewsAsyncObj, action.payload);
+
+      templateView.HiddenControlNameElementIds = templateView.HiddenControlNameElementIds.filter(e => e !== action.payload.ElementId);
+
+      return {
+        ...state,
+        templateViewsAsyncObj: newTemplateViewsAsyncObj
+      };
+    }
+    case fromViewEditActions.ADD_HIDDEN_SECTION_SUBHEADING_ELEMENT_ID: {
+      const newTemplateViewsAsyncObj = cloneDeep(state.templateViewsAsyncObj);
+      const templateView = findTemplateView(newTemplateViewsAsyncObj, action.payload);
+
+      templateView.HiddenSubHeadingElementIds.push(action.payload.ElementId);
+
+      return {
+        ...state,
+        templateViewsAsyncObj: newTemplateViewsAsyncObj
+      };
+    }
+    case fromViewEditActions.REMOVE_HIDDEN_SECTION_SUBHEADING_ELEMENT_ID: {
+      const newTemplateViewsAsyncObj = cloneDeep(state.templateViewsAsyncObj);
+      const templateView = findTemplateView(newTemplateViewsAsyncObj, action.payload);
+
+      templateView.HiddenSubHeadingElementIds = templateView.HiddenSubHeadingElementIds.filter(e => e !== action.payload.ElementId);
 
       return {
         ...state,
@@ -118,8 +162,8 @@ export function reducer(state = initialState, action: fromViewEditActions.Action
   }
 }
 
-function findTemplateView(templateViewsAsyncObj: AsyncStateObj<any[]>, controlViewToggleObj: ControlViewToggleObj) {
-  return templateViewsAsyncObj.obj.find(v => v.Name === controlViewToggleObj.ViewName && v.TemplateId === controlViewToggleObj.TemplateId);
+function findTemplateView(templateViewsAsyncObj: AsyncStateObj<any[]>, elementViewToggleObj: ElementViewToggleObj) {
+  return templateViewsAsyncObj.obj.find(v => v.Name === elementViewToggleObj.ViewName && v.TemplateId === elementViewToggleObj.TemplateId);
 }
 
 export const getViewName = (state: State) => state.viewName;
