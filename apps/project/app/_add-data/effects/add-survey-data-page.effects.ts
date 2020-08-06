@@ -15,6 +15,7 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
 import * as fromContextActions from 'libs/features/survey-search/actions/context.actions';
 import * as fromSurveySearchFiltersActions from 'libs/features/survey-search/actions/survey-search-filters.actions';
+import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
 import { DataCutDetails, JobContext, ProjectSearchContext } from 'libs/features/survey-search/models';
 import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from 'libs/features/survey-search/helpers';
@@ -88,6 +89,15 @@ export class AddSurveyDataPageEffects {
           {
             jobMatches: jobContextAndMatches.action.payload
           });
+      })
+    );
+
+  @Effect({dispatch: false})
+  refineExchangeJobResult$ = this.actions$
+    .pipe(
+      ofType(fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT),
+      tap((action: fromSurveySearchResultsActions.RefineExchangeJobResult) => {
+        this.windowCommunicationService.postMessage(action.type, action.payload);
       })
     );
 
