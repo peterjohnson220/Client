@@ -14,7 +14,7 @@
         [spinners]="false"
         [format]="'n2'"
         [decimals]="'2'"
-        [min]="-99999"      
+        [min]="-99999"
         [max]="99999"
         [autoCorrect]="true"
         (change)="updatePricingMatch()">
@@ -28,7 +28,7 @@
         [spinners]="false"
         [format]="'n2'"
         [decimals]="'2'"
-        [min]="-99999"      
+        [min]="-99999"
         [max]="99999"
         [autoCorrect]="true"
         (change)="updatePricingMatch()">
@@ -44,8 +44,8 @@
       {{dataRow.CompanyJobs_PricingsMatches_Match_Adjustment | number: '1.2-2' | emptyPlaceholder : '0.00'}}
     </div>
   </ng-template>
-  
-  <div [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
+
+  <div [class.survey-cut]="dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID']" (click)="reScopeSurveyData()" [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
     <pf-job-title-code
       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code"
@@ -98,6 +98,24 @@
       [matchId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID']"
       [matchType]="dataRow | pricingMatchType"
     ></pf-pricing-match>
+  </div>
+</ng-template>
+
+<ng-template #reScopeSurveyDataTemplate>
+  <div class="survey-job-template-container pl-3">
+    <div class="row">
+      <div>
+        <span class="pf-brand-secondary-color survey-job-title">{{dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title']}}</span>&nbsp;&nbsp;<span class="survey-job-code">({{dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code']}})</span>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <em class="text-muted">
+          {{dataRow.vw_PricingMatchesJobTitlesMerged_Source}}{{getScope()}}
+          <span>{{dataRow.vw_PricingMatchesJobTitlesMerged_Effective_Date | date: 'MM/dd/yyyy'}}</span>
+        </em>
+      </div>
+    </div>
   </div>
 </ng-template>
 

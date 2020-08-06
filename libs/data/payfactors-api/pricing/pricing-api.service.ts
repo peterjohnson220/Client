@@ -24,4 +24,8 @@ export class PricingApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/ModifyPricingMatches`, savePricingMatchesRequest );
   }
 
+  getReScopeSurveyDataContext(pricingMatchId: number) {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetReScopeSurveyDataContext?pricingMatchId=${pricingMatchId}`);
+  }
+
 }

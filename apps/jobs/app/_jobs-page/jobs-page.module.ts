@@ -25,7 +25,8 @@ import {
   RangeEditorModule,
   NotesManagerModule,
   MultiMatchModule,
-  PricingMatchModule
+  PricingMatchModule,
+  ReScopeSurveyDataModule
 } from 'libs/features';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
@@ -92,6 +93,7 @@ import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricin
     NotesManagerModule,
     MultiMatchModule,
     PricingMatchModule,
+    ReScopeSurveyDataModule
   ],
   declarations: [
     // Pages

@@ -59,6 +59,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() splitViewDisplayFields = [];
   @Input() selectedRecordId: number;
   @Input() enableSelection = false;
+  @Input() enableResize = true;
   @Input() noRecordsFound: string;
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
@@ -227,7 +228,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (changes['selectedRecordId']) {
-      this.pagingBarConfig = changes['selectedRecordId'].currentValue ?
+      this.pagingBarConfig = changes['selectedRecordId'].currentValue && this.allowSplitView ?
         {
           info: true,
           type: 'input',
@@ -264,7 +265,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   getColWidth(col: any) {
     let colWidth = col.Width;
 
-    if (this.selectedRecordId) {
+    if (this.selectedRecordId && this.allowSplitView) {
       colWidth = this.MIN_SPLIT_VIEW_COL_WIDTH;
     } else if (!!this.defaultColumnWidth && !this.autoFitColumnsToHeader && !col.Width) {
       colWidth = this.defaultColumnWidth;
@@ -327,6 +328,15 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       }
     } else if (this.enableSelection) {
       this.store.dispatch(new fromActions.UpdateSelectedKey(this.pageViewId, dataItem[this.primaryKey]));
+    } else if (!this.allowSplitView) {
+      // User has clicked a row that we want to treat as selected, but not open any split view/expanded views
+      // This is how we manage grids that are limited to 1 selected row at a time opposed to our multi select checkboxes
+      // Click the same row to de select
+      if (dataItem[this.primaryKey] === this.selectedRecordId) {
+        this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, null, null));
+      } else {
+        this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
+      }
     }
   }
 

@@ -19,7 +19,7 @@ div.collapsed {
   padding: 0;
 }
 
-.add-notes-link {
+.add-notes-link, .job-detail-link {
   color: $link-color;
   cursor: pointer;
 }
@@ -31,3 +31,17 @@ div.collapsed {
 .details-text-padding {
   padding-left: 120px
 }
+
+.survey-job-title, .survey-job-code {
+  font-size: large;
+  font-weight: bold;
+}
+
+.survey-cut {
+  cursor: pointer;
+}
+
+.survey-job-template-container {
+  max-width: 750px;
+}
+

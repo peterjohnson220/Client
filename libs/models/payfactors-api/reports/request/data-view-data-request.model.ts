@@ -10,6 +10,17 @@ export interface DataViewDataRequest {
   ApplyDefaultFilters?: boolean;
 }
 
+export interface BasicDataViewField {
+  EntitySourceName: string;
+  SourceName: string;
+  DisplayName?: string;
+  DataType?: DataViewFieldDataType;
+  KendoGridField?: string;
+  IsHidden?: boolean;
+  SortOrder?: number;
+  SortDirection?: 'asc' | 'desc';
+}
+
 export interface DataViewField extends BasicDataViewField {
   EntityId: number;
   Entity: string;
@@ -27,17 +38,6 @@ export interface DataViewField extends BasicDataViewField {
   IsPublic?: boolean;
   AccessLevel?: DataViewAccessLevel;
   Width?: number;
-}
-
-export interface BasicDataViewField {
-  EntitySourceName: string;
-  SourceName: string;
-  DisplayName?: string;
-  DataType?: DataViewFieldDataType;
-  KendoGridField?: string;
-  IsHidden?: boolean;
-  SortOrder?: number;
-  SortDirection?: 'asc' | 'desc';
 }
 
 export interface BasicDataViewDataRequest {

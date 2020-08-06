@@ -16,7 +16,11 @@
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
-  <pf-pricing-matches-grid [pricingInfo]="dataRow" (notesEmitter)="openPricingMatchNotesManager($event)"></pf-pricing-matches-grid>
+  <pf-pricing-matches-grid
+    [pricingInfo]="dataRow"
+    (notesEmitter)="openPricingMatchNotesManager($event)"
+    (reScopeSurveyDataEmitter)="openReScopeSurveyDataModal($event)"
+  ></pf-pricing-matches-grid>
 </ng-template>
 
 <ng-template #payMarketColumn let-dataRow="dataRow">
@@ -113,3 +117,12 @@
     <span>{{selectedPricingPayMarket}}</span>
   </div>
 </ng-template>
+
+<pf-re-scope-survey-data
+  [modalConfiguration]="reScopeSurveyDataConfiguration"
+  (reScopeSubmitted)="reScopeSurveyDataCut($event)"
+  (cancelChanges)="showReScopeSurveyDataModal.next(false);"
+>
+
+</pf-re-scope-survey-data>
+

@@ -8,7 +8,7 @@ import { DebounceClickDirective, DisableFormControlDirective, DragDropDirective 
 import {
   CompPipe, DataTypeFilterPipe, FilterArrayByName, GetFileExtensionCssClassPipe, HighlightTextPipe, HumanizeNumberPipe,
   JobDescriptionParserPipe, NewLinePipe, OrderByPipe, StringReplacePipe, StripHtmlPipe, TruncateAfterPipe, WrapSubtextWithTag,
-  EmptyPlaceholderPipe, ValidationErrorsPipe, TimeElapsedPipe, EditableJobDescriptionPipe
+  EmptyPlaceholderPipe, ValidationErrorsPipe, TimeElapsedPipe, EditableJobDescriptionPipe, RateCurrencyConversionPipe
 } from './pipes';
 import { DragulaHelperService } from './services';
 
@@ -35,7 +35,8 @@ const declarations = [
   EmptyPlaceholderPipe,
   ValidationErrorsPipe,
   TimeElapsedPipe,
-  EditableJobDescriptionPipe
+  EditableJobDescriptionPipe,
+  RateCurrencyConversionPipe
 ];
 
 const providers = [
