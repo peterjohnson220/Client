@@ -6,6 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { GridModule, SharedModule } from '@progress/kendo-angular-grid';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
@@ -48,6 +49,7 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
     GridModule,
     TooltipModule,
     FontAwesomeModule,
+    NgbDropdownModule,
 
     // Payfactors
     PfCommonUIModule,

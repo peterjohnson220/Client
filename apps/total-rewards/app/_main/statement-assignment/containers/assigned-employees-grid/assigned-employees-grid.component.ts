@@ -2,11 +2,12 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ViewChild } 
 
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { CompanyEmployee } from 'libs/models/company';
-import { GridTypeEnum, SelectAllStatus } from 'libs/models/common';
+import { GridTypeEnum, ListAreaColumn, SelectAllStatus } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromAssignedEmployeesGridReducer from '../../reducers';
@@ -30,9 +31,11 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
   selectedCompanyEmployeeIds$: Observable<number[]>;
   openActionMenuEmployee$: Observable<CompanyEmployee>;
   selectAllState$: Observable<string>;
+  listAreaColumns$: Observable<ListAreaColumn[]>;
 
   selectedCompanyEmployeeIds: number[];
   selectAllStatus = SelectAllStatus;
+  selectedDropdown: NgbDropdown;
 
   selectedCompanyEmployeeIdsSubscription = new Subscription();
   pageSizes = [20, 50, 100, 250];
@@ -48,10 +51,13 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     this.selectedCompanyEmployeeIds$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
     this.selectAllState$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getSelectAllState));
     this.selectedCompanyEmployeeIdsSubscription = this.selectedCompanyEmployeeIds$.subscribe(ids => this.selectedCompanyEmployeeIds = ids);
+    this.listAreaColumns$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getListAreaColumns));
+    window.addEventListener('scroll', this.onScroll, true);
   }
 
   ngOnDestroy(): void {
     this.selectedCompanyEmployeeIdsSubscription.unsubscribe();
+    window.removeEventListener('scroll', this.onScroll, true);
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.TotalRewardsAssignedEmployees));
     this.store.dispatch(new fromAssignedEmployeesGridActions.Reset());
   }
@@ -81,12 +87,19 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromAssignedEmployeesGridActions.OpenActionMenu(event));
   }
 
-  onActionMenuClose(): void {
-    this.store.dispatch(new fromAssignedEmployeesGridActions.CloseActionMenu());
-  }
-
   onActionMenuUnassignClick(): void {
     this.store.dispatch(new fromAssignedEmployeesPageActions.OpenSingleEmployeeUnassignModal());
+  }
+
+  handleSelectedRowAction(dropdown: NgbDropdown, employee: CompanyEmployee): void {
+    this.selectedDropdown = dropdown;
+    this.onActionMenuOpen(employee);
+  }
+
+  onScroll = (): void => {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
   }
 
   onSelectAllChange() {

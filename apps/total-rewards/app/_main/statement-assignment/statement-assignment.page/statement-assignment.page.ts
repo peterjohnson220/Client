@@ -222,6 +222,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
 
   handleCancelUnassignEmployeesModal() {
     this.store.dispatch(new fromPageActions.CloseUnassignModal());
+    this.store.dispatch(new fromAssignedEmployeesGridActions.CloseActionMenu());
   }
 
   handleClearSelectionsClick() {

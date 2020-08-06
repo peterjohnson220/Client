@@ -37,27 +37,30 @@
         </kendo-grid-checkbox-column>
         <kendo-grid-column width="65" title="Action">
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-            <pf-grid-action-menu
-              [isOpen]="(openActionMenuEmployee$ | async)?.CompanyEmployeeId === dataItem?.CompanyEmployeeId"
-              [employee]="dataItem"
-              (open)="onActionMenuOpen($event)"
-              (close)="onActionMenuClose()"
-              (unassignClick)="onActionMenuUnassignClick()"
-            ></pf-grid-action-menu>
+            <div ngbDropdown container="body" #dropdown="ngbDropdown"
+                 (openChange)="handleSelectedRowAction(dropdown, dataItem)">
+              <fa-icon ngbDropdownToggle
+                       icon="ellipsis-h"
+                       id="total-rewards-actions-{{dataItem?.CompanyEmployeeId}}"
+                       class="gray-text">
+              </fa-icon>
+              <div ngbDropdownMenu aria-labelledby="total-rewards-actions-{{dataItem?.CompanyEmployeeId}}">
+                <button ngbDropdownItem (click)="onActionMenuUnassignClick()">
+                  <fa-icon [icon]="'user-slash'" class="mr-2"></fa-icon>
+                  <span>Unassign</span>
+                </button>
+              </div>
+            </div>
           </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column field="LastName" title="Last Name" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="FirstName" title="First Name" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="EmployeeId" title="Employee ID" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="JobTitle" title="Job Title" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="JobCode" title="Job Code" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="JobFamily" title="Job Family" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="FLSAStatus" title="FLSA Status" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="TotalRewardsLastStatementGeneratedDate" title="Last Generated (Date)">
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <div class="ellipsize show-tooltip">
-              {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
+        <kendo-grid-column *ngFor="let col of (listAreaColumns$ | async)" [field]="col.ColumnDatabaseName" class="ellipsize show-tooltip">
+          <ng-template kendoGridHeaderTemplate let-column>
+            <div class="ellipsis-overflowing-text-wrap show-tooltip">
+              {{col.ColumnDisplayName}}
             </div>
+          </ng-template>
+          <ng-template *ngIf="col.ColumnDatabaseName === 'TotalRewardsLastStatementGeneratedDate'" kendoGridCellTemplate let-dataItem>
+              {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
           </ng-template>
         </kendo-grid-column>
         <ng-template kendoPagerTemplate>
