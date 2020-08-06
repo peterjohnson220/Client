@@ -3,14 +3,13 @@ import { Store } from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { ActionBarConfig,
   getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig,
   GridRowActionsConfig
 } from 'libs/features/pf-data-grid/models';
-import { PayMarketsPageViewId } from '../models';
-import { Observable, Subscription} from 'rxjs';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { Permissions } from 'libs/constants';
@@ -20,6 +19,7 @@ import { PfSecuredResourceDirective } from 'libs/forms/directives';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
 import * as fromPayMarketsPageReducer from '../reducers';
+import { PayMarketsPageViewId } from '../models';
 
 @Component({
   selector: 'pf-paymarkets-page',
@@ -56,6 +56,9 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   selectedPopover: NgbDropdown;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   permissions = Permissions;
+  showSummaryModal = new BehaviorSubject<boolean>(false);
+  showSummaryModal$ = this.showSummaryModal.asObservable();
+  summaryPaymarketId: number;
 
   constructor(
     private store: Store<fromPayMarketsPageReducer.State>,
@@ -121,6 +124,10 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.selectedPopover = popover;
   }
 
+  handleDeleteModalClose(): void {
+    this.selectedPayMarketId = null;
+  }
+
   setDefaultPayMarket(payMarketId: number) {
     if (!!payMarketId) {
       this.defaultPayMarketId = payMarketId;
@@ -140,6 +147,16 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
 
   addNewPayMarket(): void {
     this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenPayMarketModal());
+  }
+
+  viewSummary(payMarketId: number): void {
+    this.showSummaryModal.next(true);
+    this.summaryPaymarketId = payMarketId;
+  }
+
+  closeSummaryModal(): void {
+    this.showSummaryModal.next(false);
+    this.summaryPaymarketId = null;
   }
 
   deletePayMarket(): void {

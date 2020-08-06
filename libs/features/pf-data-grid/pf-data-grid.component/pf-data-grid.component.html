@@ -93,7 +93,9 @@
                         [pageable]="pageable"
                         [theme]="pageTheme"
                         [customSortOptions]="customSortOptions"
-                        (scrolled)="handleGridScroll($event)">
+                        (scrolled)="handleGridScroll($event)"
+                        [modifiedKey]="modifiedKey"
+                        [resetWidthForSplitView]="resetWidthForSplitView">
                       </pf-grid>
                     </div>
                   </div>

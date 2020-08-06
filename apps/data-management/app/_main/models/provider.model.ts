@@ -5,6 +5,7 @@ export interface Provider {
   ImageUrl: string;
   AuthenticationTypeId: number;
   Active: boolean;
+  UsesFieldSelection: boolean;
 }
 
 export function generateMockProvider(): Provider {
@@ -15,6 +16,7 @@ export function generateMockProvider(): Provider {
     ImageUrl: 'MockImageUrl',
     AuthenticationTypeId: 1,
     Active: true,
+    UsesFieldSelection: false
   };
 }
 
@@ -27,6 +29,7 @@ export function generateMockProviderList(): Provider[] {
       ImageUrl: 'MockImageUrl1',
       AuthenticationTypeId: 1,
       Active: true,
+      UsesFieldSelection: false
     },
     {
       ProviderId: 2,
@@ -35,6 +38,7 @@ export function generateMockProviderList(): Provider[] {
       ImageUrl: 'MockImageUrl2',
       AuthenticationTypeId: 1,
       Active: true,
+      UsesFieldSelection: false
     },
     {
       ProviderId: 3,
@@ -42,7 +46,8 @@ export function generateMockProviderList(): Provider[] {
       ProviderCode: 'MOCKCODE3',
       ImageUrl: 'MockImageUrl3',
       AuthenticationTypeId: 2,
-      Active: false,
+      Active: true,
+      UsesFieldSelection: false
     }
   ];
 }
@@ -55,6 +60,7 @@ export function generateMockOutboundProvider(): Provider {
     ImageUrl: 'MockImageUrl',
     AuthenticationTypeId: 1,
     Active: true,
+    UsesFieldSelection: false
   };
 }
 
@@ -67,6 +73,7 @@ export function generateMockOutboundProviderList(): Provider[] {
       ImageUrl: 'MockImageUrl1',
       AuthenticationTypeId: 1,
       Active: true,
+      UsesFieldSelection: false
     },
     {
       ProviderId: 2,
@@ -75,6 +82,7 @@ export function generateMockOutboundProviderList(): Provider[] {
       ImageUrl: 'MockImageUrl2',
       AuthenticationTypeId: 1,
       Active: true,
+      UsesFieldSelection: false
     },
     {
       ProviderId: 3,
@@ -82,7 +90,8 @@ export function generateMockOutboundProviderList(): Provider[] {
       ProviderCode: 'MOCKCODE3',
       ImageUrl: 'MockImageUrl3',
       AuthenticationTypeId: 2,
-      Active: false,
+      Active: true,
+      UsesFieldSelection: false
     }
   ];
 }

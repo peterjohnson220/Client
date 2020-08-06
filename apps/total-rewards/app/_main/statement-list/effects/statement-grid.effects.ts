@@ -4,9 +4,11 @@ import { select, Action, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap, concatMap, mergeMap, withLatestFrom } from 'rxjs/operators';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
+import { StatementListResponse } from 'libs/models/payfactors-api/total-rewards/response';
+import { GridTypeEnum } from 'libs/models/common';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromStatementGridActions from '../actions/statement-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
@@ -16,16 +18,39 @@ import { StatementListViewModel } from '../../../shared/models';
 export class StatementGridEffects {
 
   @Effect()
+  updateSearchTerm$ = this.actions$.pipe(
+    ofType(fromStatementGridActions.UPDATE_SEARCH_TERM),
+    withLatestFrom(
+      this.store.pipe(select(fromTotalRewardsReducer.getStatementsSearchTerm)),
+      this.store.pipe(select(fromTotalRewardsReducer.getStatementsGridState)),
+      (action: fromStatementGridActions.LoadStatements, searchTerm: string, gridState) => ({ searchTerm, gridState })
+    ),
+      mergeMap((gridData) => [
+        new fromGridActions.PageChange(GridTypeEnum.TotalRewardsStatements, { skip: 0, take: gridData.gridState.take }),
+        new fromStatementGridActions.LoadStatements()
+      ])
+    );
+
+  @Effect()
   loadStatements$: Observable<Action> = this.actions$.pipe(
     ofType(fromStatementGridActions.LOAD_STATEMENTS),
     withLatestFrom(
-      this.store.pipe(
-        select(fromTotalRewardsReducer.getStatementsSearchTerm)),
-      (action, searchTerm: string) => searchTerm
+      this.store.pipe(select(fromTotalRewardsReducer.getStatementsSearchTerm)),
+      this.store.pipe(select(fromTotalRewardsReducer.getStatementsGridState)),
+      (action: fromStatementGridActions.LoadStatements, searchTerm: string, gridState) => ({ searchTerm, gridState })
     ),
-    switchMap(searchTerm => this.totalRewardsApiService.getStatements(searchTerm).pipe(
-      map((statements: GridDataResult) => {
-        return new fromStatementGridActions.LoadStatementsSuccess(statements);
+    switchMap((gridData) => this.totalRewardsApiService.getStatements({
+        Count: gridData.gridState.take,
+        From: gridData.gridState.skip,
+        SearchTerm: gridData.searchTerm,
+        SortBy: gridData.gridState.sort?.length ?  gridData.gridState.sort[0].field : null,
+        SortDirection: gridData.gridState.sort?.length ?  gridData.gridState.sort[0].dir : null
+      }).pipe(
+      map((statements: StatementListResponse) => {
+        return new fromStatementGridActions.LoadStatementsSuccess({
+          total: statements.TotalCount,
+          data: statements.Data
+        });
       }),
       catchError(() => of(new fromStatementGridActions.LoadStatementsError()))
       )

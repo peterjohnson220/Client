@@ -41,10 +41,10 @@ export class StatementListPageComponent implements OnInit {
     this.statementsTotal$ = this.store.pipe(select(fromStatementListReducers.getStatementsTotal));
     this.statementsSearchTerm$ = this.store.pipe(select(fromStatementListReducers.getStatementsSearchTerm));
 
-    this.isDeleteStatetementModalOpen$ = this.store.pipe(select(fromStatementListReducers.getIsDeleteStatetementModalOpen));
-    this.deletingStatement$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatetement));
-    this.deletingStatementSuccess$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatetementSuccess));
-    this.deletingStatementError$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatetementError));
+    this.isDeleteStatetementModalOpen$ = this.store.pipe(select(fromStatementListReducers.getIsDeleteStatementModalOpen));
+    this.deletingStatement$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatement));
+    this.deletingStatementSuccess$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatementSuccess));
+    this.deletingStatementError$ = this.store.pipe(select(fromStatementListReducers.getDeletingStatementError));
     this.openActionMenuStatement$ = this.store.pipe(select(fromStatementListReducers.getStatementsOpenActionMenuStatement));
 
     this.store.dispatch(new fromStatementListPageActions.SetTab('Statements'));
@@ -53,7 +53,6 @@ export class StatementListPageComponent implements OnInit {
 
   onSearchTermChange(searchTerm: string): void {
     this.store.dispatch(new fromStatementGridActions.UpdateSearchTerm(searchTerm));
-    this.store.dispatch(new fromStatementGridActions.LoadStatements());
   }
 
   onTabChange(): void  {

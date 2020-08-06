@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { GridDataResult, DataStateChangeEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, DataStateChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -29,6 +30,7 @@ export class StatementsGridComponent implements OnInit {
   statementsLoadingError$: Observable<boolean>;
 
   openActionMenuStatement$: Observable<StatementListViewModel>;
+  selectedDropdown: NgbDropdown;
 
   constructor(private store: Store<fromTotalRewardsReducer.State>, private router: Router) { }
 
@@ -41,6 +43,7 @@ export class StatementsGridComponent implements OnInit {
     if (this.autoLoad) {
       this.store.dispatch(new fromTotalRewardsStatementGridActions.LoadStatements());
     }
+    window.addEventListener('scroll', this.onScroll, true);
   }
 
   onDataStateChange(state: DataStateChangeEvent): void {
@@ -56,27 +59,32 @@ export class StatementsGridComponent implements OnInit {
     this.store.dispatch(new fromTotalRewardsStatementGridActions.CloseActionMenu());
   }
 
-  onActionMenuPreviewClick(statement: StatementListViewModel): void {
-    console.log('onActionMenuEditClick', statement);
-  }
-
-  onActionMenuGenerateStatementClick(statement: StatementListViewModel): void {
-    console.log('onActionMenuGenerateStatementClick', statement);
-  }
-
-  onActionMenuEditClick(statement: StatementListViewModel): void {
-    this.navigateToStatementEdit(statement.Id);
-  }
-
-  onActionMenuCopyClick(statement: StatementListViewModel): void {
-    console.log('onActionMenuCopyClick', statement);
-  }
-
-  onActionMenuDeleteClick(): void {
-    this.store.dispatch(new fromStatementGridActions.ConfirmDeleteStatement());
+  onActionMenuDeleteClick(statement: StatementListViewModel): void {
+    this.store.dispatch(new fromStatementGridActions.ConfirmDeleteStatement(statement));
   }
 
   navigateToStatementEdit(statementId: string): void {
     this.router.navigate(['/statement/edit/', statementId]).then();
+  }
+
+  handleSelectedRowAction(dropdown: NgbDropdown): void {
+    this.selectedDropdown = dropdown;
+  }
+
+  onScroll = (): void => {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
+  }
+
+  getRowClass(context: RowClassArgs) {
+    return 'clickable-row';
+  }
+
+  onCellClick({ dataItem, rowIndex, originalEvent, column }) {
+    if (!dataItem?.Id || originalEvent.button !== 0 || column?.title === 'Actions') {
+      return;
+    }
+    this.navigateToStatementEdit(dataItem.Id);
   }
 }

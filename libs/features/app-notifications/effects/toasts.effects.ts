@@ -43,6 +43,10 @@ export class ToastsEffects {
         this.handleProgressNotification(notification);
         break;
       }
+      case NotificationType.User: {
+        this.handleEventNotification(notification);
+        break;
+      }
       default: {
         break;
       }

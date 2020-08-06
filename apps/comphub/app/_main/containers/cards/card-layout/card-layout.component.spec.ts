@@ -10,6 +10,7 @@ import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { CardLayoutComponent } from './card-layout.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { generateMockWorkflowContext, generateMockPeerWorkflowContext } from '../../../models';
 
 describe('Comphub - Main - Card Layout', () => {
   let instance: CardLayoutComponent;
@@ -101,10 +102,18 @@ describe('Comphub - Main - Card Layout', () => {
     expect(modalService.open).toHaveBeenCalled();
   });
 
-  it('should set the window location to the dashboard, when handling the confirm close app click', () => {
+  it('should set the window location to the default dashboard, when handling the confirm close app click for a enterprise quick price type', () => {
+    instance.workflowContext = generateMockWorkflowContext();
     instance.handleConfirmedCloseApp();
 
     expect(windowRef.nativeWindow.location).toBe(`/${environment.hostPath}/dashboard`);
+  });
+
+  it('should set the window location to the peer dashboard, when handling the confirm close app click for a peer quick price type', () => {
+    instance.workflowContext = generateMockPeerWorkflowContext();
+    instance.handleConfirmedCloseApp();
+
+    expect(windowRef.nativeWindow.location).toBe(`/${environment.hostPath}/peer/exchanges/redirect`);
   });
 
 });

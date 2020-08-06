@@ -1,0 +1,94 @@
+fa-icon {
+  color: #398ced;
+}
+
+.pf-entity-table {
+  max-height: 400px;
+  overflow-y: auto;
+
+  .pf-entity-table-header {
+    background-color: #fff;
+  }
+  .payfactors-field-list-item {
+    font-size: 1.2rem;
+
+    .associated-field-item {
+      text-align: right;
+      color: #000;
+    }
+  }
+}
+
+.provider-field-list {
+  max-height: 400px;
+  overflow-y: auto;
+
+  .provider-field-list-item {
+    font-size: 1.2rem;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 0.25rem;
+    border: 1px solid;
+    border-color: rgba(0,0,0,0.08);
+    color: #000;
+    & :hover {
+      cursor: grab;
+    }
+  }
+}
+
+.field-mapping-text {
+  font-size: 1.25rem;
+}
+
+#associated-entity {
+  .btn-remove-associated-entity {
+    display: none;
+  }
+}
+
+#associated-entity:hover {
+  .btn-remove-associated-entity {
+    display: block;
+  }
+}
+
+/*Hide mirror image from drag*/
+.gu-transit{
+  display: none;
+}
+
+.gu-mirror{
+  opacity: 1;
+  cursor: move;
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+  td {
+    cursor: move;
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+  }
+  .entity {
+    font-size: 1.2rem;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 0.25rem;
+    border: 1px solid;
+    border-color: rgba(0,0,0,0.08);
+    color: #000;
+    max-width: 20rem;
+    cursor: grabbing;
+  }
+}
+.gu-mirror td:not(.gu-mirror-show) {
+  display: none;
+}
+
+.gu-mirror .gu-mirror-show{
+  display: none;
+}
+
+.min-width-1 {
+  /* required to make ellipsis work with flex boxes */
+  min-width: 1rem;
+}

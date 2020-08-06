@@ -41,7 +41,13 @@
                       </tr>
                       <tr *ngFor="let jobInfoFieldRow of jobInfoFieldRows">
                           <ng-template ngFor let-jobInformationField [ngForOf]="jobInfoFieldRow.fields">
-                              <td align="center"><strong>{{jobInformationField.DisplayName}}</strong></td>
+                            <td align="center"><strong>{{jobInformationField.DisplayName}}</strong>
+                            <fa-icon *ngIf="jobInformationField.FieldName === 'TemplateName'"
+                                class="warning-orange pl-2"
+                                icon="exclamation-circle" 
+                                ngbTooltip="Will be visible only when Job Description is being reviewed.">
+                            </fa-icon>
+                            </td>
                           </ng-template>
                       </tr>
                   </tbody>

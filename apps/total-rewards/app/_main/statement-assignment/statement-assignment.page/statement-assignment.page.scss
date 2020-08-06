@@ -1,0 +1,37 @@
+$filter-panel-width: 400px;
+
+.filter-wrapper {
+  height: calc(100% - 47px);
+  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0;
+  overflow-x: hidden;
+  opacity: 0;
+  padding-left: 0;
+  background-color: #f7f7f9;
+  border-top: 1px solid #dee2e6;
+  &.expanded {
+    width: $filter-panel-width;
+    overflow-x: auto;
+    opacity: 1;
+    padding-left: 1rem;
+  }
+}
+
+.grid-wrapper {
+  width: 100%;
+  transition: width .35s cubic-bezier(0.4, 0, 0.2, 1);
+  &.expanded-filters {
+    width: calc(100% - #{$filter-panel-width});
+  }
+}
+
+a.filter-toggle {
+  transition: color .3s ease-in-out;
+  font-size: 1.1rem;
+  &:hover {
+    text-decoration: none;
+  }
+  span {
+    vertical-align: 1px;
+  }
+}

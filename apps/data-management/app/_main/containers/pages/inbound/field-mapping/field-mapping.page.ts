@@ -9,6 +9,7 @@ import { isEmpty } from 'lodash';
 import * as fromFieldMappingActions from '../../../../actions/field-mapping.actions';
 import * as fromHrisConnectionActions from '../../../../actions/hris-connection.actions';
 import * as fromDataManagementMainReducer from '../../../../reducers';
+import {ConnectionSummary} from '../../../../models';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class FieldMappingPageComponent implements OnInit, OnDestroy {
 
   selectedEntities: string[];
   workflowComplete: boolean;
+  connectionSummary: ConnectionSummary;
 
   constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
   }
@@ -42,6 +44,7 @@ export class FieldMappingPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());
     this.connectionSummarySub = this.store.select(fromDataManagementMainReducer.getHrisConnectionSummary)
     .pipe(filter((v) => !!v)).subscribe((connectionSummary) => {
+      this.connectionSummary = connectionSummary;
       this.workflowComplete = connectionSummary.hasConnection;
       if (!connectionSummary.hasConnection && isEmpty(connectionSummary.selectedEntities)) {
         return this.router.navigate(['/']);

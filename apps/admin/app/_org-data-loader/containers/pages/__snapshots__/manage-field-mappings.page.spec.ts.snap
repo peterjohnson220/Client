@@ -19,6 +19,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
+  fieldMappingsLoading="false"
   isActive={[Function Boolean]}
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
@@ -30,6 +31,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   jobMappingComplete={[Function Boolean]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
+  loaderSettingsLoading="false"
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   notificationService={[Function MockNotificationService]}
@@ -43,8 +45,10 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
+  saveConfiguration$={[Function Store]}
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
+  savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
@@ -67,7 +71,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
 >
   <pf-page-with-title-bar>
     
-    Org Data Autoloader Field Mappings
+    Autoloader Configuration
     
     <div
       class="list-group list-group-flush"
@@ -227,6 +231,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   employeeMappingComplete="false"
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
+  fieldMappingsLoading="false"
   isActive={[Function Boolean]}
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
@@ -238,6 +243,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   jobMappingComplete={[Function Boolean]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
+  loaderSettingsLoading="false"
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   notificationService={[Function MockNotificationService]}
@@ -251,8 +257,10 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
+  saveConfiguration$={[Function Store]}
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
+  savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
@@ -275,7 +283,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
 >
   <pf-page-with-title-bar>
     
-    Org Data Autoloader Field Mappings
+    Autoloader Configuration
     
     <div
       class="list-group list-group-flush"
@@ -435,6 +443,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
+  fieldMappingsLoading="false"
   isActive={[Function Boolean]}
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
@@ -446,6 +455,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   jobMappingComplete={[Function Boolean]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
+  loaderSettingsLoading="false"
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   notificationService={[Function MockNotificationService]}
@@ -459,8 +469,10 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
+  saveConfiguration$={[Function Store]}
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
+  savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
@@ -483,7 +495,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
 >
   <pf-page-with-title-bar>
     
-    Org Data Autoloader Field Mappings
+    Autoloader Configuration
     
     <div
       class="list-group list-group-flush"
@@ -643,6 +655,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
+  fieldMappingsLoading="false"
   isActive={[Function Boolean]}
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
@@ -654,6 +667,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   jobMappingComplete={[Function Boolean]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
+  loaderSettingsLoading="false"
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   notificationService={[Function MockNotificationService]}
@@ -667,8 +681,10 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
+  saveConfiguration$={[Function Store]}
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
+  savingConfiguration="false"
   selectedCompany="undefined"
   selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
@@ -691,7 +707,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
 >
   <pf-page-with-title-bar>
     
-    Org Data Autoloader Field Mappings
+    Autoloader Configuration
     
     <div
       class="list-group list-group-flush"
@@ -741,6 +757,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
+  fieldMappingsLoading="false"
   isActive={[Function Boolean]}
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
@@ -752,6 +769,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   jobMappingComplete={[Function Boolean]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
+  loaderSettingsLoading="false"
   loaderSettingsLoading$={[Function Store]}
   mappings={[Function Array]}
   notificationService={[Function MockNotificationService]}
@@ -765,8 +783,10 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
+  saveConfiguration$={[Function Store]}
   saveConfigurationError$={[Function Store]}
   saveConfigurationSuccess$={[Function Store]}
+  savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
@@ -789,7 +809,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
 >
   <pf-page-with-title-bar>
     
-    Org Data Autoloader Field Mappings
+    Autoloader Configuration
     
     <div
       class="list-group list-group-flush"

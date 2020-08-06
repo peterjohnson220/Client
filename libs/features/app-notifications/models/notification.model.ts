@@ -17,12 +17,19 @@ export enum NotificationLevel {
 
 export enum NotificationType {
   Event = 'Event',
-  Progress = 'Progress'
+  Progress = 'Progress',
+  User = 'User'
 }
 
 export interface NotificationPayload {
   Title: string;
   Message: string;
+  FileType?: string;
+}
+
+export enum NotificationPayloadFileType {
+  Excel = 'Excel',
+  Pdf = 'Pdf'
 }
 
 export interface NotificationWithFilePayload extends NotificationPayload {

@@ -61,7 +61,7 @@ export const getStatement = createSelector(
 
 export const getIsGenerateStatementModalOpen = createSelector(
   selectPageState,
-  (state: fromPageReducer.State) => state.isGenerateStatementModalOpen
+  fromPageReducer.getIsGenerateStatementModalOpen
 );
 
 export const getSendingGenerateStatementRequest = createSelector(
@@ -77,6 +77,41 @@ export const getSendingGenerateStatementRequestSuccess = createSelector(
 export const getSendingGenerateStatementRequestError = createSelector(
   selectPageState,
   fromPageReducer.getSendingGenerateStatementRequestError
+);
+
+export const getListAreaColumns = createSelector(
+  selectPageState,
+  fromPageReducer.getListAreaColumns
+);
+
+export const getIsFiltersPanelOpen = createSelector(
+  selectPageState,
+  fromPageReducer.getIsFiltersPanelOpen
+);
+
+export const getIsUnassignEmployeesModalOpen = createSelector(
+  selectPageState,
+  fromPageReducer.getIsUnassignModalOpen
+);
+
+export const getIsSingleEmployeeAction = createSelector(
+  selectPageState,
+  fromPageReducer.getIsSingleEmployeeAction
+);
+
+export const getSendingUnassignRequest = createSelector(
+  selectPageState,
+  fromPageReducer.getUnassignEmployees
+);
+
+export const getSendingUnassignRequestSuccess = createSelector(
+  selectPageState,
+  fromPageReducer.getUnassignEmployeesSuccess
+);
+
+export const getSendingUnassignRequestError = createSelector(
+  selectPageState,
+  fromPageReducer.getUnassignEmployeesError
 );
 
 // Assignments Modal Selectors
@@ -165,4 +200,14 @@ export const getAssignedEmployeesSelectedCompanyEmployeeIds = createSelector(
 export const getAssignedEmployeesSelectedCompanyEmployeeIdCount = createSelector(
   getAssignedEmployeesFeatureState,
   fromAssignedEmployeesGridReducer.getSelectedCompanyEmployeeIdCount
+);
+
+export const getOpenActionMenuEmployee = createSelector(
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getOpenActionMenuEmployee
+);
+
+export const getSelectAllState = createSelector(
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getSelectAllState
 );

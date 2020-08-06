@@ -42,7 +42,7 @@
           [waitingForAuthentication]="connectionSummary?.statuses?.includes('Authenticating')">
         </pf-test-authentication>
 
-        <pf-workdaymock-authentication 
+        <pf-workdaymock-authentication
           *ngSwitchCase="'WDMOCK'"
           (cancelClick)="cancel()"
           (backClick)="back()"
@@ -60,6 +60,16 @@
           [validated]="validatedCredentials"
           [waitingForAuthentication]="connectionSummary?.statuses?.includes('Authenticating')">
         </pf-workdayrest-authentication>
+
+        <pf-publicapi-authentication
+          *ngSwitchCase="'PUBLICAPI'"
+          [selectedEntities]="connectionSummary?.selectedEntities"
+          (cancelClick)="cancel()"
+          (backClick)="back()"
+          (submitClick)="submitFormEvent($event)"
+          [validated]="validatedCredentials"
+          [waitingForAuthentication]="connectionSummary?.statuses?.includes('Authenticating')">
+        </pf-publicapi-authentication>
 
         <div class="error-group mb-3" *ngSwitchCaseDefault>
           <div class="alert alert-danger">

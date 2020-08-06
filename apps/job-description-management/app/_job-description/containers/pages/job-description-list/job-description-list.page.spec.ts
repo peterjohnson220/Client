@@ -94,7 +94,6 @@ describe('Job Description Management - Job Description - Job Description List Pa
 
     fixture = TestBed.createComponent(JobDescriptionListPageComponent);
     instance = fixture.componentInstance;
-
     instance.assignJobToTemplateModalComponent = TestBed.createComponent(AssignJobsToTemplateModalComponent).componentInstance;
     instance.jobDescriptionHistoryModalComponent = TestBed.createComponent(JobDescriptionHistoryModalComponent).componentInstance;
     instance.jobDescriptionAppliesToModalComponent = TestBed.createComponent(JobDescriptionAppliesToModalComponent).componentInstance;
@@ -108,6 +107,10 @@ describe('Job Description Management - Job Description - Job Description List Pa
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
     route = TestBed.inject(ActivatedRoute);
+
+    // @ts-ignore
+    instance.initPostAuthCheckSubscriptions();
+
     fixture.detectChanges();
   });
 

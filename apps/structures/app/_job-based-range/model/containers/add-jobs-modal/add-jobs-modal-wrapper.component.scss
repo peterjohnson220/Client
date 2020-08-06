@@ -29,6 +29,25 @@ pf-paymarkets {
   font-weight: bold;
 }
 
-::ng-deep .modal-body {
-  padding: 0 0 0 0.15rem;
+
+::ng-deep .modal-lg {
+  max-width: 1000px;
+  
+  .modal-body {
+    padding: 0.15rem 0.15rem 0.15rem 0.25rem;
+  }
+
+  .modal-content {
+    height: 100%;
+
+    .modal-content {
+      height: auto;
+      margin: 0.2rem;
+    }
+
+    .modal-dialog {
+      display: flex;
+      align-items: center;
+    }
+  }
 }

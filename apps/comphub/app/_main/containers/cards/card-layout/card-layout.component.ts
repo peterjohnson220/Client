@@ -79,6 +79,12 @@ export class CardLayoutComponent implements OnInit {
   }
 
   handleConfirmedCloseApp() {
-    this.window.nativeWindow.location = `/${environment.hostPath}/dashboard`;
+    let returnLocation = `/${environment.hostPath}/dashboard`;
+
+    if(this.workflowContext.quickPriceType === QuickPriceType.PEER){
+      returnLocation = `/${environment.hostPath}/peer/exchanges/redirect`;
+    }
+
+    this.window.nativeWindow.location = returnLocation;
   }
 }

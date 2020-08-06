@@ -129,6 +129,10 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     },
   };
   private acceptedFileExtensions = ACCEPTED_FILE_EXTENSIONS;
+  private saveConfiguration$: Observable<boolean>;
+  private loaderSettingsLoading: boolean;
+  private fieldMappingsLoading: boolean;
+  private savingConfiguration: boolean;
 
 
   private get toastSuccessOptions(): NotificationSettings {
@@ -194,6 +198,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.configurationGroups$ = this.store.select(fromOrgDataAutoloaderReducer.getConfigurationGroups);
     this.sftpUserName$ = this.store.select(fromOrgDataAutoloaderReducer.getSftpUserName);
     this.sftpPublicKey$ = this.store.select(fromOrgDataAutoloaderReducer.getSftpPublicKey);
+    this.saveConfiguration$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingConfiguration);
     this.saveConfigurationSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingConfigurationSuccess);
     this.saveConfigurationError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingConfigurationError);
     this.sftpUser$ = this.store.select(fromOrgDataAutoloaderReducer.getSftpUser);
@@ -219,6 +224,24 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       clientFileName: true,
       selectFile: true
     };
+
+    this.loaderSettingsLoading$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.loaderSettingsLoading = f;
+    });
+
+    this.companyMappingsLoading$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.fieldMappingsLoading = f;
+    });
+
+    this.saveConfiguration$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.savingConfiguration = f;
+    });
 
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$),
@@ -551,7 +574,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     let part4 = !this.isValidExtension(this.sftpPublicKey);
     let part5 = this.sftpUserNameIsValid === false;
     let part6 = !this.isPublicKeyAuthInfoComplete();
+    let part7 = (this.savingConfiguration || this.loaderSettingsLoading || this.fieldMappingsLoading);
 
-    return part1 || part2 || part3 || part4 || part5 || part6;
+    return part1 || part2 || part3 || part4 || part5 || part6 || part7;
   }
 }

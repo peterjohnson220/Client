@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 
 import { Router } from '@angular/router';
 
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
@@ -9,13 +10,18 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
+import { PfSecuredResourceDirective } from 'libs/forms/directives';
 import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
 import * as fromEmployeeManagementReducers from 'libs/features/employee-management/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
-import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import {
+  ActionBarConfig,
+  ColumnChooserType,
+  getDefaultActionBarConfig, getDefaultGridRowActionsConfig,
+  GridConfig,
+  GridRowActionsConfig
+} from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import { UserContext } from 'libs/models';
-import * as fromRootState from 'libs/state/state';
 
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
@@ -32,8 +38,9 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
   @ViewChild('salaryColumn') salaryColumn: ElementRef;
   @ViewChild('rateBasedSalaryColumn') rateBasedSalaryColumn: ElementRef;
+  @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
+  @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
   permissions = Permissions;
-  userContext$: Observable<UserContext>;
   pricingJobs$: Observable<boolean>;
   pricingJobsError$: Observable<boolean>;
 
@@ -51,23 +58,26 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     dir: 'asc',
     field: 'CompanyEmployees_Employee_ID'
   }];
+  selectedDropdown: NgbDropdown;
   selectedCompanyEmployeeIds: number[];
+  selectedCompanyEmployeeId: number;
+  deleteSingleEmployee = false;
   pricingJobs: boolean;
   filterTemplates = {};
   colTemplates = {};
   actionBarConfig: ActionBarConfig;
   fieldsExcludedFromExport = ['CompanyEmployee_ID', 'HiddenRate'];
   gridConfig: GridConfig;
+  gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
+  hasDropdownOptions: boolean;
 
   constructor(
-    private rootStore: Store<fromRootState.State>,
     public store: Store<fromEmployeesReducer.State>,
     public employeeManagementStore: Store<fromEmployeeManagementReducers.State>,
     private pfGridStore: Store<fromPfGridReducer.State>,
     private modalService: NgbModal,
     private router: Router
   ) {
-    this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.pricingJobs$ = this.store.pipe(select(fromEmployeesReducer.getPricingJobs));
     this.pricingJobsError$ = this.store.pipe(select(fromEmployeesReducer.getPricingsJobsError));
     this.actionBarConfig = {
@@ -75,7 +85,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       ShowColumnChooser: true,
       ShowFilterChooser: true,
       AllowExport: true,
-      AllowSaveFilter: false,
+      AllowSaveFilter: true,
       ExportSourceName: 'Employees',
       ColumnChooserType: ColumnChooserType.ColumnGroup
     };
@@ -89,6 +99,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       this.selectedCompanyEmployeeIds = sk;
     });
     this.pricingJobsSubscription = this.pricingJobs$.subscribe(value => this.handlePricingJobsStatusChanged(value));
+    window.addEventListener('scroll', this.scroll, true);
   }
 
   ngAfterViewInit(): void {
@@ -96,10 +107,18 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       ...this.actionBarConfig,
       GlobalActionsTemplate: this.gridGlobalActionsTemplate
     };
+    this.gridRowActionsConfig = {
+      ...this.gridRowActionsConfig,
+      ActionsTemplate : this.gridRowActionsTemplate
+    };
     this.colTemplates = {
       'salary': { Template: this.salaryColumn },
       'rateBasedSalary': { Template: this.rateBasedSalaryColumn }
     };
+    // to combat ExpressionChangedAfterItHasBeenCheckedError
+    setTimeout(() => {
+      this.hasDropdownOptions = this.checkHasDropdownOptions([this.permissions.EMPLOYEES_ADD_EDIT_DELETE, this.permissions.NEW_PROJECT]);
+    }, 0);
   }
 
   ngOnDestroy(): void {
@@ -107,20 +126,26 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.pricingJobsSubscription.unsubscribe();
   }
 
-  getPageTitle(companyName: string): string {
-    return companyName ? `${companyName} Employees` : '';
-  }
-
   public get priceJobsDisabled(): boolean {
     return !this.selectedCompanyEmployeeIds || this.selectedCompanyEmployeeIds.length === 0 || this.pricingJobs;
+  }
+
+  scroll = (): void => {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
   }
 
   addNewEmployee() {
     this.employeeManagementStore.dispatch(new fromEmployeeManagementActions.AddEmployee());
   }
 
-  handlePriceJobsClicked(): void {
-    this.store.dispatch(new fromEmployeesPageActions.PriceJobs({ companyEmployeeIds: this.selectedCompanyEmployeeIds }));
+  handlePriceJobsClicked(fromActionsColumn?: boolean): void {
+    if (fromActionsColumn) {
+      this.store.dispatch(new fromEmployeesPageActions.PriceJobs({ companyEmployeeIds: [this.selectedCompanyEmployeeId] }));
+    } else {
+      this.store.dispatch(new fromEmployeesPageActions.PriceJobs({ companyEmployeeIds: this.selectedCompanyEmployeeIds }));
+    }
   }
 
   handlePricingJobsMessageCloseClicked(): void {
@@ -130,16 +155,37 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
 
   handleEmployeeDelete() {
     this.showDeleteEmployeeModal.next(false);
-    return this.store.dispatch(new fromEmployeesPageActions.DeleteEmployee({ pageViewId: this.pageViewId, companyEmployeeIds: this.selectedCompanyEmployeeIds }));
+    if (this.deleteSingleEmployee) {
+      return this.store.dispatch(new fromEmployeesPageActions.DeleteEmployee({
+        pageViewId: this.pageViewId,
+        companyEmployeeIds: [this.selectedCompanyEmployeeId]
+      }));
+    } else {
+      return this.store.dispatch(new fromEmployeesPageActions.DeleteEmployee({
+        pageViewId: this.pageViewId,
+        companyEmployeeIds: this.selectedCompanyEmployeeIds
+      }));
+    }
   }
 
-  handleEditClicked(): void {
-    if (!this.selectedCompanyEmployeeIds || this.selectedCompanyEmployeeIds.length !== 1) {
-      return;
+  handleEditClicked(fromActionsColumn?: boolean): void {
+    if (fromActionsColumn) {
+      this.store.dispatch(new fromEmployeeManagementActions.EditEmployee({
+        companyEmployeeId: this.selectedCompanyEmployeeId
+      }));
+    } else {
+      if (!this.selectedCompanyEmployeeIds || this.selectedCompanyEmployeeIds.length !== 1) {
+        return;
+      }
+      this.store.dispatch(new fromEmployeeManagementActions.EditEmployee({
+        companyEmployeeId: this.selectedCompanyEmployeeIds[0]
+      }));
     }
-    this.store.dispatch(new fromEmployeeManagementActions.EditEmployee({
-      companyEmployeeId: this.selectedCompanyEmployeeIds[0]
-    }));
+  }
+
+  handleDeleteSingleEmployeeClicked() {
+    this.deleteSingleEmployee = true;
+    this.showDeleteEmployeeModal.next(true);
   }
 
   handleClearSelectionClicked(): void {
@@ -149,6 +195,23 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   handleEmployeeHistoryDateChange(date: string): void {
     this.showEmployeeHistoryModal.next(false);
     this.router.navigate([`history/${date}`]);
+  }
+
+  handleSelectedRowAction(companyEmployeeId: number, dropdown: any) {
+    this.selectedDropdown = dropdown;
+    this.selectedCompanyEmployeeId = companyEmployeeId;
+  }
+
+  handleModalDismissed(): void {
+    this.deleteSingleEmployee = false;
+    this.selectedCompanyEmployeeId = null;
+    this.showDeleteEmployeeModal.next(false);
+  }
+
+  checkHasDropdownOptions(permissions: string[]): boolean {
+    if (this.pfSecuredResourceDirective) {
+      return this.pfSecuredResourceDirective.doAuthorizeAny(permissions);
+    }
   }
 
   private handlePricingJobsStatusChanged(value: boolean): void {

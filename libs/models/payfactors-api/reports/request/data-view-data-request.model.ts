@@ -10,14 +10,10 @@ export interface DataViewDataRequest {
   ApplyDefaultFilters?: boolean;
 }
 
-export interface DataViewField {
+export interface DataViewField extends BasicDataViewField {
   EntityId: number;
   Entity: string;
-  EntitySourceName: string;
   DataElementId: number;
-  SourceName: string;
-  DisplayName: string;
-  DataType?: DataViewFieldDataType;
   IsSelected?: boolean;
   Order?: number;
   IsSortable: boolean;
@@ -28,11 +24,29 @@ export interface DataViewField {
   FormatType?: FieldFormatType;
   Formula?: string;
   FormulaName?: string;
-  SortOrder?: number;
-  SortDirection?: 'asc' | 'desc';
   IsPublic?: boolean;
   AccessLevel?: DataViewAccessLevel;
   Width?: number;
+}
+
+export interface BasicDataViewField {
+  EntitySourceName: string;
+  SourceName: string;
+  DisplayName?: string;
+  DataType?: DataViewFieldDataType;
+  KendoGridField?: string;
+  IsHidden?: boolean;
+  SortOrder?: number;
+  SortDirection?: 'asc' | 'desc';
+}
+
+export interface BasicDataViewDataRequest {
+  BaseEntity: string;
+  Fields: BasicDataViewField[];
+  Filters: DataViewFilter[];
+  PagingOptions: PagingOptions;
+  Distinct: boolean;
+  ApplyDefaultFilters: boolean;
 }
 
 export interface BaseFilter {

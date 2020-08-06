@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 
+import { HRISConnectionAuthenticationStatus } from 'libs/constants/hris-connection-authenticationstatus';
+
 import * as fromHrisConnectionState from '../reducers/index';
 import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
 import { ConnectionSummary } from '../models';
@@ -37,7 +39,7 @@ export class HrisAuthenticationGuard implements CanActivate, CanActivateChild {
   }
 
   private canAccess(connectionSummary: ConnectionSummary): Observable<boolean> {
-    if (!this.matchesConnectionStatus('AuthenticationError', connectionSummary)) {
+    if (!this.matchesConnectionStatus(HRISConnectionAuthenticationStatus.ERROR , connectionSummary) && !this.matchesConnectionStatus(HRISConnectionAuthenticationStatus.NOTSTARTED, connectionSummary)) {
       return of(true);
     } else {
       this.router.navigate(['/']);

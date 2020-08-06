@@ -7,7 +7,8 @@
                       attribute.Type === 'Rendered'">
     <div [class.ql-editor]="attribute.Type === 'RichText' || attribute.Type === 'Textarea'"
          [class.ql-editor-output]="attribute.Type === 'Rendered'" class="rendered-text"
-         [innerHtml]="sanitizer.bypassSecurityTrustHtml(dataRow[attribute.Name])"></div>
+         [innerHtml]="dataRow[attribute.Name] ? sanitizer.bypassSecurityTrustHtml(dataRow[attribute.Name]) : ''">
+    </div>
   </ng-template>
 
   <ng-template [ngIf]="attribute.Type === 'Dropdown'">

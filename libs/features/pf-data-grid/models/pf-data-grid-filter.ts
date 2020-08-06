@@ -3,4 +3,5 @@ export interface PfDataGridFilter {
   Operator: string;
   Value: string;
   Values?: string[];
+  ExcludeFromFilterSave?: boolean;
 }

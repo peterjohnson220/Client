@@ -16,6 +16,7 @@ import { RangeGroupMetadata } from '../../../shared/models';
 import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
+import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/range-distribution-data-point-type-ids';
 
 @Component({
   selector: 'pf-job-based-range-chart',
@@ -47,6 +48,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   hasCurrentStructure: boolean;
   metaData: RangeGroupMetadata;
   rangeDistributionTypeId: number;
+  filterPanelSub: Subscription;
 
   constructor(
     public store: Store<any>,
@@ -67,6 +69,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
           JobRangeModelChartService.getRangeOptions(this.chartLocale, this.currency, this.controlPointDisplay, this.rate, this.rangeDistributionTypeId);
       }
     });
+
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
     this.dataSubscription = this.store.select(fromPfGridReducer.getData, this.pageViewId).subscribe(data => {
       if (data && this.rate && this.currency) {
@@ -74,11 +77,6 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
         this.processChartData();
       }
     });
-  }
-
-  formatRangeDelta(rawCurrency, low) {
-    return StructuresHighchartsService.formatCurrency(rawCurrency, this.chartLocale, this.currency, this.rate, true)
-      + (low ? ' to bring to minimum' : ' over maximum');
   }
 
   rangeChartCallback(chart: Highcharts.Chart = null) {
@@ -92,48 +90,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     // if we find average or avg outlier data AND its lower than CompanyStructures_Ranges_Min, use that value to check for new min.
     // otherwise just use CompanyStructures_Ranges_Min
     // also make sure the comparison value is at least zero, aka not NULL. This is to prevent negative y-axis values
-    let comparisonValue = currentRow.CompanyStructures_Ranges_Min == null ? 0 : currentRow.CompanyStructures_Ranges_Min;
-
-    // Tertile - Quartile - Quintile
-    if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
-      if (!!currentRow.CompanyStructures_Ranges_Tertile_First && currentRow.CompanyStructures_Ranges_Tertile_First < comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Tertile_First;
-      }
-
-      if (!!currentRow.CompanyStructures_Ranges_Tertile_Second && currentRow.CompanyStructures_Ranges_Tertile_Second < comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Tertile_Second;
-      }
-    } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
-      if (!!currentRow.CompanyStructures_Ranges_Quartile_First
-        && currentRow.CompanyStructures_Ranges_Quartile_First < comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quartile_First;
-      }
-
-      if (!!currentRow.CompanyStructures_Ranges_Quartile_Second
-        && currentRow.CompanyStructures_Ranges_Quartile_Second < comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quartile_Second;
-      }
-    } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
-      if (!!currentRow.CompanyStructures_Ranges_Quintile_First
-        && currentRow.CompanyStructures_Ranges_Quintile_First < comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quintile_First;
-      }
-
-      if (!!currentRow.CompanyStructures_Ranges_Quintile_Second
-        && currentRow.CompanyStructures_Ranges_Quintile_Second < comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quintile_Second;
-      }
-
-      if (!!currentRow.CompanyStructures_Ranges_Quintile_Third
-        && currentRow.CompanyStructures_Ranges_Quintile_Third < comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quintile_Third;
-      }
-
-      if (!!currentRow.CompanyStructures_Ranges_Quintile_Fourth
-        && currentRow.CompanyStructures_Ranges_Quintile_Fourth < comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quintile_Fourth;
-      }
-    }
+    let comparisonValue = StructuresHighchartsService.getChartMin(currentRow, this.rangeDistributionTypeId);
 
     // first check the averageminoutlier
     if (!!currentRow.CompanyStructures_RangeGroup_AverageEEMinOutlier &&
@@ -154,48 +111,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   private determineChartMax(currentRow) {
     // if we find average or avg outlier data AND its higher than CompanyStructures_Ranges_Max, use that value to check for new max.
     // otherwise just use CompanyStructures_Ranges_Max
-    let comparisonValue = currentRow.CompanyStructures_Ranges_Max;
-
-    // Tertile - Quartile - Quintile
-    if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
-      if (!!currentRow.CompanyStructures_Ranges_Tertile_First && currentRow.CompanyStructures_Ranges_Tertile_First > comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Tertile_First;
-      }
-
-      if (!!currentRow.CompanyStructures_Ranges_Tertile_Second && currentRow.CompanyStructures_Ranges_Tertile_Second > comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Tertile_Second;
-      }
-    } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
-      if (!!currentRow.CompanyStructures_Ranges_Quartile_First
-        && currentRow.CompanyStructures_Ranges_Quartile_First > comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quartile_First;
-      }
-
-      if (!!currentRow.CompanyStructures_Ranges_Quartile_Second
-        && currentRow.CompanyStructures_Ranges_Quartile_Second > comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quartile_Second;
-      }
-    } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
-      if (!!currentRow.CompanyStructures_Ranges_Quintile_First
-        && currentRow.CompanyStructures_Ranges_Quintile_First > comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quintile_First;
-      }
-
-      if (!!currentRow.CompanyStructures_Ranges_Quintile_Second
-        && currentRow.CompanyStructures_Ranges_Quintile_Second > comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quintile_Second;
-      }
-
-      if (!!currentRow.CompanyStructures_Ranges_Quintile_Third
-        && currentRow.CompanyStructures_Ranges_Quintile_Third > comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quintile_Third;
-      }
-
-      if (!!currentRow.CompanyStructures_Ranges_Quintile_Fourth
-        && currentRow.CompanyStructures_Ranges_Quintile_Fourth > comparisonValue) {
-        comparisonValue = currentRow.CompanyStructures_Ranges_Quintile_Fourth;
-      }
-    }
+    let comparisonValue = StructuresHighchartsService.getChartMax(currentRow, this.rangeDistributionTypeId);
 
     // first check the averagemaxoutlier
     if (currentRow.CompanyStructures_RangeGroup_AverageEEMaxOutlier &&
@@ -211,6 +127,16 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     if (this.chartMax === undefined || comparisonValue > this.chartMax) {
       this.chartMax = comparisonValue;
     }
+  }
+
+  private addAverage(currentRow) {
+    this.averageSeriesData.push({
+      y: currentRow.CompanyStructures_RangeGroup_AverageEEMRP,
+      jobTitle: currentRow.CompanyJobs_Job_Title,
+      avgComparatio: currentRow.CompanyStructures_RangeGroup_AverageComparatio,
+      avgPositioninRange: currentRow.CompanyStructures_RangeGroup_AveragePositionInRange,
+      avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMRP)
+    });
   }
 
   private addSalaryRangeMinMidMax(xCoordinate, currentRow) {
@@ -236,183 +162,57 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       xCoordinate, currentRow.CompanyStructures_Ranges_Quintile_Third, currentRow.CompanyStructures_Ranges_Quintile_Fourth));
   }
 
-  private addMidPoint(currentRow) {
-    const delta = StructuresHighchartsService.formatDataPointDelta(this.hasCurrentStructure, this.chartLocale, this.metaData,
-      currentRow.CompanyStructures_Ranges_Mid, currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint);
-
-    this.dataPointSeriesDataModel.Mid.push({
-      y: currentRow.CompanyStructures_Ranges_Mid,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
-      dataPoint: StructuresHighchartsService.formatCurrentDataPoint(this.hasCurrentStructure, 'Midpoint',
-        currentRow.CompanyStructures_Ranges_Mid, this.chartLocale, this.metaData),
-      currentDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'Current Mid',
-        currentRow.CompanyStructures_RangeGroup_CurrentStructureMidPoint, this.chartLocale, this.metaData),
-      newDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'New Mid',
-        currentRow.CompanyStructures_Ranges_Mid, this.chartLocale, this.metaData),
-      delta: !!delta ? delta.message : delta,
-      icon: !!delta ? delta.icon : delta,
-      iconColor: !!delta ? delta.color : delta
-    });
+  private addMidPoint(xCoordinate, currentRow) {
+    this.dataPointSeriesDataModel.Mid.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.Mid, currentRow, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
   }
 
-  private addTertilePoint(currentRow) {
-    // Tertile First
-    const deltaTertileFirst = StructuresHighchartsService.formatDataPointDelta(this.hasCurrentStructure, this.chartLocale, this.metaData,
-      currentRow.CompanyStructures_Ranges_Tertile_First, currentRow.CompanyStructures_Ranges_Tertile_CurrentFirst);
+  private addTertilePoint(xCoordinate, currentRow) {
+    this.dataPointSeriesDataModel.TertileFirst.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.TertileFirst, currentRow, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
 
-    this.dataPointSeriesDataModel.TertileFirst.push({
-      y: currentRow.CompanyStructures_Ranges_Tertile_First,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
-      dataPoint: StructuresHighchartsService.formatCurrentDataPoint(this.hasCurrentStructure, 'Top 1st 3rd',
-        currentRow.CompanyStructures_Ranges_Tertile_First, this.chartLocale, this.metaData),
-      currentDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'Current Top 1st 3rd',
-        currentRow.CompanyStructures_Ranges_Tertile_CurrentFirst, this.chartLocale, this.metaData),
-      newDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'New Top 1st 3rd',
-        currentRow.CompanyStructures_Ranges_Tertile_First, this.chartLocale, this.metaData),
-      delta: !!deltaTertileFirst ? deltaTertileFirst.message : deltaTertileFirst,
-      icon: !!deltaTertileFirst ? deltaTertileFirst.icon : deltaTertileFirst,
-      iconColor: !!deltaTertileFirst ? deltaTertileFirst.color : deltaTertileFirst
-    });
-
-    // Tertile Second
-    const deltaTertileSecond = StructuresHighchartsService.formatDataPointDelta(this.hasCurrentStructure, this.chartLocale, this.metaData,
-      currentRow.CompanyStructures_Ranges_Tertile_Second, currentRow.CompanyStructures_Ranges_Tertile_CurrentSecond);
-
-    this.dataPointSeriesDataModel.TertileSecond.push({
-      y: currentRow.CompanyStructures_Ranges_Tertile_Second,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
-      dataPoint: StructuresHighchartsService.formatCurrentDataPoint(this.hasCurrentStructure, 'Top 2nd 3rd',
-        currentRow.CompanyStructures_Ranges_Tertile_Second, this.chartLocale, this.metaData),
-      currentDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'Current Top 2nd 3rd',
-        currentRow.CompanyStructures_Ranges_Tertile_CurrentSecond, this.chartLocale, this.metaData),
-      newDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'New Top 2nd 3rd',
-        currentRow.CompanyStructures_Ranges_Tertile_Second, this.chartLocale, this.metaData),
-      delta: !!deltaTertileSecond ? deltaTertileSecond.message : deltaTertileSecond,
-      icon: !!deltaTertileSecond ? deltaTertileSecond.icon : deltaTertileSecond,
-      iconColor: !!deltaTertileSecond ? deltaTertileSecond.color : deltaTertileSecond
-    });
+    this.dataPointSeriesDataModel.TertileSecond.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.TertileSecond, currentRow, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
   }
 
-  private addQuartilePoint(currentRow) {
-    // Quartile First
-    const deltaQuartileFirst = StructuresHighchartsService.formatDataPointDelta(this.hasCurrentStructure, this.chartLocale, this.metaData,
-      currentRow.CompanyStructures_Ranges_Quartile_First, currentRow.CompanyStructures_Ranges_Quartile_CurrentFirst);
+  private addQuartilePoint(xCoordinate, currentRow) {
+    this.dataPointSeriesDataModel.QuartileFirst.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuartileFirst, currentRow, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
 
-    this.dataPointSeriesDataModel.QuartileFirst.push({
-      y: currentRow.CompanyStructures_Ranges_Quartile_First,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
-      dataPoint: StructuresHighchartsService.formatCurrentDataPoint(this.hasCurrentStructure, 'Top 1st 4th',
-        currentRow.CompanyStructures_Ranges_Quartile_First, this.chartLocale, this.metaData),
-      currentDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'Current Top 1st 4th',
-        currentRow.CompanyStructures_Ranges_Quartile_CurrentFirst, this.chartLocale, this.metaData),
-      newDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'New Top 1st 4th',
-        currentRow.CompanyStructures_Ranges_Quartile_First, this.chartLocale, this.metaData),
-      delta: !!deltaQuartileFirst ? deltaQuartileFirst.message : deltaQuartileFirst,
-      icon: !!deltaQuartileFirst ? deltaQuartileFirst.icon : deltaQuartileFirst,
-      iconColor: !!deltaQuartileFirst ? deltaQuartileFirst.color : deltaQuartileFirst
-    });
-
-    // Quartile Second
-    const deltaQuartileSecond = StructuresHighchartsService.formatDataPointDelta(this.hasCurrentStructure, this.chartLocale, this.metaData,
-      currentRow.CompanyStructures_Ranges_Quartile_Second, currentRow.CompanyStructures_Ranges_Quartile_CurrentSecond);
-
-    this.dataPointSeriesDataModel.QuartileSecond.push({
-      y: currentRow.CompanyStructures_Ranges_Quartile_Second,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
-      dataPoint: StructuresHighchartsService.formatCurrentDataPoint(this.hasCurrentStructure, 'Top 3rd 4th',
-        currentRow.CompanyStructures_Ranges_Quartile_Second, this.chartLocale, this.metaData),
-      currentDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'Current Top 3rd 4th',
-        currentRow.CompanyStructures_Ranges_Quartile_CurrentSecond, this.chartLocale, this.metaData),
-      newDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'New Top 3rd 4th',
-        currentRow.CompanyStructures_Ranges_Quartile_Second, this.chartLocale, this.metaData),
-      delta: !!deltaQuartileSecond ? deltaQuartileSecond.message : deltaQuartileSecond,
-      icon: !!deltaQuartileSecond ? deltaQuartileSecond.icon : deltaQuartileSecond,
-      iconColor: !!deltaQuartileSecond ? deltaQuartileSecond.color : deltaQuartileSecond
-    });
+    this.dataPointSeriesDataModel.QuartileSecond.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuartileSecond, currentRow, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
   }
 
-  private addQuintilePoint(currentRow) {
-    // Quintile First
-    const deltaQuintileFirst = StructuresHighchartsService.formatDataPointDelta(this.hasCurrentStructure, this.chartLocale, this.metaData,
-      currentRow.CompanyStructures_Ranges_Quintile_First, currentRow.CompanyStructures_Ranges_Quintile_CurrentFirst);
+  private addQuintilePoint(xCoordinate, currentRow) {
+    this.dataPointSeriesDataModel.QuintileFirst.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileFirst, currentRow, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
 
-    this.dataPointSeriesDataModel.QuintileFirst.push({
-      y: currentRow.CompanyStructures_Ranges_Quintile_First,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
-      dataPoint: StructuresHighchartsService.formatCurrentDataPoint(this.hasCurrentStructure, 'Top 1st 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_First, this.chartLocale, this.metaData),
-      currentDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'Current Top 1st 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_CurrentFirst, this.chartLocale, this.metaData),
-      newDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'New Top 1st 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_First, this.chartLocale, this.metaData),
-      delta: !!deltaQuintileFirst ? deltaQuintileFirst.message : deltaQuintileFirst,
-      icon: !!deltaQuintileFirst ? deltaQuintileFirst.icon : deltaQuintileFirst,
-      iconColor: !!deltaQuintileFirst ? deltaQuintileFirst.color : deltaQuintileFirst
-    });
+    this.dataPointSeriesDataModel.QuintileSecond.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileSecond, currentRow, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
 
-    // Quintile Second
-    const deltaQuintileSecond = StructuresHighchartsService.formatDataPointDelta(this.hasCurrentStructure, this.chartLocale, this.metaData,
-      currentRow.CompanyStructures_Ranges_Quintile_Second, currentRow.CompanyStructures_Ranges_Quintile_CurrentSecond);
+    this.dataPointSeriesDataModel.QuintileThird.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileThird, currentRow, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
 
-    this.dataPointSeriesDataModel.QuintileSecond.push({
-      y: currentRow.CompanyStructures_Ranges_Quintile_Second,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
-      dataPoint: StructuresHighchartsService.formatCurrentDataPoint(this.hasCurrentStructure, 'Top 2nd 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_Second, this.chartLocale, this.metaData),
-      currentDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'Current Top 2nd 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_CurrentSecond, this.chartLocale, this.metaData),
-      newDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'New Top 2nd 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_Second, this.chartLocale, this.metaData),
-      delta: !!deltaQuintileSecond ? deltaQuintileSecond.message : deltaQuintileSecond,
-      icon: !!deltaQuintileSecond ? deltaQuintileSecond.icon : deltaQuintileSecond,
-      iconColor: !!deltaQuintileSecond ? deltaQuintileSecond.color : deltaQuintileSecond
-    });
-
-    // Quintile Third
-    const deltaQuintileThird = StructuresHighchartsService.formatDataPointDelta(this.hasCurrentStructure, this.chartLocale, this.metaData,
-      currentRow.CompanyStructures_Ranges_Quintile_Third, currentRow.CompanyStructures_Ranges_Quintile_CurrentThird);
-
-    this.dataPointSeriesDataModel.QuintileThird.push({
-      y: currentRow.CompanyStructures_Ranges_Quintile_Third,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
-      dataPoint: StructuresHighchartsService.formatCurrentDataPoint(this.hasCurrentStructure, 'Top 3rd 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_Third, this.chartLocale, this.metaData),
-      currentDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'Current Top 3rd 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_CurrentThird, this.chartLocale, this.metaData),
-      newDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'New Top 3rd 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_Third, this.chartLocale, this.metaData),
-      delta: !!deltaQuintileThird ? deltaQuintileThird.message : deltaQuintileThird,
-      icon: !!deltaQuintileThird ? deltaQuintileThird.icon : deltaQuintileThird,
-      iconColor: !!deltaQuintileThird ? deltaQuintileThird.color : deltaQuintileThird
-    });
-
-    // Quintile Fourth
-    const deltaQuintileFourth = StructuresHighchartsService.formatDataPointDelta(this.hasCurrentStructure, this.chartLocale, this.metaData,
-      currentRow.CompanyStructures_Ranges_Quintile_Fourth, currentRow.CompanyStructures_Ranges_Quintile_CurrentFourth);
-
-    this.dataPointSeriesDataModel.QuintileFourth.push({
-      y: currentRow.CompanyStructures_Ranges_Quintile_Fourth,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
-      dataPoint: StructuresHighchartsService.formatCurrentDataPoint(this.hasCurrentStructure, 'Top 4th 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_Fourth, this.chartLocale, this.metaData),
-      currentDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'Current Top 4th 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_CurrentFourth, this.chartLocale, this.metaData),
-      newDataPoint: StructuresHighchartsService.formatNewDataPoint(this.hasCurrentStructure, 'New Top 4th 5th',
-        currentRow.CompanyStructures_Ranges_Quintile_Fourth, this.chartLocale, this.metaData),
-      delta: !!deltaQuintileFourth ? deltaQuintileFourth.message : deltaQuintileFourth,
-      icon: !!deltaQuintileFourth ? deltaQuintileFourth.icon : deltaQuintileFourth,
-      iconColor: !!deltaQuintileFourth ? deltaQuintileFourth.color : deltaQuintileFourth
-    });
-  }
-
-  private addAverage(currentRow) {
-    this.averageSeriesData.push({
-      y: currentRow.CompanyStructures_RangeGroup_AverageEEMRP,
-      jobTitle: currentRow.CompanyJobs_Job_Title,
-      avgComparatio: currentRow.CompanyStructures_RangeGroup_AverageComparatio,
-      avgPositioninRange: currentRow.CompanyStructures_RangeGroup_AveragePositionInRange,
-      avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMRP)
-    });
+    this.dataPointSeriesDataModel.QuintileFourth.push(
+      StructuresHighchartsService.getDataPoint(xCoordinate, RangeDistributionDataPointTypeIds.QuintileFourth, currentRow, this.hasCurrentStructure,
+        this.chartLocale, this.metaData)
+    );
   }
 
   private formatOutlierCount(min: boolean, count: number) {
@@ -496,18 +296,18 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       this.addSalaryRangeMinMidMax(i, currentRow);
 
       // always add to midPoint
-      this.addMidPoint(currentRow);
+      this.addMidPoint(i, currentRow);
 
       // Tertile - Quartile - Quintile: salary range + data points
       if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
         this.addSalaryRangeTertile(i, currentRow);
-        this.addTertilePoint(currentRow);
+        this.addTertilePoint(i, currentRow);
       } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
         this.addSalaryRangeQuartile(i, currentRow);
-        this.addQuartilePoint(currentRow);
+        this.addQuartilePoint(i, currentRow);
       } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
         this.addSalaryRangeQuintile(i, currentRow);
-        this.addQuintilePoint(currentRow);
+        this.addQuintilePoint(i, currentRow);
       }
 
       // add to average
@@ -551,11 +351,19 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
+    this.filterPanelSub = this.store.select(fromPfGridReducer.getFilterPanelOpen, this.pageViewId).subscribe(filterPanelOpen => {
+      if (filterPanelOpen === false) {
+        setTimeout(() => {
+          this.chartInstance.reflow();
+        }, 0);
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.dataSubscription.unsubscribe();
     this.metadataSubscription.unsubscribe();
     this.pageViewIdSubscription.unsubscribe();
+    this.filterPanelSub.unsubscribe();
   }
 }

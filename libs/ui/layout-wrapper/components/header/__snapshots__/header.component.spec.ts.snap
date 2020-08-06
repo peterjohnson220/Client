@@ -20,6 +20,7 @@ exports[`User Menu should show homepage link, when provided 1`] = `
       />
     </a>
     
+    
     <pf-layout-wrapper-user-menu />
   </nav>
 </pf-layout-wrapper-header>
@@ -43,6 +44,7 @@ exports[`User Menu should show the header 1`] = `
         src="null"
       />
     </a>
+    
     
     <pf-layout-wrapper-user-menu />
   </nav>

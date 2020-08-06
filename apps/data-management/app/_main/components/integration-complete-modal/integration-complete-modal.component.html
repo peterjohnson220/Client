@@ -1,0 +1,17 @@
+<pf-modal-form
+  [title]="'Integration Setup Complete'"
+  [size]="'md'"
+  [showFooter]="false"
+  [centered]="true"
+  [allowDismiss]="false"
+  [isOpen$]="isOpen$">
+  <ng-container basic-content>
+    <h5 class="mb-3 setup-complete-modal-header">Integration Setup Complete!</h5>
+    <div class="alert alert-success">
+      Your HRIS integration with {{ friendlyName }} is ready to go! There is nothing else for you to do at this time.
+    </div>
+    <div class="">
+      <button class="btn btn-primary px-4 float-right" (click)="onOk()">Ok</button>
+    </div>
+  </ng-container>
+</pf-modal-form>

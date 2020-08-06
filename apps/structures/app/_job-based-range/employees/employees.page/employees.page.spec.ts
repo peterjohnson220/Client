@@ -14,6 +14,16 @@ import * as fromJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { EmployeesPageComponent } from './employees.page';
 import { RangeValuePipe } from '../../shared/pipes';
+import { StructuresPagesService } from '../../shared/services';
+import { BehaviorSubject } from 'rxjs';
+import { PageViewIds } from '../../shared/constants/page-view-ids';
+
+class MockStructuresPagesService {
+  modelPageViewId: BehaviorSubject<string>;
+  constructor() {
+    this.modelPageViewId = new BehaviorSubject<string>(PageViewIds.ModelMinMidMax);
+  }
+}
 
 describe('Job Based Range Employees - Employees Page', () => {
   let instance: EmployeesPageComponent;
@@ -42,8 +52,11 @@ describe('Job Based Range Employees - Employees Page', () => {
         {
           provide: ActivatedRoute,
           useValue: { parent: {snapshot: {params: {id: 1}}}, snapshot: {params: {id: 1}}}
+        },
+        {
+          provide: StructuresPagesService,
+          useClass: MockStructuresPagesService
         }
-
       ]
     });
 

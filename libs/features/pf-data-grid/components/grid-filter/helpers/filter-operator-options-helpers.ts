@@ -8,11 +8,11 @@ export interface FilterOperator {
 }
 
 const dateFilterOperators: FilterOperator[] = [
-  { display: 'Is equal to', value: '=', requiresValue: true, defaultOperatorForType: false },
-  { display: 'Is not equal to', value: '<>', requiresValue: true, defaultOperatorForType: false },
-  { display: 'Is after or equal to', value: '>=', requiresValue: true, defaultOperatorForType: true },
-  { display: 'Is after', value: '>', requiresValue: true, defaultOperatorForType: false },
-  { display: 'Is before or equal to', value: '<=', requiresValue: true, defaultOperatorForType: false },
+  { display: 'Is equal to', value: 'isdate', requiresValue: true, defaultOperatorForType: false },
+  { display: 'Is not equal to', value: 'isnotdate', requiresValue: true, defaultOperatorForType: false },
+  { display: 'Is after or equal to', value: 'isafterdateorequal', requiresValue: true, defaultOperatorForType: true },
+  { display: 'Is after', value: 'isafterdate', requiresValue: true, defaultOperatorForType: false },
+  { display: 'Is before or equal to', value: 'isbeforedateorequal', requiresValue: true, defaultOperatorForType: false },
   { display: 'Is before', value: '<', requiresValue: true, defaultOperatorForType: false },
   { display: 'Is empty', value: 'isempty', requiresValue: false, defaultOperatorForType: false },
   { display: 'Is not empty', value: 'isnotempty', requiresValue: false, defaultOperatorForType: false }

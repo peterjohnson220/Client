@@ -8,7 +8,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { MainRoutingModule } from './main-routing.module';
-import * as fromFaIcons from './fa-icons';
+import * as fromFaIcons from '../shared/fa-icons';
 
 @NgModule({
   imports: [

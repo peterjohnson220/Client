@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
@@ -17,6 +17,7 @@ export class DeletePaymarketModalComponent implements OnInit {
 
   @Input() payMarketName: string;
   @Input() selectedPayMarketId: number;
+  @Output() resetSelectedPayMarketID = new EventEmitter();
 
   modalOpen$: Observable<boolean>;
   deleting$: Observable<boolean>;
@@ -42,6 +43,7 @@ export class DeletePaymarketModalComponent implements OnInit {
     this.checked = false;
     this.deletePayMarketForm.controls['ConfirmPayMarketDelete'].setValue(false);
     this.store.dispatch(new fromPayMarketModalActions.CloseDeletePayMarketModal());
+    this.resetSelectedPayMarketID.emit();
   }
 
   deletePayMarket(): void {

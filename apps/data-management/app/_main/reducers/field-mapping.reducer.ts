@@ -22,7 +22,7 @@ export interface State {
   isDirty: boolean;
 }
 
-const initialState: State = {
+export const initialState: State = {
   loading: true,
   loadingError: false,
   mappedFields: null,
@@ -212,8 +212,10 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
       };
     }
     case fromFieldMappingActions.LOAD_MAPPED_FIELDS: {
+
       return {
         ...state,
+        payfactorsFields: EntityMappingHelper.removeUnselectedEntities(action.payload.selectedEntities, state.payfactorsFields),
         mappedFields: action.payload.mappedFields
       };
     }

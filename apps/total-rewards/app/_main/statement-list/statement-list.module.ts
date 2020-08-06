@@ -6,7 +6,7 @@ import {EffectsModule} from '@ngrx/effects';
 
 import { GridModule } from '@progress/kendo-angular-grid';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {NgbTabsetModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTabsetModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {PfCommonUIModule} from 'libs/ui/common';
 import {PfFormsModule} from 'libs/forms';
@@ -30,6 +30,7 @@ import * as fromTrsShared from '../../shared';
     FontAwesomeModule,
     GridModule,
     NgbTabsetModule,
+    NgbDropdownModule,
 
     // Payfactors
     PfCommonUIModule,

@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { TotalRewardsTemplatePageComponent } from './containers/pages';
-
 const routes: Routes = [
   {
     path: '',
-    component: TotalRewardsTemplatePageComponent
+    loadChildren: () => import('./statement-print/statement-print.module').then(m => m.StatementPrintModule)
   }
 ];
 

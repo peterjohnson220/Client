@@ -3,14 +3,14 @@
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.sharedTemplate"
   [ngTemplateOutlet]="columnTemplates[field.Template].Template"
-  [ngTemplateOutletContext]="{dataRow: dataItem, fieldName: fieldName}">
+  [ngTemplateOutletContext]="{dataRow: dataItem, fieldName: fieldName, rowIndex: rowIndex}">
 </ng-container>
-<ng-container *ngIf="getColumnType(field) === colType.template" 
+<ng-container *ngIf="getColumnType(field) === colType.template"
   [ngTemplateOutlet]="columnTemplates[field.SourceName].Template"
   [ngTemplateOutletContext]="{dataRow:dataItem, rowIndex: rowIndex, fieldName: fieldName}">
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.default">
-  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap">{{dataItem[fieldName]}}</div>  
+  <div pfEllipsisActive class="ellipsis-overflowing-text-wrap">{{dataItem[fieldName]}}</div>
 </ng-container>
 <ng-container *ngIf="getColumnType(field) === colType.bit">
   <ng-container *ngIf="dataItem[fieldName] !== null;else blankCellTemplate">

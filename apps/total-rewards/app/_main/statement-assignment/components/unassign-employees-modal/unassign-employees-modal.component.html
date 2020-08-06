@@ -1,0 +1,26 @@
+<pf-modal-form
+  [modalId]="'unassign-employees-modal'"
+  [title]="'Unassign Employees'"
+  [isOpen$]="isOpen$"
+  [size]="'lg'"
+  [primaryButtonText]="'Unassign'"
+  [primaryButtonTextSubmitting]="'Unassigning...'"
+  [submitting]="sendingUnassignRequest"
+  (onSubmit)="onUnassignEmployees()"
+  (onDismiss)="onCancel()"
+>
+  <ng-container basic-content>
+    <pf-async-container [loadingError]="sendingUnassignRequestError">
+      <div *ngIf="isSingleEmployeeUnassign; else bulkUnassign">
+        <p>
+          Are you sure you want to unassign <strong>{{ singleEmployee?.FirstName }} {{ singleEmployee?.LastName }}</strong>? Once removed, they will no longer be assigned to {{statementName}}.
+        </p>
+      </div>
+      <ng-template #bulkUnassign>
+        <p>
+          Are you sure you want to unassign <strong>{{ selectedCompanyEmployeeIds.length }} employee{{ (selectedCompanyEmployeeIds.length !== 1) ? 's' : '' }}</strong>? Once removed, they will no longer be assigned to {{statementName}}.
+        </p>
+      </ng-template>
+    </pf-async-container>
+  </ng-container>
+</pf-modal-form>

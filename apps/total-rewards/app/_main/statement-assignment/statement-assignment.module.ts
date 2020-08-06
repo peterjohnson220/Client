@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { GridModule, SharedModule } from '@progress/kendo-angular-grid';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
@@ -12,6 +13,8 @@ import { PfSearchModule } from 'libs/features/search';
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { WindowCommunicationService } from 'libs/core/services';
+import { ListAreaService } from 'libs/core/services/list-area.service';
+import { PfListAreaModule } from 'libs/features/list-area/list-area.module';
 
 import { reducers } from './reducers';
 import { StatementAssignmentRoutingModule } from './statement-assignment-routing.module';
@@ -22,6 +25,8 @@ import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
 import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
 import { GenerateStatementModalComponent } from './components/generate-statement-modal/generate-statement-modal.component';
 import * as fromTrsShared from '../../shared';
+import { UnassignEmployeesModalComponent } from './components/unassign-employees-modal/unassign-employees-modal.component';
+import { GridActionMenuComponent } from './components/grid-action-menu/grid-action-menu.component';
 
 @NgModule({
   imports: [
@@ -42,11 +47,13 @@ import * as fromTrsShared from '../../shared';
     SharedModule,
     GridModule,
     TooltipModule,
+    FontAwesomeModule,
 
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
     PfSearchModule,
+    PfListAreaModule,
     fromTrsShared.SharedModule,
 
     // Routing
@@ -58,12 +65,15 @@ import * as fromTrsShared from '../../shared';
     EmployeeSearchResultsComponent,
     EmployeeResultComponent,
     GenerateStatementModalComponent,
-    AssignedEmployeesGridComponent
+    AssignedEmployeesGridComponent,
+    UnassignEmployeesModalComponent,
+    GridActionMenuComponent
   ],
   providers: [
     { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },
     { provide: UserFilterTypeData, useValue: EmployeeSearchUserFilterType},
-    WindowCommunicationService
+    WindowCommunicationService,
+    ListAreaService
   ]
 })
 export class StatementAssignmentModule {

@@ -11,7 +11,7 @@
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
-  <div *ngIf="hasDropdownOptions(dataRow['CompanyPayMarkets_IsDefaultPayMarket'] === 1, permissions.PAY_MARKETS_ADD_EDIT_DELETE)" ngbDropdown container="body" #p="ngbDropdown"
+  <div ngbDropdown container="body" #p="ngbDropdown"
     (openChange)="handleSelectedRowAction(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'], dataRow['CompanyPayMarkets_PayMarket'], p)">
     <fa-icon ngbDropdownToggle
              icon="ellipsis-h"
@@ -25,6 +25,7 @@
         (click)="setDefaultPayMarket(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'])">
         Set as default
       </button>
+      <button ngbDropdownItem (click)="viewSummary(dataRow['CompanyPayMarkets_CompanyPayMarket_ID'])">View Summary</button>
       <button *ngIf="dataRow['CompanyPayMarkets_IsDefaultPayMarket'] !== 1" [pfSecuredResource]="permissions.PAY_MARKETS_ADD_EDIT_DELETE" ngbDropdownItem (click)="deletePayMarket()">Delete</button>
     </div>
   </div>
@@ -66,4 +67,21 @@
 <pf-delete-paymarket-modal #deletePayMarketModal
                            [payMarketName]="selectedPayMarketName"
                            [selectedPayMarketId]="selectedPayMarketId"
+                           (resetSelectedPayMarketID)="handleDeleteModalClose()"
 ></pf-delete-paymarket-modal>
+
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Pay Market Summary'"
+  [showSubmit]="false"
+  [modalId]="'au-modal-view-summary'"
+  [isOpen$]=" showSummaryModal$"
+  (onDismiss)="closeSummaryModal()">
+
+  <ng-container basic-content>
+    <pf-paymarket-associations
+    [companyPaymarketId]="summaryPaymarketId">
+    </pf-paymarket-associations>
+  </ng-container>
+
+</pf-modal-form>

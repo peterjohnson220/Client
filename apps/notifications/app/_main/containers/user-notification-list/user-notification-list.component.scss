@@ -1,0 +1,27 @@
+.page-header {
+  color: #495057;
+  font-size: 1.2rem;
+  height: 50px;
+
+  .title {
+    text-transform: uppercase;
+  }
+}
+
+.no-notifications {
+  font-style: italic;
+  font-size: 14px;
+  margin-left: 2.2rem;
+}
+
+.notification-row {
+  cursor: pointer;
+
+  &.is-read {
+    background-color: #dddddd;
+  }
+
+  &:hover {
+    background-color: #cccccc;
+  }
+}

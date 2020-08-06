@@ -64,6 +64,10 @@ export class ExchangeApiService {
       });
   }
 
+  getActiveExchangeId(): Observable<number> {
+    return this.payfactorsApiService.get<number>(`${this.endpoint}/GetActiveExchangeId`);
+  }
+
   autoAssociateExchangeJobs(autoAssociateExchangeJobsRequest: AutoAssociateExchangeJobsRequest): Observable<number> {
     return this.payfactorsApiService
       .post(`${this.endpoint}/AutoAssociateExchangeJobs`, autoAssociateExchangeJobsRequest, (successCount: number) => successCount);

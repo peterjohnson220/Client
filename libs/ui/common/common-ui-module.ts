@@ -59,11 +59,11 @@ const components = [
   TermsConditionsModalComponent,
 
   // Validation
-  ValidationResultsComponent
+  ValidationResultsComponent,
 ];
 
 @NgModule({
-  imports:      [
+  imports: [
     CommonModule,
     RouterModule,
     PfCommonModule,
@@ -77,7 +77,7 @@ const components = [
     ScrollingModule,
     DropDownsModule,
     TreeViewModule,
-    PopupModule
+    PopupModule,
   ],
   declarations: components,
   exports: components,

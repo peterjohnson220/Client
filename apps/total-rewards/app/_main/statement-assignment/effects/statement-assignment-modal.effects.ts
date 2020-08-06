@@ -13,6 +13,7 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromEmployeeSearchResultsActions from '../actions/employee-search-results.actions';
 import * as fromStatementAssignmentModalActions from '../actions/statement-assignment-modal.actions';
+import * as fromAssignedEmployeeGridActions from '../actions/assigned-employees-grid.actions';
 import { PayfactorsSearchApiHelper } from '../../../../../../libs/features/search/helpers';
 
 @Injectable()
@@ -58,7 +59,7 @@ export class StatementAssignmentModalEffects {
             const actions = [];
             actions.push(new fromStatementAssignmentModalActions.AssignEmployeesSuccess());
             actions.push(new fromStatementAssignmentModalActions.CloseModal());
-
+            actions.push(new fromAssignedEmployeeGridActions.LoadAssignedEmployees());
             return actions;
           }),
           catchError(() => of(new fromStatementAssignmentModalActions.AssignEmployeesError()))
@@ -94,6 +95,7 @@ export class StatementAssignmentModalEffects {
           const actions = [];
           actions.push(new fromStatementAssignmentModalActions.AssignAllEmployeesSuccess());
           actions.push(new fromStatementAssignmentModalActions.CloseModal());
+          actions.push(new fromAssignedEmployeeGridActions.LoadAssignedEmployees());
           return actions;
         }),
         catchError(() => of(new fromStatementAssignmentModalActions.AssignAllEmployeesError()))

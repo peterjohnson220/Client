@@ -27,6 +27,16 @@ export interface PayMarketWithMdScope extends PayMarket {
   City: string;
 }
 
+export interface PayMarketAssociationsSummary {
+  PaymarketName: string;
+  LinkedPaymarketId?: number;
+  LinkedPaymarketName?: string;
+  PricingProjectsCount: number;
+  PublishedPricingsCount: number;
+  EmployeeCount: number;
+  StructuresCount: number;
+}
+
 export function generateMockPayMarket(): PayMarket {
   return {
     CompanyPayMarketId: 23504,

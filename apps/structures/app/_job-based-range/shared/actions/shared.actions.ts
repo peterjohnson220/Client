@@ -4,7 +4,6 @@ import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
 
 import { RangeGroupMetadata } from '../models';
-import { Pages } from '../constants/pages';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
 export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';
@@ -16,6 +15,9 @@ export const REMOVING_RANGE_SUCCESS = '[Structures - Job Based Range - Shared] R
 export const REMOVING_RANGE_ERROR = '[Structures - Job Based Range - Shared] Removing Range Error';
 export const RESET_ROUNDING_SETTING = '[Structures - Job Based Range - Shared] Reset Rounding Setting';
 export const UPDATE_ROUNDING_POINTS = '[Structures - Job Based Range - Shared] Update Rounding Points';
+export const GET_OVERRIDDEN_RANGES = '[Structures - Job Based Range - Shared] Get Overridden Ranges';
+export const GET_OVERRIDDEN_RANGES_SUCCESS = '[Structures - Job Based Range - Shared] Get Overridden Ranges Success';
+export const GET_OVERRIDDEN_RANGES_ERROR = '[Structures - Job Based Range - Shared] Get Overridden Ranges Error';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -71,6 +73,22 @@ export class UpdateRoundingPoints implements Action {
   constructor(public payload: { RoundingPoint: number } ) {}
 }
 
+export class GetOverriddenRanges implements Action {
+  readonly type = GET_OVERRIDDEN_RANGES;
+
+  constructor(public payload: { pageViewId: string, rangeGroupId: number }) {}
+}
+
+export class GetOverriddenRangesSuccess implements Action {
+  readonly type = GET_OVERRIDDEN_RANGES_SUCCESS;
+}
+
+export class GetOverriddenRangesError implements Action {
+  readonly type = GET_OVERRIDDEN_RANGES_ERROR;
+
+  constructor(public error: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -82,4 +100,7 @@ export type SharedActions
   | ShowRemoveRangeModal
   | UpdateRoundingPoint
   | ResetRoundingSetting
-  | UpdateRoundingPoints;
+  | UpdateRoundingPoints
+  | GetOverriddenRanges
+  | GetOverriddenRangesSuccess
+  | GetOverriddenRangesError;

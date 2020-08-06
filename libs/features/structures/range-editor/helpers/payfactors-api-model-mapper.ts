@@ -1,5 +1,5 @@
 import { OverrideAndSaveRangeFieldRequest, RecalcAndSaveRangeMinMaxRequest, RoundRangesRequest } from 'libs/models/payfactors-api/structures';
-import { RoundingSettingsDataObj, RoundingSetting } from 'libs/models/structures';
+import { RoundingSettingsDataObj } from 'libs/models/structures';
 
 export class PayfactorsApiModelMapper {
 
@@ -59,7 +59,7 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  private static translateFieldName (fieldName: string) {
+  private static translateFieldName(fieldName: string) {
     switch (fieldName) {
       case 'CompanyStructures_Ranges_Min':
         return 'Min';

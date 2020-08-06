@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { ListAreaService, JobDescriptionManagementService, JobDescriptionManagementDnDService } from 'libs/features/job-description-management/services';
+import { JobDescriptionManagementService, JobDescriptionManagementDnDService } from 'libs/features/job-description-management/services';
 
 import * as fromFaIcons from './fa-icons';
 import {StoreModule} from '@ngrx/store';
@@ -38,7 +38,6 @@ import {
   declarations: [],
   exports: [],
   providers: [
-    ListAreaService,
     JobDescriptionManagementService,
     JobDescriptionManagementDnDService
   ]

@@ -32,6 +32,7 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
   enableCoreJDMInClient$: Observable<boolean>;
   requireSSOLogin$: Observable<boolean>;
   enableCoreJDMInClientSubscription: Subscription;
+  enableUserNotifications$: Observable<boolean>;
   userContextSubscription: Subscription;
 
   @Input() displayRightSideBar: boolean;
@@ -70,6 +71,10 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
 
     this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
+    );
+
+    this.enableUserNotifications$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.EnableUserNotifications
     );
   }
 

@@ -53,14 +53,14 @@ export class ColumnChooserComponent implements OnChanges {
     // If grid is reorderable then update Order to NULL for all new chosen columns
     // in this case they will be added to the end of the grid
     let fields;
-    if (this.columnChooserType === ColumnChooserType.ColumnGroup) {
-      fields = this.reorderable
-        ? this.updateNewColumnsOrder(cloneDeep(this.columnGroupList.allFields))
-        : this.columnGroupList.allFields;
-    } else {
+    if (this.columnChooserType === ColumnChooserType.Column) {
       fields = this.reorderable
         ? this.updateNewColumnsOrder(cloneDeep(this.listAreaColumns))
         : this.listAreaColumns;
+    } else {
+      fields = this.reorderable
+        ? this.updateNewColumnsOrder(cloneDeep(this.columnGroupList.allFields))
+        : this.columnGroupList.allFields;
     }
 
     this.saveColumns.emit(fields);
