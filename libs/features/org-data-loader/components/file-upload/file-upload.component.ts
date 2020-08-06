@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output, ViewChildren } from '@angular/c
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { FileUploadHeaderRequestModel, ColumnNameRequestModel } from 'libs/features/org-data-loader/models';
+import { ColumnNameRequestModel, FileUploadHeaderRequestModel } from 'libs/features/org-data-loader/models';
 
 import * as fromFileUploadReducer from '../../state/reducers';
 import * as fromFileUploadActions from '../../state/actions';
@@ -24,6 +24,7 @@ export class FileUploadComponent {
   @Input() delimiter: string;
   @Input() selectedFile: File = null;
   @Input() autoGetColumnNames = true;
+  @Input() QAInputId: string = null;
 
   @ViewChildren('fileInput') fileInput;
 

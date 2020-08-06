@@ -35,7 +35,7 @@
       <button (click)="selectAllClicked()"
               class="btn btn-secondary">Select All</button>
     </div>
-    <div class="margin-left-auto p-2">
+    <div class="p-2 ml-auto">
       <button [attr.data-qa-id]="'btn-columnChooserSave'"
               (click)="saveButtonClicked()"
               class="btn btn-primary">{{submitButtonText}}</button>
@@ -59,6 +59,7 @@
 <ng-template #columnGroupsTemplate>
   <pf-column-group-list #columnGroupList
                         [fields]="dataFields"
-                        [searchTerm]="filter">
+                        [searchTerm]="filter"
+                        [columnChooserType]="columnChooserType">
   </pf-column-group-list>
 </ng-template>

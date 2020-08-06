@@ -16,4 +16,16 @@ export class TotalRewardsAssignmentService {
 
     return employeesCopy;
   }
+
+  static get defaultAssignedEmployeesGridState(): { skip: number, take: number, filter: any, sort: any[] } {
+    return {
+      skip: 0,
+      take: 20,
+      filter: {
+        filters: [],
+        logic: 'and'
+      },
+      sort: []
+    };
+  }
 }

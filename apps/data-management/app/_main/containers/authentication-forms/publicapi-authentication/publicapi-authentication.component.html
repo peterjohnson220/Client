@@ -1,0 +1,44 @@
+<div class="w-100">
+  <form [formGroup]="publicKeyForm" (ngSubmit)="onSubmit()" class="needs-validation" autocomplete="off">
+    <div class="d-flex flex-row w-100">
+      <div class="error-spacer">
+      </div>
+      <div class="d-flex flex-column w-100">
+        <div class="d-flex flex-row p-1 w-50">
+          <div class="col-3">
+            <label class="mr-2" for="username">
+              API KEY
+            </label>
+          </div>
+          <div class="col-9">
+            <div class="form-group pb-2 ml-auto w-100">
+              <input id="apikey"
+                     name="apikey"
+                     type="text"
+                     class="form-control mb-1 w-100"
+                     [ngClass]="{ 'is-invalid': submitted && publicKeyForm.controls.apikey.errors }"
+                     [pfDisableFormControl]="waitingForAuthentication"
+                     formControlName="apikey"
+              />
+              <div *ngIf="submitted && publicKeyForm.controls.apikey.errors" class="invalid-feedback">
+                <div *ngIf="publicKeyForm.controls.apikey.errors.required">Api key is required</div>
+                <div *ngIf="publicKeyForm.controls.apikey.errors.pattern">Api key is not in correct format</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pb-1 d-flex justify-content-end" *ngIf="!validated">
+      <div class="p-2">
+        <button id="cancel" type="button" class="btn btn-outline-danger px-4" (click)="cancelAuthenticationClick()">Cancel</button>
+      </div>
+      <div class="p-2">
+        <button id="back" type="button" class="btn btn-secondary px-4" (click)="backBtnClick()">Back</button>
+      </div>
+      <div class="p-2">
+        <button id="authenticate" [disabled]="waitingForAuthentication" class="btn btn-primary px-4">Next</button>
+      </div>
+    </div>
+  </form>
+</div>

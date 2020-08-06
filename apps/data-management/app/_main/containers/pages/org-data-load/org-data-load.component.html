@@ -1,4 +1,6 @@
-<pf-async-container [loading]="isProcessingMapping$ | async" [spinnerType]="spinnerType" [loadingProgress]="loadingProgress">
+<pf-async-container [loading]="isProcessingMapping$ | async"
+                    [spinnerType]="spinnerType"
+                    [loadingProgress]="loadingProgress">
   <pf-page-with-title-bar *ngIf="!hideAccess">
     <ng-container custom-button>
       <button class="btn btn-secondary px-3 mr-2"
@@ -102,14 +104,16 @@
                       *ngIf="this.stepIndex !== stepEnum.Company && this.stepIndex !== stepEnum.FieldMapping"
                       class="btn mx-1 btn-md pf-secondary-btn"
                       [disabled]="disabledClear()"
-                      (click)="clearSelections(false)">Clear</button>
+                      (click)="clearSelections(false)"
+                      data-qa-id="btn-clear">Clear</button>
               <button type="button"
                       *ngIf="this.stepIndex !== stepEnum.FieldMapping"
                       [style.opacity]="this.getNextBtnOpacity()"
                       [ngbTooltip]="this.areStepsValid() ? '' :  this.NextBtnToolTips[this.stepIndex - 1]"
                       placement="top"
                       (click)="nextBtnClick()"
-                      class="btn mx-1 pf-primary-btn">Next</button>
+                      class="btn mx-1 pf-primary-btn"
+                      data-qa-id="btn-process">Next</button>
               <button type="button"
                       *ngIf="this.stepIndex === stepEnum.FieldMapping"
                       [disabled]="isProcessingMapping$ | async"
@@ -117,10 +121,12 @@
                       [ngbTooltip]="this.getFieldMapperTooltip()"
                       placement="top"
                       (click)="processBtnClick()"
-                      class="btn mx-1 pf-primary-btn">Process</button>
+                      class="btn mx-1 pf-primary-btn"
+                      data-qa-id="btn-process">Process</button>
               <button class="btn mx-1 btn-md pf-secondary-btn"
                       *ngIf="stepIndex === stepEnum.FieldMapping"
-                      (click)="openEmailRecipientsModal()">Email Recipients</button>
+                      (click)="openEmailRecipientsModal()"
+                      data-qa-id="btn-emailRecipients">Email Recipients</button>
             </div>
           </div>
         </div>

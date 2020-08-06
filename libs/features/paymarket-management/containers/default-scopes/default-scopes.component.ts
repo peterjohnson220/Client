@@ -107,7 +107,7 @@ export class DefaultScopesComponent implements OnInit, OnDestroy, OnChanges, Aft
     }
     this.duplicateError = this.defaultScopes.some(s =>
       s.Survey.Id === selectedSurvey.Id &&
-      s.Scope.Value === selectedCombinedScope.Value);
+      s.Scope.Name === selectedCombinedScope.Name);
     if (this.duplicateError) {
       return;
     }

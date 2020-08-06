@@ -15,4 +15,13 @@ export class UserMenuComponent {
 
   constructor() { }
 
+  showUserDropdownMenu() {
+      if (!this.userContext.IsPublic && !this.userContext.WorkflowStepInfo) {
+        return true;
+      } else if (this.requireSSOLogin && (!!this.userContext.WorkflowStepInfo || this.userContext.EmployeeAcknowledgementInfo)) {
+        return true;
+      } else {
+        return false;
+      }
+  }
 }

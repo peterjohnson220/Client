@@ -8,8 +8,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgbDropdownModule, NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { PfCommonModule} from 'libs/core';
-import { PfCommonUIModule} from 'libs/ui/common';
+import { PfCommonModule } from 'libs/core';
+import { PfCommonUIModule } from 'libs/ui/common';
 
 import { SharedModule } from '../../shared';
 import { StatementEditRoutingModule } from './statement-edit-routing.module';

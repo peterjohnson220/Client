@@ -61,11 +61,12 @@
                         [placeholder]="'Select Min'"
                         [filterable]="false">
         </kendo-combobox>
+        <fa-icon placement="top" [ngbTooltip]="minSpreadTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
         <a class="inline-link" href="javascript:void(0)" tabindex="-1">Calculate</a>
-      <a class="inline-link" href="javascript:void(0)" tabindex="-1" (click)="this.handleMinMaxPercentileToggle(true)">
-        <ng-container *ngIf="!showMinSpread">Enter Range Spread</ng-container>
-        <ng-container *ngIf="showMinSpread">Enter Percentile Amount</ng-container>
-      </a>
+        <a class="inline-link" href="javascript:void(0)" tabindex="-1" (click)="this.handleMinMaxPercentileToggle(true)">
+          <ng-container *ngIf="!showMinSpread">Enter Range Spread</ng-container>
+          <ng-container *ngIf="showMinSpread">Enter Percentile Amount</ng-container>
+        </a>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         <ng-container *ngIf="!showMinSpread">Please select a range for minimum.</ng-container>
@@ -281,6 +282,7 @@
                       [placeholder]="'Select Max'"
                       [filterable]="false">
       </kendo-combobox>
+      <fa-icon placement="top" [ngbTooltip]="maxSpreadTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
       <a class="inline-link" href="javascript:void(0)" tabindex="-1">Calculate</a>
       <a class="inline-link" href="javascript:void(0)" tabindex="-1" (click)="this.handleMinMaxPercentileToggle(false)">
         <ng-container *ngIf="!showMaxSpread">Enter Range Spread</ng-container>

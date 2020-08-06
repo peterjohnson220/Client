@@ -66,6 +66,7 @@ export interface ViewField {
   FilterValues?: string[];
   IsSortable: boolean;
   IsAlwaysInResponse: boolean;
+  ExcludeFieldInFilterSave?: boolean;
 }
 
 export interface DataView {

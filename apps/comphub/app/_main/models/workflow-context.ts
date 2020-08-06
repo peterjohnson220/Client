@@ -20,3 +20,13 @@ export function generateMockWorkflowContext(): WorkflowContext {
     quickPriceType: QuickPriceType.ENTERPRISE
   };
 }
+
+export function generateMockPeerWorkflowContext(): WorkflowContext {
+  return {
+    selectedPageId: ComphubPages.Jobs,
+    selectedPageIndex: 0,
+    activeCountryDataSet: generateMockCountryDataSet(),
+    activeExchangeDataSet: generateMockExchangeDataSet(),
+    quickPriceType: QuickPriceType.PEER
+  };
+}

@@ -97,12 +97,12 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private reassessMinMax(currentRow) {
-    // if we somehow don't have a chart max OR this jobs pricings match MRP is higher than the current max, set it
-    if (!this.chartMax || (currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup > this.chartMax)) {
+    // if this jobs pricings match MRP is higher than the current max, set it
+    if (currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup > this.chartMax) {
       this.chartMax = currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup;
     }
     // same logic for min but reversed, obviously
-    if (!this.chartMin || (currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup < this.chartMin)) {
+    if (currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup < this.chartMin) {
       this.chartMin = currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup;
     }
   }
@@ -289,8 +289,6 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
         this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
       } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
-        console.log('DataModel');
-        console.log(this.dataPointSeriesDataModel);
         this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeQuintile].setData(this.salaryRangeSeriesDataModel.Quintile, false);
         this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuintileFirst].setData(this.dataPointSeriesDataModel.QuintileFirst, false);
         this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuintileSecond].setData(this.dataPointSeriesDataModel.QuintileSecond, false);

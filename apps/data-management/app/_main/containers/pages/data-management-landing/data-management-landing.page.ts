@@ -9,6 +9,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Permissions } from 'libs/constants';
 import { TransferMethodTypes } from 'libs/constants/hris-api';
 import { AsyncStateObj } from 'libs/models/state';
+import { HRISConnectionAuthenticationStatus } from 'libs/constants/hris-connection-authenticationstatus';
 
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
@@ -53,7 +54,8 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
     takeUntil(this.unsubscribe$)).subscribe(cs => {
       if (cs) {
         this.connectionNeedsAuthentication = (!cs.hasConnection &&
-        (cs.statuses.length && cs.statuses.includes('AuthenticationError')));
+        (cs.statuses.length && cs.statuses.includes(HRISConnectionAuthenticationStatus.ERROR)))  
+        || cs.statuses.includes(HRISConnectionAuthenticationStatus.NOTSTARTED);
       }
     });
   }

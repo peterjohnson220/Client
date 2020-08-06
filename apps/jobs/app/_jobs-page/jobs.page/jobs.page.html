@@ -1,6 +1,6 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
-  [title]="(userContext$ | async)?.CompanyName + ' - Jobs'"
+  [title]="'Jobs'"
   [titleActionsTemplate]="oldJobsPageToggleTemplate"
   [selectionField]="'CompanyJob_ID'"
   [gridActionsTemplate]="gridActions"
@@ -14,7 +14,8 @@
   [splitViewDisplayFields]="['CompanyJobs_Job_Family']"
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
   [actionBarConfig]="actionBarConfig"
-  [gridRowActionsConfig] = "(!(selectedRecordId$ | async))? gridRowActionsConfig: null" >
+  [gridRowActionsConfig]="(!(selectedRecordId$ | async))? gridRowActionsConfig: null"
+  [resetWidthForSplitView]="true">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">

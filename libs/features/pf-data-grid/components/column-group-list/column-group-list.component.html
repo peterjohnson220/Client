@@ -1,3 +1,17 @@
+<ng-container *ngFor="let col of nonGroupedFields">
+    <div *ngIf="col.IsSelectable && !col.Group"
+         class="px-2 py-1">
+      <input type="checkbox"
+             [attr.data-qa-id]="'chk-' + col.SourceName"
+             [(ngModel)]="col.IsSelected"
+             (click)="handleFieldClicked(col)"
+             [disabled]="col.IsLocked">
+      <span class="pl-2">
+                {{col.Group ? col.Group + ' ': ''}}
+        {{col.DisplayName}}
+      </span>
+    </div>
+  </ng-container>
 <div class="fields-group-container" *ngIf="!!columnGroups">
   <div class="groups">
     <div *ngFor="let group of columnGroups; trackBy: trackByFn">

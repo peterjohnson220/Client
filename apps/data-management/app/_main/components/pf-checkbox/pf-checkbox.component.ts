@@ -11,6 +11,7 @@ export class PfCheckboxComponent {
   @Input() DisplayText = 'DisplayText';
   @Input() isDisabled = false;
   @Input() ToolTip = '';
+  @Input() QADataId: string = null;
 
   @Output() valueChange = new EventEmitter();
 

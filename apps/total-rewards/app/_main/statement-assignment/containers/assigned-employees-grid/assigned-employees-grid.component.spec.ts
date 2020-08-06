@@ -28,6 +28,9 @@ describe('AssignedEmployeesGridComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AssignedEmployeesGridComponent);
     component = fixture.componentInstance;
+
+    component.gridState = { take: 20 };
+
     fixture.detectChanges();
   });
 
@@ -36,7 +39,7 @@ describe('AssignedEmployeesGridComponent', () => {
   });
 
   it('should have a kendo grid', () => {
-    // arrange, act, assert
+    // act, assert
     expect(fixture.debugElement.nativeElement.querySelector('kendo-grid')).toBeTruthy();
   });
 });

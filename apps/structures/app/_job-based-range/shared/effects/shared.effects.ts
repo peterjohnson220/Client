@@ -7,6 +7,7 @@ import { switchMap, map, mergeMap, catchError, withLatestFrom } from 'rxjs/opera
 
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
@@ -60,6 +61,24 @@ export class SharedEffects {
       );
     })
   );
+
+  @Effect()
+  getOverriddenRanges: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_OVERRIDDEN_RANGES),
+      switchMap(
+        (action: fromSharedActions.GetOverriddenRanges) =>
+          this.structureModelingApiService.getOverriddenRangeIds(action.payload.rangeGroupId)
+            .pipe(
+              mergeMap((response) =>
+                [
+                  new fromSharedActions.GetOverriddenRangesSuccess(),
+                  new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response)
+                ]),
+              catchError(error => of(new fromSharedActions.GetOverriddenRangesError(error)))
+            )
+      )
+    );
 
   constructor(
     private actions$: Actions,

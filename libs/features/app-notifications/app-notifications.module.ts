@@ -8,7 +8,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { reducers } from './reducers';
 import { AppNotificationsComponent } from './containers';
 
-import { ToastsEffects } from './effects';
+import { ToastsEffects, UserNotificationEffects } from './effects';
 import { NotificationHelper } from './models';
 
 
@@ -20,7 +20,8 @@ import { NotificationHelper } from './models';
     // 3rd Party
     StoreModule.forFeature('feature_appnotifications', reducers),
     EffectsModule.forFeature([
-      ToastsEffects
+      ToastsEffects,
+      UserNotificationEffects
     ]),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',

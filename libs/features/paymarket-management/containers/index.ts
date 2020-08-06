@@ -3,4 +3,8 @@ export * from './general-form';
 export * from './market-data-scope';
 export * from './default-scopes';
 export * from './exchange-scopes';
-
+export * from './paymarket-associations';
+export * from './pricing-projects';
+export * from './pricings';
+export * from './employee-records';
+export * from './structures';

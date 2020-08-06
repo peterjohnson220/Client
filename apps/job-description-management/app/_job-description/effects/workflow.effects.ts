@@ -41,6 +41,19 @@ export class WorkflowEffects {
         )
       ));
 
+      @Effect()
+      resendEmail$: Observable<Action> = this.actions$
+        .pipe(
+          ofType(fromWorkflowActions.RESEND_EMAIL),
+          switchMap((action: fromWorkflowActions.ResendEmail) =>
+            this.jobDescriptionWorkflowApiService.resendEmail(action.payload.workflowId).pipe(
+              map(() => {
+                return new fromWorkflowActions.ResendEmailSuccess();
+              }),
+              catchError(response => of(new fromWorkflowActions.ResendEmailError()))
+            )
+          ));
+
   @Effect()
   loadWorkflowLogEntries$: Observable<Action> = this.actions$
     .pipe(

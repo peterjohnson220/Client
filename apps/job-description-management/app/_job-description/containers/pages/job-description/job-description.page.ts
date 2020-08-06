@@ -119,7 +119,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   editingSubscription: Subscription;
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
+  requireSSOLoginSubscription: Subscription;
   jobDescriptionSSOLoginUrlSubscription: Subscription;
+  jobDescriptionSSOAuthResultSubscription: Subscription;
+  jobDescriptionSSOAuthErrorSubscription: Subscription;
 
   companyName: string;
   emailAddress: string;
@@ -206,11 +209,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.initRouterParams();
     this.initSaveThrottle();
     this.defineDiscardDraftModalOptions();
-
-    // we need the setting to check if we should redirect back to NG, but that call isn't made in public views, so fire an action to do that
-    if (this.identity.IsPublic) {
-      this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
-    }
   }
 
   ngOnDestroy(): void {
@@ -227,6 +225,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.jobDescriptionViewsAsyncSubscription.unsubscribe();
     this.editingSubscription.unsubscribe();
     this.completedStepSubscription.unsubscribe();
+    this.requireSSOLoginSubscription.unsubscribe();
+    this.jobDescriptionSSOLoginUrlSubscription?.unsubscribe();
+    this.jobDescriptionSSOAuthResultSubscription?.unsubscribe();
+    this.jobDescriptionSSOAuthErrorSubscription?.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -236,7 +238,13 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     if (!!this.identity && (this.identity.IsPublic || this.identity.WorkflowStepInfo)) {
-      this.router.navigate(['/'], { queryParams: { jwt: this.tokenId } });
+
+      if (!this.ssoTokenId || !this.ssoAgentId) {
+        this.router.navigate(['/'], { queryParams: { jwt: this.tokenId } });
+      } else {
+        this.router.navigate(['/'], { queryParams: { jwt: this.tokenId,
+            tokenid: this.ssoTokenId, agentid: this.ssoAgentId } });
+      }
     } else {
       this.router.navigate(['/']);
     }
@@ -460,146 +468,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     }));
   }
 
-  private initSubscriptions(): void {
-    this.jobDescriptionSSOLoginUrlSubscription = this.jobDescriptionSSOLoginUrl$.subscribe( ssoLoginUrl => {
-      if (ssoLoginUrl) {
-        // Redirect to SSO login. After logging in you will be redirected back here with tokenid and agentid params from the sso for use in authenticating.
-        const currentURL = window.location.href;
-        const currentURLWithToken = `${currentURL.slice(0, currentURL.indexOf('?'))}?jwt=${this.tokenId}`;
-        const encodedUrl = encodeURIComponent(currentURLWithToken);
-
-         window.location.href = `${ssoLoginUrl}&appurl=${encodedUrl}`;
-      }
-    });
-
-    this.jobDescriptionExtendedInfoSubscription = this.jobDescriptionExtendedInfo$.subscribe(jdei => {
-      if (!!jdei && jdei.WorkflowId === 0) {
-        this.showRoutingHistory = false;
-      }
-    });
-
-    this.completedStepSubscription = this.completedStep$.subscribe(cs => this.completedStep = cs);
-
-    this.identitySubscription = this.identity$.subscribe(userContext => {
-      this.identity = userContext;
-      this.companyName = userContext.CompanyName;
-      this.emailAddress = userContext.EmailAddress;
-      this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
-      if (this.identityInEmployeeAcknowledgement) {
-        if (!userContext.EmployeeAcknowledgementInfo.IsLatest && !userContext.EmployeeAcknowledgementInfo.HasAcknowledged) {
-          this.router.navigate(['/token-expired']);
-        } else {
-          this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
-        }
-      }
-      this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
-      this.companySubscription = this.company$.subscribe((company) => {
-        this.companyLogoPath = company
-          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
-          : '';
-        if (company) {
-          this.companyName = company.CompanyName;
-        }
-      });
-      this.isSiteAdmin = userContext.AccessLevel === 'Admin';
-
-      if (!this.completedStep) {
-        this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
-      }
-
-      if (!this.identityInWorkflow) {
-        this.getJobDescriptionDetails();
-      }
-    });
-
-    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
-      this.handleJobDescriptionChanged(result.obj);
-    });
-
-    this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
-      if (userRoles) {
-        this.isCompanyAdmin = userRoles.some( x => x.RoleName === 'Company Admin' && x.Assigned);
-      }
-    });
-
-
-    // if the setting to enable public views in this repo is disabled redirect back to the NG implementation
-    this.enablePublicViewsInClient$.pipe(
-      takeWhile(() => this.identity.IsPublic),
-      filter(setting => setting === false)
-    ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
-
-
-    this.requireSSOLogin$.subscribe(requireSSOLoginResult => {
-      if (requireSSOLoginResult === false && this.tokenId && this.identityInWorkflow) {
-          this.getJobDescriptionDetails();
-          this.setWorkflowStepIsBeingViewed();
-        }
-
-      if (requireSSOLoginResult  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
-
-         this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
-
-       } else if (requireSSOLoginResult && this.tokenId != null) {
-
-         this.store.dispatch(new fromJobDescriptionActions.AuthenticateSSOParams({tokenId: this.ssoTokenId, agentId: this.ssoAgentId}));
-
-         this.jobDescriptionSSOAuthResult$.subscribe( result => {
-           if (result) {
-            const resultObj: any = result;
-            const userEmailDomain = this.emailAddress.slice(this.emailAddress.indexOf('@') + 1, this.emailAddress.length);
-
-              if (resultObj.EmailDomain.indexOf(userEmailDomain) === -1 && userEmailDomain.indexOf(resultObj.EmailDomain) === -1) {
-                this.router.navigate(['/forbidden']);
-              }
-
-             this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
-             this.getJobDescriptionDetails();
-             this.setWorkflowStepIsBeingViewed();
-             this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
-            }
-         });
-
-         this.jobDescriptionSSOAuthError$.subscribe( result => {
-           if (result) {
-             this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
-           }
-         });
-       } else if (requireSSOLoginResult != null) {
-          this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
-       }
-    });
-
-    this.controlTypesAsync$.pipe(
-      filter(cts => !!cts && !!cts.obj),
-      take(1)
-    ).subscribe(ct => {
-      if (!ct.obj.length) {
-        this.jobDescriptionManagementService.getControlTypes();
-      }
-    });
-    this.controlTypesSubscription = this.controlTypesAsync$.subscribe(value => this.controlTypes = value.obj);
-
-    this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,
-      (control, oldIndex, newIndex) => {
-        this.store.dispatch(new fromJobDescriptionActions.ReorderControlData({
-          jobDescriptionControl: control,
-          oldIndex: oldIndex,
-          newIndex: newIndex
-        }));
-        this.saveThrottle.next(true);
-      });
-
-    this.jobDescriptionDnDService.initJobDescriptionPageDnD((jobDescriptionLibraryDrop: JobDescriptionLibraryDropModel) => {
-      this.store.dispatch(new fromJobDescriptionActions.AddSourceDataToControl({ controlTypes: this.controlTypes, dropModel: jobDescriptionLibraryDrop }));
-      this.saveThrottle.next(true);
-    }
-    );
-
-    this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
-    this.editingSubscription = this.editingJobDescription$.subscribe(value => this.editing = value);
-  }
-
   private getJobDescriptionDetails() {
     this.store.dispatch(new fromJobDescriptionActions.GetJobDescription({
       JobDescriptionId: this.jobDescriptionId,
@@ -632,6 +500,165 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       this.inHistory = !!this.revisionNumber;
 
       this.initSubscriptions();
+    });
+  }
+
+  private initSubscriptions(): void {
+    this.jobDescriptionSSOLoginUrlSubscription = this.jobDescriptionSSOLoginUrl$.subscribe( ssoLoginUrl => {
+      if (ssoLoginUrl) {
+        // Redirect to SSO login. After logging in you will be redirected back here with tokenid and agentid params from the sso for use in authenticating.
+        const currentURL = window.location.href;
+        let currentURLWithToken = `${currentURL.slice(0, currentURL.indexOf('?'))}?jwt=${this.tokenId}`;
+
+        if (this.viewName) {
+          currentURLWithToken += `&viewName=${this.viewName}`;
+        }
+
+        const encodedUrl = encodeURIComponent(currentURLWithToken);
+
+        window.location.href = `${ssoLoginUrl}&appurl=${encodedUrl}`;
+      }
+    });
+
+    this.jobDescriptionExtendedInfoSubscription = this.jobDescriptionExtendedInfo$.subscribe(jdei => {
+      if (!!jdei && jdei.WorkflowId === 0) {
+        this.showRoutingHistory = false;
+      }
+    });
+
+    this.completedStepSubscription = this.completedStep$.subscribe(cs => this.completedStep = cs);
+
+    this.identitySubscription = this.identity$.subscribe(userContext => {
+      this.identity = userContext;
+      this.companyName = userContext.CompanyName;
+      this.emailAddress = userContext.EmailAddress;
+      this.identityInEmployeeAcknowledgement = userContext.EmployeeAcknowledgementInfo && !!userContext.EmployeeAcknowledgementInfo.EmployeeAcknowledgementId;
+      if (this.identityInEmployeeAcknowledgement) {
+        if (!userContext.EmployeeAcknowledgementInfo.IsLatest && !userContext.EmployeeAcknowledgementInfo.HasAcknowledged) {
+          this.router.navigate(['/token-expired']);
+        }
+      }
+      this.identityInWorkflow = !!userContext.WorkflowStepInfo && !!userContext.WorkflowStepInfo.WorkflowId;
+      this.companySubscription = this.company$.subscribe((company) => {
+        this.companyLogoPath = company
+          ? userContext.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
+          : '';
+        if (company) {
+          this.companyName = company.CompanyName;
+        }
+      });
+      this.isSiteAdmin = userContext.AccessLevel === 'Admin';
+
+      if (!this.completedStep) {
+        this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
+      }
+
+      if (!this.identityInWorkflow && !this.identityInEmployeeAcknowledgement && !this.tokenId) {
+        this.getJobDescriptionDetails();
+      }
+      this.initSsoSubscriptions();
+    });
+
+    this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
+      this.handleJobDescriptionChanged(result.obj);
+    });
+
+    this.userAssignedRolesSubscription = this.userAssignedRoles$.subscribe( userRoles => {
+      if (userRoles) {
+        this.isCompanyAdmin = userRoles.some( x => x.RoleName === 'Company Admin' && x.Assigned);
+      }
+    });
+
+    // if the setting to enable public views in this repo is disabled redirect back to the NG implementation
+    this.enablePublicViewsInClient$.pipe(
+      takeWhile(() => this.identity.IsPublic),
+      filter(setting => setting === false)
+    ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
+
+    this.controlTypesAsync$.pipe(
+      filter(cts => !!cts && !!cts.obj),
+      take(1)
+    ).subscribe(ct => {
+      if (!ct.obj.length) {
+        this.jobDescriptionManagementService.getControlTypes();
+      }
+    });
+    this.controlTypesSubscription = this.controlTypesAsync$.subscribe(value => this.controlTypes = value.obj);
+
+    this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,
+      (control, oldIndex, newIndex) => {
+        this.store.dispatch(new fromJobDescriptionActions.ReorderControlData({
+          jobDescriptionControl: control,
+          oldIndex: oldIndex,
+          newIndex: newIndex
+        }));
+        this.saveThrottle.next(true);
+      });
+
+    this.jobDescriptionDnDService.initJobDescriptionPageDnD((jobDescriptionLibraryDrop: JobDescriptionLibraryDropModel) => {
+        this.store.dispatch(new fromJobDescriptionActions.AddSourceDataToControl({ controlTypes: this.controlTypes, dropModel: jobDescriptionLibraryDrop }));
+        this.saveThrottle.next(true);
+      }
+    );
+
+    this.jobDescriptionViewsAsyncSubscription = this.jobDescriptionViewsAsync$.subscribe(asyncObj => this.jobDescriptionViews = asyncObj.obj);
+    this.editingSubscription = this.editingJobDescription$.subscribe(value => this.editing = value);
+  }
+
+  private initSsoSubscriptions() {
+    this.requireSSOLoginSubscription = this.requireSSOLogin$.subscribe(requireSSOLoginResult => {
+      if (requireSSOLoginResult === false && this.tokenId) {
+        this.getJobDescriptionDetails();
+
+        if (this.identityInWorkflow) {
+          this.setWorkflowStepIsBeingViewed();
+        }
+        if (this.identityInEmployeeAcknowledgement) {
+          this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
+        }
+      }
+
+      if (requireSSOLoginResult  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null &&
+        (this.identityInWorkflow || this.identity.IsPublic)) {
+
+        this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
+
+      } else if (requireSSOLoginResult && this.tokenId != null && (this.identityInWorkflow || this.identity.IsPublic)) {
+
+        this.store.dispatch(new fromJobDescriptionActions.AuthenticateSSOParams({tokenId: this.ssoTokenId, agentId: this.ssoAgentId}));
+
+        this.jobDescriptionSSOAuthResultSubscription = this.jobDescriptionSSOAuthResult$.subscribe( result => {
+          if (result) {
+            const resultObj: any = result;
+            const userEmailDomain = this.emailAddress.slice(this.emailAddress.indexOf('@') + 1, this.emailAddress.length);
+
+            if (resultObj.EmailDomain.indexOf(userEmailDomain) === -1 && userEmailDomain.indexOf(resultObj.EmailDomain) === -1) {
+              this.router.navigate(['/forbidden']);
+            }
+
+            this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
+            this.getJobDescriptionDetails();
+
+            if (this.identityInWorkflow) {
+              this.setWorkflowStepIsBeingViewed();
+            }
+
+            if (this.identityInEmployeeAcknowledgement) {
+              this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
+            }
+
+            this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
+          }
+        });
+
+        this.jobDescriptionSSOAuthErrorSubscription = this.jobDescriptionSSOAuthError$.subscribe( result => {
+          if (result) {
+            this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
+          }
+        });
+      } else if (requireSSOLoginResult != null) {
+        this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
+      }
     });
   }
 

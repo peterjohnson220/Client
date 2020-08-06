@@ -11,7 +11,7 @@ import { generateMockListAreaColumns } from 'libs/models/common/list-area';
 
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { FilterSelectorPopoverComponent } from '../../index';
-import { ListAreaService } from 'libs/features/job-description-management/services/list-area.service';
+import { ListAreaService } from 'libs/core/services/list-area.service';
 import { UserFilterSearchPipe } from '../../../pipes';
 
 describe('Job Description Management - Job Description - Filter Selector Popover', () => {

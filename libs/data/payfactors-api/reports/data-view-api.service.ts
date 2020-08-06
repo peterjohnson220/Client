@@ -22,7 +22,7 @@ import {
   ValidateFormulaResponse,
   ValidateFormulaRequest,
   UpsertFormulaFieldRequest,
-  DeleteUserFormulaRequest, DataViewConfig, ExportGridRequest
+  DeleteUserFormulaRequest, DataViewConfig, ExportGridRequest, BasicDataViewDataRequest
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -72,6 +72,10 @@ export class DataViewApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/GetData`, request);
   }
 
+  getDataWithBasicDataRequest(request: BasicDataViewDataRequest): Observable<any[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetData`, request);
+  }
+
   getDataWithCount(request: DataViewDataRequest): Observable<DataViewEntityResponseWithCount> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetDataWithCount`, request);
   }
@@ -105,7 +109,7 @@ export class DataViewApiService {
       pageViewId: pageViewId
     };
     if (name) {
-      params['viewName'] = name;
+      params['viewName'] = encodeURIComponent(name);
     }
 
     if (applyUserDefaultCompensationFields != null) {

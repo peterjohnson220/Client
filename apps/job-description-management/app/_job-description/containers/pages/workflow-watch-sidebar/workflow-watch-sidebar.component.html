@@ -14,7 +14,8 @@
                                 [isSiteAdmin]="isSiteAdmin"
                                 [isCompanyAdmin]="isCompanyAdmin"
                                 (changeApproverClicked)="changeApproverClicked.emit($event)"
-                                (copyWorkflowLinkClicked)="copyWorkflowLink()">
+                                (copyWorkflowLinkClicked)="copyWorkflowLink()"
+                                (emailResendClicked)="resendEmail()">
       </pf-workflow-progress-bar>
     </div>
 

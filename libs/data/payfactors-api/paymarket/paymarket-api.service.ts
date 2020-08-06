@@ -6,7 +6,7 @@ import { AddPayMarketRequest, UpdatePayMarketRequest } from 'libs/models/payfact
 import { SurveyAndScope } from 'libs/models/survey';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { PayMarket, PayMarketWithMdScope } from '../../../models/paymarket';
+import { PayMarket, PayMarketAssociationsSummary, PayMarketWithMdScope } from '../../../models/paymarket';
 import { GenericKeyValue } from '../../../models/common';
 
 @Injectable()
@@ -74,6 +74,11 @@ export class PayMarketApiService {
 
   getDefaultScopeAndSurveyInfo(companyPayMarketId: number): Observable<SurveyAndScope[]> {
     return this.payfactorsApiService.get<SurveyAndScope[]>(`${this.endpoint}/GetDefaultScopeAndSurveyInfo`,
+      { params: { companyPayMarketId } });
+  }
+
+  getPayMarketAssociationsSummary(companyPayMarketId: number): Observable<PayMarketAssociationsSummary> {
+    return this.payfactorsApiService.get<PayMarketAssociationsSummary>(`${this.endpoint}/GetPaymarketAssociations`,
       { params: { companyPayMarketId } });
   }
 }

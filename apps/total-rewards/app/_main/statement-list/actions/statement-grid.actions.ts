@@ -46,6 +46,7 @@ export class CloseActionMenu implements Action {
 
 export class ConfirmDeleteStatement implements Action {
   readonly type = CONFIRM_DELETE_STATEMENT;
+  constructor(public payload: StatementListViewModel) {}
 }
 
 export class CloseDeleteStatement implements Action {

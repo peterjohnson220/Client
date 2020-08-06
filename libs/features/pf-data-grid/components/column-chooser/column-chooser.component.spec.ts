@@ -12,6 +12,7 @@ import { generateMockViewField } from 'libs/models/payfactors-api/index';
 import { FilterArrayByName } from 'libs/core/pipes';
 
 import { ColumnChooserComponent } from './column-chooser.component';
+import { ColumnChooserType } from '../../models';
 
 describe('Common UI - PF Grid - Column Chooser Popover', () => {
   let instance: ColumnChooserComponent;
@@ -41,6 +42,7 @@ describe('Common UI - PF Grid - Column Chooser Popover', () => {
   it('should emit array of PfGridColumns and close the popover, when calling saveButtonClicked', () => {
     spyOn(instance.saveColumns, 'emit');
     spyOn(instance.p, 'close');
+    instance.columnChooserType = ColumnChooserType.Column;
 
     const mockedListAreaColumns = [generateMockViewField(1), generateMockViewField(2)];
 

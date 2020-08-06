@@ -1,34 +1,81 @@
 <pf-page-with-title-bar [returnUrl]="'/statement/edit/' + (statement$ | async)?.StatementId">
-  <ng-container page-title>{{ (statement$ | async)?.StatementName }} - Assigned Employees</ng-container>
+  <ng-container page-title>{{ (statement$ | async)?.StatementName }}: Assigned Employees</ng-container>
   <ng-container page-actions>
-    <button type="button" class="btn btn-secondary" (click)="openAssignModal()">Assign Employees</button>
+    <button type="button" class="btn btn-primary open-assign-modal" (click)="openAssignModal()">Assign Employees</button>
   </ng-container>
   <ng-container page-content>
-    <pf-assigned-employees-grid [class.d-none]="(assignedEmployeesTotal$ | async) == 0 && !(assignedEmployeesLoading$ | async)"></pf-assigned-employees-grid>
-    <pf-no-records-found-call-to-action 
-      [class.d-none]="(assignedEmployeesTotal$ | async) > 0 || (assignedEmployeesLoading$ | async)"
-      [headerText]="'No Employees Assigned'"
-      [linkText]="'Assign Employees'"
-      (callToActionClick)="openAssignModal()">
-    </pf-no-records-found-call-to-action>
-    <pf-footer-bar
-      [primaryButtonText]="'Generate'"
-      [primaryButtonEnabled]="(selectedAssignedCompanyEmployeeIds$ | async)?.length"
-      [primaryButtonToolTip]="(selectedAssignedCompanyEmployeeIds$ | async)?.length ? '' : 'Select employees to generate statements'"
-      [secondaryButtonText]="'Back to Canvas'"
-      (primaryButtonClick)="handleOpenGenerateStatementModalClick()"
-      (secondaryButtonClick)="handleBackToCanvasClick()"
-    ></pf-footer-bar>
-    <pf-statement-assignment-modal></pf-statement-assignment-modal>
-    <pf-generate-statement-modal 
-      [isOpen$]="isGenerateStatementModalOpen$"
-      [statement]="statement$ | async"
-      [sendingGenerateRequest]="sendingGenerateRequest$ | async"
-      [sendingGenerateRequestSuccess]="sendingGenerateRequestSuccess$ | async"
-      [sendingGenerateRequestError]="sendingGenerateRequestError$ | async"
-      [selectedCompanyEmployeeIds]="selectedAssignedCompanyEmployeeIds$ | async"
-      (generateStatementsClick)="handleGenerateStatementsClick()"
-      (cancelClick)="handleCancelGenerateStatementModal()"
-    ></pf-generate-statement-modal>
+    <div class="flex-column-container">
+      <div class="d-flex mb-2">
+        <div class="d-flex grid-actions-container">
+          <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length === 0" (click)="handleClearSelectionsClick()">
+            <fa-icon [icon]="['far', 'times']"></fa-icon>
+            Clear Selections
+          </button>
+          <div class="vertical-separator mr-3"></div>
+          <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length === 0" (click)="handleOpenUnassignModalClick()">
+            <fa-icon [icon]="'user-slash'" aria-hidden="true"></fa-icon>
+            Unassign
+          </button>
+        </div>
+        <pf-list-area-filter-pills
+          *ngIf="assignedEmployeesGridState?.filter?.filters?.length"
+          [listAreaColumns]="assignedEmployeesListAreaColumns$ | async"
+          [filters]="assignedEmployeesGridState?.filter?.filters"
+          (clearFilter)="handleClearFilter($event)"
+          (clearAllFilters)="handleClearAllFilters()">
+        </pf-list-area-filter-pills>
+        <button (click)="handleFiltersToggle()" class="filter-toggle btn btn-secondary ml-auto">
+          <fa-icon icon="sliders-h" class="mr-1" aria-hidden="true"></fa-icon><span>Filter</span>
+        </button>
+      </div>
+      <div class="d-flex h-100">
+        <div class="grid-wrapper" [class.expanded-filters]="getIsFiltersPanelOpen$ | async">
+          <pf-assigned-employees-grid
+            [gridState]="assignedEmployeesGridState"
+            (gridStateChange)="handleAssignedEmployeesGridStateChange($event)">
+          </pf-assigned-employees-grid>
+        </div>
+        <div class="filter-wrapper" [class.expanded]="getIsFiltersPanelOpen$ | async">
+          <pf-list-area-filter-sidebar
+            [filters]="assignedEmployeesGridState?.filter?.filters"
+            [listAreaColumns]="(assignedEmployeesListAreaColumns$ | async)"
+            [saveFiltersVisible]="false"
+            (filterChanged)="handleFilterChanged($event)"
+            (close)="handleFiltersClose()">
+          </pf-list-area-filter-sidebar>
+        </div>
+      </div>
+      <pf-footer-bar
+        [primaryButtonText]="'Generate'"
+        [primaryButtonEnabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length"
+        [primaryButtonToolTip]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length ? '' : 'Select employees to generate statements'"
+        [secondaryButtonText]="'Back to Canvas'"
+        (primaryButtonClick)="handleOpenGenerateStatementModalClick()"
+        (secondaryButtonClick)="handleBackToCanvasClick()"
+      ></pf-footer-bar>
+      <pf-statement-assignment-modal></pf-statement-assignment-modal>
+      <pf-generate-statement-modal
+        [isOpen$]="isGenerateStatementModalOpen$"
+        [statement]="statement$ | async"
+        [sendingGenerateRequest]="sendingGenerateRequest$ | async"
+        [sendingGenerateRequestSuccess]="sendingGenerateRequestSuccess$ | async"
+        [sendingGenerateRequestError]="sendingGenerateRequestError$ | async"
+        [selectedCompanyEmployeeIds]="assignedEmployeesSelectedCompanyEmployeeIds$ | async"
+        (generateStatementsClick)="handleGenerateStatementsClick()"
+        (cancelClick)="handleCancelGenerateStatementModal()"
+      ></pf-generate-statement-modal>
+      <pf-unassign-employees-modal
+        [isOpen$]="isUnassignEmployeesModalOpen$"
+        [statementName]="(statement$ | async).StatementName"
+        [singleEmployee]="openActionMenuEmployee$ | async"
+        [isSingleEmployeeUnassign]="isSingleEmployeeAction$ | async"
+        [sendingUnassignRequest]="sendingUnassignRequest$ | async"
+        [sendingUnassignRequestSuccess]="sendingUnassignRequestSuccess$ | async"
+        [sendingUnassignRequestError]="sendingUnassignRequestError$ | async"
+        [selectedCompanyEmployeeIds]="assignedEmployeesSelectedCompanyEmployeeIds$ | async"
+        (unassignEmployeesClick)="handleUnassignEmployeesClick()"
+        (cancelClick)="handleCancelUnassignEmployeesModal()"
+      ></pf-unassign-employees-modal>
+    </div>
   </ng-container>
 </pf-page-with-title-bar>

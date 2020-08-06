@@ -1,7 +1,4 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-
-import {Subscription} from 'rxjs';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import {
   Statement,
@@ -23,7 +20,7 @@ import {
   styleUrls: ['./total-rewards-statement.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
+export class TotalRewardsStatementComponent {
 
   @Input() statement: Statement;
   @Input() mode: StatementModeEnum;
@@ -52,8 +49,6 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
   @Output() onEffectiveDateChange: EventEmitter<Date> = new EventEmitter<Date>();
 
   controlType = TotalRewardsControlEnum;
-  employees = [1];
-  employeeCountSubscription = new Subscription();
 
   // check statement.Settings.FontSize and return small-font-size | medium-font-size | large-font-size | ''
   get fontSizeCssClass(): string {
@@ -86,22 +81,7 @@ export class TotalRewardsStatementComponent implements OnInit, OnDestroy {
     return calcControls;
   }
 
-  constructor(private route: ActivatedRoute) { }
-
-  ngOnInit() {
-    // This is for POC employees/pages
-    this.employeeCountSubscription = this.route.queryParams.subscribe(params => {
-      if (params['pages']) {
-        for (let i = 2; i <= params['pages']; i++) {
-          this.employees.push(i);
-        }
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.employeeCountSubscription.unsubscribe();
-  }
+  constructor() { }
 
   // track which item each ngFor is on, which no longer necessitates destroying/creating all components in state changes and improves perf significantly
   trackByFn(index: number, item: any) {

@@ -9,22 +9,24 @@ import {
   ViewChild,
   OnDestroy,
   NgZone,
-  ElementRef,
-  EventEmitter, Output
+  EventEmitter,
+  Output
 } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { filter, take } from 'rxjs/operators';
-import { GridDataResult,
-         PageChangeEvent,
-         RowClassArgs,
-         GridComponent,
-         ColumnReorderEvent,
-         ColumnComponent,
-         ContentScrollEvent,
-         ColumnResizeArgs } from '@progress/kendo-angular-grid';
+import {
+  GridDataResult,
+  PageChangeEvent,
+  RowClassArgs,
+  GridComponent,
+  ColumnReorderEvent,
+  ColumnComponent,
+  ContentScrollEvent,
+  ColumnResizeArgs
+} from '@progress/kendo-angular-grid';
 
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
@@ -66,6 +68,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() pageable = true;
   @Input() theme: 'default' | 'next-gen' = 'default';
   @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
+  @Input() modifiedKey: string = null;
+  @Input() resetWidthForSplitView = false;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
   gridState$: Observable<DataGridState>;
@@ -106,12 +110,15 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   gridConfigSubscription: Subscription;
   gridConfig: GridConfig;
 
+  modifiedKeys: any[];
+  modifiedKeysSubscription: Subscription;
+
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
   @ViewChild(GridComponent) grid: GridComponent;
 
 
-  constructor(private store: Store<fromReducer.State>, private ngZone: NgZone, private mappedFieldName: MappedFieldNamePipe) { }
+  constructor(private store: Store<fromReducer.State>, private ngZone: NgZone, private mappedFieldName: MappedFieldNamePipe) {}
 
   ngOnInit() {
     this.dataSubscription = this.store.select(fromReducer.getData, this.pageViewId).subscribe(newData => {
@@ -162,6 +169,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.saveSortSubscription.unsubscribe();
     this.dataFieldsSubscription.unsubscribe();
     this.gridConfigSubscription.unsubscribe();
+    this.modifiedKeysSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -182,6 +190,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       this.defaultSortDescriptor$ = this.store.select(fromReducer.getDefaultSortDescriptor, changes['pageViewId'].currentValue);
       this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
       this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
+      this.modifiedKeysSubscription = this.store.select(fromReducer.getModifiedKeys, changes['pageViewId'].currentValue).subscribe(
+        modifiedKeys => this.modifiedKeys = modifiedKeys
+      );
     }
 
     if (changes['selectedRecordId']) {
@@ -202,13 +213,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onColumnReorder(value: ColumnReorderEvent) {
-    // If selection is enabled: the first column can't be reordered
-    // For ColumnGroup the first index is also 0, but the level = 1
-    if ((this.enableSelection || this.gridRowActionsConfig?.Position === PositionType.Left) && (value.newIndex === 0) && value.column.level === 0) {
-      value.preventDefault();
+    if (this.shouldIgnoreColumnReorderEvent(value)) {
       return;
     }
-
     this.store.dispatch(new fromActions.ReorderColumns(
       this.pageViewId,
       {
@@ -220,6 +227,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         ActionsDefined: !!this.gridRowActionsConfig
       },
     ));
+    this.reorderActionsColumnOnTheLeft();
   }
 
   getColWidth(col: any) {
@@ -260,16 +268,17 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  onCellClick({ dataItem, rowIndex, originalEvent }) {
-
-    if (originalEvent.button !== 0) {
+  onCellClick({ dataItem, rowIndex, originalEvent, column }) {
+    if (originalEvent.button !== 0 || column?.title === this.gridRowActionsConfig?.Title) {
       return;
     }
 
     if (getSelection().toString()) {
       // User is highlighting text so we don't want to mark this as a click
     } else if (this.allowSplitView) {
-      this.resetKendoGridWidth();
+      if (this.resetWidthForSplitView) {
+        this.resetKendoGridWidth();
+      }
       this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
     } else if (this.expandedRowTemplate) {
       if (this.expandedRows.includes(rowIndex)) {
@@ -292,11 +301,15 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     return `${this.customHeaderClass || ''} pf-grid-checkbox`.trim();
   }
 
-  getRowClasses = (context: RowClassArgs) => ({
-    'pf-data-grid-clickable-row': this.selectionField,
-    'pf-data-grid-non-clickable-row': this.compactGrid,
-    'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.primaryKey] === this.selectedRecordId)
-  })
+  getRowClasses = (context: RowClassArgs) => {
+    return {
+      'pf-data-grid-clickable-row': this.selectionField,
+      'pf-data-grid-non-clickable-row': this.compactGrid,
+      'k-state-selected': this.selectionField && !this.compactGrid && (context.dataItem[this.primaryKey] === this.selectedRecordId),
+      'pf-data-grid-modified-row': this.modifiedKey !== null && this.modifiedKeys != null
+        && this.modifiedKeys.includes(context.dataItem[this.modifiedKey])
+    };
+  }
 
   getColumnClasses(col: ViewField): string {
     return this.columnTemplates && this.columnTemplates[col.SourceName] && this.columnTemplates[col.SourceName].IsCompact
@@ -343,6 +356,31 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         return col === c.field;
       })));
     });
+  }
+
+  private shouldIgnoreColumnReorderEvent(event: ColumnReorderEvent): boolean {
+    // If selection is enabled: the first column can't be reordered
+    // For ColumnGroup the first index is also 0, but the level = 1
+    const isReplacingSelectionColumn = this.enableSelection && event.newIndex === 0 && event.column.level === 0;
+    const hasActionsColumnOnTheLeft = this.gridRowActionsConfig?.Position === PositionType.Left;
+    const actionsColumnIndex = this.enableSelection ? 1 : 0;
+    if (isReplacingSelectionColumn || (hasActionsColumnOnTheLeft && event.newIndex === actionsColumnIndex)) {
+      if (event.column.reorderable) {
+        event.preventDefault();
+      }
+      return true;
+    }
+    return false;
+  }
+
+  private reorderActionsColumnOnTheLeft(): void {
+    if (this.gridRowActionsConfig?.Position !== PositionType.Left) {
+      return;
+    }
+    const actionsColumnIndex = this.enableSelection ? 1 : 0;
+    const actionsColumn = this.grid.columns.toArray()[actionsColumnIndex];
+    const destIndex = 0;
+    setTimeout(() => this.grid.reorderColumn(actionsColumn, destIndex), 1);
   }
 
   private resetKendoGridWidth() {

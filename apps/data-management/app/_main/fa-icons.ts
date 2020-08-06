@@ -8,6 +8,7 @@ import { faSpinner } from '@fortawesome/pro-solid-svg-icons/faSpinner';
 import { faTimes } from '@fortawesome/pro-solid-svg-icons/faTimes';
 import { faTimesCircle } from '@fortawesome/pro-solid-svg-icons/faTimesCircle';
 import { faUpload } from '@fortawesome/pro-solid-svg-icons/faUpload';
+import { faEllipsisH } from '@fortawesome/pro-solid-svg-icons/faEllipsisH';
 
 export const faIcons = [
     faCheckCircle,
@@ -20,4 +21,5 @@ export const faIcons = [
     faUpload,
     faPencilAlt,
     faCalendarAlt,
-    faSpinner];
+    faSpinner,
+    faEllipsisH];
