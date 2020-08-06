@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
-
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {isEmpty, isString} from 'lodash';
 
 import * as fromSsoConfigActions from '../../../actions/sso-config.actions';
 import * as fromSsoConfigReducers from '../../../reducers';
-import { AddSsoConfigModalComponent } from '../../add-sso-config-modal';
 
 @Component({
   selector: 'pf-site-admin-sso-config-page',
@@ -15,25 +14,51 @@ import { AddSsoConfigModalComponent } from '../../add-sso-config-modal';
   providers: [NgbModalConfig, NgbModal]
 })
 
-export class SsoConfigPageComponent implements OnInit {
-  @ViewChild(AddSsoConfigModalComponent, { static: true }) public addSsoConfigModalComponent: AddSsoConfigModalComponent;
+export class SsoConfigPageComponent implements OnInit, OnDestroy {
 
   errorMessage: boolean;
   file: any;
+  editButtonDisabled: boolean;
+  modalType: string;
 
+  public customerConnectionSelected$: Observable<boolean>;
+
+  public customerConnectionSelectedSubscription: Subscription;
 
   constructor(
     private store: Store<fromSsoConfigReducers.State>,
     ) {
-
+    this.customerConnectionSelected$ = this.store.pipe(select(fromSsoConfigReducers.getCustomerConnectionSelected));
   }
+
   ngOnInit() {
+    this.modalType = 'Add';
     this.store.dispatch(new fromSsoConfigActions.GetSsoConfiguration());
 
+    this.editButtonDisabled = true;
+
+    this.customerConnectionSelectedSubscription = this.customerConnectionSelected$.subscribe( isSelected => {
+      this.editButtonDisabled = isSelected ? false : true;
+    });
   }
 
-  OpenAddSsoModal(event: Event) {
+  ngOnDestroy() {
+    this.customerConnectionSelectedSubscription.unsubscribe();
+  }
+
+  OpenSsoModal() {
+    this.store.dispatch(new fromSsoConfigActions.OpenSsoConfigModal());
+  }
+
+  SetAddSsoModal(event: Event) {
     event.stopPropagation();
-    this.store.dispatch(new fromSsoConfigActions.OpenAddSsoConfigModal());
+    this.modalType = 'Add';
+    this.OpenSsoModal();
+  }
+
+  SetEditSsoModal(event: Event) {
+    event.stopPropagation();
+    this.modalType = 'Edit';
+    this.OpenSsoModal();
   }
 }

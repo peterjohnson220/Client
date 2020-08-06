@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CustomerConnection } from '../../../models/sso';
+import { CustomerConnection, SelectedCustomerConnection } from '../../../models/sso';
 import { Observable } from 'rxjs';
 
 
@@ -22,5 +22,10 @@ export class SsoConfigApiService {
 
   getSsoLoginUrl(): Observable<any> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetSsoLoginUrl`);
+  }
+
+  updateCustomerConnection(updatedConfiguration: SelectedCustomerConnection): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/Default.UpdateCustomerConnection`, updatedConfiguration,
+      (res) => res.value);
   }
 }
