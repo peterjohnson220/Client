@@ -3,3 +3,12 @@
 .k-widget.k-grid.assigned-employees {
   height: calc(100% - 47px);
 }
+
+.gray-text {
+  color: #B6B6B6;
+  cursor: pointer;
+}
+
+.dropup .dropdown-toggle::after, .dropdown-toggle::after {
+  display: none !important;
+}

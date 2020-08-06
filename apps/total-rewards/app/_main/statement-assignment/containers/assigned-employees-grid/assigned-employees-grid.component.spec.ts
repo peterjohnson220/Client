@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import { AssignedEmployeesGridComponent } from './assigned-employees-grid.component';
 
@@ -18,7 +19,7 @@ describe('AssignedEmployeesGridComponent', () => {
           ...fromStatementAssignmentReducer.reducers,
           totalRewards_statementAssignment: combineReducers(fromStatementAssignmentReducer.reducers),
         })],
-      declarations: [AssignedEmployeesGridComponent],
+      declarations: [AssignedEmployeesGridComponent, NgbDropdown],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
