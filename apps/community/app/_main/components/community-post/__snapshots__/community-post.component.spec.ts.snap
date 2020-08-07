@@ -8,6 +8,7 @@ exports[`CommunityPostComponent should show post 1`] = `
   discardingPostReplyProceed$={[Function Observable]}
   discardingPostReplyProceedSubscription={[Function Subscriber]}
   filtersModifiedEvent={[Function EventEmitter]}
+  loadingCommunityPostReplies$={[Function Store]}
   onAttachmentClickedEvent={[Function EventEmitter]}
   pollsType={[Function Number]}
   post={[Function Object]}

@@ -3,6 +3,8 @@
     <div class="pl-1 col-12" *ngIf="editedReplyId !== reply.Id">
       <pf-community-post-reply 
         [reply]="reply"
+        [post]="post"
+        [maximumReplies]="maximumReplies"
         [disableCommunityAttachments]="disableCommunityAttachments"
         [hideAttachmentWarning]="hideAttachmentWarning" 
         (replyHashTagClicked)="handleReplyHashTagClicked($event)"

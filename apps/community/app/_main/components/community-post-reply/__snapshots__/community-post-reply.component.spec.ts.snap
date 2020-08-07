@@ -3,9 +3,17 @@
 exports[`CommunityPostReplyComponent should show community post reply component 1`] = `
 <pf-community-post-reply
   avatarUrl={[Function String]}
+  discardingPostId={[Function String]}
+  discardingPostId$={[Function Observable]}
+  discardingPostIdSubscription={[Function Subscriber]}
+  discardingPostReplyProceed$={[Function Observable]}
+  discardingPostReplyProceedSubscription={[Function Subscriber]}
   onAttachmentClickedEvent={[Function EventEmitter]}
+  post={[Function Object]}
   reply={[Function Object]}
   replyHashTagClicked={[Function EventEmitter]}
+  showAddReply="false"
+  store={[Function Store]}
 >
   <pf-community-avatar /><div
     class="reply-offset"
@@ -15,12 +23,26 @@ exports[`CommunityPostReplyComponent should show community post reply component 
       class="mt-2 mb-2"
     />
     
+    
     <div
-      class="d-flex flex-wrap pt-2"
+      class="d-flex align-items-center"
     >
-      
+      <pf-community-like />
+      <a
+        class="pl-2 community-link"
+        href="javascript:void(0)"
+        id="reply"
+      >
+        <span>
+          Reply
+        </span>
+      </a>
     </div>
-    <pf-community-like />
+    <div
+      class="mt-2 py-1 hide"
+    >
+      <pf-community-post-add-reply />
+    </div>
   </div>
 </pf-community-post-reply>
 `;

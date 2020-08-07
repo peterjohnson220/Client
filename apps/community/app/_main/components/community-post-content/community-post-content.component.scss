@@ -3,6 +3,8 @@
 
 .content-body {
   word-wrap: break-word;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 :host ::ng-deep .linkified {
