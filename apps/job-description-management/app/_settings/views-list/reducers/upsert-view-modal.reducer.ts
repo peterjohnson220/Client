@@ -104,6 +104,8 @@ export function reducer(state = initialState, action: fromUpsertViewModalActions
           Name: viewName,
           TemplateId: jv.TemplateId,
           HiddenElementIds: jv.HiddenElementIds,
+          HiddenControlNameElementIds: jv.HiddenControlNameElementIds,
+          HiddenSubHeadingElementIds: jv.HiddenSubHeadingElementIds,
           Template: jv.Template,
           JobInformationFields: jv.JobInformationFields ? jv.JobInformationFields : []
         };
@@ -119,6 +121,8 @@ export function reducer(state = initialState, action: fromUpsertViewModalActions
             TemplateId: assignedTemplateId,
             Template: null,
             HiddenElementIds: [],
+            HiddenControlNameElementIds: [],
+            HiddenSubHeadingElementIds: [],
             JobInformationFields: []
           });
         }
