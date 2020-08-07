@@ -39,6 +39,20 @@ export class SsoConfigEffects {
       )
     );
 
+  @Effect()
+  updateSsoConfig$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSsoConfigActions.UPDATING_SSO_CONFIGURATION),
+      switchMap((action: fromSsoConfigActions.UpdatingSsoConfiguration) =>
+        this.ssoConfigApiService.updateCustomerConnection(action.payload).pipe(
+          map((response: any) => {
+            return new fromSsoConfigActions.UpdatingSsoConfigurationSuccess(response);
+          }),
+          catchError( error => of(new fromSsoConfigActions.UpdatingSsoConfigurationError(error)))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private ssoConfigApiService: SsoConfigApiService

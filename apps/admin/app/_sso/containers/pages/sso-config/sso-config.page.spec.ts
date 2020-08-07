@@ -52,10 +52,9 @@ describe('Sso Config Page', () => {
 
   it('should dispatch OpenAddSsoConfigModal action when addSsoConfig is triggered', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromSsoConfigActions.OpenAddSsoConfigModal();
-    const testEvent = new Event('click');
+    const expectedAction = new fromSsoConfigActions.OpenSsoConfigModal();
 
-    instance.OpenAddSsoModal(testEvent);
+    instance.OpenSsoModal();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
