@@ -2,7 +2,6 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromRoot from 'libs/state/state';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
-import { CompanyEmployee } from 'libs/models/company';
 
 import * as fromPageReducer from './statement-assignment.page.reducer';
 import * as fromAssignmentModalReducer from './statement-assignment-modal.reducer';
@@ -177,19 +176,14 @@ export const getAssignedEmployeesGridState = createSelector(
   (state: IFeatureGridState<fromAssignedEmployeesGridReducer.State>) => state.grid.grid
 );
 
-export const {
-  selectAll: getAssignedEmployees
-} = fromAssignedEmployeesGridReducer.adapter.getSelectors(getAssignedEmployeesFeatureState);
-
 export const getAssignedEmployeesTotal = createSelector(
   getAssignedEmployeesFeatureState,
   fromAssignedEmployeesGridReducer.getAssignedEmployeesTotal
 );
 
 export const getAssignedEmployeesGridData = createSelector(
-  getAssignedEmployees,
-  getAssignedEmployeesTotal,
-  (data: CompanyEmployee[], total: number) => ({ data, total })
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getAssignedEmployeesGridData
 );
 
 export const getAssignedEmployeesLoading = createSelector(

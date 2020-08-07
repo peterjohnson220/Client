@@ -31,7 +31,7 @@
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
             <input
               type="checkbox"
-              [checked]="isEmployeeSelected(dataItem)"
+              [checked]="(selectedCompanyEmployeeIds$ | async)?.indexOf(dataItem['CompanyEmployeeId']) > -1"
               (click)="handleCheckboxClick(dataItem)" />
           </ng-template>
         </kendo-grid-checkbox-column>

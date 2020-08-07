@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 
-import { CompanyEmployee } from 'libs/models/company';
+import { GetAssignedEmployeesResponse, TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-rewards';
 
 export const RESET = '[Total Rewards/Assigned Employees Grid] Reset';
 
@@ -30,7 +29,7 @@ export class LoadAssignedEmployees implements Action {
 
 export class LoadAssignedEmployeesSuccess implements Action {
   readonly type = LOAD_ASSIGNED_EMPLOYEES_SUCCESS;
-  constructor(public payload: GridDataResult) {}
+  constructor(public payload: GetAssignedEmployeesResponse) {}
 }
 
 export class LoadAssignedEmployeesError implements Action {
@@ -45,7 +44,7 @@ export class ToggleEmployeeSelection implements Action {
 export class OpenActionMenu implements Action {
   readonly type = OPEN_ACTION_MENU;
 
-  constructor(public payload: CompanyEmployee) {}
+  constructor(public payload: TotalRewardAssignedEmployee) {}
 }
 
 export class CloseActionMenu implements Action {

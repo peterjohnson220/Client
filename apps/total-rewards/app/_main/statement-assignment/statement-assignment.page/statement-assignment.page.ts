@@ -1,13 +1,13 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { Observable, Subscription, Subject } from 'rxjs';
-import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Observable, Subscription, combineLatest, BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
-import { CompanyEmployee } from 'libs/models/company';
+import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-rewards';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { AppNotification } from 'libs/features/app-notifications/models';
 import { AsyncStateObj } from 'libs/models/state';
@@ -26,7 +26,7 @@ import { TotalRewardsAssignmentService } from '../../../shared/services/total-re
   templateUrl: './statement-assignment.page.html',
   styleUrls: ['./statement-assignment.page.scss']
 })
-export class StatementAssignmentPageComponent implements AfterViewInit, OnDestroy, OnInit {
+export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   @ViewChild(StatementAssignmentModalComponent, {static: true}) public StatementAssignmentModalComponent: StatementAssignmentModalComponent;
 
   statement$: Observable<Statement>;
@@ -47,7 +47,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   sendingUnassignRequestSuccess$: Observable<boolean>;
   sendingUnassignRequestError$: Observable<boolean>;
   isSingleEmployeeAction$: Observable<boolean>;
-  openActionMenuEmployee$: Observable<CompanyEmployee>;
+  openActionMenuEmployee$: Observable<TotalRewardAssignedEmployee>;
   unassignEmployeesSuccess$: Observable<boolean>;
 
   assignedEmployeesLoading$: Observable<boolean>;
@@ -63,18 +63,22 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   routeParamSubscription$ = new Subscription();
   filterChangeSubscription = new Subscription();
   unassignEmployeesSuccessSubscription = new Subscription();
-  assignedEmployeesTotalSubscription = new Subscription();
+  assignEmployeesModalOpenSubscription: Subscription;
   appNotificationSubscription: Subscription;
   exportEventIdSubscription: Subscription;
 
-  filterChangeSubject = new Subject<FilterDescriptor[]>();
   exportEventId = null;
+  filterChangeSubject = new BehaviorSubject<FilterDescriptor[]>([]);
+  filters$: Observable<FilterDescriptor[]>;
+  private readonly FILTER_DEBOUNCE_TIME = 400;
 
   constructor(
     private store: Store<fromPageReducer.State>,
     private route: ActivatedRoute, private router: Router,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
-  ) { }
+  ) {
+    this.filters$ = this.filterChangeSubject.asObservable();
+  }
 
   private setSearchContext() {
     const setContextMessage: MessageEvent = {
@@ -128,7 +132,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.statementSubscription$ = this.statement$.subscribe(s => this.statement = s);
     this.filterChangeSubscription = this.filterChangeSubject.pipe(
       distinctUntilChanged(),
-      debounceTime(400)
+      debounceTime(this.FILTER_DEBOUNCE_TIME)
     ).subscribe((filters: FilterDescriptor[]) => {
       // the filters component mutates the gridState's filters directly so workaround a potential read only error by cloning
       this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
@@ -155,6 +159,24 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
       }
     });
 
+    this.assignEmployeesModalOpenSubscription =
+      combineLatest([this.assignedEmployeesLoading$, this.assignedEmployeesTotal$, this.employeeSearchTerm$, this.filters$])
+      .pipe(
+        debounceTime(this.FILTER_DEBOUNCE_TIME),
+        map(([loading, totalCount, searchTerm, filters]) => {
+          if (!loading && totalCount === 0 && !searchTerm?.length && !filters?.length) {
+            return true;
+          }
+          return false;
+        })
+      ).subscribe((isOpen) => {
+        if (isOpen) {
+          this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
+        } else {
+          this.store.dispatch(new fromAssignmentsModalActions.CloseModal());
+        }
+      });
+
     // dispatches, search init
     this.store.dispatch(new fromPageActions.LoadAssignedEmployeesListAreaColumns());
     this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
@@ -163,21 +185,9 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.setSearchContext();
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.assignedEmployeesTotalSubscription = this.assignedEmployeesTotal$.subscribe(count => {
-        if (count === 0) {
-          this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
-        } else {
-          this.store.dispatch(new fromAssignmentsModalActions.CloseModal());
-        }
-      });
-    }, 0);
-  }
-
   ngOnDestroy(): void {
     this.statementSubscription$.unsubscribe();
-    this.assignedEmployeesTotalSubscription.unsubscribe();
+    this.assignEmployeesModalOpenSubscription.unsubscribe();
     this.routeParamSubscription$.unsubscribe();
     this.exportEventIdSubscription.unsubscribe();
     this.appNotificationSubscription.unsubscribe();
@@ -224,17 +234,12 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   }
 
   handleClearFilter(filterDescriptor: FilterDescriptor) {
-    // the filters component mutates the gridState's filters directly so workaround a potential read only error by cloning
-    this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
-    this.assignedEmployeesGridState.filter.filters = this.assignedEmployeesGridState.filter.filters.filter(f => f.field !== filterDescriptor.field);
-    this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+    const remainingFilters = this.assignedEmployeesGridState.filter.filters.filter(f => f.field !== filterDescriptor.field);
+    this.filterChangeSubject.next(remainingFilters);
   }
 
   handleClearAllFilters() {
-    // the filters component mutates the gridState's filters directly so workaround a potential read only error by cloning
-    this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
-    this.assignedEmployeesGridState.filter.filters = [];
-    this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+    this.filterChangeSubject.next([]);
   }
 
   handleOpenUnassignModalClick() {
