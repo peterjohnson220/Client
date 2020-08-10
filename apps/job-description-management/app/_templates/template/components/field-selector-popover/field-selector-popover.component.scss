@@ -13,3 +13,7 @@
 .form-check {
     border-bottom: 1px solid #eaecef;
 }
+
+::ng-deep .popover {
+    left: -18px !important;
+}
