@@ -11,7 +11,6 @@ export class FooterBarComponent {
   @Input() primaryButtonEnabled = true;
   @Input() primaryButtonToolTip = '';
   @Input() secondaryButtonText = '';
-  @Input() selectedCompanyEmployeeCount: number;
 
   @Output() primaryButtonClick = new EventEmitter();
   @Output() secondaryButtonClick = new EventEmitter();

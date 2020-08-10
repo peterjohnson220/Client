@@ -11,6 +11,8 @@ import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-re
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { AppNotification } from 'libs/features/app-notifications/models';
 import { AsyncStateObj } from 'libs/models/state';
+import { GridTypeEnum } from 'libs/models/common';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
@@ -52,6 +54,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
 
   assignedEmployeesLoading$: Observable<boolean>;
   assignedEmployeesTotal$: Observable<number>;
+  assignedEmployeesTotalOrSelectedCount$: Observable<number>;
   assignedEmployeesListAreaColumns$: Observable<any[]>;
 
   employeeSearchTerm$: Observable<string>;
@@ -120,6 +123,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.assignedEmployeesSelectedCompanyEmployeeIds$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
     this.assignedEmployeesLoading$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesLoading));
     this.assignedEmployeesTotal$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotal));
+    this.assignedEmployeesTotalOrSelectedCount$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotalOrSelectedCount));
     this.assignedEmployeesListAreaColumns$ = this.store.pipe(select(fromPageReducer.getListAreaColumns));
 
     // exports
@@ -138,6 +142,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
       this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
       this.assignedEmployeesGridState.filter.filters = filters;
       this.assignedEmployeesGridState.skip = 0;
+      this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, cloneDeep(this.assignedEmployeesGridState)));
       this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
     });
     this.unassignEmployeesSuccessSubscription = this.unassignEmployeesSuccess$.subscribe(u => {

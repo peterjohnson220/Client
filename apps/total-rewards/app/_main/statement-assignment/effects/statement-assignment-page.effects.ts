@@ -9,13 +9,10 @@ import { UserProfileApiService } from 'libs/data/payfactors-api/user';
 import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
 import { ExportAssignedEmployeesRequest } from 'libs/models/payfactors-api/total-rewards/request';
 import { MappingHelper } from 'libs/core/helpers';
-import {
-  TotalRewardsApiService,
-  TotalRewardsAssignmentApiService,
-  TotalRewardsPdfGenerationService
-} from 'libs/data/payfactors-api/total-rewards';
+import { TotalRewardsApiService, TotalRewardsAssignmentApiService, TotalRewardsPdfGenerationService } from 'libs/data/payfactors-api/total-rewards';
 
 import { Statement } from '../../../shared/models';
+import { GenerateStatementsRequest } from '../models';
 import * as fromStatementAssignmentPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
@@ -56,11 +53,17 @@ export class StatementAssignmentPageEffects {
       withLatestFrom(
         this.store.select(fromTotalRewardsReducer.getStatement),
         this.store.select(fromTotalRewardsReducer.getAssignedEmployeesSelectedCompanyEmployeeIds),
-        (action: fromStatementAssignmentPageActions.GenerateStatements, statement, companyEmployeeIds) =>
-          ({ action, companyEmployeeIds, statementId: statement.StatementId })
+        this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
+        (action: fromStatementAssignmentPageActions.GenerateStatements, statement, companyEmployeeIds, gridState) =>
+          ({ action, companyEmployeeIds, statementId: statement.StatementId, gridState })
       ),
-      switchMap((combined) =>
-        this.totalRewardsPdfGenerationService.generateStatements({ CompanyEmployeeIds: combined.companyEmployeeIds, StatementId: combined.statementId }).pipe(
+      map(data => ({
+        StatementId: data.statementId,
+        CompanyEmployeeIds: data.companyEmployeeIds,
+        GenerateByQuery: (data.companyEmployeeIds && data.companyEmployeeIds.length) ? null : data.gridState
+      } as GenerateStatementsRequest)),
+      switchMap(request =>
+        this.totalRewardsPdfGenerationService.generateStatements(request).pipe(
           mergeMap((response) => [
             new fromStatementAssignmentPageActions.GenerateStatementsSuccess({ eventId: response }),
             new fromStatementAssignmentPageActions.CloseGenerateStatementModal()

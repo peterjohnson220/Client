@@ -61,11 +61,9 @@
         </div>
       </div>
       <pf-footer-bar
-        [primaryButtonText]="'Generate'"
-        [primaryButtonEnabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length"
-        [primaryButtonToolTip]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length ? '' : 'Select employees to generate statements'"
+        [primaryButtonText]="'Generate (' + ((assignedEmployeesTotalOrSelectedCount$ | async) || '') + ')'"
+        [primaryButtonEnabled]="(assignedEmployeesTotalOrSelectedCount$ | async) > 0"
         [secondaryButtonText]="'Back to Canvas'"
-        [selectedCompanyEmployeeCount]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length"
         (primaryButtonClick)="handleOpenGenerateStatementModalClick()"
         (secondaryButtonClick)="handleBackToCanvasClick()"
       ></pf-footer-bar>
@@ -76,7 +74,7 @@
         [sendingGenerateRequest]="sendingGenerateRequest$ | async"
         [sendingGenerateRequestSuccess]="sendingGenerateRequestSuccess$ | async"
         [sendingGenerateRequestError]="sendingGenerateRequestError$ | async"
-        [selectedCompanyEmployeeIds]="assignedEmployeesSelectedCompanyEmployeeIds$ | async"
+        [companyEmployeeIdsTotal]="assignedEmployeesTotalOrSelectedCount$ | async"
         (generateStatementsClick)="handleGenerateStatementsClick()"
         (cancelClick)="handleCancelGenerateStatementModal()"
       ></pf-generate-statement-modal>

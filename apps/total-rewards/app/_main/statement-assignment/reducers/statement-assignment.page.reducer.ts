@@ -84,7 +84,8 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
       const localState = cloneDeep(state);
       return {
         ...localState,
-        isGenerateStatementModalOpen: false
+        isGenerateStatementModalOpen: false,
+        sendingGenerateStatementRequestError: false
       };
     }
     case fromActions.GENERATE_STATEMENTS: {
