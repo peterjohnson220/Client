@@ -84,6 +84,17 @@
           <ng-template #noEmployees>--</ng-template>
         </ng-template>
       </kendo-grid-column>
+      <ng-template kendoGridNoRecordsTemplate>
+        <div *ngIf="displayNoStatementsCreatedImage; else noRecordsAvailable" class="text-center img-container">
+          <img width="400" src="/client/total-rewards/assets/images/no-statements.png">
+          <h2>No statements created yet.</h2>
+          <span><a (click)="handleCreateStatementClicked()" class="text-info" href="#">Create a Total Rewards statement</a> to show your employees the full value of their rewards.</span>
+        </div>
+      </ng-template>
     </kendo-grid>
   </pf-async-container>
 </div>
+
+<ng-template #noRecordsAvailable>
+  No records available.
+</ng-template>

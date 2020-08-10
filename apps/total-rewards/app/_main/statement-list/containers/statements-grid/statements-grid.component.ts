@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -23,6 +23,8 @@ import { StatementListViewModel } from '../../../../shared/models';
 export class StatementsGridComponent implements OnInit {
 
   @Input() autoLoad = false;
+  @Input() displayNoStatementsCreatedImage: boolean;
+  @Output() createNewStatementClicked = new EventEmitter();
 
   statementsGridData$: Observable<GridDataResult>;
   statementsGridState$: Observable<State>;
@@ -90,5 +92,9 @@ export class StatementsGridComponent implements OnInit {
       return;
     }
     this.navigateToStatementEdit(dataItem.Id);
+  }
+
+  handleCreateStatementClicked() {
+    this.createNewStatementClicked.emit();
   }
 }
