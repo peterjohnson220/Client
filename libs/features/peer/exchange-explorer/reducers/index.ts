@@ -217,7 +217,7 @@ export const getFilterContextHasDefaultScope = createSelector(
       return false;
     }
 
-    return !!filterContext && !!scopes && scopes.length && scopes.findIndex(s => s.Id === filterContext.ScopeGUID) > -1;
+    return !!filterContext && !!scopes && scopes.length && scopes.findIndex(s => s.ExchangeScopeGuid === filterContext.ScopeGUID) > -1;
 });
 
 export const getFilterContextScopeSelection = createSelector(
@@ -227,5 +227,5 @@ export const getFilterContextScopeSelection = createSelector(
     if (!scopes || !scopes.length || !selectedGuid) {
       return null;
     }
-    return scopes.find(s => s.Id === selectedGuid);
+    return scopes.find(s => s.ExchangeScopeGuid === selectedGuid);
   });
