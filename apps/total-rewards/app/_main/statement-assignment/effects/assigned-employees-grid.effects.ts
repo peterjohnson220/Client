@@ -36,7 +36,7 @@ export class AssignedEmployeesGridEffects {
         GridListState: combined.gridListState
       };
       return this.totalRewardsSearchApi.getAssignedEmployees(request).pipe(
-        map((response: GridDataResult) => new fromAssignedEmployeesGridActions.LoadAssignedEmployeesSuccess(response)),
+        map((response) => new fromAssignedEmployeesGridActions.LoadAssignedEmployeesSuccess(response)),
         catchError(() => of(new fromAssignedEmployeesGridActions.LoadAssignedEmployeesError()))
       );
     })

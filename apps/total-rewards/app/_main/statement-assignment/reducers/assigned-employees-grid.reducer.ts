@@ -1,35 +1,33 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { cloneDeep, difference, uniq } from 'lodash';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum, SelectAllStatus } from 'libs/models/common';
-import { CompanyEmployee } from 'libs/models/company';
+import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api';
 
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 
-export interface State extends EntityState<CompanyEmployee> {
-  assignedEmployeesLoading: boolean;
-  assignedEmployeesLoadingError: boolean;
-  assignedEmployeesTotal: number;
+export interface State {
+  data: GridDataResult;
+  loading: boolean;
+  loadingError: boolean;
   selectedCompanyEmployeeIds: number[];
-  openActionMenuEmployee: CompanyEmployee;
+  visibleCompanyEmployeeIds: number[];
+  openActionMenuEmployee: TotalRewardAssignedEmployee;
   selectAllStatus: string;
   employeeSearchTerm: string;
 }
 
-export const adapter: EntityAdapter<CompanyEmployee> = createEntityAdapter<CompanyEmployee>({
-  selectId: (companyEmployee: CompanyEmployee) => companyEmployee.CompanyEmployeeId
-});
-
-const initialState: State = adapter.getInitialState({
-  assignedEmployeesLoading: false,
-  assignedEmployeesLoadingError: false,
-  assignedEmployeesTotal: null,
+const initialState: State = {
+  data: { data: [], total: null },
+  loading: false,
+  loadingError: false,
   selectedCompanyEmployeeIds: [],
+  visibleCompanyEmployeeIds: [],
   openActionMenuEmployee: null,
   selectAllStatus: 'unchecked',
   employeeSearchTerm: null
-});
+};
 
 export function reducer(state, action) {
   return createGridReducer(
@@ -40,41 +38,42 @@ export function reducer(state, action) {
           return initialState;
         }
         case fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES: {
-          const localFeatureState: State = cloneDeep(featureState);
           return {
-            ...localFeatureState,
-            assignedEmployeesLoading: true,
-            assignedEmployeesLoadingError: false,
+            ...featureState,
+            loading: true,
+            loadingError: false
           };
         }
         case fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES_SUCCESS: {
-          const localFeatureState: State = cloneDeep(featureState);
-          const selectedCompanyEmployeeIds = localFeatureState.selectedCompanyEmployeeIds;
-          const visibleCompanyEmployeeIds = action.payload.data.map(x => x.CompanyEmployeeId);
+          const gridDataClone: GridDataResult = cloneDeep(featureState.data);
+          gridDataClone.data = featureAction.payload.Data;
+          gridDataClone.total = featureAction.payload.TotalCount;
+
+          const selectedCompanyEmployeeIds = featureState.selectedCompanyEmployeeIds;
+          const visibleCompanyEmployeeIds = featureAction.payload.Data.map(x => x.CompanyEmployeeId);
           const selectedVisibleCompanyEmployeeIds = visibleCompanyEmployeeIds.filter(x => selectedCompanyEmployeeIds.includes(x));
           const loadAssignedEmployeesSelectAllState =
             selectedVisibleCompanyEmployeeIds.length === 0 ? SelectAllStatus.unchecked :
               selectedVisibleCompanyEmployeeIds.length === visibleCompanyEmployeeIds.length ? SelectAllStatus.checked : SelectAllStatus.indeterminate;
 
           return {
-            ...adapter.setAll(featureAction.payload.data, featureState),
-            assignedEmployeesTotal: action.payload.total,
-            assignedEmployeesLoading: false,
-            assignedEmployeesLoadingError: false,
+            ...featureState,
+            data: gridDataClone,
+            loading: false,
+            visibleCompanyEmployeeIds: visibleCompanyEmployeeIds,
             selectAllStatus: loadAssignedEmployeesSelectAllState
           };
         }
         case fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES_ERROR: {
-          const localFeatureState: State = cloneDeep(featureState);
           return {
-            ...localFeatureState,
-            assignedEmployeesLoading: false,
-            assignedEmployeesLoadingError: true,
+            ...featureState,
+            loading: false,
+            loadingError: true
           };
         }
         case fromAssignedEmployeesGridActions.TOGGLE_EMPLOYEE_SELECTION: {
           const localFeatureState: State = cloneDeep(featureState);
-          const visibleCompanyEmployeeIds = localFeatureState.ids;
+          const visibleCompanyEmployeeIds = localFeatureState.visibleCompanyEmployeeIds;
           let selectAllStateToSet = SelectAllStatus.unchecked;
           let selectedCompanyEmployeeIds = cloneDeep(localFeatureState.selectedCompanyEmployeeIds);
 
@@ -123,7 +122,7 @@ export function reducer(state, action) {
           const selectAllStateToSet = localFeatureState.selectAllStatus === SelectAllStatus.checked ?
             SelectAllStatus.unchecked : SelectAllStatus.checked;
 
-          const visibleCompanyEmployeeIds = localFeatureState.ids;
+          const visibleCompanyEmployeeIds = localFeatureState.visibleCompanyEmployeeIds;
           const selectedCompanyEmployeeIds = localFeatureState.selectedCompanyEmployeeIds;
           let newSelectedCompanyEmployeeIds = [];
           if (selectAllStateToSet === SelectAllStatus.checked) {
@@ -153,9 +152,10 @@ export function reducer(state, action) {
     })(state, action);
 }
 
-export const getAssignedEmployeesLoading = (state: State) => state.assignedEmployeesLoading;
-export const getAssignedEmployeesLoadingError = (state: State) => state.assignedEmployeesLoadingError;
-export const getAssignedEmployeesTotal = (state: State) => state.assignedEmployeesTotal;
+export const getAssignedEmployeesGridData = (state: State) => state.data;
+export const getAssignedEmployeesLoading = (state: State) => state.loading;
+export const getAssignedEmployeesLoadingError = (state: State) => state.loadingError;
+export const getAssignedEmployeesTotal = (state: State) => state.data.total;
 
 export const getSelectedCompanyEmployeeIds = (state: State) => state.selectedCompanyEmployeeIds;
 export const getSelectedCompanyEmployeeIdCount = (state: State) => state.selectedCompanyEmployeeIds?.length;

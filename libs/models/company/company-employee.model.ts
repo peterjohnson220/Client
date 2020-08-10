@@ -190,6 +190,4 @@ export interface CompanyEmployee {
   UdfChar147: string;
   UdfChar149: string;
   UdfChar150: string;
-  TotalRewardsAssignedStatementId: string;
-  TotalRewardsLastStatementGeneratedDate: Date;
 }
