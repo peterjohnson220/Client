@@ -22,16 +22,18 @@
                                      (hashTagClicked)="hashtagClicked($event)"
                                      [content]="post.Content">
           </pf-community-post-content>
-          <div *ngIf="post.Attachments" class="d-flex flex-wrap pt-2">
-            <div class="pr-4 pt-1 pb-2" *ngFor="let attachment of post.Attachments">
-              <pf-community-attachment
-                [attachment]="attachment" 
-                [disableCommunityAttachments]="disableCommunityAttachments" 
-                [hideAttachmentWarning]="hideAttachmentWarning" 
-                (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
-              </pf-community-attachment>         
-             </div>
-          </div>
+          <ng-template *ngIf="post.Attachments" >
+            <div class="d-flex flex-wrap pt-2">
+              <div class="pr-4 pt-1 pb-2" *ngFor="let attachment of post.Attachments">
+                <pf-community-attachment
+                  [attachment]="attachment" 
+                  [disableCommunityAttachments]="disableCommunityAttachments" 
+                  [hideAttachmentWarning]="hideAttachmentWarning" 
+                  (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
+                </pf-community-attachment>         
+               </div>
+            </div>
+          </ng-template>
           <div class="url-preview-card p-1" *ngIf="post?.UrlPreviewData.PreviewTitle">
             <a [href]="post.UrlPreviewData.PreviewUrl" target="_blank">
               <div class="url-preview-card-image-container mr-2">
@@ -54,30 +56,25 @@
           <div class="mt-2 py-1" [ngClass]="showAddReply ? 'show' : 'hide'">
             <pf-community-post-add-reply
               [postId]="post.Id"
+              [replyToUserId]="post.UserInfo.UserId"
+              [replyToFirstName]="post.UserInfo.UserFirstName"
+              [replyToLastName]="post.UserInfo.UserLastName"
               [maximumReplies]="maximumReplies"
               [replyCount]="post.ReplyCount"
               [disableCommunityAttachments]="disableCommunityAttachments"
               (replySubmitted)="onReplySubmitted()">
             </pf-community-post-add-reply>
           </div>
-          <pf-community-post-add-reply-view
-            [postId]="post.Id" 
-            [disableCommunityAttachments]="disableCommunityAttachments"
-            [hideAttachmentWarning]="hideAttachmentWarning"
-            (replyHashTagClicked)="hashtagClicked($event)"
-            (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
-          </pf-community-post-add-reply-view>
           <pf-community-post-filtered-reply-view *ngIf="!isModal" [postId]="post.Id"></pf-community-post-filtered-reply-view>
           <div *ngIf="post.ReplyCount > 0">
-            <a id="replyAction" href="javascript:void(0)" class="community-link m-1">
-          <span class="mr-1">
-              <svg height="5" width="20">
-                <line class="line" x1="0" y1="0" x2="100" y2="0"/>
-              </svg>
-          </span>
-          <span *ngIf="!showReplies"
-                (click)="getReplies(post.Id)">View Replies ({{ post.ReplyCount }})</span>
-          <span *ngIf="showReplies" (click)="hideReplies(post.Id)">Hide Replies</span>
+            <a id="replyAction" href="javascript:void(0)" class="community-link pt-3">
+              <span class="mr-1">
+                <svg height="5" width="20">
+                  <line class="line" x1="0" y1="0" x2="100" y2="0" />
+                </svg>
+              </span>
+              <span *ngIf="!showReplies" (click)="getReplies(post.Id)">View Replies ({{ replyCount }})</span>
+              <span *ngIf="showReplies" (click)="hideReplies(post.Id)">Hide Replies</span>
             </a>
           </div>
           <div *ngIf="showReplies">
@@ -86,9 +83,18 @@
               [loading]="loadingCommunityPostReplies$ | async"
               [disableCommunityAttachments]="disableCommunityAttachments"
               [hideAttachmentWarning]="hideAttachmentWarning" 
+              [post]="post"
+              [maximumReplies]="maximumReplies"
               (replyHashTagClicked)="hashtagClicked($event)"
               (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
             </pf-community-post-replies>
+            <pf-community-post-add-reply-view
+              [post]="post" 
+              [disableCommunityAttachments]="disableCommunityAttachments"
+              [hideAttachmentWarning]="hideAttachmentWarning"
+              (replyHashTagClicked)="hashtagClicked($event)"
+              (onAttachmentClickedEvent)="handleAttachmentClickedEvent($event)">
+            </pf-community-post-add-reply-view>
           </div>
         </div>
         <ng-template #user_poll>

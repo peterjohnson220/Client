@@ -56,6 +56,7 @@ export const DISCARDING_COMMUNITY_POST = '[Community/Post] Discarding Community 
 export const DISCARDING_COMMUNITY_POST_PROCEED = '[Community/Post] Discarding Community Post Proceed';
 export const DISCARDING_COMMUNITY_POST_CANCEL = '[Community/Post] Canceling Community Post Cancel';
 
+export const UPDATING_COMMUNITY_POST_REPLY_COUNT = '[Community/Post Replies] Updating Community Post Reply Count';
 
 export class SubmittingCommunityPost implements Action {
   readonly type = SUBMITTING_COMMUNITY_POST;
@@ -242,6 +243,11 @@ export class DiscardingCommunityPostCancel implements Action {
   readonly type = DISCARDING_COMMUNITY_POST_CANCEL;
 }
 
+export class UpdatingCommunityPostReplyCount implements Action {
+  readonly type = UPDATING_COMMUNITY_POST_REPLY_COUNT;
+  constructor(public postId: string) {}
+}
+
 export type Actions
   =  SubmittingCommunityPost
   | SubmittingCommunityPostSuccess
@@ -283,4 +289,5 @@ export type Actions
   | SavingCommunityPostEditError
   | DiscardingCommunityPost
   | DiscardingCommunityPostProceed
-  | DiscardingCommunityPostCancel;
+  | DiscardingCommunityPostCancel
+  | UpdatingCommunityPostReplyCount;

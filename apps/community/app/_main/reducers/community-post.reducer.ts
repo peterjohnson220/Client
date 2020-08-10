@@ -393,6 +393,21 @@ export function reducer(
         discardingPostProceed: false
       };
     }
+    case communityPostActions.UPDATING_COMMUNITY_POST_REPLY_COUNT: {
+      const replyIds = state.entities[action.postId].ReplyIds;
+      const newReplyCount = replyIds && replyIds.length > 0 ? replyIds.length + 1 : state.entities[action.postId].ReplyCount + 1;
+
+      return {
+        ...adapter.updateOne(
+          {
+            id: action.postId,
+            changes: {
+              ReplyCount: newReplyCount
+            }
+          },
+          state)
+      };
+    }
     default: {
       return state;
     }

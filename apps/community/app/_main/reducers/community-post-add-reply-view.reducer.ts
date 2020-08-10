@@ -18,7 +18,7 @@ export function reducer(state = initialState, action: fromCommunityPostAddReplyV
       if (!currentEntities) {
         currentEntities = [];
       }
-      currentEntities.unshift(replyId);
+      currentEntities.push(replyId);
       return {
         ...state,
         entities: currentEntities

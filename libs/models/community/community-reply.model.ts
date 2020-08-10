@@ -6,6 +6,9 @@ export interface CommunityReply {
   PostId: string;
   UserInfo: CommunityUserInfo;
   ReplyText: string;
+  ReplyToUserId?: number;
+  ReplyToFirstName?: string;
+  ReplyToLastName?: string;
   LikeCount: number;
   LikedByCurrentUser: boolean;
   Time: any;

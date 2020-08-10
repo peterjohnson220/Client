@@ -26,6 +26,10 @@ import { attachmentsReadyForUpload } from '../../helpers/model-mapping.helper';
 })
 export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   @Input() postId: string;
+  @Input() replyId: string;
+  @Input() replyToUserId: number;
+  @Input() replyToFirstName: string;
+  @Input() replyToLastName: string;
   @Input() maximumReplies: number;
   @Input() replyCount: number;
   @Input() disableCommunityAttachments: boolean;
@@ -79,7 +83,8 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit()  {
-    this.attachmentModalId = `${CommunitySearchResultTypeEnum.Reply}_${this.postId}`;
+    this.attachmentModalId = this.replyId ? `${CommunitySearchResultTypeEnum.Reply}_${this.replyId}` : `${CommunitySearchResultTypeEnum.Reply}_${this.postId}`;
+
     this.addingCommunityPostReplySuccessSubscription = this.addingCommunityPostReplySuccess$.subscribe((response) => {
       if (response) {
         this.resetForm();
@@ -101,7 +106,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
     });
 
    this.discardingPostReplyProceedSubscription = this.discardingPostReplyProceed$.subscribe(result => {
-      if (result && this.discardingPostId === this.postId) {
+      if (result && this.discardingPostId === this.postId ) {
         this.resetForm();
         this.deleteAttachments();
       }
@@ -148,6 +153,10 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
     if (this.communityPostReplyForm.valid) {
       const newReply: CommunityAddReply = {
         PostId: this.postId,
+        ReplyId: this.replyId,
+        ReplyToUserId: this.replyToUserId,
+        ReplyToFirstName: this.replyToFirstName,
+        ReplyToLastName: this.replyToLastName,
         ReplyText: this.content.value,
         Links: this.pfLinkifyService.getLinks(this.content.value),
         Attachments:  this.communityAttachments.filter((x) => x.Status === CommunityAttachmentUploadStatus.ScanSucceeded)
@@ -159,7 +168,12 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
 
   discardReply() {
     const showWarning = this.content.value || this.scannedAttachmentsCount > 0 ? true : false;
-    this.store.dispatch(new fromCommunityPostReplyActions.DiscardingCommunityPostReply(this.postId, showWarning));
+
+    if (!this.replyId) {
+      this.store.dispatch(new fromCommunityPostReplyActions.DiscardingCommunityPostReply(this.postId, showWarning));
+    } else {
+      this.store.dispatch(new fromCommunityPostReplyActions.DiscardingCommunityPostReply(this.replyId, showWarning));
+    }
 
     if (!showWarning) {
       this.store.dispatch(new fromCommunityPostReplyActions.DiscardingCommunityPostReplyProceed());
