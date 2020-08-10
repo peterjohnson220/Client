@@ -67,6 +67,10 @@ export class StatementsGridComponent implements OnInit {
     this.router.navigate(['/statement/edit/', statementId]).then();
   }
 
+  navigateToStatementAssign(statementId: string): void {
+    this.router.navigate(['/statement/edit/', statementId, 'assignments']).then();
+  }
+
   handleSelectedRowAction(dropdown: NgbDropdown): void {
     this.selectedDropdown = dropdown;
   }

@@ -28,11 +28,12 @@
             </fa-icon>
             <div ngbDropdownMenu aria-labelledby="total-rewards-actions-{{dataItem?.Id}}">
               <button ngbDropdownItem (click)="navigateToStatementEdit(dataItem?.Id)">
-                <fa-icon [icon]="'pencil'" class="mr-2"></fa-icon>
                 <span>Edit</span>
               </button>
+              <button ngbDropdownItem (click)="navigateToStatementAssign(dataItem?.Id)">
+                <span>Assign</span>
+              </button>
               <button ngbDropdownItem (click)="onActionMenuDeleteClick(dataItem)">
-                <fa-icon [icon]="'trash'" class="mr-2 text-danger"></fa-icon>
                 <span>Delete</span>
               </button>
             </div>
