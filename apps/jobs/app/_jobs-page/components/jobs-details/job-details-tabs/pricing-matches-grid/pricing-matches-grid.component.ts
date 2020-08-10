@@ -41,7 +41,10 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
 
   defaultSort: SortDescriptor[] = [{
     dir: 'desc',
-    field: 'vw_PricingMatchesJobTitlesMerged_Effective_Date'
+    field: 'CompanyJobs_PricingsMatches_Match_Weight'
+  }, {
+    dir: 'asc',
+    field: 'vw_PricingMatchesJobTitlesMerged_Job_Title'
   }];
 
   defaultPagingOptions: PagingOptions = {
