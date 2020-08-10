@@ -8,7 +8,13 @@ import { generateDefaultAsyncStateObj } from 'libs/models';
 
 import * as statementEditReducer from '../../../_main/statement-edit/reducers/statement-edit.page.reducer';
 import * as fromTotalRewardsStatementEditReducer from '../../../_main/statement-edit/reducers';
-import { Statement, generateMockStatement, generateMockStatementWithSingleControl } from '../../models';
+import {
+  Statement,
+  generateMockStatement,
+  generateMockStatementWithSingleControl,
+  generateMockEmployeeRewardsData,
+  generateMockStatementWithSingleCalculationControl
+} from '../../models';
 import { TotalRewardsControlEnum } from '../../models';
 import { TotalRewardsStatementComponent } from './total-rewards-statement.component';
 
@@ -52,6 +58,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a mock statement derived from template A', () => {
     // arrange
     fixture.componentInstance.statement = statementEditReducer.initialState.statement.obj;
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
 
     // act
     fixture.detectChanges();
@@ -133,8 +140,9 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a calculation control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Calculation);
+    statementEditState.statement.obj = generateMockStatementWithSingleCalculationControl(TotalRewardsControlEnum.Calculation);
     fixture.componentInstance.statement = statementEditState.statement.obj;
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
 
     // act
     fixture.detectChanges();
@@ -184,5 +192,21 @@ describe('TotalRewardsStatementComponent', () => {
     // assert
     const summaryControls = fixture.nativeElement.querySelectorAll('pf-trs-summary-control');
     expect(summaryControls.length).toBe(1);
+  });
+
+  it('should not include calc control if no rewards data', () => {
+    // arrange
+    component.statement = generateMockStatement();
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+    component.employeeRewardsData.EmployeeBase = null;
+    component.employeeRewardsData.EmployeeBonus = null;
+    component.employeeRewardsData.EmployeeSTI = null;
+    component.employeeRewardsData.EmployeeLTI = null;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(component.visibleCalculationControls.length).toBe(3);
   });
 });

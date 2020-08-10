@@ -146,3 +146,31 @@ export function generateMockStatementWithSingleControl(controlType: TotalRewards
   }];
   return statement;
 }
+
+export function generateMockStatementWithSingleCalculationControl(controlType: TotalRewardsControlEnum): Statement {
+  const statement = generateMockStatement();
+  statement.Pages = [{
+    Sections: [
+      { Columns: [
+          { Controls: [
+              {
+                Id: '105',
+                Title: { Default: 'Cash Compensation', Override: null },
+                ControlType: TotalRewardsControlEnum.Calculation,
+                Layout: { Width: 12 },
+                Category: 'Compensation',
+                Summary: { Default: 'Total', Override: null },
+                DataFields: [
+                  { Id: '1', DatabaseField: 'EmployeeBase', Name: { Default: 'Base Salary' }, IsVisible: true},
+                  { Id: '2', DatabaseField: 'EmployeeBonus', Name: { Default: 'Bonus' }, IsVisible: true},
+                  { Id: '3', DatabaseField: 'EmployeeSTI', Name: { Default: 'Short Term Incentive' }, IsVisible: true},
+                  { Id: '4', DatabaseField: 'EmployeeLTI', Name: { Default: 'Long Term Incentive' }, IsVisible: true}
+                ],
+              } as CalculationControl
+            ]
+          }]
+      } as any
+    ]
+  }];
+  return statement;
+}
