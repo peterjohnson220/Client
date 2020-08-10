@@ -9,6 +9,14 @@
                        (valueChanged)="onSearchTermChange($event)">
     </pf-input-debounce>
     <button type="button" class="btn btn-primary open-assign-modal" (click)="openAssignModal()">Assign Employees</button>
+    <button type="button"
+            id="export-btn"
+            class="btn btn-secondary"
+            [disabled]="!(assignedEmployeesTotal$ | async) || (isExportingAssignedEmployees$ | async) || (exportEventId$ | async)?.loading"
+            [attr.title]="'Export Employee Benefits Report'"
+            (click)="handleExportClicked()">
+      <fa-icon icon="download"></fa-icon>
+    </button>
   </ng-container>
   <ng-container page-content>
     <div class="flex-column-container">

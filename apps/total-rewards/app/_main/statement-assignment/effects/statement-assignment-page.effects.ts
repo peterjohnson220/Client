@@ -7,12 +7,12 @@ import { of } from 'rxjs';
 
 import { UserProfileApiService } from 'libs/data/payfactors-api/user';
 import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
+import { ExportAssignedEmployeesRequest } from 'libs/models/payfactors-api/total-rewards/request';
 import { MappingHelper } from 'libs/core/helpers';
 import {
   TotalRewardsApiService,
   TotalRewardsAssignmentApiService,
-  TotalRewardsPdfGenerationService,
-  TotalRewardsSearchApiService
+  TotalRewardsPdfGenerationService
 } from 'libs/data/payfactors-api/total-rewards';
 
 import { Statement } from '../../../shared/models';
@@ -95,6 +95,39 @@ export class StatementAssignmentPageEffects {
             new fromAssignedEmployeesGridActions.LoadAssignedEmployees()
           ]),
           catchError(() => of(new fromStatementAssignmentPageActions.UnassignEmployeesError()))
+        )
+      )
+    );
+
+  @Effect()
+  exportAssignedEmployees$ = this.actions$.pipe(
+    ofType(fromStatementAssignmentPageActions.START_EXPORT_ASSIGNED_EMPLOYEES),
+    withLatestFrom(
+      this.store.select(fromTotalRewardsReducer.getStatement),
+      this.store.select(fromTotalRewardsReducer.getAssignedEmployeesSelectedCompanyEmployeeIds),
+      (action: fromStatementAssignmentPageActions.ExportAssignedEmployees, statement, selectedEmployees) =>
+        ({ statementId: statement.StatementId, selectedEmployees })
+    ),
+    switchMap(data => {
+      const request: ExportAssignedEmployeesRequest = {
+        StatementId: data.statementId,
+        EmployeeIds: data.selectedEmployees
+      };
+      return this.totalRewardsAssignmentApi.exportAssignedEmployees(request).pipe(
+        map((response: string) => new fromStatementAssignmentPageActions.ExportAssignedEmployeesSuccess(response)),
+        catchError(() => of(new fromStatementAssignmentPageActions.ExportAssignedEmployeesError()))
+      );
+    })
+  );
+
+  @Effect()
+  getExportingAssignedEmployees$ = this.actions$
+    .pipe(
+      ofType(fromStatementAssignmentPageActions.GET_EXPORTING_ASSIGNED_EMPLOYEES),
+      switchMap((action: fromStatementAssignmentPageActions.GetExportingAssignedEmployee) =>
+        this.totalRewardsAssignmentApi.getRunningExport().pipe(
+          map((response: string) => new fromStatementAssignmentPageActions.GetExportingAssignedEmployeeSuccess(response)),
+          catchError(error => of(new fromStatementAssignmentPageActions.GetExportingAssignedEmployeeError()))
         )
       )
     );

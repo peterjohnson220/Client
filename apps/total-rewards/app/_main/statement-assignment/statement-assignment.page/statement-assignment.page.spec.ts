@@ -5,6 +5,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
+import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+
 import { StatementAssignmentPageComponent } from './statement-assignment.page';
 import * as fromStatementAssignmentReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
@@ -22,6 +24,7 @@ describe('AssignedEmployeesGridComponent', () => {
         StoreModule.forRoot({
           ...fromStatementAssignmentReducer.reducers,
           totalRewards_statementAssignment: combineReducers(fromStatementAssignmentReducer.reducers),
+          feature_appnotifications: combineReducers(fromAppNotificationsMainReducer.reducers),
         })],
       declarations: [StatementAssignmentPageComponent],
       schemas: [NO_ERRORS_SCHEMA],
@@ -176,5 +179,17 @@ describe('AssignedEmployeesGridComponent', () => {
 
     // assert
     expect(store.dispatch).toHaveBeenCalledWith(loadEmployeesAction);
+  });
+
+  it('should dispatch the expected action when Assign Employees is clicked', () => {
+    // arrange
+    spyOn(store, 'dispatch');
+    const exportEmployeesAction = new fromPageActions.ExportAssignedEmployees();
+
+    // act
+    component.handleExportClicked();
+
+    // assert
+    expect(store.dispatch).toHaveBeenCalledWith(exportEmployeesAction);
   });
 });

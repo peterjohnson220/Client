@@ -10,6 +10,7 @@ import { FilterDescriptor, State } from '@progress/kendo-data-query';
 import { CompanyEmployee } from 'libs/models/company';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { AppNotification } from 'libs/features/app-notifications/models';
+import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
@@ -18,6 +19,7 @@ import * as fromAssignmentsModalActions from '../actions/statement-assignment-mo
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
 import { Statement } from '../../../shared/models';
 import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
+
 
 @Component({
   selector: 'pf-statement-assignment-page',
@@ -35,6 +37,8 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   sendingGenerateRequestError$: Observable<boolean>;
   getIsFiltersPanelOpen$: Observable<boolean>;
   getNotification$: Observable<AppNotification<any>[]>;
+  isExportingAssignedEmployees$: Observable<boolean>;
+  exportEventId$: Observable<AsyncStateObj<string>>;
 
   assignedEmployeesSelectedCompanyEmployeeIds$: Observable<number[]>;
 
@@ -60,8 +64,11 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   filterChangeSubscription = new Subscription();
   unassignEmployeesSuccessSubscription = new Subscription();
   assignedEmployeesTotalSubscription = new Subscription();
+  appNotificationSubscription: Subscription;
+  exportEventIdSubscription: Subscription;
 
   filterChangeSubject = new Subject<FilterDescriptor[]>();
+  exportEventId = null;
 
   constructor(
     private store: Store<fromPageReducer.State>,
@@ -86,6 +93,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     // observables
     this.statement$ = this.store.pipe(select(fromPageReducer.getStatement));
     this.employeeSearchTerm$ = this.store.pipe(select(fromPageReducer.getEmployeeSearchTerm));
+    this.isExportingAssignedEmployees$ = this.store.pipe(select(fromPageReducer.getIsExportingAssignedEmployees));
 
     // Generate Modal
     this.isGenerateStatementModalOpen$ = this.store.pipe(select(fromPageReducer.getIsGenerateStatementModalOpen));
@@ -110,6 +118,9 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.assignedEmployeesTotal$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotal));
     this.assignedEmployeesListAreaColumns$ = this.store.pipe(select(fromPageReducer.getListAreaColumns));
 
+    // exports
+    this.exportEventId$ = this.store.pipe(select(fromPageReducer.getExportEventAsync));
+
     // subscriptions
     this.routeParamSubscription$ = this.route.params.subscribe(params => {
       this.store.dispatch(new fromPageActions.LoadStatement({ statementId: params['id'] }));
@@ -132,10 +143,22 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
         this.assignedEmployeesGridState.take = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState.take;
       }
     });
+    this.exportEventIdSubscription = this.exportEventId$.subscribe(eventId => {
+      if (eventId?.obj !== this.exportEventId) {
+        this.exportEventId = eventId.obj;
+      }
+    });
+    this.appNotificationSubscription = this.getNotification$.subscribe(notification => {
+      const successNotification = notification.find((x) => x.Level === 'Success' && x.NotificationId === this.exportEventId) ;
+      if (successNotification) {
+        this.store.dispatch(new fromPageActions.ExportAssignedEmployeesComplete());
+      }
+    });
 
     // dispatches, search init
     this.store.dispatch(new fromPageActions.LoadAssignedEmployeesListAreaColumns());
     this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+    this.store.dispatch(new fromPageActions.GetExportingAssignedEmployee());
 
     this.setSearchContext();
   }
@@ -156,6 +179,8 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.statementSubscription$.unsubscribe();
     this.assignedEmployeesTotalSubscription.unsubscribe();
     this.routeParamSubscription$.unsubscribe();
+    this.exportEventIdSubscription.unsubscribe();
+    this.appNotificationSubscription.unsubscribe();
     this.store.dispatch(new fromPageActions.ResetState());
   }
 
@@ -240,5 +265,9 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
 
   onSearchTermChange(searchTerm: string) {
     this.store.dispatch(new fromAssignedEmployeesGridActions.UpdateEmployeeSearchTerm({ searchTerm, gridState: this.assignedEmployeesGridState }));
+  }
+
+  handleExportClicked() {
+    this.store.dispatch(new fromPageActions.ExportAssignedEmployees());
   }
 }
