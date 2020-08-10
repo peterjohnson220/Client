@@ -75,9 +75,7 @@ export class TemplateEffects {
     .pipe(
       ofType(fromTemplateActions.COPY_TEMPLATE_SUCCESS),
       map((action: fromTemplateActions.CopyTemplateSuccess) => {
-        this.router.navigate([`/templates/${action.payload.TemplateId}`]).then(() => {
-          window.location.reload();
-        });
+        this.router.navigate([`/templates/${action.payload.TemplateId}`]);
       })
     );
 

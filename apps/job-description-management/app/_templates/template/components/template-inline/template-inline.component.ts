@@ -69,7 +69,7 @@ export class TemplateInlineComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: any): void {
     const inputValueChange: string = changes.template.currentValue;
-    if (inputValueChange && !this.value) {
+    if (this.template.TemplateName !== this.value) {
           this.value = this.template.TemplateName;
           this.templateId = this.template.TemplateId;
           this.editing = false;
