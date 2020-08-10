@@ -55,15 +55,25 @@
   <pf-grid-context [enableReturnBtn]="false" [metadata]="metaData$ | async"></pf-grid-context>
 </ng-template>
 
-<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
-  <fa-icon [icon]="['far', 'trash-alt']" title="Remove" *ngIf="metaData.IsCurrent"
-           [attr.data-qa-id]="'btn-model-grid-remove-range-' + dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']"
-           [pfSecuredResource]="permissions.STRUCTURES_ADD_EDIT_DELETE"
-           (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
-  <fa-icon [icon]="['far', 'trash-alt']" title="Remove" *ngIf="!metaData.IsCurrent"
-           [attr.data-qa-id]="'btn-model-grid-remove-range-' + dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']"
-           [pfSecuredResource]="permissions.STRUCTURES_CREATE_EDIT_MODEL"
-           (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow" let-rowIndex="rowIndex">
+  <div class="position-relative" (mouseleave)="p.close()">
+    <fa-icon [icon]="['fas', 'ellipsis-v']"
+             [attr.data-qa-id]="'btn-model-grid-remove-range-' + dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']"
+             [pfSecuredResource]="metaData.IsCurrent? permissions.STRUCTURES_ADD_EDIT_DELETE : permissions.STRUCTURES_CREATE_EDIT_MODEL"
+s             [fixedWidth]="true"
+             placement="right"
+             #p="ngbPopover"
+             [ngbPopover]="popContent"
+             (mouseenter)="p.open()"
+             [autoClose]="'outside'"></fa-icon>
+
+    <ng-template #popContent>
+      <div class="popover-body-container">
+        <div><span (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']); $event.stopPropagation()">Delete Job</span></div>
+        <div *ngIf="modifiedKeys != null && modifiedKeys.includes(dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID)"><span (click)="revertChanges(dataRow, rowIndex)">Revert Changes</span></div>
+      </div>
+    </ng-template>
+  </div>
 </ng-template>
 
 <ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
@@ -40,7 +40,8 @@ describe('Job Range Structures - Model page', () => {
           jobBased_main: combineReducers(fromJobBasedRangeReducer.reducers),
           pfDataGrids: combineReducers(fromPfGridReducer.reducers)
         }),
-        PfCommonModule
+        PfCommonModule,
+        NgbModule
       ],
       declarations: [ ModelGridComponent, RangeValuePipe ],
       schemas: [ NO_ERRORS_SCHEMA ],

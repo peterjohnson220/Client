@@ -26,3 +26,12 @@
   }
 }
 
+.popover-body-container {
+  padding: 0.5rem 0.75rem;
+  width: auto !important;
+
+  span {
+    cursor: pointer;
+    white-space: nowrap;
+  }
+}

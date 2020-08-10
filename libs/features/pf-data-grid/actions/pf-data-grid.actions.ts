@@ -63,6 +63,7 @@ export const UPDATE_COLUMN_WIDTH = '[PfDataGrid] Update Column Width';
 export const UPDATE_GRID_CONFIG = '[PfDataGrid] Update Grid Config';
 export const UPDATE_MODIFIED_KEYS = '[PfDataGrid] Update Modified Keys';
 export const UPDATE_MODIFIED_KEY = '[PfDataGrid] Update Modified Key';
+export const DELETE_MODIFIED_KEY = '[PfDataGrid] Delete Modified Key';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -359,6 +360,11 @@ export class UpdateModifiedKey implements Action {
   constructor(public pageViewId: string, public payload: number) {}
 }
 
+export class DeleteModifiedKey implements Action {
+  readonly type = DELETE_MODIFIED_KEY;
+  constructor(public pageViewId: string, public payload: number) {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -416,4 +422,5 @@ export type DataGridActions =
   | UpdateColumnWidth
   | UpdateGridConfig
   | UpdateModifiedKeys
-  | UpdateModifiedKey;
+  | UpdateModifiedKey
+  | DeleteModifiedKey;

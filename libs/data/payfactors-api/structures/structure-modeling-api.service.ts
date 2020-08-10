@@ -14,7 +14,8 @@ import {
   RemoveRangeRequest,
   OverrideAndSaveRangeFieldRequest,
   DuplicateModelResponse,
-  DuplicateModelRequest
+  DuplicateModelRequest,
+  RevertRangeChangesRequest
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange } from 'libs/models/structures';
 
@@ -69,5 +70,9 @@ export class StructureModelingApiService {
 
   duplicateModel(request: DuplicateModelRequest): Observable<DuplicateModelResponse> {
     return this.payfactorsApiService.post<DuplicateModelResponse>(`${this.endpoint}/DuplicateModel`, request);
+  }
+
+  revertRangeChanges(request: RevertRangeChangesRequest): Observable<CompanyStructureRange> {
+    return this.payfactorsApiService.post<CompanyStructureRange>(`${this.endpoint}/RevertRangeChanges`, request);
   }
 }
