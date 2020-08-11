@@ -13,7 +13,9 @@ import { ComphubExchangeExplorerContextRequest } from 'libs/models/peer/requests
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExchangeDataSearchApiService {
   private endpoint = 'ExchangeDataSearch';
 

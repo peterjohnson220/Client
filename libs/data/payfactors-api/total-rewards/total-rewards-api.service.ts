@@ -11,7 +11,9 @@ import { SaveSettingsRequest } from 'apps/total-rewards/app/shared/models/reques
 import { Settings, Statement, StatementForPrint } from 'apps/total-rewards/app/shared/models/';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TotalRewardsApiService {
   private endpoint = 'TotalRewards';
 

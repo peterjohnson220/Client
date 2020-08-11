@@ -26,7 +26,9 @@ import {
 } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DataViewApiService {
   private endpoint = 'DataViews';
 

@@ -6,7 +6,9 @@ import { NotesBase } from 'libs/models/notes';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NotesApiService {
   private endpoint = 'Notes';
 

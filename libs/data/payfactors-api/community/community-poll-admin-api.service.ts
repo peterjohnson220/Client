@@ -5,7 +5,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
 import { CommunityPollUpsertRequest } from '../../../models/community/community-poll-upsert-request.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CommunityPollAdminApiService {
   private endpoint = 'CommunityPollsAdmin';
 

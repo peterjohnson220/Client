@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { ExportAssignedEmployeesRequest } from 'libs/models/payfactors-api';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TotalRewardsAssignmentApiService {
   private endpoint = 'TotalRewardsAssignment';
 

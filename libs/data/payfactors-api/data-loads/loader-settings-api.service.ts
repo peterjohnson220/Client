@@ -5,7 +5,9 @@ import { LoaderSettingsDTO } from 'libs/models/data-loads/request/loader-setting
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LoaderSettingsApiService {
   private endpoint = 'LoaderSettings';
 

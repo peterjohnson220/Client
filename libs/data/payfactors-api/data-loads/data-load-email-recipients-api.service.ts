@@ -4,7 +4,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { EmailRecipientModel } from '../../../models/data-loads/email-recipient.model';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DataLoadEmailRecipientsApiService {
   private endpoint = 'DataLoadEmailRecipients';
 

@@ -11,7 +11,9 @@ import { SurveyTitlesFilter } from '../../../../apps/admin/app/_survey-library/m
 import { UdfSettingsRequestModel } from '../../../models/payfactors-api/survey/request/udf-settings-request.model';
 import { SurveyNote } from 'libs/models/payfactors-api/survey-library/survey-note-model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SurveyLibraryApiService {
   private endpoint = 'SurveyLibrary';
   private headers = new HttpHeaders({ 'Content-type': 'application/json' });

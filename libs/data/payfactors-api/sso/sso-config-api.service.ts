@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SsoConfigApiService {
   private endpoint = 'SsoConfiguration';
 

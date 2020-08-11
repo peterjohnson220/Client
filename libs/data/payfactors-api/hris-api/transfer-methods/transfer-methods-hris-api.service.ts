@@ -7,7 +7,9 @@ import { TransferMethodResponse } from 'libs/models/hris-api';
 
 const UTILITIES_SUB_DOMAIN_CONFIG_NAME = 'UtilitiesSubDomain';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TransferMethodsHrisApiService {
   private endpoint = 'TransferMethods';
 

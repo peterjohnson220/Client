@@ -12,7 +12,9 @@ import { ListAreaColumnResponse, UserFilterResponse } from '../../../models/payf
 import { GetUserFilterListResponse } from '../../../models/payfactors-api/user-filter/response/get-user-filter-list-response.model';
 import { ListAreaColumn } from 'libs/models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserProfileApiService {
   private endpoint = 'UserProfile';
 

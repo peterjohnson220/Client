@@ -6,7 +6,9 @@ import { Store } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import { take, filter, switchMap, map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CompanySecurityApiService {
   private endpoint = 'CompanySecurity';
 

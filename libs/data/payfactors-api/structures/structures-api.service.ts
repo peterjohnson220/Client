@@ -12,7 +12,9 @@ import {
 
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class StructuresApiService {
   private readonly endpoint = 'Structure';
 

@@ -6,7 +6,9 @@ import { ExchangeScopeItem, ExchangeScopes, UpsertExchangeExplorerScopeRequest }
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExchangeScopeApiService {
   private endpoint = 'ExchangeScope';
 

@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 import { PricingNote } from 'libs/models/payfactors-api';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PricingApiService {
   private endpoint = 'pricing';
 
