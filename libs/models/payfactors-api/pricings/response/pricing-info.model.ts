@@ -1,3 +1,5 @@
+import { NotesBase } from '../../../notes';
+
 export interface PricingInfo {
   PricingID: number;
   Status: string;
@@ -16,21 +18,12 @@ export interface PricingInfoDefaultField {
   FieldName: string;
 }
 
-export interface PricingNote {
+export interface PricingNote extends NotesBase {
   CompanyJobPricingNoteId:  number;
   CompanyJobPricingId:  number;
   CompanyJobId:  number;
   CompanyId:  number;
   CompanyPayMarketId:  number;
-  Note:  string;
-  UserId:  number;
-  UserPicture:  string;
-  FirstName:  number;
-  LastName:  number;
-  CreateDate:  Date;
-  CreateUser:  Date;
-  EditDate:  Date;
-  EditUser:  Date;
 }
 
 export interface PricingDetails {

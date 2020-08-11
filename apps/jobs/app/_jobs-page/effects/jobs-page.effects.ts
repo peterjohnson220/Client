@@ -4,9 +4,11 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 
 import { catchError, map, mergeMap, switchMap, withLatestFrom, concatMap } from 'rxjs/operators';
-import { Observable, of, pipe, forkJoin } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { ToastrService } from 'ngx-toastr';
+import { SortDescriptor } from '@progress/kendo-data-query';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import {
   JobsApiService,
@@ -15,11 +17,12 @@ import {
   PricingEdmxApiService,
   CompanyJobApiService,
   UiPersistenceSettingsApiService,
-  DataViewApiService,
+  DataViewApiService
 } from 'libs/data/payfactors-api';
 import { StructuresApiService } from 'libs/data/payfactors-api/structures';
-import { UserContext, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
-import * as fromRootState from 'libs/state/state';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
+import { DataViewEntity, ViewField, DataViewFieldDataType } from 'libs/models/payfactors-api';
+import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromJobManagementActions from 'libs/features/job-management/actions';
@@ -27,10 +30,6 @@ import * as fromJobManagementActions from 'libs/features/job-management/actions'
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsReducer from '../reducers';
 import { PageViewIds } from '../constants';
-import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
-import { DataViewEntity, ViewField, PagingOptions, DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api';
-import { SortDescriptor } from '@progress/kendo-data-query';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 
 @Injectable()
 export class JobsPageEffects {

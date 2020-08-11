@@ -279,7 +279,13 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       if (this.resetWidthForSplitView) {
         this.resetKendoGridWidth();
       }
-      this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
+
+      // close split view when we click on the selected record. Otherwise select another record
+      if (dataItem[this.primaryKey] === this.selectedRecordId) {
+        this.store.dispatch(new fromActions.CloseSplitView(this.pageViewId));
+      } else {
+        this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
+      }
     } else if (this.expandedRowTemplate) {
       if (this.expandedRows.includes(rowIndex)) {
         this.store.dispatch(new fromActions.CollapseRow(this.pageViewId, rowIndex));
