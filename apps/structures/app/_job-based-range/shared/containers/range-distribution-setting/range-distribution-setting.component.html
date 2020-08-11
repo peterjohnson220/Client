@@ -13,7 +13,7 @@
   </div>
   <div class="rounding-group">
     <div class="form-group row mb-5">
-      <label class="col-3 mt-2">Range Based On</label>
+      <label class="col-3 mt-2">Select Pay Type</label>
       <kendo-combobox id="rangeBasedOn" class="form-control col-4 no-inline-links"
           formControlName="RangeBasedOn"
           [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.RangeBasedOn.invalid }"
@@ -62,7 +62,7 @@
                         [filterable]="false">
         </kendo-combobox>
         <fa-icon placement="top" [ngbTooltip]="minSpreadTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
-        <a class="inline-link" href="javascript:void(0)" tabindex="-1">Calculate</a>
+<!--        <a class="inline-link" href="javascript:void(0)" tabindex="-1">Calculate</a>-->
         <a class="inline-link" href="javascript:void(0)" tabindex="-1" (click)="this.handleMinMaxPercentileToggle(true)">
           <ng-container *ngIf="!showMinSpread">Enter Range Spread</ng-container>
           <ng-container *ngIf="showMinSpread">Enter Percentile Amount</ng-container>
@@ -283,7 +283,7 @@
                       [filterable]="false">
       </kendo-combobox>
       <fa-icon placement="top" [ngbTooltip]="maxSpreadTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
-      <a class="inline-link" href="javascript:void(0)" tabindex="-1">Calculate</a>
+<!--      <a class="inline-link" href="javascript:void(0)" tabindex="-1">Calculate</a>-->
       <a class="inline-link" href="javascript:void(0)" tabindex="-1" (click)="this.handleMinMaxPercentileToggle(false)">
         <ng-container *ngIf="!showMaxSpread">Enter Range Spread</ng-container>
         <ng-container *ngIf="showMaxSpread">Enter Percentile Amount</ng-container>

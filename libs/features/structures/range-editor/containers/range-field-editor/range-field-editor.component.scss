@@ -9,9 +9,11 @@
     text-align: left;
   }
 
-  ::placeholder {
-    font-size: large;
-    text-align: center;
+  &.centerPlaceholder {
+    ::placeholder {
+      font-size: large;
+      text-align: center;
+    }
   }
 
 }
