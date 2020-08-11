@@ -12,3 +12,7 @@
 .dropup .dropdown-toggle::after, .dropdown-toggle::after {
   display: none !important;
 }
+
+:host ::ng-deep .k-icon {
+  display: none;
+}
