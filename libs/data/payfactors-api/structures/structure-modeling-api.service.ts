@@ -21,7 +21,9 @@ import { CompanyStructureRange } from 'libs/models/structures';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class StructureModelingApiService {
   private readonly endpoint = 'StructureModeling';
 

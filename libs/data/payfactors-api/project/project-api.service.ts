@@ -9,7 +9,9 @@ import {
   CreateNewProjectJobRequest
 } from '../../../models/payfactors-api';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProjectApiService {
   private endpoint = 'Project';
 

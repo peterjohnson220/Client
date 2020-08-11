@@ -7,7 +7,9 @@ import { FileUploadDataRequestModel, ExcelFileUploadRequest } from 'libs/feature
 
 import { IntegrationApiService } from '../integration-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DataImportApiService {
   private service = 'Integration/api/v1';
   constructor(private integrationApiService: IntegrationApiService) {
@@ -32,4 +34,3 @@ export class DataImportApiService {
     );
   }
 }
-

@@ -8,7 +8,9 @@ import { EmployeeModalStructuresResponse } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CompanyEmployeeApiService {
   private endpoint = 'CompanyEmployee';
 

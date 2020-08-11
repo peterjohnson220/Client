@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { WorkflowTemplate } from 'libs/features/job-description-management/models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class JobDescriptionWorkflowTemplateApiService {
   private apiUrl = 'WorkflowTemplate';
 

@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CaptchaApiService {
   private readonly endpoint = 'Captcha';
 

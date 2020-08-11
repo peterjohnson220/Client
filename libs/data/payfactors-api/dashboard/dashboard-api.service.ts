@@ -6,7 +6,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 
 import { UserFeatureDto, ReorderTileRequest, UserTileDto, TimelineActivityRequest } from '../../../models/dashboard';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DashboardApiService {
   private endpoint = 'Dashboard';
 

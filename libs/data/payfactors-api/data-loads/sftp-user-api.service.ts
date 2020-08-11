@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { SftpUserModel } from '../../../models/Sftp';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SftpUserApiService {
   private endpoint = 'SftpUser';
 

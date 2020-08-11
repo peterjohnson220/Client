@@ -9,7 +9,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { PayMarket, PayMarketAssociationsSummary, PayMarketWithMdScope } from '../../../models/paymarket';
 import { GenericKeyValue } from '../../../models/common';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PayMarketApiService {
   private endpoint = 'PayMarket';
 

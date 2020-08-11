@@ -6,7 +6,9 @@ import { GetAssignedEmployeesResponse } from 'libs/models/payfactors-api/total-r
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TotalRewardsSearchApiService {
   private endpoint = 'TotalRewardsSearch';
 

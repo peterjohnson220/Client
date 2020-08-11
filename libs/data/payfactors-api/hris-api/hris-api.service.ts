@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { addJwtAuthInterceptorHeader } from 'libs/core/functions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class HrisApiService {
 
   constructor(private http: HttpClient) { }

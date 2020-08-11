@@ -7,7 +7,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
 import { ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CompanyJobApiService {
   private endpoint = 'CompanyJob';
 
@@ -100,4 +102,3 @@ export class CompanyJobApiService {
       {companyJobIds: companyJobIds});
   }
 }
-

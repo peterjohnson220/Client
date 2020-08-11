@@ -6,7 +6,9 @@ import { Observable } from 'rxjs';
 import { CompanyEmployee } from 'libs/models';
 import { EntityKeyFieldsResponse } from 'libs/models/payfactors-api';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EntityKeysValidationApiService {
   private endpoint = 'EntityKeysValidation';
 

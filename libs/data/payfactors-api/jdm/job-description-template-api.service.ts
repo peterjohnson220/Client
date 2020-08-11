@@ -10,7 +10,9 @@ import {
 import { Template, TemplateSettings } from '../../../models/jdm';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class JobDescriptionTemplateApiService {
   private endpoint = 'JobDescriptionTemplate';
 

@@ -15,7 +15,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 
 const UTILITIES_SUB_DOMAIN_CONFIG_NAME = 'UtilitiesSubDomain';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class IntegrationApiService {
   private service = 'Integration/api/v1';
 
