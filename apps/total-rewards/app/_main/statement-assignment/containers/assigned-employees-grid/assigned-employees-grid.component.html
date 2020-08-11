@@ -55,6 +55,12 @@
         <kendo-grid-column *ngFor="let col of (listAreaColumns$ | async)" [field]="col.ColumnDatabaseName" class="ellipsize show-tooltip">
           <ng-template kendoGridHeaderTemplate let-column>
             <div class="ellipsis-overflowing-text-wrap show-tooltip">
+              <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='desc'"
+                class="sort-icon" [icon]="['far', 'long-arrow-down']">
+              </fa-icon>
+              <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='asc'"
+                       class="sort-icon" [icon]="['far', 'long-arrow-up']">
+              </fa-icon>
               {{col.ColumnDisplayName}}
             </div>
           </ng-template>
