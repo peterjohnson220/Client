@@ -95,6 +95,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   private controlTypesLatest$: Observable<ControlType[]>;
   private templateSettings$: Observable<TemplateSettings>;
   private company$: Observable<CompanyDto>;
+  public getLoadingSummary$: Observable<boolean>;
 
   private templateSectionCheckSubscription: Subscription;
   private templateSaveSubscription: Subscription;
@@ -132,6 +133,8 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
     private templateService: TemplateService,
     private route: ActivatedRoute,
     private router: Router) {
+
+      this.getLoadingSummary$ = this.store.select(fromTemplateReducers.getLoadingSummary);
       this.template$ = this.store.select(fromTemplateReducers.getTemplate);
       this.templateLoading$ = this.store.select(fromTemplateReducers.getTemplateLoading);
       this.templateError$ = this.store.select(fromTemplateReducers.getTemplateError);
