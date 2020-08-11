@@ -108,13 +108,17 @@ export class StatementAssignmentPageEffects {
     withLatestFrom(
       this.store.select(fromTotalRewardsReducer.getStatement),
       this.store.select(fromTotalRewardsReducer.getAssignedEmployeesSelectedCompanyEmployeeIds),
-      (action: fromStatementAssignmentPageActions.ExportAssignedEmployees, statement, selectedEmployees) =>
-        ({ statementId: statement.StatementId, selectedEmployees })
+      this.store.select(fromTotalRewardsReducer.getEmployeeSearchTerm),
+      this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
+      (action: fromStatementAssignmentPageActions.ExportAssignedEmployees, statement, selectedEmployees, searchTerm, gridState) =>
+        ({ statementId: statement.StatementId, selectedEmployees, searchTerm, gridState })
     ),
     switchMap(data => {
       const request: ExportAssignedEmployeesRequest = {
         StatementId: data.statementId,
-        EmployeeIds: data.selectedEmployees
+        EmployeeIds: data.selectedEmployees,
+        EmployeeSearchTerm: data.searchTerm,
+        GridListState: data.gridState
       };
       return this.totalRewardsAssignmentApi.exportAssignedEmployees(request).pipe(
         map((response: string) => new fromStatementAssignmentPageActions.ExportAssignedEmployeesSuccess(response)),
