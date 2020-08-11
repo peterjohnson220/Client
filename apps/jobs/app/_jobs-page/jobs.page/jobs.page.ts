@@ -11,22 +11,24 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
-import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
 import { MODIFY_PRICINGS } from 'libs/features/multi-match/constants';
+import {
+    ActionBarConfig, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig
+} from 'libs/features/pf-data-grid/models';
+import { AsyncStateObj, UserContext } from 'libs/models';
+import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
+import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
+
+import * as fromRootState from 'libs/state/state';
+import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
 import * as fromModifyPricingsReducer from 'libs/features/multi-match/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import {
-    ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig
-} from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { AsyncStateObj, UserContext } from 'libs/models';
-import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
-import * as fromRootState from 'libs/state/state';
 
 import { PageViewIds } from '../constants';
+import { ShowingActiveJobs } from '../pipes';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
-import { ShowingActiveJobs } from '../pipes';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -116,6 +118,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showModifyingPricings = new BehaviorSubject<boolean>(false);
   showModifyingPricings$ = this.showModifyingPricings.asObservable();
   pricingsToModify$: Observable<AsyncStateObj<MatchedSurveyJob[]>>;
+  restrictSurveySearchToPaymarketCountry: boolean;
 
   showJobManagementModal = new BehaviorSubject<boolean>(false);
   showJobManagementModal$ = this.showJobManagementModal.asObservable();
@@ -216,6 +219,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       if (cs) {
         const setting = cs.find(x => x.Key === 'EnableJobsPageToggle');
         this.enablePageToggle = setting && setting.Value === 'true';
+        this.restrictSurveySearchToPaymarketCountry = cs.find(x => x.Key
+          === 'RestrictSurveySearchCountryFilterToPayMarket').Value === 'true';
       }
     });
 
@@ -444,6 +449,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   modifyPricings() {
-    this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(this.selectedPricingIds));
+    const payload: GetPricingsToModifyRequest = {
+      PricingIds: this.selectedPricingIds,
+      RestrictSearchToPayMarketCountry: this.restrictSurveySearchToPaymarketCountry
+    };
+
+    this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(payload));
   }
 }

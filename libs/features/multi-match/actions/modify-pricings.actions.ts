@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { MatchedSurveyJob } from 'libs/models/payfactors-api/index';
+import { GetPricingsToModifyRequest } from '../models';
 
 export const GET_PRICINGS_TO_MODIFY = '[Jobs Page] Get Pricings to Modify';
 export const GET_PRICINGS_TO_MODIFY_SUCCESS = '[Jobs Page] Get Pricings to Modify Success';
@@ -7,7 +7,7 @@ export const GET_PRICINGS_TO_MODIFY_ERROR = '[Jobs Page] Get Pricings to Modify 
 
 export class GetPricingsToModify implements Action {
   readonly type = GET_PRICINGS_TO_MODIFY;
-  constructor(public payload: number[]) { }
+  constructor(public payload: GetPricingsToModifyRequest) { }
 }
 
 export class GetPricingsToModifySuccess implements Action {

@@ -11,15 +11,7 @@ export class PricingMatchApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getMDJobPricingMatch(mdJobCode: string, pricingId: number): Observable<any> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetMDJobPricingMatch?mdJobCode=${mdJobCode}&pricingId=${pricingId}`);
-  }
-
-  getSurveyPricingMatch(surveyDataId: number): Observable<any> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetSurveyPricingMatch?surveyDataId=${surveyDataId}`);
-  }
-
-  getSlottedCompanyJobPricingMatch(companyJobId: number): Observable<any> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetSlottedCompanyJobPricingMatch?companyJobId=${companyJobId}`);
+  getPricingMatchSummary(pricingMatchId: number): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetPricingMatchSummary?pricingMatchId=${pricingMatchId}`);
   }
 }
