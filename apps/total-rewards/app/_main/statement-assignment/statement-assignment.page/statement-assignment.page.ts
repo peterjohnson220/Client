@@ -66,13 +66,13 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   routeParamSubscription$ = new Subscription();
   filterChangeSubscription = new Subscription();
   unassignEmployeesSuccessSubscription = new Subscription();
-  assignEmployeesModalOpenSubscription: Subscription;
   appNotificationSubscription: Subscription;
   exportEventIdSubscription: Subscription;
 
   exportEventId = null;
   filterChangeSubject = new BehaviorSubject<FilterDescriptor[]>([]);
   filters$: Observable<FilterDescriptor[]>;
+  isChangingFilters: boolean;
   private readonly FILTER_DEBOUNCE_TIME = 400;
 
   constructor(
@@ -138,6 +138,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
       distinctUntilChanged(),
       debounceTime(this.FILTER_DEBOUNCE_TIME)
     ).subscribe((filters: FilterDescriptor[]) => {
+      this.isChangingFilters = false;
       // the filters component mutates the gridState's filters directly so workaround a potential read only error by cloning
       this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
       this.assignedEmployeesGridState.filter.filters = filters;
@@ -164,24 +165,6 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
       }
     });
 
-    this.assignEmployeesModalOpenSubscription =
-      combineLatest([this.assignedEmployeesLoading$, this.assignedEmployeesTotal$, this.employeeSearchTerm$, this.filters$])
-      .pipe(
-        debounceTime(this.FILTER_DEBOUNCE_TIME),
-        map(([loading, totalCount, searchTerm, filters]) => {
-          if (!loading && totalCount === 0 && !searchTerm?.length && !filters?.length) {
-            return true;
-          }
-          return false;
-        })
-      ).subscribe((isOpen) => {
-        if (isOpen) {
-          this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
-        } else {
-          this.store.dispatch(new fromAssignmentsModalActions.CloseModal());
-        }
-      });
-
     // dispatches, search init
     this.store.dispatch(new fromPageActions.LoadAssignedEmployeesListAreaColumns());
     this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
@@ -192,7 +175,6 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.statementSubscription$.unsubscribe();
-    this.assignEmployeesModalOpenSubscription.unsubscribe();
     this.routeParamSubscription$.unsubscribe();
     this.exportEventIdSubscription.unsubscribe();
     this.appNotificationSubscription.unsubscribe();
@@ -227,6 +209,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
 
   // filter handler methods
   handleFilterChanged(filters: FilterDescriptor[]) {
+    this.isChangingFilters = true;
     this.filterChangeSubject.next(filters);
   }
 
@@ -239,11 +222,13 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   }
 
   handleClearFilter(filterDescriptor: FilterDescriptor) {
+    this.isChangingFilters = true;
     const remainingFilters = this.assignedEmployeesGridState.filter.filters.filter(f => f.field !== filterDescriptor.field);
     this.filterChangeSubject.next(remainingFilters);
   }
 
   handleClearAllFilters() {
+    this.isChangingFilters = true;
     this.filterChangeSubject.next([]);
   }
 
