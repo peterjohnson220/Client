@@ -208,3 +208,4 @@ export const getTemplateError = (state: State) => state.error;
 export const getTemplateErrorMessage = (state: State) => state.errorMessage;
 export const getTemplateSaveError = (state: State) => state.saveError;
 export const getTemplateAssigningError = (state: State) => state.assigningError;
+export const getLoadingSummary = (state: State) => state.loadingSummary;
