@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
@@ -18,10 +18,14 @@ import {hasMoreDataCuts} from '../helpers';
   styleUrls: ['./survey-search-results.component.scss']
 })
 
-export class SurveySearchResultsComponent implements OnInit{
+export class SurveySearchResultsComponent implements OnInit {
   @ViewChild('tooltipContainer', { static: true }) tooltipContainer: TooltipContainerComponent;
   @Input() cutsDraggable: boolean;
   @Input() implementation: string;
+  @Input() refineInPeerEnabled = false;
+
+  refineInPeerReady = false;
+  refineInPeerByJobTitle = false;
 
   // Observables
   jobResults$: Observable<JobResult[]>;
@@ -39,6 +43,23 @@ export class SurveySearchResultsComponent implements OnInit{
 
   ngOnInit() {
     this.legacyIframeImplementation = this.implementation === 'component';
+  }
+
+  @HostListener('window:message', ['$event'])
+  onMessage(event: MessageEvent) {
+    if (!event.data || !event.data.payfactorsMessage) {
+      return;
+    }
+
+    switch (event.data.payfactorsMessage.type) {
+      case 'Refine Exchange Job Enabled':
+        this.refineInPeerReady = true;
+        break;
+      case 'Refine Exchange Job Title Search Enabled':
+        this.refineInPeerReady = true;
+        this.refineInPeerByJobTitle = true;
+        break;
+    }
   }
 
   // Events
@@ -73,9 +94,13 @@ export class SurveySearchResultsComponent implements OnInit{
     this.tooltipContainer.handleMatchesMouseLeave();
   }
 
-  handleRefineInPeerClicked(ev: any): void {
-    console.log('handleRefineClick: ', ev);
-    this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResult({lockedExchangeJobId: ev}));
+  handleRefineInPeerClicked(job): void {
+    if (this.refineInPeerEnabled) {
+      const exchangeJob = job.PeerJobInfo;
+      const payload = !this.refineInPeerByJobTitle ? {lockedExchangeJobId: exchangeJob.ExchangeJobId} :
+        {exchangeId: exchangeJob.ExchangeId, exchangeJobTitle: job.Title};
+      this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResult(payload));
+    }
   }
 
 }

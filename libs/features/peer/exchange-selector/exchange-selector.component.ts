@@ -55,29 +55,28 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
         });
 
         this.exchangesSubscription = this.exchanges$.subscribe(data => {
-            if(!!data) {
+            if (!!data) {
               this.exchangeOptionsFiltered = data;
               this.allData = data;
               if (data.length === 1 && !isNullOrUndefined(data[0])) {
                 this.exchangeForm.get('exchangeSelection').setValue(data[0].Key);
                 this.onExchangeSelected.emit(data[0].Key);
-              }
-              else {
+              } else {
                 this.applyDefaultExchange();
               }
             }
         });
 
         this.activeExchangeSubscription = this.activeExchange$.subscribe(exchangeId => {
-            if(exchangeId) {
+            if (exchangeId) {
                 this.defaultExchangeId = exchangeId;
                 this.applyDefaultExchange();
             }
-        })
+        });
     }
 
     applyDefaultExchange(): void {
-      if(!this.selectedExchangeId && this.allData?.find(ex => ex.Key == this.defaultExchangeId)) {
+      if (!this.selectedExchangeId && this.allData?.find(ex => ex.Key === this.defaultExchangeId)) {
         this.selectedExchangeId = this.defaultExchangeId;
         this.exchangeForm.get('exchangeSelection').setValue(this.selectedExchangeId);
         this.onExchangeSelected.emit(this.selectedExchangeId);

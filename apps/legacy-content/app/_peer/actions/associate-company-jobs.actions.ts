@@ -18,6 +18,9 @@ export const LOAD_EXCHANGE_DICTIONARY_ERROR = '[Legacy Content/Exchange Jobs] Lo
 export const LOAD_ACTIVE_EXCHANGE = '[Legacy Content/Exchange Jobs] Load Active Exchange';
 export const LOAD_ACTIVE_EXCHANGE_SUCCESS = '[Legacy Content/Exchange Jobs] Load Active Exchange Success';
 export const LOAD_ACTIVE_EXCHANGE_ERROR = '[Legacy Content/Exchange Jobs] Load Active Exchange Error';
+export const SET_INITIAL_LOADED_STATE = '[Legacy Content/Exchange Jobs] Set Initial Loaded State';
+export const RESET_INITIAL_LOADED_STATE = '[Legacy Content/Exchange Jobs] Reset Initial Loaded State';
+export const SET_ACTIVE_EXCHANGE = '[Legacy Content/Exchange Jobs] Set Active Exchange';
 
 export class LoadExchangeJobs implements Action {
     readonly type = LOAD_EXCHANGE_JOBS;
@@ -94,6 +97,20 @@ export class LoadActiveExchangeError implements Action {
   readonly type = LOAD_ACTIVE_EXCHANGE_ERROR;
 }
 
+export class SetInitialLoadedState implements Action {
+  readonly type = SET_INITIAL_LOADED_STATE;
+}
+
+export class ResetInitialLoadedState implements Action {
+  readonly type = RESET_INITIAL_LOADED_STATE;
+}
+
+export class SetActiveExchange implements Action {
+  readonly type = SET_ACTIVE_EXCHANGE;
+
+  constructor(public payload: number) {}
+}
+
 export type Actions
     = LoadExchangeJobs
     | LoadExchangeJobsSuccess
@@ -109,4 +126,7 @@ export type Actions
     | LoadExchangeDictionaryError
     | LoadActiveExchange
     | LoadActiveExchangeSuccess
-    | LoadActiveExchangeError;
+    | LoadActiveExchangeError
+    | SetInitialLoadedState
+    | ResetInitialLoadedState
+    | SetActiveExchange;

@@ -180,6 +180,12 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
     }
     case fromPeerMapActions.MAP_LOADED: {
+      if (!!initialLoadCompleteState && !initialLoadCompleteState.mapLoaded) {
+        initialLoadCompleteState = {
+          ...initialLoadCompleteState,
+          mapLoaded: true
+        };
+      }
       return {
         ...state,
         mapLoaded: true
