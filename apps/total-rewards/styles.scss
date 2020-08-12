@@ -316,3 +316,9 @@ pf-statement-assignment-page {
     min-width: 100% !important;
   }
 }
+
+.total-rewards-statements-grid, .total-rewards-assigned-employees-grid {
+  .k-grid-header th>.k-link>.k-icon {
+    display: none;
+  }
+}

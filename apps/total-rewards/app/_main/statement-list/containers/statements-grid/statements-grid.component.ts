@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { GridDataResult, DataStateChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -14,6 +15,7 @@ import * as fromTotalRewardsReducer from './../../reducers';
 import * as fromTotalRewardsStatementGridActions from '../../actions/statement-grid.actions';
 import * as fromStatementGridActions from '../../actions/statement-grid.actions';
 import { StatementListViewModel } from '../../../../shared/models';
+import { statementsGridFields } from '../../models';
 
 @Component({
   selector: 'pf-statements-grid',
@@ -21,7 +23,6 @@ import { StatementListViewModel } from '../../../../shared/models';
   styleUrls: ['./statements-grid.component.scss']
 })
 export class StatementsGridComponent implements OnInit {
-
   @Input() autoLoad = false;
   @Input() displayNoStatementsCreatedImage: boolean;
   @Output() createNewStatementClicked = new EventEmitter();
@@ -30,9 +31,11 @@ export class StatementsGridComponent implements OnInit {
   statementsGridState$: Observable<State>;
   statementsLoading$: Observable<boolean>;
   statementsLoadingError$: Observable<boolean>;
-
   openActionMenuStatement$: Observable<StatementListViewModel>;
+
+  @ViewChild(TooltipDirective, { static: true }) public tooltipDir: TooltipDirective;
   selectedDropdown: NgbDropdown;
+  gridFields = statementsGridFields;
 
   constructor(private store: Store<fromTotalRewardsReducer.State>, private router: Router) { }
 
@@ -96,5 +99,13 @@ export class StatementsGridComponent implements OnInit {
 
   handleCreateStatementClicked() {
     this.createNewStatementClicked.emit();
+  }
+
+  showGridTooltip(e: any): void {
+    if ((e.target.offsetWidth < e.target.scrollWidth) && e.target.classList.contains('show-tooltip')) {
+      this.tooltipDir.toggle(e.target);
+    } else {
+      this.tooltipDir.hide();
+    }
   }
 }
