@@ -13,6 +13,23 @@
   display: none !important;
 }
 
-:host ::ng-deep .k-icon {
-  display: none;
+:host ::ng-deep .k-link {
+  .k-i-sort-asc-sm, .k-i-sort-desc-sm {
+    display: none;
+  }
+}
+
+:host ::ng-deep .k-grid-norecords {
+  background-color: white !important;
+}
+
+.img-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.text-info {
+  cursor: pointer;
 }

@@ -47,7 +47,9 @@
         <div class="grid-wrapper" [class.expanded-filters]="getIsFiltersPanelOpen$ | async">
           <pf-assigned-employees-grid
             [gridState]="assignedEmployeesGridState"
-            (gridStateChange)="handleAssignedEmployeesGridStateChange($event)">
+            [displayNoEmployeesImage]="!(assignedEmployeesLoading$ | async) && !isChangingFilters && (filters$ | async)?.length === 0"
+            (gridStateChange)="handleAssignedEmployeesGridStateChange($event)"
+            (openAssignModalClicked)="openAssignModal()">
           </pf-assigned-employees-grid>
         </div>
         <div class="filter-wrapper" [class.expanded]="getIsFiltersPanelOpen$ | async">
@@ -61,7 +63,7 @@
         </div>
       </div>
       <pf-footer-bar
-        [primaryButtonText]="'Generate (' + ((assignedEmployeesTotalOrSelectedCount$ | async) || '') + ')'"
+        [primaryButtonText]="(assignedEmployeesTotalOrSelectedCount$ | async) > 0 ? 'Generate (' + (assignedEmployeesTotalOrSelectedCount$ | async) + ')' : 'Generate'"
         [primaryButtonEnabled]="(assignedEmployeesTotalOrSelectedCount$ | async) > 0"
         [secondaryButtonText]="'Back to Canvas'"
         (primaryButtonClick)="handleOpenGenerateStatementModalClick()"

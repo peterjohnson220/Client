@@ -22,7 +22,9 @@ import * as fromAssignedEmployeesPageActions from '../../actions/statement-assig
 export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
   @ViewChild(TooltipDirective, { static: true }) public tooltipDir: TooltipDirective;
   @Input() gridState: any;
+  @Input() displayNoEmployeesImage: boolean;
   @Output() gridStateChange = new EventEmitter<any>();
+  @Output() openAssignModalClicked: EventEmitter<any> = new EventEmitter();
 
   assignedEmployeesGridData$: Observable<GridDataResult>;
   assignedEmployeesDataLoading$: Observable<boolean>;
@@ -96,5 +98,9 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
 
   onSelectAllChange() {
     this.store.dispatch(new fromAssignedEmployeesGridActions.SelectAll());
+  }
+
+  openAssignModal(): void {
+    this.openAssignModalClicked.emit();
   }
 }

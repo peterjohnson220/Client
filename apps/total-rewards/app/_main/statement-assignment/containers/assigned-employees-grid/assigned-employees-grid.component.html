@@ -77,10 +77,23 @@
             {{ (assignedEmployeesTotal$ | async) | number }} Assigned Employee{{ (assignedEmployeesTotal$ | async) != 1 ? 's' : '' }}
           </label>
         </ng-template>
+        <ng-template kendoGridNoRecordsTemplate>
+          <div *ngIf="displayNoEmployeesImage; else noRecordsAvailable" class="text-center img-container">
+            <img width="400" src="/client/total-rewards/assets/images/no-employees.png">
+            <h2>No employees assigned yet.</h2>
+            <span (click)="openAssignModal()" class="text-info">
+              Associate employees to your statement by assigning them here.
+            </span>
+          </div>
+        </ng-template>
       </kendo-grid>
     </pf-async-container>
   </div>
 </div>
 <ng-template #template let-hoverElement>
   <span>{{ hoverElement.nativeElement.innerText }}</span>
+</ng-template>
+
+<ng-template #noRecordsAvailable>
+  No records available.
 </ng-template>
