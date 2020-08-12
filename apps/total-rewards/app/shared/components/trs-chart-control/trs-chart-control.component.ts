@@ -26,6 +26,10 @@ export class TrsChartControlComponent implements OnChanges {
     return this.mode === StatementModeEnum.Edit;
   }
 
+  get inPrintMode(): boolean {
+    return this.mode === StatementModeEnum.Print;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     // the chart animates on change detection, possibly because it thinks it's getting new values, so only change data when the mode changes
     if (changes.mode && changes.mode.currentValue !== changes.mode.previousValue) {

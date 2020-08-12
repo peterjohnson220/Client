@@ -65,7 +65,6 @@ pf-statement-edit.page {
   }
   .page-content {
     overflow-x: hidden; // let settings panel hide out to the right
-    background-color: $trs-edit-statement-page-background-color !important;
   }
   a.settings {
     color: inherit;
@@ -167,7 +166,6 @@ pf-trs-image-control {
       .k-dropzone {
         padding-top: 4px;
         height: 80px;
-        background: $trs-edit-statement-page-background-color;
 
         .k-button.k-upload-button {
           margin-left: auto;
@@ -184,7 +182,6 @@ pf-trs-image-control {
       }
       .k-file {
         padding: 0;
-        background: $trs-edit-statement-page-background-color;
         border: none;
       }
       .k-file-extension-wrapper, .k-file-size, .k-file-invalid-extension-wrapper, .k-file-name {
@@ -305,10 +302,15 @@ pf-statement-assignment-page {
     margin-right: .1in;
   }
 
-  html {
-    font-size: 18px;
+  // bootstrap override
+  a:not(.btn) {
+    text-decoration: none;
   }
 
+  * {
+    transition: none !important;
+  }
+  
   .container {
     border: none;
     background: white;

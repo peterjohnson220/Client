@@ -217,9 +217,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
           </div>
         </div>
       </section>
-      <span
-        class="page-break"
-      />
+      
     </div>
   </div>
 </pf-total-rewards-statement>

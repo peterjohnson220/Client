@@ -25,6 +25,7 @@ export class TotalRewardsStatementComponent {
   @Input() statement: Statement;
   @Input() mode: StatementModeEnum;
   @Input() employeeRewardsData: EmployeeRewardsData;
+  @Input() pageBreakAfter: boolean;
 
   // Common Outputs
   @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();

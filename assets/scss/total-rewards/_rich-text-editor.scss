@@ -179,3 +179,9 @@ $rich-text-height: 200px;
     font-family: 'Verdana', sans-serif;
   }
 }
+
+@media print {
+  label.info {
+    display: none !important;
+  }
+}
