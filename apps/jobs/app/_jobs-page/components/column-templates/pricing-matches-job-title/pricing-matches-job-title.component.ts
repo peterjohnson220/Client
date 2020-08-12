@@ -1,8 +1,7 @@
 import {
   Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked,
-  HostListener, ChangeDetectorRef, OnDestroy, EventEmitter, Output
+  HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges, EventEmitter, Output
 } from '@angular/core';
-
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -13,7 +12,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { isEmpty } from 'lodash';
 
-import { ViewField } from 'libs/models/payfactors-api';
+import { ViewField, UpdatePricingMatchRequest, PricingUpdateStrategy } from 'libs/models/payfactors-api';
 import { AsyncStateObj } from 'libs/models';
 import { Permissions } from 'libs/constants';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -27,7 +26,7 @@ import * as fromJobsPageReducer from '../../../reducers';
   templateUrl: './pricing-matches-job-title.component.html',
   styleUrls: ['./pricing-matches-job-title.component.scss'],
 })
-export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
   permissions = Permissions;
 
   @Input() dataRow: any;
@@ -39,6 +38,9 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   jobsGridJobStatusField: ViewField;
   jobsGridFieldSubscription: Subscription;
+
+  weight: number;
+  adjustment: number;
 
   public isCollapsed = true;
   public isOverflow = false;
@@ -56,7 +58,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.ngAfterViewChecked();
   }
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private cdRef: ChangeDetectorRef ) { }
+  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.jobsSelectedRow$ = this.store.select(fromPfDataGridReducer.getSelectedRow, PageViewIds.Jobs);
@@ -71,12 +73,19 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         this.showDeletePricingMatchModal.next(false);
       });
 
-      this.jobsGridFieldSubscription = this.store
+    this.jobsGridFieldSubscription = this.store
       .select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
       .pipe(filter(f => !isEmpty(f)))
       .subscribe(fields => {
-          this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
+        this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.dataRow && changes.dataRow.currentValue) {
+      this.weight = changes.dataRow.currentValue.CompanyJobs_PricingsMatches_Match_Weight;
+      this.adjustment = changes.dataRow.currentValue.CompanyJobs_PricingsMatches_Match_Adjustment;
+    }
   }
 
   ngAfterViewChecked(): void {
@@ -111,6 +120,19 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.store.dispatch(new fromJobsPageActions.DeletingPricingMatch(
       datarow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID
     ));
+  }
+
+  updatePricingMatch() {
+    const request: UpdatePricingMatchRequest = {
+      MatchId: this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID,
+      MatchWeight: this.weight,
+      MatchAdjustment: this.adjustment,
+      PricingUpdateStrategy: PricingUpdateStrategy.Parent
+    };
+    const pricingId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricing_ID;
+    const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
+
+    this.store.dispatch(new fromJobsPageActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
   }
 
   openAddNotesModal() {

@@ -87,12 +87,19 @@
 </ng-template>
 
 <ng-template #changeView>
-  <div class="view-change" (click)="switchViewToNotPriced()">
-    <div class="pricing-count-badge">
-      <span class="badge badge-primary mr-2">{{unPricedCount || 0}}</span>
-      <span>Pay Market{{unPricedCount === 1 ? '' : 's'}} Not Priced</span>
+  <div class="d-flex flex-fill">
+    <div class="view-change d-flex" (click)="switchViewToNotPriced()">
+      <div class="pricing-count-badge">
+        <span class="badge badge-primary mr-2">{{unPricedCount || 0}}</span>
+        <span>Pay Market{{unPricedCount === 1 ? '' : 's'}} Not Priced</span>
+      </div>
+    </div>    
+    <div *ngIf="(updatingPricingMatch$ | async).saving" class="ml-auto my-auto" >
+      <pf-loading-indicator></pf-loading-indicator>
+      <span class="pl-2">Recalculating Pricings</span>
     </div>
   </div>
+  
 </ng-template>
 
 <pf-notes-manager
@@ -100,7 +107,7 @@
   (cancelChanges)="showNotesManager.next(false);">
 </pf-notes-manager>
 
-<ng-template #pricingNotesHeader>
+<ng-template #pricingNotesHeader >
   <div class="pr-5 py-1">
     <span class="pr-3"><b >Pay Market:</b></span>
     <span>{{selectedPricingPayMarket}}</span>

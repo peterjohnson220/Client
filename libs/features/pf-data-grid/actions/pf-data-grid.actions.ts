@@ -57,6 +57,7 @@ export const RESET = '[PfDataGrid] Reset';
 export const REORDER_COLUMNS = '[PfDataGrid] Reorder Columns';
 export const REORDER_COLUMNS_SUCCESS = '[PfDataGrid] Reorder Columns Success';
 export const UPDATE_ROW = '[PfDataGrid] Update Data Row';
+export const UPDATE_GRID_DATA_ROW = '[PfDataGrid] Update Grid Row Data';
 export const UPDATE_FIELDS_EXCLUDED_FROM_EXPORT = '[PfDataGrid] Update Fields Excluded FromExport';
 export const UPDATE_PRESERVE_SELECTIONS_ON_GET_CONFIG = '[PfDataGrid] Update Preserve Selections On Get Config';
 export const UPDATE_COLUMN_WIDTH = '[PfDataGrid] Update Column Width';
@@ -322,25 +323,30 @@ export class Reset implements Action {
 
 export class ReorderColumns implements Action {
   readonly type = REORDER_COLUMNS;
-
   constructor(public pageViewId: string, public payload: ColumnReorder) {}
 }
 
 export class ReorderColumnsSuccess {
   readonly type = REORDER_COLUMNS_SUCCESS;
-
   constructor() {}
 }
 
 export class UpdateRow {
   readonly type = UPDATE_ROW;
-
   constructor(public pageViewId: string, public rowIndex: number, public data: any, public fieldNames?: any[]) {}
+}
+
+// This Action does not update the gridData in the state.
+// Instead the pf-grid.component subscribes to this action and updates the data for the kendo grid directly
+// If we were to change the state, the data for the kendo grid is reassigned and the kendoGridDetailTemplate is destroyed/recreated
+// This causes a flicker and loss of focus for the kendoGridDetailTemplate
+export class UpdateGridDataRow {
+  readonly type = UPDATE_GRID_DATA_ROW;
+  constructor(public pageViewId: string, public rowIndex: number, public data: any) {}
 }
 
 export class UpdateColumnWidth implements Action {
   readonly type = UPDATE_COLUMN_WIDTH;
-
   constructor(public pageViewId: string, public payload: ColumnResize) {}
 }
 
@@ -413,6 +419,7 @@ export type DataGridActions =
   | ReorderColumnsSuccess
   | UpdateFieldsExcludedFromExport
   | UpdateRow
+  | UpdateGridDataRow
   | UpdateColumnWidth
   | UpdateGridConfig
   | UpdateModifiedKeys

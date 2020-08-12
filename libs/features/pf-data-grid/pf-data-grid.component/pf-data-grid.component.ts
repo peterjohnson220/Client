@@ -175,16 +175,17 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['applyUserDefaultCompensationFields']) {
-      this.store.dispatch(new fromActions.UpdateApplyUserDefaultCompensationFields(this.pageViewId,
-        changes['applyUserDefaultCompensationFields'].currentValue));
-    }
 
     if (changes['pageViewId']) {
       this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
       if (this.actionBarConfig.AllowSaveFilter) {
         this.store.dispatch(new fromActions.LoadSavedViews(changes['pageViewId'].currentValue));
       }
+    }
+
+    if (changes['applyUserDefaultCompensationFields']) {
+      this.store.dispatch(new fromActions.UpdateApplyUserDefaultCompensationFields(this.pageViewId,
+        changes['applyUserDefaultCompensationFields'].currentValue));
     }
 
     if (changes['selectionField']) {
@@ -210,12 +211,15 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['saveSort']) {
       this.store.dispatch(new fromActions.UpdateSaveSort(this.pageViewId, changes['saveSort'].currentValue));
     }
+
     if (changes['preserveSelectionsOnGetConfig']) {
       this.store.dispatch(new fromActions.UpdatePreserveSelectionsOnGetConfig(this.pageViewId, changes['preserveSelectionsOnGetConfig'].currentValue));
     }
+
     if (changes['fieldsExcludedFromExport']) {
       this.store.dispatch(new fromActions.UpdateFieldsExcludedFromExport(this.pageViewId, changes['fieldsExcludedFromExport'].currentValue));
     }
+
     if (changes['gridConfig']) {
       this.store.dispatch(new fromActions.UpdateGridConfig(this.pageViewId, changes['gridConfig'].currentValue));
     }

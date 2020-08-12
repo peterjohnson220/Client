@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center justify-content-between"
        id="action-bar-container"
        *ngIf="actionBarConfig.ShowActionBar">
-    <div class="d-flex space-out-children-lg">
+    <div class="d-flex flex-fill space-out-children-lg">
       <div *ngFor="let gl of globalFilters; trackBy: trackByFn;">
         <ng-container *ngIf="actionBarConfig.GlobalFiltersTemplates && actionBarConfig.GlobalFiltersTemplates[gl.SourceName]; else omnisearchFilter"
                       [ngTemplateOutlet]="actionBarConfig.GlobalFiltersTemplates[gl.SourceName]"

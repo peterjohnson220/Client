@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CreateProjectRequest, ChangeJobStatusRequest, DeletePricingRequest, DataViewFilter } from 'libs/models/payfactors-api';
+import { CreateProjectRequest, ChangeJobStatusRequest, DeletePricingRequest, UpdatePricingMatchRequest } from 'libs/models/payfactors-api';
 
 export const SET_JOBS_PAGE_ID = '[Jobs Page] Set Jobs PageID';
 // TODO: Removed HANDLE_API_ERROR and replace it with AsyncStateObj
@@ -21,6 +21,9 @@ export const DELETING_PRICING_ERROR = '[Jobs Page] Deleting Pricing Error';
 export const DELETING_PRICING_MATCH = '[Jobs Page] Deleting Pricing Match';
 export const DELETING_PRICING_MATCH_SUCCESS = '[Jobs Page] Deleting Pricing Match Success';
 export const DELETING_PRICING_MATCH_ERROR = '[Jobs Page] Deleting Pricing Match Error';
+export const UPDATING_PRICING_MATCH = '[Jobs Page] Updating Pricing Match';
+export const UPDATING_PRICING_MATCH_SUCCESS = '[Jobs Page] Updating Pricing Match Success';
+export const UPDATING_PRICING_MATCH_ERROR = '[Jobs Page] Updating Pricing Match Error';
 export const LOAD_COMPANY_PAYMARKETS = '[Jobs Page] Load Company PayMarket';
 export const LOAD_COMPANY_PAYMARKETS_SUCCESS = '[Jobs Page] Load Company PayMarket Success';
 export const LOAD_STRUCTURE_GRADES = '[Jobs Page] Load Structure Grades';
@@ -130,6 +133,21 @@ export class DeletingPricingMatchError implements Action {
   constructor(public error: any) { }
 }
 
+export class UpdatingPricingMatch implements Action {
+  readonly type = UPDATING_PRICING_MATCH;
+  constructor(public request: UpdatePricingMatchRequest, public pricingId: number, public matchesGridPageViewId: string) { }
+}
+
+export class UpdatingPricingMatchSuccess implements Action {
+  readonly type = UPDATING_PRICING_MATCH_SUCCESS;
+  constructor() { }
+}
+
+export class UpdatingPricingMatchError implements Action {
+  readonly type = UPDATING_PRICING_MATCH_ERROR;
+  constructor(public error: any) { }
+}
+
 export class LoadCompanyPayMarkets implements Action {
   readonly type = LOAD_COMPANY_PAYMARKETS;
   constructor() { }
@@ -214,6 +232,9 @@ export type JobsPageActions
   | DeletingPricingMatch
   | DeletingPricingMatchSuccess
   | DeletingPricingMatchError
+  | UpdatingPricingMatch
+  | UpdatingPricingMatchSuccess
+  | UpdatingPricingMatchError
   | LoadCompanyPayMarkets
   | LoadCompanyPayMarketsSuccess
   | LoadStructureGrades
