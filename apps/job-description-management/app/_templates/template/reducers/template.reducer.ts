@@ -135,7 +135,6 @@ export function reducer(state = initialState, action: fromTemplateActions.Templa
       return {
         ...state,
         publishing: false,
-        editing: false,
         error: false,
         template: publishedTemplate
       };
