@@ -71,8 +71,11 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes.pricingInfo) {
-      this.filter.Value = changes.pricingInfo.currentValue['CompanyJobs_Pricings_CompanyJobPricing_ID'];
-      this.rate = changes.pricingInfo.currentValue['CompanyJobs_Pricings_Rate'];
+      const newFilterValue = changes.pricingInfo.currentValue['CompanyJobs_Pricings_CompanyJobPricing_ID'];
+      if (newFilterValue && newFilterValue !== this.filter.Value) {
+        this.filter.Value = newFilterValue;
+        this.rate = changes.pricingInfo.currentValue['CompanyJobs_Pricings_Rate'];
+      }
     }
   }
 

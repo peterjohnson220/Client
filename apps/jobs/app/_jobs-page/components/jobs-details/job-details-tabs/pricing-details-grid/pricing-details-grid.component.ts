@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 
@@ -21,6 +21,7 @@ import * as fromJobsPageActions from '../../../../actions';
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
 import { JobTitleCodePipe } from '../../../../pipes';
+import { AsyncStateObj } from 'libs/models';
 
 
 @Component({
@@ -69,6 +70,8 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   showNotesManager = new BehaviorSubject<boolean>(false);
   showNotesManager$ = this.showNotesManager.asObservable();
 
+  updatingPricingMatch$: Observable<AsyncStateObj<boolean>>;
+
   // This is needed to refresh the matches grid after adding a new note to increment count
   notesManagerPricingId: number;
   notesManagerConfiguration: NotesManagerConfiguration;
@@ -79,6 +82,8 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
 
   constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
     this.jobTitleCodePipe = new JobTitleCodePipe();
+
+    this.updatingPricingMatch$ = this.store.select(fromJobsPageReducer.getUpdatingPricingMatch).debounceTime(2000);
 
     this.selectedJobRowSubscription = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs).subscribe(row => {
       this.selectedJobRow = row;

@@ -9,8 +9,14 @@ div.collapsed {
 }
 
 .wtg-adj-cell {
-  min-width: 50px;
-  width: 50px;
+  min-width: 60px;
+  width: 60px;
+}
+
+.wtg-adj-input {
+  width: auto;
+  height: auto;
+  padding: 0;
 }
 
 .add-notes-link {
@@ -20,4 +26,8 @@ div.collapsed {
 
 .notes-link-container {
   width: 50px;
+}
+
+.details-text-padding {
+  padding-left: 120px
 }

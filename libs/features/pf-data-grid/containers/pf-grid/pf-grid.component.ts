@@ -14,9 +14,11 @@ import {
 } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { SortDescriptor } from '@progress/kendo-data-query';
 import { filter, take } from 'rxjs/operators';
+
+import { Store, ActionsSubject } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
+import { SortDescriptor } from '@progress/kendo-data-query';
 import {
   GridDataResult,
   PageChangeEvent,
@@ -27,6 +29,8 @@ import {
   ContentScrollEvent,
   ColumnResizeArgs
 } from '@progress/kendo-angular-grid';
+import * as cloneDeep from 'lodash.clonedeep';
+
 
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
@@ -87,6 +91,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   defaultSortDescriptorSubscription: Subscription;
   dataFieldsSubscription: Subscription;
 
+  updateGridDataRowSubscription: Subscription;
   dataSubscription: Subscription;
   data: GridDataResult;
   sortDescriptor: SortDescriptor[];
@@ -118,11 +123,26 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild(GridComponent) grid: GridComponent;
 
 
-  constructor(private store: Store<fromReducer.State>, private ngZone: NgZone, private mappedFieldName: MappedFieldNamePipe) {}
+  constructor(
+    private store: Store<fromReducer.State>,
+    private ngZone: NgZone,
+    private mappedFieldName: MappedFieldNamePipe,
+    private actionsSubject: ActionsSubject) { }
 
   ngOnInit() {
+
+    this.updateGridDataRowSubscription = this.actionsSubject
+      .pipe(ofType(fromActions.UPDATE_GRID_DATA_ROW))
+      .subscribe((action: fromActions.UpdateGridDataRow) => {
+        if (action.pageViewId === this.pageViewId) {
+          const row = this.data.data[action.rowIndex];
+          Object.keys(row).forEach(function (key) { row[key] = action.data[key]; });
+        }
+      });
+
+
     this.dataSubscription = this.store.select(fromReducer.getData, this.pageViewId).subscribe(newData => {
-      this.data = newData;
+      this.data = cloneDeep(newData);
       if (this.data && this.grid) {
         this.grid.resetGroupsState();
         for (let index = 0; index < this.data.data.length; index++) {
@@ -161,6 +181,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     this.expandedRowsSubscription.unsubscribe();
+    this.updateGridDataRowSubscription.unsubscribe();
     this.dataSubscription.unsubscribe();
     this.primaryKeySubscription.unsubscribe();
     this.selectionFieldSubscription.unsubscribe();
@@ -343,7 +364,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onColumnResize(event: ColumnResizeArgs[]): void {
-    if ( !this.gridConfig?.PersistColumnWidth || event?.length < 1) {
+    if (!this.gridConfig?.PersistColumnWidth || event?.length < 1) {
       return;
     }
     const column = event[0].column as ColumnComponent;
@@ -390,8 +411,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private resetKendoGridWidth() {
-    const grids =  window.document.getElementsByTagName('kendo-grid') || [];
-    Array.from(grids).forEach(  (g: HTMLElement) => {
+    const grids = window.document.getElementsByTagName('kendo-grid') || [];
+    Array.from(grids).forEach((g: HTMLElement) => {
       const tables = g.getElementsByTagName('table') || [];
       Array.from(tables).forEach((t: HTMLElement) => {
         t.setAttribute('style', null);

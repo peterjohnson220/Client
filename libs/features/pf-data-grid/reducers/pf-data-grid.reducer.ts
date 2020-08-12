@@ -152,8 +152,6 @@ export const getFilterPanelOpen = (state: DataGridStoreState, pageViewId: string
 export const getModifiedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].modifiedKeys : null;
 
 
-
-
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
     case fromPfGridActions.LOAD_VIEW_CONFIG:
@@ -178,8 +176,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             splitViewFilters: [],
             selectedKeys:
               (state.grids[action.pageViewId] && state.grids[action.pageViewId].preserveSelectionsOnGetConfig && state.grids[action.pageViewId].selectedKeys)
-                  ? state.grids[action.pageViewId].selectedKeys
-                  : []
+                ? state.grids[action.pageViewId].selectedKeys
+                : []
           }
         }
       };
@@ -369,18 +367,18 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     This action resets all filters prior to applying inbound filters to clear global text box search elements on tab switch/grid change
      */
     case fromPfGridActions.UPDATE_INBOUND_FILTERS:
-      return {
-        ...state,
-        grids: {
-          ...state.grids,
-          [action.pageViewId]: {
-            ...state.grids[action.pageViewId],
-            inboundFilters: action.payload,
-            fields: applyInboundFilters(resetAllFilters(state, action.pageViewId), action.payload),
-            expandedRows: []
+        return {
+          ...state,
+          grids: {
+            ...state.grids,
+            [action.pageViewId]: {
+              ...state.grids[action.pageViewId],
+              inboundFilters: action.payload,
+              fields: applyInboundFilters(resetAllFilters(state, action.pageViewId), action.payload),
+              expandedRows: []
+            }
           }
-        }
-      };
+        };
     case fromPfGridActions.UPDATE_FILTER:
       const updatedFields = cloneDeep(state.grids[action.pageViewId].fields);
       const updatedField = updatedFields.find(f => f.DataElementId === action.payload.DataElementId);
@@ -949,9 +947,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         };
       } else {
         // no data found, just return
-          return {
-            ...state
-          };
+        return {
+          ...state
+        };
       }
     case fromPfGridActions.UPDATE_MODIFIED_KEYS:
       return {
@@ -1143,7 +1141,7 @@ export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
 export function reorderFieldsColumnGroup(groupedFields: any[], oldIndex: number, newIndex: number, level: number): ViewField[] {
   const groupedFilteredFields =
     orderBy(groupedFields.filter(f => f.DataElementId !== undefined && f.IsSelectable && f.IsSelected ||
-                                      f.Fields !== undefined && f.HasSelection), 'Order');
+      f.Fields !== undefined && f.HasSelection), 'Order');
 
   // Each level has it's own indices
   if (level === 0) {
@@ -1235,7 +1233,7 @@ export function getViewFieldsFromGroupedFields(groupedFields: any[], isSelectedO
     // Fields at level 0
     if (groupedField.DataElementId !== undefined) {
       if (isSelectedOnly && groupedField.IsSelectable && groupedField.IsSelected ||
-            !isSelectedOnly && (!groupedField.IsSelectable || !groupedField.IsSelected)) {
+        !isSelectedOnly && (!groupedField.IsSelectable || !groupedField.IsSelected)) {
         result.push(groupedField);
       }
     }
@@ -1245,7 +1243,7 @@ export function getViewFieldsFromGroupedFields(groupedFields: any[], isSelectedO
       groupedField.Fields.forEach(function (field) {
         if (field.DataElementId !== undefined) {
           if (isSelectedOnly && field.IsSelectable && field.IsSelected ||
-                !isSelectedOnly && (!field.IsSelectable || !field.IsSelected)) {
+            !isSelectedOnly && (!field.IsSelectable || !field.IsSelected)) {
             result.push(field);
           }
         }
