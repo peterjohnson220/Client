@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { CommunityPost } from 'libs/models';
@@ -14,7 +14,7 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './community-post.component.html',
   styleUrls: ['./community-post.component.scss']
 })
-export class CommunityPostComponent implements OnInit, OnChanges, OnDestroy {
+export class CommunityPostComponent implements OnInit, OnDestroy {
   @Input() post: CommunityPost;
   @Input() maximumReplies: number;
   @Input() isModal: boolean;
@@ -26,14 +26,12 @@ export class CommunityPostComponent implements OnInit, OnChanges, OnDestroy {
 
   discardingPostId$: Observable<string>;
   discardingPostReplyProceed$: Observable<boolean>;
-  loadingCommunityPostReplies$: Observable<boolean>;
 
   discardingPostIdSubscription: Subscription;
   discardingPostReplyProceedSubscription: Subscription;
 
   showAddReply = false;
   showReplies = false;
-  replyCount: number;
   discardingPostId = null;
 
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
@@ -41,7 +39,6 @@ export class CommunityPostComponent implements OnInit, OnChanges, OnDestroy {
   constructor(public store: Store<fromCommunityReducers.State>) {
     this.discardingPostId$ = this.store.select(fromCommunityReducers.getDiscardingPostReplyId);
     this.discardingPostReplyProceed$ = this.store.select(fromCommunityReducers.getDiscardingPostReplyProceed);
-    this.loadingCommunityPostReplies$ = this.store.select(fromCommunityReducers.getGettingCommunityPostReplies);
   }
 
   ngOnInit() {
@@ -62,12 +59,6 @@ export class CommunityPostComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes && changes.post.currentValue) {
-      this.replyCount = changes.post.currentValue.ReplyCount;
-    }
-  }
-
   ngOnDestroy() {
     this.discardingPostIdSubscription.unsubscribe();
     this.discardingPostReplyProceedSubscription.unsubscribe();
@@ -86,7 +77,6 @@ export class CommunityPostComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getReplies(postId) {
-    this.clearRepliesFromAddView();
     this.showReplies = !this.showReplies;
     this.getCommunityPostReplies(postId);
   }

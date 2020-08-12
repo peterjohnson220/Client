@@ -1,7 +1,6 @@
 <ng-container *ngFor="let reply of filteredAddedReplies">
  <div class="mt-1" *ngIf="editedReplyId !== reply.Id">
     <pf-community-post-reply 
-    [post]="post"
     [reply]="reply"
     [disableCommunityAttachments]="disableCommunityAttachments"
     [hideAttachmentWarning]="hideAttachmentWarning"

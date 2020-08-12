@@ -8,7 +8,6 @@
 
 .reply-offset {
   margin-left: $community-reply-avatar-size + 10px;
-  margin-top: 10px;
 }
 
 .community-btn {
@@ -27,18 +26,4 @@
 
 .community-btn-clicked .icon {
   color: #FA4646;
-}
-
-.community-link {
-  color: #808080;
-  vertical-align: middle;
-  text-decoration: none;;
-}
-
-.hide {
-  display: none;
-}
-
-.show {
-  display: inline;
 }
