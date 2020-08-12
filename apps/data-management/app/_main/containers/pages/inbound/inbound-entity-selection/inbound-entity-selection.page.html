@@ -6,8 +6,12 @@
     <h4>Select entities to transfer</h4>
     <div class="m-5">
       <h5 class="mb-4">Select which organizational data entity you would like to load data for:</h5>
+      <div class="alert alert-warning" *ngIf="connectionSummary?.statuses?.includes('Authenticating')">
+        Changes to entity selection cannot be made while authentication is in progress
+      </div>
       <pf-entity-picker
-        [(entities)]="providerSupportedEntities">
+        [(entities)]="providerSupportedEntities"
+        [disableTooltip]="connectionSummary?.statuses?.includes('Authenticating') || false">
       </pf-entity-picker>
       <div *ngIf="providerSupportedEntities?.length" class="d-flex justify-content-end">
         <div class="p-2">
