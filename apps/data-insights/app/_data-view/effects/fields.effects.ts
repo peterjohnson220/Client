@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 import { select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, mergeMap, catchError, withLatestFrom, map, debounceTime, concatMap } from 'rxjs/operators';

@@ -4,7 +4,8 @@ import { NgModel } from '@angular/forms';
 
 import { BaseFilterCellComponent, FilterService } from '@progress/kendo-angular-grid';
 import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
-import { cloneDeep, isEqual } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 import { TicketFieldType } from '../../../constants/tickets-constants';
 

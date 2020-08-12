@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { of } from 'rxjs';
 import { switchMap, catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';

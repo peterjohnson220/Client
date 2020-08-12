@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import * as lodash from 'lodash';
+import escape from 'lodash/escape';
 
 import { Job, UserContext, ExchangeJobSearch, LatestCompanyJob, GenericKeyValue } from 'libs/models';
 import { ExchangeApiService } from 'libs/data/payfactors-api/';
@@ -139,8 +139,8 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
     buildNoResultsString(): string {
         let s = 'No results for ';
 
-        const companyJob = lodash.escape(this.exchangeJobQuery);
-        const jobDescription = lodash.escape(this.exchangeDescriptionQuery);
+        const companyJob = escape(this.exchangeJobQuery);
+        const jobDescription = escape(this.exchangeDescriptionQuery);
 
         if (!companyJob && !jobDescription && !!this.companyJobInfo) {
             s += '<u>' + this.companyJobInfo.JobTitle + '</u>';

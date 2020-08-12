@@ -1,4 +1,8 @@
-import { cloneDeep, difference, uniq } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import difference from 'lodash/difference';
+import uniq from 'lodash/uniq';
+
+
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';

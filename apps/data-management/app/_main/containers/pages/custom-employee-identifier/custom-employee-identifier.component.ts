@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { cloneDeep, isObject } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import isObject from 'lodash/isObject';
 
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, Subject } from 'rxjs';

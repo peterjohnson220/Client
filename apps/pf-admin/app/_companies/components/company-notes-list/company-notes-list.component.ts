@@ -1,6 +1,6 @@
 import { Component, Input, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { Store } from '@ngrx/store';
 
 import { CompanyNote } from 'libs/models/payfactors-api';

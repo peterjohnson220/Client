@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromDefaultSettingsActions from '../actions/default-settings.actions';
 import { PricingLoaderSetting } from '../models';

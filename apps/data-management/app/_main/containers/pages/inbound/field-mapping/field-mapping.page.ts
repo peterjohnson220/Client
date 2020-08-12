@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import * as fromFieldMappingActions from '../../../../actions/field-mapping.actions';
 import * as fromHrisConnectionActions from '../../../../actions/hris-connection.actions';

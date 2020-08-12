@@ -2,7 +2,8 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { cloneDeep, orderBy } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { ExchangeScopeItem, ExchangeScopes } from 'libs/models/peer/exchange-scope';

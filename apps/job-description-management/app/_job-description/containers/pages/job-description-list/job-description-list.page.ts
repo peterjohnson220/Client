@@ -5,7 +5,7 @@ import { FilterDescriptor, SortDescriptor, State } from '@progress/kendo-data-qu
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { debounceTime, takeWhile, filter, take } from 'rxjs/operators';
 
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';

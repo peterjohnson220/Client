@@ -4,7 +4,7 @@ import {Store} from '@ngrx/store';
 import {Subject} from 'rxjs';
 import {skip, takeUntil} from 'rxjs/operators';
 
-import { isObject } from 'lodash';
+import isObject from 'lodash/isObject';
 
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 

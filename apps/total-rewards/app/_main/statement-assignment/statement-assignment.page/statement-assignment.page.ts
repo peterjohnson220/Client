@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { Observable, Subscription, combineLatest, BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';

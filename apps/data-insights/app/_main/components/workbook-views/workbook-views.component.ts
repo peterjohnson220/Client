@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, ViewChild, OnDestroy } from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
 

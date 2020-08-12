@@ -1,7 +1,7 @@
 import * as fromCompanyResourcesPageActions from '../actions/company-resources.actions';
 import { CompanyResourceFolder, CompanyResourceFolderPost, CompanyResource } from '../models';
 import { EntityState, createEntityAdapter, EntityAdapter } from '@ngrx/entity';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 
 export interface State extends EntityState<CompanyResourceFolder> {

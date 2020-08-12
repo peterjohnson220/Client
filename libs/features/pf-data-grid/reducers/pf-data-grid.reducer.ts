@@ -1,4 +1,9 @@
-import { cloneDeep, orderBy, uniq, uniqBy, isNumber } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
+import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
+import isNumber from 'lodash/isNumber';
+
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 

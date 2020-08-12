@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromJobInformationFieldsActions from '../actions/job-information-fields.actions';
 import { AvailableJobInformationField } from 'libs/features/job-description-management/models';

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
 
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 
 import { groupBy } from '@progress/kendo-data-query';
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';

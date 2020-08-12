@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {isEmpty, isString} from 'lodash';
+import isString from 'lodash/isString';
+import isEmpty from 'lodash/isEmpty';
+
 
 import * as fromSsoConfigActions from '../../../actions/sso-config.actions';
 import * as fromSsoConfigReducers from '../../../reducers';

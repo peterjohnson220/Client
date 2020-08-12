@@ -1,5 +1,5 @@
-import * as cloneDeep from 'lodash.clonedeep';
-import * as isEqual from 'lodash.isequal';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import { Filter, isFilterableMultiFilter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';

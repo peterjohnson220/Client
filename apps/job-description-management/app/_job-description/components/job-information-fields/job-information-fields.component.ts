@@ -3,7 +3,7 @@ import { Component, Output, EventEmitter, OnInit, OnDestroy, ChangeDetectionStra
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { AvailableJobInformationField } from 'libs/features/job-description-management/models/available-job-information-field.model';
 import * as fromJobInformationFieldsReducer from '../../reducers';
