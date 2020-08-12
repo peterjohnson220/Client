@@ -8,18 +8,17 @@ import { filter } from 'rxjs/operators';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 
-import { GridDataResult } from '@progress/kendo-angular-grid';
-
 import { isEmpty } from 'lodash';
 
-import { ViewField, UpdatePricingMatchRequest, PricingUpdateStrategy } from 'libs/models/payfactors-api';
+import { UpdatePricingMatchRequest, PricingUpdateStrategy } from 'libs/models/payfactors-api';
 import { AsyncStateObj } from 'libs/models';
-import { Permissions } from 'libs/constants';
+import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import { PageViewIds } from '../../../constants';
 import * as fromJobsPageActions from '../../../actions';
 import * as fromJobsPageReducer from '../../../reducers';
+import { PermissionService } from 'libs/core';
 
 @Component({
   selector: 'pf-pricing-matches-job-title',
@@ -28,6 +27,7 @@ import * as fromJobsPageReducer from '../../../reducers';
 })
 export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
   permissions = Permissions;
+  permissionCheckEnum = PermissionCheckEnum;
 
   @Input() dataRow: any;
   @Input() pricingInfo: any;
@@ -36,14 +36,13 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   @ViewChild('jobTitleText') jobTitleText: ElementRef;
   @ViewChild('detailsText') detailsText: ElementRef;
 
-  jobsGridJobStatusField: ViewField;
-  jobsGridFieldSubscription: Subscription;
+  jobsSelectedRow$: Observable<any>;
 
-  weight: number;
-  adjustment: number;
+  isActiveJob = true;
+  isActiveJobSubscription: Subscription;
 
-  public isCollapsed = true;
-  public isOverflow = false;
+  pricingMatchesDataSuscription: Subscription;
+  pricingMatchesCount = 0;
 
   showDeletePricingMatchModal = new BehaviorSubject<boolean>(false);
   showDeletePricingMatchModal$ = this.showDeletePricingMatchModal.asObservable();
@@ -51,20 +50,29 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   deletingPricingMatch$: Observable<AsyncStateObj<boolean>>;
   getDeletingPricingMatchSuccessSubscription: Subscription;
 
-  pricingMatchesData$: Observable<GridDataResult>;
-  jobsSelectedRow$: Observable<any>;
+  weight: number;
+  adjustment: number;
+
+  public isCollapsed = true;
+  public isOverflow = false;
 
   @HostListener('window:resize') windowResize() {
     this.ngAfterViewChecked();
   }
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private cdRef: ChangeDetectorRef) { }
+  constructor(
+    public permissionService: PermissionService,
+    private store: Store<fromJobsPageReducer.State>,
+    private actionsSubject: ActionsSubject,
+    private cdRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.jobsSelectedRow$ = this.store.select(fromPfDataGridReducer.getSelectedRow, PageViewIds.Jobs);
-    this.pricingMatchesData$ = this.store.select(
-      fromPfDataGridReducer.getData,
-      `${PageViewIds.PricingMatches}_${this.pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID}`);
+
+    const pricingMatchPageViewId = `${PageViewIds.PricingMatches}_${this.pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID}`;
+    this.pricingMatchesDataSuscription = this.store.select(fromPfDataGridReducer.getData, pricingMatchPageViewId).subscribe(data => {
+      this.pricingMatchesCount = data.total;
+    });
 
     this.deletingPricingMatch$ = this.store.select(fromJobsPageReducer.getDeletingPricingMatch);
     this.getDeletingPricingMatchSuccessSubscription = this.actionsSubject
@@ -73,11 +81,15 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         this.showDeletePricingMatchModal.next(false);
       });
 
-    this.jobsGridFieldSubscription = this.store
+    this.isActiveJobSubscription = this.store
       .select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
       .pipe(filter(f => !isEmpty(f)))
       .subscribe(fields => {
-        this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
+        // TODO: The JobStatus field filter can have a value of 'true' or true.
+        // This is because of the way the active/inactive slider sets the filter value
+        // This  quick fix needs to be converted to a more robust solution
+        const statusFieldFilter: any = fields.find(f => f.SourceName === 'JobStatus').FilterValue;
+        this.isActiveJob = statusFieldFilter === 'true' || statusFieldFilter === true;
       });
   }
 
@@ -95,7 +107,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   ngOnDestroy() {
     this.getDeletingPricingMatchSuccessSubscription.unsubscribe();
-    this.jobsGridFieldSubscription.unsubscribe();
+    this.pricingMatchesDataSuscription.unsubscribe();
+    this.isActiveJobSubscription.unsubscribe();
   }
 
   getScope(): string {

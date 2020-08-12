@@ -94,7 +94,7 @@
         <span>Pay Market{{unPricedCount === 1 ? '' : 's'}} Not Priced</span>
       </div>
     </div>    
-    <div *ngIf="(updatingPricingMatch$ | async).saving" class="ml-auto my-auto" >
+    <div *ngIf="(updatingPricingMatch$ | async)?.saving" class="ml-auto my-auto" >
       <pf-loading-indicator></pf-loading-indicator>
       <span class="pl-2">Recalculating Pricings</span>
     </div>
