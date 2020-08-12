@@ -13,12 +13,6 @@
   display: none !important;
 }
 
-:host ::ng-deep .k-link {
-  .k-i-sort-asc-sm, .k-i-sort-desc-sm {
-    display: none;
-  }
-}
-
 :host ::ng-deep .k-grid-norecords {
   background-color: white !important;
 }
