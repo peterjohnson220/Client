@@ -51,7 +51,7 @@ export class DuplicateModelModalEffects {
                   From: NotificationSource.GenericNotificationMessage,
                   Level: NotificationLevel.Success,
                   NotificationId: '',
-                  Payload: {Title: 'Model Created', Message: `New model has been created: ${response.RangeGroup.RangeGroupName}`},
+                  Payload: { Title: 'Model Created', Message: `New model has been created: ${response.RangeGroup.RangeGroupName}` },
                   Type: NotificationType.Event
                 }));
 
