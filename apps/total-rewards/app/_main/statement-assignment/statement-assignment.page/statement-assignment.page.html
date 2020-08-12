@@ -47,7 +47,7 @@
         <div class="grid-wrapper" [class.expanded-filters]="getIsFiltersPanelOpen$ | async">
           <pf-assigned-employees-grid
             [gridState]="assignedEmployeesGridState"
-            [displayNoEmployeesImage]="!(assignedEmployeesLoading$ | async) && !isChangingFilters && (filters$ | async)?.length === 0"
+            [displayNoEmployeesImage]="!(assignedEmployeesLoading$ | async) && !isChangingFilters && (filters$ | async)?.length === 0 && !(this.employeeSearchTerm$ | async)"
             (gridStateChange)="handleAssignedEmployeesGridStateChange($event)"
             (openAssignModalClicked)="openAssignModal()">
           </pf-assigned-employees-grid>
