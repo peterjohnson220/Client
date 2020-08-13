@@ -4,4 +4,5 @@ export enum LoaderType {
   PayMarkets = 'PayMarkets',
   Structures = 'Structures',
   StructureMapping = 'StructureMapping',
+  Subsidiary = 'Subsidiary'
 }
