@@ -344,7 +344,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   handleControlDataRowAdded(addDataRowObj: any) {
     this.store.dispatch(new fromTemplateActions.AddDataRowToControl({
-      templateControl: addDataRowObj.control, dataRow: this.jobDescriptionManagementService.createDataRow([addDataRowObj.attributes])}));
+      templateControl: addDataRowObj.control, dataRow: this.jobDescriptionManagementService.createDataRow(addDataRowObj.attributes)}));
 
     if (addDataRowObj.save) {
         this.saveThrottle.next(true);
