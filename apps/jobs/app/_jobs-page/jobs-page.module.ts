@@ -49,7 +49,7 @@ import {
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects } from './effects';
-import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, CannotModifyPricingMatch } from './pipes';
+import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricingMatchError } from './pipes';
 
 
 @NgModule({
@@ -120,7 +120,7 @@ import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, CannotModify
     ShowingActiveJobs,
     PricingMatchTypePipe,
     JobTitleCodePipe,
-    CannotModifyPricingMatch
+    ModifyPricingMatchError
   ]
 })
 export class JobsPageModule {
