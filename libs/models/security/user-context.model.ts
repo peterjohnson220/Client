@@ -26,6 +26,7 @@ export interface UserContext {
   ClientType: string;
   DefaultPayMarketId: number;
   MapboxAccessToken: string;
+  FeatureFlagBootstrapJson: string;
 }
 
 export interface ConfigSetting {
@@ -74,6 +75,7 @@ export function generateMockUserContext(): UserContext {
     RoleName: 'Company Administrator',
     ClientType: CompanyClientTypeConstants.ENTERPRISE,
     DefaultPayMarketId: 1,
-    MapboxAccessToken: 'SomeToken'
+    MapboxAccessToken: 'SomeToken',
+    FeatureFlagBootstrapJson: 'FeatureFlag'
   };
 }
