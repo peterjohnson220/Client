@@ -1,4 +1,3 @@
-import { faCogs, faEllipsisV, faInfoCircle } from '@fortawesome/pro-solid-svg-icons';
-import { faTrashAlt } from '@fortawesome/pro-regular-svg-icons/faTrashAlt';
+import { faCogs, faInfoCircle, faEllipsisH } from '@fortawesome/pro-solid-svg-icons';
 
-export const faIcons = [faCogs, faEllipsisV, faInfoCircle, faTrashAlt];
+export const faIcons = [faCogs, faInfoCircle, faEllipsisH];

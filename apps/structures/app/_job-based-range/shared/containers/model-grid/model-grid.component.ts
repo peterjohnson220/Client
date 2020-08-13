@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { select, Store, ActionsSubject } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { ofType } from '@ngrx/effects';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import {
   PfDataGridFilter,
@@ -52,7 +53,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
-  @ViewChildren('p') ngbPopovers: any;
   @Input() singleRecordView: boolean;
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -101,6 +101,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   filterTemplates = {};
   modifiedKeys: any[];
   modifiedKeysSubscription: Subscription;
+  selectedDropdown: NgbDropdown;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -187,14 +188,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   openRemoveRangeModal(rangeId: number) {
-    this.ngbPopovers.forEach((ngbPopover) => ngbPopover.close());
     this.rangeIdToRemove = rangeId;
     this.showRemoveRangeModal.next(true);
     this.store.dispatch(new fromSharedJobBasedRangeActions.ShowRemoveRangeModal());
   }
 
   revertChanges(dataRow: any, rowIndex: number) {
-    this.ngbPopovers.forEach((ngbPopover) => ngbPopover.close());
     this.store.dispatch(new fromSharedJobBasedRangeActions.RevertingRangeChanges({
       pageViewId: this.modelPageViewId,
       rangeId: dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID,
@@ -211,6 +210,16 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   handleDuplicateModelClicked() {
     this.store.dispatch(new fromDuplicateModelModalActions.OpenModal());
+  }
+
+  scroll = (): void => {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
+  }
+
+  handleSelectedRowAction(dropdown: any) {
+    this.selectedDropdown = dropdown;
   }
 
   // Lifecycle
@@ -255,6 +264,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.modifiedKeysSubscription = this.store.select(fromReducer.getModifiedKeys, this.modelPageViewId).subscribe(
       modifiedKeys => this.modifiedKeys = modifiedKeys
     );
+    window.addEventListener('scroll', this.scroll, true);
   }
 
   ngOnDestroy(): void {

@@ -56,23 +56,22 @@
 </ng-template>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow" let-rowIndex="rowIndex">
-  <div class="position-relative" (mouseleave)="p.close()">
-    <fa-icon [icon]="['fas', 'ellipsis-v']"
-             [attr.data-qa-id]="'btn-model-grid-remove-range-' + dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']"
-             [pfSecuredResource]="metaData.IsCurrent? permissions.STRUCTURES_ADD_EDIT_DELETE : permissions.STRUCTURES_CREATE_EDIT_MODEL"
-s             [fixedWidth]="true"
-             placement="right"
-             #p="ngbPopover"
-             [ngbPopover]="popContent"
-             (mouseenter)="p.open()"
-             [autoClose]="'outside'"></fa-icon>
-
-    <ng-template #popContent>
-      <div class="popover-body-container">
-        <div><span (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']); $event.stopPropagation()">Delete Job</span></div>
-        <div *ngIf="modifiedKeys != null && modifiedKeys.includes(dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID)"><span (click)="revertChanges(dataRow, rowIndex)">Revert Changes</span></div>
-      </div>
-    </ng-template>
+  <div [pfSecuredResource]="metaData.IsCurrent? permissions.STRUCTURES_ADD_EDIT_DELETE : permissions.STRUCTURES_CREATE_EDIT_MODEL"
+       ngbDropdown container="body" #p="ngbDropdown" (openChange)="handleSelectedRowAction(p)">
+    <fa-icon
+      ngbDropdownToggle
+      icon="ellipsis-h"
+      role="button">
+    </fa-icon>
+    <div ngbDropdownMenu>
+      <button ngbDropdownItem (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID'])">
+        Delete Job
+      </button>
+      <button *ngIf="modifiedKeys != null && modifiedKeys.includes(dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID)"
+              ngbDropdownItem (click)="revertChanges(dataRow, rowIndex)">
+        Revert Changes
+      </button>
+    </div>
   </div>
 </ng-template>
 
