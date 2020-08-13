@@ -1,4 +1,4 @@
-import {isObject} from 'lodash';
+import isObject from 'lodash/isObject';
 
 import {AsyncStateObjHelper} from 'libs/core/helpers';
 import {AsyncStateObj, generateDefaultAsyncStateObj} from 'libs/models/state';

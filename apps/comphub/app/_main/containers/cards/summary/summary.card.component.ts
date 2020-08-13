@@ -3,11 +3,11 @@ import { CurrencyPipe, getCurrencySymbol } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
 import { pdf } from '@progress/kendo-drawing';
 const { exportPDF } = pdf;
-import * as isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 
 import { SearchFilterOption, SharePricingSummaryRequest } from 'libs/models/payfactors-api';
 import * as fromRootReducer from 'libs/state/state';

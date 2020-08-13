@@ -1,4 +1,5 @@
-import { find, isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import find from 'lodash/find';
 
 import { ImportDataType, OrgDataEntityType, TransferMethodTypes} from 'libs/constants/hris-api';
 import { LoaderFileFormat, LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';

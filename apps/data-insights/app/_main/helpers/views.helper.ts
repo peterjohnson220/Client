@@ -1,5 +1,5 @@
-import * as cloneDeep from 'lodash.clonedeep';
-import { orderBy } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 
 import { ReportOrderType } from 'libs/constants';
 

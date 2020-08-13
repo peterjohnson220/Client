@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { SurveyLibraryApiService } from 'libs/data/payfactors-api/survey-library';
 import { UserContext } from 'libs/models';

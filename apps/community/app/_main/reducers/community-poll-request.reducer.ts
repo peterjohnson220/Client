@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as communityPollRequestActions from '../actions/community-poll-request.actions';
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';

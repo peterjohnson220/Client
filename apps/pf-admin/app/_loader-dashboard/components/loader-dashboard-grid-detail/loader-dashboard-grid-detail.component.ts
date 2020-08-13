@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {GridDataResult} from '@progress/kendo-angular-grid';
 
-import { isObject } from 'lodash';
+import isObject from 'lodash/isObject';
 
 import {EntityLoadSummaryView} from 'libs/models/admin/loader-dashboard';
 

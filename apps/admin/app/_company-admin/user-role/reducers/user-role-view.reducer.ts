@@ -3,7 +3,7 @@ import { AddCompanyRoleForm } from 'libs/models/admin';
 
 import { RoleApiResponse, UserRoleTabState } from '../constants/user-role.constants';
 import * as fromUserRoleViewActions from '../actions/user-role-view.action';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 export interface IUserRoleState {
   currentTab: UserRoleTabState;

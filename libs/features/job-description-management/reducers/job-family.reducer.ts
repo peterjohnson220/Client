@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromJobFamilyActions from 'libs/features/job-description-management/actions/job-family.actions';
 

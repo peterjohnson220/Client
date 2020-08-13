@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Field } from '../../models';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { FieldFormatType } from 'libs/models/payfactors-api';
 

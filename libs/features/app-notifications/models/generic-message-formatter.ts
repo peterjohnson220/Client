@@ -1,4 +1,4 @@
-import escape from 'lodash';
+import escape from 'lodash/escape';
 
 import { NotificationLevel, NotificationPayload, NotificationWithFilePayload } from './notification.model';
 

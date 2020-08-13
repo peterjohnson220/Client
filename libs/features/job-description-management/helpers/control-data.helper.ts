@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { JobDescriptionControl, JobDescriptionControlId, JobDescriptionSection } from 'libs/models/jdm';
 import { ControlType, ControlTypeAttribute } from 'libs/models/common';

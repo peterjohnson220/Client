@@ -6,7 +6,7 @@ import {
   MultiSelectOption,
   RangeFilter
 } from '../models';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 export interface MultiSelectFiltersMergeParams {
   clientFilters: MultiSelectFilter[];

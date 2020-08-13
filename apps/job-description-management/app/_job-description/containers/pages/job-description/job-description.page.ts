@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { filter, first, take, takeWhile } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as signalR from '@microsoft/signalr';
 import { LogLevel } from '@microsoft/signalr';

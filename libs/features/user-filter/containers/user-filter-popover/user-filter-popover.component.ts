@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, Optional, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { Observable, Subscription } from 'rxjs';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
