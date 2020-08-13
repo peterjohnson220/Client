@@ -1,5 +1,14 @@
 import { Page } from './page';
-import { BaseControl, CalculationControl, ChartControl, ImageControl, RichTextControl, AuditRecord, Settings } from './';
+import {
+  BaseControl,
+  CalculationControl,
+  ChartControl,
+  ImageControl,
+  RichTextControl,
+  AuditRecord,
+  Settings,
+  Layout
+} from './';
 import { TotalRewardsControlEnum } from './total-rewards-control-enum';
 import { TitleControl } from './title-control';
 import { generateMockAuditRecord } from './audit-record';
@@ -147,12 +156,13 @@ export function generateMockStatementWithSingleControl(controlType: TotalRewards
   return statement;
 }
 
-export function generateMockStatementWithSingleCalculationControl(controlType: TotalRewardsControlEnum): Statement {
+export function generateMockStatementWithSingleCalculationControl(): Statement {
   const statement = generateMockStatement();
   statement.Pages = [{
     Sections: [
       { Columns: [
-          { Controls: [
+          { Layout: {} as Layout,
+            Controls: [
               {
                 Id: '105',
                 Title: { Default: 'Cash Compensation', Override: null },
@@ -169,8 +179,18 @@ export function generateMockStatementWithSingleCalculationControl(controlType: T
               } as CalculationControl
             ]
           }]
-      } as any
+      }
     ]
   }];
+  return statement;
+}
+
+export function generateMockStatementWithSingleCalculationControlAndNoVisibleFields(): Statement {
+  const statement = generateMockStatementWithSingleCalculationControl();
+  const calcControl = statement.Pages[0].Sections[0].Columns[0].Controls[0] as CalculationControl;
+
+  calcControl.DataFields.forEach(f => f.IsVisible = false);
+  statement.Pages[0].Sections[0].Columns[0].Controls[0] = calcControl;
+
   return statement;
 }

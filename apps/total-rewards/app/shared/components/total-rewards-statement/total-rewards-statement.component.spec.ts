@@ -13,7 +13,8 @@ import {
   generateMockStatement,
   generateMockStatementWithSingleControl,
   generateMockEmployeeRewardsData,
-  generateMockStatementWithSingleCalculationControl
+  generateMockStatementWithSingleCalculationControl,
+  generateMockStatementWithSingleCalculationControlAndNoVisibleFields
 } from '../../models';
 import { TotalRewardsControlEnum } from '../../models';
 import { TotalRewardsStatementComponent } from './total-rewards-statement.component';
@@ -140,7 +141,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a calculation control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleCalculationControl(TotalRewardsControlEnum.Calculation);
+    statementEditState.statement.obj = generateMockStatementWithSingleCalculationControl();
     fixture.componentInstance.statement = statementEditState.statement.obj;
     component.employeeRewardsData = generateMockEmployeeRewardsData();
 
@@ -208,5 +209,21 @@ describe('TotalRewardsStatementComponent', () => {
 
     // assert
     expect(component.visibleCalculationControls.length).toBe(3);
+  });
+
+  it('should not include calc control if rewards data is present, but no fields are visible', () => {
+    // arrange
+    const statementEditState = statementEditReducer.initialState;
+    statementEditState.statement.obj = generateMockStatementWithSingleCalculationControlAndNoVisibleFields();
+    component.statement = statementEditState.statement.obj;
+
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const calculationControls = fixture.nativeElement.querySelectorAll('pf-trs-calculation-control');
+    expect(calculationControls.length).toBe(0);
   });
 });
