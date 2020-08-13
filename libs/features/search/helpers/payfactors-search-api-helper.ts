@@ -29,4 +29,17 @@ export class PayfactorsSearchApiHelper {
   getTextFiltersWithValuesAsSearchFields(filters: Filter[]): SearchField[] {
     return this.payfactorsSearchApiModelMapper.mapFiltersToSearchFields(FiltersHelper.getTextFiltersWithValues(filters));
   }
+
+  sliceSearchFiltersOptions(filters: SearchFilter[], count: number): SearchFilter[] {
+    return filters.map(filter => {
+      if (!filter || !filter.Options || filter.Options.length < count) {
+        return filter;
+      }
+      const updatedOptions = filter.Options.slice(0, count);
+      return {
+        ...filter,
+        Options: updatedOptions
+      };
+    });
+  }
 }
