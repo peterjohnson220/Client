@@ -176,16 +176,22 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
 
+    // IMPORTANT: Do not change the order of the if statements.
+    // We have to dispatch the updat to the applyUserDefaultCompensationFields before we dispatch the LoadViewConfig action
+    // On prod builds the order in which we dispatch actions matters. If we load the view config
+    // before we set the applyUserDefaultCompensationFields, we don't get the correct input value
+    // of the applyUserDefaultCompensationFields flag when loading the ViewConfig
+    // This issue is not present for non-prod builds so be careful with your local testing
+    if (changes['applyUserDefaultCompensationFields']) {
+      this.store.dispatch(new fromActions.UpdateApplyUserDefaultCompensationFields(this.pageViewId,
+        changes['applyUserDefaultCompensationFields'].currentValue));
+    }
+
     if (changes['pageViewId']) {
       this.store.dispatch(new fromActions.LoadViewConfig(changes['pageViewId'].currentValue));
       if (this.actionBarConfig.AllowSaveFilter) {
         this.store.dispatch(new fromActions.LoadSavedViews(changes['pageViewId'].currentValue));
       }
-    }
-
-    if (changes['applyUserDefaultCompensationFields']) {
-      this.store.dispatch(new fromActions.UpdateApplyUserDefaultCompensationFields(this.pageViewId,
-        changes['applyUserDefaultCompensationFields'].currentValue));
     }
 
     if (changes['selectionField']) {
