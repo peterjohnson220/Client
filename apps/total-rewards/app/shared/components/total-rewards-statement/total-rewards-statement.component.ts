@@ -78,7 +78,7 @@ export class TotalRewardsStatementComponent {
         if (this.mode === StatementModeEnum.Edit) {
           calcControls.push(control);
         } else if (currentControl.DataFields.some(f =>
-          this.employeeRewardsData[ f.DatabaseField ] !== null
+          this.employeeRewardsData[ f.DatabaseField ] !== null && f.IsVisible
         )) {
           calcControls.push(control);
         }
