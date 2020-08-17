@@ -55,7 +55,7 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
         this.dataRowAdded.emit(
             {
                 control: this.templateControl,
-                attributes: this.controlType.Attributes[0],
+                attributes: this.controlType.Attributes,
                 save: triggerSave
             });
     }
