@@ -1,12 +1,13 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromTotalRewardsReducer from './../../reducers';
 import * as fromTemplateSelectorActions from '../../actions/template-selector.actions';
 
-import {Template} from '../../../../shared/models';
+import { generateMockEmployeeRewardsData, generateMockStatement, StatementModeEnum, Template, TemplatePreview } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-total-rewards-template-card-selector',
@@ -22,6 +23,13 @@ export class TemplateCardSelectorComponent implements OnInit {
   loadingError$: Observable<boolean>;
   creatingStatement$: Observable<boolean>;
   creatingStatementError$: Observable<boolean>;
+
+  showPreviewModal = new BehaviorSubject<boolean>(false);
+  showPreviewModal$ = this.showPreviewModal.asObservable();
+  templatePreview: TemplatePreview;
+  statementModeEnum = StatementModeEnum;
+  mockStatement = generateMockStatement();
+  mockData = generateMockEmployeeRewardsData();
 
   constructor(private store: Store<fromTotalRewardsReducer.State>) {}
 
@@ -44,8 +52,17 @@ export class TemplateCardSelectorComponent implements OnInit {
     this.onSelectClick.emit(templateId);
   }
 
-  onPreview(templateId: string) {
-    alert('Preview Button Clicked for id:' + templateId);
+  onPreview(templateId: string, templateName: string) {
+    this.showPreviewModal.next(true);
+    this.templatePreview = {
+      Id: templateId,
+      Name: templateName
+    };
+  }
+
+  closePreviewModal() {
+    this.showPreviewModal.next(false);
+    this.templatePreview = null;
   }
 
 }
