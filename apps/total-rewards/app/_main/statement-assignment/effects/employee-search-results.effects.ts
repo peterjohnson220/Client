@@ -51,7 +51,7 @@ export class EmployeeSearchResultsEffects {
           return this.totalRewardsSearchApiService.searchEmployees(searchRequest).pipe(
             mergeMap((response: TotalRewardsEmployeeSearchResponse) => {
               const actions = [];
-              const searchFilters = this.payfactorsSearchApiHelper.sliceSearchFiltersOptions(response.SearchFilters, 5);
+              const searchFilters = this.payfactorsSearchApiHelper.sliceSearchFiltersOptions(response.SearchFilters, searchRequest.Filters, 5);
               const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchFilters);
               if (searchRequest.PagingOptions.From > 0) {
                 actions.push(new fromSearchResultsActions.GetMoreResultsSuccess());
