@@ -30,15 +30,26 @@ export class PayfactorsSearchApiHelper {
     return this.payfactorsSearchApiModelMapper.mapFiltersToSearchFields(FiltersHelper.getTextFiltersWithValues(filters));
   }
 
-  sliceSearchFiltersOptions(filters: SearchFilter[], count: number): SearchFilter[] {
+  sliceSearchFiltersOptions(filters: SearchFilter[], requestedFilters: SearchFilter[], count: number): SearchFilter[] {
     return filters.map(filter => {
       if (!filter || !filter.Options || filter.Options.length < count) {
         return filter;
       }
-      const updatedOptions = filter.Options.slice(0, count);
+      let options = [];
+      const requestedFilter = requestedFilters?.find(x => x.Name === filter.Name);
+      if (requestedFilter) {
+        // always add selected options into the filter
+        options = filter.Options.filter(x => requestedFilter.Options.some(o => o.Name === x.Name));
+      }
+      if (options.length < count) {
+        // add remaining options up to requested count
+        options = options.concat(filter.Options
+                                .filter(f => !options.some(x => x === f))
+                                .slice(0, count - options.length));
+      }
       return {
         ...filter,
-        Options: updatedOptions
+        Options: options.sort((a, b) => b.Count - a.Count)
       };
     });
   }
