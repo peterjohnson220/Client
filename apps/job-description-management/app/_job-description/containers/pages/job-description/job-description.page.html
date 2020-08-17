@@ -177,7 +177,7 @@
 </pf-workflow-cancel-modal>
 
 <pf-flsa-questionnaire-modal
-        [lockedJobDescription]="inHistory" >
+        [lockedJobDescription]="inHistory || !(hasCanEditJobDescriptionPermission)" >
 </pf-flsa-questionnaire-modal>
 
 <pf-job-description-applies-to-modal 
