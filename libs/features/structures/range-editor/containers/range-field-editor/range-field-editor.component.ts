@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef, OnChanges, SimpleChanges, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, Input, TemplateRef, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -18,7 +18,7 @@ import * as fromRangeFieldActions from '../../actions/range-field-edit.actions';
   templateUrl: './range-field-editor.component.html',
   styleUrls: ['./range-field-editor.component.scss']
 })
-export class RangeFieldEditorComponent implements OnChanges, OnInit {
+export class RangeFieldEditorComponent implements OnChanges {
   // The PageViewId of the pf-data-grid this editor is on
   @Input() pageViewId: string;
 
@@ -141,12 +141,8 @@ export class RangeFieldEditorComponent implements OnChanges, OnInit {
       this.value = this.formatNumber(changes.fieldValue.currentValue);
     }
     if (!!changes.dataRow && changes.dataRow.currentValue !== changes.dataRow.previousValue) {
-      this.value = this.fieldValue;
+      this.value = this.formatNumber(this.fieldValue);
     }
-  }
-
-  ngOnInit(): void {
-    this.value = this.formatNumber(this.value);
   }
 
   private formatNumber(value: number) {
