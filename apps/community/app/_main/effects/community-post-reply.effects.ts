@@ -46,15 +46,13 @@ export class CommunityPostReplyEffects {
               new fromCommunityPostAddReplyViewActions.AddingCommunityPostReplyToView({ replyId:  reply.Id}),
               new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
                 { communityCategory: CommunityCategoryEnum.Unanswered }),
-              new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(attachmentModalId),
-              new fromCommunityPostActions.UpdatingCommunityPostReplyCount(reply.PostId)
+              new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(attachmentModalId)
             ];
           } else {
             return [
               new fromCommunityPostReplyActions.AddingCommunityPostReplySuccess(reply),
               new fromCommunityPostAddReplyViewActions.AddingCommunityPostReplyToView({ replyId:  reply.Id}),
-              new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(attachmentModalId),
-              new fromCommunityPostActions.UpdatingCommunityPostReplyCount(reply.PostId)
+              new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(attachmentModalId)
             ];
           }
           }),

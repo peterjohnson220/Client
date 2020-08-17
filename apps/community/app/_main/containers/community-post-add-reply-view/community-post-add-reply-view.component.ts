@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
 
-import { CommunityReply, CommunityPost } from 'libs/models/community';
+import { CommunityReply } from 'libs/models/community';
 
 @Component({
   selector: 'pf-community-post-add-reply-view',
@@ -15,7 +15,7 @@ import { CommunityReply, CommunityPost } from 'libs/models/community';
   styleUrls: ['./community-post-add-reply-view.component.scss'],
 })
 export class CommunityPostAddReplyViewComponent implements  OnInit, OnDestroy {
-  @Input() post: CommunityPost;
+  @Input() postId: string;
   @Input() disableCommunityAttachments: boolean;
   @Input() hideAttachmentWarning: boolean;
   @Output() replyHashTagClicked = new EventEmitter();
@@ -36,7 +36,7 @@ export class CommunityPostAddReplyViewComponent implements  OnInit, OnDestroy {
   ngOnInit() {
 
     this.addedRepliesSubscription = this.addedReplyView$.subscribe(results => {
-      this.filteredAddedReplies = results.filter(x => x.PostId === this.post.Id);
+      this.filteredAddedReplies = results.filter(x => x.PostId === this.postId);
     });
 
     this.replyEditedSubscription = this.communityReplyEdited$.subscribe( replyId => {

@@ -23,8 +23,6 @@ export class CommunityPostHeaderComponent {
   @Input() isCurrentUserPost: boolean;
   @Input() postId: string;
   @Input() replyId: string;
-  @Input() replyToFirstName: string;
-  @Input() replyToLastName: string;
   @Input() isReply = false;
   @Input() isExpiredPoll = false;
   @Input() isUserPoll = false;

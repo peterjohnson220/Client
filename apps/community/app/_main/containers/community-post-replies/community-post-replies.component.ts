@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
-import { CommunityReply, CommunityPost } from 'libs/models/community';
+import { CommunityReply } from 'libs/models/community';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -14,11 +14,9 @@ import * as fromCommunityPostReplyReducer from '../../reducers';
 
 export class CommunityPostRepliesComponent implements OnInit, OnDestroy {
   @Input() replies: CommunityReply[];
-  @Input() post: CommunityPost;
   @Input() loading: boolean;
   @Input() disableCommunityAttachments: boolean;
   @Input() hideAttachmentWarning: boolean;
-  @Input() maximumReplies: number;
   @Output() replyHashTagClicked = new EventEmitter();
   @Output() onAttachmentClickedEvent = new EventEmitter<string>();
 
