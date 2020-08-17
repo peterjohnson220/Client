@@ -132,15 +132,26 @@ export class TemplateEffects {
       ofType(fromTemplateActions.DISCARD_TEMPLATE_DRAFT),
       switchMap((action: fromTemplateActions.DiscardTemplateDraft) =>
         this.templateApiService.discardDraft(action.payload.templateId).pipe(
-          switchMap((response: any) => [
-            new fromTemplateActions.DiscardTemplateDraftSuccess(),
-            new fromTemplateActions.LoadTemplate({ templateId: action.payload.templateId })
-          ]
-          ),
+          map((response: any) => {
+            if (response === '') {
+              return new fromTemplateActions.DiscardTemplateDraftSuccess();
+            } else {
+              return new fromTemplateActions.LoadTemplate({ templateId: action.payload.templateId });
+            }
+          }),
           catchError(response => of(new fromTemplateActions.DiscardTemplateDraftError(
             {errorMessage: MessageHelper.buildErrorMessage('Error discarding this draft.')})))
         )
       ));
+
+  @Effect({dispatch: false})
+  discardTemplateSuccess$ = this.actions$
+    .pipe(
+      ofType(fromTemplateActions.DISCARD_TEMPLATE_DRAFT_SUCCESS),
+      map((action: fromTemplateActions.DiscardTemplateDraftSuccess) => {
+        this.router.navigate([`/templates`]);
+      })
+    );
 
   @Effect()
   addNotification$: Observable<Action> = this.actions$
