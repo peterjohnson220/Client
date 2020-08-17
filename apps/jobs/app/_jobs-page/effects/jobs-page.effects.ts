@@ -324,7 +324,7 @@ export class JobsPageEffects {
             pricingGridState.baseEntity.Id, pricingGridState.fields, pricingGridState.sortDescriptor)
           : of([]),
         of(modifiedPricingsIds));
-        return result;
+      return result;
     } else {
       return forkJoin(
         this.getModifiedDataRows(idsForModifiedVisiblePricings, 'CompanyJobs_Pricings', 'CompanyJobPricing_ID',
@@ -365,7 +365,7 @@ export class JobsPageEffects {
     pricingGridState: DataGridState, updatedRowData: any): Action[] {
 
     if (action.request.PricingUpdateStrategy === PricingUpdateStrategy.LinkedSlotted) {
-      return this.getUpdatePricingLinkedAndSlottedActions(action, pricingGridState, updatedRowData);
+      return this.getUpdatePricingLinkedAndSlottedActions(pricingGridState, updatedRowData);
     } else {
       return this.getUpdatePricingParentActions(action, modifiedMatchGridState, pricingGridState, updatedRowData);
     }
@@ -383,7 +383,7 @@ export class JobsPageEffects {
     const updatedPricingData = updatedRowData[0];
     const updatedMatchesData = updatedRowData[1];
     const updateMatchAction = this.getActionsToUpdateRows(updatedMatchesData, modifiedMatchGridState.data,
-      'CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID', action.matchesGridPageViewId);
+      'CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID', action.matchesGridPageViewId, true);
     const updatePricingsActions = this.getActionsToUpdateRows(updatedPricingData, pricingGridState.data,
       'CompanyJobs_Pricings_CompanyJobPricing_ID', PageViewIds.PricingDetails);
     const reloadPricingMatchesGridsActions = this.getActionsToReloadPricingMatches(updatedPricingData,
@@ -403,7 +403,7 @@ export class JobsPageEffects {
     return actions;
   }
 
-  private getUpdatePricingLinkedAndSlottedActions(action: fromJobsPageActions.UpdatingPricingMatch, pricingGridState: DataGridState, modifiedRowsData: any) {
+  private getUpdatePricingLinkedAndSlottedActions(pricingGridState: DataGridState, modifiedRowsData: any) {
 
     const updatedPricingData = modifiedRowsData[0];
     const modifiedPricingsIds = modifiedRowsData[1];
@@ -421,12 +421,17 @@ export class JobsPageEffects {
     return actions;
   }
 
-  private getActionsToUpdateRows(updatedData: any[], currentData: GridDataResult, fieldId: string, pageViewId: string): any[] {
+  private getActionsToUpdateRows(updatedData: any[], currentData: GridDataResult,
+    fieldId: string, pageViewId: string, resortGrid: boolean = false): any[] {
     const actions = [];
     updatedData.forEach(modifiedRow => {
-      const recordRowIndex = currentData.data.findIndex(
-        o => o[fieldId] === modifiedRow[fieldId]);
-      actions.push(new fromPfDataGridActions.UpdateGridDataRow(pageViewId, recordRowIndex, modifiedRow));
+      const recordRowIndex = currentData.data.findIndex(o => o[fieldId] === modifiedRow[fieldId]);
+
+      if (resortGrid) {
+        actions.push(new fromPfDataGridActions.UpdateRow(pageViewId, recordRowIndex, modifiedRow, null, true));
+      } else {
+        actions.push(new fromPfDataGridActions.UpdateGridDataRow(pageViewId, recordRowIndex, modifiedRow));
+      }
     });
     return actions;
   }

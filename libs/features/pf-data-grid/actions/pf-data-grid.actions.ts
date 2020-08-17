@@ -333,7 +333,7 @@ export class ReorderColumnsSuccess {
 
 export class UpdateRow {
   readonly type = UPDATE_ROW;
-  constructor(public pageViewId: string, public rowIndex: number, public data: any, public fieldNames?: any[]) {}
+  constructor(public pageViewId: string, public rowIndex: number, public data: any, public fieldNames?: any[], public resortGrid = false) {}
 }
 
 // This Action does not update the gridData in the state.
