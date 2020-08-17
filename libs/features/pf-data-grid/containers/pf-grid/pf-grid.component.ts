@@ -18,7 +18,7 @@ import { filter, take } from 'rxjs/operators';
 
 import { Store, ActionsSubject } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
-import { SortDescriptor } from '@progress/kendo-data-query';
+import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import {
   GridDataResult,
   PageChangeEvent,
@@ -137,6 +137,17 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         if (action.pageViewId === this.pageViewId) {
           const row = this.data.data[action.rowIndex];
           Object.keys(row).forEach(function (key) { row[key] = action.data[key]; });
+        }
+      });
+
+    this.updateGridDataRowSubscription = this.actionsSubject
+      .pipe(ofType(fromActions.UPDATE_ROW))
+      .subscribe((action: fromActions.UpdateRow) => {
+        if (action.pageViewId === this.pageViewId && action.resortGrid) {
+          this.data = {
+            data: orderBy(this.data.data, this.sortDescriptor),
+            total: this.data.total
+          };
         }
       });
 
