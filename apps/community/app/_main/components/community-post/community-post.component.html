@@ -15,7 +15,8 @@
                                   [isUserPoll]="post.UserPollRequest != null"
                                   [userPollId]="post.UserPollRequest ? post.UserPollRequest.CommunityPollId : ''"
                                   [hasReplies]="hasReplies(post)"
-                                  [hidePostActions]="false">
+                                  [hidePostActions]="false"
+                                  [isFavoritedByCurrentUser]="post.FavoritedByCurrentUser">
         </pf-community-post-header>
         <div *ngIf="!post.UserPollRequest; else user_poll">      
           <pf-community-post-content class="mt-2 mb-2"

@@ -4,6 +4,7 @@ exports[`CommunityPostHeaderComponent should show community post header 1`] = `
 <pf-community-post-header
   hideEdit="false"
   isExpiredPoll="false"
+  isFavoritedByCurrentUser="false"
   isInternalOnly="false"
   isReply="false"
   isUserPoll="false"
@@ -42,6 +43,7 @@ exports[`CommunityPostHeaderComponent should show internal community post header
 <pf-community-post-header
   hideEdit="false"
   isExpiredPoll="false"
+  isFavoritedByCurrentUser="false"
   isInternalOnly={[Function Boolean]}
   isReply="false"
   isUserPoll="false"

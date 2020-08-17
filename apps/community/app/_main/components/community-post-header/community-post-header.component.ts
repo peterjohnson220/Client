@@ -30,6 +30,7 @@ export class CommunityPostHeaderComponent {
   @Input() hasReplies: boolean;
   @Input() hidePostActions: boolean;
   @Input() hideEdit = false;
+  @Input() isFavoritedByCurrentUser = false;
 
   constructor(public store: Store<fromCommunityPostReducer.State>) {
   }
@@ -76,6 +77,11 @@ export class CommunityPostHeaderComponent {
     } else {
       this.store.dispatch(new fromCommunityPostActions.EditingCommunityPost(this.postId));
     }
+  }
+
+  updateFavorite() {
+    this.store.dispatch(new fromCommunityPostActions.UpdatingCommunityPostFavorite(
+    {postId: this.postId, favorite: !this.isFavoritedByCurrentUser}));
   }
 
 }

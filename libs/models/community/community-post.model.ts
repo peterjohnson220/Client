@@ -16,6 +16,7 @@ export interface CommunityPost {
   IsInternalOnly: boolean;
   LikeCount: number;
   LikedByCurrentUser: boolean;
+  FavoritedByCurrentUser: boolean;
   ReplyCount: number;
   TimeTicks: number;
   Tags: CommunityTag[];
@@ -52,6 +53,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     IsInternalOnly: isInternalOnly,
     LikeCount: likeCount,
     LikedByCurrentUser: false,
+    FavoritedByCurrentUser: false,
     ReplyCount: replyCount,
     TimeTicks: 12345,
     Tags: tags,

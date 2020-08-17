@@ -25,6 +25,10 @@ export const UPDATING_COMMUNITY_POST_LIKE = '[Community/Post] Updating Community
 export const UPDATING_COMMUNITY_POST_LIKE_SUCCESS = '[Community/Post] Updating Community Post Like Success';
 export const UPDATING_COMMUNITY_POST_LIKE_ERROR = '[Community/Post] Updating Community Post Like Error';
 
+export const UPDATING_COMMUNITY_POST_FAVORITE = '[Community/Post] Updating Community Post Favorite';
+export const UPDATING_COMMUNITY_POST_FAVORITE_SUCCESS = '[Community/Post] Updating Community Post Favorite Success';
+export const UPDATING_COMMUNITY_POST_FAVORITE_ERROR = '[Community/Post] Updating Community Post Favorite Error';
+
 export const UPDATING_COMMUNITY_POST_REPLY_IDS = '[Community/Post] Updating Community Post Reply Ids';
 export const UPDATING_COMMUNITY_POST_HIDDEN_REPLY_IDS = '[Community/Post] Updating Community Post Hidden Reply Ids';
 
@@ -136,6 +140,21 @@ export class UpdatingCommunityPostLikeSuccess implements Action {
 export class UpdatingCommunityPostLikeError implements Action {
   readonly type = UPDATING_COMMUNITY_POST_LIKE_ERROR;
 }
+
+export class UpdatingCommunityPostFavorite implements Action {
+  readonly type = UPDATING_COMMUNITY_POST_FAVORITE;
+  constructor(public payload: any) {}
+}
+
+export class UpdatingCommunityPostFavoriteSuccess implements Action {
+  readonly type = UPDATING_COMMUNITY_POST_FAVORITE_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class UpdatingCommunityPostFavoriteError implements Action {
+  readonly type = UPDATING_COMMUNITY_POST_FAVORITE_ERROR;
+}
+
 
 export class UpdatingCommunityPostReplyIds implements Action {
   readonly type = UPDATING_COMMUNITY_POST_REPLY_IDS;
@@ -261,6 +280,9 @@ export type Actions
   | UpdatingCommunityPostLike
   | UpdatingCommunityPostLikeSuccess
   | UpdatingCommunityPostLikeError
+  | UpdatingCommunityPostFavorite
+  | UpdatingCommunityPostFavoriteSuccess
+  | UpdatingCommunityPostFavoriteError
   | UpdatingCommunityPostReplyIds
   | UpdatingCommunityPostHiddenReplyIds
   | DeletingCommunityPost
