@@ -29,7 +29,6 @@ export class ResetAddData implements Action {
   constructor() {}
 }
 
-
 export type Actions
   = AddData
   | AddDataSuccess

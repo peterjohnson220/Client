@@ -11,12 +11,15 @@ exports[`Project - Survey Search - Job Result should not show Load More link whe
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
+  refineInPeerClicked={[Function EventEmitter]}
+  refineLinkEnabled="false"
   selectedCuts$={[Function Store]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
   store={[Function Store]}
   surveySearchResultDataSources={[Function Object]}
   toggleDataCutsLabel={[Function String]}
+  toggleRefineInPeerLabel={[Function String]}
 >
   <div
     class="result job-result-row"
@@ -74,6 +77,7 @@ exports[`Project - Survey Search - Job Result should not show Load More link whe
       >
          Show Job Detail 
       </div>
+      
     </div>
     
     
@@ -100,12 +104,15 @@ exports[`Project - Survey Search - Job Result should show Load More link when th
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
+  refineInPeerClicked={[Function EventEmitter]}
+  refineLinkEnabled="false"
   selectedCuts$={[Function Store]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
   store={[Function Store]}
   surveySearchResultDataSources={[Function Object]}
   toggleDataCutsLabel={[Function String]}
+  toggleRefineInPeerLabel={[Function String]}
 >
   <div
     class="result job-result-row"
@@ -163,6 +170,7 @@ exports[`Project - Survey Search - Job Result should show Load More link when th
       >
          Show Job Detail 
       </div>
+      
     </div>
     
     
@@ -194,12 +202,15 @@ exports[`Project - Survey Search - Job Result should show error state if issue l
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
+  refineInPeerClicked={[Function EventEmitter]}
+  refineLinkEnabled="false"
   selectedCuts$={[Function Store]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
   store={[Function Store]}
   surveySearchResultDataSources={[Function Object]}
   toggleDataCutsLabel={[Function String]}
+  toggleRefineInPeerLabel={[Function String]}
 >
   <div
     class="result job-result-row"
@@ -257,6 +268,7 @@ exports[`Project - Survey Search - Job Result should show error state if issue l
       >
          Show Job Detail 
       </div>
+      
     </div>
     
     

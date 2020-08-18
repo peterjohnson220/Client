@@ -10,6 +10,7 @@ export const LOAD_PEER_MAP_DATA_ERROR  = '[Features/Peer/ExchangeExplorer/Map] L
 export const UPDATE_PEER_MAP_FILTER_BOUNDS = '[Features/Peer/ExchangeExplorer/Map] Update Peer Map Filter Bounds';
 export const MAP_LOADED = '[Features/Peer/ExchangeExplorer/Map] Map Loaded';
 export const RESET_STATE = '[Features/Peer/ExchangeExplorer/Map] Reset State';
+export const RESET_INITIALLY_LOADED_STATE = '[Features/Peer/ExchangeExplorer/Map] Reset Initially Loaded State';
 export const APPLY_CUT_CRITERIA = '[Features/Peer/ExchangeExplorer/Map] Apply Cut Criteria';
 export const APPLY_SCOPE_CRITERIA = '[Features/Peer/ExchangeExplorer/Map] Apply Scope Criteria';
 export const APPLY_SCOPE_CRITERIA_SUCCESS = '[Features/Peer/ExchangeExplorer/Map] Apply Scope Criteria Success';
@@ -49,6 +50,10 @@ export class MapLoaded implements Action {
 
 export class ResetState implements Action {
   readonly type = RESET_STATE;
+}
+
+export class ResetInitiallyLoadedState implements Action {
+  readonly type = RESET_INITIALLY_LOADED_STATE;
 }
 
 export class ApplyCutCriteria implements Action {
@@ -102,6 +107,7 @@ export type Actions
   | InitialZoomComplete
   | MapLoaded
   | ResetState
+  | ResetInitiallyLoadedState
   | ApplyCutCriteria
   | ApplyScopeCriteria
   | ApplyScopeCriteriaSuccess

@@ -73,4 +73,9 @@ export class SurveySearchResultsComponent implements OnInit{
     this.tooltipContainer.handleMatchesMouseLeave();
   }
 
+  handleRefineInPeerClicked(ev: any): void {
+    console.log('handleRefineClick: ', ev);
+    this.store.dispatch(new fromSurveySearchResultsActions.RefineExchangeJobResult({lockedExchangeJobId: ev}));
+  }
+
 }

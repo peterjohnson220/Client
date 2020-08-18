@@ -34,6 +34,8 @@ export const initialState: State = {
   companyPayMarketId: 0
 };
 
+export let initialLoadCompleteState: State = null;
+
 // Reducer
 export function reducer(state = initialState, action: fromExchangeExplorerContextInfoActions.Actions): State {
   switch (action.type) {
@@ -45,8 +47,7 @@ export function reducer(state = initialState, action: fromExchangeExplorerContex
     }
     case fromExchangeExplorerContextInfoActions.LOAD_CONTEXT_INFO_SUCCESS: {
       const payload = action.payload;
-
-      return {
+      const newState = {
         ...state,
         loading: false,
         payMarket: payload.payMarket,
@@ -54,6 +55,12 @@ export function reducer(state = initialState, action: fromExchangeExplorerContex
         exchangeJobFilterOptions: payload.exchangeJobFilterOptions,
         searchFilterMappingDataObj: payload.searchFilterMappingDataObj
       };
+
+      if (!initialLoadCompleteState) {
+        initialLoadCompleteState = newState;
+      }
+
+      return newState;
     }
     case fromExchangeExplorerContextInfoActions.LOAD_CONTEXT_INFO_ERROR: {
       return {
@@ -84,6 +91,9 @@ export function reducer(state = initialState, action: fromExchangeExplorerContex
         loading: false,
         loadingError: true
       };
+    }
+    case fromExchangeExplorerContextInfoActions.RESET_INITIALLY_LOADED_STATE: {
+      return !!initialLoadCompleteState ? {...initialLoadCompleteState} : {...state};
     }
     default: {
       return state;

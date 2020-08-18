@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -25,6 +25,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Output() cutSelected: EventEmitter<DataCutDetails> = new EventEmitter<DataCutDetails>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() refineInPeerClicked: EventEmitter<Number> = new EventEmitter<Number>();
 
   // Observables
   loadingResults$: Observable<boolean>;
@@ -34,6 +35,8 @@ export class JobResultComponent implements OnInit, OnDestroy {
   private loadingResultsSub: Subscription;
 
   toggleDataCutsLabel: string;
+  toggleRefineInPeerLabel = 'Refine';
+  refineLinkEnabled = false;
   showDataCuts: boolean;
   showJobDetail: boolean;
   matchesMouseLeaveTimer: number;
@@ -52,6 +55,10 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
   }
+  get isPeerJob(): boolean {
+    return this.job.DataSource === this.surveySearchResultDataSources.Peer;
+  }
+
   get toggleJobDetailLabel() {
     return (this.showJobDetail ? 'Hide' : 'Show') + ' Job Detail';
   }
@@ -83,6 +90,13 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   toggleJobDetailDisplay(): void {
     this.showJobDetail = !this.showJobDetail;
+  }
+
+  toggleRefineInPeerDisplay(): void {
+    const peerJobInfo = this.job.PeerJobInfo;
+    if (!!peerJobInfo && !!peerJobInfo.ExchangeJobId) {
+      this.refineInPeerClicked.emit(peerJobInfo.ExchangeJobId);
+    }
   }
 
   handleDataCutSelected(dataCut: DataCut) {
@@ -137,6 +151,19 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   public get hasMoreDataCuts(): boolean {
     return hasMoreDataCuts(this.job);
+  }
+
+  @HostListener('window:message', ['$event'])
+  onMessage(event: MessageEvent) {
+    if (!event.data || !event.data.payfactorsMessage) {
+      return;
+    }
+
+    switch (event.data.payfactorsMessage.type) {
+      case 'Refine Exchange Job Enabled':
+        this.refineLinkEnabled = true;
+        break;
+    }
   }
 
   private createPricingMatchesDetailsRequest(): PricingMatchesDetailsRequest {

@@ -42,6 +42,14 @@
     <div class="link au-lnk-show-hide-job-details" (click)="toggleJobDetailDisplay()">
       {{toggleJobDetailLabel}}
     </div>
+    <ng-container *ngIf="isPeerJob && refineLinkEnabled">
+      <div class="link mx-2">
+        |
+      </div>
+      <div class="link au-lnk-refine-job-in-peer" (click)="toggleRefineInPeerDisplay()">
+        {{toggleRefineInPeerLabel}}
+      </div>
+    </ng-container>
   </div>
 
   <div *ngIf="showJobDetail" class="job-detail">
