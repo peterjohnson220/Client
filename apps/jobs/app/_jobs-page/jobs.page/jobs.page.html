@@ -155,7 +155,7 @@
     Modify Pricings <span *ngIf="selectedPricingIds.length && (jobStatusField | showingActiveJobs)">({{selectedPricingIds.length}})</span>
   </button>
   <button
-    [disabled]="!(selectedJobIds.length)"
+    [disabled]="!(selectedJobIds.length) || (updatingPricingMatch$ | async).saving"
     [pfSecuredResource]="permissions.JOBS_INACTIVATE_ACTIVATE"
     [attr.data-qa-id]="'btn-jobs-page-inactivate-activate-jobs'"
     type="button"
