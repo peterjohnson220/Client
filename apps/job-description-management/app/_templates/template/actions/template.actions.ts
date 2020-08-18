@@ -206,6 +206,7 @@ export class SaveTemplateName implements Action {
 
 export class SaveTemplateNameSuccess implements Action {
   readonly type = SAVE_TEMPLATE_NAME_SUCCESS;
+  constructor(public payload: any) {}
 }
 
 export class SaveTemplateNameError implements Action {

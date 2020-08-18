@@ -53,6 +53,14 @@ export function reducer(state = initialState, action: fromTemplateActions.Templa
         saving: false,
         template: action.payload.template
       };
+    case fromTemplateActions.SAVE_TEMPLATE_NAME_SUCCESS:
+      const templateCopy = cloneDeep(state.template);
+      templateCopy.TemplateName = action.payload;
+
+      return {
+        ...state,
+        template: templateCopy
+      };
     case fromTemplateActions.SAVE_TEMPLATE_ERROR:
       return {
         ...state,
