@@ -1,26 +1,22 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import cloneDeep from 'lodash/cloneDeep';
+
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import {
-  LoaderType,
-  ORG_DATA_PF_EMPLOYEE_FIELDS,
-  ORG_DATA_PF_JOB_FIELDS,
-  ORG_DATA_PF_PAYMARKET_FIELDS,
-  ORG_DATA_PF_STRUCTURE_FIELDS,
-  ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
+    LoaderType, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
+    ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, ORG_DATA_PF_SUBSIDIARY_MAPPING_FIELDS
 } from 'libs/features/org-data-loader/constants';
-import {LoaderEntityStatus, VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
-import { LoaderFieldSet } from 'libs/models/data-loads';
-import {CompanySelectorItem} from 'libs/features/company/company-selector/models';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers';
+import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
+import { LoaderFieldSet } from 'libs/models/data-loads';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/organizational-data-field-mapping.actions';
-import {EntityChoice} from '../../models';
-
-
+import { EntityChoice } from '../../models';
 
 @Component({
   selector: 'pf-file-mapping',
@@ -39,6 +35,7 @@ export class FileMappingComponent implements OnInit {
   payfactorsStructureDataFields: string[];
   payfactorsStructureMappingDataFields: string[];
   payfactorsEmployeeDataFields: string[];
+  payfactorsSubsidiaryDataFields: string[];
   templateReferenceConstants = {
     LoaderType,
   };
@@ -47,23 +44,26 @@ export class FileMappingComponent implements OnInit {
   isPaymarketsLoadEnabled: boolean;
   isStructuresLoadEnabled: boolean;
   isStructureMappingsLoadEnabled: boolean;
+  isSubsidiaryLoadEnabled: boolean;
   visibleLoaderOptions: VisibleLoaderOptionModel;
   companyMappings$: Observable<LoaderFieldSet[]>;
   companyMappingsLoading$: Observable<boolean>;
 
   selected: boolean;
 
-  constructor (private store: Store<fromOrgDataAutoloaderReducer.State>) {
+  constructor(private store: Store<fromOrgDataAutoloaderReducer.State>) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
     this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
     this.payfactorsStructureMappingDataFields = ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS;
     this.payfactorsEmployeeDataFields = ORG_DATA_PF_EMPLOYEE_FIELDS;
+    this.payfactorsSubsidiaryDataFields = ORG_DATA_PF_SUBSIDIARY_MAPPING_FIELDS;
     this.isEmployeesLoadEnabled = false;
     this.isJobsLoadEnabled = false;
     this.isPaymarketsLoadEnabled = false;
     this.isStructuresLoadEnabled = false;
     this.isStructureMappingsLoadEnabled = false;
+    this.isSubsidiaryLoadEnabled = false;
     this.visibleLoaderOptions = {
       clientFileName: false,
       selectFile: false
@@ -106,6 +106,10 @@ export class FileMappingComponent implements OnInit {
         case LoaderType.StructureMapping:
           e.payfactorsDataFields = this.payfactorsStructureMappingDataFields;
           e.loaderEnabled = this.isStructureMappingsLoadEnabled;
+          break;
+        case LoaderType.Subsidiary:
+          e.payfactorsDataFields = this.payfactorsSubsidiaryDataFields;
+          e.loaderEnabled = this.isSubsidiaryLoadEnabled;
           break;
         case LoaderType.Employees:
           e.payfactorsDataFields = cloneDeep(this.payfactorsEmployeeDataFields);
