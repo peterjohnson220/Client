@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
-import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { Subscription, BehaviorSubject, Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 
@@ -83,7 +84,9 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
     this.jobTitleCodePipe = new JobTitleCodePipe();
 
-    this.updatingPricingMatch$ = this.store.select(fromJobsPageReducer.getUpdatingPricingMatch).debounceTime(2000);
+    this.updatingPricingMatch$ = this.store
+      .select(fromJobsPageReducer.getUpdatingPricingMatch)
+      .pipe(switchMap(ev => ev.saving ? of(ev).debounceTime(2000) : of(ev)));
 
     this.selectedJobRowSubscription = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs).subscribe(row => {
       this.selectedJobRow = row;
@@ -212,7 +215,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
       ModalTitle: `Pricing Notes -
         ${this.jobTitleCodePipe.transform(this.selectedJobRow,
         'CompanyJobs',
-          'Job_Title',
+        'Job_Title',
         'Job_Code')}`,
       NotesHeader: this.pricingNotesHeader,
       PlaceholderText: undefined
