@@ -49,7 +49,7 @@ export class TemplateEffects {
       switchMap((action: fromTemplateActions.SaveTemplateName) =>
         this.templateApiService.saveTemplateName(action.payload.templateId, action.payload.templateName).pipe(
           map((response: any) => {
-            return new fromTemplateActions.SaveTemplateNameSuccess();
+            return new fromTemplateActions.SaveTemplateNameSuccess(action.payload.templateName);
           }),
           catchError(response => of(new fromTemplateActions.SaveTemplateNameError(
             {error: this.errorGenerationService.buildErrorModel(response, 'template', this.router.url)})))
