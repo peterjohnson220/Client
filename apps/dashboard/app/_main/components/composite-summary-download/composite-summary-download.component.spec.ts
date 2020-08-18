@@ -14,6 +14,7 @@ import { FileModel } from 'libs/models/file';
 import * as fromRootState from 'libs/state/state';
 import { CompositeSummaryDownload } from '../../actions/composite-summary-download.actions';
 import { CompositeSummaryDownloadComponent } from './composite-summary-download.component';
+import { FileType } from 'libs/models/dashboard';
 
 describe('Dashboard - Main - Composite Summary Download', () => {
   let fixture: ComponentFixture<CompositeSummaryDownloadComponent>;
@@ -57,6 +58,7 @@ describe('Dashboard - Main - Composite Summary Download', () => {
     // arrange
     const action = new CompositeSummaryDownload({
       Id: goodIdQueryParams.compositeDataLoadExternalId,
+      FileType: FileType.InvalidRecordsFile
     });
 
     // act

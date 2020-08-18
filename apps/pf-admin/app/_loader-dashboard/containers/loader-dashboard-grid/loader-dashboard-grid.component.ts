@@ -1,19 +1,20 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
-import {GridDataResult, PageChangeEvent, RowClassArgs} from '@progress/kendo-angular-grid';
-import {orderBy, SortDescriptor} from '@progress/kendo-data-query';
+import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
+import { orderBy, SortDescriptor } from '@progress/kendo-data-query';
 
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import {AsyncStateObj} from 'libs/models/state';
-import {CompositeDataLoadViewResponse} from 'libs/models/admin/loader-dashboard/response';
+import { AsyncStateObj } from 'libs/models/state';
+import { CompositeDataLoadViewResponse } from 'libs/models/admin/loader-dashboard/response';
 
 // TODO Separate this from the dashboard
 import * as fromCompositeSummaryDownloadActions from '../../../../../dashboard/app/_main/actions/composite-summary-download.actions';
 
 import * as fromLoaderDashboardPageReducer from '../../reducers';
+import { FileType } from 'libs/models/dashboard';
 
 @Component({
   selector: 'pf-loader-dashboard-grid',
@@ -89,8 +90,12 @@ export class LoaderDashboardGridComponent implements OnInit, OnDestroy {
     };
   }
 
-  downloadFile(externalId: string) {
-    this.store.dispatch(new fromCompositeSummaryDownloadActions.CompositeSummaryDownload({ Id: externalId }));
+  downloadInvalidRecordsFile(externalId: string) {
+    this.store.dispatch(new fromCompositeSummaryDownloadActions.CompositeSummaryDownload({ Id: externalId, FileType: FileType.InvalidRecordsFile }));
+  }
+
+  downloadExportedSourceFile(externalId: string) {
+    this.store.dispatch(new fromCompositeSummaryDownloadActions.CompositeSummaryDownload({ Id: externalId, FileType: FileType.ExportedSourceFile }));
   }
 
   showIfLoadHasSummaries(dataItem: CompositeDataLoadViewResponse, index: number): boolean {

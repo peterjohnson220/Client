@@ -1,8 +1,8 @@
-import {NO_ERRORS_SCHEMA} from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
-import {GridModule} from '@progress/kendo-angular-grid';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -11,6 +11,7 @@ import * as fromCompositeSummaryDownloadActions from '../../../../../dashboard/a
 import { LoaderDashboardGridComponent } from './loader-dashboard-grid.component';
 import { GetErrorMessagePipe } from '../../pipes';
 import * as fromLoaderDashboardPageReducer from '../../reducers';
+import { FileType } from 'libs/models/dashboard';
 
 describe('LoaderDashboardGridComponent', () => {
   let component: LoaderDashboardGridComponent;
@@ -48,10 +49,10 @@ describe('LoaderDashboardGridComponent', () => {
   it('should dispatch a download file action on button click', () => {
     // arrange
     spyOn(store, 'dispatch');
-    const expectedAction = new fromCompositeSummaryDownloadActions.CompositeSummaryDownload({ Id: 'abc123' });
+    const expectedAction = new fromCompositeSummaryDownloadActions.CompositeSummaryDownload({ Id: 'abc123', FileType: FileType.InvalidRecordsFile });
 
     // act
-    component.downloadFile('abc123');
+    component.downloadInvalidRecordsFile('abc123');
 
     // assert
     expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedAction);

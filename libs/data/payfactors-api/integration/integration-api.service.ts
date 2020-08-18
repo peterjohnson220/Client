@@ -6,7 +6,7 @@ import { DBEntityType } from 'apps/data-management/app/_main/models/db-entitytyp
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { UserContext } from 'libs/models';
+import { FileType, UserContext } from 'libs/models';
 
 import { CompositeSummaryDownloadRequest } from '../../../models/dashboard';
 import {CompositeDataLoadSearchCriteria, CompositeDataLoadViewResponse} from '../../../models/admin/loader-dashboard';
@@ -120,8 +120,15 @@ export class IntegrationApiService {
 
   compositeSummaryDownload(request: CompositeSummaryDownloadRequest, userContext: UserContext) {
     const host = this.getAPIBase(userContext);
+    let fileType = '';
 
-    const downloadUrl = `${host}/company/${userContext.CompanyId}/InvalidRecordsFile/${request.Id}`;
+    if (request.FileType === FileType.InvalidRecordsFile) {
+      fileType = 'InvalidRecordsFile';
+    } else if (request.FileType === FileType.ExportedSourceFile) {
+      fileType = 'ExportedSourceFile';
+    }
+
+    const downloadUrl = `${host}/company/${userContext.CompanyId}/${fileType}/${request.Id}`;
 
     // use fetchAuthToken as a stop-gap until we have a better auth system
     return this.fetchAuthToken().pipe(
