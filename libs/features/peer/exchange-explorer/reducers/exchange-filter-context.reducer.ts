@@ -75,7 +75,7 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
         ...state,
         selectedScope: action.payload,
         hasDefaultScope: action.payload.IsDefault,
-        ScopeGUID: action.payload.Id
+        ScopeGUID: action.payload.ExchangeScopeGuid
       };
     }
     case fromExchangeExplorerActions.CLEAR_EXCHANGE_SCOPE_SELECTION: {

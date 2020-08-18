@@ -6,7 +6,7 @@ export class ExchangeScopesHelper {
     allExchangeScopes: ExchangeScopes[]): ExchangeScopes[] {
       return response.map(i => {
         const exchange = allExchangeScopes.find(e => e.ExchangeId === i.Key);
-        const scope = exchange?.ExchangeScopeItems.find(s => s.Id === i.Value);
+        const scope = exchange?.ExchangeScopeItems.find(s => s.ExchangeScopeGuid === i.Value);
         if (exchange && scope) {
           return {
             ExchangeId: exchange.ExchangeId,

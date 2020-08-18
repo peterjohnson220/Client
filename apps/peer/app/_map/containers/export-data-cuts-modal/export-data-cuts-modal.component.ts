@@ -298,12 +298,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
 
     this.context.exchangeScopeItems.map(si => {
       const isSelectedScopeFromContext = !!this.context.selectedExchangeScope
-        ? this.context.selectedExchangeScope.Id === si.Id
+        ? this.context.selectedExchangeScope.ExchangeScopeGuid === si.ExchangeScopeGuid
         : false;
       const selectorOption = {
         DisplayName: si.Name,
         IsSelected: isSelectedScopeFromContext,
-        Value: si.Id
+        Value: si.ExchangeScopeGuid
       };
 
       this.scopesToExportOptions.push(selectorOption);
