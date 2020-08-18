@@ -38,10 +38,10 @@
 
   <ng-template #readOnlyMatchValues>
     <div class="ellipsis-overflowing-text wtg-adj-cell text-right pr-3">
-      {{dataRow.CompanyJobs_PricingsMatches_Match_Weight | number: '1.2-2' | emptyPlaceholder}}
+      {{dataRow.CompanyJobs_PricingsMatches_Match_Weight | number: '1.2-2' | emptyPlaceholder : '0.00'}}
     </div>
     <div class="ellipsis-overflowing-text wtg-adj-cell text-right pr-3">
-      {{dataRow.CompanyJobs_PricingsMatches_Match_Adjustment | number: '1.2-2' | emptyPlaceholder}}
+      {{dataRow.CompanyJobs_PricingsMatches_Match_Adjustment | number: '1.2-2' | emptyPlaceholder : '0.00'}}
     </div>
   </ng-template>
   
