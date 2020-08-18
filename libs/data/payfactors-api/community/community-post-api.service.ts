@@ -26,6 +26,10 @@ export class CommunityPostApiService {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/UpdatePostLike`, payload);
   }
 
+  updatePostFavorite(payload: any): Observable<boolean> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/UpdatePostFavorite`, payload);
+  }
+
   updatePostReplyLike(payload: any): Observable<boolean> {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/UpdatePostReplyLike`, payload);
   }
