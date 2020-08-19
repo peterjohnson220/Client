@@ -10,7 +10,11 @@
       [primaryButtonText]="'Save'"
       [windowClass]="'multi-match-modal'"
       (onDismiss)="handleCancelClicked()"
-      (onSubmit)="showMultiMatchModal.next(false)"
+      (onSubmit)="handleSaveClicked()"
+      [showSpinner]="true"
+      [submitEnabled]="!(savingChanges$ | async)"
+      [primaryButtonTextSubmitting]="'Saving'"
+      [submitting]="saveChangesStarted"
     >
       <ng-container basic-content>
         <div class="multi-match-modal-body-container">
@@ -68,6 +72,9 @@
         </button>
       </ng-container>
     </pf-search-layout>
+    <div *ngIf="hasError" class="text-center k-text-error">
+      Something went wrong. Please try again later.
+    </div>
   </div>
 </ng-template>
 

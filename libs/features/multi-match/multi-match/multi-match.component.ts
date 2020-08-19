@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
@@ -31,6 +31,8 @@ import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
 export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy {
   @Input() display: 'component' | 'modal' = 'component';
   @Input() featureImplementation = LEGACY_PROJECTS;
+  @Output() afterSaveChanges = new EventEmitter<boolean>();
+
   jobsToPrice$: Observable<JobToPrice[]>;
   savingChanges$: Observable<boolean>;
   pageShown$: Observable<boolean>;
@@ -38,13 +40,16 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
   loadingMoreResults$: Observable<boolean>;
   searchError$: Observable<boolean>;
   changesToSave: boolean;
-
   showMultiMatchModal = new BehaviorSubject<boolean>(false);
   showMultiMatchModal$ = this.showMultiMatchModal.asObservable();
+  saveChangesStarted = false;
+  hasError: boolean;
 
   // Subscription
   private jobsToPriceSubscription: Subscription;
   private pricingsToModifySubscription: Subscription;
+  private isSavedSubscription: Subscription;
+  private hasErrorSubscription: Subscription;
 
   constructor(
     store: Store<fromSearchReducer.State>,
@@ -52,14 +57,35 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
     private actionsSubject: ActionsSubject
   ) {
     super(store);
+    this.hasErrorSubscription = this.store.select(fromMultiMatchReducer.getHasError).subscribe(v => this.hasError = v);
+    this.isSavedSubscription = this.store.select(fromMultiMatchReducer.getIsSaving)
+      .subscribe(v => {
+      if (!v &&  v !== this.saveChangesStarted) {
+        this.saveChangesStarted = v;
+        if (!this.hasError) {
+          this.afterSaveChanges.emit(true);
+          this.showMultiMatchModal.next(false);
+        }
+      }
+      if (!!v) {
+        this.saveChangesStarted = true;
+      }
+    });
+
     enableDatacutsDragging(dragulaService);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.jobsToPrice$ = this.store.select(fromMultiMatchReducer.getJobsToPrice);
-    this.savingChanges$ = this.store.select(fromMultiMatchReducer.getSavingJobMatchUpdates);
+    switch (this.featureImplementation) {
+      case MODIFY_PRICINGS:
+        this.savingChanges$ = this.store.select(fromMultiMatchReducer.getIsSaving);
+        break;
+      default:
+        this.savingChanges$ = this.store.select(fromMultiMatchReducer.getSavingJobMatchUpdates);
+        break;
+    }
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
     this.loadingMoreResults$ = this.store.select(fromSearchReducer.getLoadingMoreResults);
     this.searchError$ = this.store.select(fromSearchReducer.getSearchResultsError);
-
     this.pricingsToModifySubscription = this.actionsSubject
       .pipe(ofType(fromModifyPricingsActions.GET_PRICINGS_TO_MODIFY_SUCCESS))
       .subscribe(p => {
@@ -86,7 +112,15 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
   }
 
   handleSaveClicked() {
-    this.store.dispatch(new fromMultiMatchPageActions.SaveJobMatchUpdates());
+    switch (this.featureImplementation) {
+      case MODIFY_PRICINGS:
+        this.store.dispatch(new fromModifyPricingsActions.ModifyPricings());
+        break;
+      default:
+        this.store.dispatch(new fromMultiMatchPageActions.SaveJobMatchUpdates());
+        break;
+    }
+
   }
 
   handleCancelClicked() {
@@ -105,6 +139,8 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
   ngOnDestroy(): void {
     this.jobsToPriceSubscription.unsubscribe();
     this.pricingsToModifySubscription.unsubscribe();
+    this.isSavedSubscription.unsubscribe();
+    this.hasErrorSubscription.unsubscribe();
   }
 
   private jobHasChangesToSave(job: JobToPrice): boolean {

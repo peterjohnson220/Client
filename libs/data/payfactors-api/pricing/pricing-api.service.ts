@@ -20,4 +20,8 @@ export class PricingApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdatePricingMatch`, updatePricingMatchRequest);
   }
 
+  savePricingMatches(savePricingMatchesRequest: any): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ModifyPricingMatches`, savePricingMatchesRequest );
+  }
+
 }

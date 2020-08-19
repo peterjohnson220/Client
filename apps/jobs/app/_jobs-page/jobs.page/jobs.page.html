@@ -364,6 +364,7 @@
 </pf-job-management>
 
 <pf-multi-match-component
+  (afterSaveChanges) = "matchModalSaved()"
   [display]="'modal'"
   [featureImplementation]="multiMatchImplementation"
 ></pf-multi-match-component>

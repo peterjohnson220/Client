@@ -80,3 +80,6 @@ export const getLoadingJobsToPriceError = createSelector(
 
 // Modify Pricings
 export const getPricingsToModify = createSelector(selectModifyPricingsState, fromModifyPricingsReducer.getPricingsToModify);
+export const getIsSaving = createSelector(selectModifyPricingsState, fromModifyPricingsReducer.getIsSaving);
+export const getHasError = createSelector(selectModifyPricingsState, fromModifyPricingsReducer.getHasError);
+
