@@ -11,7 +11,7 @@ import * as fromCommunityPostActions from '../../actions/community-post.actions'
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 import * as fromCommunityAttachmentWarningActions from '../../actions/community-attachment-warning.actions';
 
-import { CommunityPost } from 'libs/models/community';
+import { CommunityPost, CommunityTopic } from 'libs/models/community';
 import { environment } from 'environments/environment';
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 import { CommunityTag } from 'libs/models/community/community-tag.model';
@@ -41,6 +41,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   totalDiscussionResultsOnServer$: Observable<number>;
   communityPostEdited$: Observable<any>;
   hideAttachmentWarning$: Observable<boolean>;
+  communityTopics$: Observable<CommunityTopic[]>;
   hideAttachmentWarning: boolean;
 
   communityPosts: CommunityPost[];
@@ -81,10 +82,10 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.communityPostEdited$ = this.store.select(fromCommunityReducers.getCommunityPostEdited);
     this.hideAttachmentWarning$ = this.settingService.selectUiPersistenceSetting(
       FeatureAreaConstants.Community, UiPersistenceSettingConstants.CommunityHideAttachmentWarningModal, 'boolean');
+    this.communityTopics$ = this.store.select(fromCommunityReducers.getTopics);
   }
 
   ngOnInit() {
-
     const urlParams = Observable.combineLatest(
       this.route.params,
       this.route.url,
@@ -103,7 +104,22 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
           TagName: '#' + routeParams[ 'id' ]
         };
         this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
-      } else {
+      } else if (routeParams.url.indexOf('topic') > -1) {
+        this.communityTopics$.subscribe( topics => {
+          if (topics) {
+            const selectedTopic = topics.find(x => x.TopicName === routeParams[ 'id' ]);
+            if (selectedTopic) {
+              const topic: any = [{
+                Id: selectedTopic.Id,
+                TopicName: selectedTopic.TopicName
+              }];
+              this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.ChangingCommunityTopicFilterOptions(topic));
+              return;
+            }
+           }
+        });
+
+       } else {
         this.getPosts();
       }
     });
