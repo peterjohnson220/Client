@@ -11,6 +11,7 @@ export interface TilePreviewCharWithList extends TilePreviewBase {
   TileChartData: any;
   ActionItemTitle: string;
   ActionItemType: string;
+  HeadingIconImage: string;
 }
 
 export function generateTilePreviewChartWithListFromTile(tile: Tile): TilePreviewCharWithList {
@@ -37,6 +38,7 @@ export function generateTilePreviewChartWithListFromTile(tile: Tile): TilePrevie
     TileChartData: tileChartData,
     PreviewType: TilePreviewTypes.ChartWithList,
     ActionItemTitle: actionItemTitle,
-    ActionItemType: actionItemType
+    ActionItemType: actionItemType,
+    HeadingIconImage: tile.TilePreviewData[0].HeadingIconImage
   };
 }
