@@ -67,6 +67,7 @@ export class Permissions {
   public static DATAMANAGEMENT_ORG_DATA_LOAD = 'Load Organizational Data';
   public static TABULAR_REPORT_BUILDER = 'Tabular_Report_Builder';
   public static PRICING_LOADER = 'Pricing Loader';
+  public static TOTAL_REWARDS = 'Total Rewards';
 }
 
 export enum PermissionCheckEnum {
