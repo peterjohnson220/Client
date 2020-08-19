@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -7,7 +7,7 @@ import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'lib
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
 
-import { DataCutDetails, JobResult, MatchesDetailsTooltipData, DataCut } from '../../models';
+import { DataCutDetails, JobResult, MatchesDetailsTooltipData, DataCut, PeerJobInfo } from '../../models';
 import { hasMoreDataCuts } from '../../helpers';
 import * as fromSurveySearchReducer from '../../reducers';
 
@@ -21,11 +21,12 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Input() cutsDraggable: boolean;
   @Input() currencyCode: string;
   @Input() legacyIframeImplementation: boolean;
+  @Input() refineInPeerDisplayed: boolean;
   @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCutDetails> = new EventEmitter<DataCutDetails>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() refineInPeerClicked: EventEmitter<Number> = new EventEmitter<Number>();
+  @Output() refineInPeerClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
 
   // Observables
   loadingResults$: Observable<boolean>;
@@ -36,7 +37,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   toggleDataCutsLabel: string;
   toggleRefineInPeerLabel = 'Refine';
-  refineLinkEnabled = false;
   showDataCuts: boolean;
   showJobDetail: boolean;
   matchesMouseLeaveTimer: number;
@@ -93,10 +93,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
   }
 
   toggleRefineInPeerDisplay(): void {
-    const peerJobInfo = this.job.PeerJobInfo;
-    if (!!peerJobInfo && !!peerJobInfo.ExchangeJobId) {
-      this.refineInPeerClicked.emit(peerJobInfo.ExchangeJobId);
-    }
+    this.refineInPeerClicked.emit(this.job);
   }
 
   handleDataCutSelected(dataCut: DataCut) {
@@ -151,19 +148,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   public get hasMoreDataCuts(): boolean {
     return hasMoreDataCuts(this.job);
-  }
-
-  @HostListener('window:message', ['$event'])
-  onMessage(event: MessageEvent) {
-    if (!event.data || !event.data.payfactorsMessage) {
-      return;
-    }
-
-    switch (event.data.payfactorsMessage.type) {
-      case 'Refine Exchange Job Enabled':
-        this.refineLinkEnabled = true;
-        break;
-    }
   }
 
   private createPricingMatchesDetailsRequest(): PricingMatchesDetailsRequest {

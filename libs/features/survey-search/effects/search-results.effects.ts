@@ -112,7 +112,7 @@ export class SearchResultsEffects {
 
   @Effect()
   getMoreResultsSuccess$ = this.surveySearchEffectsService.loadPricingMatches(
-    this.actions$.pipe(ofType(fromSearchResultsActions.GET_MORE_RESULTS_SUCCESS))
+    this.actions$.pipe(ofType(fromSurveySearchResultsActions.ADD_JOB_RESULTS))
   );
 
   constructor(

@@ -12,7 +12,6 @@ exports[`Project - Survey Search - Job Result should not show Load More link whe
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   refineInPeerClicked={[Function EventEmitter]}
-  refineLinkEnabled="false"
   selectedCuts$={[Function Store]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
@@ -29,53 +28,62 @@ exports[`Project - Survey Search - Job Result should not show Load More link whe
       class="d-flex justify-content-between"
     >
       <div
-        class="d-flex"
+        class="result-body flex-grow-1"
       >
         <div
-          class="job-title"
+          class="d-flex justify-content-between"
         >
-           Blend of Gas Operations Top Executive-Corporate, G 
+          <div
+            class="d-flex"
+          >
+            <div
+              class="job-title"
+            >
+               Blend of Gas Operations Top Executive-Corporate, G 
+            </div>
+            <div
+              class="job-code"
+            >
+               (13001) 
+            </div>
+          </div>
+          
+          <div
+            class="matches"
+          >
+             5 
+          </div>
         </div>
         <div
-          class="job-code"
+          class="vendor"
         >
-           (13001) 
+          
+          
+          
+           Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10) 
+          
+          
         </div>
-      </div>
-      
-      <div
-        class="matches"
-      >
-         5 
-      </div>
-    </div>
-    <div
-      class="vendor"
-    >
-      
-      
-      
-       Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10) 
-      
-      
-    </div>
-    <div
-      class="d-flex mt-2"
-    >
-      <div
-        class="link au-lnk-show-hide-data-cuts"
-      >
-         Hide Cuts 
-      </div>
-      <div
-        class="link mx-2"
-      >
-         | 
-      </div>
-      <div
-        class="link au-lnk-show-hide-job-details"
-      >
-         Show Job Detail 
+        <div
+          class="d-flex mt-2"
+        >
+          <div
+            class="link au-lnk-show-hide-data-cuts"
+          >
+             Hide Cuts 
+          </div>
+          <div
+            class="link mx-2"
+          >
+             | 
+          </div>
+          <div
+            class="link au-lnk-show-hide-job-details"
+          >
+             Show Job Detail 
+          </div>
+          
+        </div>
       </div>
       
     </div>
@@ -105,7 +113,6 @@ exports[`Project - Survey Search - Job Result should show Load More link when th
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   refineInPeerClicked={[Function EventEmitter]}
-  refineLinkEnabled="false"
   selectedCuts$={[Function Store]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
@@ -122,53 +129,62 @@ exports[`Project - Survey Search - Job Result should show Load More link when th
       class="d-flex justify-content-between"
     >
       <div
-        class="d-flex"
+        class="result-body flex-grow-1"
       >
         <div
-          class="job-title"
+          class="d-flex justify-content-between"
         >
-           Blend of Gas Operations Top Executive-Corporate, G 
+          <div
+            class="d-flex"
+          >
+            <div
+              class="job-title"
+            >
+               Blend of Gas Operations Top Executive-Corporate, G 
+            </div>
+            <div
+              class="job-code"
+            >
+               (13001) 
+            </div>
+          </div>
+          
+          <div
+            class="matches"
+          >
+             5 
+          </div>
         </div>
         <div
-          class="job-code"
+          class="vendor"
         >
-           (13001) 
+          
+          
+          
+           Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10) 
+          
+          
         </div>
-      </div>
-      
-      <div
-        class="matches"
-      >
-         5 
-      </div>
-    </div>
-    <div
-      class="vendor"
-    >
-      
-      
-      
-       Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10) 
-      
-      
-    </div>
-    <div
-      class="d-flex mt-2"
-    >
-      <div
-        class="link au-lnk-show-hide-data-cuts"
-      >
-         Hide Cuts 
-      </div>
-      <div
-        class="link mx-2"
-      >
-         | 
-      </div>
-      <div
-        class="link au-lnk-show-hide-job-details"
-      >
-         Show Job Detail 
+        <div
+          class="d-flex mt-2"
+        >
+          <div
+            class="link au-lnk-show-hide-data-cuts"
+          >
+             Hide Cuts 
+          </div>
+          <div
+            class="link mx-2"
+          >
+             | 
+          </div>
+          <div
+            class="link au-lnk-show-hide-job-details"
+          >
+             Show Job Detail 
+          </div>
+          
+        </div>
       </div>
       
     </div>
@@ -203,7 +219,6 @@ exports[`Project - Survey Search - Job Result should show error state if issue l
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   refineInPeerClicked={[Function EventEmitter]}
-  refineLinkEnabled="false"
   selectedCuts$={[Function Store]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
@@ -220,53 +235,62 @@ exports[`Project - Survey Search - Job Result should show error state if issue l
       class="d-flex justify-content-between"
     >
       <div
-        class="d-flex"
+        class="result-body flex-grow-1"
       >
         <div
-          class="job-title"
+          class="d-flex justify-content-between"
         >
-           Blend of Gas Operations Top Executive-Corporate, G 
+          <div
+            class="d-flex"
+          >
+            <div
+              class="job-title"
+            >
+               Blend of Gas Operations Top Executive-Corporate, G 
+            </div>
+            <div
+              class="job-code"
+            >
+               (13001) 
+            </div>
+          </div>
+          
+          <div
+            class="matches"
+          >
+             5 
+          </div>
         </div>
         <div
-          class="job-code"
+          class="vendor"
         >
-           (13001) 
+          
+          
+          
+           Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10) 
+          
+          
         </div>
-      </div>
-      
-      <div
-        class="matches"
-      >
-         5 
-      </div>
-    </div>
-    <div
-      class="vendor"
-    >
-      
-      
-      
-       Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10) 
-      
-      
-    </div>
-    <div
-      class="d-flex mt-2"
-    >
-      <div
-        class="link au-lnk-show-hide-data-cuts"
-      >
-         Hide Cuts 
-      </div>
-      <div
-        class="link mx-2"
-      >
-         | 
-      </div>
-      <div
-        class="link au-lnk-show-hide-job-details"
-      >
-         Show Job Detail 
+        <div
+          class="d-flex mt-2"
+        >
+          <div
+            class="link au-lnk-show-hide-data-cuts"
+          >
+             Hide Cuts 
+          </div>
+          <div
+            class="link mx-2"
+          >
+             | 
+          </div>
+          <div
+            class="link au-lnk-show-hide-job-details"
+          >
+             Show Job Detail 
+          </div>
+          
+        </div>
       </div>
       
     </div>
