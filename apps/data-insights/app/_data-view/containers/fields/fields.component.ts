@@ -103,7 +103,7 @@ export class FieldsComponent implements OnInit, OnDestroy {
     }));
     this.dragulaService.createGroup('fields-bag', {
       moves: function (el, container, handle) {
-        return handle.classList.contains('active-report-fields');
+        return handle.classList.contains('field-container');
       }
     });
   }
