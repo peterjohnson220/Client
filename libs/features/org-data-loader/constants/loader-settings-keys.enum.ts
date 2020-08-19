@@ -9,7 +9,6 @@ export enum LoaderSettingsKeys {
   IsStructureMappingsLoadEnabled = 'IsStructureMappingsLoadEnabled',
   IsEmployeesFullReplace = 'IsEmployeesFullReplace',
   IsStructureMappingsFullReplace = 'IsStructureMappingsFullReplace',
-  IsSubsidiaryLoadEnabled = 'IsSubsidiaryLoadEnabled',
   FileFormat = 'FileFormat',
   ValidateOnly = 'ValidateOnly',
 }

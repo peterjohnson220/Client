@@ -18,18 +18,18 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
+import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
 import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
-import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';
+import {CompanySetting, CompanySettingsEnum} from 'libs/models/company';
 import * as fromRootState from 'libs/state/state';
-import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
+import {LoadingProgressBarModel} from 'libs/ui/common/loading/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -122,8 +122,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private isJobsLoadEnabled: boolean;
   private structureMappingComplete: boolean;
   private isStructuresLoadEnabled: boolean;
-  private isSubsidiaryLoadEnabled: boolean;
-  private isSubsidiaryMappingComplete: boolean;
   private structureMappingMappingComplete: boolean;
   private isStructureMappingsLoadEnabled: boolean;
   private employeeMappingComplete: boolean;
@@ -220,7 +218,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.isJobsLoadEnabled = resp.isJobsLoadEnabled;
       this.isPaymarketsLoadEnabled = resp.isPaymarketsLoadEnabled;
       this.isStructuresLoadEnabled = resp.isStructuresLoadEnabled;
-      this.isSubsidiaryLoadEnabled = resp.isSubsidiaryLoadEnabled;
       this.isStructureMappingsLoadEnabled = resp.isStructureMappingsLoadEnabled;
       this.isEmployeesFullReplace = resp.isEmployeesFullReplace;
       this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
@@ -305,7 +302,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.AddAndSetSelectedMapping(configurationGroup);
     });
 
-    const companySettingSubscription = this.companySettings$.pipe(
+    const companySettingSubscription =  this.companySettings$.pipe(
       filter(companySetting => !!companySetting),
       take(1),
       takeUntil(this.unsubscribe$)
@@ -386,7 +383,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return true;
     }
     return (this.userContext.AccessLevel !== 'Admin' &&
-      this.companySettings.find(cs => cs.Key === CompanySettingsEnum.ManualOrgDataLoadLink).Value !== 'true');
+      this.companySettings.find( cs => cs.Key === CompanySettingsEnum.ManualOrgDataLoadLink).Value !== 'true');
   }
 
   notificationMessageInit() {
@@ -700,14 +697,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubsidiaryMappingComplete($event: LoaderEntityStatus) {
-    this.isSubsidiaryMappingComplete = $event.complete;
-    this.isSubsidiaryLoadEnabled = $event.loadEnabled;
-    if (this.isSubsidiaryMappingComplete) {
-      this.addOrReplaceMappings('Subsidiary', $event.mappings);
-    }
-  }
-
   onStructureMappingComplete($event: LoaderEntityStatus) {
     this.structureMappingComplete = $event.complete;
     this.isStructuresLoadEnabled = $event.loadEnabled;
@@ -776,7 +765,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     newLoaderSettings.isJobsLoadEnabled = this.isJobsLoadEnabled;
     newLoaderSettings.isPaymarketsLoadEnabled = this.isPaymarketsLoadEnabled;
     newLoaderSettings.isStructuresLoadEnabled = this.isStructuresLoadEnabled;
-    newLoaderSettings.isSubsidiaryLoadEnabled = this.isSubsidiaryLoadEnabled;
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
