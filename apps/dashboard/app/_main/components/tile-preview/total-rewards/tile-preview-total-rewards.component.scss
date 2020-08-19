@@ -1,0 +1,72 @@
+@import 'colors';
+@import 'styles';
+@import 'common/common-variables';
+
+.tile-preview-list-button {
+  z-index: 2;
+  color: $tile-list-button-background-color;
+  background-color: $tile-list-button-text-color;
+  cursor: pointer;
+  font-size: .9rem;
+}
+
+table {
+  position:relative;
+  width: 100%;
+  font-size: .9rem;
+  overflow: auto;
+  z-index:2;
+}
+
+th{
+  @extend %ellipsis-overflowing-text;
+  max-width: 0;
+  color: $tile-list-header-color;
+}
+
+tr {
+  border-bottom:1px solid #CCC;
+}
+
+tr td:first-child
+{
+  width: 50%;
+}
+
+td {
+  @extend %ellipsis-overflowing-text;
+  max-width: 0;
+  vertical-align: middle;
+  line-height: 1.9rem;
+}
+
+td > i{
+  float:right;
+}
+
+td > p{
+  @extend %ellipsis-overflowing-text;
+  display: inline;
+}
+
+td > a{
+  @extend %ellipsis-overflowing-text;
+  color: white;
+}
+
+td > a:hover{
+  color:black;
+}
+
+p{
+  display: inline;
+}
+
+.borderless {
+  border: none ;
+}
+
+.table-container {
+  height: 105px;
+}
+

@@ -11,6 +11,7 @@ export class TilePreviewType {
   PlaceHolder = TilePreviewTypes.PlaceHolder;
   BasicList = TilePreviewTypes.BasicList;
   Peer = TilePreviewTypes.Peer;
+  TotalRewards = TilePreviewTypes.TotalRewards;
 
   constructor() {
     this.AllTypes = [
@@ -21,7 +22,8 @@ export class TilePreviewType {
       TilePreviewTypes.List,
       TilePreviewTypes.PlaceHolder,
       TilePreviewTypes.BasicList,
-      TilePreviewTypes.Peer
+      TilePreviewTypes.Peer,
+      TilePreviewTypes.TotalRewards
     ];
   }
 }
