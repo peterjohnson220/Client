@@ -28,7 +28,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   isStructureMappingsFullReplace={[Function Boolean]}
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
-  isSubsidiaryLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
@@ -43,7 +42,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
-  payfactorsSubsidiaryDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
@@ -66,7 +64,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
-  subsidiaryMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -181,12 +178,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
           </kendo-tabstrip-tab>
           <kendo-tabstrip-tab
             title="Employees"
-          >
-            
-          </kendo-tabstrip-tab>
-          
-          <kendo-tabstrip-tab
-            title="Subsidiary"
           >
             
           </kendo-tabstrip-tab>
@@ -249,7 +240,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   isStructureMappingsFullReplace={[Function Boolean]}
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
-  isSubsidiaryLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
@@ -264,7 +254,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
-  payfactorsSubsidiaryDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
@@ -287,7 +276,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
-  subsidiaryMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -402,12 +390,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
           </kendo-tabstrip-tab>
           <kendo-tabstrip-tab
             title="Employees"
-          >
-            
-          </kendo-tabstrip-tab>
-          
-          <kendo-tabstrip-tab
-            title="Subsidiary"
           >
             
           </kendo-tabstrip-tab>
@@ -470,7 +452,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   isStructureMappingsFullReplace={[Function Boolean]}
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
-  isSubsidiaryLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
@@ -485,7 +466,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
-  payfactorsSubsidiaryDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
@@ -508,7 +488,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
-  subsidiaryMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -626,12 +605,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           >
             
           </kendo-tabstrip-tab>
-          
-          <kendo-tabstrip-tab
-            title="Subsidiary"
-          >
-            
-          </kendo-tabstrip-tab>
         </kendo-tabstrip>
         <div
           class="float-right m-2"
@@ -691,7 +664,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   isStructureMappingsFullReplace={[Function Boolean]}
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
-  isSubsidiaryLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
@@ -706,7 +678,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
-  payfactorsSubsidiaryDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
@@ -729,7 +700,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
-  subsidiaryMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -796,7 +766,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   isStructureMappingsFullReplace={[Function Boolean]}
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
-  isSubsidiaryLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
@@ -811,7 +780,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
-  payfactorsSubsidiaryDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
@@ -834,7 +802,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
-  subsidiaryMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -949,12 +916,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
           </kendo-tabstrip-tab>
           <kendo-tabstrip-tab
             title="Employees"
-          >
-            
-          </kendo-tabstrip-tab>
-          
-          <kendo-tabstrip-tab
-            title="Subsidiary"
           >
             
           </kendo-tabstrip-tab>
