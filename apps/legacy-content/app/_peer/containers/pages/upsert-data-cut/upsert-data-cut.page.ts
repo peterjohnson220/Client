@@ -57,6 +57,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
   untaggedIncumbentCount: number;
   isPayMarketOverride: boolean;
   cutGuid: string;
+  userJobMatchId: number;
   requestPeerAccessMessage = `Thank you for your interest in Peer. Peer allows you to market price with unmatched
   granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
   will reach out to get you started with Peer.`;
@@ -124,6 +125,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
       CompanyPayMarketId: this.companyPayMarketId,
       IsPayMarketOverride: this.isPayMarketOverride,
       UserSessionId: this.userSessionId,
+      UserJobMatchId: this.userJobMatchId,
       ZoomLevel: this.map ? this.map.getZoomLevel() : 0
     }));
   }
@@ -195,6 +197,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
     this.isPayMarketOverride = queryParamMap.get('isPayMarketOverride') === 'true';
     this.cutGuid = queryParamMap.get('dataCutGuid') || null;
+    this.userJobMatchId = +queryParamMap.get('userJobMatchId') || 0;
 
 
     const setContextMessage: MessageEvent = {
