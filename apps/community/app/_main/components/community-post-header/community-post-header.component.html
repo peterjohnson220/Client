@@ -4,7 +4,7 @@
           data-qa-id="ddm-communityPostActions"
           ngbDropdownToggle><span>...</span></button>
   <div ngbDropdownMenu>
-    <button class="dropdown-item"
+    <button *ngIf="!isReply" class="dropdown-item"
         data-qa-id="ddm-communityPostActionsFavorite"
         (click)="updateFavorite()">
         <span *ngIf="isFavoritedByCurrentUser">
@@ -19,7 +19,7 @@
           Add to Favorites
         </span>  
     </button>
-    <div class="dropdown-divider"></div>
+    <div *ngIf="!isReply" class="dropdown-divider"></div>
     <button *ngIf="!hideEdit" class="dropdown-item"
             data-qa-id="ddm-communityPostActionsEdit"
             (click)="editPost()">
