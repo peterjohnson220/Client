@@ -35,6 +35,7 @@ export class UpsertDataCutPageEffects {
         DataCutGuid: latest.action.DataCutGuid,
         CompanyJobId: latest.action.CompanyJobId,
         UserSessionId: latest.action.UserSessionId,
+        UserJobMatchId: latest.action.UserJobMatchId,
         ZoomLevel: latest.action.ZoomLevel,
         IsPayMarketOverride: latest.action.IsPayMarketOverride,
         CompanyPayMarketId: latest.paymarket.CompanyPayMarketId,
