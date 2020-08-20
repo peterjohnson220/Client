@@ -240,13 +240,16 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   formatDataFieldValue(value: any): string {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const dateValue = new Date(value);
 
-    if (typeof value === 'string') {
+    if ( typeof value === 'string' && isNaN(dateValue.getTime()) ) {
       return value;
-    } else if (typeof value === 'number') {
+    } else if ( typeof value === 'number' ) {
       return value.toString();
-    } else if (value && typeof value === 'object' && typeof value.getMonth === 'function') {
+    } else if ( value && typeof value === 'object' && typeof value.getMonth === 'function' ) {
       return months[value.getMonth()] + ' ' + value.getDate() + ' ' + value.getFullYear();
+    } else if ( value && isFinite(dateValue.getTime()) ) {
+      return months[dateValue.getMonth()] + ' ' + dateValue.getDate() + ' ' + dateValue.getFullYear();
     }
 
     // if not a string, number or date, unclear how to format, so return empty string
