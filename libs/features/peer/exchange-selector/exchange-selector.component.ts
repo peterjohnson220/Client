@@ -33,6 +33,10 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
       this.isDisabled = false;
     }
 
+    get exchangeSelectorControl(): FormControl {
+      return <FormControl>this.exchangeForm.get('exchangeSelection');
+    }
+
     onFilterChanged(value: string) {
         this.exchangeOptionsFiltered = this.allData.filter(co =>
             co.Value.toLowerCase().indexOf(value.toLowerCase()) !== -1
@@ -78,8 +82,18 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
     applyDefaultExchange(): void {
       if (!this.selectedExchangeId && this.allData?.find(ex => ex.Key === this.defaultExchangeId)) {
         this.selectedExchangeId = this.defaultExchangeId;
-        this.exchangeForm.get('exchangeSelection').setValue(this.selectedExchangeId);
+        this.exchangeSelectorControl.setValue(this.selectedExchangeId);
         this.onExchangeSelected.emit(this.selectedExchangeId);
+      }
+    }
+
+    setSelectedExchange(exchangeId: number): void {
+      if (!!exchangeId && !!this.allData?.find(ex => ex.Key === exchangeId)) {
+        this.selectedExchangeId = exchangeId;
+        this.exchangeSelectorControl.setValue(exchangeId);
+      } else {
+        this.selectedExchangeId = exchangeId;
+        this.applyDefaultExchange();
       }
     }
 
