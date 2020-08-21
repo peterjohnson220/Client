@@ -1,6 +1,8 @@
 import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 
-import { StatementModeEnum, TitleControl, UpdateTitleRequest, EmployeeRewardsData } from '../../models';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
+import { StatementModeEnum, TitleControl, UpdateTitleRequest } from '../../models';
 
 @Component({
   selector: 'pf-trs-title-control',

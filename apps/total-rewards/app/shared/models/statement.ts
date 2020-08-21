@@ -26,6 +26,7 @@ export interface Statement {
   Pages: Page[];
   Settings: Settings;
   EffectiveDate: Date;
+  AssignedCompanyEmployeeIds?: number[]
 }
 
 export function generateMockStatement(): Statement {

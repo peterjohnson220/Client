@@ -1,6 +1,7 @@
 import * as statementActions from './statement.actions';
 import * as settingsActions from './settings.actions';
 import * as controlActions from './control.actions';
+import * as previewActions from './preview.actions';
 
 export type StatementEditPageActions =
   statementActions.ToggleStatementEditMode |
@@ -32,4 +33,12 @@ export type StatementEditPageActions =
   settingsActions.UpdateSettingsFontSize |
   settingsActions.UpdateSettingsFontFamily |
   settingsActions.UpdateSettingsChartColor |
-  settingsActions.ResetSettings;
+  settingsActions.ResetSettings |
+
+  previewActions.SearchAssignedEmployees |
+  previewActions.SearchAssignedEmployeesSuccess |
+  previewActions.SearchAssignedEmployeesError |
+  previewActions.GetEmployeeRewardsData |
+  previewActions.GetEmployeeRewardsDataError |
+  previewActions.GetEmployeeRewardsDataSuccess |
+  previewActions.ResetEmployeeRewardsData;

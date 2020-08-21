@@ -1,10 +1,37 @@
-<pf-page-with-title-bar [returnUrl]="'/'">
+<pf-page-with-title-bar [returnUrl]="'/'" [ngClass]="{'preview-mode': mode === modeEnum.Preview}">
   <ng-container page-title>Total Rewards</ng-container>
   <ng-container page-content>
-    <pf-async-container [loading]="(statementLoading$ | async)"
+    <pf-async-container [loading]="(statementLoading$ | async) || (employeeRewardsDataAsync$ | async)?.loading"
                         [loadingError]="(statementLoadingError$ | async) || (statementSavingError$ | async) || (settingsSavingError$ | async)"
                         (reload)="handleStatementReload()">
       <div class="canvas mx-auto pb-1 mt-2">
+        <div *ngIf="mode === modeEnum.Preview">
+          <button
+            ngbButton
+            class="mode-button btn btn-outline-dark position-relative mr-2 d-block"
+            data-toggle="button"
+            aria-pressed="false"
+            (click)="toggleStatementEditMode()">
+            <fa-icon [icon]="'pencil'" aria-hidden="true"></fa-icon>
+            Edit
+          </button>
+          <kendo-combobox
+            [class.d-none]="!statement?.AssignedCompanyEmployeeIds?.length"
+            class="employee-search mt-3"
+            [data]="(assignedEmployeesAsync$ | async)?.obj"
+            [loading]="(assignedEmployeesAsync$ | async)?.loading"
+            [placeholder]="'Preview as...'"
+            [filterable]="true"
+            [valuePrimitive]="true"
+            textField="Name"
+            valueField="Value"
+            (filterChange)="handleAssignedEmployeesFilterChange($event)"
+            (valueChange)="handleAssignedEmployeesValueChange($event)">
+            <ng-template kendoComboBoxItemTemplate let-dataItem>
+              <span class="employee-search-result" pfEllipsisActive>{{ dataItem.Name }}</span>
+            </ng-template>
+          </kendo-combobox>
+        </div>
         <div class="header-row-wrapper position-fixed">
           <div class="header-row d-flex w-100">
             <h3 class="flex-fill">
@@ -52,7 +79,7 @@
         <pf-total-rewards-statement
           [statement]="statement"
           [mode]="mode"
-          [employeeRewardsData]="employeeRewardsData"
+          [employeeRewardsData]="(employeeRewardsDataAsync$ | async)?.obj"
           (onControlTitleChange)="handleOnControlTitleChange($event)"
           (onCalculationControlCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
           (onCalculationControlSummaryTitleChange)="handleOnCalculationControlSummaryTitleChange($event)"

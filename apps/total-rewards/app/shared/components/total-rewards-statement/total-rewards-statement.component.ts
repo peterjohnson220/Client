@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
 import {
   CalculationControl,
   DeleteImageRequest,
-  EmployeeRewardsData,
   SaveImageRequest,
   Statement,
   StatementModeEnum,

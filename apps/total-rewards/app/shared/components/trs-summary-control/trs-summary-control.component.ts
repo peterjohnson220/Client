@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import {CurrencyPipe} from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 
-import {CalculationSummaryControl, CalculationControl, EmployeeRewardsData, StatementModeEnum, UpdateTitleRequest} from '../../models';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
+import { CalculationSummaryControl, CalculationControl, StatementModeEnum, UpdateTitleRequest } from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
 @Component({

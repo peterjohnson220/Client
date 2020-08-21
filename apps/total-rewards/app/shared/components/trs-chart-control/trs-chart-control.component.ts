@@ -1,6 +1,8 @@
 import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
-import { ChartControl, StatementModeEnum, UpdateTitleRequest, EmployeeRewardsData, CalculationControl } from '../../models/';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
+import { ChartControl, StatementModeEnum, UpdateTitleRequest, CalculationControl } from '../../models/';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
 @Component({
@@ -32,7 +34,7 @@ export class TrsChartControlComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // the chart animates on change detection, possibly because it thinks it's getting new values, so only change data when the mode changes
-    if (changes.mode && changes.mode.currentValue !== changes.mode.previousValue) {
+    if ((changes.mode && changes.mode.currentValue !== changes.mode.previousValue) || changes.employeeRewardsData) {
       this.chartData = this.inEditMode ? this.getChartEditData() : this.getChartPreviewData();
     }
   }

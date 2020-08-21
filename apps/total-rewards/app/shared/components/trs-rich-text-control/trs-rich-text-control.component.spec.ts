@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
 import { TrsRichTextControlComponent } from './trs-rich-text-control.component';
-import { StatementModeEnum, generateMockEmployeeRewardsData } from '../../models';
+import { StatementModeEnum } from '../../models';
 
 describe('TrsChartControlComponent', () => {
   let component: TrsRichTextControlComponent;
