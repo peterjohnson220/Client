@@ -9,7 +9,6 @@ import escape from 'lodash/escape';
 import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
 import { ExchangeSelectorComponent } from 'libs/features/peer/exchange-selector/exchange-selector.component';
 import { Job, UserContext, ExchangeJobSearch, LatestCompanyJob, GenericKeyValue } from 'libs/models';
-import { ExchangeApiService } from 'libs/data/payfactors-api/';
 import { WindowCommunicationService } from 'libs/core/services';
 import { isNullOrUndefined } from 'libs/core/functions';
 import * as fromRootState from 'libs/state/state';
@@ -44,16 +43,13 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
   companyJob$: Observable<LatestCompanyJob>;
   exchanges$: Observable<GenericKeyValue<number, string>[]>;
   activeExchange$: Observable<number>;
-  initialLoadComplete$: Observable<boolean>;
 
   // Subscriptions
   userContextSubscription: Subscription;
   companyJobsSubscription: Subscription;
-  initialLoadCompleteSubscription: Subscription;
 
   constructor(
       private route: ActivatedRoute,
-      private exchangeApiService: ExchangeApiService,
       private store: Store<fromAssociateReducer.State>,
       private windowCommunicationService: WindowCommunicationService
   ) {
@@ -66,7 +62,6 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
       this.companyJob$ = this.store.pipe(select(fromAssociateReducer.getCompanyJob));
       this.exchanges$ = this.store.pipe(select(fromAssociateReducer.getExchangeDictionaryForCompany));
       this.activeExchange$ = this.store.pipe(select(fromAssociateReducer.getActiveExchange));
-      this.initialLoadComplete$ = this.store.pipe(select(fromAssociateReducer.getAssociationDataLoaded));
   }
 
   ngOnInit(): void {
@@ -95,12 +90,6 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
               };
               this.searchChanged();
           }
-      });
-
-      this.initialLoadCompleteSubscription = this.initialLoadComplete$.subscribe(loadComplete => {
-        if (!!loadComplete) {
-          this.store.dispatch(new fromAssociateAction.SetInitialLoadedState());
-        }
       });
   }
 
@@ -183,23 +172,21 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
   onMessage(ev) {
     if (ev.data && ev.data.type === fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT && !!ev.data.body) {
       const data = ev.data.body;
-      this.store.dispatch(new fromAssociateAction.SetActiveExchange(data.exchangeId));
-      this.exchangeSelector.applyDefaultExchange();
+      this.exchangeSelector.setSelectedExchange(data.exchangeId);
       this.handleSearchTitleValueChanged(data.exchangeJobTitle);
       return;
     }
 
     if (ev.data === 'peer-exchange-tab-inactivated') {
-      this.store.dispatch(new fromAssociateAction.ResetInitialLoadedState());
-      this.exchangeSelector.applyDefaultExchange();
-      this.handleSearchTitleValueChanged(null);
+      this.exchangeJobQuery = null;
+      this.exchangeSelector.setSelectedExchange(null);
+      this.searchChanged();
     }
   }
 
   ngOnDestroy(): void {
     this.userContextSubscription.unsubscribe();
     this.companyJobsSubscription.unsubscribe();
-    this.initialLoadCompleteSubscription.unsubscribe();
   }
 }
 

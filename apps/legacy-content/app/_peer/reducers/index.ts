@@ -124,11 +124,6 @@ export const getActiveExchange = createSelector(
   fromAssociateCompanyJobReducer.getActiveExchange
 );
 
-export const getAssociationDataLoaded = createSelector(
-  selectAssociateCompanyJobState,
-  fromAssociateCompanyJobReducer.getDataLoaded
-);
-
 // Paymarket Exchange Scope Selectors
 export const getExchangeScopesIsLoading = createSelector(
   selectPaymarketExchangeState,

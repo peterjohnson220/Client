@@ -170,23 +170,6 @@ export function reducer(
             loadingActiveExchangeError: true
           };
         }
-        case fromAssociateCompanyJobActions.SET_INITIAL_LOADED_STATE: {
-          initialLoadedState = {...featureState};
-          return {
-            ...featureState
-          };
-        }
-        case fromAssociateCompanyJobActions.RESET_INITIAL_LOADED_STATE: {
-          return {
-            ...initialLoadedState
-          };
-        }
-        case fromAssociateCompanyJobActions.SET_ACTIVE_EXCHANGE: {
-          return {
-            ...featureState,
-            activeExchange: featureAction.payload
-          };
-        }
         default: {
             return featureState;
         }
@@ -205,4 +188,3 @@ export const getExchangeDictionary = (state: State) => state.exchangeDictionary;
 export const getLoadingActiveExchange = (state: State) => state.loadingActiveExchange;
 export const getLoadingActiveExchangeError = (state: State) => state.loadingActiveExchangeError;
 export const getActiveExchange = (state: State) => state.activeExchange;
-export const getDataLoaded = (state: State) => !!state.companyJob && !!state.exchangeDictionary && !!state.activeExchange;
