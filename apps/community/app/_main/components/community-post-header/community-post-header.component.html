@@ -1,5 +1,4 @@
-<div ngbDropdown class="d-inline-block float-right ml-1"
-     *ngIf="(isCurrentUserPost || isUserAdmin()) && !hidePostActions">
+<div ngbDropdown *ngIf="!hideUserActionsMenu" class="d-inline-block float-right ml-1">
   <button class="btn m-0 p-1"
           data-qa-id="ddm-communityPostActions"
           ngbDropdownToggle><span>...</span></button>
@@ -19,14 +18,13 @@
           Add to Favorites
         </span>  
     </button>
-    <div *ngIf="!isReply" class="dropdown-divider"></div>
-    <button *ngIf="!hideEdit" class="dropdown-item"
+    <button *ngIf="isCurrentUserPost || isUserAdmin()" class="dropdown-item"
             data-qa-id="ddm-communityPostActionsEdit"
             (click)="editPost()">
       <fa-icon icon="pencil"></fa-icon>
       Edit
     </button>
-    <button class="dropdown-item"
+    <button *ngIf="isCurrentUserPost || isUserAdmin()" class="dropdown-item"
             data-qa-id="ddm-communityPostActionsDelete"
             (click)="delete()">
       <fa-icon icon="trash-alt"></fa-icon>
