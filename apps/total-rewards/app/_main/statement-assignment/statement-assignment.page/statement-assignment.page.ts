@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { Observable, Subscription, combineLatest, BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
@@ -150,7 +150,6 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
       if (u) {
         this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
         this.assignedEmployeesGridState.skip = 0;
-        this.assignedEmployeesGridState.take = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState.take;
       }
     });
     this.exportEventIdSubscription = this.exportEventId$.subscribe(eventId => {
