@@ -81,7 +81,8 @@ import {
   OutboundJdmEffects,
   TransferDataPageEffects,
   TransferScheduleEffects,
-  ProviderListEffects
+  ProviderListEffects,
+  ConverterSettingsEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
@@ -117,7 +118,8 @@ import { HrisAuthenticationGuard } from './guards';
       TransferScheduleEffects,
       EntityIdentifiersEffects,
       EntitySelectionEffects,
-      ProviderListEffects
+      ProviderListEffects,
+      ConverterSettingsEffects
     ]),
     FontAwesomeModule,
     NgbDropdownModule,

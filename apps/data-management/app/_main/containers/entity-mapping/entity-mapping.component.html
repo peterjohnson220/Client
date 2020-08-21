@@ -26,10 +26,27 @@
   <div class="col-sm-8">
     <h5>{{targetName}} Fields</h5>
     <div class="row">
-      <div class="col">
+      <div class="col-7">
         <pf-input-debounce [id]="'payfactorsEntitySearch-' + entityType.toLowerCase()" [delay]="400"
           (valueChanged)="handleSearchTermChanged($event, 'payfactors')" [placeholderText]="'Search'" pfClickElsewhere>
         </pf-input-debounce>
+      </div>
+      <div *ngIf="entityType.toLowerCase() === 'employees'" class="col-5">
+        <select class="form-control form-control"
+          [(ngModel)]='selectedDateFormat'
+          (change)='onDateFormatSelected($event)'>
+          <option
+            [value]=''
+            [disabled]='true'>Select format for date fields</option>
+          <option *ngIf="provider.toLowerCase() === 'wdrestrpt'"
+            [value]='"yyyy-MM-ddzzz"'>
+              yyyy-MM-ddzzz (ex: 2015-01-01-05:00)
+          </option>
+          <option *ngFor="let dateFormat of dateFormats" 
+            [value]="dateFormat.value">
+            {{dateFormat.text}}
+          </option>
+        </select>
       </div>
     </div>
     <div class="container-fluid my-3 border rounded pf-entity-table" *ngIf="filteredPayfactorsFields.length > 0">
@@ -46,7 +63,7 @@
           [dragulaModel]="field.AssociatedEntity"
           [attr.payfactors-entity-id]="field.EntityFieldId">
           <div class="col-1 d-flex justify-content-center">
-            <div ngbDropdown>
+            <div ngbDropdown container="body">
               <h5 class="m-0 entity-btn-group btn" ngbDropdownToggle><fa-icon icon="ellipsis-h" class=""></fa-icon></h5>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
                 <button ngbDropdownItem 

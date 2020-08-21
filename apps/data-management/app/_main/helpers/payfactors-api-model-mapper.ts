@@ -177,10 +177,11 @@ export class PayfactorsApiModelMapper {
           sourceMetadata: {
             dataType: field.AssociatedEntity[0].DataType,
             isArray: field.AssociatedEntity[0].IsArray,
-            metaData: field.AssociatedEntity[0].Metadata,
+            metadata: field.AssociatedEntity[0].Metadata,
             name: field.AssociatedEntity[0].FieldName
           }
-        }))
+        })
+      )
     };
   }
 

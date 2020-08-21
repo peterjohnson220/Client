@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { MappingPackage } from 'libs/models';
-import { EntityDataField, EntityField } from '../models';
+import { EntityDataField, EntityField, ConverterOptions } from '../models';
 
 export const INIT_FIELD_MAPPING_CARD = '[Data Management/Field Mappings] Init Field Mapping Card';
 export const INIT_FIELD_MAPPING_CARD_ERROR = '[Data Management/Field Mappings] Init Field Mapping Card Error';
@@ -38,6 +38,8 @@ export const LOAD_CUSTOM_FIELDS_BY_ENTITY_SUCCESS = '[Data Management/Field Mapp
 export const LOAD_MAPPED_FIELDS = '[Data Management/Field Mappings] Load Mapped Fields';
 export const LOAD_MAPPED_FIELDS_ERROR = '[Data Management/Field Mappings] Load Mapped Fields Error';
 export const LOAD_MAPPED_FIELDS_SUCCESS = '[Data Management/Field Mappings] Load Mapped Fields Success';
+
+export const ADD_CONVERTER_OPTIONS = '[Data Management/Field Mappings] Add Converter Options to Entity';
 
 // outbound jdm actions, delete me
 export const SAVE_OUTBOUND_MAPPINGS = '[Data Management/Field Mappings] Save Outbound JDM Mappings';
@@ -196,6 +198,12 @@ export class LoadMappedFieldsSucces implements Action {
   constructor(public payload: { payfactorsFields: EntityField, providerFields: EntityField }) {}
 }
 
+export class AddConverterOptions implements Action {
+  readonly type = ADD_CONVERTER_OPTIONS;
+
+  constructor(public payload: {entityId?: number, converterOptions: ConverterOptions }) {}
+}
+
 // outbound jdm actions, delete me
 export class SaveOutboundJdmFieldMappings implements Action {
   readonly type = SAVE_OUTBOUND_MAPPINGS;
@@ -235,5 +243,7 @@ export type Actions
  | LoadMappedFields
  | LoadMappedFieldsError
  | LoadMappedFieldsSucces
+ | TrySaveMapping
+ | AddConverterOptions
  | SaveOutboundJdmFieldMappings
  | SaveOutboundJdmFieldMappingsSuccess;

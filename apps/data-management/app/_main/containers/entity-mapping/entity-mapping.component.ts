@@ -6,9 +6,14 @@ import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 import orderBy from 'lodash/orderBy';
 
+import { DATE_FORMATS } from 'libs/features/org-data-loader/constants';
+import { ConverterSettings } from 'libs/models/hris-api';
+
+import * as fromConverterSettingsActions from '../../actions/converter-settings.actions';
 import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
 import * as fromFieldMappingReducer from '../../reducers';
 import { EntityDataField, EntityField } from '../../models';
+
 
 @Component({
   selector: 'pf-entity-mapping',
@@ -17,10 +22,14 @@ import { EntityDataField, EntityField } from '../../models';
 })
 export class EntityMappingComponent implements OnInit, OnDestroy {
 
+  dateFormats: Array<{ text: string, value: string}> = DATE_FORMATS;
+
+  @Input() provider: string;
   @Input() entityType: string;
   @Input() entityGroupName = 'associated-bag';
   @Input() sourceName: string;
   @Input() targetName: string;
+  @Input() connectionId: number;
 
   private providerSearchTerm = '';
   private payfactorsSearchTerm = '';
@@ -28,15 +37,21 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   providerFields$: Observable<EntityField>;
   payfactorFields$: Observable<EntityField>;
 
+  globalDateSetting$: Observable<ConverterSettings>;
+
   filteredProviderFields: EntityDataField[] = [];
   filteredPayfactorsFields: EntityDataField[] = [];
 
   dragulaSub: Subscription;
   providerFieldsSubscription: Subscription;
   payfactorFieldsSubscription: Subscription;
+  globalDateSettingSubscription: Subscription;
+
 
   providerFields: EntityDataField[];
   payfactorsFields: EntityDataField[];
+
+  selectedDateFormat = 'Select format for date fields';
 
   constructor(private store: Store<fromFieldMappingReducer.State>, private dragulaService: DragulaService) {
   }
@@ -44,6 +59,15 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.payfactorFields$ = this.store.select(fromFieldMappingReducer.getPayfactorsFields);
     this.providerFields$ = this.store.select(fromFieldMappingReducer.getProviderFields);
+
+    if (this.entityType.toLowerCase() === 'employees') {
+      this.globalDateSetting$ = this.store.select(fromFieldMappingReducer.getGlobalDateSetting);
+      this.globalDateSettingSubscription = this.globalDateSetting$.subscribe(v => {
+        if (v) {
+          this.selectedDateFormat = v.options.DateTimeFormat;
+        }
+      });
+    }
 
     this.providerFieldsSubscription = this.providerFields$
     .subscribe(v => {
@@ -100,6 +124,7 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.payfactorFieldsSubscription.unsubscribe();
     this.providerFieldsSubscription.unsubscribe();
+    this.globalDateSettingSubscription.unsubscribe();
     this.dragulaSub.unsubscribe();
     this.dragulaService.destroy(this.entityGroupName);
   }
@@ -135,4 +160,19 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
       payfactorsEntityId: pfEntityId
     }));
   }
+
+  onDateFormatSelected(event) {
+    this.selectedDateFormat = event.target.value;
+    const converterOptions: ConverterSettings = {
+      connection_ID: this.connectionId,
+      fieldName: null,
+      entityType: 'Employees',
+      options: {
+        DateTimeFormat: this.selectedDateFormat
+      },
+      dataType: 'Date'
+    };
+    this.store.dispatch(new fromConverterSettingsActions.AddConverterSetting(converterOptions));
+  }
+
 }
