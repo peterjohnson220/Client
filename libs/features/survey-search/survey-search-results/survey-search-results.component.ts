@@ -54,6 +54,7 @@ export class SurveySearchResultsComponent implements OnInit {
     switch (event.data.payfactorsMessage.type) {
       case 'Refine Exchange Job Enabled':
         this.refineInPeerReady = true;
+        this.refineInPeerByJobTitle = false;
         break;
       case 'Refine Exchange Job Title Search Enabled':
         this.refineInPeerReady = true;
