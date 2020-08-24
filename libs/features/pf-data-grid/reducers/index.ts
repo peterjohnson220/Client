@@ -75,3 +75,4 @@ export const getFieldsFilterCount = createSelector(selectPfDataGridState, fromPf
 export const getGridConfig = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGridConfig);
 export const getFilterPanelOpen = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilterPanelOpen);
 export const getModifiedKeys = createSelector(selectPfDataGridState, fromPfDataGridReducer.getModifiedKeys);
+export const getGridScrolledContent = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGridScrolledContent);
