@@ -1,3 +1,7 @@
+@import 'total-rewards/statement-layout-variables';
+
+$chart-height: 250px;
+
 .trs-chart {
   .heading {
     width: 105%;
@@ -7,7 +11,7 @@
   }
 
   kendo-chart {
-    height: 250px;
+    height: $chart-height;
   }
   
   a.settings {
@@ -21,5 +25,11 @@
       opacity: 0;
       pointer-events: none;
     }
+  }
+}
+
+@media print {
+  .trs-chart kendo-chart {
+    height: #{($print-base-font-size / 13) * $chart-height}; // increase height proportionate to larger print base font size
   }
 }

@@ -24,30 +24,6 @@ describe('EffectiveDateComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show an `edit-mode` class when mode is edit', () => {
-    // arrange
-    component.mode = StatementModeEnum.Edit;
-
-    // act
-    fixture.detectChanges();
-
-    // assert
-    expect(fixture.debugElement.nativeElement.querySelector('.edit-mode')).toBeTruthy();
-    expect(fixture.debugElement.nativeElement.querySelector('.preview-mode')).toBeFalsy();
-  });
-
-  it('should show a `preview-mode` class when mode is preview', () => {
-    // arrange
-    component.mode = StatementModeEnum.Preview;
-
-    // act
-    fixture.detectChanges();
-
-    // assert
-    expect(fixture.debugElement.nativeElement.querySelector('.preview-mode')).toBeTruthy();
-    expect(fixture.debugElement.nativeElement.querySelector('.edit-mode')).toBeFalsy();
-  });
-
   it('should show an `empty-date` class when no effective date is present', () => {
     // arrange
     component.effectiveDate = null;

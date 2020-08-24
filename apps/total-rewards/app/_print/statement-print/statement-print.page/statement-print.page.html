@@ -1,7 +1,8 @@
-<div *ngFor="let employeeRewardsData of (statement$ | async)?.EmployeeRewardsData;">
+<div *ngFor="let employeeRewardsData of (statement$ | async)?.EmployeeRewardsData; let i = index;">
   <pf-total-rewards-statement
     [statement]="(statement$ | async)"
     [employeeRewardsData]="employeeRewardsData"
     [mode]="printMode"
+    [pageBreakAfter]="i !== (statement$ | async)?.EmployeeRewardsData?.length - 1"
   ></pf-total-rewards-statement>
 </div>

@@ -7,7 +7,7 @@ $spinner-easing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 .canvas {
   width: $canvas-width;
   background: $trs-canvas-background-color;
-  padding-top: 3.5rem;
+  padding-top: 100px;
 }
 
 // the wrapper is there to hide the document's contents from leaking through over the top of the header row
@@ -18,7 +18,7 @@ $spinner-easing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
   padding-top: 12px;
   z-index: 10;
   transition: $left-nav-transition;
-  background-color: $trs-edit-statement-page-background-color;
+  background-color: white;
 
   .header-row {
     border: 1px solid $trs-soft-border-color;

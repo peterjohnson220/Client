@@ -12,7 +12,7 @@
       <fa-icon [icon]="'cog'" aria-hidden="true"></fa-icon>
     </a>
   </div>
-  <kendo-chart [transitions]="!inEditMode" [seriesColors]="chartColors" (legendItemClick)="onLegendItemClick($event)">
+  <kendo-chart [transitions]="!inEditMode && !inPrintMode" [seriesColors]="chartColors" (legendItemClick)="onLegendItemClick($event)">
     <kendo-chart-legend position="bottom">
     </kendo-chart-legend>
     <kendo-chart-series>
