@@ -31,6 +31,9 @@
 
 <ng-template #multiMatchContent>
   <div class="multi-match-content">
+    <div *ngIf="hasError" class="alert alert-danger">
+      Something went wrong. Please try again later.
+    </div>
     <pf-search-layout [resultsCount]="numberOfResults$ | async">
       <ng-container sidebar>
         <pf-search-filters
@@ -72,9 +75,6 @@
         </button>
       </ng-container>
     </pf-search-layout>
-    <div *ngIf="hasError" class="text-center k-text-error">
-      Something went wrong. Please try again later.
-    </div>
   </div>
 </ng-template>
 

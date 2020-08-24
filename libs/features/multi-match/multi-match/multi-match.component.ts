@@ -128,6 +128,7 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
       case MODIFY_PRICINGS:
         super.resetActions();
         this.showMultiMatchModal.next(false);
+        this.hasError = false;
         this.onResetApp();
         break;
       default:
