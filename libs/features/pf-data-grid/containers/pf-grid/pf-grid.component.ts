@@ -151,7 +151,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
 
-
     this.dataSubscription = this.store.select(fromReducer.getData, this.pageViewId).subscribe(newData => {
       this.data = cloneDeep(newData);
       if (this.data && this.grid) {

@@ -14,6 +14,7 @@ import { UpdatePricingMatchRequest, PricingUpdateStrategy } from 'libs/models/pa
 import { AsyncStateObj } from 'libs/models';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import { PageViewIds } from '../../../constants';
 import * as fromJobsPageActions from '../../../actions';
@@ -50,6 +51,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   deletingPricingMatch$: Observable<AsyncStateObj<boolean>>;
   getDeletingPricingMatchSuccessSubscription: Subscription;
 
+  updateGridDataRowSubscription: Subscription;
+
   weight: number;
   adjustment: number;
 
@@ -71,7 +74,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
     const pricingMatchPageViewId = `${PageViewIds.PricingMatches}_${this.pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID}`;
     this.pricingMatchesDataSuscription = this.store.select(fromPfDataGridReducer.getData, pricingMatchPageViewId).subscribe(data => {
-      this.pricingMatchesCount = data.total;
+      this.pricingMatchesCount = data?.total;
     });
 
     this.deletingPricingMatch$ = this.store.select(fromJobsPageReducer.getDeletingPricingMatch);
@@ -79,6 +82,16 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       .pipe(ofType(fromJobsPageActions.DELETING_PRICING_MATCH_SUCCESS))
       .subscribe(data => {
         this.showDeletePricingMatchModal.next(false);
+      });
+
+    // We need to update the pricingInfo manually because the state is not updated when the grid is updated using the UpdateGridDataRow action
+    this.updateGridDataRowSubscription = this.actionsSubject
+      .pipe(ofType(fromPfDataGridActions.UPDATE_GRID_DATA_ROW))
+      .subscribe((action: fromPfDataGridActions.UpdateGridDataRow) => {
+        const key = 'CompanyJobs_Pricings_CompanyJobPricing_ID';
+        if (action.pageViewId === PageViewIds.PricingDetails && action.data[key] === this.pricingInfo[key]) {
+          this.pricingInfo = action.data[key];
+        }
       });
 
     this.isActiveJobSubscription = this.store
@@ -107,6 +120,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   ngOnDestroy() {
     this.getDeletingPricingMatchSuccessSubscription.unsubscribe();
+    this.updateGridDataRowSubscription.unsubscribe();
     this.pricingMatchesDataSuscription.unsubscribe();
     this.isActiveJobSubscription.unsubscribe();
   }

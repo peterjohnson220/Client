@@ -279,6 +279,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             pagingOptions: action.pagingOptions,
+            expandedRows: [],
             loading: true
           },
         }
