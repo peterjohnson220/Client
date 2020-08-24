@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FileDownloadSuccess } from 'libs/features/file-download/actions/file-download.actions';
-import { UserContext } from 'libs/models';
+import { UserContext, FileType } from 'libs/models';
 import { of } from 'rxjs';
 
 import { CompositeSummaryDownloadRequest } from '../../../models/dashboard';
@@ -66,8 +66,9 @@ describe('IntegrationApiService', () => {
     // arrange
     const fileId = 'testFile';
     const CompanyId = 12345;
-    const request = <CompositeSummaryDownloadRequest> {
+    const request: CompositeSummaryDownloadRequest = {
       Id: fileId,
+      FileType: FileType.InvalidRecordsFile
     };
     const userContext = <UserContext> {
       CompanyId,
