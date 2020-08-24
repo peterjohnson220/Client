@@ -102,6 +102,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   getNotificationSubscription: Subscription;
   getExportEventIdSubscription: Subscription;
   getExportViewIdSubscription: Subscription;
+  getGridScrolledSubscription: Subscription;
 
   userFilteredFields: ViewField[];
   selectedRecordId: number;
@@ -162,6 +163,12 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
         this.store.dispatch(new fromActions.GetExportingStatus(this.pageViewId, exportViewId));
       }
     });
+
+    this.getGridScrolledSubscription = this.store.select(fromReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
+      if (scrolledContent && this.syncScrollWithSplit) {
+        this.splitViewContainer.nativeElement.scrollTop = scrolledContent.scrollTop;
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -172,6 +179,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.getExportEventIdSubscription.unsubscribe();
     this.getNotificationSubscription.unsubscribe();
     this.getExportViewIdSubscription.unsubscribe();
+    this.getGridScrolledSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -259,12 +267,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   isSplitView() {
     return this.splitViewTemplate && (this.selectedRecordId || !this.splitOnSelection);
-  }
-
-  handleGridScroll(event: ContentScrollEvent) {
-    if (this.syncScrollWithSplit) {
-      this.splitViewContainer.nativeElement.scrollTop = event.scrollTop;
-    }
   }
 
 }

@@ -4,7 +4,7 @@ import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
 import isNumber from 'lodash/isNumber';
 
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
 import { arrayMoveMutate, arraySortByString, SortDirection } from 'libs/core/functions';
@@ -51,6 +51,7 @@ export interface DataGridState {
   fieldsExcludedFromExport: [];
   gridConfig: GridConfig;
   modifiedKeys: any[];
+  gridScrolledContent: ContentScrollEvent;
 }
 
 export interface DataGridStoreState {
@@ -155,7 +156,7 @@ export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: stri
 export const getGridConfig = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].gridConfig : null;
 export const getFilterPanelOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].filterPanelOpen : null;
 export const getModifiedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].modifiedKeys : null;
-
+export const getGridScrolledContent = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].gridScrolledContent;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -993,6 +994,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             modifiedKeys: state.grids[action.pageViewId].modifiedKeys.filter((modifiedKey => modifiedKey !== action.payload))
+          }
+        }
+      };
+    case fromPfGridActions.CAPTURE_GRID_SCROLLED:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [ action.pageViewId ]: {
+            ...state.grids[ action.pageViewId ],
+            gridScrolledContent: action.payload
           }
         }
       };

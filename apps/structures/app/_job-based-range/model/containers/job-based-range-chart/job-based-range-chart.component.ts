@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
@@ -49,9 +49,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   metaData: RangeGroupMetadata;
   rangeDistributionTypeId: number;
   filterPanelSub: Subscription;
+  initialY: number;
+  gridScrolledSub: Subscription;
 
   constructor(
     public store: Store<any>,
+    public pfGridStore: Store<fromPfGridReducer.State>,
     private structuresPagesService: StructuresPagesService
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
@@ -75,6 +78,15 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       if (data && this.rate && this.currency) {
         this.jobRangeData = data;
         this.processChartData();
+      }
+    });
+
+    this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
+      if (scrolledContent && this.chartInstance) {
+        this.initialY = this.chartInstance.legend.options.y;
+        this.chartInstance.legend.group.attr({
+          translateY: this.initialY + scrolledContent.scrollTop
+        });
       }
     });
   }
@@ -365,5 +377,6 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.metadataSubscription.unsubscribe();
     this.pageViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
+    this.gridScrolledSub.unsubscribe();
   }
 }
