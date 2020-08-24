@@ -10,13 +10,13 @@
         [restrictions]="uploadRestrictions"
         (success)="uploadImageSuccess($event)"
         (error)="uploadImageError($event)"
-      >
+        (select)="selectEventHandler($event)">
         <ng-template kendoUploadFileTemplate let-files let-state="state">
-          <p *ngIf="files[0].validationErrors" class="mb-0 font-italic">{{getFileValidation(files[0])}}</p>
+          <p *ngIf="files[0].validationErrors" class="mb-0 mx-auto font-italic">{{getFileValidation(files[0])}}</p>
         </ng-template>
         <kendo-upload-messages select="Select Image" [invalidMaxFileSize]="invalidMaxFileSize" [invalidFileExtension]="invalidFileExtension"></kendo-upload-messages>
       </kendo-upload>
-      <p *ngIf="!isInvalidError" class="help-text text-muted font-italic position-absolute">Or drag and drop</p>
+      <p *ngIf="!!selectedFiles && !selectedFiles[0]?.validationErrors?.length" class="help-text text-muted font-italic position-absolute">Or drag and drop</p>
       <p *ngIf="isServerError" class="server-error help-text text-danger font-italic position-absolute">An error occurred</p>
     </div>
     <ng-template #showImage>
