@@ -58,11 +58,11 @@
     <div class="peer-org-weighted-nat-avg card" *ngIf="isPeerJob && !!job.PeerJobInfo">
       <div class="avg-pay-container d-flex justify-content-between">
         <div class="label-indicator">Base 50th</div>
-        <div>{{!job.PeerJobInfo.NatAvgBase50th ? '--' : job.PeerJobInfo.NatAvgBase50th}}</div>
+        <div>{{!job.PeerJobInfo.NatAvgBase50th ? '--' : job.PeerJobInfo.NatAvgBase50th | comp: compRate : annualDisplay }}</div>
       </div>
       <div class="avg-pay-container d-flex justify-content-between">
         <div class="label-indicator">TCC 50th</div>
-        <div>{{!job.PeerJobInfo.NatAvgTCC50th ? '--' : job.PeerJobInfo.NatAvgTCC50th}}</div>
+        <div>{{!job.PeerJobInfo.NatAvgTCC50th ? '--' : job.PeerJobInfo.NatAvgTCC50th | comp: compRate: annualDisplay}}</div>
       </div>
       <div class="card-footer d-flex justify-content-between">
         <div class="text-muted small"><i>National</i></div>

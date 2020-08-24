@@ -6,8 +6,9 @@ import { Store } from '@ngrx/store';
 import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
+import { annualDisplay, compRate } from 'libs/core/pipes';
 
-import { DataCutDetails, JobResult, MatchesDetailsTooltipData, DataCut, PeerJobInfo } from '../../models';
+import { DataCut, DataCutDetails, JobResult, MatchesDetailsTooltipData } from '../../models';
 import { hasMoreDataCuts } from '../../helpers';
 import * as fromSurveySearchReducer from '../../reducers';
 
@@ -41,6 +42,8 @@ export class JobResultComponent implements OnInit, OnDestroy {
   showJobDetail: boolean;
   matchesMouseLeaveTimer: number;
   surveySearchResultDataSources = SurveySearchResultDataSources;
+  annualDisplay: annualDisplay = annualDisplay.full;
+  compRate: compRate = compRate.annual;
 
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';
