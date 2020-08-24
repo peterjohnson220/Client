@@ -70,6 +70,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
   @Input() modifiedKey: string = null;
   @Input() resetWidthForSplitView = false;
+  @Input() allowMultipleSort = false;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
   gridState$: Observable<DataGridState>;
