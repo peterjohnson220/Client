@@ -39,8 +39,6 @@ export class CommunityPostEffects {
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.MyPosts }),
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
-                    { communityCategory: CommunityCategoryEnum.MyFavorites }),
-                new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.Unanswered }),
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.Internal }),
@@ -51,8 +49,6 @@ export class CommunityPostEffects {
                 new fromCommunityPostActions.SubmittingCommunityPostSuccess(communityPost),
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.MyPosts }),
-                new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
-                  { communityCategory: CommunityCategoryEnum.MyFavorites }),
                 new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.Unanswered }),
                 new fromCommunityAttachmentActions.ClearCommunityAttachmentsState(CommunitySearchResultTypeEnum.Discussion)
@@ -97,19 +93,28 @@ export class CommunityPostEffects {
         )
       )
     );
-    @Effect()
-    updatingCommunityPostFavorite$: Observable<Action> = this.actions$
-      .pipe(
-        ofType(fromCommunityPostActions.UPDATING_COMMUNITY_POST_FAVORITE),
-        switchMap((action: fromCommunityPostActions.UpdatingCommunityPostFavorite) =>
-          this.communityPostService.updatePostFavorite(action.payload).pipe(
-            map(() => {
-              return new fromCommunityPostActions.UpdatingCommunityPostFavoriteSuccess(action.payload);
-            }),
-            catchError(error => of(new fromCommunityPostActions.UpdatingCommunityPostFavoriteError()))
-          )
+
+  @Effect()
+  updatingCommunityPostFavorite$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromCommunityPostActions.UPDATING_COMMUNITY_POST_FAVORITE),
+      switchMap((action: fromCommunityPostActions.UpdatingCommunityPostFavorite) =>
+        this.communityPostService.updatePostFavorite(action.payload).pipe(
+          concatMap(() => {
+            return [
+              new fromCommunityPostActions.UpdatingCommunityPostFavoriteSuccess(action.payload),
+              action.payload.favorite === true ?
+              new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
+                { communityCategory: CommunityCategoryEnum.MyFavorites }) :
+              new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
+                { communityCategory: CommunityCategoryEnum.MyFavorites })
+            ];
+          }),
+          catchError(error => of(new fromCommunityPostActions.AddingCommunityDiscussionPollError(error)))
         )
-      );
+      )
+    );
+
   @Effect()
   savingCmmunityPostEdit$: Observable<Action> = this.actions$
     .pipe(
@@ -147,7 +152,9 @@ export class CommunityPostEffects {
               actions = [
                 new fromCommunityPostActions.DeletingCommunityPostSuccess(action.payload.PostId),
                 new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
-                  { communityCategory: CommunityCategoryEnum.MyPosts })
+                  { communityCategory: CommunityCategoryEnum.MyPosts }),
+                new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.MyFavorites })
               ];
             }
             if (!action.payload.IsUserPoll && !action.payload.HasReplies) {
