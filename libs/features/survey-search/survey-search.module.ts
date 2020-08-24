@@ -13,6 +13,7 @@ import { PfFormsModule } from 'libs/forms';
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { PfSearchModule } from 'libs/features/search';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
+import { PfCommonModule } from 'libs/core';
 
 import * as fromFaIcons from './fa-icons';
 import { JobResultComponent, DataCutsComponent, MatchesDetailsTooltipComponent } from './components';
@@ -23,7 +24,7 @@ TooltipContainerEffects, SavedFiltersEffects, ContextEffects } from './effects';
 import { reducers } from './reducers';
 import { SurveySearchEffectsService } from './services';
 import { PayfactorsSurveySearchApiHelper, SavedFilterHelper } from './helpers';
-import {SurveySearchResultsComponent} from './survey-search-results';
+import { SurveySearchResultsComponent } from './survey-search-results';
 
 const components = [
     // Components
@@ -33,24 +34,24 @@ const components = [
     SurveySearchResultsComponent, TooltipContainerComponent,
 ];
 @NgModule({
-  imports: [
-    // Angular
-    CommonModule, FormsModule, ReactiveFormsModule,
+    imports: [
+        // Angular
+        CommonModule, FormsModule, ReactiveFormsModule,
 
-    // 3rd Party
-    StoreModule.forFeature('feature_surveySearch', reducers),
-    EffectsModule.forFeature([SurveySearchFiltersEffects, SearchResultsEffects,
-      TooltipContainerEffects, SingledFilterEffects, SavedFiltersEffects, ContextEffects
-    ]),
-    NgbTooltipModule,
-    DragulaModule.forRoot(),
-    FontAwesomeModule,
+        // 3rd Party
+        StoreModule.forFeature('feature_surveySearch', reducers),
+        EffectsModule.forFeature([SurveySearchFiltersEffects, SearchResultsEffects,
+            TooltipContainerEffects, SingledFilterEffects, SavedFiltersEffects, ContextEffects
+        ]),
+        NgbTooltipModule,
+        DragulaModule.forRoot(),
+        FontAwesomeModule,
 
-    // Payfactors
-    PfCommonUIModule,
-    PfFormsModule,
-    PfSearchModule
-  ],
+        // Payfactors
+        PfCommonUIModule,
+        PfFormsModule,
+        PfSearchModule, PfCommonModule
+    ],
   declarations: components,
   exports: [SurveySearchResultsComponent],
   providers: [
