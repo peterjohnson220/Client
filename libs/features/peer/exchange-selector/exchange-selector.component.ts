@@ -91,6 +91,7 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
       if (!!exchangeId && !!this.allData?.find(ex => ex.Key === exchangeId)) {
         this.selectedExchangeId = exchangeId;
         this.exchangeSelectorControl.setValue(exchangeId);
+        this.onExchangeSelected.emit(this.selectedExchangeId);
       } else {
         this.selectedExchangeId = exchangeId;
         this.applyDefaultExchange();
