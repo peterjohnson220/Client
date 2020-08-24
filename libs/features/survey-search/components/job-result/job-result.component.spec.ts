@@ -3,6 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { PfCommonModule } from 'libs/core';
 
 import { JobResultComponent } from './job-result.component';
 import {
@@ -26,7 +27,8 @@ describe('Project - Survey Search - Job Result', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           project_surveySearch: combineReducers(fromSurveySearchReducer.reducers)
-        })
+        }),
+        PfCommonModule
       ],
       declarations: [ JobResultComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
