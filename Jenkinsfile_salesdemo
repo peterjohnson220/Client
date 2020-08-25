@@ -34,7 +34,7 @@ pipeline {
       steps {
         script {
           deleteDir()
-          
+
           git branch: "master", credentialsId: 'gitsshkey', url: 'git@github.com:PayFactors/client.git'
           sh "git branch"
 
@@ -46,7 +46,7 @@ pipeline {
 
             suffix = '-Sales'
             env.buildConfig = '--configuration=sales'
-            
+
             slackTitle = (isAutoDeployBranch) ? 'Build/Deploy' : 'Build'
 
             env.pkgFullName = pkgName + ".${env.pkgVersion}${suffix}${verDetails}"
@@ -77,12 +77,12 @@ pipeline {
             sh 'npm install'
           }
         }
-        
+
         stash includes: 'CHANGES', name: 'changes'
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -107,7 +107,7 @@ pipeline {
           junit 'output/coverage/junit/junit.xml'
         }
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -121,14 +121,14 @@ pipeline {
             echo "Getting list of apps..."
             sh 'ls -I "smallbiz" apps > dirs'
             sh """
-              cat dirs | time parallel -j-3 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && echo "{} build complete"'
+              cat dirs | time parallel -j-3 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && node_modules/.bin/gulp purgecss -a={} && echo "{} build complete"'
             """
           }
         }
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -149,7 +149,7 @@ pipeline {
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -170,7 +170,7 @@ pipeline {
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -179,7 +179,7 @@ pipeline {
   }
   post {
     success {
-      script { 
+      script {
         fullDur = (currentBuild.durationString).replace(' and counting',"")
         slackSend channel: slackCh, color: 'good', message: "<${env.buildurl}|*${slackTitle} Success*> - ${fullDur}\n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.BUILD_NUMBER} - ${env.pkgVersion} \nAuthor: ${env.lastAuthor}"
       }
@@ -219,7 +219,7 @@ def getGitChangeLog() {
   return gitchangelog
 }
 
-def sendSlackFail(gitAuthor, pkgVersion) { 
+def sendSlackFail(gitAuthor, pkgVersion) {
   fullDur = (currentBuild.durationString).replace(' and counting',"")
   slackSend channel: slackCh, color: 'danger', message: "<${env.buildurl}|*${slackTitle} Failure*> (Stage: ${STAGE_NAME}) - ${fullDur}\n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.BUILD_NUMBER} - ${pkgVersion} \nAuthor: ${gitAuthor}"
 }
