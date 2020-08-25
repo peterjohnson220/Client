@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
 import * as models from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
@@ -13,7 +15,7 @@ import { TotalRewardsStatementService } from '../../services/total-rewards-state
 export class TrsCalculationControlComponent {
 
   @Input() controlData: models.CalculationControl;
-  @Input() employeeRewardsData: models.EmployeeRewardsData;
+  @Input() employeeRewardsData: EmployeeRewardsData;
   @Input() mode: models.StatementModeEnum;
 
   @Output() onTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();

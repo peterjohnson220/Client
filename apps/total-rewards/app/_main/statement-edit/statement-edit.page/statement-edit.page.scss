@@ -1,12 +1,13 @@
 @import 'colors';
 @import 'app-colors';
 @import 'total-rewards/statement-layout-variables';
+@import 'common/common-variables';
 
 $spinner-easing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 
 .canvas {
   width: $canvas-width;
-  background: $trs-canvas-background-color;
+  background: white;
   padding-top: 100px;
 }
 
@@ -99,3 +100,15 @@ a.settings {
     transform: translateX(0);
   }
 }
+
+.employee-search {
+  left: 100%;
+}
+
+::ng-deep .k-list .k-item {
+  @extend %ellipsis-overflowing-text;
+  .employee-search-result {
+    @extend %ellipsis-overflowing-text;
+  }
+}
+

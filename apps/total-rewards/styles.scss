@@ -66,6 +66,32 @@ pf-statement-edit.page {
   .page-content {
     overflow-x: hidden; // let settings panel hide out to the right
   }
+  .preview-mode {
+    .page-content, .page-header {
+      background-color: rgba(255, 255, 255, 0.2) !important;
+      border-bottom-color: transparent !important;
+    }
+    .page-header button {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    .canvas {
+      .mode-button {
+        left: 100%;
+        width: 100px;
+        color: white;
+        border-color: white;
+      }
+      .header-row-wrapper {
+        opacity: 0;
+      }
+      .statement {
+        margin-top: -90px;
+      }
+      &.canvas {
+        background-color: rgba(187, 187, 187, 0);
+      }
+    }
+  }
   a.settings {
     color: inherit;
     svg {
@@ -80,6 +106,15 @@ pf-statement-edit.page {
       opacity: .5;
     }
   }
+  .statement, .header-row-wrapper, .canvas {
+    transition: margin .5s , opacity .2s ease-in-out, background-color .2s ease-in-out;
+  }
+
+  .page-content, .page-header {
+    transition: background-color .3s ease-in-out;
+  }
+
+
 }
 
 pf-total-rewards-statement {

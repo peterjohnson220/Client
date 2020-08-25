@@ -7,7 +7,7 @@ import * as fromRoot from 'libs/state/state';
 import * as fromPageReducer from './statement-edit.page.reducer';
 import { AsyncStateObj } from 'libs/models';
 
-import { Statement, TotalRewardsControlEnum, EmployeeRewardsData, CalculationControl, BaseControl } from '../../../shared/models';
+import { Statement } from '../../../shared/models';
 
 // Feature area state
 export interface StatementEditState {
@@ -102,4 +102,14 @@ export const selectIsSettingsSaveError = createSelector(
 export const selectStatementMode = createSelector(
   selectStatementEditPageState,
   (state: StatementEditState) => state.page.mode
+);
+
+export const selectAssignedEmployees = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.assignedEmployees
+);
+
+export const getEmployeeData = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.employeeData
 );

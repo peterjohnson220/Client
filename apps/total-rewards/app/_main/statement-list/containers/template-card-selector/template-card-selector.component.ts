@@ -2,12 +2,13 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angu
 
 import {select, Store} from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import * as fromTotalRewardsReducer from './../../reducers';
 import * as fromTemplateSelectorActions from '../../actions/template-selector.actions';
 
-import { generateMockEmployeeRewardsData, generateMockStatement, Statement, StatementModeEnum, Template, TemplatePreview } from '../../../../shared/models';
+import { generateMockStatement, Statement, StatementModeEnum, Template, TemplatePreview } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-total-rewards-template-card-selector',

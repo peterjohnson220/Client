@@ -18,6 +18,7 @@ export interface FilterOptions {
 export interface BaseSearchRequest {
   SearchFields: SearchField[];
   Filters: SearchFilter[];
+  PagingOptions?: PagingOptions;
 }
 
 export interface BaseSearchAggregationsRequest {

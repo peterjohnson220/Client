@@ -18,7 +18,9 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'quill-mention';
 
-import { EmployeeRewardsData, RichTextControl, StatementModeEnum } from '../../models';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
+import { RichTextControl, StatementModeEnum } from '../../models';
 import { UpdateStringPropertyRequest, UpdateTitleRequest } from '../../models/request-models';
 
 const Quill = require('quill');
@@ -122,7 +124,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     // Get the F outta here if in print mode
     if (this.mode === StatementModeEnum.Print) { return; }
 
-    if (changes.mode) {
+    if (changes.mode || changes.employeeRewardsData) {
       this.bindEmployeeData();
     }
   }

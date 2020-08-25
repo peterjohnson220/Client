@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgbDropdownModule, NgbButtonsModule } from '@ng-bootstrap/ng-bootstrap';
+import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -32,6 +33,8 @@ import { StatementEditPageEffects } from './effects/statement-edit.page.effects'
     ColorPickerModule,
 
     // Payfactors
+    ComboBoxModule,
+
     PfCommonModule,
     PfCommonUIModule,
     SharedModule,

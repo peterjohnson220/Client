@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
 import { TrsTitleControlComponent } from './trs-title-control.component';
-import { generateMockTitleControl, StatementModeEnum, generateMockEmployeeRewardsData } from '../../models';
+import { generateMockTitleControl, StatementModeEnum } from '../../models';
 
 describe('TrsTitleControlComponent', () => {
   let component: TrsTitleControlComponent;

@@ -5,6 +5,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { generateDefaultAsyncStateObj } from 'libs/models';
+import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import * as statementEditReducer from '../../../_main/statement-edit/reducers/statement-edit.page.reducer';
 import * as fromTotalRewardsStatementEditReducer from '../../../_main/statement-edit/reducers';
@@ -12,7 +13,6 @@ import {
   Statement,
   generateMockStatement,
   generateMockStatementWithSingleControl,
-  generateMockEmployeeRewardsData,
   generateMockStatementWithSingleCalculationControl,
   generateMockStatementWithSingleCalculationControlAndNoVisibleFields
 } from '../../models';
