@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import {SurveySearchResultDataSources} from 'libs/constants';
@@ -33,6 +33,9 @@ export class SurveySearchResultsComponent implements OnInit {
   pricingMatchDataSearchContext$: Observable<PricingMatchDataSearchContext>;
   legacyIframeImplementation: boolean;
 
+  // subscriptions
+  contextSub: Subscription;
+
   constructor(
     private store: Store<fromSurveySearchReducer.State>
   ) {
@@ -42,6 +45,9 @@ export class SurveySearchResultsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.contextSub = this.pricingMatchDataSearchContext$.subscribe(c => {
+      this.refineInPeerReady = false;
+    });
     this.legacyIframeImplementation = this.implementation === 'component';
   }
 
