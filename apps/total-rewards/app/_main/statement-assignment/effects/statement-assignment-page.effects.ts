@@ -82,8 +82,9 @@ export class StatementAssignmentPageEffects {
         this.store.select(fromTotalRewardsReducer.getAssignedEmployeesSelectedCompanyEmployeeIds),
         this.store.select(fromTotalRewardsReducer.getIsSingleEmployeeAction),
         this.store.select(fromTotalRewardsReducer.getOpenActionMenuEmployee),
-        (action: fromStatementAssignmentPageActions.GenerateStatements, statement, companyEmployeeIds, isSingleAction, actionMenuEmployee) =>
-          ({ action, companyEmployeeIds, statementId: statement.StatementId, isSingleAction, actionMenuEmployee })
+        this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
+        (action: fromStatementAssignmentPageActions.GenerateStatements, statement, companyEmployeeIds, isSingleAction, actionMenuEmployee, gridState) =>
+          ({ action, companyEmployeeIds, statementId: statement.StatementId, isSingleAction, actionMenuEmployee, gridState })
       ),
       concatMap((data) =>
         this.totalRewardsAssignmentApi.unassignEmployees(
@@ -95,7 +96,7 @@ export class StatementAssignmentPageEffects {
             new fromStatementAssignmentPageActions.UnassignEmployeesSuccess(),
             new fromAssignedEmployeesGridActions.ClearSelections(),
             new fromStatementAssignmentPageActions.CloseUnassignModal(),
-            new fromAssignedEmployeesGridActions.LoadAssignedEmployees()
+            new fromAssignedEmployeesGridActions.LoadAssignedEmployees({...data.gridState, skip: 0})
           ]),
           catchError(() => of(new fromStatementAssignmentPageActions.UnassignEmployeesError()))
         )
