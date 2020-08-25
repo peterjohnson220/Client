@@ -180,4 +180,26 @@ describe('TrsChartControlComponent', () => {
     expect(component.formatDataFieldValue('string with spaces')).toBe('string with spaces');
     expect(component.formatDataFieldValue('nospaces')).toBe('nospaces');
   });
+
+  it('quillToolbarContainer should contain supported font families when enabled', () => {
+    // arrange
+    component.showFontFamilyMenu = true;
+
+    // act
+    const config = component.quillToolbarContainer;
+
+    // assert
+    expect(config[0][0].font).toStrictEqual(['Arial', 'Georgia', 'TimesNewRoman', 'Verdana']);
+  });
+
+  it('quillToolbarContainer should not contain font families when disabled', () => {
+    // arrange
+    component.showFontFamilyMenu = false;
+
+    // act
+    const config = component.quillToolbarContainer;
+
+    // assert
+    expect(config[0][0].font).toBeUndefined();
+  });
 });
