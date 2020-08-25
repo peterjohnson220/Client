@@ -44,6 +44,7 @@ describe('UI/Common/Content - Multi Select', () => {
     ClientType: string;
     DefaultPayMarketId: number;
     MapboxAccessToken: string;
+    FeatureFlagBootstrapJson: string;
   };
 
   const initialState = { userContext: userContext };
