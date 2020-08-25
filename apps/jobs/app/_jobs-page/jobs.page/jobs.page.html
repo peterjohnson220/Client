@@ -1,20 +1,21 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
-  [title]="(userContext$ | async)?.CompanyName + ' - Jobs'"
+  [title]="'Jobs'"
   [titleActionsTemplate]="oldJobsPageToggleTemplate"
-  [navigationURL]="'/client/dashboard'"
   [selectionField]="'CompanyJob_ID'"
   [gridActionsTemplate]="gridActions"
   [columnTemplates]="colTemplates"
   [filterPanelTemplates]="filterTemplates"
   [inboundFilters]="filters"
-  [defaultSort]="defaultSort"  
+  [defaultSort]="defaultSort"
   [enableSelection]="true"
   [splitViewTemplate]="jobsDetails"
+  [gridConfig]="gridConfig"
   [splitViewDisplayFields]="['CompanyJobs_Job_Family']"
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
   [actionBarConfig]="actionBarConfig"
-  [gridRowActionsConfig] = "(!(selectedRecordId$ | async))? gridRowActionsConfig: null" >
+  [gridRowActionsConfig]="(!(selectedRecordId$ | async))? gridRowActionsConfig: null"
+  [resetWidthForSplitView]="true">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
@@ -43,7 +44,7 @@
 </ng-template>
 
 <ng-template #jobMatchCount let-dataRow="dataRow">
-  <span  
+  <span
     (click)="openSurveyParticipationModal(dataRow['CompanyJobs_PricingMatchesCount'], dataRow['CompanyJobs_CompanyJob_ID'], $event)">
    {{dataRow['CompanyJobs_PricingMatchesCount']}}
   </span>
@@ -116,37 +117,41 @@
     type="button"
     (click)="clearSelections()"
     [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
-    class="btn btn-secondary pf-btn-borderless">
-    <fa-icon [icon]="['far', 'times']"></fa-icon>
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['far', 'times']" ></fa-icon>
     Clear Selections
   </button>
   <div
     class="vertical-separator my-2"
     [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]">
-  </div>  
+  </div>
   <button
-    [disabled]="!isActiveJobs() || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
+    [disabled]="!(jobStatusField | showingActiveJobs) || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-jobs-page-create-project'"
     type="button"
     (click)="openCreateProjectModal()"
     [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
-    class="btn btn-secondary pf-btn-borderless">
-    <fa-icon [icon]="['far', 'calculator']"></fa-icon>
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-icon [icon]="['far', 'calculator']" ></fa-icon>
     Create Project
-    <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && isActiveJobs()">
+    <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && (jobStatusField | showingActiveJobs)">
       ({{selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length}})
     </span>
-  </button>  
+  </button>
   <button
     [pfSecuredResource]="permissions.MODIFY_PRICINGS"
-    [disabled]="!isActiveJobs() || !selectedPricingIds.length"
+    [disabled]="!(jobStatusField | showingActiveJobs) || !selectedPricingIds.length"
     [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
     (click)="modifyPricings()"
     type="button"
     class="btn btn-secondary pf-btn-borderless">
-    <fa-icon [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
-    Modify Pricings <span *ngIf="selectedPricingIds.length">({{selectedPricingIds.length}})</span>
+    <fa-icon *ngIf="!(pricingsToModify$ | async).loading" [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
+    <pf-loading-indicator *ngIf="(pricingsToModify$ | async).loading"></pf-loading-indicator
+  >
+    Modify Pricings <span *ngIf="selectedPricingIds.length && (jobStatusField | showingActiveJobs)">({{selectedPricingIds.length}})</span>
   </button>
   <button
     [disabled]="!(selectedJobIds.length)"
@@ -155,9 +160,19 @@
     type="button"
     (click)="openJobStatusModal()"
     [title]="!selectedJobIds.length ? 'No Jobs Selected' : ''"
-    class="btn btn-secondary pf-btn-borderless">
-    <fa-icon [icon]="['far', 'briefcase']"></fa-icon>
-    {{isActiveJobs() ? 'Inactivate' : 'Activate'}}
+    class="btn btn-secondary pf-btn-borderless"
+  >
+    <fa-layers [fixedWidth]="true"  class="mr-2" >
+      <fa-icon [icon]="['far', 'briefcase']" class="mr-0"></fa-icon>
+      <fa-icon [icon]="['fas', 'circle']" [inverse]="true" transform="shrink-4 down-7 right-7" class="mr-0"></fa-icon>
+      <fa-icon *ngIf="(jobStatusField | showingActiveJobs)"
+        [icon]="['fas', 'times']" transform="shrink-7 down-7 right-7" class="mr-0">
+      </fa-icon>
+      <fa-icon *ngIf="!(jobStatusField | showingActiveJobs)"
+        [icon]="['fas', 'check']" transform="shrink-7 down-7 right-7" class="mr-0">
+      </fa-icon>
+    </fa-layers>
+    {{(jobStatusField | showingActiveJobs) ? 'Inactivate' : 'Activate'}}
     <span *ngIf="selectedJobIds.length" >
       ({{selectedJobIds.length}})
     </span>
@@ -249,9 +264,9 @@
 
 <pf-modal-form
   [size]="'md'"
-  [title]="(isActiveJobs() ? 'Inactivate' : 'Activate') + ' Jobs'"
-  [primaryButtonText]="(isActiveJobs() ? 'Inactivate' : 'Activate')"
-  [primaryButtonTextSubmitting]="isActiveJobs() ? 'Inactivating' : 'Activating'"
+  [title]="((jobStatusField | showingActiveJobs) ? 'Inactivate' : 'Activate') + ' Jobs'"
+  [primaryButtonText]="((jobStatusField | showingActiveJobs) ? 'Inactivate' : 'Activate')"
+  [primaryButtonTextSubmitting]="(jobStatusField | showingActiveJobs) ? 'Inactivating' : 'Activating'"
   [modalId]="'au-modal-jobs-page-inactivate-activate-jobs'"
   [submitting]="(changingJobStatus$ | async).saving"
   [allowDismiss]="!(changingJobStatus$ | async).saving"
@@ -261,9 +276,9 @@
 
   <ng-container basic-content>
     You are about to make {{selectedJobIds.length}} job{{selectedJobIds.length > 1 ? 's' : ''}}
-    {{isActiveJobs() ? 'Inactive' : 'Active'}}.
+    {{(jobStatusField | showingActiveJobs) ? 'Inactive' : 'Active'}}.
     <br><br>
-    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{isActiveJobs() ? 'unavailable' : 'available'}}
+    By doing so, {{selectedJobIds.length > 1 ? 'they' : 'it'}} will become {{(jobStatusField | showingActiveJobs) ? 'unavailable' : 'available'}}
     for use throughout the system.
     <div *ngIf="jobDescriptionsInReview.length >= 1">
       <br>
@@ -279,7 +294,7 @@
       <br>
       <span class="text-danger">
         <b>
-          We encountered a problem {{isActiveJobs() ? 'Inactivating' : 'Activating'}} the jobs you selected.
+          We encountered a problem {{(jobStatusField | showingActiveJobs) ? 'Inactivating' : 'Activating'}} the jobs you selected.
           Please try again or contact your account representative.
         </b>
       </span>
@@ -340,39 +355,14 @@
 
 </pf-modal-form>
 
-<pf-modal-form
-  [size]="'lg'"
-  [showFooter]="false"
-  [modalId]="'au-modal-jobs-page-multi-match'"
-  [isOpen$]="showModifyingPricings$"
-  (onDismiss)="showModifyingPricings.next(false)">
-  <!--TODO: The multi match page itself handles the UI layout. This is for PoC/Initial work for modifying pricings -->
-  <ng-container basic-content>
-    <pf-async-container [loading]="(pricingsToModify$ | async)?.loading">
-      <div class="multi-match-container">
-        <div class="row">
-          <div class="col-3">
-            Filters
-          </div>
-          <div class="col-6">
-            Results
-          </div>
-          <div class="col-3">
-            <div *ngFor="let pricing of (pricingsToModify$ | async)?.obj" [title]="pricing.Paymarket">
-              {{pricing.Job.Title}} ({{pricing.Job.Code}})
-              <br />
-              Show Cuts ({{pricing.DataCutsCount}}) | Show Job Detail
-            </div>
-          </div>
-        </div>
-      </div>
-    </pf-async-container>
-  </ng-container>
-</pf-modal-form>
-
 <pf-job-management
   [showModal$]="showJobManagementModal$"
   [jobId]="editingJobId"
   (cancelChanges)="toggleJobManagmentModal(false)"
   (saveSuccess)="toggleJobManagmentModal(false)">
 </pf-job-management>
+
+<pf-multi-match-component
+  [display]="'modal'"
+  [featureImplementation]="multiMatchImplementation"
+></pf-multi-match-component>

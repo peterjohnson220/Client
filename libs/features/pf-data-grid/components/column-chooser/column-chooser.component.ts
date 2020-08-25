@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter, ViewEncapsulation, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
 import { orderBy } from 'lodash';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { ViewField } from 'libs/models/payfactors-api';
 
@@ -20,11 +20,13 @@ export class ColumnChooserComponent implements OnChanges {
   @Input() disabled = false;
   @Input() columnChooserType: ColumnChooserType;
   @Input() reorderable: boolean;
+  @Input() submitButtonText = 'Save';
+  @Input() showSelectAllColumns: boolean;
 
   @Output() saveColumns = new EventEmitter();
 
   listAreaColumns = [];
-
+  selectableColumns = [];
   @ViewChild('p', { static: true }) public p: any;
   @ViewChild('columnGroupList') public columnGroupList: ColumnGroupListComponent;
 
@@ -35,21 +37,30 @@ export class ColumnChooserComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['dataFields']) {
       this.listAreaColumns = orderBy(cloneDeep(changes['dataFields'].currentValue), ['DefaultOrder'], ['asc']);
+      this.selectableColumns = this.listAreaColumns.filter(f => f.IsSelectable);
     }
+  }
+
+  selectAllClicked() {
+    if (this.columnChooserType === ColumnChooserType.ColumnGroup) {
+      throw new Error('selectAll not implemented for column groups ');
+    }
+
+    this.listAreaColumns.filter(f => f.IsSelectable === true).forEach(f => f.IsSelected = true);
   }
 
   saveButtonClicked() {
     // If grid is reorderable then update Order to NULL for all new chosen columns
     // in this case they will be added to the end of the grid
     let fields;
-    if (this.columnChooserType === ColumnChooserType.ColumnGroup) {
-      fields = this.reorderable
-        ? this.updateNewColumnsOrder(cloneDeep(this.columnGroupList.allFields))
-        : this.columnGroupList.allFields;
-    } else {
+    if (this.columnChooserType === ColumnChooserType.Column) {
       fields = this.reorderable
         ? this.updateNewColumnsOrder(cloneDeep(this.listAreaColumns))
         : this.listAreaColumns;
+    } else {
+      fields = this.reorderable
+        ? this.updateNewColumnsOrder(cloneDeep(this.columnGroupList.allFields))
+        : this.columnGroupList.allFields;
     }
 
     this.saveColumns.emit(fields);

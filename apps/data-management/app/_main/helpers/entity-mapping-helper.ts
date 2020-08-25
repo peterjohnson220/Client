@@ -110,4 +110,19 @@ export class EntityMappingHelper {
       });
       return { updatedProviderFields: providerFields, updatedPayfactorsFields: payfactorsFields };
   }
+
+  static removeUnselectedEntities(selectedEntities: string[], payfactorsFields: EntityField): EntityField{
+    const filteredPfFields: EntityField = {
+      Employees: [],
+      Jobs: [],
+      JobDescriptions: [],
+      PayMarkets: [],
+      StructureMapping: [],
+      Structures: []
+    };
+    selectedEntities.forEach(e => {
+      filteredPfFields[e] = payfactorsFields[e];
+    });
+    return filteredPfFields;
+  }
 }

@@ -30,7 +30,9 @@ import {
   PfTestCredentialsPackage,
   Provider,
   TransferMethod,
-  WorkdayRestCredentialsPackage, WorkdaySoapCredentialsPackage,
+  WorkdayRestCredentialsPackage,
+  WorkdaySoapCredentialsPackage,
+  PublicApiCredentialsPackage,
   EntityChoice,
   EntityField,
   ConnectionSummary
@@ -57,7 +59,17 @@ export class PayfactorsApiModelMapper {
       ImageUrl: response.providerImageUrl,
       AuthenticationTypeId: response.authenticationType_ID,
       Active: response.active,
+      UsesFieldSelection: this.mapProviderResponseToFieldSelection(response)
     };
+  }
+
+  static mapProviderResponseToFieldSelection(response: ProviderResponse): boolean {
+    switch (response.providerCode.toLowerCase()) {
+      case 'publicapi':
+        return true;
+      default:
+        return false;
+    }
   }
 
   static mapProviderResponsesToProviders(response: ProviderResponse[]): Provider[] {
@@ -79,10 +91,15 @@ export class PayfactorsApiModelMapper {
       syncJobs: connectionSummary.selectedEntities.includes(OrgDataEntityType.Jobs),
       syncPaymarkets: connectionSummary.selectedEntities.includes(OrgDataEntityType.PayMarkets),
       syncStructures: connectionSummary.selectedEntities.includes(OrgDataEntityType.Structures),
-      syncStructureMappings: connectionSummary.selectedEntities.includes(OrgDataEntityType.StructureMappings),
+      syncStructureMappings: connectionSummary.selectedEntities.includes(OrgDataEntityType.StructureMapping),
     } as CredentialsPackage;
 
     switch (connectionSummary.provider.ProviderCode) {
+      case 'PUBLICAPI':
+        return {
+          ...c,
+          apiKey: request.apikey
+        } as PublicApiCredentialsPackage;
       case 'WORKDAY':
       case 'WDMOCK':
         return {
@@ -137,6 +154,7 @@ export class PayfactorsApiModelMapper {
         EntityType: entityType,
         FieldName: pef.fieldName,
         DisplayName: pef.fieldName,
+        DtoName: pef.dtoName,
         IsRequired: pef.requiredField,
         HasDescription: pef.hasDescription,
         Description: pef.description,
@@ -239,8 +257,8 @@ export class PayfactorsApiModelMapper {
         case OrgDataEntityType.Jobs:
             type = OrgDataEntityType.Jobs;
             break;
-        case OrgDataEntityType.StructureMappings:
-            type = OrgDataEntityType.StructureMappings;
+        case OrgDataEntityType.StructureMapping:
+            type = OrgDataEntityType.StructureMapping;
             break;
         case OrgDataEntityType.Structures:
             type = OrgDataEntityType.Structures;
@@ -306,7 +324,7 @@ export class PayfactorsApiModelMapper {
     isJobsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Jobs),
     isPaymarketsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.PayMarkets),
     isStructuresLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Structures),
-    isStructureMappingsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.StructureMappings),
+    isStructureMappingsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.StructureMapping),
     fileFormat: LoaderFileFormat.JSON,
 
     // TODO: we need a UI to determine these settings

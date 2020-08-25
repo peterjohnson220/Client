@@ -5,9 +5,9 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import {
-  generateMockUpsertExchangeScopeRequest, UpsertExchangeScopeRequest
-} from 'libs/models/peer/requests/upsert-exchange-scope-request.model';
+  generateMockUpsertExchangeExplorerScopeRequest, UpsertExchangeExplorerScopeRequest} from 'libs/models/peer/requests/upsert-exchange-scope-request.model';
 import { ExchangeScopeApiService } from 'libs/data/payfactors-api/peer';
 
 import * as fromPeerMapReducer from '../../reducers';
@@ -16,7 +16,7 @@ import * as fromExchangeScopeActions from '../../actions/exchange-scope.actions'
 import { SaveExchangeScopeModalComponent } from './save-exchange-scope-modal.component';
 
 describe('Peer - Map - Save Exchange Scope Modal', () => {
-  const mockUpsertExchangeScopeRequest: UpsertExchangeScopeRequest = generateMockUpsertExchangeScopeRequest();
+  const mockUpsertExchangeScopeRequest: UpsertExchangeExplorerScopeRequest = generateMockUpsertExchangeExplorerScopeRequest();
   let fixture: ComponentFixture<SaveExchangeScopeModalComponent>;
   let instance: SaveExchangeScopeModalComponent;
   let store: Store<fromRootState.State>;
@@ -27,7 +27,8 @@ describe('Peer - Map - Save Exchange Scope Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peer_map: combineReducers(fromPeerMapReducer.reducers)
+          peer_map: combineReducers(fromPeerMapReducer.reducers),
+          feature_peer_exchangeExplorer: combineReducers(fromLibsPeerExchangeExplorerReducers.reducers)
         }),
         ReactiveFormsModule
       ],
@@ -67,16 +68,17 @@ describe('Peer - Map - Save Exchange Scope Modal', () => {
   });
 
   it('should emit an upsertExchangeScopeEvent event with exchangeScopeName when handleFormSubmit is called', () => {
-    instance.exchangeScopeNameControl.setValue(mockUpsertExchangeScopeRequest.ExchangeScopeName);
-    instance.exchangeScopeDescriptionControl.setValue(mockUpsertExchangeScopeRequest.ExchangeScopeDescription);
+    instance.exchangeScopeNameControl.setValue(mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeName);
+    instance.exchangeScopeDescriptionControl.setValue(mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeDescription);
 
     spyOn(instance.upsertExchangeScopeEvent, 'emit');
 
     instance.handleFormSubmit();
 
     expect(instance.upsertExchangeScopeEvent.emit).toHaveBeenCalledWith({
-      Name: mockUpsertExchangeScopeRequest.ExchangeScopeName,
-      Description: mockUpsertExchangeScopeRequest.ExchangeScopeDescription
+      Name: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeName,
+      Description: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeDescription,
+      IsDefault: !!mockUpsertExchangeScopeRequest.ExchangeScopeDetails.IsDefault
     });
   });
 });

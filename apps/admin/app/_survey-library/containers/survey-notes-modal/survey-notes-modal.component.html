@@ -1,0 +1,34 @@
+<ng-template #surveyNotesModal>
+  <div class="modal-header">
+      <div class="d-flex flex-column">
+          <h4 class="modal-title modal-title-space">Notes - {{noteInfo.CompanyName}}</h4>
+      </div>
+      <div>
+          <button type="button" class="close close-button" aria-label="Close" (click)="close()">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="(notes$ | async ) as notesAsync;">
+      <pf-async-container class="w-100" [smartLoadingMask]="false" [loading]="notesAsync.loading" [loadingError]="notesAsync.loadingError">
+        <div class="d-flex">
+          <div class="col">
+            <div class="row p-2">
+              <form [formGroup]="noteForm" class="w-100">
+                <textarea autofocus spellcheck="false" rows="4" class="form-control" [pfFocus]="true" formControlName="note"></textarea>
+              </form>
+            </div>
+            <div class="row p-2 justify-content-end">
+              <button type="submit" [disabled]="!noteForm.valid || notesAsync.savingError" class="btn btn-primary"  (click)="submit()">Add Note</button>
+            </div>
+          </div>
+        </div>  
+        <pf-survey-notes-list [notes]="notes" [avatarUrl]="avatarUrl" [userId]="userId"></pf-survey-notes-list>    
+      </pf-async-container>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+  </div>
+</ng-template>

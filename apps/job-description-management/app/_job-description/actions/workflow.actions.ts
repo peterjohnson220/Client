@@ -18,6 +18,9 @@ export const GET_WORKFLOW_LINK_ERROR = '[job-description-management / Workflow] 
 export const CANCEL_APPROVAL = '[job-description-management / Workflow] Cancel Approval';
 export const CANCEL_APPROVAL_SUCCESS = '[job-description-management / Workflow] Cancel Approval Success';
 export const CANCEL_APPROVAL_ERROR = '[job-description-management / Workflow] Cancel Approval Error';
+export const RESEND_EMAIL = '[job-description-management / Workflow] Resend Email';
+export const RESEND_EMAIL_SUCCESS = '[job-description-management / Workflow] Resend Email Success';
+export const RESEND_EMAIL_ERROR = '[job-description-management / Workflow] Resend Email Error';
 // Workflow Setup
 export const BUILD_WORKFLOW_SAVE_OBJ = '[job-description-management / Workflow] Build Workflow Save Obj';
 export const SAVING_WORKFLOW = '[job-description-management / Workflow] Saving Workflow';
@@ -162,6 +165,20 @@ export class SetMessage implements Action {
   constructor(public payload: {message: string}) {}
 }
 
+export class ResendEmail implements Action {
+  readonly type = RESEND_EMAIL;
+
+  constructor(public payload: {workflowId: number}) {}
+}
+
+export class ResendEmailSuccess {
+  readonly type = RESEND_EMAIL_SUCCESS;
+}
+
+export class ResendEmailError {
+  readonly type = RESEND_EMAIL_ERROR;
+}
+
 export type Actions
   = LoadWorkflowLogEntries
   | LoadWorkflowLogEntriesSuccess
@@ -184,4 +201,7 @@ export type Actions
   | CreateWorkflow
   | UpdateWorkflowInitiationComment
   | UpdateWorkflowSteps
-  | SetMessage;
+  | SetMessage
+  | ResendEmail
+  | ResendEmailSuccess
+  | ResendEmailError;

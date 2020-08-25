@@ -1,15 +1,22 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 
-import { PayfactorsApiService } from '../payfactors-api.service';
-import { CompanyDto, LegacyCompanySettingDto, CompanyFormData } from 'libs/models/company';
+import {PayfactorsApiService} from '../payfactors-api.service';
+import {CompanyDto, CompanyFormData, LegacyCompanySettingDto} from 'libs/models/company';
 import {
-  SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesResponse,
-  CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields, JobPricingLimitInfoResponse, CompanyNote
+  CompanyClientTypesReponse,
+  CompanyDataSetsReponse,
+  CompanyIndustriesResponse,
+  CompanyNote,
+  CompanyTilesResponse,
+  JobPricingLimitInfoResponse,
+  ListCompositeFields,
+  SystemUserGroupsResponse
 } from 'libs/models/payfactors-api';
-import { Company, CompanyBaseInformation } from 'libs/models/company/company.model';
-import { SubsidiaryInfo } from 'libs/models/subsidiary';
+import {Company, CompanyBaseInformation} from 'libs/models/company/company.model';
+import {SubsidiaryInfo} from 'libs/models/subsidiary';
+import {EntityDescriptionTypeEnum} from 'libs/models/entity-description/entity-description-type.enum';
 
 @Injectable()
 export class CompanyApiService {
@@ -115,13 +122,14 @@ export class CompanyApiService {
 
   }
 
-  getCompanyDescription(companyId: number) {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetCompanyDescription`,
-      {params: { companyId: companyId }});
-  }
-
-  getSubsidiaryDescription(subsidiaryId: number) {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetSubsidiaryDescription`,
-      {params: { subsidiaryId: subsidiaryId }});
+  getEntityDescription(entityType: EntityDescriptionTypeEnum, entityId: number) {
+    switch (entityType) {
+      case EntityDescriptionTypeEnum.Company:
+        return this.payfactorsApiService.get(`${this.endpoint}/GetCompanyDescription`,
+          {params: { companyId: entityId }});
+      case EntityDescriptionTypeEnum.Subsidiary:
+        return this.payfactorsApiService.get(`${this.endpoint}/GetSubsidiaryDescription`,
+          {params: { subsidiaryId: entityId }});
+    }
   }
 }

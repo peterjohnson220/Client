@@ -6,20 +6,24 @@
      [scrollWindow]="false"
      [infiniteScrollDistance]="2"
      (scrolled)="onScroll()">
-  <pf-async-container
-    [loading]="loadingResults$ | async"
-    [loadingError]="error$ | async"
-    [hideReloadButton]="true"
-    [spinnerType]="spinnerType">
+    <pf-async-container *ngIf="useAsync;else resultsContent"
+      [loading]="loadingResults$ | async"
+      [loadingError]="error$ | async"
+      [hideReloadButton]="true"
+      [spinnerType]="spinnerType">
 
-    <ng-content></ng-content>
+      <ng-container [ngTemplateOutlet]="resultsContent"></ng-container>
 
-  </pf-async-container>
+    </pf-async-container>
 
   <div class="m-3" *ngIf="loadingMoreResults$ | async">
     <pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator>
     Loading More Results...
   </div>
 </div>
+
+<ng-template #resultsContent>
+  <ng-content></ng-content>
+</ng-template>
 
 

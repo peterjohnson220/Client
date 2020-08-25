@@ -268,7 +268,6 @@
             "scripts": [
               "assets/js/pendo.js"
             ]
-
           },
           "configurations": {
             "staging": {
@@ -1376,8 +1375,7 @@
             ],
             "styles": [
               "assets/scss/client.scss",
-              "apps/project/styles.scss",
-              "apps/project/outside-view-encapsulation.scss"
+              "apps/project/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js"
@@ -1940,9 +1938,9 @@
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.staging.ts"
                 }
-              ]
-            ,              "optimization": true
-},
+              ],
+              "optimization": true
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -1953,9 +1951,9 @@
                   "replace": "apps/smallbiz/../../assets/js/new-relic.js",
                   "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
-              ]
-            ,              "optimization": true
-}
+              ],
+              "optimization": true
+            }
           }
         },
         "serve": {
@@ -5310,5 +5308,8 @@
     "@schematics/angular:directive": {
       "prefix": "pf"
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

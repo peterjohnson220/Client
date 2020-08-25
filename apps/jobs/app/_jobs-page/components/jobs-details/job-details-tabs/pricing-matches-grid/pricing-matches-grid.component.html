@@ -14,9 +14,9 @@
   [noRecordsFound]="'This pricing has no data cuts.'"
   [actionBarConfig]="actionBarConfig"
   [headerClassName]="'jobs-page-sub-grid-header'"
-  [applyUserDefaultCompensationFields]="true">
+  [applyUserDefaultCompensationFields]="true"
+  [allowSort]="false">
 </pf-data-grid>
-
 
 <ng-template #pricingMatchesHeader>
   <div class="row no-gutters text-center py-1" style="background-color: #F7F7F9">
@@ -26,7 +26,7 @@
 </ng-template>
 
 <ng-template #jobTitleColumn let-dataRow="dataRow">
-  <pf-pricing-matches-job-title [dataRow]="dataRow" [pricingInfo]="pricingInfo"></pf-pricing-matches-job-title>
+  <pf-pricing-matches-job-title [dataRow]="dataRow" [pricingInfo]="pricingInfo" (notesEmitter)="openMatchNotesModal($event)"></pf-pricing-matches-job-title>
 </ng-template>
 
 <ng-template #agingColumn  let-dataRow="dataRow" let-fieldName="fieldName">
@@ -37,8 +37,11 @@
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div pfEllipsisActive class="ellipsis-overflowing-text">
-    <span [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>
+    <span *ngIf="!fieldName.includes('Pct'); else pctValue" [innerHTML]="dataRow[fieldName] | comp: rate | emptyPlaceholder"></span>
   </div>
+  <ng-template #pctValue>
+    <span [innerHTML]="dataRow[fieldName] | comp: rate : 'full' | emptyPlaceholder"></span>
+  </ng-template>
 </ng-template>
 
 <ng-template #pricingInfoColumn let-dataRow="dataRow" let-fieldName="fieldName">
@@ -46,3 +49,12 @@
     <span [innerHTML]="dataRow[fieldName] | humanizeNumber | emptyPlaceholder"></span>
   </div>
 </ng-template>
+
+<ng-template #matchNotesHeader>
+  <div>
+    <strong>Scope: </strong>
+      {{selectedMatchForNotes.vw_PricingMatchesJobTitlesMerged_Source}}{{selectedMatchScope}}
+      <span>{{selectedMatchForNotes.vw_PricingMatchesJobTitlesMerged_Effective_Date | date: 'MM/dd/yyyy'}}</span>
+  </div>
+</ng-template>
+

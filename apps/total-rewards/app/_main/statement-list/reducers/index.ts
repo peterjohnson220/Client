@@ -71,10 +71,10 @@ export const getStatementsGridData = createSelector(
 );
 
 // Statements, Delete Statement
-export const getIsDeleteStatetementModalOpen = createSelector(getStatementsFeature, fromStatementGridReducer.getIsDeleteStatetementModalOpen);
-export const getDeletingStatetement = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatetement);
-export const getDeletingStatetementSuccess = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatetementSuccess);
-export const getDeletingStatetementError = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatetementError);
+export const getIsDeleteStatementModalOpen = createSelector(getStatementsFeature, fromStatementGridReducer.getIsDeleteStatetementModalOpen);
+export const getDeletingStatement = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatetement);
+export const getDeletingStatementSuccess = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatetementSuccess);
+export const getDeletingStatementError = createSelector(getStatementsFeature, fromStatementGridReducer.getDeletingStatetementError);
 
 // Templates
 export const getTemplates = createSelector(selectStatementListPageState, (state: StatementListState) => state.templateSelector.templates.obj);

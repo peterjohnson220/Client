@@ -1,5 +1,5 @@
 <pf-modal-form
-  [size]="'md'"
+  [size]="'lg'"
   [title]="modalTitle"
   [subTitle]="modalSubTitle"
   [modalId]="'company-structures-model-setting-modal'"
@@ -118,7 +118,8 @@
                   <kendo-dropdownlist id="rate" class="form-control k-dropdown-white"
                                       formControlName="Rate"
                                       [data]="['Annual', 'Hourly']"
-                                      [valuePrimitive]="true">
+                                      [valuePrimitive]="true"
+                                      (selectionChange)="handleRateSelectionChange($event)">
                   </kendo-dropdownlist>
                   <div class="invalid-feedback">
                     Please provide a rate.

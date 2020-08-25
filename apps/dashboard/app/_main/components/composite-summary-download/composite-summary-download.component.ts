@@ -7,6 +7,7 @@ import { RegexStrings } from 'libs/constants/regex-strings';
 import * as fromFileReducer from 'libs/features/file-download/reducers/file-download.reducer';
 import { FileModel } from 'libs/models/file';
 import { CompositeSummaryDownload } from '../../actions/composite-summary-download.actions';
+import { FileType } from 'libs/models/dashboard';
 
 @Component({
   selector: 'pf-composite-summary-download',
@@ -44,6 +45,7 @@ export class CompositeSummaryDownloadComponent implements OnDestroy, OnInit {
     } else {
       this.store.dispatch(new CompositeSummaryDownload({
         Id: this.id,
+        FileType: FileType.InvalidRecordsFile
       }));
 
       this.file$ = this.store.pipe(

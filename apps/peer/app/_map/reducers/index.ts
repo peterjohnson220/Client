@@ -49,15 +49,6 @@ export const selectExportDataCutsState = createSelector(
 
 
 // Exchange Scope Selectors
-export const getExchangeScopeUpserting = createSelector(
-  selectExchangeScopeState,
-  fromExchangeScopeReducer.getUpserting
-);
-
-export const getExchangeScopeUpsertingError = createSelector(
-  selectExchangeScopeState,
-  fromExchangeScopeReducer.getUpsertingError
-);
 
 export const getSaveExchangeScopeModalOpen = createSelector(
   selectExchangeScopeState,

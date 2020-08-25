@@ -188,8 +188,8 @@ export class MarketDataScopeComponent implements OnInit, OnDestroy {
       return;
     }
     this.selectedIndustry = {
-      Label: this.payMarket.IndustryLabel,
-      Value: this.payMarket.IndustryValue,
+      Label: !!this.payMarket.IndustryLabel ? this.payMarket.IndustryLabel : ScopeLabel.Industry,
+      Value: !!this.payMarket.IndustryValue ? this.payMarket.IndustryValue : 'All',
       Group: this.payMarket.IndustryGroup
     };
     const industryAllItem: GroupedListItem = GeneralFormHelper.buildAllItem(ScopeLabel.Industry);

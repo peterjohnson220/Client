@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
+
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
@@ -10,6 +12,8 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
+import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
+
 import * as fromMultiMatchReducer from '../reducers';
 import { JobToPrice } from '../models';
 
@@ -17,30 +21,50 @@ import { enableDatacutsDragging } from '../../survey-search/helpers';
 import * as fromSurveySearchResultsActions from '../../survey-search/actions/survey-search-results.actions';
 import { staticFilters } from '../../survey-search/data';
 
+import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
+
 @Component({
   selector: 'pf-multi-match-component',
   templateUrl: './multi-match.component.html',
   styleUrls: ['./multi-match.component.scss']
 })
 export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy {
-
+  @Input() display: 'component' | 'modal' = 'component';
+  @Input() featureImplementation = LEGACY_PROJECTS;
   jobsToPrice$: Observable<JobToPrice[]>;
   savingChanges$: Observable<boolean>;
   pageShown$: Observable<boolean>;
+  loadingResults$: Observable<boolean>;
+  loadingMoreResults$: Observable<boolean>;
+  searchError$: Observable<boolean>;
   changesToSave: boolean;
+
+  showMultiMatchModal = new BehaviorSubject<boolean>(false);
+  showMultiMatchModal$ = this.showMultiMatchModal.asObservable();
 
   // Subscription
   private jobsToPriceSubscription: Subscription;
+  private pricingsToModifySubscription: Subscription;
 
   constructor(
     store: Store<fromSearchReducer.State>,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private actionsSubject: ActionsSubject
   ) {
     super(store);
     enableDatacutsDragging(dragulaService);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.jobsToPrice$ = this.store.select(fromMultiMatchReducer.getJobsToPrice);
     this.savingChanges$ = this.store.select(fromMultiMatchReducer.getSavingJobMatchUpdates);
+    this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
+    this.loadingMoreResults$ = this.store.select(fromSearchReducer.getLoadingMoreResults);
+    this.searchError$ = this.store.select(fromSearchReducer.getSearchResultsError);
+
+    this.pricingsToModifySubscription = this.actionsSubject
+      .pipe(ofType(fromModifyPricingsActions.GET_PRICINGS_TO_MODIFY_SUCCESS))
+      .subscribe(p => {
+        this.showMultiMatchModal.next(true);
+      });
   }
 
   ngOnInit(): void {
@@ -65,8 +89,22 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
     this.store.dispatch(new fromMultiMatchPageActions.SaveJobMatchUpdates());
   }
 
+  handleCancelClicked() {
+    switch (this.featureImplementation) {
+      case MODIFY_PRICINGS:
+        super.resetActions();
+        this.showMultiMatchModal.next(false);
+        this.onResetApp();
+        break;
+      default:
+        super.handleCancelClicked();
+        break;
+    }
+  }
+
   ngOnDestroy(): void {
     this.jobsToPriceSubscription.unsubscribe();
+    this.pricingsToModifySubscription.unsubscribe();
   }
 
   private jobHasChangesToSave(job: JobToPrice): boolean {

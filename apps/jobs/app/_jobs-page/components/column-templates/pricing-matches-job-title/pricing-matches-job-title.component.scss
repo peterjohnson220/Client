@@ -1,3 +1,5 @@
+@import '_colors';
+
 div.collapsed {
   display: -webkit-inline-box;
   display: inline-block;
@@ -8,5 +10,14 @@ div.collapsed {
 
 .wtg-adj-cell {
   min-width: 50px;
+  width: 50px;
+}
+
+.add-notes-link {
+  color: $link-color;
+  cursor: pointer;
+}
+
+.notes-link-container {
   width: 50px;
 }

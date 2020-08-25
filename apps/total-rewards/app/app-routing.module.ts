@@ -6,15 +6,15 @@ import { AuthorizationGuard, UserContextGuard } from 'libs/security';
 import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 
 export const routes: Routes = [
+  { path: 'print/:pdfId', loadChildren: () => import('./_print/print.module').then(m => m.PrintModule) },
   { path: '',
     canActivate: [UserContextGuard, AuthorizationGuard],
     component: AppWrapperComponent,
     loadChildren: () => import('./_main/main.module').then(m => m.MainModule)
   },
-  { path: 'print', loadChildren: () => import('./_print/print.module').then(m => m.PrintModule) },
   { path: 'access-denied', component: AccessDeniedPageComponent },
   { path: 'not-found', component: NotFoundErrorPageComponent },
-  { path: '**', component: NotFoundErrorPageComponent }
+  { path: '**', component: NotFoundErrorPageComponent },
 ];
 
 @NgModule({

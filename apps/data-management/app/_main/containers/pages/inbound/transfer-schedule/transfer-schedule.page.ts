@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, skip } from 'rxjs/operators';
 
-import { LoaderTypes, LoadTypes } from 'libs/constants';
+import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { EmailRecipientModel, SyncScheduleDtoModel, TransferScheduleSummary, UserContext } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
@@ -52,6 +52,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   companyId: number;
   loaderConfigurationGroupId: number;
   loadType = LoadTypes.Hris;
+  primaryCompositeDataLoadType = CompositeDataLoadTypes.OrgData;
 
   showIntegrationFinishedModal$: Observable<boolean>;
 
@@ -102,7 +103,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
           this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
             companyId: this.companyId,
             loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId,
-            loaderType: LoaderTypes.OrgData,
+            loaderType: 'Organizational Data',
           }));
         }
       });

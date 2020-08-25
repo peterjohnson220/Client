@@ -26,10 +26,12 @@ import { faFilePowerpoint } from '@fortawesome/pro-solid-svg-icons/faFilePowerpo
 import { faFileImage } from '@fortawesome/pro-solid-svg-icons/faFileImage';
 import { faFile } from '@fortawesome/pro-solid-svg-icons/faFile';
 import { faPaperclip } from '@fortawesome/pro-solid-svg-icons/faPaperclip';
+import { faExclamationCircle } from '@fortawesome/pro-solid-svg-icons/faExclamationCircle';
 
 export const faIcons = [
   faTimes, faSearch, faTimesCircle, faCheckCircle, faCircle, faReply, faHeart,
   faArrowAltCircleUp, faChevronRight, faExternalLink, faFileExcel,
   faChevronLeft, faEye, faStopwatch, faComments, faChartBar, faTrashAlt, faThumbsUp,
-  fasBuilding, falBuilding, faPencil, faFilePdf, faFileWord, faFilePowerpoint, faFileImage, faFile, faPaperclip
+  fasBuilding, falBuilding, faPencil, faFilePdf, faFileWord, faFilePowerpoint, faFileImage,
+  faFile, faPaperclip, faExclamationCircle
 ];

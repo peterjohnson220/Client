@@ -28,7 +28,6 @@ export interface BaseSearchAggregationsRequest {
 }
 
 export interface BaseProjectSearchRequest extends BaseSearchRequest {
-  CountryCode?: string;
   ProjectId: number;
 }
 

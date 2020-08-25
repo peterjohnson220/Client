@@ -30,20 +30,22 @@ import * as fromUserFilterActions from '../../../actions/user-filter.actions';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { AssignJobsToTemplateModalComponent, JobDescriptionHistoryModalComponent } from '../../../components';
 import { CompanyJobViewListItem } from '../../../models';
-import { AvailableJobInformationField, ControlLabel } from '../../../../shared/models';
-import { JobDescriptionViewConstants } from '../../../../shared/constants/job-description-view-constants';
+import { AvailableJobInformationField, ControlLabel, JobDescriptionBulkExportPayload } from 'libs/features/job-description-management/models';
+import { JobDescriptionViewConstants } from 'libs/features/job-description-management/constants/job-description-view-constants';
 import { SaveFilterModalComponent } from '../../../components/modals/save-filter';
-import { PayfactorsApiModelMapper } from '../../../../shared/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 import { AddJobModalComponent } from '../../../components/modals/add-job';
-import { JobDescriptionBulkExportPayload } from '../../../models/job-description-bulk-export-payload.model';
+
 import {
   JobDescriptionAppliesToModalComponent
 } from '../../../../shared/components/modals/job-description-applies-to';
 import {
   DeleteJobDescriptionModalComponent
-} from '../../../../shared/components/modals/delete-job-description-modal/delete-job-description-modal.component';
-import * as fromTemplateReducer from '../../../../shared/reducers';
-import * as fromTemplateActions from '../../../../shared/actions/template-list.actions';
+} from '../../../../shared/components/modals/delete-job-description-modal';
+import * as fromTemplateReducer from 'libs/features/job-description-management/reducers';
+import * as fromTemplateActions from 'libs/features/job-description-management/actions/template-list.actions';
+import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
+import * as fromHeaderActions from 'libs/ui/layout-wrapper/actions/header.actions';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -95,6 +97,13 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public userFilterListLoading$: Observable<boolean>;
   public savedGridState$: Observable<State>;
   public enableCoreJdmInClient = false;
+  public ssoTokenId: string;
+  public ssoAgentId: string;
+  public requireSSOLogin$: Observable<boolean>;
+  public jobDescriptionSSOLoginUrl$: Observable<string>;
+  public jobDescriptionSSOAuthResult$: Observable<string>;
+  public jobDescriptionSSOAuthError$: Observable<string>;
+
 
   private templateListItems$: Observable<TemplateListItem[]>;
   private enableJdmTemplatesInClient$: Observable<boolean>;
@@ -110,6 +119,11 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private deleteJobDescriptionSuccess$: Observable<boolean>;
   private deleteJobDescriptionSuccessSubscription: Subscription;
   private enabledJdmTemplatesInClientSubscription: Subscription;
+  private requireSSOLoginSubscription: Subscription;
+  private jobDescriptionSSOLoginUrlSubscription: Subscription;
+  private jobDescriptionSSOAuthResultSubscription: Subscription;
+  private jobDescriptionSSOAuthErrorSubscription: Subscription;
+
 
   notification: { error: AppNotification<NotificationPayload> } = {
     error: {
@@ -158,9 +172,19 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.userFilterListLoading$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoading);
     this.deleteJobDescriptionSuccess$ = this.store.select(fromJobDescriptionReducers.getDeletingJobDescriptionSuccess);
     this.templateListItems$ = this.store.select(fromTemplateReducer.getTemplateList);
+
+    this.jobDescriptionSSOLoginUrl$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOLoginUrl);
+    this.jobDescriptionSSOAuthResult$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthResult);
+    this.jobDescriptionSSOAuthError$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthError);
+
+    this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
+    );
+
     this.enableJdmTemplatesInClient$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMTemplatesUseClient
     );
+
 
     this.filterThrottle = new Subject();
 
@@ -179,33 +203,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.createSubscriptions();
-    this.initFilterThrottle();
-    this.subscribe();
-
-    const request = {
-      ListAreaName: 'JobDescriptionManagement',
-      UdfType: 'jobs'
-    };
-
-    this.canRestrictJobDescriptionFromPublicView = this.permissionService.CheckPermission(
-      [Permissions.CAN_RESTRICT_JOB_DESCRIPTIONS_FROM_THE_PUBLIC_VIEW], PermissionCheckEnum.Single
-      );
-
-    if (this.isPublic) {
-      this.store.dispatch(new fromJobDescriptionGridActions.LoadPublicJdmColumns(this.publicCompanyId));
-      // settings aren't loaded in public views, so initiate that here, then redirect to the NG implementation if the client specific setting is off
-      this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
-      this.enablePublicViewsInClient$.pipe(
-        takeWhile((setting) => setting !== true),
-        filter(setting => setting === false)
-      ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
-    } else {
-      this.store.dispatch(new fromJobDescriptionGridActions.LoadListAreaColumns(request));
-    }
-
-    this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
-    this.store.dispatch(new fromTemplateActions.LoadTemplateList({publishedOnly: false }));
+    this.initSubscriptions();
   }
 
   ngOnDestroy() {
@@ -371,10 +369,10 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
       this.templateListItems$.pipe(
         filter(i => !!i.length),
         take(1)).subscribe(items => {
-          const existingTemplate = items.find(i => i.TemplateId === selectedCompanyJob.CompanyJobDescriptionTemplateId);
-          if (existingTemplate) {
-              selectedCompanyJob.TemplateName = existingTemplate.TemplateName;
-          }
+        const existingTemplate = items.find(i => i.TemplateId === selectedCompanyJob.CompanyJobDescriptionTemplateId);
+        if (existingTemplate) {
+          selectedCompanyJob.TemplateName = existingTemplate.TemplateName;
+        }
       });
     }
     this.selectedCompanyJobForModal = selectedCompanyJob;
@@ -426,15 +424,101 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createSubscriptions() {
+  private initSubscriptions () {
     this.routerParmsSubscription = this.route
       .queryParams
       .subscribe(params => {
         this.tokenId = params['jwt'];
+        this.ssoTokenId = params['tokenid'];
+        this.ssoAgentId = params['agentid'];
       });
 
+    this.identity$.subscribe(identity => {
+      this.isPublic = identity.IsPublic;
+      this.publicCompanyId = identity.CompanyId;
+
+      if (this.isPublic) {
+        this.initAuthSubscriptions();
+      } else {
+          this.initPostAuthCheckSubscriptions();
+      }
+    });
+  }
+
+  private initAuthSubscriptions() {
+
+    this.jobDescriptionSSOLoginUrlSubscription = this.jobDescriptionSSOLoginUrl$.subscribe( ssoLoginUrl => {
+      if (ssoLoginUrl) {
+        // Redirect to SSO login. After logging in you will be redirected back here with tokenid and agentid params from the sso for use in authenticating.
+        const currentURL = window.location.href;
+        const currentURLWithToken = `${currentURL.slice(0, currentURL.indexOf('?'))}?jwt=${this.tokenId}`;
+        const encodedUrl = encodeURIComponent(currentURLWithToken);
+
+        window.location.href = `${ssoLoginUrl}&appurl=${encodedUrl}`;
+      }
+    });
+
+    this.requireSSOLoginSubscription = this.requireSSOLogin$.subscribe(requireSSOLoginResult => {
+      if (requireSSOLoginResult  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
+
+        this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
+
+      } else if (requireSSOLoginResult && this.tokenId != null) {
+
+        this.store.dispatch(new fromJobDescriptionActions.AuthenticateSSOParams({tokenId: this.ssoTokenId, agentId: this.ssoAgentId}));
+
+       this.jobDescriptionSSOAuthResultSubscription = this.jobDescriptionSSOAuthResult$.subscribe( result => {
+          if (result) {
+            this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
+            this.initPostAuthCheckSubscriptions();
+          }
+        });
+
+       this.jobDescriptionSSOAuthErrorSubscription = this.jobDescriptionSSOAuthError$.subscribe( result => {
+          if (result) {
+            this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
+          }
+        });
+      } else if (requireSSOLoginResult === false) {
+         this.initPostAuthCheckSubscriptions();
+      }
+    });
+
+  }
+
+  private initPostAuthCheckSubscriptions() {
+    this.createSubscriptions();
+    this.initFilterThrottle();
+    this.subscribe();
+
+    const request = {
+      ListAreaName: 'JobDescriptionManagement',
+      UdfType: 'jobs'
+    };
+
+    this.canRestrictJobDescriptionFromPublicView = this.permissionService.CheckPermission(
+      [Permissions.CAN_RESTRICT_JOB_DESCRIPTIONS_FROM_THE_PUBLIC_VIEW], PermissionCheckEnum.Single
+    );
+
+    if (this.isPublic) {
+      this.store.dispatch(new fromJobDescriptionGridActions.LoadPublicJdmColumns(this.publicCompanyId));
+      // settings aren't loaded in public views, so initiate that here, then redirect to the NG implementation if the client specific setting is off
+      // this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
+      this.enablePublicViewsInClient$.pipe(
+        takeWhile((setting) => setting !== true),
+        filter(setting => setting === false)
+      ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
+    } else {
+      this.store.dispatch(new fromJobDescriptionGridActions.LoadListAreaColumns(request));
+      this.store.dispatch(new fromTemplateActions.LoadTemplateList({publishedOnly: false }));
+    }
+
+    this.store.dispatch(new fromJobDescriptionGridActions.LoadJobDescriptionGrid(this.getQueryListStateRequest()));
+  }
+
+  private createSubscriptions() {
     this.listAreaColumnsSubscription = this.listAreaColumns$.subscribe(lac => {
-        this.displayedListAreaColumnNames = lac.map(l => l.ColumnDatabaseName);
+      this.displayedListAreaColumnNames = lac.map(l => l.ColumnDatabaseName);
     });
 
     this.savingListAreaColumnsSuccessSubscription = this.savingListAreaColumnsSuccess$.subscribe((isSuccess) => {
@@ -461,11 +545,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
 
   private subscribe() {
-    this.identity$.subscribe(identity => {
-      this.isPublic = identity.IsPublic;
-      this.publicCompanyId = identity.CompanyId;
-    });
-
     this.savedSearchTerm$.subscribe(savedSearchTerm => {
       this.savedSearchTerm = savedSearchTerm || '';
       this.listFilter = savedSearchTerm || '';
@@ -482,8 +561,16 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private routeToJobDescription(jobDescriptionId: number) {
     if (this.tokenId) {
       const jwtValue = this.tokenId;
-      this.router.navigate([`job-descriptions/${jobDescriptionId}`],
-        { queryParams: { jwt: jwtValue, viewName: JobDescriptionViewConstants.PUBLIC_VIEW } });
+
+      if (!this.ssoTokenId || !this.ssoAgentId) {
+        this.router.navigate([`job-descriptions/${jobDescriptionId}`],
+          { queryParams: { jwt: jwtValue, viewName: JobDescriptionViewConstants.PUBLIC_VIEW } });
+      } else {
+        this.router.navigate([`job-descriptions/${jobDescriptionId}`],
+          { queryParams: { jwt: jwtValue, viewName: JobDescriptionViewConstants.PUBLIC_VIEW,
+              tokenid: this.ssoTokenId, agentid: this.ssoAgentId } });
+      }
+
     } else {
       this.router.navigate([`job-descriptions/${jobDescriptionId}`]);
     }
@@ -497,5 +584,9 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.bulkExportErrorSubscription.unsubscribe();
     this.deleteJobDescriptionSuccessSubscription.unsubscribe();
     this.enabledJdmTemplatesInClientSubscription.unsubscribe();
+    this.requireSSOLoginSubscription?.unsubscribe();
+    this.jobDescriptionSSOLoginUrlSubscription?.unsubscribe();
+    this.jobDescriptionSSOAuthResultSubscription?.unsubscribe();
+    this.jobDescriptionSSOAuthErrorSubscription?.unsubscribe();
   }
 }

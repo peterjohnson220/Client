@@ -56,6 +56,9 @@ export const getLoadingTabTicket = createSelector(selectTicketState, fromTickets
 export const getTicketUpdating = createSelector(selectTicketState, fromTicketsReducer.getUpdating);
 export const getTicketUpdatingError = createSelector(selectTicketState, fromTicketsReducer.getUpdatingError);
 export const getTicketComments = createSelector(selectTicketState, fromTicketsReducer.getComments);
+export const getSubmittingReply = createSelector(selectTicketState, fromTicketsReducer.getSubmittingReply);
+export const getSubmittingReplySuccess = createSelector(selectTicketState, fromTicketsReducer.getSubmittingReplySuccess);
+export const getSubmittingReplyError = createSelector(selectTicketState, fromTicketsReducer.getSubmittingReplyError);
 
 // Ticket Shared Selector
 export const getUserDetailModalOpen = createSelector(selectTicketSharedState, fromTicketSharedReducer.isUserDetailModalOpen);

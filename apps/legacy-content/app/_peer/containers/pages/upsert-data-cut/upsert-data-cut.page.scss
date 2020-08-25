@@ -1,24 +1,5 @@
 @import 'app-colors';
 
-.button-container {
-  padding: .85rem .5rem .25rem .5rem;
-}
-
-.map-container {
-  height: min-content;
-}
-
-.filters-container {
-  max-width: 275px;
-  min-width: 275px;
-  width: auto;
-  height: 100%;
-}
-
-.buttons .btn {
-  margin-left: .35rem;
-}
-
 .alert-mustard {
   color: #1f2f3d;
   background-color: #fbb116;
@@ -33,4 +14,14 @@
 
 .request-access-message {
   min-height: 78px;
+}
+
+:host ::ng-deep .actions-container {
+  position: static !important;
+  height: auto !important;
+  padding: .85rem .5rem .25rem;
+
+  .buttons {
+    height: 29px;
+  }
 }

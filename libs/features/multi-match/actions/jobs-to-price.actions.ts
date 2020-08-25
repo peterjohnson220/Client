@@ -14,6 +14,7 @@ export const GET_MATCH_JOB_CUTS_ERROR = '[Project Add Data/Jobs to Price] Get Ma
 export const ADD_DATA_CUTS_TO_JOB_TO_PRICE = '[Project Add Data/Jobs to Price] Add new data Cuts to Job';
 export const REMOVE_JOB_CUT = '[Project Add Data/Jobs to Price] Remove Job Cut';
 export const CLEAR_ALL_JOBS = '[Project Add Data/Jobs to Price] Remove all Jobs';
+export const GET_PRICING_MATCHES = '[Modify Pricings] Get Pricing Matches';
 
 
 export class GetJobsToPrice implements Action {
@@ -68,7 +69,12 @@ export class RemoveJobCut implements Action {
   constructor(public payload: {JobId: number, DataCut: JobMatchCut}) {}
 }
 
-export type Actions
+export class GetPricingMatches implements Action {
+  readonly type = GET_PRICING_MATCHES;
+  constructor(public pricingId: number, public rate: string) {}
+}
+
+export type JobsToPriceActions
   = GetJobsToPrice
   | GetJobsToPriceSuccess
   | GetJobsToPriceError
@@ -77,4 +83,5 @@ export type Actions
   | GetMatchJobCutsError
   | ClearAllJobs
   | AddNewDataCuts
-  | RemoveJobCut;
+  | RemoveJobCut
+  | GetPricingMatches;

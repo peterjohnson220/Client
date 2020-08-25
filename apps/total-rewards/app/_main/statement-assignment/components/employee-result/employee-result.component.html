@@ -1,17 +1,20 @@
-<div class="result employee-result-row position-relative">
-  <div class="d-flex justify-content-between">
-    <h4 class="d-flex">
+<a href="javascript:void(0)" class="employee-result-row">
+  <div class="result  position-relative" [class.selected]="employee.IsSelected" (click)="handleEmployeeClicked()">
+    <div class="d-flex justify-content-between">
+      <h4 class="d-flex">
       <span *ngIf="employee.FirstName || employee.LastName" class="employee-name font-weight-bold pr-2">
         {{employee.FirstName}} {{employee.LastName}}
       </span>
-      <span class="employee-id">
+        <span class="employee-id">
         ({{employee.EmployeeId}})
       </span>
-    </h4>
+      </h4>
+    </div>
+
+    <h5 class="flex-column job-title my-1">
+      {{employee.JobTitle}}
+    </h5>
+
   </div>
 
-  <h5 class="flex-column job-title my-1">
-    {{employee.JobTitle}}
-  </h5>
-
-</div>
+</a>

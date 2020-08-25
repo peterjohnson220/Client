@@ -84,7 +84,8 @@ export function reducer(state, action) {
         case fromStatementGridActions.CONFIRM_DELETE_STATEMENT: {
           return {
             ...featureState,
-            isDeleteStatetementModalOpen: true
+            isDeleteStatetementModalOpen: true,
+            openActionMenuStatement: action.payload
           };
         }
         case fromStatementGridActions.CLOSE_DELETE_STATEMENT:
@@ -118,7 +119,13 @@ export function reducer(state, action) {
         }
       }
     }, {
-      take: 50
+      take: 20,
+      sort: [
+        {
+          field: 'CreatedDate',
+          dir: 'desc'
+        }
+      ]
     })(state, action);
 }
 

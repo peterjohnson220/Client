@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { AvailableJobInformationField } from '../../../../app/shared';
+import { AvailableJobInformationField } from 'libs/features/job-description-management';
 
 export const LOAD_AVAILABLE_JOB_INFORMATION_FIELDS = '[Template/Available Job Information Fields] Load Job Information Fields';
 export const LOAD_AVAILABLE_JOB_INFORMATION_FIELDS_SUCCESS = '[Template/Available Job Information Fields] Load Job Information Fields Success';

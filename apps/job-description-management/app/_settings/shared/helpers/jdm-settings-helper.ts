@@ -1,4 +1,4 @@
-import { JobDescriptionViewConstants } from '../../../shared/constants';
+import { JobDescriptionViewConstants } from 'libs/features/job-description-management';
 
 export class JdmSettingsHelper {
   static isSystemView(viewName: string) {

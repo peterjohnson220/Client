@@ -17,7 +17,8 @@
   [pageTheme]="'next-gen'"
   [autoFitColumnsToHeader]="true"
   [reorderable]="true"
-  [syncScrollWithSplit]="true">
+  [syncScrollWithSplit]="true"
+  [saveSort]="true">
 </pf-data-grid>
 
 <ng-template #jobTitleCode let-dataRow="dataRow" let-fieldName="fieldName">
@@ -61,6 +62,12 @@
 <ng-template #aboveGridTemplate>
   <div class="mb-3">
     <pf-grid-context [enableReturnBtn]="true" [metadata]="metaData$ | async"></pf-grid-context>
-    <pf-model-grid [inboundFilters]="[filter]" [rangeGroupId]="rangeGroupId" [singleRecordView]="true" [page]="page"></pf-model-grid>
+    <pf-model-grid
+      [inboundFilters]="[filter]"
+      [rangeGroupId]="rangeGroupId"
+      [singleRecordView]="true"
+      [page]="page"
+      [modifiedKey]="'CompanyStructures_Ranges_CompanyStructuresRanges_ID'">
+    </pf-model-grid>
   </div>
 </ng-template>

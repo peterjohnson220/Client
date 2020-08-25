@@ -61,6 +61,8 @@ export const UPDATE_FIELDS_EXCLUDED_FROM_EXPORT = '[PfDataGrid] Update Fields Ex
 export const UPDATE_PRESERVE_SELECTIONS_ON_GET_CONFIG = '[PfDataGrid] Update Preserve Selections On Get Config';
 export const UPDATE_COLUMN_WIDTH = '[PfDataGrid] Update Column Width';
 export const UPDATE_GRID_CONFIG = '[PfDataGrid] Update Grid Config';
+export const UPDATE_MODIFIED_KEYS = '[PfDataGrid] Update Modified Keys';
+export const UPDATE_MODIFIED_KEY = '[PfDataGrid] Update Modified Key';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -280,7 +282,7 @@ export class DeleteSavedViewSuccess implements Action {
 
 export class ExportGrid implements Action {
   readonly type = EXPORT_GRID;
-  constructor(public pageViewId: string, public source: string) {}
+  constructor(public pageViewId: string, public source: string, public customExportType: string) {}
 }
 
 export class ExportGridSuccess implements Action {
@@ -347,6 +349,16 @@ export class UpdateGridConfig implements Action {
   constructor(public pageViewId: string, public payload: GridConfig) {}
 }
 
+export class UpdateModifiedKeys implements Action {
+  readonly type = UPDATE_MODIFIED_KEYS;
+  constructor(public pageViewId: string, public payload: number[]) {}
+}
+
+export class UpdateModifiedKey implements Action {
+  readonly type = UPDATE_MODIFIED_KEY;
+  constructor(public pageViewId: string, public payload: number) {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -402,4 +414,6 @@ export type DataGridActions =
   | UpdateFieldsExcludedFromExport
   | UpdateRow
   | UpdateColumnWidth
-  | UpdateGridConfig;
+  | UpdateGridConfig
+  | UpdateModifiedKeys
+  | UpdateModifiedKey;

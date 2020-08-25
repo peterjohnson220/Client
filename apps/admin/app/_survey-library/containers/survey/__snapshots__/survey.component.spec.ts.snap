@@ -14,6 +14,7 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
   store={[Function Store]}
   surveyApi={[Function Object]}
   surveyData$={[Function Store]}
+  surveyNotesModal="undefined"
   surveyYearId={[Function Number]}
   surveys={[Function Array]}
   systemUserGroupsId={[Function Number]}
@@ -58,6 +59,9 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
             <th>
               Map Companies
             </th>
+            <th>
+              Notes
+            </th>
             <th />
           </tr>
         </thead>
@@ -89,9 +93,12 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
             <td>
               
             </td>
-            <td
-              style="cursor: pointer"
-            >
+            <td>
+              <u>
+                
+              </u>
+            </td>
+            <td>
               <u>
                 
               </u>
@@ -132,7 +139,7 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
         Back to Survey Years
       </button>
     </pf-async-container>
-  </pf-page-with-title-bar><pf-add-survey-modal /><pf-map-company-modal /><pf-copy-survey-modal /><pf-delete-confirmation-modal />
+  </pf-page-with-title-bar><pf-add-survey-modal /><pf-map-company-modal /><pf-copy-survey-modal /><pf-delete-confirmation-modal /><pf-survey-notes-modal />
 </pf-survey>
 `;
 
@@ -150,6 +157,7 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
   store={[Function Store]}
   surveyApi={[Function Object]}
   surveyData$={[Function Store]}
+  surveyNotesModal="undefined"
   surveyYearId={[Function Number]}
   surveys={[Function Array]}
   systemUserGroupsId={[Function Number]}
@@ -194,6 +202,9 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
             <th>
               Map Companies
             </th>
+            <th>
+              Notes
+            </th>
             <th />
           </tr>
         </thead>
@@ -225,9 +236,12 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
             <td>
               
             </td>
-            <td
-              style="cursor: pointer"
-            >
+            <td>
+              <u>
+                
+              </u>
+            </td>
+            <td>
               <u>
                 
               </u>
@@ -267,6 +281,6 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
         Back to Survey Years
       </button>
     </pf-async-container>
-  </pf-page-with-title-bar><pf-add-survey-modal /><pf-map-company-modal /><pf-copy-survey-modal /><pf-delete-confirmation-modal />
+  </pf-page-with-title-bar><pf-add-survey-modal /><pf-map-company-modal /><pf-copy-survey-modal /><pf-delete-confirmation-modal /><pf-survey-notes-modal />
 </pf-survey>
 `;

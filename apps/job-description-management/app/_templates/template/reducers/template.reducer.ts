@@ -5,7 +5,7 @@ import { Template } from 'libs/models/jdm/template';
 import * as fromTemplateActions from '../actions';
 import * as section from './template-section.reducer';
 import * as control from './template-control.reducer';
-import { SaveError } from '../../../shared/models';
+import { SaveError } from 'libs/features/job-description-management';
 
 export interface State {
   loading: boolean;
@@ -129,11 +129,15 @@ export function reducer(state = initialState, action: fromTemplateActions.Templa
         error: false,
       };
     case fromTemplateActions.PUBLISH_TEMPLATE_SUCCESS:
+      const publishedTemplate = cloneDeep(state.template);
+      publishedTemplate.TemplateStatus = 'Published';
+
       return {
         ...state,
         publishing: false,
         editing: false,
         error: false,
+        template: publishedTemplate
       };
     case fromTemplateActions.PUBLISH_TEMPLATE_ERROR:
       return {

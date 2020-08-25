@@ -6,7 +6,7 @@ import { arrayMoveMutate, arraySortByString, SortDirection } from 'libs/core/fun
 import { DataViewConfig, DataViewEntity, DataViewType, PagingOptions, SimpleDataView, ViewField } from 'libs/models/payfactors-api';
 
 import * as fromPfGridActions from '../actions';
-import { PfDataGridFilter, GridConfig } from '../models';
+import { PfDataGridFilter, GridConfig, ColumnReorder } from '../models';
 import { getDefaultFilterOperator, getHumanizedFilter, getUserFilteredFields } from '../components';
 
 export interface DataGridState {
@@ -45,6 +45,7 @@ export interface DataGridState {
   loadingExportingStatus: boolean;
   fieldsExcludedFromExport: [];
   gridConfig: GridConfig;
+  modifiedKeys: any[];
 }
 
 export interface DataGridStoreState {
@@ -147,6 +148,9 @@ export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: stri
   return filterCount;
 };
 export const getGridConfig = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].gridConfig : null;
+export const getFilterPanelOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].filterPanelOpen : null;
+export const getModifiedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].modifiedKeys : null;
+
 
 
 
@@ -835,10 +839,14 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     case fromPfGridActions.REORDER_COLUMNS: {
       let oldIndex = action.payload.OldIndex, newIndex = action.payload.NewIndex;
 
-      // If selection is enabled and level = 0 then we need to subtract 1 from both indices
-      if ((action.payload.IsSelectionEnabled || action.payload.ActionsDefined) && action.payload.Level === 0) {
-        oldIndex--;
-        newIndex--;
+      if (reorderColumnOffsetRequired(action.payload)) {
+        if (action.payload.IsSelectionEnabled && action.payload.ActionsDefined) {
+          oldIndex = oldIndex - 2;
+          newIndex = newIndex - 2;
+        } else {
+          oldIndex--;
+          newIndex--;
+        }
       }
 
       // We have two different scenarios:
@@ -879,7 +887,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            fields: fieldsClone
+            fields: fieldsClone,
+            groupedFields: buildGroupedFields(fieldsClone)
           }
         }
       };
@@ -944,9 +953,39 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             ...state
           };
       }
+    case fromPfGridActions.UPDATE_MODIFIED_KEYS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            modifiedKeys: action.payload
+          }
+        }
+      };
+    case fromPfGridActions.UPDATE_MODIFIED_KEY:
+      if (state.grids[action.pageViewId].modifiedKeys.includes(action.payload)) {
+        return state;
+      }
+
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            modifiedKeys: [...state.grids[action.pageViewId].modifiedKeys, action.payload]
+          }
+        }
+      };
     default:
       return state;
   }
+}
+
+export function reorderColumnOffsetRequired(orderEvent: ColumnReorder): boolean {
+  return (orderEvent.IsSelectionEnabled || orderEvent.ActionsDefined) && orderEvent.Level === 0;
 }
 
 export function buildGroupedFields(fields: ViewField[]): any[] {
@@ -1053,6 +1092,7 @@ export function applyInboundFilters(fields: ViewField[], inboundFilters: PfDataG
       if (fieldToUpdate) {
         fieldToUpdate.FilterOperator = filter.Operator;
         fieldToUpdate.FilterValue = filter.Value;
+        fieldToUpdate.ExcludeFieldInFilterSave = filter.ExcludeFromFilterSave;
       }
     });
 

@@ -52,6 +52,17 @@ export class AssociateCompanyJobEffects {
       ))
     );
 
+  @Effect()
+  loadActiveExchange$ = this.actions$.pipe(
+    ofType(fromAssociateAction.LOAD_ACTIVE_EXCHANGE),
+    switchMap(() =>
+      this.exchangeApiService.getActiveExchangeId().pipe(
+        map((exchangeId: number) => {
+          return new fromAssociateAction.LoadActiveExchangeSuccess(exchangeId);
+        }), catchError(() => of(new fromAssociateAction.LoadActiveExchangeError()))
+      ))
+  );
+
     @Effect()
     applyMapping$ = this.actions$.pipe(
         ofType(fromAssociateAction.MAP_EXCHANGE_JOB),

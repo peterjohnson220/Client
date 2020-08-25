@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import * as fromCommunityAttachmentsReducer from '../../reducers';
 import * as fromCommunityAttachmentsActions from '../../actions/community-attachment.actions';
 import { CommunityAttachment } from 'libs/models/community/community-attachment.model';
-import { FileRestrictions, RemoveEvent, SuccessEvent, UploadEvent, FileInfo, FileState } from '@progress/kendo-angular-upload';
+import { FileRestrictions, SuccessEvent, UploadEvent, FileInfo, SelectEvent, RemoveEvent } from '@progress/kendo-angular-upload';
 import { mapFileInfoToCommunityAddAttachment, formatBytes } from '../../helpers/model-mapping.helper';
 import { CommunityFiles } from '../../constants/community-files';
 import { CommunityAttachmentModalState, CommunityAttachmentUploadStatus } from 'libs/models';
@@ -88,6 +88,17 @@ export class CommunityAttachmentModalComponent implements OnInit {
     this.store.dispatch(new fromCommunityAttachmentsActions.CloseCommunityAttachmentsModal(this.currentCommunityAttachmentModal.Id));
   }
 
+  selectEventHandler(e: SelectEvent): void {
+    e.files.forEach((file) => {
+      if (file.validationErrors && file.validationErrors.includes('invalidFileExtension')) {
+        const cloudFileName = `${file.uid}_${file.name}`;
+        const fileToUpload = mapFileInfoToCommunityAddAttachment(file, cloudFileName);
+        fileToUpload.Status = CommunityAttachmentUploadStatus.InvalidExtension;
+        this.uploadedFiles.push(fileToUpload);
+      }
+    });
+  }
+
   uploadAttachmentEventHandler(e: UploadEvent) {
     if (this.uploadedFiles.length >= this.maxFileCount) {
       e.preventDefault();
@@ -105,6 +116,10 @@ export class CommunityAttachmentModalComponent implements OnInit {
 
     this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;
     this.store.dispatch(new fromCommunityAttachmentsActions.SaveCommunityAttachmentsState(this.currentCommunityAttachmentModal));
+  }
+
+  removeEventHandler(e: RemoveEvent) {
+    e.data = { uid: e.files[0].uid };
   }
 
   removeAttachmentEventHandler(file: FileInfo) {
@@ -170,6 +185,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
         return 'upload-success';
       case CommunityAttachmentUploadStatus.UploadFailed:
       case CommunityAttachmentUploadStatus.ScanFailed:
+      case CommunityAttachmentUploadStatus.InvalidExtension:
         return 'upload-failed';
       default:
         return 'upload-in-progress';

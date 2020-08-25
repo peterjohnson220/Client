@@ -1,4 +1,4 @@
-import {  Component, OnDestroy, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnDestroy, ViewChildren, QueryList, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
@@ -11,22 +11,28 @@ import { JobMatchCut } from 'libs/models/payfactors-api';
 import { JobToPriceComponent } from '../../components';
 import * as fromMultiMatchReducer from '../../reducers';
 import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
-import { DataCutDetails, SearchContext } from '../../../survey-search/models';
+
+import {DataCutDetails, PricingMatchDataSearchContext} from '../../../survey-search/models';
 import { JobToPrice } from '../../models';
+import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../../constants';
+
 import * as fromSurveySearchReducer from '../../../survey-search/reducers';
 import * as fromSurveySearchResultsActions from '../../../survey-search/actions/survey-search-results.actions';
+
 
 @Component({
   selector: 'pf-jobs-to-price-container',
   templateUrl: './jobs-to-price-container.component.html',
   styleUrls: ['./jobs-to-price-container.component.scss']
 })
-export class JobsToPriceContainerComponent implements OnInit, OnDestroy {
+export class JobsToPriceContainerComponent implements OnDestroy {
   @ViewChildren(JobToPriceComponent) jobsToPriceComponents !: QueryList<JobToPriceComponent>;
+  @Input() featureImplementation = LEGACY_PROJECTS;
+
   // Observables
   jobsToPrice$: Observable<JobToPrice[]>;
   selectedCuts$: Observable<DataCutDetails[]>;
-  searchContext$: Observable<SearchContext>;
+  pricingMatchDataSearchContext$: Observable<PricingMatchDataSearchContext>;
   loadingJobs$: Observable<boolean>;
   error$: Observable<boolean>;
   isDragging$: Observable<boolean>;
@@ -54,14 +60,50 @@ export class JobsToPriceContainerComponent implements OnInit, OnDestroy {
     this.jobsToPrice$ = this.store.select(fromMultiMatchReducer.getJobsToPrice);
     this.loadingJobs$ = this.store.select(fromMultiMatchReducer.getLoadingJobsToPrice);
     this.error$ = this.store.select(fromMultiMatchReducer.getLoadingJobsToPriceError);
-    this.searchContext$ = this.store.select(fromSurveySearchReducer.getProjectSearchContext);
+    this.pricingMatchDataSearchContext$ = this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext);
+
     this.selectedDataCutsSubscription = this.selectedCuts$.subscribe(dataCuts => {
      this.selectedCuts = dataCuts;
+      // TODO: come up with a better solution to initialize the auto scroll.
+      // These elements are not on the DOM until the multi match modal opens in Client implementations
+     if (!this.scroll && dataCuts.length) {
+       this.initializeScroll();
+     }
     });
     this.configureDragEvents();
   }
 
-  ngOnInit() {
+  trackByJobId(index, item: JobToPrice) {
+    return item.Id;
+  }
+
+  handleLoadDataCuts(job: JobToPrice): void {
+    if (!job.TotalDataCuts || this.dataCutsLoaded(job)) {
+      return;
+    }
+
+    // TODO: Set feature implementation in the state, refactor this to the effect and let the effect make the right API calls
+    // Will handle as part of ENG-319
+    switch (this.featureImplementation) {
+      case MODIFY_PRICINGS:
+        let rate;
+        this.pricingMatchDataSearchContext$.subscribe(x => {
+          rate = x.Rate;
+        }).unsubscribe();
+
+        this.store.dispatch(new fromJobsToPriceActions.GetPricingMatches(job.Id, rate));
+        break;
+      default:
+        this.store.dispatch(new fromJobsToPriceActions.GetMatchJobCuts(job));
+        break;
+    }
+  }
+
+  handleCutDeleted(deletedObj: { jobCut: JobMatchCut, job: JobToPrice }): void {
+    this.store.dispatch(new fromJobsToPriceActions.RemoveJobCut({JobId: deletedObj.job.Id, DataCut: deletedObj.jobCut}));
+  }
+
+  private initializeScroll() {
     const that = this;
     this.scroll = autoScroll(
       document.querySelector('.jobs-to-price-container'),
@@ -73,21 +115,6 @@ export class JobsToPriceContainerComponent implements OnInit, OnDestroy {
           return this.down && that.isDragging;
         }
       });
-  }
-
-  trackByJobId(index, item: JobToPrice) {
-    return item.Id;
-  }
-
-  handleLoadDataCuts(job: JobToPrice): void {
-    if (!job.TotalDataCuts || this.dataCutsLoaded(job)) {
-      return;
-    }
-    this.store.dispatch(new fromJobsToPriceActions.GetMatchJobCuts(job));
-  }
-
-  handleCutDeleted(deletedObj: { jobCut: JobMatchCut, job: JobToPrice }): void {
-    this.store.dispatch(new fromJobsToPriceActions.RemoveJobCut({JobId: deletedObj.job.Id, DataCut: deletedObj.jobCut}));
   }
 
   private dataCutsLoaded(job: JobToPrice): boolean {

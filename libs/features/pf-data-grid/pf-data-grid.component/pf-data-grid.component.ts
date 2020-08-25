@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy, ElementRef, ViewChild} from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, EventEmitter, SimpleChanges, OnChanges, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 
@@ -41,6 +41,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() expandedRowTemplate: TemplateRef<any>;
   @Input() gridActionsTemplate: TemplateRef<any>;
+  @Input() gridActionsRightTemplate: TemplateRef<any>;
   @Input() gridRowActionsConfig: GridRowActionsConfig;
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() filterPanelTemplates: TemplateRef<any>;
@@ -78,8 +79,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() pageTheme: 'default' | 'next-gen' = 'default';
   @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
   @Input() syncScrollWithSplit = false;
-  @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
   @Input() gridConfig: GridConfig;
+  @Input() modifiedKey: string = null;
+  @Input() resetWidthForSplitView = false;
+  @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();
   splitViewFilters$: Observable<PfDataGridFilter[]>;
@@ -103,10 +106,11 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   userFilteredFields: ViewField[];
   selectedRecordId: number;
   exportEventId = null;
+
   constructor(
     private store: Store<fromReducer.State>,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.splitViewEmitter.subscribe(res => {

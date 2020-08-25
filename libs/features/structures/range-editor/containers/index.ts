@@ -1,1 +1,1 @@
-export * from './midpoint-editor';
+export * from './range-field-editor';

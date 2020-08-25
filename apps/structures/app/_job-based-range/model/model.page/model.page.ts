@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
@@ -16,8 +16,9 @@ import * as fromModelSettingsModalActions from '../../shared/actions/model-setti
 import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
 import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
-import { UrlService } from '../../shared/services';
+import { StructuresPagesService, UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
+import * as fromSharedActions from '../../shared/actions/shared.actions';
 
 
 @Component({
@@ -37,25 +38,24 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   filter: PfDataGridFilter;
   hasCanCreateEditModelStructurePermission: boolean;
 
+  pageViewId: string;
+  pageViewIdSubscription: Subscription;
+
   constructor(
     private store: Store<any>,
     private route: ActivatedRoute,
     private urlService: UrlService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private structuresPagesService: StructuresPagesService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.rangeGroupId = this.route.snapshot.params.id;
 
-    this.filters  = [
+    this.filters = [
       {
         SourceName: 'CompanyStructuresRangeGroup_ID',
         Operator: '=',
         Value: this.rangeGroupId
-      },
-      {
-        SourceName: 'CompanyStructuresRanges_ID',
-        Operator: 'notnull',
-        Value: ''
       },
       {
         SourceName: 'JobStatus',
@@ -66,6 +66,8 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
       PermissionCheckEnum.Single);
+
+    this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
   }
 
   // Events
@@ -104,9 +106,16 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.urlService.isInWorkflow(Workflow.CreateModel)) {
       this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
     }
+
+    // Get all overridden ranges
+    this.store.dispatch(new fromSharedActions.GetOverriddenRanges({
+      pageViewId: this.pageViewId,
+      rangeGroupId: this.rangeGroupId
+    }));
   }
 
   ngOnDestroy(): void {
     this.store.dispatch(new pfDataGridActions.Reset());
+    this.pageViewIdSubscription.unsubscribe();
   }
 }

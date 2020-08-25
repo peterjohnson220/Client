@@ -1,28 +1,33 @@
-<div class="d-flex">
-  <div class="ticket-labels"><h6 class="attachment-label">Attachments</h6></div>
-  <div class="attachments-container w-100">
-    <kendo-upload class="mb-2"
-                  [multiple]="true"
-                  [saveUrl]="uploadSaveUrl"
-                  [restrictions]="uploadRestrictions"
-                  (select)="onFileSelect($event)"
-                  (success)="handleUploadSuccess($event)">
-      <kendo-upload-messages select="Browse"></kendo-upload-messages>
-    </kendo-upload>
-    <div *ngIf="!!attachments" class="d-flex flex-wrap attachments-list">
-      <div class="attachment" *ngFor="let attachment of attachments">
-        <fa-icon *ngIf="attachment.FileType === attachmentFileType.Word" icon="file-word" class="icon word"></fa-icon>
-        <fa-icon *ngIf="attachment.FileType === attachmentFileType.Pdf" icon="file-pdf" class="icon pdf"></fa-icon>
-        <fa-icon *ngIf="attachment.FileType === attachmentFileType.Excel" icon="file-excel" class="icon excel"></fa-icon>
-        <fa-icon *ngIf="attachment.FileType === attachmentFileType.Image" icon="file-image" class="icon image"></fa-icon>
-        <fa-icon *ngIf="attachment.FileType === attachmentFileType.Unknown" icon="file" class="icon file"></fa-icon>
-        <a href="/odata/CloudFiles.DownloadUserTicketAttachment?AttachmentId={{attachment.Id}}&TicketID={{attachment.UserTicketId}}">{{attachment.DisplayName}}</a>
+<ng-container *ngIf="canAddAttachments || attachments?.length">
+  <hr>
+  <div class="d-flex">
+    <div class="ticket-labels"><h6 class="attachment-label">Attachments</h6></div>
+    <div class="attachments-container w-100">
+      <kendo-upload class="mb-2"
+                    *ngIf="canAddAttachments"
+                    [multiple]="true"
+                    [saveUrl]="uploadSaveUrl"
+                    [restrictions]="uploadRestrictions"
+                    (select)="onFileSelect($event)"
+                    (success)="handleUploadSuccess($event)">
+        <kendo-upload-messages select="Browse"></kendo-upload-messages>
+      </kendo-upload>
+      <div *ngIf="!!attachments" class="d-flex flex-wrap attachments-list">
+        <div class="attachment" *ngFor="let attachment of attachments">
+          <fa-icon *ngIf="attachment.FileType === attachmentFileType.Word" icon="file-word" class="icon word"></fa-icon>
+          <fa-icon *ngIf="attachment.FileType === attachmentFileType.Pdf" icon="file-pdf" class="icon pdf"></fa-icon>
+          <fa-icon *ngIf="attachment.FileType === attachmentFileType.Excel" icon="file-excel" class="icon excel"></fa-icon>
+          <fa-icon *ngIf="attachment.FileType === attachmentFileType.Image" icon="file-image" class="icon image"></fa-icon>
+          <fa-icon *ngIf="attachment.FileType === attachmentFileType.Unknown" icon="file" class="icon file"></fa-icon>
+          <a href="/odata/CloudFiles.DownloadUserTicketAttachment?AttachmentId={{attachment.Id}}&TicketID={{attachment.UserTicketId}}">{{attachment.DisplayName}}</a>
+        </div>
       </div>
+      <ng-container *ngIf="uploadError">
+        <div *ngIf="uploadError" class="custom-control invalid-feedback">
+          {{ errorMessage }}
+        </div>
+      </ng-container>
     </div>
-    <ng-container *ngIf="uploadError">
-      <div *ngIf="uploadError" class="custom-control invalid-feedback">
-        {{ errorMessage }}
-      </div>
-    </ng-container>
   </div>
-</div>
+</ng-container>
+

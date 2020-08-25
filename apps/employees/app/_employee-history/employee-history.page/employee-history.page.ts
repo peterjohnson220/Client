@@ -1,18 +1,17 @@
-import { Component, OnInit, ViewChild, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { SortDescriptor } from '@progress/kendo-data-query';
-import { IntlService } from '@progress/kendo-angular-intl';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
-import { UserContext } from 'libs/models';
+import { IntlService } from '@progress/kendo-angular-intl';
+import { SortDescriptor } from '@progress/kendo-data-query';
+
 import { Permissions } from 'libs/constants';
-import { ActionBarConfig, ColumnChooserType, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import * as fromRootState from 'libs/state/state';
+import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 
 import { EmployeeHistoryPageViewId } from '../models';
-
 
 @Component({
   selector: 'pf-employee-history-page',
@@ -24,7 +23,6 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
   @ViewChild('salaryColumn', { static: false }) salaryColumn: ElementRef;
   @ViewChild('rateBasedSalaryColumn', { static: false }) rateBasedSalaryColumn: ElementRef;
   permissions = Permissions;
-  userContext$: Observable<UserContext>;
 
   pageViewId = EmployeeHistoryPageViewId;
   defaultSort: SortDescriptor[] = [{
@@ -42,18 +40,16 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
   historyDate: Date;
 
   constructor(
-    private rootStore: Store<fromRootState.State>,
     private router: Router,
     private route: ActivatedRoute,
     private intlService: IntlService
   ) {
-    this.userContext$ = this.rootStore.pipe(select(fromRootState.getUserContext));
     this.actionBarConfig = {
-      ShowActionBar: true,
+      ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
       ShowFilterChooser: true,
       AllowExport: true,
-      AllowSaveFilter: false,
+      AllowSaveFilter: true,
       ExportSourceName: 'Employee History',
       ColumnChooserType: ColumnChooserType.ColumnGroup
     };
@@ -87,10 +83,6 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
     }
   }
 
-  getPageTitle(companyName: string): string {
-    return companyName ? `${companyName} Employee History` : '';
-  }
-
   handleEmployeeHistoryDateChange(date: string): void {
     this.showEmployeeHistoryModal.next(false);
     this.router.navigate([`history/${date}`]).then(() => {
@@ -103,7 +95,8 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
       this.loadDateFilter = [{
         SourceName: 'Load_Date',
         Operator: '=',
-        Value: this.intlService.formatDate(this.historyDate, 'yyyy-MM-dd')
+        Value: this.intlService.formatDate(this.historyDate, 'yyyy-MM-dd'),
+        ExcludeFromFilterSave: true
       }];
     }
   }

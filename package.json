@@ -6,8 +6,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build && ng lint",
-    "buildall": "ng build admin && ng build dashboard && ng build legacy-content && ng build peer && ng build auth && ng build community && ng build project && ng build comphub && ng build pf-admin && ng build data-insights && ng build structures && ng build data-management && ng build resources && ng build employees && ng build service && ng build labs && ng build paymarkets && ng build user-settings && ng build form && ng build total-rewards",
-    "buildallprod": "ng build admin --prod && ng build dashboard --prod && ng build legacy-content --prod && ng build peer --prod && ng build auth --prod && ng build community --prod && ng build project --prod && ng build comphub --prod && ng build pf-admin --prod && ng build data-insights --prod && ng build structures --prod && ng build data-management --prod && ng build resources --prod && ng build employees --prod && ng build service --prod && ng build labs --prod && ng build paymarkets --prod && ng build user-settings --prod && ng build form --prod && ng build total-rewards --prod",
+    "buildall": "ng build admin && ng build auth && ng build community && ng build comphub && ng build dashboard && ng build data-insights && ng build data-management && ng build employees && ng build form && ng build job-description-management && ng build jobs && ng build labs && ng build legacy-content && ng build notifications && ng build paymarkets && ng build peer && ng build pf-admin && ng build project && ng build resources && ng build service && ng build structures && ng build total-rewards && ng build user-settings",
+    "buildallprod": "ng build admin --prod && ng build auth --prod && ng build community --prod && ng build comphub --prod && ng build dashboard --prod && ng build data-insights --prod && ng build data-management --prod && ng build employees --prod && ng build form --prod && ng build job-description-management --prod && ng build jobs --prod && ng build labs --prod && ng build legacy-content --prod && ng build notifications --prod && ng build paymarkets --prod && ng build peer --prod && ng build pf-admin --prod && ng build project --prod && ng build resources --prod && ng build service --prod && ng build structures --prod && ng build total-rewards --prod && ng build user-settings --prod",
     "test": "jest",
     "test-report": "jest --coverage --coverageDirectory=output/coverage/jest",
     "lint": "ng lint",
@@ -43,7 +43,7 @@
     "@progress/kendo-angular-charts": "4.1.3",
     "@progress/kendo-angular-common": "1.2.2",
     "@progress/kendo-angular-dateinputs": "4.2.2",
-    "@progress/kendo-angular-dropdowns": "4.2.5",
+    "@progress/kendo-angular-dropdowns": "4.3.0",
     "@progress/kendo-angular-excel-export": "3.1.3",
     "@progress/kendo-angular-grid": "4.6.4",
     "@progress/kendo-angular-inputs": "6.5.0",
@@ -100,6 +100,7 @@
     "rxjs": "6.5.5",
     "rxjs-compat": "6.5.2",
     "tslib": "^1.10.0",
+    "uuid": "^8.1.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

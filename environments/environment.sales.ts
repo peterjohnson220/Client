@@ -1,8 +1,8 @@
 export const environment = {
-  avatarSource: 'https://dv00filestore01.blob.core.windows.net/publicfiles/avatars/',
-  companyLogoSource: 'https://dv00filestore01.blob.core.windows.net/publicfiles/company_logos/',
-  cloudFilesPublicBaseUrl: 'https://dv00filestore01.blob.core.windows.net/publicfiles',
-  marketingImageSource: 'https://dv00filestore01.blob.core.windows.net/publicfiles/marketing_image/',
+  avatarSource: 'https://pp00pubstorage1001.blob.core.windows.net/publicfiles/avatars/',
+  companyLogoSource: 'https://pp00pubstorage1001.blob.core.windows.net/publicfiles/company_logos/',
+  cloudFilesPublicBaseUrl: 'https://pp00pubstorage1001.blob.core.windows.net/publicfiles',
+  marketingImageSource: 'https://pp00pubstorage1001.blob.core.windows.net/publicfiles/marketing_image/',
   production: true,
   payfactorsApiUrl: '/odata/',
   payfactorsMarketDataUrl: '/marketdata/',
@@ -22,5 +22,7 @@ export const environment = {
   siteAdminUrl: '/client/pf-admin',
   companyAdminUrl: '/client/admin/company-admin',
   payfactorsFrontEndApiUrl: '/Payfactors/',
-  name: 'sales'
+  name: 'sales',
+  mapBoxAPIKey: 'pk.eyJ1IjoicGZtYXBzIiwiYSI6ImNrOXg4ZWRvZjAwdzUzdHBtN3FlNzM2NjIifQ.VlodpfDhMKjG42DF4eBH6A',
+  mapBoxBaseUrl: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/'
 };

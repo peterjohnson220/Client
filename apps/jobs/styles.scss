@@ -1,5 +1,6 @@
 @import 'colors';
 @import '~dragula/dist/dragula.min.css';
+@import 'legacy/legacy-variables';
 
 html,
 body {
@@ -70,4 +71,48 @@ div.matches-list-container>div:nth-of-type(odd) {
 
 .nav-tabs {
   border-bottom: 2px solid rgb(222,226,230);
+}
+
+.kendoTooltipWhiteTheme .k-callout {
+  background-color: transparent;
+  color: white;
+}
+
+.kendoTooltipWhiteTheme  .k-widget.k-tooltip{
+  background-color: white;
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+
+.matches {
+  color: #006699;
+}
+
+.matches:hover{
+  cursor: pointer;
+}
+
+.tooltip-container {
+  width: 400px;
+  max-width: none;
+  max-height: 300px;
+  margin-left: 0;
+  padding: 5px;
+  border: 1px dotted black;
+  position: fixed;
+  background: white;
+  z-index: 999;
+}
+
+.survey-search-save-filter-modal > .modal-dialog {
+  padding-top: 10px;
+}
+
+.ps__rail-x {
+  top: inherit !important;
+}
+
+pf-filter-pills > .pills-container {
+  width: 1130px;
 }

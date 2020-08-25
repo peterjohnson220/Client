@@ -7,10 +7,14 @@
 
   <div *ngIf="!!(dataViewsExports$ | async)?.obj?.length; else noRecentDownloads" class="row mt-4">
     <div *ngFor="let exportRecord of (dataViewsExports$ | async)?.obj; let i = index" class="col-xs-12 col-md-6 col-lg-4 col-xl-3">
-      <pf-data-views-export-card
+      <pf-file-download-card
         [class.d-none]="i > (displayLimit - 1) && !showAll"
-        [dataViewExport]="exportRecord">
-      </pf-data-views-export-card>
+        [fileDisplayName]="exportRecord.ReportName"
+        [fileName]="exportRecord.FileName"
+        [createdDateTime]="exportRecord.DownloadDate"
+        [downloadPath]="exportRecord.ExportUrl"
+        [iconName]="'file-excel'">
+      </pf-file-download-card>
     </div>
   </div>
 

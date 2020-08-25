@@ -10,7 +10,7 @@ import { JobInformationFieldForBulkExportResponse } from 'libs/models/payfactors
 
 import * as fromJobInformationFieldsActions from '../actions/job-information-fields.actions';
 import * as fromJobInformationFieldsReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../../shared/helpers';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
 
 @Injectable()
 export class JobInformationFieldsEffects {

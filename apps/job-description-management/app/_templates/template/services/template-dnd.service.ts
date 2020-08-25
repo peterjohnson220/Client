@@ -10,9 +10,9 @@ import { DragulaHelperService } from 'libs/core';
 import { TemplateSectionComponent, UpsertControlModalComponent } from '../components';
 import * as fromTemplateActions from '../actions';
 import * as fromTemplateReducers from '../reducers';
-import * as fromJdmSharedReducer from '../../../shared/reducers';
+
 import { TemplateService } from './template.service';
-import { JobDescriptionManagementService } from '../../../shared';
+import { JobDescriptionManagementService } from 'libs/features/job-description-management';
 
 @Injectable()
 export class TemplateDnDService {
@@ -86,7 +86,7 @@ export class TemplateDnDService {
 
         this.dragulaService.createGroup('control-bag', {
             copy: function (el, source) {
-                return source.className === 'control-type-container';
+                return source.className.includes('control-type-container');
             },
             accepts: function (el, target) {
                 return target.className !== 'control-type-container';
@@ -159,7 +159,7 @@ export class TemplateDnDService {
             const controlId = dropModel.element.dataset.controlId;
             const addAtIndex = this.getControlAddAtIndex(dropModel);
 
-            const control = this.template.Sections.find(s => s.Id === droppedFromSectionId).Controls.find(c => c.Id === controlId);
+            const control = this.template.Sections.find(s => s.Id === droppedFromSectionId).Controls.find(c => c.Id === parseInt(controlId, 10));
             this.moveControlToSection(control, droppedIntoSectionId, addAtIndex);
         }
     }

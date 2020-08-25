@@ -5,9 +5,9 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import * as fromSharedWorkflowAction from '../../../../shared/actions';
-import * as fromSharedWorkflowReducer from '../../../../shared/reducers';
-import { WorkflowTemplate, WorkflowStep } from '../../../../shared';
+import * as fromSharedWorkflowAction from 'libs/features/job-description-management/actions';
+import * as fromSharedWorkflowReducer from 'libs/features/job-description-management/reducers';
+import { WorkflowTemplate, WorkflowStep } from 'libs/features/job-description-management/models';
 import * as fromWorkflowReducer from '../../reducers';
 import * as fromWorkflowAction from '../../actions';
 

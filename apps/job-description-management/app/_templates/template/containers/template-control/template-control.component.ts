@@ -2,12 +2,12 @@ import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy
 
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
-import { skip } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { skip, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { TemplateControl, TemplateSettings, TemplateSettingsControl, ControlType } from 'libs/models';
 
-import * as fromJdmSharedReducer from '../../../../shared/reducers';
+import * as fromJdmSharedReducer from 'libs/features/job-description-management/reducers';
 
 @Component({
     selector: 'pf-template-control',
@@ -110,8 +110,15 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit() {
       this.controlTypeSubscription = this.sharedJdmStore.select(fromJdmSharedReducer.getControlTypes).subscribe((controlTypes) => {
         this.controlType = controlTypes.find(ct => ct.Type === this.templateControl.Type && ct.ControlVersion === this.templateControl.ControlVersion );
+
         if (this.controlType) {
-            this.watchForControlDataChanges();
+
+          this.watchForControlDataChanges();
+
+          if (!this.templateControl.Data.length && this.controlType.EditorType !== 'SmartList') {
+            this.addDataRow(false);
+          }
+
         }
       });
 
@@ -147,9 +154,15 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
             }
         }
 
-        const editingTemplateSettingsStatus =  changes.editingTemplateSettings;
+        const editingTemplateSettingsStatus = changes.editingTemplateSettings;
         if (editingTemplateSettingsStatus && editingTemplateSettingsStatus.currentValue) {
-             this.hideBody = true;
+            this.hideBody = true;
+        }
+
+        if (changes.readOnly) {
+            if (!this.templateControl.Data.length && this.controlType.EditorType !== 'SmartList') {
+                this.addDataRow(false);
+            }
         }
     }
     // Private Methods
@@ -159,7 +172,12 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
         const controlDataChanges$ = RTEWithDataCount > 0 ? this.changesSubject.pipe(skip(RTEWithDataCount)) : this.changesSubject;
         const bulkControlDataChanges$ = this.bulkChangesSubject.pipe(skip(this.templateControl.Data.length ? 1 : 0));
 
-        controlDataChanges$.subscribe(dataRowChangeObj => this.dataChangesDetected.emit(dataRowChangeObj));
+        controlDataChanges$.pipe(
+            debounceTime(500),
+            distinctUntilChanged()).subscribe(dataRowChangeObj =>
+                this.dataChangesDetected.emit(dataRowChangeObj)
+            );
+
         bulkControlDataChanges$.subscribe(bulkDataChangeObj => this.bulkDataChangesDetected.emit(bulkDataChangeObj));
     }
 

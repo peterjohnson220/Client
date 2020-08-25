@@ -131,4 +131,13 @@ html .k-grid tr:hover {
     height: auto !important;
     min-height: 100%;
   }
+
+  tr.pf-data-grid-modified-row,
+  tr.k-alt.pf-data-grid-modified-row {
+    &:hover {
+      background-color: darken(#E2E3E4, 3%) !important;
+    }
+
+    background-color: #E2E3E4 !important;
+  }
 }

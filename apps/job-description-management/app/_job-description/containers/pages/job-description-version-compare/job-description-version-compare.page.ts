@@ -12,16 +12,13 @@ import * as fromRootState from 'libs/state/state';
 import { AsyncStateObj } from 'libs/models/state';
 import { CompanyDto } from 'libs/models/company';
 
-import {JobDescriptionHistoryListItem} from '../../../models';
+import {JobDescriptionHistoryListItem} from 'libs/features/job-description-management/models';
 import * as fromJobDescriptionReducer from '../../../reducers';
 import * as fromJobDescriptionVersionCompareActions from '../../../actions/job-description-version-compare.actions';
 import * as fromJobDescriptionHistoryListActions from '../../../actions/job-description-history-list.actions';
-import * as fromJobDescriptionManagementSharedReducer from '../../../../shared/reducers';
-import * as fromCompanyLogoActions from '../../../../shared/actions';
-import * as fromControlTypeActions from '../../../../shared/actions/control-types.actions';
-import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
-
-
+import * as fromJobDescriptionManagementSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromCompanyLogoActions from 'libs/features/job-description-management/actions';
+import * as fromControlTypeActions from 'libs/features/job-description-management/actions/control-types.actions';
 
 @Component({
   selector: 'pf-job-description-version-compare.page',

@@ -17,3 +17,12 @@
 .remove-range {
   padding: 1rem;
 }
+
+.no-formatting-info-circle-wrapper {
+  display: flex;
+
+  .no-formatting-info-circle {
+    margin-left: auto;
+  }
+}
+

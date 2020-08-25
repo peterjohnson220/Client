@@ -16,6 +16,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   @Input() numberOfCurrentResults: number;
   @Input() useSmallBizStyles: boolean;
   @Input() customSearchResultsStyle: any = {};
+  @Input() useAsync = true;
 
   // Observables
   loadingMoreResults$: Observable<boolean>;

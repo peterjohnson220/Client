@@ -3,14 +3,18 @@
   <ng-container page-title>Total Rewards</ng-container>
 
   <ng-container page-actions>
+    <a class="pt-2 pr-2"
+       id="recent-download"
+       [attr.data-qa-id]="'lnk-recentDownloads'"
+       target="_blank"
+       href="/client/notifications">Recently Generated</a>
     <pf-input-debounce class="mr-2"
                        [value]="(statementsSearchTerm$| async)"
                        [disabled]="(focusedTab$ | async) !== 'Statements' ||
                                   (!(statementsTotal$ | async) && !(statementsSearchTerm$ | async))"
                        [placeholderText]="'Search...'"
                        [automationClassName]="'au-tb-search'"
-                       (valueChanged)="onSearchTermChange($event)"
-    >
+                       (valueChanged)="onSearchTermChange($event)">
     </pf-input-debounce>
   </ng-container>
 
@@ -29,8 +33,12 @@
                 <pf-statements-grid></pf-statements-grid>
               </div>
               <ng-template #doNotShowGrid>
-                <pf-create-new-statement-banner (createNewClicked)="onCreateNewClicked()">
-                </pf-create-new-statement-banner>
+                <pf-no-records-found-call-to-action 
+                  [headerText]="'No Total Rewards Statements'"
+                  [preLinkText]="'Create a'"
+                  [linkText]="'new Total Rewards Statement'"
+                  (callToActionClick)="onCreateNewClicked()">
+                </pf-no-records-found-call-to-action>
               </ng-template>
             </ng-template>
           </ngb-tab>

@@ -1,9 +1,16 @@
-import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges, OnInit } from '@angular/core';
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import {
+  Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges, OnInit,
+  TemplateRef, Output, EventEmitter
+} from '@angular/core';
+
 import { SortDescriptor } from '@progress/kendo-data-query';
+
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api';
+
 import { PageViewIds } from '../../../../constants';
+import { JobTitleCodePipe } from '../../../../pipes';
 
 @Component({
   selector: 'pf-pricing-matches-grid',
@@ -13,11 +20,13 @@ import { PageViewIds } from '../../../../constants';
 export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() pricingInfo: any[];
+  @Output() notesEmitter = new EventEmitter();
 
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
   @ViewChild('agingColumn') agingColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('pricingInfoColumn') pricingInfoColumn: ElementRef;
+  @ViewChild('matchNotesHeader') matchNotesHeader: TemplateRef<any>;
 
   colTemplates = {};
 
@@ -32,7 +41,10 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
 
   defaultSort: SortDescriptor[] = [{
     dir: 'desc',
-    field: 'vw_PricingMatchesJobTitlesMerged_Effective_Date'
+    field: 'CompanyJobs_PricingsMatches_Match_Weight'
+  }, {
+    dir: 'asc',
+    field: 'vw_PricingMatchesJobTitlesMerged_Job_Title'
   }];
 
   defaultPagingOptions: PagingOptions = {
@@ -40,8 +52,15 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
     Count: 500
   };
   actionBarConfig: ActionBarConfig;
+  selectedMatchForNotes = {};
+  selectedMatchScope = '';
+  matchNoteManagerConfig = {};
 
-  constructor() { }
+  jobTitleCodePipe: JobTitleCodePipe;
+
+  constructor() {
+    this.jobTitleCodePipe = new JobTitleCodePipe();
+  }
 
   ngOnInit(): void {
     this.actionBarConfig = {
@@ -66,4 +85,23 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
     };
   }
 
+  openMatchNotesModal(event: any) {
+    this.selectedMatchScope = event.Scope;
+    this.selectedMatchForNotes = event.DataRow;
+    this.matchNoteManagerConfig = {
+      ModalTitle: `Match Notes - ${this.jobTitleCodePipe.transform(this.selectedMatchForNotes,
+        'vw_PricingMatchesJobTitlesMerged',
+        'Job_Title',
+        'Job_Code')}`,
+      EnableAdd: true,
+      NotesHeader: this.matchNotesHeader,
+      EntityId: event.EntityId
+    };
+
+    const data = {
+      Configuration: this.matchNoteManagerConfig,
+      ParentPricingId: event.DataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']
+    };
+    this.notesEmitter.emit(data);
+  }
 }

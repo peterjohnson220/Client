@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule} from '@ngrx/effects';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { NgbTabsetModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabsetModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { DragulaModule } from 'ng2-dragula';
 
@@ -17,7 +17,7 @@ import { PfFormsModule } from 'libs/forms';
 
 import * as fromFaIcons from '../fa-icons';
 import { SharedModule } from '../../shared/shared.module';
-import { ErrorGenerationService } from '../../shared';
+import { ErrorGenerationService } from 'libs/features/job-description-management/services';
 import { TemplatePageComponent } from './template.page';
 import { CompanyJobSearchPipe } from './pipes';
 import {
@@ -63,6 +63,7 @@ import { TemplateDnDService, TemplateService } from './services';
       TemplateSettingEffects
     ]),
     NgbPopoverModule,
+    NgbTooltipModule,
     UploadModule,
     DragulaModule.forRoot(),
 

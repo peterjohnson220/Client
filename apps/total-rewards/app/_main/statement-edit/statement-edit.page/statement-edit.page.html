@@ -1,5 +1,5 @@
 <pf-page-with-title-bar [returnUrl]="'/'">
-  <ng-container page-title>Total Rewards Statement</ng-container>
+  <ng-container page-title>Total Rewards</ng-container>
   <ng-container page-content>
     <pf-async-container [loading]="(statementLoading$ | async)"
                         [loadingError]="(statementLoadingError$ | async) || (statementSavingError$ | async) || (settingsSavingError$ | async)"
@@ -78,7 +78,11 @@
       (resetSettings)="handleResetSettings()"
       (close)="handleCloseSettingsClick()"
     ></pf-settings-panel>
-    <pf-footer-bar (assignEmployeesButtonClick)="handleAssignEmployeesButtonClick()">
-    </pf-footer-bar>
+    <pf-footer-bar
+      [primaryButtonText]="'Assign Employees'"
+      [secondaryButtonText]="'Back to Statements'"
+      (primaryButtonClick)="handleAssignEmployeesClick()"
+      (secondaryButtonClick)="handleBackToStatementsClick()"
+    ></pf-footer-bar>
   </ng-container>
 </pf-page-with-title-bar>

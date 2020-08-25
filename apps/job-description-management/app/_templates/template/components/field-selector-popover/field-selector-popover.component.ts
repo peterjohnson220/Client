@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild, OnChanges } from '@angular/core';
 
-import { JobInformationField, AvailableJobInformationField } from '../../../../shared/models';
-
+import { JobInformationField, AvailableJobInformationField } from 'libs/features/job-description-management';
 
 @Component({
     selector: 'pf-template-job-info-field-selector-popover',

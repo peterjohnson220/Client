@@ -9,12 +9,12 @@
               <button *ngIf="editingTemplateSettings && section.SubHeading && !sectionSetting?.ShowSubHeadingOnExport" class="btn btn-sm btn-secondary text-danger" (click)="showOnExport()">
                 <fa-icon icon="eye-slash" aria-hidden="true"></fa-icon> Subheading
               </button>   
-              <button class="btn btn-sm btn-secondary" (click)="toggleBody()">
+              <label class="btn btn-sm btn-secondary" (click)="toggleBody()">
                   <span *ngIf="hideBody"><fa-icon icon="caret-down" aria-hidden="true"></fa-icon></span>
                   <span *ngIf="!hideBody"><fa-icon icon="caret-up" aria-hidden="true"></fa-icon></span>
-              </button>
-              <button  *ngIf="!readOnly" class="btn btn-sm btn-secondary" (click)="editSection()"><fa-icon icon="pencil-alt" aria-hidden="true"></fa-icon></button>
-              <button  *ngIf="!readOnly" class="btn btn-sm btn-secondary" (click)="deleteSection()"><fa-icon icon="trash-alt" aria-hidden="true"></fa-icon></button>
+              </label>
+              <label  *ngIf="!readOnly" class="btn btn-sm btn-secondary" (click)="editSection()"><fa-icon icon="pencil-alt" aria-hidden="true"></fa-icon></label>
+              <label  *ngIf="!readOnly" class="btn btn-sm btn-secondary" (click)="deleteSection()"><fa-icon icon="trash-alt" aria-hidden="true"></fa-icon></label>
           </div>
       </div>
       <div class="section-description" [class.section-drag-handle]="!readOnly">

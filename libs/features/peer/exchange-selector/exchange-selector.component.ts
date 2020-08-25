@@ -14,16 +14,20 @@ import { isNullOrUndefined } from 'libs/core/functions/';
 })
 export class ExchangeSelectorComponent implements OnInit, OnDestroy {
     @Input() exchanges$: Observable<GenericKeyValue<number, string>[]>;
+    @Input() activeExchange$: Observable<number>;
     @Input() isDisabled: boolean;
     @Output() onExchangeSelected = new EventEmitter<number>();
 
     @ViewChild('exchangeList', { static: true }) exchangeList: ComboBoxComponent;
 
     exchangeOptionsFiltered: GenericKeyValue<number, string>[];
+    selectedExchangeId: number;
+    defaultExchangeId: number;
     exchangeForm: FormGroup;
     allData: GenericKeyValue<number, string>[];
 
     exchangesSubscription: Subscription;
+    activeExchangeSubscription: Subscription;
 
     constructor() {
       this.isDisabled = false;
@@ -51,17 +55,38 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
         });
 
         this.exchangesSubscription = this.exchanges$.subscribe(data => {
-            this.exchangeOptionsFiltered = data;
-            this.allData = data;
-            if (!!data && data.length === 1 && !isNullOrUndefined(data[0])) {
-              this.exchangeForm.get('exchangeSelection').setValue(data[0]);
-              this.onExchangeSelected.emit(data[0].Key);
+            if(!!data) {
+              this.exchangeOptionsFiltered = data;
+              this.allData = data;
+              if (data.length === 1 && !isNullOrUndefined(data[0])) {
+                this.exchangeForm.get('exchangeSelection').setValue(data[0].Key);
+                this.onExchangeSelected.emit(data[0].Key);
+              }
+              else {
+                this.applyDefaultExchange();
+              }
             }
         });
+
+        this.activeExchangeSubscription = this.activeExchange$.subscribe(exchangeId => {
+            if(exchangeId) {
+                this.defaultExchangeId = exchangeId;
+                this.applyDefaultExchange();
+            }
+        })
+    }
+
+    applyDefaultExchange(): void {
+      if(!this.selectedExchangeId && this.allData?.find(ex => ex.Key == this.defaultExchangeId)) {
+        this.selectedExchangeId = this.defaultExchangeId;
+        this.exchangeForm.get('exchangeSelection').setValue(this.selectedExchangeId);
+        this.onExchangeSelected.emit(this.selectedExchangeId);
+      }
     }
 
     ngOnDestroy(): void {
       this.exchangesSubscription.unsubscribe();
+      this.activeExchangeSubscription.unsubscribe();
     }
 }
 

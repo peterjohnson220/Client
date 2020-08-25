@@ -67,8 +67,10 @@ export class DefaultScopesComponent implements OnInit, OnDestroy, OnChanges, Aft
       debounceTime(PfConstants.DEBOUNCE_DELAY),
       distinctUntilChanged())
       .subscribe(searchTerm => {
-        this.surveySearchTerm = searchTerm;
-        this.loadSurveys();
+        if (searchTerm || !this.surveyCombobox.value) {
+          this.surveySearchTerm = searchTerm;
+          this.loadSurveys();
+        }
       });
   }
 
@@ -105,7 +107,7 @@ export class DefaultScopesComponent implements OnInit, OnDestroy, OnChanges, Aft
     }
     this.duplicateError = this.defaultScopes.some(s =>
       s.Survey.Id === selectedSurvey.Id &&
-      s.Scope.Value === selectedCombinedScope.Value);
+      s.Scope.Name === selectedCombinedScope.Name);
     if (this.duplicateError) {
       return;
     }

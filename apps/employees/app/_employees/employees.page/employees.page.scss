@@ -21,3 +21,11 @@
 .history-btn {
   width: 34.75px;
 }
+
+.gray-text {
+  color: #B6B6B6;
+}
+
+.dropup .dropdown-toggle::after, .dropdown-toggle::after {
+  display: none !important;
+}

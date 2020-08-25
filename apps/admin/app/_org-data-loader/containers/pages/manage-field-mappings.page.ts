@@ -7,7 +7,7 @@ import {filter, take, takeUntil} from 'rxjs/operators';
 import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
 
 import { environment } from 'environments/environment';
-import { LoaderTypes } from 'libs/constants/loader-types';
+import { CompositeDataLoadTypes } from 'libs/constants/composite-data-load-types';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 import { LoaderFileFormat } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
@@ -23,10 +23,10 @@ import {
   LoaderSetting, MappingModel
 } from 'libs/models/data-loads';
 import { LoadTypes } from 'libs/constants';
-import * as fromCompanySelectorActions from 'libs/features/company/actions';
-import { CompanySelectorItem } from 'libs/features/company/models';
-import * as fromCompanyReducer from 'libs/features/company/reducers';
-import {CompanySelectorComponent} from 'libs/features/company/components';
+import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
+import {CompanySelectorComponent} from 'libs/features/company/company-selector/components';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
 import { SftpUserModel } from 'libs/models/Sftp';
 
@@ -96,6 +96,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   selectedConfigGroup: ConfigurationGroup;
   private unsubscribe$ = new Subject();
   loadType = LoadTypes.Sftp;
+  primaryCompositeDataLoadType = CompositeDataLoadTypes.OrgData;
   sftpUserName$: Observable<string>;
   sftpPublicKey$: Observable<File>;
   private sftpUserName: string;
@@ -128,6 +129,10 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     },
   };
   private acceptedFileExtensions = ACCEPTED_FILE_EXTENSIONS;
+  private saveConfiguration$: Observable<boolean>;
+  private loaderSettingsLoading: boolean;
+  private fieldMappingsLoading: boolean;
+  private savingConfiguration: boolean;
 
 
   private get toastSuccessOptions(): NotificationSettings {
@@ -193,6 +198,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.configurationGroups$ = this.store.select(fromOrgDataAutoloaderReducer.getConfigurationGroups);
     this.sftpUserName$ = this.store.select(fromOrgDataAutoloaderReducer.getSftpUserName);
     this.sftpPublicKey$ = this.store.select(fromOrgDataAutoloaderReducer.getSftpPublicKey);
+    this.saveConfiguration$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingConfiguration);
     this.saveConfigurationSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingConfigurationSuccess);
     this.saveConfigurationError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingConfigurationError);
     this.sftpUser$ = this.store.select(fromOrgDataAutoloaderReducer.getSftpUser);
@@ -218,6 +224,24 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       clientFileName: true,
       selectFile: true
     };
+
+    this.loaderSettingsLoading$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.loaderSettingsLoading = f;
+    });
+
+    this.companyMappingsLoading$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.fieldMappingsLoading = f;
+    });
+
+    this.saveConfiguration$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.savingConfiguration = f;
+    });
 
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$),
@@ -276,7 +300,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
         if (this.selectedCompany) {
           this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
             companyId: this.selectedCompany.CompanyId,
-            loaderType: LoaderTypes.OrgData,
+            loaderType: 'Organizational Data',
             loaderConfigurationGroupId: this.selectedConfigGroup ? this.selectedConfigGroup.LoaderConfigurationGroupId : undefined
           }));
         }
@@ -406,7 +430,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   private getConfigurationGroups() {
     this.store.dispatch(new fromConfigurationGroupsActions.LoadingConfigurationGroups({
       CompanyId: this.selectedCompany.CompanyId,
-      LoadType: LoadTypes.Sftp
+      LoadType: this.loadType,
+      PrimaryCompositeDataLoadType: this.primaryCompositeDataLoadType
     }));
   }
 
@@ -549,7 +574,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     let part4 = !this.isValidExtension(this.sftpPublicKey);
     let part5 = this.sftpUserNameIsValid === false;
     let part6 = !this.isPublicKeyAuthInfoComplete();
+    let part7 = (this.savingConfiguration || this.loaderSettingsLoading || this.fieldMappingsLoading);
 
-    return part1 || part2 || part3 || part4 || part5 || part6;
+    return part1 || part2 || part3 || part4 || part5 || part6 || part7;
   }
 }

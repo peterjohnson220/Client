@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, O
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { select, Store, ActionsSubject } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import {ofType} from '@ngrx/effects';
+import { ofType } from '@ngrx/effects';
 
 import {
   PfDataGridFilter,
@@ -21,6 +21,8 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { PermissionService } from 'libs/core/services';
+import * as fromReducer from 'libs/features/pf-data-grid/reducers';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 import { PageViewIds } from '../../constants/page-view-ids';
 import { RangeGroupMetadata } from '../../models';
@@ -30,7 +32,8 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { ColumnTemplateService } from '../../services';
+import { StructuresPagesService } from '../../services';
+
 
 @Component({
   selector: 'pf-model-grid',
@@ -39,9 +42,11 @@ import { ColumnTemplateService } from '../../services';
 })
 export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('mid') midColumn: ElementRef;
+  @ViewChild('rangeField') rangeFieldColumn: ElementRef;
   @ViewChild('eeCount') eeCountColumn: ElementRef;
   @ViewChild('rangeValue') rangeValueColumn: ElementRef;
-  @ViewChild('noFormatting', {static: true}) noFormattingColumn: ElementRef;
+  @ViewChild('noFormatting', { static: true }) noFormattingColumn: ElementRef;
+  @ViewChild('noFormattingInfoCircle', { static: true }) noFormattingInfoCircleColumn: ElementRef;
   @ViewChild('mrpValue') mrpValueColumn: ElementRef;
   @ViewChild('percentage', { static: true }) percentageColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
@@ -52,6 +57,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() page: Pages;
   @Input() reorderable: boolean;
+  @Input() saveSort = false;
+  @Input() modifiedKey: string = null;
   @Output() addJobs = new EventEmitter();
   @Output() publishModel = new EventEmitter();
   @Output() openModelSettings = new EventEmitter();
@@ -72,11 +79,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   roundingSettings: RoundingSettingsDataObj;
   metaData: RangeGroupMetadata;
   colTemplates = {};
-  modelPageViewId = PageViewIds.Model;
+  modelPageViewId: string;
+  modelPageViewIdSubscription: Subscription;
   rangeGroupType = RangeGroupType.Job;
   defaultPagingOptions: PagingOptions = {
     From: 0,
-    Count: 9999
+    Count: 50
   };
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
@@ -88,9 +96,15 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   invalidMidPointRanges: number[];
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
+  filterTemplates = {};
+  modifiedKeys: any[];
+  modifiedKeysSubscription: Subscription;
 
   constructor(
-    public store: Store<fromJobBasedRangeReducer.State>, private actionsSubject: ActionsSubject, private permissionService: PermissionService
+    public store: Store<fromJobBasedRangeReducer.State>,
+    private actionsSubject: ActionsSubject,
+    private permissionService: PermissionService,
+    private structuresPagesService: StructuresPagesService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
@@ -102,9 +116,15 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.fullGridActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: true,
-      ShowColumnChooser: true
+      ShowColumnChooser: true,
+      ShowFilterChooser: true,
+      AllowExport: true,
+      ExportSourceName: 'Job Range Structures',
+      CustomExportType: 'JobRangeStructures',
     };
+
     this.invalidMidPointRanges = [];
+    this.modifiedKeys = [];
   }
 
   hideRowActions(): boolean {
@@ -171,25 +191,22 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   removeRange() {
-    this.store.dispatch(new fromSharedJobBasedRangeActions.RemovingRange({StructuresRangeId: this.rangeIdToRemove, IsCurrent: this.metaData.IsCurrent }));
-  }
-
-
-
-  getColumnTemplates() {
-    return {
-      'mid': this.midColumn,
-      'noFormatting': this.noFormattingColumn,
-      'eeCount': this.eeCountColumn,
-      'rangeValue': this.rangeValueColumn,
-      'mrpValue': this.mrpValueColumn,
-      'percentage': this.percentageColumn
-    };
+    this.store.dispatch(new fromSharedJobBasedRangeActions.RemovingRange({ StructuresRangeId: this.rangeIdToRemove, IsCurrent: this.metaData.IsCurrent }));
   }
 
   // Lifecycle
   ngAfterViewInit() {
-    this.colTemplates = ColumnTemplateService.configureJobRangeTemplates(this.getColumnTemplates());
+    this.colTemplates = {
+      'Mid': { Template: this.midColumn },
+      'NumEmployees': { Template: this.eeCountColumn },
+      'Job_Title': { Template: this.noFormattingInfoCircleColumn },
+      'MarketReferencePointValue': { Template: this.mrpValueColumn },
+      [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
+      [PfDataGridColType.noFormatting]: { Template: this.noFormattingColumn },
+      [PfDataGridColType.rangeFieldEditor]: { Template: this.rangeFieldColumn },
+      [PfDataGridColType.percentage]: { Template: this.percentageColumn }
+
+    };
 
     this.fullGridActionBarConfig = {
       ...this.fullGridActionBarConfig,
@@ -204,21 +221,27 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.modelPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelPageViewId = pv);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.metaDataSub = this.metaData$.subscribe(md => this.metaData = md);
     this.removingRange$ = this.store.select(fromSharedJobBasedRangeReducer.getRemovingRange);
-    this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, PageViewIds.Model);
+    this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelPageViewId);
     this.removingRangeSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromSharedJobBasedRangeActions.REMOVING_RANGE_SUCCESS))
       .subscribe(data => {
         this.showRemoveRangeModal.next(false);
       });
     this.initPermissions();
+    this.modifiedKeysSubscription = this.store.select(fromReducer.getModifiedKeys, this.modelPageViewId).subscribe(
+      modifiedKeys => this.modifiedKeys = modifiedKeys
+    );
   }
 
   ngOnDestroy(): void {
+    this.modelPageViewIdSubscription.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.metaDataSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
+    this.modifiedKeysSubscription.unsubscribe();
   }
 }

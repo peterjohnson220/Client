@@ -16,7 +16,8 @@ import {
 } from './components';
 import {
   LayoutWrapperComponent,
-  LeftSidebarComponent
+  LeftSidebarComponent,
+  NotificationBadgeComponent
 } from './containers';
 import { HeaderEffects, LeftSidebarEffects } from './effects';
 import { reducers } from './reducers';
@@ -44,7 +45,8 @@ import { PfCommonModule } from '../../core';
     UserMenuAvatarComponent,
     LeftSidebarComponent,
     RightSidebarComponent,
-    LayoutWrapperComponent ],
+    LayoutWrapperComponent,
+    NotificationBadgeComponent ],
   exports: [ LayoutWrapperComponent ]
 })
 export class PfLayoutWrapperModule {

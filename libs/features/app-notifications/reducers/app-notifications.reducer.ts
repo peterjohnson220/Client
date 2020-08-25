@@ -1,14 +1,19 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObjHelper } from 'libs/core';
+
 import * as fromAppNotificationsActions from '../actions/app-notifications.actions';
 import { AppNotification } from '../models';
 
 export interface State {
   notifications: AppNotification<any>[];
+  unreadCountAsyncObj: AsyncStateObj<number>;
 }
 
 const initialState: State = {
-  notifications: []
+  notifications: [],
+  unreadCountAsyncObj: generateDefaultAsyncStateObj(0)
 };
 
 export function reducer(state = initialState, action: fromAppNotificationsActions.Actions): State {
@@ -30,6 +35,15 @@ export function reducer(state = initialState, action: fromAppNotificationsAction
         notifications: notificationsClone
       };
     }
+    case fromAppNotificationsActions.UPDATE_USER_NOTIFICATION_UNREAD_COUNT: {
+      return AsyncStateObjHelper.loading(state, 'unreadCountAsyncObj');
+    }
+    case fromAppNotificationsActions.UPDATE_USER_NOTIFICATION_UNREAD_COUNT_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'unreadCountAsyncObj', action.payload.notificationCount);
+    }
+    case fromAppNotificationsActions.UPDATE_USER_NOTIFICATION_UNREAD_COUNT_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'unreadCountAsyncObj');
+    }
     default: {
       return state;
     }
@@ -37,3 +51,4 @@ export function reducer(state = initialState, action: fromAppNotificationsAction
 }
 
 export const getNotifications = (state: State) => state.notifications;
+export const getUnreadCountAsyncObj = (state: State) => state.unreadCountAsyncObj;

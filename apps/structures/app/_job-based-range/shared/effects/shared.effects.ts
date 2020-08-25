@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, mergeMap, catchError } from 'rxjs/operators';
+import { switchMap, map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromSharedActions from '../actions/shared.actions';
-import { PageViewIds } from '../constants/page-view-ids';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+import { RangeGroupMetadata } from '../models';
+import * as fromSharedReducer from '../reducers';
+import { PagesHelper } from '../helpers/pages.helper';
 
 @Injectable()
 export class SharedEffects {
@@ -19,36 +22,67 @@ export class SharedEffects {
   recalculateRangesWithoutMid$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedActions.RECALCULATE_RANGES_WITHOUT_MID),
-      switchMap((action: fromSharedActions.RecalculateRangesWithoutMid) => {
+      withLatestFrom(this.store.pipe(select(fromSharedReducer.getMetadata)),
+        (action: fromSharedActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata) => {
+          return { action, metadata };
+        }
+      ),
+      switchMap((data) => {
           return this.structureModelingApiService.recalculateRangesWithoutMid(
             PayfactorsApiModelMapper.mapRecalculateRangesWithoutMidInputToRecalculateRangesWithoutMidRequest(
-              action.payload.rangeGroupId, action.payload.rounding))
+              data.action.payload.rangeGroupId, data.action.payload.rounding))
             .pipe(
-            map(() => {
-              return new pfDataGridActions.LoadData(PageViewIds.Model);
-            })
-          );
+              map(() => {
+                const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+                return new pfDataGridActions.LoadData(modelPageViewId);
+              })
+            );
         }
       ));
 
   @Effect()
   removeRange$: Observable<Action> = this.actions$.pipe(
     ofType(fromSharedActions.REMOVING_RANGE),
+    withLatestFrom(this.store.pipe(select(fromSharedReducer.getMetadata)),
+      (action: fromSharedActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata) => {
+        return { action, metadata };
+      }
+    ),
     switchMap((data: any) => {
-      return this.structureModelingApiService.removeRange(data.payload).pipe(
+      const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+      return this.structureModelingApiService.removeRange(data.action.payload).pipe(
         mergeMap(() =>
           [
             new fromSharedActions.RemovingRangeSuccess(),
-            new pfDataGridActions.ClearSelections(PageViewIds.Model, [data.payload]),
-            new pfDataGridActions.LoadData(PageViewIds.Model),
+            new pfDataGridActions.ClearSelections(modelPageViewId, [data.action.payload]),
+            new pfDataGridActions.LoadData(modelPageViewId),
           ]),
         catchError(error => of(new fromSharedActions.RemovingRangeError(error)))
       );
     })
   );
 
+  @Effect()
+  getOverriddenRanges: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_OVERRIDDEN_RANGES),
+      switchMap(
+        (action: fromSharedActions.GetOverriddenRanges) =>
+          this.structureModelingApiService.getOverriddenRangeIds(action.payload.rangeGroupId)
+            .pipe(
+              mergeMap((response) =>
+                [
+                  new fromSharedActions.GetOverriddenRangesSuccess(),
+                  new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response)
+                ]),
+              catchError(error => of(new fromSharedActions.GetOverriddenRangesError(error)))
+            )
+      )
+    );
+
   constructor(
     private actions$: Actions,
+    private store: Store<fromSharedReducer.State>,
     private structureModelingApiService: StructureModelingApiService
   ) {
   }

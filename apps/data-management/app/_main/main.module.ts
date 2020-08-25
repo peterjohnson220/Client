@@ -15,27 +15,31 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 
 import { PfCommonModule } from 'libs/core';
-import { PfCompanySelectorModule } from 'libs/features/company/company-selector.module';
+import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import {
+  AuthenticationStatusComponent,
   DefaultPaymarketConfirmationModalComponent,
   EntityPickerComponent,
   EntityUploadComponent,
   FileMappingComponent,
   PfCheckboxComponent,
-  ProviderListComponent
+  ProviderListComponent,
+  IntegrationCompleteModalComponent
 } from './components';
 import {
   CustomEmployeeIdentifierComponent,
   DataManagementHomePageComponent,
   DataManagementLandingPageComponent,
   EntityMappingComponent,
+  EntityFieldSelectionComponent,
   FieldMappingPageComponent,
   FieldMappingCardComponent,
+  FieldSelectionCardComponent,
   HrisAuthenticationCardComponent,
   HrisIntegrationPanelComponent,
   HrisIntegrationSidebarComponent,
@@ -43,6 +47,7 @@ import {
   HrisReAuthenticationModalComponent,
   OrgDataLoadComponent,
   PfTestAuthenticationComponent,
+  PublicApiAuthenticationComponent,
   ProviderCardComponent,
   ResetIntegrationPageComponent,
   TransferDataPageComponent,
@@ -82,6 +87,7 @@ import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
 import { reducers } from './reducers';
 import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pipes';
+import { HrisAuthenticationGuard } from './guards';
 
 @NgModule({
   imports: [
@@ -151,13 +157,17 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
     TransferSchedulePageComponent,
 
     // Components
+    AuthenticationStatusComponent,
     CustomEmployeeIdentifierComponent,
     DefaultPaymarketConfirmationModalComponent,
+    IntegrationCompleteModalComponent,
     EntityPickerComponent,
     EntityUploadComponent,
     EntityMappingComponent,
+    EntityFieldSelectionComponent,
     FileMappingComponent,
     FieldMappingCardComponent,
+    FieldSelectionCardComponent,
     HrisAuthenticationCardComponent,
     HrisIntegrationPanelComponent,
     HrisIntegrationSidebarComponent,
@@ -174,6 +184,7 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
     WorkdayAuthenticationComponent,
     WorkdayMockAuthenticationComponent,
     WorkdayRestAuthenticationComponent,
+    PublicApiAuthenticationComponent,
     DataManagementLandingPageComponent,
     HrisIntegrationPanelComponent,
     HrisIntegrationStatusComponent,
@@ -192,7 +203,12 @@ import { GetSupportedSchedulesPipe, OrgDataEntityTypeToDisplayName } from './pip
     OutboundTransferSchedulePageComponent,
     OutboundJdmViewSelectionPageComponent,
     OutboundTransferScheduleSummaryComponent,
-    ProviderListComponent
+    ProviderListComponent,
+    FieldSelectionCardComponent
+  ],
+  providers: [
+    // Guards
+    HrisAuthenticationGuard
   ]
 })
 export class MainModule {

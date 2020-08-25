@@ -47,14 +47,23 @@ export const selectContextState = createSelector(
 );
 
 // Context
-export const getProjectSearchContext = createSelector(
-  selectContextState,
-  fromContextReducer.getProjectSearchContext
-);
-
 export const getJobContext = createSelector(
   selectContextState,
   fromContextReducer.getJobContext
+);
+
+export const getPricingMatchDataSearchContext = createSelector(
+  selectContextState,
+  fromContextReducer.getPricingMatchDataSearchContext
+);
+
+// This is duplicated under a different name for readability in other files
+// There are other instances of survey search outside of the multi match tool that still require a project id (for now)
+// Said id will be returned if populated with this selector (if set via projects page)
+// but it's weird to see pricingMatchDataContext.ProjectId opposed to projectSearchContext.ProjectId
+export const getProjectSearchContext = createSelector(
+  selectContextState,
+  fromContextReducer.getPricingMatchDataSearchContext
 );
 
 // Search Results Selectors

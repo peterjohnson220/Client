@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -17,6 +17,14 @@ import { PageViewIds } from '../../constants/page-view-ids';
 import { Pages } from '../../constants/pages';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
+import { StructuresPagesService } from '../../services';
+
+class MockStructuresPagesService {
+  modelPageViewId: BehaviorSubject<string>;
+  constructor() {
+    this.modelPageViewId = new BehaviorSubject<string>(PageViewIds.ModelMinMidMax);
+  }
+}
 
 describe('Job Range Structures - Model page', () => {
   let instance: ModelGridComponent;
@@ -44,6 +52,10 @@ describe('Job Range Structures - Model page', () => {
         {
           provide: PermissionService,
           useValue: { CheckPermission: jest.fn()}
+        },
+        {
+          provide: StructuresPagesService,
+          useClass: MockStructuresPagesService
         }
       ]
     });

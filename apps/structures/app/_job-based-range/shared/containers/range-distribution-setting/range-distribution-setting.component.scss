@@ -1,11 +1,28 @@
 .rounding-group {
-    border-style: solid;
-    border-radius: 10px;
-    border-width: thin;
-    padding: 10px;
-    border-color: #ECEFF3;
-  }
+  border-style: solid;
+  border-radius: 10px;
+  border-width: thin;
+  padding: 10px;
+  border-color: #ECEFF3;
+}
 
-  .invalid-feedback {
-    margin-left: 12rem;
+.invalid-feedback {
+  padding-left: 0;
+}
+
+.inline-link {
+  font-size: 11px;
+  padding: 7px 5px 5px 25px;
+}
+
+.inline-link:focus{
+  outline: none;
+}
+
+.no-inline-links {
+  margin-right: 12rem;
+}
+
+.info-icon {
+  margin: 5px 0px 3px 5px;
 }

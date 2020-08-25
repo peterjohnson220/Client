@@ -1,6 +1,6 @@
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
-import { WorkflowTemplate } from '../../../shared';
+import { WorkflowTemplate } from 'libs/features/job-description-management/models';
 
 import * as fromWorkflowListActions from '../actions';
 

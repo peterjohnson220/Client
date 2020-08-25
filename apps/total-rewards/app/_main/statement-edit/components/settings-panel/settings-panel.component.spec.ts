@@ -24,7 +24,7 @@ describe('SettingsPanelComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should class the container as `collapsed` when in a closed state', () => {
+  it('should not class the container as `expanded` when in a closed state', () => {
     // arrange
     component.isOpen = false;
 
@@ -33,7 +33,6 @@ describe('SettingsPanelComponent', () => {
 
     // assert
     const container = fixture.debugElement.nativeElement.querySelector('aside.settings-panel');
-    expect(container.classList.contains('collapsed')).toBeTruthy();
     expect(container.classList.contains('expanded')).toBeFalsy();
   });
 
@@ -47,7 +46,6 @@ describe('SettingsPanelComponent', () => {
     // assert
     const container = fixture.debugElement.nativeElement.querySelector('aside.settings-panel');
     expect(container.classList.contains('expanded')).toBeTruthy();
-    expect(container.classList.contains('collapsed')).toBeFalsy();
   });
 
   it('should emit when the close button is clicked', () => {

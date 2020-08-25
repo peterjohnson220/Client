@@ -1,18 +1,17 @@
-export interface SearchContext {
-  PayMarketId: number;
-  CurrencyCode: string;
+import {PricingMatchDataSearchContext} from './pricing-match-data-search-context.model';
+
+export interface ProjectSearchContext extends PricingMatchDataSearchContext {
   ProjectId: number;
-  CountryCode: string;
   RestrictToCountryCode: boolean;
-  Rate?: string;
 }
 
-export function generateMockProjectSearchContext(): SearchContext {
+export function generateMockProjectSearchContext(): ProjectSearchContext {
   return {
-    PayMarketId: 1234,
+    PaymarketId: 1234,
     CurrencyCode: 'USD',
     ProjectId: 555,
     CountryCode: 'USA',
-    RestrictToCountryCode: false
+    RestrictToCountryCode: false,
+    Rate: 'Annual'
   };
 }

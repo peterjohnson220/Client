@@ -2,7 +2,7 @@
 
   <ng-container sidebar>
 
-    <pf-search-filters [visible]="!(searchingFilter$ | async)" defaultDisplayValue="flex" [serverShowMore]="true">
+    <pf-search-filters [visible]="!(searchingFilter$ | async)" defaultDisplayValue="flex" [serverShowMore]="true" [displayDescriptions]="true">
 
       <ng-container filters-top>
 
@@ -46,6 +46,7 @@
     </pf-search-filters>
 
     <pf-single-filter
+      [displayDescriptions]="true"
       *ngIf="!!(searchingFilter$ | async)">
     </pf-single-filter>
 
@@ -53,7 +54,7 @@
 
   <ng-container content>
     <div class="child-filters-sidebar" *ngIf="!!(searchingChildFilters$ | async)">
-      <pf-child-filter></pf-child-filter>
+      <pf-child-filter [displayDescriptions]="true"></pf-child-filter>
     </div>
 
    <pf-exchange-explorer-map (click)="handleMapClicked()"></pf-exchange-explorer-map>

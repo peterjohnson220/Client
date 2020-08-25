@@ -1,18 +1,26 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked, HostListener, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {
+  Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked,
+  HostListener, ChangeDetectorRef, OnDestroy, EventEmitter, Output
+} from '@angular/core';
+
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
+
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import * as fromJobsPageActions from '../../../actions';
-import * as fromJobsPageReducer from '../../../reducers';
+import { isEmpty } from 'lodash';
 
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-
-import { DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api';
+import { ViewField } from 'libs/models/payfactors-api';
 import { AsyncStateObj } from 'libs/models';
 import { Permissions } from 'libs/constants';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+
 import { PageViewIds } from '../../../constants';
+import * as fromJobsPageActions from '../../../actions';
+import * as fromJobsPageReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-pricing-matches-job-title',
@@ -24,9 +32,13 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   @Input() dataRow: any;
   @Input() pricingInfo: any;
+  @Output() notesEmitter = new EventEmitter();
 
   @ViewChild('jobTitleText') jobTitleText: ElementRef;
   @ViewChild('detailsText') detailsText: ElementRef;
+
+  jobsGridJobStatusField: ViewField;
+  jobsGridFieldSubscription: Subscription;
 
   public isCollapsed = true;
   public isOverflow = false;
@@ -59,6 +71,12 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         this.showDeletePricingMatchModal.next(false);
       });
 
+      this.jobsGridFieldSubscription = this.store
+      .select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
+      .pipe(filter(f => !isEmpty(f)))
+      .subscribe(fields => {
+          this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
+      });
   }
 
   ngAfterViewChecked(): void {
@@ -68,6 +86,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   ngOnDestroy() {
     this.getDeletingPricingMatchSuccessSubscription.unsubscribe();
+    this.jobsGridFieldSubscription.unsubscribe();
   }
 
   getScope(): string {
@@ -89,21 +108,17 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   }
 
   deletePricingMatch(datarow: any) {
-
-    const pricingToRecalculateFilter: DataViewFilter = {
-      EntitySourceName: 'CompanyJobs_Pricings',
-      SourceName: 'CompanyJobPricing_ID',
-      DataType: DataViewFieldDataType.Int,
-      Operator: '=',
-      Values: [datarow.CompanyJobs_PricingsMatches_CompanyJobPricing_ID],
-    };
-
-
     this.store.dispatch(new fromJobsPageActions.DeletingPricingMatch(
-      datarow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID,
-      datarow.CompanyJobs_PricingsMatches_CompanyJobPricing_ID,
-      pricingToRecalculateFilter
+      datarow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID
     ));
   }
 
+  openAddNotesModal() {
+    const data = {
+      EntityId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+      DataRow: this.dataRow,
+      Scope: this.getScope()
+    };
+    this.notesEmitter.emit(data);
+  }
 }

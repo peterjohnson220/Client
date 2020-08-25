@@ -63,15 +63,6 @@ export const getUpsertDataCutPageInViewInIframe = createSelector(
   selectUpsertDataCutState,
   fromUpsertDataCutPageReducer.getPageInViewInIframe
 );
-export const getUpsertDataCutLoadingDataCutDetails = createSelector(
-  selectUpsertDataCutState,
-  fromUpsertDataCutPageReducer.getLoadingDataCutDetails
-);
-export const getUpsertDataCutLoadingDataCutError = createSelector(
-  selectUpsertDataCutState,
-  fromUpsertDataCutPageReducer.getLoadingDataCutDetailsError
-);
-
 
 // Associate Company Job Selectors
 export const getExchangeSearchResult = createSelector(
@@ -117,6 +108,20 @@ export const getLoadingExchangeDictionaryError = createSelector(
 export const getExchangeDictionaryForCompany = createSelector(
   selectAssociateCompanyJobState,
   fromAssociateCompanyJobReducer.getExchangeDictionary
+);
+
+export const getLoadingActiveExchange = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getLoadingActiveExchange
+);
+
+export const getLoadingActiveExchangeError = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getLoadingActiveExchangeError
+);
+export const getActiveExchange = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getActiveExchange
 );
 
 // Paymarket Exchange Scope Selectors

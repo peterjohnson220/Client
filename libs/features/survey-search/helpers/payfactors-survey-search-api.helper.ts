@@ -4,12 +4,12 @@ import { SurveySearchRequest } from 'libs/models/payfactors-api';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { Filter, ResultsPagingOptions } from 'libs/features/search/models';
 
-import { SearchContext } from '../models';
+import {PricingMatchDataSearchContext} from '../models';
 
 interface LatestDataFromStoreForSearchRequest {
   Filters: Filter[];
   PagingOptions: ResultsPagingOptions;
-  ProjectSearchContext: SearchContext;
+  PricingMatchDataSearchContext: PricingMatchDataSearchContext;
 }
 
 @Injectable()
@@ -28,9 +28,9 @@ export class PayfactorsSurveySearchApiHelper {
       Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.Filters),
       FilterOptions: { ReturnFilters: pagingOptions.From === 0, AggregateCount: 5 },
       PagingOptions: pagingOptions,
-      CurrencyCode: data.ProjectSearchContext.CurrencyCode,
-      CountryCode: data.ProjectSearchContext.CountryCode,
-      ProjectId: data.ProjectSearchContext.ProjectId
+      CurrencyCode: data.PricingMatchDataSearchContext.CurrencyCode,
+      CountryCode: data.PricingMatchDataSearchContext.CountryCode,
+      Rate: data.PricingMatchDataSearchContext.Rate
     };
   }
 }

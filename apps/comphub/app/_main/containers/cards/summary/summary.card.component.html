@@ -112,7 +112,15 @@
       <div class="info-sidebar" *ngIf="isPeerQuickPriceType">
           <div class="item">
             <div class="h">Rate</div>
-            <div class="v" [attr.data-qa-id]="'cnt-selectedRate'">{{selectedRate}}</div>
+            <kendo-dropdownlist class="rates-dropdown"
+                                [attr.data-qa-id]="'ddm-rate'"
+                                [data]="rates"
+                                textField="Name"
+                                valueField="Value"
+                                [valuePrimitive]="true"
+                                [(ngModel)]="selectedRate"
+                                (selectionChange)="handleRateSelectionChange($event)">
+            </kendo-dropdownlist>
           </div>
           <div class="item">
             <div class="h">Effective Date</div>

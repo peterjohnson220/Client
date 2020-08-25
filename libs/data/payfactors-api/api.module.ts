@@ -63,17 +63,18 @@ import { CompanyResourcesApiService } from './company-resources';
 import { ConfigurationGroupApiService, OrganizationalDataApiService } from './organizational-data';
 import { JobsApiService } from './jobs';
 import {DataImportApiService} from './integration/data-import';
-import { TotalRewardsApiService, TotalRewardsSearchApiService } from './total-rewards';
+import { TotalRewardsApiService, TotalRewardsSearchApiService, TotalRewardsPdfGenerationService, TotalRewardsAssignmentApiService } from './total-rewards';
 import { SsoConfigApiService } from './sso';
 import { CurrencyApiService } from './currency';
 import { CompositeFieldApiService } from './composite-field';
-import { PricingApiService } from './pricing';
-import { PricingLegacyApiService } from './pricing-legacy';
+import { PricingApiService, PricingEdmxApiService, PricingLegacyApiService } from './pricing';
 import { CountryApiService } from './country';
 import { EntityKeysValidationApiService } from './validation';
 import { CaptchaApiService } from './captcha';
 import { ECommerceApiService } from './ecommerce';
+import { PricingMatchApiService } from './pricing/pricing-match-api.service';
 import { MarketDataFeedApiService } from './market-data-feed';
+import { NotesApiService } from './notes';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -134,11 +135,14 @@ import { MarketDataFeedApiService } from './market-data-feed';
     DataImportApiService,
     TotalRewardsApiService,
     TotalRewardsSearchApiService,
+    TotalRewardsAssignmentApiService,
+    TotalRewardsPdfGenerationService,
     SsoConfigApiService,
     CurrencyApiService,
     CompositeFieldApiService,
-    PricingLegacyApiService,
     PricingApiService,
+    PricingEdmxApiService,
+    PricingLegacyApiService,
     CountryApiService,
     CompanyEmployeeApiService,
     EntityKeysValidationApiService,
@@ -150,6 +154,8 @@ import { MarketDataFeedApiService } from './market-data-feed';
     ExchangeSignupFormApiService,
     ECommerceApiService,
     MarketDataFeedApiService,
+    PricingMatchApiService,
+    NotesApiService,
 
     // PEER
     ExchangeApiService,

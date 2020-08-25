@@ -83,7 +83,7 @@ describe('Job Management Feature - Job Form', () => {
     const form = instance.udfsForm;
     const c = instance.udfsForm.controls;
 
-    const tooLongValue = Array(instance.DEFAULT_MAX_LENGTH).fill('a').join('');
+    const tooLongValue = Array(instance.DEFAULT_MAX_LENGTH + 1).fill('a').join('');
 
     // UDF1
     expect(c.UDF1.valid).toEqual(true);

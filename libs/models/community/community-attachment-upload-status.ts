@@ -5,5 +5,6 @@ export enum CommunityAttachmentUploadStatus {
   UploadSucceed,
   ScanSucceeded,
   UploadFailed,
-  ScanFailed
+  ScanFailed,
+  InvalidExtension
 }

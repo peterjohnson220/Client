@@ -1,7 +1,8 @@
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
+import { cloneDeep } from 'lodash';
 
 import * as fromTicketActions from '../actions/ticket.actions';
-import { UserTicketItem, UserTicketTabItem, TicketComment } from '../models';
+import { UserTicketItem, UserTicketTabItem } from '../models';
 
 export interface State {
   loading: boolean;
@@ -12,6 +13,9 @@ export interface State {
   userTicket: UserTicketItem;
   openedTicket: UserTicketTabItem;
   selectedTabTicket: number;
+  submittingReply: boolean;
+  submittingReplySuccess: boolean;
+  submittingReplyError: boolean;
 }
 
 export const initialState: State = {
@@ -22,7 +26,10 @@ export const initialState: State = {
   loadingTabTicket: null,
   userTicket: null,
   openedTicket: null,
-  selectedTabTicket: null
+  selectedTabTicket: null,
+  submittingReply: false,
+  submittingReplySuccess: false,
+  submittingReplyError: false
 };
 
 export const adapter: EntityAdapter<UserTicketItem> = createEntityAdapter<UserTicketItem>({
@@ -141,6 +148,38 @@ export function reducer(state = initialState, action: fromTicketActions.Actions)
         ...state,
       };
     }
+    case fromTicketActions.REPLY_CLIENT_NOTE: {
+      return {
+        ...state,
+        submittingReply: true,
+        submittingReplyError: false,
+        submittingReplySuccess: false
+      };
+    }
+    case fromTicketActions.REPLY_CLIENT_NOTE_SUCCESS: {
+      const userTicketClone: UserTicketItem = cloneDeep(state.userTicket);
+      const commentId: number = !!action.payload ? action.payload[0].ParentCommentId : 0;
+      const updatedComment = userTicketClone.TicketInfo.Comments.find(c => c.CommentId === commentId);
+      if (updatedComment) {
+        updatedComment.ReplyCount = action.payload.length;
+        updatedComment.Replies = action.payload;
+      }
+      return {
+        ...state,
+        submittingReply: false,
+        submittingReplyError: false,
+        submittingReplySuccess: true,
+        userTicket: userTicketClone
+      };
+    }
+    case fromTicketActions.REPLY_CLIENT_NOTE_ERROR: {
+      return {
+        ...state,
+        submittingReply: false,
+        submittingReplyError: true,
+        submittingReplySuccess: false
+      };
+    }
     default: {
       return state;
     }
@@ -156,3 +195,6 @@ export const getSelectedTabTicket = (state: State) => state.selectedTabTicket;
 export const getUpdating = (state: State) => state.updating;
 export const getUpdatingError = (state: State) => state.updatingError;
 export const getComments = (state: State) => state.userTicket.TicketInfo.Comments;
+export const getSubmittingReply = (state: State) => state.submittingReply;
+export const getSubmittingReplySuccess = (state: State) => state.submittingReplySuccess;
+export const getSubmittingReplyError = (state: State) => state.submittingReplyError;

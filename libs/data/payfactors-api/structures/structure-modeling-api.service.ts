@@ -11,7 +11,8 @@ import {
   RecalculateRangesWithoutMidRequest,
   AddJobRangesRequest,
   JobSearchRequestStructuresRangeGroup,
-  RemoveRangeRequest
+  RemoveRangeRequest,
+  OverrideAndSaveRangeFieldRequest
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange } from 'libs/models/structures';
 
@@ -38,6 +39,10 @@ export class StructureModelingApiService {
     return this.payfactorsApiService.post<RecalcAndSaveRangeMinMaxResponse>(`${this.endpoint}/RecalculateRangeMinMax`, request);
   }
 
+  overrideRangeField(request: OverrideAndSaveRangeFieldRequest): Observable<boolean> {
+    return this.payfactorsApiService.post<boolean>(`${this.endpoint}/OverrideRangeField`, request);
+  }
+
   recalculateRangesWithoutMid(request: RecalculateRangesWithoutMidRequest): Observable<StructureRangeGroupResponse> {
     return this.payfactorsApiService.post<StructureRangeGroupResponse>(`${this.endpoint}/RecalculateRangesWithoutMid`, request);
   }
@@ -52,5 +57,11 @@ export class StructureModelingApiService {
 
   addJobsFromSearchToRangeGroup(request: JobSearchRequestStructuresRangeGroup): Observable<CompanyStructureRange[]> {
     return this.payfactorsApiService.post<CompanyStructureRange[]>(`${this.endpoint}/AddAllJobRangesFromSearch`, request);
+  }
+
+  getOverriddenRangeIds(rangeGroupId: number): Observable<any> {
+    return this.payfactorsApiService.get<number[]>(`${this.endpoint}/GetOverriddenRangeIds`, {
+      params: { rangeGroupId }
+    });
   }
 }

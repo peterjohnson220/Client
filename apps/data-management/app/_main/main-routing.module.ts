@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { RouterModule, Routes } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
-import { PermissionCheckEnum, Permissions } from 'libs/constants';
-import { AuthorizationGuard, PfAdminGuard } from 'libs/security/guards';
+import {PermissionCheckEnum, Permissions} from 'libs/constants';
+import {AuthorizationGuard, PfAdminGuard} from 'libs/security/guards';
 
 import {
   CustomEmployeeIdentifierComponent,
@@ -23,6 +23,7 @@ import {
   TransferDataPageComponent,
   TransferSchedulePageComponent,
 } from './containers';
+import { HrisAuthenticationGuard } from './guards';
 
 const routes: Routes = [
   {
@@ -66,7 +67,9 @@ const routes: Routes = [
               },
               {
                 path: 'field-mapping',
-                component: FieldMappingPageComponent
+                component: FieldMappingPageComponent,
+                canActivate: [HrisAuthenticationGuard],
+                data: { FullerPage: true }
               },
               {
                 path: 'authentication',
@@ -75,6 +78,7 @@ const routes: Routes = [
               {
                 path: 'transfer-schedule',
                 component: TransferSchedulePageComponent,
+                canActivate: [HrisAuthenticationGuard],
                 data: { FullPage: true }
               },
             ]
@@ -94,7 +98,8 @@ const routes: Routes = [
               },
               {
                 path: 'field-mapping',
-                component: OutboundFieldMappingPageComponent
+                component: OutboundFieldMappingPageComponent,
+                data: { FullerPage: true }
               },
               {
                 path: 'transfer-schedule',

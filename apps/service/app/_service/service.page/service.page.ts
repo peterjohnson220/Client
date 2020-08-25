@@ -73,7 +73,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
         this.ticketTypeField = fields.find(f => f.SourceName === 'TicketType_Display');
-        this.selectedTicketTypeFilterValue = this.ticketTypeField.FilterValue;
+        this.selectedTicketTypeFilterValue = this.ticketTypeField.FilterValue ?? 'All';
       }
     });
     this.identitySubscription = this.identity$.subscribe(i => {
@@ -123,6 +123,10 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
 
   addNewTicket() {
     this.store.dispatch(new fromServicePageActions.ShowNewTicketModal(true));
+  }
+
+  togglePublicOrPrivateSwitch(payload: { value: boolean, ticketId: number }) {
+    this.store.dispatch(new fromServicePageActions.TogglePublicOrPrivateUserTicket(payload));
   }
 
   private createInboundFilters(userContext: UserContext): void {

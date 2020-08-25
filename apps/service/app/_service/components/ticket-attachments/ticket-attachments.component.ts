@@ -19,6 +19,7 @@ import { ServicePageConfig, AttachmentFileType } from '../../models';
 export class TicketAttachmentsComponent implements OnChanges {
   @Input() ticketId: string;
   @Input() attachments: UserTicketFile[];
+  @Input() canAddAttachments: boolean;
 
   fileUploadMax = ServicePageConfig.MaxFileUploads;
   uploadedFilesData: UploadedFile[] = [];

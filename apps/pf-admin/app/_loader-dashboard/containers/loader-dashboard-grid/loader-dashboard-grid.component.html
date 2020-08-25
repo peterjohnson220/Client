@@ -18,22 +18,36 @@
     (sortChange)="sortChange($event)"
     [rowClass]="rowCallback"
   >
-    <kendo-grid-column field="compositeDataLoadId" title="Load ID"></kendo-grid-column>
+    <kendo-grid-column field="compositeDataLoadId" title="Load ID">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="d-flex">
+          <span class="kendo-column-text-with-button">
+            {{ dataItem.compositeDataLoadId }}
+          </span>
+          <div *ngIf="dataItem.exportedSourceUri" class="ml-4">
+            <button class="btn btn-secondary" (click)="downloadExportedSourceFile(dataItem.externalId)">
+              <fa-icon icon="file-download"
+                       title="Download Source Files">
+                class="pl-2"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
     <!-- TODO: Show this when we have different loader types (e.g. pricings) -->
     <!--<kendo-grid-column field="compositeLoaderType" title="Load Type"></kendo-grid-column> -->
     <kendo-grid-column field="company_ID" title="CID"></kendo-grid-column>
     <kendo-grid-column field="company_Name" title="Company"></kendo-grid-column>
     <kendo-grid-column field="validationErrorOutputUri" title="Error(s)">
       <ng-template kendoGridCellTemplate let-dataItem>
-        <div *ngIf="dataItem.validationErrorOutputUri || dataItem.fixableDataConditionException || dataItem.terminalException">
+        <div *ngIf="hasErrorCondition(dataItem)">
           <button
             *ngIf="dataItem.validationErrorOutputUri"
-            class="btn btn-secondary" (click)="downloadFile(dataItem.externalId)">Download</button>
+            class="btn btn-secondary" (click)="downloadInvalidRecordsFile(dataItem.externalId)">Download</button>
           <fa-icon *ngIf="dataItem.fixableDataConditionException || dataItem.terminalException"
                    icon="exclamation-triangle"
                    [title]="[dataItem.fixableDataConditionException, dataItem.terminalException] | getErrorMessage"
-                   class="pl-2"
-          ></fa-icon>
+                   class="pl-2"></fa-icon>
         </div>
       </ng-template>
     </kendo-grid-column>

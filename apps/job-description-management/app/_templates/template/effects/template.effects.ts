@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
-import { Action } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom, concatMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { NotificationLevel, NotificationSource } from 'libs/features/app-notifications/models';
@@ -12,7 +12,8 @@ import { JobDescriptionTemplateApiService } from 'libs/data/payfactors-api/jdm';
 import { MessageHelper } from 'libs/core';
 
 import * as fromTemplateActions from '../actions';
-import { ErrorGenerationService } from '../../../shared/services';
+import * as fromTemplateReducers from '../reducers';
+import { ErrorGenerationService } from 'libs/features/job-description-management';
 
 
 @Injectable()
@@ -74,7 +75,9 @@ export class TemplateEffects {
     .pipe(
       ofType(fromTemplateActions.COPY_TEMPLATE_SUCCESS),
       map((action: fromTemplateActions.CopyTemplateSuccess) => {
-        this.router.navigate([`/templates/${action.payload.TemplateId}`]);
+        this.router.navigate([`/templates/${action.payload.TemplateId}`]).then(() => {
+          window.location.reload();
+        });
       })
     );
 
@@ -148,24 +151,33 @@ export class TemplateEffects {
       })
     );
 
-  @Effect({ dispatch: false })
-  addNotification$ = this.actions$
+  @Effect()
+  addNotification$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromAppNotificationsActions.ADD_NOTIFICATION),
-      map((action: fromAppNotificationsActions.AddNotification) => {
-        if (action.payload.Level === NotificationLevel.Success &&
-            action.payload.From === NotificationSource.JobDescriptionTemplatePublisher) {
-              this.router.navigate([`/templates`]);
+      ofType<fromAppNotificationsActions.AddNotification>(fromAppNotificationsActions.ADD_NOTIFICATION),
+      withLatestFrom(this.store.pipe(select(fromTemplateReducers.getTemplate)),
+      (action, template) => {
+        return { action, template };
+      }
+    ),
+    concatMap((data) => {
+      const actions = [];
+      if (data.action.payload.Level === NotificationLevel.Success &&
+          data.action.payload.From === NotificationSource.JobDescriptionTemplatePublisher) {
+        if (!!data.template) {
+          actions.push(new fromTemplateActions.LoadTemplate({templateId: data.template.TemplateId}));
         }
-      })
-    );
+        actions.push(new fromAppNotificationsActions.DeleteNotification({notificationId: data.action.payload.NotificationId}));
+      }
+      return actions;
+    })
+  );
 
-  private templateId: number;
   constructor(
     private actions$: Actions,
     private templateApiService: JobDescriptionTemplateApiService,
     private errorGenerationService: ErrorGenerationService,
     private router: Router,
-    private route: ActivatedRoute
+    private store: Store<fromTemplateReducers.State>
   ) { }
 }

@@ -9,7 +9,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromJobDescriptionReducers from '../../../reducers';
 import { BulkExportPopoverComponent } from '../../index';
-import { generateMockControlLabel } from '../../../../shared/models/control-label.model';
+import { generateMockControlLabel } from 'libs/features/job-description-management/models/control-label.model';
 
 describe('Job Description Management - Job Description - Bulk Export Popover', () => {
   let instance: BulkExportPopoverComponent;

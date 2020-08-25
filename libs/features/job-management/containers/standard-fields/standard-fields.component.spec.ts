@@ -88,8 +88,8 @@ describe('Job Management Feature - Job Form', () => {
     const form = instance.jobForm;
     const c = instance.jobForm.controls;
 
-    const tooLongValueJobCodeFLSA = Array(instance.JOB_CODE_FLSA_MAX_LENGTH).fill('a').join('');
-    const tooLongValue = Array(instance.DEFAULT_MAX_LENGTH).fill('a').join('');
+    const tooLongValueJobCodeFLSA = Array(instance.JOB_CODE_FLSA_MAX_LENGTH + 1).fill('a').join('');
+    const tooLongValue = Array(instance.DEFAULT_MAX_LENGTH + 1).fill('a').join('');
 
     // JobCode
     expect(c.JobCode.valid).toEqual(false);

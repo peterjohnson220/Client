@@ -1,11 +1,12 @@
 import { Action } from '@ngrx/store';
 
-import { SearchContext, JobContext } from '../models';
+import { ProjectSearchContext, JobContext, ModifyPricingsSearchContext } from '../models';
 
 export const SET_JOB_CONTEXT = '[Survey Search/Context] Set Job Context';
 export const SET_PROJECT_SEARCH_CONTEXT = '[Survey Search/Context] Set Project Search Context';
 export const TOGGLE_FILTER_SEARCH = '[Survey Search/Context] Toggle Filter Search';
 export const HIDE_FILTER_SEARCH = '[Survey Search/Context] Hide Filter Search';
+export const SET_MODIFY_PRICINGS_SEARCH_CONTEXT = '[Survey Search/Context] Set Modify Pricings Context';
 
 export class SetJobContext implements Action {
   readonly type = SET_JOB_CONTEXT;
@@ -16,7 +17,7 @@ export class SetJobContext implements Action {
 export class SetProjectSearchContext implements Action {
   readonly type = SET_PROJECT_SEARCH_CONTEXT;
 
-  constructor(public payload: SearchContext) {}
+  constructor(public payload: ProjectSearchContext) {}
 }
 
 export class ToggleFilterSearch implements Action {
@@ -31,8 +32,14 @@ export class HideFilterSearch implements Action {
   constructor() {}
 }
 
+export class SetModifyPricingsSearchContext implements Action {
+  readonly type = SET_MODIFY_PRICINGS_SEARCH_CONTEXT;
+  constructor(public payload: ModifyPricingsSearchContext) {}
+}
+
 export type Actions
   = SetJobContext
   | SetProjectSearchContext
   | ToggleFilterSearch
-  | HideFilterSearch;
+  | HideFilterSearch
+  | SetModifyPricingsSearchContext;

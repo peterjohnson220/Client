@@ -20,6 +20,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Input() job: JobResult;
   @Input() cutsDraggable: boolean;
   @Input() currencyCode: string;
+  @Input() legacyIframeImplementation: boolean;
   @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCutDetails> = new EventEmitter<DataCutDetails>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
@@ -108,10 +109,12 @@ export class JobResultComponent implements OnInit, OnDestroy {
     });
   }
 
+  // TODO: Create a story to further refactor the multi match display, break dependence on if legacy iFrame do X vs Y
+  // Everything should be consistent regardless of implementation
   handleMatchesMouseEnter(event: MouseEvent): void {
     const request: PricingMatchesDetailsRequest = this.createPricingMatchesDetailsRequest();
     const data: MatchesDetailsTooltipData = {
-      TargetX: event.offsetX,
+      TargetX: this.legacyIframeImplementation ? event.offsetX : event.pageX,
       TargetY: event.clientY,
       Request: request
     };

@@ -3,22 +3,23 @@ import { Store } from '@ngrx/store';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { ActionBarConfig,
   getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig,
   GridRowActionsConfig
 } from 'libs/features/pf-data-grid/models';
-import { PayMarketsPageViewId } from '../models';
-import { Observable, Subscription} from 'rxjs';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { Permissions } from 'libs/constants';
 import * as fromPayMarketManagementReducers from 'libs/features/paymarket-management/reducers';
 import * as fromPayMarketModalActions from 'libs/features/paymarket-management/actions/paymarket-modal.actions';
+import { PfSecuredResourceDirective } from 'libs/forms/directives';
 
 import * as fromPayMarketsPageActions from '../actions/paymarkets-page.actions';
 import * as fromPayMarketsPageReducer from '../reducers';
+import { PayMarketsPageViewId } from '../models';
 
 @Component({
   selector: 'pf-paymarkets-page',
@@ -30,6 +31,7 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   @ViewChild('defaultScopesColumn') defaultScopesColumn: ElementRef;
   @ViewChild('payMarketNameColumn') payMarketNameColumn: ElementRef;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
+  @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
 
   identity$: Observable<UserContext>;
   identitySubscription: Subscription;
@@ -50,9 +52,13 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
   colTemplates = {};
   defaultPayMarketId: number;
   selectedPayMarketId: number;
+  selectedPayMarketName: string;
   selectedPopover: NgbDropdown;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   permissions = Permissions;
+  showSummaryModal = new BehaviorSubject<boolean>(false);
+  showSummaryModal$ = this.showSummaryModal.asObservable();
+  summaryPaymarketId: number;
 
   constructor(
     private store: Store<fromPayMarketsPageReducer.State>,
@@ -112,9 +118,14 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     return sortDescriptor;
   }
 
-  handleSelectedRowAction(payMarketId: number, popover: any) {
+  handleSelectedRowAction(payMarketId: number, payMarketName: string, popover: any) {
     this.selectedPayMarketId = payMarketId;
+    this.selectedPayMarketName = payMarketName;
     this.selectedPopover = popover;
+  }
+
+  handleDeleteModalClose(): void {
+    this.selectedPayMarketId = null;
   }
 
   setDefaultPayMarket(payMarketId: number) {
@@ -138,6 +149,20 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenPayMarketModal());
   }
 
+  viewSummary(payMarketId: number): void {
+    this.showSummaryModal.next(true);
+    this.summaryPaymarketId = payMarketId;
+  }
+
+  closeSummaryModal(): void {
+    this.showSummaryModal.next(false);
+    this.summaryPaymarketId = null;
+  }
+
+  deletePayMarket(): void {
+    this.payMarketManagementStore.dispatch(new fromPayMarketModalActions.OpenDeletePayMarketModal());
+  }
+
   private getSizeColumnSort(sizeSortInfo: SortDescriptor): SortDescriptor[] {
     return [
       {
@@ -153,5 +178,8 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
         dir: sizeSortInfo.dir
       }
     ];
+  }
+  private hasDropdownOptions(isDefaultPayMarket: boolean, permission: string): boolean {
+    return !(!this.pfSecuredResourceDirective.doAuthorize(permission) && isDefaultPayMarket);
   }
 }

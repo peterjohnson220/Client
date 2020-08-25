@@ -1,0 +1,77 @@
+<div class="h-100">
+  <div
+    kendoTooltip
+    class="k-tooltip-container h-100"
+    showOn="none"
+    [tooltipTemplate]="template"
+    filter=".k-grid td"
+    (mouseover)="showGridTooltip($event)">
+    <pf-async-container
+      class="h-100"
+      [loading]="assignedEmployeesDataLoading$ | async"
+      [loadingError]="assignedEmployeesDataLoadingError$ | async">
+      <kendo-grid
+        class="assigned-employees"
+        [data]="assignedEmployeesGridData$ | async"
+        [pageSize]="gridState.take"
+        [skip]="gridState.skip"
+        [sort]="gridState.sort"
+        [resizable]="true"
+        [sortable]="true"
+        [scrollable]="true"
+        [pageable]="{ buttonCount: 5, info: true }"
+        (dataStateChange)="handleDataStateChange($event)">
+        <kendo-grid-checkbox-column [width]="35" showSelectAll="true">
+          <ng-template kendoGridHeaderTemplate>
+            <input type="checkbox" id="selectAllCheckboxId"
+                   [checked]="(selectAllState$ | async) === selectAllStatus.checked"
+                   [indeterminate]="(selectAllState$ | async) === selectAllStatus.indeterminate"
+                   (click)="onSelectAllChange()">
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+            <input
+              type="checkbox"
+              [checked]="isEmployeeSelected(dataItem)"
+              (click)="handleCheckboxClick(dataItem)" />
+          </ng-template>
+        </kendo-grid-checkbox-column>
+        <kendo-grid-column width="65" title="Action">
+          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+            <pf-grid-action-menu
+              [isOpen]="(openActionMenuEmployee$ | async)?.CompanyEmployeeId === dataItem?.CompanyEmployeeId"
+              [employee]="dataItem"
+              (open)="onActionMenuOpen($event)"
+              (close)="onActionMenuClose()"
+              (unassignClick)="onActionMenuUnassignClick()"
+            ></pf-grid-action-menu>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="LastName" title="Last Name" class="ellipsize show-tooltip"></kendo-grid-column>
+        <kendo-grid-column field="FirstName" title="First Name" class="ellipsize show-tooltip"></kendo-grid-column>
+        <kendo-grid-column field="EmployeeId" title="Employee ID" class="ellipsize show-tooltip"></kendo-grid-column>
+        <kendo-grid-column field="JobTitle" title="Job Title" class="ellipsize show-tooltip"></kendo-grid-column>
+        <kendo-grid-column field="JobCode" title="Job Code" class="ellipsize show-tooltip"></kendo-grid-column>
+        <kendo-grid-column field="JobFamily" title="Job Family" class="ellipsize show-tooltip"></kendo-grid-column>
+        <kendo-grid-column field="FLSAStatus" title="FLSA Status" class="ellipsize show-tooltip"></kendo-grid-column>
+        <kendo-grid-column field="TotalRewardsLastStatementGeneratedDate" title="Last Generated (Date)">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="ellipsize show-tooltip">
+              {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+        <ng-template kendoPagerTemplate>
+          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+          <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
+          <kendo-pager-next-buttons></kendo-pager-next-buttons>
+          <label class="ml-auto mr-2 mt-2">
+            {{ (assignedEmployeesTotal$ | async) | number }} Assigned Employee{{ (assignedEmployeesTotal$ | async) != 1 ? 's' : '' }}
+          </label>
+        </ng-template>
+      </kendo-grid>
+    </pf-async-container>
+  </div>
+</div>
+<ng-template #template let-hoverElement>
+  <span>{{ hoverElement.nativeElement.innerText }}</span>
+</ng-template>

@@ -10,17 +10,15 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
-import { environment } from 'environments/environment';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfFormsModule } from 'libs/forms';
 
 import { PfSearchModule } from '../../search';
 import { SearchFilterMappingDataObj } from '../../search/models';
 import { UserFilterTypeData } from '../../user-filter/models';
-import { PfPeerMapModule } from '../map';
 
 import { ExchangeExplorerComponent, ExchangeScopeSelectorComponent, ExchangeExplorerMapComponent } from './containers';
-import { WeightingTypeDropdownComponent } from './components';
+import { ExcludeIndirectMatchesFilterComponent, PayMarketBoundsFilterComponent, PeerFilterInfoComponent, WeightingTypeDropdownComponent } from './components';
 import { reducers } from './reducers';
 import {
   ExchangeExplorerEffects,
@@ -34,12 +32,17 @@ import {
 } from './effects';
 import { ExchangeExplorerContextService } from './services';
 import * as fromFaIcons from './fa-icons';
+import { ExchangeJobSelectorComponent } from '../exchange-job-selector';
 
 const declarations = [
   ExchangeExplorerMapComponent,
   ExchangeScopeSelectorComponent,
   ExchangeExplorerComponent,
-  WeightingTypeDropdownComponent
+  WeightingTypeDropdownComponent,
+  ExchangeJobSelectorComponent,
+  PayMarketBoundsFilterComponent,
+  PeerFilterInfoComponent,
+  ExcludeIndirectMatchesFilterComponent
 ];
 
 @NgModule({
@@ -61,7 +64,6 @@ const declarations = [
 
     // PF Modules
     PfCommonUIModule,
-    PfPeerMapModule,
     PfSearchModule,
     PfFormsModule
   ],

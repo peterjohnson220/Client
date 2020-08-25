@@ -6,7 +6,7 @@ import {EffectsModule} from '@ngrx/effects';
 
 import { GridModule } from '@progress/kendo-angular-grid';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {NgbTabsetModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbTabsetModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {PfCommonUIModule} from 'libs/ui/common';
 import {PfFormsModule} from 'libs/forms';
@@ -15,8 +15,9 @@ import {reducers} from './reducers';
 import {StatementGridEffects, TemplateSelectorEffects} from './effects';
 import {StatementListPageComponent} from './statement-list.page';
 import {StatementsGridComponent, TemplateCardSelectorComponent} from './containers';
-import {CreateNewStatementBannerComponent, GridActionMenuComponent} from './components';
+import {GridActionMenuComponent} from './components';
 import {StatementListRoutingModule} from './statement-list-routing.module';
+import * as fromTrsShared from '../../shared';
 
 @NgModule({
   imports: [
@@ -29,16 +30,17 @@ import {StatementListRoutingModule} from './statement-list-routing.module';
     FontAwesomeModule,
     GridModule,
     NgbTabsetModule,
+    NgbDropdownModule,
 
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
+    fromTrsShared.SharedModule,
 
     // Routing,
     StatementListRoutingModule
   ],
   declarations: [
-    CreateNewStatementBannerComponent,
     GridActionMenuComponent,
     StatementListPageComponent,
     StatementsGridComponent,

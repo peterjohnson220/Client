@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { WorkflowTemplate } from '../../../shared';
+import { WorkflowTemplate } from 'libs/features/job-description-management/models';
 
 export const DELETE_WORKFLOW_TEMPLATE = '[Settings/WorkflowTemplateList] Delete Workflow Template from List';
 export const DELETE_WORKFLOW_TEMPLATE_SUCCESS = '[Settings/WorkflowTemplateList] Delete Workflow Template from List Success';

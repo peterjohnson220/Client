@@ -5,7 +5,7 @@ export interface EmailRecipientModel {
   EmailAddress: string;
   FirstName: string;
   LastName: string;
-  LoaderType: string;
+  LoaderType?: string;
   IsCompanyServicesRep: boolean;
   UserPicture: string;
   LoaderConfigurationGroupId: number;

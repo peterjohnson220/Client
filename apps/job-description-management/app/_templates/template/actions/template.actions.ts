@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { Template, TemplateSection, TemplateControl } from 'libs/models/jdm/template';
 
-import { SaveError, JobInformationField } from '../../../shared';
+import { SaveError, JobInformationField } from 'libs/features/job-description-management';
 
 export const PUBLISH_TEMPLATE = '[JobDescription/Template] Publish Template';
 export const PUBLISH_TEMPLATE_SUCCESS = '[JobDescription/Template] Publish Template Success';
@@ -323,7 +323,6 @@ export type TemplateActions
   | MoveSection
   | DeleteControlFromSection
   | AddControlToSection
-  | DeleteControlFromSection
   | AddDataRowToControl
   | ReorderControlData
   | ReplaceControlData

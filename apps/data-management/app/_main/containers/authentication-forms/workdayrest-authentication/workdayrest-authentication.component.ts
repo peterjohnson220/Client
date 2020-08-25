@@ -43,7 +43,7 @@ export class WorkdayRestAuthenticationComponent implements OnInit, OnChanges {
     jobReportUrl: OrgDataEntityType.Jobs,
     paymarketReportUrl: OrgDataEntityType.PayMarkets,
     structureReportUrl: OrgDataEntityType.Structures,
-    structureMappingReportUrl: OrgDataEntityType.StructureMappings
+    structureMappingReportUrl: OrgDataEntityType.StructureMapping
   };
 
   workdayRestForm: FormGroup;

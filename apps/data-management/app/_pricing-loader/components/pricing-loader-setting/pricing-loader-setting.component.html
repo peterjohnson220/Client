@@ -1,0 +1,15 @@
+<div *ngIf="setting" class="d-flex setting-container">
+  <label class="col-form-label" [style.width.px]="labelWidth">{{setting.DisplayName}}</label>
+  <kendo-numerictextbox
+    [style.width.px]="60"
+    [format]="'n'"
+    [spinners]="false"
+    [decimals]="setting.Decimals"
+    [min]="setting.Min"
+    [max]="setting.Max"
+    [autoCorrect]="true"
+    [(ngModel)]="setting.NumericValue"
+    (focus)="onFocus()"
+    (blur)="onBlur()">
+  </kendo-numerictextbox>
+</div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { WorkflowUser } from 'apps/job-description-management/app/shared/models';
+import { WorkflowUser } from 'libs/features/job-description-management/models';
 
 
 @Injectable()
@@ -38,6 +38,10 @@ export class JobDescriptionWorkflowApiService {
 
   routeStepToNewUser(workflowId: number, newUser: WorkflowUser, comment: string) {
     return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.RerouteStep`, { newUser: newUser, comment: comment });
+  }
+
+  resendEmail(workflowId: number) {
+    return this.payfactorsApiService.post(`${this.apiUrl}(${workflowId})/Default.ResendEmail`);
   }
 
 }

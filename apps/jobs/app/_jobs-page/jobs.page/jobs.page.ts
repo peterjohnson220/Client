@@ -1,31 +1,34 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-
-import { Observable, Subscription } from 'rxjs';
-import { BehaviorSubject } from 'rxjs/index';
-
-import { Store, ActionsSubject } from '@ngrx/store';
-
-import { SortDescriptor } from '@progress/kendo-data-query';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { ViewField, CreateProjectRequest, ChangeJobStatusRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
+import { ofType } from '@ngrx/effects';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/index';
+
+import { SortDescriptor } from '@progress/kendo-data-query';
+
 import { Permissions } from 'libs/constants';
-import { ActionBarConfig, ColumnChooserType, getDefaultGridRowActionsConfig, GridRowActionsConfig } from 'libs/features/pf-data-grid/models';
+import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
+import { MODIFY_PRICINGS } from 'libs/features/multi-match/constants';
+import {
+    ActionBarConfig, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig
+} from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
+import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
+import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
 
 import * as fromRootState from 'libs/state/state';
-
-import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
+import * as fromModifyPricingsReducer from 'libs/features/multi-match/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
-import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import { PageViewIds } from '../constants';
+import { ShowingActiveJobs } from '../pipes';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
-import * as fromModifyPricingsActions from '../actions';
-import * as fromModifyPricingsReducer from '../reducers';
-import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -35,6 +38,7 @@ import { ofType } from '@ngrx/effects';
 
 export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   permissions = Permissions;
+  readonly showingActiveJobsPipe = new ShowingActiveJobs();
 
   pageViewId = PageViewIds.Jobs;
   filteredPayMarketOptions: any;
@@ -114,6 +118,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showModifyingPricings = new BehaviorSubject<boolean>(false);
   showModifyingPricings$ = this.showModifyingPricings.asObservable();
   pricingsToModify$: Observable<AsyncStateObj<MatchedSurveyJob[]>>;
+  restrictSurveySearchToPaymarketCountry: boolean;
 
   showJobManagementModal = new BehaviorSubject<boolean>(false);
   showJobManagementModal$ = this.showJobManagementModal.asObservable();
@@ -121,6 +126,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   jobDescriptionsInReview: any[] = [];
 
   loadViewConfigSuccessSubscription = new Subscription;
+
+  multiMatchImplementation = MODIFY_PRICINGS;
+
+  gridConfig: GridConfig;
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -136,7 +145,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('structureGradeFilter') structureGradeFilter: ElementRef;
 
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private companyJobApiService: CompanyJobApiService) { }
+  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private companyJobApiService: CompanyJobApiService) {
+    this.gridConfig = {
+      PersistColumnWidth: true
+    };
+  }
 
   ngOnInit() {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
@@ -182,8 +195,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.jobStatusField = fields.find(f => f.SourceName === 'JobStatus');
         this.payMarketField = fields.find(f => f.SourceName === 'PayMarket');
         this.structureGradeSearchField = fields.find(f => f.SourceName === 'Grade_Name');
-        this.selectedStructureGrade = this.structureGradeSearchField.FilterValue !== null ?
-          { Value: this.structureGradeSearchField.FilterValue, Id: this.structureGradeSearchField.FilterValue } : null;
+        this.selectedStructureGrade = this.structureGradeSearchField?.FilterValue !== null ?
+          { Value: this.structureGradeSearchField?.FilterValue, Id: this.structureGradeSearchField?.FilterValue } : null;
         this.selectedPayMarket = this.payMarketField.FilterValue !== null ?
           { Value: this.payMarketField.FilterValue, Id: this.payMarketField.FilterValue } : null;
       }
@@ -206,6 +219,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       if (cs) {
         const setting = cs.find(x => x.Key === 'EnableJobsPageToggle');
         this.enablePageToggle = setting && setting.Value === 'true';
+        this.restrictSurveySearchToPaymarketCountry = cs.find(x => x.Key
+          === 'RestrictSurveySearchCountryFilterToPayMarket').Value === 'true';
       }
     });
 
@@ -232,13 +247,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.actionBarConfig = {
-      ShowActionBar: true,
+      ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
-      ShowFilterChooser: true,
-      AllowExport: false,
-      AllowSaveFilter: true,
-      ExportSourceName: '',
-      ColumnChooserType: ColumnChooserType.Column
+      ShowFilterChooser: true
     };
 
     this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));
@@ -322,7 +333,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const summary: ChangeJobStatusRequest = {
       CompanyJobIds: this.selectedJobIds,
       JobsInReview: this.jobDescriptionsInReview,
-      StatusToSet: this.isActiveJobs() ? 0 : 1
+      StatusToSet: this.showingActiveJobsPipe.transform(this.jobStatusField) ? 0 : 1
     };
     this.store.dispatch(new fromJobsPageActions.ChangingJobStatus(summary));
   }
@@ -393,10 +404,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filteredStructureGradeNameOptions = this.structureGradeNameOptions.filter(o => o.Id.toLowerCase().indexOf(value.toLowerCase()) > -1);
   }
 
-  isActiveJobs() {
-    return this.jobStatusField ? this.jobStatusField.FilterValue : true;
-  }
-
   toggleJobManagmentModal(toggle: boolean, jobId: number = null, event = null) {
     this.editingJobId = jobId;
     this.showJobManagementModal.next(toggle);
@@ -442,7 +449,11 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   modifyPricings() {
-    this.showModifyingPricings.next(true);
-    this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(this.selectedPricingIds));
+    const payload: GetPricingsToModifyRequest = {
+      PricingIds: this.selectedPricingIds,
+      RestrictSearchToPayMarketCountry: this.restrictSurveySearchToPaymarketCountry
+    };
+
+    this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(payload));
   }
 }

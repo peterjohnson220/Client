@@ -40,6 +40,7 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
     userContext$: Observable<UserContext>;
     companyJob$: Observable<LatestCompanyJob>;
     exchanges$: Observable<GenericKeyValue<number, string>[]>;
+    activeExchange$: Observable<number>;
 
     // Subscriptions
     userContextSubscription: Subscription;
@@ -59,6 +60,7 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
         this.userContext$ = this.store.pipe(select(fromRootState.getUserContext));
         this.companyJob$ = this.store.pipe(select(fromAssociateReducer.getCompanyJob));
         this.exchanges$ = this.store.pipe(select(fromAssociateReducer.getExchangeDictionaryForCompany));
+        this.activeExchange$ = this.store.pipe(select(fromAssociateReducer.getActiveExchange));
     }
 
     ngOnInit(): void {
@@ -68,6 +70,7 @@ export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
         this.userContextSubscription = this.userContext$.subscribe(userContext => {
             this.store.dispatch(new fromAssociateAction.LoadCompanyJob(this.companyJobId)),
             this.store.dispatch(new fromAssociateAction.LoadExchangeDictionary(userContext.CompanyId));
+            this.store.dispatch(new fromAssociateAction.LoadActiveExchange());
             this.exchanges$.pipe(take(1)).subscribe(() => {
               this.windowCommunicationService.postMessage(fromAssociateAction.INITIAL_LOAD_SUCCESS);
             });

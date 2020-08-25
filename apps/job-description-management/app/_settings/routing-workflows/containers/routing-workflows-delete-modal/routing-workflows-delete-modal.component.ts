@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
-import { WorkflowTemplate } from '../../../../shared';
+import { WorkflowTemplate } from 'libs/features/job-description-management/models';
 
 import * as fromWorkflowReducer from '../../reducers';
 import * as fromWorkflowAction from '../../actions';

@@ -18,12 +18,12 @@
         </div>
       </a>
       <!-- This <div> is here so the buttons aren't apart of the <a> above -->
-      <div class="card-body pt-0 pb-3 text-center">
-        <button class="btn btn-trs btn-trs-secondary-btn mx-2" (click)="onPreview(template.id)">
-          <fa-icon [icon]="'search'" aria-hidden="true"></fa-icon> Preview
+      <div class="d-flex flex-row-reverse card-body pt-0 pb-3 text-center">
+        <button class="btn btn-primary" (click)="onSelect(template.id)">
+          Create
         </button>
-        <button class="btn btn-trs btn-trs-primary" (click)="onSelect(template.id)">
-          <fa-icon [icon]="'plus'" aria-hidden="true"></fa-icon> Create
+        <button class="btn btn-secondary mx-2" (click)="onPreview(template.id)">
+          <fa-icon [icon]="'search'" aria-hidden="true"></fa-icon> Preview
         </button>
       </div>
     </li>

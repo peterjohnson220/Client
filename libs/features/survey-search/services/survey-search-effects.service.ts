@@ -27,17 +27,17 @@ export class SurveySearchEffectsService {
       withLatestFrom(
         this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSearchReducer.getResultsPagingOptions),
-        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        this.store.select(fromSurveySearchReducer.getPricingMatchDataSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
-        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, projectSearchContext, selectedDataCuts) =>
-          ({ action, filters, pagingOptions, projectSearchContext, selectedDataCuts })
+        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, searchContext, selectedDataCuts) =>
+          ({ action, filters, pagingOptions, searchContext, selectedDataCuts })
       ),
 
       switchMap(l => {
         const searchRequest = this.payfactorsSurveySearchApiHelper.buildSurveySearchRequest({
           Filters: l.filters,
-          ProjectSearchContext: l.projectSearchContext,
-          PagingOptions: l.pagingOptions
+          PagingOptions: l.pagingOptions,
+          PricingMatchDataSearchContext: l.searchContext
         });
 
         return this.surveySearchApiService.searchSurveyJobs(searchRequest)
@@ -54,7 +54,7 @@ export class SurveySearchEffectsService {
                 // Map filters and add currency code to base50th display name
                 const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters);
                 const base50thFilter = filters.find(f => f.Id === 'base50th');
-                base50thFilter.DisplayName += ` (${l.projectSearchContext.CurrencyCode})`;
+                base50thFilter.DisplayName += ` ${l.searchContext.CurrencyCode}`;
 
                 actions.push(new fromSearchResultsActions.GetResultsSuccess({
                   totalRecordCount: searchResponse.Paging.TotalRecordCount

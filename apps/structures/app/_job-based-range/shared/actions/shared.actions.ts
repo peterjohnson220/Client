@@ -4,7 +4,6 @@ import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
 
 import { RangeGroupMetadata } from '../models';
-import { Pages } from '../constants/pages';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
 export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';
@@ -14,6 +13,11 @@ export const SHOW_REMOVE_RANGE_MODAL = '[Structures - Job Based Range - Shared] 
 export const REMOVING_RANGE = '[Structures - Job Based Range - Shared] Removing Range';
 export const REMOVING_RANGE_SUCCESS = '[Structures - Job Based Range - Shared] Removing Range Success';
 export const REMOVING_RANGE_ERROR = '[Structures - Job Based Range - Shared] Removing Range Error';
+export const RESET_ROUNDING_SETTING = '[Structures - Job Based Range - Shared] Reset Rounding Setting';
+export const UPDATE_ROUNDING_POINTS = '[Structures - Job Based Range - Shared] Update Rounding Points';
+export const GET_OVERRIDDEN_RANGES = '[Structures - Job Based Range - Shared] Get Overridden Ranges';
+export const GET_OVERRIDDEN_RANGES_SUCCESS = '[Structures - Job Based Range - Shared] Get Overridden Ranges Success';
+export const GET_OVERRIDDEN_RANGES_ERROR = '[Structures - Job Based Range - Shared] Get Overridden Ranges Error';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -59,6 +63,32 @@ export class RemovingRangeError implements Action {
   constructor(public error: any) {}
 }
 
+export class ResetRoundingSetting implements Action {
+  readonly type = RESET_ROUNDING_SETTING;
+  constructor() {}
+}
+
+export class UpdateRoundingPoints implements Action {
+  readonly type = UPDATE_ROUNDING_POINTS;
+  constructor(public payload: { RoundingPoint: number } ) {}
+}
+
+export class GetOverriddenRanges implements Action {
+  readonly type = GET_OVERRIDDEN_RANGES;
+
+  constructor(public payload: { pageViewId: string, rangeGroupId: number }) {}
+}
+
+export class GetOverriddenRangesSuccess implements Action {
+  readonly type = GET_OVERRIDDEN_RANGES_SUCCESS;
+}
+
+export class GetOverriddenRangesError implements Action {
+  readonly type = GET_OVERRIDDEN_RANGES_ERROR;
+
+  constructor(public error: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -68,4 +98,9 @@ export type SharedActions
   | RemovingRangeSuccess
   | RemovingRangeError
   | ShowRemoveRangeModal
-  | UpdateRoundingPoint;
+  | UpdateRoundingPoint
+  | ResetRoundingSetting
+  | UpdateRoundingPoints
+  | GetOverriddenRanges
+  | GetOverriddenRangesSuccess
+  | GetOverriddenRangesError;

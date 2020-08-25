@@ -8,8 +8,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { LoadTypes } from 'libs/constants';
-import * as fromCompanyReducer from 'libs/features/company/reducers';
+import { LoadTypes, CompositeDataLoadTypes } from 'libs/constants';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import { CompanySettingsEnum, ConfigurationGroup, generateMockUserContext } from 'libs/models';
 
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -184,6 +184,7 @@ describe('OrgDataLoadComponent', () => {
       CompanyId: 13,
       LoaderConfigurationGroupId: 34,
       LoadType: LoadTypes.Manual,
+      PrimaryCompositeDataLoadType: CompositeDataLoadTypes.OrgData
     };
     instance.AddAndSetSelectedMapping(configGroup);
     expect(instance.selectedMapping.LoaderConfigurationGroupId).toEqual(configGroup.LoaderConfigurationGroupId);

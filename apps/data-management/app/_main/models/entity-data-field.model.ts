@@ -6,6 +6,7 @@ export interface EntityDataField {
   FieldName: string;
   DisplayName: string;
   DataType: ImportDataType;
+  DtoName?: string;
   IsRequired?: boolean;
   IsArray?: boolean;
   AssociatedEntity?: EntityDataField[];

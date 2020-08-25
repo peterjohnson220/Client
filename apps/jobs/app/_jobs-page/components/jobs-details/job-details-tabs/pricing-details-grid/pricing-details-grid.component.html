@@ -16,7 +16,7 @@
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
-  <pf-pricing-matches-grid [pricingInfo]="dataRow"></pf-pricing-matches-grid>
+  <pf-pricing-matches-grid [pricingInfo]="dataRow" (notesEmitter)="openPricingMatchNotesManager($event)"></pf-pricing-matches-grid>
 </ng-template>
 
 <ng-template #payMarketColumn let-dataRow="dataRow">
@@ -26,7 +26,7 @@
     <fa-icon class="pl-2" icon="link"></fa-icon>
   </span>
   <span kendoTooltip *ngIf="dataRow['CompanyJobs_Pricings_HasNotes']" position="right" title="Pricing Notes"
-    (click)="openNotesManager($event, dataRow)">
+    (click)="openPricingNotesManager($event, dataRow)">
     <fa-icon [icon]="['far', 'sticky-note']" class="pl-2"></fa-icon>
   </span>
   <br>
@@ -57,8 +57,11 @@
 
 <ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
   <div class="ellipsis-overflowing-text">
-    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
+    <span *ngIf="!fieldName.includes('Pct'); else pctValue" [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
   </div>
+  <ng-template #pctValue>
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] : 'full' | emptyPlaceholder"></span>
+  </ng-template>
 </ng-template>
 
 <ng-template #matchInfoColumn let-dataRow="dataRow" let-fieldName="fieldName">
@@ -93,16 +96,13 @@
 </ng-template>
 
 <pf-notes-manager
-  [showModal$]="showNotesManager$"
-  [pricingId]="selectedRow['CompanyJobs_Pricings_CompanyJobPricing_ID']"
-  [title]="'Pricing Notes - ' + (selectedRow$ | async)['CompanyJobs_Job_Title'] + ' ' + '(' + (selectedRow$ | async)['CompanyJobs_Job_Code'] + ')'"
-  [pricingNotesHeader]="pricingNotesHeader"
-  (cancelChanges)="showNotesManager.next(false); selectedRow = {};">
+  [notesManagerConfiguration]="notesManagerConfiguration"
+  (cancelChanges)="showNotesManager.next(false);">
 </pf-notes-manager>
 
 <ng-template #pricingNotesHeader>
   <div class="pr-5 py-1">
     <span class="pr-3"><b >Pay Market:</b></span>
-    <span>{{selectedRow['CompanyPayMarkets_PayMarket']}}</span>
+    <span>{{selectedPricingPayMarket}}</span>
   </div>
 </ng-template>

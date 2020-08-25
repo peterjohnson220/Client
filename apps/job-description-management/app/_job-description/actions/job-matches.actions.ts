@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { JobMatchResult } from '../models';
+import { JobMatchResult } from 'libs/features/job-description-management/models';
 
 export const GET_JOB_MATCHES = '[job-description-management / Job Matches] Get Job Matches';
 export const GET_JOB_MATCHES_SUCCESS = '[job-description-management / Job Matches] Get Job Matches Success';

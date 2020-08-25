@@ -1,9 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute} from '@angular/router';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
@@ -18,7 +15,6 @@ import { TotalRewardsStatementComponent } from './total-rewards-statement.compon
 describe('TotalRewardsStatementComponent', () => {
   let component: TotalRewardsStatementComponent;
   let fixture: ComponentFixture<TotalRewardsStatementComponent>;
-  let activatedRoute: ActivatedRoute;
 
   const initialState = { totalRewards_statementEdit: { page: statementEditReducer.initialState } };
   initialState.totalRewards_statementEdit.page.statement = generateDefaultAsyncStateObj<Statement>(generateMockStatement());
@@ -28,18 +24,13 @@ describe('TotalRewardsStatementComponent', () => {
     TestBed.configureTestingModule({
       imports: [DragulaModule.forRoot()],
       providers: [
-        provideMockStore({}),
-        {
-          provide: ActivatedRoute,
-          useValue: { queryParams: of({ params: { pages: 1 } }) }
-        }
+        provideMockStore({})
       ],
       declarations: [TotalRewardsStatementComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
     store = TestBed.inject(MockStore);
-    activatedRoute = TestBed.inject(ActivatedRoute);
   }));
 
   beforeEach(() => {

@@ -57,16 +57,10 @@ export class TemplateSelectorEffects {
         id: model.Id,
         name: model.Name,
         description: model.Description,
-        thumbnailUrl: this.getThumbnailUrl(model.Name)
+        thumbnailUrl: model.ThumbnailUrl
       });
     });
     return templates;
-  }
-
-  getThumbnailUrl(templateName: string): string {
-    if (templateName === 'Template A') {
-      return 'assets/images/template-a-cropped.png';
-    }
   }
 
 }

@@ -6,7 +6,7 @@ import { GroupedListItem } from 'libs/models/list';
 
 import { TicketType, SupportTeamUser, UserTicket } from '../models';
 import * as fromServicePageActions from '../actions/service-page.actions';
-import { TicketStateHelper } from '../helpers';
+import { TicketStateHelper, TicketTypeHelper } from '../helpers';
 
 // Define our feature state
 export interface State {
@@ -53,7 +53,7 @@ export function reducer(state = initialState, action: fromServicePageActions.Act
       const ticketTypesClone = cloneDeep(state.ticketTypes);
 
       ticketTypesClone.loading = false;
-      ticketTypesClone.obj = orderBy(action.payload, ['TicketTypeDisplayName'], 'asc');
+      ticketTypesClone.obj = TicketTypeHelper.orderTicketTypes(action.payload);
       return {
         ...state,
         ticketTypes: ticketTypesClone

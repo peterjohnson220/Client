@@ -33,41 +33,51 @@
       </div>
     </div>
     <div class="container-fluid my-3 border rounded pf-entity-table" *ngIf="filteredPayfactorsFields.length > 0">
-      <div class="row p-3 border-bottom sticky-top pf-entity-table-header">
-        <h5>FIELD NAME</h5>
+      <div class="row border-bottom sticky-top pf-entity-table-header">
+        <div class="col-1 px-2 py-3">&nbsp;</div>
+        <div class="col-5 px-2 py-3 border-right"><h5>Field Name</h5></div>
+        <div class="col-5 p-3"><h5>Mapped to</h5></div>
       </div>
       <div class="pf-entity-table-body">
-        <div
-          class="row py-3 payfactors-field-list-item"
+        <div class="row py-2 payfactors-field-list-item"
           [class.border-top]="!isFirst"
           *ngFor="let field of filteredPayfactorsFields; index as i; first as isFirst"
           [dragula]="entityGroupName"
           [dragulaModel]="field.AssociatedEntity"
-          [attr.payfactors-entity-id]="field.EntityFieldId"
-        >
-          <div
-            class="p-2"
-            [class.col]="field.AssociatedEntity.length === 0"
-            [class.col-sm-5]="field.AssociatedEntity.length > 0"
-          >
+          [attr.payfactors-entity-id]="field.EntityFieldId">
+          <div class="col-1 d-flex justify-content-center">
+            <div ngbDropdown>
+              <h5 class="m-0 entity-btn-group btn" ngbDropdownToggle><fa-icon icon="ellipsis-h" class=""></fa-icon></h5>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
+                <button ngbDropdownItem 
+                  class="dropdown-item"
+                  [disabled]="field.AssociatedEntity.length === 0"
+                  (click)="removeAssociatedItem(field.EntityFieldId, field.AssociatedEntity[0])">
+                  Clear Mapping
+                </button>
+                <!--TODO: Add new button for field mapping modal popup here-->
+              </div>
+            </div>
+          </div>
+          <div class="col-5">
             <div class="w-100 d-flex d-inline-flex align-items-center">
-              <div style=" width: 21px; height: 31px;" class="mx-2" *ngIf="!field.HasDescription">&nbsp;</div>
-              <fa-icon icon="info-circle" placement="left" [ngbTooltip]="field.Description" class="mx-2" container="body"
-                style="font-size: 1.6rem;" *ngIf="field.HasDescription"></fa-icon>
               <label
                 class="w-100 mb-0 ellipsis-overflowing-text"
                 [class.font-weight-bold]="field.IsRequired"
                 [ngbTooltip]="field.DisplayName"
                 placement="top-left"
-                container="body"
-              >{{field.DisplayName}}</label>
+                container="body">
+                {{field.DisplayName}}
+              </label>
+              <div style=" width: 21px; height: 31px;" class="mx-2" *ngIf="!field.HasDescription">&nbsp;</div>
+              <fa-icon icon="info-circle" placement="left" [ngbTooltip]="field.Description" class="mx-2 info" container="body"
+                style="font-size: 1.6rem;" *ngIf="field.HasDescription"></fa-icon>
             </div>
           </div>
           <div
             *ngIf="field.AssociatedEntity.length > 0"
             id="associated-entity"
-            class="col-sm-7 p-2 associated-field-item"
-          >
+            class="col-5 associated-field-item">
             <div class="w-100 d-flex flex-row align-items-center">
               <div
                 class="mr-auto py-1 flex-grow-1 min-width-1"
@@ -80,7 +90,6 @@
                   container="body"
                 >{{associatedField.DisplayName}}</label>
               </div>
-              <button type="button" class="btn btn-outline-danger btn-remove-associated-entity px-4 py-1" (click)="removeAssociatedItem(field.EntityFieldId, field.AssociatedEntity[0])">REMOVE</button>
             </div>
           </div>
         </div>

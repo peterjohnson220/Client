@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { Action, Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 
-import { SurveySearchApiService } from 'libs/data/payfactors-api';
+import { SurveySearchApiService, JobsApiService } from 'libs/data/payfactors-api';
+
+import { PayfactorsApiModelMapper } from '../helpers';
+import { ProjectSearchContext } from '../../survey-search/models';
 
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
-import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromMultiMatchReducer from '../reducers';
 import * as fromSurveySearchReducer from '../../survey-search/reducers';
-import { SearchContext } from '../../survey-search/models';
 
 @Injectable()
 export class JobsToPriceEffects {
@@ -41,7 +42,7 @@ export class JobsToPriceEffects {
       ofType(fromJobsToPriceActions.GET_MATCH_JOB_CUTS),
       withLatestFrom(this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         (action: fromJobsToPriceActions.GetMatchJobCuts,
-         projectSearchContext: SearchContext) => ({action, projectSearchContext})),
+         projectSearchContext: ProjectSearchContext) => ({action, projectSearchContext})),
       switchMap((projectAndPayload) => {
           const jobToPrice = projectAndPayload.action.payload;
           return this.surveySearchApiService.getJobMatchCuts({
@@ -59,9 +60,27 @@ export class JobsToPriceEffects {
       )
     );
 
+  @Effect()
+  getPricingMatches$: Observable<Action> = this.actions$.pipe(
+    ofType(fromJobsToPriceActions.GET_PRICING_MATCHES),
+    switchMap((action: any) => {
+      return this.jobsApiService.getPricingCuts({
+        PricingId: action.pricingId,
+        SearchContextRate: action.rate
+      }).pipe(
+        map(response => new fromJobsToPriceActions.GetMatchJobCutsSuccess({
+          JobMatchCuts: response,
+          JobId: action.pricingId
+        }))
+        // TODO: The corresponding catchError condition for the project implementation of MMM needs the entire JobToPrice object in the payload...why?
+      );
+    })
+  );
+
     constructor(
       private actions$: Actions,
       private surveySearchApiService: SurveySearchApiService,
+      private jobsApiService: JobsApiService,
       private store: Store<fromMultiMatchReducer.State>
   ) {}
 }

@@ -56,6 +56,6 @@ export class AccountApiService {
   }
 
   authenticateSSOParams(tokenId: string, agentId: string): Observable<any> {
-    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetSsoJobDescriptionAuthResult?tokenid=${tokenId}&agentid=${agentId}`);
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/JwtSsoAuthHandler?tokenid=${tokenId}&agentid=${agentId}`);
   }
 }

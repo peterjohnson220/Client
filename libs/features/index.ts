@@ -16,3 +16,5 @@ export * from './paymarket-management';
 export * from './navigation-links';
 export * from './survey-search';
 export * from './multi-match';
+export * from './pricing-match';
+export * from './comment-box';

@@ -31,6 +31,7 @@ export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject();
 
   workflowStep = TransferDataWorkflowStep;
+  validateClicked = false;
 
   constructor(
     private store: Store<fromDataManagementMainReducer.State>,
@@ -61,6 +62,9 @@ export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
             connectionId: connectionSummary.connectionID,
             selectedEntities: connectionSummary.selectedEntities
           }));
+          if (this.validateClicked && connectionSummary?.provider?.ProviderCode === 'PUBLICAPI') {
+            this.next();
+          }
         }
       });
     });
@@ -86,6 +90,7 @@ export class InboundAuthenticationPageComponent implements OnInit, OnDestroy {
   }
 
   validateCredentials(creds: CredentialsPackage) {
+    this.validateClicked = true;
     this.store.dispatch(new fromHrisConnectionActions.CreateConnection(creds));
   }
 }

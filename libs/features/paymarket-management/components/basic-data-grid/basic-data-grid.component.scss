@@ -1,0 +1,35 @@
+@import 'kendo-grid';
+@import 'common/common-variables';
+
+.data-view-grid {
+  position: relative;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.loading-message, .loading-more-row {
+  padding: 0.8rem 1rem 0.5rem 1rem;
+  height: 42px;
+  font-size: 1rem;
+  border-top: 1px solid #eceeef;
+  border-bottom: 1px solid #eceeef;
+  font-weight: 500;
+  width: 100%;
+}
+
+.ellipsis-text {
+  @extend %ellipsis-overflowing-text;
+}
+
+.grid-container ::ng-deep kendo-grid {
+  max-height: 200px;
+}
+
+.loading-more-container {
+  position: absolute;
+  bottom: 0;
+  background-color: #ffffff;
+  width: 100%;
+}

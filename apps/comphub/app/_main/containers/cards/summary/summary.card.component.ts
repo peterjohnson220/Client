@@ -13,7 +13,8 @@ import { SearchFilterOption, SharePricingSummaryRequest } from 'libs/models/payf
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 import { QuickPriceType, SystemUserGroupNames } from 'libs/constants';
-import { RateType, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
+import { RateType, Rates, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
+import { KendoDropDownItem } from 'libs/models/kendo';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { ExchangeMapSummary } from 'libs/models/peer';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
@@ -76,6 +77,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   workflowContext: WorkflowContext;
   isPeerQuickPriceType = false;
   filterContextHasFilters = false;
+  rates: KendoDropDownItem[] = Rates;
 
   private mbAccessToken: string;
 
@@ -291,5 +293,10 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
       });
       this.currencySymbol = getCurrencySymbol(this.paymarket.CurrencyCode, 'narrow');
     }
+  }
+
+  handleRateSelectionChange(type : KendoDropDownItem) {
+    const selectedRateType = RateType[type.Value];
+    this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRateType));
   }
 }

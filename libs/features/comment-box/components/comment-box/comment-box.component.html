@@ -1,0 +1,16 @@
+<div class="d-flex flex-column">
+  <ng-content select="[custom-comment-content]"></ng-content>
+  <pf-comment-content *ngIf="!hasCustomCommentContent" [comment]="comment"></pf-comment-content>
+  <pf-reply-box
+    *ngIf="replyEnabled"
+    [submitting]="sumbittingReply"
+    (replyClicked)="handleReplyClicked($event)">
+  </pf-reply-box>
+  <pf-reply-list
+    [commentId]="comment?.CommentId"
+    [replyCount]="comment?.ReplyCount"
+    [replies]="comment?.Replies"
+    [loadingReplies]="loadingReplies"
+    (viewRepliesClicked)="handleViewRepliesClicked($event)">
+  </pf-reply-list>
+</div>

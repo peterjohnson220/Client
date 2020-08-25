@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CompanySelectorItem } from 'libs/features/company/models';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 
 export const GET_COMPANIES = '[Admin / Survey Library] Get Companies';
 export const GET_COMPANIES_SUCCESS = '[Admin / Survey Library] Get Companies Success';
