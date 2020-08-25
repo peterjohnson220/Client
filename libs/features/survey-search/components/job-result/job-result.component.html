@@ -55,7 +55,7 @@
       </div>
 
     </div>
-    <div class="peer-org-weighted-nat-avg card" *ngIf="isPeerJob && !!job.PeerJobInfo">
+    <div class="peer-org-weighted-nat-avg card" *ngIf="showPeerOrgWeightedNatAvgCard">
       <div class="avg-pay-container d-flex justify-content-between">
         <div class="label-indicator">Base 50th</div>
         <div>{{!job.PeerJobInfo.NatAvgBase50th ? '--' : job.PeerJobInfo.NatAvgBase50th | comp: compRate : annualDisplay }}</div>
