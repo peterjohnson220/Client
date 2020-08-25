@@ -177,6 +177,8 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.routeParamSubscription$.unsubscribe();
     this.exportEventIdSubscription.unsubscribe();
     this.appNotificationSubscription.unsubscribe();
+    this.unassignEmployeesSuccessSubscription.unsubscribe();
+    this.filterChangeSubscription.unsubscribe();
     this.store.dispatch(new fromPageActions.ResetState());
   }
 
@@ -203,6 +205,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     const currentFilter = cloneDeep(this.assignedEmployeesGridState.filter);
     this.assignedEmployeesGridState = cloneDeep($event);
     this.assignedEmployeesGridState.filter = currentFilter;
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, this.assignedEmployeesGridState));
     this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
   }
 

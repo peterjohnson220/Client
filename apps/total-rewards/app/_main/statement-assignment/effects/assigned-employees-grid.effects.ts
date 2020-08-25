@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
 
