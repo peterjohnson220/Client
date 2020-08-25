@@ -62,6 +62,12 @@ export class JobResultComponent implements OnInit, OnDestroy {
     return this.job.DataSource === this.surveySearchResultDataSources.Peer;
   }
 
+  get showPeerOrgWeightedNatAvgCard(): boolean {
+    // return this.isPeerJob && !!this.job.PeerJobInfo;
+    // TODO: Turning off temporarily for release. [JP]
+    return false;
+  }
+
   get toggleJobDetailLabel() {
     return (this.showJobDetail ? 'Hide' : 'Show') + ' Job Detail';
   }
