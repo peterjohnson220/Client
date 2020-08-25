@@ -7,7 +7,7 @@ $spinner-easing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 
 .canvas {
   width: $canvas-width;
-  background: white;
+  background: $trs-canvas-background-color;
   padding-top: 100px;
 }
 
