@@ -2,6 +2,7 @@ import {EntityLoadSummaryView} from './entity-load-summary-view.model';
 
 export interface CompositeDataLoadViewResponse {
   compositeDataLoadId: number;
+  exportedSourceUri: string;
   externalId: string;
   compositeLoaderType: string;
   company_ID: number;
