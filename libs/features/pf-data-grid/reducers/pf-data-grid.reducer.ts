@@ -14,6 +14,7 @@ export interface DataGridState {
   loading: boolean;
   baseEntity: DataViewEntity;
   selectionField: string;
+  selectionFieldExistsOnBase: boolean;
   fields: ViewField[];
   groupedFields: any[];
   inboundFilters: PfDataGridFilter[];
@@ -76,9 +77,13 @@ export const getSelectionField = (state: DataGridStoreState, pageViewId: string)
 export const getFieldsExcludedForExport = (state: DataGridStoreState, pageViewId: string) =>
   state.grids[pageViewId] ? state.grids[pageViewId].fieldsExcludedFromExport : [];
 export const getPrimaryKey = (state: DataGridStoreState, pageViewId: string) => {
-  return state.grids[pageViewId] && state.grids[pageViewId].baseEntity
-    ? `${state.grids[pageViewId].baseEntity.SourceName}_${state.grids[pageViewId].selectionField}`
-    : '';
+  if (state.grids[pageViewId] && state.grids[pageViewId].baseEntity) {
+    return state.grids[pageViewId].selectionFieldExistsOnBase ?
+      `${state.grids[pageViewId].baseEntity.SourceName}_${state.grids[pageViewId].selectionField}` :
+      state.grids[pageViewId].selectionField;
+  } else {
+    return '';
+  }
 };
 export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId]
   ? state.grids[pageViewId].fields : null;
@@ -267,7 +272,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectionField: action.selectionField
+            selectionField: action.selectionField,
+            selectionFieldExistsOnBase: action.existsOnBase
           }
         }
       };

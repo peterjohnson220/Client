@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked,
-  HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges, EventEmitter, Output
+  HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges, EventEmitter, Output, TemplateRef
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import { AsyncStateObj } from 'libs/models';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromReScopeSurveyDataActions from 'libs/features/re-scope-survey-data/actions';
 
 import { PageViewIds } from '../../../constants';
 import * as fromJobsPageActions from '../../../actions';
@@ -33,9 +34,11 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   @Input() dataRow: any;
   @Input() pricingInfo: any;
   @Output() notesEmitter = new EventEmitter();
+  @Output() reScopeSurveyDataEmitter = new EventEmitter();
 
   @ViewChild('jobTitleText') jobTitleText: ElementRef;
   @ViewChild('detailsText') detailsText: ElementRef;
+  @ViewChild('reScopeSurveyDataTemplate') reScopeSurveyDataTemplate: ElementRef<any>;
 
   jobsSelectedRow$: Observable<any>;
 
@@ -58,6 +61,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   public isCollapsed = true;
   public isOverflow = false;
+
+  reScopeSurveyDataJobDetailOpen = false;
 
   @HostListener('window:resize') windowResize() {
     this.ngAfterViewChecked();
@@ -154,6 +159,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       MatchId: this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID,
       MatchWeight: this.weight,
       MatchAdjustment: this.adjustment,
+      SurveyDataId: null,
       PricingUpdateStrategy: PricingUpdateStrategy.Parent
     };
     const pricingId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricing_ID;
@@ -169,5 +175,23 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       Scope: this.getScope()
     };
     this.notesEmitter.emit(data);
+  }
+
+  reScopeSurveyData() {
+    if (this.dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'] &&
+      !this.pricingInfo['CompanyPayMarkets_Linked_PayMarket_Name'] &&
+      this.permissionService.CheckPermission([this.permissions.MODIFY_PRICINGS], this.permissionCheckEnum.Single)
+    ) {
+      const data = {
+        SurveyJobId: this.dataRow['vw_PricingMatchesJobTitlesMerged_Survey_Job_ID'],
+        SurveyDataId: this.dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'],
+        SurveyJobTemplate: this.reScopeSurveyDataTemplate,
+        Rate: this.pricingInfo['CompanyJobs_Pricings_Rate'],
+        MatchId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+        PricingId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']
+      };
+
+      this.reScopeSurveyDataEmitter.emit(data);
+    }
   }
 }

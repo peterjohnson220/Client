@@ -138,7 +138,7 @@ export class UpdateFieldsSuccess implements Action {
 
 export class UpdateSelectionField implements Action {
   readonly type = UPDATE_SELECTION_FIELD;
-  constructor(public pageViewId: string, public selectionField: string) { }
+  constructor(public pageViewId: string, public selectionField: string, public existsOnBase = true) { }
 }
 
 export class UpdateInboundFilters implements Action {

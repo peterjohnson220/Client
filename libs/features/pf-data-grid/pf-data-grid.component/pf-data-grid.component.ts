@@ -35,6 +35,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() navigationURL: string;
   @Input() showTitle = true;
   @Input() selectionField: string;
+  @Input() selectionFieldExistsOnBase: true;
   @Input() columnTemplates: any;
   @Input() aboveGridTemplate: TemplateRef<any>;
   @Input() rightGridTemplate: TemplateRef<any>;
@@ -50,6 +51,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() lockedPillText: string;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() enableSelection = false;
+  @Input() enableResize = true;
   @Input() defaultSort: SortDescriptor[];
   @Input() pagingOptions: PagingOptions;
   @Input() noRecordsFound: string;
@@ -195,7 +197,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     if (changes['selectionField']) {
-      this.store.dispatch(new fromActions.UpdateSelectionField(this.pageViewId, changes['selectionField'].currentValue));
+      this.store.dispatch(new fromActions.UpdateSelectionField(this.pageViewId, changes['selectionField'].currentValue, this.selectionFieldExistsOnBase));
     }
 
     if (changes['inboundFilters']) {
