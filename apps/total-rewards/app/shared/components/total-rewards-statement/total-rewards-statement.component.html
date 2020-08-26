@@ -1,4 +1,6 @@
 <div *ngIf="statement" class="container statement mb-4 rounded" [ngClass]="fontSizeCssClass + ' ' + fontFamilyCssClass">
+  <pf-async-container [loading]="loadingData">
+  </pf-async-container>
   <div class="d-flex justify-content-end">
     <pf-effective-date
       [mode]="mode"

@@ -23,6 +23,7 @@ import {
 })
 export class TotalRewardsStatementComponent {
 
+  @Input() loadingData: boolean;
   @Input() statement: Statement;
   @Input() mode: StatementModeEnum;
   @Input() employeeRewardsData: EmployeeRewardsData;

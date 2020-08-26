@@ -1,11 +1,11 @@
 <pf-page-with-title-bar [returnUrl]="'/'" [ngClass]="{'preview-mode': mode === modeEnum.Preview}">
   <ng-container page-title>Total Rewards</ng-container>
   <ng-container page-content>
-    <pf-async-container [loading]="(statementLoading$ | async) || (employeeRewardsDataAsync$ | async)?.loading"
+    <pf-async-container [loading]="(statementLoading$ | async)"
                         [loadingError]="(statementLoadingError$ | async) || (statementSavingError$ | async) || (settingsSavingError$ | async)"
                         (reload)="handleStatementReload()">
       <div class="canvas mx-auto pb-1 mt-2" [class.preview-mode]="mode === modeEnum.Preview">
-        <div *ngIf="mode === modeEnum.Preview">
+        <div *ngIf="mode === modeEnum.Preview" class="preview-controls">
           <button
             ngbButton
             class="mode-button btn btn-outline-dark position-relative mr-2 d-block"
@@ -79,6 +79,7 @@
         <pf-total-rewards-statement
           [statement]="statement"
           [mode]="mode"
+          [loadingData]="(employeeRewardsDataAsync$ | async)?.loading"
           [employeeRewardsData]="(employeeRewardsDataAsync$ | async)?.obj"
           (onControlTitleChange)="handleOnControlTitleChange($event)"
           (onCalculationControlCompFieldTitleChange)="handleOnCalculationControlCompFieldTitleChange($event)"
