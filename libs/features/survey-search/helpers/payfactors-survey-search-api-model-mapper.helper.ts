@@ -122,7 +122,7 @@ export class PayfactorsSurveySearchApiModelMapper {
     .filter((dcd: DataCutDetails) => dcd.DataSource !== SurveySearchResultDataSources.Peer)
     .map((dcd: DataCutDetails) => {
       return {
-        SurveyDataId: dcd.ServerInfo.SurveyDataId,
+        SurveyDataId: dcd.ServerInfo?.SurveyDataId,
         SurveyJobCode: dcd.SurveyJobCode,
         SurveyJobId: dcd.SurveyJobId,
         IsPayfactorsJob: dcd.DataSource === SurveySearchResultDataSources.Payfactors,
