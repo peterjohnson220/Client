@@ -20,6 +20,7 @@ export interface State {
   openActionMenuEmployee: TotalRewardAssignedEmployee;
   selectAllStatus: string;
   employeeSearchTerm: string;
+  assignedEmployeesTotal: number;
 }
 
 const initialState: State = {
@@ -30,7 +31,8 @@ const initialState: State = {
   visibleCompanyEmployeeIds: [],
   openActionMenuEmployee: null,
   selectAllStatus: 'unchecked',
-  employeeSearchTerm: null
+  employeeSearchTerm: null,
+  assignedEmployeesTotal: null
 };
 
 export function reducer(state, action) {
@@ -51,7 +53,7 @@ export function reducer(state, action) {
         case fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES_SUCCESS: {
           const gridDataClone: GridDataResult = cloneDeep(featureState.data);
           gridDataClone.data = featureAction.payload.Data;
-          gridDataClone.total = featureAction.payload.TotalCount;
+          gridDataClone.total = featureAction.payload.TotalCount > 10000 ? 10000 : featureAction.payload.TotalCount;
 
           const selectedCompanyEmployeeIds = featureState.selectedCompanyEmployeeIds;
           const visibleCompanyEmployeeIds = featureAction.payload.Data.map(x => x.CompanyEmployeeId);
@@ -65,7 +67,8 @@ export function reducer(state, action) {
             data: gridDataClone,
             loading: false,
             visibleCompanyEmployeeIds: visibleCompanyEmployeeIds,
-            selectAllStatus: loadAssignedEmployeesSelectAllState
+            selectAllStatus: loadAssignedEmployeesSelectAllState,
+            assignedEmployeesTotal: featureAction.payload.TotalCount
           };
         }
         case fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES_ERROR: {
@@ -159,7 +162,7 @@ export function reducer(state, action) {
 export const getAssignedEmployeesGridData = (state: State) => state.data;
 export const getAssignedEmployeesLoading = (state: State) => state.loading;
 export const getAssignedEmployeesLoadingError = (state: State) => state.loadingError;
-export const getAssignedEmployeesTotal = (state: State) => state.data.total;
+export const getAssignedEmployeesTotal = (state: State) => state.assignedEmployeesTotal;
 
 export const getSelectedCompanyEmployeeIds = (state: State) => state.selectedCompanyEmployeeIds;
 export const getSelectedCompanyEmployeeIdCount = (state: State) => state.selectedCompanyEmployeeIds?.length;
