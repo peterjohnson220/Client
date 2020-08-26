@@ -1,6 +1,7 @@
 @import "app-colors";
 
 .statement {
+  position: relative;
   background: white;
   .row.vertical-divider > .trs-column:first-child {
     border-right: 2px solid $trs-canvas-background-color;
