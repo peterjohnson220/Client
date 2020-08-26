@@ -34,7 +34,7 @@ export class TotalRewardsAssignmentService {
     return results.map(employee => {
       return {
         Value: employee.CompanyEmployeeId,
-        Name: `${employee.FirstName} ${employee.LastName}`
+        Name: `${employee.FirstName} ${employee.LastName} (${employee.EmployeeId})`
       };
     });
   }

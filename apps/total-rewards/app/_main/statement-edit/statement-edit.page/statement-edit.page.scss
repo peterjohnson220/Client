@@ -9,6 +9,9 @@ $spinner-easing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
   width: $canvas-width;
   background: $trs-canvas-background-color;
   padding-top: 100px;
+  &.preview-mode {
+    padding-top: 0;
+  }
 }
 
 // the wrapper is there to hide the document's contents from leaking through over the top of the header row

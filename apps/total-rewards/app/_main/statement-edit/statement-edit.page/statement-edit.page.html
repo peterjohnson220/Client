@@ -4,7 +4,7 @@
     <pf-async-container [loading]="(statementLoading$ | async) || (employeeRewardsDataAsync$ | async)?.loading"
                         [loadingError]="(statementLoadingError$ | async) || (statementSavingError$ | async) || (settingsSavingError$ | async)"
                         (reload)="handleStatementReload()">
-      <div class="canvas mx-auto pb-1 mt-2">
+      <div class="canvas mx-auto pb-1 mt-2" [class.preview-mode]="mode === modeEnum.Preview">
         <div *ngIf="mode === modeEnum.Preview">
           <button
             ngbButton

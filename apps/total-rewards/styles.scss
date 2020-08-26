@@ -107,7 +107,7 @@ pf-statement-edit.page {
     }
   }
   .statement, .header-row-wrapper, .canvas {
-    transition: margin .5s , opacity .2s ease-in-out, background-color .2s ease-in-out;
+    transition: opacity .2s ease-in-out, background-color .2s ease-in-out;
   }
 
   .page-content, .page-header {
