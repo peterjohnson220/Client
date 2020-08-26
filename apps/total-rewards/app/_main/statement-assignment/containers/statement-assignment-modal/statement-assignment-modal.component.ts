@@ -13,6 +13,7 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 import * as fromStatementAssignmentsReducers from '../../reducers';
 import * as fromStatementAssignmentModalActions from '../../actions/statement-assignment-modal.actions';
 import * as fromEmployeeSearchResultsActions from '../../actions/employee-search-results.actions';
+import { StatementAssignmentConfig } from '../../models';
 
 @Component({
   selector: 'pf-statement-assignment-modal',
@@ -20,8 +21,6 @@ import * as fromEmployeeSearchResultsActions from '../../actions/employee-search
   styleUrls: ['./statement-assignment-modal.component.scss']
 })
 export class StatementAssignmentModalComponent extends SearchBase implements OnInit, OnDestroy {
-  STATEMENT_ASSIGNMENT_MAX = 100000;
-
   isOpen$: Observable<boolean>;
   numberOfResults$: Observable<number>;
   userContext$: Observable<UserContext>;
@@ -53,11 +52,12 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
       CssClassName: 'total-rewards-omni-search'
     }
   ];
+  statementAssignmentMax = StatementAssignmentConfig.statementAssignmentMax;
 
   constructor(store: Store<fromSearchReducer.State>) {
     super(store);
     this.userContext$ = store.select(fromRootState.getUserContext);
-    this.assignedEmployeesCount$ = store.select(fromStatementAssignmentsReducers.getAssignedEmployeesSelectedCompanyEmployeeIdCount);
+    this.assignedEmployeesCount$ = store.select(fromStatementAssignmentsReducers.getAssignedEmployeesTotal);
     this.selectedEmployeesCount$ = store.select(fromStatementAssignmentsReducers.getSelectedEmployeesCount);
     this.searchResultsCount$ = store.select(fromSearchReducer.getNumberOfResultsOnServer);
     this.assignEmployeesLoading$ = store.select(fromStatementAssignmentsReducers.getAssignEmployeesLoading);
@@ -102,7 +102,15 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
   }
 
   canAssignEmployees() {
-    return (this.selectedEmployeesCount) && (this.selectedEmployeesCount + this.assignedEmployeesCount <= this.STATEMENT_ASSIGNMENT_MAX);
+    return this.selectedEmployeesCount && !this.hasReachedEmployeesLimit;
+  }
+
+  get hasReachedEmployeesLimit(): boolean {
+    return this.selectedEmployeesCount + this.assignedEmployeesCount > this.statementAssignmentMax;
+  }
+
+  get displayEmployeesLimitInfoMessage(): boolean {
+    return !this.hasReachedEmployeesLimit && this.searchResultsCount + this.assignedEmployeesCount > this.statementAssignmentMax;
   }
 
   handleClearSelectedEmployees(): void {
@@ -110,7 +118,7 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
   }
 
   handleAddAllEmployees(): void {
-    this.store.dispatch(new fromStatementAssignmentModalActions.AssignAllEmployees());
+    this.store.dispatch(new fromStatementAssignmentModalActions.AssignAllEmployees({ assignmentMax: this.getAssignmentMaximum() }));
   }
 
   getPrimaryButtonText(): string {
@@ -121,7 +129,8 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
   }
 
   getAssignmentMaximum() {
-    return this.searchResultsCount + this.assignedEmployeesCount > this.STATEMENT_ASSIGNMENT_MAX ?
-      this.STATEMENT_ASSIGNMENT_MAX - this.assignedEmployeesCount : this.searchResultsCount;
+    return this.searchResultsCount + this.assignedEmployeesCount > this.statementAssignmentMax
+      ? StatementAssignmentConfig.statementAssignmentMax - this.assignedEmployeesCount
+      : this.searchResultsCount;
   }
 }

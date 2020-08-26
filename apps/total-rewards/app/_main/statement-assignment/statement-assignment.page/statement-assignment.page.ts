@@ -21,6 +21,7 @@ import * as fromAssignmentsModalActions from '../actions/statement-assignment-mo
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
 import { Statement } from '../../../shared/models';
 import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
+import { StatementAssignmentConfig } from '../models';
 
 
 @Component({
@@ -73,6 +74,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   filterChangeSubject = new BehaviorSubject<FilterDescriptor[]>([]);
   filters$: Observable<FilterDescriptor[]>;
   isChangingFilters: boolean;
+  statementAssignmentMax = StatementAssignmentConfig.statementAssignmentMax;
   private readonly FILTER_DEBOUNCE_TIME = 400;
 
   constructor(
