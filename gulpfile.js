@@ -29,7 +29,8 @@ const argv = require('yargs').options({
 gulp.task('purgecss', () => {
   return gulp.src(`./dist/apps/${argv.app}/styles.*.css`)
     .pipe(purgecss({
-      content: [`./dist/apps/${argv.app}/**/*.js`]
+      content: [`./dist/apps/${argv.app}/**/*.js`],
+      whitelistPatterns: [/^modal/, /^col/, /^control-type/, /-font-size$/, /-font-size$/, /^text/, /action-item/, /-clear-item$/]
     }))
     .pipe(gulp.dest(`./dist/apps/${argv.app}/`))
 })
