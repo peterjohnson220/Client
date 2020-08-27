@@ -55,19 +55,28 @@
   <pf-grid-context [enableReturnBtn]="false" [metadata]="metaData$ | async"></pf-grid-context>
 </ng-template>
 
-<ng-template #gridRowActionsTemplate let-dataRow="dataRow">
-  <fa-icon [icon]="['far', 'trash-alt']" title="Remove" *ngIf="metaData.IsCurrent"
-           [attr.data-qa-id]="'btn-model-grid-remove-range-' + dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']"
-           [pfSecuredResource]="permissions.STRUCTURES_ADD_EDIT_DELETE"
-           (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
-  <fa-icon [icon]="['far', 'trash-alt']" title="Remove" *ngIf="!metaData.IsCurrent"
-           [attr.data-qa-id]="'btn-model-grid-remove-range-' + dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']"
-           [pfSecuredResource]="permissions.STRUCTURES_CREATE_EDIT_MODEL"
-           (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID']); $event.stopPropagation()" class="pr-2" [fixedWidth]="true"></fa-icon>
+<ng-template #gridRowActionsTemplate let-dataRow="dataRow" let-rowIndex="rowIndex">
+  <div [pfSecuredResource]="metaData.IsCurrent? permissions.STRUCTURES_ADD_EDIT_DELETE : permissions.STRUCTURES_CREATE_EDIT_MODEL"
+       ngbDropdown container="body" #p="ngbDropdown" (openChange)="handleSelectedRowAction(p)">
+    <fa-icon
+      ngbDropdownToggle
+      icon="ellipsis-h"
+      role="button">
+    </fa-icon>
+    <div ngbDropdownMenu>
+      <button ngbDropdownItem (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID'])">
+        Delete Job
+      </button>
+      <button *ngIf="modifiedKeys != null && modifiedKeys.includes(dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID)"
+              ngbDropdownItem (click)="revertChanges(dataRow, rowIndex)">
+        Revert Changes
+      </button>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #mid let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
-  <ng-container *ngIf="!!dataRow.CompanyStructures_Ranges_Mid; else noValue">
+  <ng-container>
     <pf-range-field-editor
       [pageViewId]="modelPageViewId"
       [rangeGroupType]="rangeGroupType"
@@ -90,7 +99,7 @@
 </ng-template>
 
 <ng-template #rangeField let-dataRow="dataRow" let-fieldName="fieldName" let-rowIndex="rowIndex">
-  <ng-container *ngIf="!!dataRow[fieldName]; else noValue">
+  <ng-container>
     <pf-range-field-editor
       [pageViewId]="modelPageViewId"
       [rangeGroupType]="rangeGroupType"
@@ -155,7 +164,8 @@
     [metadata]="metaData$ | async"
     (addJobsClicked)="handleAddJobsClicked()"
     (modelSettingsClicked)="handleModelSettingsClicked()"
-    (publishModelClicked)="handlePublishModelClicked()">
+    (publishModelClicked)="handlePublishModelClicked()"
+    (duplicateModelClicked)="handleDuplicateModelClicked()">
   </pf-global-actions>
 </ng-template>
 

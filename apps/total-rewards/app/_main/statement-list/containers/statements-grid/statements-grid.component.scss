@@ -12,3 +12,14 @@
 .total-rewards-statements-grid ::ng-deep.clickable-row:hover {
   cursor: pointer;
 }
+
+:host ::ng-deep .k-grid-norecords {
+  background-color: white !important;
+}
+
+.img-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -13,6 +13,7 @@ export class TemplateSectionComponent implements OnChanges {
 
     @Input() section: TemplateSection;
     @Input() readOnly: boolean;
+    @Input() loadingSummary: boolean;
     @Input() templateSettings: TemplateSettings;
     @Input() editingTemplateSettings: boolean;
     @Input() controlTypesLoaded = false;

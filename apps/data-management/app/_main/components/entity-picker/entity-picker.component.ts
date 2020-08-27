@@ -9,6 +9,7 @@ import { EntityChoice } from '../../models';
 })
 export class EntityPickerComponent {
   @Input() entities: EntityChoice[];
+  @Input() disableTooltip: boolean;
 
   constructor() { }
 

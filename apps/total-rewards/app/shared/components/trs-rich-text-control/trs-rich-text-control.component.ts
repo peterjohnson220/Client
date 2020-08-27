@@ -115,25 +115,22 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   ngOnInit() {
     this.title = this.controlData.Title.Default;
     this.htmlContent = this.controlData.Content;
-
-    this.onContentChangedSubscription = this.onContentChangedSubject.pipe(
-      debounceTime(500),
-      distinctUntilChanged()
-    ).subscribe((update: UpdateStringPropertyRequest)  => {
-      if (this.mode === StatementModeEnum.Edit) {
-        this.onContentChange.emit(update);
-      }
-    });
+    this.setupContentChangedSubscription();
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
     if (changes.mode) {
       this.bindEmployeeData();
     }
   }
 
   ngOnDestroy() {
-    this.onContentChangedSubscription.unsubscribe();
+    if (this.onContentChangedSubscription) {
+      this.onContentChangedSubscription.unsubscribe();
+    }
   }
 
   onTitleChanged(newTitle: string) {
@@ -156,9 +153,16 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     // get a handle to quill and the quill mention container that holds the data fields
     this.quillApi = quill;
     this.quillMentionContainer = quill.getModule('mention').mentionContainer;
+
+    if (this.mode === StatementModeEnum.Print && this.employeeRewardsData) {
+      this.bindEmployeeData();
+    }
   }
 
   onContentChanged(quillContentChange: any) {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
     // get dom node references to the container around the quill content and the content nodes (p tags)
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
     const contentNodes = this.richTextNode.querySelectorAll('.ql-editor p, .ql-editor li') as NodeListOf<HTMLElement>;
@@ -184,6 +188,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onSelectionChanged(quillSelectionChange: any) {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
     if (quillSelectionChange.oldRange === null) {
       this.isFocused = true;
     }
@@ -233,13 +240,16 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   formatDataFieldValue(value: any): string {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const dateValue = new Date(value);
 
-    if (typeof value === 'string') {
+    if ( typeof value === 'string' && isNaN(dateValue.getTime()) ) {
       return value;
-    } else if (typeof value === 'number') {
+    } else if ( typeof value === 'number' ) {
       return value.toString();
-    } else if (value && typeof value === 'object' && typeof value.getMonth === 'function') {
+    } else if ( value && typeof value === 'object' && typeof value.getMonth === 'function' ) {
       return months[value.getMonth()] + ' ' + value.getDate() + ' ' + value.getFullYear();
+    } else if ( value && isFinite(dateValue.getTime()) ) {
+      return months[dateValue.getMonth()] + ' ' + dateValue.getDate() + ' ' + dateValue.getFullYear();
     }
 
     // if not a string, number or date, unclear how to format, so return empty string
@@ -262,5 +272,19 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
       return;
     }
     this.isFocused = false;
+  }
+
+  setupContentChangedSubscription(): void {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
+    this.onContentChangedSubscription = this.onContentChangedSubject.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe((update: UpdateStringPropertyRequest) => {
+      if (this.mode === StatementModeEnum.Edit) {
+        this.onContentChange.emit(update);
+      }
+    });
   }
 }

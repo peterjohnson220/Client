@@ -5,7 +5,9 @@ import { CompanyAdminNavigationLinkResponse, SiteAdminNavigationLinkResponse } f
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NavigationApiService {
   private endpoint = 'Navigation';
 

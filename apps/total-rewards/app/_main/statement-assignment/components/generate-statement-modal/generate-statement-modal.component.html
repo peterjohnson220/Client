@@ -9,7 +9,15 @@
   (onSubmit)="onGenerateStatements()"
   (onDismiss)="onCancel()">
   <ng-container basic-content>
-    <p>Generate {{ statement?.StatementName }} for <strong>{{ selectedCompanyEmployeeIds.length }} employee{{ (selectedCompanyEmployeeIds.length > 1) ? 's' : '' }}</strong>? 
-      To proceed, click Generate below.</p>
+    <pf-async-container 
+      [loading]="false"
+      [loadingError]="sendingGenerateRequestError"
+      [loadingErrorMessage]="'Error Generating Statements'"
+      [hideReloadButton]="true">
+      <p>
+        Generate {{ statement?.StatementName }} for <strong>{{ companyEmployeeIdsTotal }} employee{{ (companyEmployeeIdsTotal > 1) ? 's' : '' }}</strong>? 
+        To proceed, click Generate below.
+      </p>
+    </pf-async-container>
   </ng-container>
 </pf-modal-form>

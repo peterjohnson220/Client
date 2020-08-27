@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { ControlType } from 'libs/models/common';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
@@ -27,6 +27,28 @@ export function reducer(state = initialState, action: fromControlTypes.ControlTy
       };
     }
     case fromControlTypes.LOAD_CONTROL_TYPES_SUCCESS: {
+      const controlTypeAsyncClone = cloneDeep(state.controlTypesAsync);
+
+      controlTypeAsyncClone.loading = false;
+      controlTypeAsyncClone.obj = action.payload;
+
+      return {
+        ...state,
+        controlTypesAsync: controlTypeAsyncClone
+      };
+    }
+    case fromControlTypes.LOAD_HISTORICAL_CONTROL_TYPES: {
+      const controlTypeAsyncClone = cloneDeep(state.controlTypesAsync);
+
+      controlTypeAsyncClone.loading = true;
+      controlTypeAsyncClone.loadingError = false;
+
+      return {
+        ...state,
+        controlTypesAsync: controlTypeAsyncClone
+      };
+    }
+    case fromControlTypes.LOAD_HISTORICAL_CONTROL_TYPES_SUCCESS: {
       const controlTypeAsyncClone = cloneDeep(state.controlTypesAsync);
 
       controlTypeAsyncClone.loading = false;

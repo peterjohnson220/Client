@@ -196,7 +196,7 @@ export class ExchangeScopeEffects {
             FeatureAreaConstants.PeerManageScopes,
             UiPersistenceSettingConstants.PeerDefaultExchangeScopes,
             request.ExchangeScopeDetails.ExchangeId,
-            exchangeScopeItem.Id
+            exchangeScopeItem.ExchangeScopeGuid
           );
         }
         return [

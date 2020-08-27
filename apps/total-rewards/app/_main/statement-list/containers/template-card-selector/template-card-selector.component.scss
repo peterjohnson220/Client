@@ -10,7 +10,7 @@ li {
   width: $max-card-width;
   transition: box-shadow 0.3s ease-in-out;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.01), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
-  
+
   a {
       display: block;
       text-decoration: none;
@@ -27,4 +27,16 @@ li {
 
 li:hover {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.06), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
+}
+
+.preview-container {
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+
+.grey-border {
+  border-top: 2.5rem solid #D0D1D3;
+  border-bottom: 2.5rem solid #D0D1D3;
+  border-left: 4rem solid #D0D1D3;
+  border-right: 4rem solid #D0D1D3;
 }

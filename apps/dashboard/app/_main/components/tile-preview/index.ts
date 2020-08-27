@@ -6,3 +6,4 @@ export * from './list';
 export * from './place-holder';
 export * from './basic-list';
 export * from './peer';
+export * from './total-rewards';

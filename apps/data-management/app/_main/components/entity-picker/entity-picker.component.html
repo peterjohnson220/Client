@@ -4,6 +4,7 @@
                [DisplayText]="entity.DisplayText"
                [ToolTip]="entity.ToolTip"
                (valueChange)="entity.isChecked = $event"
-               [QADataId]="entity.FileBeginsWith">
+               [QADataId]="entity.FileBeginsWith"
+               [isDisabled]="disableTooltip">
   </pf-checkbox>
 </div>

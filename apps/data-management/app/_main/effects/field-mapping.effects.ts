@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router} from '@angular/router';
 
-import { isEmpty, isObject, cloneDeep } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
+import cloneDeep from 'lodash/cloneDeep';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of, forkJoin } from 'rxjs';

@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { QuickPriceType } from 'libs/constants';
 

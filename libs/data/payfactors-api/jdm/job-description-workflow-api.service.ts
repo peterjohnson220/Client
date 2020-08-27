@@ -3,7 +3,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { WorkflowUser } from 'libs/features/job-description-management/models';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class JobDescriptionWorkflowApiService {
   private apiUrl = 'Workflow';
 
@@ -45,4 +47,3 @@ export class JobDescriptionWorkflowApiService {
   }
 
 }
-

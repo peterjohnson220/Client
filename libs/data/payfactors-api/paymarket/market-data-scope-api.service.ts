@@ -7,7 +7,9 @@ import { GroupedListItem } from 'libs/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MarketDataScopeApiService {
   private endpoint = 'MarketDataScope';
 

@@ -2,7 +2,7 @@ import { Component, ViewChild, Input, OnInit, Output, EventEmitter, OnChanges } 
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { TemplateSection } from 'libs/models';
 

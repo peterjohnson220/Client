@@ -17,7 +17,9 @@ import { GenericMenuItem } from 'libs/models/common';
 import { ExchangeJobsSearchParams } from 'apps/peer/app/_manage/models/exchange-jobs-search-params.model';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExchangeCompanyApiService {
   private endpoint = 'ExchangeCompany';
 

@@ -1,6 +1,9 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import { delay, isNumber, isObject, isEmpty } from 'lodash';
+import delay from 'lodash/delay';
+import isNumber from 'lodash/isNumber';
+import isObject from 'lodash/isObject';
+import isEmpty from 'lodash/isEmpty';
 import { Store } from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {filter, take, takeUntil} from 'rxjs/operators';

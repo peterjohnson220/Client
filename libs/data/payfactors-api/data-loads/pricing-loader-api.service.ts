@@ -6,7 +6,9 @@ import { SavePricingLoaderConfigRequest } from 'libs/models/data-loads';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PricingLoaderApiService {
   private endpoint = 'PricingLoader';
 

@@ -1,5 +1,6 @@
 import { SurveySearchResultDataSources } from 'libs/constants';
 import {
+  ExchangeJobDailyNatAvgOrg50thDetails,
   PFJobMatches,
   PricingMatchesRequest,
   PricingMatchesResponse,
@@ -11,16 +12,25 @@ import { JobResult } from '../models';
 export function applyMatchesToJobResults(jobResults: JobResult[], pricingMatches: PricingMatchesResponse): JobResult[] {
   const surveyJobsMatches: SurveyJobsMatches[] = pricingMatches.SurveyJobsMatches;
   const pfJobsMatches: PFJobMatches[] = pricingMatches.PFJobsMatches;
+  const exchangeJobNatAvgOrg50thDetails: ExchangeJobDailyNatAvgOrg50thDetails[] = pricingMatches.ExchangeJobDailyNatAvgOrg50thDetails;
   jobResults.map((jobResult: JobResult) => {
     if (jobResult.DataSource === SurveySearchResultDataSources.Payfactors) {
       const pfJobMatches: PFJobMatches = pfJobsMatches.find(m => m.JobCode === jobResult.Code);
       if (!!pfJobMatches) {
         jobResult.Matches = pfJobMatches.Matches;
       }
-    } else {
+    } else if (jobResult.DataSource === SurveySearchResultDataSources.Surveys) {
       const surveyJobMatches: SurveyJobsMatches = surveyJobsMatches.find(m => m.SurveyJobId === jobResult.Id);
       if (!!surveyJobMatches) {
         jobResult.Matches = surveyJobMatches.Matches;
+      }
+    } else if (jobResult.DataSource === SurveySearchResultDataSources.Peer && !!exchangeJobNatAvgOrg50thDetails && exchangeJobNatAvgOrg50thDetails.length) {
+      const exchangeJobAverages: ExchangeJobDailyNatAvgOrg50thDetails = exchangeJobNatAvgOrg50thDetails.find(
+        m => m.ExchangeJobId === jobResult.PeerJobInfo.ExchangeJobId);
+      if (!!exchangeJobAverages && !!jobResult.PeerJobInfo) {
+        jobResult.PeerJobInfo.NatAvgBase50th = exchangeJobAverages.Base50th;
+        jobResult.PeerJobInfo.NatAvgTCC50th = exchangeJobAverages.TCC50th;
+        jobResult.PeerJobInfo.NatAvgOrgs = exchangeJobAverages.Orgs;
       }
     }
     return jobResult;
@@ -28,20 +38,25 @@ export function applyMatchesToJobResults(jobResults: JobResult[], pricingMatches
   return jobResults;
 }
 
-export function createPricingMatchesRequest(jobResults: JobResult[], lastJobResultIndex: number): PricingMatchesRequest {
+export function createPricingMatchesRequest(jobResults: JobResult[], lastJobResultIndex: number, countryCode: string): PricingMatchesRequest {
   const latestResults: JobResult[] = jobResults.slice(lastJobResultIndex, jobResults.length);
-  const jobIds: number[] = [];
+  const surveyJobIds: number[] = [];
+  const exchangeJobIds: number[] = [];
   const jobCodes: string[] = [];
   latestResults.forEach((jobResult: JobResult) => {
     if (jobResult.DataSource === SurveySearchResultDataSources.Payfactors) {
       jobCodes.push(jobResult.Code);
     } else if (jobResult.DataSource === SurveySearchResultDataSources.Surveys) {
-      jobIds.push(jobResult.Id);
+      surveyJobIds.push(jobResult.Id);
+    } else if (jobResult.DataSource === SurveySearchResultDataSources.Peer) {
+      exchangeJobIds.push(jobResult.PeerJobInfo.ExchangeJobId);
     }
   });
   const pricingMatchesRequest: PricingMatchesRequest = {
-    SurveyJobIds: jobIds,
-    PFJobCodes: jobCodes
+    CountryCode: countryCode,
+    SurveyJobIds: surveyJobIds,
+    PFJobCodes: jobCodes,
+    ExchangeJobIds: exchangeJobIds
   };
   return pricingMatchesRequest;
 }

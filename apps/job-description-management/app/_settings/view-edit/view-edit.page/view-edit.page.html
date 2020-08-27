@@ -27,7 +27,11 @@
                 <pf-view-editor
                   [templateView]="templateView"
                   (addHiddenElementId)="handleHiddenElementIdAdded($event)"
-                  (removeHiddenElementId)="handleHiddenElementIdRemoved($event)">
+                  (removeHiddenElementId)="handleHiddenElementIdRemoved($event)"
+                  (addHiddenControlNameElementId)="handleHiddenControlNameElementIdAdded($event)"
+                  (removeHiddenControlNameElementId)="handleHiddenControlNameElementIdRemoved($event)"
+                  (addHiddenSectionSubheadingElementId)="handleHiddenSectionSubheadingElementIdAdded($event)"
+                  (removeHiddenSectionSubheadingElementId)="handleHiddenSectionSubheadingElementIdRemoved($event)">
                 </pf-view-editor>
               </div>
             </ng-container>

@@ -28,18 +28,13 @@
 
           <ngb-tab id="Statements" title="Statements">
             <ng-template ngbTabContent >
-              <div class="h-100" *ngIf="(statementsTotal$ | async) > 0 || (statementsLoading$ | async) ||
-                              (statementsLoadingError$ | async); else doNotShowGrid">
-                <pf-statements-grid></pf-statements-grid>
+              <div class="h-100">
+                <pf-statements-grid
+                  [displayNoStatementsCreatedImage]="(focusedTab$ | async) !== 'Statements' ||
+                                  (!(statementsTotal$ | async) && !(statementsSearchTerm$ | async))"
+                  (createNewStatementClicked)="onCreateNewClicked()">
+                </pf-statements-grid>
               </div>
-              <ng-template #doNotShowGrid>
-                <pf-no-records-found-call-to-action 
-                  [headerText]="'No Total Rewards Statements'"
-                  [preLinkText]="'Create a'"
-                  [linkText]="'new Total Rewards Statement'"
-                  (callToActionClick)="onCreateNewClicked()">
-                </pf-no-records-found-call-to-action>
-              </ng-template>
             </ng-template>
           </ngb-tab>
 

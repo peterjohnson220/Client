@@ -215,6 +215,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
+  mode="0"
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
@@ -222,7 +223,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2"
+    class="trs-calculation container py-2 edit-mode"
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -254,9 +255,33 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
                 <span
                   class="wrapper w-100 d-inline-block"
                 >
-                  <span>
-                    
-                  </span>
+                  <input
+                    class="input-text w-100 offScreen"
+                    maxlength="30"
+                    minlength="1"
+                    placeholder=""
+                    tabindex="-1"
+                    type="text"
+                  />
+                  
+                  <a
+                    class="editable d-flex show-icon-on-hover"
+                    href="javascript:void(0)"
+                  >
+                    <span
+                      class="edit-text d-inline-block mw-100"
+                    >
+                      
+                    </span>
+                    <span
+                      class="edit-icon position-relative"
+                    >
+                      <fa-icon
+                        aria-hidden="true"
+                        class="fa-xs ml-2"
+                      />
+                    </span>
+                  </a>
                 </span>
                 
               </pf-string-editor>
@@ -293,9 +318,33 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
               <span
                 class="wrapper w-100 d-inline-block"
               >
-                <span>
-                  test summary
-                </span>
+                <input
+                  class="input-text w-100 offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  placeholder="test summary"
+                  tabindex="-1"
+                  type="text"
+                />
+                
+                <a
+                  class="editable d-flex show-icon-on-hover"
+                  href="javascript:void(0)"
+                >
+                  <span
+                    class="edit-text d-inline-block mw-100"
+                  >
+                    test summary
+                  </span>
+                  <span
+                    class="edit-icon position-relative"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </a>
               </span>
               
             </pf-string-editor>
@@ -310,6 +359,35 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
       </tbody>
     </table>
     
+    
+    <div
+      class="d-inline-block"
+      ngbdropdown=""
+    >
+      <button
+        class="btn btn-sm btn-outline-primary add-button"
+        ngbdropdowntoggle=""
+        title="Add Field"
+      >
+        <fa-icon
+          class="fa-sm"
+        />
+      </button>
+      <div
+        class="w-auto"
+        ngbdropdownmenu=""
+      >
+        
+        <div>
+          <a
+            class="add-comp-field-item"
+            ngbdropdownitem=""
+          >
+            
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </pf-trs-calculation-control>
 `;
@@ -709,6 +787,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
+  mode="0"
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
@@ -716,7 +795,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2"
+    class="trs-calculation container py-2 edit-mode"
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -748,9 +827,33 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
                 <span
                   class="wrapper w-100 d-inline-block"
                 >
-                  <span>
-                    
-                  </span>
+                  <input
+                    class="input-text w-100 offScreen"
+                    maxlength="30"
+                    minlength="1"
+                    placeholder=""
+                    tabindex="-1"
+                    type="text"
+                  />
+                  
+                  <a
+                    class="editable d-flex show-icon-on-hover"
+                    href="javascript:void(0)"
+                  >
+                    <span
+                      class="edit-text d-inline-block mw-100"
+                    >
+                      
+                    </span>
+                    <span
+                      class="edit-icon position-relative"
+                    >
+                      <fa-icon
+                        aria-hidden="true"
+                        class="fa-xs ml-2"
+                      />
+                    </span>
+                  </a>
                 </span>
                 
               </pf-string-editor>
@@ -780,9 +883,33 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
               <span
                 class="wrapper w-100 d-inline-block"
               >
-                <span>
-                  test summary
-                </span>
+                <input
+                  class="input-text w-100 offScreen"
+                  maxlength="30"
+                  minlength="1"
+                  placeholder="test summary"
+                  tabindex="-1"
+                  type="text"
+                />
+                
+                <a
+                  class="editable d-flex show-icon-on-hover"
+                  href="javascript:void(0)"
+                >
+                  <span
+                    class="edit-text d-inline-block mw-100"
+                  >
+                    test summary
+                  </span>
+                  <span
+                    class="edit-icon position-relative"
+                  >
+                    <fa-icon
+                      aria-hidden="true"
+                      class="fa-xs ml-2"
+                    />
+                  </span>
+                </a>
               </span>
               
             </pf-string-editor>
@@ -1136,6 +1263,8 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
+  employeeRewardsData={[Function Object]}
+  mode={[Function Number]}
   onCompFieldAdded={[Function EventEmitter]}
   onCompFieldRemoved={[Function EventEmitter]}
   onCompFieldTitleChange={[Function EventEmitter]}
@@ -1143,7 +1272,7 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
   onUpdateSummaryTitleChange={[Function EventEmitter]}
 >
   <div
-    class="trs-calculation container py-2"
+    class="trs-calculation container py-2 preview-mode"
   >
     <table
       class="table table-borderless table-sm mb-0 w-100"
@@ -1199,6 +1328,13 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
         <tr
           class="trs-calculation-row w-100"
         >
+          
+          
+          
+        </tr>
+        <tr
+          class="trs-calculation-row w-100"
+        >
           <td
             class="summary text-left"
           >
@@ -1215,9 +1351,9 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
             </pf-string-editor>
           </td>
           <td
-            class="contribution-field summary text-right"
+            class="contribution-field summary text-right preview-mode-animation"
           >
-             $---,--- 
+             0 
           </td>
           <td />
         </tr>

@@ -6,7 +6,9 @@ import { TableauReportResponse, TableauReportViewsResponse } from 'libs/models/p
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TableauReportApiService {
   private endpoint = 'TableauReport';
 

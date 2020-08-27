@@ -1,4 +1,5 @@
-import { cloneDeep, orderBy } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 
 import { Comment } from 'libs/features/comment-box/models';
 

@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CompositeFieldResponse } from '../../../models/payfactors-api';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CompositeFieldApiService {
   private readonly endpoint = 'CompositeField';
 

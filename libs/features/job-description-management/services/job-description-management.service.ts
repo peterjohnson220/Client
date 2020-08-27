@@ -41,6 +41,10 @@ export class JobDescriptionManagementService {
     this.store.dispatch(new fromControlTypesActions.LoadControlTypes());
   }
 
+  getHistoricalControlTypes() {
+    this.store.dispatch(new fromControlTypesActions.LoadHistoricalControlTypes());
+  }
+
   getJobFamilies() {
     this.store.dispatch(new fromJobFamilyActions.LoadJobFamilies());
   }

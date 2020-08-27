@@ -12,6 +12,9 @@ import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/servic
 import { ExchangeExplorerMapComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer-map';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
+import * as fromLibsExchangeExplorerContextInfoActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer-context-info.actions';
+import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
+import * as fromLibsExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers';
 
@@ -54,6 +57,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
   untaggedIncumbentCount: number;
   isPayMarketOverride: boolean;
   cutGuid: string;
+  userJobMatchId: number;
   requestPeerAccessMessage = `Thank you for your interest in Peer. Peer allows you to market price with unmatched
   granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
   will reach out to get you started with Peer.`;
@@ -121,6 +125,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
       CompanyPayMarketId: this.companyPayMarketId,
       IsPayMarketOverride: this.isPayMarketOverride,
       UserSessionId: this.userSessionId,
+      UserJobMatchId: this.userJobMatchId,
       ZoomLevel: this.map ? this.map.getZoomLevel() : 0
     }));
   }
@@ -163,6 +168,17 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
       window.setTimeout(() => {
         this.store.dispatch(new fromUpsertDataCutPageActions.PageInViewInIframe());
       }, 100);
+
+      return;
+    }
+
+    if (ev.data && ev.data.type === fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT && !!ev.data.body) {
+      this.store.dispatch(new fromLibsExchangeExplorerContextInfoActions.LoadContextInfo({...ev.data.body, companyPayMarketId: this.companyPayMarketId}));
+      return;
+    }
+
+    if (ev.data === 'peer-exchange-tab-inactivated') {
+      this.store.dispatch(new fromLibsExchangeExplorerActions.ResetInitiallyLoadedExchangeExplorerState());
     }
   }
 
@@ -181,6 +197,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
     this.isPayMarketOverride = queryParamMap.get('isPayMarketOverride') === 'true';
     this.cutGuid = queryParamMap.get('dataCutGuid') || null;
+    this.userJobMatchId = +queryParamMap.get('userJobMatchId') || 0;
 
 
     const setContextMessage: MessageEvent = {

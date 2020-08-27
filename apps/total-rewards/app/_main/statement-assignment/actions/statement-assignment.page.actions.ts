@@ -31,6 +31,14 @@ export const UNASSIGN_EMPLOYEES = '[Total Rewards/Statement Assignment] Unassign
 export const UNASSIGN_EMPLOYEES_SUCCESS = '[Total Rewards/Statement Assignment] Unassign Employees Success';
 export const UNASSIGN_EMPLOYEES_ERROR = '[Total Rewards/Statement Assignment] Unassign Employees Error';
 
+export const START_EXPORT_ASSIGNED_EMPLOYEES = '[Total Rewards/Statement Assignment] Start Export Assigned Employees';
+export const START_EXPORT_ASSIGNED_EMPLOYEES_SUCCESS = '[Total Rewards/Statement Assignment] Start Export Assigned Employees Success';
+export const START_EXPORT_ASSIGNED_EMPLOYEES_ERROR = '[Total Rewards/Statement Assignment] Start Export Assigned Employees Error';
+export const EXPORT_ASSIGNED_EMPLOYEES_COMPLETE = '[Total Rewards/Statement Assignment] Export Assigned Employees Complete';
+export const GET_EXPORTING_ASSIGNED_EMPLOYEES = '[Total Rewards/Statement Assignment] Get Exporting Assigned Employees';
+export const GET_EXPORTING_ASSIGNED_EMPLOYEES_SUCCESS = '[Total Rewards/Statement Assignment] Get Exporting Assigned Employees Success';
+export const GET_EXPORTING_ASSIGNED_EMPLOYEES_ERROR = '[Total Rewards/Statement Assignment] Get Exporting Assigned Employees Error';
+
 export class ResetState implements Action {
   readonly type = RESET_STATE;
 }
@@ -113,6 +121,48 @@ export class UnassignEmployeesError implements Action {
   readonly type = UNASSIGN_EMPLOYEES_ERROR;
 }
 
+export class ExportAssignedEmployees implements Action {
+  readonly type = START_EXPORT_ASSIGNED_EMPLOYEES;
+
+  constructor() {}
+}
+
+export class ExportAssignedEmployeesSuccess implements Action {
+  readonly type = START_EXPORT_ASSIGNED_EMPLOYEES_SUCCESS;
+
+  constructor(public payload: string) {}
+}
+
+export class ExportAssignedEmployeesError implements Action {
+  readonly type = START_EXPORT_ASSIGNED_EMPLOYEES_ERROR;
+
+  constructor() {}
+}
+
+export class ExportAssignedEmployeesComplete implements Action {
+  readonly type = EXPORT_ASSIGNED_EMPLOYEES_COMPLETE;
+
+  constructor() {}
+}
+
+export class GetExportingAssignedEmployee implements Action {
+  readonly type = GET_EXPORTING_ASSIGNED_EMPLOYEES;
+
+  constructor() {}
+}
+
+export class GetExportingAssignedEmployeeSuccess implements Action {
+  readonly type = GET_EXPORTING_ASSIGNED_EMPLOYEES_SUCCESS;
+
+  constructor(public payload: string) {}
+}
+
+export class GetExportingAssignedEmployeeError implements Action {
+  readonly type = GET_EXPORTING_ASSIGNED_EMPLOYEES_ERROR;
+
+  constructor() {}
+}
+
 export type StatementAssignmentPageActions =
   ResetState |
   LoadStatement |
@@ -133,4 +183,11 @@ export type StatementAssignmentPageActions =
   UnassignEmployees |
   UnassignEmployeesSuccess |
   UnassignEmployeesError |
-  OpenSingleEmployeeUnassignModal;
+  OpenSingleEmployeeUnassignModal |
+  ExportAssignedEmployees |
+  ExportAssignedEmployeesError |
+  ExportAssignedEmployeesSuccess |
+  ExportAssignedEmployeesComplete |
+  GetExportingAssignedEmployee |
+  GetExportingAssignedEmployeeSuccess |
+  GetExportingAssignedEmployeeError;

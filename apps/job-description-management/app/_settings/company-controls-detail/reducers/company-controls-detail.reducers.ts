@@ -1,5 +1,5 @@
 import { ControlType } from 'libs/models';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { CompanyControlEditableInfo, generateDefaultCompanyControlEditableInfo } from '../../shared/models';
 import * as fromCompanyControlActions from '../actions';
 

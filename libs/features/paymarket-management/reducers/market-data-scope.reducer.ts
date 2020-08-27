@@ -1,4 +1,5 @@
-import { orderBy, cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { GroupedListItem } from 'libs/models/list';

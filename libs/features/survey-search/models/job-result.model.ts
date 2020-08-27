@@ -18,6 +18,9 @@ export interface PeerJobInfo {
   Id: string;
   ExchangeId: number;
   ExchangeJobId: number;
+  NatAvgOrgs: number;
+  NatAvgBase50th: number;
+  NatAvgTCC50th: number;
 }
 
 export interface JobResult extends BaseJobInfo {

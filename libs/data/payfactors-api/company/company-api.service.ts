@@ -18,7 +18,9 @@ import {Company, CompanyBaseInformation} from 'libs/models/company/company.model
 import {SubsidiaryInfo} from 'libs/models/subsidiary';
 import {EntityDescriptionTypeEnum} from 'libs/models/entity-description/entity-description-type.enum';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CompanyApiService {
   private endpoint = 'Company';
 

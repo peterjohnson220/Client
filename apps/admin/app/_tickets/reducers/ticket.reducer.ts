@@ -1,5 +1,5 @@
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromTicketActions from '../actions/ticket.actions';
 import { UserTicketItem, UserTicketTabItem } from '../models';

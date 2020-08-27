@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { ControlTypeAttribute } from 'libs/models/common';
 
@@ -335,8 +335,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     const parsedContent = $('#parsedContent');
 
     // For each top level list item in the quill content
-    const quillItems = $('#quillContent li');
-    for (const quillItem of quillItems) {
+    $('#quillContent li').each((i, quillItem) => {
       const listItem = $(quillItem);
 
       // Use a regex to get the indent level from quill.
@@ -368,18 +367,18 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
       }
 
       currentListLevel = listItemIndentLevel;
-    }
+    });
 
     // Based on the way this is stored in mongo, we need to store this in a slightly different format from what we generated in the dom:
     // dataVals[0]: Parent List Item 1<ul><li>Child Item</li></ul>
     // dataVals[1]: Parent List Item 2<ol><li>Child Item</li></ol>
     const dataVals = [];
-    for (const listItem of parsedContent.children().children()) {
+    parsedContent.children().children().each((i, listItem) => {
       const listItemHtml = $(listItem).html();
       if (listItemHtml.length > 0 && listItemHtml !== '<br>') {
         dataVals.push(listItemHtml);
       }
-    }
+    });
 
     // If we parsed any content, find the first top level list tag and store that in the additional properties.
     if (parsedContent.children().length > 0 && dataVals.length > 0) {

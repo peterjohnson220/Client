@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, OnDestroy, AfterViewInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
@@ -95,6 +95,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
   private controlTypesLatest$: Observable<ControlType[]>;
   private templateSettings$: Observable<TemplateSettings>;
   private company$: Observable<CompanyDto>;
+  public getLoadingSummary$: Observable<boolean>;
 
   private templateSectionCheckSubscription: Subscription;
   private templateSaveSubscription: Subscription;
@@ -132,6 +133,8 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
     private templateService: TemplateService,
     private route: ActivatedRoute,
     private router: Router) {
+
+      this.getLoadingSummary$ = this.store.select(fromTemplateReducers.getLoadingSummary);
       this.template$ = this.store.select(fromTemplateReducers.getTemplate);
       this.templateLoading$ = this.store.select(fromTemplateReducers.getTemplateLoading);
       this.templateError$ = this.store.select(fromTemplateReducers.getTemplateError);
@@ -341,7 +344,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   handleControlDataRowAdded(addDataRowObj: any) {
     this.store.dispatch(new fromTemplateActions.AddDataRowToControl({
-      templateControl: addDataRowObj.control, dataRow: this.jobDescriptionManagementService.createDataRow([addDataRowObj.attributes])}));
+      templateControl: addDataRowObj.control, dataRow: this.jobDescriptionManagementService.createDataRow(addDataRowObj.attributes)}));
 
     if (addDataRowObj.save) {
         this.saveThrottle.next(true);

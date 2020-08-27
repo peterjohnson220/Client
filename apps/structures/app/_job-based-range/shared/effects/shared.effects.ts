@@ -8,12 +8,18 @@ import { switchMap, map, mergeMap, catchError, withLatestFrom } from 'rxjs/opera
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
+import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import { RangeGroupMetadata } from '../models';
 import * as fromSharedReducer from '../reducers';
 import { PagesHelper } from '../helpers/pages.helper';
+
 
 @Injectable()
 export class SharedEffects {
@@ -41,26 +47,27 @@ export class SharedEffects {
       ));
 
   @Effect()
-  removeRange$: Observable<Action> = this.actions$.pipe(
-    ofType(fromSharedActions.REMOVING_RANGE),
-    withLatestFrom(this.store.pipe(select(fromSharedReducer.getMetadata)),
-      (action: fromSharedActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata) => {
-        return { action, metadata };
-      }
-    ),
-    switchMap((data: any) => {
-      const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
-      return this.structureModelingApiService.removeRange(data.action.payload).pipe(
-        mergeMap(() =>
-          [
-            new fromSharedActions.RemovingRangeSuccess(),
-            new pfDataGridActions.ClearSelections(modelPageViewId, [data.action.payload]),
-            new pfDataGridActions.LoadData(modelPageViewId),
-          ]),
-        catchError(error => of(new fromSharedActions.RemovingRangeError(error)))
-      );
-    })
-  );
+  removeRange$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.REMOVING_RANGE),
+      withLatestFrom(this.store.pipe(select(fromSharedReducer.getMetadata)),
+        (action: fromSharedActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata) => {
+          return { action, metadata };
+        }
+      ),
+      switchMap((data: any) => {
+        const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+        return this.structureModelingApiService.removeRange(data.action.payload).pipe(
+          mergeMap(() =>
+            [
+              new fromSharedActions.RemovingRangeSuccess(),
+              new pfDataGridActions.ClearSelections(modelPageViewId, [data.action.payload]),
+              new pfDataGridActions.LoadData(modelPageViewId),
+            ]),
+          catchError(error => of(new fromSharedActions.RemovingRangeError(error)))
+        );
+      })
+    );
 
   @Effect()
   getOverriddenRanges: Observable<Action> = this.actions$
@@ -80,10 +87,96 @@ export class SharedEffects {
       )
     );
 
+  @Effect()
+  revertingChangesRange$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.REVERTING_RANGE_CHANGES),
+      switchMap(
+        (action: fromSharedActions.RevertingRangeChanges) =>
+          this.structureModelingApiService.revertRangeChanges(PayfactorsApiModelMapper.mapRevertingRangeChangesToRevertRangeChangesRequest(
+            action.payload.rangeId,
+            action.payload.rangeGroupId,
+            action.payload.roundingSettings))
+            .pipe(
+              mergeMap(() => {
+                const actions = [];
+
+                actions.push(new fromPfDataGridActions.DeleteModifiedKey(action.payload.pageViewId, action.payload.rangeId));
+                actions.push(new fromSharedActions.RevertingRangeChangesSuccess({
+                  pageViewId: action.payload.pageViewId,
+                  refreshRowDataViewFilter: action.payload.refreshRowDataViewFilter,
+                  rowIndex: action.payload.rowIndex
+                }));
+
+                return actions;
+              }),
+              catchError((error) => {
+                const actions = [];
+
+                actions.push(new fromSharedActions.RevertingRangeChangesError(error));
+                actions.push(new fromNotificationActions.AddNotification({
+                  EnableHtml: true,
+                  From: NotificationSource.GenericNotificationMessage,
+                  Level: NotificationLevel.Error,
+                  NotificationId: '',
+                  Payload: { Title: 'Error', Message: `Unable to revert changes` },
+                  Type: NotificationType.Event
+                }));
+
+                return actions;
+              })
+            )
+      ));
+
+  @Effect()
+  revertingChangesRangeSuccess$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.REVERTING_RANGE_CHANGES_SUCCESS),
+      mergeMap((action: fromSharedActions.RevertingRangeChangesSuccess) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getFields, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, action.payload.pageViewId)),
+            (a: fromSharedActions.RevertingRangeChangesSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
+              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters }))
+        )
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
+          data.baseEntity.Id,
+          data.fields,
+          [...DataGridToDataViewsHelper.mapFieldsToFiltersUseValuesProperty(data.fields), data.a.payload.refreshRowDataViewFilter],
+          { From: 0, Count: 1 },
+          data.sortDescriptor,
+          false,
+          false
+        )).pipe(
+          mergeMap((response) => {
+            const actions = [];
+
+            actions.push(new fromPfDataGridActions.UpdateRow(data.a.payload.pageViewId, data.a.payload.rowIndex, response[0]));
+            actions.push(new fromNotificationActions.AddNotification({
+              EnableHtml: true,
+              From: NotificationSource.GenericNotificationMessage,
+              Level: NotificationLevel.Success,
+              NotificationId: '',
+              Payload: { Title: 'Job range data has been reverted back', Message: `Job range data has been reverted back to the original calculation` },
+              Type: NotificationType.Event
+            }));
+
+            return actions;
+          })
+        );
+      }));
+
   constructor(
     private actions$: Actions,
     private store: Store<fromSharedReducer.State>,
-    private structureModelingApiService: StructureModelingApiService
+    private structureModelingApiService: StructureModelingApiService,
+    private dataViewApiService: DataViewApiService
   ) {
   }
 }

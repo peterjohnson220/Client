@@ -12,7 +12,9 @@ import { BaseUrlLocation } from '../../models/payfactors-api/common/base-url-loc
 import * as fromRootState from '../../state/state';
 import { UserContext } from '../../models/security';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PayfactorsApiService implements OnDestroy {
 
   userContext$: Observable<UserContext>;

@@ -5,8 +5,9 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import * as cloneDeep from 'lodash.clonedeep';
-import { difference, isEqual } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import difference from 'lodash/difference';
+import isEqual from 'lodash/isEqual';
 
 import { OrgDataEntityType } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';

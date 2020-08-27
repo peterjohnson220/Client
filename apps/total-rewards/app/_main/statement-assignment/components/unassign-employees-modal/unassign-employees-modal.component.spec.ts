@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { CompanyEmployee } from 'libs/models/company';
+import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api';
 
 import { UnassignEmployeesModalComponent } from './unassign-employees-modal.component';
 
@@ -33,7 +33,7 @@ describe('UnassignEmployeesModalComponent', () => {
     component.singleEmployee = {
       FirstName: 'John',
       LastName: 'Smith'
-    } as CompanyEmployee;
+    } as TotalRewardAssignedEmployee;
 
     // act
     fixture.detectChanges();

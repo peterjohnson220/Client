@@ -1,17 +1,17 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import {
+  CalculationControl,
+  DeleteImageRequest,
+  EmployeeRewardsData,
+  SaveImageRequest,
   Statement,
+  StatementModeEnum,
   TotalRewardsControlEnum,
   UpdateFieldOverrideNameRequest,
   UpdateFieldVisibilityRequest,
   UpdateStringPropertyRequest,
-  UpdateTitleRequest,
-  EmployeeRewardsData,
-  StatementModeEnum,
-  CalculationControl,
-  SaveImageRequest,
-  DeleteImageRequest
+  UpdateTitleRequest
 } from '../../models';
 
 @Component({
@@ -66,7 +66,7 @@ export class TotalRewardsStatementComponent {
     return '';
   }
 
-  get calculationControls(): CalculationControl[] {
+  get visibleCalculationControls(): CalculationControl[] {
     if (!this.statement) {
       return [];
     }
@@ -74,10 +74,16 @@ export class TotalRewardsStatementComponent {
     const calcControls = [];
     this.statement.Pages.forEach(p => p.Sections.forEach(s => s.Columns.forEach(c => c.Controls.forEach(control => {
       if (control.ControlType === TotalRewardsControlEnum.Calculation) {
-        calcControls.push(control);
+        const currentControl = control as CalculationControl;
+        if (this.mode === StatementModeEnum.Edit) {
+          calcControls.push(control);
+        } else if (currentControl.DataFields.some(f =>
+          this.employeeRewardsData[ f.DatabaseField ] !== null && f.IsVisible
+        )) {
+          calcControls.push(control);
+        }
       }
     }))));
-
     return calcControls;
   }
 

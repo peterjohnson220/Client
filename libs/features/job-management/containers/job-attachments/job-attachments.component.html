@@ -23,7 +23,7 @@
   <div class="px-3">
     <div *ngFor="let attachment of attachments" class="row no-gutters pb-3 justify-content-between">
       <div class="flex-fill">
-        <a href="/odata/CloudFiles.DownloadJobAttachment?FileName={{attachment.Filename}}">
+        <a href="/odata/CloudFiles.DownloadJobAttachment?FileName={{formatFileName(attachment.Filename)}}">
           {{attachment.DisplayName}}
         </a>
       </div>

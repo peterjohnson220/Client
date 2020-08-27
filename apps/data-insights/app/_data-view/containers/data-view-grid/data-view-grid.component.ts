@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { FieldFormatType } from 'libs/models/payfactors-api/reports';

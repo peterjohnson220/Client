@@ -19,6 +19,7 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() templateControl: TemplateControl;
     @Input() readOnly: boolean;
+    @Input() loadingSummary: boolean;
     @Input() templateSettings: TemplateSettings;
     @Input() editingTemplateSettings: boolean;
     @Input() controlTypesLoaded: boolean;
@@ -54,7 +55,7 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
         this.dataRowAdded.emit(
             {
                 control: this.templateControl,
-                attributes: this.controlType.Attributes[0],
+                attributes: this.controlType.Attributes,
                 save: triggerSave
             });
     }
@@ -115,9 +116,11 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
 
           this.watchForControlDataChanges();
 
-          if (!this.templateControl.Data.length && this.controlType.EditorType !== 'SmartList') {
-            this.addDataRow(false);
-          }
+          setTimeout(() => {
+            if (!this.templateControl.Data.length && this.controlType.EditorType !== 'SmartList') {
+              this.addDataRow(false);
+            }
+          }, 0);
 
         }
       });
@@ -159,11 +162,14 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
             this.hideBody = true;
         }
 
-        if (changes.readOnly) {
-            if (!this.templateControl.Data.length && this.controlType.EditorType !== 'SmartList') {
-                this.addDataRow(false);
-            }
-        }
+      if ((changes.readOnly && changes.readOnly?.currentValue === true) || (changes.loadingSummary &&
+        changes.loadingSummary?.currentValue === false && changes.loadingSummary?.previousValue === true)) {
+        setTimeout(() => {
+          if (!this.templateControl.Data.length && this.controlType.EditorType !== 'SmartList') {
+            this.addDataRow(false);
+          }
+        }, 0);
+      }
     }
     // Private Methods
     private watchForControlDataChanges() {

@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { ComboBoxComponent, DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { IntlService } from '@progress/kendo-angular-intl';
 
 import * as fromRootState from 'libs/state/state';

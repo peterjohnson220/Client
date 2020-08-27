@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { ListAreaColumn } from 'libs/models/common';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionGridActions from '../../../actions/job-description-grid.actions';

@@ -14,7 +14,7 @@
                           Exceeds {{templateSectionName.errors.maxlength.requiredLength}} characters: 
                           {{templateSectionName.errors.maxlength.actualLength}}
                       </span>
-              <input type="text" class="form-control" formControlName="templateSectionName" [autofocus]="true">
+              <input ngbAutofocus type="text" class="form-control" formControlName="templateSectionName">
           </div>
           <div class="form-group" [class.has-danger]="!templateSectionSubHeading.valid">
               <label for="template-name" class="control-label">Subheading:</label>

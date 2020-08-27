@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 
 import { RangeGroupMetadata } from '../models';
 
@@ -18,6 +19,9 @@ export const UPDATE_ROUNDING_POINTS = '[Structures - Job Based Range - Shared] U
 export const GET_OVERRIDDEN_RANGES = '[Structures - Job Based Range - Shared] Get Overridden Ranges';
 export const GET_OVERRIDDEN_RANGES_SUCCESS = '[Structures - Job Based Range - Shared] Get Overridden Ranges Success';
 export const GET_OVERRIDDEN_RANGES_ERROR = '[Structures - Job Based Range - Shared] Get Overridden Ranges Error';
+export const REVERTING_RANGE_CHANGES = '[Structures - Job Based Range - Shared] Reverting Range Changes';
+export const REVERTING_RANGE_CHANGES_SUCCESS = '[Structures - Job Based Range - Shared] Reverting Range Changes Success';
+export const REVERTING_RANGE_CHANGES_ERROR = '[Structures - Job Based Range - Shared] Reverting Range Changes Error';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -34,43 +38,49 @@ export class RecalculateRangesWithoutMid implements Action {
 export class UpdateRoundingType implements Action {
   readonly type = UPDATE_ROUNDING_TYPE;
 
-  constructor(public payload: { RoundingSetting: string; RoundingType: RoundingTypes } ) {}
+  constructor(public payload: { RoundingSetting: string; RoundingType: RoundingTypes }) {}
 }
 
 export class UpdateRoundingPoint implements Action {
   readonly type = UPDATE_ROUNDING_POINT;
 
-  constructor(public payload: { RoundingSetting: string; RoundingPoint: number } ) {}
+  constructor(public payload: { RoundingSetting: string; RoundingPoint: number }) {}
 }
 
 export class ShowRemoveRangeModal implements Action {
   readonly type = SHOW_REMOVE_RANGE_MODAL;
+
   constructor() {}
 }
 
 export class RemovingRange implements Action {
   readonly type = REMOVING_RANGE;
+
   constructor(public payload: { StructuresRangeId: number; IsCurrent: boolean; }) {}
 }
 
 export class RemovingRangeSuccess implements Action {
   readonly type = REMOVING_RANGE_SUCCESS;
+
   constructor() {}
 }
 
 export class RemovingRangeError implements Action {
   readonly type = REMOVING_RANGE_ERROR;
+
   constructor(public error: any) {}
 }
 
 export class ResetRoundingSetting implements Action {
   readonly type = RESET_ROUNDING_SETTING;
+
   constructor() {}
 }
 
 export class UpdateRoundingPoints implements Action {
   readonly type = UPDATE_ROUNDING_POINTS;
-  constructor(public payload: { RoundingPoint: number } ) {}
+
+  constructor(public payload: { RoundingPoint: number }) {}
 }
 
 export class GetOverriddenRanges implements Action {
@@ -89,6 +99,31 @@ export class GetOverriddenRangesError implements Action {
   constructor(public error: any) {}
 }
 
+export class RevertingRangeChanges implements Action {
+  readonly type = REVERTING_RANGE_CHANGES;
+
+  constructor(public payload: {
+    pageViewId: string,
+    rangeId: number,
+    rangeGroupId: number,
+    rowIndex: number
+    roundingSettings: RoundingSettingsDataObj,
+    refreshRowDataViewFilter: DataViewFilter
+  }) {}
+}
+
+export class RevertingRangeChangesSuccess implements Action {
+  readonly type = REVERTING_RANGE_CHANGES_SUCCESS;
+
+  constructor(public payload: { pageViewId: string, refreshRowDataViewFilter: DataViewFilter, rowIndex: number }) {}
+}
+
+export class RevertingRangeChangesError implements Action {
+  readonly type = REVERTING_RANGE_CHANGES_ERROR;
+
+  constructor(public error: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -103,4 +138,7 @@ export type SharedActions
   | UpdateRoundingPoints
   | GetOverriddenRanges
   | GetOverriddenRangesSuccess
-  | GetOverriddenRangesError;
+  | GetOverriddenRangesError
+  | RevertingRangeChanges
+  | RevertingRangeChangesSuccess
+  | RevertingRangeChangesError;

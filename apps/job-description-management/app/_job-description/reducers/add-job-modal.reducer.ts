@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { CompanyJob } from 'libs/models/company';
 import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';

@@ -8,7 +8,7 @@
               </button>
               <button *ngIf="editingTemplateSettings && section.SubHeading && !sectionSetting?.ShowSubHeadingOnExport" class="btn btn-sm btn-secondary text-danger" (click)="showOnExport()">
                 <fa-icon icon="eye-slash" aria-hidden="true"></fa-icon> Subheading
-              </button>   
+              </button>
               <label class="btn btn-sm btn-secondary" (click)="toggleBody()">
                   <span *ngIf="hideBody"><fa-icon icon="caret-down" aria-hidden="true"></fa-icon></span>
                   <span *ngIf="!hideBody"><fa-icon icon="caret-up" aria-hidden="true"></fa-icon></span>
@@ -24,9 +24,10 @@
   <div class="card-block" [hidden]="hideBody">
     <div class="section-control-container" dragula="control-bag" [class.has-no-controls]="!section.Controls.length" [attr.data-section-id]="section.Id">
           <div class="section-control" [id]="control.Id" [attr.data-control-id]="control.Id" [attr.data-index]="i" *ngFor="let control of section.Controls; trackBy: trackByFn let i = index">
-              <pf-template-control 
+              <pf-template-control
                   [templateControl]="control"
                   [readOnly]="readOnly"
+                  [loadingSummary]="loadingSummary"
                   [templateSettings]="templateSettings"
                   [editingTemplateSettings]="editingTemplateSettings"
                   [controlTypesLoaded]="controlTypesLoaded"

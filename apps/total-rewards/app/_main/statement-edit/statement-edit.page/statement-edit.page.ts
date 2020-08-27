@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 
@@ -117,7 +117,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   // FOOTER METHODS
   handleAssignEmployeesClick() {
-    this.router.navigate(['statement/edit/' + this.statementId + '/assignments'], { queryParams: { openModal: 1 } } ).then();
+    this.router.navigate(['statement/edit/' + this.statementId + '/assignments']).then();
   }
 
   handleBackToStatementsClick() {

@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 
-import { CompanyEmployee } from 'libs/models/company';
+import { GetAssignedEmployeesResponse, TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-rewards';
 
 export const RESET = '[Total Rewards/Assigned Employees Grid] Reset';
 
@@ -17,6 +16,8 @@ export const CLOSE_ACTION_MENU = '[Total Rewards/Assigned Employees Grid] Close 
 export const CLEAR_SELECTIONS = '[Total Rewards/Assigned Employees Grid] Clear Selections';
 export const SELECT_ALL = '[Total Rewards/Assigned Employees Grid] Select All';
 
+export const UPDATE_EMPLOYEE_SEARCH_TERM = '[Total Rewards/Assigned Employees Grid] Update Employee Search Term';
+
 export class Reset implements Action {
   readonly type = RESET;
 }
@@ -28,7 +29,7 @@ export class LoadAssignedEmployees implements Action {
 
 export class LoadAssignedEmployeesSuccess implements Action {
   readonly type = LOAD_ASSIGNED_EMPLOYEES_SUCCESS;
-  constructor(public payload: GridDataResult) {}
+  constructor(public payload: GetAssignedEmployeesResponse) {}
 }
 
 export class LoadAssignedEmployeesError implements Action {
@@ -43,7 +44,7 @@ export class ToggleEmployeeSelection implements Action {
 export class OpenActionMenu implements Action {
   readonly type = OPEN_ACTION_MENU;
 
-  constructor(public payload: CompanyEmployee) {}
+  constructor(public payload: TotalRewardAssignedEmployee) {}
 }
 
 export class CloseActionMenu implements Action {
@@ -58,6 +59,12 @@ export class SelectAll implements Action {
   readonly type = SELECT_ALL;
 }
 
+export class UpdateEmployeeSearchTerm implements Action {
+  readonly type = UPDATE_EMPLOYEE_SEARCH_TERM;
+
+  constructor(public payload: { searchTerm: string, gridState: State }) {}
+}
+
 export type AssignedEmployeesGridActions =
   Reset |
   LoadAssignedEmployees |
@@ -67,4 +74,5 @@ export type AssignedEmployeesGridActions =
   OpenActionMenu |
   CloseActionMenu |
   ClearSelections |
-  SelectAll;
+  SelectAll |
+  UpdateEmployeeSearchTerm;

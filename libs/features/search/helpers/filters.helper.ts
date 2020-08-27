@@ -1,4 +1,4 @@
-import * as isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isEqual';
 
 import {
   Filter,

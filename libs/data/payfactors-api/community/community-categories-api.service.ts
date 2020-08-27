@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunityCategory } from 'libs/models/community';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CommunityCategoriesApiService {
   private endpoint = 'CommunityCategories';
 

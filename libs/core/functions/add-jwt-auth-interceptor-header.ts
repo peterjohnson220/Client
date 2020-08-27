@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { isObject } from 'lodash';
+import isObject from 'lodash/isObject';
 import { UseJwtInterceptor } from 'libs/constants';
 
 export function addJwtAuthInterceptorHeader(options: any = {}): any {

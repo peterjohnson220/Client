@@ -77,6 +77,19 @@ export class ExchangeExplorerEffects {
       })
     );
 
+  @Effect()
+  resetInitiallyLoadedExplorerState$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromExchangeExplorerActions.RESET_INITIALLY_LOADED_EXCHANGE_EXPLORER_STATE),
+      concatMap(() => {
+        return [
+          new fromExchangeExplorerMapActions.ResetInitiallyLoadedState(),
+          new fromExchangeFilterContextActions.ResetInitiallyLoadedState(),
+          new fromExchangeExplorerContextInfoActions.ResetInitiallyLoadedState()
+        ];
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromExchangeExplorerReducers.State>,

@@ -7,7 +7,9 @@ import { ExchangeExplorerDataCutResponse, ExchangeExplorerScopeResponse } from '
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExchangeDataFilterApiService {
   private endpoint = 'ExchangeDataFilter';
 

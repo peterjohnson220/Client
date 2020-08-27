@@ -1,4 +1,4 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ElementRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Store } from '@ngrx/store';
@@ -39,7 +39,10 @@ describe('Features - Structures - Midpoint Editor', () => {
 
     fixture = TestBed.createComponent(RangeFieldEditorComponent);
     instance = fixture.componentInstance;
+
     store = TestBed.inject(MockStore);
+
+    instance.rangeFieldElement = new ElementRef<any>(null);
   });
 
   it('should not be editable when the user does not have the correct permissions', () => {

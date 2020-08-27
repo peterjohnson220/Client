@@ -8,7 +8,9 @@ import { TermsConditionsModel } from '../../../models/terms-conditions';
 import { TermsConditionsSubmissionModel } from '../../../models/terms-conditions';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TermsConditionsApiService {
   private endpoint = 'TC';
 

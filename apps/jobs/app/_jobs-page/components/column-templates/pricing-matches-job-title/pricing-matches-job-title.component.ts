@@ -11,7 +11,7 @@ import { ofType } from '@ngrx/effects';
 
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { ViewField } from 'libs/models/payfactors-api';
 import { AsyncStateObj } from 'libs/models';

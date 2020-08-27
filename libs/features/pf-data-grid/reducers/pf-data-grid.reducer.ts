@@ -1,4 +1,9 @@
-import { cloneDeep, orderBy, uniq, uniqBy, isNumber } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
+import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
+import isNumber from 'lodash/isNumber';
+
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
@@ -152,8 +157,6 @@ export const getFilterPanelOpen = (state: DataGridStoreState, pageViewId: string
 export const getModifiedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].modifiedKeys : null;
 
 
-
-
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
     case fromPfGridActions.LOAD_VIEW_CONFIG:
@@ -178,8 +181,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             splitViewFilters: [],
             selectedKeys:
               (state.grids[action.pageViewId] && state.grids[action.pageViewId].preserveSelectionsOnGetConfig && state.grids[action.pageViewId].selectedKeys)
-                  ? state.grids[action.pageViewId].selectedKeys
-                  : []
+                ? state.grids[action.pageViewId].selectedKeys
+                : []
           }
         }
       };
@@ -621,7 +624,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const dataItemInActiveCollection = newSelectedData.find(d => d[dataPrimaryKey] === action.payload);
       const selectedDataIndex = newSelectedData.indexOf(dataItemInActiveCollection);
 
-      selectedDataIndex > - 1 ? newSelectedData.splice(selectedDataIndex, 1) : newSelectedData.push(selectedDataItem);
+      selectedDataIndex > -1 ? newSelectedData.splice(selectedDataIndex, 1) : newSelectedData.push(selectedDataItem);
 
 
       if (newSelectedKeys && (newSelectedKeys.length === grid.data.total || newSelectedKeys.length === grid.pagingOptions.Count)) {
@@ -928,7 +931,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           });
         }
 
-
         // replace the original row with the updated row
         gridData.data[action.rowIndex] = rowToUpdate;
 
@@ -949,9 +951,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         };
       } else {
         // no data found, just return
-          return {
-            ...state
-          };
+        return {
+          ...state
+        };
       }
     case fromPfGridActions.UPDATE_MODIFIED_KEYS:
       return {
@@ -976,6 +978,21 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             modifiedKeys: [...state.grids[action.pageViewId].modifiedKeys, action.payload]
+          }
+        }
+      };
+    case fromPfGridActions.DELETE_MODIFIED_KEY:
+      if (!state.grids[action.pageViewId].modifiedKeys.includes(action.payload)) {
+        return state;
+      }
+
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            modifiedKeys: state.grids[action.pageViewId].modifiedKeys.filter((modifiedKey => modifiedKey !== action.payload))
           }
         }
       };
@@ -1143,7 +1160,7 @@ export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
 export function reorderFieldsColumnGroup(groupedFields: any[], oldIndex: number, newIndex: number, level: number): ViewField[] {
   const groupedFilteredFields =
     orderBy(groupedFields.filter(f => f.DataElementId !== undefined && f.IsSelectable && f.IsSelected ||
-                                      f.Fields !== undefined && f.HasSelection), 'Order');
+      f.Fields !== undefined && f.HasSelection), 'Order');
 
   // Each level has it's own indices
   if (level === 0) {
@@ -1235,7 +1252,7 @@ export function getViewFieldsFromGroupedFields(groupedFields: any[], isSelectedO
     // Fields at level 0
     if (groupedField.DataElementId !== undefined) {
       if (isSelectedOnly && groupedField.IsSelectable && groupedField.IsSelected ||
-            !isSelectedOnly && (!groupedField.IsSelectable || !groupedField.IsSelected)) {
+        !isSelectedOnly && (!groupedField.IsSelectable || !groupedField.IsSelected)) {
         result.push(groupedField);
       }
     }
@@ -1245,7 +1262,7 @@ export function getViewFieldsFromGroupedFields(groupedFields: any[], isSelectedO
       groupedField.Fields.forEach(function (field) {
         if (field.DataElementId !== undefined) {
           if (isSelectedOnly && field.IsSelectable && field.IsSelected ||
-                !isSelectedOnly && (!field.IsSelectable || !field.IsSelected)) {
+            !isSelectedOnly && (!field.IsSelectable || !field.IsSelected)) {
             result.push(field);
           }
         }

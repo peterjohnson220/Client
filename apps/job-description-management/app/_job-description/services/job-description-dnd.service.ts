@@ -18,6 +18,7 @@ export class JobDescriptionDnDService {
   }
 
   initJobDescriptionPageDnD(dropCompleteCallbackFn: any) {
+    this.dragulaService.destroy('library-bag');
     this.dragulaService.createGroup('library-bag', {
       accepts: function (el, target) {
         return target.className.includes('dnd-library-accept');

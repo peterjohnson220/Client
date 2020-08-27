@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { fill, isEmpty } from 'lodash';
+import fill from 'lodash/fill';
+import isEmpty from 'lodash/isEmpty';
+
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, skip } from 'rxjs/operators';

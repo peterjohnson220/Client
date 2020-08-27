@@ -5,6 +5,7 @@ export interface UpsertDataCutRequest {
   DataCutGuid: string;
   CompanyJobId: number | null;
   UserSessionId: number | null;
+  UserJobMatchId: number | null;
   CompanyPayMarketId: number;
   IsPayMarketOverride: boolean;
   Filter: BaseExchangeDataSearchRequest;
@@ -18,6 +19,7 @@ export function generateMockUpsertDataCutRequest(): UpsertDataCutRequest {
     DataCutGuid: 'MockGUID',
     CompanyJobId: null,
     UserSessionId: null,
+    UserJobMatchId: 0,
     CompanyPayMarketId: 1,
     IsPayMarketOverride: false,
     Filter: {} as BaseExchangeDataSearchRequest,

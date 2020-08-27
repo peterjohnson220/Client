@@ -46,6 +46,10 @@
     <pf-tile-preview-peer *ngSwitchCase="tilePreviewType.Peer"
                    [model]="previewModel">
     </pf-tile-preview-peer>
+
+    <pf-tile-preview-total-rewards *ngSwitchCase="tilePreviewType.TotalRewards"
+                  [model]="previewModel">
+    </pf-tile-preview-total-rewards>
   </div>
 
   <div #makretingTileOverlay *ngIf="tile.MarketingEnabled"

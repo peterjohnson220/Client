@@ -7,7 +7,9 @@ import { CompanyResources, CompanyResourceFolderPost } from 'apps/resources/app/
 
 const endpoint = 'CompanyResources';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CompanyResourcesApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) {}

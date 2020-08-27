@@ -180,6 +180,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   handleModalDismiss() {
     this.store.dispatch(new fromModelSettingsModalActions.Cancel());
     this.store.dispatch(new fromModelSettingsModalActions.CloseModal());
+    this.clearModelNameExistsFailure();
     this.reset();
   }
 

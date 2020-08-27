@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromCompanyFlsaStatusActions from 'libs/features/job-description-management/actions/company-flsa-status.actions';
 

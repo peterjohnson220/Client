@@ -8,7 +8,7 @@ import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromViewEditActions from '../actions/view-edit.actions';
 import * as fromViewEditReducer from '../reducers';
-import { ControlViewToggleObj } from '../models';
+import { ElementViewToggleObj } from '../models';
 
 @Component({
   selector: 'pf-view-edit-page',
@@ -38,12 +38,28 @@ export class ViewEditPageComponent implements OnDestroy {
     this.store.dispatch(new fromViewEditActions.SaveTemplateViews());
   }
 
-  handleHiddenElementIdAdded(controlViewToggleObj: ControlViewToggleObj) {
-    this.store.dispatch(new fromViewEditActions.AddHiddenElementId(controlViewToggleObj));
+  handleHiddenElementIdAdded(elementViewToggleObj: ElementViewToggleObj) {
+    this.store.dispatch(new fromViewEditActions.AddHiddenElementId(elementViewToggleObj));
   }
 
-  handleHiddenElementIdRemoved(controlViewToggleObj: ControlViewToggleObj) {
-    this.store.dispatch(new fromViewEditActions.RemoveHiddenElementId(controlViewToggleObj));
+  handleHiddenElementIdRemoved(elementViewToggleObj: ElementViewToggleObj) {
+    this.store.dispatch(new fromViewEditActions.RemoveHiddenElementId(elementViewToggleObj));
+  }
+
+  handleHiddenControlNameElementIdAdded(elementViewToggleObj: ElementViewToggleObj) {
+    this.store.dispatch(new fromViewEditActions.AddHiddenControlNameElementId(elementViewToggleObj));
+  }
+
+  handleHiddenControlNameElementIdRemoved(elementViewToggleObj: ElementViewToggleObj) {
+    this.store.dispatch(new fromViewEditActions.RemoveHiddenControlNameElementId(elementViewToggleObj));
+  }
+
+  handleHiddenSectionSubheadingElementIdAdded(elementViewToggleObj: ElementViewToggleObj) {
+    this.store.dispatch(new fromViewEditActions.AddHiddenSectionSubheadingElementId(elementViewToggleObj));
+  }
+
+  handleHiddenSectionSubheadingElementIdRemoved(elementViewToggleObj: ElementViewToggleObj) {
+    this.store.dispatch(new fromViewEditActions.RemoveHiddenSectionSubheadingElementId(elementViewToggleObj));
   }
 
   ngOnDestroy(): void {
