@@ -3,6 +3,7 @@
 exports[`TotalRewardsStatementComponent should render a mock statement derived from template A 1`] = `
 <pf-total-rewards-statement
   controlType={[Function Object]}
+  employeeRewardsData={[Function Object]}
   onCalculationControlCompFieldAdded={[Function EventEmitter]}
   onCalculationControlCompFieldRemoved={[Function EventEmitter]}
   onCalculationControlCompFieldTitleChange={[Function EventEmitter]}
@@ -36,7 +37,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
           class="trs-column col-3"
         >
           <div
-            class="row columnRow h-100"
+            class="row columnRow"
           >
             
             <div
@@ -60,7 +61,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
           class="trs-column col-9"
         >
           <div
-            class="row columnRow h-100"
+            class="row columnRow"
           >
             
             <div
@@ -89,7 +90,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
           class="trs-column col-6"
         >
           <div
-            class="row columnRow h-100"
+            class="row columnRow"
           >
             
             <div
@@ -143,7 +144,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
           class="trs-column col-6"
         >
           <div
-            class="row columnRow h-100"
+            class="row columnRow"
           >
             
             <div

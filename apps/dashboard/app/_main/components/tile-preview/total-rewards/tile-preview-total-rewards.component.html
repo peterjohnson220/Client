@@ -1,0 +1,27 @@
+<ng-container *ngIf="model?.DetailData">
+  <div class="table-container">
+    <table class="mt-3">
+      <tr class="borderless" *ngIf="model.DetailData && model.ShowColumnHeadings">
+        <ng-container *ngFor="let dataItem of model.DetailData[0].RowData">
+          <th>
+            {{dataItem.ColumnName}}
+          </th>
+        </ng-container>
+      </tr>
+      <tr [class.borderless]="isLast" *ngFor="let data of model.DetailData; last as isLast">
+        <ng-container *ngFor="let dataItem of data.RowData">
+          <td [ngClass]="{'borderless' : isLast, 'text-center' : dataItem.TileListItemType === 'Text'}">
+            <p class="d-inline" *ngIf="dataItem.TileListItemType=='Text'">{{dataItem.Text}}</p>
+            <a class="m-0 p-0" *ngIf="dataItem.TileListItemType=='Link'" placement="top" href="{{dataItem.Url}}" title="{{dataItem.Text}}">{{dataItem.Text}}</a>
+          </td>
+        </ng-container>
+      </tr>
+    </table>
+  </div>
+  <div class="text-center mt-3">
+    <a *ngIf="model.DetailData && model.MainButtonUrl.length > 0" class="btn tile-preview-list-button p-2" [href]="model.MainButtonUrl">
+      {{model.MainButtonText}}
+    </a>
+  </div>
+</ng-container>
+

@@ -8,10 +8,10 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
   titleChange={[Function EventEmitter]}
 >
   <div
-    class="col-12 h-100 position-relative edit-mode"
+    class="col-8 h-100 position-relative text-center edit-mode"
   >
     <h2
-      class="my-auto trs-statement-title"
+      class="my-auto trs-statement-title d-inline-block mw-100"
     >
       <pf-string-editor />
     </h2>
@@ -34,7 +34,9 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
         ) 
       </span>
     </h3>
-  </div>
+  </div><div
+    class="col-4"
+  />
 </pf-trs-title-control>
 `;
 
@@ -46,10 +48,10 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
   titleChange={[Function EventEmitter]}
 >
   <div
-    class="col-12 h-100 position-relative"
+    class="col-8 h-100 position-relative text-center"
   >
     <h2
-      class="my-auto trs-statement-title"
+      class="my-auto trs-statement-title d-inline-block mw-100"
     >
       <pf-string-editor />
     </h2>
@@ -63,6 +65,8 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
       </span>
       
     </h3>
-  </div>
+  </div><div
+    class="col-4"
+  />
 </pf-trs-title-control>
 `;

@@ -7,7 +7,9 @@ import {HrisApiService} from '../hris-api.service';
 
 const UTILITIES_SUB_DOMAIN_CONFIG_NAME = 'UtilitiesSubDomain';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SyncScheduleHrisApiService {
   private endpoint = 'SyncSchedules';
 

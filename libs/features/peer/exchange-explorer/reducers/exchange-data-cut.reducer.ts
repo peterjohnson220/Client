@@ -1,4 +1,3 @@
-import { EntityState } from '@ngrx/entity';
 import * as fromExchangeDataCutActions from '../actions/exchange-data-cut.actions';
 
 // Define our feature state

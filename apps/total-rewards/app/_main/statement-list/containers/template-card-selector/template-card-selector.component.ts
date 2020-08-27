@@ -1,19 +1,20 @@
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromTotalRewardsReducer from './../../reducers';
 import * as fromTemplateSelectorActions from '../../actions/template-selector.actions';
 
-import {Template} from '../../../../shared/models';
+import { generateMockEmployeeRewardsData, generateMockStatement, Statement, StatementModeEnum, Template, TemplatePreview } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-total-rewards-template-card-selector',
   templateUrl: './template-card-selector.component.html',
   styleUrls: ['./template-card-selector.component.scss']
 })
-export class TemplateCardSelectorComponent implements OnInit {
+export class TemplateCardSelectorComponent implements OnInit, OnDestroy {
   @Input() autoLoad = false;
   @Output() onSelectClick = new EventEmitter<string>();
 
@@ -22,6 +23,16 @@ export class TemplateCardSelectorComponent implements OnInit {
   loadingError$: Observable<boolean>;
   creatingStatement$: Observable<boolean>;
   creatingStatementError$: Observable<boolean>;
+
+  showPreviewModal = new BehaviorSubject<boolean>(false);
+  showPreviewModal$ = this.showPreviewModal.asObservable();
+  templatePreview: TemplatePreview;
+  templates: Template[];
+  statementModeEnum = StatementModeEnum;
+  mockStatement: Statement;
+  mockData = generateMockEmployeeRewardsData();
+
+  templateSub: Subscription;
 
   constructor(private store: Store<fromTotalRewardsReducer.State>) {}
 
@@ -34,6 +45,11 @@ export class TemplateCardSelectorComponent implements OnInit {
     if (this.autoLoad) {
       this.store.dispatch(new fromTemplateSelectorActions.LoadTemplates());
     }
+    this.templateSub = this.templates$.subscribe(template => this.templates = template);
+  }
+
+  ngOnDestroy(): void {
+    this.templateSub.unsubscribe();
   }
 
   reload(): void {
@@ -44,8 +60,23 @@ export class TemplateCardSelectorComponent implements OnInit {
     this.onSelectClick.emit(templateId);
   }
 
-  onPreview(templateId: string) {
-    alert('Preview Button Clicked for id:' + templateId);
+  onPreview(templateId: string, templateName: string) {
+    const matchingTemplate = this.templates.find(t => t.id === templateId);
+    if (matchingTemplate) {
+      this.mockStatement = {...generateMockStatement(), Pages : matchingTemplate.Pages};
+    } else {
+      return;
+    }
+    this.showPreviewModal.next(true);
+    this.templatePreview = {
+      Id: templateId,
+      Name: templateName
+    };
+  }
+
+  closePreviewModal() {
+    this.showPreviewModal.next(false);
+    this.templatePreview = null;
   }
 
 }

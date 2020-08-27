@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 
-import { isObject } from 'lodash';
+import isObject from 'lodash/isObject';
 
 import { ConfigurationGroup } from 'libs/models/data-loads';
 import { FileUploadComponent } from 'libs/features/org-data-loader/components/file-upload/';

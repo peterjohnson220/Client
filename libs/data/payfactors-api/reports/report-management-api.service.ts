@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { ReportDetailsResponse, UpdatePayfactorsReportDetailsRequest } from '../../../models/payfactors-api/reports';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ReportManagementApiService {
   private endpoint = 'ReportManagement';
 

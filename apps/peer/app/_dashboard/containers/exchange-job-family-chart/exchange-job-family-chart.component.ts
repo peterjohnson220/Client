@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { GetDetailChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
 

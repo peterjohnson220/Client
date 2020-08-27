@@ -8,7 +8,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RolesApiService {
   private endpoint = 'Role';
 

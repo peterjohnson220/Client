@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { isObject } from 'lodash';
+import isObject from 'lodash/isObject';
 import { asapScheduler, Observable, Subject } from 'rxjs';
 import { filter, takeUntil, map } from 'rxjs/operators';
 

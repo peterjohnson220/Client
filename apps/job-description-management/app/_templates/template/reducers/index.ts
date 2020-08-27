@@ -165,6 +165,10 @@ export const getTemplateAssigningError = createSelector(
   fromTemplateReducer.getTemplateAssigningError
 );
 
+export const getLoadingSummary = createSelector(
+  selectTemplateState,
+  fromTemplateReducer.getLoadingSummary
+);
 
 // Company Jobs with No Template
 

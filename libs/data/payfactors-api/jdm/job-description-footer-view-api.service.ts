@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { FooterViewRequest } from 'libs/models/payfactors-api';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class JobDescriptionFooterViewApiService {
     private apiUrl = 'JobDescriptionFooterView';
 

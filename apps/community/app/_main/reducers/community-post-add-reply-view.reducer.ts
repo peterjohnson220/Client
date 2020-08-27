@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromCommunityPostAddReplyViewActions from '../actions/community-post-add-reply-view.actions';
 

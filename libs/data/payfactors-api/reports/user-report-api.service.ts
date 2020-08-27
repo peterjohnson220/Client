@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { UpsertUserReportTag, SaveWorkbookOrderRequest, SaveReportOrderRequest } from '../../../models/payfactors-api/reports/request';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserReportApiService {
   private endpoint = 'UserReport';
 

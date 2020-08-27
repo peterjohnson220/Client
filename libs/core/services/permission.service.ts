@@ -6,7 +6,9 @@ import * as fromRootState from '../../state/state';
 import {UserContext} from '../../models/security';
 import {PermissionCheckEnum} from '../../constants';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PermissionService implements OnDestroy {
   private userContext: UserContext;
   private userContextSubscription: Subscription;

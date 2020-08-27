@@ -35,7 +35,7 @@ export class BuildRequestHelper {
     const exchangeScopeIds = [];
     exchangeScopes.forEach(es => {
       es.ExchangeScopeItems.forEach( esi => {
-        exchangeScopeIds.push(esi.Id);
+        exchangeScopeIds.push(esi.ExchangeScopeGuid);
       });
     });
     return exchangeScopeIds;

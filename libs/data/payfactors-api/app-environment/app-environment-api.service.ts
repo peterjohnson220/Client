@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { GenericKeyValue } from '../../../models/common';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppEnvironmentApiService {
   private endpoint = 'AppEnvironment';
 

@@ -9,7 +9,7 @@
   <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page mt-n4">
     <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section">
       <div *ngFor="let column of section.Columns; trackBy: trackByFn" [ngClass]="'col-' + column?.Layout?.Width" class="trs-column">
-        <div class="row columnRow h-100">
+        <div class="row columnRow">
           <div *ngFor="let control of column.Controls; trackBy: trackByFn" [ngClass]="'col-' + control?.Layout?.Width + ' control-type-' + control.ControlType">
             <div *ngIf="control.ControlType === controlType.RichTextEditor">
               <pf-trs-rich-text-control
@@ -31,7 +31,7 @@
                 class="p-1"></pf-trs-image-control>
             </div>
 
-            <div *ngIf="control.ControlType === controlType.Calculation">
+            <div *ngIf="control.ControlType === controlType.Calculation && visibleCalculationControls.includes(control)">
               <pf-trs-calculation-control
                 [controlData]="control"
                 [mode]="mode"
@@ -48,7 +48,7 @@
                 [controlData]="control"
                 [mode]="mode"
                 [employeeRewardsData]="employeeRewardsData"
-                [calculationControls]="calculationControls"
+                [calculationControls]="visibleCalculationControls"
                 [chartColors]="statement.Settings.ChartColors"
                 (onTitleChange)="handleOnControlTitleChange($event)"
                 (settingsClick)="handleChartControlSettingsClick()"
@@ -69,7 +69,7 @@
                 [mode]="mode"
                 [controlData]="control"
                 [employeeRewardsData]="employeeRewardsData"
-                [calculationControls]="calculationControls"
+                [calculationControls]="visibleCalculationControls"
                 (onTitleChange)="handleOnControlTitleChange($event)"
                 class="p-1"></pf-trs-summary-control>
             </div>

@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DataStateChangeEvent, GridDataResult, RowArgs, SelectAllCheckboxState } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { Currency, FeatureAreaConstants, GenericMenuItem, GridTypeEnum, UiPersistenceSettingConstants } from 'libs/models/common';
 import { PfValidators } from 'libs/forms/validators';
@@ -298,12 +298,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
 
     this.context.exchangeScopeItems.map(si => {
       const isSelectedScopeFromContext = !!this.context.selectedExchangeScope
-        ? this.context.selectedExchangeScope.Id === si.Id
+        ? this.context.selectedExchangeScope.ExchangeScopeGuid === si.ExchangeScopeGuid
         : false;
       const selectorOption = {
         DisplayName: si.Name,
         IsSelected: isSelectedScopeFromContext,
-        Value: si.Id
+        Value: si.ExchangeScopeGuid
       };
 
       this.scopesToExportOptions.push(selectorOption);

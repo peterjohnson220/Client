@@ -6,7 +6,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { UpdatePricingMatchRequest } from 'libs/models/payfactors-api/';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PricingApiService {
   private endpoint = 'pricing';
 

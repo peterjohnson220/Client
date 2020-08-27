@@ -6,7 +6,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 
 import { GenerateStatementsRequest } from 'apps/total-rewards/app/_main/statement-assignment/models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TotalRewardsPdfGenerationService {
   private endpoint = 'TotalRewardsPdfGeneration';
 

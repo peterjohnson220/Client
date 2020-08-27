@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 
-import {isObject, isEmpty} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
 import {Observable, Subscription} from 'rxjs';
 
 import {TransferScheduleSummary} from 'libs/models/hris-api/sync-schedule/response';

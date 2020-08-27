@@ -6,7 +6,9 @@ import { CommunityCompanySize } from 'libs/models/community/community-company-si
 import { CommunityTopic } from '../../../models/community';
 import { CommunityIndustry } from 'libs/models/community/community-industry.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CommunityFilterApiService {
   private endpoint = 'CommunityFilters';
 

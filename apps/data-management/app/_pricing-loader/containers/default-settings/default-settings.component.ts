@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges, Input, Output, 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { groupBy, GroupResult } from '@progress/kendo-data-query';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { LoaderSettingKeyName } from 'libs/models';
 

@@ -1,5 +1,6 @@
 import {
   Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked,
+
   HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges, EventEmitter, Output, TemplateRef
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -10,7 +11,8 @@ import { ofType } from '@ngrx/effects';
 
 import { isEmpty } from 'lodash';
 
-import { UpdatePricingMatchRequest, PricingUpdateStrategy } from 'libs/models/payfactors-api';
+
+import { UpdatePricingMatchRequest, PricingUpdateStrategy, ViewField } from 'libs/models/payfactors-api';
 import { AsyncStateObj } from 'libs/models';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -27,6 +29,7 @@ import { PermissionService } from 'libs/core';
   templateUrl: './pricing-matches-job-title.component.html',
   styleUrls: ['./pricing-matches-job-title.component.scss'],
 })
+
 export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
   permissions = Permissions;
   permissionCheckEnum = PermissionCheckEnum;
@@ -58,6 +61,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   weight: number;
   adjustment: number;
+  jobsGridJobStatusField: ViewField;
+  jobsGridFieldSubscription: Subscription;
 
   public isCollapsed = true;
   public isOverflow = false;
@@ -89,6 +94,11 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         this.showDeletePricingMatchModal.next(false);
       });
 
+      this.jobsGridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
+      .pipe(filter(f => !isEmpty(f)))
+      .subscribe(fields => {
+        this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
+      });
     // We need to update the pricingInfo manually because the state is not updated when the grid is updated using the UpdateGridDataRow action
     this.updateGridDataRowSubscription = this.actionsSubject
       .pipe(ofType(fromPfDataGridActions.UPDATE_GRID_DATA_ROW))

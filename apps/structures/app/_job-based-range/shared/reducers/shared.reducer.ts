@@ -1,7 +1,7 @@
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { RoundingSettingsDataObj, RoundingSetting } from 'libs/models/structures';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';

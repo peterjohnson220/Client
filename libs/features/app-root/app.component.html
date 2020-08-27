@@ -1,2 +1,5 @@
 <pf-loading-user-context></pf-loading-user-context>
 <pf-app-notifications></pf-app-notifications>
+<span class="d-none" id="dynatrace_company_id">{{(userContext$ | async)?.CompanyId}}</span>
+<span class="d-none" id="dynatrace_session_id">{{(userContext$ | async)?.SessionId}}</span>
+<span class="d-none" id="dynatrace_user_id">{{(userContext$ | async)?.UserId}}</span>

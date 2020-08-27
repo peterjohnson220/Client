@@ -8,7 +8,7 @@ import {
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { TemplateListItem } from 'libs/models/jdm';

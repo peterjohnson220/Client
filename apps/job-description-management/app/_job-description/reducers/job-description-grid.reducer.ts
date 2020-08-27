@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { State as KendoState } from '@progress/kendo-data-query';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 

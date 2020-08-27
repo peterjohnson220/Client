@@ -4,7 +4,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { CreateProjectRequest, MatchedSurveyJob } from 'libs/models/payfactors-api';
 import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class JobsApiService {
   private endpoint = 'Jobs';
   private frontEndExportEndpoint = 'Pricing';

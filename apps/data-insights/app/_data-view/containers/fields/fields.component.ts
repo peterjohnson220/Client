@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { orderBy, cloneDeep } from 'lodash';
+import orderBy from 'lodash/orderBy';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -102,7 +103,7 @@ export class FieldsComponent implements OnInit, OnDestroy {
     }));
     this.dragulaService.createGroup('fields-bag', {
       moves: function (el, container, handle) {
-        return handle.classList.contains('active-report-fields');
+        return handle.classList.contains('field-container');
       }
     });
   }

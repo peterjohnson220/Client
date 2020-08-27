@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { TagInformation, Tag } from 'libs/models/peer';
 

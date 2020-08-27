@@ -10,7 +10,9 @@ import {
 import { Template, TemplateSettings } from '../../../models/jdm';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class JobDescriptionTemplateApiService {
   private endpoint = 'JobDescriptionTemplate';
 
@@ -99,7 +101,7 @@ export class JobDescriptionTemplateApiService {
 
   discardDraft(templateId: number) {
       return this.payfactorsApiService.post(`${this.endpoint}(${templateId})/Default.DiscardDraft`, {},
-      (payload: string) => payload.length ? JSON.parse(payload) : '');
+      (payload: any) => payload.value.length ? JSON.parse(payload.value) : '');
   }
 
 

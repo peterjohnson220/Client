@@ -20,7 +20,7 @@ import { SsoConfigPageComponent } from './containers/pages/sso-config';
 import { reducers } from './reducers';
 import { SsoRoutingModule } from './sso-routing.module';
 import { SsoGridComponent } from './containers/sso-grid';
-import { AddSsoConfigModalComponent } from './containers/add-sso-config-modal';
+import { SsoConfigModalComponent } from './containers/sso-config-modal';
 
 @NgModule({
   imports: [
@@ -50,7 +50,7 @@ import { AddSsoConfigModalComponent } from './containers/add-sso-config-modal';
   declarations: [
     SsoConfigPageComponent,
     SsoGridComponent,
-    AddSsoConfigModalComponent,
+    SsoConfigModalComponent,
   ],
   providers: []
 })

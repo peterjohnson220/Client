@@ -49,7 +49,7 @@ export class TemplateEffects {
       switchMap((action: fromTemplateActions.SaveTemplateName) =>
         this.templateApiService.saveTemplateName(action.payload.templateId, action.payload.templateName).pipe(
           map((response: any) => {
-            return new fromTemplateActions.SaveTemplateNameSuccess();
+            return new fromTemplateActions.SaveTemplateNameSuccess(action.payload.templateName);
           }),
           catchError(response => of(new fromTemplateActions.SaveTemplateNameError(
             {error: this.errorGenerationService.buildErrorModel(response, 'template', this.router.url)})))
@@ -75,9 +75,7 @@ export class TemplateEffects {
     .pipe(
       ofType(fromTemplateActions.COPY_TEMPLATE_SUCCESS),
       map((action: fromTemplateActions.CopyTemplateSuccess) => {
-        this.router.navigate([`/templates/${action.payload.TemplateId}`]).then(() => {
-          window.location.reload();
-        });
+        this.router.navigate([`/templates/${action.payload.TemplateId}`]);
       })
     );
 
@@ -135,7 +133,11 @@ export class TemplateEffects {
       switchMap((action: fromTemplateActions.DiscardTemplateDraft) =>
         this.templateApiService.discardDraft(action.payload.templateId).pipe(
           map((response: any) => {
-            return new fromTemplateActions.DiscardTemplateDraftSuccess();
+            if (response === '') {
+              return new fromTemplateActions.DiscardTemplateDraftSuccess();
+            } else {
+              return new fromTemplateActions.LoadTemplate({ templateId: action.payload.templateId });
+            }
           }),
           catchError(response => of(new fromTemplateActions.DiscardTemplateDraftError(
             {errorMessage: MessageHelper.buildErrorMessage('Error discarding this draft.')})))

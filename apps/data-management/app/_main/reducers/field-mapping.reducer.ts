@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { MappingPackage } from 'libs/models/hris-api/mapping';
 

@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DataStateChangeEvent, GridDataResult, RowArgs } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { EntityTypesFlag } from 'libs/models/peer';
 import { GridTypeEnum } from 'libs/models/common';

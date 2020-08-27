@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class JobDescriptionWorkflowStepUserApiService {
   private endpoint = 'WorkflowStepUser';
 

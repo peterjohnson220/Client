@@ -8,4 +8,12 @@
   &.left {
     text-align: left;
   }
+
+  &.centerPlaceholder {
+    ::placeholder {
+      font-size: large;
+      text-align: center;
+    }
+  }
+
 }

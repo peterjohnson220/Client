@@ -4,7 +4,9 @@ import { PricingInfo } from 'libs/models/payfactors-api';
 import { Observable } from 'rxjs';
 import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PricingLegacyApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }

@@ -33,6 +33,10 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
       this.isDisabled = false;
     }
 
+    get exchangeSelectorControl(): FormControl {
+      return <FormControl>this.exchangeForm.get('exchangeSelection');
+    }
+
     onFilterChanged(value: string) {
         this.exchangeOptionsFiltered = this.allData.filter(co =>
             co.Value.toLowerCase().indexOf(value.toLowerCase()) !== -1
@@ -55,32 +59,42 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
         });
 
         this.exchangesSubscription = this.exchanges$.subscribe(data => {
-            if(!!data) {
+            if (!!data) {
               this.exchangeOptionsFiltered = data;
               this.allData = data;
               if (data.length === 1 && !isNullOrUndefined(data[0])) {
                 this.exchangeForm.get('exchangeSelection').setValue(data[0].Key);
                 this.onExchangeSelected.emit(data[0].Key);
-              }
-              else {
+              } else {
                 this.applyDefaultExchange();
               }
             }
         });
 
         this.activeExchangeSubscription = this.activeExchange$.subscribe(exchangeId => {
-            if(exchangeId) {
+            if (exchangeId) {
                 this.defaultExchangeId = exchangeId;
                 this.applyDefaultExchange();
             }
-        })
+        });
     }
 
     applyDefaultExchange(): void {
-      if(!this.selectedExchangeId && this.allData?.find(ex => ex.Key == this.defaultExchangeId)) {
+      if (!this.selectedExchangeId && this.allData?.find(ex => ex.Key === this.defaultExchangeId)) {
         this.selectedExchangeId = this.defaultExchangeId;
-        this.exchangeForm.get('exchangeSelection').setValue(this.selectedExchangeId);
+        this.exchangeSelectorControl.setValue(this.selectedExchangeId);
         this.onExchangeSelected.emit(this.selectedExchangeId);
+      }
+    }
+
+    setSelectedExchange(exchangeId: number): void {
+      if (!!exchangeId && !!this.allData?.find(ex => ex.Key === exchangeId)) {
+        this.selectedExchangeId = exchangeId;
+        this.exchangeSelectorControl.setValue(exchangeId);
+        this.onExchangeSelected.emit(this.selectedExchangeId);
+      } else {
+        this.selectedExchangeId = exchangeId;
+        this.applyDefaultExchange();
       }
     }
 

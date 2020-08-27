@@ -28,7 +28,7 @@ export function generateTilePreviewListFromTile(tile: Tile): TilePreviewList {
     MainButtonUrl: mainButtonUrl,
     ShowColumnHeadings: ShowColumnHeadings,
     DetailData: detailData,
-    PreviewType: TilePreviewTypes.List
+    PreviewType: tile.PreviewType
   };
 }
 

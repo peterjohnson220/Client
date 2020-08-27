@@ -7,12 +7,12 @@ import { CompensationFieldPipe } from '../../pipes/compensation-field-pipe';
 import {
   CalculationControl,
   CompensationField,
-  LabelWithOverride,
   generateMockCalculationControl,
   generateMockEmployeeRewardsData,
+  LabelWithOverride,
   StatementModeEnum
 } from '../../models';
-import {StringEditorComponent} from '../string-editor';
+import { StringEditorComponent } from '../string-editor';
 
 describe('TrsCalculationControlComponent', () => {
   let component: TrsCalculationControlComponent;
@@ -84,10 +84,21 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should render the supplied title', () => {
+    component.mode = StatementModeEnum.Preview;
+    component.employeeRewardsData = {
+      EmployeeBase: 65000
+    } as any;
     component.controlData = {
       Title: { Default: 'test title' } as LabelWithOverride,
       Summary: {} as LabelWithOverride,
-      DataFields: []
+      DataFields: [
+        {
+          Id: '123',
+          DatabaseField: 'EmployeeBase',
+          Name: {} as LabelWithOverride,
+          IsVisible: false
+        }
+      ] as CompensationField[]
     } as CalculationControl;
 
     fixture.detectChanges();
@@ -96,6 +107,7 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should render the supplied Summary', () => {
+    component.mode = StatementModeEnum.Edit;
     component.controlData = {
       Title: { Default: '' } as LabelWithOverride,
       Summary: { Default: 'test summary'} as LabelWithOverride,
@@ -108,6 +120,7 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should display the Add Field button if a field has been removed', () => {
+    component.mode = StatementModeEnum.Edit;
     component.controlData = {
       Title: { Default: '' } as LabelWithOverride,
       Summary: { Default: 'test summary'} as LabelWithOverride,

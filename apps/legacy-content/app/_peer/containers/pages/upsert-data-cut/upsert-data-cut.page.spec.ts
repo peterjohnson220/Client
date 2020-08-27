@@ -42,7 +42,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
   let route: ActivatedRoute;
   let guidelinesService: DojGuidelinesStub;
   const mockDataCutGUID = 'MockCutGUID';
-  const queryStringParams = { companyPayMarketId: 1, companyJobId: 2, userSessionId: 3, dataCutGuid: null };
+  const queryStringParams = { companyPayMarketId: 1, companyJobId: 2, userSessionId: 3, dataCutGuid: null, userJobMatchId: 0 };
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -148,6 +148,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
       CompanyPayMarketId: queryStringParams.companyPayMarketId,
       IsPayMarketOverride: false,
       UserSessionId: queryStringParams.userSessionId,
+      UserJobMatchId: 0,
       ZoomLevel: 0
     });
 
@@ -165,6 +166,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
       CompanyPayMarketId: queryStringParams.companyPayMarketId,
       IsPayMarketOverride: false,
       UserSessionId: queryStringParams.userSessionId,
+      UserJobMatchId: queryStringParams.userJobMatchId,
       ZoomLevel: 0
     });
 

@@ -5,6 +5,7 @@ import { AppWrapperComponent } from 'libs/features/app-root';
 import { UserContextGuard } from 'libs/security';
 import { AccessDeniedPageComponent, NotFoundErrorPageComponent, TokenExpirationPageComponent, ForbiddenPageComponent } from 'libs/ui/common/error/pages';
 import { WorkflowStepCompletionPageComponent } from './shared/components/workflow-step-completion';
+import {SsoAuthGuard} from './shared/guards';
 
 export const routes: Routes = [
   {
@@ -13,7 +14,8 @@ export const routes: Routes = [
     canActivate: [UserContextGuard],
     children: [
       { path: '', loadChildren: () => import('apps/job-description-management/app/_job-description/job-description.module')
-          .then(m => m.JobDescriptionModule) },
+          .then(m => m.JobDescriptionModule), canActivate: [SsoAuthGuard]
+      },
       {
         path: 'job-descriptions',
         loadChildren: () => import('apps/job-description-management/app/_job-description/job-description.module')

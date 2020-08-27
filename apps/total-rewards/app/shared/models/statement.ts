@@ -1,5 +1,14 @@
 import { Page } from './page';
-import { BaseControl, CalculationControl, ChartControl, ImageControl, RichTextControl, AuditRecord, Settings } from './';
+import {
+  BaseControl,
+  CalculationControl,
+  ChartControl,
+  ImageControl,
+  RichTextControl,
+  AuditRecord,
+  Settings,
+  Layout
+} from './';
 import { TotalRewardsControlEnum } from './total-rewards-control-enum';
 import { TitleControl } from './title-control';
 import { generateMockAuditRecord } from './audit-record';
@@ -29,7 +38,7 @@ export function generateMockStatement(): Statement {
     CreatedDate: new Date('December 17, 2019 03:24:00'),
     AuditRecord: generateMockAuditRecord(),
     Settings: generateMockSettings(),
-    EffectiveDate: null,
+    EffectiveDate: new Date('December 17, 2019 03:24:00'),
     Pages: [{
       Sections: [{
         Columns: [{
@@ -144,5 +153,44 @@ export function generateMockStatementWithSingleControl(controlType: TotalRewards
       } as any
     ]
   }];
+  return statement;
+}
+
+export function generateMockStatementWithSingleCalculationControl(): Statement {
+  const statement = generateMockStatement();
+  statement.Pages = [{
+    Sections: [
+      { Columns: [
+          { Layout: {} as Layout,
+            Controls: [
+              {
+                Id: '105',
+                Title: { Default: 'Cash Compensation', Override: null },
+                ControlType: TotalRewardsControlEnum.Calculation,
+                Layout: { Width: 12 },
+                Category: 'Compensation',
+                Summary: { Default: 'Total', Override: null },
+                DataFields: [
+                  { Id: '1', DatabaseField: 'EmployeeBase', Name: { Default: 'Base Salary' }, IsVisible: true},
+                  { Id: '2', DatabaseField: 'EmployeeBonus', Name: { Default: 'Bonus' }, IsVisible: true},
+                  { Id: '3', DatabaseField: 'EmployeeSTI', Name: { Default: 'Short Term Incentive' }, IsVisible: true},
+                  { Id: '4', DatabaseField: 'EmployeeLTI', Name: { Default: 'Long Term Incentive' }, IsVisible: true}
+                ],
+              } as CalculationControl
+            ]
+          }]
+      }
+    ]
+  }];
+  return statement;
+}
+
+export function generateMockStatementWithSingleCalculationControlAndNoVisibleFields(): Statement {
+  const statement = generateMockStatementWithSingleCalculationControl();
+  const calcControl = statement.Pages[0].Sections[0].Columns[0].Controls[0] as CalculationControl;
+
+  calcControl.DataFields.forEach(f => f.IsVisible = false);
+  statement.Pages[0].Sections[0].Columns[0].Controls[0] = calcControl;
+
   return statement;
 }

@@ -15,7 +15,7 @@ export interface EmployeeRewardsData {
   EmployeeFLSAStatus: string;
   EmployeeFTE: number;
   EmployeeLocation: string;
-  EmployeeManagerEmployeeID: string;
+  EmployeeManagerEmployeeId: string;
   EmployeeState: string;
   EmployeeBase: number;
   EmployeeBonus: number;
@@ -53,7 +53,7 @@ export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
     EmployeeFLSAStatus: 'Exempt',
     EmployeeFTE: 1,
     EmployeeLocation: 'Scranton',
-    EmployeeManagerEmployeeID: 'ACC123',
+    EmployeeManagerEmployeeId: 'ACC123',
     EmployeeState: 'MA',
     EmployeeBase: 150000,
     EmployeeBonus: 10000,

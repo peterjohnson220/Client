@@ -258,6 +258,23 @@ export function reducer(
         submittingError: true
       };
     }
+    case communityPostActions.UPDATING_COMMUNITY_POST_FAVORITE_SUCCESS: {
+      const postId = action.payload[ 'postId' ];
+      const favorite = action.payload[ 'favorite' ];
+
+      return {
+        ...adapter.updateOne(
+          { id: postId, changes: { FavoritedByCurrentUser: favorite } },
+          state)
+      };
+    }
+    case communityPostActions.UPDATING_COMMUNITY_POST_FAVORITE_ERROR: {
+      return {
+        ...state,
+        submittingError: true
+      };
+    }
+
     case communityPostActions.UPDATING_COMMUNITY_POST_REPLY_IDS: {
       const postId = action.payload[ 'postId' ];
       const replyIds = action.payload[ 'replyIds' ];

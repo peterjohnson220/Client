@@ -1,16 +1,30 @@
-<div ngbDropdown class="d-inline-block float-right ml-1"
-     *ngIf="(isCurrentUserPost || isUserAdmin()) && !hidePostActions">
+<div ngbDropdown *ngIf="!hideUserAcionsMenu" class="d-inline-block float-right ml-1">
   <button class="btn m-0 p-1"
           data-qa-id="ddm-communityPostActions"
           ngbDropdownToggle><span>...</span></button>
   <div ngbDropdownMenu>
-    <button *ngIf="!hideEdit" class="dropdown-item"
+    <button *ngIf="!isReply" class="dropdown-item"
+        data-qa-id="ddm-communityPostActionsFavorite"
+        (click)="updateFavorite()">
+        <span *ngIf="isFavoritedByCurrentUser">
+          <fa-icon icon="star" class="favorited-by-current-user"></fa-icon>
+          Remove from Favorites
+        </span>
+        <span *ngIf="!isFavoritedByCurrentUser">
+          <fa-layers [fixedWidth]="true">
+              <fa-icon icon="star"></fa-icon>
+              <fa-icon [inverse]="true" icon="star" transform="shrink-4"></fa-icon>
+          </fa-layers>
+          Add to Favorites
+        </span>  
+    </button>
+    <button *ngIf="isCurrentUserPost || isUserAdmin()" class="dropdown-item"
             data-qa-id="ddm-communityPostActionsEdit"
             (click)="editPost()">
       <fa-icon icon="pencil"></fa-icon>
       Edit
     </button>
-    <button class="dropdown-item"
+    <button *ngIf="isCurrentUserPost || isUserAdmin()" class="dropdown-item"
             data-qa-id="ddm-communityPostActionsDelete"
             (click)="delete()">
       <fa-icon icon="trash-alt"></fa-icon>

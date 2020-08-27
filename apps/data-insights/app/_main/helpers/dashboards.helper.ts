@@ -1,4 +1,5 @@
-import { orderBy, filter } from 'lodash';
+import orderBy from 'lodash/orderBy';
+import filter from 'lodash/filter';
 
 import { DashboardView, Workbook } from '../models';
 

@@ -43,6 +43,8 @@ export class UserTileToTileMapper {
         return TilePreviewTypes.BasicList;
       case TileTypes.Peer:
         return TilePreviewTypes.Peer;
+      case TileTypes.TotalRewards:
+        return TilePreviewTypes.TotalRewards;
       default:
         return TilePreviewTypes.Icon;
     }
@@ -194,6 +196,8 @@ export class UserTileToTileMapper {
 
       case TileTypes.TotalRewards:
           tile.CssClass = 'tile-blue';
+          tile.PreviewType = tile.TilePreviewData.length !== 0 ? tile.PreviewType : TilePreviewTypes.Icon;
+          tile.Label = tile.TilePreviewData.length !== 0 ? 'Total Reward Statements' : tile.Label;
           break;
 
       case TileTypes.InternationalData:

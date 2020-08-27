@@ -6,7 +6,9 @@ import { AuthenticationTypeResponse } from 'libs/models/hris-api/authentication-
 
 const UTILITIES_SUB_DOMAIN_CONFIG_NAME = 'UtilitiesSubDomain';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthenticationTypesHrisApiService {
   private endpoint = 'authenticationtypes';
 

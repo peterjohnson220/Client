@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { ControlViewToggleObj } from '../models';
-
 import { JobDescriptionView } from '../../shared/models';
+import { ElementViewToggleObj } from '../models';
 
 export const EDIT_VIEW = '[Job Description Management / View Edit] Edit View';
 export const LOAD_TEMPLATE_VIEWS = '[Job Description Management / View Edit] Load Template Views';
@@ -10,6 +9,10 @@ export const LOAD_TEMPLATE_VIEWS_SUCCESS = '[Job Description Management / View E
 export const LOAD_TEMPLATE_VIEWS_ERROR = '[Job Description Management / View Edit] Load Template Views Error';
 export const ADD_HIDDEN_ELEMENT_ID = '[Job Description Management / View Edit] Add Hidden Element Id';
 export const REMOVE_HIDDEN_ELEMENT_ID = '[Job Description Management / View Edit] Remove Hidden Element Id';
+export const ADD_HIDDEN_CONTROL_NAME_ELEMENT_ID = '[Job Description Management / View Edit] Add Hidden Control Name Element Id';
+export const REMOVE_HIDDEN_CONTROL_NAME_ELEMENT_ID = '[Job Description Management / View Edit] Remove Hidden Control Name Element Id';
+export const ADD_HIDDEN_SECTION_SUBHEADING_ELEMENT_ID = '[Job Description Management / View Edit] Add Hidden Section Subheading Element Id';
+export const REMOVE_HIDDEN_SECTION_SUBHEADING_ELEMENT_ID = '[Job Description Management / View Edit] Remove Hidden Section Subheading Element Id';
 export const GET_AVAILABLE_CONTROLS = '[Job Description Management / View Edit] Get Available Controls';
 export const GET_AVAILABLE_CONTROLS_SUCCESS = '[Job Description Management / View Edit] Get Available Controls Success';
 export const GET_AVAILABLE_CONTROLS_ERROR = '[Job Description Management / View Edit] Get Available Controls Error';
@@ -44,13 +47,37 @@ export class LoadTemplateViewsError implements Action {
 export class AddHiddenElementId implements Action {
   readonly type = ADD_HIDDEN_ELEMENT_ID;
 
-  constructor(public payload: ControlViewToggleObj) { }
+  constructor(public payload: ElementViewToggleObj) { }
 }
 
 export class RemoveHiddenElementId implements Action {
   readonly type = REMOVE_HIDDEN_ELEMENT_ID;
 
-  constructor(public payload: ControlViewToggleObj) { }
+  constructor(public payload: ElementViewToggleObj) { }
+}
+
+export class AddHiddenControlNameElementId implements Action {
+  readonly type = ADD_HIDDEN_CONTROL_NAME_ELEMENT_ID;
+
+  constructor(public payload: ElementViewToggleObj) { }
+}
+
+export class RemoveHiddenControlNameElementId implements Action {
+  readonly type = REMOVE_HIDDEN_CONTROL_NAME_ELEMENT_ID;
+
+  constructor(public payload: ElementViewToggleObj) { }
+}
+
+export class AddHiddenSectionSubheadingElementId implements Action {
+  readonly type = ADD_HIDDEN_SECTION_SUBHEADING_ELEMENT_ID;
+
+  constructor(public payload: ElementViewToggleObj) { }
+}
+
+export class RemoveHiddenSectionSubheadingElementId implements Action {
+  readonly type = REMOVE_HIDDEN_SECTION_SUBHEADING_ELEMENT_ID;
+
+  constructor(public payload: ElementViewToggleObj) { }
 }
 
 export class GetAvailableControls implements Action {
@@ -96,6 +123,10 @@ export type Actions
   | LoadTemplateViewsError
   | AddHiddenElementId
   | RemoveHiddenElementId
+  | AddHiddenControlNameElementId
+  | RemoveHiddenControlNameElementId
+  | AddHiddenSectionSubheadingElementId
+  | RemoveHiddenSectionSubheadingElementId
   | GetAvailableControls
   | GetAvailableControlsSuccess
   | GetAvailableControlsError

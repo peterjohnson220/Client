@@ -1,7 +1,7 @@
 <div class="h-100">
   <div
     kendoTooltip
-    class="k-tooltip-container h-100"
+    class="k-tooltip-container h-100 total-rewards-assigned-employees-grid"
     showOn="none"
     [tooltipTemplate]="template"
     filter=".k-grid td"
@@ -31,42 +31,60 @@
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
             <input
               type="checkbox"
-              [checked]="isEmployeeSelected(dataItem)"
+              [checked]="(selectedCompanyEmployeeIds$ | async)?.indexOf(dataItem['CompanyEmployeeId']) > -1"
               (click)="handleCheckboxClick(dataItem)" />
           </ng-template>
         </kendo-grid-checkbox-column>
         <kendo-grid-column width="65" title="Action">
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-            <pf-grid-action-menu
-              [isOpen]="(openActionMenuEmployee$ | async)?.CompanyEmployeeId === dataItem?.CompanyEmployeeId"
-              [employee]="dataItem"
-              (open)="onActionMenuOpen($event)"
-              (close)="onActionMenuClose()"
-              (unassignClick)="onActionMenuUnassignClick()"
-            ></pf-grid-action-menu>
+            <div ngbDropdown container="body" #dropdown="ngbDropdown"
+                 (openChange)="handleSelectedRowAction(dropdown, dataItem)">
+              <fa-icon ngbDropdownToggle
+                       icon="ellipsis-h"
+                       id="total-rewards-actions-{{dataItem?.CompanyEmployeeId}}"
+                       class="gray-text">
+              </fa-icon>
+              <div ngbDropdownMenu aria-labelledby="total-rewards-actions-{{dataItem?.CompanyEmployeeId}}">
+                <button ngbDropdownItem (click)="onActionMenuUnassignClick()">
+                  <span>Unassign</span>
+                </button>
+              </div>
+            </div>
           </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column field="LastName" title="Last Name" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="FirstName" title="First Name" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="EmployeeId" title="Employee ID" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="JobTitle" title="Job Title" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="JobCode" title="Job Code" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="JobFamily" title="Job Family" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="FLSAStatus" title="FLSA Status" class="ellipsize show-tooltip"></kendo-grid-column>
-        <kendo-grid-column field="TotalRewardsLastStatementGeneratedDate" title="Last Generated (Date)">
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <div class="ellipsize show-tooltip">
-              {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
+        <kendo-grid-column *ngFor="let col of (listAreaColumns$ | async)" [field]="col.ColumnDatabaseName" class="ellipsize show-tooltip">
+          <ng-template kendoGridHeaderTemplate let-column>
+            <div class="ellipsis-overflowing-text-wrap show-tooltip">
+              <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='desc'"
+                class="sort-icon" [icon]="['far', 'long-arrow-down']">
+              </fa-icon>
+              <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='asc'"
+                       class="sort-icon" [icon]="['far', 'long-arrow-up']">
+              </fa-icon>
+              {{col.ColumnDisplayName}}
             </div>
+          </ng-template>
+          <ng-template *ngIf="col.ColumnDatabaseName === 'TotalRewardsLastStatementGeneratedDate'" kendoGridCellTemplate let-dataItem>
+              {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
           </ng-template>
         </kendo-grid-column>
         <ng-template kendoPagerTemplate>
           <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
           <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
           <kendo-pager-next-buttons></kendo-pager-next-buttons>
+          <kendo-pager-page-sizes [pageSizes]="pageSizes"></kendo-pager-page-sizes>
           <label class="ml-auto mr-2 mt-2">
             {{ (assignedEmployeesTotal$ | async) | number }} Assigned Employee{{ (assignedEmployeesTotal$ | async) != 1 ? 's' : '' }}
           </label>
+        </ng-template>
+        <ng-template kendoGridNoRecordsTemplate>
+          <div *ngIf="displayNoEmployeesImage; else noRecordsAvailable" class="text-center img-container">
+            <img height="222" src="/client/total-rewards/assets/images/no-employees.png">
+            <h2>No employees assigned yet.</h2>
+            <span (click)="openAssignModal()" class="text-info">
+              Associate employees to your statement by assigning them here.
+            </span>
+          </div>
         </ng-template>
       </kendo-grid>
     </pf-async-container>
@@ -74,4 +92,8 @@
 </div>
 <ng-template #template let-hoverElement>
   <span>{{ hoverElement.nativeElement.innerText }}</span>
+</ng-template>
+
+<ng-template #noRecordsAvailable>
+  No records available.
 </ng-template>

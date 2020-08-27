@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { find } from 'lodash';
+import find from 'lodash/find';
 
 import { SyncScheduleHrisApiService } from 'libs/data/payfactors-api';
 import { ConnectionsHrisApiService } from 'libs/data/payfactors-api/hris-api/connections';

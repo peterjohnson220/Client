@@ -88,6 +88,8 @@ export function mapToCategoryEnum(category: string): CommunityCategoryEnum {
       return CommunityCategoryEnum.Internal;
     case 'Unanswered':
       return CommunityCategoryEnum.Unanswered;
+    case 'MyFavorites':
+      return CommunityCategoryEnum.MyFavorites;
     default:
       return CommunityCategoryEnum.MyPosts;
   }

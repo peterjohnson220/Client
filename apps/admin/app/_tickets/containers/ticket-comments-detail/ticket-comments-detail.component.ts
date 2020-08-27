@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/c
 
 import { Store } from '@ngrx/store';
 
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { TicketCommentLevel } from 'libs/models/payfactors-api/service/response';
 import { UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';

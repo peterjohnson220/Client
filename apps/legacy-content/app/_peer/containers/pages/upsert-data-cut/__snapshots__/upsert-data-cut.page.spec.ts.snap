@@ -32,6 +32,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
+  userJobMatchId="0"
   userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
@@ -105,6 +106,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
+  userJobMatchId="0"
   userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
@@ -177,6 +179,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
+  userJobMatchId="0"
   userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
@@ -249,6 +252,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
+  userJobMatchId="0"
   userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
@@ -334,6 +338,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
+  userJobMatchId="0"
   userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
@@ -406,6 +411,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
+  userJobMatchId="0"
   userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
@@ -478,6 +484,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' bu
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
+  userJobMatchId="0"
   userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
@@ -576,6 +583,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Re
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
+  userJobMatchId="0"
   userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
@@ -674,6 +682,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requestin
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
+  userJobMatchId="0"
   userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}

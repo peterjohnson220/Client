@@ -31,9 +31,9 @@
                (click)="onSelectedKeysChange(dataItem[primaryKey])">
       </ng-template>
     </kendo-grid-checkbox-column>
-    <kendo-grid-command-column [reorderable]="false" *ngIf="gridRowActionsConfig && gridRowActionsConfig.Position === positionType.Left" [title]="gridRowActionsConfig.Title" [width]="gridRowActionsConfig.Width">
-      <ng-template  kendoGridCellTemplate  let-dataItem="dataItem">
-        <ng-container [ngTemplateOutlet]="gridRowActionsConfig.ActionsTemplate"  [ngTemplateOutletContext]="{dataRow: dataItem}"></ng-container>
+    <kendo-grid-command-column [class]="[gridRowActionsConfig.CustomClass].join(' ')" [reorderable]="false" *ngIf="gridRowActionsConfig && gridRowActionsConfig.Position === positionType.Left" [title]="gridRowActionsConfig.Title" [width]="gridRowActionsConfig.Width">
+      <ng-template  kendoGridCellTemplate  let-dataItem="dataItem" let-rowIndex="rowIndex">
+        <ng-container [ngTemplateOutlet]="gridRowActionsConfig.ActionsTemplate"  [ngTemplateOutletContext]="{dataRow: dataItem, rowIndex: rowIndex}"></ng-container>
       </ng-template>
     </kendo-grid-command-column>
     <ng-container *ngFor="let col of (dataFields$ | async)">

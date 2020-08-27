@@ -105,8 +105,8 @@ export class PaymarketExchangeScopeComponent implements OnInit, OnDestroy {
 
   selectScope(row: number, event: ExchangeScopeItem) {
     let scopeId = null;
-    if (event && event.Id) {
-      scopeId = event.Id;
+    if (event && event.ExchangeScopeGuid) {
+      scopeId = event.ExchangeScopeGuid;
     }
     this.store.dispatch(new fromPaymarketExchangeScopeActions.SelectScope({
       Row: row,
@@ -136,7 +136,7 @@ export class PaymarketExchangeScopeComponent implements OnInit, OnDestroy {
       const scopeId = this.exchangeScopeSelections[row].Value;
       const exchangeScopeItems = this.getScopesForRow(row);
       if (exchangeScopeItems && scopeId) {
-        const exchangeScopeItem = exchangeScopeItems.find(x => x.Id === scopeId);
+        const exchangeScopeItem = exchangeScopeItems.find(x => x.ExchangeScopeGuid === scopeId);
         if (exchangeScopeItem) {
           return exchangeScopeItem;
         }

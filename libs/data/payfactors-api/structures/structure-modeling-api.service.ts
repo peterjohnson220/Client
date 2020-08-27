@@ -12,14 +12,19 @@ import {
   AddJobRangesRequest,
   JobSearchRequestStructuresRangeGroup,
   RemoveRangeRequest,
-  OverrideAndSaveRangeFieldRequest
+  OverrideAndSaveRangeFieldRequest,
+  DuplicateModelResponse,
+  DuplicateModelRequest,
+  RevertRangeChangesRequest
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange } from 'libs/models/structures';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class StructureModelingApiService {
   private readonly endpoint = 'StructureModeling';
 
@@ -32,7 +37,7 @@ export class StructureModelingApiService {
   }
 
   saveModelSettings(request: SaveModelSettingsRequest): Observable<SaveModelSettingsResponse> {
-    return this.payfactorsApiService.post<SaveModelSettingsResponse>(`${this.endpoint}/SaveModelSettings`, request );
+    return this.payfactorsApiService.post<SaveModelSettingsResponse>(`${this.endpoint}/SaveModelSettings`, request);
   }
 
   recalculateRangeMinMax(request: RecalcAndSaveRangeMinMaxRequest): Observable<RecalcAndSaveRangeMinMaxResponse> {
@@ -63,5 +68,13 @@ export class StructureModelingApiService {
     return this.payfactorsApiService.get<number[]>(`${this.endpoint}/GetOverriddenRangeIds`, {
       params: { rangeGroupId }
     });
+  }
+
+  duplicateModel(request: DuplicateModelRequest): Observable<DuplicateModelResponse> {
+    return this.payfactorsApiService.post<DuplicateModelResponse>(`${this.endpoint}/DuplicateModel`, request);
+  }
+
+  revertRangeChanges(request: RevertRangeChangesRequest): Observable<CompanyStructureRange> {
+    return this.payfactorsApiService.post<CompanyStructureRange>(`${this.endpoint}/RevertRangeChanges`, request);
   }
 }

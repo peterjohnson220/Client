@@ -7,7 +7,9 @@ import { BaseUrlLocation } from '../../../models/payfactors-api/common/base-url-
 import { UserContext } from '../../../models/security';
 import { UserBulkAdd } from '../../../models/admin/user-bulk-add.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class BulkAddUsersApiService {
   private endpoint = 'BulkAddUsersLoad';
   private excelEndpoint = 'BulkAddUsersLoadExcel';

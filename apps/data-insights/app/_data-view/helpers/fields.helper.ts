@@ -1,4 +1,4 @@
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 
 import { UpdateDataViewFieldsRequest, UserDataElement } from 'libs/models/payfactors-api';
 

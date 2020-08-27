@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { OrgDataLoaderConfigurationSaveRequest } from '../../../models/data-loads/request';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OrgDataLoaderConfigurationApiService {
   private endpoint = 'OrgDataLoaderConfiguration';
 

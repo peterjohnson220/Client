@@ -6,7 +6,9 @@ import {Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil, map, filter} from 'rxjs/operators';
 
-import { fill, isObject, isEmpty } from 'lodash';
+import isObject from 'lodash/isObject';
+import fill from 'lodash/fill';
+import isEmpty from 'lodash/isEmpty';
 
 import {AsyncStateObj} from 'libs/models/state';
 import {SyncScheduleDtoModel} from 'libs/models/hris-api/sync-schedule/request';

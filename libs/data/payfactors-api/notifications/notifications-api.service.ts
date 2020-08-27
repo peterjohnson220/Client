@@ -7,7 +7,9 @@ import { UserNotificationResponse } from 'libs/models/payfactors-api/notificatio
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NotificationsApiService {
   private endpoint = 'Notification';
 

@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { select, Store, ActionsSubject } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { ofType } from '@ngrx/effects';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import {
   PfDataGridFilter,
@@ -28,6 +29,7 @@ import { PageViewIds } from '../../constants/page-view-ids';
 import { RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
+import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
@@ -99,6 +101,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   filterTemplates = {};
   modifiedKeys: any[];
   modifiedKeysSubscription: Subscription;
+  selectedDropdown: NgbDropdown;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -190,8 +193,33 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.store.dispatch(new fromSharedJobBasedRangeActions.ShowRemoveRangeModal());
   }
 
+  revertChanges(dataRow: any, rowIndex: number) {
+    this.store.dispatch(new fromSharedJobBasedRangeActions.RevertingRangeChanges({
+      pageViewId: this.modelPageViewId,
+      rangeId: dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID,
+      rangeGroupId: dataRow.CompanyStructures_RangeGroup_CompanyStructuresRangeGroup_ID,
+      rowIndex: rowIndex,
+      roundingSettings: this.roundingSettings,
+      refreshRowDataViewFilter: this.getRefreshFilter(dataRow)
+    }));
+  }
+
   removeRange() {
     this.store.dispatch(new fromSharedJobBasedRangeActions.RemovingRange({ StructuresRangeId: this.rangeIdToRemove, IsCurrent: this.metaData.IsCurrent }));
+  }
+
+  handleDuplicateModelClicked() {
+    this.store.dispatch(new fromDuplicateModelModalActions.OpenModal());
+  }
+
+  scroll = (): void => {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
+  }
+
+  handleSelectedRowAction(dropdown: any) {
+    this.selectedDropdown = dropdown;
   }
 
   // Lifecycle
@@ -216,7 +244,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.gridRowActionsConfig = {
       ...this.gridRowActionsConfig,
       ActionsTemplate: this.gridRowActionsTemplate,
-      Title: ''
+      Title: '',
+      CustomClass: ['overflow-visible']
     };
   }
 
@@ -235,6 +264,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.modifiedKeysSubscription = this.store.select(fromReducer.getModifiedKeys, this.modelPageViewId).subscribe(
       modifiedKeys => this.modifiedKeys = modifiedKeys
     );
+    window.addEventListener('scroll', this.scroll, true);
   }
 
   ngOnDestroy(): void {

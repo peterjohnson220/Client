@@ -2,21 +2,22 @@
       (click)="valueChanged()"
       [style.opacity]="isDisabled ? .6 : 1"
       [attr.data-qa-id]="QADataId ? 'chk-' + QADataId : null">
-
+  
   <fa-icon *ngIf="!isChecked"
            class="fa-lg unchecked-icon"
            [icon]="['far', 'square']"></fa-icon>
-
+           
   <fa-icon *ngIf="isChecked"
            class="fa-lg checked-icon"
-           [icon]="['fas', 'check-square']"></fa-icon>
-
-  <span class="ml-2"> {{DisplayText}}</span>
-  <span class="ml-2"
-        *ngIf="ToolTip && ToolTip.length > 0">
+           [icon]="['fas', 'check-square']">
+  </fa-icon>
+</span>
+<span class="ml-2"> 
+  {{DisplayText}}
+</span>
+<span class="ml-2"
+      *ngIf="ToolTip && ToolTip.length > 0">
     <fa-icon [ngbTooltip]="ToolTip"
              placement="right"
              [icon]="['fas', 'info-circle']"></fa-icon>
-  </span>
-
 </span>

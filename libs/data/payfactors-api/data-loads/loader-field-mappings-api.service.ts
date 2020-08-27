@@ -8,7 +8,9 @@ import { LoaderFieldSet, FieldMappingsDTO } from 'libs/models/data-loads/index';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LoaderFieldMappingsApiService {
   private endpoint = 'LoaderFieldMappings';
 
