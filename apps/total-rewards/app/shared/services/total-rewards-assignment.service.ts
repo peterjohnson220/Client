@@ -32,9 +32,19 @@ export class TotalRewardsAssignmentService {
 
   static mapSearchResults(results: EmployeeSearchResult[]): GenericNameValue<number>[] {
     return results.map(employee => {
+      let displayName = '';
+      if (employee.FirstName) {
+        displayName += `${employee.FirstName} `;
+      }
+      if (employee.LastName) {
+        displayName += `${employee.LastName} `;
+      }
+      if (employee.EmployeeId) {
+        displayName += `(${employee.EmployeeId})`;
+      }
       return {
         Value: employee.CompanyEmployeeId,
-        Name: `${employee.FirstName} ${employee.LastName} (${employee.EmployeeId})`
+        Name: displayName
       };
     });
   }
