@@ -64,7 +64,7 @@ export class TrsCalculationControlComponent {
   getEmployerContributionValue(field: string) {
     if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
       if (this.employeeRewardsData[field] || this.employeeRewardsData[field] === 0) {
-        return this.currencyPipe.transform(this.employeeRewardsData[field], 'USD', 'symbol-narrow', '1.0');
+        return this.currencyPipe.transform(this.employeeRewardsData[field], this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
       }
     }
     return this.compensationValuePlaceholder;
@@ -73,7 +73,7 @@ export class TrsCalculationControlComponent {
   getSummaryValue() {
     if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
       const sum = TotalRewardsStatementService.sumCalculationControl(this.controlData, this.employeeRewardsData);
-      return this.currencyPipe.transform(sum, 'USD', 'symbol-narrow', '1.0');
+      return this.currencyPipe.transform(sum, this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
     }
 
     return this.compensationValuePlaceholder;

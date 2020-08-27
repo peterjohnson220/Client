@@ -33,6 +33,7 @@ export interface EmployeeRewardsData {
   EmployeePTO: number;
   EmployeeOtherAllowances: number;
   CurrentYear: number;
+  Currency: string;
 }
 
 export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
@@ -70,6 +71,7 @@ export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
     EmployeeTuitionReimbursement: 1200,
     EmployeePTO: 5700,
     EmployeeOtherAllowances: 500,
-    CurrentYear: new Date().getFullYear()
+    CurrentYear: new Date().getFullYear(),
+    Currency: 'USD'
   };
 }
