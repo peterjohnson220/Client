@@ -14,10 +14,10 @@ import { WindowCommunicationService } from 'libs/core/services';
 import { ExchangeSelectorModule } from 'libs/features/peer/';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/';
 import { PfCommonModule } from 'libs/core';
-import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guidelines-badge.module';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import { DataCutValidationEffects } from 'libs/features/peer/guidelines-badge/effects';
+import { UpsertPeerDataCutModule } from 'libs/features/upsert-peer-data-cut/upsert-peer-data-cut.module';
 
 import * as fromFaIcons from './fa-icons';
 import {
@@ -30,10 +30,10 @@ import {
 } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import {
-  AssociateCompanyJobEffects, PaymarketExchangeScopeEffects,
-  RequestPeerAccessEffects, UpsertDataCutPageEffects, TaggingEntitiesEffects
+  AssociateCompanyJobEffects, PaymarketExchangeScopeEffects, TaggingEntitiesEffects
 } from './effects';
 import { reducers } from './reducers';
+
 
 @NgModule({
   imports: [
@@ -49,8 +49,6 @@ import { reducers } from './reducers';
       AssociateCompanyJobEffects,
       DataCutValidationEffects,
       PaymarketExchangeScopeEffects,
-      UpsertDataCutPageEffects,
-      RequestPeerAccessEffects,
       TaggingEntitiesEffects
     ]),
     NgbPopoverModule,
@@ -66,7 +64,7 @@ import { reducers } from './reducers';
     PfCommonModule,
     PfFormsModule,
     ExchangeSelectorModule,
-    PfExchangeExplorerModule
+    UpsertPeerDataCutModule
   ],
   declarations: [
     // Components

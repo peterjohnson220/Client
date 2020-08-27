@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
-export const REQUEST_PEER_ACCESS  = '[Legacy Content/Request Peer Access] Request Peer Access';
-export const REQUEST_PEER_ACCESS_SUCCESS  = '[Legacy Content/Request Peer Access] Request Peer Access Success';
-export const REQUEST_PEER_ACCESS_ERROR  = '[Legacy Content/Request Peer Access] Request Peer Access Error';
+export const REQUEST_PEER_ACCESS  = '[Upsert Peer Data Cut/Request Peer Access] Request Peer Access';
+export const REQUEST_PEER_ACCESS_SUCCESS  = '[Upsert Peer Data Cut/Request Peer Access] Request Peer Access Success';
+export const REQUEST_PEER_ACCESS_ERROR  = '[Upsert Peer Data Cut/Request Peer Access] Request Peer Access Error';
 
 export class RequestPeerAccess implements Action {
   readonly type = REQUEST_PEER_ACCESS;
@@ -16,7 +16,7 @@ export class RequestPeerAccessError implements Action {
   readonly type = REQUEST_PEER_ACCESS_ERROR;
 }
 
-export type Actions
+export type RequestPeerAccessActions
   = RequestPeerAccess
   | RequestPeerAccessSuccess
   | RequestPeerAccessError;
