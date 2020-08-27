@@ -6,8 +6,8 @@
   [primaryButtonText]="'Save'"
   [windowClass]="'re-scope-survey-data-modal-container'"
   [submitEnabled]="selectedSurveyDataId > 0"
-  (onDismiss)="cancelChanges.emit()"
-  (onSubmit)="reScopeSubmitted.emit(selectedSurveyDataId); selectedSurveyDataId = undefined;"
+  (onDismiss)="resetModal(true)"
+  (onSubmit)="submitReScope()"
 >
   <ng-container basic-content>
     <div class="re-scope-modal-container">
@@ -25,12 +25,13 @@
         </div>
         <div class="alternate-survey-data-scopes">
           <pf-data-grid
-            *ngIf="reScopeSurveyDataFilters.length"
+            *ngIf="reScopeSurveyDataFilters.length && pageViewId"
             [showTitle]="true"
             [pageViewId]="pageViewId"
             [selectionField]="'SurveyData_Survey_Data_ID'"
             [selectionFieldExistsOnBase]="false"
             [inboundFilters]="reScopeSurveyDataFilters"
+            [defaultSort]="defaultSort"
             [titleActionsTemplate]="modalConfiguration.SurveyJobTemplate"
             [columnTemplates]="columnTemplates"
             [enableResize]="false">

@@ -8,4 +8,5 @@ export interface ReScopeSurveyDataModalConfiguration {
   ShowModal$: Observable<boolean>;
   Rate: 'Annual' | 'Hourly';
   ShowPricingWarning: boolean;
+  EntityId: number; // This could be either the PricingMatchId or the ProjectJobMatchId
 }

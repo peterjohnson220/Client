@@ -18,7 +18,7 @@ export class RateCurrencyConversionPipe implements PipeTransform {
       result *= currencyConversionFactor;
     }
 
-    if (sourceRate !== destinationRate) {
+    if (sourceRate && destinationRate && sourceRate !== destinationRate) {
       if (sourceRate === 'Annual') {
         result /= 2080;
       } else {

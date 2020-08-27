@@ -8,8 +8,10 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
 import { cloneDeep, uniq } from 'lodash';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { PfDataGridColType } from '../../pf-data-grid/enums';
+import * as fromGridActions from '../../pf-data-grid/actions';
 import * as fromGridReducer from '../../pf-data-grid/reducers';
 
 import { ReScopeSurveyDataModalConfiguration, ReScopeSurveyDataContext } from '../models';
@@ -26,7 +28,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   @Output() reScopeSubmitted = new EventEmitter();
   @Output() cancelChanges = new EventEmitter();
 
-  pageViewId = 'ECE8522C-CAE0-43C6-82DC-209CB24AC027';
+  pageViewId: string;
   reScopeSurveyDataFilters = [];
   columnTemplates = {};
   selectedSurveyDataIdSubscription: Subscription;
@@ -34,21 +36,22 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   reScopeContextSubscription: Subscription;
   reScopeContext: ReScopeSurveyDataContext;
 
+  defaultSort: SortDescriptor[] = [{
+    dir: 'asc',
+    field: 'SurveyData_ScopeSearch'
+  }];
+
   @ViewChild('scopeSearchColumn') scopeSearchColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
 
   constructor(private store: Store<fromGridReducer.State>) {
-    this.selectedSurveyDataIdSubscription = this.store.select(fromGridReducer.getSelectedRecordId, this.pageViewId).subscribe(sd => {
-      this.selectedSurveyDataId = sd;
-    });
-
     this.reScopeContextSubscription = this.store.select(fromReScopeReducer.getReScopeContext).subscribe(c => {
       if (c) {
         const currentCountry = this.reScopeContext?.CountryCode;
         this.reScopeContext = c.obj;
 
-        if (currentCountry !== c.obj.CountryCode || !currentCountry) {
-          const countryCodeFilter = cloneDeep(this.reScopeSurveyDataFilters.find(x => x.SourceName === 'Country_Code'));
+        const countryCodeFilter = cloneDeep(this.reScopeSurveyDataFilters.find(x => x.SourceName === 'Country_Code'));
+        if (currentCountry !== c.obj.CountryCode || !currentCountry || !countryCodeFilter) {
           if (countryCodeFilter) {
             countryCodeFilter.Value = c.obj.CountryCode;
           } else {
@@ -98,6 +101,14 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
 
       this.reScopeSurveyDataFilters = clonedFilters;
     }
+
+    if (changes['modalConfiguration'] &&
+      changes['modalConfiguration'].currentValue['EntityId']) {
+      this.pageViewId = `ECE8522C-CAE0-43C6-82DC-209CB24AC027_${changes['modalConfiguration'].currentValue['EntityId']}`;
+      this.selectedSurveyDataIdSubscription = this.store.select(fromGridReducer.getSelectedRecordId, this.pageViewId).subscribe(sd => {
+        this.selectedSurveyDataId = sd;
+      });
+    }
   }
 
   ngAfterViewInit() {
@@ -110,6 +121,18 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   ngOnDestroy() {
     this.reScopeContextSubscription.unsubscribe();
     this.selectedSurveyDataIdSubscription.unsubscribe();
+  }
+
+  submitReScope() {
+    this.reScopeSubmitted.emit(this.selectedSurveyDataId);
+    this.resetModal(false);
+  }
+
+  resetModal(cancel: boolean) {
+    this.store.dispatch(new fromGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
+    if (cancel) {
+      this.cancelChanges.emit();
+    }
   }
 
   // TODO: The feature these functions belong to was deferred for initial deploy (default scopes checkbox). Will be revisited
