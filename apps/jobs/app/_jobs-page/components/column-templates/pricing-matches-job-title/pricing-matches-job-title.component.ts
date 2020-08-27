@@ -61,6 +61,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   weight: number;
   adjustment: number;
+  jobsGridJobStatusField: ViewField;
+  jobsGridFieldSubscription: Subscription;
 
   public isCollapsed = true;
   public isOverflow = false;
@@ -95,7 +97,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       this.jobsGridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
       .pipe(filter(f => !isEmpty(f)))
       .subscribe(fields => {
-          this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
+        this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
+      });
     // We need to update the pricingInfo manually because the state is not updated when the grid is updated using the UpdateGridDataRow action
     this.updateGridDataRowSubscription = this.actionsSubject
       .pipe(ofType(fromPfDataGridActions.UPDATE_GRID_DATA_ROW))
