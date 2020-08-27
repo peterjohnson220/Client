@@ -74,9 +74,8 @@ export class StatementAssignmentModalEffects {
     withLatestFrom(
       this.store.select(fromSearchReducer.getParentFilters),
       this.store.select(fromTotalRewardsReducer.getStatement),
-      this.store.select(fromSearchReducer.getNumberOfResultsOnServer),
-      (action: fromStatementAssignmentModalActions.AssignAllEmployees, filters, statement, resultsCount) =>
-        ({action, filters, statementId: statement.StatementId, resultsCount})
+      (action: fromStatementAssignmentModalActions.AssignAllEmployees, filters, statement) =>
+        ({action, filters, statementId: statement.StatementId})
     ),
     switchMap((data) => {
       const searchRequest = {
@@ -87,7 +86,7 @@ export class StatementAssignmentModalEffects {
         },
         Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
         SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
-        PagingOptions: { From: 0, Count: data.resultsCount }
+        PagingOptions: { From: 0, Count: data.action.payload.assignmentMax }
       };
 
       return this.totalRewardsAssignmentApi.assignAllEmployees(searchRequest).pipe(

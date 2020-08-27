@@ -10,3 +10,12 @@
   border: none;
   color: $link-color;
 }
+
+.info-message, .warning-message {
+  fa-icon {
+    font-size: 16px;
+  }
+  span {
+    padding-top: 0.15rem;
+  }
+}

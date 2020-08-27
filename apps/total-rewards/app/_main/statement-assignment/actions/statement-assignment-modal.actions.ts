@@ -43,6 +43,8 @@ export class AssignEmployeesError implements Action {
 
 export class AssignAllEmployees implements Action {
   readonly type = ASSIGN_ALL_EMPLOYEES;
+
+  constructor(public payload: { assignmentMax: number }) {}
 }
 
 export class AssignAllEmployeesSuccess implements Action {

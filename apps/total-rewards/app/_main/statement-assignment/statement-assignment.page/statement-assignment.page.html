@@ -8,7 +8,13 @@
                        [automationClassName]="'au-tb-assigned-employee-search'"
                        (valueChanged)="onSearchTermChange($event)">
     </pf-input-debounce>
-    <button type="button" class="btn btn-primary open-assign-modal" (click)="openAssignModal()">Assign Employees</button>
+    <button type="button"
+            class="btn btn-primary open-assign-modal"
+            [disabled]="(assignedEmployeesTotal$ | async) === statementAssignmentMax"
+            [attr.title]="(assignedEmployeesTotal$ | async) === statementAssignmentMax ? 'You have reached the 100,000 employees limit.' : ''"
+            (click)="openAssignModal()">
+            Assign Employees
+    </button>
     <button type="button"
             id="export-btn"
             class="btn btn-secondary"
