@@ -452,7 +452,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       JobTitle: this.jobDescription.Name,
       Keyword: '',
       PageNumber: 1,
-      PageSize: 10
+      PageSize: 10,
+      Sources: ''
     }));
   }
 

@@ -5,4 +5,5 @@ export interface LibrarySearchRequest {
   PageSize: number;
   PageNumber: number;
   JobDescriptionId: number;
+  Sources: string;
 }

@@ -15,6 +15,15 @@
       <div class="form-group">
         <pf-input-debounce [placeholderText]="'Keyword'" [delay]="600" [hideClearBtn]="true" [ngModel]="keyword" (valueChanged)="handleKeywordChange($event)"></pf-input-debounce>
       </div>
+      <div class="form-group">
+        <kendo-multiselect    
+            id="assigned-templates"
+            [placeholder]="'All Sources'"
+            [data]="availableSources"
+            [valuePrimitive]="true"
+            (valueChange)="handleSourceChange($event)">
+        </kendo-multiselect>
+      </div>
     </div>
   </div>
   <div class="jd-library-content">

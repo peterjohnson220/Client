@@ -67,8 +67,9 @@ export class JobDescriptionManagementApiService {
         jobTitle: searchRequest.JobTitle,
         keyword: searchRequest.Keyword,
         pageSize: searchRequest.PageSize,
-        jobDescriptionId: searchRequest.JobDescriptionId
-      }
+        jobDescriptionId: searchRequest.JobDescriptionId,
+        sources: searchRequest.Sources
+      },
     });
   }
 
