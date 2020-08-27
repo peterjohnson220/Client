@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { MarketingImageDto } from '../../../models/marketing/marketing-image-dto.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MarketingApiService {
   private endpoint = 'Marketing';
 

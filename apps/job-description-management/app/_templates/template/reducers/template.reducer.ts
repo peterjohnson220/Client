@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { Template } from 'libs/models/jdm/template';
 
@@ -52,6 +52,14 @@ export function reducer(state = initialState, action: fromTemplateActions.Templa
         ...state,
         saving: false,
         template: action.payload.template
+      };
+    case fromTemplateActions.SAVE_TEMPLATE_NAME_SUCCESS:
+      const templateCopy = cloneDeep(state.template);
+      templateCopy.TemplateName = action.payload;
+
+      return {
+        ...state,
+        template: templateCopy
       };
     case fromTemplateActions.SAVE_TEMPLATE_ERROR:
       return {
@@ -135,7 +143,6 @@ export function reducer(state = initialState, action: fromTemplateActions.Templa
       return {
         ...state,
         publishing: false,
-        editing: false,
         error: false,
         template: publishedTemplate
       };
@@ -208,3 +215,4 @@ export const getTemplateError = (state: State) => state.error;
 export const getTemplateErrorMessage = (state: State) => state.errorMessage;
 export const getTemplateSaveError = (state: State) => state.saveError;
 export const getTemplateAssigningError = (state: State) => state.assigningError;
+export const getLoadingSummary = (state: State) => state.loadingSummary;

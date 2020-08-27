@@ -7,12 +7,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromSharedReducer from './shared.reducer';
 import * as fromModelSettingsModalReducer from './model-settings-modal.reducer';
 import * as fromPublishModelModalReducer from './publish-model-modal.reducer';
+import * as fromDuplicateModelModalReducer from './duplicate-model-modal.reducer';
 
 // Feature area state
 export interface JobBasedRangeSharedState {
   shared: fromSharedReducer.State;
   modelSettingsModal: fromModelSettingsModalReducer.State;
   publishModelModal: fromPublishModelModalReducer.State;
+  duplicateModelModal: fromDuplicateModelModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,7 +26,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   shared: fromSharedReducer.reducer,
   modelSettingsModal: fromModelSettingsModalReducer.reducer,
-  publishModelModal: fromPublishModelModalReducer.reducer
+  publishModelModal: fromPublishModelModalReducer.reducer,
+  duplicateModelModal: fromDuplicateModelModalReducer.reducer
 };
 
 // Select Feature Area
@@ -46,6 +49,11 @@ export const selectModelSettingsModalState = createSelector(
 export const selectPublishModelModalState = createSelector(
   selectFeatureAreaState,
   (state: JobBasedRangeSharedState) => state.publishModelModal
+);
+
+export const selectDuplicateModelModalState = createSelector(
+  selectFeatureAreaState,
+  (state: JobBasedRangeSharedState) => state.duplicateModelModal
 );
 
 // Shared
@@ -91,4 +99,17 @@ export const getPublishModelModalOpen = createSelector(
 
 export const getPublishingModelAsyncObj = createSelector(
   selectPublishModelModalState, fromPublishModelModalReducer.getPublishingModelAsyncObj
+);
+
+// Duplicate Model Modal
+export const getDuplicateModelModalOpen = createSelector(
+  selectDuplicateModelModalState, fromDuplicateModelModalReducer.getModalOpen
+);
+
+export const getDuplicatingModelAsyncObj = createSelector(
+  selectDuplicateModelModalState, fromDuplicateModelModalReducer.getDuplicatingModelAsyncObj
+);
+
+export const getDuplicateModelNameExistsFailure = createSelector(
+  selectDuplicateModelModalState, fromDuplicateModelModalReducer.getDuplicateModelNameExistsFailure
 );

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 import { groupBy } from '@progress/kendo-data-query';
 
 import { Field } from '../../models';

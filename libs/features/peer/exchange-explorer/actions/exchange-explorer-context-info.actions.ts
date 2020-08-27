@@ -12,6 +12,7 @@ export const LOAD_CONTEXT_INFO_ERROR = '[Features/Peer/ExchangeExplorer/ContextI
 export const REFRESH_PAYMARKET_CONTEXT = '[Features/Peer/ExchangeExplorer/ContextInfo] Refresh PayMarket Context';
 export const REFRESH_PAYMARKET_CONTEXT_SUCCESS = '[Features/Peer/ExchangeExplorer/ContextInfo] Refresh PayMarket Context Success';
 export const REFRESH_PAYMARKET_CONTEXT_ERROR = '[Features/Peer/ExchangeExplorer/ContextInfo] Refresh PayMarket Context Error';
+export const RESET_INITIALLY_LOADED_STATE = '[Features/Peer/ExchangeExplorer/ContextInfo] Reset Initially Loaded State';
 
 export class LoadContextInfo implements Action {
   readonly type = LOAD_CONTEXT_INFO;
@@ -20,6 +21,7 @@ export class LoadContextInfo implements Action {
     ComphubExchangeExplorerContextRequest
     | {companyJobId?: number, companyPayMarketId?: number}
     | {exchangeId: number, defaultScopeId?: string}
+    | {lockedExchangeJobId: number, companyPayMarketId: number}
     ) {}
 }
 
@@ -58,10 +60,15 @@ export class RefreshPayMarketContextError implements Action {
   readonly type = REFRESH_PAYMARKET_CONTEXT_ERROR;
 }
 
+export class ResetInitiallyLoadedState implements Action {
+  readonly type = RESET_INITIALLY_LOADED_STATE;
+}
+
 export type Actions
   = LoadContextInfo
   | LoadContextInfoSuccess
   | LoadContextInfoError
   | RefreshPayMarketContext
   | RefreshPayMarketContextSuccess
-  | RefreshPayMarketContextError;
+  | RefreshPayMarketContextError
+  | ResetInitiallyLoadedState;

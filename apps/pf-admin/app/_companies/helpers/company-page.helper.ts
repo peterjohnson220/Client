@@ -183,6 +183,10 @@ export class CompanyPageHelper {
             s.Disabled = true;
             return s;
           }
+          case CompanySettingsEnum.DefaultProjectDataSearchToPeerTab: {
+            s.Value = 'true';
+            return s;
+          }
           case CompanySettingsEnum.MaxProjectJobCount: {
             s.Disabled = true;
             return s;
@@ -269,6 +273,10 @@ export class CompanyPageHelper {
           case CompanySettingsEnum.PeerTermsAndConditionsHardCopyRequested: {
             s.Value = 'false';
             s.Disabled = true;
+            return s;
+          }
+          case CompanySettingsEnum.DefaultProjectDataSearchToPeerTab: {
+            s.Value = 'true';
             return s;
           }
           case CompanySettingsEnum.MaxProjectJobCount: {

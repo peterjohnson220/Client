@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { SaveUiPersistenceSettingRequest } from '../../../models/common';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UiPersistenceSettingsApiService {
   private endpoint = 'UiPersistenceSettings';
 

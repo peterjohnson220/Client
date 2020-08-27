@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy, SimpleChanges, OnChanges } from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
-import { orderBy } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 import { groupBy } from '@progress/kendo-data-query';
 
 import { ViewField } from 'libs/models/payfactors-api/reports';

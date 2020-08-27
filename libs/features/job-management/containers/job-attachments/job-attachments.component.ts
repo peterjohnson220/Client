@@ -72,4 +72,9 @@ export class JobAttachmentsComponent implements OnInit, OnDestroy {
   isInvalidFileSize(files: File[]): boolean {
     return files.filter(f => f.size > 10000000).length > 0;
   }
+
+  formatFileName(fileName: string) {
+    return encodeURIComponent(fileName);
+  }
+
 }

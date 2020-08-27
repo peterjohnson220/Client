@@ -1,5 +1,5 @@
-import * as cloneDeep from 'lodash.clonedeep';
-import * as isEqual from 'lodash.isequal';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 import { FilterOptions } from '../models/filter-options.model';
 import * as fromCommunityPostFilterOptionsActions from '../actions/community-post-filter-options.actions';

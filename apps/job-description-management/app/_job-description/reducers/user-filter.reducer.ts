@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { JdmListFilter } from 'libs/models/user-profile';
 import { MessageHelper } from 'libs/core';

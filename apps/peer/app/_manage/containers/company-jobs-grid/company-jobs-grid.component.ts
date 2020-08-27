@@ -6,8 +6,8 @@ import { GridDataResult, DataStateChangeEvent, PageChangeEvent } from '@progress
 import { State, CompositeFilterDescriptor, FilterDescriptor } from '@progress/kendo-data-query';
 import { FilterService } from '@progress/kendo-angular-grid';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
-import * as cloneDeep from 'lodash.clonedeep';
-import * as isEqual from 'lodash.isequal';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 import { GridTypeEnum } from 'libs/models';
 import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';

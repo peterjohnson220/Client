@@ -23,3 +23,4 @@ export * from './compensation-field';
 export * from './audit-record';
 export * from './settings';
 export * from './template';
+export * from './template-preview';

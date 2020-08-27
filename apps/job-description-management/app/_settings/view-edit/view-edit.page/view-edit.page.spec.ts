@@ -9,7 +9,7 @@ import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
 import * as fromViewEditActions from '../actions/view-edit.actions';
 import { ViewEditPageComponent } from './view-edit.page';
-import { generateMockControlViewToggleObj } from '../models';
+import { generateMockElementViewToggleObj } from '../models';
 
 describe('Job Description Management - Settings - View Edit Page', () => {
   let instance: ViewEditPageComponent;
@@ -64,20 +64,20 @@ describe('Job Description Management - Settings - View Edit Page', () => {
 
   it('should dispatch an action to the store to add the hidden element Id, when handling a hidden elementId added', () => {
     spyOn(store, 'dispatch');
-    const mockControlViewToggleObj = generateMockControlViewToggleObj();
-    const expectedAction = new fromViewEditActions.AddHiddenElementId(mockControlViewToggleObj);
+    const mockElementViewToggleObj = generateMockElementViewToggleObj();
+    const expectedAction = new fromViewEditActions.AddHiddenElementId(mockElementViewToggleObj);
 
-    instance.handleHiddenElementIdAdded(mockControlViewToggleObj);
+    instance.handleHiddenElementIdAdded(mockElementViewToggleObj);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should dispatch an action to the store to remove the hidden element Id, when handling a hidden elementId removed', () => {
     spyOn(store, 'dispatch');
-    const mockControlViewToggleObj = generateMockControlViewToggleObj();
-    const expectedAction = new fromViewEditActions.RemoveHiddenElementId(mockControlViewToggleObj);
+    const mockElementViewToggleObj = generateMockElementViewToggleObj();
+    const expectedAction = new fromViewEditActions.RemoveHiddenElementId(mockElementViewToggleObj);
 
-    instance.handleHiddenElementIdRemoved(mockControlViewToggleObj);
+    instance.handleHiddenElementIdRemoved(mockElementViewToggleObj);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

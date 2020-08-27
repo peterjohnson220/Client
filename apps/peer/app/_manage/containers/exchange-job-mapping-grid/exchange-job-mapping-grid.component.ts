@@ -12,7 +12,7 @@ import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-m
 import * as fromPeerManagementReducer from '../../reducers';
 import { associationPending, associationStatus } from './exchange-job-mapping-grid-data-map';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 @Component({
   selector: 'pf-exchange-job-mapping-grid',

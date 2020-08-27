@@ -2,7 +2,8 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { cloneDeep, orderBy } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { ExchangeScopeItem, ExchangeScopes } from 'libs/models/peer/exchange-scope';
@@ -70,14 +71,14 @@ export class ExchangeScopesComponent implements OnInit, OnDestroy, OnChanges {
 
   addExchangeScope(): void {
     const selectedExchange = cloneDeep(this.exchangeScopes.find(es => es.ExchangeId === this.selectedExchangeId));
-    const selectedExchangeScopeItem = this.exchangeScopeItems.find(esi => esi.Id === this.exchangeScopeItemId);
+    const selectedExchangeScopeItem = this.exchangeScopeItems.find(esi => esi.ExchangeScopeGuid === this.exchangeScopeItemId);
     if (!selectedExchange || !selectedExchangeScopeItem) {
       return;
     }
     selectedExchange.ExchangeScopeItems = [selectedExchangeScopeItem];
     this.duplicateError = this.selectedExchangeScopes.some(ses =>
       ses.ExchangeName === selectedExchange.ExchangeName &&
-      ses.ExchangeScopeItems[0].Id === selectedExchangeScopeItem.Id
+      ses.ExchangeScopeItems[0].ExchangeScopeGuid === selectedExchangeScopeItem.ExchangeScopeGuid
     );
     if (this.duplicateError) {
       return;

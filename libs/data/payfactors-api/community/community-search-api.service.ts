@@ -5,7 +5,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunitySearchResult } from 'libs/models/community';
 import { CommunitySearchQuery } from 'libs/models/community/community-search-query.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CommunitySearchApiService {
   private endpoint = 'CommunitySearch';
 

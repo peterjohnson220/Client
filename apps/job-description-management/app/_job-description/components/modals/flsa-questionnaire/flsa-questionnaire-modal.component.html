@@ -1,6 +1,6 @@
 <ng-template #flsaQuestionnaireModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">FLSA Questionnaire <pf-status-pill *ngIf="lockedJobDescription" [status]="jobDescription.JobDescriptionStatus"></pf-status-pill></h4>
+    <h4 class="modal-title">FLSA Questionnaire <pf-status-pill [status]="jobDescription.JobDescriptionStatus"></pf-status-pill></h4>
 
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>

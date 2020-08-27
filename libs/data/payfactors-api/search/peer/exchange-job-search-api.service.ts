@@ -5,7 +5,9 @@ import { ExchangeJobSearchAutocompleteRequest } from '../../../../models/payfact
 import { PayfactorsApiService } from '../../payfactors-api.service';
 import {ExchangeJobSearchOption} from '../../../../models/peer/ExchangeJobSearchOption';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExchangeJobSearchApiService {
   private endpoint = 'ExchangeJobSearch';
 

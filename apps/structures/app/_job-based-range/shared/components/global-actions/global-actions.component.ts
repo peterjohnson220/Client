@@ -14,6 +14,7 @@ export class GlobalActionsComponent {
   @Output() addJobsClicked = new EventEmitter();
   @Output() publishModelClicked = new EventEmitter();
   @Output() modelSettingsClicked = new EventEmitter();
+  @Output() duplicateModelClicked = new EventEmitter();
 
   _Permissions = null;
 
@@ -31,5 +32,9 @@ export class GlobalActionsComponent {
 
   handleModelSettingsClicked() {
     this.modelSettingsClicked.emit();
+  }
+
+  handleDuplicateModelClicked() {
+    this.duplicateModelClicked.emit();
   }
 }

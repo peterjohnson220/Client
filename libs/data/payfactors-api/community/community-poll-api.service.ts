@@ -7,7 +7,9 @@ import { CommunityPollResponse } from '../../../models/community/community-poll-
 import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
 import { CommunityPost } from 'libs/models/community/community-post.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CommunityPollApiService {
   private endpoint = 'CommunityPolls';
 

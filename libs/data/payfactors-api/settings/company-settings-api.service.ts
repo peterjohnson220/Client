@@ -7,7 +7,9 @@ import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings/
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CompanySettingsApiService {
   private endpoint = 'CompanySettings';
 

@@ -3,3 +3,27 @@
 .k-widget.k-grid.assigned-employees {
   height: calc(100% - 47px);
 }
+
+.gray-text {
+  color: #B6B6B6;
+  cursor: pointer;
+}
+
+.dropup .dropdown-toggle::after, .dropdown-toggle::after {
+  display: none !important;
+}
+
+:host ::ng-deep .k-grid-norecords {
+  background-color: white !important;
+}
+
+.img-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.text-info {
+  cursor: pointer;
+}

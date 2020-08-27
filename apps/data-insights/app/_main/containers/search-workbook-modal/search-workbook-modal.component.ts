@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 
 import { AsyncStateObj } from 'libs/models/state';
 

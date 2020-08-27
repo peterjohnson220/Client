@@ -5,7 +5,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PricingMatchApiService {
   private endpoint = 'PricingMatch';
 

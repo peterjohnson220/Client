@@ -17,8 +17,9 @@ exports[`Tile Preview Chart With List should show component 1`] = `
         class="row"
       >
         <div
-          class="col-12"
+          class="col-12 ml-1"
         >
+          
           <strong>
             
           </strong>

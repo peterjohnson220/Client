@@ -4,7 +4,8 @@
   </ng-container>
 
   <ng-container page-actions>
-    <button class="btn btn-secondary" type="submit" (click)="OpenAddSsoModal($event)">Add SSO</button>
+    <button class="btn btn-secondary" type="submit" (click)="SetAddSsoModal($event)">Add SSO</button>
+    <button class="btn btn-secondary" type="submit" [disabled]="editButtonDisabled" (click)="SetEditSsoModal($event)">Edit SSO</button>
   </ng-container>
 
   <ng-container page-content>
@@ -15,7 +16,7 @@
       </div>
     </div>
 
-    <pf-add-sso-config-modal></pf-add-sso-config-modal>
+    <pf-sso-config-modal [modalType]="modalType"></pf-sso-config-modal>
   </ng-container>
 
 </pf-page-with-title-bar>

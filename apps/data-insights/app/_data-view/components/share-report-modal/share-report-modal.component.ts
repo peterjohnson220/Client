@@ -2,7 +2,7 @@ import { Component, ViewChild, EventEmitter, Output, Input, OnChanges, SimpleCha
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { SharedDataViewUser } from '../../models';
 

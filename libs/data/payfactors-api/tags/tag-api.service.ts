@@ -11,7 +11,9 @@ import { AddTagCategoriesRequest,
 import { TagInformation } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TagApiService {
   private endpoint = 'Tag';
 

@@ -1,6 +1,6 @@
 import { Input, Output, EventEmitter, Component, OnChanges, SimpleChanges } from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { IntlService } from '@progress/kendo-angular-intl';
 
 import { DataViewFieldDataType, ViewField } from 'libs/models/payfactors-api';

@@ -47,3 +47,7 @@ input[type=text]::-ms-clear {
     margin-right: 1rem;
   }
 }
+
+:host ::ng-deep .k-grid tbody td.overflow-visible {
+  overflow: visible;
+}

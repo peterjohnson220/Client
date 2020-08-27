@@ -1,5 +1,5 @@
-import * as cloneDeep from 'lodash.clonedeep';
-import * as isEqual from 'lodash.isequal';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
 
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import { Filter } from '../models';

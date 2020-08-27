@@ -9,7 +9,9 @@ import { CompanyStructureInfo } from 'libs/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class StructureRangeGroupApiService {
   private readonly endpoint = 'StructureRangeGroup';
 

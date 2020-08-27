@@ -18,6 +18,8 @@ import { JwtQueryStringAuthInterceptor, SentryService, SentryErrorHandler } from
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { PfJobDescriptionManagementModule } from 'libs/features/job-description-management/job-description-management.module';
+import {SsoAuthGuard} from './shared/guards';
+import { UserContextGuard } from '../../../libs/security/guards';
 
 
 @NgModule({
@@ -52,7 +54,8 @@ import { PfJobDescriptionManagementModule } from 'libs/features/job-description-
       multi: true
     },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
-    SentryService
+    SentryService,
+    SsoAuthGuard
   ],
   bootstrap: [AppComponent]
 })

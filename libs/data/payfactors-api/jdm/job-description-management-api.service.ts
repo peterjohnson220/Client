@@ -14,7 +14,9 @@ import { UpdateViewsRequest } from '../../../models/payfactors-api/job-descripti
 import { JobDescriptionViewApi } from '../../../models/payfactors-api/job-description-management/shared';
 import { ControlType } from 'libs/models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class JobDescriptionManagementApiService {
   private endpoint = 'JobDescriptionManagement';
 
@@ -52,6 +54,10 @@ export class JobDescriptionManagementApiService {
 
   getAvailableControls(): Observable<any> {
     return this.payfactorsApiService.get(`${this.endpoint}.GetAvailableControls`, {}, (response) => JSON.parse(response.value));
+  }
+
+  getHistoricalControls(): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}.GetHistoricalControls`, {}, (response) => JSON.parse(response.value));
   }
 
   getLibrarySearchResultsByBucket(searchRequest: LibrarySearchRequest): Observable<JobDescriptionLibraryBucket[]> {

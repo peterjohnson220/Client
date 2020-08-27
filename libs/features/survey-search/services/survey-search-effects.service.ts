@@ -87,10 +87,11 @@ export class SurveySearchEffectsService {
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getResults),
         this.store.select(fromSearchReducer.getResultsPagingOptions),
-        (action, jobResults, pagingOptions) => ({ jobResults, pagingOptions })),
-      switchMap(({ jobResults, pagingOptions }) => {
+        this.store.select(fromSurveySearchReducer.getProjectSearchContextCountryCode),
+        (action, jobResults, pagingOptions, countryCode) => ({ jobResults, pagingOptions, countryCode })),
+      switchMap(({ jobResults, pagingOptions, countryCode }) => {
         const lastJobResultIndex = (pagingOptions.page - 1) * pagingOptions.pageSize;
-        const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex);
+        const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex, countryCode);
 
         return this.surveySearchApiService.getPricingMatches(pricingMatchesRequest)
           .pipe(

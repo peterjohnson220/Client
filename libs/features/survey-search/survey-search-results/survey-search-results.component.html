@@ -9,10 +9,12 @@
       [cutsDraggable]="cutsDraggable"
       [currencyCode]="(pricingMatchDataSearchContext$ | async)?.CurrencyCode"
       [legacyIframeImplementation]="legacyIframeImplementation"
+      [refineInPeerDisplayed]="refineInPeerEnabled && refineInPeerReady"
       (loadDataCuts)="handleLoadDataCuts($event)"
       (cutSelected)="handleCutSelectionToggle($event)"
       (matchesMouseEnter)="handleMatchesMouseEnter($event)"
-      (matchesMouseLeave)="handleMatchesMouseLeave()">
+      (matchesMouseLeave)="handleMatchesMouseLeave()"
+      (refineInPeerClicked)="handleRefineInPeerClicked($event)">
     </pf-job-result>
   </ng-container>
 

@@ -78,7 +78,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
       FeatureAreaConstants.PeerManageScopes,
       UiPersistenceSettingConstants.PeerDefaultExchangeScopes,
       this.exchangeId,
-      !scope.IsDefault ? scope.Id : null
+      !scope.IsDefault ? scope.ExchangeScopeGuid : null
       );
   }
 
@@ -86,7 +86,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
     let isSelected = false;
     this.selectedExchangeScopeItem$.pipe(take(1)).subscribe(selection => {
       if (!!selection) {
-        isSelected = selection.Id === exchangeScopeItem.Id;
+        isSelected = selection.ExchangeScopeGuid === exchangeScopeItem.ExchangeScopeGuid;
       }
     });
     return isSelected;
@@ -95,7 +95,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   highlightScope(exchangeScopeItem: ExchangeScopeItem) {
     let highlight = false;
     if (!!this.scopeToDelete) {
-      highlight = this.scopeToDelete.Id === exchangeScopeItem.Id;
+      highlight = this.scopeToDelete.ExchangeScopeGuid === exchangeScopeItem.ExchangeScopeGuid;
     }
     return highlight;
   }
@@ -114,7 +114,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
 
   deleteScope(buttonClickEvent: any): void {
     buttonClickEvent.stopPropagation();
-    this.store.dispatch(new fromLibsExchangeScopeActions.DeleteExchangeScope(this.scopeToDelete.Id));
+    this.store.dispatch(new fromLibsExchangeScopeActions.DeleteExchangeScope(this.scopeToDelete.ExchangeScopeGuid));
     this.store.dispatch(new fromLibsExchangeFilterContextActions.ClearExchangeScopeSelection());
   }
 
@@ -137,7 +137,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   }
 
   trackByFn(scopeItem: ExchangeScopeItem) {
-    return scopeItem.Id;
+    return scopeItem.ExchangeScopeGuid;
   }
 
   // Lifecycle
@@ -155,14 +155,14 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
       map(([exchangeScopeItems, defaultExchangeScopeId]) => {
         return exchangeScopeItems.map(esi => {
           const esiCopy = {...esi};
-          esiCopy.IsDefault = esi.Id === defaultExchangeScopeId;
+          esiCopy.IsDefault = esi.ExchangeScopeGuid === defaultExchangeScopeId;
           return esiCopy;
         });
       }));
     this.selectedExchangeScopeItem$ = combineLatest([selectedExchangeScopeItem$, defaultExchangeScopeId$])
       .pipe(map(([selectedItem, defaultId]) => {
         if (!!selectedItem) {
-          return  {...selectedItem, IsDefault: selectedItem.Id === defaultId};
+          return  {...selectedItem, IsDefault: selectedItem.ExchangeScopeGuid === defaultId};
         }
 
         return null;
@@ -175,7 +175,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
         take(1)
       ).subscribe(([selected, items, defaultId]) => {
       if (!selected && !!items && items.length && !!defaultId) {
-        const defaultExchangeScopeItem = items.find(i => i.Id === defaultId);
+        const defaultExchangeScopeItem = items.find(i => i.ExchangeScopeGuid === defaultId);
         if (!!defaultExchangeScopeItem) {
           const itemToSelect = {...defaultExchangeScopeItem, IsDefault: true};
           this.store.dispatch(new fromLibsExchangeFilterContextActions.SetExchangeScopeSelection(itemToSelect));

@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromUserFilterActions from '../actions/user-filter.actions';
 import { SavedFilter } from '../models';

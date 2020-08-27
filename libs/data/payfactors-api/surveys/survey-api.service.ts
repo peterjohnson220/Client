@@ -9,7 +9,9 @@ import { YoyDsSurveysResponse, YoyDsToMapResponse, YoySurveyScopesResponse, YoyD
 import { UdfDataResponse } from '../../../models/payfactors-api/survey/response/udf-data-response.model';
 import { CombinedScopeViewModel } from 'libs/models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SurveyApiService {
   private endpoint = 'Survey';
 

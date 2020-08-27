@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 
@@ -7,11 +7,9 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum, TileTypes } from 'libs/models';
 
 import {
-  Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType,
-  generateTilePreviewIconFromTile, generateTilePreviewChartFromTile,
-  generateTilePreviewListFromTile, generateTilePreviewPlaceHolderFromTile,
-  generateTilePreviewChartWithCalendarFromTile, generateTilePreviewChartWithListFromTile,
-  generateTilePreviewBasicListFromTile, generateTilePreviewPeerFromTile, TilePreviewPeer
+  generateTilePreviewBasicListFromTile, generateTilePreviewChartFromTile, generateTilePreviewChartWithCalendarFromTile,
+  generateTilePreviewChartWithListFromTile, generateTilePreviewIconFromTile, generateTilePreviewListFromTile, generateTilePreviewPeerFromTile,
+  generateTilePreviewPlaceHolderFromTile, Tile, TilePreviewBase, TilePreviewPeer, TilePreviewType, TilePreviewTypes
 } from '../../models';
 import { environment } from 'environments/environment';
 
@@ -58,6 +56,8 @@ export class TileComponent implements OnInit, OnDestroy {
         return generateTilePreviewBasicListFromTile(tile);
       case TilePreviewTypes.Peer:
         return <TilePreviewPeer>{...generateTilePreviewPeerFromTile(tile), TileUrl: this.getTileHref(tile) };
+      case TilePreviewTypes.TotalRewards:
+        return {...generateTilePreviewListFromTile(tile), PreviewType: TilePreviewTypes.TotalRewards };
       default:
         return {
           PreviewType: TilePreviewTypes.Unknown,

@@ -93,6 +93,17 @@ pf-total-rewards-statement {
   .control-type-3 ~ .control-type-3 .secondary-header {
     display: none;
   }
+
+  .trs-statement-title {
+    pf-string-editor {
+      .editable {
+        .edit-icon {
+          position: absolute !important;
+          right: -5px;
+        }
+      }
+    }
+  }
 }
 
 pf-settings-panel {
@@ -314,5 +325,11 @@ pf-statement-assignment-page {
     background: white;
     max-width: 100% !important;
     min-width: 100% !important;
+  }
+}
+
+.total-rewards-statements-grid, .total-rewards-assigned-employees-grid {
+  .k-grid-header th>.k-link>.k-icon {
+    display: none;
   }
 }

@@ -34,6 +34,8 @@ export const initialState: State = {
     activeExchange: null
 };
 
+export let initialLoadedState: State = <any>{};
+
 
 export function reducer(
     featureState = initialState,
@@ -183,6 +185,6 @@ export const getCompanyJob = (state: State) => state.companyJob;
 export const getLoadingExchangeDictionary = (state: State) => state.loadingExchangeDictionary;
 export const getLoadingExchangeDictionaryError = (state: State) => state.loadingExchangeDictionaryError;
 export const getExchangeDictionary = (state: State) => state.exchangeDictionary;
-export const getLoadingActiveExchange = (state: State) => state.loadingActiveExchange
-export const getLoadingActiveExchangeError = (state: State) => state.loadingActiveExchangeError
+export const getLoadingActiveExchange = (state: State) => state.loadingActiveExchange;
+export const getLoadingActiveExchangeError = (state: State) => state.loadingActiveExchangeError;
 export const getActiveExchange = (state: State) => state.activeExchange;

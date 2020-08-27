@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-import {isEmpty, isString} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isString from 'lodash/isString';
 
 import {Observable} from 'rxjs';
 

@@ -2,13 +2,13 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ViewChild } 
 
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { DataStateChangeEvent } from '@progress/kendo-angular-grid';
-import { State } from '@progress/kendo-data-query';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
-import { CompanyEmployee } from 'libs/models/company';
-import { GridTypeEnum, SelectAllStatus } from 'libs/models/common';
+import { GridTypeEnum, ListAreaColumn, SelectAllStatus } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api';
 
 import * as fromAssignedEmployeesGridReducer from '../../reducers';
 import * as fromAssignedEmployeesGridActions from '../../actions/assigned-employees-grid.actions';
@@ -22,20 +22,25 @@ import * as fromAssignedEmployeesPageActions from '../../actions/statement-assig
 export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
   @ViewChild(TooltipDirective, { static: true }) public tooltipDir: TooltipDirective;
   @Input() gridState: any;
+  @Input() displayNoEmployeesImage: boolean;
   @Output() gridStateChange = new EventEmitter<any>();
+  @Output() openAssignModalClicked: EventEmitter<any> = new EventEmitter();
 
-  assignedEmployeesGridData$: Observable<{ data: CompanyEmployee[], total: number }>;
+  assignedEmployeesGridData$: Observable<GridDataResult>;
   assignedEmployeesDataLoading$: Observable<boolean>;
   assignedEmployeesDataLoadingError$: Observable<boolean>;
   assignedEmployeesTotal$: Observable<number>;
   selectedCompanyEmployeeIds$: Observable<number[]>;
-  openActionMenuEmployee$: Observable<CompanyEmployee>;
+  openActionMenuEmployee$: Observable<TotalRewardAssignedEmployee>;
   selectAllState$: Observable<string>;
+  listAreaColumns$: Observable<ListAreaColumn[]>;
 
   selectedCompanyEmployeeIds: number[];
   selectAllStatus = SelectAllStatus;
+  selectedDropdown: NgbDropdown;
 
   selectedCompanyEmployeeIdsSubscription = new Subscription();
+  pageSizes = [20, 50, 100, 250];
 
   constructor(private store: Store<fromAssignedEmployeesGridReducer.State>) { }
 
@@ -48,25 +53,24 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     this.selectedCompanyEmployeeIds$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
     this.selectAllState$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getSelectAllState));
     this.selectedCompanyEmployeeIdsSubscription = this.selectedCompanyEmployeeIds$.subscribe(ids => this.selectedCompanyEmployeeIds = ids);
+    this.listAreaColumns$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getListAreaColumns));
+    window.addEventListener('scroll', this.onScroll, true);
   }
 
   ngOnDestroy(): void {
     this.selectedCompanyEmployeeIdsSubscription.unsubscribe();
+    window.removeEventListener('scroll', this.onScroll, true);
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.TotalRewardsAssignedEmployees));
     this.store.dispatch(new fromAssignedEmployeesGridActions.Reset());
   }
 
-  handleCheckboxClick(employee: CompanyEmployee) {
+  handleCheckboxClick(employee: TotalRewardAssignedEmployee) {
     this.store.dispatch(new fromAssignedEmployeesGridActions.ToggleEmployeeSelection({ CompanyEmployeeId: employee.CompanyEmployeeId }));
   }
 
   handleDataStateChange(state: DataStateChangeEvent): void {
     // emit up to the parent here since we need the filters in that component's state to be passed in the load call
     this.gridStateChange.emit(state);
-  }
-
-  isEmployeeSelected(companyEmployee: CompanyEmployee) {
-    return this.selectedCompanyEmployeeIds.find(e => e === companyEmployee.CompanyEmployeeId);
   }
 
   showGridTooltip(e: any): void {
@@ -77,19 +81,26 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     }
   }
 
-  onActionMenuOpen(event: CompanyEmployee): void {
-    this.store.dispatch(new fromAssignedEmployeesGridActions.OpenActionMenu(event));
-  }
-
-  onActionMenuClose(): void {
-    this.store.dispatch(new fromAssignedEmployeesGridActions.CloseActionMenu());
-  }
-
   onActionMenuUnassignClick(): void {
     this.store.dispatch(new fromAssignedEmployeesPageActions.OpenSingleEmployeeUnassignModal());
   }
 
+  handleSelectedRowAction(dropdown: NgbDropdown, employee: TotalRewardAssignedEmployee): void {
+    this.selectedDropdown = dropdown;
+    this.store.dispatch(new fromAssignedEmployeesGridActions.OpenActionMenu(employee));
+  }
+
+  onScroll = (): void => {
+    if (!!this.selectedDropdown) {
+      this.selectedDropdown.close();
+    }
+  }
+
   onSelectAllChange() {
     this.store.dispatch(new fromAssignedEmployeesGridActions.SelectAll());
+  }
+
+  openAssignModal(): void {
+    this.openAssignModalClicked.emit();
   }
 }

@@ -28,6 +28,8 @@ export const initialState: State = {
   WeightingType: WeightType.Inc
 };
 
+export let initialLoadCompleteState: State = null;
+
 // Reducer
 export function reducer(state = initialState, action: fromExchangeExplorerActions.Actions): State {
   switch (action.type) {
@@ -36,13 +38,19 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
       const defaultScopeId = (<any>action).defaultScopeId;
       const hasDefaultScope = state.ScopeGUID === defaultScopeId;
       const scopeGuid = hasDefaultScope ? defaultScopeId : filterContext.ScopeGUID;
-      return {
+      const newState = {
         ...state,
         ...filterContext,
         hasBeenSet: true,
         hasDefaultScope: hasDefaultScope,
         ScopeGUID: scopeGuid
       };
+
+      if (!initialLoadCompleteState) {
+        initialLoadCompleteState = newState;
+      }
+
+      return newState;
     }
     case fromExchangeExplorerActions.TOGGLE_LIMIT_TO_PAYMARKET: {
       return {
@@ -67,7 +75,7 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
         ...state,
         selectedScope: action.payload,
         hasDefaultScope: action.payload.IsDefault,
-        ScopeGUID: action.payload.Id
+        ScopeGUID: action.payload.ExchangeScopeGuid
       };
     }
     case fromExchangeExplorerActions.CLEAR_EXCHANGE_SCOPE_SELECTION: {
@@ -88,9 +96,13 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
       };
     }
     case fromExchangeExplorerActions.RESET_STATE: {
+      initialLoadCompleteState = null;
       return {
         ...initialState
       };
+    }
+    case fromExchangeExplorerActions.RESET_INITIALLY_LOADED_STATE: {
+      return !!initialLoadCompleteState ? {...initialLoadCompleteState} : {...state};
     }
     case fromExchangeExplorerActions.SET_WEIGHTING_TYPE: {
       return {

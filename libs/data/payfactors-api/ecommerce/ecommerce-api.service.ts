@@ -6,7 +6,9 @@ import { ECommerceSettings } from 'libs/models/payfactors-api/ecommerce';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ECommerceApiService {
   private readonly endpoint = 'ECommerce';
 

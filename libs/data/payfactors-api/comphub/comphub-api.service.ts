@@ -12,7 +12,9 @@ import { BaseExchangeDataSearchRequest } from '../../../models/payfactors-api/pe
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { ExchangeDataSet, PeerQuickPriceData } from '../../../../apps/comphub/app/_main/models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ComphubApiService {
   private endpoint = 'Comphub';
 

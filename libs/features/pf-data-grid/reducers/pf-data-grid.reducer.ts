@@ -1,4 +1,9 @@
-import { cloneDeep, orderBy, uniq, uniqBy, isNumber } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
+import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
+import isNumber from 'lodash/isNumber';
+
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
@@ -626,7 +631,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const dataItemInActiveCollection = newSelectedData.find(d => d[dataPrimaryKey] === action.payload);
       const selectedDataIndex = newSelectedData.indexOf(dataItemInActiveCollection);
 
-      selectedDataIndex > - 1 ? newSelectedData.splice(selectedDataIndex, 1) : newSelectedData.push(selectedDataItem);
+      selectedDataIndex > -1 ? newSelectedData.splice(selectedDataIndex, 1) : newSelectedData.push(selectedDataItem);
 
 
       if (newSelectedKeys && (newSelectedKeys.length === grid.data.total || newSelectedKeys.length === grid.pagingOptions.Count)) {
@@ -933,7 +938,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           });
         }
 
-
         // replace the original row with the updated row
         gridData.data[action.rowIndex] = rowToUpdate;
 
@@ -981,6 +985,21 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             modifiedKeys: [...state.grids[action.pageViewId].modifiedKeys, action.payload]
+          }
+        }
+      };
+    case fromPfGridActions.DELETE_MODIFIED_KEY:
+      if (!state.grids[action.pageViewId].modifiedKeys.includes(action.payload)) {
+        return state;
+      }
+
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            modifiedKeys: state.grids[action.pageViewId].modifiedKeys.filter((modifiedKey => modifiedKey !== action.payload))
           }
         }
       };

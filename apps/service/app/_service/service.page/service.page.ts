@@ -3,7 +3,7 @@ import { Component, AfterViewInit, ViewChild, ElementRef, OnInit, OnDestroy } fr
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { ActionBarConfig, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';

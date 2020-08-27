@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 
 import { select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';

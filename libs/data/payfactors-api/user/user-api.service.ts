@@ -6,7 +6,9 @@ import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { UserResponse, ShareUserResponse } from 'libs/models/payfactors-api/user/response';
 import { UserAssignedRole, HomePageLink } from 'libs/models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserApiService {
   private endpoint = 'User';
 

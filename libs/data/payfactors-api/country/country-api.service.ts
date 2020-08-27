@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { Country, CountryCurrency } from '../../../models/common';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CountryApiService {
   private readonly endpoint = 'Country';
 

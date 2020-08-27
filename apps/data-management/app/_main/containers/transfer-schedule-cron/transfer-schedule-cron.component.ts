@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 
-import {isObject, split} from 'lodash';
+import isObject from 'lodash/isObject';
+import split from 'lodash/split';
 
 import * as fromCronHelpers from '../../helpers/cron-helper';
 

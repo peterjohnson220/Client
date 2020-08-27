@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { filter, first, take, takeWhile } from 'rxjs/operators';
 import 'rxjs/add/observable/combineLatest';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as signalR from '@microsoft/signalr';
 import { LogLevel } from '@microsoft/signalr';
@@ -99,9 +99,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   jobDescriptionViewsAsync$: Observable<AsyncStateObj<string[]>>;
   completedStep$: Observable<boolean>;
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
-  jobDescriptionSSOLoginUrl$: Observable<string>;
-  jobDescriptionSSOAuthResult$: Observable<string>;
-  jobDescriptionSSOAuthError$: Observable<string>;
 
   loadingPage$: Observable<boolean>;
   loadingPageError$: Observable<boolean>;
@@ -120,9 +117,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   completedStepSubscription: Subscription;
   controlTypesSubscription: Subscription;
   requireSSOLoginSubscription: Subscription;
-  jobDescriptionSSOLoginUrlSubscription: Subscription;
-  jobDescriptionSSOAuthResultSubscription: Subscription;
-  jobDescriptionSSOAuthErrorSubscription: Subscription;
 
   companyName: string;
   emailAddress: string;
@@ -154,7 +148,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   editing: boolean;
   completedStep: boolean;
   controlTypes: ControlType[];
-  requireSSOLogin = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -195,9 +188,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.employeeAcknowledgementErrorMessage$ = this.store.select(fromJobDescriptionReducers.getEmployeeAcknowledgementErrorMessage);
     this.jobDescriptionViewsAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionViewsAsync);
     this.completedStep$ = this.store.select(fromJobDescriptionReducers.getCompletedStep);
-    this.jobDescriptionSSOLoginUrl$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOLoginUrl);
-    this.jobDescriptionSSOAuthResult$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthResult);
-    this.jobDescriptionSSOAuthError$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthError);
+
     this.saveThrottle = new Subject();
 
     this.loadingPage$ = this.store.select(fromJobDescriptionReducers.getLoadingPage);
@@ -226,9 +217,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.editingSubscription.unsubscribe();
     this.completedStepSubscription.unsubscribe();
     this.requireSSOLoginSubscription.unsubscribe();
-    this.jobDescriptionSSOLoginUrlSubscription?.unsubscribe();
-    this.jobDescriptionSSOAuthResultSubscription?.unsubscribe();
-    this.jobDescriptionSSOAuthErrorSubscription?.unsubscribe();
   }
 
   appliesToFormCompleted(selected: any) {
@@ -504,22 +492,6 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   private initSubscriptions(): void {
-    this.jobDescriptionSSOLoginUrlSubscription = this.jobDescriptionSSOLoginUrl$.subscribe( ssoLoginUrl => {
-      if (ssoLoginUrl) {
-        // Redirect to SSO login. After logging in you will be redirected back here with tokenid and agentid params from the sso for use in authenticating.
-        const currentURL = window.location.href;
-        let currentURLWithToken = `${currentURL.slice(0, currentURL.indexOf('?'))}?jwt=${this.tokenId}`;
-
-        if (this.viewName) {
-          currentURLWithToken += `&viewName=${this.viewName}`;
-        }
-
-        const encodedUrl = encodeURIComponent(currentURLWithToken);
-
-        window.location.href = `${ssoLoginUrl}&appurl=${encodedUrl}`;
-      }
-    });
-
     this.jobDescriptionExtendedInfoSubscription = this.jobDescriptionExtendedInfo$.subscribe(jdei => {
       if (!!jdei && jdei.WorkflowId === 0) {
         this.showRoutingHistory = false;
@@ -553,10 +525,16 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(userContext.CompanyId));
       }
 
-      if (!this.identityInWorkflow && !this.identityInEmployeeAcknowledgement && !this.tokenId) {
-        this.getJobDescriptionDetails();
-      }
+      this.getJobDescriptionDetails();
       this.initSsoSubscriptions();
+
+      if (this.identityInWorkflow) {
+        this.setWorkflowStepIsBeingViewed();
+      }
+      if (this.identityInEmployeeAcknowledgement) {
+        this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
+      }
+      this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
     });
 
     this.jobDescriptionSubscription = this.jobDescriptionAsync$.subscribe(result => {
@@ -575,6 +553,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       filter(setting => setting === false)
     ).subscribe(() => window.location.href = window.location.href.replace(`/${environment.hostPath}/`, environment.ngAppRoot));
 
+    if (this.inHistory) {
+      this.jobDescriptionManagementService.getHistoricalControlTypes();
+    } else {
+      this.jobDescriptionManagementService.getControlTypes();
+    }
+
     this.controlTypesAsync$.pipe(
       filter(cts => !!cts && !!cts.obj),
       take(1)
@@ -583,6 +567,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
         this.jobDescriptionManagementService.getControlTypes();
       }
     });
+
     this.controlTypesSubscription = this.controlTypesAsync$.subscribe(value => this.controlTypes = value.obj);
 
     this.jobDescriptionManagementDndService.initJobDescriptionManagementDnD(JobDescriptionManagementDndSource.JobDescription,
@@ -607,57 +592,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   private initSsoSubscriptions() {
     this.requireSSOLoginSubscription = this.requireSSOLogin$.subscribe(requireSSOLoginResult => {
-      if (requireSSOLoginResult === false && this.tokenId) {
-        this.getJobDescriptionDetails();
-
-        if (this.identityInWorkflow) {
-          this.setWorkflowStepIsBeingViewed();
-        }
-        if (this.identityInEmployeeAcknowledgement) {
-          this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
-        }
-      }
-
-      if (requireSSOLoginResult  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null &&
-        (this.identityInWorkflow || this.identity.IsPublic)) {
-
-        this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
-
-      } else if (requireSSOLoginResult && this.tokenId != null && (this.identityInWorkflow || this.identity.IsPublic)) {
-
-        this.store.dispatch(new fromJobDescriptionActions.AuthenticateSSOParams({tokenId: this.ssoTokenId, agentId: this.ssoAgentId}));
-
-        this.jobDescriptionSSOAuthResultSubscription = this.jobDescriptionSSOAuthResult$.subscribe( result => {
-          if (result) {
-            const resultObj: any = result;
-            const userEmailDomain = this.emailAddress.slice(this.emailAddress.indexOf('@') + 1, this.emailAddress.length);
-
-            if (resultObj.EmailDomain.indexOf(userEmailDomain) === -1 && userEmailDomain.indexOf(resultObj.EmailDomain) === -1) {
-              this.router.navigate(['/forbidden']);
-            }
-
-            this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
-            this.getJobDescriptionDetails();
-
-            if (this.identityInWorkflow) {
-              this.setWorkflowStepIsBeingViewed();
-            }
-
-            if (this.identityInEmployeeAcknowledgement) {
-              this.store.dispatch(new fromEmployeeAcknowledgementActions.LoadEmployeeAcknowledgementInfo());
-            }
-
-            this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
-          }
-        });
-
-        this.jobDescriptionSSOAuthErrorSubscription = this.jobDescriptionSSOAuthError$.subscribe( result => {
-          if (result) {
-            this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
-          }
-        });
-      } else if (requireSSOLoginResult != null) {
-        this.store.dispatch(new fromJobDescriptionActions.LoadingPage(false));
+    if (requireSSOLoginResult && this.tokenId != null && (this.identityInWorkflow || this.identity.IsPublic)) {
+        this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
       }
     });
   }

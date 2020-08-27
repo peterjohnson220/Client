@@ -3,7 +3,9 @@ import {shareReplay} from 'rxjs/operators';
 
 import {PayfactorsApiService} from '../../data/payfactors-api/payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RemoteDataSourceService {
   private cache = [];
   constructor(

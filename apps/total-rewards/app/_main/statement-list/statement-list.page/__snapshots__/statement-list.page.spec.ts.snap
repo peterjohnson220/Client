@@ -89,9 +89,11 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
               role="tabpanel"
             >
               
-              
-              <pf-no-records-found-call-to-action />
-              
+              <div
+                class="h-100"
+              >
+                <pf-statements-grid />
+              </div>
             </div>
             
             
@@ -214,13 +216,11 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
               role="tabpanel"
             >
               
-              
               <div
                 class="h-100"
               >
                 <pf-statements-grid />
               </div>
-              
             </div>
             
             

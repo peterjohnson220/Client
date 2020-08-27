@@ -1,7 +1,7 @@
 import { State } from '@progress/kendo-data-query/';
 import { SelectAllCheckboxState } from '@progress/kendo-angular-grid';
 import { combineReducers } from '@ngrx/store';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 

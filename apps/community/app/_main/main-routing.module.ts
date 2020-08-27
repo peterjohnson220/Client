@@ -40,7 +40,11 @@ const routes: Routes = [
   { path: 'search-results',
     component: CommunitySearchResultsPageComponent,
     canActivate: [NewCommunityEnabledGuard]
-  }
+  },
+  { path: 'dashboard/topic/:id',
+    component: CommunityDashboardPageComponent,
+    canActivate: [NewCommunityEnabledGuard]
+  },
 ];
 
 @NgModule({

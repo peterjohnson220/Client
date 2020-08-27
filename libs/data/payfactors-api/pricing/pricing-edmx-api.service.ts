@@ -5,7 +5,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PricingEdmxApiService {
   private endpoint = 'CompanyJobPricing';
 

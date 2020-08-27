@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -129,6 +129,7 @@ export class CommunityAttachmentModalComponent implements OnInit {
       this.showFileCountWarning = false;
     }
 
+    file.name = `${file.uid}_${file.name}`;
     this.uploadWidget.removeFilesByUid(file.uid);
 
     this.currentCommunityAttachmentModal.Attachments = this.uploadedFiles;

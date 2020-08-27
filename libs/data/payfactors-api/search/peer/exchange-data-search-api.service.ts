@@ -13,7 +13,9 @@ import { ComphubExchangeExplorerContextRequest } from 'libs/models/peer/requests
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExchangeDataSearchApiService {
   private endpoint = 'ExchangeDataSearch';
 
@@ -22,14 +24,17 @@ export class ExchangeDataSearchApiService {
   getExchangeExplorerContextInfo(
     payload: ComphubExchangeExplorerContextRequest |
     { companyJobId?: number, companyPayMarketId?: number } |
-    { exchangeId: number }):
+    { exchangeId: number } |
+    { lockedExchangeJobId: number, companyPayMarketId: number }):
     Observable<ExchangeExplorerContextInfo> {
     const request: ComphubExchangeExplorerContextRequest = payload as ComphubExchangeExplorerContextRequest;
     if (request && request.ExchangeJobId) {
       return this.payfactorsApiService.post(`${this.endpoint}/GetExchangeExplorerContextInfo`, request);
     }
 
-    return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeExplorerContextInfo`, {
+    const lockedExchangeJobPayload = payload as {lockedExchangeJobId: number, companyPayMarketId: number};
+    const action = !!lockedExchangeJobPayload && !!lockedExchangeJobPayload.lockedExchangeJobId ? 'GetExchangeExplorerContextInfoForLockedExchangeJob' : 'GetExchangeExplorerContextInfo';
+    return this.payfactorsApiService.get(`${this.endpoint}/${action}`, {
       params: payload
     });
   }

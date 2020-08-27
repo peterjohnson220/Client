@@ -51,6 +51,8 @@ export const initialState: State = {
   zoom: 0
 };
 
+export let initialLoadCompleteState: State = null;
+
 // Reducer
 export function reducer(state = initialState, action: fromPeerMapActions.Actions): State {
   switch (action.type) {
@@ -81,6 +83,10 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         mapFilter: mapFilter
       };
 
+      if (!initialLoadCompleteState) {
+        initialLoadCompleteState = newState;
+      }
+
       return newState;
     }
     case fromPeerMapActions.LOAD_PEER_MAP_DATA_ERROR: {
@@ -97,9 +103,13 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
     }
     case fromPeerMapActions.RESET_STATE: {
+      initialLoadCompleteState = null;
       return {
         ...initialState
       };
+    }
+    case fromPeerMapActions.RESET_INITIALLY_LOADED_STATE: {
+      return !!initialLoadCompleteState ? {...initialLoadCompleteState} : {...state};
     }
     case fromPeerMapActions.APPLY_CUT_CRITERIA: {
       const mapDetails = MapHelper.getMapDetailsFromScope(action.payload, true);
@@ -170,6 +180,12 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
     }
     case fromPeerMapActions.MAP_LOADED: {
+      if (!!initialLoadCompleteState && !initialLoadCompleteState.mapLoaded) {
+        initialLoadCompleteState = {
+          ...initialLoadCompleteState,
+          mapLoaded: true
+        };
+      }
       return {
         ...state,
         mapLoaded: true

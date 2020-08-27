@@ -51,6 +51,7 @@
                       <div class="template-section" *ngFor="let section of (template$ | async)?.Sections; trackBy: trackByFn; let i = index" [attr.data-index]="i">
                             <pf-template-section #templateSections
                                 [section]="section"
+                                [loadingSummary]="getLoadingSummary$ | async"
                                 [readOnly]="!(editingTemplate$ | async) || editingTemplateSettings"
                                 [templateSettings]="templateSettings$ | async"
                                 [editingTemplateSettings]="editingTemplateSettings"

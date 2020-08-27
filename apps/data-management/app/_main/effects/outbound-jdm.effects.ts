@@ -7,7 +7,8 @@ import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { delay, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import { isEmpty, isObject } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
 
 import { OrgDataEntityType } from 'libs/constants';
 

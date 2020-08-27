@@ -36,9 +36,9 @@ export const getSsoConfiguringError = createSelector(
   fromSsoConfigReducer.getSsoConfiguringError
 );
 
-export const getAddSsoConfigModalOpen = createSelector(
+export const getSsoConfigModalOpen = createSelector(
   selectSsoState,
-  fromSsoConfigReducer.getAddSsoConfigModalOpen
+  fromSsoConfigReducer.getSsoConfigModalOpen
 );
 
 export const getSsoConfigList =  createSelector(
@@ -61,3 +61,22 @@ export const getSsoConfigLoadingError = createSelector(
   fromSsoConfigReducer.getSsoConfigLoadingError
 );
 
+export const getSelectedCustomerConnection = createSelector(
+  selectSsoState,
+  fromSsoConfigReducer.getSelectedCustomerConnection
+);
+
+export const getCustomerConnectionSelected = createSelector(
+  selectSsoState,
+  fromSsoConfigReducer.getCustomerConnectionSelected
+);
+
+export const getUpdatingConfiguration = createSelector(
+  selectSsoState,
+  fromSsoConfigReducer.getUpdatingConfiguration
+);
+
+export const getUpdatingConfigurationSuccess = createSelector(
+  selectSsoState,
+  fromSsoConfigReducer.getUpdatingConfigurationSuccess
+);
