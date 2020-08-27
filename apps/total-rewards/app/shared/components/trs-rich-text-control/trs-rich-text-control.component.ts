@@ -23,6 +23,8 @@ import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import { RichTextControl, StatementModeEnum } from '../../models';
 import { UpdateStringPropertyRequest, UpdateTitleRequest } from '../../models/request-models';
 
+import { environment } from 'environments/environment';
+
 const Quill = require('quill');
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
@@ -62,16 +64,11 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   lastMouseDownElement: HTMLElement;
 
+  showFontFamilyMenu = environment.enableTrsCustomFontFamilies;
+
   quillConfig = {
     toolbar: {
-      container: [
-        [{ 'font': supportedFonts }],
-        [{ 'size': ['small', false, 'large'] }],
-        ['bold', 'italic', 'underline'],
-        [{ 'color': [] }],
-        [{ 'align': [] }],
-        [{ 'list': 'bullet' }],
-      ]
+      container: this.quillToolbarContainer,
     },
     mention: {
       allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
@@ -110,6 +107,20 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
       return this.controlData.DataFields.map(df => ({ id: df.Key, value: df.Value }));
     }
     return [];
+  }
+
+  get quillToolbarContainer(): any[] {
+    const allOptions = [
+      [{ 'font': supportedFonts }],
+      [{ 'size': ['small', false, 'large'] }],
+      ['bold', 'italic', 'underline'],
+      [{ 'color': [] }],
+      [{ 'align': [] }],
+      [{ 'list': 'bullet' }],
+    ];
+
+    // remove the custom font family menu if disabled in environment
+    return (this.showFontFamilyMenu) ? allOptions : allOptions.slice(1);
   }
 
   constructor(private changeDetectorRef: ChangeDetectorRef) { }
