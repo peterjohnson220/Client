@@ -33,10 +33,10 @@ export class TicketCommentsDetailComponent implements OnChanges {
 
   addNewComment() {
     const commentsCopy = cloneDeep(this._comments);
-    if(commentsCopy.length > 0){
-      const firstComment = commentsCopy[0]
-      if (firstComment.Content == '' && firstComment.Level == TicketCommentLevel.Admin) {
-        commentsCopy.shift()
+    if (commentsCopy.length > 0) {
+      const firstComment = commentsCopy[0];
+      if (firstComment.Content === '' && firstComment.Level === TicketCommentLevel.Admin) {
+        commentsCopy.shift();
       }
     }
     const ticketId = this.ticketId;

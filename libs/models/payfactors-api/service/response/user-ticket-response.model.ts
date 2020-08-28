@@ -37,6 +37,10 @@ export interface UserTicketFile {
   DisplayName: string;
   FileName: string;
   FileType?: string;
+  CreateDate?: Date;
+  CreateUser?: number;
+  CreateUserFullName?: string;
+  CreateDateWithoutTime?: Date;
 }
 
 export interface UserTicketComment {
@@ -56,7 +60,8 @@ export interface UserTicketComment {
 
 export enum TicketCommentLevel {
   Admin = 'Admin',
-  User = 'User'
+  User = 'User',
+  System = 'System'
 }
 
 export function generateMockUserTicketViewModel(): UserTicketResponse {
