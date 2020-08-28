@@ -1,6 +1,18 @@
 @import 'kendo-grid';
 @import 'colors';
 
+.overlayBtn {
+  position: relative;
+  right: 26px;
+  background-color: transparent;
+  z-index: 99;
+  padding: .25rem .4rem;
+  font-size: .875rem;
+  line-height: .5;
+  border-radius: .2rem;
+  margin-right: -26px;
+}
+
 .main-grid-full {
   position: relative;
   width: 100%;
