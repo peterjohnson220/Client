@@ -22,7 +22,9 @@ export class ReScopeSurveyDataEffects {
       switchMap((action: fromReScopeSurveyDataActions.GetReScopeSurveyDataContext) => {
         return this.pricingService.getReScopeSurveyDataContext(action.payload).pipe(
           map((response: any) => {
-            return new fromReScopeSurveyDataActions.GetReScopeSurveyDataContextSuccess(response);
+            const result = response;
+            result['MatchId'] = action.payload;
+            return new fromReScopeSurveyDataActions.GetReScopeSurveyDataContextSuccess(result);
           }),
           catchError(response => of(new fromReScopeSurveyDataActions.ReScopeSurveyDataError(response)))
         );

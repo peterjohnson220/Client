@@ -21,7 +21,6 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
 
   @Input() pricingInfo: any[];
   @Output() notesEmitter = new EventEmitter();
-  @Output() reScopeSurveyDataEmitter = new EventEmitter();
 
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
   @ViewChild('agingColumn') agingColumn: ElementRef;

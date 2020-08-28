@@ -5,7 +5,7 @@
   position="right"
   [tooltipTemplate]="pricingMatch"
 >
-  <ng-container *ngIf="permissionService.CheckPermission([permissions.MODIFY_PRICINGS], permissionCheckEnum.Single); else readOnlyMatchValues">
+  <ng-container *ngIf="canModifyPricings; else readOnlyMatchValues">
     <div class="wtg-adj-cell" [title]="pricingInfo | modifyPricingMatchError : isActiveJob">
       <kendo-numerictextbox
         class="form-control-sm wtg-adj-input right mr-2"
@@ -45,7 +45,7 @@
     </div>
   </ng-template>
 
-  <div [class.survey-cut]="dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID']" (click)="reScopeSurveyData()" [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
+  <div [class.survey-cut]="dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'] && canModifyPricings" (click)="openReScopeSurveyDataModal()" [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
     <pf-job-title-code
       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code"
@@ -177,3 +177,11 @@
     </div>
   </ng-container>
 </pf-modal-form>
+
+<pf-re-scope-survey-data
+  [modalConfiguration]="reScopeSurveyDataConfiguration"
+  (reScopeSubmitted)="reScopeSurveyDataCut($event)"
+  (cancelChanges)="showReScopeSurveyDataModal.next(false);"
+>
+
+</pf-re-scope-survey-data>
