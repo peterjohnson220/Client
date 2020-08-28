@@ -17,6 +17,7 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageActions from '../../../../actions';
 import * as fromJobsPageReducer from '../../../../reducers';
@@ -36,7 +37,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   @ViewChild('pricingActionsColumn') pricingActionsColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
 
-  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Status'];
   pageViewId = PageViewIds.PricingHistory;
 
   colTemplates = {};
@@ -52,6 +53,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   permissions = Permissions;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
+  getPricingReviewedSuccessSubscription: Subscription;
   payMarketField: ViewField;
   filteredPayMarketOptions: any;
   payMarketOptions: any;
@@ -94,6 +96,12 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
       .pipe(ofType(fromPricingDetailsActions.GET_PRICING_INFO_SUCCESS) || ofType(fromPricingDetailsActions.GET_PRICING_INFO_ERROR))
       .subscribe(data => {
         this.showPricingDetails.next(true);
+      });
+
+    this.getPricingReviewedSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromPricingDetailsActions.SAVING_PRICING_SUCCESS))
+      .subscribe(data => {
+        this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PricingHistory));
       });
 
     this.deletingPricing$ = this.store.select(fromJobsPageReducer.getDeletingPricing);

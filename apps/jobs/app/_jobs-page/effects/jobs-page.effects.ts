@@ -117,9 +117,10 @@ export class JobsPageEffects {
       return this.pricingEdmxApiService.deletePricing(action.payload).pipe(
         mergeMap(() => [
           new fromJobsPageActions.DeletingPricingSuccess(),
-          new fromPfDataGridActions.LoadData(PageViewIds.PricingHistory)
+          new fromPfDataGridActions.LoadData(PageViewIds.PricingHistory),
+          new fromPfDataGridActions.LoadData(PageViewIds.PricingDetails)
         ]),
-        catchError(error => of(new fromJobsPageActions.DeletingPricingError(error)))
+        catchError(error => of(new fromJobsPageActions.DeletingPricingError(error))),
       );
     })
   );
