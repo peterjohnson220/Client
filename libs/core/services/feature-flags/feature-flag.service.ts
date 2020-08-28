@@ -38,6 +38,7 @@ export interface FeatureFlagContextAttribute {
  */
 export interface FeatureFlagContext {
   key: number;
+  email?: string;
   attributes?: FeatureFlagContextAttribute;
 }
 

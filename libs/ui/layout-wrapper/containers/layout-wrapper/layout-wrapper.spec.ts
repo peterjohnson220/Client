@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 
 import { generateMockUserContext } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import { LayoutWrapperComponent } from './layout-wrapper';
 import * as fromRootState from '../../../../state/state';
@@ -41,7 +42,13 @@ describe('Layout Wrapper', () => {
       declarations: [
         LayoutWrapperComponent, TestHostComponent
       ],
-      providers: [SettingsService],
+      providers: [
+        SettingsService,
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { bindEnabled: jest.fn() },
+        }
+      ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });

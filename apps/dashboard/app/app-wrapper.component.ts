@@ -1,21 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import * as fromFeatureReducer from './_main/reducers';
 import * as fromRootState from 'libs/state/state';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
-
-import { FeatureTypes, Feature } from './_main/models';
 import { UserContext } from 'libs/models/security';
 import { LegacyCompanySettingDto } from 'libs/models/company';
-import {
-  FeatureAreaConstants,
-  GenericNameValueDto,
-  SaveUiPersistenceSettingRequest,
-  UiPersistenceSettingConstants
-} from 'libs/models/common';
+import { FeatureAreaConstants, GenericNameValueDto, SaveUiPersistenceSettingRequest, UiPersistenceSettingConstants } from 'libs/models/common';
 import { SettingsService } from 'libs/state/app-context/services';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+
+import { FeatureTypes, Feature } from './_main/models';
+import * as fromFeatureReducer from './_main/reducers';
 
 declare var loadDrift: any;
 
@@ -31,17 +27,21 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
   displayRightSideBar: boolean;
   isRightSidebarOpen: boolean;
   rightSideBarOpenIcon = 'comments';
+  userNotificationsFeatureFlag: RealTimeFlag = { key: FeatureFlags.UserNotifications, value: false };
+  unsubscribe$ = new Subject<void>();
 
   featureSubscription: any;
   userContextSubscription: any;
   uiPersistenceSubscription: any;
 
   constructor(private store: Store<fromFeatureReducer.State>,
-              private settingsService: SettingsService) {
+              private settingsService: SettingsService,
+              private featureFlagService: AbstractFeatureFlagService) {
     this.userContext$ = store.pipe(select(fromRootState.getUserContext));
     this.legacyCompanySettings$ = store.pipe(select(fromRootState.getLegacyCompanySettings));
     this.uiPersistenceSettings$ = settingsService.selectUiPersistenceFeatureSettings(FeatureAreaConstants.Dashboard);
     this.features$ = this.store.pipe(select(fromFeatureReducer.getFeatures));
+    this.featureFlagService.bindEnabled(this.userNotificationsFeatureFlag, this.unsubscribe$);
   }
 
   static ShouldDisplayDrift(companySettings: LegacyCompanySettingDto[]): boolean {
@@ -91,6 +91,7 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
     this.featureSubscription.unsubscribe();
     this.uiPersistenceSubscription.unsubscribe();
     this.userContextSubscription.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   saveRightSidebarToggle(isOpen: boolean) {
