@@ -28,7 +28,10 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   jobLibraryResults: JobDescriptionLibraryResult[] = [];
   keyword = '';
   jobTitleSearch = '';
-  
+
+  availableSources: string[] = [];
+  selectedSources: string[] = [];
+
   constructor(
     private sanitizer: DomSanitizer
   ) { }
@@ -45,6 +48,11 @@ export class JobDescriptionLibraryComponent implements OnChanges {
 
   handleKeywordChange(value: any) {
     this.keyword = value;
+    this.searchChanged.emit(this.buildSearchRequest());
+  }
+
+  handleSourceChange(value: any) {
+    this.selectedSources = value;
     this.searchChanged.emit(this.buildSearchRequest());
   }
 
@@ -72,6 +80,14 @@ export class JobDescriptionLibraryComponent implements OnChanges {
     }
     if (changes.results) {
       this.jobLibraryResults = cloneDeep(this.results);
+
+       if (this.results) {
+        this.results.forEach(result => {
+          if (!this.availableSources.find(x => x === result.Source)) {
+            this.availableSources.push(result.Source);
+          }
+        });
+      }
     }
   }
 
@@ -83,7 +99,8 @@ export class JobDescriptionLibraryComponent implements OnChanges {
       PageSize: this.pageSize,
       PageNumber: this.pageNumber,
       JobTitle: this.jobTitleSearch,
-      JobDescriptionId: null
+      JobDescriptionId: null,
+      Sources: this.selectedSources.join(',')
     };
 
     return searchRequest;
