@@ -24,8 +24,10 @@ import { RichTextControl, StatementModeEnum } from '../../models';
 import { UpdateStringPropertyRequest, UpdateTitleRequest } from '../../models/request-models';
 
 import { environment } from 'environments/environment';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 const Quill = require('quill');
+const cheerio = require('cheerio');
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
 
@@ -40,7 +42,7 @@ Quill.register(font, true);
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy {
-  @ViewChild('richText', { static: true }) richText: any;
+  @ViewChild('richText', { static: false }) richText: any;
 
   @Input() controlData: RichTextControl;
   @Input() mode: StatementModeEnum;
@@ -123,7 +125,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return (this.showFontFamilyMenu) ? allOptions : allOptions.slice(1);
   }
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private changeDetectorRef: ChangeDetectorRef, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.title = this.controlData.Title.Default;
@@ -221,6 +223,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     this.quillMentionContainer.scrollTop = 0;
   }
 
+  // This binding method is for the Quill rich text editor, readonly copy of bound html should use bindEmployeeDataHtml
   bindEmployeeData(): void {
     if (!this.quillApi) { return; }
 
@@ -239,6 +242,20 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     // in preview mode hide the placeholder by setting to an empty string since we don't want to see edit instructions when the control is not editable
     const newEditorPlaceholderText = (this.mode === StatementModeEnum.Edit) ? this.editorPlaceholderText : '';
     this.quillApi.container.firstChild.setAttribute('data-placeholder', newEditorPlaceholderText);
+  }
+
+  // This method is used in print view when Quill editor is not rendered
+  bindEmployeeDataHtml(): SafeHtml {
+    const $ = cheerio.load('<div class=\'ql-editor\'>' + this.htmlContent + '</div>');
+    const spans = $('.ql-editor span').toArray();
+    for (const span of spans) {
+      if (span.attribs['data-value']) {
+        const employeeField = this.controlData.DataFields.find(f => f.Value === span.attribs['data-value']);
+        const employeeDataValue = this.employeeRewardsData[employeeField.Key];
+        $('[data-value="' + employeeField.Value + '"]', '.ql-editor').replaceWith(this.formatDataFieldValue(employeeDataValue));
+      }
+    }
+    return this.sanitizer.bypassSecurityTrustHtml($.html());
   }
 
   getDataFieldPlaceholderText(dataFieldKey: string): string {
@@ -271,6 +288,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   @HostListener('document:mousedown', ['$event'])
   onDocumentMouseDown(event: MouseEvent): void {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
     // focus the editor if the mousedown target is the quill editor
     if (this.richTextNode.contains(event.target as HTMLElement)) {
       this.isFocused = true;
@@ -280,6 +300,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   @HostListener('document:mouseup', ['$event'])
   onDocumentMouseUp(event: MouseEvent): void {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
     // bail if the mousedown target is the quill editor, since clicking + dragging + releasing outside should maintain focus
     if (this.richTextNode.contains(this.lastMouseDownElement)) {
       return;
