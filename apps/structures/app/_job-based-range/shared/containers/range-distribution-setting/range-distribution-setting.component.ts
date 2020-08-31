@@ -48,6 +48,9 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   showMaxSpread: boolean;
   minSpreadTooltip: string;
   maxSpreadTooltip: string;
+  fieldsDisabledTooltip: string;
+  payTypeTooltip: string;
+  enablePercentilesAndRangeSpreads: boolean;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -58,6 +61,8 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     );
     this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
+    this.fieldsDisabledTooltip = ModelSettingsModalConstants.FIELDS_DISABLED_TOOL_TIP;
+    this.payTypeTooltip = ModelSettingsModalConstants.PAYTYPE_TOOL_TIP;
   }
 
   get value(): RangeDistributionSettingForm {
@@ -75,30 +80,32 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   }
 
   buildForm() {
+    this.activeRangeTypeTab = this.metadata.RangeDistributionTypes.find(t => t.Id === this.metadata.RangeDistributionTypeId).Type;
+
     this.rangeDistributionSettingForm = new FormGroup({
       'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
       'RangeDistributionTypeId': new FormControl({
-        value: this.metadata.RangeDistributionTypeId,
-        disabled: true // we always want to disable
+          value: this.metadata.RangeDistributionTypeId,
+          disabled: true// we always want to disable
         }, [Validators.required]
       ),
       'ControlPoint': new FormControl({value: this.metadata.ControlPoint, disabled: true}, [Validators.required]),
       'RangeBasedOn': new FormControl(this.metadata.ControlPoint, [Validators.required]),
-      'Minimum': new FormControl(this.metadata.SpreadMin, [Validators.required]),
-      'Maximum': new FormControl(this.metadata.SpreadMax, [Validators.required]),
-      'FirstTertile': new FormControl(null),
-      'SecondTertile': new FormControl(null),
-      'FirstQuartile': new FormControl(null),
-      'SecondQuartile': new FormControl(null),
-      'FirstQuintile': new FormControl(null),
-      'SecondQuintile': new FormControl(null),
-      'ThirdQuintile': new FormControl(null),
-      'FourthQuintile': new FormControl(null),
-      'MinPercentile': new FormControl(null),
-      'MaxPercentile': new FormControl(null),
+      'Minimum': new FormControl({ value: this.metadata.SpreadMin, disabled: !this.enablePercentilesAndRangeSpreads}, [Validators.required]),
+      'Maximum': new FormControl({ value: this.metadata.SpreadMax, disabled: !this.enablePercentilesAndRangeSpreads}, [Validators.required]),
+      'FirstTertile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
+      'SecondTertile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
+      'FirstQuartile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
+      'SecondQuartile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
+      'FirstQuintile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
+      'SecondQuintile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
+      'ThirdQuintile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
+      'FourthQuintile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
+      'MinPercentile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
+      'MaxPercentile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
     });
 
-    this.activeRangeTypeTab = this.metadata.RangeDistributionTypes.find(t => t.Id === this.metadata.RangeDistributionTypeId).Type;
+
 
     this.subscriptions.push(
       // any time the inner form changes update the parent of any change
@@ -112,6 +119,25 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       this.setFormValidators(this.metadata.RangeDistributionTypeId);
     }
 
+    if (!!this.metadata.ControlPoint) {
+      this.enablePercentilesAndRangeSpreadFields();
+    }
+  }
+
+  enablePercentilesAndRangeSpreadFields() {
+    this.rangeDistributionSettingForm.controls['Minimum'].enable();
+    this.rangeDistributionSettingForm.controls['Maximum'].enable();
+    this.rangeDistributionSettingForm.controls['MinPercentile'].enable();
+    this.rangeDistributionSettingForm.controls['MaxPercentile'].enable();
+    this.rangeDistributionSettingForm.controls['FirstTertile'].enable();
+    this.rangeDistributionSettingForm.controls['SecondTertile'].enable();
+    this.rangeDistributionSettingForm.controls['FirstQuartile'].enable();
+    this.rangeDistributionSettingForm.controls['SecondQuartile'].enable();
+    this.rangeDistributionSettingForm.controls['FirstQuintile'].enable();
+    this.rangeDistributionSettingForm.controls['SecondQuintile'].enable();
+    this.rangeDistributionSettingForm.controls['ThirdQuintile'].enable();
+    this.rangeDistributionSettingForm.controls['FourthQuintile'].enable();
+    this.enablePercentilesAndRangeSpreads = true;
   }
 
   handleRangeBasedOnFilterChange(value: string) {
@@ -132,6 +158,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       // Reset range values and set validators based on range distribution type id
       this.resetFormValidators();
       this.setFormValidators(this.rangeDistributionSettingForm.controls['RangeDistributionTypeId'].value);
+      this.enablePercentilesAndRangeSpreadFields();
     }
   }
 
@@ -252,6 +279,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   // Lifecycle
   ngOnInit(): void {
     this.buildForm();
+    this.enablePercentilesAndRangeSpreads = !!this.metadata.ControlPoint;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

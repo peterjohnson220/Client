@@ -2,19 +2,20 @@
   <label for="rangeType">Range Type</label>
   <div>
     <ng-container *ngFor="let type of metadata.RangeDistributionTypes">
-      <label for="rangeType_{{type.Type}}" class="radio-inline mr-3">
+      <label  for="rangeType_{{type.Type}}" class="radio-inline mr-3 d-none">
         <input type="radio" id="rangeType_{{type.Type}}"
-          [value]='type.Id'
-          formControlName="RangeDistributionTypeId"
-          (change)="handleRangeTypeChange(type)">
+               [value]='type.Id'
+               formControlName="RangeDistributionTypeId"
+               (change)="handleRangeTypeChange(type)">
         {{type.Type}}
       </label>
     </ng-container>
+    <label id="rangeType" class="font-weight-bold mr-3">{{activeRangeTypeTab}}</label>
   </div>
   <div class="rounding-group">
     <div class="form-group row mb-5">
       <label class="col-3 mt-2">Select Pay Type</label>
-      <kendo-combobox id="rangeBasedOn" class="form-control col-4 no-inline-links"
+      <kendo-combobox id="rangeBasedOn" class="form-control col-4"
           formControlName="RangeBasedOn"
           [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.RangeBasedOn.invalid }"
           [loading]="controlPointsAsyncObj.loading"
@@ -29,6 +30,7 @@
           (filterChange)="handleRangeBasedOnFilterChange($event)"
           (selectionChange)="handleRangeBasedOnSelectionChange($event)">
       </kendo-combobox>
+      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="payTypeTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a range.
@@ -76,9 +78,9 @@
     </div>
     <div class="form-group row" *ngIf="activeRangeTypeTab==='Tertile'">
       <label class="col-3 mt-2">Top 1st 3rd</label>
-      <kendo-combobox id="firstTertile" class="form-control col-4 no-inline-links"
+      <kendo-combobox id="firstTertile" class="form-control col-4"
           formControlName="FirstTertile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstTertile.invalid }"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstTertile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -89,6 +91,7 @@
           [placeholder]="'Select First Tertile'"
           [filterable]="false">
       </kendo-combobox>
+      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a range for first tertile.
@@ -96,9 +99,9 @@
     </div>
     <div class="form-group row" *ngIf="activeRangeTypeTab==='Quartile'">
       <label class="col-3 mt-2">Top 1st 4th</label>
-      <kendo-combobox id="firstQuartile" class="form-control col-4 no-inline-links"
+      <kendo-combobox id="firstQuartile" class="form-control col-4"
           formControlName="FirstQuartile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstQuartile.invalid }"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstQuartile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -109,6 +112,7 @@
           [placeholder]="'Select First Quartile'"
           [filterable]="false">
       </kendo-combobox>
+      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a range for first quartile.
@@ -116,9 +120,9 @@
     </div>
     <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
       <label class="col-3 mt-2">Top 1st 5th</label>
-      <kendo-combobox id="firstQuintile" class="form-control col-4 no-inline-links"
+      <kendo-combobox id="firstQuintile" class="form-control col-4"
           formControlName="FirstQuintile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstQuintile.invalid }"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FirstQuintile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -129,6 +133,7 @@
           [placeholder]="'Select First Quintile'"
           [filterable]="false">
       </kendo-combobox>
+      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a range for first quintile.
@@ -136,9 +141,9 @@
     </div>
     <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
       <label class="col-3 mt-2">Top 2nd 5th</label>
-      <kendo-combobox id="secondQuintile" class="form-control col-4 no-inline-links"
+      <kendo-combobox id="secondQuintile" class="form-control col-4"
           formControlName="SecondQuintile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondQuintile.invalid }"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondQuintile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -149,6 +154,7 @@
           [placeholder]="'Select Second Quintile'"
           [filterable]="false">
       </kendo-combobox>
+      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a range for second quintile.
@@ -156,9 +162,9 @@
     </div>
     <div class="form-group row">
       <label class="col-3 mt-2">Midpoint</label>
-      <kendo-combobox id="midpoint" class="form-control col-4 no-inline-links"
+      <kendo-combobox id="midpoint" class="form-control col-4"
           formControlName="ControlPoint"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.ControlPoint.invalid }"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.ControlPoint.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPoints"
           [textField]="'Display'"
@@ -171,6 +177,7 @@
           (filterChange)="handleControlPointFilterChange($event)"
           (selectionChange)="handleControlPointSelectionChange()">
       </kendo-combobox>
+      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a midpoint.
@@ -178,9 +185,9 @@
     </div>
     <div class="form-group row" *ngIf="activeRangeTypeTab==='Tertile'">
       <label class="col-3 mt-2">Top 2nd 3rd</label>
-      <kendo-combobox id="secondTertile" class="form-control col-4 no-inline-links"
+      <kendo-combobox id="secondTertile" class="form-control col-4"
           formControlName="SecondTertile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondTertile.invalid }"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondTertile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -191,6 +198,7 @@
           [placeholder]="'Select Second Tertile'"
           [filterable]="false">
       </kendo-combobox>
+      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a range for second tertile.
@@ -198,9 +206,9 @@
     </div>
     <div class="form-group row" *ngIf="activeRangeTypeTab==='Quartile'">
       <label class="col-3 mt-2">Top 3rd 4th</label>
-      <kendo-combobox id="secondQuartile" class="form-control col-4 no-inline-links"
+      <kendo-combobox id="secondQuartile" class="form-control col-4"
           formControlName="SecondQuartile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondQuartile.invalid }"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.SecondQuartile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -211,6 +219,7 @@
           [placeholder]="'Select Second Quartile'"
           [filterable]="false">
       </kendo-combobox>
+      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a range for second quartile.
@@ -218,9 +227,9 @@
     </div>
     <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
       <label class="col-3 mt-2">Top 3rd 5th</label>
-      <kendo-combobox id="thirdQuintile" class="form-control col-4 no-inline-links"
+      <kendo-combobox id="thirdQuintile" class="form-control col-4"
           formControlName="ThirdQuintile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.ThirdQuintile.invalid }"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.ThirdQuintile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -231,6 +240,7 @@
           [placeholder]="'Select Third Quintile'"
           [filterable]="false">
       </kendo-combobox>
+      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a range for third quintile.
@@ -238,9 +248,9 @@
     </div>
     <div class="form-group row" *ngIf="activeRangeTypeTab==='Quintile'">
       <label class="col-3 mt-2">Top 4th 5th</label>
-      <kendo-combobox id="fourthQuintile" class="form-control col-4 no-inline-links"
+      <kendo-combobox id="fourthQuintile" class="form-control col-4"
           formControlName="FourthQuintile"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FourthQuintile.invalid }"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FourthQuintile.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPointRanges"
           [textField]="'RangeDisplayName'"
@@ -251,6 +261,7 @@
           [placeholder]="'Select Fourth Quintile'"
           [filterable]="false">
       </kendo-combobox>
+      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a range for fourth quintile.
