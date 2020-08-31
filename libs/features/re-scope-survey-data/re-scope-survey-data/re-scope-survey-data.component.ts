@@ -120,7 +120,13 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
 
   ngOnDestroy() {
     this.reScopeContextSubscription.unsubscribe();
-    this.selectedSurveyDataIdSubscription.unsubscribe();
+
+    // This subscription is conditionally instantiated and is possible to call destroy before instantiating.
+    // ex: Expand a pricing in the details grid to view the matches, but never click to re scope any given match
+    if (this.selectedSurveyDataIdSubscription) {
+      this.selectedSurveyDataIdSubscription.unsubscribe();
+    }
+
   }
 
   submitReScope() {
