@@ -45,7 +45,7 @@
     </div>
   </ng-template>
 
-  <div [class.survey-cut]="dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'] && canModifyPricings" (click)="openReScopeSurveyDataModal()" [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
+  <div [class.survey-cut]="dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'] && canModifyPricings" (click)="reScopeSurveyData()" [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
     <pf-job-title-code
       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code"
@@ -177,11 +177,3 @@
     </div>
   </ng-container>
 </pf-modal-form>
-
-<pf-re-scope-survey-data
-  [modalConfiguration]="reScopeSurveyDataConfiguration"
-  (reScopeSubmitted)="reScopeSurveyDataCut($event)"
-  (cancelChanges)="showReScopeSurveyDataModal.next(false);"
->
-
-</pf-re-scope-survey-data>

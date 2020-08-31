@@ -15,6 +15,7 @@ import * as fromGridActions from '../../pf-data-grid/actions';
 import * as fromGridReducer from '../../pf-data-grid/reducers';
 
 import { ReScopeSurveyDataModalConfiguration, ReScopeSurveyDataContext } from '../models';
+import { ReScopeSurveyDataPageViewIds } from '../constants';
 import * as fromReScopeReducer from '../reducers';
 
 @Component({
@@ -28,7 +29,7 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   @Output() reScopeSubmitted = new EventEmitter();
   @Output() cancelChanges = new EventEmitter();
 
-  pageViewId: string;
+  pageViewId = ReScopeSurveyDataPageViewIds.ReScopeSurveyDataResults;
   reScopeSurveyDataFilters = [];
   columnTemplates = {};
   selectedSurveyDataIdSubscription: Subscription;
@@ -45,6 +46,10 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
 
   constructor(private store: Store<fromGridReducer.State>) {
+    this.selectedSurveyDataIdSubscription = this.store.select(fromGridReducer.getSelectedRecordId, this.pageViewId).subscribe(sd => {
+      this.selectedSurveyDataId = sd;
+    });
+
     this.reScopeContextSubscription = this.store.select(fromReScopeReducer.getReScopeContext).subscribe(c => {
       if (c) {
         const currentCountry = this.reScopeContext?.CountryCode;
@@ -101,14 +106,6 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
 
       this.reScopeSurveyDataFilters = clonedFilters;
     }
-
-    if (changes['modalConfiguration'] &&
-      changes['modalConfiguration'].currentValue['EntityId']) {
-      this.pageViewId = `ECE8522C-CAE0-43C6-82DC-209CB24AC027_${changes['modalConfiguration'].currentValue['EntityId']}`;
-      this.selectedSurveyDataIdSubscription = this.store.select(fromGridReducer.getSelectedRecordId, this.pageViewId).subscribe(sd => {
-        this.selectedSurveyDataId = sd;
-      });
-    }
   }
 
   ngAfterViewInit() {
@@ -120,22 +117,12 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
 
   ngOnDestroy() {
     this.reScopeContextSubscription.unsubscribe();
-
-    // This subscription is conditionally instantiated and is possible to call destroy before instantiating.
-    // ex: Expand a pricing in the details grid to view the matches, but never click to re scope any given match
-    if (this.selectedSurveyDataIdSubscription) {
-      this.selectedSurveyDataIdSubscription.unsubscribe();
-    }
-
-  }
-
-  submitReScope() {
-    this.reScopeSubmitted.emit(this.selectedSurveyDataId);
-    this.resetModal(false);
+    this.selectedSurveyDataIdSubscription.unsubscribe();
   }
 
   resetModal(cancel: boolean) {
     this.store.dispatch(new fromGridActions.UpdateSelectedRecordId(this.pageViewId, null, null));
+    this.store.dispatch(new fromGridActions.UpdateSortDescriptorNoDataRetrieval(this.pageViewId, this.defaultSort));
     if (cancel) {
       this.cancelChanges.emit();
     }
