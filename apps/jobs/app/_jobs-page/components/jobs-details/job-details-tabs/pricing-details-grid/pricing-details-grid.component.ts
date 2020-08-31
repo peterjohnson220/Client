@@ -16,6 +16,9 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
 
+import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { AsyncStateObj } from 'libs/models';
 import { PricingUpdateStrategy, UpdatePricingMatchRequest } from 'libs/models/payfactors-api';
@@ -44,7 +47,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   @ViewChild('genericMrpColumn') genericMrpColumn: ElementRef;
   @ViewChild('pricingNotesHeader') pricingNotesHeader: TemplateRef<any>;
 
-  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Status'];
   mrpFields = ['AllowMRP', 'BaseMRP', 'BonusMRP', 'BonusPctMRP', 'BonusTargetMRP', 'BonusTargetPctMRP', 'FixedMRP', 'LTIPMRP', 'LTIPPctMRP', 'RemunMRP',
     'SalesIncentiveActualMRP', 'SalesIncentiveActualPctMRP', 'SalesIncentiveTargetMRP', 'SalesIncentiveTargetPctMRP',
     'TargetLTIPMRP', 'TargetTDCMRP', 'TCCMRP', 'TCCPlusAllowMRP', 'TCCPlusAllowNoCarMRP', 'TCCTargetMRP', 'TCCTargetPlusAllowMRP',
@@ -70,6 +73,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   selectedPricingPayMarket: string;
   getNotesSuccessSubscription: Subscription;
   getAddingPricingMatchNoteSuccessSubscription: Subscription;
+  getPricingReviewedSuccessSubscription: Subscription;
   showNotesManager = new BehaviorSubject<boolean>(false);
   showNotesManager$ = this.showNotesManager.asObservable();
 
@@ -113,6 +117,12 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
       .pipe(ofType(fromNotesManagerActions.GET_NOTES_SUCCESS) || ofType(fromNotesManagerActions.GET_NOTES_ERROR))
       .subscribe(data => {
         this.showNotesManager.next(true);
+      });
+
+    this.getPricingReviewedSuccessSubscription = actionsSubject
+      .pipe(ofType(fromPricingDetailsActions.SAVING_PRICING_SUCCESS))
+      .subscribe(data => {
+        this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PricingDetails));
       });
 
     this.getAddingPricingMatchNoteSuccessSubscription = this.actionsSubject
