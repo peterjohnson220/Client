@@ -31,7 +31,7 @@ gulp.task('purgecss', () => {
     .pipe(purgecss({
       content: [`./dist/apps/${argv.app}/**/*.js`],
       whitelist: [':before', ':after'],
-      whitelistPatterns: [/^modal/, /^col/, /^control-type/, /-font-size$/, /-font-size$/, /^text/, /action-item/, /-clear-item$/, /^mapboxgl/]
+      whitelistPatterns: [/^modal/, /^col/, /^control-type/, /-font-size$/, /-font-size$/, /^text/, /action-item/, /-clear-item$/, /^mapboxgl/, /^flag-/]
     }))
     .pipe(gulp.dest(`./dist/apps/${argv.app}/`))
 })
