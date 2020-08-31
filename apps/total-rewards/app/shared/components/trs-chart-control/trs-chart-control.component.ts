@@ -34,7 +34,8 @@ export class TrsChartControlComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // the chart animates on change detection, possibly because it thinks it's getting new values, so only change data when the mode changes
-    if ((changes.mode && changes.mode.currentValue !== changes.mode.previousValue) || changes.employeeRewardsData) {
+    if ((changes.mode && changes.mode.currentValue !== changes.mode.previousValue)
+      || changes.employeeRewardsData || changes.calculationControls?.currentValue !== changes.calculationControls?.previousValue) {
       this.chartData = this.inEditMode ? this.getChartEditData() : this.getChartPreviewData();
     }
   }
@@ -48,7 +49,7 @@ export class TrsChartControlComponent implements OnChanges {
 
   getChartEditData(): { category: string, value: number }[] {
     const mockEditValues = [55, 10, 20, 10];
-    return this.calculationControls.map((c: CalculationControl, i: number) => ({ category: c.Title.Default, value: mockEditValues[i] }));
+    return this.calculationControls.map((c: CalculationControl, i: number) => ({ category: c.Title.Override || c.Title.Default, value: mockEditValues[i] }));
   }
 
   public labelContent(e: any): string {
