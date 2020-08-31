@@ -32,9 +32,10 @@ pf-paymarkets {
 
 ::ng-deep .modal-lg {
   max-width: 1000px;
-  
+
   .modal-body {
     padding: 0.15rem 0.15rem 0.15rem 0.25rem;
+    -webkit-flex: 1 1 0;
   }
 
   .modal-content {
