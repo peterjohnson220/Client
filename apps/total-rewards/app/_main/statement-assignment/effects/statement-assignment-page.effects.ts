@@ -66,7 +66,8 @@ export class StatementAssignmentPageEffects {
         this.totalRewardsPdfGenerationService.generateStatements(request).pipe(
           mergeMap((response) => [
             new fromStatementAssignmentPageActions.GenerateStatementsSuccess({ eventId: response }),
-            new fromStatementAssignmentPageActions.CloseGenerateStatementModal()
+            new fromStatementAssignmentPageActions.CloseGenerateStatementModal(),
+            new fromAssignedEmployeesGridActions.ClearSelections()
           ]),
           catchError(error => of(new fromStatementAssignmentPageActions.GenerateStatementsError(error)))
         )
