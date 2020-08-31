@@ -71,6 +71,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() modifiedKey: string = null;
   @Input() resetWidthForSplitView = false;
   @Input() allowMultipleSort = false;
+  @Input() showSortControls = true;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
   gridState$: Observable<DataGridState>;
@@ -301,7 +302,11 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   getColumnHeaderClass(): string {
-    return this.compactGrid && !this.showHeaderWhenCompact ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
+    return this.compactGrid && !this.showHeaderWhenCompact
+      ? 'pf-data-grid-no-header'
+      : this.showSortControls
+        ? 'pf-data-grid-header'
+        : 'pf-data-grid-header no-sort-controls';
   }
 
   getCheckboxHeaderClass() {
