@@ -5,7 +5,9 @@ export const enum FilenamePatternStartsWithConvention {
   Jobs = 'jobs',
   Structures = 'structures',
   StructureMapping = 'structuremapping',
-  Employees = 'employees'
+  Employees = 'employees',
+  Subsidiaries = 'subsidiaries',
+  Benefits = 'benefits'
 }
 
 export const enum LoaderSettingsFilenamePatternOverrideKey {
@@ -13,7 +15,9 @@ export const enum LoaderSettingsFilenamePatternOverrideKey {
   Jobs = 'JobsFilenamePatternOverride',
   Structures = 'StructuresFilenamePatternOverride',
   StructureMapping = 'StructureMappingsFilenamePatternOverride',
-  Employees = 'EmployeesFilenamePatternOverride'
+  Employees = 'EmployeesFilenamePatternOverride',
+  Subsidiaries = 'SubsidiariesFilenamePatternOverride',
+  Benefits = 'BenefitsFilenamePatternOverride'
 }
 
 export const OrgDataFilenamePatternSetConvention: OrgDataFilenamePatternSet = {
@@ -36,5 +40,13 @@ export const OrgDataFilenamePatternSetConvention: OrgDataFilenamePatternSet = {
   StructuresFilenamePattern: {
     IsStartWithRestricted: true,
     Name: FilenamePatternStartsWithConvention.Structures
+  },
+  SubsidiariesFilenamePattern: {
+    IsStartWithRestricted: true,
+    Name: FilenamePatternStartsWithConvention.Subsidiaries
+  },
+  BenefitsFilenamePattern: {
+    IsStartWithRestricted: true,
+    Name: FilenamePatternStartsWithConvention.Benefits
   }
 };

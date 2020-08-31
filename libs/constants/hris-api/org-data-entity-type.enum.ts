@@ -5,6 +5,8 @@ export enum OrgDataEntityType {
   PayMarkets = 'PayMarkets',
   Structures = 'Structures',
   StructureMapping = 'StructureMapping',
+  Subsidiaries = 'Subsidiaries',
+  Benefits = 'Benefits'
 }
 
 export function getOrgDataEntityTypeDisplayName(entity: OrgDataEntityType) {
@@ -28,6 +30,12 @@ export function getOrgDataEntityTypeDisplayName(entity: OrgDataEntityType) {
       break;
     case OrgDataEntityType.Structures:
       name = 'Structures';
+      break;
+    case OrgDataEntityType.Subsidiaries:
+      name = 'Subsidiaries';
+      break;
+    case OrgDataEntityType.Benefits:
+      name = 'Benefits';
       break;
     default:
       throw new Error(`Unknown entity type ${entity}`);

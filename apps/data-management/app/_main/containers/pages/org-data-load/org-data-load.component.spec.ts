@@ -8,7 +8,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { LoadTypes, CompositeDataLoadTypes } from 'libs/constants';
+import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
+import { PermissionService } from 'libs/core';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import { CompanySettingsEnum, ConfigurationGroup, generateMockUserContext } from 'libs/models';
 
@@ -23,16 +24,21 @@ describe('OrgDataLoadComponent', () => {
   let store: Store<fromCompanyReducer.State>;
   const companies = [{ CompanyId: 1, CompanyName: 'Test1', CombinedDetail: 'Test1 (1)' }, { CompanyId: 2, CompanyName: 'abc2', CombinedDetail: 'abc2 (2)' }];
   const companySetting_ManualOrgDataLoadLink_True = [
-    {Key: CompanySettingsEnum.ManualOrgDataLoadLink, DisplayName: 'Manual Org Data Load Link', Value: 'true', Visible: true, DataType: 'string'}];
+    { Key: CompanySettingsEnum.ManualOrgDataLoadLink, DisplayName: 'Manual Org Data Load Link', Value: 'true', Visible: true, DataType: 'string' }];
   const companySetting_ManualOrgDataLoadLink_False = [
-    {Key: CompanySettingsEnum.ManualOrgDataLoadLink, DisplayName: 'Manual Org Data Load Link', Value: 'false', Visible: true, DataType: 'string'}];
+    { Key: CompanySettingsEnum.ManualOrgDataLoadLink, DisplayName: 'Manual Org Data Load Link', Value: 'false', Visible: true, DataType: 'string' }];
 
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, NgbTooltipModule],
       declarations: [OrgDataLoadComponent, EntityUploadComponent],
-      providers: [provideMockStore({})],
+      providers: [
+        provideMockStore({}),
+        {
+          provide: PermissionService,
+          useValue: { CheckPermission: jest.fn(() => true) }
+        },],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -66,7 +72,7 @@ describe('OrgDataLoadComponent', () => {
 
   it('should not increment step on btn click with invalid info for step 2', () => {
     instance.stepIndex = 2;
-    instance.loadOptions = getEntityChoicesForOrgLoader();
+    instance.loadOptions = getEntityChoicesForOrgLoader(true);
     const ret = instance.areStepsValid();
     expect(ret).toBe(false);
     instance.nextBtnClick();
@@ -75,7 +81,7 @@ describe('OrgDataLoadComponent', () => {
 
   it('should not increment step on btn click with invalid delimiter info for step 3', () => {
     instance.stepIndex = 3;
-    instance.loadOptions = getEntityChoicesForOrgLoader();
+    instance.loadOptions = getEntityChoicesForOrgLoader(true);
     instance.selectedDelimiter = null;
     const ret = instance.areStepsValid();
     expect(ret).toBe(false);
@@ -86,7 +92,7 @@ describe('OrgDataLoadComponent', () => {
 
   it('should increment step on btn click with valid info for step 2', () => {
     instance.stepIndex = 2;
-    instance.loadOptions = getEntityChoicesForOrgLoader();
+    instance.loadOptions = getEntityChoicesForOrgLoader(true);
     instance.loadOptions[1].isChecked = true;
     // @ts-ignore
     instance.tooltip = { open: jest.fn() };
@@ -136,7 +142,7 @@ describe('OrgDataLoadComponent', () => {
 
   it('should step back when clicking button', () => {
     instance.userContext = generateMockUserContext();
-    instance.loadOptions = getEntityChoicesForOrgLoader();
+    instance.loadOptions = getEntityChoicesForOrgLoader(true);
 
     instance.stepIndex = 2;
     instance.goBack();

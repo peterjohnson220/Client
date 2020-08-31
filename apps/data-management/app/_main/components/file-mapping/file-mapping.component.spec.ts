@@ -15,7 +15,7 @@ describe('FileMappingComponent', () => {
   let component: FileMappingComponent;
   let fixture: ComponentFixture<FileMappingComponent>;
   let store: Store<fromRootState.State>;
-  const customFields =  [{Key: '1', Value: 'Test'}, {Key: '2', Value: 'Test'}];
+  const customFields = [{ Key: '1', Value: 'Test' }, { Key: '2', Value: 'Test' }];
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -25,14 +25,14 @@ describe('FileMappingComponent', () => {
         }),
         RouterTestingModule
       ],
-      declarations: [ FileMappingComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      declarations: [FileMappingComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     });
     fixture = TestBed.createComponent(FileMappingComponent);
     component = fixture.componentInstance;
-    component.entities = getEntityChoicesForOrgLoader();
+    component.entities = getEntityChoicesForOrgLoader(true);
     component.entities.forEach(e => { e.customFields.Jobs = customFields, e.customFields.Employees = customFields; });
-    component.selectedCompany = {CompanyId: 1, CompanyName: 'test', CombinedDetail: 'test (1)'};
+    component.selectedCompany = { CompanyId: 1, CompanyName: 'test', CombinedDetail: 'test (1)' };
     fixture.detectChanges();
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch');

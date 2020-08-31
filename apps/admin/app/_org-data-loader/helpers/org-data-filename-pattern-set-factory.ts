@@ -1,10 +1,9 @@
 import { isNullOrUndefined } from 'libs/core/functions/';
-import { LoaderSetting } from 'libs/models/data-loads';
 import { FilenamePattern } from 'libs/features/org-data-loader/models';
+import { LoaderSetting } from 'libs/models/data-loads';
 
 import { LoaderSettingsFilenamePatternOverrideKey, OrgDataFilenamePatternSetConvention } from '../constants';
 import { OrgDataFilenamePatternSet } from '../models';
-
 
 export class OrgDataFilenamePatternSetFactory {
   private readonly STARTS_WITH_PATTERN = '^';
@@ -23,7 +22,9 @@ export class OrgDataFilenamePatternSetFactory {
       JobsFilenamePattern: this.getJobsFilenamePattern(settings),
       PayMarketsFilenamePattern: this.getPayMarketsFilenamePattern(settings),
       StructureMappingsFilenamePattern: this.getStructureMappingsFilenamePattern(settings),
-      StructuresFilenamePattern: this.getStructuresFilenamePattern(settings)
+      StructuresFilenamePattern: this.getStructuresFilenamePattern(settings),
+      SubsidiariesFilenamePattern: this.getSubsidiariesFilenamePattern(settings),
+      BenefitsFilenamePattern: this.getBenefitsFilenamePattern(settings)
     };
   }
 
@@ -50,6 +51,16 @@ export class OrgDataFilenamePatternSetFactory {
   getStructuresFilenamePattern(settings: LoaderSetting[]): FilenamePattern {
     return this.getFilenamePattern(settings.find(s => s.KeyName === LoaderSettingsFilenamePatternOverrideKey.Structures))
       || OrgDataFilenamePatternSetConvention.StructuresFilenamePattern;
+  }
+
+  getSubsidiariesFilenamePattern(settings: LoaderSetting[]): FilenamePattern {
+    return this.getFilenamePattern(settings.find(s => s.KeyName === LoaderSettingsFilenamePatternOverrideKey.Subsidiaries))
+      || OrgDataFilenamePatternSetConvention.SubsidiariesFilenamePattern;
+  }
+
+  getBenefitsFilenamePattern(settings: LoaderSetting[]): FilenamePattern {
+    return this.getFilenamePattern(settings.find(s => s.KeyName === LoaderSettingsFilenamePatternOverrideKey.Benefits))
+      || OrgDataFilenamePatternSetConvention.BenefitsFilenamePattern;
   }
 
   getFilenamePattern(setting: LoaderSetting): FilenamePattern {
