@@ -68,6 +68,10 @@
                 <div class="d-flex h-100">
                   <div class="full-size-wrapper">
                     <div [ngClass]="{'grid-container' : !compactGrid}">
+                      <button *ngIf="this.showSplitViewToggle" class="btn btn-sm btn-secondary float-right overlayBtn" (click)="toggleSplitView()">
+                        <fa-icon *ngIf="this.normalSplitViewWidth === this.gridContainerSplitViewWidth" [icon]="['fas','expand-alt']"></fa-icon>
+                        <fa-icon *ngIf="this.normalSplitViewWidth !== this.gridContainerSplitViewWidth" [icon]="['fas','compress-alt']"></fa-icon>
+                      </button>
                       <pf-grid
                         [attr.data-qa-id]="pageViewId"
                         [pageViewId]="pageViewId"

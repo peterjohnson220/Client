@@ -83,6 +83,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() modifiedKey: string = null;
   @Input() resetWidthForSplitView = false;
   @Input() allowMultipleSort = false;
+  @Input() showSplitViewToggle = false;
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();
@@ -108,6 +109,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   userFilteredFields: ViewField[];
   selectedRecordId: number;
   exportEventId = null;
+  normalSplitViewWidth: string;
 
   constructor(
     private store: Store<fromReducer.State>,
@@ -170,6 +172,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
         this.splitViewContainer.nativeElement.scrollTop = scrolledContent.scrollTop;
       }
     });
+
+    this.normalSplitViewWidth = this.gridContainerSplitViewWidth;
   }
 
   ngOnDestroy() {
@@ -268,6 +272,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
 
   isSplitView() {
     return this.splitViewTemplate && (this.selectedRecordId || !this.splitOnSelection);
+  }
+
+  toggleSplitView() {
+    this.gridContainerSplitViewWidth = this.gridContainerSplitViewWidth === this.normalSplitViewWidth ? '100%' : this.normalSplitViewWidth;
   }
 
 }
