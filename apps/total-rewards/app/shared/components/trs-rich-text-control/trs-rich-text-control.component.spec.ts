@@ -204,4 +204,16 @@ describe('TrsChartControlComponent', () => {
     // assert
     expect(config[0][0].font).toBeUndefined();
   });
+
+  it('should not include Quill editor in print mode', () => {
+    // arrange
+    component.mode = StatementModeEnum.Print;
+    component.controlData = { Title: {} } as any;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture.debugElement.nativeElement.querySelector('quill-editor')).toBeFalsy();
+  });
 });

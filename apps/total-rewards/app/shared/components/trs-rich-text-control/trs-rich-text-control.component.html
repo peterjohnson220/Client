@@ -17,7 +17,7 @@
       </label>
     </div>
   </div>
-  <div>
+  <div *ngIf="mode !== statementModeEnum.Print; else rawHtml">
     <a (click)="onClickEditor()">
       <quill-editor
         #richText
@@ -30,4 +30,7 @@
       </quill-editor>
     </a>
   </div>
+  <ng-template #rawHtml>
+    <div [innerHtml]="bindEmployeeDataHtml()"></div>
+  </ng-template>
 </div>
