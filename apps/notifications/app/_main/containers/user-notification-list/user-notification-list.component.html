@@ -1,4 +1,4 @@
-<div class="user-notifications" *ngIf="enableUserNotifications$ | async">
+<div class="user-notifications" *ngIf="userNotificationsFeatureFlag.value">
   <div class="page-header d-flex align-items-center">
     <div>
       <span class="title">Notifications</span>
@@ -41,7 +41,7 @@
   [windowClass]="'sm'"
   [showSubmit]="false"
   (onDismiss)="showModal.next(false)">
-  
+
   <ng-container basic-content>
     <div *ngIf="modalNotification?.EnableHtml" [innerHTML]="modalNotification?.Message"></div>
     <div *ngIf="!modalNotification?.EnableHtml">{{ modalNotification?.Message }}</div>

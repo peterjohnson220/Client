@@ -53,9 +53,10 @@ export class LaunchDarklyFeatureFlagService extends AbstractFeatureFlagService {
   }
 
   private mapLDUser(context: FeatureFlagContext): LDUser {
-    return {
-     key: context.key.toString(),
-     custom: context.attributes
-   };
+  return {
+    key: context.key.toString(),
+    email: context.email,
+    custom: context.attributes
+  };
   }
 }
