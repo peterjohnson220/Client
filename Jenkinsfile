@@ -19,6 +19,7 @@ verDetails = ""
 
 isPublishable = true
 isAutoDeployBranch = false
+buildRunning = true
 
 pipeline {
   agent { label 'ubuntu' }
@@ -193,16 +194,40 @@ pipeline {
 
     stage('Build') {
       steps {
-        script {
-          nodejs(nodeVersion) {
-            echo "Getting list of apps..."
-            sh 'ls apps > dirs'
-            sh """
-              cat dirs | time parallel -j-3 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && node_modules/.bin/gulp purgecss -a={} && echo "{} build complete"'
-            """
-            sh "cp apps/data-insights/reports.html dist/apps/data-insights/reports.html"
+        parallel (
+          Build: {
+            script {
+              nodejs(nodeVersion) {
+                echo "Getting list of apps..."
+                sh 'ls apps > dirs'
+                sh """
+                  cat dirs | time parallel -j-3 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && node_modules/.bin/gulp purgecss -a={} && echo "{} build complete"'
+                """
+                sh "cp apps/data-insights/reports.html dist/apps/data-insights/reports.html"
+                buildRunning = false
+              }
+            }
+          },
+          BuildTimeTracker: {
+            script {
+              timerCnt=0
+              alerted=false
+
+              while (buildRunning == true) {
+                sh 'sleep 30'
+                timerCnt++
+
+                // If build takes longer than 30 min, alert once.
+                if ( timerCnt > 60 && alerted==false ) {
+                  echo '30m passed, alerting slack...'
+                  slackSend channel: 't-devops', color: 'warning', message: ":warning: Client build time for <${env.buildurl}|*${env.BRANCH_NAME} #${env.BUILD_NUMBER}*> on ${env.NODE_NAME} has exceeded 30m. Please check."
+                  alerted=true
+                }
+              }
+              echo 'buildRunning is now false'
+            }
           }
-        }
+        )
       }
       post {
         failure {
