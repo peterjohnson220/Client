@@ -149,6 +149,8 @@ export class JobDescriptionEffects {
           if (action.payload.status === 403) {
             const errorMessage = this.redirectForUnauthorized(action.payload);
             actions.push(new fromWorkflowActions.SetMessage({message: errorMessage}));
+          } else if (action.payload.status === 409) {
+            this.router.navigate(['/public-token-draft']);
           } else {
             this.router.navigate(['404']);
           }

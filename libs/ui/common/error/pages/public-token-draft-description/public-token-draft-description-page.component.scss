@@ -1,0 +1,19 @@
+.center-container{
+    position: absolute;
+    left: 50%;
+    top: 120px;
+    width: 600px;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  
+  .card-block{
+    border-left: 8px solid #1872ae;
+  }
+  
+  .image-container{
+    text-align:center;
+    margin-bottom:15px;
+  }
+  
