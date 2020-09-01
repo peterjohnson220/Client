@@ -45,6 +45,16 @@
               <pf-filter-chooser [pageViewId]="pageViewId" [hideToggleButtons]="displayFilterPanel$ | async"></pf-filter-chooser>
             </div>
           </div>
+
+          <div *ngIf="gridConfig?.EnableInfiniteScroll && (selectAllState$ | async) === selectAllStatus.checked" class="d-flex mb-3">
+            <pf-select-all-panel
+              class="w-100"
+              [itemName]="gridConfig?.SelectAllPanelItemName"
+              [displayedItemsCount]="(gridDataResult$ | async)?.data?.length"
+              [totalCount]="(totalCount$ | async)">
+            </pf-select-all-panel>
+          </div>
+
           <div *ngIf="userFilteredFields.length > 0 || lockedPillText || (actionBarConfig.ShowFilterChooser && !gridActionsTemplate)" class="d-flex mb-2 sub-header">
             <div *ngIf="userFilteredFields.length > 0 || lockedPillText" class="pt-2">
               <pf-data-grid-filter-pills
