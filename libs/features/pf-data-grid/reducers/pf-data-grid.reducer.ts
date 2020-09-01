@@ -308,6 +308,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           },
         }
       };
+    case fromPfGridActions.UPDATE_SORT_DESCRIPTOR_NO_DATA_RETRIEVAL:
     case fromPfGridActions.UPDATE_SORT_DESCRIPTOR:
       return {
         ...state,
@@ -316,7 +317,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             sortDescriptor: action.sortDescriptor,
-            loading: true
+            loading: action.type === fromPfGridActions.UPDATE_SORT_DESCRIPTOR
           },
         }
       };

@@ -19,6 +19,7 @@
   <pf-pricing-matches-grid
     [pricingInfo]="dataRow"
     (notesEmitter)="openPricingMatchNotesManager($event)"
+    (reScopeSurveyDataEmitter)="openReScopeSurveyDataModal($event)"
   ></pf-pricing-matches-grid>
 </ng-template>
 
@@ -116,3 +117,12 @@
     <span>{{selectedPricingPayMarket}}</span>
   </div>
 </ng-template>
+
+<pf-re-scope-survey-data
+  [modalConfiguration]="reScopeSurveyDataConfiguration"
+  (reScopeSubmitted)="reScopeSurveyDataCut($event)"
+  (cancelChanges)="showReScopeSurveyDataModal.next(false);"
+>
+
+</pf-re-scope-survey-data>
+

@@ -5,7 +5,7 @@ import { Store, ActionsSubject } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
-import cloneDeep from 'lodash/cloneDeep';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
@@ -87,6 +87,12 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
 
   jobTitleCodePipe: JobTitleCodePipe;
 
+  showReScopeSurveyDataModal = new BehaviorSubject<boolean>(false);
+  showReScopeSurveyDataModal$ = this.showReScopeSurveyDataModal.asObservable();
+  reScopeSurveyDataSubscription: Subscription;
+  reScopeSurveyDataConfiguration: ReScopeSurveyDataModalConfiguration;
+  matchIdForReScope: number;
+
   constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
     this.jobTitleCodePipe = new JobTitleCodePipe();
 
@@ -137,6 +143,12 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
         this.showNotesManager.next(false);
       });
 
+    this.reScopeSurveyDataSubscription = this.actionsSubject
+      .pipe(ofType(fromReScopeActions.GET_RE_SCOPE_SURVEY_DATA_CONTEXT_SUCCESS))
+      .subscribe(data => {
+        this.showReScopeSurveyDataModal.next(true);
+      });
+
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
@@ -150,6 +162,16 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
       Entity: 'Pricings',
       EntityId: undefined,
       PlaceholderText: undefined
+    };
+
+    this.reScopeSurveyDataConfiguration = {
+      SurveyJobId: undefined,
+      SurveyDataId: undefined,
+      SurveyJobTemplate: undefined,
+      ShowModal$: this.showReScopeSurveyDataModal$,
+      Rate: 'Annual',
+      ShowPricingWarning: true,
+      EntityId: undefined
     };
   }
 
@@ -183,6 +205,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     this.getNotesSuccessSubscription.unsubscribe();
     this.getAddingPricingMatchNoteSuccessSubscription.unsubscribe();
     this.selectedJobRowSubscription.unsubscribe();
+    this.reScopeSurveyDataSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -247,5 +270,36 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
       NotesHeader: event.Configuration.NotesHeader,
       PlaceholderText: 'Please add any notes you would like to attach to this match.'
     };
+  }
+
+  openReScopeSurveyDataModal(event: any) {
+    this.reScopeSurveyDataConfiguration = {
+      ...this.reScopeSurveyDataConfiguration,
+      SurveyJobId: event.SurveyJobId,
+      SurveyDataId: event.SurveyDataId,
+      SurveyJobTemplate: event.SurveyJobTemplate,
+      Rate: event.Rate,
+      EntityId: event.MatchId
+    };
+
+    this.matchIdForReScope = event.MatchId;
+    this.selectedPricingId = event.PricingId;
+
+    this.store.dispatch(new fromReScopeActions.GetReScopeSurveyDataContext(event.MatchId));
+  }
+
+  reScopeSurveyDataCut(surveyDataId: number) {
+    const request: UpdatePricingMatchRequest = {
+      MatchId: this.matchIdForReScope,
+      MatchWeight: null,
+      MatchAdjustment: null,
+      SurveyDataId: surveyDataId,
+      PricingUpdateStrategy: PricingUpdateStrategy.ParentLinkedSlotted
+    };
+    const pricingId = this.selectedPricingId;
+    const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
+
+    this.store.dispatch(new fromJobsPageActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
+    this.showReScopeSurveyDataModal.next(false);
   }
 }
