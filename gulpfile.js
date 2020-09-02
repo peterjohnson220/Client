@@ -30,8 +30,24 @@ gulp.task('purgecss', () => {
   return gulp.src(`./dist/apps/${argv.app}/styles.*.css`)
     .pipe(purgecss({
       content: [`./dist/apps/${argv.app}/**/*.js`],
-      whitelist: [':before', ':after'],
-      whitelistPatterns: [/^modal/, /^col/, /^control-type/, /-font-size$/, /-font-size$/, /^text/, /action-item/, /-clear-item$/, /^mapboxgl/, /^flag-/]
+      whitelist: [
+        ':before',
+        ':after',
+        'nav-tabs'
+      ],
+      whitelistPatterns: [
+        /^modal/,
+        /^col/,
+        /^control-type/,
+        /-font-size$/,
+        /-font-size$/,
+        /^text/,
+        /action-item/,
+        /-clear-item$/,
+        /^mapboxgl/,
+        /^flag-/,
+        //Kendo Icon Classes
+        /^k-i/]
     }))
     .pipe(gulp.dest(`./dist/apps/${argv.app}/`))
 })
