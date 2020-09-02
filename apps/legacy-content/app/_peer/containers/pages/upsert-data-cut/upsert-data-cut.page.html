@@ -12,7 +12,7 @@
     <ng-container map-footer>
 
       <div class="alert alert-mustard mb-0"
-           *ngIf="!(hasAcceptedPeerTerms$ | async)">
+           *ngIf="(hasAcceptedPeerTerms$ | async) === false">
         <div class="request-access-message mb-2">
           {{!(hasRequestedPeerAccess$ | async) ? requestPeerAccessMessage : accessRequestedMessage }}
         </div>
