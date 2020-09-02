@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
+import { CreateProjectRequest } from 'libs/models/payfactors-api';
 import { UpsertExchangeJobMapRequest } from 'libs/models/peer/requests/upsert-exchange-job-map.request.model';
 import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
@@ -49,6 +50,10 @@ export const UNMATCH_SUCCESS = '[Peer Manage/Company Jobs] Unmatch Success';
 export const UNMATCH_ERROR = '[Peer Manage/Company Jobs] Unmatch Error';
 export const CONFIRM_UNMATCH = '[Peer Manage/Company Jobs] Confirm Unmatch';
 export const CANCEL_UNMATCH = '[Peer Manage/Company Jobs] Cancel Unmatch';
+export const CREATE_PROJECT = '[Peer Manage/Company Jobs] Create Project';
+export const CREATE_PROJECT_ERROR = '[Peer Manage/Company Jobs] Create Project Error';
+export const CONFIRM_CREATE_PROJECT = '[Peer Manage/Company Jobs] Confirm Create Project';
+export const CANCEL_CREATE_PROJECT = '[Peer Manage/Company Jobs] Cancel Create Project';
 
 export class Reset implements Action {
   readonly type = RESET;
@@ -199,6 +204,23 @@ export class CancelUnmatch implements Action {
   readonly type = CANCEL_UNMATCH;
 }
 
+export class CreateProject implements Action {
+  readonly type = CREATE_PROJECT;
+  constructor(public payload: CreateProjectRequest) {}
+}
+
+export class CreateProjectError implements Action {
+  readonly type = CREATE_PROJECT_ERROR;
+}
+
+export class ConfirmCreateProject implements Action {
+  readonly type = CONFIRM_CREATE_PROJECT;
+}
+
+export class CancelCreateProject implements Action {
+  readonly type = CANCEL_CREATE_PROJECT;
+}
+
 export type Actions =
   // main grid, misc
   | Reset
@@ -238,4 +260,8 @@ export type Actions =
   | UnmatchSuccess
   | UnmatchError
   | ConfirmUnmatch
-  | CancelUnmatch;
+  | CancelUnmatch
+  | CreateProject
+  | CreateProjectError
+  | ConfirmCreateProject
+  | CancelCreateProject;

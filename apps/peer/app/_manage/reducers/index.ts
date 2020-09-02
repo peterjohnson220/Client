@@ -410,3 +410,18 @@ export const getCompanyJobsShowConfirmUnmatchModal = createSelector(
   getCompanyJobsFeature,
   fromCompanyJobsReducer.getShowConfirmUnmatchModal
 );
+
+export const getCompanyJobsShowConfirmCreateProjectModal = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getShowConfirmCreateProjectModal
+);
+
+export const getCompanyJobsCreatingProject = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getCreatingProject
+);
+
+export const getCompanyJobsShowCreatingProjectError = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getCreatingProjectError
+);

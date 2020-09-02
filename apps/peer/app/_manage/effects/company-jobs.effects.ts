@@ -10,6 +10,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/peer';
 import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
+import { JobsApiService } from 'libs/data/payfactors-api/jobs';
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 import { PermissionService } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
@@ -164,10 +165,25 @@ export class CompanyJobsEffects {
     ))
   );
 
+  @Effect()
+  createProject$: Observable<Action> = this.actions$.pipe(
+    ofType(fromCompanyJobsActions.CREATE_PROJECT),
+    switchMap((data: any) => {
+      return this.jobsApiService.createProject(data.payload).pipe(
+        mergeMap((projectId: number) => {
+          window.location.href = `/marketdata/marketdata.asp?usersession_id=${projectId}&show_peer_exchange=true`;
+          return [];
+        }),
+        catchError(() => of(new fromCompanyJobsActions.CreateProjectError()))
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromReducers.State>,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
+    private jobsApiService: JobsApiService,
     private permissionService: PermissionService,
     private jobDescriptionApiService: JobDescriptionApiService
   ) {}
