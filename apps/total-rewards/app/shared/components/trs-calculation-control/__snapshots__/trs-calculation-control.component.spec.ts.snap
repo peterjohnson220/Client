@@ -86,23 +86,14 @@ exports[`TrsCalculationControlComponent should display contribution values and t
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
              150000 
           </td>
           
-          <td>
-            <button
-              class="remove-btn btn btn-sm btn-outline-danger"
-              type="button"
-            >
-              <fa-icon
-                class="fa-sm"
-              />
-            </button>
-          </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
@@ -123,23 +114,14 @@ exports[`TrsCalculationControlComponent should display contribution values and t
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
              10000 
           </td>
           
-          <td>
-            <button
-              class="remove-btn btn btn-sm btn-outline-danger"
-              type="button"
-            >
-              <fa-icon
-                class="fa-sm"
-              />
-            </button>
-          </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
@@ -160,23 +142,14 @@ exports[`TrsCalculationControlComponent should display contribution values and t
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
              5000 
           </td>
           
-          <td>
-            <button
-              class="remove-btn btn btn-sm btn-outline-danger"
-              type="button"
-            >
-              <fa-icon
-                class="fa-sm"
-              />
-            </button>
-          </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
@@ -303,7 +276,6 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
         <tr
           class="trs-calculation-row w-100"
         >
-          
           
           
         </tr>
@@ -478,23 +450,14 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
              150000 
           </td>
           
-          <td>
-            <button
-              class="remove-btn btn btn-sm btn-outline-danger"
-              type="button"
-            >
-              <fa-icon
-                class="fa-sm"
-              />
-            </button>
-          </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
@@ -515,28 +478,18 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
              10000 
           </td>
           
-          <td>
-            <button
-              class="remove-btn btn btn-sm btn-outline-danger"
-              type="button"
-            >
-              <fa-icon
-                class="fa-sm"
-              />
-            </button>
-          </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
         >
-          
           
           
         </tr>
@@ -658,23 +611,14 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
              150000 
           </td>
           
-          <td>
-            <button
-              class="remove-btn btn btn-sm btn-outline-danger"
-              type="button"
-            >
-              <fa-icon
-                class="fa-sm"
-              />
-            </button>
-          </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
@@ -695,23 +639,14 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
              10000 
           </td>
           
-          <td>
-            <button
-              class="remove-btn btn btn-sm btn-outline-danger"
-              type="button"
-            >
-              <fa-icon
-                class="fa-sm"
-              />
-            </button>
-          </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
@@ -732,23 +667,14 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
              0 
           </td>
           
-          <td>
-            <button
-              class="remove-btn btn btn-sm btn-outline-danger"
-              type="button"
-            >
-              <fa-icon
-                class="fa-sm"
-              />
-            </button>
-          </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
@@ -1062,7 +988,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right"
           >
@@ -1079,6 +1004,8 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               />
             </button>
           </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
@@ -1123,7 +1050,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right"
           >
@@ -1140,6 +1066,8 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               />
             </button>
           </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
@@ -1184,7 +1112,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right"
           >
@@ -1201,6 +1128,8 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
               />
             </button>
           </td>
+          
+          
         </tr>
         <tr
           class="trs-calculation-row w-100"
@@ -1328,7 +1257,6 @@ exports[`TrsCalculationControlComponent should render the supplied title 1`] = `
         <tr
           class="trs-calculation-row w-100"
         >
-          
           
           
         </tr>
