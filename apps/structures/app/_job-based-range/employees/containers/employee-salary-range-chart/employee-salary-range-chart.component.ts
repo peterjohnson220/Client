@@ -37,6 +37,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   employeeSeriesData: any;
   employeeSeriesOutlierData: any;
   employeeAvgMrpSeriesData: any;
+  mrpSeriesData: any;
   chartLocale: string; // en-US
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
@@ -227,6 +228,20 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     );
   }
 
+  private addMRPPoint(xCoordinate) {
+    this.mrpSeriesData.push({
+      x: xCoordinate,
+      y: this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue,
+      jobTitle: this.jobRangeData.CompanyJobs_Job_Title,
+      mrp: this.formatMRP(this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue,
+        this.jobRangeData.CompanyStructures_RangeGroup_MrpPercentile)
+    });
+  }
+
+  private formatMRP(mrp: number, percentile: number) {
+    return `MRP: ${StructuresHighchartsService.formatCurrency(mrp, this.chartLocale, this.currency, this.rate, true)} (Base ${percentile}th)`;
+  }
+
   private updateChartLabels() {
     const locale = this.chartLocale;
     const currencyCode = this.currency;
@@ -268,6 +283,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       this.employeeSeriesData = [];
       this.employeeSeriesOutlierData = [];
       this.employeeAvgMrpSeriesData = [];
+      this.mrpSeriesData = [];
 
       this.chartMin = StructuresHighchartsService.getChartMin(this.jobRangeData, this.rangeDistributionTypeId);
       this.chartMax = StructuresHighchartsService.getChartMax(this.jobRangeData, this.rangeDistributionTypeId);
@@ -287,6 +303,9 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
         // always add to midPoint
         this.addMidPoint(i);
+
+        // always add to MRP
+        this.addMRPPoint(i);
 
         // Tertile - Quartile - Quintile: salary range + data points
         if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
@@ -312,6 +331,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
       this.chartInstance.series[EmployeeSalaryRangeChartSeries.Average].setData(this.employeeAvgMrpSeriesData, true);
       this.chartInstance.series[EmployeeSalaryRangeChartSeries.Employee].setData(this.employeeSeriesData, false);
       this.chartInstance.series[EmployeeSalaryRangeChartSeries.EmployeeOutliers].setData(this.employeeSeriesOutlierData, true);
+      this.chartInstance.series[EmployeeSalaryRangeChartSeries.MRP].setData(this.mrpSeriesData, false);
       this.renameSeries();
 
       // Tertile - Quartile - Quintile: salary range + data points

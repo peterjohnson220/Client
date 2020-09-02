@@ -14,5 +14,6 @@ export enum EmployeeSalaryRangeChartSeries {
   RangeQuintileFourth = 12,
   Average = 13,
   Employee = 14,
-  EmployeeOutliers = 15
+  EmployeeOutliers = 15,
+  MRP = 16
 }

@@ -51,6 +51,9 @@ export class JobRangeModelChartService {
       case JobRangeModelChartSeries.EmployeeOutliers: {
         return 'Outlier ' + controlPointDisplay;
       }
+      case JobRangeModelChartSeries.MRP: {
+        return 'MRP';
+      }
       default: {
         // should never happen, but in case someone adds a value later and forgets.
         return '';
@@ -409,7 +412,7 @@ export class JobRangeModelChartService {
           marker: {
             symbol: 'vline',
             lineWidth: 2,
-            lineColor: '#6236FF',
+            lineColor: '#9370DB',
             radius: 20
           },
           enableMouseTracking: true,
@@ -444,7 +447,27 @@ export class JobRangeModelChartService {
               '<div style="color: white">{point.delta}</div>',
             footerFormat: '</div>'
           }
-        }]
+        },
+        {
+          name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.MRP, controlPointDisplay),
+          type: 'scatter',
+          enableMouseTracking: true,
+          color: '#0000FF',
+          pointWidth: 42,
+          marker: {
+            radius: 6,
+          },
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.mrp}</div>',
+            footerFormat: '</div>'
+          }
+        },
+      ]
     };
   }
 }

@@ -53,6 +53,9 @@ export class EmployeeRangeChartService {
       case EmployeeSalaryRangeChartSeries.EmployeeOutliers: {
         return 'Employee ' + controlPointDisplay + ' -outliers';
       }
+      case EmployeeSalaryRangeChartSeries.MRP: {
+        return 'MRP';
+      }
       default: {
         // should never happen, but in case someone adds a value later and forgets.
         return '';
@@ -397,7 +400,7 @@ export class EmployeeRangeChartService {
           marker: {
             symbol: 'vline',
             lineWidth: 2,
-            lineColor: '#6236FF',
+            lineColor: '#9370DB',
             radius: 30,
           },
           enableMouseTracking: true,
@@ -452,7 +455,28 @@ export class EmployeeRangeChartService {
               '<div style="color: white">{point.salaryDisplay}</div>',
             footerFormat: '</div>'
           }
-        }]
+        },
+        {
+          name: EmployeeRangeChartService.getFormattedSeriesName(EmployeeSalaryRangeChartSeries.MRP, controlPointDisplay),
+          type: 'scatter',
+          enableMouseTracking: true,
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#0000FF',
+            radius: 30,
+          },
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.mrp}</div>',
+            footerFormat: '</div>'
+          }
+        }
+      ]
     };
   }
 }
