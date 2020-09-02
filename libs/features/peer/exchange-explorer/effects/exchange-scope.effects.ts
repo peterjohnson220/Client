@@ -42,9 +42,12 @@ export class ExchangeScopeEffects {
   loadExchangeScopesByJobs: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS)).pipe(
       withLatestFrom(this.store.pipe(select(fromExchangeExplorerReducers.getAssociatedExchangeJobIds)),
-        (action, systemFilterExchangeJobIds) => systemFilterExchangeJobIds),
-      switchMap((systemFilterExchangeJobIds: number[]) =>
-        this.exchangeScopeApiService.getExchangeScopesByJobs(systemFilterExchangeJobIds).pipe(
+        (action: fromExchangeScopeActions.LoadExchangeScopesByJobs, systemFilterExchangeJobIds) => {
+          const jobIdsInPayload = !!action.payload && action.payload.exchangeJobIds;
+          return jobIdsInPayload ? action.payload.exchangeJobIds : systemFilterExchangeJobIds;
+        }),
+      switchMap((exchangeJobIds: number[]) =>
+        this.exchangeScopeApiService.getExchangeScopesByJobs(exchangeJobIds).pipe(
           map((exchangeScopeItems: ExchangeScopeItem[]) => new fromExchangeScopeActions
             .LoadExchangeScopesByJobsSuccess(exchangeScopeItems)),
           catchError(() => of(new fromExchangeScopeActions.LoadExchangeScopesByJobsError))
