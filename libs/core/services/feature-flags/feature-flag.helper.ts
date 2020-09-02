@@ -12,7 +12,7 @@ export class FeatureFlagHelper {
 
   private static buildAttributes(userContext: UserContext): FeatureFlagContextAttribute {
     return {
-      CompanyId: userContext.CompanyId,
+      CompanyId: userContext.CompanyId.toString(),
       ClientType: userContext.ClientType
     };
   }
