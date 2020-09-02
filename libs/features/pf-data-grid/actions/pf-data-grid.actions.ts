@@ -10,6 +10,8 @@ export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
 export const LOAD_VIEW_CONFIG_SUCCESS = '[PfDataGrid] Load View Config Success';
 export const LOAD_DATA = '[PfDataGrid] Load Data';
 export const LOAD_DATA_SUCCESS = '[PfDataGrid] Load Data Success';
+export const LOAD_MORE_DATA = '[PfDataGrid] Load More Data';
+export const LOAD_MORE_DATA_SUCCESS = '[PfDataGrid] Load More Data Success';
 export const UPDATE_FIELDS = '[PfDataGrid] Update Data Fields';
 export const UPDATE_FIELDS_SUCCESS = '[PfDataGrid] Update Data Fields Success';
 export const UPDATE_SELECTION_FIELD = '[PfDataGrid] Update Selection Field';
@@ -125,6 +127,16 @@ export class LoadData implements Action {
 
 export class LoadDataSuccess implements Action {
   readonly type = LOAD_DATA_SUCCESS;
+  constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
+}
+
+export class LoadMoreData implements Action {
+  readonly type = LOAD_MORE_DATA;
+  constructor(public pageViewId: string) { }
+}
+
+export class LoadMoreDataSuccess implements Action {
+  readonly type = LOAD_MORE_DATA_SUCCESS;
   constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
 }
 
@@ -384,6 +396,8 @@ export type DataGridActions =
   | UpdateApplyUserDefaultCompensationFields
   | LoadData
   | LoadDataSuccess
+  | LoadMoreData
+  | LoadMoreDataSuccess
   | UpdateFields
   | UpdateFieldsSuccess
   | UpdateSelectionField
