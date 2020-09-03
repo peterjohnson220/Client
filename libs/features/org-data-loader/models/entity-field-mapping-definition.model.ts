@@ -51,7 +51,44 @@ export function getJobsCustomDictionary(): GenericKeyValue<string, string>[] {
 }
 
 export function getStructuresCustomDictionary(): GenericKeyValue<string, string>[] {
-  const structuresCustomDictionary: GenericKeyValue<string, string>[] = [];
+  const structuresCustomDictionary: GenericKeyValue<string, string>[] = [
+    {
+      Key: 'Tertile_First',
+      Value: 'Top 1st 3rd'
+    },
+    {
+      Key: 'Tertile_Second',
+      Value: 'Top 2nd 3rd'
+    },
+    {
+      Key: 'Quartile_First',
+      Value: 'Top 1st 4th'
+    },
+    {
+      Key: 'Quartile_Second',
+      Value: 'Top 3rd 4th'
+    },
+    {
+      Key: 'Quintile_First',
+      Value: 'Top 1st 5th'
+    },
+    {
+      Key: 'Quintile_Second',
+      Value: 'Top 2nd 5th'
+    },
+    {
+      Key: 'Quintile_Third',
+      Value: 'Top 3rd 5th'
+    },
+    {
+      Key: 'Quintile_Fourth',
+      Value: 'Top 4th 5th'
+    },
+    {
+      Key: 'RangeDistributionType',
+      Value: 'RangeDistributionType'
+    }
+  ];
   return structuresCustomDictionary;
 }
 
