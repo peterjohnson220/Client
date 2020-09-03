@@ -9,12 +9,14 @@ import {
   ORG_DATA_PF_JOB_FIELDS,
   ORG_DATA_PF_PAYMARKET_FIELDS,
   ORG_DATA_PF_STRUCTURE_FIELDS,
-  ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
+  ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS,
+  ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS,
 } from 'libs/features/org-data-loader/constants';
 import {LoaderEntityStatus, VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
 import { LoaderFieldSet } from 'libs/models/data-loads';
 import {CompanySelectorItem} from 'libs/features/company/company-selector/models';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers';
+import { CompanySetting, CompanySettingsEnum } from 'libs/models';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/organizational-data-field-mapping.actions';
@@ -32,6 +34,7 @@ export class FileMappingComponent implements OnInit {
   @Input() existingCompanyLoaderSettings: ILoadSettings;
   @Input() selectedCompany: CompanySelectorItem;
   @Input() loaderConfigurationGroupId: number;
+  @Input() companySettings: CompanySetting[];
   @Output() mappingComplete = new EventEmitter();
 
   payfactorsPaymarketDataFields: string[];
@@ -100,6 +103,10 @@ export class FileMappingComponent implements OnInit {
           e.loaderEnabled = this.isJobsLoadEnabled;
           break;
         case LoaderType.Structures:
+          if (this.companySettings.find( cs => cs.Key === CompanySettingsEnum.EnableJobRangeStructureRangeTypes).Value === 'true') {
+            this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
+          }
+
           e.payfactorsDataFields = this.payfactorsStructureDataFields;
           e.loaderEnabled = this.isStructuresLoadEnabled;
           break;

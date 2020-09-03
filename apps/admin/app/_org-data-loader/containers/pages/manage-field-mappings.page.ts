@@ -17,7 +17,7 @@ import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader
 import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { ConfigSetting } from 'libs/models/security';
-import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
+import { ConfigSettingsSelectorFactory, SettingsService } from 'libs/state/app-context/services';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import {
   ConfigurationGroup,
@@ -32,6 +32,7 @@ import * as fromCompanyReducer from 'libs/features/company/company-selector/redu
 import {CompanySelectorComponent} from 'libs/features/company/company-selector/components';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
 import { SftpUserModel } from 'libs/models/Sftp';
+import { CompanySettingsEnum } from 'libs/models';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -40,7 +41,7 @@ import * as fromOrgDataConfigurationActions from '../../actions/org-data-loader-
 import * as fromSftpUserActions from '../../actions/sftp-user.actions';
 import {
     LoaderType, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
-    ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
+    ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS
 } from '../../constants';
 import { OrgDataFilenamePatternSet } from '../../models';
 import { ACCEPTED_FILE_EXTENSIONS } from '../../constants/public-key-filename-constants';
@@ -112,6 +113,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   sftpUserNameIsValid$: Observable<boolean>;
   private emailRecipients: EmailRecipientModel[];
   private sftpUserNameIsValid: boolean;
+  private jobRangeStructureEnabled$: Observable<boolean>;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -173,6 +175,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     private orgDataAutoloaderApi: LoaderFieldMappingsApiService,
     private notificationService: NotificationService,
     private configSettingsSelectorFactory: ConfigSettingsSelectorFactory,
+    private settingService: SettingsService,
     private cdr: ChangeDetectorRef,
   ) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
@@ -358,6 +361,18 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     ).subscribe(isValid => {
       this.sftpUserNameIsValid = isValid;
     });
+
+    this.jobRangeStructureEnabled$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.EnableJobRangeStructureRangeTypes);
+
+    this.jobRangeStructureEnabled$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(companySetting => !!companySetting)
+    ).subscribe(enabled => {
+      if (enabled) {
+        this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
+      }
+    });
+
   } // end constructor
 
   ngOnInit() {
