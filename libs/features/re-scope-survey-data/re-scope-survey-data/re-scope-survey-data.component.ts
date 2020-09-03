@@ -7,12 +7,17 @@ import { Store } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
 
-import { cloneDeep, uniq } from 'lodash';
+import uniq from 'lodash/uniq';
+import cloneDeep from 'lodash/cloneDeep';
+
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { PfDataGridColType } from '../../pf-data-grid/enums';
-import * as fromGridActions from '../../pf-data-grid/actions';
-import * as fromGridReducer from '../../pf-data-grid/reducers';
+import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import { ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import * as fromGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromGridReducer from 'libs/features/pf-data-grid/reducers';
+
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import { ReScopeSurveyDataModalConfiguration, ReScopeSurveyDataContext } from '../models';
 import { ReScopeSurveyDataPageViewIds } from '../constants';
@@ -37,6 +42,8 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
   reScopeContextSubscription: Subscription;
   reScopeContext: ReScopeSurveyDataContext;
 
+  actionBarConfig: ActionBarConfig;
+
   defaultSort: SortDescriptor[] = [{
     dir: 'asc',
     field: 'SurveyData_ScopeSearch'
@@ -44,8 +51,13 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
 
   @ViewChild('scopeSearchColumn') scopeSearchColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
+  @ViewChild('scopeSearchFilter') scopeSearchFilter: ElementRef;
 
   constructor(private store: Store<fromGridReducer.State>) {
+    this.actionBarConfig = {
+      ...getDefaultActionBarConfig()
+    };
+
     this.selectedSurveyDataIdSubscription = this.store.select(fromGridReducer.getSelectedRecordId, this.pageViewId).subscribe(sd => {
       this.selectedSurveyDataId = sd;
     });
@@ -113,6 +125,13 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
       'ScopeSearch': { Template: this.scopeSearchColumn},
       [PfDataGridColType.currency]: { Template: this.currencyColumn }
     };
+
+    this.actionBarConfig = {
+      ...this.actionBarConfig,
+      GlobalFiltersTemplates: {
+        'ScopeSearch': this.scopeSearchFilter
+      }
+    };
   }
 
   ngOnDestroy() {
@@ -126,6 +145,17 @@ export class ReScopeSurveyDataComponent implements OnChanges, AfterViewInit, OnD
     if (cancel) {
       this.cancelChanges.emit();
     }
+  }
+
+  getClonedField(field: ViewField) {
+    return cloneDeep(field);
+  }
+
+  handleScopeSearch(field: ViewField, filterValue: string) {
+    const newField = cloneDeep(field);
+    newField.FilterOperator = 'contains';
+    newField.FilterValue = filterValue;
+    this.store.dispatch(new fromGridActions.UpdateFilter(this.pageViewId, newField));
   }
 
   // TODO: The feature these functions belong to was deferred for initial deploy (default scopes checkbox). Will be revisited
