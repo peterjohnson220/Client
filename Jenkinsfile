@@ -27,6 +27,7 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr:'20'))
     disableConcurrentBuilds()
+    parallelsAlwaysFailFast()
     timeout(time: 30, unit: 'MINUTES', activity: true)
   }
 
@@ -226,7 +227,7 @@ pipeline {
               }
               echo 'buildRunning is now false'
             }
-          }
+          }, failFast: true
         )
       }
       post {
