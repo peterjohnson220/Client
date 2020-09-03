@@ -25,7 +25,7 @@ export interface FeatureFlagChange {
  * Represents a user attribute to pass to the feature service
  */
 export interface FeatureFlagContextAttribute {
-  [key: string]: any;
+  [key: string]: string;
 }
 
 /**
