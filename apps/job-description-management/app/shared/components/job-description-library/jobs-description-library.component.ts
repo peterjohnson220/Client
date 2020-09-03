@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { StripHtmlPipe } from 'libs/core/pipes';
 
-import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket } from 'libs/features/job-description-management/models';
+import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket, SortDirection } from 'libs/features/job-description-management/models';
 
 @Component({
   selector: 'pf-job-description-library',
@@ -28,8 +28,7 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   jobLibraryResults: JobDescriptionLibraryResult[] = [];
   keyword = '';
   jobTitleSearch = '';
-
-  availableSources: string[] = [];
+  sourceSortDirection: SortDirection = SortDirection.Ascending;
   selectedSources: string[] = [];
 
   constructor(
@@ -43,16 +42,19 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   // Events
   handleJobTitleChange(value: any) {
     this.jobTitleSearch = value;
+    this.pageNumber = 1;
     this.searchChanged.emit(this.buildSearchRequest());
   }
 
   handleKeywordChange(value: any) {
     this.keyword = value;
+    this.pageNumber = 1;
     this.searchChanged.emit(this.buildSearchRequest());
   }
 
   handleSourceChange(value: any) {
     this.selectedSources = value;
+    this.pageNumber = 1;
     this.searchChanged.emit(this.buildSearchRequest());
   }
 
@@ -65,6 +67,12 @@ export class JobDescriptionLibraryComponent implements OnChanges {
     this.activeBucket = this.buckets.find(x => x.Key === bucketKey);
     this.pageNumber = 1;
     this.tabChanged.emit(this.buildSearchRequest());
+  }
+
+  handleSourceSortChange() {
+    this.sourceSortDirection = this.sourceSortDirection === SortDirection.Descending ? SortDirection.Ascending :  SortDirection.Descending;
+    this.pageNumber = 1;
+    this.searchChanged.emit(this.buildSearchRequest());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -80,14 +88,6 @@ export class JobDescriptionLibraryComponent implements OnChanges {
     }
     if (changes.results) {
       this.jobLibraryResults = cloneDeep(this.results);
-
-       if (this.results) {
-        this.results.forEach(result => {
-          if (!this.availableSources.find(x => x === result.Source)) {
-            this.availableSources.push(result.Source);
-          }
-        });
-      }
     }
   }
 
@@ -100,7 +100,8 @@ export class JobDescriptionLibraryComponent implements OnChanges {
       PageNumber: this.pageNumber,
       JobTitle: this.jobTitleSearch,
       JobDescriptionId: null,
-      Sources: this.selectedSources.join(',')
+      Sources: this.selectedSources.join(','),
+      SourceSortDirection: this.sourceSortDirection
     };
 
     return searchRequest;

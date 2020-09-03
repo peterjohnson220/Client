@@ -30,7 +30,7 @@ import { SimpleYesNoModalComponent } from 'libs/ui/common';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import { environment } from 'environments/environment';
 
-import { JobDescriptionManagementDnDService, JobDescriptionManagementService } from 'libs/features/job-description-management';
+import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/job-description-management';
 import {
   JobDescriptionLibraryBucket,
   JobDescriptionLibraryResult,
@@ -453,7 +453,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       Keyword: '',
       PageNumber: 1,
       PageSize: 10,
-      Sources: ''
+      Sources: '',
+      SourceSortDirection: SortDirection.Ascending
     }));
   }
 

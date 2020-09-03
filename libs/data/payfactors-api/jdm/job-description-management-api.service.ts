@@ -68,7 +68,8 @@ export class JobDescriptionManagementApiService {
         keyword: searchRequest.Keyword,
         pageSize: searchRequest.PageSize,
         jobDescriptionId: searchRequest.JobDescriptionId,
-        sources: searchRequest.Sources
+        sources: searchRequest.Sources,
+        sourceSortDirection: searchRequest.SourceSortDirection
       },
     });
   }
@@ -81,7 +82,9 @@ export class JobDescriptionManagementApiService {
         keyword: searchRequest.Keyword,
         pageSize: searchRequest.PageSize,
         pageNumber: searchRequest.PageNumber,
-        jobDescriptionId: searchRequest.JobDescriptionId
+        jobDescriptionId: searchRequest.JobDescriptionId,
+        sources: searchRequest.Sources,
+        sourceSortDirection: searchRequest.SourceSortDirection
       }
     });
   }
