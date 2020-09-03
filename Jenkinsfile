@@ -201,7 +201,7 @@ pipeline {
                 echo "Getting list of apps..."
                 sh 'ls apps > dirs'
                 sh """
-                  cat dirs | time parallel -j-3 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && node_modules/.bin/gulp purgecss -a={} && echo "{} build complete"'
+                  cat dirs | time parallel -j-${env.Client_Build_Throttle} --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && node_modules/.bin/gulp purgecss -a={} && echo "{} build complete"'
                 """
                 sh "cp apps/data-insights/reports.html dist/apps/data-insights/reports.html"
                 buildRunning = false
