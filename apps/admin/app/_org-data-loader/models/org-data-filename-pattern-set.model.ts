@@ -6,6 +6,4 @@ export interface OrgDataFilenamePatternSet {
   StructuresFilenamePattern: FilenamePattern;
   StructureMappingsFilenamePattern: FilenamePattern;
   EmployeesFilenamePattern: FilenamePattern;
-  SubsidiariesFilenamePattern: FilenamePattern;
-  BenefitsFilenamePattern: FilenamePattern;
 }

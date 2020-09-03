@@ -32,7 +32,7 @@ describe('EntityUploadComponent', () => {
   });
 
   it('should show entities that are selected', () => {
-    component.entities = getEntityChoicesForOrgLoader(true);
+    component.entities = getEntityChoicesForOrgLoader();
     component.entities[1].isChecked = true;
 
     const selected = component.selectedEntities();
@@ -41,7 +41,7 @@ describe('EntityUploadComponent', () => {
   });
 
   it('should evaluate HasAnyFiles() correctly on file upload', () => {
-    component.entities = getEntityChoicesForOrgLoader(true);
+    component.entities = getEntityChoicesForOrgLoader();
 
     expect(component.HasAnyFiles()).toBe(false);
 
@@ -53,8 +53,7 @@ describe('EntityUploadComponent', () => {
         return undefined;
       }, text(): Promise<string> {
         return Promise.resolve('');
-      }, lastModified: 1234, name: 'testfile', size: 1234, type: 'asdf', slice: jest.fn()
-    };
+      }, lastModified: 1234, name: 'testfile', size: 1234, type: 'asdf', slice: jest.fn() };
 
     expect(component.HasAnyFiles()).toBe(true);
 
