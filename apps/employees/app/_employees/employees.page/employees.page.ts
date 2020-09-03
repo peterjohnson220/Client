@@ -11,6 +11,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
+import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
 import * as fromEmployeeManagementReducers from 'libs/features/employee-management/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
@@ -58,6 +59,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     dir: 'asc',
     field: 'CompanyEmployees_Employee_ID'
   }];
+  defaultPagingOptions: PagingOptions = {
+    From: 0,
+    Count: 40
+  };
   selectedDropdown: NgbDropdown;
   selectedCompanyEmployeeIds: number[];
   selectedCompanyEmployeeId: number;
@@ -90,7 +95,9 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       ColumnChooserType: ColumnChooserType.ColumnGroup
     };
     this.gridConfig = {
-      PersistColumnWidth: true
+      PersistColumnWidth: true,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
   }
 

@@ -82,6 +82,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   defaultSortDescriptor$: Observable<SortDescriptor[]>;
   selectAllState$: Observable<string>;
   selectedKeys$: Observable<number[]>;
+  totalCount$: Observable<number>;
 
   expandedRowsSubscription: Subscription;
   expandedRows: number[];
@@ -115,10 +116,14 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   modifiedKeys: any[];
   modifiedKeysSubscription: Subscription;
 
+  loadingMoreData: boolean;
+  loadingMoreDataSubscription: Subscription;
+  hasMoreDataOnServer: boolean;
+  hasMoreDataOnServerSubscription: Subscription;
+
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
   @ViewChild(GridComponent) grid: GridComponent;
-
 
   constructor(private store: Store<fromReducer.State>, private ngZone: NgZone, private mappedFieldName: MappedFieldNamePipe) {}
 
@@ -159,6 +164,11 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       }
     });
     this.gridConfigSubscription = this.store.select(fromReducer.getGridConfig, this.pageViewId).subscribe(gridConfig => this.gridConfig = gridConfig);
+
+    this.hasMoreDataOnServerSubscription = this.store.select(fromReducer.getHasMoreDataOnServer, this.pageViewId)
+      .subscribe(hasMoreData => this.hasMoreDataOnServer = hasMoreData);
+    this.loadingMoreDataSubscription = this.store.select(fromReducer.getLoadingMoreData, this.pageViewId)
+      .subscribe(loadingMoreData => this.loadingMoreData = loadingMoreData);
   }
 
   ngOnDestroy() {
@@ -172,6 +182,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.dataFieldsSubscription.unsubscribe();
     this.gridConfigSubscription.unsubscribe();
     this.modifiedKeysSubscription.unsubscribe();
+    this.loadingMoreDataSubscription.unsubscribe();
+    this.hasMoreDataOnServerSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -191,6 +203,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
       this.defaultSortDescriptor$ = this.store.select(fromReducer.getDefaultSortDescriptor, changes['pageViewId'].currentValue);
       this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
+      this.totalCount$ = this.store.select(fromReducer.getTotalCount, changes['pageViewId'].currentValue);
       this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
       this.modifiedKeysSubscription = this.store.select(fromReducer.getModifiedKeys, changes['pageViewId'].currentValue).subscribe(
         modifiedKeys => this.modifiedKeys = modifiedKeys
@@ -232,6 +245,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.reorderActionsColumnOnTheLeft();
   }
 
+  loadMore() {
+    if (!this.loadingMoreData && this.hasMoreDataOnServer && this.enableInfiniteScroll) {
+      this.store.dispatch(new fromActions.LoadMoreData(this.pageViewId));
+    }
+  }
+
   getColWidth(col: any) {
     let colWidth = col.Width;
 
@@ -256,6 +275,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   // If the default sort for a grid is to be ordered desc, there would be no way to order that column asc so we have to make the addt'l check
   // Achieving the 2nd sort direction logic requires additional effort
   onSortChange(sortDescriptor: SortDescriptor[]): void {
+    if (this.gridConfig?.ScrollToTop) {
+      this.scrollToTop();
+    }
     let descriptorToDispatch = !sortDescriptor[0].dir ?
       this.defaultSortDescriptor :
       sortDescriptor;
@@ -360,6 +382,18 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     };
     this.store.dispatch(new fromActions.UpdateColumnWidth(this.pageViewId, columnResize));
     this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));
+  }
+
+  get enableInfiniteScroll(): boolean {
+    return this.gridConfig?.EnableInfiniteScroll && !this.pageable;
+  }
+
+  private scrollToTop(): void {
+    const gridContentElements = this.grid.wrapper.nativeElement.getElementsByClassName('k-grid-content');
+    if (gridContentElements?.length) {
+      const gridContent = gridContentElements[0];
+      gridContent.scrollTop = 0;
+    }
   }
 
   private autoFitColumns(columnFieldNames: string[]) {

@@ -76,3 +76,6 @@ export const getGridConfig = createSelector(selectPfDataGridState, fromPfDataGri
 export const getFilterPanelOpen = createSelector(selectPfDataGridState, fromPfDataGridReducer.getFilterPanelOpen);
 export const getModifiedKeys = createSelector(selectPfDataGridState, fromPfDataGridReducer.getModifiedKeys);
 export const getGridScrolledContent = createSelector(selectPfDataGridState, fromPfDataGridReducer.getGridScrolledContent);
+export const getTotalCount = createSelector(selectPfDataGridState, fromPfDataGridReducer.getTotalCount);
+export const getHasMoreDataOnServer = createSelector(selectPfDataGridState, fromPfDataGridReducer.getHasMoreDataOnServer);
+export const getLoadingMoreData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getLoadingMoreData);

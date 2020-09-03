@@ -52,6 +52,9 @@ export interface DataGridState {
   gridConfig: GridConfig;
   modifiedKeys: any[];
   gridScrolledContent: ContentScrollEvent;
+  hasMoreDataOnServer: boolean;
+  loadingMoreData: boolean;
+  totalCount: number;
 }
 
 export interface DataGridStoreState {
@@ -157,6 +160,9 @@ export const getGridConfig = (state: DataGridStoreState, pageViewId: string) => 
 export const getFilterPanelOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].filterPanelOpen : null;
 export const getModifiedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].modifiedKeys : null;
 export const getGridScrolledContent = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].gridScrolledContent;
+export const getTotalCount = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].totalCount;
+export const getHasMoreDataOnServer = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].hasMoreDataOnServer;
+export const getLoadingMoreData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingMoreData;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -215,7 +221,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            loading: true
+            loading: true,
+            hasMoreDataOnServer: true
           }
         }
       };
@@ -238,8 +245,48 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
               data: action.payload.Data,
               total: action.payload.TotalCount
             },
+            totalCount: action.payload.TotalCount,
             loading: false,
             selectAllState: loadDataSelectAllState
+          }
+        }
+      };
+    case fromPfGridActions.LOAD_MORE_DATA:
+      const gridPagingOptions = cloneDeep(state.grids[action.pageViewId].pagingOptions);
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            loading: true,
+            loadingMoreData: true,
+            pagingOptions: { From: gridPagingOptions.From + gridPagingOptions.Count, Count: gridPagingOptions.Count }
+          }
+        }
+      };
+    case fromPfGridActions.LOAD_MORE_DATA_SUCCESS:
+      const gridDataClone = cloneDeep(state.grids[action.pageViewId].data);
+      gridDataClone.data = gridDataClone.data.concat(action.payload.Data);
+
+      const currentSelectAllState = state.grids[action.pageViewId].selectAllState;
+
+      const loadMoreDataSelectAllState =
+        currentSelectAllState === SelectAllStatus.checked ? SelectAllStatus.indeterminate :
+          currentSelectAllState === SelectAllStatus.indeterminate ? SelectAllStatus.indeterminate :
+            SelectAllStatus.unchecked;
+
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            data: gridDataClone,
+            loading: false,
+            loadingMoreData: false,
+            hasMoreDataOnServer: gridDataClone.data.length < gridDataClone.total,
+            selectAllState: loadMoreDataSelectAllState
           }
         }
       };
