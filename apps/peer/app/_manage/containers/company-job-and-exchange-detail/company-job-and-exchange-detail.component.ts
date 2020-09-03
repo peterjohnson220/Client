@@ -83,6 +83,10 @@ export class CompanyJobAndExchangeDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new companyJobsActions.ConfirmUnmatch());
   }
 
+  handleCreateProjectClick() {
+    this.store.dispatch(new companyJobsActions.ConfirmCreateProject());
+  }
+
   getPendingAssociationRequest(exchangeJob: ExchangeJob): UpsertExchangeJobMapRequest {
     return {
       ExchangeId: this.exchangeId,

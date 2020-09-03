@@ -12,7 +12,7 @@ pf-company-jobs-grid {
   .k-grid-content .show-tooltip {
     @extend %ellipsis-overflowing-text;
   }
-  // hide No records msg when loading, needs to be hidden vs display: none since the scroll directive uses it as a height benchmark 
+  // hide No records msg when loading, needs to be hidden vs display: none since the scroll directive uses it as a height benchmark
   .loading-blanket + .k-grid .k-grid-norecords {
     visibility: hidden;
   }
@@ -64,6 +64,9 @@ pf-company-job-and-exchange-detail {
     }
   }
   pf-exchange-job-detail {
+    div.button-container {
+      display: flex;
+    }
     button.approve {
       @include peer-button($match-button-primary);
     }
@@ -72,6 +75,16 @@ pf-company-job-and-exchange-detail {
     }
     button.unmatch {
       @include peer-button($not-associated);
+      padding-top: 2px;
+      svg {
+        height: 1.15rem;
+        width: 20px;
+        vertical-align: -.125rem;
+      }
+    }
+    button.create-project {
+      @include peer-button($match-button-primary);
+      margin-right: 1rem;
       svg {
         height: 1.15rem;
         width: 20px;
