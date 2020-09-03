@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, AfterViewInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 
 import { SuccessEvent, ErrorEvent, FileRestrictions, FileInfo, SelectEvent } from '@progress/kendo-angular-upload';
 
@@ -16,13 +10,16 @@ import { DeleteImageRequest, ImageControl, SaveImageRequest, StatementModeEnum }
   styleUrls: ['./trs-image-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsImageControlComponent {
+export class TrsImageControlComponent implements AfterViewInit {
+  @ViewChild('image') image: ElementRef;
+
   @Input() controlData: ImageControl;
   @Input() statementId: string;
   @Input() mode: StatementModeEnum;
 
   @Output() saveImage: EventEmitter<SaveImageRequest> = new EventEmitter();
   @Output() removeImage: EventEmitter<DeleteImageRequest> = new EventEmitter();
+  @Output() imageLoaded: EventEmitter<string> = new EventEmitter();
 
   saveUrl = '/odata/TotalRewards/SaveStatementImage';
   statementModeEnum = StatementModeEnum;
@@ -38,7 +35,16 @@ export class TrsImageControlComponent {
     maxFileSize: 1048576 // 1MB
   };
 
-  constructor() { }
+  ngAfterViewInit() {
+    if (this.controlData.FileUrl) {
+      this.image.nativeElement.addEventListener('load', () => { this.onImageLoaded(); });
+    }
+  }
+
+  onImageLoaded() {
+    this.imageLoaded.emit(this.controlData.Id);
+    this.image.nativeElement.removeEventListener('load');
+  }
 
   uploadImageSuccess(e: SuccessEvent) {
     this.selectedFiles = [];

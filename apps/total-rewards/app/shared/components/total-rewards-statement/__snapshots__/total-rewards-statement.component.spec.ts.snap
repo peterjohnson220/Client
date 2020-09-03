@@ -11,6 +11,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   onChartControlToggleSettingsPanelClick={[Function EventEmitter]}
   onControlTitleChange={[Function EventEmitter]}
   onEffectiveDateChange={[Function EventEmitter]}
+  onImageLoaded={[Function EventEmitter]}
   onRemoveImage={[Function EventEmitter]}
   onRichTextControlContentChange={[Function EventEmitter]}
   onSaveImage={[Function EventEmitter]}

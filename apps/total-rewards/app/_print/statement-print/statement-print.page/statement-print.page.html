@@ -4,5 +4,7 @@
     [employeeRewardsData]="employeeRewardsData"
     [mode]="printMode"
     [pageBreakAfter]="i !== (statement$ | async)?.EmployeeRewardsData?.length - 1"
+    (onImageLoaded)="handleImageLoaded($event)"
   ></pf-total-rewards-statement>
+  <div *ngIf="(statement$ | async)?.EmployeeRewardsData && areAllImagesLoaded" class="ready-for-pdf-generation d-none"></div>
 </div>
