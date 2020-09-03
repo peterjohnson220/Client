@@ -55,6 +55,7 @@ export interface DataGridState {
   hasMoreDataOnServer: boolean;
   loadingMoreData: boolean;
   totalCount: number;
+  lastUpdateFieldsDate: Date;
 }
 
 export interface DataGridStoreState {
@@ -163,6 +164,7 @@ export const getGridScrolledContent = (state: DataGridStoreState, pageViewId: st
 export const getTotalCount = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].totalCount;
 export const getHasMoreDataOnServer = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].hasMoreDataOnServer;
 export const getLoadingMoreData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingMoreData;
+export const getLastUpdateFieldsDate = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].lastUpdateFieldsDate;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -310,6 +312,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             selectedRow: null,
             expandedRows: [],
             sortDescriptor: sortDescriptor
+          }
+        }
+      };
+    case fromPfGridActions.UPDATE_FIELDS_SUCCESS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            lastUpdateFieldsDate: new Date()
           }
         }
       };
