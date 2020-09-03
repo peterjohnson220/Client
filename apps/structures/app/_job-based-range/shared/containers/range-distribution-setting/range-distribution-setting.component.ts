@@ -42,6 +42,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   rangeDistributionSettingForm: FormGroup;
   activeRangeTypeTab: string;
   controlPointCategory: ControlPoint[];
+  controlPointMidpoint: ControlPoint[];
   controlPointRanges: ControlPoint[];
   rangeDistributionSetting: RangeDistributionSetting;
   showMinSpread: boolean;
@@ -89,23 +90,21 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
           disabled: true// we always want to disable
         }, [Validators.required]
       ),
-      'ControlPoint': new FormControl({value: this.metadata.ControlPoint, disabled: true}, [Validators.required]),
-      'RangeBasedOn': new FormControl(this.metadata.ControlPoint, [Validators.required]),
-      'Minimum': new FormControl({ value: this.metadata.SpreadMin, disabled: !this.enablePercentilesAndRangeSpreads}, [Validators.required]),
-      'Maximum': new FormControl({ value: this.metadata.SpreadMax, disabled: !this.enablePercentilesAndRangeSpreads}, [Validators.required]),
-      'FirstTertile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
-      'SecondTertile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
-      'FirstQuartile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
-      'SecondQuartile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
-      'FirstQuintile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
-      'SecondQuintile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
-      'ThirdQuintile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
-      'FourthQuintile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
-      'MinPercentile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
-      'MaxPercentile': new FormControl({value: null, disabled: !this.enablePercentilesAndRangeSpreads}),
+      'PayType': new FormControl(this.metadata.PayType, [Validators.required]),
+      'ControlPoint': new FormControl({ value: this.metadata.ControlPoint, disabled: true }, [Validators.required]),
+      'Minimum': new FormControl({ value: this.metadata.SpreadMin, disabled: !this.enablePercentilesAndRangeSpreads }, [Validators.required]),
+      'Maximum': new FormControl({ value: this.metadata.SpreadMax, disabled: !this.enablePercentilesAndRangeSpreads }, [Validators.required]),
+      'FirstTertile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'SecondTertile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'FirstQuartile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'SecondQuartile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'FirstQuintile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'SecondQuintile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'ThirdQuintile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'FourthQuintile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'MinPercentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'MaxPercentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
     });
-
-
 
     this.subscriptions.push(
       // any time the inner form changes update the parent of any change
@@ -137,23 +136,25 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     this.rangeDistributionSettingForm.controls['SecondQuintile'].enable();
     this.rangeDistributionSettingForm.controls['ThirdQuintile'].enable();
     this.rangeDistributionSettingForm.controls['FourthQuintile'].enable();
+    this.rangeDistributionSettingForm.controls['ControlPoint'].enable();
     this.enablePercentilesAndRangeSpreads = true;
   }
 
-  handleRangeBasedOnFilterChange(value: string) {
+  handlePayTypeFilterChange(value: string) {
     this.controlPointCategory = this.controlPoints.filter((ctrlPt, i, arr) => {
       return arr.indexOf(arr.find(t => t.Category === ctrlPt.Category && t.RangeDisplayName === 'MRP' &&
         (t.Display.toLowerCase().startsWith(value.toLowerCase()) || t.Display.toLowerCase().includes(value.toLowerCase())))) === i;
     });
   }
 
-  handleRangeBasedOnSelectionChange(value: ControlPoint) {
+  handlePayTypeSelectionChange(value: ControlPoint) {
     if (!!value) {
       // Set MRP vaue of the selected pay type
       this.rangeDistributionSettingForm.controls['ControlPoint'].setValue(value.FieldName);
 
       // Update range values of the selected pay type
       this.controlPointRanges = this.controlPoints.filter(c => c.Category === value.Category && c.RangeDisplayName !== 'MRP');
+      this.controlPointMidpoint = this.controlPoints.filter(c => c.Category === value.Category);
 
       // Reset range values and set validators based on range distribution type id
       this.resetFormValidators();
@@ -179,19 +180,19 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   setFormValidators(id) {
     switch (id) {
       case 2: {
-         this.setRequiredValidator('Tertile');
-         break;
+        this.setRequiredValidator('Tertile');
+        break;
       }
       case 3: {
         this.setRequiredValidator('Quartile');
-         break;
+        break;
       }
       case 4: {
         this.setRequiredValidator('Quintile');
-         break;
+        break;
       }
-   }
-   this.loadMinMaxState();
+    }
+    this.loadMinMaxState();
   }
 
   handleMinMaxPercentileToggle(min: boolean) {
@@ -249,7 +250,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   resetFormValidators() {
     for (const controlName in this.rangeDistributionSettingForm.controls) {
       if (controlName.includes('Tertile') || controlName.includes('Quartile') || controlName.includes('Quintile')
-         || controlName === 'Minimum' || controlName === 'Maximum' || controlName === 'MinPercentile' || controlName === 'MaxPercentile') {
+        || controlName === 'Minimum' || controlName === 'Maximum' || controlName === 'MinPercentile' || controlName === 'MaxPercentile') {
         this.rangeDistributionSettingForm.get(controlName).reset();
         this.rangeDistributionSettingForm.get(controlName).clearValidators();
         this.rangeDistributionSettingForm.get(controlName).updateValueAndValidity();
@@ -265,7 +266,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   setRequiredValidator(baseRangeType: string) {
     for (const controlName in this.rangeDistributionSettingForm.controls) {
       if (controlName.includes(baseRangeType)) {
-       this.setRequired(controlName);
+        this.setRequired(controlName);
       }
     }
   }
@@ -301,7 +302,12 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
       this.controlPointRanges = this.controlPoints.filter((ctrlPt, i, arr) => {
         return arr.indexOf(arr.find(t => t.Category === selectedCategory &&
-            t.RangeDisplayName === ctrlPt.RangeDisplayName && t.RangeDisplayName !== 'MRP')) === i;
+          t.RangeDisplayName === ctrlPt.RangeDisplayName && t.RangeDisplayName !== 'MRP')) === i;
+      });
+
+      this.controlPointMidpoint = this.controlPoints.filter((ctrlPt, i, arr) => {
+        return arr.indexOf(arr.find(t => t.Category === selectedCategory &&
+          t.RangeDisplayName === ctrlPt.RangeDisplayName)) === i;
       });
     }
 
@@ -325,7 +331,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
   mapToRangeDistributionSettingForm(value: RangeDistributionSetting): RangeDistributionSettingForm {
     return {
-      RangeBasedOn: this.metadata.ControlPoint,
+      PayType: this.metadata.PayType,
       ControlPoint: this.metadata.ControlPoint,
       Minimum: this.metadata.SpreadMin,
       Maximum: this.metadata.SpreadMax,
@@ -359,5 +365,4 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
   setDisabledState?(isDisabled: boolean): void {
   }
-
 }
