@@ -95,7 +95,7 @@ export class PfDataGridEffects {
                   data.applyDefaultFilters))
                 .pipe(
                   map((response: DataViewEntityResponseWithCount) => {
-                    if (data.pagingOptions.From > 0) {
+                    if (data.pagingOptions.From > 0 && !withCount) {
                       return new fromPfDataGridActions.LoadMoreDataSuccess(data.action.pageViewId, response);
                     } else {
                       return new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response);
