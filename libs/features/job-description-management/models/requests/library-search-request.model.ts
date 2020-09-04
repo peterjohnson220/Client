@@ -1,3 +1,5 @@
+import { SortDirection } from '.';
+
 export interface LibrarySearchRequest {
   BucketKey: string;
   JobTitle: string;
@@ -6,4 +8,5 @@ export interface LibrarySearchRequest {
   PageNumber: number;
   JobDescriptionId: number;
   Sources: string;
+  SourceSortDirection?: SortDirection;
 }

@@ -38,6 +38,8 @@ import { faClone } from '@fortawesome/pro-regular-svg-icons/faClone';
 import { faFileWord } from '@fortawesome/pro-regular-svg-icons/faFileWord';
 import { faSquare as farSquare } from '@fortawesome/pro-regular-svg-icons/faSquare';
 import { faTrashAlt as farTrashAlt } from '@fortawesome/pro-regular-svg-icons/faTrashAlt';
+import { faLongArrowDown } from '@fortawesome/pro-regular-svg-icons';
+import { faLongArrowUp } from '@fortawesome/pro-regular-svg-icons';
 
 export const faIcons = [
   faArrowRight,
@@ -77,5 +79,7 @@ export const faIcons = [
   faTimesCircle,
   faTrashAlt,
   faTrashAlt,
-  faUndo
+  faUndo,
+  faLongArrowDown,
+  faLongArrowUp
 ];

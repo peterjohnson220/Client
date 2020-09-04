@@ -17,9 +17,8 @@
       </div>
       <div class="form-group">
         <kendo-multiselect    
-            id="assigned-templates"
             [placeholder]="'All Sources'"
-            [data]="availableSources"
+            [data]="activeBucket?.AvailableSources"
             [valuePrimitive]="true"
             (valueChange)="handleSourceChange($event)">
         </kendo-multiselect>
@@ -37,7 +36,10 @@
                 <thead>
                 <tr>
                   <th>Job Title</th>
-                  <th>Source</th>
+                  <th (click)="handleSourceSortChange()">
+                    <fa-icon *ngIf="sourceSortDirection === 'desc'" [icon]="['far', 'long-arrow-down']"></fa-icon>
+                    <fa-icon *ngIf="sourceSortDirection === 'asc'" [icon]="['far', 'long-arrow-up']"></fa-icon>
+                     Source</th>
                   <th>Content</th>
                 </tr>
                 </thead>
