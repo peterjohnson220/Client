@@ -20,7 +20,7 @@
       <p *ngIf="isServerError" class="server-error help-text text-danger font-italic position-absolute">An error occurred</p>
     </div>
     <ng-template #showImage>
-      <img [src]="controlData.FileUrl" alt="{{controlData.FileName}}" class="mh-100 mw-100 align-items-center">
+      <img #image [src]="controlData.FileUrl" alt="{{controlData.FileName}}" class="mh-100 mw-100 align-items-center">
       <a *ngIf="mode === statementModeEnum.Edit" (click)="deleteImage()" href="javascript:void(0)" class="remove-image d-block text-danger position-absolute" title="Remove Image">
         <fa-icon class="fas fa-trash-alt fa-sm" [icon]="'trash-alt'" aria-hidden="true"></fa-icon>
       </a>
