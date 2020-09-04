@@ -121,6 +121,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   hasMoreDataOnServer: boolean;
   hasMoreDataOnServerSubscription: Subscription;
 
+  lastUpdateFieldsDateSubscription: Subscription;
+
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
   @ViewChild(GridComponent) grid: GridComponent;
@@ -163,12 +165,24 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         this.autoFitColumns(df.filter(d => d.IsSelected && d.IsSelectable && !d.Width).map(f => this.mappedFieldName.transform(f)));
       }
     });
+
     this.gridConfigSubscription = this.store.select(fromReducer.getGridConfig, this.pageViewId).subscribe(gridConfig => this.gridConfig = gridConfig);
 
     this.hasMoreDataOnServerSubscription = this.store.select(fromReducer.getHasMoreDataOnServer, this.pageViewId)
       .subscribe(hasMoreData => this.hasMoreDataOnServer = hasMoreData);
     this.loadingMoreDataSubscription = this.store.select(fromReducer.getLoadingMoreData, this.pageViewId)
       .subscribe(loadingMoreData => this.loadingMoreData = loadingMoreData);
+
+    this.lastUpdateFieldsDateSubscription = this.store.select(fromReducer.getLastUpdateFieldsDate, this.pageViewId).subscribe(lastUpdateFieldsDate => {
+      if (this.grid != null) {
+        const columns = this.grid.columns.toArray();
+        columns.forEach(function (gridColumn, index) {
+          if (gridColumn.orderIndex !== index) {
+            gridColumn.orderIndex = index;
+          }
+        });
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -184,6 +198,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.modifiedKeysSubscription.unsubscribe();
     this.loadingMoreDataSubscription.unsubscribe();
     this.hasMoreDataOnServerSubscription.unsubscribe();
+    this.lastUpdateFieldsDateSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -242,7 +257,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         ActionsDefined: !!this.gridRowActionsConfig
       },
     ));
-    this.reorderActionsColumnOnTheLeft();
   }
 
   loadMore() {
@@ -371,7 +385,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onColumnResize(event: ColumnResizeArgs[]): void {
-    if ( !this.gridConfig?.PersistColumnWidth || event?.length < 1) {
+    if (!this.gridConfig?.PersistColumnWidth || event?.length < 1) {
       return;
     }
     const column = event[0].column as ColumnComponent;
@@ -394,6 +408,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       const gridContent = gridContentElements[0];
       gridContent.scrollTop = 0;
     }
+  }
+
+  trackByField(index, field: ViewField) {
+    return field
+      ? field.DataElementId ? field.DataElementId : field.Group
+      : index;
   }
 
   private autoFitColumns(columnFieldNames: string[]) {
@@ -419,19 +439,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     return false;
   }
 
-  private reorderActionsColumnOnTheLeft(): void {
-    if (this.gridRowActionsConfig?.Position !== PositionType.Left) {
-      return;
-    }
-    const actionsColumnIndex = this.enableSelection ? 1 : 0;
-    const actionsColumn = this.grid.columns.toArray()[actionsColumnIndex];
-    const destIndex = 0;
-    setTimeout(() => this.grid.reorderColumn(actionsColumn, destIndex), 1);
-  }
-
   private resetKendoGridWidth() {
-    const grids =  window.document.getElementsByTagName('kendo-grid') || [];
-    Array.from(grids).forEach(  (g: HTMLElement) => {
+    const grids = window.document.getElementsByTagName('kendo-grid') || [];
+    Array.from(grids).forEach((g: HTMLElement) => {
       const tables = g.getElementsByTagName('table') || [];
       Array.from(tables).forEach((t: HTMLElement) => {
         t.setAttribute('style', null);

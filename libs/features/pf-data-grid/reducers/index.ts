@@ -79,3 +79,4 @@ export const getGridScrolledContent = createSelector(selectPfDataGridState, from
 export const getTotalCount = createSelector(selectPfDataGridState, fromPfDataGridReducer.getTotalCount);
 export const getHasMoreDataOnServer = createSelector(selectPfDataGridState, fromPfDataGridReducer.getHasMoreDataOnServer);
 export const getLoadingMoreData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getLoadingMoreData);
+export const getLastUpdateFieldsDate = createSelector(selectPfDataGridState, fromPfDataGridReducer.getLastUpdateFieldsDate);
