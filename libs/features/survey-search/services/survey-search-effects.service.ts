@@ -86,12 +86,18 @@ export class SurveySearchEffectsService {
     return action$.pipe(
       withLatestFrom(
         this.store.select(fromSurveySearchReducer.getResults),
+        this.store.select(fromSearchReducer.getParentFilters),
         this.store.select(fromSearchReducer.getResultsPagingOptions),
-        this.store.select(fromSurveySearchReducer.getProjectSearchContextCountryCode),
-        (action, jobResults, pagingOptions, countryCode) => ({ jobResults, pagingOptions, countryCode })),
-      switchMap(({ jobResults, pagingOptions, countryCode }) => {
+        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        (action, jobResults, filters, pagingOptions, projectSearchContext) => ({
+          jobResults,
+          filters,
+          pagingOptions,
+          projectSearchContext
+        })),
+      switchMap(({ jobResults, filters, pagingOptions, projectSearchContext }) => {
         const lastJobResultIndex = (pagingOptions.page - 1) * pagingOptions.pageSize;
-        const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex, countryCode);
+        const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex, projectSearchContext, filters);
 
         return this.surveySearchApiService.getPricingMatches(pricingMatchesRequest)
           .pipe(
