@@ -1,27 +1,21 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
 
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {FileRestrictions} from '@progress/kendo-angular-upload';
+import { FileRestrictions } from '@progress/kendo-angular-upload';
 
 import {
-  BONUS_TARGET_COLUMN_NAME, BONUS_TARGET_DISPLAY_NAME,
-  DATE_FORMATS,
-  LoaderType,
-  ORG_DATA_CLIENTFIELDS_INDEX_RESET,
-  ORG_DATA_REMOVE_URL,
-  ORG_DATA_UPLOAD_URL
+    BONUS_TARGET_COLUMN_NAME, BONUS_TARGET_DISPLAY_NAME, DATE_FORMATS, LoaderType, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL,
+    ORG_DATA_UPLOAD_URL
 } from 'libs/features/org-data-loader/constants';
-import {DateFormatItem,
-  FilenamePattern,
-  LoaderEntityStatus,
-  VisibleLoaderOptionModel,
-  EntityFieldMappingDefinitionModel,
-  getEntityFieldMappingDefinition} from 'libs/features/org-data-loader/models';
-import {LoaderFieldSet} from 'libs/models/data-loads';
+import {
+    DateFormatItem, EntityFieldMappingDefinitionModel, FilenamePattern, getEntityFieldMappingDefinition, LoaderEntityStatus,
+    VisibleLoaderOptionModel
+} from 'libs/features/org-data-loader/models';
+import { LoaderFieldSet } from 'libs/models/data-loads';
 
 @Component({
   selector: 'pf-field-mapper',

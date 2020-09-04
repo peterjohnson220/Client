@@ -1,42 +1,19 @@
-import isEmpty from 'lodash/isEmpty';
 import find from 'lodash/find';
+import isEmpty from 'lodash/isEmpty';
 
-import { ImportDataType, OrgDataEntityType, TransferMethodTypes} from 'libs/constants/hris-api';
+import { ImportDataType, OrgDataEntityType, TransferMethodTypes } from 'libs/constants/hris-api';
 import { LoaderFileFormat, LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import {
-  AuthenticationTypeResponse,
-  ConnectionPostRequest,
-  ConnectionSummaryResponse,
-  CredentialsPackage,
-  FieldMappingsDTO,
-  LoaderSettingsDTO,
-  MappingPackage,
-  MappingPayloadItem,
-  PayfactorsEntityFieldsResponse,
-  ProviderEntitiyFieldsResponse,
-  ProviderResponse,
-  ProviderSupportedEntityDTO,
-  SyncScheduleDtoModel,
-  TransferMethodResponse,
-  TransferScheduleSummary,
-  UserContext,
-  PatchProperty,
+    AuthenticationTypeResponse, ConnectionPostRequest, ConnectionSummaryResponse, CredentialsPackage, FieldMappingsDTO, LoaderSettingsDTO,
+    MappingPackage, MappingPayloadItem, PatchProperty, PayfactorsEntityFieldsResponse, ProviderEntitiyFieldsResponse, ProviderResponse,
+    ProviderSupportedEntityDTO, SyncScheduleDtoModel, TransferMethodResponse, TransferScheduleSummary, UserContext
 } from 'libs/models';
 
 import {
-  AuthenticationType,
-  EntityTypeModel,
-  EntityDataField,
-  PfTestCredentialsPackage,
-  Provider,
-  TransferMethod,
-  WorkdayRestCredentialsPackage,
-  WorkdaySoapCredentialsPackage,
-  PublicApiCredentialsPackage,
-  EntityChoice,
-  EntityField,
-  ConnectionSummary
+    AuthenticationType, ConnectionSummary, EntityChoice, EntityDataField, EntityField, EntityTypeModel, getDefaultEntityChoice,
+    PfTestCredentialsPackage, Provider, PublicApiCredentialsPackage, TransferMethod, WorkdayRestCredentialsPackage,
+    WorkdaySoapCredentialsPackage
 } from '../models';
 
 export class PayfactorsApiModelMapper {
@@ -149,7 +126,7 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapPayfactorsEntityFieldsResponseToEntityDataField(response: PayfactorsEntityFieldsResponse, entityType: OrgDataEntityType): EntityDataField[] {
-    return response.payfactorsEntityFields.map( pef => {
+    return response.payfactorsEntityFields.map(pef => {
       return {
         EntityFieldId: pef.entityField_ID,
         EntityType: entityType,
@@ -166,7 +143,7 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapProviderEntityFieldsResponseToEntityDataField(response: ProviderEntitiyFieldsResponse, entityType: OrgDataEntityType): EntityDataField[] {
-    return response.fields.map( pef => {
+    return response.fields.map(pef => {
       return {
         EntityType: entityType,
         FieldName: pef.name,
@@ -184,8 +161,8 @@ export class PayfactorsApiModelMapper {
       mappingPayload: {
         items: Object.entries(request)
           .map(([entityType, fields]) => this.getMappingsForEntity(entityType, fields))
-          .filter( mpi => mpi.mappings.length > 0
-            && mpi.orgDataEntityType !== OrgDataEntityType.JobDescriptions ) // TODO: Remove this once we start on actual outbound integration
+          .filter(mpi => mpi.mappings.length > 0
+            && mpi.orgDataEntityType !== OrgDataEntityType.JobDescriptions) // TODO: Remove this once we start on actual outbound integration
       }
     };
   }
@@ -194,16 +171,16 @@ export class PayfactorsApiModelMapper {
     return {
       orgDataEntityType: entityType,
       mappings: fields.filter(field => field.AssociatedEntity && field.AssociatedEntity.length > 0)
-      .map(field => ({
-        destinationField: field.FieldName,
-        sourceField: field.AssociatedEntity[0].FieldName,
-        sourceMetadata: {
-          dataType: field.AssociatedEntity[0].DataType,
-          isArray: field.AssociatedEntity[0].IsArray,
-          metaData: field.AssociatedEntity[0].Metadata,
-          name: field.AssociatedEntity[0].FieldName
-        }
-      }))
+        .map(field => ({
+          destinationField: field.FieldName,
+          sourceField: field.AssociatedEntity[0].FieldName,
+          sourceMetadata: {
+            dataType: field.AssociatedEntity[0].DataType,
+            isArray: field.AssociatedEntity[0].IsArray,
+            metaData: field.AssociatedEntity[0].Metadata,
+            name: field.AssociatedEntity[0].FieldName
+          }
+        }))
     };
   }
 
@@ -222,28 +199,17 @@ export class PayfactorsApiModelMapper {
         }
 
         return (result);
-    }),
+      }),
     loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId
   })
 
   static mapEntitySelectionResponseToEntitySelection(response: ProviderSupportedEntityDTO[]): EntityChoice[] {
     return response.map(p => {
       return {
-        isChecked: false,
+        ...getDefaultEntityChoice(),
         DisplayText: p.entityMappingTypeName,
         ToolTip: p.description,
-        FileBeginsWith: null,
-        File: null,
-        isSelectedTab: null,
-        templateReferenceConstants: null,
-        payfactorsDataFields: null,
-        loaderEnabled: null,
-        columnNames: null,
-        customFields: null,
         dbName: p.entityMappingTypeCode,
-        isFullReplace: null,
-        dateFormat: null,
-        isLoadingFinish: true
       };
     });
   }
@@ -253,20 +219,26 @@ export class PayfactorsApiModelMapper {
       let type;
       switch (x.dbName) {
         case OrgDataEntityType.Employees:
-            type = OrgDataEntityType.Employees;
-            break;
+          type = OrgDataEntityType.Employees;
+          break;
         case OrgDataEntityType.Jobs:
-            type = OrgDataEntityType.Jobs;
-            break;
+          type = OrgDataEntityType.Jobs;
+          break;
         case OrgDataEntityType.StructureMapping:
-            type = OrgDataEntityType.StructureMapping;
-            break;
+          type = OrgDataEntityType.StructureMapping;
+          break;
         case OrgDataEntityType.Structures:
-            type = OrgDataEntityType.Structures;
-            break;
+          type = OrgDataEntityType.Structures;
+          break;
         case OrgDataEntityType.PayMarkets:
-            type = OrgDataEntityType.PayMarkets;
-            break;
+          type = OrgDataEntityType.PayMarkets;
+          break;
+        case OrgDataEntityType.Subsidiaries:
+          type = OrgDataEntityType.Subsidiaries;
+          break;
+        case OrgDataEntityType.Benefits:
+          type = OrgDataEntityType.Benefits;
+          break;
         default: type = null;
       }
       return {
@@ -326,6 +298,8 @@ export class PayfactorsApiModelMapper {
     isPaymarketsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.PayMarkets),
     isStructuresLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Structures),
     isStructureMappingsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.StructureMapping),
+    isSubsidiariesLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Subsidiaries),
+    isBenefitsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Benefits),
     fileFormat: LoaderFileFormat.JSON,
 
     // TODO: we need a UI to determine these settings

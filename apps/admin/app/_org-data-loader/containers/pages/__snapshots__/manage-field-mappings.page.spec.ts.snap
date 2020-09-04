@@ -3,6 +3,7 @@
 exports[`ManageFieldMapperPageComponent should disable the save button when no delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
   acceptedFileExtensions={[Function Array]}
+  benefitMappingComplete={[Function Boolean]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -21,6 +22,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   existingCompanyLoaderSettings={[Function Array]}
   fieldMappingsLoading="false"
   isActive={[Function Boolean]}
+  isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
   isJobsLoadEnabled="false"
@@ -28,6 +30,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   isStructureMappingsFullReplace={[Function Boolean]}
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
+  isSubsidiariesLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   jobRangeStructureEnabled$={[Function Observable]}
   loadType={[Function String]}
@@ -38,11 +41,13 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
+  payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
+  payfactorsSubsidiariesDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
@@ -66,6 +71,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  subsidiariesMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -183,6 +189,12 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
           >
             
           </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Subsidiaries"
+          >
+            
+          </kendo-tabstrip-tab>
+          
         </kendo-tabstrip>
         <div
           class="float-right m-2"
@@ -217,6 +229,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
 exports[`ManageFieldMapperPageComponent should disable the save button when not all mappings are complete 1`] = `
 <pf-autoloader-field-mapping-page
   acceptedFileExtensions={[Function Array]}
+  benefitMappingComplete={[Function Boolean]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -235,6 +248,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   existingCompanyLoaderSettings={[Function Array]}
   fieldMappingsLoading="false"
   isActive={[Function Boolean]}
+  isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
   isJobsLoadEnabled="false"
@@ -242,6 +256,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   isStructureMappingsFullReplace={[Function Boolean]}
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
+  isSubsidiariesLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   jobRangeStructureEnabled$={[Function Observable]}
   loadType={[Function String]}
@@ -252,11 +267,13 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
+  payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
+  payfactorsSubsidiariesDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
@@ -280,6 +297,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  subsidiariesMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -397,6 +415,12 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
           >
             
           </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Subsidiaries"
+          >
+            
+          </kendo-tabstrip-tab>
+          
         </kendo-tabstrip>
         <div
           class="float-right m-2"
@@ -431,6 +455,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
 exports[`ManageFieldMapperPageComponent should enable the save button when all mappings are complete AND a delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
   acceptedFileExtensions={[Function Array]}
+  benefitMappingComplete={[Function Boolean]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -449,6 +474,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   existingCompanyLoaderSettings={[Function Array]}
   fieldMappingsLoading="false"
   isActive={[Function Boolean]}
+  isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
   isJobsLoadEnabled="false"
@@ -456,6 +482,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   isStructureMappingsFullReplace={[Function Boolean]}
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
+  isSubsidiariesLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   jobRangeStructureEnabled$={[Function Observable]}
   loadType={[Function String]}
@@ -466,11 +493,13 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
+  payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
+  payfactorsSubsidiariesDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
@@ -494,6 +523,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  subsidiariesMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -611,6 +641,12 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           >
             
           </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Subsidiaries"
+          >
+            
+          </kendo-tabstrip-tab>
+          
         </kendo-tabstrip>
         <div
           class="float-right m-2"
@@ -645,6 +681,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
 exports[`ManageFieldMapperPageComponent should hide the field mapper when a company has not been selected 1`] = `
 <pf-autoloader-field-mapping-page
   acceptedFileExtensions={[Function Array]}
+  benefitMappingComplete={[Function Boolean]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -663,6 +700,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   existingCompanyLoaderSettings={[Function Array]}
   fieldMappingsLoading="false"
   isActive={[Function Boolean]}
+  isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
   isJobsLoadEnabled="false"
@@ -670,6 +708,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   isStructureMappingsFullReplace={[Function Boolean]}
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
+  isSubsidiariesLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   jobRangeStructureEnabled$={[Function Observable]}
   loadType={[Function String]}
@@ -680,11 +719,13 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
+  payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
+  payfactorsSubsidiariesDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
@@ -708,6 +749,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  subsidiariesMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -749,6 +791,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
 exports[`ManageFieldMapperPageComponent should show the field mapper when a company has been selected 1`] = `
 <pf-autoloader-field-mapping-page
   acceptedFileExtensions={[Function Array]}
+  benefitMappingComplete={[Function Boolean]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -767,6 +810,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   existingCompanyLoaderSettings={[Function Array]}
   fieldMappingsLoading="false"
   isActive={[Function Boolean]}
+  isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
   isJobsLoadEnabled="false"
@@ -774,6 +818,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   isStructureMappingsFullReplace={[Function Boolean]}
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
+  isSubsidiariesLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   jobRangeStructureEnabled$={[Function Observable]}
   loadType={[Function String]}
@@ -784,11 +829,13 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   notificationService={[Function MockNotificationService]}
   orgDataAutoloaderApi="undefined"
   orgDataFilenamePatternSet$={[Function Store]}
+  payfactorsBenefitsDataFields={[Function Array]}
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
   payfactorsPaymarketDataFields={[Function Array]}
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
+  payfactorsSubsidiariesDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
   primaryCompositeDataLoadType={[Function String]}
   publicKeyFileName="null"
@@ -812,6 +859,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  subsidiariesMappingComplete={[Function Boolean]}
   templateReferenceConstants={[Function Object]}
   toastOptions={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -929,6 +977,12 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
           >
             
           </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Subsidiaries"
+          >
+            
+          </kendo-tabstrip-tab>
+          
         </kendo-tabstrip>
         <div
           class="float-right m-2"
