@@ -215,11 +215,10 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
       this.filters = cloneDeep(changes['filters'].currentValue)
         .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
 
-      // by default there will always be 1 filter... where jobId == ###
-      if (this.filters.length === 1) {
-        this.noRecordsMessage = 'No Pay Markets priced for this job. Click "Pay Markets not Priced" above to view and select Pay Markets to price.';
-      } else {
+      if (this.filters.find(x => x.SourceName === 'Status')) {
         this.noRecordsMessage = 'There is no pricing for the filter criteria you have selected.';
+      } else {
+        this.noRecordsMessage = 'No Pay Markets priced for this job. Click "Pay Markets not Priced" above to view and select Pay Markets to price.';
       }
     }
   }
