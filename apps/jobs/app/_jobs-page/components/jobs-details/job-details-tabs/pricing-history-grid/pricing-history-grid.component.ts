@@ -73,6 +73,8 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   getPricingDetailsSuccessSubscription: Subscription;
   getDeletingPricingSuccessSubscription: Subscription;
 
+  noRecordsMessage: string;
+
   constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
 
   }
@@ -136,6 +138,13 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     if (changes['filters']) {
       this.filters = cloneDeep(changes['filters'].currentValue)
         .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+
+      // by default there will always be 1 filter... where jobId == ###
+      if (this.filters.length === 1) {
+        this.noRecordsMessage = 'This job has not been priced and does not have any pricing history.';
+      } else {
+        this.noRecordsMessage = 'There is no pricing history for the filter criteria you have selected.';
+      }
     }
   }
 

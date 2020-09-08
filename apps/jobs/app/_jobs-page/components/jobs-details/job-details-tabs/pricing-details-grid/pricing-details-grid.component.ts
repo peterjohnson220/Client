@@ -93,6 +93,8 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   reScopeSurveyDataConfiguration: ReScopeSurveyDataModalConfiguration;
   matchIdForReScope: number;
 
+  noRecordsMessage: string;
+
   constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
     this.jobTitleCodePipe = new JobTitleCodePipe();
 
@@ -212,6 +214,13 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     if (changes['filters']) {
       this.filters = cloneDeep(changes['filters'].currentValue)
         .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+
+      // by default there will always be 1 filter... where jobId == ###
+      if (this.filters.length === 1) {
+        this.noRecordsMessage = 'No Pay Markets priced for this job. Click "Pay Markets not Priced" above to view and select Pay Markets to price.';
+      } else {
+        this.noRecordsMessage = 'There is no pricing for the filter criteria you have selected.';
+      }
     }
   }
 
