@@ -5,8 +5,9 @@ import { select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { ActionBarConfig, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromRootState from 'libs/state/state';
@@ -42,8 +43,13 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     dir: 'desc',
     field: 'UserTickets_Create_Date'
   }];
+  defaultPagingOptions: PagingOptions = {
+    From: 0,
+    Count: 40
+  };
   inboundFilters: PfDataGridFilter[];
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
   pageViewId = ServicePageConfig.ServicePageViewId;
   colTemplates = {};
   filterTemplates = {};
@@ -61,6 +67,11 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
       ShowActionBar: true,
       AllowSaveFilter: false,
       ShowFilterChooser: true
+    };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
     this.ticketTypes$ = this.store.pipe(select(fromServicePageReducer.getTicketTypeNames));
     this.supportTeam$ = this.store.pipe(select(fromServicePageReducer.getSupportTeam));
