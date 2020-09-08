@@ -26,7 +26,7 @@ export interface Statement {
   Pages: Page[];
   Settings: Settings;
   EffectiveDate: Date;
-  AssignedCompanyEmployeeIds?: number[]
+  AssignedCompanyEmployeeIds?: number[];
 }
 
 export function generateMockStatement(): Statement {
@@ -142,13 +142,13 @@ export function generateMockStatement(): Statement {
   };
 }
 
-export function generateMockStatementWithSingleControl(controlType: TotalRewardsControlEnum): Statement {
+export function generateMockStatementWithSingleControl(controlType: TotalRewardsControlEnum, control: BaseControl): Statement {
   const statement = generateMockStatement();
   statement.Pages = [{
     Sections: [
       { Columns: [
           { Controls: [
-              { ControlType: controlType, Layout: {} }
+              (control) ? control : { ControlType: controlType, Layout: {} }
             ]
           }]
       } as any

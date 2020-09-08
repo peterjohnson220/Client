@@ -12,7 +12,7 @@ import { MappingHelper } from 'libs/core/helpers';
 import { TotalRewardsApiService, TotalRewardsAssignmentApiService, TotalRewardsPdfGenerationService } from 'libs/data/payfactors-api/total-rewards';
 
 import { Statement } from '../../../shared/models';
-import { GenerateStatementsRequest } from '../models';
+import { TrsConstants } from './../../../shared/constants/trs-constants';
 import * as fromStatementAssignmentPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
@@ -60,8 +60,9 @@ export class StatementAssignmentPageEffects {
       map(data => ({
         StatementId: data.statementId,
         CompanyEmployeeIds: data.companyEmployeeIds,
-        GenerateByQuery: (data.companyEmployeeIds && data.companyEmployeeIds.length) ? null : data.gridState
-      } as GenerateStatementsRequest)),
+        GenerateByQuery: (data.companyEmployeeIds && data.companyEmployeeIds.length) ? null : data.gridState,
+        WaitForPdfGenerationSelector: TrsConstants.READY_FOR_PDF_GENERATION_SELECTOR
+      })),
       switchMap(request =>
         this.totalRewardsPdfGenerationService.generateStatements(request).pipe(
           mergeMap((response) => [

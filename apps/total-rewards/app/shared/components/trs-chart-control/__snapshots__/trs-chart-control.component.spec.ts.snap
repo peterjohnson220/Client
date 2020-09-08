@@ -3,6 +3,7 @@
 exports[`TrsChartControlComponent should show the title component and a settings link 1`] = `
 <pf-trs-chart-control
   calculationControls={[Function Array]}
+  chartRender={[Function EventEmitter]}
   controlData={[Function Object]}
   onTitleChange={[Function EventEmitter]}
   settingsClick={[Function EventEmitter]}
@@ -18,6 +19,7 @@ exports[`TrsChartControlComponent should show the title component and a settings
       >
         <pf-string-editor />
       </h4>
+      
       <a
         class="settings position-relative align-top"
         href="javascript:void(0)"

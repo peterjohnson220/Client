@@ -113,7 +113,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a rich text control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.RichTextEditor);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.RichTextEditor, null);
     fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
@@ -127,7 +127,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render an image control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Image);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Image, null);
     fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
@@ -156,7 +156,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a chart control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Chart);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Chart, null);
     fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
@@ -170,7 +170,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a title control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Title);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Title, null);
     fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
@@ -184,7 +184,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a summary control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.CalculationSummary);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.CalculationSummary, null);
     fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act

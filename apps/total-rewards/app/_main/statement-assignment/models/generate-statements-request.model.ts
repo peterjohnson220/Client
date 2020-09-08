@@ -4,4 +4,5 @@ export interface GenerateStatementsRequest {
   StatementId: string;
   CompanyEmployeeIds: number[];
   GenerateByQuery: State;
+  WaitForPdfGenerationSelector: string;
 }

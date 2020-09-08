@@ -43,6 +43,7 @@ export class TotalRewardsStatementComponent {
 
   // Chart Control Outputs
   @Output() onChartControlToggleSettingsPanelClick = new EventEmitter();
+  @Output() onChartControlRender: EventEmitter<string> = new EventEmitter();
 
   // Image Control Outputs
   @Output() onSaveImage: EventEmitter<SaveImageRequest> = new EventEmitter();
@@ -91,8 +92,6 @@ export class TotalRewardsStatementComponent {
     return calcControls;
   }
 
-  constructor() { }
-
   // track which item each ngFor is on, which no longer necessitates destroying/creating all components in state changes and improves perf significantly
   trackByFn(index: number, item: any) {
     return index;
@@ -128,6 +127,10 @@ export class TotalRewardsStatementComponent {
   // Chart pass through methods
   handleChartControlSettingsClick() {
     this.onChartControlToggleSettingsPanelClick.emit();
+  }
+
+  handleChartRender() {
+    this.onChartControlRender.emit();
   }
 
   // Image pass though methods

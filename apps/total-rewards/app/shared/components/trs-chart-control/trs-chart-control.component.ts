@@ -21,6 +21,7 @@ export class TrsChartControlComponent implements OnChanges {
 
   @Output() settingsClick = new EventEmitter();
   @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
+  @Output() chartRender: EventEmitter<string> = new EventEmitter();
 
   chartData: { category: string, value: number }[];
 
@@ -66,5 +67,10 @@ export class TrsChartControlComponent implements OnChanges {
 
   onLegendItemClick($event: any) {
     $event.preventDefault();
+  }
+
+  onChartRender($event: any) {
+    this.chartRender.emit(this.controlData.Id);
+    this.onChartRender = () => ({});
   }
 }
