@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap, map, mergeMap, catchError, concatMap } from 'rxjs/operators';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api';
+import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 
 import * as fromExchangeExplorerReducers from '../reducers';
 import * as fromExchangeFilterContextActions from '../actions/exchange-filter-context.actions';
@@ -85,7 +86,8 @@ export class ExchangeExplorerEffects {
         return [
           new fromExchangeExplorerMapActions.ResetInitiallyLoadedState(),
           new fromExchangeFilterContextActions.ResetInitiallyLoadedState(),
-          new fromExchangeExplorerContextInfoActions.ResetInitiallyLoadedState()
+          new fromExchangeExplorerContextInfoActions.ResetInitiallyLoadedState(),
+          new fromSearchFiltersActions.ClearFilters()
         ];
       })
     );
