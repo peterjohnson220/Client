@@ -14,6 +14,7 @@ import * as fromStatementAssignmentsReducers from '../../reducers';
 import * as fromStatementAssignmentModalActions from '../../actions/statement-assignment-modal.actions';
 import * as fromEmployeeSearchResultsActions from '../../actions/employee-search-results.actions';
 import { StatementAssignmentConfig } from '../../models';
+import { Statement } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-statement-assignment-modal',
@@ -32,6 +33,7 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
   assignEmployeesError$: Observable<boolean>;
   assignAllEmployeesLoading$: Observable<boolean>;
   assignAllEmployeesError$: Observable<boolean>;
+  statement$: Observable<Statement>;
 
   assignedEmployeesCountSubscription = new Subscription();
   selectedEmployeesCountSubscription = new Subscription();
@@ -57,7 +59,7 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
   constructor(store: Store<fromSearchReducer.State>) {
     super(store);
     this.userContext$ = store.select(fromRootState.getUserContext);
-    this.assignedEmployeesCount$ = store.select(fromStatementAssignmentsReducers.getAssignedEmployeesTotal);
+    this.statement$ = this.store.pipe(select(fromStatementAssignmentsReducers.getStatement));
     this.selectedEmployeesCount$ = store.select(fromStatementAssignmentsReducers.getSelectedEmployeesCount);
     this.searchResultsCount$ = store.select(fromSearchReducer.getNumberOfResultsOnServer);
     this.assignEmployeesLoading$ = store.select(fromStatementAssignmentsReducers.getAssignEmployeesLoading);
@@ -70,7 +72,8 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
     this.isOpen$ = this.store.pipe(select(fromStatementAssignmentsReducers.getIsAssignmentsModalOpen));
     this.numberOfResults$ = this.store.pipe(select(fromSearchReducer.getNumberOfResultsOnServer));
 
-    this.assignedEmployeesCountSubscription = this.assignedEmployeesCount$.subscribe(count => this.assignedEmployeesCount = count);
+    this.assignedEmployeesCountSubscription = this.statement$.subscribe(statement =>
+      this.assignedEmployeesCount = statement?.AssignedCompanyEmployeeIds?.length || 0);
     this.selectedEmployeesCountSubscription = this.selectedEmployeesCount$.subscribe(count => this.selectedEmployeesCount = count);
     this.searchResultsCountSubscription = this.searchResultsCount$.subscribe(count => this.searchResultsCount = count);
   }

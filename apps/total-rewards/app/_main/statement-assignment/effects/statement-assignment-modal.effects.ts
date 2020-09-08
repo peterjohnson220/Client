@@ -9,12 +9,13 @@ import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-f
 import { TotalRewardsAssignmentApiService } from 'libs/data/payfactors-api/total-rewards';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import { PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromEmployeeSearchResultsActions from '../actions/employee-search-results.actions';
 import * as fromStatementAssignmentModalActions from '../actions/statement-assignment-modal.actions';
 import * as fromAssignedEmployeeGridActions from '../actions/assigned-employees-grid.actions';
-import { PayfactorsSearchApiHelper } from '../../../../../../libs/features/search/helpers';
+import * as fromStatementAssignmentPageActions from '../actions/statement-assignment.page.actions';
 
 @Injectable()
 export class StatementAssignmentModalEffects {
@@ -55,9 +56,9 @@ export class StatementAssignmentModalEffects {
           StatementId: data.statementId
         };
         return this.totalRewardsAssignmentApi.assignEmployees(request).pipe(
-          mergeMap(() => {
+          mergeMap((response) => {
             const actions = [];
-            actions.push(new fromStatementAssignmentModalActions.AssignEmployeesSuccess());
+            actions.push(new fromStatementAssignmentModalActions.AssignEmployeesSuccess(response));
             actions.push(new fromStatementAssignmentModalActions.CloseModal());
             actions.push(new fromAssignedEmployeeGridActions.LoadAssignedEmployees());
             return actions;
@@ -90,9 +91,9 @@ export class StatementAssignmentModalEffects {
       };
 
       return this.totalRewardsAssignmentApi.assignAllEmployees(searchRequest).pipe(
-        mergeMap(() => {
+        mergeMap((response) => {
           const actions = [];
-          actions.push(new fromStatementAssignmentModalActions.AssignAllEmployeesSuccess());
+          actions.push(new fromStatementAssignmentModalActions.AssignAllEmployeesSuccess(response));
           actions.push(new fromStatementAssignmentModalActions.CloseModal());
           actions.push(new fromAssignedEmployeeGridActions.LoadAssignedEmployees());
           return actions;
@@ -101,6 +102,18 @@ export class StatementAssignmentModalEffects {
       );
     })
   );
+
+  @Effect()
+  assignEmployeesSuccess$ = this.actions$
+    .pipe(
+      ofType(
+        fromStatementAssignmentModalActions.ASSIGN_EMPLOYEES_SUCCESS,
+        fromStatementAssignmentModalActions.ASSIGN_ALL_EMPLOYEES_SUCCESS
+      ),
+      mergeMap((action: fromStatementAssignmentModalActions.AssignEmployeesSuccess) =>
+        [ new fromStatementAssignmentPageActions.UpdateStatementAssignedEmployees(action.payload) ]
+      )
+    );
 
   constructor(
     private store: Store<fromTotalRewardsReducer.State>,
