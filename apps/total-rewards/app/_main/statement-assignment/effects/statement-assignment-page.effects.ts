@@ -93,8 +93,8 @@ export class StatementAssignmentPageEffects {
             statementId: data.statementId,
             CompanyEmployeeIds: (data.isSingleAction ? [data.actionMenuEmployee.CompanyEmployeeId] : data.companyEmployeeIds)
           }).pipe(
-          mergeMap(() => [
-            new fromStatementAssignmentPageActions.UnassignEmployeesSuccess(),
+          mergeMap((response) => [
+            new fromStatementAssignmentPageActions.UnassignEmployeesSuccess(response),
             new fromAssignedEmployeesGridActions.ClearSelections(),
             new fromStatementAssignmentPageActions.CloseUnassignModal(),
             new fromAssignedEmployeesGridActions.LoadAssignedEmployees({...data.gridState, skip: 0})

@@ -156,13 +156,15 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
       };
     }
     case fromActions.UNASSIGN_EMPLOYEES_SUCCESS: {
-      const localState = cloneDeep(state);
+      const statement = cloneDeep(state.statement);
+      statement.obj.AssignedCompanyEmployeeIds = action.payload;
       return {
-        ...localState,
+        ...state,
         isSingleEmployeeAction: false,
         UnassignEmployees: false,
         UnassignEmployeesSuccess: true,
-        UnassignEmployeesError: false
+        UnassignEmployeesError: false,
+        statement: statement
       };
     }
     case fromActions.UNASSIGN_EMPLOYEES_ERROR: {
@@ -227,6 +229,14 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
       return {
         ...state,
         exportEventId: asyncClone
+      };
+    }
+    case fromActions.UPDATE_STATEMENT_ASSIGNED_EMPLOYEES: {
+      const statementClone = cloneDeep(state.statement);
+      statementClone.obj.AssignedCompanyEmployeeIds = action.payload;
+      return {
+        ...state,
+        statement: statementClone
       };
     }
     default: {

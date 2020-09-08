@@ -10,8 +10,8 @@
     </pf-input-debounce>
     <button type="button"
             class="btn btn-primary open-assign-modal"
-            [disabled]="(assignedEmployeesTotal$ | async) === statementAssignmentMax"
-            [attr.title]="(assignedEmployeesTotal$ | async) === statementAssignmentMax ? 'You have reached the 100,000 employees limit.' : ''"
+            [disabled]="(statement$ | async)?.AssignedCompanyEmployeeIds?.length === statementAssignmentMax"
+            [attr.title]="(statement$ | async)?.AssignedCompanyEmployeeIds?.length === statementAssignmentMax ? 'You have reached the 100,000 employees limit.' : ''"
             (click)="openAssignModal()">
             Assign Employees
     </button>
