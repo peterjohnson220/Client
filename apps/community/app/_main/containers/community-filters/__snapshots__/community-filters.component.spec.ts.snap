@@ -22,6 +22,11 @@ exports[`CommunityFiltersComponent should show community filters 1`] = `
     class="d-inline-block industry-filter pr-2"
   /><pf-community-filters-dropdown
     class="d-inline-block company-size-filter"
-  />
+  /><button
+    class="btn btn-secondary attachment-button"
+  >
+    
+    
+  </button>
 </pf-community-filters>
 `;

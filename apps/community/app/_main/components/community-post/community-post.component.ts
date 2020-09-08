@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { CommunityPost } from 'libs/models';
 
 import * as fromCommunityReducers from '../../reducers';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
@@ -101,5 +102,10 @@ export class CommunityPostComponent implements OnInit, OnDestroy {
 
   handleAttachmentClickedEvent(event) {
     this.onAttachmentClickedEvent.emit(event);
+  }
+
+  handleFavoriteClick() {
+    this.store.dispatch(new fromCommunityPostActions.UpdatingCommunityPostFavorite(
+      {postId: this.post.Id, favorite: !this.post.FavoritedByCurrentUser}));
   }
 }

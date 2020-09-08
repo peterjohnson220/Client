@@ -26,3 +26,9 @@
     [filterType]="'CompanySize'"
     (filtersSelected)="companySizesSelected($event)">
   </pf-community-filters-dropdown>
+  <button class="btn btn-secondary attachment-button"
+    (click)="onFilterByFavoritesClick()">                 
+    <fa-icon *ngIf="isFilteredByFavorites" [icon]="['fas', 'star']" class="solid-star"></fa-icon>
+    <fa-icon *ngIf="!isFilteredByFavorites" [icon]="['far', 'star']" ></fa-icon>
+  </button>
+
