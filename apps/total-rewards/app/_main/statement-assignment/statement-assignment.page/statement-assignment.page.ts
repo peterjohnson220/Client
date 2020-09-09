@@ -140,6 +140,9 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
       distinctUntilChanged(),
       debounceTime(this.FILTER_DEBOUNCE_TIME)
     ).subscribe((filters: FilterDescriptor[]) => {
+      if (!this.isChangingFilters) {
+        return;
+      }
       this.isChangingFilters = false;
       // the filters component mutates the gridState's filters directly so workaround a potential read only error by cloning
       this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
