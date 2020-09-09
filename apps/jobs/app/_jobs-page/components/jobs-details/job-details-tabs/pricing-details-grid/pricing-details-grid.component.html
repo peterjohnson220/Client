@@ -12,6 +12,9 @@
   [actionBarConfig]="actionBarConfig"
   [headerClassName]="'jobs-page-sub-grid-header'"
   [applyUserDefaultCompensationFields]="true"
+  [pagingOptions]="defaultPagingOptions"
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
   [noRecordsFound]="'No Pay Markets priced for this job. Click &quot;Pay Markets not Priced&quot; above to view and select Pay Markets to price.'">
 </pf-data-grid>
 

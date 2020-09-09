@@ -413,10 +413,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private scrollToTop(): void {
-    const gridContentElements = this.grid.wrapper.nativeElement.getElementsByClassName('k-grid-content');
-    if (gridContentElements?.length) {
-      const gridContent = gridContentElements[0];
-      gridContent.scrollTop = 0;
+    if (!!this.grid) {
+      const gridContentElements = this.grid?.wrapper.nativeElement.getElementsByClassName('k-grid-content');
+      if (gridContentElements?.length) {
+        const gridContent = gridContentElements[0];
+        gridContent.scrollTop = 0;
+      }
     }
   }
 

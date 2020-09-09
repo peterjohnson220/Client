@@ -9,7 +9,8 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromJobsPageReducer from '../../../../reducers';
@@ -39,6 +40,8 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     dir: 'asc',
     field: 'CompanyEmployees_Employees'
   }];
+  defaultPagingOptions: PagingOptions = getDefaultPagingOptions();
+
   pageViewId = PageViewIds.Employees;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
@@ -47,6 +50,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   payMarketOptions: any;
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
 
   constructor(private store: Store<fromPfGridReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -67,6 +71,11 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
       AllowExport: true,
       ExportSourceName: 'Employees',
       ActionBarClassName: 'ml-0 mr-3 mt-1'
+    };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
   }
 

@@ -9,7 +9,10 @@
   [applyDefaultFilters]="false"
   [headerClassName]="'jobs-page-sub-grid-header'"
   [actionBarConfig]="actionBarConfig"
-  [showSortControls]="false">
+  [showSortControls]="false"
+  [gridConfig]="gridConfig"
+  [pagingOptions]="defaultPagingOptions"
+  [pageable]="!gridConfig.EnableInfiniteScroll">
 </pf-data-grid>
 
 <ng-template #createUserColumn let-dataRow="dataRow">

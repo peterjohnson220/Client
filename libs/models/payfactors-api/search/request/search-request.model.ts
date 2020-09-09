@@ -35,3 +35,10 @@ export interface BaseProjectSearchRequest extends BaseSearchRequest {
 export interface BaseStructuresSearchRequest extends BaseSearchRequest {
   StructureRangeGroupId: number;
 }
+
+export function getDefaultPagingOptions(): PagingOptions {
+  return {
+    From: 0,
+    Count: 40
+  };
+}

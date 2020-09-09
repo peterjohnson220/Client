@@ -6,7 +6,10 @@
   [defaultSort]="defaultSort"
   [noRecordsFound]="'This job has not been added to any projects.'"
   [headerClassName]="'jobs-page-sub-grid-header'"
-  [actionBarConfig]="actionBarConfig">
+  [actionBarConfig]="actionBarConfig"
+  [gridConfig]="gridConfig"
+  [pagingOptions]="defaultPagingOptions"
+  [pageable]="!gridConfig.EnableInfiniteScroll">
 </pf-data-grid>
 
 <ng-template kendoGridCellTemplate #projectAccessColumn let-dataRow="dataRow" let-rowIndex="rowIndex">
