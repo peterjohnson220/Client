@@ -181,7 +181,7 @@
 }
 
 @media print {
-  .trs-rich-text-control, .trs-rich-text-control .ql-container {
+  .trs-rich-text-control, .trs-rich-text-control .ql-editor {
     height: #{(($print-base-font-size / 13) * $rich-text-height) + $print-base-font-size}; // account for the enlarged print font from 13 -> 17
   }
 }
