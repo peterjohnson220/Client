@@ -56,6 +56,7 @@ export interface DataGridState {
   loadingMoreData: boolean;
   totalCount: number;
   lastUpdateFieldsDate: Date;
+  visibleKeys: number[];
 }
 
 export interface DataGridStoreState {
@@ -165,6 +166,7 @@ export const getTotalCount = (state: DataGridStoreState, pageViewId: string) => 
 export const getHasMoreDataOnServer = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].hasMoreDataOnServer;
 export const getLoadingMoreData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingMoreData;
 export const getLastUpdateFieldsDate = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].lastUpdateFieldsDate;
+export const getVisibleKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].visibleKeys;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -236,6 +238,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           selectedVisibleFields.length === loadDataVisibleFieldsIds.length ? SelectAllStatus.checked :
             SelectAllStatus.indeterminate;
 
+      const loadDataVisibleKeys = uniq(loadDataVisibleFieldsIds);
+
       return {
         ...state,
         grids: {
@@ -250,6 +254,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             loading: false,
             selectAllState: loadDataSelectAllState,
             hasMoreDataOnServer: action.payload.Data.length < action.payload.TotalCount,
+            visibleKeys: loadDataVisibleKeys
           }
         }
       };
@@ -276,6 +281,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         ? SelectAllStatus.indeterminate
         : currentSelectAllState === SelectAllStatus.indeterminate ? SelectAllStatus.indeterminate : SelectAllStatus.unchecked;
 
+      const loadMoreDataVisibleKeys = uniq(getVisibleFieldsIds(state, action.pageViewId, gridDataClone.data));
+
       return {
         ...state,
         grids: {
@@ -286,7 +293,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             loading: false,
             loadingMoreData: false,
             hasMoreDataOnServer: gridDataClone.data.length < state.grids[action.pageViewId].totalCount,
-            selectAllState: loadMoreDataSelectAllState
+            selectAllState: loadMoreDataSelectAllState,
+            visibleKeys: loadMoreDataVisibleKeys
           }
         }
       };

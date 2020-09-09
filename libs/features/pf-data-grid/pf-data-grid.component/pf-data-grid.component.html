@@ -50,7 +50,7 @@
             <pf-select-all-panel
               class="w-100"
               [itemName]="gridConfig?.SelectAllPanelItemName"
-              [displayedItemsCount]="(gridDataResult$ | async)?.data?.length"
+              [displayedItemsCount]="(uniqueVisibleKeys$ | async)?.length"
               [totalCount]="(totalCount$ | async)">
             </pf-select-all-panel>
           </div>

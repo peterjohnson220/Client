@@ -80,3 +80,4 @@ export const getTotalCount = createSelector(selectPfDataGridState, fromPfDataGri
 export const getHasMoreDataOnServer = createSelector(selectPfDataGridState, fromPfDataGridReducer.getHasMoreDataOnServer);
 export const getLoadingMoreData = createSelector(selectPfDataGridState, fromPfDataGridReducer.getLoadingMoreData);
 export const getLastUpdateFieldsDate = createSelector(selectPfDataGridState, fromPfDataGridReducer.getLastUpdateFieldsDate);
+export const getVisibleKeys = createSelector(selectPfDataGridState, fromPfDataGridReducer.getVisibleKeys);
