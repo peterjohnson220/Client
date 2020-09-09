@@ -7,12 +7,13 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { PagingOptions } from 'libs/models/payfactors-api/search/request';
+import { PagingOptions, getDefaultPagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromRootState from 'libs/state/state';
 import { AsyncStateObj } from 'libs/models/state';
 import { UserContext } from 'libs/models/security';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { ServicePageConfig, SupportTeamUser } from '../models';
 
@@ -43,10 +44,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     dir: 'desc',
     field: 'UserTickets_Create_Date'
   }];
-  defaultPagingOptions: PagingOptions = {
-    From: 0,
-    Count: 40
-  };
+  defaultPagingOptions: PagingOptions;
   inboundFilters: PfDataGridFilter[];
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
@@ -57,11 +55,14 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedTicketTypeFilterValue: string;
   avatarUrl: string;
   userId: number;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   constructor(
     private store: Store<fromServicePageReducer.State>,
-    private userContextStore: Store<fromRootState.State>
+    private userContextStore: Store<fromRootState.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: true,
@@ -70,9 +71,12 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     };
     this.gridConfig = {
       PersistColumnWidth: false,
-      EnableInfiniteScroll: true,
-      ScrollToTop: true
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
     };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
     this.ticketTypes$ = this.store.pipe(select(fromServicePageReducer.getTicketTypeNames));
     this.supportTeam$ = this.store.pipe(select(fromServicePageReducer.getSupportTeam));
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);

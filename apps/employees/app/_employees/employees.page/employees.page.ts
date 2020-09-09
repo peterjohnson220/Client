@@ -11,7 +11,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
-import { PagingOptions } from 'libs/models/payfactors-api/search/request';
+import { PagingOptions, getDefaultPagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
 import * as fromEmployeeManagementReducers from 'libs/features/employee-management/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
@@ -23,6 +23,7 @@ import {
   GridRowActionsConfig
 } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
@@ -59,10 +60,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     dir: 'asc',
     field: 'CompanyEmployees_Employee_ID'
   }];
-  defaultPagingOptions: PagingOptions = {
-    From: 0,
-    Count: 40
-  };
+  defaultPagingOptions: PagingOptions;
   selectedDropdown: NgbDropdown;
   selectedCompanyEmployeeIds: number[];
   selectedCompanyEmployeeId: number;
@@ -75,16 +73,20 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   gridConfig: GridConfig;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   hasDropdownOptions: boolean;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   constructor(
     public store: Store<fromEmployeesReducer.State>,
     public employeeManagementStore: Store<fromEmployeeManagementReducers.State>,
     private pfGridStore: Store<fromPfGridReducer.State>,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.pricingJobs$ = this.store.pipe(select(fromEmployeesReducer.getPricingJobs));
     this.pricingJobsError$ = this.store.pipe(select(fromEmployeesReducer.getPricingsJobsError));
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
+
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
@@ -96,10 +98,13 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     };
     this.gridConfig = {
       PersistColumnWidth: true,
-      EnableInfiniteScroll: true,
-      ScrollToTop: true,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
       SelectAllPanelItemName: 'employees'
     };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
   }
 
   ngOnInit(): void {

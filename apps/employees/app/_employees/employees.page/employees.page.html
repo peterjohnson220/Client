@@ -14,7 +14,7 @@
   [actionBarConfig]="actionBarConfig"
   [fieldsExcludedFromExport]="fieldsExcludedFromExport"
   [gridConfig]="gridConfig"
-  [pageable]="false"
+  [pageable]="!gridConfig?.EnableInfiniteScroll"
   [gridRowActionsConfig]="hasDropdownOptions ? gridRowActionsConfig : null"
   [pagingOptions]="defaultPagingOptions">
 </pf-data-grid>

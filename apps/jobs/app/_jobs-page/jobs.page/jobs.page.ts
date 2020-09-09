@@ -18,6 +18,7 @@ import {
 import { AsyncStateObj, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
 import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, PagingOptions, ViewField, getDefaultPagingOptions } from 'libs/models/payfactors-api';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
@@ -88,7 +89,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'CompanyJobs_Job_Title'
   }];
-  defaultPagingOptions: PagingOptions = getDefaultPagingOptions();
+  defaultPagingOptions: PagingOptions;
 
   disableExportPopover = true;
   selectedJobPricingCount = 0;
@@ -131,6 +132,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   multiMatchImplementation = MODIFY_PRICINGS;
 
   gridConfig: GridConfig;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -146,12 +148,21 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('structureGradeFilter') structureGradeFilter: ElementRef;
 
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private companyJobApiService: CompanyJobApiService) {
+  constructor(
+    private store: Store<fromJobsPageReducer.State>,
+    private actionsSubject: ActionsSubject,
+    private companyJobApiService: CompanyJobApiService,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: true,
-      EnableInfiniteScroll: true,
-      ScrollToTop: true
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
     };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
   }
 
   ngOnInit() {
