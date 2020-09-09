@@ -1,5 +1,16 @@
 .ticket-labels {
   width: 10rem;
+  display: flex;
+
+  .info-icon {
+    color: grey;
+    padding-top: 0.2rem;
+    padding-left: 0.2rem;
+  }
+}
+
+.pop-content {
+  padding: 0.5rem 1rem;
 }
 
 .attachment-label {
