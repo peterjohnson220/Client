@@ -11,10 +11,11 @@ import cloneDeep from 'lodash/cloneDeep';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromJobsPageReducer from '../../../../reducers';
 
+import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants/';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
@@ -40,7 +41,7 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     dir: 'asc',
     field: 'CompanyEmployees_Employees'
   }];
-  defaultPagingOptions: PagingOptions = getDefaultPagingOptions();
+  defaultPagingOptions: PagingOptions;
 
   pageViewId = PageViewIds.Employees;
   gridFieldSubscription: Subscription;
@@ -51,8 +52,13 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
-  constructor(private store: Store<fromPfGridReducer.State>) {
+  constructor(
+    private store: Store<fromPfGridReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
@@ -74,9 +80,12 @@ export class EmployeesGridComponent implements AfterViewInit, OnDestroy, OnChang
     };
     this.gridConfig = {
       PersistColumnWidth: false,
-      EnableInfiniteScroll: true,
-      ScrollToTop: true
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
     };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
   }
 
   ngAfterViewInit() {

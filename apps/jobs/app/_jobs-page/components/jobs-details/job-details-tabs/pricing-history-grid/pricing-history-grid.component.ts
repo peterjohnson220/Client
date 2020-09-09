@@ -13,6 +13,7 @@ import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-a
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -49,7 +50,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     dir: 'desc',
     field: 'CompanyJobs_Pricings_Effective_Date'
   }];
-  defaultPagingOptions: PagingOptions = getDefaultPagingOptions();
+  defaultPagingOptions: PagingOptions;
 
   permissions = Permissions;
   gridFieldSubscription: Subscription;
@@ -73,9 +74,22 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
 
   getPricingDetailsSuccessSubscription: Subscription;
   getDeletingPricingSuccessSubscription: Subscription;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
-
+  constructor(
+    private store: Store<fromJobsPageReducer.State>,
+    private actionsSubject: ActionsSubject,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+    };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
   }
 
   ngOnInit(): void {
@@ -111,12 +125,6 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
     };
-    this.gridConfig = {
-      PersistColumnWidth: false,
-      EnableInfiniteScroll: true,
-      ScrollToTop: true
-    };
-
   }
 
   ngAfterViewInit() {

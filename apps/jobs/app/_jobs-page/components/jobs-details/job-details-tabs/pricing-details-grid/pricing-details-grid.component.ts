@@ -10,6 +10,7 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfi
 import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { NotesManagerConfiguration } from 'libs/models/notes';
 import { NotesEntities } from 'libs/features/notes-manager/constants';
@@ -51,7 +52,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     dir: 'asc',
     field: 'CompanyPayMarkets_PayMarket'
   }];
-  defaultPagingOptions: PagingOptions = getDefaultPagingOptions();
+  defaultPagingOptions: PagingOptions;
 
   selectedKeys: number[];
   actionBarConfig: ActionBarConfig;
@@ -80,8 +81,14 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   selectedJobRowSubscription: Subscription;
 
   jobTitleCodePipe: JobTitleCodePipe;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
+  constructor(
+    private store: Store<fromJobsPageReducer.State>,
+    private actionsSubject: ActionsSubject,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.jobTitleCodePipe = new JobTitleCodePipe();
 
     this.selectedJobRowSubscription = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs).subscribe(row => {
@@ -127,9 +134,12 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     };
     this.gridConfig = {
       PersistColumnWidth: false,
-      EnableInfiniteScroll: true,
-      ScrollToTop: true
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
     };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
 
     this.notesManagerConfiguration = {
       ModalTitle: 'Pricing Notes',
