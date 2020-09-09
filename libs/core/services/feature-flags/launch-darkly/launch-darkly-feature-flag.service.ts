@@ -11,9 +11,6 @@ import { AbstractFeatureFlagService, FeatureFlagChange, FeatureFlagContext, Real
 @Injectable({
   providedIn: 'root'
 })
-/***
- * @deprecated Implementation ongoing, do not use yet.
- */
 export class LaunchDarklyFeatureFlagService extends AbstractFeatureFlagService {
   private featureFlagChanged: BehaviorSubject<FeatureFlagChange>;
   private client: LDClient;
