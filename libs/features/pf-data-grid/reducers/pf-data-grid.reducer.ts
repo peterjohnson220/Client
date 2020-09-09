@@ -223,8 +223,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            loading: true,
-            hasMoreDataOnServer: true
+            loading: true
           }
         }
       };
@@ -249,7 +248,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             },
             totalCount: action.payload.TotalCount,
             loading: false,
-            selectAllState: loadDataSelectAllState
+            selectAllState: loadDataSelectAllState,
+            hasMoreDataOnServer: action.payload.Data.length < action.payload.TotalCount,
           }
         }
       };
@@ -268,15 +268,13 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_MORE_DATA_SUCCESS:
-      const gridDataClone = cloneDeep(state.grids[action.pageViewId].data);
+      const gridDataClone: GridDataResult = cloneDeep(state.grids[action.pageViewId].data);
       gridDataClone.data = gridDataClone.data.concat(action.payload.Data);
 
       const currentSelectAllState = state.grids[action.pageViewId].selectAllState;
-
-      const loadMoreDataSelectAllState =
-        currentSelectAllState === SelectAllStatus.checked ? SelectAllStatus.indeterminate :
-          currentSelectAllState === SelectAllStatus.indeterminate ? SelectAllStatus.indeterminate :
-            SelectAllStatus.unchecked;
+      const loadMoreDataSelectAllState = currentSelectAllState === SelectAllStatus.checked
+        ? SelectAllStatus.indeterminate
+        : currentSelectAllState === SelectAllStatus.indeterminate ? SelectAllStatus.indeterminate : SelectAllStatus.unchecked;
 
       return {
         ...state,
@@ -287,7 +285,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             data: gridDataClone,
             loading: false,
             loadingMoreData: false,
-            hasMoreDataOnServer: gridDataClone.data.length < gridDataClone.total,
+            hasMoreDataOnServer: gridDataClone.data.length < state.grids[action.pageViewId].totalCount,
             selectAllState: loadMoreDataSelectAllState
           }
         }

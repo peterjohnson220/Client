@@ -97,7 +97,8 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.gridConfig = {
       PersistColumnWidth: true,
       EnableInfiniteScroll: true,
-      ScrollToTop: true
+      ScrollToTop: true,
+      SelectAllPanelItemName: 'employees'
     };
   }
 

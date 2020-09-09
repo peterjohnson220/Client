@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ViewField, SimpleDataView, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { AppNotification, NotificationLevel } from 'libs/features/app-notifications/models';
@@ -19,6 +20,7 @@ import {
   GridConfig
 } from '../models';
 import { getUserFilteredFields } from '../components';
+import { SelectAllStatus } from '../reducers/pf-data-grid.reducer';
 
 @Component({
   selector: 'pf-data-grid',
@@ -97,6 +99,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   getNotification$: Observable<AppNotification<any>[]>;
   getExportEventId$: Observable<number>;
   getExportViewId$: Observable<number>;
+  selectAllState$: Observable<string>;
+  totalCount$: Observable<number>;
+  gridDataResult$: Observable<GridDataResult>;
 
   userFilteredFieldsSubscription: Subscription;
   selectedRecordIdSubscription: Subscription;
@@ -110,6 +115,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   selectedRecordId: number;
   exportEventId = null;
   normalSplitViewWidth: string;
+  selectAllStatus = SelectAllStatus;
 
   constructor(
     private store: Store<fromReducer.State>,
@@ -148,6 +154,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.getExportEventId$ = this.store.select(fromReducer.getExportEventId, this.pageViewId);
     this.getNotification$ = this.appNotificationStore.select(fromAppNotificationsMainReducer.getNotifications);
     this.getExportViewId$ = this.store.select(fromReducer.getExportViewId, this.pageViewId);
+    this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, this.pageViewId);
+    this.totalCount$ = this.store.select(fromReducer.getTotalCount, this.pageViewId);
+    this.gridDataResult$ = this.store.select(fromReducer.getData, this.pageViewId);
 
     this.getExportEventIdSubscription = this.getExportEventId$.subscribe(eventId => {
       if (eventId !== this.exportEventId) {
@@ -277,4 +286,5 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   toggleSplitView() {
     this.gridContainerSplitViewWidth = this.gridContainerSplitViewWidth === this.normalSplitViewWidth ? '100%' : this.normalSplitViewWidth;
   }
+
 }
