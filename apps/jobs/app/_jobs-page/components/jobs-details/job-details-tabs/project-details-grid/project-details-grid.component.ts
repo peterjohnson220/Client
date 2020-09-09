@@ -8,7 +8,8 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
@@ -36,6 +37,7 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
     dir: 'asc',
     field: 'UserSessions_Session_Name'
   }];
+  defaultPagingOptions: PagingOptions = getDefaultPagingOptions();
 
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
@@ -44,6 +46,7 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
   payMarketOptions: any;
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -61,6 +64,11 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
+    };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
   }
 

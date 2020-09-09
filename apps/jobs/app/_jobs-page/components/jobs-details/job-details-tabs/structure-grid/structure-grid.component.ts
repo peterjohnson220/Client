@@ -9,7 +9,8 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
@@ -39,6 +40,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'vw_CompanyJobsStructureInfo_Structure_Search'
   }];
+  defaultPagingOptions: PagingOptions = getDefaultPagingOptions();
   fieldsExcludedFromExport = [
     'CompanyJob_ID',
     'CompanyPayMarket_ID',
@@ -53,6 +55,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
   payMarketOptions: any;
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
 
   constructor(private store: Store<fromJobsPageReducer.State>) {
     this.companyPayMarketSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -73,6 +76,11 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
       AllowExport: true,
       ExportSourceName: 'Structures',
       ActionBarClassName: 'ml-0 mr-3 mt-1'
+    };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
   }
 

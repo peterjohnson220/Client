@@ -8,7 +8,8 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
@@ -39,6 +40,8 @@ export class NotPricedPaymarketsGridComponent implements AfterViewInit, OnDestro
   selectedKeys: any[];
   payMarketOptions: any;
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
+  defaultPagingOptions: PagingOptions = getDefaultPagingOptions();
 
   companyPayMarketsSubscription: Subscription;
   notPricedDataPageViewId = PageViewIds.NotPricedPayMarkets;
@@ -67,6 +70,11 @@ export class NotPricedPaymarketsGridComponent implements AfterViewInit, OnDestro
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
+    };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
   }
 

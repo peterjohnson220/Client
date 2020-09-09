@@ -8,7 +8,8 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
@@ -48,6 +49,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     dir: 'desc',
     field: 'CompanyJobs_Pricings_Effective_Date'
   }];
+  defaultPagingOptions: PagingOptions = getDefaultPagingOptions();
 
   permissions = Permissions;
   gridFieldSubscription: Subscription;
@@ -57,6 +59,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   payMarketOptions: any;
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
   pricingId: number;
 
   showPricingDetails = new BehaviorSubject<boolean>(false);
@@ -107,6 +110,11 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
+    };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
 
   }

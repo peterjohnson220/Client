@@ -6,7 +6,8 @@ import { ofType } from '@ngrx/effects';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 
@@ -50,8 +51,11 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     dir: 'asc',
     field: 'CompanyPayMarkets_PayMarket'
   }];
+  defaultPagingOptions: PagingOptions = getDefaultPagingOptions();
+
   selectedKeys: number[];
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
   viewMode = 'Priced';
   companyPayMarketsSubscription: Subscription;
 
@@ -120,6 +124,11 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
+    };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: true,
+      ScrollToTop: true
     };
 
     this.notesManagerConfiguration = {
