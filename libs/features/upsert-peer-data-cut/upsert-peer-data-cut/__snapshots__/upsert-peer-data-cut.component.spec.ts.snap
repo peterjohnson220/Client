@@ -3,12 +3,16 @@
 exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when passesGuidelines is false 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
+  cancelChanges={[Function EventEmitter]}
+  cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
+  displayMap="false"
   employeesValid$={[Function Store]}
-  exchangeExplorer={[Function Object]}
+  entityConfiguration={[Function Object]}
+  exchangeExplorer="undefined"
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -32,44 +36,11 @@ exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when 
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
-  userJobMatchId="0"
-  userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <pf-exchange-explorer>
-      
-      
-      
-      <div
-        class="d-flex mr-4"
-      >
-        <pf-weighting-type-dropdown />
-      </div>
-      
-      <div
-        class="d-flex flex-grow-1 justify-content-end"
-      >
-        
-      </div>
-      
-      <pf-guidelines-badge />
-      
-      <button
-        class="btn legacy-primary-btn au-btn-add ml-2"
-        disabled=""
-        type="button"
-      >
-         Add 
-      </button>
-      <button
-        class="btn btn-secondary au-btn-cancel ml-2"
-        type="button"
-      >
-        Cancel
-      </button>
-    </pf-exchange-explorer>
+    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
@@ -77,12 +48,16 @@ exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when 
 exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page with an Add button 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
+  cancelChanges={[Function EventEmitter]}
+  cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
+  displayMap={[Function Boolean]}
   employeesValid$={[Function Store]}
-  exchangeExplorer={[Function Object]}
+  entityConfiguration={[Function Object]}
+  exchangeExplorer="undefined"
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -106,43 +81,12 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
-  userJobMatchId="0"
-  userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <pf-exchange-explorer>
-      
-      
-      
-      <div
-        class="d-flex mr-4"
-      >
-        <pf-weighting-type-dropdown />
-      </div>
-      
-      <div
-        class="d-flex flex-grow-1 justify-content-end"
-      >
-        
-      </div>
-      
-      <pf-guidelines-badge />
-      
-      <button
-        class="btn legacy-primary-btn au-btn-add ml-2"
-        type="button"
-      >
-         Add 
-      </button>
-      <button
-        class="btn btn-secondary au-btn-cancel ml-2"
-        type="button"
-      >
-        Cancel
-      </button>
-    </pf-exchange-explorer>
+    
+    <pf-exchange-explorer />
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
@@ -150,12 +94,16 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
 exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page with an Update button 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
+  cancelChanges={[Function EventEmitter]}
+  cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
   displayInClassicAspIframe="false"
+  displayMap={[Function Boolean]}
   employeesValid$={[Function Store]}
-  exchangeExplorer={[Function Object]}
+  entityConfiguration={[Function Object]}
+  exchangeExplorer="undefined"
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -179,43 +127,12 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
-  userJobMatchId="0"
-  userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <pf-exchange-explorer>
-      
-      
-      
-      <div
-        class="d-flex mr-4"
-      >
-        <pf-weighting-type-dropdown />
-      </div>
-      
-      <div
-        class="d-flex flex-grow-1 justify-content-end"
-      >
-        
-      </div>
-      
-      <pf-guidelines-badge />
-      
-      <button
-        class="btn legacy-primary-btn au-btn-add ml-2"
-        type="button"
-      >
-         Update 
-      </button>
-      <button
-        class="btn btn-secondary au-btn-cancel ml-2"
-        type="button"
-      >
-        Cancel
-      </button>
-    </pf-exchange-explorer>
+    
+    <pf-exchange-explorer />
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
@@ -223,12 +140,16 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
 exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter when untaggedIncumbentCount$ > 0 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
+  cancelChanges={[Function EventEmitter]}
+  cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
+  displayMap="false"
   employeesValid$={[Function Store]}
-  exchangeExplorer={[Function Object]}
+  entityConfiguration={[Function Object]}
+  exchangeExplorer="undefined"
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -252,56 +173,11 @@ exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter w
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
-  userJobMatchId="0"
-  userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <pf-exchange-explorer>
-      
-      
-      
-      <div
-        class="d-flex mr-4"
-      >
-        <pf-weighting-type-dropdown />
-      </div>
-      
-      <div
-        class="d-flex"
-      >
-        <label
-          for="include-untagged-incs"
-        >
-           Include 1 incumbent that does not have location data 
-          <input
-            id="include-untagged-incs"
-            type="checkbox"
-          />
-        </label>
-      </div>
-      <div
-        class="d-flex flex-grow-1 justify-content-end"
-      >
-        
-      </div>
-      
-      <pf-guidelines-badge />
-      
-      <button
-        class="btn legacy-primary-btn au-btn-add ml-2"
-        type="button"
-      >
-         Add 
-      </button>
-      <button
-        class="btn btn-secondary au-btn-cancel ml-2"
-        type="button"
-      >
-        Cancel
-      </button>
-    </pf-exchange-explorer>
+    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
@@ -309,12 +185,16 @@ exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter w
 exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGuidelines is true 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
+  cancelChanges={[Function EventEmitter]}
+  cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
+  displayMap="false"
   employeesValid$={[Function Store]}
-  exchangeExplorer={[Function Object]}
+  entityConfiguration={[Function Object]}
+  exchangeExplorer="undefined"
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -338,43 +218,11 @@ exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGui
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
-  userJobMatchId="0"
-  userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <pf-exchange-explorer>
-      
-      
-      
-      <div
-        class="d-flex mr-4"
-      >
-        <pf-weighting-type-dropdown />
-      </div>
-      
-      <div
-        class="d-flex flex-grow-1 justify-content-end"
-      >
-        
-      </div>
-      
-      <pf-guidelines-badge />
-      
-      <button
-        class="btn legacy-primary-btn au-btn-add ml-2"
-        type="button"
-      >
-         Add 
-      </button>
-      <button
-        class="btn btn-secondary au-btn-cancel ml-2"
-        type="button"
-      >
-        Cancel
-      </button>
-    </pf-exchange-explorer>
+    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
@@ -382,12 +230,16 @@ exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGui
 exports[`Libs - Upsert Peer Data Cut should enable the update button when passesGuidelines is true 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
+  cancelChanges={[Function EventEmitter]}
+  cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
+  displayMap="false"
   employeesValid$={[Function Store]}
-  exchangeExplorer={[Function Object]}
+  entityConfiguration={[Function Object]}
+  exchangeExplorer="undefined"
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -411,43 +263,11 @@ exports[`Libs - Upsert Peer Data Cut should enable the update button when passes
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
-  userJobMatchId="0"
-  userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <pf-exchange-explorer>
-      
-      
-      
-      <div
-        class="d-flex mr-4"
-      >
-        <pf-weighting-type-dropdown />
-      </div>
-      
-      <div
-        class="d-flex flex-grow-1 justify-content-end"
-      >
-        
-      </div>
-      
-      <pf-guidelines-badge />
-      
-      <button
-        class="btn legacy-primary-btn au-btn-add ml-2"
-        type="button"
-      >
-         Add 
-      </button>
-      <button
-        class="btn btn-secondary au-btn-cancel ml-2"
-        type="button"
-      >
-        Cancel
-      </button>
-    </pf-exchange-explorer>
+    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
@@ -455,12 +275,16 @@ exports[`Libs - Upsert Peer Data Cut should enable the update button when passes
 exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and message when peer terms haven't been accepted 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
+  cancelChanges={[Function EventEmitter]}
+  cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
+  displayMap="false"
   employeesValid$={[Function Store]}
-  exchangeExplorer={[Function Object]}
+  entityConfiguration={[Function Object]}
+  exchangeExplorer="undefined"
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -484,68 +308,11 @@ exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and mes
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
-  userJobMatchId="0"
-  userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <pf-exchange-explorer>
-      
-      
-      <div
-        class="alert alert-mustard mb-0"
-      >
-        <div
-          class="request-access-message mb-2"
-        >
-           Thank you for your interest in Peer. Peer allows you to market price with unmatched
-    granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
-    will reach out to get you started with Peer. 
-        </div>
-        <div
-          class="d-flex justify-content-end mt-0"
-        >
-          <button
-            class="btn btn-primary mr-2"
-            type="button"
-          >
-            
-            
-            <span>
-               Request Access 
-            </span>
-          </button>
-          <button
-            class="btn btn-secondary"
-            type="button"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-      
-      <div
-        class="d-flex mr-4"
-      >
-        <pf-weighting-type-dropdown />
-      </div>
-      
-      <div
-        class="d-flex flex-grow-1 justify-content-end"
-      >
-        
-      </div>
-      
-      <pf-guidelines-badge />
-      
-      <button
-        class="btn btn-secondary au-btn-cancel ml-2"
-        type="button"
-      >
-        Cancel
-      </button>
-    </pf-exchange-explorer>
+    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
@@ -554,12 +321,16 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' but
   peer terms haven't been accepted and access has been requested 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
+  cancelChanges={[Function EventEmitter]}
+  cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
+  displayMap="false"
   employeesValid$={[Function Store]}
-  exchangeExplorer={[Function Object]}
+  entityConfiguration={[Function Object]}
+  exchangeExplorer="undefined"
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -583,68 +354,11 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' but
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
-  userJobMatchId="0"
-  userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <pf-exchange-explorer>
-      
-      
-      <div
-        class="alert alert-mustard mb-0"
-      >
-        <div
-          class="request-access-message mb-2"
-        >
-           Thank you for requesting access to Peer. A Payfactors representative will be in
-    touch shortly to discuss the details of Peer and how you can become an active member of Peer. 
-        </div>
-        <div
-          class="d-flex justify-content-end mt-0"
-        >
-          <button
-            class="btn btn-primary mr-2"
-            disabled=""
-            type="button"
-          >
-            
-            
-            <span>
-               Access Requested 
-            </span>
-          </button>
-          <button
-            class="btn btn-secondary"
-            type="button"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-      
-      <div
-        class="d-flex mr-4"
-      >
-        <pf-weighting-type-dropdown />
-      </div>
-      
-      <div
-        class="d-flex flex-grow-1 justify-content-end"
-      >
-        
-      </div>
-      
-      <pf-guidelines-badge />
-      
-      <button
-        class="btn btn-secondary au-btn-cancel ml-2"
-        type="button"
-      >
-        Cancel
-      </button>
-    </pf-exchange-explorer>
+    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
@@ -653,12 +367,16 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' bu
   is being requested 1`] = `
 <pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
+  cancelChanges={[Function EventEmitter]}
+  cdRef={[Function ViewRef_]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   displayInClassicAspIframe="false"
+  displayMap="false"
   employeesValid$={[Function Store]}
-  exchangeExplorer={[Function Object]}
+  entityConfiguration={[Function Object]}
+  exchangeExplorer="undefined"
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -682,70 +400,11 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' bu
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
-  userJobMatchId="0"
-  userSessionId={[Function Number]}
   weightingType$={[Function Store]}
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    <pf-exchange-explorer>
-      
-      
-      <div
-        class="alert alert-mustard mb-0"
-      >
-        <div
-          class="request-access-message mb-2"
-        >
-           Thank you for your interest in Peer. Peer allows you to market price with unmatched
-    granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
-    will reach out to get you started with Peer. 
-        </div>
-        <div
-          class="d-flex justify-content-end mt-0"
-        >
-          <button
-            class="btn btn-primary mr-2"
-            disabled=""
-            type="button"
-          >
-            
-            <span>
-              <pf-loading-indicator />
-               Requesting Access... 
-            </span>
-            
-          </button>
-          <button
-            class="btn btn-secondary"
-            type="button"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-      
-      <div
-        class="d-flex mr-4"
-      >
-        <pf-weighting-type-dropdown />
-      </div>
-      
-      <div
-        class="d-flex flex-grow-1 justify-content-end"
-      >
-        
-      </div>
-      
-      <pf-guidelines-badge />
-      
-      <button
-        class="btn btn-secondary au-btn-cancel ml-2"
-        type="button"
-      >
-        Cancel
-      </button>
-    </pf-exchange-explorer>
+    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;

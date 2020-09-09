@@ -1,5 +1,7 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  ChangeDetectorRef,
+  Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild,
+} from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -15,25 +17,27 @@ import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/pee
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers';
 
-import * as fromUpsertDataCutActions from '../../actions/upsert-peer-data-cut.actions';
-import * as fromRequestPeerAccessActions from '../../actions/request-peer-access.actions';
-import * as fromUpsertPeerDataReducers from '../../reducers';
+import * as fromUpsertDataCutActions from '../actions/upsert-peer-data-cut.actions';
+import * as fromRequestPeerAccessActions from '../actions/request-peer-access.actions';
+import * as fromUpsertPeerDataReducers from '../reducers';
+import {UpsertPeerDataCutEntityConfigurationModel} from '../models';
 
 @Component({
   selector: 'pf-upsert-peer-data-cut',
   templateUrl: './upsert-peer-data-cut.component.html',
   styleUrls: ['./upsert-peer-data-cut.component.scss']
 })
-export class UpsertPeerDataCutComponent implements OnInit, OnDestroy {
+export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges {
   @Input() companyJobId: number;
   @Input() companyPayMarketId: number;
-  @Input() userSessionId: number;
   @Input() isPayMarketOverride: boolean;
   @Input() cutGuid: string;
-  @Input() userJobMatchId: number;
   @Input() displayInClassicAspIframe: boolean;
+  @Input() entityConfiguration: UpsertPeerDataCutEntityConfigurationModel;
+  @Output() cancelChanges = new EventEmitter();
+
   @ViewChild(ExchangeExplorerMapComponent, {static: true}) map: ExchangeExplorerMapComponent;
-  @ViewChild(ExchangeExplorerComponent, {static: true}) exchangeExplorer: ExchangeExplorerComponent;
+  @ViewChild(ExchangeExplorerComponent) exchangeExplorer: ExchangeExplorerComponent;
 
   upsertDataCutPageInViewInIframe$: Observable<boolean>;
   peerMapCompanies$: Observable<any>;
@@ -50,6 +54,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy {
   persistedWeightingTypeForDataCuts$: Observable<string>;
 
   untaggedIncumbentCount: number;
+  displayMap = false;
 
   // Subscriptions
   peerMapCompaniesSubscription: Subscription;
@@ -69,7 +74,8 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy {
     private store: Store<fromUpsertPeerDataReducers.State>,
     private mapStore: Store<fromLibsPeerExchangeExplorerReducers.State>,
     private guidelinesService: DojGuidelinesService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private cdRef: ChangeDetectorRef
   ) {
     this.upsertingDataCut$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCut));
     this.upsertingDataCutError$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCutError));
@@ -117,15 +123,17 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy {
   }
 
   upsert() {
-    this.store.dispatch(new fromUpsertDataCutActions.UpsertDataCut({
-      DataCutGuid: this.cutGuid,
-      CompanyJobId: this.companyJobId,
-      CompanyPayMarketId: this.companyPayMarketId,
-      IsPayMarketOverride: this.isPayMarketOverride,
-      UserSessionId: this.userSessionId,
-      UserJobMatchId: this.userJobMatchId,
-      ZoomLevel: this.map ? this.map.getZoomLevel() : 0
-    }));
+    if (this.entityConfiguration.BaseEntityId) {
+      this.store.dispatch(new fromUpsertDataCutActions.UpsertDataCut({
+        DataCutGuid: this.cutGuid,
+        CompanyJobId: this.companyJobId,
+        CompanyPayMarketId: this.companyPayMarketId,
+        IsPayMarketOverride: this.isPayMarketOverride,
+        EntityConfiguration: this.entityConfiguration,
+        ZoomLevel: this.map ? this.map.getZoomLevel() : 0,
+        BaseEntityId: this.entityConfiguration.BaseEntityId
+      }));
+    }
   }
 
   requestPeerAccess(): void {
@@ -134,37 +142,65 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy {
 
   cancel() {
     this.store.dispatch(new fromUpsertDataCutActions.CancelUpsertDataCut);
+    this.cancelChanges.emit();
+    this.displayMap = false;
   }
 
   // Lifecycle events
+
   ngOnInit(): void {
     this.setSubscriptions();
-
     if (this.displayInClassicAspIframe) {
-      const setContextMessage: MessageEvent = {
-        data: {
-          payfactorsMessage: {
-            type: 'Set Context',
-            payload: {
-              companyJobId: this.companyJobId,
-              companyPayMarketId: this.companyPayMarketId,
-              userSessionId: this.userSessionId,
-              isPayMarketOverride: this.isPayMarketOverride,
-              cutGuid: this.cutGuid,
-              isExchangeSpecific: false
-            }
-          }
-        }
-      } as MessageEvent;
-      this.exchangeExplorer.onMessage(setContextMessage);
-    }
+      this.showMap();
+      const contextData = {
+        companyJobId: this.companyJobId,
+        companyPayMarketId: this.companyPayMarketId,
+        userSessionId: this.entityConfiguration.ParentEntityId,
+        isPayMarketOverride: this.isPayMarketOverride,
+        cutGuid: this.cutGuid,
+        isExchangeSpecific: false
+      };
 
+      this.setContext(contextData);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['entityConfiguration'] && changes['entityConfiguration'].currentValue &&
+      changes['entityConfiguration'].currentValue['BaseEntityId']) {
+      this.showMap();
+      const contextData = {
+        companyJobId: this.companyJobId,
+        entityConfiguration: this.entityConfiguration,
+        cutGuid: this.cutGuid
+      };
+      if (!!this.exchangeExplorer) {
+        this.setContext(contextData);
+      }
+    }
+  }
+
+  setContext(contextData: any) {
+    const setContextMessage: MessageEvent = {
+      data: {
+        payfactorsMessage: {
+          type: 'Set Context',
+          payload: contextData
+        }
+      }
+    } as MessageEvent;
+    this.exchangeExplorer.onMessage(setContextMessage);
     this.store.dispatch(new fromDataCutValidationActions.LoadDataCutValidation(
       {
         CompanyJobId: this.companyJobId,
-        UserSessionId: this.userSessionId
+        EntityConfiguration: this.entityConfiguration
       }
     ));
+  }
+
+  showMap() {
+    this.displayMap = true;
+    this.cdRef.detectChanges();
   }
 
   ngOnDestroy() {
@@ -173,27 +209,33 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy {
     this.persistedWeightingTypeForDataCutsSubscription.unsubscribe();
   }
 
-
-
   setSubscriptions(): void {
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
-      this.guidelinesService.validateDataCut(pms, this.companyJobId, this.userSessionId);
+      if (this.entityConfiguration.BaseEntityId) {
+        this.guidelinesService.validateDataCut(pms, this.companyJobId, this.entityConfiguration, this.cutGuid);
+      }
     });
     this.weightingTypeSubscription = this.weightingType$.subscribe(wts => {
-      if (this.cutGuid !== null) {
-        this.selectedWeightingType = Weights.find(w => w.Value === wts);
+      if (this.entityConfiguration.BaseEntityId) {
+        if (this.cutGuid !== null) {
+          this.selectedWeightingType = Weights.find(w => w.Value === wts);
+        }
       }
     });
     this.persistedWeightingTypeForDataCutsSubscription = this.persistedWeightingTypeForDataCuts$.subscribe(weightingType => {
-      if (!!weightingType && this.cutGuid === null) {
-        this.selectedWeightingType = Weights.find(w => w.Value === weightingType);
-        this.store.dispatch(new fromLibsExchangeExplorerFilterContextActions
-          .SetWeightingType({ weightingType: this.selectedWeightingType.Value }));
+      if (this.entityConfiguration.BaseEntityId) {
+        if (!!weightingType && this.cutGuid === null) {
+          this.selectedWeightingType = Weights.find(w => w.Value === weightingType);
+          this.store.dispatch(new fromLibsExchangeExplorerFilterContextActions
+            .SetWeightingType({ weightingType: this.selectedWeightingType.Value }));
+        }
       }
     });
 
     this.untaggedIncumbentCountSubscription = this.untaggedIncumbentCount$.subscribe( untaggedIncumbentCount => {
-      this.untaggedIncumbentCount = untaggedIncumbentCount;
+      if (this.entityConfiguration.BaseEntityId) {
+        this.untaggedIncumbentCount = untaggedIncumbentCount;
+      }
     });
   }
 

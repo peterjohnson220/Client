@@ -4,6 +4,8 @@
                     [hideReloadButton]="true">
 
   <pf-exchange-explorer
+    *ngIf="displayMap"
+    #exchangeExplorerComponent
     [companyPayMarketId]="companyPayMarketId"
     [shouldShowPayMarketBoundsFilter]="hasAcceptedPeerTerms$ | async"
     [shouldShowExcludeIndirectJobMatchesFilter]="hasAcceptedPeerTerms$ | async"
@@ -65,18 +67,21 @@
 
       <pf-guidelines-badge></pf-guidelines-badge>
 
-      <button type="button"
-              class="btn legacy-primary-btn au-btn-add ml-2"
-              *ngIf="(hasAcceptedPeerTerms$ | async)"
-              [disabled]="failsGuidelines || !(hasAcceptedPeerTerms$ | async) || (isEmployeeCheckLoading$ | async)"
-              (click)="upsert()">
+      <div class="action-button-container">
+        <button type="button"
+                class="btn au-btn-add ml-2"
+                [ngClass]="displayInClassicAspIframe ? 'legacy-primary-btn' : 'btn-primary'"
+                *ngIf="(hasAcceptedPeerTerms$ | async)"
+                [disabled]="failsGuidelines || !(hasAcceptedPeerTerms$ | async) || (isEmployeeCheckLoading$ | async)"
+                (click)="upsert()">
 
-        {{primaryButtonText}}
-      </button>
+          {{primaryButtonText}}
+        </button>
 
-      <button type="button"
-              class="btn btn-secondary au-btn-cancel ml-2"
-              (click)="cancel()">Cancel</button>
+        <button type="button"
+                class="btn btn-secondary au-btn-cancel ml-2"
+                (click)="cancel()">Cancel</button>
+      </div>
 
     </ng-container>
 

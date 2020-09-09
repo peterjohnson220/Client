@@ -13,6 +13,7 @@ import { WeightType } from 'libs/data/data-sets';
 import * as fromUpsertPeerDataReducers from '../reducers';
 import * as fromDataCutValidationActions from '../../actions/data-cut-validation.actions';
 import { GuidelineLimits } from '../../models';
+import {UpsertPeerDataCutEntityConfigurationModel} from '../../../upsert-peer-data-cut/models';
 
 @Injectable()
 export class DojGuidelinesService implements OnDestroy {
@@ -119,11 +120,11 @@ export class DojGuidelinesService implements OnDestroy {
     this.weightingTypeSubscription.unsubscribe();
   }
 
-  validateDataCut(mapCompanies: any, companyJobId: number, userSessionId: number) {
+  validateDataCut(mapCompanies: any, companyJobId: number, entityConfiguration: UpsertPeerDataCutEntityConfigurationModel, cutGuid: string = null) {
     if (!this.hasMinimumCompanies || !this.hasNoHardDominatingData) { return; }
 
     const validationInfo = this.dataCutValidationInfo;
-    const guid = this.route.snapshot.queryParamMap.get('dataCutGuid') || null;
+    const guid = cutGuid || this.route.snapshot.queryParamMap.get('dataCutGuid');
     const currentMapCompanies: number[] = mapCompanies.map(item => item.CompanyId);
     if (validationInfo.length > 0) {
 
@@ -155,7 +156,7 @@ export class DojGuidelinesService implements OnDestroy {
 
     // we've passed on company now lets check the employees
     if (this.companyValidationPass) {
-      const action = new fromDataCutValidationActions.ValidateDataCutEmployees(companyJobId, userSessionId, guid);
+      const action = new fromDataCutValidationActions.ValidateDataCutEmployees(companyJobId, entityConfiguration, guid);
       this.store.dispatch(action);
     }
   }

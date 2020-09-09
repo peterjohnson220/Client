@@ -33,6 +33,7 @@ import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
 
 
+
 @Component({
   selector: 'pf-jobs-page',
   templateUrl: './jobs.page.html',

@@ -1,0 +1,27 @@
+<pf-modal-form
+  [modalId]="'au-upsert-peer-data-cut'"
+  [isOpen$]="showUpsertPeerModal$"
+  [size]="'xl'"
+  [title]="'Edit Peer Cut'"
+  [primaryButtonText]="'Update'"
+  [windowClass]="'upsert-peer-data-modal'"
+  [showFooter]="false"
+  (onDismiss)="resetModal()"
+>
+  <ng-container basic-content>
+    <pf-async-container [loading]="dataLoading">
+      <div class="upsert-peer-modal-content-container">
+        <pf-upsert-peer-data-cut
+          [displayInClassicAspIframe]="false"
+          [entityConfiguration]="entityConfiguration"
+          [companyJobId]="companyJobId"
+          [companyPayMarketId]="companyPayMarketId"
+          [isPayMarketOverride]="isPayMarketOverride"
+          [cutGuid]="cutGuid"
+          (cancelChanges)="resetModal()"
+        >
+        </pf-upsert-peer-data-cut>
+      </div>
+    </pf-async-container>
+  </ng-container>
+</pf-modal-form>

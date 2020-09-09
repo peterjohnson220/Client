@@ -41,6 +41,9 @@ export class SurveySearchEffectsService {
       ),
       filter((data) => data.searchFeatureId === SearchFeatureIds.MultiMatch || data.searchFeatureId === SearchFeatureIds.AddSurveyData),
       switchMap(l => {
+        if (!l.searchContext) {
+          return;
+        }
         const searchRequest = this.payfactorsSurveySearchApiHelper.buildSurveySearchRequest({
           Filters: l.filters,
           PagingOptions: l.pagingOptions,

@@ -21,6 +21,10 @@ import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
 import * as fromMultiMatchReducer from '../reducers';
 import { JobToPrice } from '../models';
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
+import * as fromChildFilterActions from '../../search/actions/child-filter.actions';
+import * as fromSingledActions from '../../search/actions/singled-filter.actions';
+import * as fromSearchResultsActions from '../../search/actions/search-results.actions';
+import * as fromSearchPageActions from '../../search/actions/search-page.actions';
 
 @Component({
   selector: 'pf-multi-match-component',
@@ -102,6 +106,12 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
   onResetApp() {
     this.store.dispatch(new fromSurveySearchResultsActions.ClearDataCutSelections());
     this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
+
+    this.store.dispatch(new fromSingledActions.Reset());
+    this.store.dispatch(new fromChildFilterActions.Reset());
+    this.store.dispatch(new fromSearchResultsActions.Reset());
+    this.store.dispatch(new fromSearchPageActions.Reset());
+    this.store.dispatch(new fromSearchFiltersActions.Reset());
   }
 
   onSetContext(payload: any) {

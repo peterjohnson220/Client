@@ -1,14 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'isSurveyCut',
+  name: 'canModifyMatch',
   pure: true
 })
 
-export class IsSurveyCut implements PipeTransform {
+export class CanModifyMatch implements PipeTransform {
   transform(dataRow: any, pricingInfo: any, canModifyPricings: boolean) {
-    return dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID']
+    return canModifyPricings
       && !pricingInfo['CompanyPayMarkets_Linked_PayMarket_Name']
-      && canModifyPricings;
+      && (dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'] || dataRow['ExchangeDataCut_FilterGUID']);
   }
 }
