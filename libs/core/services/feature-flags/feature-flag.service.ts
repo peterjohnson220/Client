@@ -1,8 +1,6 @@
 import { Subject } from 'rxjs';
 
 /**
- * @deprecated Implementation ongoing, do not use yet.
- *
  * Represents a real time feature flag
  */
 export interface RealTimeFlag {
@@ -11,8 +9,6 @@ export interface RealTimeFlag {
 }
 
 /**
- * @deprecated Implementation ongoing, do not use yet.
- *
  * Represents a feature key(s) changed value
  */
 export interface FeatureFlagChange {
@@ -20,8 +16,6 @@ export interface FeatureFlagChange {
 }
 
 /**
- * @deprecated Implementation ongoing, do not use yet.
- *
  * Represents a user attribute to pass to the feature service
  */
 export interface FeatureFlagContextAttribute {
@@ -29,8 +23,6 @@ export interface FeatureFlagContextAttribute {
 }
 
 /**
- * @deprecated Implementation ongoing, do not use yet.
- *
  * Represents the user context to the feature service
  *
  * @property key The unique user identifier
@@ -43,8 +35,6 @@ export interface FeatureFlagContext {
 }
 
 /**
- * @deprecated Implementation ongoing, do not use yet.
- *
  * Represents a feature flagging service
  *
  * @property initialize a void function that will take in the context of the feature user and optionally a set of
@@ -60,8 +50,6 @@ export interface FeatureFlagService {
 }
 
 /**
- * @deprecated Implementation ongoing, do not use yet.
- *
  * Abstract feature flagging service. Primarily for use as a provider token
  */
 export abstract class AbstractFeatureFlagService implements FeatureFlagService {
