@@ -4,7 +4,6 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ViewField, SimpleDataView, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { AppNotification, NotificationLevel } from 'libs/features/app-notifications/models';
@@ -101,7 +100,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   getExportViewId$: Observable<number>;
   selectAllState$: Observable<string>;
   totalCount$: Observable<number>;
-  gridDataResult$: Observable<GridDataResult>;
+  uniqueVisibleKeys$: Observable<number[]>;
 
   userFilteredFieldsSubscription: Subscription;
   selectedRecordIdSubscription: Subscription;
@@ -156,7 +155,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.getExportViewId$ = this.store.select(fromReducer.getExportViewId, this.pageViewId);
     this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, this.pageViewId);
     this.totalCount$ = this.store.select(fromReducer.getTotalCount, this.pageViewId);
-    this.gridDataResult$ = this.store.select(fromReducer.getData, this.pageViewId);
+    this.uniqueVisibleKeys$ = this.store.select(fromReducer.getVisibleKeys, this.pageViewId);
 
     this.getExportEventIdSubscription = this.getExportEventId$.subscribe(eventId => {
       if (eventId !== this.exportEventId) {
