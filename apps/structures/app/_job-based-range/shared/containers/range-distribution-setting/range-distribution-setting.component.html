@@ -15,20 +15,20 @@
   <div class="rounding-group">
     <div class="form-group row mb-5">
       <label class="col-3 mt-2">Select Pay Type</label>
-      <kendo-combobox id="rangeBasedOn" class="form-control col-4"
-          formControlName="RangeBasedOn"
-          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.RangeBasedOn.invalid }"
+      <kendo-combobox id="payType" class="form-control col-4"
+          formControlName="PayType"
+          [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.PayType.invalid }"
           [loading]="controlPointsAsyncObj.loading"
           [data]="controlPointCategory"
           [textField]="'Category'"
-          [valueField]="'FieldName'"
+          [valueField]="'Category'"
           [clearButton]="false"
           [valuePrimitive]="true"
           [allowCustom]="false"
           [placeholder]="'Select Range'"
           [filterable]="true"
-          (filterChange)="handleRangeBasedOnFilterChange($event)"
-          (selectionChange)="handleRangeBasedOnSelectionChange($event)">
+          (filterChange)="handlePayTypeFilterChange($event)"
+          (selectionChange)="handlePayTypeSelectionChange($event)">
       </kendo-combobox>
       <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="payTypeTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
       <div class="col-3"></div>
@@ -166,7 +166,7 @@
           formControlName="ControlPoint"
           [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.ControlPoint.invalid, 'no-inline-links': enablePercentilesAndRangeSpreads }"
           [loading]="controlPointsAsyncObj.loading"
-          [data]="controlPoints"
+          [data]="controlPointMidpoint"
           [textField]="'Display'"
           [valueField]="'FieldName'"
           [clearButton]="false"

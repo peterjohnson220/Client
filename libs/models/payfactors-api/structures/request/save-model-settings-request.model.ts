@@ -5,6 +5,7 @@ export interface SaveModelSettingsRequest {
   RangeGroupId: number;
   StructureName: string;
   ModelName: string;
+  PayType: string;
   ControlPoint: string;
   Rate: string;
   RangeSpreadMin: number;

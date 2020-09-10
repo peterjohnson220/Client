@@ -58,6 +58,7 @@ describe('Job Based Ranges - Rounding Settings', () => {
       ModelName: 'testModel',
       Currency: 'USD',
       Rate: 'Annual',
+      PayType: 'Base',
       ControlPoint: 'Base',
       ControlPointDisplay: 'Base',
       SpreadMin: 10,
