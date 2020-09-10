@@ -103,7 +103,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       .pipe(ofType(fromPfDataGridActions.UPDATE_GRID_DATA_ROW))
       .subscribe((action: fromPfDataGridActions.UpdateGridDataRow) => {
         const key = 'CompanyJobs_Pricings_CompanyJobPricing_ID';
-        if (action.pageViewId === PageViewIds.PricingDetails && action.data[key] === this.pricingInfo[key]) {
+        if (action.pageViewId === PageViewIds.PayMarkets && action.data[key] === this.pricingInfo[key]) {
           this.pricingInfo = action.data[key];
         }
       });

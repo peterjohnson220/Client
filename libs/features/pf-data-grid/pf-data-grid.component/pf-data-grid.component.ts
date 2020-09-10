@@ -84,6 +84,8 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() gridConfig: GridConfig;
   @Input() modifiedKey: string = null;
   @Input() resetWidthForSplitView = false;
+  @Input() linkGroups = [];
+
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();
@@ -104,7 +106,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   getNotificationSubscription: Subscription;
   getExportEventIdSubscription: Subscription;
   getExportViewIdSubscription: Subscription;
-  getEnablePricingReviewed: Subscription;
 
   userFilteredFields: ViewField[];
   selectedRecordId: number;
@@ -195,6 +196,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       if (this.actionBarConfig.AllowSaveFilter) {
         this.store.dispatch(new fromActions.LoadSavedViews(changes['pageViewId'].currentValue));
       }
+    }
+
+    if (changes['linkGroups']) {
+      this.store.dispatch(new fromActions.UpdateLinkGroups(this.pageViewId, changes['linkGroups'].currentValue));
     }
 
     if (changes['selectionField']) {

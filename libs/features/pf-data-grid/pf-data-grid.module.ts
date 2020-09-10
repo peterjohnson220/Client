@@ -37,7 +37,6 @@ import {
   ColumnGroupListComponent
 } from './components';
 import {
-  IsSortablePipe,
   SortDirectionPipe,
   IsColumnVisiblePipe,
   MappedFieldNamePipe,
@@ -84,7 +83,6 @@ import {
     ColumnGroupListComponent,
 
     // Pipes
-    IsSortablePipe,
     SortDirectionPipe,
     IsColumnVisiblePipe,
     MappedFieldNamePipe,

@@ -44,7 +44,6 @@ export const getDeletingPricingMatch = createSelector(selectJobsPageState, fromJ
 export const getUpdatingPricingMatch = createSelector(selectJobsPageState, fromJobsPageReducer.getUpdatingPricingMatch);
 export const getStructureGradeNames = createSelector(selectJobsPageState, fromJobsPageReducer.getStructureGradeNames);
 export const getCompanyPayMarkets = createSelector(selectJobsPageState, fromJobsPageReducer.getCompanyPayMarkets);
-export const getPricingDetailsView = createSelector(selectJobsPageState, fromJobsPageReducer.getPricingDetailsView);
 export const getExportOptions = createSelector(selectJobsPageState, fromJobsPageReducer.getExportOptions);
 export const getNavigatingToOldPage = createSelector(selectJobsPageState, fromJobsPageReducer.getNavigatingToOldPage);
 

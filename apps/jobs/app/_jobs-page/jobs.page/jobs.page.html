@@ -103,7 +103,7 @@
   <pf-export-list-popover
     [disableCustomExport]="!selectedPricingIds.length"
     [disabledCustomExportTooltip]="'Select a pricing'"
-    [disablePopover]="disableExportPopover"
+    [disablePopover]="this.selectedJobPricingCount < 1 && this.selectedPricingIds.length < 1"
     [disabledPopoverTooltip]="'Select a Priced Job'"
     (exportEmitter)="exportPricings($event)">
   </pf-export-list-popover>
@@ -112,11 +112,11 @@
 
 <ng-template #gridActions>
   <button
-    [disabled]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
+    [disabled]="!(selectedJobIds.length || selectedPricingIds.length || selectedUnpricedPaymarkets.length)"
     [attr.data-qa-id]="'btn-jobs-page-clear-selections'"
     type="button"
     (click)="clearSelections()"
-    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
+    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedUnpricedPaymarkets.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-secondary pf-btn-borderless"
   >
     <fa-icon [icon]="['far', 'times']" ></fa-icon>
@@ -128,18 +128,18 @@
   </div>
   <button
     [disabled]="!(jobStatusField | showingActiveJobs) || (updatingPricingMatch$ | async).saving
-      || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
+      || !(selectedJobIds.length || selectedPricingIds.length || selectedUnpricedPaymarkets.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-jobs-page-create-project'"
     type="button"
     (click)="openCreateProjectModal()"
-    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
+    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedUnpricedPaymarkets.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-secondary pf-btn-borderless"
   >
     <fa-icon [icon]="['far', 'calculator']" ></fa-icon>
     Create Project
-    <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && (jobStatusField | showingActiveJobs)">
-      ({{selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length}})
+    <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedUnpricedPaymarkets.length > 0 && (jobStatusField | showingActiveJobs)">
+      ({{selectedJobIds.length + selectedPricingIds.length + selectedUnpricedPaymarkets.length}})
     </span>
   </button>
   <button
@@ -252,7 +252,7 @@
       &bull; Pricing Count: {{selectedPricingIds.length}}
     </div>
     <div>
-      &bull; Job:Pay Market Associations: {{selectedJobPayMarketCombos.length}}
+      &bull; Unpriced Pay Market Count: {{selectedUnpricedPaymarkets.length}}
     </div>
     <div *ngIf="(creatingProject$ | async).savingError">
       <br>

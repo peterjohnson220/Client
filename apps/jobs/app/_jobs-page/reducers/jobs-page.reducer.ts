@@ -15,7 +15,6 @@ export interface State {
   updatingPricingMatch: AsyncStateObj<boolean>;
   companyPayMarkets: any;
   structureGradeNames: any;
-  pricingDetailsView: string;
   exportOptions: any;
   navigatingToOldPage: AsyncStateObj<boolean>;
 }
@@ -30,7 +29,6 @@ export const initialState: State = {
   updatingPricingMatch: generateDefaultAsyncStateObj<boolean>(false),
   companyPayMarkets: [],
   structureGradeNames: [],
-  pricingDetailsView: 'Priced',
   exportOptions: [{
     Display: 'Download Pricings',
     Name: 'DownloadPricings',
@@ -136,12 +134,6 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     case fromJobsPageActions.UPDATING_PRICING_MATCH_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'updatingPricingMatch', action.error);
     }
-    case fromJobsPageActions.CHANGE_PRICING_DETAILS_VIEW: {
-      return {
-        ...state,
-        pricingDetailsView: action.payload
-      };
-    }
     case fromJobsPageActions.LOAD_CUSTOM_EXPORTS_SUCCESS: {
       if (action.payload.DisplayText) {
         const exportObj = {
@@ -221,7 +213,6 @@ export const getDeletingPricingMatch = (state: State) => state.deletingPricingMa
 export const getUpdatingPricingMatch = (state: State) => state.updatingPricingMatch;
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
-export const getPricingDetailsView = (state: State) => state.pricingDetailsView;
 export const getExportOptions = (state: State) => state.exportOptions;
 export const getNavigatingToOldPage = (state: State) => state.navigatingToOldPage;
 

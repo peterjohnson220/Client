@@ -8,7 +8,7 @@
     [pageable]="(!compactGrid && pageable) ? pagingBarConfig : false"
     [scrollable]="compactGrid ? 'none': ''"
     [resizable]="(selectedRecordId && allowSplitView) ? false : enableResize"
-    [sortable]="allowSort | isSortable:selectedRecordId:defaultSortDescriptor"
+    [sortable]="{allowSort: allowSort}"
     [sort]="sortDescriptor$ | async"
     [ngClass]="theme"
     [rowClass]="getRowClasses"

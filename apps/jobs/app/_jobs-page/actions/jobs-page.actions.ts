@@ -28,7 +28,6 @@ export const LOAD_COMPANY_PAYMARKETS = '[Jobs Page] Load Company PayMarket';
 export const LOAD_COMPANY_PAYMARKETS_SUCCESS = '[Jobs Page] Load Company PayMarket Success';
 export const LOAD_STRUCTURE_GRADES = '[Jobs Page] Load Structure Grades';
 export const LOAD_STRUCTURE_GRADES_SUCCESS = '[Jobs Page] Load Structure Grades Success';
-export const CHANGE_PRICING_DETAILS_VIEW = '[Jobs Page] Change Pricing Details View';
 export const EXPORT_PRICINGS = '[Jobs Page] Export Pricings';
 export const EXPORT_PRICINGS_SUCCESS = '[Jobs Page] Export Pricings Success';
 export const EXPORT_PRICINGS_ERROR = '[Jobs Page] Export Pricings Error';
@@ -167,11 +166,6 @@ export class LoadStructureGradesSuccess implements Action {
   constructor(public payload: string[]) { }
 }
 
-export class ChangePricingDetailsView implements Action {
-  readonly type = CHANGE_PRICING_DETAILS_VIEW;
-  constructor(public payload: string) { }
-}
-
 export class ExportPricings implements Action {
   readonly type = EXPORT_PRICINGS;
   constructor(public payload: any) { }
@@ -239,7 +233,6 @@ export type JobsPageActions
   | LoadCompanyPayMarketsSuccess
   | LoadStructureGrades
   | LoadStructureGradesSuccess
-  | ChangePricingDetailsView
   | ExportPricings
   | ExportPricingsSuccess
   | ExportPricingsError
