@@ -9,11 +9,17 @@ div.collapsed {
 }
 
 .wtg-adj-cell {
-  min-width: 50px;
-  width: 50px;
+  min-width: 60px;
+  width: 60px;
 }
 
-.add-notes-link {
+.wtg-adj-input {
+  width: auto;
+  height: auto;
+  padding: 0;
+}
+
+.add-notes-link, .job-detail-link {
   color: $link-color;
   cursor: pointer;
 }
@@ -21,3 +27,21 @@ div.collapsed {
 .notes-link-container {
   width: 50px;
 }
+
+.details-text-padding {
+  padding-left: 120px
+}
+
+.survey-job-title, .survey-job-code {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.survey-cut {
+  cursor: pointer;
+}
+
+.survey-job-template-container {
+  max-width: 750px;
+}
+

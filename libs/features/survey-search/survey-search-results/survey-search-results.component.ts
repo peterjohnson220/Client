@@ -17,7 +17,6 @@ import {hasMoreDataCuts} from '../helpers';
   templateUrl: './survey-search-results.component.html',
   styleUrls: ['./survey-search-results.component.scss']
 })
-
 export class SurveySearchResultsComponent implements OnInit {
   @ViewChild('tooltipContainer', { static: true }) tooltipContainer: TooltipContainerComponent;
   @Input() cutsDraggable: boolean;

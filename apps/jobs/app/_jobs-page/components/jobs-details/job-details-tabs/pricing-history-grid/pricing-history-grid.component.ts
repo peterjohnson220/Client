@@ -19,6 +19,7 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageActions from '../../../../actions';
 import * as fromJobsPageReducer from '../../../../reducers';
@@ -38,7 +39,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   @ViewChild('pricingActionsColumn') pricingActionsColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
 
-  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Status'];
   pageViewId = PageViewIds.PricingHistory;
 
   colTemplates = {};
@@ -55,6 +56,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   permissions = Permissions;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
+  getPricingReviewedSuccessSubscription: Subscription;
   payMarketField: ViewField;
   filteredPayMarketOptions: any;
   payMarketOptions: any;
@@ -75,6 +77,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   getPricingDetailsSuccessSubscription: Subscription;
   getDeletingPricingSuccessSubscription: Subscription;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
+  noRecordsMessage: string;
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,
@@ -113,6 +116,12 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
         this.showPricingDetails.next(true);
       });
 
+    this.getPricingReviewedSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromPricingDetailsActions.SAVING_PRICING_SUCCESS))
+      .subscribe(data => {
+        this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PricingHistory));
+      });
+
     this.deletingPricing$ = this.store.select(fromJobsPageReducer.getDeletingPricing);
     this.getDeletingPricingSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromJobsPageActions.DELETING_PRICING_SUCCESS))
@@ -144,6 +153,12 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     if (changes['filters']) {
       this.filters = cloneDeep(changes['filters'].currentValue)
         .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+
+      if (this.filters.find(x => x.SourceName === 'Status')) {
+        this.noRecordsMessage = 'There is no pricing history for the filter criteria you have selected.';
+      } else {
+        this.noRecordsMessage = 'This job has not been priced and does not have any pricing history.';
+      }
     }
   }
 
