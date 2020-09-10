@@ -114,6 +114,16 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.chartMin = currentRow.CompanyEmployees_EEMRPForStructureRangeGroup;
       }
     }
+
+    if (this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue !== null) {
+      if (this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue > this.chartMax) {
+        this.chartMax = this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue;
+      }
+      // same logic for min but reversed, obviously
+      if (this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue < this.chartMin) {
+        this.chartMin = this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue;
+      }
+    }
   }
 
   private addEmployee(xCoordinate, currentRow) {
