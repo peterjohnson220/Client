@@ -12,6 +12,7 @@ export interface State {
   deletingJob: AsyncStateObj<boolean>;
   deletingPricing: AsyncStateObj<boolean>;
   deletingPricingMatch: AsyncStateObj<boolean>;
+  updatingPricingMatch: AsyncStateObj<boolean>;
   companyPayMarkets: any;
   structureGradeNames: any;
   pricingDetailsView: string;
@@ -26,6 +27,7 @@ export const initialState: State = {
   deletingJob: generateDefaultAsyncStateObj<boolean>(false),
   deletingPricing: generateDefaultAsyncStateObj<boolean>(false),
   deletingPricingMatch: generateDefaultAsyncStateObj<boolean>(false),
+  updatingPricingMatch: generateDefaultAsyncStateObj<boolean>(false),
   companyPayMarkets: [],
   structureGradeNames: [],
   pricingDetailsView: 'Priced',
@@ -65,6 +67,7 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       curState = AsyncStateObjHelper.resetErrors(curState, 'deletingJob');
       curState = AsyncStateObjHelper.resetErrors(curState, 'deletingPricing');
       curState = AsyncStateObjHelper.resetErrors(curState, 'deletingPricingMatch');
+      curState = AsyncStateObjHelper.resetErrors(curState, 'updatingPricingMatch');
       return curState;
     }
     case fromJobsPageActions.CREATING_PROJECT: {
@@ -123,6 +126,15 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     }
     case fromJobsPageActions.DELETING_PRICING_MATCH_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'deletingPricingMatch', action.error);
+    }
+    case fromJobsPageActions.UPDATING_PRICING_MATCH: {
+      return AsyncStateObjHelper.saving(state, 'updatingPricingMatch');
+    }
+    case fromJobsPageActions.UPDATING_PRICING_MATCH_SUCCESS: {
+      return AsyncStateObjHelper.savingSuccess(state, 'updatingPricingMatch');
+    }
+    case fromJobsPageActions.UPDATING_PRICING_MATCH_ERROR: {
+      return AsyncStateObjHelper.savingError(state, 'updatingPricingMatch', action.error);
     }
     case fromJobsPageActions.CHANGE_PRICING_DETAILS_VIEW: {
       return {
@@ -206,6 +218,7 @@ export const getChangingJobStatus = (state: State) => state.changingJobStatus;
 export const getDeletingJob = (state: State) => state.deletingJob;
 export const getDeletingPricing = (state: State) => state.deletingPricing;
 export const getDeletingPricingMatch = (state: State) => state.deletingPricingMatch;
+export const getUpdatingPricingMatch = (state: State) => state.updatingPricingMatch;
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
 export const getPricingDetailsView = (state: State) => state.pricingDetailsView;

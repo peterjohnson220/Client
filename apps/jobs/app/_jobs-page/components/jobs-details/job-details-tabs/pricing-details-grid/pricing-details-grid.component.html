@@ -12,11 +12,15 @@
   [actionBarConfig]="actionBarConfig"
   [headerClassName]="'jobs-page-sub-grid-header'"
   [applyUserDefaultCompensationFields]="true"
-  [noRecordsFound]="'No Pay Markets priced for this job. Click &quot;Pay Markets not Priced&quot; above to view and select Pay Markets to price.'">
+  [noRecordsFound]="noRecordsMessage">
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
-  <pf-pricing-matches-grid [pricingInfo]="dataRow" (notesEmitter)="openPricingMatchNotesManager($event)"></pf-pricing-matches-grid>
+  <pf-pricing-matches-grid
+    [pricingInfo]="dataRow"
+    (notesEmitter)="openPricingMatchNotesManager($event)"
+    (reScopeSurveyDataEmitter)="openReScopeSurveyDataModal($event)"
+  ></pf-pricing-matches-grid>
 </ng-template>
 
 <ng-template #payMarketColumn let-dataRow="dataRow">
@@ -87,12 +91,19 @@
 </ng-template>
 
 <ng-template #changeView>
-  <div class="view-change" (click)="switchViewToNotPriced()">
-    <div class="pricing-count-badge">
-      <span class="badge badge-primary mr-2">{{unPricedCount || 0}}</span>
-      <span>Pay Market{{unPricedCount === 1 ? '' : 's'}} Not Priced</span>
+  <div class="d-flex flex-fill">
+    <div class="view-change d-flex" (click)="switchViewToNotPriced()">
+      <div class="pricing-count-badge">
+        <span class="badge badge-primary mr-2">{{unPricedCount || 0}}</span>
+        <span>Pay Market{{unPricedCount === 1 ? '' : 's'}} Not Priced</span>
+      </div>
+    </div>
+    <div *ngIf="(updatingPricingMatch$ | async)?.saving" class="ml-auto my-auto" >
+      <pf-loading-indicator></pf-loading-indicator>
+      <span class="pl-2">Recalculating Pricings</span>
     </div>
   </div>
+
 </ng-template>
 
 <pf-notes-manager
@@ -100,9 +111,18 @@
   (cancelChanges)="showNotesManager.next(false);">
 </pf-notes-manager>
 
-<ng-template #pricingNotesHeader>
+<ng-template #pricingNotesHeader >
   <div class="pr-5 py-1">
     <span class="pr-3"><b >Pay Market:</b></span>
     <span>{{selectedPricingPayMarket}}</span>
   </div>
 </ng-template>
+
+<pf-re-scope-survey-data
+  [modalConfiguration]="reScopeSurveyDataConfiguration"
+  (reScopeSubmitted)="reScopeSurveyDataCut($event)"
+  (cancelChanges)="showReScopeSurveyDataModal.next(false);"
+>
+
+</pf-re-scope-survey-data>
+

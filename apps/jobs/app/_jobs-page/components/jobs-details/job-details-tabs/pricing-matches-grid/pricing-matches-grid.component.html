@@ -26,7 +26,11 @@
 </ng-template>
 
 <ng-template #jobTitleColumn let-dataRow="dataRow">
-  <pf-pricing-matches-job-title [dataRow]="dataRow" [pricingInfo]="pricingInfo" (notesEmitter)="openMatchNotesModal($event)"></pf-pricing-matches-job-title>
+  <pf-pricing-matches-job-title
+    [dataRow]="dataRow"
+    [pricingInfo]="pricingInfo"
+    (notesEmitter)="openMatchNotesModal($event)"
+    (reScopeSurveyDataEmitter)="reScopeSurveyDataEmitter.emit($event)"></pf-pricing-matches-job-title>
 </ng-template>
 
 <ng-template #agingColumn  let-dataRow="dataRow" let-fieldName="fieldName">
@@ -57,4 +61,5 @@
       <span>{{selectedMatchForNotes.vw_PricingMatchesJobTitlesMerged_Effective_Date | date: 'MM/dd/yyyy'}}</span>
   </div>
 </ng-template>
+
 

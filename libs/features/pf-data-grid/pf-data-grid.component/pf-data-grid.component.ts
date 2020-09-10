@@ -35,6 +35,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() navigationURL: string;
   @Input() showTitle = true;
   @Input() selectionField: string;
+  @Input() selectionFieldExistsOnBase: true;
   @Input() columnTemplates: any;
   @Input() aboveGridTemplate: TemplateRef<any>;
   @Input() rightGridTemplate: TemplateRef<any>;
@@ -50,6 +51,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() lockedPillText: string;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() enableSelection = false;
+  @Input() enableResize = true;
   @Input() defaultSort: SortDescriptor[];
   @Input() pagingOptions: PagingOptions;
   @Input() noRecordsFound: string;
@@ -102,6 +104,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   getNotificationSubscription: Subscription;
   getExportEventIdSubscription: Subscription;
   getExportViewIdSubscription: Subscription;
+  getEnablePricingReviewed: Subscription;
 
   userFilteredFields: ViewField[];
   selectedRecordId: number;
@@ -175,6 +178,13 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+
+    // IMPORTANT: Do not change the order of the if statements.
+    // We have to dispatch the update to the applyUserDefaultCompensationFields before we dispatch the LoadViewConfig action
+    // On prod builds the order in which we dispatch actions matters. If we load the view config
+    // before we set the applyUserDefaultCompensationFields, we don't get the correct input value
+    // of the applyUserDefaultCompensationFields flag when loading the ViewConfig
+    // This issue is not present for non-prod builds so be careful with your local testing
     if (changes['applyUserDefaultCompensationFields']) {
       this.store.dispatch(new fromActions.UpdateApplyUserDefaultCompensationFields(this.pageViewId,
         changes['applyUserDefaultCompensationFields'].currentValue));
@@ -188,7 +198,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     if (changes['selectionField']) {
-      this.store.dispatch(new fromActions.UpdateSelectionField(this.pageViewId, changes['selectionField'].currentValue));
+      this.store.dispatch(new fromActions.UpdateSelectionField(this.pageViewId, changes['selectionField'].currentValue, this.selectionFieldExistsOnBase));
     }
 
     if (changes['inboundFilters']) {
@@ -210,12 +220,15 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['saveSort']) {
       this.store.dispatch(new fromActions.UpdateSaveSort(this.pageViewId, changes['saveSort'].currentValue));
     }
+
     if (changes['preserveSelectionsOnGetConfig']) {
       this.store.dispatch(new fromActions.UpdatePreserveSelectionsOnGetConfig(this.pageViewId, changes['preserveSelectionsOnGetConfig'].currentValue));
     }
+
     if (changes['fieldsExcludedFromExport']) {
       this.store.dispatch(new fromActions.UpdateFieldsExcludedFromExport(this.pageViewId, changes['fieldsExcludedFromExport'].currentValue));
     }
+
     if (changes['gridConfig']) {
       this.store.dispatch(new fromActions.UpdateGridConfig(this.pageViewId, changes['gridConfig'].currentValue));
     }
