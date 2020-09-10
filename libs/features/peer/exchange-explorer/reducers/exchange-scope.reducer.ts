@@ -23,7 +23,7 @@ export interface State extends EntityState<ExchangeScopeItem> {
 
 // Create entity adapter
 export const adapter: EntityAdapter<ExchangeScopeItem> = createEntityAdapter<ExchangeScopeItem>({
-  selectId: (exchangeScopeItem: ExchangeScopeItem) => exchangeScopeItem.ExchangeScopeGuid,
+  selectId: (exchangeScopeItem: ExchangeScopeItem) => exchangeScopeItem.ExchangeScopeId,
   sortComparer: (a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending)
 });
 

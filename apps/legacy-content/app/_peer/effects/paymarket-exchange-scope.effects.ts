@@ -46,7 +46,7 @@ export class PaymarketExchangeScopeEffects {
   publishExchangeScopeSelections$ = this.actions$.pipe(
     ofType(fromPaymarketExchangeScopeActions.PUBLISH_EXCHANGE_SCOPE_SELECTIONS),
     tap((action: fromPaymarketExchangeScopeActions.PublishExchangeScopeSelections) => {
-      const scopeIds: string[] = [];
+      const scopeIds: number[] = [];
       if (action.payload) {
         action.payload.map(keyValuePair => {
           if (keyValuePair && keyValuePair.Value) {

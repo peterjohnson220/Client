@@ -105,13 +105,13 @@ export class UpsertExchangeScopeError implements Action {
 export class DeleteExchangeScope implements Action {
   readonly type = DELETE_EXCHANGE_SCOPE;
 
-  constructor(public payload: string) {}
+  constructor(public payload: number) {}
 }
 
 export class DeleteExchangeScopeSuccess implements Action {
   readonly type = DELETE_EXCHANGE_SCOPE_SUCCESS;
 
-  constructor(public payload: string) {}
+  constructor(public payload: number) {}
 }
 
 export class DeleteExchangeScopeError implements Action {

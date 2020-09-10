@@ -35,7 +35,7 @@ export class ExportDataCutsEffects {
           ExchangeJobToCompanyJobIds: gridSelections,
           FilterModel: action.payload.exportCurrentMap ? filterContext : null,
           SelectedRate: action.payload.selectedRate,
-          SelectedExchangeScopeGuids: action.payload.scopes,
+          SelectedExchangeScopeIds: action.payload.scopes,
           SelectedWeightingType: action.payload.selectedWeightingType,
           SelectedCurrency: action.payload.selectedCurrency
         };
