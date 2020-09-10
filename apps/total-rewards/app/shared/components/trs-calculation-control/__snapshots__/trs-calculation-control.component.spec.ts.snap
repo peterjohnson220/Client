@@ -364,7 +364,7 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
 </pf-trs-calculation-control>
 `;
 
-exports[`TrsCalculationControlComponent should exclude fields in preview mode if employee data is null for a given field 1`] = `
+exports[`TrsCalculationControlComponent should exclude fields in preview mode if employee data is 0 for a given field 1`] = `
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
@@ -525,7 +525,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
 </pf-trs-calculation-control>
 `;
 
-exports[`TrsCalculationControlComponent should include fields in preview mode if employee data is 0 for a given field 1`] = `
+exports[`TrsCalculationControlComponent should exclude fields in preview mode if employee data is null for a given field 1`] = `
 <pf-trs-calculation-control
   compensationValuePlaceholder={[Function String]}
   controlData={[Function Object]}
@@ -651,28 +651,6 @@ exports[`TrsCalculationControlComponent should include fields in preview mode if
         <tr
           class="trs-calculation-row w-100"
         >
-          
-          <td
-            class="text-left last-before-summary"
-          >
-            <pf-string-editor>
-              
-              <span
-                class="wrapper w-100 d-inline-block"
-              >
-                <span>
-                  Short Term Incentive
-                </span>
-              </span>
-              
-            </pf-string-editor>
-          </td>
-          <td
-            class="contribution-field text-right preview-mode-animation"
-          >
-             0 
-          </td>
-          
           
           
         </tr>
