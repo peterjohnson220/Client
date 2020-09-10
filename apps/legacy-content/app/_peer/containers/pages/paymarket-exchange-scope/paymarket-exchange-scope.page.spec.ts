@@ -105,7 +105,7 @@ describe('Legacy Content - Peer - PayMarket Exchange Scope', () => {
 
     const exchangeScopeItem = generateMockExchangeScopeItem();
     const expectedActions =
-      new fromPaymarketExchangeScopeActions.SelectScope({ Row: 0, ScopeId: exchangeScopeItem.ExchangeScopeGuid });
+      new fromPaymarketExchangeScopeActions.SelectScope({ Row: 0, ScopeId: exchangeScopeItem.ExchangeScopeId });
     instance.selectScope(0, exchangeScopeItem);
     expect(store.dispatch).toHaveBeenCalledWith(expectedActions);
   });
