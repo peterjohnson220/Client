@@ -251,8 +251,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     for (const span of spans) {
       if (span.attribs['data-value']) {
         const employeeField = this.controlData.DataFields.find(f => f.Value === span.attribs['data-value']);
-        const employeeDataValue = this.employeeRewardsData[employeeField.Key];
-        $('[data-value="' + employeeField.Value + '"]', '.ql-editor').replaceWith(this.formatDataFieldValue(employeeDataValue));
+        $('[data-value="' + employeeField.Value + '"]', '.ql-editor').replaceWith(this.getFormattedDataFieldValue(employeeField.Key));
       }
     }
     return this.sanitizer.bypassSecurityTrustHtml($.html());
@@ -272,7 +271,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const dateValue = new Date(value);
 
-    if ( typeof value === 'string' && isNaN(dateValue.getTime()) ) {
+    if ( typeof value === 'string' ) {
       return value;
     } else if ( typeof value === 'number' ) {
       return value.toString();
