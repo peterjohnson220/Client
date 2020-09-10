@@ -135,7 +135,8 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     this.gridConfig = {
       PersistColumnWidth: false,
       EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      SelectAllPanelItemName: 'pricings'
     };
     this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
       ? getDefaultPagingOptions()
