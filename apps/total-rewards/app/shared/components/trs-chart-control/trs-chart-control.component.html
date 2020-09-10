@@ -8,11 +8,11 @@
         [inEditMode]="inEditMode"
         (valueChange)="onControlTitleChange($event)"></pf-string-editor>
     </h4>
-    <a href="javascript:void(0)" (click)="onSettingsClick()" class="settings position-relative align-top" title="Chart Settings">
+    <a *ngIf="!inPrintMode" href="javascript:void(0)" (click)="onSettingsClick()" class="settings position-relative align-top" title="Chart Settings">
       <fa-icon [icon]="'cog'" aria-hidden="true"></fa-icon>
     </a>
   </div>
-  <kendo-chart [transitions]="!inEditMode && !inPrintMode" [seriesColors]="chartColors" (legendItemClick)="onLegendItemClick($event)">
+  <kendo-chart [transitions]="!inEditMode && !inPrintMode" [seriesColors]="chartColors" (legendItemClick)="onLegendItemClick($event)" (render)="onChartRender($event)">
     <kendo-chart-legend position="bottom">
     </kendo-chart-legend>
     <kendo-chart-series>

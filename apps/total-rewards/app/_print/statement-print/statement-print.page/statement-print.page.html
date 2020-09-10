@@ -5,6 +5,11 @@
     [mode]="printMode"
     [pageBreakAfter]="i !== (statement$ | async)?.EmployeeRewardsData?.length - 1"
     (onImageLoaded)="handleImageLoaded($event)"
+    (onChartControlRender)="handleChartRender($event)"
   ></pf-total-rewards-statement>
-  <div *ngIf="(statement$ | async)?.EmployeeRewardsData && areAllImagesLoaded" class="ready-for-pdf-generation d-none"></div>
+</div>
+<div 
+  *ngIf="(statement$ | async)?.EmployeeRewardsData && areAllImagesLoaded && areAllChartsRendered" 
+  [id]="readyForPdfGenerationSelector.slice(1)"
+  class="d-none">
 </div>

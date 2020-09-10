@@ -8,7 +8,7 @@
         [inEditMode]="mode === statementModeEnum.Edit"
         (valueChange)="onTitleChanged($event)"></pf-string-editor>
     </h4>
-    <div kendoTooltip class="tooltip-wrapper d-inline-block ml-2 align-top">
+    <div *ngIf="mode !== statementModeEnum.Print" kendoTooltip class="tooltip-wrapper d-inline-block ml-2 align-top">
       <label 
         *ngIf="controlData?.DataFields?.length"
         class="info position-relative"
