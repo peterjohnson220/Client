@@ -67,9 +67,7 @@ export class PricingDetailsEffects {
       ),
     switchMap((data) => {
       return this.pricingEdmxApiService.patchPricingStatus(data.action.pricingId, data.newStatus).pipe(
-        map(() => {
-          return new fromPricingDetailsActions.SavingPricingSuccess();
-        }),
+        map(() => new fromPricingDetailsActions.SavingPricingSuccess()),
         catchError(error => of(new fromPricingDetailsActions.SavingPricingError(error)))
       );
     })

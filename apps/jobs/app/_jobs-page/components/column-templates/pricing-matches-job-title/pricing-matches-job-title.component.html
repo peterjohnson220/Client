@@ -5,13 +5,47 @@
   position="right"
   [tooltipTemplate]="pricingMatch"
 >
-  <div class="ellipsis-overflowing-text wtg-adj-cell">
-    {{dataRow.CompanyJobs_PricingsMatches_Match_Weight | number: '1.2-2' | emptyPlaceholder}}
-  </div>
-  <div class="ellipsis-overflowing-text wtg-adj-cell">
-    {{dataRow.CompanyJobs_PricingsMatches_Match_Adjustment | number: '1.2-2' | emptyPlaceholder}}
-  </div>
-  <div [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
+  <ng-container *ngIf="canModifyPricings; else readOnlyMatchValues">
+    <div class="wtg-adj-cell" [title]="pricingInfo | modifyPricingMatchError : isActiveJob">
+      <kendo-numerictextbox
+        class="form-control-sm wtg-adj-input right mr-2"
+        [(ngModel)]="weight"
+        [disabled]="!!(pricingInfo | modifyPricingMatchError : isActiveJob)"
+        [spinners]="false"
+        [format]="'n2'"
+        [decimals]="'2'"
+        [min]="-99999"
+        [max]="99999"
+        [autoCorrect]="true"
+        (change)="updatePricingMatch()">
+      </kendo-numerictextbox>
+    </div>
+    <div class="wtg-adj-cell" [title]="pricingInfo | modifyPricingMatchError : isActiveJob">
+      <kendo-numerictextbox
+        class="form-control-sm wtg-adj-input right mr-2"
+        [(ngModel)]="adjustment"
+        [disabled]="!!(pricingInfo | modifyPricingMatchError : isActiveJob)"
+        [spinners]="false"
+        [format]="'n2'"
+        [decimals]="'2'"
+        [min]="-99999"
+        [max]="99999"
+        [autoCorrect]="true"
+        (change)="updatePricingMatch()">
+      </kendo-numerictextbox>
+    </div>
+  </ng-container>
+
+  <ng-template #readOnlyMatchValues>
+    <div class="ellipsis-overflowing-text wtg-adj-cell text-right pr-3">
+      {{dataRow.CompanyJobs_PricingsMatches_Match_Weight | number: '1.2-2' | emptyPlaceholder : '0.00'}}
+    </div>
+    <div class="ellipsis-overflowing-text wtg-adj-cell text-right pr-3">
+      {{dataRow.CompanyJobs_PricingsMatches_Match_Adjustment | number: '1.2-2' | emptyPlaceholder : '0.00'}}
+    </div>
+  </ng-template>
+
+  <div [class.survey-cut]="dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'] && !pricingInfo['CompanyPayMarkets_Linked_PayMarket_Name'] && canModifyPricings" (click)="reScopeSurveyData()" [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
     <pf-job-title-code
       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code"
@@ -25,13 +59,12 @@
       </small>
     </em>
   </div>
-  <div *ngIf="jobsGridJobStatusField | showingActiveJobs" class="d-flex justify-content-end ml-auto pl-3">
+  <div *ngIf="isActiveJob" [pfSecuredResource]="permissions.MODIFY_PRICINGS" class="d-flex justify-content-end ml-auto pl-3">
     <div>
       <button
         [attr.data-qa-id]="'btn-jobs-page-pricing-match-delete-' + dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID"
-        [pfSecuredResource]="permissions.MODIFY_PRICINGS"
-        [disabled]="(pricingMatchesData$ | async)?.total | cannotDeletePricingMatchMessage : pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name"
-        [title]="(pricingMatchesData$ | async)?.total | cannotDeletePricingMatchMessage : pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name"
+        [disabled]="!!(pricingInfo | modifyPricingMatchError : isActiveJob: pricingMatchesCount)"
+        [title]="pricingInfo | modifyPricingMatchError : isActiveJob: pricingMatchesCount"
         type="button"
         (click)="openDeletePricingMatchModal()"
         class="btn btn-secondary pf-icon-btn-transparent">
@@ -41,7 +74,7 @@
   </div>
 </div>
 <div class="d-flex">
-  <div #detailsText [class.collapsed]="isCollapsed" style="padding-left: 100px">
+  <div #detailsText [class.collapsed]="isCollapsed" class="details-text-padding">
     <small>
       <em class="text-muted">
         {{dataRow.vw_PricingMatchesJobTitlesMerged_Source}}{{getScope()}}
@@ -65,6 +98,24 @@
       [matchId]="dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID']"
       [matchType]="dataRow | pricingMatchType"
     ></pf-pricing-match>
+  </div>
+</ng-template>
+
+<ng-template #reScopeSurveyDataTemplate>
+  <div class="survey-job-template-container pl-3 pb-4">
+    <div class="row">
+      <div>
+        <span class="pf-brand-secondary-color survey-job-title">{{dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title']}}</span>&nbsp;&nbsp;<span class="survey-job-code">({{dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code']}})</span>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <em class="text-muted">
+          {{dataRow.vw_PricingMatchesJobTitlesMerged_Source}}{{getScope()}}
+          <span>{{dataRow.vw_PricingMatchesJobTitlesMerged_Effective_Date | date: 'MM/dd/yyyy'}}</span>
+        </em>
+      </div>
+    </div>
   </div>
 </ng-template>
 

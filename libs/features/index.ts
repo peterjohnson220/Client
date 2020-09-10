@@ -18,3 +18,4 @@ export * from './survey-search';
 export * from './multi-match';
 export * from './pricing-match';
 export * from './comment-box';
+export * from './re-scope-survey-data';

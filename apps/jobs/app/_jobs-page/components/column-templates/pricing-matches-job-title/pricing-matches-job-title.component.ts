@@ -1,22 +1,21 @@
 import {
   Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked,
-  HostListener, ChangeDetectorRef, OnDestroy, EventEmitter, Output
+  HostListener, ChangeDetectorRef, OnDestroy, SimpleChanges, OnChanges, EventEmitter, Output
 } from '@angular/core';
-
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { isEmpty } from 'lodash';
 
-import isEmpty from 'lodash/isEmpty';
-
-import { ViewField } from 'libs/models/payfactors-api';
+import { UpdatePricingMatchRequest, PricingUpdateStrategy, ViewField } from 'libs/models/payfactors-api';
+import { PermissionService } from 'libs/core';
 import { AsyncStateObj } from 'libs/models';
-import { Permissions } from 'libs/constants';
+import { Permissions, PermissionCheckEnum } from 'libs/constants';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import { PageViewIds } from '../../../constants';
 import * as fromJobsPageActions from '../../../actions';
@@ -27,21 +26,27 @@ import * as fromJobsPageReducer from '../../../reducers';
   templateUrl: './pricing-matches-job-title.component.html',
   styleUrls: ['./pricing-matches-job-title.component.scss'],
 })
-export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked, OnDestroy {
+
+export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
   permissions = Permissions;
+  permissionCheckEnum = PermissionCheckEnum;
 
   @Input() dataRow: any;
   @Input() pricingInfo: any;
   @Output() notesEmitter = new EventEmitter();
+  @Output() reScopeSurveyDataEmitter = new EventEmitter();
 
   @ViewChild('jobTitleText') jobTitleText: ElementRef;
   @ViewChild('detailsText') detailsText: ElementRef;
+  @ViewChild('reScopeSurveyDataTemplate') reScopeSurveyDataTemplate: ElementRef<any>;
 
-  jobsGridJobStatusField: ViewField;
-  jobsGridFieldSubscription: Subscription;
+  jobsSelectedRow$: Observable<any>;
 
-  public isCollapsed = true;
-  public isOverflow = false;
+  isActiveJob = true;
+  isActiveJobSubscription: Subscription;
+
+  pricingMatchesDataSuscription: Subscription;
+  pricingMatchesCount = 0;
 
   showDeletePricingMatchModal = new BehaviorSubject<boolean>(false);
   showDeletePricingMatchModal$ = this.showDeletePricingMatchModal.asObservable();
@@ -49,20 +54,37 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   deletingPricingMatch$: Observable<AsyncStateObj<boolean>>;
   getDeletingPricingMatchSuccessSubscription: Subscription;
 
-  pricingMatchesData$: Observable<GridDataResult>;
-  jobsSelectedRow$: Observable<any>;
+  updateGridDataRowSubscription: Subscription;
+
+  weight: number;
+  adjustment: number;
+  jobsGridJobStatusField: ViewField;
+  jobsGridFieldSubscription: Subscription;
+
+  public isCollapsed = true;
+  public isOverflow = false;
+
+  canModifyPricings: boolean;
 
   @HostListener('window:resize') windowResize() {
     this.ngAfterViewChecked();
   }
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject, private cdRef: ChangeDetectorRef ) { }
+  constructor(
+    public permissionService: PermissionService,
+    private store: Store<fromJobsPageReducer.State>,
+    private actionsSubject: ActionsSubject,
+    private cdRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.jobsSelectedRow$ = this.store.select(fromPfDataGridReducer.getSelectedRow, PageViewIds.Jobs);
-    this.pricingMatchesData$ = this.store.select(
-      fromPfDataGridReducer.getData,
-      `${PageViewIds.PricingMatches}_${this.pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID}`);
+
+    this.canModifyPricings = this.permissionService.CheckPermission([this.permissions.MODIFY_PRICINGS], this.permissionCheckEnum.Single);
+
+    const pricingMatchPageViewId = `${PageViewIds.PricingMatches}_${this.pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID}`;
+    this.pricingMatchesDataSuscription = this.store.select(fromPfDataGridReducer.getData, pricingMatchPageViewId).subscribe(data => {
+      this.pricingMatchesCount = data?.total;
+    });
 
     this.deletingPricingMatch$ = this.store.select(fromJobsPageReducer.getDeletingPricingMatch);
     this.getDeletingPricingMatchSuccessSubscription = this.actionsSubject
@@ -71,12 +93,38 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         this.showDeletePricingMatchModal.next(false);
       });
 
-      this.jobsGridFieldSubscription = this.store
+      this.jobsGridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
+      .pipe(filter(f => !isEmpty(f)))
+      .subscribe(fields => {
+        this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
+      });
+    // We need to update the pricingInfo manually because the state is not updated when the grid is updated using the UpdateGridDataRow action
+    this.updateGridDataRowSubscription = this.actionsSubject
+      .pipe(ofType(fromPfDataGridActions.UPDATE_GRID_DATA_ROW))
+      .subscribe((action: fromPfDataGridActions.UpdateGridDataRow) => {
+        const key = 'CompanyJobs_Pricings_CompanyJobPricing_ID';
+        if (action.pageViewId === PageViewIds.PricingDetails && action.data[key] === this.pricingInfo[key]) {
+          this.pricingInfo = action.data[key];
+        }
+      });
+
+    this.isActiveJobSubscription = this.store
       .select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
       .pipe(filter(f => !isEmpty(f)))
       .subscribe(fields => {
-          this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
+        // TODO: The JobStatus field filter can have a value of 'true' or true.
+        // This is because of the way the active/inactive slider sets the filter value
+        // This  quick fix needs to be converted to a more robust solution
+        const statusFieldFilter: any = fields.find(f => f.SourceName === 'JobStatus').FilterValue;
+        this.isActiveJob = statusFieldFilter === 'true' || statusFieldFilter === true;
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.dataRow && changes.dataRow.currentValue) {
+      this.weight = changes.dataRow.currentValue.CompanyJobs_PricingsMatches_Match_Weight;
+      this.adjustment = changes.dataRow.currentValue.CompanyJobs_PricingsMatches_Match_Adjustment;
+    }
   }
 
   ngAfterViewChecked(): void {
@@ -86,7 +134,9 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   ngOnDestroy() {
     this.getDeletingPricingMatchSuccessSubscription.unsubscribe();
-    this.jobsGridFieldSubscription.unsubscribe();
+    this.updateGridDataRowSubscription.unsubscribe();
+    this.pricingMatchesDataSuscription.unsubscribe();
+    this.isActiveJobSubscription.unsubscribe();
   }
 
   getScope(): string {
@@ -113,6 +163,20 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     ));
   }
 
+  updatePricingMatch() {
+    const request: UpdatePricingMatchRequest = {
+      MatchId: this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID,
+      MatchWeight: this.weight,
+      MatchAdjustment: this.adjustment,
+      SurveyDataId: null,
+      PricingUpdateStrategy: PricingUpdateStrategy.Parent
+    };
+    const pricingId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricing_ID;
+    const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
+
+    this.store.dispatch(new fromJobsPageActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
+  }
+
   openAddNotesModal() {
     const data = {
       EntityId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
@@ -120,5 +184,23 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       Scope: this.getScope()
     };
     this.notesEmitter.emit(data);
+  }
+
+  reScopeSurveyData() {
+    if (this.dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'] &&
+      !this.pricingInfo['CompanyPayMarkets_Linked_PayMarket_Name'] &&
+      this.canModifyPricings
+    ) {
+      const data = {
+        SurveyJobId: this.dataRow['vw_PricingMatchesJobTitlesMerged_Survey_Job_ID'],
+        SurveyDataId: this.dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'],
+        SurveyJobTemplate: this.reScopeSurveyDataTemplate,
+        Rate: this.pricingInfo['CompanyJobs_Pricings_Rate'],
+        MatchId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+        PricingId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']
+      };
+
+      this.reScopeSurveyDataEmitter.emit(data);
+    }
   }
 }

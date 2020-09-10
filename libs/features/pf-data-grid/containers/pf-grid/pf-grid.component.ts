@@ -14,9 +14,11 @@ import {
 } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { SortDescriptor } from '@progress/kendo-data-query';
 import { filter, take } from 'rxjs/operators';
+
+import { Store, ActionsSubject } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
+import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import {
   GridDataResult,
   PageChangeEvent,
@@ -27,6 +29,8 @@ import {
   ContentScrollEvent,
   ColumnResizeArgs
 } from '@progress/kendo-angular-grid';
+import * as cloneDeep from 'lodash.clonedeep';
+
 
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
 
@@ -55,6 +59,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() splitViewDisplayFields = [];
   @Input() selectedRecordId: number;
   @Input() enableSelection = false;
+  @Input() enableResize = true;
   @Input() noRecordsFound: string;
   @Input() compactGrid = false;
   @Input() backgroundColor: string;
@@ -90,6 +95,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   defaultSortDescriptorSubscription: Subscription;
   dataFieldsSubscription: Subscription;
 
+  updateGridDataRowSubscription: Subscription;
   dataSubscription: Subscription;
   data: GridDataResult;
   sortDescriptor: SortDescriptor[];
@@ -129,11 +135,37 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   @ViewChild(GridComponent) grid: GridComponent;
 
-  constructor(private store: Store<fromReducer.State>, private ngZone: NgZone, private mappedFieldName: MappedFieldNamePipe) {}
+
+  constructor(
+    private store: Store<fromReducer.State>,
+    private ngZone: NgZone,
+    private mappedFieldName: MappedFieldNamePipe,
+    private actionsSubject: ActionsSubject) { }
 
   ngOnInit() {
+
+    this.updateGridDataRowSubscription = this.actionsSubject
+      .pipe(ofType(fromActions.UPDATE_GRID_DATA_ROW))
+      .subscribe((action: fromActions.UpdateGridDataRow) => {
+        if (action.pageViewId === this.pageViewId) {
+          const row = this.data.data[action.rowIndex];
+          Object.keys(row).forEach(function (key) { row[key] = action.data[key]; });
+        }
+      });
+
+    this.updateGridDataRowSubscription = this.actionsSubject
+      .pipe(ofType(fromActions.UPDATE_ROW))
+      .subscribe((action: fromActions.UpdateRow) => {
+        if (action.pageViewId === this.pageViewId && action.resortGrid) {
+          this.data = {
+            data: orderBy(this.data.data, this.sortDescriptor),
+            total: this.data.total
+          };
+        }
+      });
+
     this.dataSubscription = this.store.select(fromReducer.getData, this.pageViewId).subscribe(newData => {
-      this.data = newData;
+      this.data = cloneDeep(newData);
       if (this.data && this.grid) {
         this.grid.resetGroupsState();
         for (let index = 0; index < this.data.data.length; index++) {
@@ -196,6 +228,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     this.expandedRowsSubscription.unsubscribe();
+    this.updateGridDataRowSubscription.unsubscribe();
     this.dataSubscription.unsubscribe();
     this.primaryKeySubscription.unsubscribe();
     this.selectionFieldSubscription.unsubscribe();
@@ -236,7 +269,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     if (changes['selectedRecordId']) {
-      this.pagingBarConfig = changes['selectedRecordId'].currentValue ?
+      this.pagingBarConfig = changes['selectedRecordId'].currentValue && this.allowSplitView ?
         {
           info: true,
           type: 'input',
@@ -278,7 +311,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   getColWidth(col: any) {
     let colWidth = col.Width;
 
-    if (this.selectedRecordId) {
+    if (this.selectedRecordId && this.allowSplitView) {
       colWidth = this.MIN_SPLIT_VIEW_COL_WIDTH;
     } else if (!!this.defaultColumnWidth && !this.autoFitColumnsToHeader && !col.Width) {
       colWidth = this.defaultColumnWidth;
@@ -344,6 +377,15 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       }
     } else if (this.enableSelection) {
       this.store.dispatch(new fromActions.UpdateSelectedKey(this.pageViewId, dataItem[this.primaryKey]));
+    } else if (!this.allowSplitView) {
+      // User has clicked a row that we want to treat as selected, but not open any split view/expanded views
+      // This is how we manage grids that are limited to 1 selected row at a time opposed to our multi select checkboxes
+      // Click the same row to de select
+      if (dataItem[this.primaryKey] === this.selectedRecordId) {
+        this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, null, null));
+      } else {
+        this.store.dispatch(new fromActions.UpdateSelectedRecordId(this.pageViewId, dataItem[this.primaryKey], '='));
+      }
     }
   }
 

@@ -1,0 +1,18 @@
+.re-scope-modal-container {
+  height: 70vh;
+}
+
+.re-scope-modal-content, .alternate-survey-data-scopes {
+  height: 93%;
+}
+
+.re-scope-warning {
+  color: #ff0000;
+  background-color: rgba(255, 0, 0, .2);
+  font-size: 16px;
+}
+
+:host ::ng-deep .alternate-survey-data-scopes .page-header {
+  background-color: #ffffff !important;
+  border-bottom: none;
+}

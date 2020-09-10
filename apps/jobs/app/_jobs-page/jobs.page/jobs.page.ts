@@ -117,6 +117,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   showSurveyParticipationModal$ = this.showSurveyParticipationModal.asObservable();
   matchJobId: number;
 
+  updatingPricingMatch$: Observable<AsyncStateObj<boolean>>;
+
   showModifyingPricings = new BehaviorSubject<boolean>(false);
   showModifyingPricings$ = this.showModifyingPricings.asObservable();
   pricingsToModify$: Observable<AsyncStateObj<MatchedSurveyJob[]>>;
@@ -133,6 +135,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   gridConfig: GridConfig;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
+
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -173,6 +176,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.changingJobStatus$ = this.store.select(fromJobsPageReducer.getChangingJobStatus);
     this.deletingJob$ = this.store.select(fromJobsPageReducer.getDeletingJob);
     this.navigatingToOldPage$ = this.store.select(fromJobsPageReducer.getNavigatingToOldPage);
+    this.updatingPricingMatch$ = this.store.select(fromJobsPageReducer.getUpdatingPricingMatch);
     this.pricingsToModify$ = this.store.select(fromModifyPricingsReducer.getPricingsToModify);
 
     this.companyPayMarketsSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
@@ -470,5 +474,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(payload));
+  }
+
+  matchModalSaved() {
+    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails));
+    this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PricingDetails));
   }
 }

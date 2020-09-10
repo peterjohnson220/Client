@@ -15,6 +15,10 @@ export enum annualDisplay {
 export class CompPipe implements PipeTransform {
   constructor(private decimalPipe: DecimalPipe) { }
   transform(value: number, rate: string = compRate.annual, type: string = annualDisplay.truncated): any {
+    if (!value && value !== 0) {
+      return value;
+    }
+
     if (rate.toLowerCase() === compRate.hourly.toLowerCase()) {
       return this.decimalPipe.transform(value, '1.2-2');
     } else if (type === annualDisplay.truncated) {

@@ -67,7 +67,16 @@
             </td>
             <td class="text-center">{{dataCut.Base50 ? formatCurrency(dataCut.Base50) : "-"}}</td>
             <td class="text-center">{{dataCut.TCC50 ? formatCurrency(dataCut.TCC50) : "-"}}</td>
-            <td class="text-center"><fa-icon *ngIf="featureImplementation !== modifyPricingsImplementation" (click)="removeMatchCut(dataCut)" [icon]="['far', 'times']" size="lg" ></fa-icon></td>
+            <td class="text-center">
+              <button [disabled] = "job.JobMatchCuts.length==1"
+                       [title]="job.JobMatchCuts.length==1?'You cannot delete the last match from a pricing':''"
+                       class="btn bg-transparent"
+                      (click)="removeMatchCut(dataCut)">
+             <fa-icon
+
+              [icon]="['far', 'times']" size="lg" ></fa-icon>
+            </button>
+            </td>
           </tr>
         </tbody>
       </table>

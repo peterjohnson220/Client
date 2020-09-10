@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { Subscription, BehaviorSubject, Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 
@@ -13,17 +14,24 @@ import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { NotesManagerConfiguration } from 'libs/models/notes';
+import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
 import { NotesEntities } from 'libs/features/notes-manager/constants';
 import * as fromNotesManagerActions from 'libs/features/notes-manager/actions';
-
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
 
-import * as fromJobsPageActions from '../../../../actions';
-import * as fromJobsPageReducer from '../../../../reducers';
+import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+
+import { AsyncStateObj } from 'libs/models';
+import { PricingUpdateStrategy, UpdatePricingMatchRequest } from 'libs/models/payfactors-api';
+
 import { PageViewIds } from '../../../../constants';
 import { JobTitleCodePipe } from '../../../../pipes';
 
+import * as fromJobsPageActions from '../../../../actions';
+import * as fromJobsPageReducer from '../../../../reducers';
 
 @Component({
   selector: 'pf-pricing-details-grid',
@@ -42,7 +50,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   @ViewChild('genericMrpColumn') genericMrpColumn: ElementRef;
   @ViewChild('pricingNotesHeader') pricingNotesHeader: TemplateRef<any>;
 
-  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Status'];
   mrpFields = ['AllowMRP', 'BaseMRP', 'BonusMRP', 'BonusPctMRP', 'BonusTargetMRP', 'BonusTargetPctMRP', 'FixedMRP', 'LTIPMRP', 'LTIPPctMRP', 'RemunMRP',
     'SalesIncentiveActualMRP', 'SalesIncentiveActualPctMRP', 'SalesIncentiveTargetMRP', 'SalesIncentiveTargetPctMRP',
     'TargetLTIPMRP', 'TargetTDCMRP', 'TCCMRP', 'TCCPlusAllowMRP', 'TCCPlusAllowNoCarMRP', 'TCCTargetMRP', 'TCCTargetPlusAllowMRP',
@@ -71,11 +79,14 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   selectedPricingPayMarket: string;
   getNotesSuccessSubscription: Subscription;
   getAddingPricingMatchNoteSuccessSubscription: Subscription;
+  getPricingReviewedSuccessSubscription: Subscription;
   showNotesManager = new BehaviorSubject<boolean>(false);
   showNotesManager$ = this.showNotesManager.asObservable();
 
+  updatingPricingMatch$: Observable<AsyncStateObj<boolean>>;
+
   // This is needed to refresh the matches grid after adding a new note to increment count
-  notesManagerPricingId: number;
+  selectedPricingId: number;
   notesManagerConfiguration: NotesManagerConfiguration;
   selectedJobRow: any;
   selectedJobRowSubscription: Subscription;
@@ -83,13 +94,24 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   jobTitleCodePipe: JobTitleCodePipe;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
 
+  showReScopeSurveyDataModal = new BehaviorSubject<boolean>(false);
+  showReScopeSurveyDataModal$ = this.showReScopeSurveyDataModal.asObservable();
+  reScopeSurveyDataSubscription: Subscription;
+  reScopeSurveyDataConfiguration: ReScopeSurveyDataModalConfiguration;
+  matchIdForReScope: number;
+
+  noRecordsMessage: string;
+
   constructor(
     private store: Store<fromJobsPageReducer.State>,
     private actionsSubject: ActionsSubject,
-    private featureFlagService: AbstractFeatureFlagService
-  ) {
+    private featureFlagService: AbstractFeatureFlagService) {
     this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.jobTitleCodePipe = new JobTitleCodePipe();
+
+    this.updatingPricingMatch$ = this.store
+      .select(fromJobsPageReducer.getUpdatingPricingMatch)
+      .pipe(switchMap(ev => ev.saving ? of(ev).debounceTime(2000) : of(ev)));
 
     this.selectedJobRowSubscription = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs).subscribe(row => {
       this.selectedJobRow = row;
@@ -116,16 +138,28 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
         this.showNotesManager.next(true);
       });
 
+    this.getPricingReviewedSuccessSubscription = actionsSubject
+      .pipe(ofType(fromPricingDetailsActions.SAVING_PRICING_SUCCESS))
+      .subscribe(data => {
+        this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PricingDetails));
+      });
+
     this.getAddingPricingMatchNoteSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromNotesManagerActions.ADD_NOTE_SUCCESS))
       .subscribe(data => {
         switch (data['payload']['Entity']) {
           case 'Pricing Matches':
-            this.store.dispatch(new fromPfGridActions.LoadData(`${PageViewIds.PricingMatches}_${this.notesManagerPricingId}`));
+            this.store.dispatch(new fromPfGridActions.LoadData(`${PageViewIds.PricingMatches}_${this.selectedPricingId}`));
             break;
         }
 
         this.showNotesManager.next(false);
+      });
+
+    this.reScopeSurveyDataSubscription = this.actionsSubject
+      .pipe(ofType(fromReScopeActions.GET_RE_SCOPE_SURVEY_DATA_CONTEXT_SUCCESS))
+      .subscribe(data => {
+        this.showReScopeSurveyDataModal.next(true);
       });
 
     this.actionBarConfig = {
@@ -150,6 +184,16 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
       Entity: 'Pricings',
       EntityId: undefined,
       PlaceholderText: undefined
+    };
+
+    this.reScopeSurveyDataConfiguration = {
+      SurveyJobId: undefined,
+      SurveyDataId: undefined,
+      SurveyJobTemplate: undefined,
+      ShowModal$: this.showReScopeSurveyDataModal$,
+      Rate: 'Annual',
+      ShowPricingWarning: true,
+      EntityId: undefined
     };
   }
 
@@ -183,12 +227,19 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     this.getNotesSuccessSubscription.unsubscribe();
     this.getAddingPricingMatchNoteSuccessSubscription.unsubscribe();
     this.selectedJobRowSubscription.unsubscribe();
+    this.reScopeSurveyDataSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['filters']) {
       this.filters = cloneDeep(changes['filters'].currentValue)
         .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+
+      if (this.filters.find(x => x.SourceName === 'Status')) {
+        this.noRecordsMessage = 'There is no pricing for the filter criteria you have selected.';
+      } else {
+        this.noRecordsMessage = 'No Pay Markets priced for this job. Click "Pay Markets not Priced" above to view and select Pay Markets to price.';
+      }
     }
   }
 
@@ -218,7 +269,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
 
   openPricingNotesManager(event: any, selectedPricing: any) {
     this.selectedPricingPayMarket = selectedPricing['CompanyPayMarkets_PayMarket'];
-    this.notesManagerPricingId = selectedPricing['CompanyJobs_Pricings_CompanyJobPricing_ID'];
+    this.selectedPricingId = selectedPricing['CompanyJobs_Pricings_CompanyJobPricing_ID'];
     this.notesManagerConfiguration = {
       ...this.notesManagerConfiguration,
       Entity: NotesEntities.Pricings,
@@ -227,7 +278,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
       ModalTitle: `Pricing Notes -
         ${this.jobTitleCodePipe.transform(this.selectedJobRow,
         'CompanyJobs',
-          'Job_Title',
+        'Job_Title',
         'Job_Code')}`,
       NotesHeader: this.pricingNotesHeader,
       PlaceholderText: undefined
@@ -237,7 +288,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   }
 
   openPricingMatchNotesManager(event: any) {
-    this.notesManagerPricingId = event.ParentPricingId;
+    this.selectedPricingId = event.ParentPricingId;
     this.notesManagerConfiguration = {
       ...this.notesManagerConfiguration,
       Entity: NotesEntities.PricingMatches,
@@ -247,5 +298,36 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
       NotesHeader: event.Configuration.NotesHeader,
       PlaceholderText: 'Please add any notes you would like to attach to this match.'
     };
+  }
+
+  openReScopeSurveyDataModal(event: any) {
+    this.reScopeSurveyDataConfiguration = {
+      ...this.reScopeSurveyDataConfiguration,
+      SurveyJobId: event.SurveyJobId,
+      SurveyDataId: event.SurveyDataId,
+      SurveyJobTemplate: event.SurveyJobTemplate,
+      Rate: event.Rate,
+      EntityId: event.MatchId
+    };
+
+    this.matchIdForReScope = event.MatchId;
+    this.selectedPricingId = event.PricingId;
+
+    this.store.dispatch(new fromReScopeActions.GetReScopeSurveyDataContext(event.MatchId));
+  }
+
+  reScopeSurveyDataCut(surveyDataId: number) {
+    const request: UpdatePricingMatchRequest = {
+      MatchId: this.matchIdForReScope,
+      MatchWeight: null,
+      MatchAdjustment: null,
+      SurveyDataId: surveyDataId,
+      PricingUpdateStrategy: PricingUpdateStrategy.ParentLinkedSlotted
+    };
+    const pricingId = this.selectedPricingId;
+    const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
+
+    this.store.dispatch(new fromJobsPageActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
+    this.showReScopeSurveyDataModal.next(false);
   }
 }

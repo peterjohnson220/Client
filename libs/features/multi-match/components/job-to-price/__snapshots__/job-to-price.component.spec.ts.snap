@@ -181,10 +181,15 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
             <td
               class="text-center"
             >
-              
-              <fa-icon
-                size="lg"
-              />
+              <button
+                class="btn bg-transparent"
+                disabled=""
+                title="You cannot delete the last match from a pricing"
+              >
+                <fa-icon
+                  size="lg"
+                />
+              </button>
             </td>
           </tr>
         </tbody>
@@ -468,10 +473,15 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
             <td
               class="text-center"
             >
-              
-              <fa-icon
-                size="lg"
-              />
+              <button
+                class="btn bg-transparent"
+                disabled=""
+                title="You cannot delete the last match from a pricing"
+              >
+                <fa-icon
+                  size="lg"
+                />
+              </button>
             </td>
           </tr>
         </tbody>
@@ -871,10 +881,15 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
             <td
               class="text-center"
             >
-              
-              <fa-icon
-                size="lg"
-              />
+              <button
+                class="btn bg-transparent"
+                disabled=""
+                title="You cannot delete the last match from a pricing"
+              >
+                <fa-icon
+                  size="lg"
+                />
+              </button>
             </td>
           </tr>
         </tbody>

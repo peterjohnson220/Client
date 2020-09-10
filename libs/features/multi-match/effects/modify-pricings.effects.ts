@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, catchError, mergeMap } from 'rxjs/operators';
+import {switchMap, catchError, mergeMap, withLatestFrom, map} from 'rxjs/operators';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import {Action, Store} from '@ngrx/store';
 
-import { JobsApiService } from 'libs/data/payfactors-api/index';
+import {JobsApiService, PricingApiService} from 'libs/data/payfactors-api/index';
 import { staticFilters } from '../../survey-search/data';
 import { PayfactorsApiModelMapper } from '../helpers';
 
@@ -18,13 +18,19 @@ import * as fromContextActions from '../../survey-search/actions/context.actions
 import * as fromSearchFiltersActions from '../../search/actions/search-filters.actions';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromSurveySearchFiltersActions from '../../survey-search/actions/survey-search-filters.actions';
+import * as fromMultiMatchReducer from '../reducers';
+
+import {SurveySearchResultDataSources} from '../../../constants';
+import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 
 @Injectable()
 export class ModifyPricingsEffects {
   constructor(
     private action$: Actions,
+    private store: Store<fromMultiMatchReducer.State>,
     private jobsApiService: JobsApiService,
-    private searchFilterMappingDataObj: SearchFilterMappingDataObj
+    private pricingApiService: PricingApiService,
+private searchFilterMappingDataObj: SearchFilterMappingDataObj
   ) {}
 
   @Effect()
@@ -48,6 +54,40 @@ export class ModifyPricingsEffects {
           return actions;
         }),
         catchError(error => of(new fromModifyPricingsActions.GetPricingsToModifyError()))
+      );
+    })
+  );
+
+  @Effect()
+  savePricings$: Observable<Action> = this.action$.pipe(
+    ofType(fromModifyPricingsActions.MODIFY_PRICINGS),
+    withLatestFrom(
+      this.store.select(fromMultiMatchReducer.getJobsToPrice),
+      (action, jobsToPrice) =>
+        ({ jobsToPrice })
+    ),
+    switchMap( (action: any) => {
+      const modifyPricingMatchesRequest = action.jobsToPrice.filter(f => (!!f.DataCutsToAdd && f.DataCutsToAdd.length)
+        || (!!f.DeletedJobMatchCutIds && f.DeletedJobMatchCutIds.length)).map(s =>  {
+          return {
+            PricingId: s.Id,
+            MatchesToDeleted: (s.DeletedJobMatchCutIds || []),
+            SurveyCutMatchesToAdded: (s.DataCutsToAdd || [])
+              .filter(f => f.DataSource === SurveySearchResultDataSources.Surveys).map( m => m.ServerInfo.SurveyDataId),
+            PayfactorsCutMatchesToAdded: (s.DataCutsToAdd || [])
+              .filter(f => f.DataSource === SurveySearchResultDataSources.Payfactors).map( m => m.SurveyJobCode),
+            PeerCutMatchesToAdded: (s.DataCutsToAdd || [])
+              .filter(f => f.DataSource === SurveySearchResultDataSources.Peer).map( m => ({
+                  ExchangeId: m.Job?.PeerJobInfo?.ExchangeId,
+                  ExchangeJobId: m.Job?.PeerJobInfo?.ExchangeJobId,
+                  DailyNatAvgId: m.ServerInfo?.DailyNatAvgId,
+                  DailyScopeAvgId: m.ServerInfo?.DailyScopeAvgId
+              }))
+          };
+        });
+      return this.pricingApiService.savePricingMatches(modifyPricingMatchesRequest).pipe(
+        map(() =>  new fromModifyPricingsActions.ModifyPricingSuccess()),
+        catchError(error => of(new fromModifyPricingsActions.ModifyPricingsError()))
       );
     })
   );
