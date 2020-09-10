@@ -46,7 +46,7 @@
             </div>
           </div>
 
-          <div *ngIf="gridConfig?.EnableInfiniteScroll && (selectAllState$ | async) === selectAllStatus.checked" class="d-flex mb-3">
+          <div *ngIf="gridConfig?.EnableInfiniteScroll && (selectAllState$ | async) === selectAllStatus.checked && (uniqueVisibleKeys$ | async)?.length" class="d-flex mb-3">
             <pf-select-all-panel
               class="w-100"
               [itemName]="gridConfig?.SelectAllPanelItemName"
