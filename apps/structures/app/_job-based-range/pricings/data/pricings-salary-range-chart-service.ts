@@ -84,7 +84,7 @@ export class PricingsSalaryRangeChartService {
         align: 'right',
         verticalAlign: 'top',
         floating: false,
-        y: 30,
+        y: 18,
         borderWidth: 1
       },
       tooltip: {

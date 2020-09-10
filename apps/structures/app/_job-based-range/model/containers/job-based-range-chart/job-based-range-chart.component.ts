@@ -115,6 +115,11 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       currentRow.CompanyStructures_RangeGroup_AverageEEMRP < comparisonValue) {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
     }
+    // next check the MRP value
+    if (!!currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue &&
+      currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue < comparisonValue) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue;
+    }
 
     if (this.chartMin === undefined || comparisonValue < this.chartMin) {
       this.chartMin = comparisonValue;
@@ -135,6 +140,11 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     if (currentRow.CompanyStructures_RangeGroup_AverageEEMRP &&
       currentRow.CompanyStructures_RangeGroup_AverageEEMRP > comparisonValue) {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
+    }
+    // next check the MRP value
+    if (currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue &&
+      currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue > comparisonValue) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue;
     }
 
     if (this.chartMax === undefined || comparisonValue > this.chartMax) {

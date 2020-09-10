@@ -106,6 +106,16 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     if (currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup < this.chartMin) {
       this.chartMin = currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup;
     }
+
+    if (this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue !== null) {
+      if (this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue > this.chartMax) {
+        this.chartMax = this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue;
+      }
+      // same logic for min but reversed, obviously
+      if (this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue < this.chartMin) {
+        this.chartMin = this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue;
+      }
+    }
   }
 
   private addPricingsMRP(xCoordinate, currentRow, jobRangeData) {
