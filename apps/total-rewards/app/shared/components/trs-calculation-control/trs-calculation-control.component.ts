@@ -84,7 +84,7 @@ export class TrsCalculationControlComponent {
       if (this.inEditMode) {
         return true;
       }
-      return this.employeeRewardsData[compField.DatabaseField] !== null;
+      return this.employeeRewardsData[compField.DatabaseField] !== null && this.employeeRewardsData[compField.DatabaseField] > 0;
     }
     return false;
   }

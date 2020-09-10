@@ -195,13 +195,13 @@ describe('TotalRewardsStatementComponent', () => {
     expect(summaryControls.length).toBe(1);
   });
 
-  it('should not include calc control if no rewards data', () => {
+  it('should not include calc control if no valid rewards data', () => {
     // arrange
     component.statement = generateMockStatement();
     component.employeeRewardsData = generateMockEmployeeRewardsData();
     component.employeeRewardsData.EmployeeBase = null;
-    component.employeeRewardsData.EmployeeBonus = null;
-    component.employeeRewardsData.EmployeeSTI = null;
+    component.employeeRewardsData.EmployeeBonus = 0;
+    component.employeeRewardsData.EmployeeSTI = -456;
     component.employeeRewardsData.EmployeeLTI = null;
 
     // act

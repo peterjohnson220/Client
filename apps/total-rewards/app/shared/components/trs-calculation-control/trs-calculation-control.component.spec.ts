@@ -162,7 +162,7 @@ describe('TrsCalculationControlComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should include fields in preview mode if employee data is 0 for a given field', () => {
+  it('should exclude fields in preview mode if employee data is 0 for a given field', () => {
     component.employeeRewardsData = generateMockEmployeeRewardsData();
     component.controlData = generateMockCalculationControl();
     component.mode = StatementModeEnum.Preview;
