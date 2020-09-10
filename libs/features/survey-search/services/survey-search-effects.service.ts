@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, mergeMap, switchMap, withLatestFrom, map } from 'rxjs/operators';
 
 import { SearchResponse, PricingMatchesRequest, PricingMatchesResponse } from 'libs/models/payfactors-api';
-import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
+import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
 import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
@@ -97,7 +97,8 @@ export class SurveySearchEffectsService {
         })),
       switchMap(({ jobResults, filters, pagingOptions, projectSearchContext }) => {
         const lastJobResultIndex = (pagingOptions.page - 1) * pagingOptions.pageSize;
-        const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex, projectSearchContext, filters);
+        const selectedFilters = this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(filters);
+        const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex, projectSearchContext, selectedFilters);
 
         return this.surveySearchApiService.getPricingMatches(pricingMatchesRequest)
           .pipe(
@@ -112,6 +113,7 @@ export class SurveySearchEffectsService {
     private store: Store<fromSurveySearchReducer.State>,
     private surveySearchApiService: SurveySearchApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
+    private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
     private payfactorsSurveySearchApiHelper: PayfactorsSurveySearchApiHelper
   ) {
   }

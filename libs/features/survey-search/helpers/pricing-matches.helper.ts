@@ -3,12 +3,11 @@ import {
   ExchangeJobDailyNatAvgOrg50thDetails,
   PFJobMatches,
   PricingMatchesRequest,
-  PricingMatchesResponse,
+  PricingMatchesResponse, SearchFilter,
   SurveyJobsMatches
 } from 'libs/models/payfactors-api';
 
 import { JobResult, PricingMatchDataSearchContext } from '../models';
-import { Filter } from '../../search/models';
 
 export function applyMatchesToJobResults(jobResults: JobResult[], pricingMatches: PricingMatchesResponse): JobResult[] {
   const surveyJobsMatches: SurveyJobsMatches[] = pricingMatches.SurveyJobsMatches;
@@ -43,7 +42,7 @@ export function createPricingMatchesRequest(
   jobResults: JobResult[],
   lastJobResultIndex: number,
   projectSearchContext: PricingMatchDataSearchContext,
-  filters: Filter[]
+  filters: SearchFilter[]
 ): PricingMatchesRequest {
   const latestResults: JobResult[] = jobResults.slice(lastJobResultIndex, jobResults.length);
   const surveyJobIds: number[] = [];
