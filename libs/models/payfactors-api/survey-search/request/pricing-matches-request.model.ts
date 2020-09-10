@@ -1,7 +1,7 @@
-import { Filter } from 'libs/features/search/models';
+import { SearchFilter } from '../../search/response';
 
 export interface PricingMatchesRequest {
-  Filters: Filter[];
+  Filters: SearchFilter[];
   CurrencyCode: string;
   CountryCode: string;
   Rate: string;
