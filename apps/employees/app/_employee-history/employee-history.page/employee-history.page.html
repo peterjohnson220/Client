@@ -15,7 +15,7 @@
   [actionBarConfig]="actionBarConfig"
   [inboundFilters]="loadDateFilter"
   [fieldsExcludedFromExport]="fieldsExcludedFromExport"
-  [pageable]="false"
+  [pageable]="!gridConfig?.EnableInfiniteScroll"
   [gridConfig]="gridConfig"
   [pagingOptions]="defaultPagingOptions">
 </pf-data-grid>
