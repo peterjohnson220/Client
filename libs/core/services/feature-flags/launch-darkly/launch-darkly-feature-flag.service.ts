@@ -40,7 +40,9 @@ export class LaunchDarklyFeatureFlagService extends AbstractFeatureFlagService {
   }
 
   bindEnabled(flag: RealTimeFlag, unSubscribe: Subject<void>): void {
-    this.featureFlagChanged.pipe(takeUntil(unSubscribe)).subscribe((c) => flag.value = c[flag.key]);
+    this.featureFlagChanged.pipe(takeUntil(unSubscribe)).subscribe((c) => {
+      flag.value = c[flag.key] === undefined ? flag.value : c[flag.key];
+    });
   }
 
   private initializeOnChange(): void {
