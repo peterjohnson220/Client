@@ -80,7 +80,8 @@ export class NotPricedPaymarketsGridComponent implements AfterViewInit, OnDestro
     this.gridConfig = {
       PersistColumnWidth: false,
       EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      SelectAllPanelItemName: 'pay markets'
     };
     this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
       ? getDefaultPagingOptions()

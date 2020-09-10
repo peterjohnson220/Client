@@ -158,7 +158,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.gridConfig = {
       PersistColumnWidth: true,
       EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
-      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      SelectAllPanelItemName: 'jobs'
     };
     this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
       ? getDefaultPagingOptions()

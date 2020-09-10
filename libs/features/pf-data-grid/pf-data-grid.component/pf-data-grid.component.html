@@ -49,7 +49,7 @@
           <div *ngIf="gridConfig?.EnableInfiniteScroll && (selectAllState$ | async) === selectAllStatus.checked && (uniqueVisibleKeys$ | async)?.length" class="d-flex mb-3">
             <pf-select-all-panel
               class="w-100"
-              [itemName]="gridConfig?.SelectAllPanelItemName"
+              [itemName]="gridConfig?.SelectAllPanelItemName || 'items'"
               [displayedItemsCount]="(uniqueVisibleKeys$ | async)?.length"
               [totalCount]="(totalCount$ | async)">
             </pf-select-all-panel>
