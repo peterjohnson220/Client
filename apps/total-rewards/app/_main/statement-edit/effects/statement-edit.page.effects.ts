@@ -149,7 +149,15 @@ export class StatementEditPageEffects {
       switchMap((action: fromStatementEditActions.GetEmployeeRewardsData) => {
         return this.companyEmployeeApiService.getBenefits(action.payload.companyEmployeeId)
           .pipe(
-            map((response) => new fromStatementEditActions.GetEmployeeRewardsDataSuccess(response)),
+            map((response) => {
+              if (response.EmployeeDOH) {
+                response.EmployeeDOH = new Date(response.EmployeeDOH);
+              }
+              if (response.EmployeeDOB) {
+                response.EmployeeDOB = new Date(response.EmployeeDOB);
+              }
+              return new fromStatementEditActions.GetEmployeeRewardsDataSuccess(response);
+            }),
             catchError(() => of(new fromStatementEditActions.GetEmployeeRewardsDataError()))
           );
       })

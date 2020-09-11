@@ -19,8 +19,12 @@ export class StatementPrintPageEffects {
         this.totalRewardsApi.getStatementForPrint(action.payload).pipe(
           map((response: StatementForPrint) => {
             response.EmployeeRewardsData.map(e => {
-              e.EmployeeDOB = new Date(e.EmployeeDOB);
-              e.EmployeeDOH = new Date(e.EmployeeDOH);
+              if (e.EmployeeDOB) {
+                e.EmployeeDOB = new Date(e.EmployeeDOB);
+              }
+              if (e.EmployeeDOH) {
+                e.EmployeeDOH = new Date(e.EmployeeDOH);
+              }
             });
             return new fromPageActions.LoadStatementSuccess(response);
           }),
