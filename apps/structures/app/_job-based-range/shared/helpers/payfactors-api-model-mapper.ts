@@ -118,34 +118,124 @@ export class PayfactorsApiModelMapper {
   private static getControlPointDisplayValue(controlPoint: string): string {
     switch (controlPoint) {
       case 'BaseMRP':
+      case 'Base10':
+      case 'Base25':
+      case 'Base50':
+      case 'Base60':
+      case 'Base75':
+      case 'Base90':
         return 'Base Salary';
       case 'BonusMRP':
+      case 'Bonus10':
+      case 'Bonus25':
+      case 'Bonus50':
+      case 'Bonus60':
+      case 'Bonus75':
+      case 'Bonus90':
         return 'Bonus';
       case 'BonusPctMRP':
+      case 'BonusPct10':
+      case 'BonusPct25':
+      case 'BonusPct50':
+      case 'BonusPct60':
+      case 'BonusPct75':
+      case 'BonusPct90':
         return 'Bonus Pct';
       case 'BonusTargetMRP':
+      case 'BonusTarget10':
+      case 'BonusTarget25':
+      case 'BonusTarget50':
+      case 'BonusTarget60':
+      case 'BonusTarget75':
+      case 'BonusTarget90':
         return 'Bonus Target';
       case 'BonusTargetPctMRP':
+      case 'BonusTargetPct10':
+      case 'BonusTargetPct25':
+      case 'BonusTargetPct50':
+      case 'BonusTargetPct60':
+      case 'BonusTargetPct75':
+      case 'BonusTargetPct90':
         return 'Bonus Target Pct';
       case 'TCCMRP':
+      case 'TCC10':
+      case 'TCC25':
+      case 'TCC50':
+      case 'TCC60':
+      case 'TCC75':
+      case 'TCC90':
         return 'TCC';
       case 'TCCTargetMRP':
+      case 'TCCTarget10':
+      case 'TCCTarget25':
+      case 'TCCTarget50':
+      case 'TCCTarget60':
+      case 'TCCTarget75':
+      case 'TCCTarget90':
         return 'Target TCC';
       case 'LTIPMRP':
+      case 'LTIP10':
+      case 'LTIP25':
+      case 'LTIP50':
+      case 'LTIP60':
+      case 'LTIP75':
+      case 'LTIP90':
         return 'LTI';
       case 'TargetLTIPMRP':
+      case 'TargetLTIP10':
+      case 'TargetLTIP25':
+      case 'TargetLTIP50':
+      case 'TargetLTIP60':
+      case 'TargetLTIP75':
+      case 'TargetLTIP90':
         return 'Target LTI';
       case 'TDCMRP':
+      case 'TDC10':
+      case 'TDC25':
+      case 'TDC50':
+      case 'TDC60':
+      case 'TDC75':
+      case 'TDC90':
         return 'TDC';
       case 'TargetTDCMRP':
+      case 'TargetTDC10':
+      case 'TargetTDC25':
+      case 'TargetTDC50':
+      case 'TargetTDC60':
+      case 'TargetTDC75':
+      case 'TargetTDC90':
         return 'Target TDC';
       case 'AllowMRP':
+      case 'Allow10':
+      case 'Allow25':
+      case 'Allow50':
+      case 'Allow60':
+      case 'Allow75':
+      case 'Allow90':
         return 'Allowances';
       case 'FixedMRP':
+      case 'Fixed10':
+      case 'Fixed25':
+      case 'Fixed50':
+      case 'Fixed60':
+      case 'Fixed75':
+      case 'Fixed90':
         return 'Total Fixed Pay';
       case 'TGPMRP':
+      case 'TGP10':
+      case 'TGP25':
+      case 'TGP50':
+      case 'TGP60':
+      case 'TGP75':
+      case 'TGP90':
         return 'Total Guaranteed Pay';
       case 'RemunMRP':
+      case 'Remun10':
+      case 'Remun25':
+      case 'Remun50':
+      case 'Remun60':
+      case 'Remun75':
+      case 'Remun90':
         return 'Total Remuneration';
       default:
         return 'Salary';
