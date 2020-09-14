@@ -125,6 +125,7 @@
 
     .graphs {
       margin-top: 2rem;
+      margin-bottom: 3rem;
       display: flex;
       justify-content: space-between;
 
@@ -158,26 +159,35 @@
 
     .skills {
       margin-top: 1rem;
+      border: 1px solid #E5E5E5;
+      border-radius: 4px;
 
       .h {
-        @extend %label;
-        font-size: 90%;
+        font-size: 1rem;
+        font-weight: 500;
         margin-bottom: 1rem;
       }
 
+      .title-container {
+        height: 50px;
+        border-bottom: 1px solid #E5E5E5;
+        border-radius: 4px;
+        padding: 18px;
+        background-color: #F5F5F5;
+      }
+
       .badge {
-        padding: 1rem;
         margin-bottom: 1rem;
         margin-right: 0.5rem;
-        background-color: $comphub-primary-blue;
+        background-color: $comphub-gray-pills;
         color: white;
-        font-size: $comphub-font-size;
+        border-radius: 4px;
+        font-size: 12px;
+        padding: 4px;
       }
     }
 
     .job-description {
-      margin-top: 1rem;
-      padding-top: 1rem;
       padding-bottom: 3rem;
 
       .h {
@@ -191,15 +201,29 @@
       }
 
       ::ng-deep {
+        .description-container {
+          border: 1px solid #E5E5E5;
+          border-radius: 4px;
+          margin-bottom: 1rem;
+
+          .description-content {
+            display: inline-block;
+            padding: 0 19px 9px;
+          }
+        }
+
         h6 {
-          font-size: 1.25rem;
+          height: 50px;
+          border-bottom: 1px solid #E5E5E5;
+          border-radius: 4px;
+          padding: 18px;
+          background-color: #F5F5F5;
 
           svg {
             display: none;
           }
 
           font-weight: $comphub-bold-font-weight;
-          margin: 1.25rem 0;
         }
       }
     }
