@@ -519,11 +519,6 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
                 class="v"
               />
             </div>
@@ -1016,11 +1011,6 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                     <div
                       class="job-description"
                     >
-                      <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
                       <div
                         class="v"
                       />
@@ -1565,11 +1555,6 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
                 class="v"
               />
             </div>
@@ -2062,11 +2047,6 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                     <div
                       class="job-description"
                     >
-                      <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
                       <div
                         class="v"
                       />
@@ -2611,11 +2591,6 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
                 class="v"
               />
             </div>
@@ -3108,11 +3083,6 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                     <div
                       class="job-description"
                     >
-                      <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
                       <div
                         class="v"
                       />
@@ -3657,11 +3627,6 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
                 class="v"
               />
             </div>
@@ -4154,11 +4119,6 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                     <div
                       class="job-description"
                     >
-                      <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
                       <div
                         class="v"
                       />
@@ -4703,11 +4663,6 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
                 class="v"
               />
             </div>
@@ -5200,11 +5155,6 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                     <div
                       class="job-description"
                     >
-                      <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
                       <div
                         class="v"
                       />
@@ -5749,11 +5699,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
                 class="v"
               />
             </div>
@@ -6246,11 +6191,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="job-description"
                     >
-                      <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
                       <div
                         class="v"
                       />
@@ -6795,11 +6735,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
                 class="v"
               />
             </div>
@@ -7292,11 +7227,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="job-description"
                     >
-                      <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
                       <div
                         class="v"
                       />
@@ -7850,11 +7780,6 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
                 class="v"
               />
             </div>
@@ -8356,11 +8281,6 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                     <div
                       class="job-description"
                     >
-                      <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
                       <div
                         class="v"
                       />

@@ -423,18 +423,16 @@
 
         <div class="job-description-wrapper">
           <div class="skills" *ngIf="jobData?.Skills.length">
-            <div class="h">
-              Top Skills
+            <div class="h title-container">
+              Skills
             </div>
 
-            <div class="d-flex flex-wrap">
+            <div class="d-flex flex-wrap ml-3">
               <span *ngFor="let skill of jobData.Skills" class="badge">{{skill}}</span>
             </div>
           </div>
 
           <div class="job-description">
-            <div class="h">Job Description</div>
-
             <div class="v" [innerHTML]="jobData?.JobDescription | jobDescriptionParser"></div>
           </div>
         </div>
