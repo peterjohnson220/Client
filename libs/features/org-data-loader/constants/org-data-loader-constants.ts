@@ -55,7 +55,7 @@ export const ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS = [
 ];
 
 export const ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS = [
-  'Subsidiary_Name',
+  'Name',
   'Industry',
   'City',
   'State',
