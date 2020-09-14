@@ -159,7 +159,13 @@ export class SummaryCardEffects {
         JobTitle: data.action.payload.JobTitle,
         JobCode: data.action.payload.JobCode,
         CountryCode: data.countryDataSet.CountryCode,
-        CompanyPayMarketId: data.selectedPayMarket.CompanyPayMarketId
+        CompanyPayMarketId: data.selectedPayMarket.CompanyPayMarketId,
+        Base25: data.action.payload.Base25,
+        Base50: data.action.payload.Base50,
+        Base75: data.action.payload.Base75,
+        Tcc25: data.action.payload.Tcc25,
+        Tcc50: data.action.payload.Tcc50,
+        Tcc75: data.action.payload.Tcc75
       };
       return this.comphubApiService.addCompletedPricingHistory(request)
         .pipe(
