@@ -6,6 +6,65 @@ import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/tota
 import { TrsRichTextControlComponent } from './trs-rich-text-control.component';
 import { StatementModeEnum } from '../../models';
 
+const markupWithDataFields = `
+  <p>start</p>
+  <p>
+    <span class="mention" data-index="1" data-denotation-char="" data-id="EmployeeFirstName" data-value="Employee First Name">
+      <span contenteditable="false">
+        <span class="ql-mention-denotation-char"></span>Employee First Name
+      </span>
+    </span>
+    <span class="mention" data-index="2" data-denotation-char="" data-id="EmployeeLastName" data-value="Employee Last Name">
+      <span contenteditable="false">
+        <span class="ql-mention-denotation-char"></span>Employee Last Name
+      </span>
+    </span>
+  </p>
+  <p>end</p>`;
+
+const markupWithFormatting = `
+  <p><span class="ql-size-small">small</span></p>
+  <p>medium</p>
+  <p><span class="ql-size-large">large</span></p>
+  <p><strong>bold</strong></p>
+  <p><em>italic</em></p>
+  <p><u>underline</u></p>
+  <p><span style="color: rgb(255, 153, 0);">orange</span></p>
+  <p class="ql-align-center">centered</p>
+  <ul>
+    <li>bullet 1</li>
+    <li>bullet 2</li>
+  </ul>`;
+
+const markupWithDataFieldsAndFormatting = `
+  <p>start</p>
+  <ul>
+    <li>
+      <u>
+        <span class="mention" data-index="3" data-denotation-char="" data-id="EmployeeLastName" data-value="Employee Last Name">
+          <span contenteditable="false"><span class="ql-mention-denotation-char"></span>Employee Last Name</span>
+        </span>
+      </u>
+    </li>
+    <li>Dept:
+      <span class="mention" data-index="0" data-denotation-char="" data-id="EmployeeDepartment" data-value="Employee Department">
+        <span contenteditable="false">
+          <span class="ql-mention-denotation-char"></span>Employee Department
+        </span>
+      </span>
+    </li>
+    <li>Email:
+      <strong>
+        <span class="mention" data-index="1" data-denotation-char="" data-id="EmployeeEmailAddress" data-value="Employee Email Address">
+          <span contenteditable="false">
+            <span class="ql-mention-denotation-char"></span>Employee Email Address
+          </span>
+        </span>
+      </strong>
+    </li>
+  </ul>
+  <p>end</p>`;
+
 describe('TrsChartControlComponent', () => {
   let component: TrsRichTextControlComponent;
   let fixture: ComponentFixture<TrsRichTextControlComponent>;
@@ -33,125 +92,95 @@ describe('TrsChartControlComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('bindEmployeeData should not change ops when no data fields exist', () => {
+  it('bindEmployeeDataHtml should maintain simple content with no data fields used', () => {
     // arrange
-    const staticOps = [{ insert: 'static text' }, { insert: '!@#$%^&*()' }, { insert: '!@#$%^&*()' } ];
-    component.quillApi = { editor: { delta: { ops: staticOps } }, setContents: jest.fn()};
-    component.quillApi.container = { firstChild: { setAttribute: () => ({}) } };
-    spyOn(component.quillApi, 'setContents');
-
-    // act
-    component.bindEmployeeData();
-
-    // assert
-    expect(component.quillApi.setContents).toHaveBeenCalledTimes(1);
-    expect(component.quillApi.setContents).toHaveBeenCalledWith(staticOps);
-  });
-
-  it('bindEmployeeData should replace data field placeholders with employee values in Preview mode', () => {
-    // arrange, mock quill canvas content to be:
-    //
-    // test
-    // [Employee First Name] [Employee Last Name]
-    // end
-
-    const employeeRewardsData = generateMockEmployeeRewardsData();
-    component.employeeRewardsData = employeeRewardsData;
+    component.controlData = { Title: { Default: 'Title' } } as any;
     component.mode = StatementModeEnum.Preview;
-
-    const dynamicOps = [
-      { insert: 'test↵' },
-      { insert: { mention: { index: '0', denotationChar: '', id: 'EmployeeFirstName', value: 'Employee First Name'} } },
-      { insert: ' ' },
-      { insert: { mention: { index: '0', denotationChar: '', id: 'EmployeeLastName', value: 'Employee Last Name'} } },
-      { insert: ' ↵end↵↵' }
-    ];
-    let actualOpsParam: any;
-    component.quillApi = { editor: { delta: { ops: dynamicOps } }, setContents: (ops: any) => { actualOpsParam = ops; } };
-    component.quillApi.container = { firstChild: { setAttribute: () => ({}) } };
+    component.htmlContent = '<p>static text that should not change</p>';
 
     // act
-    component.bindEmployeeData();
+    const boundHtml = component.bindEmployeeDataHtml() as any;
 
     // assert
-    const expectedOps = dynamicOps as any;
-    expectedOps[1].insert.mention.value = employeeRewardsData.EmployeeFirstName;
-    expectedOps[3].insert.mention.value = employeeRewardsData.EmployeeLastName;
-    expect(actualOpsParam).toEqual(expectedOps);
+    const testDiv = document.createElement('div');
+    testDiv.innerHTML = boundHtml.changingThisBreaksApplicationSecurity;
+    expect(testDiv.textContent).toEqual('static text that should not change');
   });
 
-  it('bindEmployeeData should replace employee data with placeholders in Edit mode', () => {
-    // arrange, mock quill canvas content to be:
-    //
-    // test
-    // [Employee First Name] [Employee Last Name]
-    // end
+  it('bindEmployeeDataHtml should persist styling attributes with no data fields used', () => {
+    // arrange
+    component.controlData = { Title: { Default: 'Title' } } as any;
+    component.mode = StatementModeEnum.Preview;
+    const rewardsData = generateMockEmployeeRewardsData();
+    component.employeeRewardsData = rewardsData;
+    component.htmlContent = markupWithFormatting;
 
-    const employeeRewardsData = generateMockEmployeeRewardsData();
-    component.employeeRewardsData = employeeRewardsData;
-    component.mode = StatementModeEnum.Edit;
+    // act
+    const boundHtml = component.bindEmployeeDataHtml() as any;
+
+    // assert
+    const testDiv = document.createElement('div');
+    testDiv.innerHTML = boundHtml.changingThisBreaksApplicationSecurity;
+    expect(testDiv.innerHTML).toContain(markupWithFormatting);
+  });
+
+  it('bindEmployeeData should replace data field placeholders with actual employee data', () => {
+    // arrange
     component.controlData = {
+      Title: { Default: 'Title' },
       DataFields: [
         { Key: 'EmployeeFirstName', Value: 'Employee First Name' },
-        { Key: 'EmployeeLastName', Value: 'Employee Last Name' }
+        { Key: 'EmployeeLastName', Value: 'Employee Last Name' },
       ]
     } as any;
-
-    const dynamicOps = [
-      { insert: 'test↵' },
-      { insert: { mention: { index: '0', denotationChar: '', id: 'EmployeeFirstName', value: employeeRewardsData.EmployeeFirstName } } },
-      { insert: ' ' },
-      { insert: { mention: { index: '0', denotationChar: '', id: 'EmployeeLastName', value: employeeRewardsData.EmployeeLastName } } },
-      { insert: ' ↵end↵↵' }
-    ];
-    let actualOpsParam: any;
-    component.quillApi = { editor: { delta: { ops: dynamicOps } }, setContents: (ops: any) => { actualOpsParam = ops; } };
-    component.quillApi.container = { firstChild: { setAttribute: () => ({}) } };
+    component.mode = StatementModeEnum.Preview;
+    const rewardsData = generateMockEmployeeRewardsData();
+    component.employeeRewardsData = rewardsData;
+    component.htmlContent = markupWithDataFields;
 
     // act
-    component.bindEmployeeData();
+    const boundHtml = component.bindEmployeeDataHtml() as any;
 
     // assert
-    const expectedOps = dynamicOps as any;
-    expectedOps[1].insert.mention.value = 'Employee Firsst Name';
-    expectedOps[3].insert.mention.value = 'Employee Last Name';
-    expect(actualOpsParam).toEqual(expectedOps);
+    const testDiv = document.createElement('div');
+    testDiv.innerHTML = boundHtml.changingThisBreaksApplicationSecurity;
+
+    expect(testDiv.textContent).toContain(rewardsData['EmployeeFirstName']);
+    expect(testDiv.textContent).toContain(rewardsData['EmployeeLastName']);
+    expect(testDiv.textContent).toContain('start');
+    expect(testDiv.textContent).toContain('end');
+    expect(testDiv.textContent).not.toContain('EmployeeFirstName');
+    expect(testDiv.textContent).not.toContain('EmployeeLastName');
   });
 
-  it('bindEmployeeData should persist styling attributes', () => {
-    // arrange, mock quill canvas content to be:
-    //
-    // -bullet1
-    // -bullet2
-    // <b>[Current Year]</b>
-
-    const employeeRewardsData = generateMockEmployeeRewardsData();
-    component.employeeRewardsData = employeeRewardsData;
-    component.mode = StatementModeEnum.Edit;
-    component.controlData = { DataFields: [{ Key: 'CompanyName', Value: 'Company Name' }] } as any;
-
-    const dynamicOps = [
-      { insert: 'bullet1'},
-      { insert: '\n', attributes: { list: 'bullet' } },
-      { insert: 'bullet2'},
-      { insert: '\n', attributes: { list: 'bullet' } },
-      { insert: { mention: { index: '0', denotationChar: '', id: 'CompanyName', value: 'Company Name' } }, attributes: { bold: true } },
-      { insert: '\n'}
-    ];
-    let actualOpsParam: any;
-    component.quillApi = { editor: { delta: { ops: dynamicOps } }, setContents: (ops: any) => { actualOpsParam = ops; } };
-    component.quillApi.container = { firstChild: { setAttribute: () => ({}) } };
+  it('bindEmployeeData should maintain formatting when data fields are used', () => {
+    // arrange
+    component.controlData = {
+      Title: { Default: 'Title' },
+      DataFields: [
+        { Key: 'EmployeeLastName', Value: 'Employee Last Name' },
+        { Key: 'EmployeeDepartment', Value: 'Employee Department' },
+        { Key: 'EmployeeEmailAddress', Value: 'Employee Email Address' },
+      ]
+    } as any;
+    component.mode = StatementModeEnum.Preview;
+    const rewardsData = generateMockEmployeeRewardsData();
+    component.employeeRewardsData = rewardsData;
+    component.htmlContent = markupWithDataFieldsAndFormatting;
 
     // act
-    component.bindEmployeeData();
+    const boundHtml = component.bindEmployeeDataHtml() as any;
 
     // assert
-    expect(actualOpsParam[0].attributes).toBeUndefined();
-    expect(actualOpsParam[1].attributes).toEqual({ list: 'bullet' });
-    expect(actualOpsParam[2].attributes).toBeUndefined();
-    expect(actualOpsParam[3].attributes).toEqual({ list: 'bullet' });
-    expect(actualOpsParam[4].attributes).toEqual({ bold: true });
-    expect(actualOpsParam[5].attributes).toBeUndefined();
+    const testDiv = document.createElement('div');
+    testDiv.innerHTML = boundHtml.changingThisBreaksApplicationSecurity;
+
+    expect(testDiv.querySelectorAll('ul').length).toBe(1);
+    expect(testDiv.querySelectorAll('li').length).toBe(3);
+    expect(testDiv.querySelectorAll('u').length).toBe(1);
+    expect(testDiv.querySelector('u').innerHTML).toContain(rewardsData['EmployeeLastName']);
+    expect(testDiv.querySelectorAll('strong').length).toBe(1);
+    expect(testDiv.querySelector('strong').innerHTML).toContain(rewardsData['EmployeeEmailAddress']);
   });
 
   it('formatDataFieldValue should return an empty string for non string, number or date values', () => {
@@ -215,5 +244,29 @@ describe('TrsChartControlComponent', () => {
 
     // assert
     expect(fixture.debugElement.nativeElement.querySelector('quill-editor')).toBeFalsy();
+  });
+
+  it('should not include Quill editor in preview mode', () => {
+    // arrange
+    component.mode = StatementModeEnum.Preview;
+    component.controlData = { Title: {} } as any;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture.debugElement.nativeElement.querySelector('quill-editor')).toBeFalsy();
+  });
+
+  it('should include Quill editor in edit mode', () => {
+    // arrange
+    component.mode = StatementModeEnum.Edit;
+    component.controlData = { Title: {} } as any;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture.debugElement.nativeElement.querySelector('quill-editor')).toBeTruthy();
   });
 });

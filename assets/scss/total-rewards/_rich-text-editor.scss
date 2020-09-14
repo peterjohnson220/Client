@@ -14,9 +14,14 @@
     font-size: 1.2rem;
     transition: opacity .3s ease-in-out;
   }
-  &.preview-mode label.info, &.print-mode label.info {
-    opacity: 0;
-    pointer-events: none;
+  &.preview-mode, &.print-mode {
+    label.info {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .ql-editor {
+      margin-left: -6px; // maintain -10px margin minus 2 2px borders we don't have in preview/print
+    }
   }
   .ql-toolbar {
     text-align: center;
