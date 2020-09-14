@@ -9,6 +9,7 @@ $spinner-easing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
   width: $canvas-width;
   background: $trs-canvas-background-color;
   padding-top: 100px;
+  margin-bottom: $footer-bar-height + 14px; // prevent the footer bar from overlapping the bottom of the canvas
   &.preview-mode {
     padding-top: 0;
   }
