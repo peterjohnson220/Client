@@ -1,0 +1,93 @@
+<div class="card my-2">
+  <div class="card-body">
+    <h5 class="card-title">Create New Hierarchy: </h5>
+    <ng-container form-content>
+      <form [formGroup]="createJobsHierarchyForm">
+
+        <div class="col-7">
+          <div class="form-group row">
+            <label class="control-label" for="hierarchyName">Hierarchy Name: <span class="text-danger">*</span></label>
+            <input id="hierarchyName" type="text" class="form-control" formControlName="hierarchyName" placeholder="Hierarchy Name..."
+               [ngClass]="{'is-invalid': !f.hierarchyName.valid && f.hierarchyName.touched}" [maxlength]="MAX_NAME_LENGTH">
+            <span *ngIf="f.hierarchyName.errors?.required" class="invalid-feedback">Hierarchy name is required</span>
+            <span *ngIf="f.hierarchyName.errors?.maxlength" class="invalid-feedback">Hierarchy name cannot be longer than {{MAX_NAME_LENGTH}} characters</span>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label" for="groupingOrder">Select Grouping Order: </label>
+              <kendo-dropdownlist
+                id="groupingOrder"
+                formControlName="groupingOrder"
+                [data]="groupingTypes"
+                [defaultItem]="defaultGroupingType"
+                [valuePrimitive]="true"
+                class="k-dropdown-white form-control">
+              </kendo-dropdownlist>
+          </div>
+        </div>
+
+        <div class="control-label" >Select the job families to be included in this hierarchy: </div>
+        <div class="row">
+          <div class="col-7">
+            <div class="card my-2">
+              <div class="card-body">
+                <ng-container *ngFor="let jobFamily of (jobFamilies$ | async)?.obj">
+                  <label class="custom-control custom-checkbox">
+                    <input id="jobFamilies" class="form-check-input" type="checkbox" formControlName="jobFamilies"
+                           (change)="updateJobFamiliesSelected(jobFamily, $event.target.checked)">
+                    <span class="form-check-label custom-control-description">{{jobFamily}}</span>
+                  </label>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="control-label my-2 px-0">Select the job levels to be included in this hierarchy and the order in which they should appear:</div>
+
+        <div class="row mt-3">
+          <div class="col">
+            <select formControlName="jobLevels"
+                    name="jobLevel_fields"
+                    size="10"
+                    class="scrollable list-box my-2 custom-select custom-control"
+                    (change)="onJobLevelSelectionChange($event.target.value)">
+              <option class="btn btn-secondary btn-lg btn-block" *ngFor="let jobLevel of jobLevels" value="{{jobLevel}}">{{jobLevel}}</option>
+            </select>
+          </div>
+
+          <div class="col align-self-center" role="group">
+            <button
+              type="button"
+              class="btn btn-primary d-block my-3 mx-auto"
+              (click)="applyToHierarchy()"
+              [disabled]="!selectedJobLevel"
+            > >>&gt;</button>
+            <button
+              type="button"
+              class="btn btn-primary d-block my-3 mx-auto"
+              (click)="removeFromHierarchy()"
+              [disabled]="!selectedJobLevelInHierarchy"
+            >&lt;<< </button>
+          </div>
+
+          <div class="col">
+            <select formControlName="jobLevelsInHierarchy"
+                    name="jobLevelsInHierarchy"
+                    size="10"
+                    class="scrollable list-box my-2 custom-select custom-control"
+                    (change)="onJobLevelsInHierarchySelectionChange($event.target.value)">
+              <option class="btn btn-secondary btn-lg btn-block" *ngFor="let jobLevel of jobLevelsInHierarchy" value="{{jobLevel}}">{{jobLevel}}</option>
+            </select>
+          </div>
+
+          <div class="col align-self-end">
+              <button type="submit" class="float-right btn btn-primary">Save</button>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+
+  </div>
+</div>

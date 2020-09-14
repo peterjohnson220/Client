@@ -1,0 +1,38 @@
+<pf-page-with-title-bar [absoluteUrl]="env.companyAdminUrl + '/navigation'" class="wrapper">
+
+  <ng-container page-title>
+    Jobs Hierarchy Settings
+  </ng-container>
+
+  <ng-container page-content>
+    <div class="row">
+      <div class="col-lg-6 px-3">
+        <div class="alert alert-info"
+             role="alert"
+             style="border-left: 8px solid #47A8CD ">
+          Any job in a hierarchy will be listed in that order in the job range structure. Any advanced modeling will be applied
+          based on the job hierarchy.
+        </div>
+
+
+        <div class="col-5">
+          <div class="form-group">
+            <label class="control-label" for="hierarchies"><b>Select Hierarchy: </b></label>
+            <kendo-dropdownlist
+              id="hierarchies"
+              [data]="hierarchyList"
+              [defaultItem]="'Create New Hierarchy'"
+              [valuePrimitive]="true"
+              class="k-dropdown-white form-control">
+            </kendo-dropdownlist>
+          </div>
+        </div>
+
+        <pf-jobs-hierarchy-form>
+        </pf-jobs-hierarchy-form>
+      </div>
+    </div>
+
+
+  </ng-container>
+</pf-page-with-title-bar>
