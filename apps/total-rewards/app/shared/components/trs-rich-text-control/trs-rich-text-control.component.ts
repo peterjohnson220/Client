@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
@@ -39,7 +40,7 @@ Quill.register(font, true);
   styleUrls: ['./trs-rich-text-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsRichTextControlComponent implements OnInit, OnDestroy {
+export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('richText', { static: false }) richText: any;
 
   @Input() controlData: RichTextControl;
@@ -54,7 +55,7 @@ export class TrsRichTextControlComponent implements OnInit, OnDestroy {
   htmlContent: string;
   title: string;
   statementModeEnum = StatementModeEnum;
-  editorPlaceholderText = 'Insert test here ...';
+  editorPlaceholderText = 'Insert text here ...';
 
   quillApi: any;
   quillMentionContainer: HTMLElement;
@@ -131,6 +132,13 @@ export class TrsRichTextControlComponent implements OnInit, OnDestroy {
     this.setupContentChangedSubscription();
   }
 
+  ngOnChanges() {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
+    this.isValid = !this.isContentHeightGreaterThanContainerHeight();
+  }
+
   ngOnDestroy() {
     if (this.onContentChangedSubscription) {
       this.onContentChangedSubscription.unsubscribe();
@@ -157,11 +165,26 @@ export class TrsRichTextControlComponent implements OnInit, OnDestroy {
     // get a handle to quill and the quill mention container that holds the data fields
     this.quillApi = quill;
     this.quillMentionContainer = quill.getModule('mention').mentionContainer;
+
+    if (this.mode !== StatementModeEnum.Print) {
+      this.isValid = !this.isContentHeightGreaterThanContainerHeight();
+    }
   }
 
   onContentChanged(quillContentChange: any) {
     // Get the F outta here if in print mode
     if (this.mode === StatementModeEnum.Print) { return; }
+
+    this.isValid = !this.isContentHeightGreaterThanContainerHeight();
+
+    if (quillContentChange.source === 'user' && this.isValid) {
+      this.onContentChangedSubject.next({ ControlId: this.controlData.Id, value: this.htmlContent });
+    }
+  }
+
+  isContentHeightGreaterThanContainerHeight(): boolean {
+
+    if (!this.richTextNode) { return false; } // dom isn't ready yet.
 
     // get dom node references to the container around the quill content and the content nodes (p tags)
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
@@ -173,18 +196,7 @@ export class TrsRichTextControlComponent implements OnInit, OnDestroy {
       totalContentHeightInPixels += contentNodes[i].offsetHeight;
     }
 
-    // if we're over the pixel height of the container undo the change by applying the previous delta
-    if (totalContentHeightInPixels > container.offsetHeight) {
-      quillContentChange.editor.setContents(quillContentChange.oldDelta.ops);
-      this.isValid = false;
-      setTimeout(() => {
-        this.isValid = true;
-        this.changeDetectorRef.detectChanges();
-      }, 1000);
-    } else if (quillContentChange.source === 'user') {
-      // change has occurred, so tell parent to save if the content changes was made by a user and not the initial load done programmatically
-      this.onContentChangedSubject.next({ ControlId: this.controlData.Id, value: this.htmlContent });
-    }
+    return totalContentHeightInPixels > container.offsetHeight;
   }
 
   onSelectionChanged(quillSelectionChange: any) {
