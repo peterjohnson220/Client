@@ -5,12 +5,15 @@ import { Observable, Subscription } from 'rxjs';
 
 import { UserContext } from 'libs/models/security';
 import { CompanyClientTypeConstants, QuickPriceType } from 'libs/constants';
+import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromRootReducer from 'libs/state/state';
+import * as fromBasicDataGridReducer from 'libs/features/basic-data-grid/reducers';
+import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
 
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { AccordionCard, ComphubPages } from '../../../data';
-import { WorkflowContext } from '../../../models';
+import { QuickPriceHistoryContext, WorkflowContext } from '../../../models';
 
 @Component({
   selector: 'pf-comphub-page',
@@ -31,11 +34,13 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   accessedPages$: Observable<ComphubPages[]>;
   workflowContext$: Observable<WorkflowContext>;
   userContext$: Observable<UserContext>;
+  historyGridInitialized$: Observable<boolean>;
 
   private enabledPagesSub: Subscription;
   private cardsSub: Subscription;
   private workflowContextSub: Subscription;
   private userContextSub: Subscription;
+  private historyGridInitializedSubscription: Subscription;
 
   workflowContext: WorkflowContext;
 
@@ -43,12 +48,16 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   private readonly numberOfCardHeaders = 3;
   private readonly sideBarWidth = 56;
 
-  constructor(private store: Store<fromComphubMainReducer.State>) {
+  constructor(
+    private store: Store<fromComphubMainReducer.State>,
+    private basicGridStore: Store<fromBasicDataGridReducer.State>
+  ) {
     this.cards$ = this.store.select(fromComphubMainReducer.getCards);
     this.enabledPages$ = this.store.select(fromComphubMainReducer.getEnabledPages);
     this.accessedPages$ = this.store.select(fromComphubMainReducer.getPagesAccessed);
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
+    this.historyGridInitialized$ = this.store.select(fromBasicDataGridReducer.getIsInitialized, QuickPriceHistoryContext.gridId);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -75,6 +84,14 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
       } else {
         this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.ENTERPRISE));
       }
+      if (uc?.UserId) {
+        this.initHistoryGrid(uc.UserId);
+      }
+    });
+    this.historyGridInitializedSubscription = this.historyGridInitialized$.subscribe(initialized => {
+      if (initialized) {
+        this.basicGridStore.dispatch(new fromBasicDataGridActions.GetCount(QuickPriceHistoryContext.gridId));
+      }
     });
 
     this.store.dispatch(new fromComphubPageActions.Init());
@@ -87,6 +104,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.cardsSub.unsubscribe();
     this.workflowContextSub.unsubscribe();
     this.userContextSub.unsubscribe();
+    this.historyGridInitializedSubscription.unsubscribe();
   }
 
   trackById(index: number, card: AccordionCard) {
@@ -107,5 +125,19 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.cardContentContainerWidth = wrapperElement[0].clientWidth - this.sideBarWidth -
       (this.cardHeaderWidth * this.numberOfCardHeaders) -
       (this.cardHeaderMargin * (this.numberOfCardHeaders - 1));
+  }
+
+  private initHistoryGrid(userId: number): void {
+    const filters: DataViewFilter[] = QuickPriceHistoryContext.getFilters(userId);
+    this.basicGridStore.dispatch(new fromBasicDataGridActions.InitGrid(
+      QuickPriceHistoryContext.gridId,
+      {
+        BaseEntity: QuickPriceHistoryContext.baseEntity,
+        ApplyDefaultFilters: false,
+        Fields: QuickPriceHistoryContext.fields,
+        Filters: filters,
+        DefaultSort: QuickPriceHistoryContext.defaultSort
+      }
+    ));
   }
 }

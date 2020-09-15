@@ -5,9 +5,9 @@ import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models';
 import {BasicDataViewField, DataViewFieldDataType, DataViewFilter} from 'libs/models/payfactors-api';
+import * as fromBasicDataGridReducer from 'libs/features/basic-data-grid/reducers';
+import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
 
-import * as fromPayMarketManagementReducer from '../../reducers';
-import * as fromBasicDataGridActions from '../../actions/basic-data-grid.actions';
 import { PayMarketAssociationType } from '../../models';
 import { PayMarketAssociationsHelper } from '../../helpers';
 
@@ -48,11 +48,11 @@ export class StructuresComponent implements OnInit, OnChanges, OnDestroy {
   ];
 
   constructor(
-    private store: Store<fromPayMarketManagementReducer.State>
+    private basicGridStore: Store<fromBasicDataGridReducer.State>
   ) {
-    this.structures$ = this.store.select(fromPayMarketManagementReducer.getData, PayMarketAssociationType.Structures);
-    this.fields$ = this.store.select(fromPayMarketManagementReducer.getVisibleFields, PayMarketAssociationType.Structures);
-    this.loadingMoreData$ = this.store.select(fromPayMarketManagementReducer.getLoadingMoreData, PayMarketAssociationType.Structures);
+    this.structures$ = this.basicGridStore.select(fromBasicDataGridReducer.getData, PayMarketAssociationType.Structures);
+    this.fields$ = this.basicGridStore.select(fromBasicDataGridReducer.getVisibleFields, PayMarketAssociationType.Structures);
+    this.loadingMoreData$ = this.basicGridStore.select(fromBasicDataGridReducer.getLoadingMoreData, PayMarketAssociationType.Structures);
     this.initGrid();
   }
 
@@ -62,7 +62,7 @@ export class StructuresComponent implements OnInit, OnChanges, OnDestroy {
         this.currentRecordCount = asyncObj.obj.length;
       }
     });
-    this.store.dispatch(new fromBasicDataGridActions.GetData(PayMarketAssociationType.Structures));
+    this.basicGridStore.dispatch(new fromBasicDataGridActions.GetData(PayMarketAssociationType.Structures));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -77,12 +77,12 @@ export class StructuresComponent implements OnInit, OnChanges, OnDestroy {
 
   handleScrollBottom(): void {
     if (this.currentRecordCount < this.totalCount) {
-      this.store.dispatch(new fromBasicDataGridActions.GetMoreData(PayMarketAssociationType.Structures));
+      this.basicGridStore.dispatch(new fromBasicDataGridActions.GetMoreData(PayMarketAssociationType.Structures));
     }
   }
 
   private initGrid(): void {
-    this.store.dispatch(new fromBasicDataGridActions.InitGrid(
+    this.basicGridStore.dispatch(new fromBasicDataGridActions.InitGrid(
       PayMarketAssociationType.Structures,
       {
         BaseEntity: this.baseEntity,
@@ -96,6 +96,6 @@ export class StructuresComponent implements OnInit, OnChanges, OnDestroy {
 
   private updateFilters(companyPaymarketId: number): void {
     const filters: DataViewFilter[] = PayMarketAssociationsHelper.getPayMarketFilters('CompanyStructures_RangeGroup', companyPaymarketId);
-    this.store.dispatch(new fromBasicDataGridActions.UpdateFilters(PayMarketAssociationType.Structures, filters));
+    this.basicGridStore.dispatch(new fromBasicDataGridActions.UpdateFilters(PayMarketAssociationType.Structures, filters));
   }
 }

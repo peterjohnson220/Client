@@ -1,0 +1,24 @@
+.note-container {
+  color: #4087A4;
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: #D9EDF7;
+  margin-bottom: 1rem;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.quick-price-history-grid {
+  height: 400px;
+}
+
+.quick-price-history-grid ::ng-deep kendo-grid {
+  max-height: none !important;
+  height: 100%;
+}
+
+.close-note-btn {
+  cursor: pointer;
+}

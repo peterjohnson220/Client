@@ -29,7 +29,7 @@ import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/servic
 
 
 import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
-  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent } from './containers';
+  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent } from './containers';
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
   SummaryCardEffects } from './effects';
 import { reducers } from './reducers';
@@ -37,6 +37,7 @@ import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddP
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
+import { BasicDataGridModule } from 'libs/features/basic-data-grid';
 
 @NgModule({
     imports: [
@@ -76,7 +77,8 @@ import * as fromFaIcons from './fa-icons';
         PfCommonUIModule,
         PfFormsModule,
         PfExchangeExplorerModule,
-        GuidelinesBadgeModule
+        GuidelinesBadgeModule,
+        BasicDataGridModule
     ],
   declarations: [
     // Components
@@ -98,7 +100,8 @@ import * as fromFaIcons from './fa-icons';
     SummaryCardComponent,
     PaymarketCardsComponent,
     PeerDataCardComponent,
-    ParentDataCardComponent
+    ParentDataCardComponent,
+    QuickPriceHistoryComponent
   ],
   providers: [
     WindowRef,

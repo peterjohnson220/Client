@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { BasicDataViewField, PagingOptions, DataViewFilter } from 'libs/models/payfactors-api';
-
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 
 import * as fromBasicDataGridAction from '../actions/basic-data-grid.actions';
@@ -16,6 +16,11 @@ export interface BasicGridState {
   distinct: boolean;
   data: AsyncStateObj<any[]>;
   loadingMoreData: boolean;
+  hasMoreDataOnServer: boolean;
+  defaultSort: SortDescriptor;
+  sortDescriptors: SortDescriptor[];
+  totalCount: AsyncStateObj<number>;
+  isInitialized: boolean;
 }
 
 export interface BasicGridStateStore {
@@ -40,9 +45,14 @@ export function reducer(state = initialState, action: fromBasicDataGridAction.Ac
             filters: action.configuration.Filters,
             applyDefaultFilters: action.configuration.ApplyDefaultFilters,
             distinct: action.configuration.Distinct,
-            pagingOptions: { From: 0, Count: 25 },
+            pagingOptions: action.configuration?.PagingOptions ?? { From: 0, Count: 25 },
             data: generateDefaultAsyncStateObj<any[]>([]),
-            loadingMoreData: false
+            loadingMoreData: false,
+            hasMoreDataOnServer: false,
+            defaultSort: action.configuration.DefaultSort,
+            sortDescriptors: [action.configuration.DefaultSort],
+            totalCount: generateDefaultAsyncStateObj<number>(null),
+            isInitialized: true
           }
         }
       };
@@ -55,6 +65,29 @@ export function reducer(state = initialState, action: fromBasicDataGridAction.Ac
           [action.gridId]: {
             ...state.grids[action.gridId],
             filters: action.filters
+          }
+        }
+      };
+    }
+    case fromBasicDataGridAction.UPDATE_SORT: {
+      const fieldsClone: BasicDataViewField[] = cloneDeep(state.grids[action.gridId].fields);
+      const updatedSort: SortDescriptor = action.sort
+        ? action.sort
+        : state.grids[action.gridId].defaultSort ? state.grids[action.gridId].defaultSort : null;
+      resetSort(fieldsClone);
+      if (updatedSort) {
+        const fieldToUpdate: BasicDataViewField = fieldsClone.find(f => f.KendoGridField === updatedSort.field);
+        fieldToUpdate.SortOrder = 0;
+        fieldToUpdate.SortDirection = updatedSort.dir;
+      }
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.gridId]: {
+            ...state.grids[action.gridId],
+            fields: fieldsClone,
+            sortDescriptors: [updatedSort]
           }
         }
       };
@@ -84,7 +117,8 @@ export function reducer(state = initialState, action: fromBasicDataGridAction.Ac
           ...state.grids,
           [action.gridId]: {
             ...state.grids[action.gridId],
-            data: dataClone
+            data: dataClone,
+            hasMoreDataOnServer: action.data.length === state.grids[action.gridId].pagingOptions.Count
           }
         }
       };
@@ -130,7 +164,53 @@ export function reducer(state = initialState, action: fromBasicDataGridAction.Ac
           [action.gridId]: {
             ...state.grids[action.gridId],
             data: dataClone,
-            loadingMoreData: false
+            loadingMoreData: false,
+            hasMoreDataOnServer: action.data.length < state.grids[action.gridId].totalCount?.obj
+          }
+        }
+      };
+    }
+    case fromBasicDataGridAction.GET_COUNT: {
+      const totalCountClone: AsyncStateObj<number> = cloneDeep(state.grids[action.gridId].totalCount);
+      totalCountClone.loading = true;
+      totalCountClone.loadingError = false;
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.gridId]: {
+            ...state.grids[action.gridId],
+            totalCount: totalCountClone
+          }
+        }
+      };
+    }
+    case fromBasicDataGridAction.GET_COUNT_ERROR: {
+      const totalCountClone: AsyncStateObj<number> = cloneDeep(state.grids[action.gridId].totalCount);
+      totalCountClone.loading = false;
+      totalCountClone.loadingError = true;
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.gridId]: {
+            ...state.grids[action.gridId],
+            totalCount: totalCountClone
+          }
+        }
+      };
+    }
+    case fromBasicDataGridAction.GET_COUNT_SUCCESS: {
+      const totalCountClone: AsyncStateObj<number> = cloneDeep(state.grids[action.gridId].totalCount);
+      totalCountClone.loading = false;
+      totalCountClone.obj = action.payload;
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.gridId]: {
+            ...state.grids[action.gridId],
+            totalCount: totalCountClone
           }
         }
       };
@@ -150,3 +230,14 @@ export const getPagingOptions = (state: BasicGridStateStore, gridId: string) => 
 export const getDistinct = (state: BasicGridStateStore, gridId: string) => state.grids[gridId]?.distinct;
 export const getApplyDefaultFilters = (state: BasicGridStateStore, gridId: string) => state.grids[gridId]?.applyDefaultFilters;
 export const getLoadingMoreData = (state: BasicGridStateStore, gridId: string) => state.grids[gridId]?.loadingMoreData;
+export const getHasMoreDataOnServer = (state: BasicGridStateStore, gridId: string) => state.grids[gridId]?.hasMoreDataOnServer;
+export const getSortDescriptors = (state: BasicGridStateStore, gridId: string) => state.grids[gridId]?.sortDescriptors;
+export const getTotalCount = (state: BasicGridStateStore, gridId: string) => state.grids[gridId]?.totalCount;
+export const getIsInitialized = (state: BasicGridStateStore, gridId: string) => state.grids[gridId]?.isInitialized;
+
+export function resetSort(fields: BasicDataViewField[]): void {
+  fields.forEach(f => {
+    f.SortOrder = null;
+    f.SortDirection = null;
+  });
+}

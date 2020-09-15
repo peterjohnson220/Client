@@ -1,0 +1,66 @@
+<div class="data-view-grid" *ngIf="(dataAsync$ | async) as dataAsync">
+  <div class="loading-message" *ngIf="dataAsync.loading">
+    <pf-loading-indicator></pf-loading-indicator> Loading data. Please wait ...
+  </div>
+  <div class="loading-message loading-error" *ngIf="dataAsync.loadingError">
+    <fa-icon icon="exclamation-triangle" class="icon"></fa-icon> Error loading data.
+  </div>
+  <div class="grid-container d-flex flex-column">
+    <kendo-grid
+      *ngIf="!dataAsync.loading"
+      [kendoGridBinding]="dataAsync.obj"
+      [resizable]="true"
+      [sortable]="settings?.Sortable"
+      [sort]="sortDescriptor$ | async"
+      (scrollBottom)="handleScrollBottom()"
+      (sortChange)="handleSortChange($event)">
+      <kendo-grid-column *ngFor="let field of (fields$ | async); trackBy: trackByFn"
+                         [field]="field.KendoGridField"
+                         [title]="field.DisplayName"
+                         [headerStyle]="{'font-size': '14px', 'font-weight': '300'}"
+                         [headerClass]="field.DataType === dataViewFieldDataType.Int || field.DataType === dataViewFieldDataType.Float ? {'text-align-right': true} : {}"
+                         [width]="field?.Width ? field.Width : 150">
+
+        <ng-template kendoGridHeaderTemplate let-column>
+          <span pfEllipsisActive class="ellipsis-text k-column-title">
+            {{column.title}}
+          </span>
+        </ng-template>
+
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div pfEllipsisActive class="ellipsis-text"
+               [class.text-align-right]="field.DataType === dataViewFieldDataType.Int || field.DataType === dataViewFieldDataType.Float">
+
+            <ng-container *ngIf="!hasFieldTemplate(field.KendoGridField); else formattedCell">
+              <span [ngSwitch]="true" *ngIf="dataItem[field.KendoGridField] !== null;else blankCellTemplate">
+                <ng-container *ngSwitchCase="field.DataType === dataViewFieldDataType.DateTime">
+                  {{dataItem[field.KendoGridField] | date : 'MM/dd/yyyy'}}
+                </ng-container>
+                <ng-template ngSwitchDefault>
+                  {{dataItem[field.KendoGridField]}}
+                </ng-template>
+              </span>
+            </ng-container>
+
+          </div>
+
+          <ng-template #formattedCell>
+            <ng-container [ngTemplateOutlet]="settings.FieldTemplates[field.KendoGridField].Template"
+                          [ngTemplateOutletContext]="{dataItem:dataItem}">
+            </ng-container>
+          </ng-template>
+          
+        </ng-template>
+
+        <ng-template #blankCellTemplate>
+          <div class="empty-row">N/A</div>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  </div>
+  <div class="d-flex loading-more-container" *ngIf="loadingMoreData$ | async">
+    <div class="loading-more-row">
+      <pf-loading-indicator></pf-loading-indicator> Loading more results...
+    </div>
+  </div>
+</div>

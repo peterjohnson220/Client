@@ -10,6 +10,7 @@ import { WindowRef } from 'libs/core/services';
 import { ComphubApiService } from 'libs/data/payfactors-api';
 import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest } from 'libs/models/payfactors-api';
 import * as fromNavigationActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
+import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
@@ -19,6 +20,7 @@ import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import { ComphubPages } from '../data';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromComphubMainReducer from '../reducers';
+import { QuickPriceHistoryContext } from '../models';
 
 @Injectable()
 export class SummaryCardEffects {
@@ -36,7 +38,8 @@ export class SummaryCardEffects {
         new fromJobsCardActions.ClearSelectedJob(),
         new fromMarketsCardActions.SetToDefaultPaymarket(),
         new fromDataCardActions.ClearSelectedJobData(),
-        new fromSummaryCardActions.ResetCreateProjectStatus()
+        new fromSummaryCardActions.ResetCreateProjectStatus(),
+        new fromBasicDataGridActions.GetCount(QuickPriceHistoryContext.gridId)
       ])
     );
 

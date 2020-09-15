@@ -125,6 +125,14 @@
   </ng-container>
 
   <ng-container custom-actions>
+    <ng-container *ngIf="(pricedJobsCount$ | async) as pricedJobsCountAsync">
+      <span *ngIf="!pricedJobsCountAsync.loading && pricedJobsCountAsync.obj > 0"
+            class="priced-jobs-btn"
+            (click)="openQuickPriceHistoryModal()">
+        {{pricedJobsCountAsync.obj}} Job<span *ngIf="pricedJobsCountAsync.obj > 1">s</span> Priced
+      </span>
+    </ng-container>
+
     <div class="smb-limit-disabling-message" *ngIf="(jobPricingBlocked$ | async)
     && (countryDataSetsLoaded$ | async)
     && (userContext$ | async)?.CompanySystemUserGroupsGroupName === systemUserGroupNames.SmallBusiness">
@@ -141,3 +149,5 @@
   </ng-container>
 
 </pf-card-layout>
+
+<pf-quick-price-history></pf-quick-price-history>
