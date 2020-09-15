@@ -4,11 +4,9 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
   HostListener
 } from '@angular/core';
@@ -41,7 +39,7 @@ Quill.register(font, true);
   styleUrls: ['./trs-rich-text-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy {
+export class TrsRichTextControlComponent implements OnInit, OnDestroy {
   @ViewChild('richText', { static: false }) richText: any;
 
   @Input() controlData: RichTextControl;
@@ -100,7 +98,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   };
 
   get richTextNode(): HTMLElement {
-    return this.richText.elementRef.nativeElement;
+    return this.richText?.elementRef?.nativeElement;
   }
 
   // quill mention requires options with a lower case `value`
@@ -133,15 +131,6 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     this.setupContentChangedSubscription();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // Get the F outta here if in print mode
-    if (this.mode === StatementModeEnum.Print) { return; }
-
-    if (changes.mode || changes.employeeRewardsData) {
-      this.bindEmployeeData();
-    }
-  }
-
   ngOnDestroy() {
     if (this.onContentChangedSubscription) {
       this.onContentChangedSubscription.unsubscribe();
@@ -168,10 +157,6 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     // get a handle to quill and the quill mention container that holds the data fields
     this.quillApi = quill;
     this.quillMentionContainer = quill.getModule('mention').mentionContainer;
-
-    if (this.mode === StatementModeEnum.Print && this.employeeRewardsData) {
-      this.bindEmployeeData();
-    }
   }
 
   onContentChanged(quillContentChange: any) {
@@ -223,28 +208,6 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     this.quillMentionContainer.scrollTop = 0;
   }
 
-  // This binding method is for the Quill rich text editor, readonly copy of bound html should use bindEmployeeDataHtml
-  bindEmployeeData(): void {
-    if (!this.quillApi) { return; }
-
-    // loop through each op, aka a quill instruction to insert a chunk of text
-    const delta = this.quillApi.editor.delta;
-    delta.ops.forEach((op: { insert: any }) => {
-      const mention = op.insert.mention;
-      // if there's a mention attr it's a datafield, so adjust the displayed value according to the mode to show real data or a placeholder
-      if (mention) {
-        mention.value = (this.mode === StatementModeEnum.Edit) ? this.getDataFieldPlaceholderText(mention.id) : this.getFormattedDataFieldValue(mention.id);
-      }
-    });
-
-    this.quillApi.setContents(delta.ops);
-
-    // in preview mode hide the placeholder by setting to an empty string since we don't want to see edit instructions when the control is not editable
-    const newEditorPlaceholderText = (this.mode === StatementModeEnum.Edit) ? this.editorPlaceholderText : '';
-    this.quillApi.container.firstChild.setAttribute('data-placeholder', newEditorPlaceholderText);
-  }
-
-  // This method is used in print view when Quill editor is not rendered
   bindEmployeeDataHtml(): SafeHtml {
     const $ = cheerio.load('<div class=\'ql-editor\'>' + this.htmlContent + '</div>');
     const spans = $('.ql-editor span').toArray();
@@ -291,7 +254,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     if (this.mode === StatementModeEnum.Print) { return; }
 
     // focus the editor if the mousedown target is the quill editor
-    if (this.richTextNode.contains(event.target as HTMLElement)) {
+    if (this.richTextNode?.contains(event.target as HTMLElement)) {
       this.isFocused = true;
     }
     this.lastMouseDownElement = event.target as HTMLElement;
@@ -303,7 +266,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     if (this.mode === StatementModeEnum.Print) { return; }
 
     // bail if the mousedown target is the quill editor, since clicking + dragging + releasing outside should maintain focus
-    if (this.richTextNode.contains(this.lastMouseDownElement)) {
+    if (this.richTextNode?.contains(this.lastMouseDownElement)) {
       return;
     }
     this.isFocused = false;
