@@ -13,7 +13,7 @@ import { Permissions } from 'libs/constants';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company';
 import { MODIFY_PRICINGS } from 'libs/features/multi-match/constants';
 import {
-    ActionBarConfig, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig
+  ActionBarConfig, getDefaultActionBarConfig, getDefaultGridRowActionsConfig, GridRowActionsConfig, GridConfig
 } from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
@@ -47,7 +47,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   filteredStructureGradeNameOptions: any;
   selectedJobIds: number[] = [];
   selectedPricingIds: number[] = [];
-  selectedJobPayMarketCombos: string[];
+  selectedUnpricedPaymarkets: any[] = [];
 
   jobStatusField: ViewField;
   payMarketField: ViewField;
@@ -56,8 +56,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedStructureGrade: any;
 
   selectedKeysSubscription: Subscription;
-  selectedPricingIdSubscription: Subscription;
-  selectedJobPayMarketSubscription: Subscription;
+  selectedPaymarketsSubscription: Subscription;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
   structureGradeNameSubscription: Subscription;
@@ -89,7 +88,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     field: 'CompanyJobs_Job_Title'
   }];
 
-  disableExportPopover = true;
   selectedJobPricingCount = 0;
   enablePageToggle = false;
 
@@ -179,20 +177,18 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedJobIds = sk || [];
     });
 
-    this.selectedPricingIdSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.PricingDetails).subscribe(pid => {
-      this.selectedPricingIds = pid || [];
-
-      if (this.selectedPricingIds.length) {
-        this.disableExportPopover = false;
+    this.selectedPaymarketsSubscription = this.store.select(fromPfDataGridReducer.getSelectedData, PageViewIds.PayMarkets).subscribe(data => {
+      if (data) {
+        this.selectedPricingIds = data
+          .filter(d => d.CompanyJobs_Pricings_CompanyJobPricing_ID)
+          .map(d => d.CompanyJobs_Pricings_CompanyJobPricing_ID);
+        this.selectedUnpricedPaymarkets = data
+          .filter(d => !d.CompanyJobs_Pricings_CompanyJobPricing_ID);
       } else {
-        this.disableExportPopover = !(this.selectedJobPricingCount > 0);
+        this.selectedPricingIds = [];
+        this.selectedUnpricedPaymarkets = [];
       }
     });
-
-    this.selectedJobPayMarketSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, PageViewIds.NotPricedPayMarkets)
-      .subscribe(jpm => {
-        this.selectedJobPayMarketCombos = jpm || [];
-      });
 
     this.gridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, this.pageViewId).subscribe(fields => {
       if (fields) {
@@ -210,12 +206,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       if (data) {
         const pricingCount = data.map(d => d['CompanyJobs_Priced']);
         this.selectedJobPricingCount = pricingCount.reduce((a, b) => a + b, 0);
-
-        if (this.selectedJobPricingCount > 0) {
-          this.disableExportPopover = false;
-        } else {
-          this.disableExportPopover = !(this.selectedPricingIds.length > 0);
-        }
       }
     });
 
@@ -245,8 +235,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG_SUCCESS))
       .subscribe((action: fromPfDataGridActions.LoadViewConfigSuccess) => {
         if (action.pageViewId === PageViewIds.Jobs) {
-          this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails));
-          this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.NotPricedPayMarkets));
+          this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets));
         }
       });
 
@@ -295,9 +284,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   clearSelections() {
-    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails));
+    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets));
     this.store.dispatch(new fromPfDataGridActions.ClearSelections(this.pageViewId));
-    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.NotPricedPayMarkets));
   }
 
   openCreateProjectModal() {
@@ -311,14 +299,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const payload: CreateProjectRequest = {
       JobIds: this.selectedJobIds,
       PricingIds: this.selectedPricingIds,
-      JobPayMarketSelections: this.selectedJobPayMarketCombos.map(jpm => {
-        const jobId = parseInt(jpm.split('_')[0], 10);
-        const payMarketId = parseInt(jpm.split('_')[1], 10);
-        return {
-          CompanyJobId: jobId,
-          CompanyPayMarketId: payMarketId
-        };
-      })
+      JobPayMarketSelections: this.selectedUnpricedPaymarkets.map(data => ({
+        CompanyJobId: data.CompanyJobs_CompanyJob_ID,
+        CompanyPayMarketId: data.CompanyPayMarkets_CompanyPayMarket_ID
+      }))
     };
     this.store.dispatch(new fromJobsPageActions.CreatingProject(payload));
     this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
@@ -355,11 +339,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.selectedKeysSubscription.unsubscribe();
-    this.selectedPricingIdSubscription.unsubscribe();
+    this.selectedPaymarketsSubscription.unsubscribe();
     this.gridFieldSubscription.unsubscribe();
     this.companyPayMarketsSubscription.unsubscribe();
     this.structureGradeNameSubscription.unsubscribe();
-    this.selectedJobPayMarketSubscription.unsubscribe();
     this.selectedJobDataSubscription.unsubscribe();
     this.companySettingsSubscription.unsubscribe();
     this.changingJobStatusSuccessSubscription.unsubscribe();
@@ -462,7 +445,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   matchModalSaved() {
-    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails));
-    this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PricingDetails));
+    this.store.dispatch(new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets));
+    this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets));
   }
 }

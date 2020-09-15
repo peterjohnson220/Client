@@ -85,7 +85,7 @@ export class JobsPageEffects {
         mergeMap(() =>
           [
             new fromJobsPageActions.ChangingJobStatusSuccess(),
-            new fromPfDataGridActions.ClearSelections(PageViewIds.PricingDetails),
+            new fromPfDataGridActions.ClearSelections(PageViewIds.PayMarkets),
             new fromPfDataGridActions.ClearSelections(PageViewIds.Jobs),
             new fromPfDataGridActions.LoadData(PageViewIds.Jobs),
             new fromPfDataGridActions.CloseSplitView(PageViewIds.Jobs),
@@ -118,7 +118,7 @@ export class JobsPageEffects {
         mergeMap(() => [
           new fromJobsPageActions.DeletingPricingSuccess(),
           new fromPfDataGridActions.LoadData(PageViewIds.PricingHistory),
-          new fromPfDataGridActions.LoadData(PageViewIds.PricingDetails)
+          new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets)
         ]),
         catchError(error => of(new fromJobsPageActions.DeletingPricingError(error))),
       );
@@ -131,21 +131,21 @@ export class JobsPageEffects {
     mergeMap((a: fromJobsPageActions.DeletingPricingMatch) =>
       of(a).pipe(
         withLatestFrom(
-          this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, PageViewIds.PricingDetails)),
-          this.store.pipe(select(fromPfDataGridReducer.getFields, PageViewIds.PricingDetails)),
-          this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, PageViewIds.PricingDetails)),
-          this.store.pipe(select(fromPfDataGridReducer.getData, PageViewIds.PricingDetails)),
+          this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, PageViewIds.PayMarkets)),
+          this.store.pipe(select(fromPfDataGridReducer.getFields, PageViewIds.PayMarkets)),
+          this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, PageViewIds.PayMarkets)),
+          this.store.pipe(select(fromPfDataGridReducer.getData, PageViewIds.PayMarkets)),
           (action: fromJobsPageActions.DeletingPricingMatch,
             baseEntity: DataViewEntity,
             fields: ViewField[],
             sortDescriptor: SortDescriptor[],
-            currentPricingData: GridDataResult
-          ) => ({ action, baseEntity, fields, sortDescriptor, currentPricingData })
+            currentPaymarketsData: GridDataResult
+          ) => ({ action, baseEntity, fields, sortDescriptor, currentPaymarketsData })
         ))),
     switchMap((data) =>
       this.pricingApiService.deletePricingMatch(data.action.pricingMatchId)
         .pipe(concatMap((modifiedPricingsIds) => {
-          const idsForModifiedVisiblePricings = data.currentPricingData.data
+          const idsForModifiedVisiblePricings = data.currentPaymarketsData.data
             .filter(x => modifiedPricingsIds.includes(x.CompanyJobs_Pricings_CompanyJobPricing_ID))
             .map(x => x.CompanyJobs_Pricings_CompanyJobPricing_ID);
           return this.getModifiedDataRows(
@@ -154,9 +154,9 @@ export class JobsPageEffects {
         }))
         .pipe(
           mergeMap((updatedPricingData) => {
-            const updatePricingsActions = this.getActionsToUpdateRows(updatedPricingData, data.currentPricingData,
-              'CompanyJobs_Pricings_CompanyJobPricing_ID', PageViewIds.PricingDetails);
-            const updateMatchesActions = this.getActionsToReloadPricingMatches(updatedPricingData, data.currentPricingData);
+            const updatePricingsActions = this.getActionsToUpdateRows(updatedPricingData, data.currentPaymarketsData,
+              'CompanyJobs_Pricings_CompanyJobPricing_ID', PageViewIds.PayMarkets);
+            const updateMatchesActions = this.getActionsToReloadPricingMatches(updatedPricingData, data.currentPaymarketsData);
 
             const actions = updatePricingsActions.concat(updateMatchesActions);
             actions.push(new fromJobsPageActions.DeletingPricingMatchSuccess());
@@ -175,17 +175,17 @@ export class JobsPageEffects {
         of(a).pipe(
           withLatestFrom(
             this.store.pipe(select(fromPfDataGridReducer.getGrid, a.matchesGridPageViewId)),
-            this.store.pipe(select(fromPfDataGridReducer.getGrid, PageViewIds.PricingDetails)),
+            this.store.pipe(select(fromPfDataGridReducer.getGrid, PageViewIds.PayMarkets)),
             (action: fromJobsPageActions.UpdatingPricingMatch,
               modifiedMatchGridState: DataGridState,
-              pricingGridState: DataGridState
-            ) => ({ action, modifiedMatchGridState, pricingGridState })
+              paymarketsGridState: DataGridState
+            ) => ({ action, modifiedMatchGridState, paymarketsGridState })
           ))),
       switchMap((data) =>
-        this.getUpdatePricingStrategy(data.action, data.modifiedMatchGridState, data.pricingGridState)
+        this.getUpdatePricingStrategy(data.action, data.modifiedMatchGridState, data.paymarketsGridState)
           .pipe(
             mergeMap((updatedRowData) => {
-              return this.getUpdatePricingActions(data.action, data.modifiedMatchGridState, data.pricingGridState, updatedRowData);
+              return this.getUpdatePricingActions(data.action, data.modifiedMatchGridState, data.paymarketsGridState, updatedRowData);
             }),
             catchError(error => of(new fromJobsPageActions.UpdatingPricingMatchError(error)))
           )
@@ -301,20 +301,20 @@ export class JobsPageEffects {
   private getUpdatePricingStrategy(
     action: fromJobsPageActions.UpdatingPricingMatch,
     modifiedMatchGridState: DataGridState,
-    pricingGridState: DataGridState): Observable<[any, any]> {
+    paymarketsGridState: DataGridState): Observable<[any, any]> {
     return this.pricingApiService.updatePricingMatch(action.request)
       .pipe(concatMap((modifiedPricingsIds) => {
-        const idsForModifiedVisiblePricings = pricingGridState.data.data
+        const idsForModifiedVisiblePricings = paymarketsGridState.data.data
           .filter(x => modifiedPricingsIds.includes(x.CompanyJobs_Pricings_CompanyJobPricing_ID))
           .map(x => x.CompanyJobs_Pricings_CompanyJobPricing_ID);
-        return this.getDataForModifiedRows(action, modifiedMatchGridState, pricingGridState, modifiedPricingsIds, idsForModifiedVisiblePricings);
+        return this.getDataForModifiedRows(action, modifiedMatchGridState, paymarketsGridState, modifiedPricingsIds, idsForModifiedVisiblePricings);
       }));
   }
 
   private getDataForModifiedRows(
     action: fromJobsPageActions.UpdatingPricingMatch,
     modifiedMatchGridState: DataGridState,
-    pricingGridState: DataGridState,
+    paymarketsGridState: DataGridState,
     modifiedPricingsIds: any,
     idsForModifiedVisiblePricings: any[]): Observable<[any, any]> {
 
@@ -322,14 +322,14 @@ export class JobsPageEffects {
       const result = forkJoin(
         modifiedPricingsIds?.length
           ? this.getModifiedDataRows(idsForModifiedVisiblePricings, 'CompanyJobs_Pricings', 'CompanyJobPricing_ID',
-            pricingGridState.baseEntity.Id, pricingGridState.fields, pricingGridState.sortDescriptor)
+          paymarketsGridState.baseEntity.Id, paymarketsGridState.fields, paymarketsGridState.sortDescriptor)
           : of([]),
         of(modifiedPricingsIds));
       return result;
     } else {
       return forkJoin(
         this.getModifiedDataRows(idsForModifiedVisiblePricings, 'CompanyJobs_Pricings', 'CompanyJobPricing_ID',
-          pricingGridState.baseEntity.Id, pricingGridState.fields, pricingGridState.sortDescriptor),
+        paymarketsGridState.baseEntity.Id, paymarketsGridState.fields, paymarketsGridState.sortDescriptor),
         this.getModifiedDataRows([action.request.MatchId], 'CompanyJobs_PricingsMatches', 'CompanyJobPricingMatch_ID',
           modifiedMatchGridState.baseEntity.Id, modifiedMatchGridState.fields, modifiedMatchGridState.sortDescriptor)
       );
@@ -363,19 +363,19 @@ export class JobsPageEffects {
   //#region UpdatePricing Actions to Dispatch
 
   private getUpdatePricingActions(action: fromJobsPageActions.UpdatingPricingMatch, modifiedMatchGridState: DataGridState,
-    pricingGridState: DataGridState, updatedRowData: any): Action[] {
+    paymarketsGridState: DataGridState, updatedRowData: any): Action[] {
 
     if (action.request.PricingUpdateStrategy === PricingUpdateStrategy.LinkedSlotted) {
-      return this.getUpdatePricingLinkedAndSlottedActions(pricingGridState, updatedRowData);
+      return this.getUpdatePricingLinkedAndSlottedActions(paymarketsGridState, updatedRowData);
     } else {
-      return this.getUpdatePricingParentActions(action, modifiedMatchGridState, pricingGridState, updatedRowData);
+      return this.getUpdatePricingParentActions(action, modifiedMatchGridState, paymarketsGridState, updatedRowData);
     }
   }
 
   private getUpdatePricingParentActions(
     action: fromJobsPageActions.UpdatingPricingMatch,
     modifiedMatchGridState: DataGridState,
-    pricingGridState: DataGridState, updatedRowData: any) {
+    paymarketsGridState: DataGridState, updatedRowData: any) {
 
     const excludedParentPricingId = action.request.PricingUpdateStrategy === PricingUpdateStrategy.LinkedSlotted
       ? null
@@ -385,10 +385,10 @@ export class JobsPageEffects {
     const updatedMatchesData = updatedRowData[1];
     const updateMatchAction = this.getActionsToUpdateRows(updatedMatchesData, modifiedMatchGridState.data,
       'CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID', action.matchesGridPageViewId, true);
-    const updatePricingsActions = this.getActionsToUpdateRows(updatedPricingData, pricingGridState.data,
-      'CompanyJobs_Pricings_CompanyJobPricing_ID', PageViewIds.PricingDetails);
+    const updatePricingsActions = this.getActionsToUpdateRows(updatedPricingData, paymarketsGridState.data,
+      'CompanyJobs_Pricings_CompanyJobPricing_ID', PageViewIds.PayMarkets);
     const reloadPricingMatchesGridsActions = this.getActionsToReloadPricingMatches(updatedPricingData,
-      pricingGridState.data, excludedParentPricingId);
+      paymarketsGridState.data, excludedParentPricingId);
 
     const actions = updateMatchAction.concat(updateMatchAction, updatePricingsActions, reloadPricingMatchesGridsActions);
     actions.push(new fromJobsPageActions.UpdatingPricingMatchSuccess());
@@ -404,16 +404,16 @@ export class JobsPageEffects {
     return actions;
   }
 
-  private getUpdatePricingLinkedAndSlottedActions(pricingGridState: DataGridState, modifiedRowsData: any) {
+  private getUpdatePricingLinkedAndSlottedActions(paymarketsGridState: DataGridState, modifiedRowsData: any) {
 
     const updatedPricingData = modifiedRowsData[0];
     const modifiedPricingsIds = modifiedRowsData[1];
 
     let actions = [];
     if (modifiedPricingsIds?.length) {
-      const updatePricingsActions = this.getActionsToUpdateRows(updatedPricingData, pricingGridState.data,
-        'CompanyJobs_Pricings_CompanyJobPricing_ID', PageViewIds.PricingDetails);
-      const reloadPricingMatchesGridsActions = this.getActionsToReloadPricingMatches(updatedPricingData, pricingGridState.data);
+      const updatePricingsActions = this.getActionsToUpdateRows(updatedPricingData, paymarketsGridState.data,
+        'CompanyJobs_Pricings_CompanyJobPricing_ID', PageViewIds.PayMarkets);
+      const reloadPricingMatchesGridsActions = this.getActionsToReloadPricingMatches(updatedPricingData, paymarketsGridState.data);
       actions = actions.concat(updatePricingsActions, reloadPricingMatchesGridsActions);
     }
 
@@ -437,11 +437,11 @@ export class JobsPageEffects {
     return actions;
   }
 
-  private getActionsToReloadPricingMatches(updatedPricingData: any[], currentPricingData: GridDataResult, excludeParentPricingId: number = null): any[] {
+  private getActionsToReloadPricingMatches(updatedPricingData: any[], currentPaymarketsData: GridDataResult, excludeParentPricingId: number = null): any[] {
     const actions = [];
     updatedPricingData.forEach(modifiedPricing => {
       if (modifiedPricing.CompanyJobs_Pricings_CompanyJobPricing_ID !== excludeParentPricingId) {
-        const pricingRowIndex = currentPricingData.data.findIndex(
+        const pricingRowIndex = currentPaymarketsData.data.findIndex(
           o => o.CompanyJobs_Pricings_CompanyJobPricing_ID === modifiedPricing.CompanyJobs_Pricings_CompanyJobPricing_ID);
         actions.push(new fromPfDataGridActions.LoadData(`${PageViewIds.PricingMatches}_${modifiedPricing.CompanyJobs_Pricings_CompanyJobPricing_ID}`));
       }

@@ -29,7 +29,8 @@ import {
   ContentScrollEvent,
   ColumnResizeArgs
 } from '@progress/kendo-angular-grid';
-import * as cloneDeep from 'lodash.clonedeep';
+
+import cloneDeep from 'lodash/cloneDeep';
 
 
 import { ViewField, PagingOptions, DataViewType, DataViewFieldDataType } from 'libs/models/payfactors-api';
@@ -72,7 +73,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() autoFitColumnsToHeader = false;
   @Input() pageable = true;
   @Input() theme: 'default' | 'next-gen' = 'default';
-  @Input() customSortOptions: (sortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
+  @Input() customSortOptions: (previousSortDescriptor: SortDescriptor[], currentSortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
   @Input() modifiedKey: string = null;
   @Input() resetWidthForSplitView = false;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
@@ -285,13 +286,13 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   // TODO: Kendo sorts the grids asc -> desc -> none in that order, rather than dir -> !dir -> none regardless of direction
   // If the default sort for a grid is to be ordered desc, there would be no way to order that column asc so we have to make the addt'l check
   // Achieving the 2nd sort direction logic requires additional effort
-  onSortChange(sortDescriptor: SortDescriptor[]): void {
-    let descriptorToDispatch = !sortDescriptor[0].dir ?
+  onSortChange(newSortDescriptor: SortDescriptor[]): void {
+    let descriptorToDispatch = !newSortDescriptor[0].dir ?
       this.defaultSortDescriptor :
-      sortDescriptor;
+      newSortDescriptor;
 
     if (this.customSortOptions != null) {
-      descriptorToDispatch = this.customSortOptions(descriptorToDispatch);
+      descriptorToDispatch = this.customSortOptions(this.sortDescriptor, descriptorToDispatch);
     }
 
     this.store.dispatch(new fromActions.UpdateSortDescriptor(this.pageViewId, descriptorToDispatch));

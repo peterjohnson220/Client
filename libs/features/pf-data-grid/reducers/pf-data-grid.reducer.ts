@@ -19,6 +19,7 @@ export interface DataGridState {
   loading: boolean;
   baseEntity: DataViewEntity;
   selectionField: string;
+  linkGroups: [];
   selectionFieldExistsOnBase: boolean;
   fields: ViewField[];
   groupedFields: any[];
@@ -78,6 +79,7 @@ export const getState = (state: DataGridStoreState) => state;
 export const getGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId];
 export const getLoading = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].loading : null;
 export const getBaseEntity = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].baseEntity : null;
+export const getLinkGroups = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].linkGroups : null;
 export const getSelectionField = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectionField : null;
 export const getFieldsExcludedForExport = (state: DataGridStoreState, pageViewId: string) =>
   state.grids[pageViewId] ? state.grids[pageViewId].fieldsExcludedFromExport : [];
@@ -282,6 +284,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.UPDATE_LINK_GROUPS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            linkGroups: action.linkGroups
+          }
+        }
+      };
     case fromPfGridActions.UPDATE_PAGING_OPTIONS:
       return {
         ...state,
@@ -380,18 +393,18 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
     This action resets all filters prior to applying inbound filters to clear global text box search elements on tab switch/grid change
      */
     case fromPfGridActions.UPDATE_INBOUND_FILTERS:
-        return {
-          ...state,
-          grids: {
-            ...state.grids,
-            [action.pageViewId]: {
-              ...state.grids[action.pageViewId],
-              inboundFilters: action.payload,
-              fields: applyInboundFilters(resetAllFilters(state, action.pageViewId), action.payload),
-              expandedRows: []
-            }
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            inboundFilters: action.payload,
+            fields: applyInboundFilters(resetAllFilters(state, action.pageViewId), action.payload),
+            expandedRows: []
           }
-        };
+        }
+      };
     case fromPfGridActions.UPDATE_FILTER:
       const updatedFields = cloneDeep(state.grids[action.pageViewId].fields);
       const updatedField = updatedFields.find(f => f.DataElementId === action.payload.DataElementId);
@@ -416,7 +429,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.CLEAR_FILTER:
-      const clearedFilterFields = cloneDeep(state.grids[action.pageViewId].fields);
+      const clearedFilterFields: ViewField[] = cloneDeep(state.grids[action.pageViewId].fields);
       const clearedFilterField = clearedFilterFields.find(f => f.DataElementId === action.field.DataElementId);
 
       if (clearedFilterField && action.resetOperator) {
@@ -425,6 +438,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
 
       clearedFilterField.FilterValue = null;
       clearedFilterField.FilterValues = null;
+      clearedFilterField.FilterOperator = null;
       const svf = state.grids[action.pageViewId].splitViewFilters.filter(f => f.SourceName !== action.field.SourceName);
       return {
         ...state,
