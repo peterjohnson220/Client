@@ -9,10 +9,10 @@
   [allowDismiss]="!(loading$ | async)"
   [primaryButtonText]="'Save'"
   [primaryButtonTextSubmitting]="(saving$ | async) ? 'Saving' : 'Save'"
-  (onDismiss)="onCancelChanges()"  
+  (onDismiss)="onCancelChanges()"
   (onSubmit)="jobContainer.submit()">
-  
+
   <ng-container basic-content>
-    <pf-job-container #jobContainer></pf-job-container>
+    <pf-job-container #jobContainer [jobId]="jobId"></pf-job-container>
   </ng-container>
 </pf-modal-form>

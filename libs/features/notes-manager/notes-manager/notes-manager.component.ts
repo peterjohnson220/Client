@@ -1,80 +1,44 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
-import { Observable } from 'rxjs';
-
-import { environment } from 'environments/environment';
-
-import { AsyncStateObj } from 'libs/models';
-import { Images } from 'libs/constants';
-import { NotesBase, NotesManagerConfiguration } from 'libs/models/notes';
-import { PfValidators } from 'libs/forms/validators';
+import { AsyncStateObj, NoteRequest } from 'libs/models';
+import { NotesManagerConfiguration } from 'libs/models/notes';
 
 import * as fromNotesManagerReducer from '../reducers';
 import * as fromNotesManagerActions from '../actions';
+import { SaveNotesRequest } from '../../../models/payfactors-api/notes/save-notes-request.model';
 
 @Component({
   selector: 'pf-notes-manager',
   templateUrl: './notes-manager.component.html',
   styleUrls: ['./notes-manager.component.scss']
 })
-export class NotesManagerComponent implements OnChanges {
+export class NotesManagerComponent implements OnInit {
   @Input() notesManagerConfiguration: NotesManagerConfiguration;
+  @Input() display: 'component' | 'modal' = 'modal';
   @Output() cancelChanges = new EventEmitter();
 
   loading$: Observable<boolean>;
-  notes$: Observable<AsyncStateObj<NotesBase[]>>;
-  addingNote$: Observable<AsyncStateObj<boolean>>;
+  savingNotes$: Observable<AsyncStateObj<boolean>>;
 
-  avatarUrl = environment.avatarSource;
-  defaultUserImage = Images.DEFAULT_USER;
+  noteRequestList: NoteRequest[] = [];
 
-  formSubmitted = false;
-  noteForm: FormGroup;
-  get f() { return this.noteForm.controls; }
+  constructor(private store: Store<fromNotesManagerReducer.State>) {}
 
-  constructor(private store: Store<fromNotesManagerReducer.State>, private formBuilder: FormBuilder) {
+  ngOnInit() {
     this.loading$ = this.store.select(fromNotesManagerReducer.getLoading);
-    this.notes$ = this.store.select(fromNotesManagerReducer.getNotes);
-    this.addingNote$ = this.store.select(fromNotesManagerReducer.getAddingNote);
-
-    this.noteForm = this.formBuilder.group({
-      Notes: ['', PfValidators.required]
-    });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.notesManagerConfiguration?.currentValue?.EntityId) {
-      this.resetForm();
-      this.store.dispatch(new fromNotesManagerActions.GetNotes({
-        Entity: changes.notesManagerConfiguration.currentValue.Entity,
-        EntityId: changes.notesManagerConfiguration.currentValue.EntityId
-      }));
-    }
+    this.savingNotes$ = this.store.select(fromNotesManagerReducer.getSavingNotes);
   }
 
   onCancelChanges() {
-    this.resetForm();
-    this.store.dispatch(new fromNotesManagerActions.ResetState());
+    this.store.dispatch(new fromNotesManagerActions.ClearNotes());
     this.cancelChanges.emit();
   }
 
-  addNote() {
-    this.formSubmitted = true;
-    if (this.noteForm.valid) {
-      this.store.dispatch(new fromNotesManagerActions.AddNote({
-        Entity: this.notesManagerConfiguration.Entity,
-        EntityId: this.notesManagerConfiguration.EntityId,
-        Notes: this.f.Notes.value
-      }));
-    }
+  saveNotes() {
+    this.store.dispatch(new fromNotesManagerActions.SaveNotes(this.notesManagerConfiguration.EntityId));
+    this.store.dispatch(new fromNotesManagerActions.ClearNotes());
   }
-
-  resetForm() {
-    this.noteForm.reset();
-    this.formSubmitted = false;
-  }
-
 }

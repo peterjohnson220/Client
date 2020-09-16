@@ -75,7 +75,6 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
         structures: [],
         selectedStructureId: state.structuresList && state.structuresList.length > 0
           ? state.structuresList[0].CompanyStructuresId : state.selectedStructureId
-
       };
     }
     case fromJobManagementActions.SAVE_COMPANY_JOB:

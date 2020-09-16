@@ -1,70 +1,30 @@
-<pf-async-container [loading]="(notes$ | async)?.loading" [fullScreenLoadingMask]="true" [smartLoadingMask]="true"></pf-async-container>
-<pf-modal-form
-  [modalId]="'au-modal-notes-manager'"
-  [title]="notesManagerConfiguration?.ModalTitle"
-  [isOpen$]="notesManagerConfiguration?.ShowModal$"
-  [size]="'lg'"
-  [centered]="false"
-  [showSpinner]="notesManagerConfiguration?.EnableAdd"
-  [showFooter]="true"
-  [showSubmit]="notesManagerConfiguration?.EnableAdd"
-  [submitting]="(addingNote$ | async).saving"
-  [primaryButtonText]="'Save'"
-  [primaryButtonTextSubmitting]="'Saving'"
-  [allowDismiss]="!(loading$ | async)"
-  [secondaryButtonText]="notesManagerConfiguration?.EnableAdd ? 'Cancel' : 'Close'"
-  (onSubmit)="addNote()"
-  (onDismiss)="onCancelChanges()">
+<ng-container [ngSwitch]="display">
+  <ng-container *ngSwitchCase="'component'" [ngTemplateOutlet]="notesManagerContent"></ng-container>
+  <ng-container *ngSwitchCase="'modal'">
+    <pf-modal-form
+      [modalId]="'au-modal-notes-manager'"
+      [title]="notesManagerConfiguration?.ModalTitle"
+      [isOpen$]="notesManagerConfiguration?.ShowModal$"
+      [size]="'lg'"
+      [centered]="false"
+      [showSpinner]="notesManagerConfiguration?.IsEditable"
+      [showFooter]="true"
+      [showSubmit]="notesManagerConfiguration?.IsEditable"
+      [submitting]="(savingNotes$ | async).saving"
+      [primaryButtonText]="'Save'"
+      [primaryButtonTextSubmitting]="'Saving'"
+      [allowDismiss]="!(loading$ | async)"
+      [secondaryButtonText]="notesManagerConfiguration?.IsEditable ? 'Cancel' : 'Close'"
+      (onSubmit)="saveNotes()"
+      (onDismiss)="onCancelChanges()">
 
-  <ng-container basic-content>
-    <pf-async-container [loading]="loading$ | async" [showSpinner]="true">
-      <div class="d-flex">
-        <ng-container [ngTemplateOutlet]="notesManagerConfiguration?.NotesHeader"></ng-container>
-      </div>
-      <hr>
-      <form id="notes-manager-form" *ngIf="notesManagerConfiguration?.EnableAdd" [formGroup]="noteForm">
-        <div class="add-note-text-container p-2">
-          <textarea
-            class="note-text-area form-control"
-            formControlName="Notes"
-            [ngClass]="{ 'is-invalid': !f.Notes.valid && formSubmitted }"
-            [attr.data-qa-id]="'txt-add-notes'"
-            [placeholder]="notesManagerConfiguration?.PlaceholderText"
-            [pfFocus]="true"
-            [pfFocusElementShowing]="notesManagerConfiguration?.ShowModal$ | async"
-            [attr.rows]="5"
-          >
-          </textarea>
-          <span *ngIf="f.Notes.errors?.required" class="invalid-feedback">Please enter a note</span>
-        </div>
-      </form>
-      <div class="note-list-container p-2">
-        <div *ngFor="let note of (notes$ | async)?.obj" class="d-flex">
-          <div>
-            <img style="height: 45px; width: 45px;" class="mr-3"
-             [attr.src]="avatarUrl + (note.User.UserPicture ? note.User.UserPicture : defaultUserImage)">
-          </div>
-          <div class="card mb-3 flex-fill">
-            <div class="card-header d-flex">
-              <span class="mr-auto">{{note.User.FirstName}} {{note.User.LastName}}</span>
-              <span class="align">{{note.CreateDate | date: 'MM/dd/yyyy'}}</span>
-            </div>
-            <div class="card-body">
-              {{note.Notes}}
-            </div>
-          </div>
-        </div>
-      </div>
-    </pf-async-container>
+      <ng-container basic-content>
+        <ng-container [ngTemplateOutlet]="notesManagerContent"></ng-container>
+      </ng-container>
+    </pf-modal-form>
   </ng-container>
-  <ng-container button-container-left>
-    <div class="mr-auto my-auto text-danger pl-3">
-      <strong>
-        <div *ngIf="(notes$ | async)?.loadingError">
-          We encountered a problem loading your notes. Please close the popup window and try again.
-        </div>
-      </strong>
-    </div>
-  </ng-container>
+</ng-container>
 
-</pf-modal-form>
+<ng-template #notesManagerContent>
+  <pf-notes-manager-content [notesManagerConfiguration]="notesManagerConfiguration"></pf-notes-manager-content>
+</ng-template>

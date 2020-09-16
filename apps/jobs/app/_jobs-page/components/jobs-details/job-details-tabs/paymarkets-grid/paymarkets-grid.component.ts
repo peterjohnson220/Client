@@ -1,37 +1,31 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, Input, OnDestroy, OnChanges, SimpleChanges, TemplateRef, OnInit } from '@angular/core';
-import { Subscription, BehaviorSubject, Observable, of, timer, EMPTY } from 'rxjs';
-import { switchMap, debounce } from 'rxjs/operators';
-import { Store, ActionsSubject } from '@ngrx/store';
-import { ofType } from '@ngrx/effects';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
+import { BehaviorSubject, EMPTY, Observable, of, Subscription, timer } from 'rxjs';
+import { debounce, switchMap } from 'rxjs/operators';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { NotesEntities } from 'libs/features/notes-manager/constants';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
-
 import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
-
 import { AsyncStateObj, NotesManagerConfiguration } from 'libs/models';
-import { ViewField, UpdatePricingMatchRequest, PricingUpdateStrategy } from 'libs/models/payfactors-api';
-
+import { PricingUpdateStrategy, UpdatePricingMatchRequest, ViewField } from 'libs/models/payfactors-api';
 import * as fromNotesManagerActions from 'libs/features/notes-manager/actions';
 import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
-
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-
-import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
+import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
 
 import * as fromJobsPageActions from '../../../../actions';
 import * as fromJobsPageReducer from '../../../../reducers';
-
 import { PageViewIds } from '../../../../constants';
 import { JobTitleCodePipe } from '../../../../pipes';
+import { ApiServiceType } from '../../../../../../../../libs/features/notes-manager/constants/api-service-type-constants';
 
 @Component({
   selector: 'pf-paymarkets-grid',
@@ -153,9 +147,9 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
 
     // We show the NotesModal only after the Notes have loaded. This way we ensure the modal height doesn't jump around but is dynamic
     this.getNotesSuccessSubscription = this.actionsSubject
-      .pipe(ofType(fromNotesManagerActions.GET_NOTES_SUCCESS) || ofType(fromNotesManagerActions.GET_NOTES_ERROR))
+      .pipe(ofType(fromNotesManagerActions.GET_NOTES_SUCCESS, fromNotesManagerActions.GET_NOTES_ERROR))
       .subscribe(data => {
-        this.showNotesManager.next(true);
+          this.showNotesManager.next(true);
       });
 
     this.getPricingReviewedSuccessSubscription = this.actionsSubject
@@ -165,10 +159,10 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
       });
 
     this.getAddingPricingMatchNoteSuccessSubscription = this.actionsSubject
-      .pipe(ofType(fromNotesManagerActions.ADD_NOTE_SUCCESS))
+      .pipe(ofType(fromNotesManagerActions.SAVE_NOTES_SUCCESS))
       .subscribe(data => {
-        switch (data['payload']['Entity']) {
-          case 'Pricing Matches':
+        switch (data['payload']) {
+          case ApiServiceType.PricingMatch:
             this.store.dispatch(new fromPfGridActions.LoadData(`${PageViewIds.PricingMatches}_${this.selectedPricingId}`));
             break;
         }
@@ -199,11 +193,11 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     this.notesManagerConfiguration = {
       ModalTitle: 'Pricing Notes',
       ShowModal$: this.showNotesManager$,
-      EnableAdd: false,
+      IsEditable: false,
       NotesHeader: undefined,
-      Entity: 'Pricings',
       EntityId: undefined,
-      PlaceholderText: undefined
+      PlaceholderText: undefined,
+      ApiServiceIndicator: ApiServiceType.Pricing
     };
 
     this.reScopeSurveyDataConfiguration = {
@@ -308,16 +302,16 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     this.selectedPricingId = selectedPricing['CompanyJobs_Pricings_CompanyJobPricing_ID'];
     this.notesManagerConfiguration = {
       ...this.notesManagerConfiguration,
-      Entity: NotesEntities.Pricings,
       EntityId: selectedPricing['CompanyJobs_Pricings_CompanyJobPricing_ID'],
-      EnableAdd: false,
+      IsEditable: false,
       ModalTitle: `Pricing Notes -
         ${this.jobTitleCodePipe.transform(this.selectedJobRow,
         'CompanyJobs',
         'Job_Title',
         'Job_Code')}`,
       NotesHeader: this.pricingNotesHeader,
-      PlaceholderText: undefined
+      PlaceholderText: undefined,
+      ApiServiceIndicator: ApiServiceType.Pricing
     };
 
     event.stopPropagation();
@@ -327,12 +321,12 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     this.selectedPricingId = event.ParentPricingId;
     this.notesManagerConfiguration = {
       ...this.notesManagerConfiguration,
-      Entity: NotesEntities.PricingMatches,
       EntityId: event.Configuration.EntityId,
-      EnableAdd: event.Configuration.EnableAdd,
+      IsEditable: true,
       ModalTitle: event.Configuration.ModalTitle,
       NotesHeader: event.Configuration.NotesHeader,
-      PlaceholderText: 'Please add any notes you would like to attach to this match.'
+      PlaceholderText: 'Please add any notes you would like to attach to this match.',
+      ApiServiceIndicator: ApiServiceType.PricingMatch
     };
   }
 

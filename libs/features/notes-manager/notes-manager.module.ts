@@ -9,6 +9,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+
 import * as fromFaIcons from './fa-icons';
 
 import { PfCommonModule } from 'libs/core';
@@ -19,6 +20,7 @@ import { reducers } from './reducers';
 import { NotesManagerEffects } from './effects';
 
 import { NotesManagerComponent } from './notes-manager/notes-manager.component';
+import { NotesManagerContentComponent } from './notes-manager-content/notes-manager-content.component';
 
 @NgModule({
   imports: [
@@ -45,6 +47,7 @@ import { NotesManagerComponent } from './notes-manager/notes-manager.component';
   declarations: [
     // Feature
     NotesManagerComponent,
+    NotesManagerContentComponent
   ],
   exports: [
     NotesManagerComponent,
