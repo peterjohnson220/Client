@@ -38,7 +38,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="NotesCount" title="Notes" [width]="80">
       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-        <a (click)="openNotesModal($event, dataItem)">{{dataItem.NotesCount > 0 ? dataItem.NotesCount : "-"}}</a>
+        <a (click)="openNotesModal($event, dataItem.CompanyId, dataItem.CompanyName)">{{dataItem.NotesCount > 0 ? dataItem.NotesCount : "-"}}</a>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="UserCount" title="Users" [width]="85">
@@ -66,4 +66,4 @@
 </ng-template>
 
 <!-- modal -->
-<pf-company-notes-modal></pf-company-notes-modal>
+<pf-company-notes-modal (closeModal)="onModalClose($event)"></pf-company-notes-modal>

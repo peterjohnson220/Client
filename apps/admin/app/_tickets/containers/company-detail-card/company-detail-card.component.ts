@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+
+import { CompanyNotesModalComponent } from 'libs/features/company/company-notes/containers/company-notes-modal';
 
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
@@ -13,6 +15,7 @@ import { CompanyDetail, UserTicketTabItem } from '../../models';
 })
 export class CompanyDetailCardComponent {
   @Input() companyDetail: CompanyDetail;
+  @ViewChild(CompanyNotesModalComponent, { static: true }) companyNotesModal: CompanyNotesModalComponent;
 
   constructor(private store: Store<fromTicketReducer.State>) {}
 
@@ -20,5 +23,10 @@ export class CompanyDetailCardComponent {
     if (ticket) {
       this.store.dispatch(new fromTicketActions.OpenTicket(ticket));
     }
+  }
+
+  public openNotesModal($event: any, companyId: number, companyName: string) {
+    $event.stopPropagation();
+    this.companyNotesModal.open(companyId, companyName, true);
   }
 }

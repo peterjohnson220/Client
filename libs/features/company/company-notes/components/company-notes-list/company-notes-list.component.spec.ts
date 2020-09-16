@@ -7,13 +7,14 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { CompanyNote, getDefaultCompanyNote } from 'libs/models/payfactors-api';
 
-import * as fromCompanyNotesReducer from '../../reducers';
-import * as fromCompanyNotesActions from '../../actions/company-notes.actions';
-import { CompanyNotesListComponent } from '../../components';
+import { CompanyNotesListComponent } from './company-notes-list.component';
+
+import * as fromCompanyNotesModalReducer from '../../reducers';
+import * as fromCompanyNotesModalActions from '../../actions';
 
 describe('CompanyNotesListComponent', () => {
 
-    let store: MockStore<fromCompanyNotesReducer.State>;
+    let store: MockStore<fromCompanyNotesModalReducer.State>;
     let component: CompanyNotesListComponent;
     let fixture: ComponentFixture<CompanyNotesListComponent>;
     const note: CompanyNote = getDefaultCompanyNote();
@@ -51,7 +52,7 @@ describe('CompanyNotesListComponent', () => {
 
     it('should dispatch SaveCompanyNote action on delete', () => {
         spyOn(component.store, 'dispatch');
-        const expectedAction = new fromCompanyNotesActions.SaveCompanyNote({note, actionType: 'Delete'});
+        const expectedAction = new fromCompanyNotesModalActions.SaveCompanyNote({note, actionType: 'Delete'});
         component.delete(note);
         expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);
     });

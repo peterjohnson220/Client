@@ -26,11 +26,13 @@ import { faUser } from '@fortawesome/pro-solid-svg-icons/faUser';
 import { faClock } from '@fortawesome/pro-regular-svg-icons/faClock';
 import { faCommentAltExclamation } from '@fortawesome/pro-solid-svg-icons/faCommentAltExclamation';
 import { faPaperclip } from '@fortawesome/pro-solid-svg-icons/faPaperclip';
+import { faStickyNote } from '@fortawesome/pro-regular-svg-icons/faStickyNote';
 
 export const faIcons = [
   faPlus, faLongArrowAltLeft, faPencil, faCheckCircle, faTimes,
   faTrash, faSpinner, faTimesCircle, faDownload, faTimesRegular,
   faDownloadRegular, faFileExcel, faFileWord, faFilePdf, faFileImage,
   faFileArchive, faEnvelope, faFileAlt, faUndo, faEdit, faSave, faFilter,
-  faFilterOff, faUser, faClock, faCommentAltExclamation, faPaperclip
+  faFilterOff, faUser, faClock, faCommentAltExclamation, faPaperclip,
+  faStickyNote
 ];

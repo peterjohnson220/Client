@@ -3,23 +3,21 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { MomentModule } from 'ngx-moment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgbModalModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { CompanyNote, getDefaultCompanyNote } from 'libs/models/payfactors-api';
 
-import * as fromCompanyNotesReducer from '../../reducers';
-import * as fromCompanyNotesActions from '../../actions/company-notes.actions';
+import * as fromCompanyNotesModalReducer from '../../reducers';
+import * as fromCompanyNotesModalActions from '../../actions';
+
 import { CompanyNotesListComponent } from '../../components';
-import * as fromCompaniesActions from '../../actions/companies.actions';
-import { generateMockCompanyGridItem } from '../../models';
 import { CompanyNotesModalComponent } from './company-notes-modal.component';
 
 
 describe('CompanyNotesModalComponent', () => {
 
-    let store: MockStore<fromCompanyNotesReducer.State>;
+    let store: MockStore<fromCompanyNotesModalReducer.State>;
     let component: CompanyNotesModalComponent;
     let fixture: ComponentFixture<CompanyNotesModalComponent>;
     let ngbModal: NgbModal;
@@ -89,7 +87,7 @@ describe('CompanyNotesModalComponent', () => {
 
     it('should use modal service to open modal when open is called', () => {
         spyOn(ngbModal, 'open');
-        component.open(note);
+        component.open(1, 'TestCompany', false);
         expect(ngbModal.open).toHaveBeenCalled();
     });
 
@@ -101,21 +99,14 @@ describe('CompanyNotesModalComponent', () => {
 
     it('should dispatch LoadCompanyNotes action on open', () => {
         spyOn(component.store, 'dispatch');
-        const expectedAction = new fromCompanyNotesActions.LoadCompanyNotes({ companyId: 1});
-        component.open(note);
+        const expectedAction = new fromCompanyNotesModalActions.LoadCompanyNotes({ companyId: 1});
+        component.open(1, 'TestCompany', false);
         expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
     it('should dispatch ResetCompanyNotes action on close', () => {
         spyOn(component.store, 'dispatch');
-        const expectedAction = new fromCompanyNotesActions.ResetCompanyNotes();
-        component.close();
-        expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);
-    });
-
-    it('should dispatch LoadCompanies action on close', () => {
-        spyOn(component.store, 'dispatch');
-        const expectedAction = new fromCompaniesActions.LoadCompanies();
+        const expectedAction = new fromCompanyNotesModalActions.ResetCompanyNotes();
         component.close();
         expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
@@ -123,8 +114,8 @@ describe('CompanyNotesModalComponent', () => {
     it('should dispatch SaveCompanyNote action on submit', () => {
         spyOn(component.store, 'dispatch');
         note.CreateDate = new Date(Date.now());
-        const expectedAction = new fromCompanyNotesActions.SaveCompanyNote({note: note, actionType: 'Insert'});
-        component.companyInfo = generateMockCompanyGridItem();
+        const expectedAction = new fromCompanyNotesModalActions.SaveCompanyNote({note: note, actionType: 'Insert'});
+        component.companyId = 1;
         component.userId = -1;
         component.submit();
         expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);
