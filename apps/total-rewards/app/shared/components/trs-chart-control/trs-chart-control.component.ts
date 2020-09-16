@@ -44,7 +44,11 @@ export class TrsChartControlComponent implements OnChanges {
   getChartPreviewData(): { category: string, value: number }[] {
     return this.calculationControls.map((c: CalculationControl) => {
       const sumOfVisibleFields = TotalRewardsStatementService.sumCalculationControl(c, this.employeeRewardsData);
-      return { category: c.Title.Override || c.Title.Default, value: (sumOfVisibleFields) ? +(sumOfVisibleFields / 1000).toFixed(0) : 0 };
+      const divisor = sumOfVisibleFields < 1000 ? sumOfVisibleFields : 1000;
+      return {
+        category: c.Title.Override || c.Title.Default,
+        value: (sumOfVisibleFields) ? +(sumOfVisibleFields / divisor).toFixed(0) : 0
+      };
     });
   }
 

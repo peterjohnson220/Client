@@ -133,7 +133,7 @@ describe('TrsChartControlComponent', () => {
     expect(chartPreviewData[0].value).toBe(0);
   });
 
-  it('should calc `getChartPreviewData` as the expected value when visible DataFields exists', () => {
+  it('should calc `getChartPreviewData` as the expected value when visible DataFields exists and sum greater than 1k', () => {
     // arrange
     const dataFields = [
       { Id: '1', DatabaseField: 'EmployeeMedicalInsurance', Name: { Default: 'Medical Insurance' }, IsVisible: true },
@@ -148,6 +148,23 @@ describe('TrsChartControlComponent', () => {
 
     // assert
     expect(chartPreviewData[0].value).toBe(40);
+  });
+
+  it('should calc `getChartPreviewData` as the expected value when visible DataFields exists and sum less than 1k', () => {
+    // arrange
+    const dataFields = [
+      { Id: '1', DatabaseField: 'EmployeeMedicalInsurance', Name: { Default: 'Medical Insurance' }, IsVisible: true },
+      { Id: '2', DatabaseField: 'EmployeeDentalInsurance', Name: { Default: 'Dental Insurance' }, IsVisible: false },
+      { Id: '3', DatabaseField: 'EmployeeVisionInsurance', Name: { Default: 'Vision Insurance' }, IsVisible: true }
+    ];
+    component.calculationControls = [{ DataFields: dataFields, Title: {} as any, ControlType: TotalRewardsControlEnum.Calculation } as any];
+    component.employeeRewardsData = { EmployeeMedicalInsurance: 10, EmployeeDentalInsurance: 10, EmployeeVisionInsurance: 200 } as any;
+
+    // act
+    const chartPreviewData = component.getChartPreviewData();
+
+    // assert
+    expect(chartPreviewData[0].value).toBe(1);
   });
 
   it('should calc `getChartPreviewData` without a decimal when a visible DataField exists that maps to a non-whole number when formatted', () => {
