@@ -109,8 +109,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   reScopeSurveyDataConfiguration: ReScopeSurveyDataModalConfiguration;
   matchIdForReScope: number;
 
-  noRecordsMessage: string;
-
   constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) { }
 
   ngOnInit(): void {
@@ -235,10 +233,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     if (changes.filters) {
       this.filters = cloneDeep(changes.filters.currentValue)
         .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
-
-      this.noRecordsMessage = this.filters.find(x => x.SourceName === 'Status')
-        ? 'There is no pricing for the filter criteria you have selected.'
-        : 'No Pay Markets priced for this job. Click "Pay Markets not Priced" above to view and select Pay Markets to price.';
 
       const pricedInboundFilter = this.filters.find(f => f.SourceName === 'Priced');
       if (pricedInboundFilter) {
