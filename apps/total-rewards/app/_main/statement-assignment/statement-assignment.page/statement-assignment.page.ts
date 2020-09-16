@@ -162,11 +162,19 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
         this.exportEventId = eventId.obj;
       }
     });
-    this.appNotificationSubscription = this.getNotification$.subscribe(notification => {
-      const successNotification = notification.find((x) => x.Level === 'Success' && x.NotificationId === this.exportEventId) ;
-      if (successNotification) {
-        this.store.dispatch(new fromPageActions.ExportAssignedEmployeesComplete());
-      }
+
+    const processedNotificationIds = [];
+    this.appNotificationSubscription = this.getNotification$.subscribe(notifications => {
+      notifications.forEach(notification => {
+        if (notification.Level === 'Success' && notification.NotificationId === this.exportEventId) {
+          this.store.dispatch(new fromPageActions.ExportAssignedEmployeesComplete());
+        } else if (notification?.Payload?.StatementId === this.statement.StatementId && typeof notification?.Payload?.IsStatementGenerating === 'boolean') {
+          if (!processedNotificationIds.find(n => n === notification.NotificationId)) {
+            processedNotificationIds.push(notification.NotificationId);
+            this.store.dispatch(new fromPageActions.UpdateStatementIsGenerating(notification.Payload.IsStatementGenerating));
+          }
+        }
+      });
     });
 
     // dispatches, search init

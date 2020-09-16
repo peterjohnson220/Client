@@ -71,6 +71,7 @@
       <pf-footer-bar
         [primaryButtonText]="(assignedEmployeesTotalOrSelectedCount$ | async) > 0 ? 'Generate (' + (assignedEmployeesTotalOrSelectedCount$ | async) + ')' : 'Generate'"
         [primaryButtonEnabled]="(assignedEmployeesTotalOrSelectedCount$ | async) > 0"
+        [showPrimaryButtonSpinner]="statement?.IsStatementGenerating"
         [secondaryButtonText]="'Back to Canvas'"
         (primaryButtonClick)="handleOpenGenerateStatementModalClick()"
         (secondaryButtonClick)="handleBackToCanvasClick()"
