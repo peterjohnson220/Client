@@ -5,6 +5,8 @@ exports[`Pf-Admin - Navigation - Navigation Links Should display navigation grou
   navigationGroupLinks={[Function Array]}
   notificationStore={[Function Store]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
+  userContext$={[Function Store]}
 >
   <div
     id="site-admin-navigation-links-container"
