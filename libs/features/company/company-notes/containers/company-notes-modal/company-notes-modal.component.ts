@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -6,12 +6,13 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+
 import { CompanyNote, getDefaultCompanyNote } from 'libs/models/payfactors-api';
 import { UserContext, AsyncStateObj } from 'libs/models';
 
-import * as fromCompanyNotesReducer from '../../reducers';
-import * as fromCompanyNotesActions from '../../actions/company-notes.actions';
-import * as fromCompaniesActions from '../../actions/companies.actions';
+import * as fromCompanyNotesModalReducer from '../../reducers';
+import * as fromCompanyNotesModalActions from '../../actions';
+
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -21,28 +22,31 @@ import { filter } from 'rxjs/operators';
 })
 export class CompanyNotesModalComponent implements OnInit, OnDestroy {
   @ViewChild('companyNotesModal', { static: true }) companyNotesModal: any;
+  @Output() closeModal: EventEmitter<any> = new EventEmitter();
+
+  public userId: number;
+  public avatarUrl: string;
+  public companyName: string;
+  public companyId: number;
+  public viewOnly: boolean;
+  public note: CompanyNote;
+  public notes: CompanyNote[];
 
   private modalRef: NgbModalRef;
   private noteForm: FormGroup;
-  public userId: number;
-
-  public avatarUrl: string;
-  public companyInfo: any;
-  public note: CompanyNote;
-  public notes: CompanyNote[];
   public notes$: Observable<AsyncStateObj<CompanyNote[]>>;
   private identity$: Observable<UserContext>;
   private identitySubscription: Subscription;
-  private notesSubsription: Subscription;
+  private notesSubscription: Subscription;
 
   get getNote() { return this.noteForm.controls['note']; }
 
   constructor(
     private modalService: NgbModal,
     private rootStore: Store<fromRootState.State>,
-    public store: Store<fromCompanyNotesReducer.State>,
+    public store: Store<fromCompanyNotesModalReducer.State>,
     private formBuilder: FormBuilder) {
-    this.notes$ = this.store.select(fromCompanyNotesReducer.getCompanyNotes);
+    this.notes$ = this.store.select(fromCompanyNotesModalReducer.getCompanyNotes);
     this.identity$ = this.rootStore.select(fromRootState.getUserContext);
   }
 
@@ -56,7 +60,7 @@ export class CompanyNotesModalComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.notesSubsription = this.notes$.pipe(filter(n => !!n)).subscribe(notes => {
+    this.notesSubscription = this.notes$.pipe(filter(n => !!n)).subscribe(notes => {
       if (notes.obj) {
         this.notes = notes.obj;
       }
@@ -68,12 +72,14 @@ export class CompanyNotesModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.identitySubscription.unsubscribe();
-    this.notesSubsription.unsubscribe();
+    this.notesSubscription.unsubscribe();
   }
-  
-  open(dataItem: any) {
-    this.store.dispatch(new fromCompanyNotesActions.LoadCompanyNotes({companyId: dataItem.CompanyId}));
-    this.companyInfo = dataItem;
+
+  open(companyId: number, companyName: string, viewOnly: boolean) {
+    this.store.dispatch(new fromCompanyNotesModalActions.LoadCompanyNotes({companyId: companyId}));
+    this.companyName = companyName;
+    this.companyId = companyId;
+    this.viewOnly = viewOnly;
     this.noteForm.reset();
     this.noteForm.setValue({ note: '' });
     this.modalRef = this.modalService.open(this.companyNotesModal, { backdrop: 'static', size: 'lg' });
@@ -81,8 +87,8 @@ export class CompanyNotesModalComponent implements OnInit, OnDestroy {
 
   close() {
     this.modalService.dismissAll();
-    this.store.dispatch( new fromCompanyNotesActions.ResetCompanyNotes());
-    this.store.dispatch( new fromCompaniesActions.LoadCompanies());
+    this.store.dispatch( new fromCompanyNotesModalActions.ResetCompanyNotes());
+    this.closeModal.emit();
   }
 
   submit() {
@@ -90,8 +96,8 @@ export class CompanyNotesModalComponent implements OnInit, OnDestroy {
     companyNote.Note = this.getNote.value;
     companyNote.CreateDate = new Date(Date.now());
     companyNote.CreateUser = this.userId;
-    companyNote.CompanyId = this.companyInfo.CompanyId;
-    this.store.dispatch(new fromCompanyNotesActions.SaveCompanyNote({note: companyNote, actionType: 'Insert'}));
+    companyNote.CompanyId = this.companyId;
+    this.store.dispatch(new fromCompanyNotesModalActions.SaveCompanyNote({note: companyNote, actionType: 'Insert'}));
   }
 
   private buildForm() {

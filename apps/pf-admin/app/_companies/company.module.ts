@@ -16,13 +16,13 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
 import { UserManagementModule } from 'libs/features/user-management';
-
+import { PfCompanyNotesModalModule } from 'libs/features/company/company-notes';
 import * as fromFaIcons from './fa-icons';
 import { CompanySearchPipe } from './pipes';
 import { CompaniesListPageComponent, CompaniesListComponent, CompanyPageComponent, CompanyFormComponent,
-  CompanyTabsComponent, CompanyNotesModalComponent } from './containers';
-import { SecondarySurveyFieldsModalComponent, CompanyTagsModalComponent, CompanyNotesListComponent } from './components';
-import { CompaniesEffects, CompanyPageEffects, CompanyNotesEffects } from './effects';
+  CompanyTabsComponent } from './containers';
+import { SecondarySurveyFieldsModalComponent, CompanyTagsModalComponent } from './components';
+import { CompaniesEffects, CompanyPageEffects } from './effects';
 import { reducers } from './reducers';
 import { CompanyRoutingModule } from './company-routing.module';
 
@@ -36,7 +36,6 @@ import { CompanyRoutingModule } from './company-routing.module';
     EffectsModule.forFeature([
       CompaniesEffects,
       CompanyPageEffects,
-      CompanyNotesEffects
     ]),
     GridModule,
     LayoutModule,
@@ -54,6 +53,7 @@ import { CompanyRoutingModule } from './company-routing.module';
     PfCommonUIModule,
     PfFormsModule,
     PfCommonModule,
+    PfCompanyNotesModalModule,
 
     // Features
     UserManagementModule
@@ -68,8 +68,6 @@ import { CompanyRoutingModule } from './company-routing.module';
     CompanyTabsComponent,
     SecondarySurveyFieldsModalComponent,
     CompanyTagsModalComponent,
-    CompanyNotesModalComponent,
-    CompanyNotesListComponent,
 
     // Pages
     CompaniesListPageComponent,

@@ -18,14 +18,14 @@
                       <span class="pl-2">{{note.CreateDate | amDateFormat:'MM/DD/YYYY'}}</span>
                     </div>
                   </div>
-                  <div class="row p-1">                    
+                  <div class="row p-1">
                       <div *ngIf="!isEditMode || selectedNodeId != note.Id">
-                        <p>{{note.Note}}</p >
+                        <p>{{note.Note}}</p>
                       </div>
                       <div *ngIf="isEditMode && selectedNodeId == note.Id">
                         <textarea class="form-control" autofocus spellcheck="false" rows="4" cols="90" [pfFocus]="true" (keyup)="updateText($event, note)">{{note.Note}}</textarea>
                       </div>
-                    <div class="button justify-content-end" *ngIf="note.CreateUser === userId">
+                    <div class="button justify-content-end" *ngIf="note.CreateUser === userId && !viewOnly">
                       <button type="button" class="ml-1" (click)="toggleEditMode(note)" *ngIf="!isEditMode || selectedNodeId != note.Id">
                         <fa-icon icon="pencil-alt"></fa-icon>
                       </button>
@@ -37,9 +37,9 @@
                       </button>
                     </div>
                   </div>
-                </div>                      
+                </div>
          </div>
       </ng-container>
     </div>
-  </div>  
+  </div>
 </div>

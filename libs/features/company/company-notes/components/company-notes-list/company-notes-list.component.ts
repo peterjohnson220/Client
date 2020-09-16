@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 
 import { CompanyNote } from 'libs/models/payfactors-api';
 
-import * as fromCompanyNotesReducer from '../../reducers';
-import * as fromCompanyNotesActions from '../../actions/company-notes.actions';
+import * as fromCompanyNotesModalReducer from '../../reducers';
+import * as fromCompanyNotesModalActions from '../../actions';
 
 @Component({
   selector: 'pf-company-notes-list',
@@ -18,21 +18,22 @@ export class CompanyNotesListComponent implements AfterViewChecked {
   @Input() notes: CompanyNote[];
   @Input() avatarUrl: string;
   @Input() userId: number;
+  @Input() viewOnly: boolean;
 
   public updatedNote: string;
   public isEditMode = false;
   public selectedNodeId = 0;
 
   constructor(private cdRef: ChangeDetectorRef,
-    public store: Store<fromCompanyNotesReducer.State>) { }
+    public store: Store<fromCompanyNotesModalReducer.State>) { }
 
   delete(note: CompanyNote) {
-    this.store.dispatch(new fromCompanyNotesActions.SaveCompanyNote({note: cloneDeep(note), actionType: 'Delete'}));
+    this.store.dispatch(new fromCompanyNotesModalActions.SaveCompanyNote({note: cloneDeep(note), actionType: 'Delete'}));
   }
 
   update(note: CompanyNote) {
     if (!!this.updatedNote) {
-      this.store.dispatch(new fromCompanyNotesActions.SaveCompanyNote({note: this.getUpdatedNote(note), actionType: 'Update'}));
+      this.store.dispatch(new fromCompanyNotesModalActions.SaveCompanyNote({note: this.getUpdatedNote(note), actionType: 'Update'}));
     }
     this.toggleEditMode();
   }

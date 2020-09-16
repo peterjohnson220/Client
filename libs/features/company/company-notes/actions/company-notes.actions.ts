@@ -2,15 +2,15 @@ import { Action } from '@ngrx/store';
 
 import { CompanyNote } from 'libs/models/payfactors-api';
 
-export const LOAD_COMPANY_NOTES = '[Pf-Admin/Company Page] Load Company Notes';
-export const LOAD_COMPANY_NOTES_SUCCESS = '[Pf-Admin/Company Page] Load Company Notes Success';
-export const LOAD_COMPANY_NOTES_ERROR = '[Pf-Admin/Company Page] Load Company Notes Error';
+export const LOAD_COMPANY_NOTES = '[Feature Company] Load Company Notes';
+export const LOAD_COMPANY_NOTES_SUCCESS = '[Feature Company] Load Company Notes Success';
+export const LOAD_COMPANY_NOTES_ERROR = '[Feature Company] Load Company Notes Error';
 
-export const SAVE_COMPANY_NOTE = '[Pf-Admin/Company Page] Save Company Notes';
-export const SAVE_COMPANY_NOTE_SUCCESS = '[Pf-Admin/Company Page] Save Company Notes Success';
-export const SAVE_COMPANY_NOTE_ERROR = '[Pf-Admin/Company Page] Save Company Notes Error';
+export const SAVE_COMPANY_NOTE = '[Feature Company] Save Company Notes';
+export const SAVE_COMPANY_NOTE_SUCCESS = '[Feature Company] Save Company Notes Success';
+export const SAVE_COMPANY_NOTE_ERROR = '[Feature Company] Save Company Notes Error';
 
-export const RESET_COMPANY_NOTE_STATE = '[Pf-Admin/Company Page] Reset Company Notes State';
+export const RESET_COMPANY_NOTE_STATE = '[Feature Company] Reset Company Notes State';
 
 export class ResetCompanyNotes implements Action {
     readonly type = RESET_COMPANY_NOTE_STATE;
