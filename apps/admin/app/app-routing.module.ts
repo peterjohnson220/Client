@@ -44,6 +44,10 @@ export const routes: Routes = [
         path: 'survey-udf-manager', loadChildren: () => import('apps/admin/app/_survey-udf-manager/survey-udf-manager.module')
           .then(m => m.SurveyUdfManagerModule)
       },
+      {
+        path: 'jobs-hierarchy', loadChildren: () => import('apps/admin/app/_jobs-hierarchy/jobs-hierarchy.module')
+          .then(m => m.JobsHierarchyModule)
+      },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }

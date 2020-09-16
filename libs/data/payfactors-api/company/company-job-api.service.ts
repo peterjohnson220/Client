@@ -6,6 +6,7 @@ import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
 import { ChangeJobStatusRequest } from 'libs/models/payfactors-api';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class CompanyJobApiService {
   ) { }
 
   getTopCompanyJobsToMapTo(exchangeId: number, jobTitleAndCodeQuery: string,
-    jobDescriptionQuery: string): Observable<CompanyJobToMapTo[]> {
+                           jobDescriptionQuery: string): Observable<CompanyJobToMapTo[]> {
     return this.payfactorsApiService.get<CompanyJobToMapTo[]>(`${this.endpoint}/GetTopCompanyJobsToMapTo`,
       { params: { exchangeId, jobTitleAndCodeQuery, jobDescriptionQuery } }
     );
@@ -38,7 +39,7 @@ export class CompanyJobApiService {
 
   getCompanyJobs(companyJobIds: number[]): Observable<LatestCompanyJob[]> {
     return (this.payfactorsApiService.post<LatestCompanyJob[]>(`${this.endpoint}/Default.GetCompanyJobsByIds`,
-      { companyJobIds: companyJobIds })
+        { companyJobIds: companyJobIds })
     );
   }
 
@@ -88,8 +89,8 @@ export class CompanyJobApiService {
   }
 
   getJobsByFamilyWithTemplate(jobFamily: string, templateId: Number) {
-      return this.payfactorsApiService.get(`${this.endpoint}/Default.GetJobsByFamilyWithTemplate`,
-        {params: {jobFamily: jobFamily, templateId: templateId}});
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetJobsByFamilyWithTemplate`,
+      {params: {jobFamily: jobFamily, templateId: templateId}});
   }
 
   getAll(query: ODataQuery): Observable<CompanyJob[]> {
@@ -100,5 +101,10 @@ export class CompanyJobApiService {
   getCompanyJobDescriptionInformation(companyJobIds: number[]) {
     return this.payfactorsApiService.post<any[]>(`${this.endpoint}/Default.GetCompanyJobDescriptionsInReview`,
       {companyJobIds: companyJobIds});
+  }
+
+  getJobLevelsForJobFamilies(jobFamilies: string[]) {
+    return this.payfactorsApiService.post<string[]>(`${this.endpoint}/Default.GetJobLevelsForJobFamily`,
+      {jobFamilies: jobFamilies});
   }
 }
