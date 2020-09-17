@@ -15,7 +15,9 @@
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
   [actionBarConfig]="actionBarConfig"
   [gridRowActionsConfig]="(!(selectedRecordId$ | async))? gridRowActionsConfig: null"
-  [resetWidthForSplitView]="true">
+  [resetWidthForSplitView]="true"
+  [pagingOptions]="defaultPagingOptions"
+  [pageable]="!gridConfig.EnableInfiniteScroll">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">

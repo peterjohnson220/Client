@@ -6,7 +6,7 @@ import { AddPayMarketRequest, UpdatePayMarketRequest } from '../../models/payfac
 export class BuildRequestHelper {
   static buildAddPayMarketRequest(payMarketDto: PayMarket, defaultScopes?: DefaultScope[], exchangeScopes?: ExchangeScopes[]): AddPayMarketRequest {
     return {
-      DefaultExchangeScopes: exchangeScopes.length !== 0 ? this.mapExchangeScopesToNewlyAddedExchangeSope(exchangeScopes) : [],
+      DefaultExchangeScopes: exchangeScopes.length !== 0 ? this.mapExchangeScopesToNewlyAddedExchangeScope(exchangeScopes) : [],
       DefaultScopes: defaultScopes.length !== 0 ? this.mapDefaultScopesToNewlyAddedDefaultScope(defaultScopes) : [],
       PayMarket: payMarketDto
     };
@@ -15,7 +15,7 @@ export class BuildRequestHelper {
   static buildUpdatePayMarketRequest(payMarketDto: PayMarket, defaultScopes?: DefaultScope[],
                                      exchangeScopes?: ExchangeScopes[], defaultScopesToDelete?: number[]): UpdatePayMarketRequest {
     return {
-      DefaultExchangeScopes: exchangeScopes.length !== 0 ? this.mapExchangeScopesToNewlyAddedExchangeSope(exchangeScopes) : [],
+      DefaultExchangeScopes: exchangeScopes.length !== 0 ? this.mapExchangeScopesToNewlyAddedExchangeScope(exchangeScopes) : [],
       DefaultScopes: defaultScopes.length !== 0 ? this.mapDefaultScopesToNewlyAddedDefaultScope(defaultScopes) : [],
       DefaultScopeIdsToDelete: defaultScopesToDelete,
       PayMarket: payMarketDto
@@ -31,11 +31,11 @@ export class BuildRequestHelper {
     });
   }
 
-  static mapExchangeScopesToNewlyAddedExchangeSope(exchangeScopes: ExchangeScopes[]): string[] {
+  static mapExchangeScopesToNewlyAddedExchangeScope(exchangeScopes: ExchangeScopes[]): number[] {
     const exchangeScopeIds = [];
     exchangeScopes.forEach(es => {
       es.ExchangeScopeItems.forEach( esi => {
-        exchangeScopeIds.push(esi.ExchangeScopeGuid);
+        exchangeScopeIds.push(esi.ExchangeScopeId);
       });
     });
     return exchangeScopeIds;

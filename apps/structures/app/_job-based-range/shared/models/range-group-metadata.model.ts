@@ -7,6 +7,7 @@ export interface RangeGroupMetadata {
   ModelName: string;
   Currency: string;
   Rate: string;
+  PayType: string;
   ControlPoint: string;
   ControlPointDisplay: string;
   SpreadMin: number;

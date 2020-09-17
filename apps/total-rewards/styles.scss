@@ -65,7 +65,39 @@ pf-statement-edit.page {
   }
   .page-content {
     overflow-x: hidden; // let settings panel hide out to the right
-    background-color: $trs-edit-statement-page-background-color !important;
+  }
+  .preview-mode {
+    .page-content, .page-header {
+      background-color: rgba(255, 255, 255, 0.2) !important;
+      border-bottom-color: transparent !important;
+    }
+    .page-header button {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    .canvas {
+      .mode-button {
+        left: 100%;
+        width: 100px;
+        color: white;
+        border-color: white;
+      }
+      .header-row-wrapper {
+        opacity: 0;
+      }
+      .statement {
+        margin-top: -90px;
+      }
+      &.canvas {
+        background-color: rgba(187, 187, 187, 0);
+      }
+    }
+    .statement, .header-row-wrapper, .canvas {
+      transition: opacity .2s ease-in-out, background-color .2s ease-in-out;
+    }
+
+    .page-content, .page-header {
+      transition: background-color .3s ease-in-out;
+    }
   }
   a.settings {
     color: inherit;
@@ -178,7 +210,6 @@ pf-trs-image-control {
       .k-dropzone {
         padding-top: 4px;
         height: 80px;
-        background: $trs-edit-statement-page-background-color;
 
         .k-button.k-upload-button {
           margin-left: auto;
@@ -195,7 +226,6 @@ pf-trs-image-control {
       }
       .k-file {
         padding: 0;
-        background: $trs-edit-statement-page-background-color;
         border: none;
       }
       .k-file-extension-wrapper, .k-file-size, .k-file-invalid-extension-wrapper, .k-file-name {
@@ -223,8 +253,8 @@ pf-effective-date {
     .k-input {
       height: 22px;
       text-align: center;
-      font-size: .95rem;
-      line-height: .95rem;
+      font-size: .9rem;
+      line-height: .9rem;
       padding: .25rem 0 .35rem 0;
       transition: transform .3s ease-in-out;
     }
@@ -245,7 +275,7 @@ pf-effective-date {
     transition: opacity .15s ease-in-out, transform .3s ease-in-out;
   }
 
-  .preview-mode {
+  .preview-mode, .print-mode {
     .k-picker-wrap, .k-dateinput-wrap {
       border-color: transparent;
       background-color: transparent; // in preview this element gets pushed into the gutter, so make it transparent
@@ -309,27 +339,33 @@ pf-statement-assignment-page {
   background-color: white;
 }
 
+.total-rewards-statements-grid, .total-rewards-assigned-employees-grid {
+  .k-grid-header th>.k-link>.k-icon {
+    display: none;
+  }
+}
+
 @media print {
   @page {
     size: letter portrait;
     margin-left: .1in;
     margin-right: .1in;
   }
-
+  
+  * {
+    transition: none !important; // don't capture incomplete transitions
+  }
+  
   html {
-    font-size: 18px;
+    font-size: #{$print-base-font-size + 'px'}; // bump up base font size so all rem based font-sizes are increased 
   }
 
   .container {
-    border: none;
-    background: white;
     max-width: 100% !important;
     min-width: 100% !important;
   }
-}
 
-.total-rewards-statements-grid, .total-rewards-assigned-employees-grid {
-  .k-grid-header th>.k-link>.k-icon {
-    display: none;
+  a:not(.btn) {
+    text-decoration: none; // prevent bootstrap override from adding underline anchors
   }
 }

@@ -7,6 +7,9 @@
   [defaultSort]="defaultSort"
   [headerClassName]="'jobs-page-sub-grid-header'"
   [noRecordsFound]="'There are no employees in this Job.'"
+  [gridConfig]="gridConfig"
+  [pagingOptions]="defaultPagingOptions"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
   [fieldsExcludedFromExport] = fieldsExcludedFromExport>
 </pf-data-grid>
 

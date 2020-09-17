@@ -125,7 +125,7 @@ describe('Peer - Map - Exchange Map Page', () => {
   it(`should dispatch an UpsertExchangeScope action when handleUpsertExchangeScopeEvent is triggered`, () => {
     const expectedAction = new fromLibsPeerExchangeExplorerExchangeScopeActions.UpsertExchangeScope({
       ExchangeId: instance.exchangeId,
-      ExchangeScopeGuid: null,
+      ExchangeScopeId: -1,
       ExchangeScopeName: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeName,
       ExchangeScopeDescription: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeDescription,
       IsDefault: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.IsDefault

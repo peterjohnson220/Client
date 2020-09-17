@@ -12,6 +12,9 @@
   [actionBarConfig]="actionBarConfig"
   [headerClassName]="'jobs-page-sub-grid-header'"
   [applyUserDefaultCompensationFields]="true"
+  [pagingOptions]="defaultPagingOptions"
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
   [noRecordsFound]="noRecordsMessage">
 </pf-data-grid>
 

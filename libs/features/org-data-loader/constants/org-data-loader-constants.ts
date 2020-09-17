@@ -35,6 +35,18 @@ export const ORG_DATA_PF_STRUCTURE_FIELDS = [
   'Job_Code'
 ];
 
+export const ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS = [
+  'Tertile_First',
+  'Tertile_Second',
+  'Quartile_First',
+  'Quartile_Second',
+  'Quintile_First',
+  'Quintile_Second',
+  'Quintile_Third',
+  'Quintile_Fourth',
+  'RangeDistributionType'
+];
+
 export const ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS = [
   'Job_Code',
   'Structure_Code',

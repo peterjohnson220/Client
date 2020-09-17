@@ -31,7 +31,7 @@ export class ExchangeScopesComponent implements OnInit, OnDestroy, OnChanges {
   exchangeScopeItemsFilter: ExchangeScopeItem[];
   selectedExchangeScopes: ExchangeScopes[];
   selectedExchangeId: number;
-  exchangeScopeItemId: string;
+  exchangeScopeItemId: number;
   duplicateError = false;
 
   constructor(
@@ -71,14 +71,14 @@ export class ExchangeScopesComponent implements OnInit, OnDestroy, OnChanges {
 
   addExchangeScope(): void {
     const selectedExchange = cloneDeep(this.exchangeScopes.find(es => es.ExchangeId === this.selectedExchangeId));
-    const selectedExchangeScopeItem = this.exchangeScopeItems.find(esi => esi.ExchangeScopeGuid === this.exchangeScopeItemId);
+    const selectedExchangeScopeItem = this.exchangeScopeItems.find(esi => esi.ExchangeScopeId === this.exchangeScopeItemId);
     if (!selectedExchange || !selectedExchangeScopeItem) {
       return;
     }
     selectedExchange.ExchangeScopeItems = [selectedExchangeScopeItem];
     this.duplicateError = this.selectedExchangeScopes.some(ses =>
       ses.ExchangeName === selectedExchange.ExchangeName &&
-      ses.ExchangeScopeItems[0].ExchangeScopeGuid === selectedExchangeScopeItem.ExchangeScopeGuid
+      ses.ExchangeScopeItems[0].ExchangeScopeId === selectedExchangeScopeItem.ExchangeScopeId
     );
     if (this.duplicateError) {
       return;

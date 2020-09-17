@@ -4,7 +4,7 @@
       ALL DISCUSSIONS
     </h5>
     <ng-container *ngFor="let category of categories$ | async;">
-    <div class="row pl-1 py-2">
+    <div *ngIf="category.Name !== 'MyFavorites'" class="row pl-1 py-2">
       <div class="col-9 py-1">
         <span (click)="!filteredByPost && onClick(category.Name)"
               id="communityCategory{{ category.Name }}"

@@ -12,5 +12,6 @@ export enum PricingsSalaryRangeChartSeries {
   RangeQuintileSecond = 10,
   RangeQuintileThird = 11,
   RangeQuintileFourth = 12,
-  Pricings = 13
+  Pricings = 13,
+  MRP = 14
 }

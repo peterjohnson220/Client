@@ -20,6 +20,7 @@ import {
   GridConfig
 } from '../models';
 import { getUserFilteredFields } from '../components';
+import { SelectAllStatus } from '../reducers/pf-data-grid.reducer';
 
 @Component({
   selector: 'pf-data-grid',
@@ -84,6 +85,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() gridConfig: GridConfig;
   @Input() modifiedKey: string = null;
   @Input() resetWidthForSplitView = false;
+  @Input() allowMultipleSort = false;
+  @Input() showSplitViewToggle = false;
+  @Input() showSortControls = true;
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();
@@ -97,6 +101,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   getNotification$: Observable<AppNotification<any>[]>;
   getExportEventId$: Observable<number>;
   getExportViewId$: Observable<number>;
+  selectAllState$: Observable<string>;
+  totalCount$: Observable<number>;
+  uniqueVisibleKeys$: Observable<number[]>;
 
   userFilteredFieldsSubscription: Subscription;
   selectedRecordIdSubscription: Subscription;
@@ -104,11 +111,14 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   getNotificationSubscription: Subscription;
   getExportEventIdSubscription: Subscription;
   getExportViewIdSubscription: Subscription;
+  getGridScrolledSubscription: Subscription;
   getEnablePricingReviewed: Subscription;
 
   userFilteredFields: ViewField[];
   selectedRecordId: number;
   exportEventId = null;
+  normalSplitViewWidth: string;
+  selectAllStatus = SelectAllStatus;
 
   constructor(
     private store: Store<fromReducer.State>,
@@ -147,6 +157,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.getExportEventId$ = this.store.select(fromReducer.getExportEventId, this.pageViewId);
     this.getNotification$ = this.appNotificationStore.select(fromAppNotificationsMainReducer.getNotifications);
     this.getExportViewId$ = this.store.select(fromReducer.getExportViewId, this.pageViewId);
+    this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, this.pageViewId);
+    this.totalCount$ = this.store.select(fromReducer.getTotalCount, this.pageViewId);
+    this.uniqueVisibleKeys$ = this.store.select(fromReducer.getVisibleKeys, this.pageViewId);
 
     this.getExportEventIdSubscription = this.getExportEventId$.subscribe(eventId => {
       if (eventId !== this.exportEventId) {
@@ -165,6 +178,14 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
         this.store.dispatch(new fromActions.GetExportingStatus(this.pageViewId, exportViewId));
       }
     });
+
+    this.getGridScrolledSubscription = this.store.select(fromReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
+      if (scrolledContent && this.syncScrollWithSplit) {
+        this.splitViewContainer.nativeElement.scrollTop = scrolledContent.scrollTop;
+      }
+    });
+
+    this.normalSplitViewWidth = this.gridContainerSplitViewWidth;
   }
 
   ngOnDestroy() {
@@ -175,6 +196,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.getExportEventIdSubscription.unsubscribe();
     this.getNotificationSubscription.unsubscribe();
     this.getExportViewIdSubscription.unsubscribe();
+    this.getGridScrolledSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -274,6 +296,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     return this.splitViewTemplate && (this.selectedRecordId || !this.splitOnSelection);
   }
 
+  toggleSplitView() {
+    this.gridContainerSplitViewWidth = this.gridContainerSplitViewWidth === this.normalSplitViewWidth ? '100%' : this.normalSplitViewWidth;
+  }
   handleGridScroll(event: ContentScrollEvent) {
     if (this.syncScrollWithSplit) {
       this.splitViewContainer.nativeElement.scrollTop = event.scrollTop;

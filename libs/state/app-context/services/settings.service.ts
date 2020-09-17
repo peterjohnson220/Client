@@ -17,11 +17,13 @@ import * as fromUiPersistenceSettingsActions from '../actions/ui-persistence-set
 @Injectable()
 export class SettingsService {
   companySettings$: Observable<CompanySetting[]>;
+  companySettingsLoading$: Observable<boolean>;
   uiPersistenceSettings$: Observable<UiPersistenceFeatureSettingsModel[]>;
   uiPersistenceSettingsLoading$: Observable<boolean>;
 
   constructor(private store: Store<fromRootState.State>) {
     this.companySettings$ = this.store.pipe(select(fromRootState.getCompanySettings));
+    this.companySettingsLoading$ = this.store.pipe(select(fromRootState.getCompanySettingsLoading));
     this.uiPersistenceSettings$ = this.store.pipe(select(fromRootState.getUiPersistenceSettings));
     this.uiPersistenceSettingsLoading$ = this.store.pipe(select(fromRootState.getUiPersistenceSettingsLoading));
   }
@@ -99,17 +101,20 @@ export class SettingsService {
     companySettingEnum: CompanySettingsEnum,
     type: 'boolean'|'number'|'string' = 'boolean'
   ): Observable<TValueType> {
-    return this.companySettings$.pipe(map(settings => {
-      if (!settings) {
-        return null;
-      }
-      const setting = settings.find(cs => cs.Key === companySettingEnum);
-      if (!setting) {
-        return null;
-      }
+    return combineLatest([this.companySettings$, this.companySettingsLoading$]).pipe(
+      filter(([settings, loading]) => !loading),
+      map(([settings, loading]) => {
+        if (!settings) {
+          return null;
+        }
+        const setting = settings.find(cs => cs.Key === companySettingEnum);
+        if (!setting) {
+          return null;
+        }
 
-      return this.getSettingValue<TValueType>(setting.Value, type);
-    }));
+        return this.getSettingValue<TValueType>(setting.Value, type);
+      })
+    );
   }
 
   getSettingValue<T>(value: string, type: string): T {

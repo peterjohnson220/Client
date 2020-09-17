@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
@@ -34,6 +34,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   dataPointSeriesDataModel: DataPointSeries;
   averageSeriesData: any;
   outlierSeriesData: any;
+  mrpSeriesData: any;
   chartLocale: string; // en-US
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
@@ -49,9 +50,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   metaData: RangeGroupMetadata;
   rangeDistributionTypeId: number;
   filterPanelSub: Subscription;
+  initialY: number;
+  gridScrolledSub: Subscription;
 
   constructor(
     public store: Store<any>,
+    public pfGridStore: Store<fromPfGridReducer.State>,
     private structuresPagesService: StructuresPagesService
   ) {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
@@ -75,6 +79,15 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       if (data && this.rate && this.currency) {
         this.jobRangeData = data;
         this.processChartData();
+      }
+    });
+
+    this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
+      if (scrolledContent && this.chartInstance) {
+        this.initialY = this.chartInstance.legend.options.y;
+        this.chartInstance.legend.group.attr({
+          translateY: this.initialY + scrolledContent.scrollTop
+        });
       }
     });
   }
@@ -102,6 +115,11 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       currentRow.CompanyStructures_RangeGroup_AverageEEMRP < comparisonValue) {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
     }
+    // next check the MRP value
+    if (!!currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue &&
+      currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue < comparisonValue) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue;
+    }
 
     if (this.chartMin === undefined || comparisonValue < this.chartMin) {
       this.chartMin = comparisonValue;
@@ -122,6 +140,11 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     if (currentRow.CompanyStructures_RangeGroup_AverageEEMRP &&
       currentRow.CompanyStructures_RangeGroup_AverageEEMRP > comparisonValue) {
       comparisonValue = currentRow.CompanyStructures_RangeGroup_AverageEEMRP;
+    }
+    // next check the MRP value
+    if (currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue &&
+      currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue > comparisonValue) {
+      comparisonValue = currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue;
     }
 
     if (this.chartMax === undefined || comparisonValue > this.chartMax) {
@@ -215,12 +238,24 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     );
   }
 
+  private addMRPPoint(currentRow) {
+    this.mrpSeriesData.push({
+      y: currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue,
+      jobTitle: currentRow.CompanyJobs_Job_Title,
+      mrp: this.formatMRP(currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue, currentRow.CompanyStructures_RangeGroup_MrpPercentile)
+    });
+  }
+
   private formatOutlierCount(min: boolean, count: number) {
     return `${count} ${count > 1 ? 'employees' : 'employee'} ${min ? 'below min' : 'above max'}`;
   }
 
   private formatSalary(salary: number) {
     return `Average ${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`;
+  }
+
+  private formatMRP(mrp: number, percentile: number) {
+    return `MRP: ${StructuresHighchartsService.formatCurrency(mrp, this.chartLocale, this.currency, this.rate, true)} (Base ${percentile}th)`;
   }
 
   private formatDelta(min: boolean, delta: number) {
@@ -280,6 +315,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
     this.averageSeriesData = [];
     this.outlierSeriesData = [];
+    this.mrpSeriesData = [];
     this.chartMin = undefined;
     this.chartMax = undefined;
     for (let i = 0; i < this.jobRangeData.data.length; i++) {
@@ -315,6 +351,9 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
       // add any outliers
       this.processAndAddOutliers(i, currentRow);
+
+      // add mrp point
+      this.addMRPPoint(currentRow);
     }
     // set the min/max
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
@@ -328,6 +367,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.chartInstance.series[JobRangeModelChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
     this.chartInstance.series[JobRangeModelChartSeries.Average].setData(this.averageSeriesData, false);
     this.chartInstance.series[JobRangeModelChartSeries.EmployeeOutliers].setData(this.outlierSeriesData, true);
+    this.chartInstance.series[JobRangeModelChartSeries.MRP].setData(this.mrpSeriesData, false);
 
     // Tertile - Quartile - Quintile: salary range + data points
     if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
@@ -365,5 +405,6 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.metadataSubscription.unsubscribe();
     this.pageViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
+    this.gridScrolledSub.unsubscribe();
   }
 }

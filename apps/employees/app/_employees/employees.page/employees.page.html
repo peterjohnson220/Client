@@ -14,7 +14,9 @@
   [actionBarConfig]="actionBarConfig"
   [fieldsExcludedFromExport]="fieldsExcludedFromExport"
   [gridConfig]="gridConfig"
-  [gridRowActionsConfig]="hasDropdownOptions ? gridRowActionsConfig : null">
+  [pageable]="!gridConfig?.EnableInfiniteScroll"
+  [gridRowActionsConfig]="hasDropdownOptions ? gridRowActionsConfig : null"
+  [pagingOptions]="defaultPagingOptions">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">

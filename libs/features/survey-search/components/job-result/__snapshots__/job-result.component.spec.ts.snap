@@ -3,7 +3,6 @@
 exports[`Project - Survey Search - Job Result should not show Load More link when there are no more data cuts results 1`] = `
 <pf-job-result
   annualDisplay={[Function String]}
-  compRate={[Function String]}
   cutSelected={[Function EventEmitter]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -106,7 +105,6 @@ exports[`Project - Survey Search - Job Result should not show Load More link whe
 exports[`Project - Survey Search - Job Result should show Load More link when there are more data cuts from server 1`] = `
 <pf-job-result
   annualDisplay={[Function String]}
-  compRate={[Function String]}
   cutSelected={[Function EventEmitter]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -214,7 +212,6 @@ exports[`Project - Survey Search - Job Result should show Load More link when th
 exports[`Project - Survey Search - Job Result should show error state if issue loading data cuts 1`] = `
 <pf-job-result
   annualDisplay={[Function String]}
-  compRate={[Function String]}
   cutSelected={[Function EventEmitter]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}

@@ -1,5 +1,5 @@
 export interface ExchangeScopeItem {
-  ExchangeScopeGuid: string;
+  ExchangeScopeId: number;
   ExchangeId: number;
   Name: string;
   Description: string;
@@ -9,7 +9,7 @@ export interface ExchangeScopeItem {
 
 export function generateMockExchangeScopeItem(): ExchangeScopeItem {
   return {
-    ExchangeScopeGuid: 'MockExchangeScopeItemId',
+    ExchangeScopeId: 1,
     ExchangeId: 1,
     Name: 'MockExchangeScopeItemName',
     Description: 'MockExchangeScopeItemDescription',

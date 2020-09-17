@@ -45,6 +45,16 @@
               <pf-filter-chooser [pageViewId]="pageViewId" [hideToggleButtons]="displayFilterPanel$ | async"></pf-filter-chooser>
             </div>
           </div>
+
+          <div *ngIf="gridConfig?.EnableInfiniteScroll && (selectAllState$ | async) === selectAllStatus.checked && (uniqueVisibleKeys$ | async)?.length" class="d-flex mb-3">
+            <pf-select-all-panel
+              class="w-100"
+              [itemName]="gridConfig?.SelectAllPanelItemName || 'items'"
+              [displayedItemsCount]="(uniqueVisibleKeys$ | async)?.length"
+              [totalCount]="(totalCount$ | async)">
+            </pf-select-all-panel>
+          </div>
+
           <div *ngIf="userFilteredFields.length > 0 || lockedPillText || (actionBarConfig.ShowFilterChooser && !gridActionsTemplate)" class="d-flex mb-2 sub-header">
             <div *ngIf="userFilteredFields.length > 0 || lockedPillText" class="pt-2">
               <pf-data-grid-filter-pills
@@ -68,6 +78,10 @@
                 <div class="d-flex h-100">
                   <div class="full-size-wrapper">
                     <div [ngClass]="{'grid-container' : !compactGrid}">
+                      <button *ngIf="this.showSplitViewToggle" class="btn btn-sm btn-secondary float-right overlayBtn" (click)="toggleSplitView()">
+                        <fa-icon *ngIf="this.normalSplitViewWidth === this.gridContainerSplitViewWidth" [icon]="['fas','expand-alt']"></fa-icon>
+                        <fa-icon *ngIf="this.normalSplitViewWidth !== this.gridContainerSplitViewWidth" [icon]="['fas','compress-alt']"></fa-icon>
+                      </button>
                       <pf-grid
                         [attr.data-qa-id]="pageViewId"
                         [pageViewId]="pageViewId"
@@ -94,9 +108,10 @@
                         [pageable]="pageable"
                         [theme]="pageTheme"
                         [customSortOptions]="customSortOptions"
-                        (scrolled)="handleGridScroll($event)"
                         [modifiedKey]="modifiedKey"
-                        [resetWidthForSplitView]="resetWidthForSplitView">
+                        [resetWidthForSplitView]="resetWidthForSplitView"
+                        [allowMultipleSort]="allowMultipleSort"
+                        [showSortControls]="showSortControls">
                       </pf-grid>
                     </div>
                   </div>

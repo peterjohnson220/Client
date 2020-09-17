@@ -1,4 +1,5 @@
 import orderBy from 'lodash/orderBy';
+import { groupBy, GroupResult } from '@progress/kendo-data-query';
 
 import {
   UserTicketComment,
@@ -6,7 +7,8 @@ import {
   UserTicketResponse,
   UserTicketStateResponse,
   UserTicketTypeResponse,
-  UserTicketFile
+  UserTicketFile,
+  TicketCommentLevel
 } from 'libs/models/payfactors-api/service/response';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
 import { UserTicketDto } from 'libs/models/service';
@@ -55,6 +57,10 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapUserTicketResponseToUserTicketItem(response: UserTicketResponse): UserTicketItem {
+    let ticketComments = this.mapUserTicketCommentsToTicketComment(response.UserTicketComments);
+    const attachmentsComments = this.generateSystemNotesForAttachments(response.UserTicketFiles);
+    ticketComments = ticketComments.concat(attachmentsComments);
+    ticketComments = orderBy(ticketComments, ['CreateDate'], ['desc']);
     return {
       TicketInfo: {
         TicketId: response.UserTicketId,
@@ -79,7 +85,7 @@ export class PayfactorsApiModelMapper {
           TicketCssClass: response.TicketCssClass,
           TicketTypeShortName: response.FileType || response.UserTicketType
         },
-        Comments: this.mapUserTicketCommentsToTicketComment(response.UserTicketComments),
+        Comments: ticketComments,
         TicketCssClass: response.TicketCssClass
       },
       CompanyInfo: null,
@@ -171,6 +177,41 @@ export class PayfactorsApiModelMapper {
         Replies: this.mapTicketCommentsToReplies(utf.Replies)
       };
     });
+  }
+
+  static generateSystemNotesForAttachments(attachments: UserTicketFile[]): TicketComment[] {
+    if (!attachments?.length) {
+      return [];
+    }
+    attachments.forEach(f => f.CreateDateWithoutTime = this.createDateWithoutTime(f.CreateDate));
+    const notes: TicketComment[] = [];
+    const groupedAttachments: UserTicketFile[] | GroupResult[] = groupBy(attachments, [{ field: 'CreateUser' }, { field: 'CreateDateWithoutTime' }]);
+    groupedAttachments.forEach(g => {
+      g.items.forEach(createDateGroup => {
+        const clientName = createDateGroup.items[0].CreateUserFullName;
+        const latestCreateDate = createDateGroup.items[createDateGroup.items.length - 1].CreateDate;
+        const note: TicketComment = {
+          TicketId: createDateGroup.items[0].UserTicketId,
+          FullName: 'System Generated',
+          Content: `${clientName} uploaded the following files:`,
+          Level: TicketCommentLevel.System,
+          AttachmentNames: createDateGroup.items.map((f: UserTicketFile) => f.DisplayName),
+          CreateDate: latestCreateDate,
+          CreateDateWithoutTime: createDateGroup.value
+        };
+        notes.push(note);
+      });
+    });
+    return notes;
+  }
+
+  static createDateWithoutTime(date: Date): Date {
+    const dateWithoutTime = new Date(date);
+    return new Date(
+      dateWithoutTime.getFullYear(),
+      dateWithoutTime.getMonth(),
+      dateWithoutTime.getDate()
+    );
   }
 
   static mapTicketCommentsToReplies(userTicketComments: UserTicketComment[]): TicketComment[] {

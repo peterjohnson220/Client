@@ -29,13 +29,12 @@ export class CommunityPostHeaderComponent {
   @Input() userPollId: string;
   @Input() hasReplies: boolean;
   @Input() hidePostActions: boolean;
-  @Input() isFavoritedByCurrentUser = false;
 
   constructor(public store: Store<fromCommunityPostReducer.State>) {
   }
 
-  get hideUserAcionsMenu() {
-    return  this.hidePostActions || (this.isReply && !this.isCurrentUserPost && !this.isUserAdmin());
+  get hideUserActionsMenu() {
+    return  !this.isCurrentUserPost && !this.isUserAdmin();
   }
 
   isUserAdmin(): boolean {
@@ -80,11 +79,6 @@ export class CommunityPostHeaderComponent {
     } else {
       this.store.dispatch(new fromCommunityPostActions.EditingCommunityPost(this.postId));
     }
-  }
-
-  updateFavorite() {
-    this.store.dispatch(new fromCommunityPostActions.UpdatingCommunityPostFavorite(
-    {postId: this.postId, favorite: !this.isFavoritedByCurrentUser}));
   }
 
 }

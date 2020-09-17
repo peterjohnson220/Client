@@ -8,8 +8,10 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -39,6 +41,8 @@ export class NotPricedPaymarketsGridComponent implements AfterViewInit, OnDestro
   selectedKeys: any[];
   payMarketOptions: any;
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
+  defaultPagingOptions: PagingOptions;
 
   companyPayMarketsSubscription: Subscription;
   notPricedDataPageViewId = PageViewIds.NotPricedPayMarkets;
@@ -49,8 +53,13 @@ export class NotPricedPaymarketsGridComponent implements AfterViewInit, OnDestro
   notPricedDataPayMarketField: ViewField;
   notPricedDataFilteredPayMarketOptions: any;
   notPricedDataSelectedPayMarket: any;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
-  constructor(private store: Store<fromJobsPageReducer.State>) {
+  constructor(
+    private store: Store<fromJobsPageReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.companyPayMarketsSubscription = store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.notPricedDataFilteredPayMarketOptions = o;
@@ -68,6 +77,15 @@ export class NotPricedPaymarketsGridComponent implements AfterViewInit, OnDestro
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
     };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      SelectAllPanelItemName: 'pay markets'
+    };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
   }
 
   ngAfterViewInit() {

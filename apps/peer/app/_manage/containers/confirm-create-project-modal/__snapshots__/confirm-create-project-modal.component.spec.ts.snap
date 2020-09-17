@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfirmUnmatchModalComponent should not render job details if the exchange and company jobs are falsy 1`] = `
+<pf-confirm-create-project-modal
+  allSubscriptions={[Function Subscription]}
+  createProjectError$={[Function Store]}
+  creatingProject$={[Function Store]}
+  mappedExchangeJob={[Function Object]}
+  mappedExchangeJob$={[Function Store]}
+  selectedCompanyJob="null"
+  selectedCompanyJob$={[Function Store]}
+  showModal$={[Function Store]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    primarybuttonclass="btn-primary"
+    primarybuttontext="Yes"
+    primarybuttontextsubmitting="Creating project..."
+    secondarybuttontext="No"
+    title="Create New Project"
+  >
+    
+  </pf-modal-form>
+</pf-confirm-create-project-modal>
+`;
+
+exports[`ConfirmUnmatchModalComponent should render job details if the exchange job and company job are truthy 1`] = `
+<pf-confirm-create-project-modal
+  allSubscriptions={[Function Subscription]}
+  createProjectError$={[Function Store]}
+  creatingProject$={[Function Store]}
+  mappedExchangeJob={[Function Object]}
+  mappedExchangeJob$={[Function Store]}
+  selectedCompanyJob={[Function Object]}
+  selectedCompanyJob$={[Function Store]}
+  showModal$={[Function Store]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    primarybuttonclass="btn-primary"
+    primarybuttontext="Yes"
+    primarybuttontextsubmitting="Creating project..."
+    secondarybuttontext="No"
+    title="Create New Project"
+  >
+    
+    
+    <p
+      class="mb-2"
+    >
+       Would you like to create a new project for company job 
+      <strong>
+        jobTitle
+      </strong>
+      , which is matched to exchange job 
+      <strong>
+        ExchangeJobTitle
+      </strong>
+      ? 
+    </p>
+    
+    
+  </pf-modal-form>
+</pf-confirm-create-project-modal>
+`;

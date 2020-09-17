@@ -75,4 +75,28 @@ describe('SettingsPanelComponent', () => {
     // assert
     expect(component.resetSettings.emit).toHaveBeenCalledTimes(1);
   });
+
+  it('should show the Font Family menu when enabled', () => {
+    // arrange
+    component.isOpen = true;
+    component.showFontFamilyMenu = true;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture.debugElement.nativeElement.textContent.indexOf('Font Family')).toBeGreaterThan(-1);
+  });
+
+  it('should hide the Font Family menu when disabled', () => {
+    // arrange
+    component.isOpen = true;
+    component.showFontFamilyMenu = false;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture.debugElement.nativeElement.textContent.indexOf('Font Family')).toBe(-1);
+  });
 });

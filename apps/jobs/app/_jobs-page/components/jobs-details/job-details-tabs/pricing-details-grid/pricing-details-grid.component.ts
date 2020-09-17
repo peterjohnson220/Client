@@ -7,8 +7,13 @@ import { ofType } from '@ngrx/effects';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+
+import { NotesManagerConfiguration } from 'libs/models/notes';
 import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
 import { NotesEntities } from 'libs/features/notes-manager/constants';
 import * as fromNotesManagerActions from 'libs/features/notes-manager/actions';
@@ -19,10 +24,8 @@ import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions'
 import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
-import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { AsyncStateObj } from 'libs/models';
 import { PricingUpdateStrategy, UpdatePricingMatchRequest } from 'libs/models/payfactors-api';
-import { NotesManagerConfiguration } from 'libs/models/notes';
 
 import { PageViewIds } from '../../../../constants';
 import { JobTitleCodePipe } from '../../../../pipes';
@@ -57,8 +60,11 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
     dir: 'asc',
     field: 'CompanyPayMarkets_PayMarket'
   }];
+  defaultPagingOptions: PagingOptions;
+
   selectedKeys: number[];
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
   viewMode = 'Priced';
   companyPayMarketsSubscription: Subscription;
 
@@ -86,6 +92,7 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
   selectedJobRowSubscription: Subscription;
 
   jobTitleCodePipe: JobTitleCodePipe;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   showReScopeSurveyDataModal = new BehaviorSubject<boolean>(false);
   showReScopeSurveyDataModal$ = this.showReScopeSurveyDataModal.asObservable();
@@ -95,7 +102,11 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
 
   noRecordsMessage: string;
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
+  constructor(
+    private store: Store<fromJobsPageReducer.State>,
+    private actionsSubject: ActionsSubject,
+    private featureFlagService: AbstractFeatureFlagService) {
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.jobTitleCodePipe = new JobTitleCodePipe();
 
     this.updatingPricingMatch$ = this.store
@@ -155,6 +166,15 @@ export class PricingDetailsGridComponent implements AfterViewInit, OnDestroy, On
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
     };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      SelectAllPanelItemName: 'pricings'
+    };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
 
     this.notesManagerConfiguration = {
       ModalTitle: 'Pricing Notes',

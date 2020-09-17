@@ -17,7 +17,17 @@ export class StatementPrintPageEffects {
       ofType(fromPageActions.LOAD_STATEMENT),
       switchMap((action: fromPageActions.LoadStatement) =>
         this.totalRewardsApi.getStatementForPrint(action.payload).pipe(
-          map((response: StatementForPrint) => new fromPageActions.LoadStatementSuccess(response)),
+          map((response: StatementForPrint) => {
+            response.EmployeeRewardsData.map(e => {
+              if (e.EmployeeDOB) {
+                e.EmployeeDOB = new Date(e.EmployeeDOB);
+              }
+              if (e.EmployeeDOH) {
+                e.EmployeeDOH = new Date(e.EmployeeDOH);
+              }
+            });
+            return new fromPageActions.LoadStatementSuccess(response);
+          }),
           catchError(() => of(new fromPageActions.LoadStatementError()))
         )
       )

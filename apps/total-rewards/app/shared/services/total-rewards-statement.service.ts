@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Statement, CalculationControl, EmployeeRewardsData } from '../models';
+
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
+import { Statement, CalculationControl } from '../models';
 import { CurrentControlIndexResponse } from '../models/current-control-index-response';
 
 @Injectable()

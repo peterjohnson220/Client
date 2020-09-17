@@ -6,6 +6,8 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSecurityModule } from 'libs/security/security.module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { PfAppNotificationsModule } from 'libs/features/app-notifications';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
+import { LaunchDarklyFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import { AppComponent } from './app.component';
 import { AppWrapperComponent } from './app-wrapper.component';
@@ -31,7 +33,8 @@ const declarations = [
     PfAppNotificationsModule
   ],
   providers: [
-    RouteTrackingService
+    RouteTrackingService,
+    { provide: AbstractFeatureFlagService, useClass: LaunchDarklyFeatureFlagService }
   ],
   declarations: declarations,
   exports: declarations

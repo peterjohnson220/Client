@@ -57,7 +57,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job det
         
       </div>
     </div>
-  </section><pf-confirm-unmatch-modal />
+  </section><pf-confirm-unmatch-modal /><pf-confirm-create-project-modal />
 </pf-company-job-and-exchange-detail>
 `;
 
@@ -118,6 +118,6 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job sea
         
       </div>
     </div>
-  </section><pf-confirm-unmatch-modal />
+  </section><pf-confirm-unmatch-modal /><pf-confirm-create-project-modal />
 </pf-company-job-and-exchange-detail>
 `;

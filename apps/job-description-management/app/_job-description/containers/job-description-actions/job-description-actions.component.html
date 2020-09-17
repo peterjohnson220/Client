@@ -78,6 +78,7 @@
       [disabled]="jobDescription.JobDescriptionRevision < 2 && !(inHistory$ | async)"
       [ngbPopover]="historyGridPopContent"
       [popoverClass]="'history-popover'"
+      [autoClose]="'outside'"
       #p="ngbPopover"
       popoverTitle="History">
       <fa-icon icon="history" aria-hidden="true"></fa-icon> History

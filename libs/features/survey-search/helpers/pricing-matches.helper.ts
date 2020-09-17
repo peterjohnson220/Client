@@ -3,11 +3,11 @@ import {
   ExchangeJobDailyNatAvgOrg50thDetails,
   PFJobMatches,
   PricingMatchesRequest,
-  PricingMatchesResponse,
+  PricingMatchesResponse, SearchFilter,
   SurveyJobsMatches
 } from 'libs/models/payfactors-api';
 
-import { JobResult } from '../models';
+import { JobResult, PricingMatchDataSearchContext } from '../models';
 
 export function applyMatchesToJobResults(jobResults: JobResult[], pricingMatches: PricingMatchesResponse): JobResult[] {
   const surveyJobsMatches: SurveyJobsMatches[] = pricingMatches.SurveyJobsMatches;
@@ -38,7 +38,12 @@ export function applyMatchesToJobResults(jobResults: JobResult[], pricingMatches
   return jobResults;
 }
 
-export function createPricingMatchesRequest(jobResults: JobResult[], lastJobResultIndex: number, countryCode: string): PricingMatchesRequest {
+export function createPricingMatchesRequest(
+  jobResults: JobResult[],
+  lastJobResultIndex: number,
+  projectSearchContext: PricingMatchDataSearchContext,
+  filters: SearchFilter[]
+): PricingMatchesRequest {
   const latestResults: JobResult[] = jobResults.slice(lastJobResultIndex, jobResults.length);
   const surveyJobIds: number[] = [];
   const exchangeJobIds: number[] = [];
@@ -52,8 +57,12 @@ export function createPricingMatchesRequest(jobResults: JobResult[], lastJobResu
       exchangeJobIds.push(jobResult.PeerJobInfo.ExchangeJobId);
     }
   });
+
   const pricingMatchesRequest: PricingMatchesRequest = {
-    CountryCode: countryCode,
+    Filters: filters,
+    CurrencyCode: projectSearchContext.CurrencyCode,
+    CountryCode: projectSearchContext.CountryCode,
+    Rate: projectSearchContext.Rate,
     SurveyJobIds: surveyJobIds,
     PFJobCodes: jobCodes,
     ExchangeJobIds: exchangeJobIds
