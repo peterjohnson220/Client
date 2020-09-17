@@ -55,5 +55,15 @@
 
   </ng-container>
 
+  <ng-container footer-left>
+    <div *ngIf="hasReachedEmployeesLimit" class="d-flex warning-message">
+      <fa-icon icon="exclamation-triangle" class="text-danger"></fa-icon>
+      <span class="ml-2">You have reached the 100,000 employees limit.</span>
+    </div>
+    <div *ngIf="displayEmployeesLimitInfoMessage" class="d-flex info-message">
+      <fa-icon icon="info-circle" class="text-muted"></fa-icon>
+      <span class="ml-2">You can assign up to 100,000 employees to a statement.</span>
+    </div>
+  </ng-container>
 
 </pf-modal-form>

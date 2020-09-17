@@ -7,7 +7,7 @@ export interface State {
   isLoading: boolean;
   loadingError: boolean;
   exchangeScopes: ExchangeScopes[];
-  selectedExchangeScopes: GenericKeyValue<number, string>[];
+  selectedExchangeScopes: GenericKeyValue<number, number>[];
 }
 
 // Initial State
@@ -20,7 +20,7 @@ export const initialState: State = {
 
 // Reducer
 export function reducer(
-    featureSate = initialState,
+    featureState = initialState,
     featureAction: fromPaymarketExchangeScopeActions.Actions
 ): State {
   switch (featureAction.type) {
@@ -28,7 +28,7 @@ export function reducer(
     case fromPaymarketExchangeScopeActions.LOAD_EXCHANGE_SCOPES:
     case fromPaymarketExchangeScopeActions.LOAD_EXCHANGE_SCOPE_SELECTIONS: {
       return {
-        ...featureSate,
+        ...featureState,
         isLoading: true,
         loadingError: false
       };
@@ -36,7 +36,7 @@ export function reducer(
 
     case fromPaymarketExchangeScopeActions.LOAD_EXCHANGE_SCOPES_SUCCESS: {
       return {
-        ...featureSate,
+        ...featureState,
         isLoading: false,
         loadingError: false,
         exchangeScopes: featureAction.payload
@@ -46,7 +46,7 @@ export function reducer(
     case fromPaymarketExchangeScopeActions.LOAD_EXCHANGE_SCOPES_ERROR:
     case fromPaymarketExchangeScopeActions.LOAD_EXCHANGE_SCOPE_SELECTIONS_ERROR: {
       return {
-        ...featureSate,
+        ...featureState,
         isLoading: false,
         loadingError: true
       };
@@ -54,7 +54,7 @@ export function reducer(
 
     case fromPaymarketExchangeScopeActions.LOAD_EXCHANGE_SCOPE_SELECTIONS_SUCCESS: {
       return {
-        ...featureSate,
+        ...featureState,
         isLoading: false,
         loadingError: false,
         selectedExchangeScopes: featureAction.payload
@@ -62,26 +62,26 @@ export function reducer(
     }
 
     case fromPaymarketExchangeScopeActions.ADD_ROW: {
-      const newSelectedExchangeScope: GenericKeyValue<number, string>[] = [];
+      const newSelectedExchangeScope: GenericKeyValue<number, number>[] = [];
       newSelectedExchangeScope.push({Key: 0, Value: null});
-      newSelectedExchangeScope.push(...featureSate.selectedExchangeScopes);
+      newSelectedExchangeScope.push(...featureState.selectedExchangeScopes);
       return {
-        ...featureSate,
+        ...featureState,
         selectedExchangeScopes: newSelectedExchangeScope
       };
     }
 
     case fromPaymarketExchangeScopeActions.DELETE_ROW: {
       const newSelectedExchangeScopes =
-        featureSate.selectedExchangeScopes.filter((item, index) => index !== featureAction.row);
+        featureState.selectedExchangeScopes.filter((item, index) => index !== featureAction.row);
       return {
-        ...featureSate,
+        ...featureState,
         selectedExchangeScopes: newSelectedExchangeScopes
       };
     }
 
     case  fromPaymarketExchangeScopeActions.SELECT_EXCHANGE: {
-      const selectedExchangeScopes = [...featureSate.selectedExchangeScopes];
+      const selectedExchangeScopes = [...featureState.selectedExchangeScopes];
       if (featureAction.payload.Row >= 0 && featureAction.payload.ExchangeId >= 0) {
         selectedExchangeScopes[featureAction.payload.Row] = {
           Key: featureAction.payload.ExchangeId,
@@ -89,13 +89,13 @@ export function reducer(
         };
       }
       return {
-        ...featureSate,
+        ...featureState,
         selectedExchangeScopes: selectedExchangeScopes
       };
     }
 
     case fromPaymarketExchangeScopeActions.SELECT_SCOPE: {
-      const selectedExchangeScopes = [...featureSate.selectedExchangeScopes];
+      const selectedExchangeScopes = [...featureState.selectedExchangeScopes];
       if (featureAction.payload.Row >= 0) {
         const exchangeId = selectedExchangeScopes[featureAction.payload.Row].Key;
         const scopeId = featureAction.payload.ScopeId;
@@ -106,13 +106,13 @@ export function reducer(
       }
 
       return {
-        ...featureSate,
+        ...featureState,
         selectedExchangeScopes: selectedExchangeScopes
       };
     }
 
     default: {
-      return featureSate;
+      return featureState;
     }
   }
 }

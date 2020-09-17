@@ -1,10 +1,19 @@
 <ng-container *ngIf="canAddAttachments || attachments?.length">
   <hr>
   <div class="d-flex">
-    <div class="ticket-labels"><h6 class="attachment-label">Attachments</h6></div>
+    <div class="ticket-labels"><h6 class="attachment-label">Attachments</h6>
+      <fa-icon *ngIf="canAddAttachments && isTicketClosed"
+               icon="info-circle"
+               [ngbPopover]="closedMessage"
+               triggers="mouseenter:mouseleave"
+               container="body"
+               placement="right"
+               class="info-icon">
+      </fa-icon>
+    </div>
     <div class="attachments-container w-100">
       <kendo-upload class="mb-2"
-                    *ngIf="canAddAttachments"
+                    *ngIf="canAddAttachments && !isTicketClosed"
                     [multiple]="true"
                     [saveUrl]="uploadSaveUrl"
                     [restrictions]="uploadRestrictions"
@@ -31,3 +40,8 @@
   </div>
 </ng-container>
 
+<ng-template #closedMessage>
+  <div class="pop-content">
+    You are not able to add attachments to a closed ticket. Please create a new ticket.
+  </div>
+</ng-template>

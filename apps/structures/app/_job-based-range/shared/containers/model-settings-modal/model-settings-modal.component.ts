@@ -29,7 +29,7 @@ import { ModelSettingsModalConstants } from '../../constants/model-settings-moda
 export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
   @Input() page: Pages;
-  @ViewChild(RangeDistributionSettingComponent, {static: false}) public rdSettingComponent: RangeDistributionSettingComponent;
+  @ViewChild(RangeDistributionSettingComponent, { static: false }) public rdSettingComponent: RangeDistributionSettingComponent;
 
   modalOpen$: Observable<boolean>;
   metaData$: Observable<RangeGroupMetadata>;
@@ -107,15 +107,11 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   get modalTitle() {
-       return this.metadata.StructureName;
+    return this.metadata.StructureName;
   }
 
   get modalSubTitle() {
-       return this.metadata.Paymarket;
-  }
-
-  get structureInputIsDisabled() {
-    return this.metadata.IsCurrent || this.isNewModel;
+    return this.metadata.Paymarket;
   }
 
   buildForm() {
@@ -123,6 +119,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'StructureName': new FormControl(this.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
       'ModelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
       'PayMarket': new FormControl(this.metadata.Paymarket, [Validators.required]),
+      'PayType': new FormControl(this.metadata.PayType, [Validators.required]),
       'ControlPoint': new FormControl(this.metadata.ControlPoint, [Validators.required]),
       'SpreadMin': new FormControl(this.metadata.SpreadMin, [this.enableJobRangeTypes ? Validators.nullValidator : Validators.required]),
       'SpreadMax': new FormControl(this.metadata.SpreadMax, [this.enableJobRangeTypes ? Validators.nullValidator : Validators.required]),
@@ -154,9 +151,15 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.attemptedSubmit = true;
     this.modelSetting = this.modelSettingsForm.getRawValue();
     if (this.enableJobRangeTypes) {
-      // Set value for control point, range spread min and max
+      // Set value for control point, range spread min and max, pay type
       this.updateRangeTypeSetting();
+    } else {
+      // For structures with no range types PayType is the same as ControlPoint with no MRP posfix
+      const payType = this.modelSettingsForm.controls['ControlPoint'].value.replace('MRP', '');
+      this.modelSettingsForm.controls['PayType'].setValue(payType);
+      this.modelSetting = this.modelSettingsForm.getRawValue();
     }
+
     if (!this.modelSettingsForm.valid) {
       this.activeTab = 'modelTab';
     }
@@ -164,13 +167,13 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   updateRangeTypeSetting() {
     const setting = this.rdSettingComponent.rangeDistributionSettingForm.getRawValue();
-
     if (!!setting) {
       // Prevent the hidden controls from failing validation
       this.modelSettingsForm.controls['SpreadMin'].setValue(setting.Minimum);
       this.modelSettingsForm.controls['SpreadMax'].setValue(setting.Maximum);
-      this.modelSettingsForm.controls['ControlPoint'].setValue(setting.RangeBasedOn);
+      this.modelSettingsForm.controls['ControlPoint'].setValue(setting.ControlPoint);
       this.modelSettingsForm.controls['RangeDistributionTypeId'].setValue(setting.RangeDistributionTypeId);
+      this.modelSettingsForm.controls['PayType'].setValue(setting.PayType);
 
       this.modelSetting = this.modelSettingsForm.getRawValue();
       this.modelSetting.RangeDistributionSetting = setting;
@@ -198,7 +201,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   handleCurrencyFilterChange(value: string) {
     this.currencies = this.currenciesAsyncObj.obj.filter(cp => {
       return cp.CurrencyCode.toLowerCase().startsWith(value.toLowerCase()) ||
-             cp.CurrencyName.toLowerCase().startsWith(value.toLowerCase());
+        cp.CurrencyName.toLowerCase().startsWith(value.toLowerCase());
     });
   }
 
@@ -212,7 +215,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleRateSelectionChange(value: string) {
     const roundingPoint = value.toLowerCase() === 'hourly' ? 2 : 0;
-    this.store.dispatch(new fromMetadataActions.UpdateRoundingPoints({RoundingPoint: roundingPoint}));
+    this.store.dispatch(new fromMetadataActions.UpdateRoundingPoints({ RoundingPoint: roundingPoint }));
   }
 
   clearModelNameExistsFailure() {

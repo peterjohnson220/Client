@@ -44,7 +44,7 @@ export class UpsertDataCutPageComponent implements OnInit {
     }
 
     if (ev.data && ev.data.type === fromSurveySearchResultsActions.REFINE_EXCHANGE_JOB_RESULT && !!ev.data.body) {
-      this.store.dispatch(new fromLibsExchangeExplorerContextInfoActions.LoadContextInfo({...ev.data.body, companyPayMarketId: this.companyPayMarketId}));
+      this.store.dispatch(new fromLibsExchangeExplorerActions.RefineExchangeJob({...ev.data.body, companyPayMarketId: this.companyPayMarketId}));
       return;
     }
 

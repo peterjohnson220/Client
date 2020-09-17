@@ -10,6 +10,10 @@ $company-size-filter-width: 200px;
   color: $community-tags-header-color;
 }
 
+.solid-star {
+  color: $community-favorite-icon-color;
+}
+
 ::ng-deep .topic-filter kendo-multiselect {
   width: $topic-filter-width;
 }

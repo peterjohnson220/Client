@@ -7,6 +7,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
+import { AbstractFeatureFlagService, RealTimeFlag, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromRootState from '../../../../state/state';
 import * as fromHeaderActions from '../../actions/header.actions';
@@ -32,8 +33,9 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
   enableCoreJDMInClient$: Observable<boolean>;
   requireSSOLogin$: Observable<boolean>;
   enableCoreJDMInClientSubscription: Subscription;
-  enableUserNotifications$: Observable<boolean>;
   userContextSubscription: Subscription;
+  userNotificationsFeatureFlag: RealTimeFlag = { key: FeatureFlags.UserNotifications, value: false };
+  unsubscribe$ = new Subject<void>();
 
   @Input() displayRightSideBar: boolean;
   @Input() rightSideBarFontAwesomeOpenIcon = 'fa-plus';
@@ -48,6 +50,7 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
     private store: Store<fromRootState.State>,
     private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>,
     private settingsService: SettingsService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.userContext$ = store.select(fromRootState.getUserContext);
     this.currentYear = new Date().getFullYear();
@@ -73,9 +76,7 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
       CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
     );
 
-    this.enableUserNotifications$ = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.EnableUserNotifications
-    );
+    this.featureFlagService.bindEnabled(this.userNotificationsFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit() {
@@ -96,6 +97,7 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
       this.userContextSubscription.unsubscribe();
     }
     this.enableCoreJDMInClientSubscription.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   rightSidebarToggle(isOpen: boolean) {

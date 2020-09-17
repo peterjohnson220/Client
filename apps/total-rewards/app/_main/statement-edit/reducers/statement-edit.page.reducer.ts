@@ -1,10 +1,14 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { GenericNameValue } from 'libs/models/common';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
+import { EmployeeRewardsData, generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
+
 import { ImageControl, Statement, StatementModeEnum } from '../../../shared/models';
 import { TotalRewardsStatementService } from '../../../shared/services/total-rewards-statement.service';
 import * as fromEditStatementActions from '../actions';
+
 
 export interface State {
   statement: AsyncStateObj<Statement>;
@@ -16,6 +20,8 @@ export interface State {
   settingsSaving: boolean;
   settingsSaveSuccess: boolean;
   settingsSaveError: boolean;
+  employeeData: AsyncStateObj<EmployeeRewardsData>;
+  assignedEmployees: AsyncStateObj<GenericNameValue<number>[]>;
 }
 
 export const initialState: State = {
@@ -28,6 +34,8 @@ export const initialState: State = {
   settingsSaving: false,
   settingsSaveSuccess: false,
   settingsSaveError: false,
+  employeeData: generateDefaultAsyncStateObj<EmployeeRewardsData>(null),
+  assignedEmployees: generateDefaultAsyncStateObj<GenericNameValue<number>[]>([]),
 };
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
@@ -209,6 +217,34 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       const localState: State = cloneDeep(state);
       localState.statement.obj.EffectiveDate = action.payload.effectiveDate;
       return localState;
+    }
+    case fromEditStatementActions.SEARCH_ASSIGNED_EMPLOYEES: {
+      return AsyncStateObjHelper.loading(state, 'assignedEmployees');
+    }
+    case fromEditStatementActions.SEARCH_ASSIGNED_EMPLOYEES_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'assignedEmployees', action.payload);
+    }
+    case fromEditStatementActions.SEARCH_ASSIGNED_EMPLOYEES_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'assignedEmployees');
+    }
+    case fromEditStatementActions.GET_EMPLOYEE_REWARDS_DATA: {
+      return AsyncStateObjHelper.loading(state, 'employeeData');
+    }
+    case fromEditStatementActions.GET_EMPLOYEE_REWARDS_DATA_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'employeeData', action.payload);
+    }
+    case fromEditStatementActions.GET_EMPLOYEE_REWARDS_DATA_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'employeeData');
+    }
+    case fromEditStatementActions.RESET_EMPLOYEE_REWARDS_DATA: {
+      const employeeDataAsyncClone = cloneDeep(state.employeeData);
+      employeeDataAsyncClone.loading = false;
+      employeeDataAsyncClone.obj = generateMockEmployeeRewardsData();
+      employeeDataAsyncClone.loadingError = false;
+      return {
+        ...state,
+        employeeData: employeeDataAsyncClone
+      };
     }
     default: {
       return state;

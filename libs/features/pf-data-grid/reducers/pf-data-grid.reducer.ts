@@ -4,7 +4,7 @@ import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
 import isNumber from 'lodash/isNumber';
 
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
 import { arrayMoveMutate, arraySortByString, SortDirection } from 'libs/core/functions';
@@ -53,6 +53,12 @@ export interface DataGridState {
   fieldsExcludedFromExport: [];
   gridConfig: GridConfig;
   modifiedKeys: any[];
+  gridScrolledContent: ContentScrollEvent;
+  hasMoreDataOnServer: boolean;
+  loadingMoreData: boolean;
+  totalCount: number;
+  lastUpdateFieldsDate: Date;
+  visibleKeys: number[];
 }
 
 export interface DataGridStoreState {
@@ -162,7 +168,12 @@ export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: stri
 export const getGridConfig = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].gridConfig : null;
 export const getFilterPanelOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].filterPanelOpen : null;
 export const getModifiedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].modifiedKeys : null;
-
+export const getGridScrolledContent = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].gridScrolledContent;
+export const getTotalCount = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].totalCount;
+export const getHasMoreDataOnServer = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].hasMoreDataOnServer;
+export const getLoadingMoreData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingMoreData;
+export const getLastUpdateFieldsDate = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].lastUpdateFieldsDate;
+export const getVisibleKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].visibleKeys;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -234,6 +245,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           selectedVisibleFields.length === loadDataVisibleFieldsIds.length ? SelectAllStatus.checked :
             SelectAllStatus.indeterminate;
 
+      const loadDataVisibleKeys = uniq(loadDataVisibleFieldsIds);
+
       return {
         ...state,
         grids: {
@@ -244,8 +257,51 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
               data: action.payload.Data,
               total: action.payload.TotalCount
             },
+            totalCount: action.payload.TotalCount,
             loading: false,
-            selectAllState: loadDataSelectAllState
+            selectAllState: loadDataSelectAllState,
+            hasMoreDataOnServer: action.payload.Data.length < action.payload.TotalCount,
+            visibleKeys: loadDataVisibleKeys
+          }
+        }
+      };
+    case fromPfGridActions.LOAD_MORE_DATA:
+      const gridPagingOptions = cloneDeep(state.grids[action.pageViewId].pagingOptions);
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            loading: true,
+            loadingMoreData: true,
+            pagingOptions: { From: gridPagingOptions.From + gridPagingOptions.Count, Count: gridPagingOptions.Count }
+          }
+        }
+      };
+    case fromPfGridActions.LOAD_MORE_DATA_SUCCESS:
+      const gridDataClone: GridDataResult = cloneDeep(state.grids[action.pageViewId].data);
+      gridDataClone.data = gridDataClone.data.concat(action.payload.Data);
+
+      const currentSelectAllState = state.grids[action.pageViewId].selectAllState;
+      const loadMoreDataSelectAllState = currentSelectAllState === SelectAllStatus.checked
+        ? SelectAllStatus.indeterminate
+        : currentSelectAllState === SelectAllStatus.indeterminate ? SelectAllStatus.indeterminate : SelectAllStatus.unchecked;
+
+      const loadMoreDataVisibleKeys = uniq(getVisibleFieldsIds(state, action.pageViewId, gridDataClone.data));
+
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            data: gridDataClone,
+            loading: false,
+            loadingMoreData: false,
+            hasMoreDataOnServer: gridDataClone.data.length < state.grids[action.pageViewId].totalCount,
+            selectAllState: loadMoreDataSelectAllState,
+            visibleKeys: loadMoreDataVisibleKeys
           }
         }
       };
@@ -269,6 +325,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             selectedRow: null,
             expandedRows: [],
             sortDescriptor: sortDescriptor
+          }
+        }
+      };
+    case fromPfGridActions.UPDATE_FIELDS_SUCCESS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            lastUpdateFieldsDate: new Date()
           }
         }
       };
@@ -1015,6 +1082,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             modifiedKeys: state.grids[action.pageViewId].modifiedKeys.filter((modifiedKey => modifiedKey !== action.payload))
+          }
+        }
+      };
+    case fromPfGridActions.CAPTURE_GRID_SCROLLED:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [ action.pageViewId ]: {
+            ...state.grids[ action.pageViewId ],
+            gridScrolledContent: action.payload
           }
         }
       };

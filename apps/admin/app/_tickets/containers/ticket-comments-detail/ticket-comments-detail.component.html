@@ -29,6 +29,30 @@
         </ng-container>
 
       </pf-comment-box>
+      <pf-comment-box *ngIf="comment.Level === commentLevel.System && comment?.AttachmentNames?.length"
+        class="client-note"
+        [comment]="comment"
+        [hasCustomCommentContent]="true"
+        [replyEnabled]="false">
+
+        <ng-container custom-comment-content>
+          <div class="comment-content d-flex">
+            <span class="user-name">{{comment.FullName}}</span>
+          </div>
+          <div class="content pt-3">
+            <span>{{comment.Content}}</span>
+            <ul>
+              <li *ngFor="let attachment of comment.AttachmentNames">
+                {{attachment}}
+              </li>
+            </ul>
+          </div>
+          <div class="comment-date text-muted">
+            Date: {{comment.CreateDateWithoutTime | date:'shortDate'}}
+          </div>
+        </ng-container>
+
+      </pf-comment-box>
       <hr class="w-100"/>
     </div>
   </div>

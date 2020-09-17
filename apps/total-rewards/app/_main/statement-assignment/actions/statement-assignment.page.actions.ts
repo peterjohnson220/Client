@@ -30,6 +30,7 @@ export const OPEN_SINGLE_EMPLOYEE_UNASSIGN_MODAL = '[Total Rewards/Statement Ass
 export const UNASSIGN_EMPLOYEES = '[Total Rewards/Statement Assignment] Unassign Employees';
 export const UNASSIGN_EMPLOYEES_SUCCESS = '[Total Rewards/Statement Assignment] Unassign Employees Success';
 export const UNASSIGN_EMPLOYEES_ERROR = '[Total Rewards/Statement Assignment] Unassign Employees Error';
+export const UPDATE_STATEMENT_ASSIGNED_EMPLOYEES = '[Total Rewards/Statement Assignment] Update Assigned Employees';
 
 export const START_EXPORT_ASSIGNED_EMPLOYEES = '[Total Rewards/Statement Assignment] Start Export Assigned Employees';
 export const START_EXPORT_ASSIGNED_EMPLOYEES_SUCCESS = '[Total Rewards/Statement Assignment] Start Export Assigned Employees Success';
@@ -115,6 +116,8 @@ export class UnassignEmployees implements Action {
 
 export class UnassignEmployeesSuccess implements Action {
   readonly type = UNASSIGN_EMPLOYEES_SUCCESS;
+
+  constructor(public payload: number[]) {}
 }
 
 export class UnassignEmployeesError implements Action {
@@ -163,6 +166,12 @@ export class GetExportingAssignedEmployeeError implements Action {
   constructor() {}
 }
 
+export class UpdateStatementAssignedEmployees implements Action {
+  readonly type = UPDATE_STATEMENT_ASSIGNED_EMPLOYEES;
+
+  constructor(public payload: number[]) {}
+}
+
 export type StatementAssignmentPageActions =
   ResetState |
   LoadStatement |
@@ -190,4 +199,5 @@ export type StatementAssignmentPageActions =
   ExportAssignedEmployeesComplete |
   GetExportingAssignedEmployee |
   GetExportingAssignedEmployeeSuccess |
-  GetExportingAssignedEmployeeError;
+  GetExportingAssignedEmployeeError |
+  UpdateStatementAssignedEmployees;

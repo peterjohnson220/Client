@@ -5,7 +5,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   COMMUNITY_POSTS_CONTAINER_ID={[Function String]}
   POST_ITEM_CLASS={[Function String]}
   browserDetectionService={[Function BrowserDetectionService]}
-  disableCommunityAttachments$={[Function Store]}
+  disableCommunityAttachments$={[Function Observable]}
   executePageScrollDown="false"
   executePageScrollUp="false"
   getHasNextBatchPostsOnServer$={[Function Store]}

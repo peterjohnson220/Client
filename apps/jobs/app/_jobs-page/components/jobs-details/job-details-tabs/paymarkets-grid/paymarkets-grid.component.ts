@@ -7,9 +7,12 @@ import { ofType } from '@ngrx/effects';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { NotesEntities } from 'libs/features/notes-manager/constants';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+
 import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
 
 import { AsyncStateObj, NotesManagerConfiguration } from 'libs/models';
@@ -52,6 +55,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   pageViewId = PageViewIds.PayMarkets;
 
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Status', 'Priced'];
   mrpFields = ['AllowMRP', 'BaseMRP', 'BonusMRP', 'BonusPctMRP', 'BonusTargetMRP', 'BonusTargetPctMRP', 'FixedMRP', 'LTIPMRP', 'LTIPPctMRP', 'RemunMRP',
@@ -67,6 +71,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     dir: 'asc',
     field: 'CompanyPayMarkets_PayMarket'
   }];
+  defaultPagingOptions: PagingOptions;
 
   allPayMarkets = { display: '', value: null };
   pricedPayMarkets = { display: 'Yes', value: 'notnull' };
@@ -102,6 +107,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   selectedJobRowSubscription: Subscription;
 
   jobTitleCodePipe: JobTitleCodePipe;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   showReScopeSurveyDataModal = new BehaviorSubject<boolean>(false);
   showReScopeSurveyDataModal$ = this.showReScopeSurveyDataModal.asObservable();
@@ -109,10 +115,14 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   reScopeSurveyDataConfiguration: ReScopeSurveyDataModalConfiguration;
   matchIdForReScope: number;
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) { }
+  constructor(private store: Store<fromJobsPageReducer.State>,
+              private actionsSubject: ActionsSubject,
+              private featureFlagService: AbstractFeatureFlagService) { }
 
   ngOnInit(): void {
     this.jobTitleCodePipe = new JobTitleCodePipe();
+
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
 
     this.updatingPricingMatch$ = this.store
       .select(fromJobsPageReducer.getUpdatingPricingMatch)
@@ -175,6 +185,15 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
     };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      SelectAllPanelItemName: 'pricings'
+    };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
 
     this.notesManagerConfiguration = {
       ModalTitle: 'Pricing Notes',

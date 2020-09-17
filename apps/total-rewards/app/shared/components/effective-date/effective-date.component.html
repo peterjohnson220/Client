@@ -1,10 +1,14 @@
-<div class="effective-date pt-2 position-relative" [ngClass]="mode === statementModeEnum.Edit ? 'edit-mode' : 'preview-mode'">
+<div class="effective-date pt-2 position-relative" pfModeClassifierDirective [mode]="mode">
   <div class="field-wrapper d-flex align-items-center" [ngClass]="{'empty-date': !effectiveDate}">
     <label class="text-muted mr-2 mb-0">Information Effective:</label>
     <kendo-datepicker 
+      *ngIf="mode !== statementModeEnum.Print"
       [disabled]="mode !== statementModeEnum.Edit"
       [value]="effectiveDate"
       (valueChange)="handleValueChanged($event)">
     </kendo-datepicker>
+    <span *ngIf="mode === statementModeEnum.Print" class="static-date d-inline-block">
+      {{ effectiveDate | date:'MM/dd/yyyy' }}
+    </span>
   </div>
 </div>

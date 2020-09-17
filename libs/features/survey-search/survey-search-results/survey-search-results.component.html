@@ -8,6 +8,7 @@
       [job]="jobResult"
       [cutsDraggable]="cutsDraggable"
       [currencyCode]="(pricingMatchDataSearchContext$ | async)?.CurrencyCode"
+      [rate]="(pricingMatchDataSearchContext$ | async)?.Rate"
       [legacyIframeImplementation]="legacyIframeImplementation"
       [refineInPeerDisplayed]="refineInPeerEnabled && refineInPeerReady"
       (loadDataCuts)="handleLoadDataCuts($event)"

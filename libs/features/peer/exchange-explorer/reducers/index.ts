@@ -156,7 +156,7 @@ export const getFilterContextIncludeUntaggedIncumbents = createSelector(
   selectFilterContextState,
   fromExchangeFilterContextReducer.getIncludeUntaggedIncumbents
 );
-export const getFilterContextScopeGuid = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getScopeGuid);
+export const getFilterContextScopeId = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getScopeId);
 export const getFilterContext = createSelector(selectFilterContextState, fromExchangeFilterContextReducer.getFilterContext);
 export const getSelectedExchangeJobId = createSelector(
   getFilterContext,
@@ -217,15 +217,15 @@ export const getFilterContextHasDefaultScope = createSelector(
       return false;
     }
 
-    return !!filterContext && !!scopes && scopes.length && scopes.findIndex(s => s.ExchangeScopeGuid === filterContext.ScopeGUID) > -1;
+    return !!filterContext && !!scopes && scopes.length && scopes.findIndex(s => s.ExchangeScopeId === filterContext.ScopeId) > -1;
 });
 
 export const getFilterContextScopeSelection = createSelector(
   getExchangeScopes,
-  getFilterContextScopeGuid,
-  (scopes, selectedGuid) => {
-    if (!scopes || !scopes.length || !selectedGuid) {
+  getFilterContextScopeId,
+  (scopes, selectedId) => {
+    if (!scopes || !scopes.length || !selectedId) {
       return null;
     }
-    return scopes.find(s => s.ExchangeScopeGuid === selectedGuid);
+    return scopes.find(s => s.ExchangeScopeId === selectedId);
   });

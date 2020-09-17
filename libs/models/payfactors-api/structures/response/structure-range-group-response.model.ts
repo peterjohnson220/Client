@@ -10,6 +10,7 @@ export interface StructureRangeGroupResponse {
   RangeGroupName: string;
   Currency: string;
   Rate: string;
+  PayType: string;
   ControlPoint: string;
   IsPublished: boolean;
   IsCurrent: boolean;
@@ -35,6 +36,7 @@ export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupRes
     RangeGroupName: 'TestRangeGroupName',
     Currency: 'USDollarTest',
     Rate: 'TestRate',
+    PayType: 'TestPayType',
     ControlPoint: 'TestControlPoint',
     IsPublished: false,
     IsCurrent: true,

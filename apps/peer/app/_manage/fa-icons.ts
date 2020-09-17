@@ -14,7 +14,8 @@ import { faCircle } from '@fortawesome/pro-solid-svg-icons/faCircle';
 import { faExchange } from '@fortawesome/pro-solid-svg-icons/faExchange';
 import { faRedoAlt } from '@fortawesome/pro-solid-svg-icons/faRedoAlt';
 import { faCheck } from '@fortawesome/pro-solid-svg-icons/faCheck';
+import { faCalculator } from '@fortawesome/pro-regular-svg-icons/faCalculator';
 
 export const faIcons = [faExclamationTriangle, faDownload, faUpload, faInfoCircle, faSitemap, faTrashAlt,
   faChevronCircleLeft, faChevronCircleRight, faBriefcase, faRectangleLandscape, faBalanceScaleRight, faTimes,
-  faCircle, faExchange, faRedoAlt, faCheck];
+  faCircle, faExchange, faRedoAlt, faCheck, faCalculator];

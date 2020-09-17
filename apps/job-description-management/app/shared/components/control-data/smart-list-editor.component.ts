@@ -73,18 +73,24 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: any) {
-    if (changes.data && changes.data.currentValue.length) {
+    if (changes.data) {
       const currentData = changes.data.currentValue;
-      const sourcedAttributeName = this.attributes.find(a => a.CanBeSourced).Name;
-      for (let i = 0; i < currentData.length; i++) {
-        const currentSourcedValue = currentData[i][sourcedAttributeName];
+      if (currentData.length) {
+        const sourcedAttributeName = this.attributes.find(a => a.CanBeSourced).Name;
+        for (let i = 0; i < currentData.length; i++) {
+          const currentSourcedValue = currentData[i][sourcedAttributeName];
 
-        if ((currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) || this.replaceContent) {
-          currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
-          this.rebuildQuillHtmlFromSavedData();
-          this.focusRTE();
-          this.replaceContent = false;
+          if ((currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) || this.replaceContent) {
+            currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
+            this.rebuildQuillHtmlFromSavedData();
+            this.focusRTE();
+            this.replaceContent = false;
+          }
         }
+      } else if (this.replaceContent) {
+        this.rebuildQuillHtmlFromSavedData();
+        this.focusRTE();
+        this.replaceContent = false;
       }
     }
   }

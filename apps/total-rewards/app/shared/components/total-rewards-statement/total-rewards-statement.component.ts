@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
 import {
   CalculationControl,
   DeleteImageRequest,
-  EmployeeRewardsData,
   SaveImageRequest,
   Statement,
   StatementModeEnum,
@@ -22,9 +23,11 @@ import {
 })
 export class TotalRewardsStatementComponent {
 
+  @Input() loadingData: boolean;
   @Input() statement: Statement;
   @Input() mode: StatementModeEnum;
   @Input() employeeRewardsData: EmployeeRewardsData;
+  @Input() pageBreakAfter: boolean;
 
   // Common Outputs
   @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
@@ -40,10 +43,12 @@ export class TotalRewardsStatementComponent {
 
   // Chart Control Outputs
   @Output() onChartControlToggleSettingsPanelClick = new EventEmitter();
+  @Output() onChartControlRender: EventEmitter<string> = new EventEmitter();
 
   // Image Control Outputs
   @Output() onSaveImage: EventEmitter<SaveImageRequest> = new EventEmitter();
   @Output() onRemoveImage: EventEmitter<DeleteImageRequest> = new EventEmitter();
+  @Output() onImageLoaded: EventEmitter<string> = new EventEmitter();
 
   // Effective Date Outputs
   @Output() onEffectiveDateChange: EventEmitter<Date> = new EventEmitter<Date>();
@@ -78,7 +83,7 @@ export class TotalRewardsStatementComponent {
         if (this.mode === StatementModeEnum.Edit) {
           calcControls.push(control);
         } else if (currentControl.DataFields.some(f =>
-          this.employeeRewardsData[ f.DatabaseField ] !== null && f.IsVisible
+          f.IsVisible && this.employeeRewardsData[ f.DatabaseField ] !== null && this.employeeRewardsData[ f.DatabaseField ] > 0
         )) {
           calcControls.push(control);
         }
@@ -86,8 +91,6 @@ export class TotalRewardsStatementComponent {
     }))));
     return calcControls;
   }
-
-  constructor() { }
 
   // track which item each ngFor is on, which no longer necessitates destroying/creating all components in state changes and improves perf significantly
   trackByFn(index: number, item: any) {
@@ -126,6 +129,10 @@ export class TotalRewardsStatementComponent {
     this.onChartControlToggleSettingsPanelClick.emit();
   }
 
+  handleChartRender() {
+    this.onChartControlRender.emit();
+  }
+
   // Image pass though methods
   handleSaveImage(event) {
     this.onSaveImage.emit(event);
@@ -133,6 +140,10 @@ export class TotalRewardsStatementComponent {
 
   handleRemoveImage(deleteImageRequest) {
     this.onRemoveImage.emit(deleteImageRequest);
+  }
+
+  handleImageLoaded(imageControlId) {
+    this.onImageLoaded.emit(imageControlId);
   }
 
   // Effective Date pass through methods

@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { Observable, Subscription, combineLatest, BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
@@ -21,6 +21,7 @@ import * as fromAssignmentsModalActions from '../actions/statement-assignment-mo
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
 import { Statement } from '../../../shared/models';
 import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
+import { StatementAssignmentConfig } from '../models';
 
 
 @Component({
@@ -73,6 +74,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   filterChangeSubject = new BehaviorSubject<FilterDescriptor[]>([]);
   filters$: Observable<FilterDescriptor[]>;
   isChangingFilters: boolean;
+  statementAssignmentMax = StatementAssignmentConfig.statementAssignmentMax;
   private readonly FILTER_DEBOUNCE_TIME = 400;
 
   constructor(
@@ -138,6 +140,9 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
       distinctUntilChanged(),
       debounceTime(this.FILTER_DEBOUNCE_TIME)
     ).subscribe((filters: FilterDescriptor[]) => {
+      if (!this.isChangingFilters) {
+        return;
+      }
       this.isChangingFilters = false;
       // the filters component mutates the gridState's filters directly so workaround a potential read only error by cloning
       this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
@@ -150,7 +155,6 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
       if (u) {
         this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
         this.assignedEmployeesGridState.skip = 0;
-        this.assignedEmployeesGridState.take = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState.take;
       }
     });
     this.exportEventIdSubscription = this.exportEventId$.subscribe(eventId => {
@@ -178,6 +182,8 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.routeParamSubscription$.unsubscribe();
     this.exportEventIdSubscription.unsubscribe();
     this.appNotificationSubscription.unsubscribe();
+    this.unassignEmployeesSuccessSubscription.unsubscribe();
+    this.filterChangeSubscription.unsubscribe();
     this.store.dispatch(new fromPageActions.ResetState());
   }
 
@@ -204,6 +210,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     const currentFilter = cloneDeep(this.assignedEmployeesGridState.filter);
     this.assignedEmployeesGridState = cloneDeep($event);
     this.assignedEmployeesGridState.filter = currentFilter;
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, this.assignedEmployeesGridState));
     this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
   }
 

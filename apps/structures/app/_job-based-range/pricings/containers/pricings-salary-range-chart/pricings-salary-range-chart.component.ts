@@ -49,6 +49,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   jobRangeGroupData: any;
   pricingsData: any;
   jobRangeData: any;
+  mrpSeriesData: any;
   controlPointDisplay: string;
   rate: string;
   hasCurrentStructure: boolean;
@@ -104,6 +105,16 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     // same logic for min but reversed, obviously
     if (currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup < this.chartMin) {
       this.chartMin = currentRow.CompanyJobs_PricingsMatches_CompanyJobPricingsMatchMRPStructureRangeGroup;
+    }
+
+    if (this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue !== null) {
+      if (this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue > this.chartMax) {
+        this.chartMax = this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue;
+      }
+      // same logic for min but reversed, obviously
+      if (this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue < this.chartMin) {
+        this.chartMin = this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue;
+      }
     }
   }
 
@@ -198,6 +209,20 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
     );
   }
 
+  private addMRPPoint(xCoordinate) {
+    this.mrpSeriesData.push({
+      x: xCoordinate,
+      y: this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue,
+      jobTitle: this.jobRangeData.CompanyJobs_Job_Title,
+      mrp: this.formatMRP(this.jobRangeData.CompanyStructures_RangeGroup_MarketReferencePointValue,
+        this.jobRangeData.CompanyStructures_RangeGroup_MrpPercentile)
+    });
+  }
+
+  private formatMRP(mrp: number, percentile: number) {
+    return `MRP: ${StructuresHighchartsService.formatCurrency(mrp, this.chartLocale, this.currency, this.rate, true)} (Base ${percentile}th)`;
+  }
+
   private updateChartLabels() {
     const locale = this.chartLocale;
     const currencyCode = this.currency;
@@ -237,6 +262,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
       };
 
       this.pricingsSeriesData = [];
+      this.mrpSeriesData = [];
 
       this.chartMin = StructuresHighchartsService.getChartMin(this.jobRangeData, this.rangeDistributionTypeId);
       this.chartMax = StructuresHighchartsService.getChartMax(this.jobRangeData, this.rangeDistributionTypeId);
@@ -256,6 +282,8 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
         // always add to midPoint
         this.addMidPoint(i);
+
+        this.addMRPPoint(i);
 
         // Tertile - Quartile - Quintile: salary range + data points
         if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Tertile) {
@@ -277,6 +305,7 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
       this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeMid].setData(this.dataPointSeriesDataModel.Mid, false);
       this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeMinMidMax].setData(this.salaryRangeSeriesDataModel.MinMidMax, false);
       this.chartInstance.series[PricingsSalaryRangeChartSeries.Pricings].setData(this.pricingsSeriesData, true);
+      this.chartInstance.series[PricingsSalaryRangeChartSeries.MRP].setData(this.mrpSeriesData, false);
       this.renameSeries();
 
       // Tertile - Quartile - Quintile: salary range + data points

@@ -1,137 +1,150 @@
-<pf-async-container [loading]="loading$ | async">
+<pf-async-container [loading]="(loading$ | async) && !loadingMoreData">
   <ng-container *ngIf="customHeaderTemplate" [ngTemplateOutlet]="customHeaderTemplate"></ng-container>
-  <kendo-grid
-    [reorderable]="reorderable"
-    [data]="data"
-    [pageSize]="(pagingOptions$ | async)?.Count"
-    [skip]="(pagingOptions$ | async)?.From"
-    [pageable]="(!compactGrid && pageable) ? pagingBarConfig : false"
-    [scrollable]="compactGrid ? 'none': ''"
-    [resizable]="(selectedRecordId && allowSplitView) ? false : enableResize"
-    [sortable]="{allowSort: allowSort}"
-    [sort]="sortDescriptor$ | async"
-    [ngClass]="theme"
-    [rowClass]="getRowClasses"
-    (pageChange)="onPageChange($event)"
-    (sortChange)="onSortChange($event)"
-    (columnReorder)="onColumnReorder($event)"
-    (cellClick)="onCellClick($event)"
-    (columnResize)="onColumnResize($event)"
-    (contentScroll)="onScroll($event)">
-    <kendo-grid-checkbox-column [resizable]="false" [reorderable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="34">
-      <ng-template kendoGridHeaderTemplate>
-        <input type="checkbox" id="selectAllCheckboxId"
-              [checked]="(selectAllState$ | async) === selectAllStatus.checked"
-              [indeterminate]="(selectAllState$ | async) === selectAllStatus.indeterminate"
-              (click)="onSelectAllChange()">
-      </ng-template>
-      <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-idx="rowIndex">
-        <input type="checkbox"
-               [checked]="(selectedKeys$ | async)?.indexOf(dataItem[primaryKey]) > -1"
-               (click)="onSelectedKeysChange(dataItem[primaryKey])">
-      </ng-template>
-    </kendo-grid-checkbox-column>
-    <kendo-grid-command-column [class]="[gridRowActionsConfig.CustomClass].join(' ')" [reorderable]="false" *ngIf="gridRowActionsConfig && gridRowActionsConfig.Position === positionType.Left" [title]="gridRowActionsConfig.Title" [width]="gridRowActionsConfig.Width">
-      <ng-template  kendoGridCellTemplate  let-dataItem="dataItem" let-rowIndex="rowIndex">
-        <ng-container [ngTemplateOutlet]="gridRowActionsConfig.ActionsTemplate"  [ngTemplateOutletContext]="{dataRow: dataItem, rowIndex: rowIndex}"></ng-container>
-      </ng-template>
-    </kendo-grid-command-column>
-    <ng-container *ngFor="let col of (dataFields$ | async)">
-      <ng-container *ngIf="col.Group && col.HasSelection">
+  <div [ngClass]="enableInfiniteScroll ? 'infinite-scroll-container' : 'h-100'">
+    <kendo-grid
+      [reorderable]="reorderable"
+      [data]="data"
+      [pageSize]="(pagingOptions$ | async)?.Count"
+      [skip]="enableInfiniteScroll ? null : (pagingOptions$ | async)?.From"
+      [pageable]="(!compactGrid && pageable) ? pagingBarConfig : false"
+      [scrollable]="compactGrid ? 'none': ''"
+      [resizable]="(selectedRecordId && allowSplitView) ? false : enableResize"
+      [sortable]="{
+        allowSort: allowSort,
+        mode: allowMultipleSort? 'multiple' : 'single'
+      }"
+      [sort]="sortDescriptor$ | async"
+      [ngClass]="theme"
+      [rowClass]="getRowClasses"
+      (pageChange)="onPageChange($event)"
+      (sortChange)="onSortChange($event)"
+      (columnReorder)="onColumnReorder($event)"
+      (cellClick)="onCellClick($event)"
+      (columnResize)="onColumnResize($event)"
+      (contentScroll)="onScroll($event)"
+      (scrollBottom)="loadMore()">
+      <kendo-grid-checkbox-column [resizable]="false" [reorderable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="34">
+        <ng-template kendoGridHeaderTemplate>
+          <input type="checkbox" id="selectAllCheckboxId"
+                 [checked]="(selectAllState$ | async) === selectAllStatus.checked"
+                 [indeterminate]="(selectAllState$ | async) === selectAllStatus.indeterminate"
+                 (click)="onSelectAllChange()">
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-idx="rowIndex">
+          <input type="checkbox"
+                 [checked]="(selectedKeys$ | async)?.indexOf(dataItem[primaryKey]) > -1"
+                 (click)="onSelectedKeysChange(dataItem[primaryKey])">
+        </ng-template>
+      </kendo-grid-checkbox-column>
+      <kendo-grid-command-column [class]="[gridRowActionsConfig.CustomClass].join(' ')" [reorderable]="false" *ngIf="gridRowActionsConfig && gridRowActionsConfig.Position === positionType.Left" [title]="gridRowActionsConfig.Title" [width]="gridRowActionsConfig.Width">
+        <ng-template  kendoGridCellTemplate  let-dataItem="dataItem" let-rowIndex="rowIndex">
+          <ng-container [ngTemplateOutlet]="gridRowActionsConfig.ActionsTemplate"  [ngTemplateOutletContext]="{dataRow: dataItem, rowIndex: rowIndex}"></ng-container>
+        </ng-template>
+      </kendo-grid-command-column>
+      <ng-container *ngFor="let col of (dataFields$ | async); trackBy:trackByField">
+        <ng-container *ngIf="col.Group && col.HasSelection">
           <kendo-grid-column-group
             [title]="col.Group"
             [headerClass]="[customHeaderClass, 'text-center', getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
             [locked]="false">
-              <ng-template kendoGridHeaderTemplate let-column="column">
-                <div pfEllipsisActive class="ellipsis-text">{{column.title}}</div>
-              </ng-template>
-              <ng-container *ngFor="let col of col.Fields">
-                <ng-container *ngIf="col | isColumnVisible : splitViewDisplayFields : selectedRecordId">
-                  <kendo-grid-column
-                    [field]="col | mappedFieldName"
-                    [title]="col.DisplayName"
-                    [headerClass]="['px-1', customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
-                    [style]="{
-                      'background-color': backgroundColor ? backgroundColor : '',
-                      'overflow': 'inherit'}"
-                    [class]="['px-1', getColumnClasses(col), getColTextAlignClass(col)].join(' ')"
-                    [width]="selectedRecordId && allowSplitView ? null : col.Width"
-                    [minResizableWidth]="30">
+            <ng-template kendoGridHeaderTemplate let-column="column">
+              <div pfEllipsisActive class="ellipsis-text">{{column.title}}</div>
+            </ng-template>
+            <ng-container *ngFor="let col of col.Fields; trackBy:trackByField">
+              <ng-container *ngIf="col | isColumnVisible : splitViewDisplayFields : selectedRecordId">
+                <kendo-grid-column
+                  [field]="col | mappedFieldName"
+                  [title]="col.DisplayName"
+                  [headerClass]="['px-1', customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
+                  [style]="{
+                        'background-color': backgroundColor ? backgroundColor : '',
+                        'overflow': 'inherit'}"
+                  [class]="['px-1', getColumnClasses(col), getColTextAlignClass(col)].join(' ')"
+                  [width]="selectedRecordId && allowSplitView ? null : col.Width"
+                  [minResizableWidth]="30">
 
-                    <ng-template kendoGridHeaderTemplate let-column>
-                      <ng-container [ngTemplateOutlet]="columnHeaderTemplate" [ngTemplateOutletContext]="{column: column}"></ng-container>
-                    </ng-template>
+                  <ng-template kendoGridHeaderTemplate let-column>
+                    <ng-container [ngTemplateOutlet]="columnHeaderTemplate" [ngTemplateOutletContext]="{column: column}"></ng-container>
+                  </ng-template>
 
-                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                      <pf-grid-column
-                        [columnTemplates]='columnTemplates'
-                        [dataItem]='dataItem'
-                        [rowIndex]='rowIndex'
-                        [field]= 'col'
-                        [fieldName]='col | mappedFieldName'>
-                      </pf-grid-column>
-                    </ng-template>
-                  </kendo-grid-column>
-                </ng-container>
+                  <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <pf-grid-column
+                      [columnTemplates]='columnTemplates'
+                      [dataItem]='dataItem'
+                      [rowIndex]='rowIndex'
+                      [field]= 'col'
+                      [fieldName]='col | mappedFieldName'>
+                    </pf-grid-column>
+                  </ng-template>
+                </kendo-grid-column>
               </ng-container>
+            </ng-container>
           </kendo-grid-column-group>
+        </ng-container>
+        <ng-container *ngIf="col | isColumnVisible : splitViewDisplayFields : selectedRecordId">
+          <kendo-grid-column
+            [sortable]="col.IsSortable"
+            [field]="col | mappedFieldName"
+            [title]="col.DisplayName"
+            [headerClass]="[customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
+            [style]="{
+          'background-color': backgroundColor ? backgroundColor : '',
+          'overflow': 'inherit'}"
+            [class]="[getColumnClasses(col), getColTextAlignClass(col)].join(' ')"
+            [width]="getColWidth(col)"
+            [minResizableWidth]="30">
+
+            <ng-template kendoGridHeaderTemplate let-column>
+              <ng-container [ngTemplateOutlet]="columnHeaderTemplate" [ngTemplateOutletContext]="{column: column}"></ng-container>
+            </ng-template>
+
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <pf-grid-column
+                [columnTemplates]='columnTemplates'
+                [dataItem]='dataItem'
+                [rowIndex]='rowIndex'
+                [field]= 'col'
+                [fieldName]='col | mappedFieldName'>
+              </pf-grid-column>
+            </ng-template>
+          </kendo-grid-column>
+        </ng-container>
       </ng-container>
-      <ng-container *ngIf="col | isColumnVisible : splitViewDisplayFields : selectedRecordId">
-        <kendo-grid-column
-          [sortable]="col.IsSortable"
-          [field]="col | mappedFieldName"
-          [title]="col.DisplayName"
-          [headerClass]="[customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
-          [style]="{
-            'background-color': backgroundColor ? backgroundColor : '',
-            'overflow': 'inherit'}"
-          [class]="[getColumnClasses(col), getColTextAlignClass(col)].join(' ')"
-          [width]="getColWidth(col)"
-          [minResizableWidth]="30">
 
-          <ng-template kendoGridHeaderTemplate let-column>
-            <ng-container [ngTemplateOutlet]="columnHeaderTemplate" [ngTemplateOutletContext]="{column: column}"></ng-container>
-          </ng-template>
-
-          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-            <pf-grid-column
-              [columnTemplates]='columnTemplates'
-              [dataItem]='dataItem'
-              [rowIndex]='rowIndex'
-              [field]= 'col'
-              [fieldName]='col | mappedFieldName'>
-            </pf-grid-column>
-          </ng-template>
-        </kendo-grid-column>
-      </ng-container>
-    </ng-container>
-
-    <kendo-grid-command-column *ngIf="gridRowActionsConfig && gridRowActionsConfig.Position === positionType.Right" [title]="gridRowActionsConfig.Title" [width]="gridRowActionsConfig.Width">
-      <ng-template  kendoGridCellTemplate  let-dataItem="dataItem">
-        <ng-container [ngTemplateOutlet]="gridRowActionsConfig.ActionsTemplate"  [ngTemplateOutletContext]="{dataRow: dataItem}"></ng-container>
+      <kendo-grid-command-column *ngIf="gridRowActionsConfig && gridRowActionsConfig.Position === positionType.Right" [title]="gridRowActionsConfig.Title" [width]="gridRowActionsConfig.Width">
+        <ng-template  kendoGridCellTemplate  let-dataItem="dataItem">
+          <ng-container [ngTemplateOutlet]="gridRowActionsConfig.ActionsTemplate"  [ngTemplateOutletContext]="{dataRow: dataItem}"></ng-container>
+        </ng-template>
+      </kendo-grid-command-column>
+      <ng-template *ngIf="noRecordsFound || noRecordsFoundTemplate" kendoGridNoRecordsTemplate>
+        <ng-container *ngIf="!(loading$ | async) && noRecordsFound">{{noRecordsFound}}</ng-container>
+        <ng-container *ngIf="!(loading$ | async) && noRecordsFoundTemplate" [ngTemplateOutlet]="noRecordsFoundTemplate"></ng-container>
       </ng-template>
-    </kendo-grid-command-column>
-    <ng-template *ngIf="noRecordsFound || noRecordsFoundTemplate" kendoGridNoRecordsTemplate>
-      <ng-container *ngIf="!(loading$ | async) && noRecordsFound">{{noRecordsFound}}</ng-container>
-      <ng-container *ngIf="!(loading$ | async) && noRecordsFoundTemplate" [ngTemplateOutlet]="noRecordsFoundTemplate"></ng-container>
-    </ng-template>
-    <ng-container *ngIf="expandedRowTemplate">
-      <div *kendoGridDetailTemplate="let dataItem">
-        <ng-container
-          [ngTemplateOutlet]="expandedRowTemplate"
-          [ngTemplateOutletContext]="{dataRow: dataItem}">
+      <ng-container *ngIf="expandedRowTemplate">
+        <div *kendoGridDetailTemplate="let dataItem">
+          <ng-container
+            [ngTemplateOutlet]="expandedRowTemplate"
+            [ngTemplateOutletContext]="{dataRow: dataItem}">
+          </ng-container>
+        </div>
+      </ng-container>
+    </kendo-grid>
+    <div *ngIf="enableInfiniteScroll" class="d-flex mt-3">
+      <div *ngIf="loadingMoreData" class="loading-more-row">
+        <pf-loading-indicator></pf-loading-indicator> Loading more results...
+      </div>
+      <div class="ml-auto total-count loading-more-row">
+        <ng-container *ngIf="(totalCount$ | async) as totalCount">
+          Count: <span class="font-weight-bold">{{totalCount}}</span>
         </ng-container>
       </div>
-    </ng-container>
-  </kendo-grid>
+    </div>
+  </div>
 </pf-async-container>
 
+
 <ng-template #columnHeaderTemplate let-column="column">
-  <div *ngIf="column" pfEllipsisActive class="ellipsis-text">
-    <ng-container *ngIf="(column | sortDirection:sortDescriptor) !== null && allowSort">
-      <fa-icon *ngIf="(column | sortDirection:sortDescriptor) === 'desc'" class="sort-icon" [icon]="['far', 'long-arrow-down']"></fa-icon>
-      <fa-icon *ngIf="(column | sortDirection:sortDescriptor) === 'asc'" class="sort-icon" [icon]="['far', 'long-arrow-up']"></fa-icon>
-    </ng-container>
-    <span [class.default-cursor]="!column.sortable" class="k-link">{{column.title}}</span>
-  </div>
+  <span *ngIf="column" pfEllipsisActive [class.default-cursor]="!column.sortable" class="ellipsis-text k-column-title">
+    {{column.title}}
+  </span>
 </ng-template>

@@ -1,0 +1,18 @@
+.select-all-panel {
+  border: solid 1px #BCDFF1;
+  background-color: #D9EDF7;
+  height: 40px;
+  text-align: center;
+  color: #31708F;
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 4px;
+  
+  .bold-text {
+    font-weight: bold;
+  }
+
+  .pointer-cursor {
+    cursor: pointer;
+  }
+}

@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { catchError, switchMap, map, withLatestFrom, mapTo, concatMap } from 'rxjs/operators';
+import { catchError, switchMap, map, withLatestFrom, mapTo, concatMap, debounceTime } from 'rxjs/operators';
 import { Store, Action, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
+import { TotalRewardsApiService, TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
+import { TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards';
+import { CompanyEmployeeApiService } from 'libs/data/payfactors-api/company';
+import { PfConstants } from 'libs/models/common';
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromStatementEditActions from '../actions';
 import { Statement, Settings } from '../../../shared/models';
 import { SaveSettingsRequest } from '../../../shared/models/request-models';
 import { SaveStatement, SaveSettings } from '../actions';
+import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
 
 @Injectable()
 export class StatementEditPageEffects {
@@ -108,8 +112,62 @@ export class StatementEditPageEffects {
       )
     );
 
+  @Effect()
+  searchAssignedEmployees$ = this.actions$
+    .pipe(
+      ofType(fromStatementEditActions.SEARCH_ASSIGNED_EMPLOYEES),
+      debounceTime(PfConstants.DEBOUNCE_DELAY),
+      switchMap((action: fromStatementEditActions.SearchAssignedEmployees) => {
+        const request = {
+          StatementId: action.payload.statementId,
+          Filters: [],
+          FilterOptions: {
+            ReturnFilters: false,
+            AggregateCount: 10
+          },
+          SearchFields: [{
+            Name: 'fullname_search',
+            Value: action.payload.searchTerm
+          }],
+          PagingOptions: { From: 0, Count: 25 }
+        };
+        return this.totalRewardsSearchApiService.searchEmployees(request)
+          .pipe(
+            map((response: TotalRewardsEmployeeSearchResponse) => {
+              const employeeSearchResults = TotalRewardsAssignmentService.mapSearchResults(response.EmployeeResults);
+              return new fromStatementEditActions.SearchAssignedEmployeesSuccess(employeeSearchResults);
+            }),
+            catchError(() => of(new fromStatementEditActions.SearchAssignedEmployeesError()))
+          );
+      })
+    );
+
+  @Effect()
+  getBenefits$ = this.actions$
+    .pipe(
+      ofType(fromStatementEditActions.GET_EMPLOYEE_REWARDS_DATA),
+      switchMap((action: fromStatementEditActions.GetEmployeeRewardsData) => {
+        return this.companyEmployeeApiService.getBenefits(action.payload.companyEmployeeId)
+          .pipe(
+            map((response) => {
+              if (response.EmployeeDOH) {
+                response.EmployeeDOH = new Date(response.EmployeeDOH);
+              }
+              if (response.EmployeeDOB) {
+                response.EmployeeDOB = new Date(response.EmployeeDOB);
+              }
+              return new fromStatementEditActions.GetEmployeeRewardsDataSuccess(response);
+            }),
+            catchError(() => of(new fromStatementEditActions.GetEmployeeRewardsDataError()))
+          );
+      })
+    );
+
   constructor(
     private store: Store<fromTotalRewardsReducer.State>,
     private actions$: Actions,
-    private totalRewardsApiService: TotalRewardsApiService) {}
+    private totalRewardsApiService: TotalRewardsApiService,
+    private totalRewardsSearchApiService: TotalRewardsSearchApiService,
+    private companyEmployeeApiService: CompanyEmployeeApiService
+  ) {}
 }

@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { CompanySettingsEnum } from 'libs/models';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import { FileMappingComponent } from '../../components';
@@ -16,6 +17,10 @@ describe('FileMappingComponent', () => {
   let fixture: ComponentFixture<FileMappingComponent>;
   let store: Store<fromRootState.State>;
   const customFields =  [{Key: '1', Value: 'Test'}, {Key: '2', Value: 'Test'}];
+  const companySetting_EnableJobRangeStructureRangeTypes_False = [
+    { Key: CompanySettingsEnum.EnableJobRangeStructureRangeTypes,
+      DisplayName: 'Enable JobRange Structure RangeTypes', Value: 'false', Visible: true, DataType: 'string'}];
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -33,6 +38,7 @@ describe('FileMappingComponent', () => {
     component.entities = getEntityChoicesForOrgLoader();
     component.entities.forEach(e => { e.customFields.Jobs = customFields, e.customFields.Employees = customFields; });
     component.selectedCompany = {CompanyId: 1, CompanyName: 'test', CombinedDetail: 'test (1)'};
+    component.companySettings = companySetting_EnableJobRangeStructureRangeTypes_False;
     fixture.detectChanges();
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch');

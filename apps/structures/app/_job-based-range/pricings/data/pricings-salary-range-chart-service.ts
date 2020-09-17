@@ -48,6 +48,9 @@ export class PricingsSalaryRangeChartService {
       case PricingsSalaryRangeChartSeries.Pricings: {
         return 'Pricings ' + controlPointDisplay;
       }
+      case PricingsSalaryRangeChartSeries.MRP: {
+        return 'MRP';
+      }
       default: {
         // should never happen, but in case someone adds a value later and forgets.
         return '';
@@ -81,7 +84,7 @@ export class PricingsSalaryRangeChartService {
         align: 'right',
         verticalAlign: 'top',
         floating: false,
-        y: 30,
+        y: 18,
         borderWidth: 1
       },
       tooltip: {
@@ -406,7 +409,28 @@ export class PricingsSalaryRangeChartService {
             footerFormat: '</div>'
           },
           enableMouseTracking: true
-        }]
+        },
+        {
+          name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.MRP, controlPointDisplay),
+          type: 'scatter',
+          enableMouseTracking: true,
+          marker: {
+            symbol: 'vline',
+            lineWidth: 2,
+            lineColor: '#0000FF',
+            radius: 30,
+          },
+          tooltip: {
+            backgroundColor: '#000000',
+            useHTML: true,
+            padding: 0,
+            headerFormat: '<div style="display: inline-block; background-color: black">',
+            pointFormat: '<div style="color: white; font-weight: bold">{point.jobTitle}</div>' +
+              '<div style="color: white">{point.mrp}</div>',
+            footerFormat: '</div>'
+          }
+        }
+      ]
     };
   }
 }

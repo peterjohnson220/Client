@@ -47,6 +47,7 @@ import { ExchangeDetailComponent } from './components/exchange-job-detail/exchan
 import { ExchangeJobSearchComponent } from './containers/exchange-job-search/exchange-job-search.component';
 import { UnmatchIconComponent } from './components/unmatch-icon/unmatch-icon.component';
 import { ConfirmUnmatchModalComponent } from './containers/confirm-unmatch-modal/confirm-unmatch-modal.component';
+import { ConfirmCreateProjectModalComponent } from './containers/confirm-create-project-modal/confirm-create-project-modal.component';
 import { SharedModule } from '../shared/shared.module';
 import { ExchangeJobMappingGridService } from './services/exchange-job-mapping-grid.service';
 
@@ -91,7 +92,7 @@ import { ExchangeJobMappingGridService } from './services/exchange-job-mapping-g
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, PayfactorsJobSelectionFormComponent,
     RequestJobModalComponent, NewJobFormComponent, DeleteMappingConfirmationModalComponent,
     AssociationImportModalComponent, CompanyJobsGridComponent, CompanyJobAndExchangeDetailComponent,
-    ExchangeJobSearchComponent, ConfirmUnmatchModalComponent,
+    ExchangeJobSearchComponent, ConfirmUnmatchModalComponent, ConfirmCreateProjectModalComponent,
 
     // Pages
     ExchangeJobMappingPageComponent,

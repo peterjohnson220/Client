@@ -3,7 +3,6 @@
 exports[`CommunityPostHeaderComponent should show community post header 1`] = `
 <pf-community-post-header
   isExpiredPoll="false"
-  isFavoritedByCurrentUser="false"
   isInternalOnly="false"
   isReply="false"
   isUserPoll="false"
@@ -11,47 +10,7 @@ exports[`CommunityPostHeaderComponent should show community post header 1`] = `
   time={[Function String]}
   user={[Function Object]}
 >
-  <div
-    class="d-inline-block float-right ml-1"
-    ngbdropdown=""
-  >
-    <button
-      class="btn m-0 p-1"
-      data-qa-id="ddm-communityPostActions"
-      ngbdropdowntoggle=""
-    >
-      <span>
-        ...
-      </span>
-    </button>
-    <div
-      ngbdropdownmenu=""
-    >
-      
-      <button
-        class="dropdown-item"
-        data-qa-id="ddm-communityPostActionsFavorite"
-      >
-        
-        
-        <span>
-          <fa-layers>
-            <fa-icon
-              icon="star"
-            />
-            <fa-icon
-              icon="star"
-              transform="shrink-4"
-            />
-          </fa-layers>
-           Add to Favorites 
-        </span>
-      </button>
-      
-      
-      
-    </div>
-  </div><p
+  <p
     class="m-0"
   >
     <span
@@ -81,7 +40,6 @@ exports[`CommunityPostHeaderComponent should show community post header 1`] = `
 exports[`CommunityPostHeaderComponent should show internal community post header 1`] = `
 <pf-community-post-header
   isExpiredPoll="false"
-  isFavoritedByCurrentUser="false"
   isInternalOnly={[Function Boolean]}
   isReply="false"
   isUserPoll="false"
@@ -90,46 +48,6 @@ exports[`CommunityPostHeaderComponent should show internal community post header
   user={[Function Object]}
 >
   <div
-    class="d-inline-block float-right ml-1"
-    ngbdropdown=""
-  >
-    <button
-      class="btn m-0 p-1"
-      data-qa-id="ddm-communityPostActions"
-      ngbdropdowntoggle=""
-    >
-      <span>
-        ...
-      </span>
-    </button>
-    <div
-      ngbdropdownmenu=""
-    >
-      
-      <button
-        class="dropdown-item"
-        data-qa-id="ddm-communityPostActionsFavorite"
-      >
-        
-        
-        <span>
-          <fa-layers>
-            <fa-icon
-              icon="star"
-            />
-            <fa-icon
-              icon="star"
-              transform="shrink-4"
-            />
-          </fa-layers>
-           Add to Favorites 
-        </span>
-      </button>
-      
-      
-      
-    </div>
-  </div><div
     class="internal float-right pl-2 pr-2 community-border-radius"
     data-qa-id="lbl-communityInternal"
   >
