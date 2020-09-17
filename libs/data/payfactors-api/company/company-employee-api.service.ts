@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import { GenericTextValueDto } from 'libs/models/common';
 import { CompanyEmployee } from 'libs/models/company';
-import { EmployeeModalStructuresResponse } from 'libs/models/payfactors-api';
+import { EmployeeModalStructuresResponse, EmployeeRewardsData } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -51,5 +51,10 @@ export class CompanyEmployeeApiService {
 
   patch(employee: CompanyEmployee) {
     return this.payfactorsApiService.patch<any>(`${this.endpoint}(${employee.CompanyEmployeeId})`, employee);
+  }
+
+  getBenefits(companyEmployeeId: number): Observable<EmployeeRewardsData> {
+    return this.payfactorsApiService.get<EmployeeRewardsData>(`${this.endpoint}/GetBenefits`,
+      { params: { companyEmployeeId } });
   }
 }

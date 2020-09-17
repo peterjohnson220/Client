@@ -132,7 +132,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.attemptedSubmit = true;
     const payload = {
         selectedRate: this.selectedRate.Value,
-        scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentMapViewOptionValue).map(s => s.Value),
+        scopes: this.selectedScopesToExport.filter(s => s.Value !== this.currentMapViewOptionValue).map(s => Number(s.Value)),
         exportCurrentMap: this.selectedScopesToExport.some(s => s.Value === this.currentMapViewOptionValue),
         selectedWeightingType: this.selectedWeightingType.Value,
         selectedCurrency: this.selectedCurrency.CurrencyCode
@@ -298,12 +298,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
 
     this.context.exchangeScopeItems.map(si => {
       const isSelectedScopeFromContext = !!this.context.selectedExchangeScope
-        ? this.context.selectedExchangeScope.ExchangeScopeGuid === si.ExchangeScopeGuid
+        ? this.context.selectedExchangeScope.ExchangeScopeId === si.ExchangeScopeId
         : false;
       const selectorOption = {
         DisplayName: si.Name,
         IsSelected: isSelectedScopeFromContext,
-        Value: si.ExchangeScopeGuid
+        Value: si.ExchangeScopeId.toString()
       };
 
       this.scopesToExportOptions.push(selectorOption);

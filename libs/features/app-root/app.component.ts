@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRootState from '../../state/state';
-import { NewRelicService, RouteTrackingService } from '../../core/services';
+import { NewRelicService, RouteTrackingService, AbstractFeatureFlagService, FeatureFlagHelper } from '../../core/services';
 import { UserContext } from '../../models/security';
 
 @Component({
@@ -42,7 +42,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromRootState.State>,
     // Initializing the route tracking service to start tracking on app startup by requesting it here
-    private routeTrackingService: RouteTrackingService
+    private routeTrackingService: RouteTrackingService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.hasUserContext$ = this.store.select(fromRootState.hasUserContext);
     this.userContext$ = this.store.select(fromRootState.getUserContext);
@@ -59,6 +60,8 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.userContextSub = this.userContext$.pipe(filter(uc => !!uc)).subscribe(uc => {
       NewRelicService.setCustomAttributes(uc.CompanyId, uc.UserId, uc.IpAddress, uc.SessionId, this.getTargetUrl());
+      this.featureFlagService.initialize(uc.ConfigSettings.find(cs => cs.Name === 'LaunchDarklyClientSdkKey')?.Value,
+        FeatureFlagHelper.buildContext(uc), uc.FeatureFlagBootstrapJson);
     });
   }
 

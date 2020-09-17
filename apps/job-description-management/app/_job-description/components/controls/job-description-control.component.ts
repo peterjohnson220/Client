@@ -1,9 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
-import { filter, skip } from 'rxjs/operators';
+import { filter  } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { ControlType } from 'libs/models/common';
@@ -18,7 +18,7 @@ import * as fromJobDescriptionReducers from '../../reducers';
   styleUrls: ['./job-description-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class JobDescriptionControlComponent implements OnInit, OnDestroy {
+export class JobDescriptionControlComponent implements OnInit, OnChanges, OnDestroy {
   @Input() jobDescriptionControl: JobDescriptionControl;
   @Input() readOnly: boolean;
   @Input() controlTypesLoaded: boolean;
@@ -66,6 +66,14 @@ export class JobDescriptionControlComponent implements OnInit, OnDestroy {
           this.watchForControlValueChanges();
         }
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+      setTimeout(() => {
+        if (!this.jobDescriptionControl.Data.length && this.controlType.EditorType !== 'SmartList' && this.controlType.EditorType !== 'List') {
+          this.addDataRow(false);
+        }
+      }, 0);
   }
 
   get showControlName() {

@@ -1,0 +1,26 @@
+<pf-modal-form
+  [title]="'Create New Project'"
+  [size]="'md'"
+  secondaryButtonText="No"
+  primaryButtonClass="btn-primary"
+  primaryButtonText="Yes"
+  primaryButtonTextSubmitting="Creating project..."
+  [submitting]="creatingProject$ | async"
+  [isOpen$]="showModal$"
+  (onSubmit)="handleCreateProjectConfirmed()"
+  (onDismiss)="handleCreateProjectCanceled()">
+
+  <ng-container basic-content *ngIf="mappedExchangeJob && selectedCompanyJob">
+    <p class="mb-2">
+      Would you like to create a new project for company job <strong>{{ selectedCompanyJob.JobTitle }}</strong>, which is matched to exchange job
+      <strong>{{ mappedExchangeJob.ExchangeJobTitle }}</strong>?
+    </p>
+    <div *ngIf="(createProjectError$ | async)">
+      <br>
+      <span class="text-danger">
+        <b>We encountered a problem creating your project. Please try again or contact your Payfactors Support Team for help.</b>
+      </span>
+    </div>
+  </ng-container>
+
+</pf-modal-form>

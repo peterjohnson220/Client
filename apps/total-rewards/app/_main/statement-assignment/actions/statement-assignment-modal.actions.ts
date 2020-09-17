@@ -35,6 +35,8 @@ export class AssignEmployees implements Action {
 
 export class AssignEmployeesSuccess implements Action {
   readonly type = ASSIGN_EMPLOYEES_SUCCESS;
+
+  constructor(public payload: number[]) {}
 }
 
 export class AssignEmployeesError implements Action {
@@ -43,10 +45,14 @@ export class AssignEmployeesError implements Action {
 
 export class AssignAllEmployees implements Action {
   readonly type = ASSIGN_ALL_EMPLOYEES;
+
+  constructor(public payload: { assignmentMax: number }) {}
 }
 
 export class AssignAllEmployeesSuccess implements Action {
   readonly type = ASSIGN_ALL_EMPLOYEES_SUCCESS;
+
+  constructor(public payload: number[]) {}
 }
 
 export class AssignAllEmployeesError implements Action {

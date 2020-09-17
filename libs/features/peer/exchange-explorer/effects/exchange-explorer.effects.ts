@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap, map, mergeMap, catchError, concatMap } from 'rxjs/operators';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api';
+import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 
 import * as fromExchangeExplorerReducers from '../reducers';
 import * as fromExchangeFilterContextActions from '../actions/exchange-filter-context.actions';
@@ -13,6 +14,7 @@ import * as fromExchangeExplorerContextInfoActions from '../actions/exchange-exp
 import * as fromExchangeExplorerActions from '../actions/exchange-explorer.actions';
 import * as fromExchangeExplorerMapActions from '../actions/map.actions';
 import * as fromExchangeSearchResultsActions from '../actions/exchange-search-results.actions';
+import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';
 
 @Injectable()
 export class ExchangeExplorerEffects {
@@ -85,9 +87,24 @@ export class ExchangeExplorerEffects {
         return [
           new fromExchangeExplorerMapActions.ResetInitiallyLoadedState(),
           new fromExchangeFilterContextActions.ResetInitiallyLoadedState(),
-          new fromExchangeExplorerContextInfoActions.ResetInitiallyLoadedState()
+          new fromExchangeExplorerContextInfoActions.ResetInitiallyLoadedState(),
+          new fromExchangeScopeActions.ResetInitiallyLoadedState(),
+          new fromSearchFiltersActions.ClearFilters()
         ];
       })
+    );
+
+  @Effect()
+  refineExchangeJob$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromExchangeExplorerActions.REFINE_EXCHANGE_JOB),
+      mergeMap((action: fromExchangeExplorerActions.RefineExchangeJob) => {
+        const payload = action.payload;
+        return [
+          new fromExchangeExplorerContextInfoActions.LoadContextInfo(payload),
+          new fromExchangeScopeActions.LoadExchangeScopesByJobs({exchangeJobIds: [payload.lockedExchangeJobId]})
+        ];
+      }),
     );
 
   constructor(

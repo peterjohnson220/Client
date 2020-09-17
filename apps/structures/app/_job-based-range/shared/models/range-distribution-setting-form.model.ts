@@ -11,7 +11,7 @@ export interface RangeDistributionSettingForm {
     FourthQuintile: string;
     Minimum: number;
     Maximum: number;
-    RangeBasedOn: string;
+    PayType: string;
     ControlPoint: string;
     MinPercentile: string;
     MaxPercentile: string;

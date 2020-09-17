@@ -184,10 +184,10 @@ describe('TrsChartControlComponent', () => {
     expect(chartPreviewData[0].category !== chartPreviewData[1].category).toBeTruthy();
   });
 
-  it('should calc `getChartEditData` with the default calc control titles', () => {
+  it('should calc `getChartEditData` with the override calc control titles', () => {
     // arrange
-    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override' }, ControlType: TotalRewardsControlEnum.Calculation };
-    const retirementCalcControl = { Title: { Default: 'Default Health', Override: null }, ControlType: TotalRewardsControlEnum.Calculation };
+    const cashCalcControl = { Title: { Default: 'Default Cash', Override: 'Override Cash' }, ControlType: TotalRewardsControlEnum.Calculation };
+    const retirementCalcControl = { Title: { Default: 'Default Health', Override: 'Override Health' }, ControlType: TotalRewardsControlEnum.Calculation };
 
     component.calculationControls = [cashCalcControl as any, retirementCalcControl as any];
 
@@ -196,8 +196,8 @@ describe('TrsChartControlComponent', () => {
 
     // assert
     expect(chartEditData.length).toBe(2);
-    expect(chartEditData[0].category).toBe('Default Cash');
-    expect(chartEditData[1].category).toBe('Default Health');
+    expect(chartEditData[0].category).toBe('Override Cash');
+    expect(chartEditData[1].category).toBe('Override Health');
   });
 
   it('should calc `getChartEditData` with numeric, whole values greater than 0', () => {

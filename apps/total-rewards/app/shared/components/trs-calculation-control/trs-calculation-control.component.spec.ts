@@ -2,13 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
+import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
 import { TrsCalculationControlComponent } from './trs-calculation-control.component';
 import { CompensationFieldPipe } from '../../pipes/compensation-field-pipe';
 import {
   CalculationControl,
   CompensationField,
   generateMockCalculationControl,
-  generateMockEmployeeRewardsData,
   LabelWithOverride,
   StatementModeEnum
 } from '../../models';
@@ -161,7 +162,7 @@ describe('TrsCalculationControlComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should include fields in preview mode if employee data is 0 for a given field', () => {
+  it('should exclude fields in preview mode if employee data is 0 for a given field', () => {
     component.employeeRewardsData = generateMockEmployeeRewardsData();
     component.controlData = generateMockCalculationControl();
     component.mode = StatementModeEnum.Preview;

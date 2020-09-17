@@ -11,7 +11,7 @@ import {CompanySelectorComponent} from 'libs/features/company/company-selector/c
 import { LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { generateMockConfigurationGroup, GenerateMockEmailRecipient, MappingModel } from 'libs/models/data-loads';
-import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
+import { ConfigSettingsSelectorFactory, SettingsService } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromOrgDataLoaderReducer from '../../reducers';
@@ -74,6 +74,7 @@ describe('ManageFieldMapperPageComponent', () => {
           provide: NotificationService,
           useClass: MockNotificationService,
         },
+        SettingsService
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })

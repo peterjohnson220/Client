@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import {CurrencyPipe} from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 
-import {CalculationSummaryControl, CalculationControl, EmployeeRewardsData, StatementModeEnum, UpdateTitleRequest} from '../../models';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
+import { CalculationSummaryControl, CalculationControl, StatementModeEnum, UpdateTitleRequest } from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
 @Component({
@@ -16,7 +18,6 @@ export class TrsSummaryControlComponent {
   @Input() controlData: CalculationSummaryControl;
   @Input() calculationControls: CalculationControl[];
   @Input() employeeRewardsData: EmployeeRewardsData;
-  @Input() currencyCode = 'USD';
 
   @Output() onTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();
   constructor(public currencyPipe: CurrencyPipe) { }
@@ -30,7 +31,7 @@ export class TrsSummaryControlComponent {
   }
 
   getEditValue(): string {
-    return this.currencyPipe.transform(0, this.currencyCode, 'symbol-narrow', '1.0').replace('0', '---,---');
+    return this.currencyPipe.transform(0, this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0').replace('0', '---,---');
   }
 
   getSumOfCalculationControls(): string {
@@ -38,7 +39,7 @@ export class TrsSummaryControlComponent {
     if (this.calculationControls) {
       sum = TotalRewardsStatementService.sumCalculationControls(this.calculationControls, this.employeeRewardsData);
     }
-    return this.currencyPipe.transform(sum, this.currencyCode, 'symbol-narrow', '1.0');
+    return this.currencyPipe.transform(sum, this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
   }
 
   handleTitleChanged(newTitle: string): void {

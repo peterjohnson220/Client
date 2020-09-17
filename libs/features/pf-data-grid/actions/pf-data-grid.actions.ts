@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { ContentScrollEvent } from '@progress/kendo-angular-grid';
 
 import { PfDataGridFilter, ColumnResize, GridConfig } from '../models';
 import { ColumnReorder } from '../models';
@@ -9,6 +10,8 @@ export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
 export const LOAD_VIEW_CONFIG_SUCCESS = '[PfDataGrid] Load View Config Success';
 export const LOAD_DATA = '[PfDataGrid] Load Data';
 export const LOAD_DATA_SUCCESS = '[PfDataGrid] Load Data Success';
+export const LOAD_MORE_DATA = '[PfDataGrid] Load More Data';
+export const LOAD_MORE_DATA_SUCCESS = '[PfDataGrid] Load More Data Success';
 export const UPDATE_FIELDS = '[PfDataGrid] Update Data Fields';
 export const UPDATE_FIELDS_SUCCESS = '[PfDataGrid] Update Data Fields Success';
 export const UPDATE_PAGING_OPTIONS = '[PfDataGrid] Update Paging Options';
@@ -67,6 +70,7 @@ export const UPDATE_GRID_CONFIG = '[PfDataGrid] Update Grid Config';
 export const UPDATE_MODIFIED_KEYS = '[PfDataGrid] Update Modified Keys';
 export const UPDATE_MODIFIED_KEY = '[PfDataGrid] Update Modified Key';
 export const DELETE_MODIFIED_KEY = '[PfDataGrid] Delete Modified Key';
+export const CAPTURE_GRID_SCROLLED = '[PfDataGrid] Capture Grid Scrolled';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -136,6 +140,16 @@ export class LoadData implements Action {
 
 export class LoadDataSuccess implements Action {
   readonly type = LOAD_DATA_SUCCESS;
+  constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
+}
+
+export class LoadMoreData implements Action {
+  readonly type = LOAD_MORE_DATA;
+  constructor(public pageViewId: string) { }
+}
+
+export class LoadMoreDataSuccess implements Action {
+  readonly type = LOAD_MORE_DATA_SUCCESS;
   constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
 }
 
@@ -383,6 +397,11 @@ export class DeleteModifiedKey implements Action {
   constructor(public pageViewId: string, public payload: number) {}
 }
 
+export class CaptureGridScrolled implements Action {
+  readonly type = CAPTURE_GRID_SCROLLED;
+  constructor(public pageViewId: string, public payload: ContentScrollEvent) {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
@@ -397,6 +416,8 @@ export type DataGridActions =
   | UpdateApplyUserDefaultCompensationFields
   | LoadData
   | LoadDataSuccess
+  | LoadMoreData
+  | LoadMoreDataSuccess
   | UpdateFields
   | UpdateFieldsSuccess
   | UpdateSelectionField
@@ -444,4 +465,5 @@ export type DataGridActions =
   | UpdateGridConfig
   | UpdateModifiedKeys
   | UpdateModifiedKey
-  | DeleteModifiedKey;
+  | DeleteModifiedKey
+  | CaptureGridScrolled;

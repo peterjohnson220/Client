@@ -1,6 +1,19 @@
 @import '_colors';
 @import 'common/common-variables';
 
+.loading-more-row {
+  padding: 0.6rem 1rem 0.5rem 1rem;
+}
+
+.total-count {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.infinite-scroll-container {
+  height: calc(100% - 49px);
+}
+
 .pf-data-grid-header {
   font-weight: bold !important;
   vertical-align: middle !important;
@@ -32,13 +45,58 @@
     border-color: rgba(0,0,0,0.03)
   }
 
-  .k-grid-header th>.k-link>.k-icon {
-    display: none;
+  .k-grid-header .k-header > .k-link {
+    display: flex;
   }
 
-  .k-grid-header th>.k-link>.k-sort-order {
-    display: none;
+  .k-grid-header .k-header > .k-link > .k-icon {
+    order: 1;
+    color: #5C5C5C;
   }
+
+  // for IE11 we need to specify min-width for preventing overlapping
+  *::-ms-backdrop, .k-grid-header .k-header > .k-link > .k-icon {
+    min-width: 15px;
+  }
+
+  .k-grid-header .k-header > .k-link > .k-sort-order {
+    order: 2;
+    padding-right: 5px;
+    font-size: 9px;
+    color: #5C5C5C;
+  }
+
+  .k-grid-header .k-header > .k-link > .k-column-title {
+    order: 3;
+  }
+
+  .k-grid-header .k-header.text-center > .k-link {
+    justify-content: center;
+  }
+
+  .k-grid-header .k-header.text-right > .k-link {
+    flex-direction: row-reverse;
+  }
+
+  .k-grid-header .k-header.text-right > .k-link > .k-icon {
+    order: 3;
+  }
+
+  .k-grid-header .k-header.text-right > .k-link > .k-sort-order {
+    order: 2;
+    padding-right: 5px;
+    font-size: 9px;
+    color: #5C5C5C;
+  }
+
+  .k-grid-header .k-header.text-right > .k-link > .k-column-title {
+    order: 1;
+  }
+}
+
+.pf-data-grid-header.no-sort-controls .k-link > .k-icon,
+.pf-data-grid-header.no-sort-controls .k-link > .k-sort-order {
+  display: none !important;
 }
 
 .k-grid .k-hierarchy-cell {

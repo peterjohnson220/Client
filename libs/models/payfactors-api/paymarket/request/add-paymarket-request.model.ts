@@ -2,7 +2,7 @@ import { PayMarket } from 'libs/models/paymarket';
 import { NewlyAddedDefaultScope } from 'libs/features/paymarket-management/models';
 
 export interface AddPayMarketRequest {
-  DefaultExchangeScopes: string[];
+  DefaultExchangeScopes: number[];
   DefaultScopes: NewlyAddedDefaultScope[];
   PayMarket: PayMarket;
 }

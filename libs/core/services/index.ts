@@ -10,3 +10,4 @@ export * from './route-tracking.service';
 export * from './jwt-querystring-auth-interceptor.service';
 export * from './sentry-error-handler.service';
 export * from './sentry.service';
+export * from './feature-flags';

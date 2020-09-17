@@ -1,0 +1,8 @@
+<div class="select-all-panel">
+  <span *ngIf="displayedItemsCount === totalCount">
+    All <span class="bold-text">{{totalCount}}</span> {{itemName}} are selected.
+  </span>
+  <span *ngIf="displayedItemsCount < totalCount">
+    All <span class="bold-text">{{displayedItemsCount}}</span> loaded {{itemName}} are selected. Scroll to load more.
+  </span>
+</div>

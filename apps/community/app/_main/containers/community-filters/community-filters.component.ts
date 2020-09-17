@@ -5,7 +5,7 @@ import * as fromCommunityTopicActions from '../../actions/community-topic.action
 import * as fromCommunityIndustryActions from '../../actions/community-industry.actions';
 import * as fromCommunityCompanySizeActions from '../../actions/community-company-size.actions';
 import { Observable, Subscription } from 'rxjs';
-import { CommunityTopic } from 'libs/models/community';
+import { CommunityTopic, CommunityCategory, CommunityCategoryEnum } from 'libs/models/community';
 import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 import { FilterOptions } from '../../models';
@@ -30,6 +30,8 @@ export class CommunityFiltersComponent implements OnInit, OnDestroy {
   industryFilters: any = [];
   companySizeFilters: any = [];
 
+  isFilteredByFavorites: boolean;
+
   constructor(public store: Store<fromCommunityTopicReducer.State>,
               public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
     this.communityFilterOptions$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions);
@@ -49,15 +51,13 @@ export class CommunityFiltersComponent implements OnInit, OnDestroy {
         this.topicFilters = response.TopicFilter.Topics;
         this.industryFilters = response.IndustryFilter.Industries;
         this.companySizeFilters = response.CompanySizeFilter.CompanySizes;
+        this.isFilteredByFavorites = response.CategoryFilter.Category.find(x => x === CommunityCategoryEnum.MyFavorites) ? true : false;
       }
     });
-
   }
 
   ngOnDestroy() {
-    if (this.filterOptionsSubscription) {
-      this.filterOptionsSubscription.unsubscribe();
-    }
+    this.filterOptionsSubscription.unsubscribe();
   }
 
   topicsSelected(topics) {
@@ -70,6 +70,14 @@ export class CommunityFiltersComponent implements OnInit, OnDestroy {
 
   companySizesSelected(companySizes) {
     this.store.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityCompanySizeToFilterOptions(companySizes));
+  }
+
+  onFilterByFavoritesClick() {
+    if (!this.isFilteredByFavorites) {
+      this.store.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityCategoryToFilterOptions(CommunityCategoryEnum.MyFavorites));
+    } else {
+      this.store.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityCategoryFromFilterOptions(CommunityCategoryEnum.MyFavorites));
+    }
   }
 }
 

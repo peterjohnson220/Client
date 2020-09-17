@@ -6,6 +6,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { UpdateSettingsChartColorRequest } from '../../../../shared/models';
 import { FontFamily, FontSize } from '../../../../shared/types';
 
+import { environment } from 'environments/environment';
+
 @Component({
   selector: 'pf-settings-panel',
   templateUrl: './settings-panel.component.html',
@@ -27,6 +29,8 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
 
   chartColorSubject = new Subject<UpdateSettingsChartColorRequest>();
   chartColorSubjectSubscription = new Subscription();
+
+  showFontFamilyMenu = environment.enableTrsCustomFontFamilies;
 
   ngOnInit() {
     // debounce chart color changes which can fire rapidly when click + hold, then dragging

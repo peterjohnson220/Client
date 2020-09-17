@@ -23,6 +23,7 @@ export class PayfactorsApiModelMapper {
       Paymarket: srgr.PayMarket,
       PaymarketId: srgr.CompanyPayMarketId,
       Rate: srgr.Rate,
+      PayType: srgr.PayType,
       ControlPoint: srgr.ControlPoint,
       ControlPointDisplay: this.getControlPointDisplayValue(srgr.ControlPoint),
       ModelName: srgr.RangeGroupName,
@@ -64,6 +65,7 @@ export class PayfactorsApiModelMapper {
     rounding: RoundingSettingsDataObj): SaveModelSettingsRequest {
     return {
       RangeGroupId: rangeGroupId,
+      PayType: formValue.PayType,
       ControlPoint: formValue.ControlPoint,
       CurrencyCode: formValue.Currency,
       ModelName: formValue.ModelName,

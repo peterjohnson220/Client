@@ -29,6 +29,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  jobRangeStructureEnabled$={[Function Observable]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading="false"
@@ -51,6 +52,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  settingService={[Function SettingsService]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -241,6 +243,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  jobRangeStructureEnabled$={[Function Observable]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading="false"
@@ -263,6 +266,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  settingService={[Function SettingsService]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -453,6 +457,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  jobRangeStructureEnabled$={[Function Observable]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading="false"
@@ -475,6 +480,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  settingService={[Function SettingsService]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -665,6 +671,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  jobRangeStructureEnabled$={[Function Observable]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading="false"
@@ -687,6 +694,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   savingConfiguration="false"
   selectedCompany="undefined"
   selectedCompany$={[Function Store]}
+  settingService={[Function SettingsService]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -767,6 +775,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   isStructureMappingsLoadEnabled="false"
   isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
+  jobRangeStructureEnabled$={[Function Observable]}
   loadType={[Function String]}
   loaderSettings$={[Function Store]}
   loaderSettingsLoading="false"
@@ -789,6 +798,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  settingService={[Function SettingsService]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"

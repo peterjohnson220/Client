@@ -67,6 +67,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       ModelName: 'testModel',
       Currency: 'USD',
       Rate: 'Annual',
+      PayType: 'Base',
       ControlPoint: 'Base',
       ControlPointDisplay: 'Base',
       SpreadMin: 10,
@@ -79,6 +80,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     };
 
     instance.modelSetting = {
+      PayType: 'Base',
       ControlPoint: 'Base',
       ControlPointDisplay: 'Base',
       Currency: 'USD',
@@ -159,6 +161,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       ModelName: 'testModel',
       Currency: 'USD',
       Rate: 'Annual',
+      PayType: 'Base',
       ControlPoint: 'Base',
       ControlPointDisplay: 'Base',
       SpreadMin: 10,

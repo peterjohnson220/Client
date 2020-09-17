@@ -23,6 +23,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Input() currencyCode: string;
   @Input() legacyIframeImplementation: boolean;
   @Input() refineInPeerDisplayed: boolean;
+  @Input() rate: string;
   @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCutDetails> = new EventEmitter<DataCutDetails>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
@@ -43,7 +44,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
   matchesMouseLeaveTimer: number;
   surveySearchResultDataSources = SurveySearchResultDataSources;
   annualDisplay: annualDisplay = annualDisplay.full;
-  compRate: compRate = compRate.annual;
 
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';
@@ -58,14 +58,17 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
   }
+
+  get compRate(): compRate {
+    return !!this.rate && this.rate === compRate.hourly.toString() ? compRate.hourly : compRate.annual;
+  }
+
   get isPeerJob(): boolean {
     return this.job.DataSource === this.surveySearchResultDataSources.Peer;
   }
 
   get showPeerOrgWeightedNatAvgCard(): boolean {
-    // return this.isPeerJob && !!this.job.PeerJobInfo;
-    // TODO: Turning off temporarily for release. [JP]
-    return false;
+    return this.isPeerJob && !!this.job.PeerJobInfo;
   }
 
   get toggleJobDetailLabel() {

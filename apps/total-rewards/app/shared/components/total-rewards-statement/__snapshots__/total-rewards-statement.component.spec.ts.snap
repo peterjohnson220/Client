@@ -8,9 +8,11 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   onCalculationControlCompFieldRemoved={[Function EventEmitter]}
   onCalculationControlCompFieldTitleChange={[Function EventEmitter]}
   onCalculationControlSummaryTitleChange={[Function EventEmitter]}
+  onChartControlRender={[Function EventEmitter]}
   onChartControlToggleSettingsPanelClick={[Function EventEmitter]}
   onControlTitleChange={[Function EventEmitter]}
   onEffectiveDateChange={[Function EventEmitter]}
+  onImageLoaded={[Function EventEmitter]}
   onRemoveImage={[Function EventEmitter]}
   onRichTextControlContentChange={[Function EventEmitter]}
   onSaveImage={[Function EventEmitter]}
@@ -19,6 +21,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
   <div
     class="container statement mb-4 rounded medium-font-size default-font-family"
   >
+    <pf-async-container />
     <div
       class="d-flex justify-content-end"
     >
@@ -217,9 +220,7 @@ exports[`TotalRewardsStatementComponent should render a mock statement derived f
           </div>
         </div>
       </section>
-      <span
-        class="page-break"
-      />
+      
     </div>
   </div>
 </pf-total-rewards-statement>

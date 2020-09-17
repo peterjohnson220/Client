@@ -7,7 +7,7 @@
       </button>
     </ng-container>
     <ng-container *ngFor="let filter of filteredCategories">
-      <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="categoryFilterClicked(filter)"
+      <button *ngIf="filter !== 'MyFavorites'" type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="categoryFilterClicked(filter)"
               [ngClass]="{'btn-selected': IsCategorySelected(filter) }">{{ filter }}
         <span *ngIf="IsCategorySelected(filter)"><fa-icon icon="times-circle"></fa-icon></span>
       </button>

@@ -13,7 +13,7 @@ export class TotalRewardsAssignmentApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  assignEmployees(request: any) {
+  assignEmployees(request: any): Observable<number[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/AssignEmployees`, request);
   }
 
@@ -21,7 +21,7 @@ export class TotalRewardsAssignmentApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/AssignAllEmployees`, searchRequest);
   }
 
-  unassignEmployees(request: any) {
+  unassignEmployees(request: any): Observable<number[]> {
     return this.payfactorsApiService.put(`${this.endpoint}/UnassignEmployees`, request);
   }
 

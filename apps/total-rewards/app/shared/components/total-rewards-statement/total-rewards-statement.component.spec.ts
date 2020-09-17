@@ -5,6 +5,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { generateDefaultAsyncStateObj } from 'libs/models';
+import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import * as statementEditReducer from '../../../_main/statement-edit/reducers/statement-edit.page.reducer';
 import * as fromTotalRewardsStatementEditReducer from '../../../_main/statement-edit/reducers';
@@ -12,7 +13,6 @@ import {
   Statement,
   generateMockStatement,
   generateMockStatementWithSingleControl,
-  generateMockEmployeeRewardsData,
   generateMockStatementWithSingleCalculationControl,
   generateMockStatementWithSingleCalculationControlAndNoVisibleFields
 } from '../../models';
@@ -113,7 +113,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a rich text control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.RichTextEditor);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.RichTextEditor, null);
     fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
@@ -127,7 +127,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render an image control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Image);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Image, null);
     fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
@@ -156,7 +156,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a chart control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Chart);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Chart, null);
     fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
@@ -170,7 +170,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a title control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Title);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Title, null);
     fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
@@ -184,7 +184,7 @@ describe('TotalRewardsStatementComponent', () => {
   it('should render a summary control', () => {
     // arrange
     const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.CalculationSummary);
+    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.CalculationSummary, null);
     fixture.componentInstance.statement = statementEditState.statement.obj;
 
     // act
@@ -195,13 +195,13 @@ describe('TotalRewardsStatementComponent', () => {
     expect(summaryControls.length).toBe(1);
   });
 
-  it('should not include calc control if no rewards data', () => {
+  it('should not include calc control if no valid rewards data', () => {
     // arrange
     component.statement = generateMockStatement();
     component.employeeRewardsData = generateMockEmployeeRewardsData();
     component.employeeRewardsData.EmployeeBase = null;
-    component.employeeRewardsData.EmployeeBonus = null;
-    component.employeeRewardsData.EmployeeSTI = null;
+    component.employeeRewardsData.EmployeeBonus = 0;
+    component.employeeRewardsData.EmployeeSTI = -456;
     component.employeeRewardsData.EmployeeLTI = null;
 
     // act

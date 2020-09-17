@@ -28,7 +28,7 @@ export class JobDescriptionDnDService {
         return ({ ...item });
       },
       moves: function (el) {
-        return el.className === 'dnd-library-draggable';
+        return el.className.includes('dnd-library-draggable');
       }
     });
 

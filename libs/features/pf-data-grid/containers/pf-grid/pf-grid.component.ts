@@ -76,6 +76,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   @Input() customSortOptions: (previousSortDescriptor: SortDescriptor[], currentSortDescriptor: SortDescriptor[]) => SortDescriptor[] = null;
   @Input() modifiedKey: string = null;
   @Input() resetWidthForSplitView = false;
+  @Input() allowMultipleSort = false;
+  @Input() showSortControls = true;
   @Output() scrolled = new EventEmitter<ContentScrollEvent>();
 
   gridState$: Observable<DataGridState>;
@@ -86,6 +88,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   defaultSortDescriptor$: Observable<SortDescriptor[]>;
   selectAllState$: Observable<string>;
   selectedKeys$: Observable<number[]>;
+  totalCount$: Observable<number>;
 
   expandedRowsSubscription: Subscription;
   expandedRows: number[];
@@ -119,6 +122,15 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
 
   modifiedKeys: any[];
   modifiedKeysSubscription: Subscription;
+
+  loadingMoreData: boolean;
+  loadingMoreDataSubscription: Subscription;
+  hasMoreDataOnServer: boolean;
+  hasMoreDataOnServerSubscription: Subscription;
+
+  lastUpdateFieldsDateSubscription: Subscription;
+
+  filtersUpdatedCountSubscription: Subscription;
 
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
@@ -188,7 +200,31 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         this.autoFitColumns(df.filter(d => d.IsSelected && d.IsSelectable && !d.Width).map(f => this.mappedFieldName.transform(f)));
       }
     });
+
     this.gridConfigSubscription = this.store.select(fromReducer.getGridConfig, this.pageViewId).subscribe(gridConfig => this.gridConfig = gridConfig);
+
+    this.hasMoreDataOnServerSubscription = this.store.select(fromReducer.getHasMoreDataOnServer, this.pageViewId)
+      .subscribe(hasMoreData => this.hasMoreDataOnServer = hasMoreData);
+    this.loadingMoreDataSubscription = this.store.select(fromReducer.getLoadingMoreData, this.pageViewId)
+      .subscribe(loadingMoreData => this.loadingMoreData = loadingMoreData);
+
+    this.lastUpdateFieldsDateSubscription = this.store.select(fromReducer.getLastUpdateFieldsDate, this.pageViewId).subscribe(lastUpdateFieldsDate => {
+      if (this.grid != null) {
+        const columns = this.grid.columns.toArray();
+        columns.forEach(function (gridColumn, index) {
+          if (gridColumn.orderIndex !== index) {
+            gridColumn.orderIndex = index;
+          }
+        });
+      }
+    });
+
+    this.filtersUpdatedCountSubscription = this.store.select(fromReducer.getFieldsFilterCount, this.pageViewId)
+      .subscribe(count => {
+        if (!!count && this.enableInfiniteScroll) {
+          this.scrollToTop();
+        }
+      });
   }
 
   ngOnDestroy() {
@@ -203,6 +239,10 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.dataFieldsSubscription.unsubscribe();
     this.gridConfigSubscription.unsubscribe();
     this.modifiedKeysSubscription.unsubscribe();
+    this.loadingMoreDataSubscription.unsubscribe();
+    this.hasMoreDataOnServerSubscription.unsubscribe();
+    this.lastUpdateFieldsDateSubscription.unsubscribe();
+    this.filtersUpdatedCountSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -222,6 +262,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       this.sortDescriptor$ = this.store.select(fromReducer.getSortDescriptor, changes['pageViewId'].currentValue);
       this.defaultSortDescriptor$ = this.store.select(fromReducer.getDefaultSortDescriptor, changes['pageViewId'].currentValue);
       this.selectedKeys$ = this.store.select(fromReducer.getSelectedKeys, changes['pageViewId'].currentValue);
+      this.totalCount$ = this.store.select(fromReducer.getTotalCount, changes['pageViewId'].currentValue);
       this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, changes['pageViewId'].currentValue);
       this.modifiedKeysSubscription = this.store.select(fromReducer.getModifiedKeys, changes['pageViewId'].currentValue).subscribe(
         modifiedKeys => this.modifiedKeys = modifiedKeys
@@ -260,7 +301,12 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
         ActionsDefined: !!this.gridRowActionsConfig
       },
     ));
-    this.reorderActionsColumnOnTheLeft();
+  }
+
+  loadMore() {
+    if (!this.loadingMoreData && this.hasMoreDataOnServer && this.enableInfiniteScroll) {
+      this.store.dispatch(new fromActions.LoadMoreData(this.pageViewId));
+    }
   }
 
   getColWidth(col: any) {
@@ -280,13 +326,16 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onScroll(event: ContentScrollEvent): void {
-    this.scrolled.emit(event);
+    this.store.dispatch(new fromActions.CaptureGridScrolled(this.pageViewId, event));
   }
 
   // TODO: Kendo sorts the grids asc -> desc -> none in that order, rather than dir -> !dir -> none regardless of direction
   // If the default sort for a grid is to be ordered desc, there would be no way to order that column asc so we have to make the addt'l check
   // Achieving the 2nd sort direction logic requires additional effort
   onSortChange(newSortDescriptor: SortDescriptor[]): void {
+    if (this.gridConfig?.ScrollToTop) {
+      this.scrollToTop();
+    }
     let descriptorToDispatch = !newSortDescriptor[0].dir ?
       this.defaultSortDescriptor :
       newSortDescriptor;
@@ -342,7 +391,11 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   getColumnHeaderClass(): string {
-    return this.compactGrid && !this.showHeaderWhenCompact ? 'pf-data-grid-no-header' : 'pf-data-grid-header';
+    return this.compactGrid && !this.showHeaderWhenCompact
+      ? 'pf-data-grid-no-header'
+      : this.showSortControls
+        ? 'pf-data-grid-header'
+        : 'pf-data-grid-header no-sort-controls';
   }
 
   getCheckboxHeaderClass() {
@@ -398,6 +451,26 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));
   }
 
+  get enableInfiniteScroll(): boolean {
+    return this.gridConfig?.EnableInfiniteScroll && !this.pageable;
+  }
+
+  private scrollToTop(): void {
+    if (!!this.grid) {
+      const gridContentElements = this.grid?.wrapper.nativeElement.getElementsByClassName('k-grid-content');
+      if (gridContentElements?.length) {
+        const gridContent = gridContentElements[0];
+        gridContent.scrollTop = 0;
+      }
+    }
+  }
+
+  trackByField(index, field: ViewField) {
+    return field
+      ? field.DataElementId ? field.DataElementId : field.Group
+      : index;
+  }
+
   private autoFitColumns(columnFieldNames: string[]) {
     this.ngZone.onStable.asObservable().pipe(take(1)).subscribe(() => {
       this.grid.autoFitColumns(this.grid.columnList.filter((c: any) => columnFieldNames.some(col => {
@@ -419,16 +492,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       return true;
     }
     return false;
-  }
-
-  private reorderActionsColumnOnTheLeft(): void {
-    if (this.gridRowActionsConfig?.Position !== PositionType.Left) {
-      return;
-    }
-    const actionsColumnIndex = this.enableSelection ? 1 : 0;
-    const actionsColumn = this.grid.columns.toArray()[actionsColumnIndex];
-    const destIndex = 0;
-    setTimeout(() => this.grid.reorderColumn(actionsColumn, destIndex), 1);
   }
 
   private resetKendoGridWidth() {

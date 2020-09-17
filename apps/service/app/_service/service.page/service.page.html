@@ -11,7 +11,10 @@
   [noRecordsFoundTemplate]="noRecords"
   [gridContainerSplitViewWidth]="'347px'"
   [inboundFilters]="inboundFilters"
-  [splitViewTemplate]="ticketsDetails">
+  [splitViewTemplate]="ticketsDetails"
+  [pagingOptions]="defaultPagingOptions"
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll">
 </pf-data-grid>
 
 

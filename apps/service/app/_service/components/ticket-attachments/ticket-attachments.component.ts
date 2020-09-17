@@ -20,6 +20,7 @@ export class TicketAttachmentsComponent implements OnChanges {
   @Input() ticketId: string;
   @Input() attachments: UserTicketFile[];
   @Input() canAddAttachments: boolean;
+  @Input() isTicketClosed: boolean;
 
   fileUploadMax = ServicePageConfig.MaxFileUploads;
   uploadedFilesData: UploadedFile[] = [];

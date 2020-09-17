@@ -4,7 +4,7 @@ import {BaseExchangeDataSearchRequest} from '../../payfactors-api/peer/exchange-
 
 export interface ExchangeScopeDetails {
   ExchangeId: number;
-  ExchangeScopeGuid: string;
+  ExchangeScopeId: number;
   ExchangeScopeName: string;
   ExchangeScopeDescription: string;
   IsDefault?: boolean;
@@ -18,7 +18,7 @@ export interface UpsertExchangeExplorerScopeRequest {
 export function generateMockExchangeScopeDetails(): ExchangeScopeDetails {
   return {
     ExchangeId: 1,
-    ExchangeScopeGuid: 'MockGUID',
+    ExchangeScopeId: 1,
     ExchangeScopeName: 'MockScope',
     ExchangeScopeDescription: 'Mock Exchange Scope Description',
   };

@@ -13,6 +13,10 @@
   [preserveSelectionsOnGetConfig]="true"
   [applyUserDefaultCompensationFields]="true"
   [headerClassName]="'jobs-page-sub-grid-header'"
+  [applyUserDefaultCompensationFields]="true"
+  [pagingOptions]="defaultPagingOptions"
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
   [noRecordsFound]="'There are no results for the filter criteria you have selected.'">
 </pf-data-grid>
 

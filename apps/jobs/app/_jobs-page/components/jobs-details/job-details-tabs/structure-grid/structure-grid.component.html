@@ -8,7 +8,10 @@
   [headerClassName]="'jobs-page-sub-grid-header'"
   [actionBarConfig]="actionBarConfig"
   [defaultColumnWidth]="150"
-  [fieldsExcludedFromExport]="fieldsExcludedFromExport">
+  [fieldsExcludedFromExport]="fieldsExcludedFromExport"
+  [pagingOptions]="defaultPagingOptions"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [gridConfig]="gridConfig">
 </pf-data-grid>
 
 <ng-template #nameColumn let-dataRow="dataRow">

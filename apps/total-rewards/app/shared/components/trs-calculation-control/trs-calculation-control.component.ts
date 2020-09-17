@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
 import * as models from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
@@ -13,7 +15,7 @@ import { TotalRewardsStatementService } from '../../services/total-rewards-state
 export class TrsCalculationControlComponent {
 
   @Input() controlData: models.CalculationControl;
-  @Input() employeeRewardsData: models.EmployeeRewardsData;
+  @Input() employeeRewardsData: EmployeeRewardsData;
   @Input() mode: models.StatementModeEnum;
 
   @Output() onTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
@@ -62,7 +64,7 @@ export class TrsCalculationControlComponent {
   getEmployerContributionValue(field: string) {
     if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
       if (this.employeeRewardsData[field] || this.employeeRewardsData[field] === 0) {
-        return this.currencyPipe.transform(this.employeeRewardsData[field], 'USD', 'symbol-narrow', '1.0');
+        return this.currencyPipe.transform(this.employeeRewardsData[field], this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
       }
     }
     return this.compensationValuePlaceholder;
@@ -71,7 +73,7 @@ export class TrsCalculationControlComponent {
   getSummaryValue() {
     if (this.employeeRewardsData && (this.mode !== models.StatementModeEnum.Edit)) {
       const sum = TotalRewardsStatementService.sumCalculationControl(this.controlData, this.employeeRewardsData);
-      return this.currencyPipe.transform(sum, 'USD', 'symbol-narrow', '1.0');
+      return this.currencyPipe.transform(sum, this.employeeRewardsData?.Currency, 'symbol-narrow', '1.0');
     }
 
     return this.compensationValuePlaceholder;
@@ -82,7 +84,7 @@ export class TrsCalculationControlComponent {
       if (this.inEditMode) {
         return true;
       }
-      return this.employeeRewardsData[compField.DatabaseField] !== null;
+      return this.employeeRewardsData[compField.DatabaseField] !== null && this.employeeRewardsData[compField.DatabaseField] > 0;
     }
     return false;
   }

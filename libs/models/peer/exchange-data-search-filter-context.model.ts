@@ -16,7 +16,7 @@ export interface ExchangeExplorerContextInfo {
 }
 
 export interface ExchangeDataSearchFilterContext extends SystemFilter, MapGeoData {
-  ScopeGUID: string;
+  ScopeId: number;
   ClusterPrecision: number;
   ZoomLevel: number;
   LimitToPayMarket: boolean;
@@ -28,7 +28,7 @@ export function generateMockExchangeDataSearchFilterContext(): ExchangeDataSearc
   return {
     ...generateMockSystemFilter(),
     ...generateMockMapGeoData(),
-    ScopeGUID: 'MockGUID',
+    ScopeId: 1,
     ClusterPrecision: 0,
     ZoomLevel: 0.1,
     LimitToPayMarket: true,
