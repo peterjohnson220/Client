@@ -691,11 +691,14 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         break;
     }
 
-    if (
-      !this.paymarketMappingComplete || !this.jobMappingComplete || !this.structureMappingComplete ||
-      !this.structureMappingMappingComplete || !this.employeeMappingComplete || !this.isBenefitsMappingComplete
-      || !this.isSubsidiariesMappingComplete
-    ) {
+    let shouldShowMap = !this.paymarketMappingComplete || !this.jobMappingComplete || !this.structureMappingComplete ||
+      !this.structureMappingMappingComplete || !this.employeeMappingComplete || !this.isSubsidiariesMappingComplete;
+
+    if (this.env.name !== 'production') {
+      shouldShowMap = shouldShowMap || !this.isBenefitsMappingComplete;
+    }
+
+    if (shouldShowMap) {
       this.showFieldMapperTooltip = true;
     }
 
