@@ -45,6 +45,8 @@ export class UserTileToTileMapper {
         return TilePreviewTypes.Peer;
       case TileTypes.TotalRewards:
         return TilePreviewTypes.TotalRewards;
+      case TileTypes.WhatIsNew:
+        return TilePreviewTypes.WhatIsNew;
       default:
         return TilePreviewTypes.Icon;
     }
@@ -204,6 +206,11 @@ export class UserTileToTileMapper {
         tile.CssClass = 'tile-green';
         tile.MarketingDescription = MarketingTileDescriptions.InternationalData;
         tile.MarketingButtonText = 'EXPLORE';
+        break;
+
+      case TileTypes.WhatIsNew:
+        tile.CssClass = 'tile-lightblue';
+        tile.IgnoreTileAnchorOverlay = true;
         break;
 
       default:

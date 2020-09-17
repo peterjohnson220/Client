@@ -1,4 +1,3 @@
-
 <div id="{{ tile.Label | stringReplace:' ': '-' | lowercase }}-tile"
   class="tile m-0 p-1"
   [ngSwitch]="tile.PreviewType"
@@ -50,7 +49,17 @@
     <pf-tile-preview-total-rewards *ngSwitchCase="tilePreviewType.TotalRewards"
                   [model]="previewModel">
     </pf-tile-preview-total-rewards>
-  </div>
+
+    <div *ngIf="tile.PreviewType === 'WhatIsNew'">
+      <div class="wistia_responsive_padding wistia-padding">
+        <div class="wistia_responsive_wrapper wistia-wrapper">
+          <iframe src="https://fast.wistia.net/embed/iframe/95g6ckx96u?seo=false&videoFoam=true" 
+          title="Payfactors 2020 Video" allow="autoplay; fullscreen" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen msallowfullscreen class="w-100 h-100"></iframe>
+        </div>
+      </div>      
+    </div>
+
+  </div>    
 
   <div #makretingTileOverlay *ngIf="tile.MarketingEnabled"
     class='marketing-overlay'
