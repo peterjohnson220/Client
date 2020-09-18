@@ -361,6 +361,8 @@ export const getShowRemoveEntityModal = createSelector(selectEntitySelectionStat
 // converter settings
 export const getConverterSettings = createSelector(selectConverterSettingsState, fromConverterSettingsReducer.getConverterSettings);
 export const getGlobalDateSetting = createSelector(selectConverterSettingsState, fromConverterSettingsReducer.getGlobalDateSetting);
+export const getDataConverterModalInfo = createSelector(selectConverterSettingsState, fromConverterSettingsReducer.getDataConverterModalInfo);
+export const isDataConverterModalOpen = createSelector(selectConverterSettingsState, fromConverterSettingsReducer.isDataConverterModalOpen);
 
 // Outbound
 export const getOutboundProviders = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundProviders);

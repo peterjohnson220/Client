@@ -58,9 +58,6 @@ export class ConverterSettingsEffects {
       };
     }),
     switchMap(obj => {
-      if (!obj.converterSettings.some(setting => setting.connection_ID != null)) {
-        return [new fromConverterSettingsActions.SaveConverterSettingsSuccess()];
-      }
       return this.converterSettingsApiService.saveSettings(obj.userContext, obj.connectionSummary.connectionID, obj.converterSettings)
         .pipe(
           mergeMap((response: any) => {

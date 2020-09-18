@@ -39,8 +39,6 @@ export const LOAD_MAPPED_FIELDS = '[Data Management/Field Mappings] Load Mapped 
 export const LOAD_MAPPED_FIELDS_ERROR = '[Data Management/Field Mappings] Load Mapped Fields Error';
 export const LOAD_MAPPED_FIELDS_SUCCESS = '[Data Management/Field Mappings] Load Mapped Fields Success';
 
-export const ADD_CONVERTER_OPTIONS = '[Data Management/Field Mappings] Add Converter Options to Entity';
-
 // outbound jdm actions, delete me
 export const SAVE_OUTBOUND_MAPPINGS = '[Data Management/Field Mappings] Save Outbound JDM Mappings';
 export const SAVE_OUTBOUND_MAPPING_SUCCESS = '[Data Management/Field Mappings] Save Outbound JDM Mappings Success';
@@ -198,12 +196,6 @@ export class LoadMappedFieldsSucces implements Action {
   constructor(public payload: { payfactorsFields: EntityField, providerFields: EntityField }) {}
 }
 
-export class AddConverterOptions implements Action {
-  readonly type = ADD_CONVERTER_OPTIONS;
-
-  constructor(public payload: {entityId?: number, converterOptions: ConverterOptions }) {}
-}
-
 // outbound jdm actions, delete me
 export class SaveOutboundJdmFieldMappings implements Action {
   readonly type = SAVE_OUTBOUND_MAPPINGS;
@@ -244,6 +236,5 @@ export type Actions
  | LoadMappedFieldsError
  | LoadMappedFieldsSucces
  | TrySaveMapping
- | AddConverterOptions
  | SaveOutboundJdmFieldMappings
  | SaveOutboundJdmFieldMappingsSuccess;

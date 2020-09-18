@@ -8,6 +8,7 @@ import orderBy from 'lodash/orderBy';
 
 import { DATE_FORMATS } from 'libs/features/org-data-loader/constants';
 import { ConverterSettings } from 'libs/models/hris-api';
+import { ImportDataType } from 'libs/constants';
 
 import * as fromConverterSettingsActions from '../../actions/converter-settings.actions';
 import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
@@ -23,6 +24,7 @@ import { EntityDataField, EntityField } from '../../models';
 export class EntityMappingComponent implements OnInit, OnDestroy {
 
   dateFormats: Array<{ text: string, value: string}> = DATE_FORMATS;
+  public importDataType = ImportDataType;
 
   @Input() provider: string;
   @Input() entityType: string;
@@ -151,6 +153,11 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
       payfactorsEntityIndex: pfEntityId,
       entityType: this.entityType
     }));
+    this.store.dispatch(new fromConverterSettingsActions.RemoveConverterSetting({
+      connectionId: this.connectionId,
+      entityType: this.entityType,
+      fieldName: entity.FieldName
+    }));
   }
 
   addAssociatedItem(pfEntityId: number, entity: EntityDataField) {
@@ -159,10 +166,15 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
       entityType: this.entityType,
       payfactorsEntityId: pfEntityId
     }));
+    this.store.dispatch(new fromConverterSettingsActions.AddConverterSetting({
+      connectionId: this.connectionId,
+      entityType: this.entityType,
+      fieldName: entity.FieldName
+    }));
   }
 
-  onDateFormatSelected(event) {
-    this.selectedDateFormat = event.target.value;
+  onDateFormatSelected(dateFormat: string) {
+    this.selectedDateFormat = dateFormat;
     const converterOptions: ConverterSettings = {
       connection_ID: this.connectionId,
       fieldName: null,
@@ -172,7 +184,20 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
       },
       dataType: 'Date'
     };
-    this.store.dispatch(new fromConverterSettingsActions.AddConverterSetting(converterOptions));
+    this.store.dispatch(new fromConverterSettingsActions.AddConverterSetting({converterSetting: converterOptions}));
+  }
+
+  showDataConverterModal(field: EntityDataField) {
+    this.store.dispatch(new fromConverterSettingsActions.OpenDataConverterModal({
+      open: true,
+      modalInfo: {
+        connectionId: this.connectionId,
+        dataType: ImportDataType[field.DataType],
+        fieldName: field.FieldName,
+        entityType: this.entityType,
+        provider: this.provider
+      }
+    }));
   }
 
 }
