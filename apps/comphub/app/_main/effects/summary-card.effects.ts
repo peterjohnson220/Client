@@ -193,7 +193,8 @@ export class SummaryCardEffects {
         new fromMarketsCardActions.SetDefaultPaymarketAsSelected(),
         new fromDataCardActions.ClearSelectedJobData(),
         new fromDataCardActions.SetForceRefreshPeerMap(true),
-        new fromSummaryCardActions.ResetCreateProjectStatus()
+        new fromSummaryCardActions.ResetCreateProjectStatus(),
+        new fromBasicDataGridActions.GetCount(QuickPriceHistoryContext.gridId)
       ])
     );
 
