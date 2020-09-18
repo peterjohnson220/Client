@@ -11,7 +11,7 @@
       [resizable]="(selectedRecordId && allowSplitView) ? false : enableResize"
       [sortable]="{
         allowSort: allowSort,
-        mode: allowMultipleSort? 'multiple' : 'single'
+        mode: allowMultipleSort ? 'multiple' : 'single'
       }"
       [sort]="sortDescriptor$ | async"
       [ngClass]="theme"

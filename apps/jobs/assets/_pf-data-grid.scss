@@ -3,3 +3,8 @@
   font-weight: 600 !important;
   border: none;
 }
+
+
+:host ::ng-deep .k-sort-order{
+  display: none;
+}
