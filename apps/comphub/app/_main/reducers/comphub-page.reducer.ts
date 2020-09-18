@@ -18,6 +18,7 @@ export interface State {
   exchangeDataSets: ExchangeDataSet[];
   exchangeDataSetLoaded: boolean;
   workflowContext: WorkflowContext;
+  isQuickPriceHistoryModalOpen: boolean;
 }
 
 const initialState: State = {
@@ -36,7 +37,8 @@ const initialState: State = {
     activeCountryDataSet: null,
     activeExchangeDataSet: null,
     quickPriceType: QuickPriceType.ENTERPRISE
-  }
+  },
+  isQuickPriceHistoryModalOpen: false
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
@@ -188,6 +190,12 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         }
       };
     }
+    case fromComphubPageActions.SET_QUICK_PRICE_HISTORY_MODAL_OPEN: {
+      return {
+        ...state,
+        isQuickPriceHistoryModalOpen: action.isOpen
+      };
+    }
     default: {
       return state;
     }
@@ -216,3 +224,4 @@ export const getJobPricingBlocked = createSelector(
       || (!activeCountryDataSet && workflowContext.quickPriceType === QuickPriceType.ENTERPRISE));
   }
 );
+export const getIsQuickPriceHistoryModalOpen = (state: State) => state.isQuickPriceHistoryModalOpen;

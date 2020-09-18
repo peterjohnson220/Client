@@ -24,6 +24,7 @@ export const GET_EXCHANGE_DATA_SETS = '[Comphub/Comphub Page] Get Exchange Data 
 export const GET_EXCHANGE_DATA_SETS_SUCCESS = '[Comphub/Comphub Page] Get Exchange Data Sets Success';
 export const UPDATE_ACTIVE_EXCHANGE_DATA_SET = '[Comphub/Comphub Page] Update Active Exchange Data Set';
 export const SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT = '[Comphub/Comphub Page] Set Quick Price Type In Workflow Context';
+export const SET_QUICK_PRICE_HISTORY_MODAL_OPEN = '[Comphub/Comphub Page] Set Quick Price History Modal Open';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -135,6 +136,11 @@ export class SetQuickPriceTypeInWorkflowContext implements Action {
   constructor(public payload: string) {}
 }
 
+export class SetQuickPriceHistoryModalOpen implements Action {
+  readonly type = SET_QUICK_PRICE_HISTORY_MODAL_OPEN;
+  constructor(public isOpen: boolean) {}
+}
+
 export type Actions
   = Init
   | NavigateToCard
@@ -154,4 +160,5 @@ export type Actions
   | GetExchangeDataSets
   | GetExchangeDataSetsSuccess
   | UpdateActiveExchangeDataSet
-  | SetQuickPriceTypeInWorkflowContext;
+  | SetQuickPriceTypeInWorkflowContext
+  | SetQuickPriceHistoryModalOpen;

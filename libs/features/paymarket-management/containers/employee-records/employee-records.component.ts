@@ -5,9 +5,9 @@ import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models';
 import { BasicDataViewField, DataViewFilter, DataViewFieldDataType } from 'libs/models/payfactors-api';
+import * as fromBasicDataGridReducer from 'libs/features/basic-data-grid/reducers';
+import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
 
-import * as fromPayMarketManagementReducer from '../../reducers';
-import * as fromBasicDataGridActions from '../../actions/basic-data-grid.actions';
 import { PayMarketAssociationType } from '../../models';
 import { PayMarketAssociationsHelper } from '../../helpers';
 
@@ -70,11 +70,11 @@ export class EmployeeRecordsComponent implements OnInit, OnChanges, OnDestroy {
   ];
 
   constructor(
-    private store: Store<fromPayMarketManagementReducer.State>
+    private basicGridStore: Store<fromBasicDataGridReducer.State>
   ) {
-    this.data$ = this.store.select(fromPayMarketManagementReducer.getData, PayMarketAssociationType.EmployeeRecords);
-    this.fields$ = this.store.select(fromPayMarketManagementReducer.getVisibleFields, PayMarketAssociationType.EmployeeRecords);
-    this.loadingMoreData$ = this.store.select(fromPayMarketManagementReducer.getLoadingMoreData, PayMarketAssociationType.EmployeeRecords);
+    this.data$ = this.basicGridStore.select(fromBasicDataGridReducer.getData, PayMarketAssociationType.EmployeeRecords);
+    this.fields$ = this.basicGridStore.select(fromBasicDataGridReducer.getVisibleFields, PayMarketAssociationType.EmployeeRecords);
+    this.loadingMoreData$ = this.basicGridStore.select(fromBasicDataGridReducer.getLoadingMoreData, PayMarketAssociationType.EmployeeRecords);
     this.initGrid();
   }
 
@@ -84,7 +84,7 @@ export class EmployeeRecordsComponent implements OnInit, OnChanges, OnDestroy {
         this.currentRecordCount = asyncObj.obj.length;
       }
     });
-    this.store.dispatch(new fromBasicDataGridActions.GetData(PayMarketAssociationType.EmployeeRecords));
+    this.basicGridStore.dispatch(new fromBasicDataGridActions.GetData(PayMarketAssociationType.EmployeeRecords));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -99,12 +99,12 @@ export class EmployeeRecordsComponent implements OnInit, OnChanges, OnDestroy {
 
   onScroll(): void {
     if (this.currentRecordCount < this.totalCount) {
-      this.store.dispatch(new fromBasicDataGridActions.GetMoreData(PayMarketAssociationType.EmployeeRecords));
+      this.basicGridStore.dispatch(new fromBasicDataGridActions.GetMoreData(PayMarketAssociationType.EmployeeRecords));
     }
   }
 
   private initGrid(): void {
-    this.store.dispatch(new fromBasicDataGridActions.InitGrid(
+    this.basicGridStore.dispatch(new fromBasicDataGridActions.InitGrid(
       PayMarketAssociationType.EmployeeRecords,
       {
         BaseEntity: this.baseEntity,
@@ -117,6 +117,6 @@ export class EmployeeRecordsComponent implements OnInit, OnChanges, OnDestroy {
 
   private updateFilters(companyPaymarketId: number): void {
     const filters: DataViewFilter[] = PayMarketAssociationsHelper.getPayMarketFilters(this.baseEntity, companyPaymarketId);
-    this.store.dispatch(new fromBasicDataGridActions.UpdateFilters(PayMarketAssociationType.EmployeeRecords, filters));
+    this.basicGridStore.dispatch(new fromBasicDataGridActions.UpdateFilters(PayMarketAssociationType.EmployeeRecords, filters));
   }
 }
