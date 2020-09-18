@@ -216,7 +216,7 @@ export class FieldMapperComponent implements OnInit {
 
   private fireCompleteEvent() {
     let payload: LoaderEntityStatus = {
-      complete: this.clientFields.length === 0 && this.mappedFields.length > 0,
+      complete: this.clientFields.length === 0,
       loaderType: this.loaderType,
       loadEnabled: true,
       mappings: this.clientFields.length === 0 ? this.mappedFields : null,
