@@ -376,6 +376,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.hasBenefitsAccess = this.userContext.AccessLevel === 'Admin' ||
       this.permissions.CheckPermission([Permissions.TOTAL_REWARDS], PermissionCheckEnum.Single);
     this.loadOptions = getEntityChoicesForOrgLoader(this.hasBenefitsAccess);
+    this.AddAndSetSelectedMapping(this.configGroupSeed);
 
     this.hideAccess = false;
     this.spinnerType = 'SVG';
