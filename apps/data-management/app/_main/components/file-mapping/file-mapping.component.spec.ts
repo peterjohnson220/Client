@@ -7,6 +7,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { CompanySettingsEnum } from 'libs/models';
+import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import { FileMappingComponent } from '../../components';
@@ -21,6 +22,11 @@ describe('FileMappingComponent', () => {
     { Key: CompanySettingsEnum.EnableJobRangeStructureRangeTypes,
       DisplayName: 'Enable JobRange Structure RangeTypes', Value: 'false', Visible: true, DataType: 'string'}];
 
+  class MockCompanySettingsApiService {
+    constructor() {
+    }
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -30,15 +36,20 @@ describe('FileMappingComponent', () => {
         }),
         RouterTestingModule
       ],
-      declarations: [FileMappingComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      providers: [
+        {
+          provide: CompanySettingsApiService,
+          useClass: MockCompanySettingsApiService,
+        }
+      ],
+      declarations: [ FileMappingComponent ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     });
     fixture = TestBed.createComponent(FileMappingComponent);
     component = fixture.componentInstance;
     component.entities = getEntityChoicesForOrgLoader(true);
     component.entities.forEach(e => { e.customFields.Jobs = customFields, e.customFields.Employees = customFields; });
-    component.selectedCompany = { CompanyId: 1, CompanyName: 'test', CombinedDetail: 'test (1)' };
-    component.companySettings = companySetting_EnableJobRangeStructureRangeTypes_False;
+    component.selectedCompany = {CompanyId: 1, CompanyName: 'test', CombinedDetail: 'test (1)'};
     fixture.detectChanges();
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch');

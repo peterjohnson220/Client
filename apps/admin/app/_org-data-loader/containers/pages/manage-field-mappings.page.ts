@@ -24,14 +24,15 @@ import { LoaderFileFormat } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import { CompanySettingsEnum } from 'libs/models';
+import { ConfigSetting } from 'libs/models/security';
+import { ConfigSettingsSelectorFactory, SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum, CompanySetting } from 'libs/models';
 import {
     ConfigurationGroup, EmailRecipientModel, LoaderFieldSet, LoaderSaveCoordination, LoaderSetting, MappingModel
 } from 'libs/models/data-loads';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
-import { ConfigSetting } from 'libs/models/security';
 import { SftpUserModel } from 'libs/models/Sftp';
-import { ConfigSettingsSelectorFactory, SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -118,7 +119,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   sftpUserNameIsValid$: Observable<boolean>;
   private emailRecipients: EmailRecipientModel[];
   private sftpUserNameIsValid: boolean;
-  private jobRangeStructureEnabled$: Observable<boolean>;
+  private selectedCompanySetting$: Observable<CompanySetting[]>;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -180,7 +181,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     private orgDataAutoloaderApi: LoaderFieldMappingsApiService,
     private notificationService: NotificationService,
     private configSettingsSelectorFactory: ConfigSettingsSelectorFactory,
-    private settingService: SettingsService,
+    private companySettingsApiService: CompanySettingsApiService,
     private cdr: ChangeDetectorRef,
   ) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
@@ -266,6 +267,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       this.selectedCompany = f;
       if (f) {
         this.companySelector.isDisabled = true;
+        this.getSelectedCompanySetting();
         this.CompanySelected();
         this.cdr.detectChanges();
       }
@@ -375,17 +377,6 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       this.sftpUserNameIsValid = isValid;
     });
 
-    this.jobRangeStructureEnabled$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.EnableJobRangeStructureRangeTypes);
-
-    this.jobRangeStructureEnabled$.pipe(
-      takeUntil(this.unsubscribe$),
-      filter(companySetting => !!companySetting)
-    ).subscribe(enabled => {
-      if (enabled) {
-        this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
-      }
-    });
-
   } // end constructor
 
   ngOnInit() {
@@ -454,6 +445,20 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       this.dateFormat = $event.dateFormat;
     }
     this.isEmployeesFullReplace = $event.isFullReplace;
+  }
+
+  private getSelectedCompanySetting() {
+    this.selectedCompanySetting$ = this.companySettingsApiService.getCompanySettings(this.selectedCompany.CompanyId);
+
+    this.selectedCompanySetting$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(companySetting => !!companySetting)
+    ).subscribe(setting => {
+      const jobRangeStruct = setting.find(s => s.Key === CompanySettingsEnum.EnableJobRangeStructureRangeTypes);
+      if (jobRangeStruct.Value === 'true') {
+        this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
+      }
+    });
   }
 
   CompanySelected() {

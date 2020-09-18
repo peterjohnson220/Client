@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 
 import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
@@ -22,7 +22,7 @@ import { LoaderFieldSet } from 'libs/models/data-loads';
   templateUrl: './field-mapper.component.html',
   styleUrls: ['./field-mapper.component.scss']
 })
-export class FieldMapperComponent implements OnInit {
+export class FieldMapperComponent implements OnInit, OnChanges {
   uploadSaveUrl: string;
   removeUrl: string;
   fileRestrictions: FileRestrictions;
@@ -66,6 +66,7 @@ export class FieldMapperComponent implements OnInit {
 
   ngOnInit() {
     this.payfactorsDataFieldsForReset = this.payfactorsDataFields;
+
     this.fieldMappings$.subscribe(mappings => {
       if (mappings.length > 0) {
         this.resetMapping();
@@ -89,6 +90,12 @@ export class FieldMapperComponent implements OnInit {
         }
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes.payfactorsDataFields && !!changes.payfactorsDataFields.currentValue) {
+      this.payfactorsDataFieldsForReset = changes.payfactorsDataFields.currentValue;
+    }
   }
 
   private addSavedMappings(mappings) {
