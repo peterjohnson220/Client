@@ -154,6 +154,11 @@
             <pf-range-rounding></pf-range-rounding>
           </ng-template>
         </ngb-tab>
+        <ngb-tab *ngIf="structuresAdvancedModelingFeatureFlag.value" title="Advanced Modeling" id="advancedModelingTab">
+          <ng-template ngbTabContent>
+            <pf-advanced-modeling></pf-advanced-modeling>
+          </ng-template>
+        </ngb-tab>
       </ngb-tabset>
     </div>
   </ng-container>

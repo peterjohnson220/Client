@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api';
 
 export const UPDATE_RANGE_FIELD = '[Feature - Structures - Range Field Edit] Update Range Field';
@@ -28,7 +28,8 @@ export class UpdateRangeField implements Action {
 export class UpdateRangeFieldSuccess implements Action {
   readonly type = UPDATE_RANGE_FIELD_SUCCESS;
 
-  constructor(public payload: { pageViewId: string, refreshRowDataViewFilter: DataViewFilter, rowIndex: number }) {}
+  constructor(public payload: { pageViewId: string, refreshRowDataViewFilter: DataViewFilter, rowIndex: number, modifiedKey: number,
+    override: CompanyStructureRangeOverride }) {}
 }
 
 export class UpdateRangeFieldError implements Action {

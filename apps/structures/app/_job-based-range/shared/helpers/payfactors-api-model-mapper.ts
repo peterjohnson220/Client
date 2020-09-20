@@ -8,8 +8,10 @@ import {
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { AdvancedSettingsRequest } from 'libs/models/payfactors-api/structures/request/advanced-settings-request.model';
 
-import { ControlPoint, Currency, RangeGroupMetadata } from '../models';
+import { AdvancedSettings, ControlPoint, Currency, RangeGroupMetadata } from '../models';
+
 
 export class PayfactorsApiModelMapper {
 
@@ -47,6 +49,17 @@ export class PayfactorsApiModelMapper {
     });
   }
 
+  static mapAdvancedSettingsResponseToAdvancedSettings(cfr: CompositeFieldResponse[]): ControlPoint[] {
+    return cfr.map(cf => {
+      return {
+        FieldName: cf.FieldName,
+        Display: cf.AppDisplayName,
+        Category: cf.Category,
+        RangeDisplayName: cf.DisplayName
+      };
+    });
+  }
+
   static mapCurrencyDtosToCurrency(cu: CurrencyDto[]): Currency[] {
     return cu.map(c => {
       return {
@@ -62,7 +75,7 @@ export class PayfactorsApiModelMapper {
   ///
   static mapModelSettingsModalFormToSaveSettingsRequest(
     rangeGroupId: number, formValue: RangeGroupMetadata,
-    rounding: RoundingSettingsDataObj): SaveModelSettingsRequest {
+    rounding: RoundingSettingsDataObj, advancedSettings: AdvancedSettingsRequest): SaveModelSettingsRequest {
     return {
       RangeGroupId: rangeGroupId,
       PayType: formValue.PayType,
@@ -74,6 +87,7 @@ export class PayfactorsApiModelMapper {
       Rate: formValue.Rate,
       StructureName: formValue.StructureName,
       Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding),
+      AdvancedSettings: advancedSettings,
       RangeDistributionTypeId: formValue.RangeDistributionTypeId ?? 1,
       RangeDistributionSetting: formValue.RangeDistributionSetting
     };
@@ -101,6 +115,16 @@ export class PayfactorsApiModelMapper {
       SecondQuintile: roundingSettings['secondQuintile'],
       ThirdQuintile: roundingSettings['thirdQuintile'],
       FourthQuintile: roundingSettings['fourthQuintile']
+    };
+  }
+
+  static mapAdvancedSettingsModalFormToAdvancedSettingsRequest(advancedSettings: AdvancedSettings): AdvancedSettingsRequest {
+    return {
+      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(advancedSettings.Rounding),
+      PreventMidsBelowCurrent: advancedSettings.PreventMidsBelowCurrent,
+      PreventMidsFromIncreasingMoreThanPercent: advancedSettings.PreventMidsFromIncreasingMoreThanPercent,
+      PreventMidsFromIncreasingWithinPercentOfNextLevel: advancedSettings.PreventMidsFromIncreasingWithinPercentOfNextLevel,
+      MissingMarketDataType: advancedSettings.MissingMarketDataType
     };
   }
 
