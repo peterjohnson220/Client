@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class JobsHierarchyPageGuard implements CanActivate, OnDestroy {
-  jobsHierarchyPageFeatureFlag: RealTimeFlag = {key: FeatureFlags.JobsHierachyPage, value: false};
+  jobsHierarchyPageFeatureFlag: RealTimeFlag = {key: FeatureFlags.JobsHierarchyPage, value: false};
   unsubscribe$ = new Subject<void>();
 
   constructor(
