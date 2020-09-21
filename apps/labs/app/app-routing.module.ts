@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppWrapperComponent } from 'libs/features/app-root';
-import {PfAdminGuard, UserContextGuard} from 'libs/security';
-import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
+import { PfAdminGuard, UserContextGuard } from 'libs/security';
+import { DEFAULT_ROUTES } from 'libs/ui/common';
 
 export const routes: Routes = [
   {
@@ -12,13 +12,11 @@ export const routes: Routes = [
     canActivate: [UserContextGuard, PfAdminGuard],
     loadChildren: () => import('apps/labs/app/_labs/labs-page.module').then(m => m.LabsPageModule)
   },
-  { path: 'access-denied', component: AccessDeniedPageComponent },
-  { path: 'not-found', component: NotFoundErrorPageComponent },
-  { path: '**', component: NotFoundErrorPageComponent }
+  ...DEFAULT_ROUTES
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

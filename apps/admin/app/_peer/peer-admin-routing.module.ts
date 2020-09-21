@@ -29,8 +29,7 @@ const routes: Routes = [
   },
   { path: 'exchangejobassociationutility', component: ExchangeJobAssociationUtilityPageComponent, canActivate: [PfAdminGuard] },
   { path: 'tagcategories', component: TagCategoriesPageComponent, canActivate: [PfAdminGuard]},
-  { path: 'exchange-not-found', component: NotFoundErrorPageComponent },
-  { path: '**', component: NotFoundErrorPageComponent }
+  { path: '**', redirectTo: '/not-found' }
 ];
 
 @NgModule({

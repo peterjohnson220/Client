@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PeerTileEnabledGuard, UserContextGuard } from 'libs/security';
 import { AppNoWrapperComponent } from 'libs/features/app-root';
-import { NotFoundErrorPageComponent, AccessDeniedPageComponent } from 'libs/ui/common/error/pages';
+import { DEFAULT_ROUTES } from 'libs/ui/common';
 
 export const routes: Routes = [
   {
@@ -13,9 +13,7 @@ export const routes: Routes = [
     children: [
       { path: '', loadChildren:
           () => import('apps/legacy-content/app/_peer-job-association/peer-job-association.module').then(m => m.PeerJobAssociationModule)
-      },
-      { path: 'access-denied', component: AccessDeniedPageComponent },
-      { path: '**', component: NotFoundErrorPageComponent }
+      }
     ]
   },
   {
@@ -25,10 +23,9 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'peer', pathMatch: 'full' },
       { path: 'peer', loadChildren: () => import('apps/legacy-content/app/_peer/peer.module').then(m => m.PeerModule) },
-      { path: 'access-denied', component: AccessDeniedPageComponent },
-      { path: '**', component: NotFoundErrorPageComponent }
     ]
-  }
+  },
+  ...DEFAULT_ROUTES
 ];
 
 @NgModule({
