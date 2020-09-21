@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UserContextGuard } from 'libs/security';
-import { NotFoundErrorPageComponent, AccessDeniedPageComponent } from 'libs/ui/common/error/pages';
 import { AppWrapperComponent } from 'libs/features/app-root';
+import { UserContextGuard } from 'libs/security';
+import { DEFAULT_ROUTES } from 'libs/ui/common';
 
 export const routes: Routes = [
   {
@@ -18,11 +18,10 @@ export const routes: Routes = [
       { path: 'pfmarketdatafeed', loadChildren: () =>
           import('apps/pf-admin/app/_market-data-feed/market-data-feed.module').then(m => m.MarketDataFeedPageModule) },
       { path: 'loader-dashboard', loadChildren: () =>
-          import('apps/pf-admin/app/_loader-dashboard/loader-dashboard-page.module').then(m => m.LoaderDashboardPageModule)},
-      { path: 'access-denied', component: AccessDeniedPageComponent },
-      { path: '**', component: NotFoundErrorPageComponent }
+          import('apps/pf-admin/app/_loader-dashboard/loader-dashboard-page.module').then(m => m.LoaderDashboardPageModule)}
     ]
-  }
+  },
+  ...DEFAULT_ROUTES
 ];
 
 @NgModule({

@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UserContextGuard } from 'libs/security';
-import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
-
 import { AppWrapperComponent } from './app-wrapper.component';
+import { UserContextGuard } from 'libs/security';
+import { DEFAULT_ROUTES } from 'libs/ui/common';
 
 export const routes: Routes = [
   {
@@ -15,9 +14,7 @@ export const routes: Routes = [
       { path: '', loadChildren: () => import('apps/dashboard/app/_main/main.module').then(m => m.MainModule) }
     ]
   },
-  { path: 'access-denied', component: AccessDeniedPageComponent },
-  { path: 'not-found', component: NotFoundErrorPageComponent },
-  { path: '**', component: NotFoundErrorPageComponent }
+  ...DEFAULT_ROUTES
 ];
 
 @NgModule({

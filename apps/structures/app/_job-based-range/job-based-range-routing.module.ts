@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages/not-found-error';
-
 import { RangeGroupExistsGuard } from './shared/guards';
 
 const routes: Routes = [
-  { path: 'not-found', component: NotFoundErrorPageComponent },
+  { path: 'not-found', redirectTo: '/not-found' },
   { path: ':id',
     canActivate: [RangeGroupExistsGuard],
     loadChildren: () => import('apps/structures/app/_job-based-range/model/model.module').then(m => m.ModelModule)

@@ -3,10 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppWrapperComponent } from 'libs/features/app-root';
 import { UserContextGuard } from 'libs/security';
-import { AccessDeniedPageComponent, NotFoundErrorPageComponent, TokenExpirationPageComponent,
-         ForbiddenPageComponent, PublicTokenDraftDescriptionPageComponent } from 'libs/ui/common/error/pages';
+import { DEFAULT_ROUTES } from 'libs/ui/common';
+import { TokenExpirationPageComponent, PublicTokenDraftDescriptionPageComponent } from 'libs/ui/common/error/pages';
 import { WorkflowStepCompletionPageComponent } from './shared/components/workflow-step-completion';
-import {SsoAuthGuard} from './shared/guards';
+import { SsoAuthGuard } from './shared/guards';
 
 export const routes: Routes = [
   {
@@ -14,7 +14,8 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: () => import('apps/job-description-management/app/_job-description/job-description.module')
+      {
+        path: '', loadChildren: () => import('apps/job-description-management/app/_job-description/job-description.module')
           .then(m => m.JobDescriptionModule), canActivate: [SsoAuthGuard]
       },
       {
@@ -36,15 +37,12 @@ export const routes: Routes = [
   },
   { path: 'workflow-complete', component: WorkflowStepCompletionPageComponent },
   { path: 'public-token-draft', component: PublicTokenDraftDescriptionPageComponent },
-  { path: 'access-denied', component: AccessDeniedPageComponent },
-  { path: 'not-found', component: NotFoundErrorPageComponent },
   { path: 'token-expired', component: TokenExpirationPageComponent },
-  { path: 'forbidden', component: ForbiddenPageComponent },
-  { path: '**', component: NotFoundErrorPageComponent }
+  ...DEFAULT_ROUTES
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
