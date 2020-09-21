@@ -10,7 +10,7 @@ import { JobsHierarchyPageComponent } from './containers/pages/jobs-hierarchy-pa
 const routes: Routes = [
   {
     path: ':companyId', component: JobsHierarchyPageComponent, canActivate: [AuthorizationGuard, JobsHierarchyPageGuard],
-    data: {Permissions: [Permissions.CREATE_JOBS_HIERARCHY], Check: PermissionCheckEnum.Single}
+    data: {Permissions: [Permissions.CREATE_JOB_HIERARCHY], Check: PermissionCheckEnum.Single}
   },
   { path: '', redirectTo: 'jobs-hierarchy', pathMatch: 'full' },
 ];
