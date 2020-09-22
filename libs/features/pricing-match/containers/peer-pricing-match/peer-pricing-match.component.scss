@@ -1,7 +1,11 @@
-.pricingMatchProperties{
-  overflow-y: auto;
-  white-space: pre-wrap;
+.pricingMatchPropertiesContainer{
   height: 200px;
+  width: 225px;
+}
+
+.pricingMatchProperties{
+  height: 185px;
+  overflow-y: auto;
 }
 .badImage{
   width: 225px;
