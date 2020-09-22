@@ -3,51 +3,57 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import {Action, Store} from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, mergeMap, switchMap, withLatestFrom, tap, combineLatest } from 'rxjs/operators';
+import { map, mergeMap, switchMap, withLatestFrom, tap } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
+import { QuickPriceType } from 'libs/constants';
+
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromComphubMainReducer from '../reducers';
+
 import { PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
 import { ComphubPages } from '../data';
+import { FooterContextRequest, FooterHelper } from '../models';
 
 @Injectable()
 export class ComphubPageEffects {
 
   @Effect()
   initComphubPage$ = this.actions$
-  .pipe(
-    ofType(fromComphubPageActions.INIT),
-    combineLatest(
-      this.store.select(fromRootState.getUserContext),
-      this.store.select(fromRootState.getCompanySettings),
-      (action, userContext, companySettings) =>
-        ({ action, userContext, companySettings })
-    ),
-    mergeMap((data) => {
-      const actions = [];
-      const isSmallBizClient = data.userContext && SmbClientHelper.isSmallBuisnessClient(data.userContext);
-      const hasNotYetAcceptedPeerTC = data.companySettings && data.companySettings.some(s =>
-        s.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted &&
-        s.Value === 'false');
+    .pipe(
+      ofType(fromComphubPageActions.INIT),
+      withLatestFrom(
+        this.store.select(fromRootState.getUserContext),
+        this.store.select(fromRootState.getCompanySettings),
+        (action, userContext, companySettings) =>
+          ({ action, userContext, companySettings })
+      ),
+      mergeMap((data) => {
+        const actions = [];
+        const isSmallBizClient = data.userContext && SmbClientHelper.isSmallBuisnessClient(data.userContext);
+        const hasNotYetAcceptedPeerTC = data.companySettings && data.companySettings.some(s =>
+          s.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted &&
+          s.Value === 'false');
 
-      if (isSmallBizClient || hasNotYetAcceptedPeerTC) {
-        actions.push(new fromDataCardActions.ShowPeerBanner());
-      }
+        if (isSmallBizClient || hasNotYetAcceptedPeerTC) {
+          actions.push(new fromDataCardActions.ShowPeerBanner());
+        }
 
-      if (isSmallBizClient) {
-        actions.push(new fromComphubPageActions.GetJobPricingLimitInfo());
-      }
+        if (isSmallBizClient) {
+          actions.push(new fromComphubPageActions.GetJobPricingLimitInfo());
+        }
 
-      return actions;
-    })
-  );
+        actions.push(new fromComphubPageActions.UpdateFooterContext());
+
+        return actions;
+      })
+    );
 
   @Effect()
   getJobPricingLimitInfo$ = this.actions$
@@ -72,11 +78,16 @@ export class ComphubPageEffects {
         this.store.select(fromComphubMainReducer.getSelectedPageId),
         this.store.select(fromComphubMainReducer.getPaymarketsFilter),
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
-        (action, selectedPageId, payMarketsFilter, selectedPayMarket) =>
-          ({ selectedPageId, payMarketsFilter, selectedPayMarket })
+        this.store.select(fromComphubMainReducer.getJobPricingBlocked),
+        this.store.select(fromComphubMainReducer.getSelectedJob),
+        this.store.select(fromComphubMainReducer.getWorkflowContext),
+        (action, selectedPageId, payMarketsFilter, selectedPayMarket, jobPricingBlocked, selectedJob, workflowContext) =>
+          ({ selectedPageId, payMarketsFilter, selectedPayMarket, jobPricingBlocked, selectedJob, workflowContext })
       ),
       mergeMap((data) => {
         const actions = [];
+
+        actions.push(new fromComphubPageActions.UpdateFooterContext());
 
         if (data.selectedPageId === ComphubPages.Markets) {
           if (data.payMarketsFilter) {
@@ -98,6 +109,32 @@ export class ComphubPageEffects {
       tap((action: fromComphubPageActions.HandleApiError) =>
         this.redirectForUnauthorized(action.payload)
       )
+    );
+
+  @Effect()
+  updateFooterContext$ = this.actions$
+    .pipe(
+      ofType(fromComphubPageActions.UPDATE_FOOTER_CONTEXT),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getSelectedPageId),
+        this.store.select(fromComphubMainReducer.getJobPricingBlocked),
+        this.store.select(fromComphubMainReducer.getSelectedJob),
+        this.store.select(fromComphubMainReducer.getWorkflowContext),
+        this.store.select(fromComphubMainReducer.getSelectedJobData),
+        (action, selectedPageId, jobPricingBlocked, selectedJob, workflowContext, selectedJobData) =>
+          ({ action, selectedPageId, jobPricingBlocked, selectedJob, workflowContext, selectedJobData })
+      ),
+      map((data) => {
+        const footerContextRequest: FooterContextRequest = {
+          PageId: data.selectedPageId,
+          JobPricingBlocked: data.jobPricingBlocked,
+          JobSelected: !!data.selectedJob,
+          JobDataSelected: !!data.selectedJobData,
+          IsPeerQuickPriceType: data.workflowContext.quickPriceType === QuickPriceType.PEER,
+        };
+        const footerContext = FooterHelper.getFooterContext(footerContextRequest);
+        return new fromComphubPageActions.SetFooterContext(footerContext);
+      })
     );
 
   @Effect()

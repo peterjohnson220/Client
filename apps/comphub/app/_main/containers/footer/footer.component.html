@@ -1,0 +1,79 @@
+<div class="actions-section pr-3 align-items-center">
+  <div class="mr-auto pl-4">
+    <div class="d-flex align-items-center">
+      <ng-container *ngIf="!!jobPricingLimitInfo && (!(jobPricingBlocked$ | async) || workflowContext?.selectedPageId !== comphubPages.Jobs)">
+        <div class="smb-counter">
+          <span class="count">{{formattedLimit}}</span>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="workflowContext?.selectedPageId === comphubPages.Jobs && (pricedJobsCount$ | async) as pricedJobsCountAsync">
+        <div class="mt-1 ml-2">
+          <span *ngIf="!pricedJobsCountAsync.loading && pricedJobsCountAsync.obj > 0"
+                class="borderless-blue-btn"
+                (click)="openQuickPriceHistoryModal()">Job<span *ngIf="pricedJobsCountAsync.obj > 1">s</span> Priced
+          </span>
+        </div>
+      </ng-container>
+      <div class="smb-limit-disabling-message" *ngIf="(jobPricingBlocked$ | async) && (countryDataSetsLoaded$ | async)
+        && (userContext$ | async)?.CompanySystemUserGroupsGroupName === systemUserGroupNames.SmallBusiness">
+        <div class="icon">
+          <fa-icon class="exclamation-triangle"></fa-icon>
+        </div>
+        <div class="message">
+          <div class="mb-2">Congratulations</div>
+
+          <div>it looks like you've already priced {{(jobPricingLimitInfo$ | async)?.Available}} jobs!</div>
+          <div>Contact <a href="mailto:smb@payfactors.com">smb@payfactors.com</a> to keep this momentum going.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <button class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
+            [attr.data-qa-id]="'btn-close-'+ (footerContext$ | async)?.PageTitle"
+            (click)="handleCloseClicked()">
+      Close
+    </button>
+
+    <button *ngIf="!(footerContext$ | async)?.HideBackButton"
+            class="btn btn-secondary"
+            [disabled]="!(footerContext$ | async)?.BackButtonEnabled"
+            [attr.data-qa-id]="'btn-back-' + (footerContext$ | async)?.PageTitle"
+            (click)="handleBackButtonClicked()">
+      Back: {{(footerContext$ | async)?.PreviousPageTitle}}
+    </button>
+
+    <button *ngIf="!(footerContext$ | async)?.HideNextButton"
+            class="btn btn-primary"
+            [disabled]="nextButtonDisabled"
+            [attr.data-qa-id]="'btn-next-'+ (footerContext$ | async)?.PageTitle"
+            (click)="handleNextButtonClicked()">
+      Next: {{(footerContext$ | async)?.NextPageTitle}}
+    </button>
+
+    <span class="d-inline-block">
+      <pf-guidelines-badge [IncludeSimilarityCheck]="false" *ngIf="isPeerQuickPriceType && workflowContext.selectedPageId === comphubPages.Data && (this.selectedPageIdDelayed$ | async) == comphubPages.Data">
+      </pf-guidelines-badge>
+    </span>
+    <button *ngIf="workflowContext?.selectedPageId === comphubPages.Summary" class="btn btn-primary"
+            [disabled]="workflowContext?.selectedPageId !== comphubPages.Summary"
+            [attr.data-qa-id]="'btn-priceNewJob'"
+            (click)="handlePriceNewJobClicked()">
+      Price Another Job
+    </button>
+</div>
+
+<ng-template #modalContent let-modal>
+  <div class="modal-header">
+    <h4>Are you sure?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>If you exit the Quick Pricing workflow, changes will not be saved.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn comphub-primary-btn" [attr.data-qa-id]="'btn-confirm-close-quickprice-app-'+ (footerContext$ | async)?.PageTitle" (click)="handleConfirmedCloseApp()">Yes</button>
+    <button type="button" class="btn comphub-secondary-btn" [attr.data-qa-id]="'btn-cancel-close-quickprice-app-'+ (footerContext$ | async)?.PageTitle" (click)="modal.dismiss()">Cancel</button>
+  </div>
+</ng-template>

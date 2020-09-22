@@ -1,0 +1,197 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Comphub - Main - Footer should disable next button, when told to 1`] = `
+<pf-comphub-footer
+  basicGridStore={[Function Store]}
+  comphubPages={[Function Object]}
+  countryDataSetsLoaded$={[Function Store]}
+  exchangeExplorerStore={[Function Store]}
+  footerContext={[Function Object]}
+  footerContext$={[Function Observable]}
+  footerContextSub={[Function Subscriber]}
+  guidelinesService={[Function DojGuidelinesStub]}
+  isPeerQuickPriceType="false"
+  jobPricingBlocked$={[Function Store]}
+  jobPricingLimitInfo="null"
+  jobPricingLimitInfo$={[Function Store]}
+  jobPricingLimitInfoSub={[Function Subscriber]}
+  loadingMap$={[Function Store]}
+  loadingPeerMapSub={[Function Subscriber]}
+  modalContent={[Function TemplateRef_]}
+  modalService={[Function Object]}
+  pricedJobsCount$={[Function Store]}
+  selectedPageIdDelayed$={[Function Store]}
+  store={[Function Store]}
+  systemUserGroupNames={[Function Object]}
+  userContext$={[Function Store]}
+  window={[Function Object]}
+  workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
+>
+  <div
+    class="actions-section pr-3 align-items-center"
+  >
+    <div
+      class="mr-auto pl-4"
+    >
+      <div
+        class="d-flex align-items-center"
+      >
+        
+        
+        
+      </div>
+    </div>
+    <button
+      class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
+      data-qa-id="btn-close-Jobs"
+    >
+       Close 
+    </button>
+    
+    
+    <button
+      class="btn btn-primary"
+      data-qa-id="btn-next-Jobs"
+      disabled=""
+    >
+       Next: Markets 
+    </button>
+    <span
+      class="d-inline-block"
+    >
+      
+    </span>
+    
+  </div>
+</pf-comphub-footer>
+`;
+
+exports[`Comphub - Main - Footer should hide the back button, when told to 1`] = `
+<pf-comphub-footer
+  basicGridStore={[Function Store]}
+  comphubPages={[Function Object]}
+  countryDataSetsLoaded$={[Function Store]}
+  exchangeExplorerStore={[Function Store]}
+  footerContext={[Function Object]}
+  footerContext$={[Function Observable]}
+  footerContextSub={[Function Subscriber]}
+  guidelinesService={[Function DojGuidelinesStub]}
+  isPeerQuickPriceType="false"
+  jobPricingBlocked$={[Function Store]}
+  jobPricingLimitInfo="null"
+  jobPricingLimitInfo$={[Function Store]}
+  jobPricingLimitInfoSub={[Function Subscriber]}
+  loadingMap$={[Function Store]}
+  loadingPeerMapSub={[Function Subscriber]}
+  modalContent={[Function TemplateRef_]}
+  modalService={[Function Object]}
+  pricedJobsCount$={[Function Store]}
+  selectedPageIdDelayed$={[Function Store]}
+  store={[Function Store]}
+  systemUserGroupNames={[Function Object]}
+  userContext$={[Function Store]}
+  window={[Function Object]}
+  workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
+>
+  <div
+    class="actions-section pr-3 align-items-center"
+  >
+    <div
+      class="mr-auto pl-4"
+    >
+      <div
+        class="d-flex align-items-center"
+      >
+        
+        
+        
+      </div>
+    </div>
+    <button
+      class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
+      data-qa-id="btn-close-Jobs"
+    >
+       Close 
+    </button>
+    
+    
+    <button
+      class="btn btn-primary"
+      data-qa-id="btn-next-Jobs"
+    >
+       Next: Markets 
+    </button>
+    <span
+      class="d-inline-block"
+    >
+      
+    </span>
+    
+  </div>
+</pf-comphub-footer>
+`;
+
+exports[`Comphub - Main - Footer should hide the next button, when told to 1`] = `
+<pf-comphub-footer
+  basicGridStore={[Function Store]}
+  comphubPages={[Function Object]}
+  countryDataSetsLoaded$={[Function Store]}
+  exchangeExplorerStore={[Function Store]}
+  footerContext={[Function Object]}
+  footerContext$={[Function Observable]}
+  footerContextSub={[Function Subscriber]}
+  guidelinesService={[Function DojGuidelinesStub]}
+  isPeerQuickPriceType="false"
+  jobPricingBlocked$={[Function Store]}
+  jobPricingLimitInfo="null"
+  jobPricingLimitInfo$={[Function Store]}
+  jobPricingLimitInfoSub={[Function Subscriber]}
+  loadingMap$={[Function Store]}
+  loadingPeerMapSub={[Function Subscriber]}
+  modalContent={[Function TemplateRef_]}
+  modalService={[Function Object]}
+  pricedJobsCount$={[Function Store]}
+  selectedPageIdDelayed$={[Function Store]}
+  store={[Function Store]}
+  systemUserGroupNames={[Function Object]}
+  userContext$={[Function Store]}
+  window={[Function Object]}
+  workflowContext={[Function Object]}
+  workflowContext$={[Function Store]}
+  workflowContextSub={[Function Subscriber]}
+>
+  <div
+    class="actions-section pr-3 align-items-center"
+  >
+    <div
+      class="mr-auto pl-4"
+    >
+      <div
+        class="d-flex align-items-center"
+      >
+        
+        
+        
+      </div>
+    </div>
+    <button
+      class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
+      data-qa-id="btn-close-Jobs"
+    >
+       Close 
+    </button>
+    
+    
+    <span
+      class="d-inline-block"
+    >
+      
+    </span>
+    
+  </div>
+</pf-comphub-footer>
+`;

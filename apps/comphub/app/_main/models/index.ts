@@ -13,3 +13,4 @@ export * from './workflow-context';
 export * from './exchange-data.set';
 export * from './peer-quick-price-data.model';
 export * from './quick-price-history.model';
+export * from './footer-context.model';

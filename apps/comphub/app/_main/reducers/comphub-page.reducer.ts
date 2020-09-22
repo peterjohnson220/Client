@@ -5,7 +5,7 @@ import { QuickPriceType } from 'libs/constants';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { AccordionCard, AccordionCards, ComphubPages } from '../data';
-import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, WorkflowContext } from '../models';
+import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, WorkflowContext, FooterContext, FooterHelper } from '../models';
 
 export interface State {
   cards: AccordionCard[];
@@ -19,6 +19,7 @@ export interface State {
   exchangeDataSetLoaded: boolean;
   workflowContext: WorkflowContext;
   isQuickPriceHistoryModalOpen: boolean;
+  footerContext: FooterContext;
 }
 
 const initialState: State = {
@@ -38,7 +39,8 @@ const initialState: State = {
     activeExchangeDataSet: null,
     quickPriceType: QuickPriceType.ENTERPRISE
   },
-  isQuickPriceHistoryModalOpen: false
+  isQuickPriceHistoryModalOpen: false,
+  footerContext: null
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
@@ -196,6 +198,12 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         isQuickPriceHistoryModalOpen: action.isOpen
       };
     }
+    case fromComphubPageActions.SET_FOOTER_CONTEXT: {
+      return {
+        ...state,
+        footerContext: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -225,3 +233,4 @@ export const getJobPricingBlocked = createSelector(
   }
 );
 export const getIsQuickPriceHistoryModalOpen = (state: State) => state.isQuickPriceHistoryModalOpen;
+export const getFooterContext = (state: State) => state.footerContext;

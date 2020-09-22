@@ -187,6 +187,11 @@ export const getIsQuickPriceHistoryOpen = createSelector(
   fromComphubPageReducer.getIsQuickPriceHistoryModalOpen
 );
 
+export const getFooterContext = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getFooterContext
+);
+
 // Markets Card
 export const getSelectedPaymarket = createSelector(
   selectMarketsCardState,

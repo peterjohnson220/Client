@@ -1,20 +1,35 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
+
 
 import { WindowRef } from 'libs/core/services';
 import * as fromRootState from 'libs/state/state';
+import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
+
+import * as fromComphubPageActions from '../../actions/comphub-page.actions';
+import * as fromComphubMainReducer from '../../reducers';
+import { ComphubFooterComponent } from './footer.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { generateMockFooterContext, generateMockPeerWorkflowContext, generateMockWorkflowContext } from '../../models';
 import { environment } from 'environments/environment';
 
-import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import * as fromComphubMainReducer from '../../../reducers';
-import { CardLayoutComponent } from './card-layout.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { generateMockWorkflowContext, generateMockPeerWorkflowContext } from '../../../models';
+class DojGuidelinesStub {
+  passing = true;
 
-describe('Comphub - Main - Card Layout', () => {
-  let instance: CardLayoutComponent;
-  let fixture: ComponentFixture<CardLayoutComponent>;
+  get passesGuidelines(): boolean {
+    return this.passing;
+  }
+
+  validateDataCut(selections: any) {
+    return;
+  }
+}
+
+describe('Comphub - Main - Footer', () => {
+  let instance: ComphubFooterComponent;
+  let fixture: ComponentFixture<ComphubFooterComponent>;
   let store: Store<fromComphubMainReducer.State>;
   let windowRef: WindowRef;
   let modalService: NgbModal;
@@ -32,17 +47,22 @@ describe('Comphub - Main - Card Layout', () => {
           provide: WindowRef,
           useValue: { nativeWindow: { location: jest.fn() } }
         },
+        { provide: DojGuidelinesService, useClass: DojGuidelinesStub },
         {
           provide: NgbModal,
           useValue: { open: jest.fn() }
         }
       ],
-      declarations: [ CardLayoutComponent ],
+      declarations: [ ComphubFooterComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    fixture = TestBed.createComponent(CardLayoutComponent);
+    const footerContext = {...generateMockFooterContext(), NextButtonEnabled: true};
+
+    fixture = TestBed.createComponent(ComphubFooterComponent);
     instance = fixture.componentInstance;
+    instance.footerContext$ = of(footerContext);
+    instance.ngOnInit();
     store = TestBed.inject(Store);
     windowRef = TestBed.inject(WindowRef);
     modalService = TestBed.inject(NgbModal);
@@ -50,6 +70,7 @@ describe('Comphub - Main - Card Layout', () => {
   });
 
   it('should dispatch a NavigateToNextCard action, when handling the next button click', () => {
+    // arrange
     spyOn(store, 'dispatch');
     const expectedAction = new fromComphubPageActions.NavigateToNextCard();
 
@@ -68,8 +89,8 @@ describe('Comphub - Main - Card Layout', () => {
   });
 
   it('should hide the back button, when told to', () => {
-    instance.hideBackButton = true;
-    instance.pageTitle = 'Jobs';
+    instance.footerContext.HideBackButton = true;
+    instance.footerContext.PageTitle = 'Jobs';
 
     fixture.detectChanges();
 
@@ -77,8 +98,8 @@ describe('Comphub - Main - Card Layout', () => {
   });
 
   it('should hide the next button, when told to', () => {
-    instance.hideNextButton = true;
-    instance.pageTitle = 'Jobs';
+    instance.footerContext.HideNextButton = true;
+    instance.footerContext.PageTitle = 'Jobs';
 
     fixture.detectChanges();
 
@@ -86,9 +107,9 @@ describe('Comphub - Main - Card Layout', () => {
   });
 
   it('should disable next button, when told to', () => {
-    instance.hideNextButton = false;
-    instance.nextButtonEnabled = false;
-    instance.pageTitle = 'Jobs';
+    instance.footerContext.HideNextButton = false;
+    instance.footerContext.NextButtonEnabled = false;
+    instance.footerContext.PageTitle = 'Jobs';
 
     fixture.detectChanges();
 
@@ -115,5 +136,4 @@ describe('Comphub - Main - Card Layout', () => {
 
     expect(windowRef.nativeWindow.location).toBe(`/${environment.hostPath}/peer/exchanges/redirect`);
   });
-
 });
