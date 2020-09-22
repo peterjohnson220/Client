@@ -100,7 +100,7 @@ export class FieldMapperComponent implements OnInit {
         if (internalField === BONUS_TARGET_COLUMN_NAME) {
           internalField = BONUS_TARGET_DISPLAY_NAME;
         }
-        this.addMappingWithoutCompleteEvent(internalField, mapping.ClientField);
+        this.addMapping(internalField, mapping.ClientField);
       }
     }
   }
@@ -129,7 +129,8 @@ export class FieldMapperComponent implements OnInit {
   };
 
   ApplyMapping() {
-    this.addMappingWithCompleteEvent(this.selectedPfField, this.selectedClientField);
+    this.addMapping(this.selectedPfField, this.selectedClientField);
+    this.fireCompleteEvent();
     this.selectedClientField = '';
     this.selectedPfField = '';
   }
@@ -165,15 +166,6 @@ export class FieldMapperComponent implements OnInit {
 
   // Private Methods
 
-  private addMappingWithCompleteEvent(pfField, clientField) {
-    this.addMapping(pfField, clientField);
-    this.fireCompleteEvent();
-  }
-
-  private addMappingWithoutCompleteEvent(pfField, clientField) {
-    this.addMapping(pfField, clientField);
-  }
-
   private addMapping(pfField, clientField) {
     const value = pfField + '__' + clientField;
     this.mappedFields.push(value);
@@ -206,12 +198,13 @@ export class FieldMapperComponent implements OnInit {
     for (let i = 0; i < this.clientFields.length; i++) {
       for (let j = 0; j < this.payfactorsDataFields.length; j++) {
         if (this.compareFields(this.payfactorsDataFields[j], this.clientFields[i])) {
-          this.addMappingWithCompleteEvent(this.payfactorsDataFields[j], this.clientFields[i]);
+          this.addMapping(this.payfactorsDataFields[j], this.clientFields[i]);
           i = ORG_DATA_CLIENTFIELDS_INDEX_RESET;
           break;
         }
       }
     }
+    this.fireCompleteEvent();
   }
 
   private fireCompleteEvent() {

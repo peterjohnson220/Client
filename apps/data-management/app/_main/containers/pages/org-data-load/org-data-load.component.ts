@@ -55,6 +55,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   loadOptions: EntityChoice[];
   userMappings: KeyValue<number, string>[];
 
+  private totalTypesToLoad = 0;
   private unsubscribe$ = new Subject();
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
@@ -117,19 +118,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     'Please choose a file for each entity type and select a delimiter',
     'Please fully map each field and select the date format if applicable'
   ];
-  private paymarketMappingComplete: boolean;
+
   private isPaymarketsLoadEnabled: boolean;
-  private jobMappingComplete: boolean;
   private isJobsLoadEnabled: boolean;
-  private structureMappingComplete: boolean;
   private isStructuresLoadEnabled: boolean;
   private isSubsidiariesLoadEnabled: boolean;
-  private isSubsidiariesMappingComplete: boolean;
-  private isBenefitsMappingComplete: boolean;
   private isBenefitsLoadEnabled: boolean;
-  private structureMappingMappingComplete: boolean;
   private isStructureMappingsLoadEnabled: boolean;
-  private employeeMappingComplete: boolean;
   private isEmployeesLoadEnabled: boolean;
   mappings: MappingModel[];
   private isStructureMappingsFullReplace: boolean;
@@ -140,6 +135,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private loaderSaveCoordination: LoaderSaveCoordination;
   showFieldMapperTooltip = false;
 
+  private completedMappings = [];
   notification: { success: AppNotification<NotificationPayload>, error: AppNotification<NotificationPayload> };
   private gettingColumnNames: boolean;
   private createdConfigurationGroup$: Observable<ConfigurationGroup>;
@@ -339,13 +335,15 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.isActive = true;
     this.mappings = [];
     this.existingLoaderSettings = [];
-    this.paymarketMappingComplete = true;
-    this.jobMappingComplete = true;
-    this.structureMappingComplete = true;
-    this.structureMappingMappingComplete = true;
-    this.employeeMappingComplete = true;
-    this.isSubsidiariesMappingComplete = true;
-    this.isBenefitsMappingComplete = true;
+
+    // mark all complete until something changes
+    for (const item in LoaderType) {
+      if (isNaN(Number(item))) {
+        this.completedMappings.push(item);
+      }
+    }
+
+    this.totalTypesToLoad = this.completedMappings.length;
   }
 
   private getEntityChoice(loaderType: string) {
@@ -667,114 +665,71 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   onMappingComplete($event: LoaderEntityStatus) {
     this.showFieldMapperTooltip = false;
+    this.addOrReplaceMappings($event.loaderType, $event.mappings);
+    this.addOrReplaceCompletedEntities($event);
 
+    const isEnabled = $event.loadEnabled;
     switch ($event.loaderType) {
       case LoaderType.PayMarkets:
-        this.onPaymarketMappingComplete($event);
+        this.isPaymarketsLoadEnabled = isEnabled;
         break;
       case LoaderType.Jobs:
-        this.onJobMappingComplete($event);
+        this.isJobsLoadEnabled = isEnabled;
         break;
       case LoaderType.Structures:
-        this.onStructureMappingComplete($event);
+        this.isStructureMappingsLoadEnabled = isEnabled;
         break;
       case LoaderType.StructureMapping:
-        this.onStructureMappingMappingComplete($event);
+        this.isStructureMappingsLoadEnabled = isEnabled;
+        this.isStructureMappingsFullReplace = $event.isFullReplace;
         break;
       case LoaderType.Employees:
-        this.onEmployeeMappingComplete($event);
+        this.isEmployeesLoadEnabled = isEnabled;
+        if ($event.dateFormat) {
+          this.dateFormat = $event.dateFormat;
+        }
+        this.isEmployeesFullReplace = $event.isFullReplace;
         break;
       case LoaderType.Subsidiaries:
-        this.onSubsidiariesMappingComplete($event);
+        this.isSubsidiariesLoadEnabled = isEnabled;
         break;
       case LoaderType.Benefits:
-        this.onBenefitsMappingComplete($event);
+        this.isBenefitsLoadEnabled = isEnabled;
         break;
     }
 
-    let shouldShowMap = !this.paymarketMappingComplete || !this.jobMappingComplete || !this.structureMappingComplete ||
-      !this.structureMappingMappingComplete || !this.employeeMappingComplete || !this.isSubsidiariesMappingComplete;
+    let shouldShowToolTip = this.completedMappings.length !== this.totalTypesToLoad;
 
-    if (this.env.name !== 'production') {
-      shouldShowMap = shouldShowMap || !this.isBenefitsMappingComplete;
+    if (this.env.name === 'production') {
+      // all but benefits
+      shouldShowToolTip = this.completedMappings.length !== this.totalTypesToLoad - 1;
     }
 
-    if (shouldShowMap) {
+    if (shouldShowToolTip || !this.mappings || this.mappings.length === 0) {
       this.showFieldMapperTooltip = true;
     }
 
     this.cdr.detectChanges();
   }
 
-  onPaymarketMappingComplete($event: LoaderEntityStatus) {
-    this.paymarketMappingComplete = $event.complete;
-    this.isPaymarketsLoadEnabled = $event.loadEnabled;
-    if (this.paymarketMappingComplete) {
-      this.addOrReplaceMappings('PayMarkets', $event.mappings);
+  private addOrReplaceCompletedEntities($event: LoaderEntityStatus) {
+    this.completedMappings = this.completedMappings.filter(f => f !== $event.loaderType);
+    if ($event.complete) {
+      this.completedMappings.push($event.loaderType);
     }
-  }
-
-  onJobMappingComplete($event: LoaderEntityStatus) {
-    this.jobMappingComplete = $event.complete;
-    this.isJobsLoadEnabled = $event.loadEnabled;
-    if (this.jobMappingComplete) {
-      this.addOrReplaceMappings('Jobs', $event.mappings);
-    }
-  }
-
-  onSubsidiariesMappingComplete($event: LoaderEntityStatus) {
-    this.isSubsidiariesMappingComplete = $event.complete;
-    this.isSubsidiariesLoadEnabled = $event.loadEnabled;
-    if (this.isSubsidiariesMappingComplete) {
-      this.addOrReplaceMappings('Subsidiaries', $event.mappings);
-    }
-  }
-
-  onStructureMappingComplete($event: LoaderEntityStatus) {
-    this.structureMappingComplete = $event.complete;
-    this.isStructuresLoadEnabled = $event.loadEnabled;
-    if (this.structureMappingComplete) {
-      this.addOrReplaceMappings('Structures', $event.mappings);
-    }
-  }
-
-  onBenefitsMappingComplete($event: LoaderEntityStatus) {
-    this.isBenefitsMappingComplete = $event.complete;
-    this.isBenefitsLoadEnabled = $event.loadEnabled;
-    if (this.isBenefitsMappingComplete) {
-      this.addOrReplaceMappings('Benefits', $event.mappings);
-    }
-  }
-
-  onStructureMappingMappingComplete($event: LoaderEntityStatus) {
-    this.structureMappingMappingComplete = $event.complete;
-    this.isStructureMappingsLoadEnabled = $event.loadEnabled;
-    if (this.structureMappingMappingComplete) {
-      this.addOrReplaceMappings('StructureMapping', $event.mappings);
-    }
-    this.isStructureMappingsFullReplace = $event.isFullReplace;
-  }
-
-  onEmployeeMappingComplete($event: LoaderEntityStatus) {
-    this.employeeMappingComplete = $event.complete;
-    this.isEmployeesLoadEnabled = $event.loadEnabled;
-    if (this.employeeMappingComplete) {
-      this.addOrReplaceMappings('Employees', $event.mappings);
-    }
-    if ($event.dateFormat) {
-      this.dateFormat = $event.dateFormat;
-    }
-    this.isEmployeesFullReplace = $event.isFullReplace;
   }
 
   private addOrReplaceMappings(loaderType: string, mappings: string[]) {
-    const mappingsModel: MappingModel = {
-      LoaderType: loaderType,
-      Mappings: mappings
-    };
 
     this.mappings = this.mappings.filter(mapping => mapping.LoaderType !== loaderType);
-    this.mappings.push(mappingsModel);
+
+    if (mappings && mappings.length > 0) {
+      const mappingsModel: MappingModel = {
+        LoaderType: loaderType,
+        Mappings: mappings
+      };
+      this.mappings.push(mappingsModel);
+    }
   }
 
   private saveSettingsAndMappings(loaderSettingsToSave, loaderConfigurationGroup) {
