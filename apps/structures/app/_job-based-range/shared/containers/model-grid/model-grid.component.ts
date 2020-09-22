@@ -101,6 +101,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   invalidMidPointRanges: number[];
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
+  hasCanEditPublishedStructureRanges: boolean;
   filterTemplates = {};
   modifiedKeys: any[];
   modifiedKeysSubscription: Subscription;
@@ -162,6 +163,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.hasAddEditDeleteStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_ADD_EDIT_DELETE],
       PermissionCheckEnum.Single);
     this.hasCreateEditStructureModelPermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
+      PermissionCheckEnum.Single);
+    this.hasCanEditPublishedStructureRanges = this.permissionService.CheckPermission([Permissions.STRUCTURES_PUBLISH],
       PermissionCheckEnum.Single);
   }
 
