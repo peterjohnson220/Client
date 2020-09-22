@@ -90,7 +90,8 @@ export class DataCardEffects {
       mergeMap((jobData: JobData) => [
         new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: `Payfactors ${jobData.JobTitle}`}),
         new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary]),
-        new fromSummaryCardActions.ResetCreateProjectStatus()
+        new fromComphubPageActions.UpdateFooterContext(),
+        new fromSummaryCardActions.ResetCreateProjectStatus(),
       ])
     );
 

@@ -29,7 +29,7 @@ import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/servic
 
 
 import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
-  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent } from './containers';
+  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent, ComphubFooterComponent } from './containers';
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
   SummaryCardEffects } from './effects';
 import { reducers } from './reducers';
@@ -101,7 +101,8 @@ import { BasicDataGridModule } from 'libs/features/basic-data-grid';
     PaymarketCardsComponent,
     PeerDataCardComponent,
     ParentDataCardComponent,
-    QuickPriceHistoryComponent
+    QuickPriceHistoryComponent,
+    ComphubFooterComponent
   ],
   providers: [
     WindowRef,

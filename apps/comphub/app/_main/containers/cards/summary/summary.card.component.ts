@@ -27,8 +27,6 @@ import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../.
 import { ComphubPages } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
 
-import { environment } from 'environments/environment';
-
 @Component({
   selector: 'pf-summary-card',
   templateUrl: './summary.card.component.html',

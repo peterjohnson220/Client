@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Action } from '@ngrx/store';
 
 import { ComphubPages } from '../data';
-import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet } from '../models';
+import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, FooterContextRequest, FooterContext } from '../models';
 
 export const INIT = '[Comphub/Comphub Page] Init Comphub Page';
 export const NAVIGATE_TO_CARD = '[Comphub/Comphub Page] Navigate to Card';
@@ -25,6 +25,8 @@ export const GET_EXCHANGE_DATA_SETS_SUCCESS = '[Comphub/Comphub Page] Get Exchan
 export const UPDATE_ACTIVE_EXCHANGE_DATA_SET = '[Comphub/Comphub Page] Update Active Exchange Data Set';
 export const SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT = '[Comphub/Comphub Page] Set Quick Price Type In Workflow Context';
 export const SET_QUICK_PRICE_HISTORY_MODAL_OPEN = '[Comphub/Comphub Page] Set Quick Price History Modal Open';
+export const UPDATE_FOOTER_CONTEXT = '[Comphub/Comphub Page] Update Footer Context';
+export const SET_FOOTER_CONTEXT = '[Comphub/Comphub Page] Set Footer Context';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -141,6 +143,16 @@ export class SetQuickPriceHistoryModalOpen implements Action {
   constructor(public isOpen: boolean) {}
 }
 
+export class UpdateFooterContext implements Action {
+  readonly type = UPDATE_FOOTER_CONTEXT;
+  constructor() {}
+}
+
+export class SetFooterContext implements Action {
+  readonly type = SET_FOOTER_CONTEXT;
+  constructor(public payload: FooterContext) {}
+}
+
 export type Actions
   = Init
   | NavigateToCard
@@ -161,4 +173,6 @@ export type Actions
   | GetExchangeDataSetsSuccess
   | UpdateActiveExchangeDataSet
   | SetQuickPriceTypeInWorkflowContext
-  | SetQuickPriceHistoryModalOpen;
+  | SetQuickPriceHistoryModalOpen
+  | UpdateFooterContext
+  | SetFooterContext;

@@ -116,6 +116,7 @@ export class JobsCardEffects {
         actions.push(new fromDataCardActions.ClearSelectedJobData());
         actions.push( new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: payload.jobTitle}));
         actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Data]));
+        actions.push(new fromComphubPageActions.UpdateFooterContext());
 
         if (payload.navigateToNextCard) {
           actions.push(new fromComphubPageActions.NavigateToNextCard());
@@ -131,7 +132,8 @@ export class JobsCardEffects {
       ofType(fromJobsCardActions.CLEAR_SELECTED_JOB),
       mergeMap(() => [
         new fromComphubPageActions.ResetAccessiblePages(),
-        new fromDataCardActions.ClearSelectedJobData()
+        new fromDataCardActions.ClearSelectedJobData(),
+        new fromComphubPageActions.UpdateFooterContext()
       ])
     );
 
