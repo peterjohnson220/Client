@@ -3,9 +3,7 @@
     <div>
       <h5>{{pricingMatch.JobTitle}} ({{pricingMatch.JobCode}})</h5>
     </div>
-    <div style="cursor: pointer" *ngIf="pricingMatch.JobDescription" title="Copy Job Description">
-      <fa-icon [icon]="['fas','clipboard']" (click)="onClipboardClick()" aria-hidden="true"></fa-icon>
-    </div>
+    <pf-copy-to-clipboard-button [toolTipText]="'Copy Job Description'" [copyText]="pricingMatch.JobDescription"></pf-copy-to-clipboard-button>
   </div>
 
   <div *ngIf="pricingMatchType == pricingMatchTypes.MD_JOB">

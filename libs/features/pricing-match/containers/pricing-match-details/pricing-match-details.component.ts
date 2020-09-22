@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { copyTextToClipboard } from 'libs/core/functions';
 import { PricingMatchTypes } from '../../constants';
 
 @Component({
@@ -42,9 +41,5 @@ export class PricingMatchDetailsComponent implements OnInit, OnChanges {
           break;
       }
     }
-  }
-
-  onClipboardClick() {
-    copyTextToClipboard(this.pricingMatch.JobDescription);
   }
 }
