@@ -146,7 +146,7 @@
   </button>
   <button
     [pfSecuredResource]="permissions.MODIFY_PRICINGS"
-    [disabled]="!(jobStatusField | showingActiveJobs) || !selectedPricingIds.length || (updatingPricingMatch$ | async).saving"
+    [disabled]="!(jobStatusField | showingActiveJobs) || !selectedPricings.length || (updatingPricingMatch$ | async).saving"
     [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
     (click)="modifyPricings()"
     type="button"
@@ -154,7 +154,7 @@
     <fa-icon *ngIf="!(pricingsToModify$ | async).loading" [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
     <pf-loading-indicator *ngIf="(pricingsToModify$ | async).loading"></pf-loading-indicator
   >
-    Modify Pricings <span *ngIf="selectedPricingIds.length && (jobStatusField | showingActiveJobs)">({{selectedPricingIds.length}})</span>
+    Price Jobs <span *ngIf="selectedPricings.length && (jobStatusField | showingActiveJobs)">({{selectedPricings.length}})</span>
   </button>
   <button
     [disabled]="!(selectedJobIds.length) || (updatingPricingMatch$ | async).saving"

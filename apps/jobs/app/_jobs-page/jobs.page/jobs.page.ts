@@ -48,6 +48,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   filteredStructureGradeNameOptions: any;
   selectedJobIds: number[] = [];
   selectedPricingIds: number[] = [];
+  selectedPricings: any[] = [];
   selectedUnpricedPaymarkets: any[] = [];
 
   jobStatusField: ViewField;
@@ -194,6 +195,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.selectedPaymarketsSubscription = this.store.select(fromPfDataGridReducer.getSelectedData, PageViewIds.PayMarkets).subscribe(data => {
       if (data) {
+        this.selectedPricings = data.map(v => {
+          return {
+            PricingId: v.CompanyJobs_Pricings_CompanyJobPricing_ID,
+            JobId: v.CompanyJobs_CompanyJob_ID,
+            PaymarketId: v.CompanyPayMarkets_CompanyPayMarket_ID,
+          };
+        });
         this.selectedPricingIds = data
           .filter(d => d.CompanyJobs_Pricings_CompanyJobPricing_ID)
           .map(d => d.CompanyJobs_Pricings_CompanyJobPricing_ID);
@@ -202,6 +210,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.selectedPricingIds = [];
         this.selectedUnpricedPaymarkets = [];
+        this.selectedPricings = [];
       }
     });
 
@@ -452,7 +461,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   modifyPricings() {
     const payload: GetPricingsToModifyRequest = {
-      PricingIds: this.selectedPricingIds,
+      Pricings: this.selectedPricings,
       RestrictSearchToPayMarketCountry: this.restrictSurveySearchToPaymarketCountry
     };
 

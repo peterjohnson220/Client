@@ -1,4 +1,4 @@
 export interface GetPricingsToModifyRequest {
-  PricingIds: number[];
+  Pricings: any[];
   RestrictSearchToPayMarketCountry: boolean;
 }

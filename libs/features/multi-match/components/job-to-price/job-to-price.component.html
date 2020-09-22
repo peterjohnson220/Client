@@ -9,10 +9,13 @@
       </div>
     </div>
   </div>
-  <div class="dropzone" dragula="data-cuts-bag" [attr.data-job-id]="job.Id">
+  <div class="dropzone" dragula="data-cuts-bag" [attr.data-paymarket-id]="job.PaymarketId" [attr.data-company-job-id]="job.CompanyJobId" [attr.data-job-id]="job.Id">
   </div>
   <div class="paymarket">
-    {{job.Paymarket}}
+    {{job.Paymarket}}  <span *ngIf="job.LinkedPaymarketId">
+    <fa-icon *ngIf="(!job.DataCutsToAdd || job.DataCutsToAdd.length===0)  && (!job.DeletedJobMatchCutIds || job.DeletedJobMatchCutIds.length ===0)"  class="pl-2" icon="link"></fa-icon>
+    <fa-icon *ngIf="(job.DataCutsToAdd &&  job.DataCutsToAdd.length!=0) || (job.DeletedJobMatchCutIds && job.DeletedJobMatchCutIds.length !=0)"  class="pl-2" icon="unlink"></fa-icon>
+  </span>
   </div>
 
   <div class="d-flex mt-2">
