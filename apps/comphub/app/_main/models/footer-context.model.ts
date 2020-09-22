@@ -1,6 +1,4 @@
 import { ComphubPages } from '../data';
-import { JobData } from './job-data.model';
-import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 
 export interface FooterContext {
   HideBackButton: boolean;
@@ -10,6 +8,7 @@ export interface FooterContext {
   PageTitle: string;
   PreviousPageTitle: string;
   NextPageTitle: string;
+  DisplayCancelButton: boolean;
 }
 
 export interface FooterContextRequest {
@@ -21,18 +20,19 @@ export interface FooterContextRequest {
 }
 
 export class FooterHelper {
-  static jobsFooterContext(jobPricingBlocked: boolean, jobSelected: boolean): FooterContext {
+  static jobsFooterContext(nextButtonEnabled: boolean, cancelButtonDisplay: boolean): FooterContext {
     return {
       HideBackButton: true,
       BackButtonEnabled: false,
       HideNextButton: false,
-      NextButtonEnabled: !jobPricingBlocked && !!jobSelected,
+      NextButtonEnabled: nextButtonEnabled,
       PageTitle: 'Jobs',
       PreviousPageTitle: null,
-      NextPageTitle: 'Markets'
+      NextPageTitle: 'Markets',
+      DisplayCancelButton: cancelButtonDisplay
     };
   }
-  static marketsFooterContext(): FooterContext {
+  static marketsFooterContext(isPeerQuickPriceType: boolean): FooterContext {
     return {
       HideBackButton: false,
       BackButtonEnabled: true,
@@ -40,7 +40,8 @@ export class FooterHelper {
       NextButtonEnabled: true,
       PageTitle: 'Markets',
       PreviousPageTitle: 'Jobs',
-      NextPageTitle: 'Data'
+      NextPageTitle: isPeerQuickPriceType ? 'Data' : 'Summary',
+      DisplayCancelButton: true
     };
   }
   static dataFooterContext(jobDataSelected: boolean): FooterContext {
@@ -51,7 +52,8 @@ export class FooterHelper {
       NextButtonEnabled: jobDataSelected,
       PageTitle: 'Data',
       PreviousPageTitle: 'Markets',
-      NextPageTitle: 'Summary'
+      NextPageTitle: 'Summary',
+      DisplayCancelButton: true
     };
   }
   static summaryFooterContext(isPeerQuickPriceType: boolean): FooterContext {
@@ -61,17 +63,18 @@ export class FooterHelper {
       HideNextButton: true,
       NextButtonEnabled: false,
       PageTitle: 'Summary',
-      PreviousPageTitle: 'Data',
-      NextPageTitle: null
+      PreviousPageTitle: isPeerQuickPriceType ? 'Data' : 'Markets',
+      NextPageTitle: null,
+      DisplayCancelButton: false
     };
   }
 
   static getFooterContext(request: FooterContextRequest): FooterContext {
     switch (request.PageId) {
       case ComphubPages.Jobs:
-        return this.jobsFooterContext(request.JobPricingBlocked, request.JobSelected);
+        return this.jobsFooterContext(this.jobsPageNextButtonEnable(request), request.JobSelected);
       case ComphubPages.Markets:
-        return this.marketsFooterContext();
+        return this.marketsFooterContext(request.IsPeerQuickPriceType);
       case ComphubPages.Data:
         return this.dataFooterContext(request.JobDataSelected);
       case ComphubPages.Summary:
@@ -79,6 +82,12 @@ export class FooterHelper {
       default:
         return null;
     }
+  }
+
+  private static jobsPageNextButtonEnable(request: FooterContextRequest): boolean {
+    return !request.JobPricingBlocked &&
+           ((request.IsPeerQuickPriceType && !!request.JobSelected) ||
+            (!request.IsPeerQuickPriceType && request.JobDataSelected));
   }
 }
 
@@ -90,6 +99,7 @@ export function generateMockFooterContext(): FooterContext {
     NextButtonEnabled: false,
     PageTitle: 'Jobs',
     PreviousPageTitle: '',
-    NextPageTitle: 'Markets'
+    NextPageTitle: 'Markets',
+    DisplayCancelButton: true
   };
 }

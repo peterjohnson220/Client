@@ -2,10 +2,6 @@
 @import 'comphub-styles';
 @import 'colors';
 
-$peer-banner-gradient: linear-gradient(to bottom, #ffb420 0%,#ffb420 31%,#ffffff 100%,#207cca 100%,#ffffff 100%);
-$peer-banner-map-bg: url('/client/comphub/assets/images/peer-banner-map.png') right bottom no-repeat;
-$peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') left top no-repeat;
-
 .table th {
   border-top: none;
 }
@@ -20,10 +16,6 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
   border-bottom: 2px solid $comphub-header-background-grey;
 }
 
-.table tr.selected {
-  background-color: #f1f9ee;
-}
-
 .top-column-header th {
   border-bottom: none;
   padding: 0;
@@ -32,16 +24,12 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
 .main-column-header th {
   padding-top: 0;
   border-bottom: 2px solid $comphub-header-background-grey;
+  font-weight: normal;
+  font-size: 16px;
 }
 
 .text-column {
-  color: $comphub-header-blue;
   font-weight: $comphub-bold-font-weight;
-}
-
-.number-column {
-  font-weight: $comphub-bold-font-weight;
-  font-size: 18px;
 }
 
 .hidden {
@@ -53,7 +41,7 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
   text-align: center;
 
   fa-icon {
-    color: $pf-additional-colors-green;
+    color: #000000;
     font-size: 1.35rem;
   }
 }
@@ -72,19 +60,23 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
   }
 }
 
+.table tr.selected {
+  background-color: #c7deff;
+}
+
 .sortable-header, .job-row {
   cursor: pointer;
 }
 
 .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%23009900'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%230883BE'/%3E%3C/svg%3E");
   background-size: 100%;
 }
 
 .custom-radio .custom-control-input ~ .custom-control-label::before {
   transform: scale(1.5);
   cursor: pointer;
-  border: $pf-additional-colors-green solid 1px;
+  border: $comphub-job-grid-grey solid 1px;
   background-color: white;
 }
 
@@ -109,8 +101,6 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
   max-width: 10vw;
 }
 
-
-
 @media all and (max-width: 1200px) {
   .job-title-column {
     width: 40vw;
@@ -118,41 +108,17 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
   }
 }
 
+.text-bold {
+  font-weight: $comphub-bold-font-weight;
+}
+
 .content-top-bar {
   min-height: 25px;
   margin-bottom: 2rem;
 }
 
-.effective-date {
-  padding: 1px 0;
-  margin-right: 1rem;
-  span {
-    color: $comphub-header-blue;
-    font-weight: $comphub-bold-font-weight;
-  }
-}
-
-.peer-banner{
-  margin: 1rem 0;
-  min-height: 142px;
-  width: 100%;
-  background: $peer-banner-text-bg, $peer-banner-map-bg, $peer-banner-gradient;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-
-
-  .learn-more-btn {
-    background-color: $pf-additional-colors-green;
-    margin-right: 2.25rem;
-    color: #ffffff;
-    padding: .75rem 1.85rem;
-    box-shadow: 4px 4px 5px 0 #4e4e4e7a;
-
-    &:hover{
-      background-color: darken($pf-additional-colors-green, 3%);
-    }
-  }
+.effective-date, .rate, .paymarket {
+  color: #212529;
 }
 
 .jd-row ::ng-deep {
@@ -165,12 +131,6 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
   }
 }
 
-@media all and (max-width: 1275px) {
-  .peer-banner {
-    background: $peer-banner-text-bg, $peer-banner-gradient;
-  }
+.results-title {
+  font-size: 21px;
 }
-
-
-
-

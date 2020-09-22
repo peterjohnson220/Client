@@ -28,8 +28,11 @@ import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 
 
-import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
-  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent, ComphubFooterComponent } from './containers';
+import {
+  ComphubPageComponent, JobsCardComponent, MarketsCardComponent, CardLayoutComponent,
+  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent,
+  ComphubFooterComponent, JobGridComponent
+} from './containers';
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
   SummaryCardEffects } from './effects';
 import { reducers } from './reducers';
@@ -96,13 +99,13 @@ import { BasicDataGridModule } from 'libs/features/basic-data-grid';
     JobsCardComponent,
     MarketsCardComponent,
     CardLayoutComponent,
-    DataCardComponent,
     SummaryCardComponent,
     PaymarketCardsComponent,
     PeerDataCardComponent,
     ParentDataCardComponent,
     QuickPriceHistoryComponent,
-    ComphubFooterComponent
+    ComphubFooterComponent,
+    JobGridComponent
   ],
   providers: [
     WindowRef,

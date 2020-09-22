@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-lg-12 col-xl-9">
 
-        <div *ngIf="workflowContext?.quickPriceType === quickPriceTypes.ENTERPRISE">
+        <div *ngIf="!isPeerQuickPriceType">
           <div class="data-set-selector" *ngIf="(countryDataSets$ | async)?.length > 1">
           <kendo-dropdownlist
             (valueChange)="handleCountryDataSetChanged($event)"
@@ -48,7 +48,7 @@
           </kendo-autocomplete>
 
       </div>
-        <div *ngIf="workflowContext?.quickPriceType === quickPriceTypes.PEER">
+        <div *ngIf="isPeerQuickPriceType">
       <div class="data-set-selector exchange-selector">
         <label class="exchange-dropdown-label">Peer Exchange: </label>
         <kendo-dropdownlist
@@ -84,7 +84,9 @@
       </div>
     </div>
 
-    <div class="row">
+    <pf-comphub-job-grid *ngIf="!isPeerQuickPriceType"></pf-comphub-job-grid>
+
+    <div *ngIf="isPeerQuickPriceType || (!selectedJob?.length && !isPeerQuickPriceType)" class="row">
       <div class="col-lg-12 col-xl-9">
 
         <div class="uppercase-header mt-5 mb-2">Trending Jobs</div>

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { UserContext } from 'libs/models/security';
-import { CompanyClientTypeConstants, QuickPriceType } from 'libs/constants';
+import { CompanyClientTypeConstants, QuickPriceType, SystemUserGroupNames } from 'libs/constants';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromRootReducer from 'libs/state/state';
 import * as fromBasicDataGridReducer from 'libs/features/basic-data-grid/reducers';
@@ -43,9 +43,10 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   private historyGridInitializedSubscription: Subscription;
 
   workflowContext: WorkflowContext;
+  systemUserGroupNames = SystemUserGroupNames;
 
+  private numberOfCardHeaders: number;
   private readonly cardHeaderWidth = 60;
-  private readonly numberOfCardHeaders = 3;
   private readonly sideBarWidth = 56;
 
   constructor(
@@ -74,13 +75,18 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.updateCardContentContainerWidth();
     this.enabledPagesSub = this.enabledPages$.subscribe(ep => this.enabledPages = ep);
-    this.cardsSub = this.cards$.subscribe(cards => this.cards = cards);
+    this.cardsSub = this.cards$.subscribe(cards => {
+      this.cards = cards;
+      this.numberOfCardHeaders = this.cards.length - 1;
+      this.updateCardContentContainerWidth();
+    });
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => this.workflowContext = wfc);
     this.userContextSub = this.userContext$.subscribe(uc => {
       if (uc.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS || uc.ClientType === CompanyClientTypeConstants.PEER) {
         this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.PEER));
+      } else if (uc.CompanySystemUserGroupsGroupName === this.systemUserGroupNames.SmallBusiness) {
+        this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.SMALL_BUSINESS));
       } else {
         this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.ENTERPRISE));
       }

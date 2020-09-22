@@ -1,5 +1,4 @@
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { BasicGridSettings } from 'libs/features/basic-data-grid/models';
 import { BasicDataViewField, DataViewFieldDataType, DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 
 export class QuickPriceHistoryContext {

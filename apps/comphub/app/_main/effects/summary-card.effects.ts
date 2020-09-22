@@ -17,6 +17,7 @@ import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
+import * as fromJobGridActions from '../actions/job-grid.actions';
 import { ComphubPages } from '../data';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromComphubMainReducer from '../reducers';
@@ -37,7 +38,7 @@ export class SummaryCardEffects {
         new fromComphubPageActions.ResetPagesAccessed(),
         new fromJobsCardActions.ClearSelectedJob(),
         new fromMarketsCardActions.SetToDefaultPaymarket(),
-        new fromDataCardActions.ClearSelectedJobData(),
+        new fromJobGridActions.ClearSelectedJobData(),
         new fromSummaryCardActions.ResetCreateProjectStatus(),
         new fromBasicDataGridActions.GetCount(QuickPriceHistoryContext.gridId)
       ])
@@ -191,7 +192,7 @@ export class SummaryCardEffects {
         new fromComphubPageActions.ResetPagesAccessed(),
         new fromJobsCardActions.ClearSelectedJob(),
         new fromMarketsCardActions.SetDefaultPaymarketAsSelected(),
-        new fromDataCardActions.ClearSelectedJobData(),
+        new fromJobGridActions.ClearSelectedJobData(),
         new fromDataCardActions.SetForceRefreshPeerMap(true),
         new fromSummaryCardActions.ResetCreateProjectStatus(),
         new fromBasicDataGridActions.GetCount(QuickPriceHistoryContext.gridId)

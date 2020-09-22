@@ -6,6 +6,7 @@ export interface QuickPriceRequest {
   PagingOptions: PagingOptions;
   Sort?: SortOption;
   CountryCode: string;
+  WithoutData?: boolean;
 }
 
 export interface SortOption {

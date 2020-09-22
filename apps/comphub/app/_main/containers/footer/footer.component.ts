@@ -109,12 +109,6 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromComphubPageActions.NavigateToPreviousCard());
   }
 
-  handleCloseClicked() {
-    this.modalService.open(this.modalContent, <NgbModalOptions> {
-      backdrop: 'static'
-    });
-  }
-
   handlePriceNewJobClicked() {
     if (this.isPeerQuickPriceType) {
       this.store.dispatch(new fromSummaryCardActions.PriceNewPeerJob());

@@ -23,7 +23,7 @@ export interface State {
 }
 
 const initialState: State = {
-  cards: AccordionCards,
+  cards: AccordionCards.defaultAccordionCards,
   selectedPageId: ComphubPages.Jobs,
   pagesAccessed: [ComphubPages.Jobs],
   accessiblePages: [ComphubPages.Jobs],
@@ -46,7 +46,7 @@ const initialState: State = {
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
   switch (action.type) {
     case fromComphubPageActions.NAVIGATE_TO_CARD: {
-      const selectedPageId = AccordionCards.find(ac => ac.Id === action.payload.cardId).Id;
+      const selectedPageId = state.cards.find(ac => ac.Id === action.payload.cardId).Id;
       const selectedPageIndex = state.cards.findIndex(c => c.Id === selectedPageId);
       return {
         ...state,
@@ -59,7 +59,8 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
       };
     }
     case fromComphubPageActions.NAVIGATE_TO_NEXT_CARD: {
-      const nextPage = AccordionCards[AccordionCards.findIndex(ac => ac.Id === state.selectedPageId) + 1].Id;
+      const cards = state.cards;
+      const nextPage = cards[cards.findIndex(ac => ac.Id === state.selectedPageId) + 1].Id;
       const selectedPageIndex = state.cards.findIndex(c => c.Id === nextPage);
       return {
         ...state,
@@ -73,7 +74,8 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
       };
     }
     case fromComphubPageActions.NAVIGATE_TO_PREVIOUS_CARD: {
-      const previousPage = AccordionCards[AccordionCards.findIndex(ac => ac.Id === state.selectedPageId) - 1].Id;
+      const cards = state.cards;
+      const previousPage = cards[cards.findIndex(ac => ac.Id === state.selectedPageId) - 1].Id;
       const selectedPageIndex = state.cards.findIndex(c => c.Id === previousPage);
       return {
         ...state,
@@ -184,8 +186,12 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
       };
     }
     case fromComphubPageActions.SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT: {
+      const cards: AccordionCard[] = action.payload === QuickPriceType.PEER
+        ? AccordionCards.peerAccordionCards
+        : AccordionCards.defaultAccordionCards;
       return {
         ...state,
+        cards: cards,
         workflowContext: {
           ...state.workflowContext,
           quickPriceType: action.payload

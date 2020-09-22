@@ -6,4 +6,5 @@ export interface QuickPriceGridContext {
   Skip: number;
   Take: number;
   Sort?: SortDescriptor;
+  WithoutData?: boolean;
 }

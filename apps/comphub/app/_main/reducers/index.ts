@@ -10,6 +10,7 @@ import * as fromAddPayMarketFormReducer from './add-paymarket-form.reducer';
 import * as fromMarketsCardReducer from './markets-card.reducer';
 import * as fromDataCardReducer from './data-card.reducer';
 import * as fromSummaryCardReducer from './summary-card.reducer';
+import * as fromJobGridReducer from './job-grid.reducer';
 
 // Feature area state
 export interface ComphubMainState {
@@ -19,6 +20,7 @@ export interface ComphubMainState {
   marketsCard: fromMarketsCardReducer.State;
   dataCard: fromDataCardReducer.State;
   summaryCard: fromSummaryCardReducer.State;
+  jobGrid: fromJobGridReducer.State;
 }
 
 // Extend root state with feature area state
@@ -33,7 +35,8 @@ export const reducers = {
   marketsCard: fromMarketsCardReducer.reducer,
   dataCard: fromDataCardReducer.reducer,
   addPayMarketForm: fromAddPayMarketFormReducer.reducer,
-  summaryCard: fromSummaryCardReducer.reducer
+  summaryCard: fromSummaryCardReducer.reducer,
+  jobGrid: fromJobGridReducer.reducer
 };
 
 // Select Feature Area
@@ -68,6 +71,11 @@ export const selectDataCardState = createSelector(
 export const selectSummaryCardState = createSelector(
   selectFeatureAreaState,
   (state: ComphubMainState) => state.summaryCard
+);
+
+export const selectJobGridState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubMainState) => state.jobGrid
 );
 
 // Jobs Card
@@ -250,26 +258,6 @@ export const getMarketDataScopesLoading = createSelector(
 );
 
 // Data Card
-export const getJobGridResults = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getJobGridResults
-);
-
-export const getLoadingJobGridResults = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getLoadingJobGridResults
-);
-
-export const getLoadingJobGridResultsError = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getLoadingJobGridResultsError
-);
-
-export const getSelectedJobData = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getSelectedJobData
-);
-
 export const getMarketDataChange = createSelector(
   selectDataCardState,
   fromDataCardReducer.getMarketDataChange
@@ -380,4 +368,25 @@ export const getMinPaymarketMinimumWage = createSelector(
 export const getMaxPaymarketMinimumWage = createSelector(
   selectSummaryCardState,
   fromSummaryCardReducer.getMaxPaymarketMinimumWage
+);
+
+// Job Grid
+export const getJobGridResults = createSelector(
+  selectJobGridState,
+  fromJobGridReducer.getJobGridResults
+);
+
+export const getLoadingJobGridResults = createSelector(
+  selectJobGridState,
+  fromJobGridReducer.getLoadingJobGridResults
+);
+
+export const getLoadingJobGridResultsError = createSelector(
+  selectJobGridState,
+  fromJobGridReducer.getLoadingJobGridResultsError
+);
+
+export const getSelectedJobData = createSelector(
+  selectJobGridState,
+  fromJobGridReducer.getSelectedJobData
 );

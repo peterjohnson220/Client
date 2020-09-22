@@ -293,7 +293,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleRateSelectionChange(type : KendoDropDownItem) {
+  handleRateSelectionChange(type: KendoDropDownItem) {
     const selectedRateType = RateType[type.Value];
     this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRateType));
   }

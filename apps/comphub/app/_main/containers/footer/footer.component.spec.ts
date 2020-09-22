@@ -116,13 +116,6 @@ describe('Comphub - Main - Footer', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should open the modal via the modal service when handling a close button click', () => {
-    spyOn(modalService, 'open');
-    instance.handleCloseClicked();
-
-    expect(modalService.open).toHaveBeenCalled();
-  });
-
   it('should set the window location to the default dashboard, when handling the confirm close app click for a enterprise quick price type', () => {
     instance.workflowContext = generateMockWorkflowContext();
     instance.handleConfirmedCloseApp();

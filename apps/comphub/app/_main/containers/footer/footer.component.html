@@ -28,10 +28,10 @@
       </div>
     </div>
   </div>
-    <button class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
+    <button *ngIf="(footerContext$ | async)?.DisplayCancelButton" class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
             [attr.data-qa-id]="'btn-close-'+ (footerContext$ | async)?.PageTitle"
-            (click)="handleCloseClicked()">
-      Close
+            (click)="handlePriceNewJobClicked()">
+      Cancel
     </button>
 
     <button *ngIf="!(footerContext$ | async)?.HideBackButton"
