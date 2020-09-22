@@ -1,8 +1,7 @@
 import { CompanyStructureRange, CompanyStructureRangeOverride } from '../../../structures';
 
-
-export interface RecalcAndSaveRangeMinMaxResponse {
+export interface RevertRangeResponse {
   Range: CompanyStructureRange;
-  RowIndex: number;
+  OverrideDeleted: boolean;
   Override: CompanyStructureRangeOverride;
 }

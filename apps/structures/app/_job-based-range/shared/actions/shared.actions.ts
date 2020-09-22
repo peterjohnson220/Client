@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 
-import { RangeGroupMetadata } from '../models';
+import { RangeGroupMetadata, AdvancedSettings } from '../models';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
 export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';
@@ -22,6 +22,12 @@ export const GET_OVERRIDDEN_RANGES_ERROR = '[Structures - Job Based Range - Shar
 export const REVERTING_RANGE_CHANGES = '[Structures - Job Based Range - Shared] Reverting Range Changes';
 export const REVERTING_RANGE_CHANGES_SUCCESS = '[Structures - Job Based Range - Shared] Reverting Range Changes Success';
 export const REVERTING_RANGE_CHANGES_ERROR = '[Structures - Job Based Range - Shared] Reverting Range Changes Error';
+export const GET_ADVANCED_SETTINGS = '[Structures - Job Based Range - Shared] Get Advanced Settings';
+export const GET_ADVANCED_SETTINGS_SUCCESS = '[Structures - Job Based Range - Shared] Get Advanced Settings Success';
+export const GET_ADVANCED_SETTINGS_ERROR = '[Structures - Job Based Range - Shared] Get Advanced Settings Error';
+export const UPDATE_ADVANCED_SETTINGS = '[Structures - Job Based Range - Shared] Update Advanced Settings';
+export const UPDATE_OVERRIDES = '[Structures - Job Based Range - Shared] Update Overrides';
+
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -83,6 +89,14 @@ export class UpdateRoundingPoints implements Action {
   constructor(public payload: { RoundingPoint: number }) {}
 }
 
+export class UpdateAdvancedSettings implements Action {
+  readonly type = UPDATE_ADVANCED_SETTINGS;
+
+  constructor(public payload: { advancedSettings: AdvancedSettings }) {}
+}
+
+
+
 export class GetOverriddenRanges implements Action {
   readonly type = GET_OVERRIDDEN_RANGES;
 
@@ -91,12 +105,30 @@ export class GetOverriddenRanges implements Action {
 
 export class GetOverriddenRangesSuccess implements Action {
   readonly type = GET_OVERRIDDEN_RANGES_SUCCESS;
+
+  constructor(public payload: CompanyStructureRangeOverride[]) {}
 }
 
 export class GetOverriddenRangesError implements Action {
   readonly type = GET_OVERRIDDEN_RANGES_ERROR;
 
   constructor(public error: any) {}
+}
+
+export class GetAdvancedSettings implements Action {
+  readonly type = GET_ADVANCED_SETTINGS;
+
+  constructor(public payload: { rangeGroupId: number }) {}
+}
+
+export class GetAdvancedSettingsSuccess implements Action {
+  readonly type = GET_ADVANCED_SETTINGS_SUCCESS;
+
+  constructor(public payload: AdvancedSettings) {}
+}
+
+export class GetAdvancedSettingsError implements Action {
+  readonly type = GET_ADVANCED_SETTINGS_ERROR;
 }
 
 export class RevertingRangeChanges implements Action {
@@ -124,6 +156,12 @@ export class RevertingRangeChangesError implements Action {
   constructor(public error: any) {}
 }
 
+export class UpdateOverrides implements  Action {
+  readonly type = UPDATE_OVERRIDES;
+
+  constructor(public payload: { rangeId: number, overrideToUpdate: CompanyStructureRangeOverride}) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -141,4 +179,9 @@ export type SharedActions
   | GetOverriddenRangesError
   | RevertingRangeChanges
   | RevertingRangeChangesSuccess
-  | RevertingRangeChangesError;
+  | RevertingRangeChangesError
+  | GetAdvancedSettings
+  | GetAdvancedSettingsSuccess
+  | GetAdvancedSettingsError
+  | UpdateAdvancedSettings
+  | UpdateOverrides;

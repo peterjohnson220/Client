@@ -1,19 +1,22 @@
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
-import { RoundingSettingsDataObj, RoundingSetting } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RoundingSetting, CompanyStructureRangeOverride } from 'libs/models/structures';
 
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core';
+import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
 import * as fromSharedActions from '../actions/shared.actions';
-import { RangeGroupMetadata } from '../models';
+import { AdvancedSettings, RangeGroupMetadata } from '../models';
 import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
 
 export interface State {
   metadata: RangeGroupMetadata;
   roundingSettings: RoundingSettingsDataObj;
   removingRange: AsyncStateObj<boolean>;
+  advancedSettings: AdvancedSettings;
+  rangeOverrides: CompanyStructureRangeOverride[];
 }
 
 const initialState: State = {
@@ -32,7 +35,69 @@ const initialState: State = {
       RoundingPoint: 0
     },
   },
-  removingRange: generateDefaultAsyncStateObj<boolean>(false)
+  removingRange: generateDefaultAsyncStateObj<boolean>(false),
+  advancedSettings: {
+    PreventMidsBelowCurrent: false,
+    Rounding: {
+      'min': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      },
+      'mid': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      },
+      'max': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      },
+      'firstTertile': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      },
+      'secondTertile': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      },
+      'firstQuartile': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      },
+      'secondQuartile': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      },
+      'firstQuintile': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      },
+      'secondQuintile': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      },
+      'thirdQuintile': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      },
+      'fourthQuintile': {
+        RoundingType: RoundingTypes.Round,
+        RoundingPoint: 0
+      }
+    },
+    PreventMidsFromIncreasingWithinPercentOfNextLevel: {
+      Enabled: false,
+      Percentage: 0
+    },
+    PreventMidsFromIncreasingMoreThanPercent: {
+      Enabled: false,
+      Percentage: 0
+    },
+    MissingMarketDataType: {
+      Type: MissingMarketDataTypes.UsePublishedRange,
+      Percentage: 0
+    }
+  },
+  rangeOverrides: []
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -102,6 +167,25 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         roundingSettings: newSetting
       };
     }
+    case fromSharedActions.UPDATE_ADVANCED_SETTINGS: {
+      return {
+        ...state,
+        advancedSettings: action.payload.advancedSettings
+      };
+    }
+    case fromSharedActions.GET_OVERRIDDEN_RANGES_SUCCESS: {
+      return {
+        ...state,
+        rangeOverrides: action.payload
+      };
+    }
+    case fromSharedActions.UPDATE_OVERRIDES: {
+      const updatedRangeOverrides = updateOverrides(action.payload.rangeId, cloneDeep(state.rangeOverrides), action.payload.overrideToUpdate);
+      return {
+        ...state,
+        rangeOverrides: updatedRangeOverrides
+      };
+    }
 
     default:
       return state;
@@ -110,7 +194,9 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
 
 export const getMetadata = (state: State) => state.metadata;
 export const getRoundingSettings = (state: State) => state.roundingSettings;
+export const getAdvancedSettings = (state: State) => state.advancedSettings;
 export const getRemovingRange = (state: State) => state.removingRange;
+export const getRangeOverrides = (state: State) => state.rangeOverrides;
 
 export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {
   return settings[name] = setting;
@@ -123,6 +209,15 @@ function updateRoundingPoints(roundingPoint: number, settings: RoundingSettingsD
     }
   }
   return settings;
+}
+
+function updateOverrides(rangeId: number, overrides: CompanyStructureRangeOverride[],
+                         overrideToUpdate: CompanyStructureRangeOverride): CompanyStructureRangeOverride[] {
+  const rangeOverride = overrides.find(ro => ro.CompanyStructuresRangesId === rangeId);
+  if (!!rangeOverride) {
+    overrides.splice(overrides.indexOf(rangeOverride), 1, overrideToUpdate);
+  }
+  return overrides;
 }
 
 function setRangeDistributionType(metadata: RangeGroupMetadata, state) {

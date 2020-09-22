@@ -92,11 +92,11 @@ describe('Job Based Ranges - Rounding Settings', () => {
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch UpdateRoundingPoint to set zero for mid, min and max and update defaultSet when rate is annual', () => {
+  it('should dispatch UpdateRoundingPoint to set 1 for mid, min and max and update defaultSet when rate is annual', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction1 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 0 });
-    const expectedAction2 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 0 });
-    const expectedAction3 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'max', RoundingPoint: 0 });
+    const expectedAction1 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 1 });
+    const expectedAction2 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 1 });
+    const expectedAction3 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'max', RoundingPoint: 1 });
 
     // default set should not run more than once, but for test purposes we can reset it here
     instance.defaultSet = false;
@@ -110,11 +110,11 @@ describe('Job Based Ranges - Rounding Settings', () => {
 
   });
 
-  it('should dispatch UpdateRoundingPoint to set 2 for mid, min and max and update defaultSet when rate is hourly', () => {
+  it('should dispatch UpdateRoundingPoint to set 3 for mid, min and max and update defaultSet when rate is hourly', () => {
     spyOn(instance.store, 'dispatch');
-    const expectedAction1 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 2 });
-    const expectedAction2 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 2 });
-    const expectedAction3 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'max', RoundingPoint: 2 });
+    const expectedAction1 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 3 });
+    const expectedAction2 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 3 });
+    const expectedAction3 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'max', RoundingPoint: 3 });
 
     // default set should not run more than once, but for test purposes we can reset it here
     instance.defaultSet = false;

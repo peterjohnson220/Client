@@ -81,11 +81,11 @@ export class RangeRoundingComponent implements OnInit, OnDestroy {
   setDefaults() {
     // wait for both to be present, and only set this once per visit to this page
     if (this.metadata && this.roundingSettings && !this.defaultSet) {
-      // 0 is the default for Annual
-      let defaultPoint = 0;
+      // 1 is the default for Annual
+      let defaultPoint = 1;
 
       if (this.metadata.Rate && this.metadata.Rate.toLowerCase() === 'hourly') {
-        defaultPoint = 2;
+        defaultPoint = 3;
       }
 
       this.store.dispatch(new fromSharedJobBasedRangeActions.UpdateRoundingPoint({RoundingSetting: 'min', RoundingPoint: defaultPoint}));

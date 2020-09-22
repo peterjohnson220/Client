@@ -40,7 +40,9 @@ export class RangeFieldEditEffects {
                 actions.push(new fromRangeFieldActions.UpdateRangeFieldSuccess({
                   pageViewId: action.payload.pageViewId,
                   refreshRowDataViewFilter: action.payload.refreshRowDataViewFilter,
-                  rowIndex: action.payload.rowIndex
+                  rowIndex: action.payload.rowIndex,
+                  modifiedKey: action.payload.rangeId,
+                  override: response.Override
                 }));
 
                 if (action.payload.successCallBackFn) {

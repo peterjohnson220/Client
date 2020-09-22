@@ -114,7 +114,8 @@ export class ModelSettingsModalEffects {
       switchMap((data) => {
         return this.structureModelingApiService.saveModelSettings(
           PayfactorsApiModelMapper.mapModelSettingsModalFormToSaveSettingsRequest(
-            data.action.payload.rangeGroupId, data.action.payload.formValue, data.action.payload.rounding)
+            data.action.payload.rangeGroupId, data.action.payload.formValue, data.action.payload.rounding,
+            PayfactorsApiModelMapper.mapAdvancedSettingsModalFormToAdvancedSettingsRequest(data.action.payload.advancedSettings))
         ).pipe(
           mergeMap((r) => {
               const actions = [];

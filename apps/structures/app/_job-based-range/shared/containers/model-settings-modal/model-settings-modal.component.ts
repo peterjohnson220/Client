@@ -2,19 +2,20 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
 import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { ControlPoint, Currency, RangeGroupMetadata } from '../../models';
+import { AdvancedSettings, ControlPoint, Currency, RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
 import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
@@ -31,6 +32,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() page: Pages;
   @ViewChild(RangeDistributionSettingComponent, { static: false }) public rdSettingComponent: RangeDistributionSettingComponent;
 
+
   modalOpen$: Observable<boolean>;
   metaData$: Observable<RangeGroupMetadata>;
   currenciesAsyncObj$: Observable<AsyncStateObj<Currency[]>>;
@@ -39,6 +41,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   savingModelSettingsAsyncObj$: Observable<AsyncStateObj<null>>;
   modelNameExistsFailure$: Observable<boolean>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
+  advancedSettings$: Observable<AdvancedSettings>;
+
+
   enableJobRangeTypes$: Observable<boolean>;
 
   controlPointsAsyncObjSub: Subscription;
@@ -46,6 +51,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   metadataSub: Subscription;
   modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
+  advancedSettingsSub: Subscription;
   roundingSettingsSub: Subscription;
   enableJobRangeTypesSub: Subscription;
 
@@ -58,19 +64,24 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   attemptedSubmit: boolean;
   modelNameExistsFailure: boolean;
   isNewModel: boolean;
+  advancedSettings: AdvancedSettings;
   roundingSettings: RoundingSettingsDataObj;
   activeTab: string;
   enableJobRangeTypes: boolean;
   modelSetting: RangeGroupMetadata;
   minSpreadTooltip: string;
   maxSpreadTooltip: string;
+  structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
+  unsubscribe$ = new Subject<void>();
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     public urlService: UrlService,
-    private settingService: SettingsService
+    private settingService: SettingsService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.advancedSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getAdvancedSettings));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
     // delay(0) to push this into the next VM turn to avoid expression changed errors
     this.modalOpen$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelSettingsModalOpen), delay(0));
@@ -84,6 +95,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     );
     this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
+    this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
   }
 
   get formControls() {
@@ -140,7 +152,8 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
           rangeGroupId: this.rangeGroupId,
           formValue: this.modelSetting,
           fromPage: this.page,
-          rounding: this.roundingSettings
+          rounding: this.roundingSettings,
+          advancedSettings: this.advancedSettings
         })
       );
       this.reset();
@@ -258,6 +271,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       }
     });
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
+    this.advancedSettingsSub = this.advancedSettings$.subscribe(as => this.advancedSettings = as);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.enableJobRangeTypesSub = this.enableJobRangeTypes$.subscribe(c => this.enableJobRangeTypes = c);
 
@@ -269,8 +283,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.metadataSub.unsubscribe();
     this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
+    this.advancedSettingsSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.enableJobRangeTypesSub.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   private reset() {
