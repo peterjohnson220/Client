@@ -164,7 +164,7 @@ describe('TrsChartControlComponent', () => {
     for (let i = 0; i < resultThatReturnLessThan1.length; i ++) {
       component.employeeRewardsData = { EmployeeMedicalInsurance: resultThatReturnLessThan1[i] } as any;
       const value = component.getChartData()[0].value;
-      expect(value).toBeLessThan(1);
+      expect(Number.isInteger(value)).toBeFalsy();
       expect(component.labelContent({value})).toBe('<1k');
     }
 
