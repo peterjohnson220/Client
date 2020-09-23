@@ -11,9 +11,9 @@ import * as fromRootState from 'libs/state/state';
 import { QuickPriceType } from 'libs/constants';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
-import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../reducers';
+import * as fromJobGridActions from '../actions/job-grid.actions';
 import { MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromAddPayMarketFormActions from '../actions/add-paymarket-form.actions';
 import { ComphubPages } from '../data';
@@ -34,9 +34,6 @@ export class MarketsCardEffects {
     ),
     mergeMap((data) => {
       const actions = [];
-      if (!data.countryDataSet && data.workflowContext.quickPriceType === QuickPriceType.ENTERPRISE) {
-        return actions;
-      }
       if (data.workflowContext.quickPriceType === QuickPriceType.PEER) {
         actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: 'All' }));
       } else {
@@ -156,12 +153,12 @@ export class MarketsCardEffects {
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
         (action: fromMarketsCardActions.SetSelectedPaymarket, selectedPayMarket) => ({ action, selectedPayMarket })),
       mergeMap((data) => [
-          new fromDataCardActions.ClearSelectedJobData(),
+          new fromJobGridActions.ClearSelectedJobData(),
           new fromComphubPageActions.UpdateCardSubtitle({
             cardId: ComphubPages.Markets,
             subTitle: data.selectedPayMarket.PayMarketName
           }),
-        new fromSummaryCardActions.ResetCreateProjectStatus()
+          new fromSummaryCardActions.ResetCreateProjectStatus()
         ]
       )
     );

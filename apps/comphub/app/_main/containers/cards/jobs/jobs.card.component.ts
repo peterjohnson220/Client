@@ -13,7 +13,7 @@ import { AsyncStateObj } from 'libs/models/state';
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { CountryDataSet, ExchangeDataSet, JobPricingLimitInfo, QuickPriceHistoryContext, TrendingJobGroup, WorkflowContext } from '../../../models';
+import { CountryDataSet, ExchangeDataSet, JobData, JobPricingLimitInfo, QuickPriceHistoryContext, TrendingJobGroup, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 
 @Component({
@@ -40,6 +40,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   exchangeJobSearchOptions$: Observable<ExchangeJobSearchOption[]>;
   workflowContext$: Observable<WorkflowContext>;
   pricedJobsCount$: Observable<AsyncStateObj<number>>;
+  selectedJobData$: Observable<JobData>;
 
   jobSearchOptionsSub: Subscription;
   exchangeJobSearchOptionsSub: Subscription;
@@ -50,10 +51,10 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   selectedJob: string;
   userContext: UserContext;
   systemUserGroupNames = SystemUserGroupNames;
-  quickPriceTypes = QuickPriceType;
   popupSettings: PopupSettings;
   comphubPages = ComphubPages;
   workflowContext: WorkflowContext;
+  isPeerQuickPriceType: boolean;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
@@ -73,6 +74,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.exchangeDataSets$ = this.store.select(fromComphubMainReducer.getExchangeDataSets);
     this.exchangeJobSearchOptions$ = this.store.select(fromComphubMainReducer.getExchangeJobSearchOptions);
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
+    this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.popupSettings = {
       appendTo: 'component'
     };
@@ -82,7 +84,12 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.jobSearchOptionsSub = this.jobSearchOptions$.subscribe(o => this.potentialOptions = o);
     this.exchangeJobSearchOptionsSub = this.exchangeJobSearchOptions$.subscribe(o => this.potentialOptions = o.map(x => x.JobTitle));
     this.selectedJobSub = this.selectedJob$.subscribe(sj => this.selectedJob = sj);
-    this.workflowContextSub = this.workflowContext$.subscribe(wfc => this.workflowContext = wfc);
+    this.workflowContextSub = this.workflowContext$.subscribe(wfc => {
+      if (!!wfc) {
+        this.workflowContext = wfc;
+        this.isPeerQuickPriceType = this.workflowContext.quickPriceType === QuickPriceType.PEER;
+      }
+    });
     this.pricedJobsCount$ = this.basicGridStore.select(fromBasicDataGridReducer.getTotalCount, QuickPriceHistoryContext.gridId);
   }
 
@@ -104,7 +111,11 @@ export class JobsCardComponent implements OnInit, OnDestroy {
 
   handleTrendingJobClicked(trendingJob: any) {
     const jobTitle = !!trendingJob.Value ? trendingJob.Value : trendingJob;
-    this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: jobTitle, exchangeJobId: trendingJob.Key, navigateToNextCard: true}));
+    if (this.isPeerQuickPriceType) {
+      this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: jobTitle, exchangeJobId: trendingJob.Key, navigateToNextCard: true}));
+    } else {
+      this.store.dispatch(new fromJobsCardActions.SetSelectedJob({ jobTitle }));
+    }
   }
 
   handleCountryDataSetChanged(countryCode: string) {

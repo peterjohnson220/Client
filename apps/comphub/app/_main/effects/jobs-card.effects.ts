@@ -11,10 +11,11 @@ import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOptio
 import { QuickPriceType } from 'libs/constants';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
-import * as fromDataCardActions from '../actions/data-card.actions';
+import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
+import * as fromJobGridActions from '../actions/job-grid.actions';
 import * as fromComphubReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../helpers';
+import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import { ComphubPages, CountryCode } from '../data';
 import * as fromComphubMainReducer from '../reducers';
 
@@ -113,9 +114,9 @@ export class JobsCardEffects {
         const actions = [];
 
         actions.push(new fromComphubPageActions.ResetAccessiblePages());
-        actions.push(new fromDataCardActions.ClearSelectedJobData());
+        actions.push(new fromJobGridActions.ClearSelectedJobData());
         actions.push( new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: payload.jobTitle}));
-        actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Data]));
+        actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets]));
         actions.push(new fromComphubPageActions.UpdateFooterContext());
 
         if (payload.navigateToNextCard) {
@@ -132,7 +133,7 @@ export class JobsCardEffects {
       ofType(fromJobsCardActions.CLEAR_SELECTED_JOB),
       mergeMap(() => [
         new fromComphubPageActions.ResetAccessiblePages(),
-        new fromDataCardActions.ClearSelectedJobData(),
+        new fromJobGridActions.ClearSelectedJobData(),
         new fromComphubPageActions.UpdateFooterContext()
       ])
     );
@@ -146,6 +147,82 @@ export class JobsCardEffects {
         (action: fromJobsCardActions.PersistActiveCountryDataSet, dataSet) => (dataSet)
       ),
       switchMap((dataSet) => this.comphubApiService.persistActiveCountryDataSet(dataSet.CountryCode))
+    );
+
+  @Effect()
+  getQuickPriceMarketData$ = this.actions$
+    .pipe(
+      ofType(fromJobGridActions.GET_QUICK_PRICE_MARKET_DATA),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromJobGridActions.GetQuickPriceMarketData, dataSet) => ({ action, dataSet })
+      ),
+      switchMap((data) => {
+          return this.comphubApiService.getQuickPriceData({
+            JobTitleShort: data.action.payload.JobTitleShort,
+            CompanyPaymarketId: data.action.payload.CompanyPayMarketId,
+            PagingOptions: {
+              Count: data.action.payload.Take,
+              From: data.action.payload.Skip
+            },
+            Sort: DataCardHelper.getSortOption(data.action.payload),
+            CountryCode: data.dataSet.CountryCode,
+            WithoutData: data.action.payload.WithoutData
+          })
+            .pipe(
+              mergeMap((response) => {
+                const gridDataResult = PayfactorsApiModelMapper.mapPriceDataToGridDataResult(response);
+                const actions = [];
+                if (data.action.payload.Skip === 0) {
+                  actions.push(new fromJobGridActions.GetQuickPriceMarketDataSuccess(gridDataResult));
+                } else {
+                  actions.push(new fromJobGridActions.LoadMoreDataSuccess(gridDataResult.Data));
+                }
+                actions.push(new fromComphubPageActions.SetJobPricingLimitInfo(response.PricingLimitInfo));
+                actions.push(new fromSummaryCardActions.SetMinPaymarketMinimumWage(response.MinPaymarketMinimumWage));
+                actions.push(new fromSummaryCardActions.SetMaxPaymarketMinimumWage(response.MaxPaymarketMinimumWage));
+
+                return actions;
+              }),
+              catchError((error) => of(new fromJobGridActions.GetQuickPriceMarketDataError(),
+                new fromComphubPageActions.HandleApiError(error)))
+            );
+        }
+      ));
+
+  @Effect()
+  setSelectedJobData$ = this.actions$
+    .pipe(
+      ofType(fromJobGridActions.SET_SELECTED_JOB_DATA),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getWorkflowContext),
+        (action: fromJobGridActions.SetSelectedJobData, workflowContext ) => ({ action, workflowContext })
+      ),
+      mergeMap((data) => {
+        const actions = [];
+        if (data.workflowContext.quickPriceType === QuickPriceType.PEER) {
+          actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: `Payfactors ${data.action.payload.JobTitle}`}));
+          actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary]));
+        } else {
+          actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: `Payfactors ${data.action.payload.JobTitle}`}));
+          actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Summary]));
+        }
+        actions.push(new fromSummaryCardActions.ResetCreateProjectStatus());
+        actions.push(new fromComphubPageActions.UpdateFooterContext());
+        return actions;
+       })
+    );
+
+  @Effect()
+  clearSelectedJobData$ = this.actions$
+    .pipe(
+      ofType(fromJobGridActions.CLEAR_SELECTED_JOB_DATA),
+      mergeMap(() => {
+        return [
+          new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Summary]),
+          new fromSummaryCardActions.ResetCreateProjectStatus()
+        ];
+      })
     );
 
   constructor(

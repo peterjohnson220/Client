@@ -43,11 +43,12 @@ exports[`Comphub - Main - Footer should disable next button, when told to 1`] = 
         
       </div>
     </div>
+    
     <button
       class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
       data-qa-id="btn-close-Jobs"
     >
-       Close 
+       Cancel 
     </button>
     
     
@@ -111,11 +112,12 @@ exports[`Comphub - Main - Footer should hide the back button, when told to 1`] =
         
       </div>
     </div>
+    
     <button
       class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
       data-qa-id="btn-close-Jobs"
     >
-       Close 
+       Cancel 
     </button>
     
     
@@ -178,11 +180,12 @@ exports[`Comphub - Main - Footer should hide the next button, when told to 1`] =
         
       </div>
     </div>
+    
     <button
       class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
       data-qa-id="btn-close-Jobs"
     >
-       Close 
+       Cancel 
     </button>
     
     

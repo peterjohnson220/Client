@@ -15,6 +15,7 @@ import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
+import * as fromJobGridActions from '../actions/job-grid.actions';
 import * as fromComphubMainReducer from '../reducers';
 
 import { PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
@@ -187,7 +188,7 @@ export class ComphubPageEffects {
       mergeMap((action) => {
         const actions: Action[] = [
           new fromJobsCardActions.GetTrendingJobs(),
-          new fromDataCardActions.ClearSelectedJobData(),
+          new fromJobGridActions.ClearSelectedJobData(),
           new fromComphubPageActions.ResetAccessiblePages(),
           new fromComphubPageActions.ResetPagesAccessed(),
           new fromJobsCardActions.ClearSelectedJob(),

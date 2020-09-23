@@ -62,17 +62,18 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -555,17 +556,18 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -1098,17 +1100,18 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -1591,17 +1594,18 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -2134,17 +2138,18 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -2627,17 +2632,18 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -3170,17 +3176,18 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -3663,17 +3670,18 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -4206,17 +4214,18 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -4699,17 +4708,18 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -5242,17 +5252,18 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -5735,17 +5746,18 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -6278,17 +6290,18 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -6771,17 +6784,18 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -7314,17 +7328,18 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -7816,17 +7831,18 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"

@@ -4,7 +4,6 @@ import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOptio
 
 import { TrendingJobGroup } from '../models';
 
-
 export const GET_TRENDING_JOBS = '[Comphub/Jobs Card] Get Trending Jobs';
 export const GET_TRENDING_JOBS_SUCCESS = '[Comphub/Jobs Card] Get Trending Jobs Success';
 export const GET_TRENDING_JOBS_ERROR = '[Comphub/Jobs Card] Get Trending Jobs Error';

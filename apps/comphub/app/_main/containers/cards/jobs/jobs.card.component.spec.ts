@@ -104,10 +104,11 @@ describe('Comphub - Main - Jobs Card Component', () => {
   });
 
   it('should dispatch a SetSelectedJob action with the job title and navigateToNextCard set to true, ' +
-    'when handling a trending job being clicked', () => {
+    'when handling a trending job being clicked for PEER only', () => {
 
     spyOn(store, 'dispatch');
     const expectedAction = new fromJobsCardActions.SetSelectedJob({ jobTitle: 'Accountant', navigateToNextCard: true});
+    instance.isPeerQuickPriceType = true;
 
     instance.handleTrendingJobClicked('Accountant');
 
