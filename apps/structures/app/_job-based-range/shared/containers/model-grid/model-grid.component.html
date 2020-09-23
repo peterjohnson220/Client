@@ -58,7 +58,7 @@
 </ng-template>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow" let-rowIndex="rowIndex">
-  <div [pfSecuredResource]="metaData.IsCurrent? permissions.STRUCTURES_ADD_EDIT_DELETE : permissions.STRUCTURES_CREATE_EDIT_MODEL"
+  <div [pfSecuredResource]="metaData.IsCurrent? permissions.STRUCTURES_ADD_EDIT_DELETE && permissions.STRUCTURES_PUBLISH : permissions.STRUCTURES_CREATE_EDIT_MODEL"
        ngbDropdown container="body" #p="ngbDropdown" (openChange)="handleSelectedRowAction(p)">
     <fa-icon
       ngbDropdownToggle
