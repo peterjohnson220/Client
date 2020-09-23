@@ -79,6 +79,10 @@
   </div>
 </ng-template>
 
+<ng-template #adjPctColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <pf-pricing-details-adj-pct-column [dataRow]="dataRow"></pf-pricing-details-adj-pct-column>
+</ng-template>
+
 <ng-template #payMarketFilter>
   <kendo-dropdownlist
     [attr.data-qa-id]="'ddm-operator-' + payMarketField.SourceName"  
@@ -125,7 +129,7 @@
 
 <ng-template #globalActions>
   <div class="d-flex flex-fill">
-    <div *ngIf="(updatingPricingMatch$ | async)?.saving" class="ml-auto my-auto" >
+    <div *ngIf="(recalculatingPricingInfo$ | async)" class="ml-auto my-auto" >
       <pf-loading-indicator></pf-loading-indicator>
       <span class="pl-2">Recalculating Pricings</span>
     </div>

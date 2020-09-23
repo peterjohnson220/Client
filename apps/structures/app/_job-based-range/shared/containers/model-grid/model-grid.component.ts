@@ -104,6 +104,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   modifiedKeysSubscription: Subscription;
   selectedDropdown: NgbDropdown;
 
+  gridConfig = {
+    PersistColumnWidth: false,
+    CaptureGridScroll: true
+  };
+
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     private actionsSubject: ActionsSubject,
