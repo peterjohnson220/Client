@@ -147,8 +147,8 @@ export class JobsToPriceContainerComponent implements OnDestroy {
           const paymarketIdAttribute = target.attributes['data-paymarket-id'];
           if (jobIdAttribute && jobIdAttribute.value) {
             const jobId = Number(jobIdAttribute.value);
-            const companyJobId = Number(companyJobIdAttribute.value);
-            const paymarketId = Number(paymarketIdAttribute.value);
+            const companyJobId = Number(companyJobIdAttribute?.value);
+            const paymarketId = Number(paymarketIdAttribute?.value);
             this.store.dispatch(new fromJobsToPriceActions.AddNewDataCuts(
               {JobId: jobId, CompanyJobId: companyJobId, PaymarketId: paymarketId, DataCuts: this.selectedCuts}));
             this.store.dispatch(new fromSurveySearchResultsActions.ClearDataCutSelections());
