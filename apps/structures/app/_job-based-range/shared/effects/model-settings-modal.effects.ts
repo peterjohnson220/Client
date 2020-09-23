@@ -144,7 +144,7 @@ export class ModelSettingsModalEffects {
                   actions.push(new fromModelSettingsModalActions.CloseModal());
                   const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
                   actions.push(new fromDataGridActions.LoadData(modelPageViewId));
-
+                  actions.push(new fromSharedActions.GetOverriddenRanges({ pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
 
                   switch (data.action.payload.fromPage) {
                     case Pages.Employees: {
