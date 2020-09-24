@@ -37,7 +37,9 @@ export class MarketsCardEffects {
       if (data.workflowContext.quickPriceType === QuickPriceType.PEER) {
         actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: 'All' }));
       } else {
-        actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: data.countryDataSet.CountryCode }));
+        if (data.countryDataSet) {
+          actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: data.countryDataSet.CountryCode }));
+        }
       }
       return actions;
     })
@@ -153,7 +155,6 @@ export class MarketsCardEffects {
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
         (action: fromMarketsCardActions.SetSelectedPaymarket, selectedPayMarket) => ({ action, selectedPayMarket })),
       mergeMap((data) => [
-          new fromComphubPageActions.ClearSelectedJobData(),
           new fromComphubPageActions.UpdateCardSubtitle({
             cardId: ComphubPages.Markets,
             subTitle: data.selectedPayMarket.PayMarketName

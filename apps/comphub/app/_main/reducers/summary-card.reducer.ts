@@ -14,6 +14,8 @@ export interface State {
   glossaryOpen: boolean;
   minPaymarketMinimumWage: number;
   maxPaymarketMinimumWage: number;
+  recalculating: boolean;
+  recalculatingError: boolean;
 }
 
 const initialState: State = {
@@ -28,7 +30,9 @@ const initialState: State = {
   canAccessProjectsTile: false,
   glossaryOpen: false,
   minPaymarketMinimumWage: null,
-  maxPaymarketMinimumWage: null
+  maxPaymarketMinimumWage: null,
+  recalculating: false,
+  recalculatingError: false
 };
 
 // Reducer function
@@ -133,6 +137,25 @@ export function reducer(state = initialState, action: fromSummaryCardActions.Act
         maxPaymarketMinimumWage: action.payload
       };
     }
+    case fromSummaryCardActions.RECALCULATE_JOB_DATA: {
+      return {
+        ...state,
+        recalculating: true
+      };
+    }
+    case fromSummaryCardActions.RECALCULATE_JOB_DATA_SUCCESS: {
+      return {
+        ...state,
+        recalculating: false
+      };
+    }
+    case fromSummaryCardActions.RECALCULATE_JOB_DATA_ERROR: {
+      return {
+        ...state,
+        recalculating: false,
+        recalculatingError: true
+      };
+    }
 
     default: {
       return state;
@@ -153,3 +176,5 @@ export const getCanAccessProjectTile = (state: State) => state.canAccessProjects
 export const getGlossaryOpen = (state: State) => state.glossaryOpen;
 export const getMinPaymarketMinimumWage = (state: State) => state.minPaymarketMinimumWage;
 export const getMaxPaymarketMinimumWage = (state: State) => state.maxPaymarketMinimumWage;
+export const getRecalculatingJobData = (state: State) => state.recalculating;
+export const getRecalculatingJobDataError = (state: State) => state.recalculatingError;

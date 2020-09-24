@@ -2,6 +2,7 @@
 
 exports[`Comphub - Main - Summary Card Component should display - as the min wage when there is no wage data 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -203,6 +204,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -697,6 +701,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -1040,6 +1047,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
 
 exports[`Comphub - Main - Summary Card Component should display CAD for currency when active market data is Canada 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -1241,6 +1249,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -1735,6 +1746,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -2078,6 +2092,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
 
 exports[`Comphub - Main - Summary Card Component should display USD for currency when active market data is USA 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -2279,6 +2294,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -2773,6 +2791,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -3116,6 +3137,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
 
 exports[`Comphub - Main - Summary Card Component should display min wage range if min and max are different 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -3317,6 +3339,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -3811,6 +3836,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -4154,6 +4182,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
 
 exports[`Comphub - Main - Summary Card Component should display min wage when available 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -4355,6 +4384,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -4849,6 +4881,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -5192,6 +5227,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
 
 exports[`Comphub - Main - Summary Card Component should hide create project button has access to projects tile but no paymarketId 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -5393,6 +5429,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -5887,6 +5926,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -6230,6 +6272,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
 
 exports[`Comphub - Main - Summary Card Component should hide create project button when no access to projects tile 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -6431,6 +6474,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -6925,6 +6971,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -7268,6 +7317,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
 
 exports[`Comphub - Main - Summary Card Component should show create project button when has access to projects tile 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -7469,6 +7519,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -7972,6 +8025,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >

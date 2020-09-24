@@ -52,6 +52,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   filterContext$: Observable<any>;
   workflowContext$: Observable<WorkflowContext>;
   mapSummary$: Observable<ExchangeMapSummary>;
+  calculatingJobData$: Observable<boolean>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -65,6 +66,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   lastJobData: JobData;
   jobSalaryTrendData: JobSalaryTrend;
   paymarket: PricingPaymarket;
+  lastPaymarket: PricingPaymarket;
   selectedRate: RateType;
   firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
   currentDate: Date = new Date();
@@ -101,6 +103,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.maxPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMaxPaymarketMinimumWage);
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.mapSummary$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapSummary);
+    this.calculatingJobData$ = this.store.select(fromComphubMainReducer.getRecalculatingJobData);
   }
 
   ngOnInit() {
@@ -218,16 +221,16 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromDataCardActions.GetPeerQuickPriceData());
   }
 
-  private addNewCompletedPricingHistoryRecord() {
-    this.store.dispatch(new fromSummaryCardActions.AddCompletedPricingHistory(this.jobData));
-  }
-
   private getPDFFileName(): string {
     return `PricingSummaryFor${this.jobData.JobTitle.replace(/ |\./g, '')}.pdf`;
   }
 
-  private jobDataHasChanged(): boolean {
-    return (!!this.jobData && !isEqual(this.jobData, this.lastJobData));
+  private jobHasChanged(): boolean {
+    return (!!this.jobData && !isEqual(this.jobData.JobId, this.lastJobData?.JobId));
+  }
+
+  private paymarketHasChanged(): boolean {
+    return (!!this.paymarket && !isEqual(this.lastPaymarket?.CompanyPayMarketId, this.paymarket?.CompanyPayMarketId));
   }
 
   getPeerMapSrcString() {
@@ -275,10 +278,16 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   onWorkflowContextChanges(workflowContext: WorkflowContext): void {
-    if (workflowContext.selectedPageId === this.comphubPages.Summary && this.jobDataHasChanged() && !this.isPeerQuickPriceType) {
+    if (workflowContext.selectedPageId === this.comphubPages.Summary && !this.isPeerQuickPriceType) {
+      if (this.paymarketHasChanged() || this.jobHasChanged()) {
+        // load new job data
+        this.store.dispatch(new fromSummaryCardActions.RecalculateJobData());
+        if (this.jobHasChanged()) {
+          this.loadJobTrendChart();
+        }
+      }
+      this.lastPaymarket = this.paymarket;
       this.lastJobData = this.jobData;
-      this.loadJobTrendChart();
-      this.addNewCompletedPricingHistoryRecord();
       this.currencySymbol = getCurrencySymbol(this.workflowContext.activeCountryDataSet.CurrencyCode, 'narrow');
     } else if (workflowContext.selectedPageId === this.comphubPages.Summary && this.isPeerQuickPriceType) {
       this.store.dispatch(new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Jobs, ComphubPages.Markets, ComphubPages.Data]));

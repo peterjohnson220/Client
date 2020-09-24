@@ -166,8 +166,7 @@ export class JobsCardEffects {
               From: data.action.payload.Skip
             },
             Sort: DataCardHelper.getSortOption(data.action.payload),
-            CountryCode: data.dataSet.CountryCode,
-            WithoutData: data.action.payload.WithoutData
+            CountryCode: data.dataSet.CountryCode
           })
             .pipe(
               mergeMap((response) => {
@@ -178,7 +177,6 @@ export class JobsCardEffects {
                 } else {
                   actions.push(new fromJobGridActions.LoadMoreDataSuccess(gridDataResult.Data));
                 }
-                actions.push(new fromComphubPageActions.SetJobPricingLimitInfo(response.PricingLimitInfo));
                 actions.push(new fromSummaryCardActions.SetMinPaymarketMinimumWage(response.MinPaymarketMinimumWage));
                 actions.push(new fromSummaryCardActions.SetMaxPaymarketMinimumWage(response.MaxPaymarketMinimumWage));
 

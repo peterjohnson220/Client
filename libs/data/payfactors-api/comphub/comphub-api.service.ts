@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
-  QuickPriceResponse, QuickPriceRequest, TrendingJobGroupResponse,
+  QuickPriceListResponse, QuickPriceRequest, TrendingJobGroupResponse,
   JobPricingLimitInfoResponse, JobSalaryTrendRequest, JobSalaryTrendResponse,
   PayMarketDataResponse, SharePricingSummaryRequest, CreateQuickPriceProjectRequest, CountryDataSetResponse,
-  AddCompletedPricingHistoryRequest
+  AddCompletedPricingHistoryRequest, QuickPriceJobDataRequest, QuickPriceJobDataResponse
 } from '../../../models/payfactors-api/comphub';
 import { BaseExchangeDataSearchRequest } from '../../../models/payfactors-api/peer/exchange-data-search/request';
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -30,8 +30,12 @@ export class ComphubApiService {
       { params: { exchangeId: exchangeId } });
   }
 
-  getQuickPriceData(request: QuickPriceRequest): Observable<QuickPriceResponse>  {
-    return this.payfactorsApiService.post<QuickPriceResponse>(`${this.endpoint}/GetQuickPriceData`, request);
+  getQuickPriceData(request: QuickPriceRequest): Observable<QuickPriceListResponse>  {
+    return this.payfactorsApiService.post<QuickPriceListResponse>(`${this.endpoint}/GetQuickPriceData`, request);
+  }
+
+  getQuickPriceJobData(request: QuickPriceJobDataRequest): Observable<QuickPriceJobDataResponse>  {
+    return this.payfactorsApiService.post<QuickPriceJobDataResponse>(`${this.endpoint}/GetQuickPriceJobData`, request);
   }
 
   getPeerQuickPriceData(context: BaseExchangeDataSearchRequest): Observable<PeerQuickPriceData> {
