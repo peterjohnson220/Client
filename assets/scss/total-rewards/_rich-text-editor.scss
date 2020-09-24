@@ -46,6 +46,7 @@
   }
 
   .ql-editor {
+    height: $rich-text-height;
     padding: 4px 6px;
     overflow-y: hidden;
     .ql-size-large {
@@ -63,7 +64,6 @@
     margin-left: -10px;
     transition: border .6s ease-in-out;
     border: 2px dashed transparent;
-    height: $rich-text-height;
     font-family: inherit;
     font-size: inherit;
   }
