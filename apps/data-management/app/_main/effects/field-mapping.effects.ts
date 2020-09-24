@@ -19,6 +19,7 @@ import * as fromRootState from 'libs/state/state';
 import { PayfactorsApiModelMapper, EntityMappingHelper } from '../helpers';
 import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromOrgDataFieldMappingsActions from '../actions/organizational-data-field-mapping.actions';
+import * as fromConverterSettingsActions from '../actions/converter-settings.actions';
 import * as fromReducers from '../reducers';
 
 @Injectable()
@@ -71,7 +72,10 @@ export class FieldMappingEffects {
 
       return forkJoin(actions).pipe(
         mergeMap((response) => {
-          return [...response, new fromFieldMappingActions.InitFieldMappingCardSuccess()];
+          return [...response,
+            new fromConverterSettingsActions.GetConverterSettings(),
+            new fromFieldMappingActions.InitFieldMappingCardSuccess()
+          ];
         }),
         catchError(error => of(new fromFieldMappingActions.InitFieldMappingCardError()))
       );
@@ -92,9 +96,9 @@ export class FieldMappingEffects {
     }),
     mergeMap(obj => {
       const nextAction = !isEmpty(obj.payfactorsFields.Employees) &&
-        obj.payfactorsFields.Employees.some(field => field.FieldName === 'PayMarket' && isEmpty(field.AssociatedEntity)) ?
-          new fromFieldMappingActions.OpenDefaultPaymarketModal() :
-          new fromFieldMappingActions.SaveMapping();
+      obj.payfactorsFields.Employees.some(field => field.FieldName === 'PayMarket' && isEmpty(field.AssociatedEntity)) ?
+        new fromFieldMappingActions.OpenDefaultPaymarketModal() :
+        new fromFieldMappingActions.SaveMapping();
       return [ nextAction ];
     }),
     catchError((error) => of(new fromFieldMappingActions.SaveMappingError()))
@@ -119,7 +123,10 @@ export class FieldMappingEffects {
     }),
     mergeMap(obj => {
       if (!obj.isDirty) {
-        return [new fromFieldMappingActions.SaveMappingSuccess(obj.connectionSummary.hasConnection)];
+        return [
+          new fromConverterSettingsActions.SaveConverterSettings(),
+          new fromFieldMappingActions.SaveMappingSuccess(obj.connectionSummary.hasConnection)
+        ];
       }
       const mappingPackage = PayfactorsApiModelMapper.createMappingPackage(obj.payfactorsFields);
       return this.mappingsHrisApiService.saveMappingFields(obj.userContext, mappingPackage)
@@ -131,6 +138,7 @@ export class FieldMappingEffects {
 
             return [
               new fromLoaderSettingsActions.SavingLoaderSettings(loaderSettingsDto),
+              new fromConverterSettingsActions.SaveConverterSettings(),
               new fromOrgDataFieldMappingsActions.SavingFieldMappings(loadersMappingPackage),
               new fromFieldMappingActions.SaveMappingSuccess(obj.connectionSummary.hasConnection),
             ];

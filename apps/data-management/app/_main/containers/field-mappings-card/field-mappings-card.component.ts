@@ -11,6 +11,8 @@ export class FieldMappingCardComponent {
   @Input() selectedEntities: string[];
   @Input() sourceName: string;
   @Input() targetName: string;
+  @Input() provider = '';
+  @Input() connectionId: number;
   @ViewChild(NgbTabset, { static: true }) tabSet: NgbTabset;
 
   constructor() { }

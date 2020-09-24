@@ -9,7 +9,7 @@ import isEmpty from 'lodash/isEmpty';
 import * as fromFieldMappingActions from '../../../../actions/field-mapping.actions';
 import * as fromHrisConnectionActions from '../../../../actions/hris-connection.actions';
 import * as fromDataManagementMainReducer from '../../../../reducers';
-import {ConnectionSummary} from '../../../../models';
+import { ConnectionSummary } from '../../../../models';
 
 
 @Component({
@@ -50,7 +50,9 @@ export class FieldMappingPageComponent implements OnInit, OnDestroy {
         return this.router.navigate(['/']);
       }
       this.selectedEntities = connectionSummary.selectedEntities;
-      return this.store.dispatch(new fromFieldMappingActions.InitFieldMappingCard(this.selectedEntities));
+      return [
+        this.store.dispatch(new fromFieldMappingActions.InitFieldMappingCard(this.selectedEntities))
+      ];
     });
   }
 

@@ -6,12 +6,14 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
+import { OrgDataEntityType } from 'libs/constants';
+import { generateMockConverterSettings } from 'libs/models';
 
 import * as fromFieldMappingReducer from '../../reducers';
 import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
-import { EntityMappingComponent } from './entity-mapping.component';
+import * as fromFConverterSettingsActions from '../../actions/converter-settings.actions';
 import { generateMockProviderEntityFields, generateMockPayfactorsEntityFields } from '../../models';
-import { OrgDataEntityType } from 'libs/constants';
+import { EntityMappingComponent } from './entity-mapping.component';
 
 describe('Data Management - Main - Entity Mapping Component', () => {
   let instance: EntityMappingComponent;
@@ -40,6 +42,7 @@ describe('Data Management - Main - Entity Mapping Component', () => {
     instance.entityType = OrgDataEntityType.Employees;
     instance.providerFields = generateMockProviderEntityFields(OrgDataEntityType.Employees);
     instance.payfactorsFields = generateMockPayfactorsEntityFields(OrgDataEntityType.Employees);
+    instance.provider = '';
 
     fixture.detectChanges();
   });
@@ -80,5 +83,22 @@ describe('Data Management - Main - Entity Mapping Component', () => {
     instance.addAssociatedItem(0, entityToAdd);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch an action when dateformat dropdown changes', () => {
+    const mockEvent = {
+      target: {
+        value: 'yyyy-MM-ddzzz'
+      }
+    };
+    const mockConverterSetting = generateMockConverterSettings();
+    const expectedAction = new fromFConverterSettingsActions.AddConverterSetting(mockConverterSetting);
+
+    spyOn(store, 'dispatch');
+
+    instance.onDateFormatSelected(mockEvent);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+
   });
 });

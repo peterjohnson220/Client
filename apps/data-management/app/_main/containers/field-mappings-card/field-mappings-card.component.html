@@ -6,10 +6,12 @@
     </ng-template>
     <ng-template ngbTabContent>
       <pf-entity-mapping
+          [connectionId]="connectionId"
           [entityType]="entity"
           [entityGroupName]="entity.toLowerCase() + '-associated-bag'"
           [sourceName]="sourceName"
-          [targetName]="targetName">
+          [targetName]="targetName"
+          [provider]="provider">
       </pf-entity-mapping>
     </ng-template>
   </ngb-tab>

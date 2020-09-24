@@ -15,3 +15,4 @@ export * from './connection-summary-model';
 export * from './constants';
 export * from './db-entitytype.enum';
 export * from './jdm-view.model';
+export * from './converters';

@@ -35,7 +35,7 @@ export const initialState: State = {
   defaultPaymarketLoading: false,
   defaultPaymarketLoadingError: false,
   defaultPaymarketModalOpen: false,
-  isDirty: false
+  isDirty: false,
 };
 
 export function reducer(state: State = initialState, action: fromFieldMappingActions.Actions) {
@@ -116,7 +116,6 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
           action.payload.entityType,
           action.payload.entity,
           cloneDeep(state.providerFields));
-
       return {
         ...state,
         payfactorsFields: updatedPayfactorsFields,
@@ -230,6 +229,25 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
       return {
         ...state,
         loadingError: true
+      };
+    }
+    case fromFieldMappingActions.ADD_CONVERTER_OPTIONS: {
+      const updatedPayfactorsFields = cloneDeep(state.payfactorsFields);
+      if (updatedPayfactorsFields.Employees.length > 0) {
+        if (action.payload.entityId) {
+          // TODO: use this block for adding a converter to an individual entity.
+        } else {
+          updatedPayfactorsFields.Employees.forEach(field => {
+            if (field.AssociatedEntity?.length > 0) {
+              field.AssociatedEntity[0] = EntityMappingHelper.addConverterOptions(field.DataType, field.AssociatedEntity[0], action.payload.converterOptions);
+            }
+          });
+        }
+      }
+      return {
+        ...state,
+        payfactorsFields: updatedPayfactorsFields,
+        isDirty: true
       };
     }
     default:
