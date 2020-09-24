@@ -114,7 +114,7 @@ export class JobsCardEffects {
         const actions = [];
 
         actions.push(new fromComphubPageActions.ResetAccessiblePages());
-        actions.push(new fromJobGridActions.ClearSelectedJobData());
+        actions.push(new fromComphubPageActions.ClearSelectedJobData());
         actions.push( new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: payload.jobTitle}));
         actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets]));
         actions.push(new fromComphubPageActions.UpdateFooterContext());
@@ -133,7 +133,7 @@ export class JobsCardEffects {
       ofType(fromJobsCardActions.CLEAR_SELECTED_JOB),
       mergeMap(() => [
         new fromComphubPageActions.ResetAccessiblePages(),
-        new fromJobGridActions.ClearSelectedJobData(),
+        new fromComphubPageActions.ClearSelectedJobData(),
         new fromComphubPageActions.UpdateFooterContext()
       ])
     );
@@ -190,47 +190,11 @@ export class JobsCardEffects {
         }
       ));
 
-  @Effect()
-  setSelectedJobData$ = this.actions$
-    .pipe(
-      ofType(fromJobGridActions.SET_SELECTED_JOB_DATA),
-      withLatestFrom(
-        this.store.select(fromComphubMainReducer.getWorkflowContext),
-        (action: fromJobGridActions.SetSelectedJobData, workflowContext ) => ({ action, workflowContext })
-      ),
-      mergeMap((data) => {
-        const actions = [];
-        if (data.workflowContext.quickPriceType === QuickPriceType.PEER) {
-          actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: `Payfactors ${data.action.payload.JobTitle}`}));
-          actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary]));
-        } else {
-          actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: `Payfactors ${data.action.payload.JobTitle}`}));
-          actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Summary]));
-        }
-        actions.push(new fromSummaryCardActions.ResetCreateProjectStatus());
-        actions.push(new fromComphubPageActions.UpdateFooterContext());
-        return actions;
-       })
-    );
-
-  @Effect()
-  clearSelectedJobData$ = this.actions$
-    .pipe(
-      ofType(fromJobGridActions.CLEAR_SELECTED_JOB_DATA),
-      mergeMap(() => {
-        return [
-          new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Summary]),
-          new fromSummaryCardActions.ResetCreateProjectStatus()
-        ];
-      })
-    );
-
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubReducer.State>,
     private comphubApiService: ComphubApiService,
     private jobSearchApiService: JobSearchApiService,
     private exchangeJobSearchApiService: ExchangeJobSearchApiService
-  ) {
-  }
+  ) {}
 }

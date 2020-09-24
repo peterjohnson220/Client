@@ -200,6 +200,11 @@ export const getFooterContext = createSelector(
   fromComphubPageReducer.getFooterContext
 );
 
+export const getSelectedJobData = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getSelectedJobData
+);
+
 // Markets Card
 export const getSelectedPaymarket = createSelector(
   selectMarketsCardState,
@@ -384,9 +389,4 @@ export const getLoadingJobGridResults = createSelector(
 export const getLoadingJobGridResultsError = createSelector(
   selectJobGridState,
   fromJobGridReducer.getLoadingJobGridResultsError
-);
-
-export const getSelectedJobData = createSelector(
-  selectJobGridState,
-  fromJobGridReducer.getSelectedJobData
 );

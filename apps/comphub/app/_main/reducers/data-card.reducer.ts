@@ -52,8 +52,7 @@ export function reducer(state: State = initialState, action: fromDataCardActions
       return {
         ...state,
         loadingPeerJobData: false,
-        loadingPeerJobDataError: false,
-        selectedJobData: action.payload.jobData
+        loadingPeerJobDataError: false
       };
     }
     case fromDataCardActions.GET_PEER_QUICK_PRICE_DATA_ERROR: {

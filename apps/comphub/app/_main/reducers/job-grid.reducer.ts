@@ -1,13 +1,12 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromJobGridActions from '../actions/job-grid.actions';
-import { JobData, JobGridData } from '../models';
+import { JobGridData } from '../models';
 
 export interface State {
   loading: boolean;
   loadingError: boolean;
   jobResults: JobGridData;
-  selectedJobData: JobData;
 }
 
 const initialState: State = {
@@ -16,8 +15,7 @@ const initialState: State = {
   jobResults: {
     Data: [],
     Total: 0
-  },
-  selectedJobData: null
+  }
 };
 
 export function reducer(state: State = initialState, action: fromJobGridActions.Actions) {
@@ -54,18 +52,6 @@ export function reducer(state: State = initialState, action: fromJobGridActions.
         jobResults: dataClone
       };
     }
-    case fromJobGridActions.SET_SELECTED_JOB_DATA: {
-      return {
-        ...state,
-        selectedJobData: action.payload
-      };
-    }
-    case fromJobGridActions.CLEAR_SELECTED_JOB_DATA: {
-      return {
-        ...state,
-        selectedJobData: null
-      };
-    }
     case fromJobGridActions.TOGGLE_JOB_DESCRIPTION: {
       const newJobResults = cloneDeep(state.jobResults);
       const jobToShowJd = newJobResults.Data.find(jr => jr.JobId === action.payload.jobId);
@@ -85,4 +71,3 @@ export function reducer(state: State = initialState, action: fromJobGridActions.
 export const getLoadingJobGridResults = (state: State) => state.loading;
 export const getLoadingJobGridResultsError = (state: State) => state.loadingError;
 export const getJobGridResults = (state: State) => state.jobResults;
-export const getSelectedJobData = (state: State) => state.selectedJobData;

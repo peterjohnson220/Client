@@ -5,7 +5,7 @@ import { QuickPriceType } from 'libs/constants';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { AccordionCard, AccordionCards, ComphubPages } from '../data';
-import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, WorkflowContext, FooterContext, FooterHelper } from '../models';
+import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, WorkflowContext, FooterContext, JobData } from '../models';
 
 export interface State {
   cards: AccordionCard[];
@@ -20,6 +20,7 @@ export interface State {
   workflowContext: WorkflowContext;
   isQuickPriceHistoryModalOpen: boolean;
   footerContext: FooterContext;
+  selectedJobData: JobData;
 }
 
 const initialState: State = {
@@ -40,7 +41,8 @@ const initialState: State = {
     quickPriceType: QuickPriceType.ENTERPRISE
   },
   isQuickPriceHistoryModalOpen: false,
-  footerContext: null
+  footerContext: null,
+  selectedJobData: null
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
@@ -114,15 +116,9 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
     case fromComphubPageActions.UPDATE_CARD_SUBTITLE: {
       const newCards = cloneDeep(state.cards);
       newCards.find(c => c.Id === action.payload.cardId).Subtitle = action.payload.subTitle;
-      const selectedPageId = state.selectedPageId;
-      const selectedPageIndex = newCards.findIndex(c => c.Id === selectedPageId);
       return {
         ...state,
-        cards: newCards,
-        workflowContext: {
-          ...state.workflowContext,
-          selectedPageIndex: selectedPageIndex
-        }
+        cards: newCards
       };
     }
     case fromComphubPageActions.SET_JOB_PRICING_LIMIT_INFO: {
@@ -210,6 +206,18 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         footerContext: action.payload
       };
     }
+    case fromComphubPageActions.SET_SELECTED_JOB_DATA: {
+      return {
+        ...state,
+        selectedJobData: action.payload
+      };
+    }
+    case fromComphubPageActions.CLEAR_SELECTED_JOB_DATA: {
+      return {
+        ...state,
+        selectedJobData: null
+      };
+    }
     default: {
       return state;
     }
@@ -240,3 +248,4 @@ export const getJobPricingBlocked = createSelector(
 );
 export const getIsQuickPriceHistoryModalOpen = (state: State) => state.isQuickPriceHistoryModalOpen;
 export const getFooterContext = (state: State) => state.footerContext;
+export const getSelectedJobData = (state: State) => state.selectedJobData;
