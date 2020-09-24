@@ -2,16 +2,16 @@
   <div>
     <h5>Peer Data Cut</h5>
     <div class="d-flex">
-      <div *ngIf="pricingMatch['ExchangeJobDescriptions']"  class="pricingMatchPropertiesContainer pr-3">
+      <div *ngIf="!!pricingMatch['ExchangeJobDescriptions']?.join().length"  class="pricingMatchPropertiesContainer pr-3">
         <strong class="pf-brand-secondary-color pr-1">Job Description</strong>
         <pf-copy-to-clipboard-button [toolTipText] = "'Copy Job Description'" [copyText]="pricingMatch['ExchangeJobDescriptions']"></pf-copy-to-clipboard-button>
-        <div class="pricingMatchProperties">
+        <div class="pricingMatchProperties" data-qa-id="txt-pricing-match-job-description">
           <div>{{pricingMatch['ExchangeJobDescriptions']}}</div>
         </div>
       </div>
       <div class="pricingMatchPropertiesContainer pr-3">
         <strong class="pf-brand-secondary-color">Data Cut Details</strong>
-        <div class="pricingMatchProperties">
+        <div class="pricingMatchProperties" data-qa-id="txt-pricing-match-details">
           <pf-pricing-match-property [value]="pricingMatch['ExchangeScopeName']" [label]="'Exchange Scope'" [labelPlural]="'Exchange Scopes'" [singleValue]="true"></pf-pricing-match-property>
           <pf-pricing-match-property [value]="pricingMatch['ExchangeJobTitles']" [label]="'Exchange Job'" [labelPlural]="'Exchange Jobs'"></pf-pricing-match-property>
           <pf-pricing-match-property [value]="pricingMatch['ExchangeNames']" [label]="'Exchange'" [labelPlural]="'Exchanges'"></pf-pricing-match-property>
