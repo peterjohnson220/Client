@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
@@ -110,6 +110,7 @@ export class FieldMapperComponent implements OnInit, OnChanges {
         this.addMapping(internalField, mapping.ClientField);
       }
     }
+    this.fireCompleteEvent();
   }
 
   changeIsFullReplace(isFullReplace: boolean) {
