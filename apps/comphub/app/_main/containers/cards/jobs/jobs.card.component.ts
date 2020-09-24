@@ -94,10 +94,12 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   }
 
   handleJobSearchFilterChange(searchTerm: string): void {
-    if (searchTerm) {
+    if (searchTerm?.length > 0) {
       this.workflowContext.quickPriceType === QuickPriceType.PEER ?
       this.store.dispatch(new fromJobsCardActions.GetExchangeJobSearchOptions(searchTerm)) :
       this.store.dispatch(new fromJobsCardActions.GetJobSearchOptions(searchTerm));
+    } else if (this.selectedJob) {
+      this.store.dispatch(new fromJobsCardActions.ClearSelectedJob());
     }
   }
 
