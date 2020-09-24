@@ -8,6 +8,7 @@ import { QuickPriceType } from 'libs/constants';
 
 import * as fromComphubMainReducer from '../../reducers';
 import * as fromJobGridActions from '../../actions/job-grid.actions';
+import * as fromComphubPageActions from '../../actions/comphub-page.actions';
 import { JobData, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration, WorkflowContext } from '../../models';
 import { DataCardHelper } from '../../helpers';
 
@@ -95,7 +96,7 @@ export class JobGridComponent implements OnInit, OnDestroy {
   }
 
   handleSelectionChanged(job: JobData) {
-    this.store.dispatch(new fromJobGridActions.SetSelectedJobData(job));
+    this.store.dispatch(new fromComphubPageActions.SetSelectedJobData(job));
   }
 
   handleExpandJdClicked(clickEvent: MouseEvent, jobId: number) {

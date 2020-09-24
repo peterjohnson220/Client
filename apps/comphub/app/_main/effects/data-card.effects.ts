@@ -29,7 +29,8 @@ export class DataCardEffects {
           .pipe(
             mergeMap((response) => {
               return [
-                new fromDataCardActions.GetPeerQuickPriceDataSuccess({jobData: response.JobData}),
+                new fromDataCardActions.GetPeerQuickPriceDataSuccess(),
+                new fromComphubPageActions.SetSelectedJobData(response.JobData),
                 new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary])
               ];
               }),

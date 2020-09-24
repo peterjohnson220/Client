@@ -15,7 +15,7 @@ import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
-import * as fromJobGridActions from '../actions/job-grid.actions';
+import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import * as fromComphubMainReducer from '../reducers';
 
 import { PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
@@ -188,7 +188,7 @@ export class ComphubPageEffects {
       mergeMap((action) => {
         const actions: Action[] = [
           new fromJobsCardActions.GetTrendingJobs(),
-          new fromJobGridActions.ClearSelectedJobData(),
+          new fromComphubPageActions.ClearSelectedJobData(),
           new fromComphubPageActions.ResetAccessiblePages(),
           new fromComphubPageActions.ResetPagesAccessed(),
           new fromJobsCardActions.ClearSelectedJob(),
@@ -204,6 +204,42 @@ export class ComphubPageEffects {
         }
 
         return actions;
+      })
+    );
+
+  @Effect()
+  setSelectedJobData$ = this.actions$
+    .pipe(
+      ofType(fromComphubPageActions.SET_SELECTED_JOB_DATA),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getWorkflowContext),
+        (action: fromComphubPageActions.SetSelectedJobData, workflowContext ) =>
+          ({ action, workflowContext })
+      ),
+      mergeMap((data) => {
+        const actions = [];
+        if (data.workflowContext.quickPriceType === QuickPriceType.PEER) {
+          actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: `Payfactors ${data.action.payload.JobTitle}`}));
+          actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary]));
+        } else {
+          actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: `Payfactors ${data.action.payload.JobTitle}`}));
+          actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Summary]));
+        }
+        actions.push(new fromSummaryCardActions.ResetCreateProjectStatus());
+        actions.push(new fromComphubPageActions.UpdateFooterContext());
+        return actions;
+        })
+    );
+
+  @Effect()
+  clearSelectedJobData$ = this.actions$
+    .pipe(
+      ofType(fromComphubPageActions.CLEAR_SELECTED_JOB_DATA),
+      mergeMap(() => {
+        return [
+          new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Summary]),
+          new fromSummaryCardActions.ResetCreateProjectStatus()
+        ];
       })
     );
 

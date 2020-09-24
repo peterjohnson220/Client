@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Action } from '@ngrx/store';
 
 import { ComphubPages } from '../data';
-import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, FooterContextRequest, FooterContext } from '../models';
+import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, FooterContext, JobData } from '../models';
 
 export const INIT = '[Comphub/Comphub Page] Init Comphub Page';
 export const NAVIGATE_TO_CARD = '[Comphub/Comphub Page] Navigate to Card';
@@ -27,6 +27,8 @@ export const SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT = '[Comphub/Comphub Page] 
 export const SET_QUICK_PRICE_HISTORY_MODAL_OPEN = '[Comphub/Comphub Page] Set Quick Price History Modal Open';
 export const UPDATE_FOOTER_CONTEXT = '[Comphub/Comphub Page] Update Footer Context';
 export const SET_FOOTER_CONTEXT = '[Comphub/Comphub Page] Set Footer Context';
+export const SET_SELECTED_JOB_DATA = '[Comphub/Comphub Page] Set Selected Job Data';
+export const CLEAR_SELECTED_JOB_DATA = '[Comphub/Comphub Page] Clear Selected Job Data';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -153,6 +155,16 @@ export class SetFooterContext implements Action {
   constructor(public payload: FooterContext) {}
 }
 
+export class SetSelectedJobData implements Action {
+  readonly type = SET_SELECTED_JOB_DATA;
+  constructor(public payload: JobData) {}
+}
+
+export class ClearSelectedJobData implements Action {
+  readonly type = CLEAR_SELECTED_JOB_DATA;
+  constructor() {}
+}
+
 export type Actions
   = Init
   | NavigateToCard
@@ -175,4 +187,6 @@ export type Actions
   | SetQuickPriceTypeInWorkflowContext
   | SetQuickPriceHistoryModalOpen
   | UpdateFooterContext
-  | SetFooterContext;
+  | SetFooterContext
+  | SetSelectedJobData
+  | ClearSelectedJobData;

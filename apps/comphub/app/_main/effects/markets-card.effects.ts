@@ -153,7 +153,7 @@ export class MarketsCardEffects {
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
         (action: fromMarketsCardActions.SetSelectedPaymarket, selectedPayMarket) => ({ action, selectedPayMarket })),
       mergeMap((data) => [
-          new fromJobGridActions.ClearSelectedJobData(),
+          new fromComphubPageActions.ClearSelectedJobData(),
           new fromComphubPageActions.UpdateCardSubtitle({
             cardId: ComphubPages.Markets,
             subTitle: data.selectedPayMarket.PayMarketName

@@ -42,7 +42,7 @@ export class GetPeerQuickPriceData implements Action {
 export class GetPeerQuickPriceDataSuccess implements Action {
   readonly type = GET_PEER_QUICK_PRICE_DATA_SUCCESS;
 
-  constructor(public payload: {jobData: JobData}) {}
+  constructor() {}
 }
 
 export class GetPeerQuickPriceDataError implements Action {
