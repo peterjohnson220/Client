@@ -140,6 +140,11 @@
       </div>
 
       <div class="summary">
+        <pf-async-container [loading]="calculatingJobData$ | async"
+                            [loadingErrorMessage]="'Error loading job data'"
+                            [hideReloadButton]="true"
+                            class="flex-grow-1">
+        </pf-async-container>
         <div class="header">
           <div class="job-title" [attr.data-qa-id]="'cnt-jobTitle'">
             {{jobData?.JobTitle}}

@@ -375,6 +375,16 @@ export const getMaxPaymarketMinimumWage = createSelector(
   fromSummaryCardReducer.getMaxPaymarketMinimumWage
 );
 
+export const getRecalculatingJobData = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getRecalculatingJobData
+);
+
+export const getRecalculatingJobDataError = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getRecalculatingJobDataError
+);
+
 // Job Grid
 export const getJobGridResults = createSelector(
   selectJobGridState,

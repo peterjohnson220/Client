@@ -25,6 +25,9 @@ export const TOGGLE_GLOSSARY_DISPLAY = '[Comphub/Summary Card] Toggle Glossary D
 export const SET_MIN_PAYMARKET_MINIMUM_WAGE = '[Comphub/Summary Card] Set Min Paymarket Minimum Wage';
 export const SET_MAX_PAYMARKET_MINIMUM_WAGE = '[Comphub/Summary Card] Set Max Paymarket Minimum Wage';
 export const PRICE_NEW_PEER_JOB = '[Comphub/Summary Card] Price New Peer Job';
+export const RECALCULATE_JOB_DATA = '[Comphub/Summary Card] Recalculate Job';
+export const RECALCULATE_JOB_DATA_SUCCESS = '[Comphub/Summary Card] Recalculate Job Success';
+export const RECALCULATE_JOB_DATA_ERROR = '[Comphub/Summary Card] Recalculate Job Error';
 
 export class PriceNewJob implements Action {
   readonly type = PRICE_NEW_JOB;
@@ -150,6 +153,18 @@ export class PriceNewPeerJob implements Action {
   readonly type = PRICE_NEW_PEER_JOB;
 }
 
+export class RecalculateJobData implements Action {
+  readonly type = RECALCULATE_JOB_DATA;
+}
+
+export class RecalculateJobDataSuccess implements Action {
+  readonly type = RECALCULATE_JOB_DATA_SUCCESS;
+}
+
+export class RecalculateJobDataError implements Action {
+  readonly type = RECALCULATE_JOB_DATA_ERROR;
+}
+
 export type Actions
   = PriceNewJob
   | GetNationalJobTrendData
@@ -171,4 +186,7 @@ export type Actions
   | ToggleGlossaryDisplay
   | SetMinPaymarketMinimumWage
   | SetMaxPaymarketMinimumWage
-  | PriceNewPeerJob;
+  | PriceNewPeerJob
+  | RecalculateJobData
+  | RecalculateJobDataSuccess
+  | RecalculateJobDataError;

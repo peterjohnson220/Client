@@ -2,7 +2,7 @@ import {
   CountryDataSetResponse,
   JobSalaryTrendResponse,
   QuickPriceMarketData,
-  QuickPriceResponse,
+  QuickPriceListResponse,
   TrendingJobGroupResponse
 } from 'libs/models/payfactors-api/comphub';
 
@@ -43,10 +43,10 @@ export class PayfactorsApiModelMapper {
     });
   }
 
-  static mapPriceDataToGridDataResult(response: QuickPriceResponse): JobGridData {
+  static mapPriceDataToGridDataResult(response: QuickPriceListResponse): JobGridData {
     return {
       Total: response.Count,
-      Data: this.mapQuickPriceMarketDataToJobData(response.Data)
+      Data: response.Data.map(x => this.mapQuickPriceMarketDataToJobData(x))
     };
   }
 
@@ -69,29 +69,27 @@ export class PayfactorsApiModelMapper {
     });
   }
 
-  static mapQuickPriceMarketDataToJobData(qpmd: QuickPriceMarketData[]): JobData[] {
-    return qpmd.map(q => {
-      return {
-        JobId: q.JobId,
-        JobCode: q.JobCode,
-        JobTitle: q.JobTitle,
-        JobDescription: q.JobDescription,
-        Education: q.Education,
-        FLSAStatus: q.FLSAStatus,
-        YearsOfExperience: q.YearsOfExperience,
-        ManagesEmployees: q.ManagesEmployees,
-        Skills: q.Skills,
-        Base25: q.Base25,
-        Base50: q.Base50,
-        Base75: q.Base75,
-        Tcc25: q.Tcc25,
-        Tcc50: q.Tcc50,
-        Tcc75: q.Tcc75,
-        Incs: q.Incs,
-        Orgs: q.Orgs,
-        ShowJd: false
-      };
-    });
+  static mapQuickPriceMarketDataToJobData(q: QuickPriceMarketData): JobData {
+    return {
+      JobId: q.JobId,
+      JobCode: q.JobCode,
+      JobTitle: q.JobTitle,
+      JobDescription: q.JobDescription,
+      Education: q.Education,
+      FLSAStatus: q.FLSAStatus,
+      YearsOfExperience: q.YearsOfExperience,
+      ManagesEmployees: q.ManagesEmployees,
+      Skills: q.Skills,
+      Base25: q.Base25,
+      Base50: q.Base50,
+      Base75: q.Base75,
+      Tcc25: q.Tcc25,
+      Tcc50: q.Tcc50,
+      Tcc75: q.Tcc75,
+      Incs: q.Incs,
+      Orgs: q.Orgs,
+      ShowJd: false
+    };
   }
 
   static mapJobSalaryTrendToTrendData(jobSalaryTrendResponse: JobSalaryTrendResponse): JobSalaryTrend {

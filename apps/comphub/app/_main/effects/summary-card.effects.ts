@@ -21,6 +21,7 @@ import { ComphubPages } from '../data';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromComphubMainReducer from '../reducers';
 import { QuickPriceHistoryContext } from '../models';
+import * as fromJobGridActions from '../actions/job-grid.actions';
 
 @Injectable()
 export class SummaryCardEffects {
@@ -197,6 +198,40 @@ export class SummaryCardEffects {
         new fromBasicDataGridActions.GetCount(QuickPriceHistoryContext.gridId)
       ])
     );
+
+  @Effect()
+  recalculateJobData$ = this.actions$
+    .pipe(
+      ofType(fromSummaryCardActions.RECALCULATE_JOB_DATA),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        this.store.select(fromComphubMainReducer.getSelectedPaymarket),
+        this.store.select(fromComphubMainReducer.getSelectedJobData),
+        (action: fromJobGridActions.GetQuickPriceMarketData, dataSet, paymarket, jobData) => ({ action, dataSet, paymarket, jobData })
+      ),
+      switchMap((data) => {
+          return this.comphubApiService.getQuickPriceJobData({
+            JobId: data.jobData.JobId,
+            CompanyPaymarketId: data.paymarket.CompanyPayMarketId,
+            CountryCode: data.dataSet.CountryCode
+          })
+            .pipe(
+              mergeMap((response) => {
+                const actions = [];
+                const jobData = PayfactorsApiModelMapper.mapQuickPriceMarketDataToJobData(response.Data);
+                actions.push(new fromComphubPageActions.SetSelectedJobData(jobData));
+                actions.push(new fromComphubPageActions.SetJobPricingLimitInfo(response.PricingLimitInfo));
+                actions.push(new fromSummaryCardActions.SetMinPaymarketMinimumWage(response.MinPaymarketMinimumWage));
+                actions.push(new fromSummaryCardActions.SetMaxPaymarketMinimumWage(response.MaxPaymarketMinimumWage));
+                actions.push(new fromSummaryCardActions.RecalculateJobDataSuccess());
+                actions.push(new fromSummaryCardActions.AddCompletedPricingHistory(jobData));
+                return actions;
+              }),
+              catchError((error) => of(new fromSummaryCardActions.RecalculateJobDataError(),
+                new fromComphubPageActions.HandleApiError(error)))
+            );
+        }
+      ));
 
   constructor(
     private actions$: Actions,

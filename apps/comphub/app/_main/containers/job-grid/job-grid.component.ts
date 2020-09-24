@@ -118,8 +118,7 @@ export class JobGridComponent implements OnInit, OnDestroy {
       CompanyPayMarketId: null,
       Take: this.gridContext.take,
       Skip: this.gridContext.skip,
-      Sort: this.gridContext.sortBy,
-      WithoutData: !this.gridHasData
+      Sort: this.gridContext.sortBy
     }));
   }
 

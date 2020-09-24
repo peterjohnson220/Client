@@ -1,8 +1,15 @@
 import { JobPricingLimitInfoResponse } from './job-pricing-limit-info-response.model';
 
-export interface QuickPriceResponse {
+export interface QuickPriceListResponse extends QuickPriceResponse {
   Count: number;
   Data: QuickPriceMarketData[];
+}
+
+export interface QuickPriceJobDataResponse extends QuickPriceResponse {
+  Data: QuickPriceMarketData;
+}
+
+export interface QuickPriceResponse {
   PricingLimitInfo: JobPricingLimitInfoResponse;
   MinPaymarketMinimumWage: number;
   MaxPaymarketMinimumWage: number;
