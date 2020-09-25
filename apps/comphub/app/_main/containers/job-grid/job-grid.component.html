@@ -62,17 +62,21 @@
             <td class="hide-when-small">
               {{job.ManagesEmployees ? 'Yes': 'No'}}
             </td>
-            <td *ngIf="!!job.Base50" class="number-column">
-              {{
-                job.Base50 |
-                currency:workflowContext?.activeCountryDataSet?.CurrencyCode : 'symbol-narrow' : '1.0-0'
-              }}
+            <td *ngIf="gridHasData" class="number-column">
+              <span *ngIf="!!job.Base50; else noDataTemplate">
+                {{
+                  job.Base50 |
+                  currency:workflowContext?.activeCountryDataSet?.CurrencyCode : 'symbol-narrow' : '1.0-0'
+                }}
+              </span>
             </td>
-            <td *ngIf="!!job.Tcc50" class="number-column">
-              {{
-                job.Tcc50 |
-                currency:workflowContext?.activeCountryDataSet?.CurrencyCode : 'symbol-narrow' : '1.0-0'
-              }}
+            <td *ngIf="gridHasData" class="number-column">
+              <span *ngIf="!!job.Tcc50; else noDataTemplate">
+                {{
+                  job.Tcc50 |
+                  currency:workflowContext?.activeCountryDataSet?.CurrencyCode : 'symbol-narrow' : '1.0-0'
+                }}
+              </span>
             </td>
             <td class="text-center">
               <div class="custom-control custom-radio">
@@ -101,3 +105,7 @@
     <span class="borderless-blue-btn" (click)="handleLoadMore()">Load More</span>
   </div>
 </div>
+
+<ng-template #noDataTemplate>
+  <span>-</span>
+</ng-template>
