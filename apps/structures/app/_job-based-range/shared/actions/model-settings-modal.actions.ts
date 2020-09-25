@@ -4,7 +4,6 @@ import { RoundingSettingsDataObj } from 'libs/models/structures';
 
 import { ControlPoint, Currency, RangeGroupMetadata } from '../models';
 import { Pages } from '../constants/pages';
-import { AdvancedSettings } from '../models/advanced-settings.model';
 
 export const OPEN_MODAL = '[Structures - Job Based Range - Model Settings] Open Modal';
 export const CLOSE_MODAL = '[Structures - Job Based Range - Model Settings] Close Modal';
@@ -79,7 +78,7 @@ export class GetStructureNameSuggestionsError implements Action {
 export class SaveModelSettings implements Action {
   readonly type = SAVE_MODEL_SETTINGS;
 
-  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPage: Pages, rounding: RoundingSettingsDataObj, advancedSettings: AdvancedSettings }) {}
+  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPage: Pages, rounding: RoundingSettingsDataObj }) {}
 }
 
 export class SaveModelSettingsSuccess implements Action {

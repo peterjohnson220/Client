@@ -14,6 +14,7 @@ import { generateMockStructureRangeDistributionTypes, generateMockRangeDistribut
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import { RangeRoundingComponent } from './range-rounding.component';
+import { generateMockRangeAdvancedSetting } from '../../models';
 
 describe('Job Based Ranges - Rounding Settings', () => {
   let instance: RangeRoundingComponent;
@@ -66,8 +67,8 @@ describe('Job Based Ranges - Rounding Settings', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting()
-
+      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
     instance.roundingSettings = generateMockRoundingSettingsDataObj();
@@ -127,5 +128,4 @@ describe('Job Based Ranges - Rounding Settings', () => {
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction3);
 
   });
-
 });

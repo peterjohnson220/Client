@@ -1,7 +1,23 @@
-<div class="p-3 pr-5">
-  <div class="form-group">
-    <input #cbxDoNotAllowMidToDropBelowCurrent type="checkbox" (change)="onPreventMidsBelowCurrentChanged(cbxDoNotAllowMidToDropBelowCurrent.checked)" [checked]="advancedSettings.PreventMidsBelowCurrent" id="cbxDoNotAllowMidToDropBelowCurrent" class="modelingCheckbox"> <label for="cbxDoNotAllowMidToDropBelowCurrent"> Do not allow modeled midpoint to go below current midpoint</label>
+<div class="p-3 pr-5" [formGroup]="advancedSettingForm">
+  <div class="form-group" formGroupName="RangeAdvancedSetting">
+    <label for="PreventMidsBelowCurrent">
+      <input type="checkbox" id="PreventMidsBelowCurrent" value="true" formControlName="PreventMidsBelowCurrent">
+      Do not allow modeled midpoint to go below current midpoint
+    </label>
+    <div class="font-weight-bold no-market-data-header">Building ranges for jobs with no market data</div>
+    <div formGroupName="MissingMarketDataType">
+      <div class="no-market-data-item">
+        <label for="LeaveValuesBlank">
+          <input type="radio" id="LeaveValuesBlank" value="{{getMissingMarketDataTypeValue('LeaveValuesBlank')}}" formControlName="Type">
+          Leave midpoints blank if there is no market data
+        </label>
+      </div>
+      <div class="no-market-data-item">
+        <label for="UsePublishedRange">
+          <input type="radio" id="UsePublishedRange" value="{{getMissingMarketDataTypeValue('UsePublishedRange')}}" formControlName="Type">
+          Use published range if no market data exists
+        </label>
+      </div>
+    </div>
   </div>
-
 </div>
-

@@ -15,7 +15,8 @@ import {
   OverrideAndSaveRangeFieldRequest,
   DuplicateModelResponse,
   DuplicateModelRequest,
-  RevertRangeChangesRequest, AdvancedSettingsResponse, RevertRangeResponse
+  RevertRangeChangesRequest,
+  RevertRangeResponse
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange, CompanyStructureRangeOverride } from 'libs/models/structures';
 
@@ -62,12 +63,6 @@ export class StructureModelingApiService {
 
   addJobsFromSearchToRangeGroup(request: JobSearchRequestStructuresRangeGroup): Observable<CompanyStructureRange[]> {
     return this.payfactorsApiService.post<CompanyStructureRange[]>(`${this.endpoint}/AddAllJobRangesFromSearch`, request);
-  }
-
-  getAdvancedSettings(rangeGroupId: number): Observable<AdvancedSettingsResponse> {
-    return this.payfactorsApiService.get<AdvancedSettingsResponse>(`${this.endpoint}/GetAdvancedSettings`, {
-      params: { rangeGroupId }
-    });
   }
 
   getOverriddenRanges(rangeGroupId: number): Observable<any> {

@@ -10,12 +10,13 @@ import { RoundingSettingsDataObj } from 'libs/models/structures';
 import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
 import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { AdvancedSettings, ControlPoint, Currency, RangeGroupMetadata } from '../../models';
+import { ControlPoint, Currency, RangeGroupMetadata } from '../../models';
 import { Pages } from '../../constants/pages';
 import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
@@ -32,7 +33,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() page: Pages;
   @ViewChild(RangeDistributionSettingComponent, { static: false }) public rdSettingComponent: RangeDistributionSettingComponent;
 
-
   modalOpen$: Observable<boolean>;
   metaData$: Observable<RangeGroupMetadata>;
   currenciesAsyncObj$: Observable<AsyncStateObj<Currency[]>>;
@@ -41,8 +41,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   savingModelSettingsAsyncObj$: Observable<AsyncStateObj<null>>;
   modelNameExistsFailure$: Observable<boolean>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
-  advancedSettings$: Observable<AdvancedSettings>;
-
 
   enableJobRangeTypes$: Observable<boolean>;
 
@@ -51,7 +49,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   metadataSub: Subscription;
   modalOpenSub: Subscription;
   modelNameExistsFailureSub: Subscription;
-  advancedSettingsSub: Subscription;
   roundingSettingsSub: Subscription;
   enableJobRangeTypesSub: Subscription;
 
@@ -64,7 +61,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   attemptedSubmit: boolean;
   modelNameExistsFailure: boolean;
   isNewModel: boolean;
-  advancedSettings: AdvancedSettings;
   roundingSettings: RoundingSettingsDataObj;
   activeTab: string;
   enableJobRangeTypes: boolean;
@@ -81,7 +77,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
-    this.advancedSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getAdvancedSettings));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
     // delay(0) to push this into the next VM turn to avoid expression changed errors
     this.modalOpen$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelSettingsModalOpen), delay(0));
@@ -127,6 +122,41 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   buildForm() {
+    let advancedSettingForGroup;
+    if (this.metadata.RangeAdvancedSetting !== null) {
+      advancedSettingForGroup = new FormGroup({
+        'PreventMidsBelowCurrent': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
+        'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
+          'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled),
+          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage)
+        }),
+        'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
+          'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Enabled),
+          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Percentage)
+        }),
+        'MissingMarketDataType': new FormGroup({
+            'Type': new FormControl(String(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
+            'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Percentage)
+          })
+        });
+    } else {
+      advancedSettingForGroup = new FormGroup({
+        'PreventMidsBelowCurrent': new FormControl(false),
+        'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
+          'Enabled': new FormControl(false),
+          'Percentage': new FormControl(null)
+        }),
+        'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
+          'Enabled': new FormControl(false),
+          'Percentage': new FormControl(null)
+        }),
+        'MissingMarketDataType': new FormGroup({
+          'Type': new FormControl(String(MissingMarketDataTypes.LeaveValuesBlank)),
+          'Percentage': new FormControl(null)
+        })
+      });
+    }
+
     this.modelSettingsForm = new FormGroup({
       'StructureName': new FormControl(this.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
       'ModelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
@@ -139,6 +169,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'Currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required]),
       'RangeDistributionSetting': new FormControl(this.metadata.RangeDistributionSetting),
       'RangeDistributionTypeId': new FormControl(this.metadata.RangeDistributionTypeId),
+      'RangeAdvancedSetting': advancedSettingForGroup
     });
     // set active tab to model
     this.activeTab = 'modelTab';
@@ -152,8 +183,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
           rangeGroupId: this.rangeGroupId,
           formValue: this.modelSetting,
           fromPage: this.page,
-          rounding: this.roundingSettings,
-          advancedSettings: this.advancedSettings
+          rounding: this.roundingSettings
         })
       );
       this.reset();
@@ -271,7 +301,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       }
     });
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
-    this.advancedSettingsSub = this.advancedSettings$.subscribe(as => this.advancedSettings = as);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.enableJobRangeTypesSub = this.enableJobRangeTypes$.subscribe(c => this.enableJobRangeTypes = c);
 
@@ -283,7 +312,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.metadataSub.unsubscribe();
     this.modalOpenSub.unsubscribe();
     this.modelNameExistsFailureSub.unsubscribe();
-    this.advancedSettingsSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.enableJobRangeTypesSub.unsubscribe();
     this.unsubscribe$.next();

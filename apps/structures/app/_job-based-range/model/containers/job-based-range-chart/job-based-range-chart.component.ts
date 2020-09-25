@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
-import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 

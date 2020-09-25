@@ -1,6 +1,6 @@
 import { RoundRangesRequest } from './round-ranges-request.model';
 import { RangeDistributionSetting } from '..';
-import { AdvancedSettingsRequest } from './advanced-settings-request.model';
+import { AdvancedSettingRequest } from './advanced-setting-request.model';
 
 export interface SaveModelSettingsRequest {
   RangeGroupId: number;
@@ -13,7 +13,7 @@ export interface SaveModelSettingsRequest {
   RangeSpreadMax: number;
   CurrencyCode: string;
   Rounding: RoundRangesRequest;
-  AdvancedSettings: AdvancedSettingsRequest;
+  AdvancedSetting: AdvancedSettingRequest;
   RangeDistributionTypeId: number;
   RangeDistributionSetting: RangeDistributionSetting;
 }
