@@ -94,12 +94,20 @@ pipeline {
               octoVerSuffix = '-NM'
               env.buildConfig = '--configuration=staging'
 
-			} else if (env.BRANCH_NAME == 'Enterprise/develop') {
+            } else if (env.BRANCH_NAME == 'Enterprise/develop') {
               isAutoDeployBranch = true
               suffix = '-Enterprise'
               octoChannel = 'Enterprise'
               env.octoEnv = 'Enterprise'
               octoVerSuffix = '-EP'
+              env.buildConfig = '--configuration=staging'
+
+            } else if (env.BRANCH_NAME == 'Tardis/develop') {
+              isAutoDeployBranch = true
+              suffix = '-Tardis'
+              octoChannel = 'Tardis'
+              env.octoEnv = 'Tardis'
+              octoVerSuffix = '-TD'
               env.buildConfig = '--configuration=staging'
 
             } else {
