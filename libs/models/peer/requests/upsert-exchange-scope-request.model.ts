@@ -8,6 +8,7 @@ export interface ExchangeScopeDetails {
   ExchangeScopeName: string;
   ExchangeScopeDescription: string;
   IsDefault?: boolean;
+  CompanyPayMarketIdsToDefaultFor: number[];
 }
 
 export interface UpsertExchangeExplorerScopeRequest {
@@ -21,6 +22,7 @@ export function generateMockExchangeScopeDetails(): ExchangeScopeDetails {
     ExchangeScopeId: 1,
     ExchangeScopeName: 'MockScope',
     ExchangeScopeDescription: 'Mock Exchange Scope Description',
+    CompanyPayMarketIdsToDefaultFor: []
   };
 }
 

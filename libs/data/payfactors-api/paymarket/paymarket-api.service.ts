@@ -83,4 +83,9 @@ export class PayMarketApiService {
     return this.payfactorsApiService.get<PayMarketAssociationsSummary>(`${this.endpoint}/GetPaymarketAssociations`,
       { params: { companyPayMarketId } });
   }
+
+  getParentPayMarkets(countryCodes: string[]): Observable<GenericKeyValue<number, string>[]> {
+    const payload = {countryCodes: countryCodes};
+    return this.payfactorsApiService.post<GenericKeyValue<number, string>[]>(`${this.endpoint}.GetParentPayMarkets`, payload);
+  }
 }

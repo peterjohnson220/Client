@@ -14,7 +14,7 @@ import * as fromLibsExchangeExplorerReducer from 'libs/features/peer/exchange-ex
 import * as fromLibsSearchReducer from 'libs/features/search/reducers';
 import * as fromLibsExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 
-import * as fromExchangeScopeActions from '../../../actions/exchange-scope.actions';
+import * as fromExchangeScopeActions from '../../../actions/save-exchange-scope.actions';
 import * as fromExportDataCutsActions from '../../../actions/export-data-cuts.actions';
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
 import * as fromPeerMapReducer from '../../../reducers';
@@ -66,7 +66,8 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
       ExchangeScopeId: -1,
       ExchangeScopeName: scopeItem.Name,
       ExchangeScopeDescription: scopeItem.Description,
-      IsDefault: scopeItem.IsDefault
+      IsDefault: scopeItem.IsDefault,
+      CompanyPayMarketIdsToDefaultFor: scopeItem.CompanyPayMarketIdsToDefaultFor
     }));
   }
 

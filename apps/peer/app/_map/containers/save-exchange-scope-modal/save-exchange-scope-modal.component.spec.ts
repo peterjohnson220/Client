@@ -11,7 +11,7 @@ import {
 import { ExchangeScopeApiService } from 'libs/data/payfactors-api/peer';
 
 import * as fromPeerMapReducer from '../../reducers';
-import * as fromExchangeScopeActions from '../../actions/exchange-scope.actions';
+import * as fromExchangeScopeActions from '../../actions/save-exchange-scope.actions';
 
 import { SaveExchangeScopeModalComponent } from './save-exchange-scope-modal.component';
 
@@ -67,6 +67,14 @@ describe('Peer - Map - Save Exchange Scope Modal', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it('should clear selectedParentPayMarketOptions when handleModalDismissed is called', () => {
+    const action = new fromExchangeScopeActions.CloseSaveExchangeScopeModal();
+
+    instance.handleModalDismissed();
+
+    expect(instance.selectedParentPayMarketOptions).toStrictEqual([]);
+  });
+
   it('should emit an upsertExchangeScopeEvent event with exchangeScopeName when handleFormSubmit is called', () => {
     instance.exchangeScopeNameControl.setValue(mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeName);
     instance.exchangeScopeDescriptionControl.setValue(mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeDescription);
@@ -78,7 +86,8 @@ describe('Peer - Map - Save Exchange Scope Modal', () => {
     expect(instance.upsertExchangeScopeEvent.emit).toHaveBeenCalledWith({
       Name: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeName,
       Description: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeDescription,
-      IsDefault: !!mockUpsertExchangeScopeRequest.ExchangeScopeDetails.IsDefault
+      IsDefault: !!mockUpsertExchangeScopeRequest.ExchangeScopeDetails.IsDefault,
+      CompanyPayMarketIdsToDefaultFor: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.CompanyPayMarketIdsToDefaultFor
     });
   });
 });

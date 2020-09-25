@@ -34,6 +34,18 @@
       [placeholder]="descriptionPlaceholder"
       [pfValidatable]="false"
     ></textarea>
+
+    <pf-multi-select
+      [attr.data-qa-id]="'ddm-create-scope-paymarket-defaults'"
+      [labelText]="'Assign PayMarket Default'"
+      [displayNamePreview]="true"
+      [isLoading]="parentPayMarketOptionsLoading$ | async"
+      [disabled]="!(parentPayMarketOptionsLoading$ | async) && !parentPayMarketOptions?.length"
+      [disabledMessage]="'No paymarkets found for selected countries'"
+      [options]="parentPayMarketOptions"
+      [(selectedOptions)]="selectedParentPayMarketOptions"
+    >
+    </pf-multi-select>
   </ng-container>
   <ng-container footer-left>
     <label for="is-default-scope">
