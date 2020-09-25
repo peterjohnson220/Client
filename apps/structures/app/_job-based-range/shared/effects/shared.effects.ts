@@ -92,7 +92,7 @@ export class SharedEffects {
     .pipe(
       ofType<fromRangeFieldActions.UpdateRangeFieldSuccess>(fromRangeFieldActions.UPDATE_RANGE_FIELD_SUCCESS),
       map(action => {
-        return new fromSharedActions.UpdateOverrides({ rangeId: action.payload.modifiedKey, overrideToUpdate: action.payload.override});
+        return new fromSharedActions.UpdateOverrides({ rangeId: action.payload.modifiedKey, overrideToUpdate: action.payload.override, removeOverride: false});
       })
     );
 
@@ -114,8 +114,11 @@ export class SharedEffects {
                 // only remove the key if the override was deleted
                 if (response.OverrideDeleted) {
                   actions.push(new fromPfDataGridActions.DeleteModifiedKey(action.payload.pageViewId, action.payload.rangeId));
+                  actions.push(new fromSharedActions.UpdateOverrides( { rangeId: action.payload.rangeId, overrideToUpdate: response.Override,
+                    removeOverride: true }));
                 } else {
-                  actions.push(new fromSharedActions.UpdateOverrides( { rangeId: action.payload.rangeId, overrideToUpdate: response.Override }));
+                  actions.push(new fromSharedActions.UpdateOverrides( { rangeId: action.payload.rangeId, overrideToUpdate: response.Override,
+                    removeOverride: false }));
                 }
                 actions.push(new fromSharedActions.RevertingRangeChangesSuccess({
                   pageViewId: action.payload.pageViewId,

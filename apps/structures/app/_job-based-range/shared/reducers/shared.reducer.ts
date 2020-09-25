@@ -180,7 +180,8 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
       };
     }
     case fromSharedActions.UPDATE_OVERRIDES: {
-      const updatedRangeOverrides = updateOverrides(action.payload.rangeId, cloneDeep(state.rangeOverrides), action.payload.overrideToUpdate);
+      const updatedRangeOverrides = updateOverrides(action.payload.rangeId, cloneDeep(state.rangeOverrides),
+        action.payload.overrideToUpdate, action.payload.removeOverride);
       return {
         ...state,
         rangeOverrides: updatedRangeOverrides
@@ -212,10 +213,14 @@ function updateRoundingPoints(roundingPoint: number, settings: RoundingSettingsD
 }
 
 function updateOverrides(rangeId: number, overrides: CompanyStructureRangeOverride[],
-                         overrideToUpdate: CompanyStructureRangeOverride): CompanyStructureRangeOverride[] {
+                         overrideToUpdate: CompanyStructureRangeOverride, remove: boolean): CompanyStructureRangeOverride[] {
   const rangeOverride = overrides.find(ro => ro.CompanyStructuresRangesId === rangeId);
-  if (!!rangeOverride) {
+  if (!!rangeOverride && !remove) {
     overrides.splice(overrides.indexOf(rangeOverride), 1, overrideToUpdate);
+  } else if (!!rangeOverride && remove) {
+    overrides.splice(overrides.indexOf(rangeOverride), 1);
+  } else {
+    overrides.push(overrideToUpdate);
   }
   return overrides;
 }

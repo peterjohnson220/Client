@@ -159,7 +159,7 @@ export class RevertingRangeChangesError implements Action {
 export class UpdateOverrides implements  Action {
   readonly type = UPDATE_OVERRIDES;
 
-  constructor(public payload: { rangeId: number, overrideToUpdate: CompanyStructureRangeOverride}) {}
+  constructor(public payload: { rangeId: number, overrideToUpdate: CompanyStructureRangeOverride, removeOverride: boolean}) {}
 }
 
 export type SharedActions
