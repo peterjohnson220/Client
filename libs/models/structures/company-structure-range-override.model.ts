@@ -12,4 +12,5 @@ export interface CompanyStructureRangeOverride {
   ThirdQuintile: boolean;
   FourthQuintile: boolean;
   MidForcedToCurrent: boolean;
+  UsePublishedRange: boolean;
 }

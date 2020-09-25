@@ -7,7 +7,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
-import { generateMockRangeDistributionSetting, generateMockStructureRangeDistributionTypes } from 'libs/models/payfactors-api';
+import {
+  generateMockRangeDistributionSetting,
+  generateMockStructureRangeDistributionTypes
+} from 'libs/models/payfactors-api';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
@@ -16,7 +19,7 @@ import { ModelSettingsModalComponent } from './model-settings-modal.component';
 import { UrlService } from '../../services';
 import { Pages } from '../../constants/pages';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
-import { MissingMarketDataTypes } from '../../../../../../../libs/constants/structures/missing-market-data-type';
+import { generateMockRangeAdvancedSetting } from '../../models';
 
 describe('Job Based Ranges - Model Settings Modal', () => {
   let instance: ModelSettingsModalComponent;
@@ -82,8 +85,8 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting()
-
+      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
     instance.modelSetting = {
@@ -101,7 +104,8 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       StructureName: 'testStruc',
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting()
+      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
     instance.ngOnInit();
@@ -176,8 +180,8 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting()
-
+      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
     instance.buildForm();
@@ -219,19 +223,12 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     instance.rangeGroupId = 1;
     instance.page = Pages.Model;
     instance.roundingSettings = {};
-    instance.advancedSettings = {
-      PreventMidsBelowCurrent: false,
-      PreventMidsFromIncreasingMoreThanPercent: { Enabled: false, Percentage: 0 },
-      PreventMidsFromIncreasingWithinPercentOfNextLevel: { Enabled: false, Percentage: 0 },
-      MissingMarketDataType: { Type: MissingMarketDataTypes.UsePublishedRange, Percentage: 0 },
-      Rounding: instance.roundingSettings
-    };
+
     const expectedAction = new fromModelSettingsModalActions.SaveModelSettings({
       rangeGroupId: instance.rangeGroupId,
       formValue: instance.modelSetting,
       fromPage: Pages.Model,
-      rounding: instance.roundingSettings,
-      advancedSettings: instance.advancedSettings
+      rounding: instance.roundingSettings
     });
 
     instance.handleModalSubmit();
@@ -239,8 +236,4 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
     expect(instance.attemptedSubmit).toEqual(false);
   });
-
-
-
-
 });

@@ -3,14 +3,15 @@ import {
   StructureRangeGroupResponse,
   RoundRangesRequest,
   RecalculateRangesWithoutMidRequest,
-  RevertRangeChangesRequest
+  RevertRangeChangesRequest,
+  AdvancedSettingResponse
 } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
-import { AdvancedSettingsRequest } from 'libs/models/payfactors-api/structures/request/advanced-settings-request.model';
+import { AdvancedSettingRequest } from 'libs/models/payfactors-api/structures/request/advanced-setting-request.model';
 
-import { AdvancedSettings, ControlPoint, Currency, RangeGroupMetadata } from '../models';
+import { AdvancedSetting, ControlPoint, Currency, RangeGroupMetadata } from '../models';
 
 
 export class PayfactorsApiModelMapper {
@@ -34,7 +35,67 @@ export class PayfactorsApiModelMapper {
       IsCurrent: srgr.IsCurrent,
       RangeDistributionTypeId: srgr.RangeDistributionTypeId ?? 1,
       RangeDistributionTypes: srgr.RangeDistributionTypes,
-      RangeDistributionSetting: srgr.RangeDistributionSetting
+      RangeDistributionSetting: srgr.RangeDistributionSetting,
+      RangeAdvancedSetting: srgr.RangeAdvancedSetting != null ? this.mapRangeAdvancedSetting(srgr.RangeAdvancedSetting) : null
+    };
+  }
+
+  static mapRangeAdvancedSetting(advancedSetting: AdvancedSettingResponse): AdvancedSetting {
+    return {
+      Rounding: this.mapRoundingSetttings(advancedSetting),
+      PreventMidsBelowCurrent: advancedSetting.PreventMidsBelowCurrent,
+      PreventMidsFromIncreasingMoreThanPercent: advancedSetting.PreventMidsFromIncreasingMoreThanPercent,
+      PreventMidsFromIncreasingWithinPercentOfNextLevel: advancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel,
+      MissingMarketDataType: advancedSetting.MissingMarketDataType
+    };
+  }
+
+  static mapRoundingSetttings(advancedSetting: AdvancedSettingResponse): RoundingSettingsDataObj {
+    return {
+      'min': {
+        RoundingType: advancedSetting.Min.RoundingType,
+        RoundingPoint: advancedSetting.Min.RoundingPoint
+      },
+      'mid': {
+        RoundingType: advancedSetting.Mid.RoundingType,
+        RoundingPoint: advancedSetting.Mid.RoundingPoint
+      },
+      'max': {
+        RoundingType: advancedSetting.Max.RoundingType,
+        RoundingPoint: advancedSetting.Max.RoundingPoint
+      },
+      'firstTertile': {
+        RoundingType: advancedSetting.FirstTertile.RoundingType,
+        RoundingPoint: advancedSetting.FirstTertile.RoundingPoint
+      },
+      'secondTertile': {
+        RoundingType: advancedSetting.SecondTertile.RoundingType,
+        RoundingPoint: advancedSetting.SecondTertile.RoundingPoint
+      },
+      'firstQuartile': {
+        RoundingType: advancedSetting.FirstQuartile.RoundingType,
+        RoundingPoint: advancedSetting.FirstQuartile.RoundingPoint
+      },
+      'secondQuartile': {
+        RoundingType: advancedSetting.SecondQuartile.RoundingType,
+        RoundingPoint: advancedSetting.SecondQuartile.RoundingPoint
+      },
+      'firstQuintile': {
+        RoundingType: advancedSetting.FirstQuintile.RoundingType,
+        RoundingPoint: advancedSetting.FirstQuintile.RoundingPoint
+      },
+      'secondQuintile': {
+        RoundingType: advancedSetting.SecondQuintile.RoundingType,
+        RoundingPoint: advancedSetting.SecondQuintile.RoundingPoint
+      },
+      'thirdQuintile': {
+        RoundingType: advancedSetting.ThirdQuintile.RoundingType,
+        RoundingPoint: advancedSetting.ThirdQuintile.RoundingPoint
+      },
+      'fourthQuintile': {
+        RoundingType: advancedSetting.FourthQuintile.RoundingType,
+        RoundingPoint: advancedSetting.FourthQuintile.RoundingPoint
+      }
     };
   }
 
@@ -49,7 +110,7 @@ export class PayfactorsApiModelMapper {
     });
   }
 
-  static mapAdvancedSettingsResponseToAdvancedSettings(cfr: CompositeFieldResponse[]): ControlPoint[] {
+  static mapAdvancedSettingResponseToAdvancedSetting(cfr: CompositeFieldResponse[]): ControlPoint[] {
     return cfr.map(cf => {
       return {
         FieldName: cf.FieldName,
@@ -75,7 +136,11 @@ export class PayfactorsApiModelMapper {
   ///
   static mapModelSettingsModalFormToSaveSettingsRequest(
     rangeGroupId: number, formValue: RangeGroupMetadata,
-    rounding: RoundingSettingsDataObj, advancedSettings: AdvancedSettingsRequest): SaveModelSettingsRequest {
+    rounding: RoundingSettingsDataObj, advancedSetting: AdvancedSettingRequest): SaveModelSettingsRequest {
+
+    // TODO remove this as soon as Rounding will be part of AdvancedSetting
+    advancedSetting.Rounding = this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding);
+
     return {
       RangeGroupId: rangeGroupId,
       PayType: formValue.PayType,
@@ -87,7 +152,7 @@ export class PayfactorsApiModelMapper {
       Rate: formValue.Rate,
       StructureName: formValue.StructureName,
       Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(rounding),
-      AdvancedSettings: advancedSettings,
+      AdvancedSetting: advancedSetting,
       RangeDistributionTypeId: formValue.RangeDistributionTypeId ?? 1,
       RangeDistributionSetting: formValue.RangeDistributionSetting
     };
@@ -118,13 +183,13 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapAdvancedSettingsModalFormToAdvancedSettingsRequest(advancedSettings: AdvancedSettings): AdvancedSettingsRequest {
+  static mapAdvancedSettingModalFormToAdvancedSettingRequest(advancedSetting: AdvancedSetting): AdvancedSettingRequest {
     return {
-      Rounding: this.mapRoundingSettingsModalFormToRoundRangesRequest(advancedSettings.Rounding),
-      PreventMidsBelowCurrent: advancedSettings.PreventMidsBelowCurrent,
-      PreventMidsFromIncreasingMoreThanPercent: advancedSettings.PreventMidsFromIncreasingMoreThanPercent,
-      PreventMidsFromIncreasingWithinPercentOfNextLevel: advancedSettings.PreventMidsFromIncreasingWithinPercentOfNextLevel,
-      MissingMarketDataType: advancedSettings.MissingMarketDataType
+      Rounding: advancedSetting.Rounding != null ? this.mapRoundingSettingsModalFormToRoundRangesRequest(advancedSetting.Rounding) : null,
+      PreventMidsBelowCurrent: advancedSetting.PreventMidsBelowCurrent,
+      PreventMidsFromIncreasingMoreThanPercent: advancedSetting.PreventMidsFromIncreasingMoreThanPercent,
+      PreventMidsFromIncreasingWithinPercentOfNextLevel: advancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel,
+      MissingMarketDataType: advancedSetting.MissingMarketDataType
     };
   }
 

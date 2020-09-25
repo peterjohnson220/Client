@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, mergeMap, catchError, withLatestFrom, tap } from 'rxjs/operators';
+import { switchMap, map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -95,8 +95,6 @@ export class SharedEffects {
         return new fromSharedActions.UpdateOverrides({ rangeId: action.payload.modifiedKey, overrideToUpdate: action.payload.override, removeOverride: false});
       })
     );
-
-
 
   @Effect()
   revertingChangesRange$: Observable<Action> = this.actions$

@@ -30,3 +30,10 @@ export function generateMockRoundingSettingsDataObj(): RoundingSettingsDataObj {
     }
   };
 }
+
+export function generateMockRoundingSetting(): RoundingSetting {
+  return {
+      RoundingType: RoundingTypes.Round,
+      RoundingPoint: 0
+    };
+}

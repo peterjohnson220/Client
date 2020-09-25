@@ -148,10 +148,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     // grab the override record
     if (this.rangeOverrides) {
       const currentOverride = this.rangeOverrides.find(o => o.CompanyStructuresRangesId === rangeId);
-      if (!!currentOverride) {
-        // currently there is only MidForcedToCurrent as a system override, this will be expanded. Keeping it simple for now
-        if (this.isSystemOverride(currentOverride) && !this.isManualOverride(currentOverride)) {
-          return 'Modeled midpoint was calculated below published job midpoint so published job range info was used.';
+      if (!!currentOverride && !this.isManualOverride(currentOverride)) {
+        if (currentOverride.UsePublishedRange) {
+          return 'No market data exists for this job so the published range was used.';
+        }
+        if (currentOverride.MidForcedToCurrent) {
+          return 'Modeled midpoint was calculated below the published job midpoint so the published job range info was used.';
         }
       }
     }
@@ -246,7 +248,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   showRevertChanges(rangeId: number): boolean {
-
     if (this.rangeOverrides) {
       const currentOverride = this.rangeOverrides.find(o => o.CompanyStructuresRangesId === rangeId);
       if (!!currentOverride) {
@@ -255,16 +256,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     } else {
       return false;
     }
-
   }
 
   isManualOverride(dto: CompanyStructureRangeOverride): boolean {
     return dto.Max || dto.Min || dto.Mid || dto.FirstTertile || dto.SecondTertile || dto.FirstQuartile || dto.SecondQuartile || dto.FirstQuintile
     || dto.SecondQuintile || dto.ThirdQuintile || dto.FourthQuintile;
-  }
-
-  isSystemOverride(dto: CompanyStructureRangeOverride): boolean {
-    return dto.MidForcedToCurrent;
   }
 
   // Lifecycle

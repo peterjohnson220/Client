@@ -5,4 +5,4 @@ export * from './range-group-metadata.model';
 export * from './rounding-point.model';
 export * from './rounding-type.model';
 export * from './range-distribution-setting-form.model';
-export * from './advanced-settings.model';
+export * from './advanced-setting.model';
