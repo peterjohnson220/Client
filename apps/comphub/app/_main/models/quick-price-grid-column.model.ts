@@ -1,3 +1,5 @@
+import { QuickPriceType } from 'libs/constants';
+
 export interface QuickPriceGridColumn {
   IsSortable: boolean;
   HeaderText: string;
@@ -47,25 +49,39 @@ export class QuickPriceGridColumnConfiguration {
     CssClasses: 'text-center'
   };
 
-  static gridWithData(): QuickPriceGridColumn[] {
-    return [
-      this.jobTitle,
-      this.education,
-      this.yearsExp,
-      this.manages,
-      this.base50th,
-      this.tcc50th,
-      this.action
-    ];
-  }
-
-  static gridWithoutData(): QuickPriceGridColumn[] {
-    return [
-      this.jobTitle,
-      this.education,
-      this.yearsExp,
-      this.manages,
-      this.action
-    ];
+  static getGridColumnConfigByType(type: QuickPriceType): QuickPriceGridColumn[] {
+    switch (type) {
+      case QuickPriceType.PEER: {
+        return [
+          {...this.jobTitle, IsSortable: false},
+          {...this.education, IsSortable: false},
+          {...this.yearsExp, IsSortable: false},
+          {...this.manages, IsSortable: false},
+          {...this.base50th, IsSortable: false},
+          {...this.tcc50th, IsSortable: false},
+          this.action
+        ];
+      }
+      case QuickPriceType.SMALL_BUSINESS: {
+        return [
+          this.jobTitle,
+          this.education,
+          this.yearsExp,
+          this.manages,
+          this.action
+        ];
+      }
+      default: {
+        return [
+          this.jobTitle,
+          this.education,
+          this.yearsExp,
+          this.manages,
+          this.base50th,
+          this.tcc50th,
+          this.action
+        ];
+      }
+    }
   }
 }

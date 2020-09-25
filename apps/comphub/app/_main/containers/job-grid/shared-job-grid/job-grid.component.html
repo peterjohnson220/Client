@@ -9,13 +9,13 @@
       <div>Pay Market: <span class="paymarket">National</span></div>
     </div>
   </div>
-  <pf-async-container [loading]="jobResultsLoading$ | async"
-                      [loadingError]="jobResultsLoadingError$ | async"
+  <pf-async-container [loading]="loading"
+                      [loadingError]="loadingError"
                       [loadingErrorMessage]="'Error loading job data'"
                       [hideReloadButton]="true"
                       class="flex-grow-1">
 
-    <table class="table table-hover" [attr.data-qa-id]="'tbl-job-data-grid'" [class.grid-loading]="jobResultsLoading$ | async">
+    <table class="table table-hover" [attr.data-qa-id]="'tbl-job-data-grid'" [class.grid-loading]="loading">
       <thead>
       <tr class="main-column-header">
         <th></th>
@@ -40,10 +40,10 @@
       </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let job of (jobResults$ | async)?.Data; trackBy: trackByFn">
+        <ng-container *ngFor="let job of jobGridData?.Data; trackBy: trackByFn">
           <tr (click)="handleSelectionChanged(job)"
             class="job-row"
-            [class.selected]="job.JobId === (selectedJobData$ | async)?.JobId">
+            [class.selected]="job.JobId === selectedJobData?.JobId">
 
             <td class="expand-caret" (click)="handleExpandJdClicked($event, job.JobId)">
               <fa-icon *ngIf="!job.ShowJd" icon="caret-right"></fa-icon>
@@ -83,7 +83,7 @@
                 <input type="radio" id="customRadio-{{job.JobId}}"
                         [attr.data-qa-id]="'chk-select-job-'+job.JobId"
                         name="select-job-data"
-                        [checked]="job.JobId === (selectedJobData$ | async)?.JobId"
+                        [checked]="job.JobId === selectedJobData?.JobId"
                         (change)="handleSelectionChanged(job)"
                         class="custom-control-input">
                 <label class="custom-control-label" for="customRadio-{{job.JobId}}">&nbsp;</label>

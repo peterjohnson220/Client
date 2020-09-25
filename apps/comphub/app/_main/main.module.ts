@@ -31,10 +31,10 @@ import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/servic
 import {
   ComphubPageComponent, JobsCardComponent, MarketsCardComponent, CardLayoutComponent,
   SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent,
-  ComphubFooterComponent, JobGridComponent
+  ComphubFooterComponent, JobGridComponent, MarketDataJobGridComponent, PeerJobGridComponent
 } from './containers';
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
-  SummaryCardEffects } from './effects';
+  SummaryCardEffects, JobGridEffects } from './effects';
 import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
@@ -57,7 +57,8 @@ import { BasicDataGridModule } from 'libs/features/basic-data-grid';
             MarketsCardEffects,
             AddPayMarketFormEffects,
             ComphubPageEffects,
-            SummaryCardEffects
+            SummaryCardEffects,
+            JobGridEffects
         ]),
         PerfectScrollbarModule,
         PDFExportModule,
@@ -105,7 +106,9 @@ import { BasicDataGridModule } from 'libs/features/basic-data-grid';
     ParentDataCardComponent,
     QuickPriceHistoryComponent,
     ComphubFooterComponent,
-    JobGridComponent
+    JobGridComponent,
+    MarketDataJobGridComponent,
+    PeerJobGridComponent
   ],
   providers: [
     WindowRef,
