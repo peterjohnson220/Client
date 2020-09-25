@@ -45,12 +45,12 @@ import {
   ExportListPopoverComponent,
   PricingDetailsMrpColumnComponent,
   PeerExchangeMatchesComponent,
-  PricingMatchesJobTitleComponent
+  PricingMatchesJobTitleComponent,
+  PricingDetailsAdjPctColumnComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects } from './effects';
-import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricingMatchError } from './pipes';
-
+import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricingMatchError, ModifyPricingError } from './pipes';
 
 @NgModule({
   imports: [
@@ -119,7 +119,9 @@ import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricin
     ShowingActiveJobs,
     PricingMatchTypePipe,
     JobTitleCodePipe,
-    ModifyPricingMatchError
+    ModifyPricingError,
+    ModifyPricingMatchError,
+    PricingDetailsAdjPctColumnComponent
   ]
 })
 export class JobsPageModule {

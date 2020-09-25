@@ -3,4 +3,5 @@ export interface GridConfig {
   EnableInfiniteScroll?: boolean;
   ScrollToTop?: boolean;
   SelectAllPanelItemName?: string;
+  CaptureGridScroll?: boolean;
 }

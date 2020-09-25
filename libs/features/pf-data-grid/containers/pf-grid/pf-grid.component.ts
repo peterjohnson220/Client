@@ -326,7 +326,9 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onScroll(event: ContentScrollEvent): void {
-    this.store.dispatch(new fromActions.CaptureGridScrolled(this.pageViewId, event));
+    if (this.gridConfig.CaptureGridScroll) {
+      this.store.dispatch(new fromActions.CaptureGridScrolled(this.pageViewId, event));
+    }
   }
 
   // TODO: Kendo sorts the grids asc -> desc -> none in that order, rather than dir -> !dir -> none regardless of direction

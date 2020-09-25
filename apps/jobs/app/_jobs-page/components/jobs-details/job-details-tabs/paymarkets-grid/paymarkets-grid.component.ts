@@ -45,6 +45,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild('globalActions') globalActions: ElementRef;
   @ViewChild('priciedFilter') pricedFilter: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
+  @ViewChild('adjPctColumn') adjPctColumn: ElementRef;
   @ViewChild('payMarketColumn') payMarketColumn: ElementRef;
   @ViewChild('agingColumn') agingColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
@@ -98,7 +99,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   showNotesManager = new BehaviorSubject<boolean>(false);
   showNotesManager$ = this.showNotesManager.asObservable();
 
-  updatingPricingMatch$: Observable<AsyncStateObj<boolean>>;
+  recalculatingPricingInfo$: Observable<boolean>;
 
   // This is needed to refresh the matches grid after adding a new note to increment count
   selectedPricingId: number;
@@ -124,10 +125,10 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
 
-    this.updatingPricingMatch$ = this.store
-      .select(fromJobsPageReducer.getUpdatingPricingMatch)
+    this.recalculatingPricingInfo$ = this.store
+      .select(fromJobsPageReducer.getRecalculatingPricingInfo)
       .pipe(switchMap(ev => of(ev)))
-      .pipe(debounce(ev => ev.saving ? timer(2000) : EMPTY));
+      .pipe(debounce(ev => ev ? timer(2000) : EMPTY));
 
     this.selectedJobRowSubscription = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs).subscribe(row => {
       this.selectedJobRow = row;
@@ -229,6 +230,7 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     this.columnTemplates = {
       'PayMarket': { Template: this.payMarketColumn },
       'Aging_Factor': { Template: this.agingColumn },
+      'Composite_Adjustment': { Template: this.adjPctColumn },
       [PfDataGridColType.currency]: { Template: this.currencyColumn },
       [PfDataGridColType.pricingInfo]: { Template: this.matchInfoColumn }
     };
