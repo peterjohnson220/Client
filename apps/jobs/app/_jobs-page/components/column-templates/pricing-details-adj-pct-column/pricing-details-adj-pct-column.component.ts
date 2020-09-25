@@ -18,7 +18,7 @@ import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
   templateUrl: './pricing-details-adj-pct-column.component.html',
   styleUrls: ['./pricing-details-adj-pct-column.component.scss']
 })
-export class PricingDetailsAdjPctColumnComponent implements OnInit, OnDestroy {
+export class PricingDetailsAdjPctColumnComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() dataRow: any;
 
@@ -44,12 +44,23 @@ export class PricingDetailsAdjPctColumnComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.dataRow && changes.dataRow.currentValue) {
+      const adjPctValue = changes.dataRow.currentValue.CompanyJobs_Pricings_Composite_Adjustment;
+      this.dataRow.CompanyJobs_Pricings_Composite_Adjustment = adjPctValue ? adjPctValue : 0;
+    }
+  }
+
   ngOnDestroy() {
     this.isActiveJobSubscription.unsubscribe();
   }
 
   updatePricingMatch() {
     const pricingId = this.dataRow.CompanyJobs_Pricings_CompanyJobPricing_ID;
+
+    if (!this.dataRow.CompanyJobs_Pricings_Composite_Adjustment) {
+      this.dataRow.CompanyJobs_Pricings_Composite_Adjustment = 0;
+    }
 
     const request: UpdatePricingRequest = {
       PricingId: pricingId,
@@ -58,6 +69,7 @@ export class PricingDetailsAdjPctColumnComponent implements OnInit, OnDestroy {
     };
 
     this.store.dispatch(new fromJobsPageActions.UpdatingPricing(request, PageViewIds.PayMarkets));
+
   }
 
 }
