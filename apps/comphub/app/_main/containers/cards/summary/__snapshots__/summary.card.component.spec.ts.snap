@@ -51,14 +51,14 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
@@ -548,14 +548,14 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
@@ -1096,14 +1096,14 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
@@ -1593,14 +1593,14 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
@@ -2141,14 +2141,14 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
@@ -2638,14 +2638,14 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
@@ -3186,14 +3186,14 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
@@ -3683,14 +3683,14 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
@@ -4231,14 +4231,14 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
@@ -4728,14 +4728,14 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
@@ -5276,14 +5276,14 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
@@ -5773,14 +5773,14 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
@@ -6321,14 +6321,14 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
@@ -6818,14 +6818,14 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
@@ -7366,14 +7366,14 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
@@ -7872,14 +7872,14 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
