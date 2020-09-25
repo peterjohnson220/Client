@@ -28,11 +28,11 @@
             <ng-container *ngIf="column.IsSortable">
               <ng-container *ngIf="gridContext.sortBy?.field === column.SortField; else notSorted">
                 <span *ngIf="gridContext.sortBy?.dir === 'asc'">
-                  <fa-icon class="fa-fw sort-up"></fa-icon>
+                  <span aria-label="Sortable" class="k-icon k-i-sort-asc-sm"></span>
                 </span>
                 <span *ngIf="gridContext.sortBy?.dir === 'desc'">
-                <fa-icon class="fa-fw sort-down"></fa-icon>
-              </span>
+                  <span aria-label="Sortable" class="k-icon k-i-sort-desc-sm"></span>
+                </span>
               </ng-container>
             </ng-container>
           </th>
