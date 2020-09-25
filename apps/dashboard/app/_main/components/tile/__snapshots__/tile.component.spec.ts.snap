@@ -41,6 +41,7 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
       
       
       
+      
     </div>
     
   </div>
@@ -81,6 +82,7 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
       
       
       <pf-tile-preview-icon />
+      
       
       
       
@@ -129,6 +131,7 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
       
       
       <pf-tile-preview-list />
+      
       
       
       
