@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 
-import { CompanyJob, Match, CompanyJobToMapTo, LatestCompanyJob, JobInfoResponse, CompanyJobAttachment, ODataQuery, generateQueryObject } from 'libs/models';
+import { Observable } from 'rxjs';
+
+import { CompanyJob,
+  Match, CompanyJobToMapTo,
+  LatestCompanyJob,
+  JobInfoResponse,
+  CompanyJobAttachment,
+  ODataQuery,
+  generateQueryObject } from 'libs/models';
 import { CompanyJobUdfColumn } from 'libs/models/jdm/company-job-udf-column';
+import { ChangeJobStatusRequest } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { Observable } from 'rxjs';
-import { ChangeJobStatusRequest } from 'libs/models/payfactors-api';
-import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -101,10 +107,5 @@ export class CompanyJobApiService {
   getCompanyJobDescriptionInformation(companyJobIds: number[]) {
     return this.payfactorsApiService.post<any[]>(`${this.endpoint}/Default.GetCompanyJobDescriptionsInReview`,
       {companyJobIds: companyJobIds});
-  }
-
-  getJobLevelsForJobFamilies(jobFamilies: string[]) {
-    return this.payfactorsApiService.post<string[]>(`${this.endpoint}/Default.GetJobLevelsForJobFamily`,
-      {jobFamilies: jobFamilies});
   }
 }
