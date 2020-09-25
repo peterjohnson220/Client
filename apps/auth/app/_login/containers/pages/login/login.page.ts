@@ -5,8 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.model';
-import * as fromMarketingReducer from '../../../reducers';
-import * as fromMarketingActions from '../../../actions/marketing-image.actions';
+import * as fromMarketingActions from 'libs/features/marketing-settings/marketing-settings.actions';
 
 import * as fromLoginReducer from '../../../reducers';
 import * as fromLoginActions from '../../../actions/login.actions';
@@ -49,17 +48,17 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder,
               public loginStore: Store<fromLoginReducer.State>,
-              public store: Store<fromMarketingReducer.State>,
+              public store: Store<fromLoginReducer.State>,
               private route: ActivatedRoute,
               private router: Router) {
     this.login$ = this.loginStore.select(fromLoginReducer.getLogin);
     this.loginError$ = this.loginStore.select(fromLoginReducer.getLoginError);
     this.passwordExpired$ = this.loginStore.select(fromLoginReducer.getPasswordExpired);
     this.loginSuccess$ = this.loginStore.select(fromLoginReducer.getLoginSuccess);
-    this.marketingImage$ = this.store.select(fromMarketingReducer.getMarketingImage);
-    this.gettingMarketingImage$ = this.store.select(fromMarketingReducer.getGettingMarketingImage);
-    this.gettingMarketingImageError$ = this.store.select(fromMarketingReducer.getGettingMarketingImageError);
-    this.gettingMarketingImageSuccess$ = this.store.select(fromMarketingReducer.getGettingMarketingImageSuccess);
+    this.marketingImage$ = this.store.select(fromLoginReducer.getMarketingImage);
+    this.gettingMarketingImage$ = this.store.select(fromLoginReducer.getGettingMarketingImage);
+    this.gettingMarketingImageError$ = this.store.select(fromLoginReducer.getGettingMarketingImageError);
+    this.gettingMarketingImageSuccess$ = this.store.select(fromLoginReducer.getGettingMarketingImageSuccess);
 
     this.loginSettings$ = this.store.select(fromLoginReducer.getLoginSettings);
   }

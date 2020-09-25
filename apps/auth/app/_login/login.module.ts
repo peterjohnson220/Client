@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Effects
-import { ForgotPasswordEffects, MarketingImageEffects } from './effects';
+import { ForgotPasswordEffects, MarketingSettingsEffects } from './effects';
 import { FirstLoginEffects } from './effects';
 import { ResetPasswordEffects} from './effects';
 import { LoginEffects } from './effects';
@@ -46,7 +46,7 @@ import { MarketingApiService } from 'libs/data/payfactors-api/marketing/marketin
       ForgotPasswordEffects,
       ResetPasswordEffects,
       LoginEffects,
-      MarketingImageEffects
+      MarketingSettingsEffects
     ]),
     FontAwesomeModule,
 
