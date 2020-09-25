@@ -40,6 +40,7 @@
             [disabled]="jobPricingBlocked$ | async"
             [popupSettings]="popupSettings"
             [attr.data-qa-id]="'txt-job-search'"
+            (close)="handleSearchClosed()"
             (valueChange)="handleJobSearchValueChanged($event)"
             (filterChange)="handleJobSearchFilterChange($event)">
             <ng-template kendoAutoCompleteNoDataTemplate>
