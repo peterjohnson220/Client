@@ -58,9 +58,9 @@
 </pf-share-pricing-summary-modal>
 
 <ng-template #summary>
-  <div class="d-flex h-100 summary-container">
-    <div class="d-flex h-100">
-      <div class="info-sidebar" *ngIf="!isPeerQuickPriceType">
+  <div class="h-100 summary-container">
+    <div class="d-flex">
+      <div class="info-sidebar h-100" *ngIf="!isPeerQuickPriceType">
         <div class="item">
           <ng-containter [ngTemplateOutlet]="rateTemplate"></ng-containter>
         </div>
@@ -105,7 +105,7 @@
       </div>
 
       <!--Peer Sidebar -->
-      <div class="info-sidebar" *ngIf="isPeerQuickPriceType">
+      <div class="info-sidebar h-100" *ngIf="isPeerQuickPriceType">
           <div class="item">
             <ng-containter [ngTemplateOutlet]="rateTemplate"></ng-containter>
           </div>
@@ -391,7 +391,7 @@
           </div>
 
           <!-- If PEER user show the Map, if not then show the trend graph. -->
-          <div class="map" *ngIf="isPeerQuickPriceType">
+          <div class="g" *ngIf="isPeerQuickPriceType">
             <img height='225px' width='225px' alt='Peer Data Map' [src]="getPeerMapSrcString()">
           </div>
 
