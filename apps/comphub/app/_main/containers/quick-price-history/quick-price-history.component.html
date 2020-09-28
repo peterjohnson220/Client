@@ -24,7 +24,8 @@
             [settings]="gridSettings"
             [loadingMoreData$]="loadingMoreData$"
             class="h-100"
-            (scrollBottom)="handleScrollBottom()">
+            (scrollBottom)="handleScrollBottom()"
+            (cellClicked)="handleCellClicked($event)">
           </pf-basic-data-grid>
         </div>
       </div>

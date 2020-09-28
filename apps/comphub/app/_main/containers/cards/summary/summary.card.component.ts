@@ -26,7 +26,6 @@ import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
-
 @Component({
   selector: 'pf-summary-card',
   templateUrl: './summary.card.component.html',
@@ -53,6 +52,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   workflowContext$: Observable<WorkflowContext>;
   mapSummary$: Observable<ExchangeMapSummary>;
   calculatingJobData$: Observable<boolean>;
+  showJobsHistorySummary$: Observable<boolean>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -60,6 +60,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   salaryTrendSubscription: Subscription;
   filterContextSubscription: Subscription;
   workflowContextSubscription: Subscription;
+  showJobHistorySummarySubscription: Subscription;
   private userContextSubscription: Subscription;
 
   jobData: JobData;
@@ -78,6 +79,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   isPeerQuickPriceType = false;
   filterContextHasFilters = false;
   rates: KendoDropDownItem[] = Rates;
+  showJobHistorySummary: boolean;
 
   private mbAccessToken: string;
 
@@ -104,12 +106,14 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.mapSummary$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapSummary);
     this.calculatingJobData$ = this.store.select(fromComphubMainReducer.getRecalculatingJobData);
+    this.showJobsHistorySummary$ = this.store.select(fromComphubMainReducer.getShowJobPricedHistorySummary);
   }
 
   ngOnInit() {
     this.selectedJobDataSubscription = this.selectedJobData$.subscribe(data => this.jobData = data);
     this.selectedPaymarketSubscription = this.selectedPaymarket$.subscribe(paymarket => this.paymarket = paymarket);
     this.selectedRateSubscription = this.selectedRate$.subscribe(r => this.selectedRate = r);
+    this.showJobHistorySummarySubscription = this.showJobsHistorySummary$.subscribe(x => this.showJobHistorySummary = x);
     this.salaryTrendSubscription = this.salaryTrendData$.subscribe(trendData => {
       this.jobSalaryTrendData = cloneDeep(trendData);
     });
@@ -129,7 +133,9 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedPaymarketSubscription.unsubscribe();
     this.selectedRateSubscription.unsubscribe();
     this.salaryTrendSubscription.unsubscribe();
-    this.filterContextSubscription.unsubscribe();
+    if (this.isPeerQuickPriceType && this.filterContextSubscription) {
+      this.filterContextSubscription.unsubscribe();
+    }
     this.workflowContextSubscription.unsubscribe();
     this.userContextSubscription.unsubscribe();
   }
@@ -281,7 +287,9 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     if (workflowContext.selectedPageId === this.comphubPages.Summary && !this.isPeerQuickPriceType) {
       if (this.paymarketHasChanged() || this.jobHasChanged()) {
         // load new job data
-        this.store.dispatch(new fromSummaryCardActions.RecalculateJobData());
+        if (!this.showJobHistorySummary) {
+          this.store.dispatch(new fromSummaryCardActions.RecalculateJobData());
+        }
         if (this.jobHasChanged()) {
           this.loadJobTrendChart();
         }
@@ -291,8 +299,10 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
       this.currencySymbol = getCurrencySymbol(this.workflowContext.activeCountryDataSet.CurrencyCode, 'narrow');
     } else if (workflowContext.selectedPageId === this.comphubPages.Summary && this.isPeerQuickPriceType) {
       this.store.dispatch(new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Jobs, ComphubPages.Markets, ComphubPages.Data]));
-      this.lastJobData = this.jobData;
-      this.loadPeerQuickPriceData();
+      if (!this.showJobHistorySummary) {
+        this.lastJobData = this.jobData;
+        this.loadPeerQuickPriceData();
+      }
       this.filterContext$ = this.exchangeExplorerContextService.selectFilterContext();
       this.filterContextSubscription = this.filterContext$.subscribe(fc => {
         this.filterContext = fc;

@@ -1,42 +1,59 @@
 <div class="d-flex flex-column">
   <div class="accordion">
     <div class="card-container">
-      <span class="hidden" data-qa-id="lbl-current-page">{{workflowContext?.selectedPageId}}</span>
-      <span class="hidden" data-qa-id="lbl-accessible-pages">{{enabledPages.join(',')}}</span>
-      <ng-container *ngFor="let card of cards; let i = index; trackBy: trackById">
-        <pf-comphub-card
-          [hasCardHeader]="i !== 0"
-          [card]="card"
-          [prevCard]="i !== 0 ? cards[i - 1] : card"
-          [containerWidth]="i !== cards.length - 1 ? cardContentContainerWidth : cardContentContainerWidth - cardHeaderMargin"
-          [accessed]="(accessedPages$ | async).indexOf(card.Id) !== -1"
-          [prevCardAccessed]="i > 0 && (accessedPages$ | async).indexOf(cards[i - 1].Id) !== -1"
-          [selected]="workflowContext?.selectedPageId === card.Id"
-          [disabled]="(enabledPages$ | async).indexOf(card.Id) === -1"
-          [prevCardDisabled]="i > 0 && (enabledPages$ | async).indexOf(cards[i - 1].Id) === -1"
-          [cardIndex]="i"
-          [selectedCardIndex]="workflowContext?.selectedPageIndex"
-          (cardHeaderClick)="handleCardChange($event)">
+      <ng-container *ngIf="!(showJobsHistorySummary$ | async); else jobPricedHistorySummary">
+        <span class="hidden" data-qa-id="lbl-current-page">{{workflowContext?.selectedPageId}}</span>
+        <span class="hidden" data-qa-id="lbl-accessible-pages">{{enabledPages.join(',')}}</span>
+        <ng-container *ngFor="let card of cards; let i = index; trackBy: trackById">
+          <pf-comphub-card
+            [showJobPricedHistorySummary]="showJobsHistorySummary$ | async"
+            [hasCardHeader]="i !== 0"
+            [card]="card"
+            [prevCard]="i !== 0 ? cards[i - 1] : card"
+            [containerWidth]="i !== cards.length - 1 ? cardContentContainerWidth : cardContentContainerWidth - cardHeaderMargin"
+            [accessed]="(accessedPages$ | async).indexOf(card.Id) !== -1"
+            [prevCardAccessed]="i > 0 && (accessedPages$ | async).indexOf(cards[i - 1].Id) !== -1"
+            [selected]="workflowContext?.selectedPageId === card.Id"
+            [disabled]="(enabledPages$ | async).indexOf(card.Id) === -1"
+            [prevCardDisabled]="i > 0 && (enabledPages$ | async).indexOf(cards[i - 1].Id) === -1"
+            [cardIndex]="i"
+            [selectedCardIndex]="workflowContext?.selectedPageIndex"
+            (cardHeaderClick)="handleCardChange($event)">
 
-          <ng-container card-content [ngSwitch]="card.Id">
+            <ng-container card-content [ngSwitch]="card.Id">
 
-            <pf-jobs-card *ngSwitchCase="comphubPages.Jobs"></pf-jobs-card>
+              <pf-jobs-card *ngSwitchCase="comphubPages.Jobs"></pf-jobs-card>
 
-            <pf-markets-card *ngSwitchCase="comphubPages.Markets"></pf-markets-card>
+              <pf-markets-card *ngSwitchCase="comphubPages.Markets"></pf-markets-card>
 
-            <pf-parent-data-card *ngSwitchCase="comphubPages.Data"></pf-parent-data-card>
+              <pf-parent-data-card *ngSwitchCase="comphubPages.Data"></pf-parent-data-card>
 
-            <pf-summary-card *ngSwitchCase="comphubPages.Summary"></pf-summary-card>
+              <pf-summary-card *ngSwitchCase="comphubPages.Summary"></pf-summary-card>
 
-          </ng-container>
+            </ng-container>
 
-        </pf-comphub-card>
+          </pf-comphub-card>
 
-        <div class="card-separator"
-             [class.no-transition]="resizeEvent"
-             [ngStyle]="{ 'margin-right.px' : (workflowContext?.selectedPageId === card.Id) ? 0 : -cardContentContainerWidth }">
-        </div>
+          <div class="card-separator"
+               [class.no-transition]="resizeEvent"
+               [ngStyle]="{ 'margin-right.px' : (workflowContext?.selectedPageId === card.Id) ? 0 : -cardContentContainerWidth }">
+          </div>
+        </ng-container>
       </ng-container>
+      <ng-template #jobPricedHistorySummary>
+        <ng-container>
+          <pf-comphub-card
+            [showJobPricedHistorySummary]="showJobsHistorySummary$ | async"
+            [hasCardHeader]="false"
+            [card]="summaryCard"
+            [containerWidth]="historySummaryCardContainerWidth">
+
+            <ng-container card-content>
+              <pf-summary-card></pf-summary-card>
+            </ng-container>
+          </pf-comphub-card>
+        </ng-container>
+      </ng-template>
     </div>
   </div>
   <pf-comphub-footer></pf-comphub-footer>

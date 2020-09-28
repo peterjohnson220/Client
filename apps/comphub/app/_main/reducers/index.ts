@@ -385,6 +385,11 @@ export const getRecalculatingJobDataError = createSelector(
   fromSummaryCardReducer.getRecalculatingJobDataError
 );
 
+export const getShowJobPricedHistorySummary = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getShowJobPricedHistorySummary
+);
+
 // Job Grid
 export const getJobGridResults = createSelector(
   selectJobGridState,

@@ -21,6 +21,7 @@ export interface State {
   isQuickPriceHistoryModalOpen: boolean;
   footerContext: FooterContext;
   selectedJobData: JobData;
+  showJobPricedHistorySummary: boolean;
 }
 
 const initialState: State = {
@@ -42,7 +43,8 @@ const initialState: State = {
   },
   isQuickPriceHistoryModalOpen: false,
   footerContext: null,
-  selectedJobData: null
+  selectedJobData: null,
+  showJobPricedHistorySummary: false
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
@@ -249,3 +251,4 @@ export const getJobPricingBlocked = createSelector(
 export const getIsQuickPriceHistoryModalOpen = (state: State) => state.isQuickPriceHistoryModalOpen;
 export const getFooterContext = (state: State) => state.footerContext;
 export const getSelectedJobData = (state: State) => state.selectedJobData;
+export const getShowJobPricedHistorySummary = (state: State) => state.showJobPricedHistorySummary;

@@ -17,6 +17,7 @@ export interface FooterContextRequest {
   JobSelected: boolean;
   JobDataSelected: boolean;
   IsPeerQuickPriceType: boolean;
+  ShowJobPricedHistorySummary: boolean;
 }
 
 export class FooterHelper {
@@ -56,10 +57,10 @@ export class FooterHelper {
       DisplayCancelButton: true
     };
   }
-  static summaryFooterContext(isPeerQuickPriceType: boolean): FooterContext {
+  static summaryFooterContext(isPeerQuickPriceType: boolean, showJobPricedHistorySummary: boolean): FooterContext {
     return {
-      HideBackButton: isPeerQuickPriceType,
-      BackButtonEnabled: true,
+      HideBackButton: isPeerQuickPriceType || showJobPricedHistorySummary,
+      BackButtonEnabled: !showJobPricedHistorySummary,
       HideNextButton: true,
       NextButtonEnabled: false,
       PageTitle: 'Summary',
@@ -78,7 +79,7 @@ export class FooterHelper {
       case ComphubPages.Data:
         return this.dataFooterContext(request.JobDataSelected);
       case ComphubPages.Summary:
-        return this.summaryFooterContext(request.IsPeerQuickPriceType);
+        return this.summaryFooterContext(request.IsPeerQuickPriceType, request.ShowJobPricedHistorySummary);
       default:
         return null;
     }

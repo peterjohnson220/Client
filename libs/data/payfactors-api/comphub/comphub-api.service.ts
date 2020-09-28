@@ -6,7 +6,7 @@ import {
   QuickPriceListResponse, QuickPriceRequest, TrendingJobGroupResponse,
   JobPricingLimitInfoResponse, JobSalaryTrendRequest, JobSalaryTrendResponse,
   PayMarketDataResponse, SharePricingSummaryRequest, CreateQuickPriceProjectRequest, CountryDataSetResponse,
-  AddCompletedPricingHistoryRequest, QuickPriceJobDataRequest, QuickPriceJobDataResponse
+  AddCompletedPricingHistoryRequest, JobPricedHistorySummaryRequest, JobPricedHistorySummaryResponse, QuickPriceJobDataRequest, QuickPriceJobDataResponse
 } from '../../../models/payfactors-api/comphub';
 import { BaseExchangeDataSearchRequest } from '../../../models/payfactors-api/peer/exchange-data-search/request';
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -76,5 +76,9 @@ export class ComphubApiService {
 
   addCompletedPricingHistory(request: AddCompletedPricingHistoryRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/AddCompletedPricingHistory`, request);
+  }
+
+  getJobPricedHistorySummary(request: JobPricedHistorySummaryRequest): Observable<JobPricedHistorySummaryResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetJobPricedHistorySummary`, request);
   }
 }
