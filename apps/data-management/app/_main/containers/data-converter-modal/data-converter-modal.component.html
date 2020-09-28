@@ -3,7 +3,8 @@
                [showFooter]="false"
                [showSubmit]="false"
                [modalId]="'au-modal-data-converter'"
-               [isOpen$]=" showDataConverterModal$">
+               [isOpen$]=" showDataConverterModal$"
+               (onDismiss)="closeDataConverterModal()">
   <ng-container basic-content>
     <pf-date-converter-form [fieldName]="fieldName"
                             [provider]="provider"
