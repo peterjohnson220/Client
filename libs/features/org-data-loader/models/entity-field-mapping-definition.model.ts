@@ -19,6 +19,10 @@ export function getEntityFieldMappingDefinition(loaderType: LoaderType) {
       return {
         fieldMappingDefinitionModel: getEmployeesCustomDictionary()
       };
+    case LoaderType.Benefits:
+      return {
+        fieldMappingDefinitionModel: getBenefitsCustomDictionary()
+      };
     default:
       return {
         fieldMappingDefinitionModel: getEmptyDictionary()
@@ -111,4 +115,18 @@ export function getEmployeesCustomDictionary(): GenericKeyValue<string, string>[
     }
   ];
   return employeesCustomDictionary;
+}
+
+export function getBenefitsCustomDictionary(): GenericKeyValue<string, string>[] {
+  const benefitsCustomDictionary: GenericKeyValue<string, string>[] = [
+    {
+      Key: 'Employer_Value',
+      Value: 'Employee Contribution'
+    },
+    {
+      Key: 'CompanyEmployee_Value',
+      Value: 'Company Contribution'
+    }
+  ];
+  return benefitsCustomDictionary;
 }
