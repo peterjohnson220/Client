@@ -107,6 +107,10 @@
       <!--Peer Sidebar -->
       <div class="info-sidebar h-100" *ngIf="isPeerQuickPriceType">
           <div class="item">
+            <div class="h">Peer Network</div>
+            <div class="v" [attr.data-qa-id]="'cnt-peer-network'">{{workflowContext?.activeExchangeDataSet?.ExchangeName}}</div>
+          </div>
+          <div class="item">
             <ng-containter [ngTemplateOutlet]="rateTemplate"></ng-containter>
           </div>
           <div class="item">
@@ -267,6 +271,14 @@
 
         <div class="info-horizontal" *ngIf="isPeerQuickPriceType">
           <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="item">
+                  <div class="h">Peer Network</div>
+                  <div class="v">{{workflowContext?.activeExchangeDataSet?.ExchangeName}}</div>
+                </div>
+              </div>
+            </div>
             <div class="row">
               <div class="col">
                 <div class="item">

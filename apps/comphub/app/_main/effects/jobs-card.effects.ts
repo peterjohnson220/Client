@@ -11,11 +11,9 @@ import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOptio
 import { QuickPriceType } from 'libs/constants';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
-import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
-import * as fromJobGridActions from '../actions/job-grid.actions';
 import * as fromComphubReducer from '../reducers';
-import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
+import { PayfactorsApiModelMapper } from '../helpers';
 import { ComphubPages, CountryCode } from '../data';
 import * as fromComphubMainReducer from '../reducers';
 
@@ -148,45 +146,6 @@ export class JobsCardEffects {
       ),
       switchMap((dataSet) => this.comphubApiService.persistActiveCountryDataSet(dataSet.CountryCode))
     );
-
-  @Effect()
-  getQuickPriceMarketData$ = this.actions$
-    .pipe(
-      ofType(fromJobGridActions.GET_QUICK_PRICE_MARKET_DATA),
-      withLatestFrom(
-        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
-        (action: fromJobGridActions.GetQuickPriceMarketData, dataSet) => ({ action, dataSet })
-      ),
-      switchMap((data) => {
-          return this.comphubApiService.getQuickPriceData({
-            JobTitleShort: data.action.payload.JobTitleShort,
-            CompanyPaymarketId: data.action.payload.CompanyPayMarketId,
-            PagingOptions: {
-              Count: data.action.payload.Take,
-              From: data.action.payload.Skip
-            },
-            Sort: DataCardHelper.getSortOption(data.action.payload),
-            CountryCode: data.dataSet.CountryCode
-          })
-            .pipe(
-              mergeMap((response) => {
-                const gridDataResult = PayfactorsApiModelMapper.mapPriceDataToGridDataResult(response);
-                const actions = [];
-                if (data.action.payload.Skip === 0) {
-                  actions.push(new fromJobGridActions.GetQuickPriceMarketDataSuccess(gridDataResult));
-                } else {
-                  actions.push(new fromJobGridActions.LoadMoreDataSuccess(gridDataResult.Data));
-                }
-                actions.push(new fromSummaryCardActions.SetMinPaymarketMinimumWage(response.MinPaymarketMinimumWage));
-                actions.push(new fromSummaryCardActions.SetMaxPaymarketMinimumWage(response.MaxPaymarketMinimumWage));
-
-                return actions;
-              }),
-              catchError((error) => of(new fromJobGridActions.GetQuickPriceMarketDataError(),
-                new fromComphubPageActions.HandleApiError(error)))
-            );
-        }
-      ));
 
   constructor(
     private actions$: Actions,

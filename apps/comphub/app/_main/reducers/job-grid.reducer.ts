@@ -27,7 +27,7 @@ export function reducer(state: State = initialState, action: fromJobGridActions.
         loadingError: false
       };
     }
-    case fromJobGridActions.GET_QUICK_PRICE_MARKET_DATA_SUCCESS: {
+    case fromJobGridActions.GET_QUICK_PRICE_DATA_SUCCESS: {
       return {
         ...state,
         jobResults: action.payload,

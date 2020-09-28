@@ -85,9 +85,11 @@
       </div>
     </div>
 
-    <pf-comphub-job-grid *ngIf="!isPeerQuickPriceType"></pf-comphub-job-grid>
+    <pf-market-data-job-grid *ngIf="!isPeerQuickPriceType"></pf-market-data-job-grid>
 
-    <div *ngIf="isPeerQuickPriceType || (!selectedJob?.length && !isPeerQuickPriceType)" class="row">
+    <pf-peer-job-grid *ngIf="isPeerQuickPriceType"></pf-peer-job-grid>
+
+    <div *ngIf="!selectedJob?.length" class="row">
       <div class="col-lg-12 col-xl-9">
 
         <div class="uppercase-header mt-5 mb-2">Trending Jobs</div>

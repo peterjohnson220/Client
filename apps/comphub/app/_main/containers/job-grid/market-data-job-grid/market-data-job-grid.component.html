@@ -1,0 +1,14 @@
+<pf-comphub-job-grid #marketDataJobGrid
+  [jobTitle]="jobTitle"
+  [jobGridData]="(jobResults$ | async)"
+  [loading]="(jobResultsLoading$ | async)"
+  [loadingError]="(jobResultsLoadingError$ | async)"
+  [gridHasData]="gridHasData"
+  [gridColumnsConfiguration]="gridColumnsConfiguration"
+  [selectedJobData]="(selectedJobData$ | async)"
+  (sortChanged)="loadJobResults($event)"
+  (loadMoreClicked)="loadJobResults($event)"
+  (selectionChanged)="handleSelectionChanged($event)"
+  (jobDescriptionToggled)="handleExpandJdClicked($event)">
+
+</pf-comphub-job-grid>
