@@ -126,7 +126,7 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.payfactorFieldsSubscription.unsubscribe();
     this.providerFieldsSubscription.unsubscribe();
-    this.globalDateSettingSubscription.unsubscribe();
+    this.globalDateSettingSubscription?.unsubscribe();
     this.dragulaSub.unsubscribe();
     this.dragulaService.destroy(this.entityGroupName);
   }
