@@ -13,7 +13,9 @@ import * as fromFieldMappingReducer from '../../reducers';
 import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
 import * as fromFConverterSettingsActions from '../../actions/converter-settings.actions';
 import { generateMockProviderEntityFields, generateMockPayfactorsEntityFields } from '../../models';
+
 import { EntityMappingComponent } from './entity-mapping.component';
+
 
 describe('Data Management - Main - Entity Mapping Component', () => {
   let instance: EntityMappingComponent;
@@ -86,17 +88,12 @@ describe('Data Management - Main - Entity Mapping Component', () => {
   });
 
   it('should dispatch an action when dateformat dropdown changes', () => {
-    const mockEvent = {
-      target: {
-        value: 'yyyy-MM-ddzzz'
-      }
-    };
     const mockConverterSetting = generateMockConverterSettings();
-    const expectedAction = new fromFConverterSettingsActions.AddConverterSetting(mockConverterSetting);
+    const expectedAction = new fromFConverterSettingsActions.AddConverterSetting({converterSetting: mockConverterSetting});
 
     spyOn(store, 'dispatch');
 
-    instance.onDateFormatSelected(mockEvent);
+    instance.onDateFormatSelected('yyyy-MM-ddzzz');
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
 

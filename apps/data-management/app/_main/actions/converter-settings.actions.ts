@@ -16,6 +16,12 @@ export const ADD_CONVERTER_SETTING = '[Data Management/Converter Settings] Add C
 export const ADD_CONVERTER_SETTING_ERROR = '[Data Management/Converter Settings] Add Converter Setting Error';
 export const ADD_CONVERTER_SETTING_SUCCESS = '[Data Management/Converter Settings] Add Converter Setting Success';
 
+export const REMOVE_CONVERTER_SETTING = '[Data Management/Converter Settings] Remove Converter Setting';
+export const REMOVE_CONVERTER_SETTING_ERROR = '[Data Management/Converter Settings] Remove Converter Setting Error';
+export const REMOVE_CONVERTER_SETTING_SUCCESS = '[Data Management/Converter Settings] Remove Converter Setting Success';
+
+export const OPEN_DATA_CONVERTER_MODAL = '[Data Management/Converter Settings] Open Converter Settings Modal';
+
 export class GetConverterSettings implements Action {
   readonly type = GET_CONVERTER_SETTINGS;
 
@@ -43,13 +49,40 @@ export class SaveConverterSettingsSuccess implements Action {
 export class AddConverterSetting implements Action {
   readonly type = ADD_CONVERTER_SETTING;
 
-  constructor(public payload: ConverterSettings) {}
+  constructor(public payload: {converterSetting?: ConverterSettings, fieldName?: string, entityType?: string, connectionId?: number}) {}
 }
 export class AddConverterSettingError implements Action {
   readonly type = ADD_CONVERTER_SETTING_ERROR;
 }
 export class AddConverterSettingSuccess implements Action {
   readonly type = ADD_CONVERTER_SETTING_SUCCESS;
+}
+
+export class RemoveConverterSetting implements Action {
+  readonly type = REMOVE_CONVERTER_SETTING;
+
+  constructor(public payload: {fieldName: string, entityType: string, connectionId: number}) {}
+}
+export class RemoveConverterSettingError implements Action {
+  readonly type = REMOVE_CONVERTER_SETTING_ERROR;
+}
+export class RemoveConverterSettingSuccess implements Action {
+  readonly type = REMOVE_CONVERTER_SETTING_SUCCESS;
+}
+
+export class OpenDataConverterModal implements Action {
+  readonly type = OPEN_DATA_CONVERTER_MODAL;
+
+  constructor(public payload: {
+    open: boolean,
+    modalInfo: {
+      fieldName: string,
+      connectionId: number,
+      dataType: string,
+      entityType: string,
+      provider: string
+    }
+  }) {}
 }
 
 
@@ -62,4 +95,8 @@ export type Actions
   | SaveConverterSettingsSuccess
   | AddConverterSetting
   | AddConverterSettingError
-  | AddConverterSettingSuccess;
+  | AddConverterSettingSuccess
+  | OpenDataConverterModal
+  | RemoveConverterSetting
+  | RemoveConverterSettingError
+  | RemoveConverterSettingSuccess;

@@ -29,10 +29,13 @@ import {
   FileMappingComponent,
   PfCheckboxComponent,
   ProviderListComponent,
-  IntegrationCompleteModalComponent
+  IntegrationCompleteModalComponent,
+  DateFormatDropDownComponent,
+  DateConverterFormComponent
 } from './components';
 import {
   CustomEmployeeIdentifierComponent,
+  DataConverterModalComponent,
   DataManagementHomePageComponent,
   DataManagementLandingPageComponent,
   EntityMappingComponent,
@@ -206,7 +209,10 @@ import { HrisAuthenticationGuard } from './guards';
     OutboundJdmViewSelectionPageComponent,
     OutboundTransferScheduleSummaryComponent,
     ProviderListComponent,
-    FieldSelectionCardComponent
+    FieldSelectionCardComponent,
+    DateConverterFormComponent,
+    DataConverterModalComponent,
+    DateFormatDropDownComponent
   ],
   providers: [
     // Guards
