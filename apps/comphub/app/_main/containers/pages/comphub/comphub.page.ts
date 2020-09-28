@@ -93,10 +93,13 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.userContextSub = this.userContext$.subscribe(uc => {
       if (uc.ClientType === CompanyClientTypeConstants.PEER_AND_ANALYSIS || uc.ClientType === CompanyClientTypeConstants.PEER) {
         this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.PEER));
+        this.store.dispatch(new fromComphubPageActions.GetExchangeDataSets());
       } else if (uc.CompanySystemUserGroupsGroupName === this.systemUserGroupNames.SmallBusiness) {
         this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.SMALL_BUSINESS));
+        this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
       } else {
         this.store.dispatch(new fromComphubPageActions.SetQuickPriceTypeInWorkflowContext(QuickPriceType.ENTERPRISE));
+        this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
       }
       if (uc?.UserId) {
         this.initHistoryGrid(uc.UserId);
@@ -113,8 +116,6 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     });
 
     this.store.dispatch(new fromComphubPageActions.Init());
-    this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
-    this.store.dispatch(new fromComphubPageActions.GetExchangeDataSets());
   }
 
   ngOnDestroy() {
