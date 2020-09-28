@@ -43,6 +43,18 @@ export class PayfactorsApiModelMapper {
     });
   }
 
+  static mapPaymarketToPricingPayMarket(payMarket: PayMarket): PricingPaymarket {
+    return {
+      CompanyPayMarketId: payMarket.CompanyPayMarketId,
+      PayMarketName: payMarket.PayMarket,
+      Industry: payMarket.IndustryValue,
+      Location: payMarket.GeoValue,
+      Size: payMarket.SizeValue,
+      SizeLabel: payMarket.SizeLabel,
+      CurrencyCode: payMarket.CurrencyCode
+    };
+  }
+
   static mapPriceDataToGridDataResult(response: QuickPriceListResponse): JobGridData {
     return {
       Total: response.Count,

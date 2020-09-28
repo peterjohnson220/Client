@@ -35,6 +35,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -1080,6 +1083,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -2125,6 +2131,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -3170,6 +3179,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -4215,6 +4227,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -5260,6 +5275,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -6305,6 +6323,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -7350,6 +7371,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}

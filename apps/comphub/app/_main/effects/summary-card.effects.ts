@@ -8,9 +8,10 @@ import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/
 
 import { WindowRef } from 'libs/core/services';
 import { ComphubApiService } from 'libs/data/payfactors-api';
-import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest } from 'libs/models/payfactors-api';
+import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest, JobPricedHistorySummaryResponse } from 'libs/models/payfactors-api';
 import * as fromNavigationActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
 import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
+import { QuickPriceType } from 'libs/constants';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
@@ -18,10 +19,11 @@ import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import { ComphubPages } from '../data';
-import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
+import { DataCardHelper, MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromComphubMainReducer from '../reducers';
 import { QuickPriceHistoryContext } from '../models';
 import * as fromJobGridActions from '../actions/job-grid.actions';
+
 
 @Injectable()
 export class SummaryCardEffects {
@@ -232,6 +234,45 @@ export class SummaryCardEffects {
             );
         }
       ));
+
+  @Effect()
+  getJobPricedHistorySummary = this.actions$
+    .pipe(
+      ofType(fromSummaryCardActions.GET_JOB_PRICED_HISTORY_SUMMARY),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getQuickPriceType),
+        (action: fromSummaryCardActions.GetJobPricedHistorySummary, quickPriceType) =>
+          ({action, quickPriceType})
+      ),
+      switchMap((data) => {
+        return this.comphubApiService.getJobPricedHistorySummary(data.action.payload)
+          .pipe(
+            mergeMap((response: JobPricedHistorySummaryResponse) => {
+              const actions = [];
+              const jobData = PayfactorsApiModelMapper.mapQuickPriceMarketDataToJobData(response);
+              if (data.quickPriceType !== QuickPriceType.PEER) {
+                const payMarket = !!response.PayMarketDto ?
+                  PayfactorsApiModelMapper.mapPaymarketToPricingPayMarket(response.PayMarketDto) : MarketsCardHelper.buildDefaultPricingPayMarket();
+                actions.push(new fromMarketsCardActions.SetSelectedPaymarket({
+                  paymarket: payMarket,
+                  initialLoad: false,
+                  quickPriceType: data.quickPriceType
+                }));
+              } else {
+                actions.push(new fromMarketsCardActions.SetDefaultPaymarketAsSelected());
+              }
+              actions.push(new fromComphubPageActions.SetSelectedJobData(jobData));
+              actions.push(new fromSummaryCardActions.SetMinPaymarketMinimumWage(response.MinPaymarketMinimumWage));
+              actions.push(new fromSummaryCardActions.SetMaxPaymarketMinimumWage(response.MaxPaymarketMinimumWage));
+              actions.push(new fromSummaryCardActions.GetJobPricedHistorySummarySuccess());
+              actions.push(new fromComphubPageActions.NavigateToCard({ cardId: ComphubPages.Summary }));
+
+              return actions;
+            }),
+            catchError(error => of(new fromSummaryCardActions.GetJobPricedHistorySummaryError()))
+          );
+      })
+    );
 
   constructor(
     private actions$: Actions,

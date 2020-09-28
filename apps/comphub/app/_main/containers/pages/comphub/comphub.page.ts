@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -18,11 +18,13 @@ import { QuickPriceHistoryContext, WorkflowContext } from '../../../models';
 @Component({
   selector: 'pf-comphub-page',
   templateUrl: './comphub.page.html',
-  styleUrls: ['./comphub.page.scss']
+  styleUrls: ['./comphub.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComphubPageComponent implements OnInit, OnDestroy {
   comphubPages = ComphubPages;
   cardContentContainerWidth: number;
+  historySummaryCardContainerWidth: number;
   cardHeaderMargin = 8;
   enabledPages: ComphubPages[];
   cards: AccordionCard[];
@@ -35,15 +37,19 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   workflowContext$: Observable<WorkflowContext>;
   userContext$: Observable<UserContext>;
   historyGridInitialized$: Observable<boolean>;
+  showJobsHistorySummary$: Observable<boolean>;
 
   private enabledPagesSub: Subscription;
   private cardsSub: Subscription;
   private workflowContextSub: Subscription;
   private userContextSub: Subscription;
   private historyGridInitializedSubscription: Subscription;
+  private showJobHistorySummarySubscription: Subscription;
 
   workflowContext: WorkflowContext;
   systemUserGroupNames = SystemUserGroupNames;
+  summaryCard: AccordionCard;
+  showJobHistorySummary: boolean;
 
   private numberOfCardHeaders: number;
   private readonly cardHeaderWidth = 60;
@@ -58,6 +64,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.accessedPages$ = this.store.select(fromComphubMainReducer.getPagesAccessed);
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
+    this.showJobsHistorySummary$ = this.store.select(fromComphubMainReducer.getShowJobPricedHistorySummary);
     this.historyGridInitialized$ = this.store.select(fromBasicDataGridReducer.getIsInitialized, QuickPriceHistoryContext.gridId);
   }
 
@@ -78,6 +85,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.enabledPagesSub = this.enabledPages$.subscribe(ep => this.enabledPages = ep);
     this.cardsSub = this.cards$.subscribe(cards => {
       this.cards = cards;
+      this.summaryCard = cards.find(x => x.Id === ComphubPages.Summary);
       this.numberOfCardHeaders = this.cards.length - 1;
       this.updateCardContentContainerWidth();
     });
@@ -98,6 +106,10 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
       if (initialized) {
         this.basicGridStore.dispatch(new fromBasicDataGridActions.GetCount(QuickPriceHistoryContext.gridId));
       }
+    });
+
+    this.showJobHistorySummarySubscription = this.showJobsHistorySummary$.subscribe(x => {
+      this.showJobHistorySummary = x;
     });
 
     this.store.dispatch(new fromComphubPageActions.Init());
@@ -128,6 +140,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     if (wrapperElement === undefined || wrapperElement[0] === undefined) {
       return;
     }
+    this.historySummaryCardContainerWidth = wrapperElement[0].clientWidth - this.sideBarWidth;
     this.cardContentContainerWidth = wrapperElement[0].clientWidth - this.sideBarWidth -
       (this.cardHeaderWidth * this.numberOfCardHeaders) -
       (this.cardHeaderMargin * (this.numberOfCardHeaders - 1));

@@ -45,6 +45,14 @@ export class QuickPriceHistoryContext {
       DataType: DataViewFieldDataType.String,
       KendoGridField: 'CountryCurrency_Currency_Code',
       IsHidden: true
+    },
+    {
+      EntitySourceName: 'QuickPrice_CompletedPricingHistory',
+      SourceName: 'QuickPrice_CompletedPricingHistory_ID',
+      DisplayName: 'QuickPrice CompletedPricingHistory ID',
+      DataType: DataViewFieldDataType.Int,
+      KendoGridField: 'QuickPrice_CompletedPricingHistory_QuickPrice_CompletedPricingHistory_ID',
+      IsHidden: true
     }
   ];
   static defaultSort: SortDescriptor = {

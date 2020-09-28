@@ -14,6 +14,10 @@
   height: 400px;
 }
 
+::ng-deep .k-grid-content {
+  cursor: pointer;
+}
+
 .quick-price-history-grid ::ng-deep kendo-grid {
   max-height: none !important;
   height: 100%;

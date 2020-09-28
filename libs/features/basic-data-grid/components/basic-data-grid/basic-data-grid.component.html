@@ -13,7 +13,8 @@
       [sortable]="settings?.Sortable"
       [sort]="sortDescriptor$ | async"
       (scrollBottom)="handleScrollBottom()"
-      (sortChange)="handleSortChange($event)">
+      (sortChange)="handleSortChange($event)"
+      (cellClick)="handleCellClick($event)">
       <kendo-grid-column *ngFor="let field of (fields$ | async); trackBy: trackByFn"
                          [field]="field.KendoGridField"
                          [title]="field.DisplayName"

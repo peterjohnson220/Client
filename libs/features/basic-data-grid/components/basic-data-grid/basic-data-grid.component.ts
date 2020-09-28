@@ -10,6 +10,7 @@ import { DataViewFieldDataType, BasicDataViewField } from 'libs/models/payfactor
 import * as fromBasicGridActions from '../../actions/basic-data-grid.actions';
 import * as fromBasicGridReducer from '../../reducers';
 import { BasicGridSettings, getDefaultBasicGridSettings } from '../../models';
+import { DataItem } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'pf-basic-data-grid',
@@ -23,6 +24,7 @@ export class BasicDataGridComponent implements OnInit {
   @Input() loadingMoreData$: Observable<boolean>;
   @Input() settings: BasicGridSettings = getDefaultBasicGridSettings();
   @Output() scrollBottom: EventEmitter<any> = new EventEmitter();
+  @Output() cellClicked: EventEmitter<any> = new EventEmitter();
 
   sortDescriptor$: Observable<SortDescriptor[]>;
 
@@ -54,7 +56,15 @@ export class BasicDataGridComponent implements OnInit {
     this.store.dispatch(new fromBasicGridActions.UpdateSort(this.gridId, updatedSort));
   }
 
+  handleCellClick(event: any): void {
+    this.cellClicked.emit(event.dataItem);
+  }
+
   hasFieldTemplate(fieldName: string): boolean {
-    return this.settings && this.settings.FieldTemplates[fieldName];
+    if (!!this.settings.FieldTemplates) {
+      return this.settings && this.settings.FieldTemplates[fieldName];
+    } else {
+      return false;
+    }
   }
 }

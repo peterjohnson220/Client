@@ -16,6 +16,7 @@ export interface State {
   maxPaymarketMinimumWage: number;
   recalculating: boolean;
   recalculatingError: boolean;
+  showJobPricedHistorySummary: boolean;
 }
 
 const initialState: State = {
@@ -32,7 +33,8 @@ const initialState: State = {
   minPaymarketMinimumWage: null,
   maxPaymarketMinimumWage: null,
   recalculating: false,
-  recalculatingError: false
+  recalculatingError: false,
+  showJobPricedHistorySummary: false
 };
 
 // Reducer function
@@ -156,6 +158,24 @@ export function reducer(state = initialState, action: fromSummaryCardActions.Act
         recalculatingError: true
       };
     }
+    case fromSummaryCardActions.GET_JOB_PRICED_HISTORY_SUMMARY: {
+      return {
+        ...state,
+        showJobPricedHistorySummary: true
+      };
+    }
+    case fromSummaryCardActions.PRICE_NEW_JOB: {
+      return {
+        ...state,
+        showJobPricedHistorySummary: false
+      };
+    }
+    case fromSummaryCardActions.PRICE_NEW_PEER_JOB: {
+      return {
+        ...state,
+        showJobPricedHistorySummary: false
+      };
+    }
 
     default: {
       return state;
@@ -178,3 +198,4 @@ export const getMinPaymarketMinimumWage = (state: State) => state.minPaymarketMi
 export const getMaxPaymarketMinimumWage = (state: State) => state.maxPaymarketMinimumWage;
 export const getRecalculatingJobData = (state: State) => state.recalculating;
 export const getRecalculatingJobDataError = (state: State) => state.recalculatingError;
+export const getShowJobPricedHistorySummary = (state: State) => state.showJobPricedHistorySummary;
