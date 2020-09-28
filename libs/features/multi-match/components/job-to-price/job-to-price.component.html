@@ -14,7 +14,7 @@
   <div class="paymarket">
     {{job.Paymarket}}  <span *ngIf="job.LinkedPaymarketId">
     <fa-icon *ngIf="(!job.DataCutsToAdd || job.DataCutsToAdd.length===0)  && (!job.DeletedJobMatchCutIds || job.DeletedJobMatchCutIds.length ===0)"  class="pl-2" icon="link"></fa-icon>
-    <fa-icon *ngIf="(job.DataCutsToAdd &&  job.DataCutsToAdd.length!=0) || (job.DeletedJobMatchCutIds && job.DeletedJobMatchCutIds.length !=0)"  class="pl-2" icon="unlink"></fa-icon>
+    <fa-icon title="Clicking Save will break link" *ngIf="(job.DataCutsToAdd &&  job.DataCutsToAdd.length!=0) || (job.DeletedJobMatchCutIds && job.DeletedJobMatchCutIds.length !=0)"  class="pl-2" icon="unlink"></fa-icon>
   </span>
   </div>
 
