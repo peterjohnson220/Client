@@ -71,8 +71,8 @@ export const ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS = [
 export const ORG_DATA_PF_BENEFITS_MAPPING_FIELDS = [
   'Employee_ID',
   'Benefit Type',
-  'Employee Contribution',
-  'Company Contribution'
+  'Employer_Value',
+  'CompanyEmployee_Value'
 ];
 
 export const ORG_DATA_PF_EMPLOYEE_FIELDS = [
