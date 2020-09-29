@@ -37,6 +37,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   countryDataSetsLoaded$: Observable<boolean>;
   loadingTrendingJobs$: Observable<boolean>;
   exchangeDataSets$: Observable<ExchangeDataSet[]>;
+  exchangeDataSetsLoaded$: Observable<boolean>;
   exchangeJobSearchOptions$: Observable<ExchangeJobSearchOption[]>;
   workflowContext$: Observable<WorkflowContext>;
   pricedJobsCount$: Observable<AsyncStateObj<number>>;
@@ -75,6 +76,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.exchangeJobSearchOptions$ = this.store.select(fromComphubMainReducer.getExchangeJobSearchOptions);
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
+    this.exchangeDataSetsLoaded$ = this.store.select(fromComphubMainReducer.getExchangeDataSetLoaded);
     this.popupSettings = {
       appendTo: 'component'
     };
