@@ -1,18 +1,20 @@
 <div class="d-flex justify-content-center">
-  <div *ngIf="dataRow.CompanyJobs_Pricings_CompanyJobPricing_ID; else noValue" class="d-flex w-100"
+  <div *ngIf="dataRow.CompanyJobs_Pricings_CompanyJobPricing_ID; else noValue" class="d-flex w-100 justify-content-center"
       [title]="dataRow.CompanyPayMarkets_Linked_PayMarket_Name | modifyPricingError : isActiveJob">
-      <kendo-numerictextbox
-        class="form-control-sm right px-1 input-height-auto"
-        [(ngModel)]="dataRow.CompanyJobs_Pricings_Composite_Adjustment"
-        [disabled]="!!(dataRow.CompanyPayMarkets_Linked_PayMarket_Name | modifyPricingError : isActiveJob)"
-        [spinners]="false"
-        [decimals]="'0'"
-        [format]="'#'"
-        [min]="-100"
-        [max]="99999"
-        [autoCorrect]="true"
-        (change)="updatePricingMatch()">
-      </kendo-numerictextbox>
+      <ng-container *ngIf="!dataRow.CompanyPayMarkets_Linked_PayMarket_Name; else noValue">
+        <kendo-numerictextbox
+          class="form-control-sm right px-1 input-height-auto"
+          [(ngModel)]="dataRow.CompanyJobs_Pricings_Composite_Adjustment"
+          [disabled]="!!(dataRow.CompanyPayMarkets_Linked_PayMarket_Name | modifyPricingError : isActiveJob)"
+          [spinners]="false"
+          [decimals]="'0'"
+          [format]="'#'"
+          [min]="-100"
+          [max]="99999"
+          [autoCorrect]="true"
+          (change)="updatePricingMatch()">
+        </kendo-numerictextbox>
+      </ng-container>
     </div>
 </div>
 
