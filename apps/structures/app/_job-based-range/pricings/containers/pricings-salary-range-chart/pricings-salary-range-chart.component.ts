@@ -144,8 +144,17 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addSalaryRangeQuartile(xCoordinate) {
-    this.salaryRangeSeriesDataModel.Quartile.push(StructuresHighchartsService.formatColumnRange(
-      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Quartile_First, this.jobRangeData.CompanyStructures_Ranges_Quartile_Second));
+    this.salaryRangeSeriesDataModel.Quartile.First.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Min, this.jobRangeData.CompanyStructures_Ranges_Quartile_First));
+
+    this.salaryRangeSeriesDataModel.Quartile.Second.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Quartile_First, this.jobRangeData.CompanyStructures_Ranges_Mid));
+
+    this.salaryRangeSeriesDataModel.Quartile.Third.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Mid, this.jobRangeData.CompanyStructures_Ranges_Quartile_Second));
+
+    this.salaryRangeSeriesDataModel.Quartile.Fourth.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Quartile_Second, this.jobRangeData.CompanyStructures_Ranges_Max));
   }
 
   private addSalaryRangeQuintile(xCoordinate) {
@@ -244,7 +253,12 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       this.salaryRangeSeriesDataModel = {
         MinMidMax: [],
-        Quartile: [],
+        Quartile: {
+          First: [],
+          Second: [],
+          Third: [],
+          Fourth: []
+        },
         Quintile: [],
         Tertile: []
       };
@@ -277,8 +291,10 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         // add pricing plot points
         this.addPricingsMRP(i, currentRow, this.jobRangeData);
 
-        // always add to salary range group
-        this.addSalaryRangeMinMidMax(i);
+        // add to salary range group
+        if (this.rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile) {
+          this.addSalaryRangeMinMidMax(i);
+        }
 
         // always add to midPoint
         this.addMidPoint(i);
@@ -314,7 +330,10 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
         this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
       } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
-        this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeQuartile].setData(this.salaryRangeSeriesDataModel.Quartile, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst].setData(this.salaryRangeSeriesDataModel.Quartile.First, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileSecond].setData(this.salaryRangeSeriesDataModel.Quartile.Second, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileThird].setData(this.salaryRangeSeriesDataModel.Quartile.Third, false);
+        this.chartInstance.series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFourth].setData(this.salaryRangeSeriesDataModel.Quartile.Fourth, false);
         this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
         this.chartInstance.series[PricingsSalaryRangeChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
       } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
