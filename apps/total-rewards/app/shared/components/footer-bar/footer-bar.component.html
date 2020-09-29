@@ -12,6 +12,7 @@
       [disabled]="!primaryButtonEnabled"
       [title]="primaryButtonToolTip"
       (click)="onPrimaryButtonClick()">
+      <pf-loading-indicator *ngIf="showPrimaryButtonSpinner"></pf-loading-indicator>
       {{ primaryButtonText }}
     </button>
   </div>

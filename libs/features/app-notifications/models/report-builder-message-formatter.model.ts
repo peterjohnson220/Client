@@ -6,7 +6,11 @@ export class ReportBuilderMessageFormatter {
     switch (level) {
       case NotificationLevel.Info: {
         const icon = this.getIconDiv(payload);
-        return `<div class="message-container">${icon}${payload.Message}</div>`;
+        let markup = `<div class="message-container">${icon}${payload.Message}</div>`;
+        if (payload.SecondaryMessage) {
+          markup += `<p class="text-muted secondary-message">${payload.SecondaryMessage}</p>`;
+        }
+        return markup;
       }
       case NotificationLevel.Success: {
         const successPayload = payload as SuccessStatusPayLoad;
