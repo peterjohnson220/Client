@@ -155,7 +155,7 @@ export class JobsPageEffects {
         .pipe(
           mergeMap((updatedPricingData) => {
             const updatePricingsActions = this.getActionsToUpdateRows(updatedPricingData, data.currentPaymarketsData,
-              'CompanyJobs_Pricings_CompanyJobPricing_ID', PageViewIds.PayMarkets);
+              'CompanyJobs_Pricings_CompanyJobPricing_ID', PageViewIds.PayMarkets, true);
             const updateMatchesActions = this.getActionsToReloadPricingMatches(updatedPricingData, data.currentPaymarketsData);
 
             const actions = updatePricingsActions.concat(updateMatchesActions);
