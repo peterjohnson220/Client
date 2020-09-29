@@ -62,18 +62,27 @@ export class DataConverterModalComponent implements OnInit, OnDestroy {
           this.titleName =  'Translate Field Data';
           // TODO: Add logic here for other translate data stuff.
         }
+      } else {
+        this.fieldName = null;
+        this.provider = null;
+        this.entityType = null;
+        this.selectedDateFormat = null;
+        this.titleName = null;
+        this.dataType = null;
       }
     });
   }
 
   ngOnDestroy() {
-    this.dataConverterModalInfoSubscription.unsubscribe();
+    this.converterSettingsSubscription.unsubscribe();
     this.dataConverterModalInfoSubscription.unsubscribe();
   }
 
   saveDataConverterModal(converterSetting: ConverterSettings) {
     if (converterSetting) {
-      converterSetting.connection_ID = this.connectionId;
+      if (!converterSetting.connection_ID) {
+        converterSetting.connection_ID = this.connectionId;
+      }
       this.store.dispatch(new fromDataConverterActions.AddConverterSetting({converterSetting: converterSetting}));
     }
     this.store.dispatch(new fromDataConverterActions.OpenDataConverterModal({open: false, modalInfo: null}));
