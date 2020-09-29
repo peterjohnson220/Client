@@ -119,9 +119,7 @@ export const ORG_DATA_PF_EMPLOYEE_FIELDS = [
   'DateOfEntry_PF',
   'STIElig',
   'LTIElig',
-  'Subsidiary_Code',
-  'Structure_Code',
-  'Grade_Code'
+  'Subsidiary_Code'
 ];
 
 export const DATE_FORMATS: DateFormatItem[] = [
