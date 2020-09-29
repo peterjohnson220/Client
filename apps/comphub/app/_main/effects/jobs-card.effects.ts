@@ -36,7 +36,7 @@ export class JobsCardEffects {
       ),
       switchMap((data) => {
         let trendingJobs$ = of(null);
-        if (data.qpType === QuickPriceType.ENTERPRISE) {
+        if (data.qpType === QuickPriceType.ENTERPRISE || data.qpType === QuickPriceType.SMALL_BUSINESS) {
           const countryCode = !!data.activeCountryDataSet ? data.activeCountryDataSet.CountryCode : CountryCode.USA;
           trendingJobs$ = this.comphubApiService.getTrendingJobs(countryCode);
         }
