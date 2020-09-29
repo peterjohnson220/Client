@@ -1,7 +1,7 @@
 <div class="multi-select-container" pfClickElsewhere (clickElsewhere)="clickElsewhere()">
   <div class="selections-summary row align-items-center">
     <div *ngIf="labelText" class="main-label mr-2">{{ labelText }}</div>
-    <div class="select-facade action-item rounded form-control d-flex col pr-4" (click)="toggleCheckboxPanel()">
+    <div class="select-facade action-item rounded form-control d-flex col pr-4" [ngClass]="{'disabled': disabled}" (click)="toggleCheckboxPanel()">
       <span class="ellipsis-overflowing-text pr-0" [ngbTooltip]="getSelectionsString()"
         container="body">{{getSelectionsString()}}</span>
       <span class="position-absolute" style="right: 0.375rem">

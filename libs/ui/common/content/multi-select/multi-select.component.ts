@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { GenericMenuItem } from 'libs/models/common';
-import {RemoteDataSourceService} from 'libs/core/services';
+import { RemoteDataSourceService } from 'libs/core/services';
 
 @Component({
   selector: 'pf-multi-select',
@@ -24,14 +24,15 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   @Input() valueField = 'Value';
   @Input() textField = 'DisplayName';
   @Input() displayNamePreview = false;
+  @Input() highlightSelected = false;
+  @Input() selectedValues: any[] = [];
+  @Input() disabled = false;
+  @Input() disabledMessage = '';
 
   @Output() selectFacadeClick = new EventEmitter();
   @Output() clearSelectionsClick = new EventEmitter();
-
-  @Output()selectedOptionsChange = new EventEmitter();
-  @Input() highlightSelected = false;
-  @Input() selectedValues: any[] = [];
-  @Output()selectedValuesChange = new EventEmitter();
+  @Output() selectedOptionsChange = new EventEmitter();
+  @Output() selectedValuesChange = new EventEmitter();
 
   searchTerm = '';
   remoteDataSourceSubscription: Subscription;
@@ -79,6 +80,10 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   }
 
   toggleCheckboxPanel() {
+    if (this.disabled) {
+      return;
+    }
+
     // Sort after closing dropdown
     if (this.options &&  this.selectedOnTop && !this.isExpanded) {
       this.options = this.options.sort((a, b) => a.IsSelected === b.IsSelected ? 0 : a.IsSelected ? -1 : 1) ;
@@ -117,6 +122,10 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   }
 
   getSelectionsString(): string {
+    if (this.disabled && !!this.disabledMessage?.length) {
+      return this.disabledMessage;
+    }
+
     const fieldMap = this.displayNamePreview ? 'DisplayName' : 'Value';
 
     return this.selectedOptions

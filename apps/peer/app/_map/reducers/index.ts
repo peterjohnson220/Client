@@ -5,13 +5,13 @@ import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 import * as fromRoot from 'libs/state/state';
 import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
 
-import * as fromExchangeScopeReducer from './exchange-scope.reducer';
+import * as fromSaveExchangeScopeReducer from './save-exchange-scope.reducer';
 import * as fromExchangeCompanyJobsReducer from '../reducers/exchange-company-job-grid.reducer';
 import * as fromExportDataCutsReducer from '../reducers/export-data-cuts.reducer';
 
 // Feature area state
 export interface PeerMapState {
-  exchangeScope: fromExchangeScopeReducer.State;
+  saveExchangeScope: fromSaveExchangeScopeReducer.State;
   exportDataCuts: fromExportDataCutsReducer.State;
   exchangeCompanyJobsGrid: IFeatureGridState<fromExchangeCompanyJobsReducer.State>;
 }
@@ -23,7 +23,7 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  exchangeScope: fromExchangeScopeReducer.reducer,
+  saveExchangeScope: fromSaveExchangeScopeReducer.reducer,
   exportDataCuts: fromExportDataCutsReducer.reducer,
   exchangeCompanyJobsGrid: fromExchangeCompanyJobsReducer.reducer
 };
@@ -32,9 +32,9 @@ export const reducers = {
 export const selectFeatureAreaState = createFeatureSelector<PeerMapState>('peer_map');
 
 // Feature Selectors
-export const selectExchangeScopeState = createSelector(
+export const selectSaveExchangeScopeState = createSelector(
   selectFeatureAreaState,
-  (state: PeerMapState) => state.exchangeScope
+  (state: PeerMapState) => state.saveExchangeScope
 );
 
 export const selectExchangeCompanyJobsState = createSelector(
@@ -48,11 +48,21 @@ export const selectExportDataCutsState = createSelector(
 );
 
 
-// Exchange Scope Selectors
+// Save Exchange Scope Selectors
 
 export const getSaveExchangeScopeModalOpen = createSelector(
-  selectExchangeScopeState,
-  fromExchangeScopeReducer.getSaveModalOpen
+  selectSaveExchangeScopeState,
+  fromSaveExchangeScopeReducer.getSaveModalOpen
+);
+
+export const getSaveExchangeScopeParentPayMarketOptions = createSelector(
+  selectSaveExchangeScopeState,
+  fromSaveExchangeScopeReducer.getParentPayMarketOptions
+);
+
+export const getSaveExchangeScopeParentPayMarketOptionsLoading = createSelector(
+  selectSaveExchangeScopeState,
+  fromSaveExchangeScopeReducer.getParentPayMarketOptionsLoading
 );
 
 // Export Data Cuts

@@ -21,7 +21,7 @@ import { ExchangeMapPageComponent } from './exchange-map.page';
 import * as fromPeerMapReducer from '../../../reducers';
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
 import * as fromSharedPeerExchangeActions from '../../../../shared/actions/exchange.actions';
-import * as fromExchangeScopeActions from '../../../actions/exchange-scope.actions';
+import * as fromExchangeScopeActions from '../../../actions/save-exchange-scope.actions';
 import * as fromExportDataCutsActions from '../../../actions/export-data-cuts.actions';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
@@ -128,7 +128,8 @@ describe('Peer - Map - Exchange Map Page', () => {
       ExchangeScopeId: -1,
       ExchangeScopeName: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeName,
       ExchangeScopeDescription: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeDescription,
-      IsDefault: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.IsDefault
+      IsDefault: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.IsDefault,
+      CompanyPayMarketIdsToDefaultFor: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.CompanyPayMarketIdsToDefaultFor
     });
 
     spyOn(store, 'dispatch');
@@ -138,7 +139,8 @@ describe('Peer - Map - Exchange Map Page', () => {
     instance.handleUpsertExchangeScopeEvent({
       Name: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeName,
       Description: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeDescription,
-      IsDefault: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.IsDefault
+      IsDefault: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.IsDefault,
+      CompanyPayMarketIdsToDefaultFor: mockUpsertExchangeScopeRequest.ExchangeScopeDetails.CompanyPayMarketIdsToDefaultFor
     });
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
