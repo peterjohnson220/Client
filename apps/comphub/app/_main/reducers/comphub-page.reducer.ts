@@ -236,6 +236,7 @@ export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInf
 export const getCountryDataSetsLoaded = (state: State) => state.countryDataSetLoaded;
 export const getCountryDataSets = (state: State) => state.countryDataSets;
 export const getExchangeDataSets = (state: State) => state.exchangeDataSets;
+export const getExchangeDataSetLoaded = (state: State) => state.exchangeDataSetLoaded;
 export const getActiveCountryDataSet = (state: State) => state.countryDataSets.find(cds => cds.Active);
 export const getActiveExchangeDataSet = (state: State) => state.exchangeDataSets.find(eds => eds.Active);
 export const getWorkflowContext = (state: State) => state.workflowContext;

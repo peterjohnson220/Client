@@ -170,6 +170,11 @@ export const getExchangeDataSets = createSelector(
   fromComphubPageReducer.getExchangeDataSets
 );
 
+export const getExchangeDataSetLoaded = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getExchangeDataSetLoaded
+);
+
 export const getActiveCountryDataSet = createSelector(
   selectComphubPageState,
   fromComphubPageReducer.getActiveCountryDataSet

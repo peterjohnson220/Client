@@ -96,7 +96,7 @@
         <p class="mb-4">Check out these recently priced jobs that are trending across the Payfactors universe!</p>
 
         <pf-async-container [loading]="loadingTrendingJobs$ | async">
-          <div class="row" *ngIf="countryDataSetsLoaded$ | async">
+          <div class="row" *ngIf="(countryDataSetsLoaded$ | async) || (exchangeDataSetsLoaded$ | async)">
             <ng-container *ngIf="(trendingJobGroups$ | async)?.length && !(loadingTrendingJobs$ | async); else noTrendingJobGroups">
               <div class="col-6" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
                 <pf-trending-job-group
