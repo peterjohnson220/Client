@@ -1,15 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { PfValidators } from 'libs/forms/validators';
 import { AsyncStateObj } from 'libs/models/state';
-import { SelectedJobFamily } from 'libs/models/jobs-hierarchy';
+import { JobLevelOrder, JobLevelHierarchyDetail } from 'libs/models';
 import { HierarchyGroupingTypes } from 'libs/constants/structures/hierarchy-grouping-type';
 
 import * as fromJobsHierarchyReducer from '../../reducers';
+import { minSelectedCheckboxes, minControls } from '../../helpers';
 import * as fromJobsHierarchyActions from '../../actions/jobs-hierarchy.actions';
+import { JobLevelHierarchyDndService } from '../../services';
 
 
 @Component({
@@ -22,105 +25,244 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
 
   groupingTypes = [HierarchyGroupingTypes.JOB_FAMILY_JOB_LEVEL, HierarchyGroupingTypes.JOB_FAMILY, HierarchyGroupingTypes.JOB_LEVEL];
   defaultGroupingType: HierarchyGroupingTypes.JOB_FAMILY_JOB_LEVEL;
-  createJobsHierarchyForm: FormGroup;
-  selectableJobFamiliesList: SelectedJobFamily[];
+  jobLevelHierarchyForm: FormGroup;
   selectedJobLevel: string;
   selectedJobLevelInHierarchy: string;
-  jobLevelsInHierarchy: string[];
-  jobLevelsMasterList: string[];
-  jobLevels: string[];
+  jobLevelsInHierarchy: string[] = [];
+  jobLevelsMasterList: string[] = [];
+  jobLevels: string[] = [];
+  jobFamilies: string[] = [];
+  selectedHierarchy: JobLevelHierarchyDetail = {} as JobLevelHierarchyDetail;
+  attemptedSubmit = false;
 
   jobFamilies$: Observable<AsyncStateObj<string[]>>;
   jobLevels$: Observable<AsyncStateObj<string[]>>;
-  selectableJobFamiliesList$: Observable<SelectedJobFamily[]>;
+  selectedHierarchy$: Observable<JobLevelHierarchyDetail>;
+  shouldResetHierarchyForm$: Observable<boolean>;
 
+  jobFamiliesSub: Subscription;
   selectableJobFamiliesListSub: Subscription;
   jobLevelsSub: Subscription;
+  selectedHierarchySub: Subscription;
+  shouldResetHierarchyFormSub: Subscription;
 
-  get f() { return this.createJobsHierarchyForm.controls; }
+  get f() { return this.jobLevelHierarchyForm.controls; }
+
+  get jobFamiliesFormArray() {
+    return this.jobLevelHierarchyForm.controls.jobFamilies as FormArray;
+  }
+
+  get jobLevelsFormArray() {
+    return this.jobLevelHierarchyForm.controls.jobLevels as FormArray;
+  }
+
+  get jobLevelsInHierarchyFormArray() {
+    return this.jobLevelHierarchyForm.controls.jobLevelsInHierarchy as FormArray;
+  }
 
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store<fromJobsHierarchyReducer.State>
+    private store: Store<fromJobsHierarchyReducer.State>,
+    private jobLevelHierarchyDndService: JobLevelHierarchyDndService,
   ) {
 
-    this.jobFamilies$ = this.store.select(fromJobsHierarchyReducer.getJobFamilyDetails);
-    this.jobLevels$ = this.store.select(fromJobsHierarchyReducer.getJobLevelsForJobFamiliesDetails);
-    this.selectableJobFamiliesList$ = this.store.select(fromJobsHierarchyReducer.getSelectedJobFamiliesList);
+    this.jobFamilies$ = this.store.select(fromJobsHierarchyReducer.getJobFamilies);
+    this.jobLevels$ = this.store.select(fromJobsHierarchyReducer.getJobLevels);
+    this.selectedHierarchy$ = this.store.select(fromJobsHierarchyReducer.getSelectedHierarchy);
+    this.shouldResetHierarchyForm$ = this.store.select(fromJobsHierarchyReducer.getResetHierarchyForm);
+    this.buildForm();
+  }
 
-    this.createJobsHierarchyForm = this.formBuilder.group({
-      hierarchyName: ['', PfValidators.required, PfValidators.maxLengthTrimWhitespace(this.MAX_NAME_LENGTH)],
-      groupingOrder: ['', PfValidators.required],
-      jobFamilies: [''],
-      jobLevels: [''],
-      jobLevelsInHierarchy: ['']
-  });
-
+  buildForm() {
+    this.jobLevelHierarchyForm = this.formBuilder.group({
+      hierarchyName: [this.selectedHierarchy.HierarchyName, [PfValidators.required, PfValidators.maxLengthTrimWhitespace(this.MAX_NAME_LENGTH)]],
+      groupingOrder: [HierarchyGroupingTypes.JOB_FAMILY_JOB_LEVEL, PfValidators.required],
+      jobFamilies: this.formBuilder.array([], minSelectedCheckboxes(1)),
+      jobLevels: this.formBuilder.array([]),
+      jobLevelsInHierarchy: this.formBuilder.array([], minControls(2))
+    });
   }
 
   ngOnInit() {
-    this.jobLevelsInHierarchy = [];
-    this.jobLevels = [];
-    this.selectableJobFamiliesListSub = this.selectableJobFamiliesList$.subscribe(families => {
-      this.selectableJobFamiliesList = families;
+    this.jobLevelHierarchyDndService.initDnD(() => {
+      this.jobLevelsInHierarchyFormArray.clear();
+      this.jobLevelsInHierarchy.forEach(() => this.jobLevelsInHierarchyFormArray.push(new FormControl(false)));
     });
 
-    this.jobLevelsSub = this.jobLevels$.subscribe(levels => {
-      this.jobLevelsMasterList = levels.obj;
-      if (this.jobLevelsInHierarchy.length > 0) {
-        this.jobLevelsInHierarchy.forEach(x => {
-          if (this.jobLevelsMasterList.indexOf(x) === -1) {
-            this.jobLevelsInHierarchy = this.jobLevelsInHierarchy.filter(y => y !== x);
+    this.shouldResetHierarchyFormSub = this.shouldResetHierarchyForm$.subscribe(c => {
+      if (c === true) {
+        this.attemptedSubmit = false;
+        this.jobFamiliesFormArray.clear();
+        this.jobLevelsFormArray.clear();
+        this.jobLevelsInHierarchyFormArray.clear();
+
+        this.jobFamilies = [];
+        this.jobLevels = [];
+        this.jobLevelsInHierarchy = [];
+        this.selectedHierarchy = {} as JobLevelHierarchyDetail;
+
+        this.f['hierarchyName'].setValue('');
+        this.f['groupingOrder'].setValue(HierarchyGroupingTypes.JOB_FAMILY_JOB_LEVEL);
+
+        this.store.dispatch(new fromJobsHierarchyActions.ResetJobLevelHierarchyFormSuccess());
+      }
+    });
+
+    this.jobFamiliesSub = this.jobFamilies$.subscribe(f => {
+      if (!!f && !!f.obj) {
+        this.jobFamiliesFormArray.clear();
+        this.jobFamilies = f.obj;
+        this.jobFamilies.forEach(() => this.jobFamiliesFormArray.push(new FormControl(false)));
+      }
+    });
+
+    this.jobLevelsSub = this.jobLevels$.subscribe(l => {
+      if (!!l && !!l.obj) {
+        this.jobLevelsFormArray.clear();
+        this.jobLevels = l.obj;
+        this.jobLevels = this.jobLevels.filter(item => !this.jobLevelsInHierarchy.includes(item));
+        this.jobLevels.forEach(() => this.jobLevelsFormArray.push(new FormControl(false)));
+      }
+    });
+
+    this.selectedHierarchySub = this.selectedHierarchy$.subscribe(h => {
+      if (!!h && h.HierarchyId > 0) {
+        this.selectedHierarchy = h;
+
+        this.jobFamilies.forEach((f, index) => {
+          if (this.selectedHierarchy.JobFamilies.includes(f)) {
+            this.jobFamiliesFormArray.controls[index].setValue(true);
+          } else {
+            this.jobFamiliesFormArray.controls[index].setValue(false);
           }
         });
+
+        if (this.selectedHierarchy.JobLevel.length > 0) {
+          this.jobLevelsFormArray.clear();
+          this.jobLevelsInHierarchyFormArray.clear();
+
+          this.jobLevelsInHierarchy = this.selectedHierarchy.JobLevel.map(c => c.JobLevel);
+          this.jobLevels = this.jobLevels.filter(item => !this.jobLevelsInHierarchy.includes(item));
+
+          this.jobLevels.forEach(() => {
+            this.jobLevelsFormArray.push(new FormControl(false));
+          });
+
+          this.jobLevelsInHierarchy.forEach(() => {
+            this.jobLevelsInHierarchyFormArray.push(new FormControl(false));
+          });
+        }
+
+        this.f['hierarchyName'].setValue(this.selectedHierarchy.HierarchyName);
+        this.f['groupingOrder'].setValue(this.selectedHierarchy.GroupingOrder);
       }
-      this.jobLevels = this.jobLevelsMasterList.filter(item => this.jobLevelsInHierarchy.indexOf(item) < 0);
     });
 
-    this.createJobsHierarchyForm.patchValue({groupingOrder: HierarchyGroupingTypes.JOB_FAMILY_JOB_LEVEL});
+    this.buildForm();
   }
 
   ngOnDestroy() {
     this.selectableJobFamiliesListSub.unsubscribe();
     this.jobLevelsSub.unsubscribe();
+    this.jobFamiliesSub.unsubscribe();
+    this.selectedHierarchySub.unsubscribe();
+    this.shouldResetHierarchyFormSub.unsubscribe();
+    this.jobLevelHierarchyDndService.destroyDnD();
   }
 
-  updateJobFamiliesSelected(jobFamily: string, selected: boolean) {
-    const updateSelectableJobFamilyList = [];
-    this.selectableJobFamiliesList.forEach(f => {
-      if ( f.JobFamily === jobFamily) {
-        updateSelectableJobFamilyList.push({JobFamily: f.JobFamily, Selected: selected});
-      } else {
-        updateSelectableJobFamilyList.push(f);
-      }
-    });
+  submit() {
+    this.attemptedSubmit = true;
 
-    const selectedFamiliesCount = updateSelectableJobFamilyList.filter(x => x.Selected === true).length;
-    if (selectedFamiliesCount === 0) {
-      this.jobLevelsInHierarchy = [];
+    if (this.jobLevelHierarchyForm.valid) {
+      this.attemptedSubmit = false;
+      this.store.dispatch(new fromJobsHierarchyActions.SaveJobLevelHierarchy({jobLevelHierarchy: this.mapJobLevelHierarchy()}));
     }
-
-    this.store.dispatch(new fromJobsHierarchyActions.SetJobFamilySelection(updateSelectableJobFamilyList));
   }
 
   applyToHierarchy() {
-    this.jobLevelsInHierarchy.push(this.selectedJobLevel);
-    this.jobLevels = this.jobLevels.filter(x => x !== this.selectedJobLevel);
-    this.selectedJobLevel = '';
-  }
+    const selectedJobLevels = this.jobLevelHierarchyForm.value.jobLevels
+      .map((checked, i) => checked ? this.jobLevels[i] : null)
+      .filter(v => v !== null);
 
-  onJobLevelSelectionChange(selection) {
-    this.selectedJobLevel = selection;
-  }
+    selectedJobLevels.map(c => this.jobLevelsInHierarchy.push(c));
+    this.jobLevelsInHierarchyFormArray.clear();
+    this.jobLevelsInHierarchy.forEach(() => this.jobLevelsInHierarchyFormArray.push(new FormControl(false)));
 
-  onJobLevelsInHierarchySelectionChange(selection) {
-    this.selectedJobLevelInHierarchy = selection;
+    this.jobLevels = this.jobLevels.filter(item => this.jobLevelsInHierarchy.indexOf(item) < 0);
+    this.jobLevelsFormArray.clear();
+    this.jobLevels.forEach(() => this.jobLevelsFormArray.push(new FormControl(false)));
   }
 
   removeFromHierarchy() {
-    this.jobLevels.push(this.selectedJobLevelInHierarchy);
-    this.jobLevelsInHierarchy = this.jobLevelsInHierarchy.filter(x => x !== this.selectedJobLevelInHierarchy);
-    this.selectedJobLevelInHierarchy = '';
+    const selectedJobLevelsInHierarchy = this.jobLevelHierarchyForm.value.jobLevelsInHierarchy
+      .map((checked, i) => checked ? this.jobLevelsInHierarchy[i] : null)
+      .filter(v => v !== null);
+
+      selectedJobLevelsInHierarchy.map(c => this.jobLevels.push(c));
+
+      this.jobLevelsFormArray.clear();
+
+      this.jobLevels.forEach(() => this.jobLevelsFormArray.push(new FormControl(false)));
+      this.jobLevelsInHierarchy = this.jobLevelsInHierarchy.filter(item => selectedJobLevelsInHierarchy.indexOf(item) < 0);
+      this.jobLevelsInHierarchyFormArray.clear();
+      this.jobLevelsInHierarchy.forEach(() => this.jobLevelsInHierarchyFormArray.push(new FormControl(false)));
+  }
+
+  onJobFamilySelectionChange(target) {
+    const selectedJobFamilies = this.jobLevelHierarchyForm.value.jobFamilies
+      .map((checked, i) => checked ? this.jobFamilies[i] : null)
+      .filter(v => v !== null);
+    this.store.dispatch(new fromJobsHierarchyActions.GetAvailableJobLevels({
+      selectedJobFamilies: selectedJobFamilies,
+      hierarchyId: this.selectedHierarchy.HierarchyId ?? 0
+    }));
+  }
+
+  onJobLevelSelectionChange(selection: HTMLOptionsCollection) {
+    for (let i = 0; i < selection.length; i++) {
+      if (selection[i].selected === true) {
+        this.jobLevelsFormArray.controls[i].setValue(true);
+      } else {
+        this.jobLevelsFormArray.controls[i].setValue(false);
+      }
+   }
+  }
+
+  onJobLevelsInHierarchySelectionChange(selection: HTMLOptionsCollection) {
+    for (let i = 0; i < selection.length; i++) {
+      if (selection[i].selected === true) {
+        this.jobLevelsInHierarchyFormArray.controls[i].setValue(true);
+      } else {
+        this.jobLevelsInHierarchyFormArray.controls[i].setValue(false);
+      }
+    }
+  }
+
+  mapJobLevelHierarchy(): JobLevelHierarchyDetail {
+    const selectedJobFamilies = this.jobLevelHierarchyForm.value.jobFamilies
+    .map((checked, i) => checked ? this.jobFamilies[i] : null)
+    .filter(v => v !== null);
+
+    const jobLevelsWithOrder: JobLevelOrder[] = [];
+    this.jobLevelsInHierarchy.forEach((value, index) => {
+      const level = {} as JobLevelOrder;
+      level.JobLevel = value;
+      level.Order = index;
+      jobLevelsWithOrder.push(level);
+    });
+
+    const form = this.jobLevelHierarchyForm.value;
+    const jobLevelHierarchy: JobLevelHierarchyDetail = {} as JobLevelHierarchyDetail;
+    jobLevelHierarchy.HierarchyName = form.hierarchyName;
+    jobLevelHierarchy.GroupingOrder = form.groupingOrder;
+    jobLevelHierarchy.JobFamilies = selectedJobFamilies;
+    jobLevelHierarchy.JobLevel = jobLevelsWithOrder;
+
+    if (!!this.selectedHierarchy) {
+      jobLevelHierarchy.HierarchyId = this.selectedHierarchy.HierarchyId;
+    }
+
+    return jobLevelHierarchy;
   }
 
 }

@@ -1,87 +1,82 @@
-import * as fromJobsHierarchyActions from '../actions/jobs-hierarchy.actions';
-import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import cloneDeep from 'lodash/cloneDeep';
-import { SelectedJobFamily } from 'libs/models/jobs-hierarchy';
+import { AsyncStateObj,
+  JobLevelHierarchy,
+  JobLevelOrder,
+  generateDefaultAsyncStateObj,
+  generateMockJobLevelOrder,
+  JobLevelHierarchyDetail,
+  generateMockJobLevelHierarchyDetail} from 'libs/models';
+import { AsyncStateObjHelper } from 'libs/core';
 
+import * as fromJobsHierarchyActions from '../actions/jobs-hierarchy.actions';
 
 export interface State {
-  jobFamilyDetailsAsync: AsyncStateObj<string[]>;
-  selectedJobFamiliesList: SelectedJobFamily[];
-  jobLevelsForJobFamiliesDetailsAsync: AsyncStateObj<string[]>;
+  hierarchiesAsync: AsyncStateObj<JobLevelHierarchy[]>;
+  availableJobFamiliesAsync: AsyncStateObj<string[]>;
+  availableJobLevelsAsync: AsyncStateObj<string[]>;
+  selectedHierarchy: AsyncStateObj<JobLevelHierarchyDetail>;
+  selectedJobLevels: JobLevelOrder[];
+  jobLevelsForJobFamiliesAsync: AsyncStateObj<string[]>;
+  resetHierarchyForm: boolean;
 }
 
 const  initialState: State = {
-  jobFamilyDetailsAsync: generateDefaultAsyncStateObj<string[]>([]),
-  selectedJobFamiliesList: [],
-  jobLevelsForJobFamiliesDetailsAsync: generateDefaultAsyncStateObj<string[]>([])
+  hierarchiesAsync: generateDefaultAsyncStateObj<JobLevelHierarchy[]>([]),
+  availableJobFamiliesAsync: generateDefaultAsyncStateObj<string[]>([]),
+  availableJobLevelsAsync: generateDefaultAsyncStateObj<string[]>([]),
+  selectedHierarchy: generateDefaultAsyncStateObj<JobLevelHierarchyDetail>(generateMockJobLevelHierarchyDetail()),
+  selectedJobLevels: [generateMockJobLevelOrder()],
+  jobLevelsForJobFamiliesAsync: generateDefaultAsyncStateObj<string[]>([]),
+  resetHierarchyForm: false
 };
-
 
 export function reducer(state = initialState, action: fromJobsHierarchyActions.Actions): State {
   switch (action.type) {
+    case fromJobsHierarchyActions.GET_AVAILABLE_JOB_LEVELS: {
+      return AsyncStateObjHelper.loading(state, 'availableJobLevelsAsync');
+    }
+    case fromJobsHierarchyActions.GET_AVAILABLE_JOB_LEVELS_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'availableJobLevelsAsync', action.payload);
+    }
+    case fromJobsHierarchyActions.GET_AVAILABLE_JOB_LEVELS_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'availableJobLevelsAsync');
+    }
     case fromJobsHierarchyActions.GET_JOB_FAMILIES: {
-      const jobFamilyDetailsAsyncClone = cloneDeep(state.jobFamilyDetailsAsync);
-
-      jobFamilyDetailsAsyncClone.loading = true;
-      jobFamilyDetailsAsyncClone.obj = null;
-      jobFamilyDetailsAsyncClone.loadingError = false;
-
-      return {
-        ...state,
-        jobFamilyDetailsAsync: jobFamilyDetailsAsyncClone
-      };
+      return AsyncStateObjHelper.loading(state, 'availableJobFamiliesAsync');
     }
     case fromJobsHierarchyActions.GET_JOB_FAMILIES_SUCCESS: {
-      const jobFamilyDetailsAsyncClone = cloneDeep(state.jobFamilyDetailsAsync);
-      const jobFamilySelectedList = cloneDeep(state.selectedJobFamiliesList);
-
-      jobFamilyDetailsAsyncClone.loading = false;
-      jobFamilyDetailsAsyncClone.obj = action.payload;
-
-      if (jobFamilyDetailsAsyncClone.obj) {
-          const jobFamilies = jobFamilyDetailsAsyncClone.obj;
-          jobFamilies.forEach(family => {
-            jobFamilySelectedList.push({JobFamily: family, Selected: false});
-          });
-      }
-      return {
-        ...state,
-        jobFamilyDetailsAsync: jobFamilyDetailsAsyncClone,
-        selectedJobFamiliesList: jobFamilySelectedList
-      };
+      return AsyncStateObjHelper.loadingSuccess(state, 'availableJobFamiliesAsync', action.payload);
     }
     case fromJobsHierarchyActions.GET_JOB_FAMILIES_ERROR: {
-      const jobFamilyDetailsAsyncClone = cloneDeep(state.jobFamilyDetailsAsync);
-
-      jobFamilyDetailsAsyncClone.loading = false;
-      jobFamilyDetailsAsyncClone.loadingError = true;
-
+      return AsyncStateObjHelper.loadingError(state, 'availableJobFamiliesAsync');
+    }
+    case fromJobsHierarchyActions.GET_JOB_LEVEL_HIERARCHIES: {
+      return AsyncStateObjHelper.loading(state, 'hierarchiesAsync');
+    }
+    case fromJobsHierarchyActions.GET_JOB_LEVEL_HIERARCHIES_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'hierarchiesAsync', action.payload);
+    }
+    case fromJobsHierarchyActions.GET_JOB_LEVEL_HIERARCHIES_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'hierarchiesAsync');
+    }
+    case fromJobsHierarchyActions.GET_JOB_LEVEL_HIERARCHY: {
+      return AsyncStateObjHelper.loading(state, 'selectedHierarchy');
+    }
+    case fromJobsHierarchyActions.GET_JOB_LEVEL_HIERARCHY_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'selectedHierarchy', action.payload);
+    }
+    case fromJobsHierarchyActions.GET_JOB_LEVEL_HIERARCHY_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'selectedHierarchy');
+    }
+    case fromJobsHierarchyActions.RESET_JOB_LEVEL_HIERARCY_FORM: {
       return {
         ...state,
-        jobFamilyDetailsAsync: jobFamilyDetailsAsyncClone
+        resetHierarchyForm: true
       };
     }
-    case fromJobsHierarchyActions.SET_NEW_FAMILY_SELECTION: {
-      const updatedSelections = cloneDeep(action.payload);
-      const jobLevelsForJobFamiliesDetailsAsyncClone = cloneDeep(state.jobLevelsForJobFamiliesDetailsAsync);
-
-      jobLevelsForJobFamiliesDetailsAsyncClone.loading = true;
-      jobLevelsForJobFamiliesDetailsAsyncClone.loadingError = false;
-
-      return{
-        ...state,
-        selectedJobFamiliesList: updatedSelections,
-        jobLevelsForJobFamiliesDetailsAsync: jobLevelsForJobFamiliesDetailsAsyncClone
-      };
-    }
-    case fromJobsHierarchyActions.GET_JOB_LEVELS_FOR_JOB_FAMILY_SUCCESS: {
-      const jobLevelsForJobFamiliesDetailsAsyncClone = cloneDeep(state.jobLevelsForJobFamiliesDetailsAsync);
-
-      jobLevelsForJobFamiliesDetailsAsyncClone.loading = false;
-      jobLevelsForJobFamiliesDetailsAsyncClone.obj = action.payload;
+    case fromJobsHierarchyActions.RESET_JOB_LEVEL_HIERARCY_FORM_SUCCESS: {
       return {
         ...state,
-        jobLevelsForJobFamiliesDetailsAsync: jobLevelsForJobFamiliesDetailsAsyncClone
+        resetHierarchyForm: false
       };
     }
     default: {
@@ -90,7 +85,9 @@ export function reducer(state = initialState, action: fromJobsHierarchyActions.A
   }
 }
 
-export const getJobFamilyDetails = (state: State) => state.jobFamilyDetailsAsync;
-export const getJobLevelsForJobFamiliesDetails = (state: State) => state.jobLevelsForJobFamiliesDetailsAsync;
-export const getSelectedJobFamiliesList = (state: State) => state.selectedJobFamiliesList;
-
+export const getJobFamilies = (state: State) => state.availableJobFamiliesAsync;
+export const getJobLevels = (state: State) => state.availableJobLevelsAsync;
+export const getJobLevelHierachies = (state: State) => state.hierarchiesAsync.obj;
+export const getSelectedHierachy = (state: State) => state.selectedHierarchy.obj;
+export const getJobLevelsForJobFamiliesDetails = (state: State) => state.jobLevelsForJobFamiliesAsync;
+export const getResetHierarchyForm = (state: State) => state.resetHierarchyForm;

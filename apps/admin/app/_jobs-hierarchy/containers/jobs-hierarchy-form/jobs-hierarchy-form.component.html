@@ -1,93 +1,89 @@
-<div class="card my-2">
-  <div class="card-body">
-    <h5 class="card-title">Create New Hierarchy: </h5>
-    <ng-container form-content>
-      <form [formGroup]="createJobsHierarchyForm">
+<ng-container form-content>
+  <form [formGroup]="jobLevelHierarchyForm">
 
-        <div class="col-7">
-          <div class="form-group row">
-            <label class="control-label" for="hierarchyName">Hierarchy Name: <span class="text-danger">*</span></label>
-            <input id="hierarchyName" type="text" class="form-control" formControlName="hierarchyName" placeholder="Hierarchy Name..."
-               [ngClass]="{'is-invalid': !f.hierarchyName.valid && f.hierarchyName.touched}" [maxlength]="MAX_NAME_LENGTH">
-            <span *ngIf="f.hierarchyName.errors?.required" class="invalid-feedback">Hierarchy name is required</span>
-            <span *ngIf="f.hierarchyName.errors?.maxlength" class="invalid-feedback">Hierarchy name cannot be longer than {{MAX_NAME_LENGTH}} characters</span>
-          </div>
+    <div class="col-5">
+      <div class="form-group row">
+        <label class="control-label" for="hierarchyName">Hierarchy Name: <span class="text-danger">*</span></label>
+        <input id="hierarchyName" type="text" class="form-control" formControlName="hierarchyName" placeholder="Hierarchy Name..."
+          [ngClass]="{'is-invalid': attemptedSubmit && (f['hierarchyName'].hasError('required') || f['hierarchyName'].hasError('maxlength'))}" 
+          [maxlength]="MAX_NAME_LENGTH">
+        <span *ngIf="attemptedSubmit && f['hierarchyName'].hasError('required')" class="text-danger d-flex justify-content-end">Required</span>
+        <span *ngIf="attemptedSubmit && f['hierarchyName'].hasError('maxlength')" class="text-danger d-flex justify-content-end">
+          Exceeds {{f.hierarchyName.errors.maxlength.requiredLength}} characters: {{f.hierarchyName.errors.maxlength.actualLength}}
+        </span>
+      </div>
 
-          <div class="form-group row">
-            <label class="control-label" for="groupingOrder">Select Grouping Order: </label>
-              <kendo-dropdownlist
-                id="groupingOrder"
-                formControlName="groupingOrder"
-                [data]="groupingTypes"
-                [defaultItem]="defaultGroupingType"
-                [valuePrimitive]="true"
-                class="k-dropdown-white form-control">
-              </kendo-dropdownlist>
-          </div>
-        </div>
+      <div class="form-group row">
+        <label class="control-label" for="groupingOrder">Select Grouping Order: </label>
+          <kendo-dropdownlist id="groupingOrder" formControlName="groupingOrder"
+            [data]="groupingTypes" [defaultItem]="defaultGroupingType"
+            [valuePrimitive]="true" class="k-dropdown-white form-control">
+          </kendo-dropdownlist>
+      </div>
+    </div>
 
-        <div class="control-label" >Select the job families to be included in this hierarchy: </div>
-        <div class="row">
-          <div class="col-7">
-            <div class="card my-2">
-              <div class="card-body">
-                <ng-container *ngFor="let jobFamily of (jobFamilies$ | async)?.obj">
-                  <label class="custom-control custom-checkbox">
-                    <input id="jobFamilies" class="form-check-input" type="checkbox" formControlName="jobFamilies"
-                           (change)="updateJobFamiliesSelected(jobFamily, $event.target.checked)">
-                    <span class="form-check-label custom-control-description">{{jobFamily}}</span>
-                  </label>
-                </ng-container>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="col-5">
+      <div class="row pb-1">
+        <div class="control-label">Select the job families to be included in this hierarchy: </div>            
+      </div>
+      <div class="row">
+        <div class="text-danger" *ngIf="attemptedSubmit && f['jobFamilies'].hasError('required')">At least one job family must be selected</div>
+       </div>
+    </div>
 
-
-        <div class="control-label my-2 px-0">Select the job levels to be included in this hierarchy and the order in which they should appear:</div>
-
-        <div class="row mt-3">
-          <div class="col">
-            <select formControlName="jobLevels"
-                    name="jobLevel_fields"
-                    size="10"
-                    class="scrollable list-box my-2 custom-select custom-control"
-                    (change)="onJobLevelSelectionChange($event.target.value)">
-              <option class="btn btn-secondary btn-lg btn-block" *ngFor="let jobLevel of jobLevels" value="{{jobLevel}}">{{jobLevel}}</option>
-            </select>
-          </div>
-
-          <div class="col align-self-center" role="group">
-            <button
-              type="button"
-              class="btn btn-primary d-block my-3 mx-auto"
-              (click)="applyToHierarchy()"
-              [disabled]="!selectedJobLevel"
-            > >>&gt;</button>
-            <button
-              type="button"
-              class="btn btn-primary d-block my-3 mx-auto"
-              (click)="removeFromHierarchy()"
-              [disabled]="!selectedJobLevelInHierarchy"
-            >&lt;<< </button>
-          </div>
-
-          <div class="col">
-            <select formControlName="jobLevelsInHierarchy"
-                    name="jobLevelsInHierarchy"
-                    size="10"
-                    class="scrollable list-box my-2 custom-select custom-control"
-                    (change)="onJobLevelsInHierarchySelectionChange($event.target.value)">
-              <option class="btn btn-secondary btn-lg btn-block" *ngFor="let jobLevel of jobLevelsInHierarchy" value="{{jobLevel}}">{{jobLevel}}</option>
-            </select>
-          </div>
-
-          <div class="col align-self-end">
-              <button type="submit" class="float-right btn btn-primary">Save</button>
+    <div class="col-5">        
+      <div class="row card pt-1">
+        <div class="card-content p-2" [ngClass]="{'is-invalid': attemptedSubmit && f['jobFamilies'].hasError('required')}">
+          <div class="checkbox" *ngFor="let jobFamily of jobFamiliesFormArray.controls; let i = index">
+            <label formArrayName="jobFamilies">
+              <input type="checkbox" [formControlName]="i" (change)="onJobFamilySelectionChange($event.target)">
+              {{jobFamilies[i]}} 
+            </label>
           </div>
         </div>
-      </form>
-    </ng-container>
+      </div>
+    </div>
 
-  </div>
-</div>
+    <div class="col-5">
+      <div class="row pb-1">
+        <div class="control-label my-2 px-0">Select the job levels to be included in this hierarchy and the order in which they should appear:</div>          
+      </div>
+      <div class="row">
+        <div class="text-danger" *ngIf="attemptedSubmit && f['jobLevelsInHierarchy'].hasError('required')">At least two job levels must be assigned to a hierarchy</div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="row mt-1">
+        <div class="col px-0">
+          <select size="20" class="list-box d-block px-2" multiple (change)="onJobLevelSelectionChange($event.target.options)">
+            <option class="job-level" [selected]="jobLevel.selected" [value]="jobLevels[i]" formArrayName="jobLevels" *ngFor="let jobLevel of jobLevelsFormArray.controls; let i = index">
+              {{jobLevels[i]}}
+            </option>
+          </select>
+        </div>
+        <div class="col px-0 align-self-center" role="group">
+          <button type="button" class="btn btn-primary d-block my-3 mx-auto" (click)="applyToHierarchy()"> >>&gt;</button>
+          <button type="button" class="btn btn-primary d-block my-3 mx-auto" (click)="removeFromHierarchy()">&lt;<< </button>
+        </div>
+        <div class="col px-0">
+          <select size="20" class="list-box d-block px-2" multiple (change)="onJobLevelsInHierarchySelectionChange($event.target.options)"
+            dragula="job-levels-in-hierarchy-bag" [(dragulaModel)]="jobLevelsInHierarchy">
+            <option class="job-level dnd-job-level-reorder-handle" [selected]="jobLevelInHierarchy.selected"
+              [value]="jobLevelsInHierarchy[i]" formArrayName="jobLevelsInHierarchy" 
+              *ngFor="let jobLevelInHierarchy of jobLevelsInHierarchyFormArray.controls; let i = index">
+              {{jobLevelsInHierarchy[i]}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-5">
+      <div class="row pt-2">
+        <button class="btn btn-primary" (click)="submit()">Save</button>
+      </div>
+    </div>
+  </form>
+</ng-container>
+

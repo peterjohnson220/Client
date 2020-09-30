@@ -26,9 +26,19 @@ export const selectJobsHierarchyState = createSelector(
   (state: JobsHierarchyState) => state.jobsHierarchy
 );
 
-export const getJobFamilyDetails = createSelector(
+export const getJobFamilies = createSelector(
   selectJobsHierarchyState,
-  fromJobsHierarchyReducer.getJobFamilyDetails
+  fromJobsHierarchyReducer.getJobFamilies
+);
+
+export const getJobLevels = createSelector(
+  selectJobsHierarchyState,
+  fromJobsHierarchyReducer.getJobLevels
+);
+
+export const getJobLevelHierachies = createSelector(
+  selectJobsHierarchyState,
+  fromJobsHierarchyReducer.getJobLevelHierachies
 );
 
 export const getJobLevelsForJobFamiliesDetails = createSelector(
@@ -36,7 +46,12 @@ export const getJobLevelsForJobFamiliesDetails = createSelector(
   fromJobsHierarchyReducer.getJobLevelsForJobFamiliesDetails
 );
 
-export const getSelectedJobFamiliesList = createSelector(
+export const getSelectedHierarchy = createSelector(
   selectJobsHierarchyState,
-  fromJobsHierarchyReducer.getSelectedJobFamiliesList
+  fromJobsHierarchyReducer.getSelectedHierachy
+);
+
+export const getResetHierarchyForm = createSelector(
+  selectJobsHierarchyState,
+  fromJobsHierarchyReducer.getResetHierarchyForm
 );
