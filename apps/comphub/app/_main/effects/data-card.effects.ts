@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
+import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
@@ -25,7 +26,11 @@ export class DataCardEffects {
         (action, exchangeExplorerFilterContext) => ({action, exchangeExplorerFilterContext})
       ),
       switchMap((latest) => {
-        return this.comphubApiService.getPeerQuickPriceData(latest.exchangeExplorerFilterContext)
+        const request: QuickPriceExchangeDataSearchRequest = {
+          ...latest.exchangeExplorerFilterContext,
+          ViewOnly: false
+        };
+        return this.comphubApiService.getPeerQuickPriceData(request)
           .pipe(
             mergeMap((response) => {
               return [

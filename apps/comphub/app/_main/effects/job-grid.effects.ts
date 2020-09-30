@@ -2,17 +2,19 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api';
+import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
+import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search';
+import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 
 import * as fromComphubMainReducer from '../reducers';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromJobGridActions from '../actions/job-grid.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
-import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { ComphubPages } from '../data';
 import { JobGridData } from '../models';
 
@@ -64,12 +66,15 @@ export class JobGridEffects {
       ofType(fromJobGridActions.GET_PEER_JOB_DATA),
       withLatestFrom(
         this.exchangeExplorerContextService.selectFilterContext(),
-        this.store.select(fromComphubMainReducer.getWorkflowContext),
-        (action, exchangeExplorerFilterContext, workflowContext) =>
-          ({action, exchangeExplorerFilterContext, workflowContext})
+        (action, exchangeExplorerFilterContext) =>
+          ({action, exchangeExplorerFilterContext})
       ),
       switchMap((data) => {
-        return this.comphubApiService.getPeerQuickPriceData(data.exchangeExplorerFilterContext)
+        const request: QuickPriceExchangeDataSearchRequest = {
+          ...data.exchangeExplorerFilterContext,
+          ViewOnly: true
+        };
+        return this.comphubApiService.getPeerQuickPriceData(request)
           .pipe(
             mergeMap((response) => {
               const result = response.JobData;
@@ -81,13 +86,28 @@ export class JobGridEffects {
               const actions = [];
               actions.push(new fromJobGridActions.GetQuickPriceDataSuccess(jobGridData));
               actions.push(new fromComphubPageActions.SetSelectedJobData(result));
-              if (data.workflowContext.selectedPageId === ComphubPages.Jobs) {
-                actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets]));
-              }
+              actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets]));
               return actions;
             }),
             catchError(() => of(new fromJobGridActions.GetQuickPriceMarketDataError()))
           );
+      })
+    );
+
+  @Effect()
+  setFilterContext$ = this.actions$
+    .pipe(
+      ofType(fromExchangeExplorerActions.SET_FILTER_CONTEXT),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getWorkflowContext),
+        (action, workflowContext) => ({ action, workflowContext })
+      ),
+      map((data) => {
+        if (data.workflowContext.selectedPageId === ComphubPages.Jobs) {
+          return new fromJobGridActions.GetPeerJobData();
+        } else {
+          return { type: 'No Action' };
+        }
       })
     );
 
