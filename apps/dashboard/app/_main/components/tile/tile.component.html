@@ -51,12 +51,15 @@
     </pf-tile-preview-total-rewards>
 
     <div *ngIf="tile.PreviewType === 'WhatIsNew' && marketingVideoSafeIframeUrl">
-      <div class="wistia_responsive_padding wistia-padding">
-        <div class="wistia_responsive_wrapper wistia-wrapper">
+      <div class="wistia-padding">
+        <div class="wistia-wrapper"
+          (mouseover)="onMarketingVideoMouseOver()"
+          (mouseleave)="onMarketingVideoMouseLeave()">
+          <button *ngIf = "marketingVideoMouseOver" class="btn btn-primary btn-learn-more mb-2" (click)="handleLearnMore()">{{tile.MarketingButtonText}}</button>
           <iframe [src]="marketingVideoSafeIframeUrl"
             allow="autoplay; fullscreen" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen msallowfullscreen class="w-100 h-100"></iframe>
         </div>
-      </div>      
+      </div>
     </div>
 
   </div>    
