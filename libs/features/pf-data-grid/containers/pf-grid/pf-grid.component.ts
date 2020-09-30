@@ -211,11 +211,13 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.lastUpdateFieldsDateSubscription = this.store.select(fromReducer.getLastUpdateFieldsDate, this.pageViewId).subscribe(lastUpdateFieldsDate => {
       if (this.grid != null) {
         const columns = this.grid.columns.toArray();
-        columns.forEach(function (gridColumn, index) {
-          if (gridColumn.orderIndex !== index) {
-            gridColumn.orderIndex = index;
-          }
-        });
+        if (columns.some(c => c.orderIndex !== 0)) {
+          columns.forEach(function (gridColumn, index) {
+            if (gridColumn.orderIndex !== index) {
+              gridColumn.orderIndex = index;
+            }
+          });
+        }
       }
     });
 
