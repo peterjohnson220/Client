@@ -157,7 +157,7 @@ export class PricingsSalaryRangeChartService {
           name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeMinMidMax),
           type: 'columnrange',
           animation: false,
-          color: 'rgb(174,210,238)',
+          color: rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile ? 'rgb(174,210,238)' : 'transparent',
           enableMouseTracking: false,
           pointWidth: 60,
           stacking: 'normal',

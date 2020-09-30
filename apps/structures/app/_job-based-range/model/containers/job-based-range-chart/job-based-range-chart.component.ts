@@ -347,10 +347,8 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       // check for new max
       this.determineChartMax(currentRow);
 
-      // add to salary range group
-      if (this.rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile) {
-        this.addSalaryRangeMinMidMax(i, currentRow);
-      }
+      // always add to salary range group
+      this.addSalaryRangeMinMidMax(i, currentRow);
 
       // always add to midPoint
       this.addMidPoint(i, currentRow);
