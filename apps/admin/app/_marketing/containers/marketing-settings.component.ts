@@ -55,8 +55,7 @@ export class MarketingSettingsComponent implements OnInit, OnDestroy {
 
     this.savingSuccessSubscription  = this.savingSuccess$.subscribe(result => {
       if (result) {
-        this.marketingForm.reset();
-        this.marketingImageLocation = '';
+        this.marketingForm.markAsUntouched();
       }
     });
 

@@ -3,7 +3,7 @@
       Marketing Settings
     </ng-container>
     <ng-container page-actions>
-        <button [disabled]="(saving$ | async) || !marketingForm.valid" id="marketing-form-submit"
+        <button [disabled]="(saving$ | async) || !marketingForm.valid || !marketingForm.touched" id="marketing-form-submit"
             (click)="handleSaveClicked()"
             class="btn btn-primary">{{(saving$ | async) ? 'Saving' : 'Save'}}
         </button>
