@@ -211,6 +211,7 @@ export class UserTileToTileMapper {
       case TileTypes.WhatIsNew:
         tile.CssClass = 'tile-lightblue';
         tile.IgnoreTileAnchorOverlay = true;
+        tile.MarketingButtonText = 'LEARN MORE';
         break;
 
       default:
