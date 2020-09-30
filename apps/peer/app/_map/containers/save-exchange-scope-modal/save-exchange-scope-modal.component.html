@@ -37,11 +37,11 @@
 
     <pf-multi-select
       [attr.data-qa-id]="'ddm-create-scope-paymarket-defaults'"
-      [labelText]="'Assign PayMarket Default'"
+      [labelText]="'Assign Pay Market Default'"
       [displayNamePreview]="true"
       [isLoading]="parentPayMarketOptionsLoading$ | async"
       [disabled]="!(parentPayMarketOptionsLoading$ | async) && !parentPayMarketOptions?.length"
-      [disabledMessage]="'No paymarkets found for selected countries'"
+      [disabledMessage]="'No pay markets found for selected countries'"
       [options]="parentPayMarketOptions"
       [(selectedOptions)]="selectedParentPayMarketOptions"
     >
