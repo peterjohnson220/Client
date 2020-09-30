@@ -2,7 +2,8 @@ export enum ComphubPages {
   Jobs = 'comphubJobsPage',
   Markets = 'comphubMarketsPage',
   Data = 'comphubDataPage',
-  Summary = 'comphubSummaryPage'
+  Summary = 'comphubSummaryPage',
+  SummaryHistory = 'comphubSummaryHistoryPage'
 }
 
 export interface AccordionCard {

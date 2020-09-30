@@ -9,6 +9,7 @@ export interface FooterContext {
   PreviousPageTitle: string;
   NextPageTitle: string;
   DisplayCancelButton: boolean;
+  CancelButtonTitle?: string;
 }
 
 export interface FooterContextRequest {
@@ -67,7 +68,8 @@ export class FooterHelper {
       PageTitle: 'Summary',
       PreviousPageTitle: isPeerQuickPriceType ? 'Data' : 'Markets',
       NextPageTitle: null,
-      DisplayCancelButton: showJobPricedHistorySummary && smbLimitReached
+      DisplayCancelButton: smbLimitReached,
+      CancelButtonTitle: smbLimitReached ? 'Close' : 'Cancel'
     };
   }
 

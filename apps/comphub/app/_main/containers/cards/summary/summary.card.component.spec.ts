@@ -199,7 +199,10 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Summary});
     instance.ngOnInit();
 
-    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData({
+      countryCode: 'USA',
+      jobCode: 'Ab1234'
+    });
 
     expect(store.dispatch).toHaveBeenCalledWith(getNationalJobTrendDataAction);
   });
@@ -212,7 +215,10 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Summary});
     instance.ngOnInit();
 
-    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData({
+      countryCode: 'USA',
+      jobCode: 'Ab1234'
+    });
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getNationalJobTrendDataAction);
   });
@@ -226,7 +232,10 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Markets});
     instance.ngOnInit();
 
-    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData({
+      countryCode: 'USA',
+      jobCode: 'Ab1234'
+    });
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getNationalJobTrendDataAction);
   });

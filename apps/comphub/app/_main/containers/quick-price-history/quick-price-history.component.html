@@ -15,6 +15,13 @@
         </div>
         <fa-icon [icon]="['far', 'times']" class="close-note-btn" [title]="'Close'" (click)="closeNote()"></fa-icon>
       </div>
+      <pf-async-container
+        [loading]="(loadingJobDataHistory$ | async)"
+        [hideReloadButton]="true">
+      </pf-async-container>
+      <div *ngIf="!!(loadingJobDataErrorMessage$ | async)?.length" class="mb-3 text-danger">
+        {{(loadingJobDataErrorMessage$ | async)}}
+      </div>
       <div class="h-100 d-flex">
         <div class="h-100 w-100">
           <pf-basic-data-grid

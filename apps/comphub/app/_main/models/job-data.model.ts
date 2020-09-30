@@ -1,3 +1,5 @@
+import { PricingPaymarket } from './pricing-paymarket.model';
+
 export interface JobData {
   JobId: number;
   JobCode: string;
@@ -17,6 +19,9 @@ export interface JobData {
   Incs?: number;
   Orgs?: number;
   ShowJd: boolean;
+  ExchangeName?: string;
+  EffectiveDate?: Date;
+  PayMarket?: PricingPaymarket;
 }
 
 export interface JobGridData {

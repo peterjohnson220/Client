@@ -8,14 +8,9 @@ import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/
 
 import { WindowRef } from 'libs/core/services';
 import { ComphubApiService } from 'libs/data/payfactors-api';
-import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest, JobPricedHistorySummaryResponse } from 'libs/models/payfactors-api';
+import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest } from 'libs/models/payfactors-api';
 import * as fromNavigationActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
 import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
-import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
-import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromExchangeFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
-import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
-import { QuickPriceType } from 'libs/constants';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
@@ -24,7 +19,7 @@ import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 
 import { ComphubPages } from '../data';
-import { DataCardHelper, MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
+import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromComphubMainReducer from '../reducers';
 import { QuickPriceHistoryContext } from '../models';
 import * as fromJobGridActions from '../actions/job-grid.actions';
@@ -55,14 +50,10 @@ export class SummaryCardEffects {
   getJobNationalTrend$ = this.actions$
     .pipe(
       ofType(fromSummaryCardActions.GET_JOB_NATIONAL_TREND),
-      withLatestFrom(
-        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
-        (action: fromSummaryCardActions.GetNationalJobTrendData, activeCountryDataSet) => ({ action, activeCountryDataSet })
-      ),
-      switchMap((data) => {
+      switchMap((action: fromSummaryCardActions.GetNationalJobTrendData) => {
           return this.comphubApiService.getJobSalaryTrendData({
-            JobCode: data.action.payload.JobCode,
-            CountryCode: data.activeCountryDataSet.CountryCode
+            JobCode: action.payload.jobCode,
+            CountryCode: action.payload.countryCode
           })
             .pipe(
               map(response => {
@@ -240,63 +231,10 @@ export class SummaryCardEffects {
         }
       ));
 
-  @Effect()
-  getJobPricedHistorySummary = this.actions$
-    .pipe(
-      ofType(fromSummaryCardActions.GET_JOB_PRICED_HISTORY_SUMMARY),
-      withLatestFrom(
-        this.store.select(fromComphubMainReducer.getQuickPriceType),
-        (action: fromSummaryCardActions.GetJobPricedHistorySummary, quickPriceType) =>
-          ({action, quickPriceType})
-      ),
-      switchMap((data) => {
-        return this.comphubApiService.getJobPricedHistorySummary(data.action.payload)
-          .pipe(
-            mergeMap((response: JobPricedHistorySummaryResponse) => {
-              const actions = [];
-              const jobData = PayfactorsApiModelMapper.mapQuickPriceMarketDataToJobData(response);
-              if (data.quickPriceType !== QuickPriceType.PEER) {
-                const payMarket = !!response.PayMarketDto ?
-                  PayfactorsApiModelMapper.mapPaymarketToPricingPayMarket(response.PayMarketDto) : MarketsCardHelper.buildDefaultPricingPayMarket();
-                actions.push(new fromMarketsCardActions.SetSelectedPaymarket({
-                  paymarket: payMarket,
-                  initialLoad: false,
-                  quickPriceType: data.quickPriceType
-                }));
-              } else {
-                actions.push(new fromMarketsCardActions.SetDefaultPaymarketAsSelected());
-                actions.push(new fromExchangeExplorerMapActions.SetPeerMapBounds({
-                  TopLeft: response.ExchangeDataSearchFilterContext.TopLeft,
-                  BottomRight: response.ExchangeDataSearchFilterContext.BottomRight,
-                  Centroid: null
-                }));
-                actions.push(new fromExchangeFilterContextActions.SetFilterContext(response.ExchangeDataSearchFilterContext));
-                actions.push(new fromExchangeExplorerMapActions.SetMapZoom(response.ExchangeDataSearchFilterContext.ZoomLevel));
-                let filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(response.Filters, response.SearchFilterMappingData);
-                filters = PayfactorsApiModelMapper.mapSelectedFilters(filters);
-                actions.push(new fromSearchFiltersActions.RefreshFilters({
-                  filters: filters,
-                  keepFilteredOutOptions: false
-                }));
-              }
-              actions.push(new fromComphubPageActions.SetSelectedJobData(jobData));
-              actions.push(new fromSummaryCardActions.SetMinPaymarketMinimumWage(response.MinPaymarketMinimumWage));
-              actions.push(new fromSummaryCardActions.SetMaxPaymarketMinimumWage(response.MaxPaymarketMinimumWage));
-              actions.push(new fromSummaryCardActions.GetJobPricedHistorySummarySuccess());
-              actions.push(new fromComphubPageActions.NavigateToCard({ cardId: ComphubPages.Summary }));
-
-              return actions;
-            }),
-            catchError(error => of(new fromSummaryCardActions.GetJobPricedHistorySummaryError()))
-          );
-      })
-    );
-
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
     private comphubApiService: ComphubApiService,
-    private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
     private winRef: WindowRef
   ) {}
 }

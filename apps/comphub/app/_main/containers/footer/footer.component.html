@@ -28,7 +28,12 @@
     <button *ngIf="(footerContext$ | async)?.DisplayCancelButton" class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
             [attr.data-qa-id]="'btn-close-'+ (footerContext$ | async)?.PageTitle"
             (click)="handlePriceNewJobClicked()">
-      Cancel
+      <span *ngIf="!!(footerContext$ | async)?.CancelButtonTitle; else defaultCancelButtonTitle">
+        {{(footerContext$ | async)?.CancelButtonTitle}}
+      </span>
+      <ng-template #defaultCancelButtonTitle>
+        <span>Cancel</span>
+      </ng-template>
     </button>
 
     <button *ngIf="!(footerContext$ | async)?.HideBackButton"
