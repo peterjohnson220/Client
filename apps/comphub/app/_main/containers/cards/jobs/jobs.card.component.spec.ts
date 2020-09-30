@@ -103,14 +103,14 @@ describe('Comphub - Main - Jobs Card Component', () => {
     expect(store.dispatch).not.toHaveBeenCalled();
   });
 
-  it('should dispatch a SetSelectedJob action with the job title and navigateToNextCard set to true, ' +
+  it('should dispatch a SetSelectedJob action with the job title and exchangeJobId ' +
     'when handling a trending job being clicked for PEER only', () => {
 
     spyOn(store, 'dispatch');
-    const expectedAction = new fromJobsCardActions.SetSelectedJob({ jobTitle: 'Accountant', navigateToNextCard: true});
+    const expectedAction = new fromJobsCardActions.SetSelectedJob({ jobTitle: 'Accountant', exchangeJobId: 10 });
     instance.isPeerQuickPriceType = true;
 
-    instance.handleTrendingJobClicked('Accountant');
+    instance.handleTrendingJobClicked({ Value: 'Accountant', Key: 10 });
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

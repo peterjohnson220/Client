@@ -125,7 +125,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   handleTrendingJobClicked(trendingJob: any) {
     const jobTitle = !!trendingJob.Value ? trendingJob.Value : trendingJob;
     if (this.isPeerQuickPriceType) {
-      this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: jobTitle, exchangeJobId: trendingJob.Key, navigateToNextCard: true}));
+      this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: jobTitle, exchangeJobId: trendingJob.Key }));
     } else {
       this.store.dispatch(new fromJobsCardActions.SetSelectedJob({ jobTitle }));
     }

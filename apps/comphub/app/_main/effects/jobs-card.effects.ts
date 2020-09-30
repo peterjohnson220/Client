@@ -117,10 +117,6 @@ export class JobsCardEffects {
         actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets]));
         actions.push(new fromComphubPageActions.UpdateFooterContext());
 
-        if (payload.navigateToNextCard) {
-          actions.push(new fromComphubPageActions.NavigateToNextCard());
-        }
-
         return actions;
       })
     );
