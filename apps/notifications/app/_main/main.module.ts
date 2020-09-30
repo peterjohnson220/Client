@@ -9,11 +9,12 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { NotificationsPageComponent, DataViewsExportListComponent, UserNotificationListComponent } from './containers';
-import { DataViewsExportEffects, TotalRewardsStatementPdfEffects, UserNotificationListEffects } from './effects';
+import { NotificationsPageComponent, DataViewsExportListComponent } from './containers';
+import { DataViewsExportEffects, TotalRewardsStatementPdfEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
+import { PfUserNotificationsModule} from 'libs/features/user-notifications/user-notifications.module';
 import { TotalRewardsStatementPdfListComponent } from './containers/total-rewards-statement-pdf-list/total-rewards-statement-pdf-list.component';
 import { FileDownloadCardComponent } from './components/file-download-card/file-download-card.component';
 
@@ -30,7 +31,7 @@ import { FileDownloadCardComponent } from './components/file-download-card/file-
     EffectsModule.forFeature([
       DataViewsExportEffects,
       TotalRewardsStatementPdfEffects,
-      UserNotificationListEffects
+
     ]),
     FontAwesomeModule,
 
@@ -40,7 +41,8 @@ import { FileDownloadCardComponent } from './components/file-download-card/file-
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfUserNotificationsModule
   ],
   declarations: [
     // Containers
@@ -49,7 +51,6 @@ import { FileDownloadCardComponent } from './components/file-download-card/file-
 
     // Components
     FileDownloadCardComponent,
-    UserNotificationListComponent,
 
     // Pages
     NotificationsPageComponent,

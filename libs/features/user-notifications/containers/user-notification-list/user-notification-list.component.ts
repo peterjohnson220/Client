@@ -1,13 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import { UserNotification } from '../../models';
-import * as fromNotificationsMainReducer from '../../reducers';
+import * as fromUserNotificationListReducers from '../../reducers/index';
 import * as fromUserNotificationListActions from '../../actions/user-notification-list.actions';
 
 @Component({
@@ -16,23 +16,20 @@ import * as fromUserNotificationListActions from '../../actions/user-notificatio
   styleUrls: ['./user-notification-list.component.scss']
 })
 export class UserNotificationListComponent implements OnInit, OnDestroy {
+  @Input() DisplayHeader = true;
   userNotificationsAsyncObj$: Observable<AsyncStateObj<UserNotification[]>>;
 
   modalNotification: UserNotification;
-  showModal: BehaviorSubject<boolean>;
-  showModal$: Observable<boolean>;
   userNotificationsFeatureFlag: RealTimeFlag = { key: FeatureFlags.UserNotifications, value: false };
   unsubscribe$ = new Subject<void>();
 
   constructor(
-    private store: Store<fromNotificationsMainReducer.State>,
+    private store: Store<fromUserNotificationListReducers.State>,
     private featureFlagService: AbstractFeatureFlagService
   ) {
     this.userNotificationsAsyncObj$ = this.store.pipe(
-      select(fromNotificationsMainReducer.getUserNotificationsAsyncObj)
+      select(fromUserNotificationListReducers.getUserNotificationsAsyncObj)
     );
-    this.showModal = new BehaviorSubject<boolean>(false);
-    this.showModal$ = this.showModal.asObservable();
     this.featureFlagService.bindEnabled(this.userNotificationsFeatureFlag, this.unsubscribe$);
   }
 
@@ -49,7 +46,6 @@ export class UserNotificationListComponent implements OnInit, OnDestroy {
     if (!notification.IsRead) {
       this.store.dispatch(new fromUserNotificationListActions.MarkNotificationRead({ userNotificationId: notification.Id }));
     }
-    this.showModal.next(true);
   }
 
   markAllAsRead(): void {
