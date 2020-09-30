@@ -167,8 +167,7 @@ export class JobRangeModelChartService {
           enableMouseTracking: false,
           pointWidth: 42,
           stacking: 'normal',
-          borderRadiusTopLeft: 5,
-          borderRadiusTopRight: 5,
+          borderRadius: 5,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.MinMidMax
         },
         {
