@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { userVoiceUrl } from 'libs/core/functions';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -13,6 +14,8 @@ import {
 } from '../../models';
 import { environment } from 'environments/environment';
 
+import * as fromMarketingReducer from '../../reducers';
+import * as fromMarketingActions from 'libs/features/marketing-settings/marketing-settings.actions';
 
 @Component({
   selector: 'pf-tile',
@@ -32,10 +35,17 @@ export class TileComponent implements OnInit, OnDestroy {
   enableCoreJdmInClient$: Observable<boolean>;
   enableCoreJdmInClientSubscription: Subscription;
 
-  constructor(private settingsService: SettingsService) {
+  marketingVideoSafeIframeUrl: SafeResourceUrl;
+  marketingVideoUrl$: Observable<string>;
+  marketingVideoUrlSubscription: Subscription;
+
+  constructor(private settingsService: SettingsService,
+    public store: Store<fromMarketingReducer.State>,
+    private sanitizer: DomSanitizer) {
     this.enableCoreJdmInClient$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMCoreUseClient
     );
+    this.marketingVideoUrl$ = this.store.select(fromMarketingReducer.getMarketingVideoUrl);
    }
 
   generatePreviewModel(tile: Tile): TilePreviewBase {
@@ -58,7 +68,16 @@ export class TileComponent implements OnInit, OnDestroy {
         return <TilePreviewPeer>{...generateTilePreviewPeerFromTile(tile), TileUrl: this.getTileHref(tile) };
       case TilePreviewTypes.TotalRewards:
         return {...generateTilePreviewListFromTile(tile), PreviewType: TilePreviewTypes.TotalRewards };
-      default:
+      case TilePreviewTypes.WhatIsNew: {
+        this.store.dispatch(new fromMarketingActions.GetMarketingVideoUrl());
+        this.marketingVideoUrlSubscription  = this.marketingVideoUrl$.subscribe(result => {
+          if (result) {
+            this.marketingVideoSafeIframeUrl = this.getMarketingVideoIframeUrl(result);
+          }
+        });
+        return generateTilePreviewIconFromTile(tile);
+      }
+       default:
         return {
           PreviewType: TilePreviewTypes.Unknown,
           IconClass: tile.IconClass
@@ -85,6 +104,7 @@ export class TileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.enableCoreJdmInClientSubscription.unsubscribe();
+    this.marketingVideoUrlSubscription.unsubscribe();
   }
 
   getTileHref(tile: Tile) {
@@ -104,4 +124,11 @@ export class TileComponent implements OnInit, OnDestroy {
     }
     return url;
   }
+
+  getMarketingVideoIframeUrl (url: string): any {
+    // extract video id from the url that looks like this: https://payfactors.wistia.com/medias/95g6ckx96u
+    const iframeUrl = /[^/]*$/.exec(url)[0];
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`https://fast.wistia.net/embed/iframe/${iframeUrl}?seo=false&videoFoam=true`);
+  }
 }
+
