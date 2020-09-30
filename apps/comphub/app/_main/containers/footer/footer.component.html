@@ -1,7 +1,7 @@
 <div class="actions-section pr-3 align-items-center">
   <div class="mr-auto pl-4">
     <div class="d-flex align-items-center">
-      <ng-container *ngIf="!!jobPricingLimitInfo && (!(jobPricingBlocked$ | async) || workflowContext?.selectedPageId !== comphubPages.Jobs)">
+      <ng-container *ngIf="!showJobHistorySummary && !!jobPricingLimitInfo && (!(jobPricingBlocked$ | async) || workflowContext?.selectedPageId !== comphubPages.Jobs)">
         <div class="smb-counter">
           <span class="count">{{formattedLimit}}</span>
         </div>
@@ -14,16 +14,13 @@
           </span>
         </div>
       </ng-container>
-      <div class="smb-limit-disabling-message" *ngIf="(jobPricingBlocked$ | async) && (countryDataSetsLoaded$ | async)
-        && (userContext$ | async)?.CompanySystemUserGroupsGroupName === systemUserGroupNames.SmallBusiness">
+      <div class="smb-limit-disabling-message" *ngIf="(smbLimitReached$ | async) && !showJobHistorySummary" >
         <div class="icon">
           <fa-icon class="exclamation-triangle"></fa-icon>
         </div>
         <div class="message">
-          <div class="mb-2">Congratulations</div>
-
-          <div>it looks like you've already priced {{(jobPricingLimitInfo$ | async)?.Available}} jobs!</div>
-          <div>Contact <a href="mailto:smb@payfactors.com">smb@payfactors.com</a> to keep this momentum going.</div>
+          <div>Congratulations, it looks like you've already priced {{(jobPricingLimitInfo$ | async)?.Available}} jobs!</div>
+          <div>Contact <a href="mailto:smb@payfactors.com">smb@payfactors.com</a> to keep the momentum going.</div>
         </div>
       </div>
     </div>
@@ -54,7 +51,7 @@
       <pf-guidelines-badge [IncludeSimilarityCheck]="false" *ngIf="isPeerQuickPriceType && workflowContext.selectedPageId === comphubPages.Data && (this.selectedPageIdDelayed$ | async) == comphubPages.Data">
       </pf-guidelines-badge>
     </span>
-    <button *ngIf="workflowContext?.selectedPageId === comphubPages.Summary" class="btn btn-primary"
+    <button *ngIf="!(smbLimitReached$ | async) && workflowContext?.selectedPageId === comphubPages.Summary" class="btn btn-primary"
             [disabled]="workflowContext?.selectedPageId !== comphubPages.Summary"
             [attr.data-qa-id]="'btn-priceNewJob'"
             (click)="handlePriceNewJobClicked()">

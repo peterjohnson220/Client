@@ -18,6 +18,7 @@ export interface FooterContextRequest {
   JobDataSelected: boolean;
   IsPeerQuickPriceType: boolean;
   ShowJobPricedHistorySummary: boolean;
+  SmbLimitReached: boolean;
 }
 
 export class FooterHelper {
@@ -57,7 +58,7 @@ export class FooterHelper {
       DisplayCancelButton: true
     };
   }
-  static summaryFooterContext(isPeerQuickPriceType: boolean, showJobPricedHistorySummary: boolean): FooterContext {
+  static summaryFooterContext(isPeerQuickPriceType: boolean, showJobPricedHistorySummary: boolean, smbLimitReached: boolean): FooterContext {
     return {
       HideBackButton: isPeerQuickPriceType || showJobPricedHistorySummary,
       BackButtonEnabled: !showJobPricedHistorySummary,
@@ -66,7 +67,7 @@ export class FooterHelper {
       PageTitle: 'Summary',
       PreviousPageTitle: isPeerQuickPriceType ? 'Data' : 'Markets',
       NextPageTitle: null,
-      DisplayCancelButton: false
+      DisplayCancelButton: showJobPricedHistorySummary && smbLimitReached
     };
   }
 
@@ -79,7 +80,7 @@ export class FooterHelper {
       case ComphubPages.Data:
         return this.dataFooterContext(request.JobDataSelected);
       case ComphubPages.Summary:
-        return this.summaryFooterContext(request.IsPeerQuickPriceType, request.ShowJobPricedHistorySummary);
+        return this.summaryFooterContext(request.IsPeerQuickPriceType, request.ShowJobPricedHistorySummary, request.SmbLimitReached);
       default:
         return null;
     }

@@ -155,6 +155,11 @@ export const getJobPricingBlocked = createSelector(
   fromComphubPageReducer.getJobPricingBlocked
 );
 
+export const getSmbLimitReached = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getSmbLimitReached
+);
+
 export const getCountryDataSetsLoaded = createSelector(
   selectComphubPageState,
   fromComphubPageReducer.getCountryDataSetsLoaded

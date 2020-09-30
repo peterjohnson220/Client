@@ -123,8 +123,9 @@ export class ComphubPageEffects {
         this.store.select(fromComphubMainReducer.getWorkflowContext),
         this.store.select(fromComphubMainReducer.getSelectedJobData),
         this.store.select(fromComphubMainReducer.getShowJobPricedHistorySummary),
-        (action, selectedPageId, jobPricingBlocked, selectedJob, workflowContext, selectedJobData, showJobPricedHistorySummary) =>
-          ({ action, selectedPageId, jobPricingBlocked, selectedJob, workflowContext, selectedJobData, showJobPricedHistorySummary })
+        this.store.select(fromComphubMainReducer.getSmbLimitReached),
+        (action, selectedPageId, jobPricingBlocked, selectedJob, workflowContext, selectedJobData, showJobPricedHistorySummary, smbLimitReached) =>
+          ({ action, selectedPageId, jobPricingBlocked, selectedJob, workflowContext, selectedJobData, showJobPricedHistorySummary, smbLimitReached })
       ),
       map((data) => {
         const footerContextRequest: FooterContextRequest = {
@@ -133,7 +134,8 @@ export class ComphubPageEffects {
           JobSelected: !!data.selectedJob,
           JobDataSelected: !!data.selectedJobData,
           IsPeerQuickPriceType: data.workflowContext.quickPriceType === QuickPriceType.PEER,
-          ShowJobPricedHistorySummary: data.showJobPricedHistorySummary
+          ShowJobPricedHistorySummary: data.showJobPricedHistorySummary,
+          SmbLimitReached: data.smbLimitReached
         };
         const footerContext = FooterHelper.getFooterContext(footerContextRequest);
         return new fromComphubPageActions.SetFooterContext(footerContext);

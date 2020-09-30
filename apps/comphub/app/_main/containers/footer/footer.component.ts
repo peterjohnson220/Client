@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -29,12 +29,14 @@ import { environment } from 'environments/environment';
 })
 export class ComphubFooterComponent implements OnInit, OnDestroy {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  @Input() showJobHistorySummary: boolean;
 
   workflowContext$: Observable<WorkflowContext>;
   footerContext$: Observable<FooterContext>;
   jobPricingBlocked$: Observable<boolean>;
   pricedJobsCount$: Observable<AsyncStateObj<number>>;
   loadingMap$: Observable<boolean>;
+  smbLimitReached$: Observable<boolean>;
 
   countryDataSetsLoaded$: Observable<boolean>;
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
@@ -71,6 +73,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
     this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
     this.loadingMap$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapLoading);
     this.pricedJobsCount$ = this.basicGridStore.select(fromBasicDataGridReducer.getTotalCount, QuickPriceHistoryContext.gridId);
+    this.smbLimitReached$ = this.store.select(fromComphubMainReducer.getSmbLimitReached);
   }
 
   ngOnInit(): void {
