@@ -38,10 +38,17 @@ export class SharedEffects {
             PayfactorsApiModelMapper.mapRecalculateRangesWithoutMidInputToRecalculateRangesWithoutMidRequest(
               data.action.payload.rangeGroupId, data.action.payload.rounding))
             .pipe(
-              map(() => {
+              mergeMap(() => {
+                const actions = [];
                 const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
-                return new pfDataGridActions.LoadData(modelPageViewId);
-              })
+                actions.push(new pfDataGridActions.LoadData(modelPageViewId));
+                actions.push(new fromSharedActions.GetOverriddenRanges({
+                  pageViewId: modelPageViewId,
+                  rangeGroupId: data.action.payload.rangeGroupId
+                }));
+
+                return actions;
+              }),
             );
         }
       ));
