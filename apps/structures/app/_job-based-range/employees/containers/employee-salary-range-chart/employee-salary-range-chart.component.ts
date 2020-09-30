@@ -322,10 +322,8 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
         // add employee plot points
         this.addEmployee(i, currentRow);
 
-        // add to salary range group
-        if (this.rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile) {
-          this.addSalaryRangeMinMidMax(i);
-        }
+        // always add to salary range group
+        this.addSalaryRangeMinMidMax(i);
 
         // always add to midPoint
         this.addMidPoint(i);

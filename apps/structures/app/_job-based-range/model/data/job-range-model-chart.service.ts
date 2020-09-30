@@ -163,7 +163,7 @@ export class JobRangeModelChartService {
           name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeMinMidMax),
           type: 'columnrange',
           animation: false,
-          color: 'rgb(174,210,238)',
+          color: rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile ? 'rgb(174,210,238)' : 'transparent',
           enableMouseTracking: false,
           pointWidth: 42,
           stacking: 'normal',

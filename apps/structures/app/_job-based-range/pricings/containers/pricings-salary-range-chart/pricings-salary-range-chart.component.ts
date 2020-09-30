@@ -291,10 +291,8 @@ export class PricingsSalaryRangeChartComponent implements OnInit, OnDestroy {
         // add pricing plot points
         this.addPricingsMRP(i, currentRow, this.jobRangeData);
 
-        // add to salary range group
-        if (this.rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile) {
-          this.addSalaryRangeMinMidMax(i);
-        }
+        // always add to salary range group
+        this.addSalaryRangeMinMidMax(i);
 
         // always add to midPoint
         this.addMidPoint(i);
