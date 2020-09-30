@@ -8,6 +8,8 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api';
+import {PermissionCheckEnum, Permissions} from 'libs/constants/permissions';
+import {PermissionService} from 'libs/core/services';
 
 import { PageViewIds } from '../../../../constants';
 import { JobTitleCodePipe } from '../../../../pipes';
@@ -59,8 +61,11 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
 
   jobTitleCodePipe: JobTitleCodePipe;
 
-  constructor() {
+  hasModifyPricingPemission: boolean;
+  constructor(private permissionService: PermissionService) {
     this.jobTitleCodePipe = new JobTitleCodePipe();
+    this.hasModifyPricingPemission = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS],
+      PermissionCheckEnum.Single);
   }
 
   ngOnInit(): void {
