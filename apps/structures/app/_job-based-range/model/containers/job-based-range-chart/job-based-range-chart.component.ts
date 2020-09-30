@@ -153,15 +153,14 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addAverage(currentRow) {
-    if (currentRow.CompanyStructures_RangeGroup_AverageEEMRP != null && currentRow.CompanyStructures_RangeGroup_AverageEEMRP !== 0) {
-      this.averageSeriesData.push({
-        y: currentRow.CompanyStructures_RangeGroup_AverageEEMRP,
-        jobTitle: currentRow.CompanyJobs_Job_Title,
-        avgComparatio: currentRow.CompanyStructures_RangeGroup_AverageComparatio,
-        avgPositioninRange: currentRow.CompanyStructures_RangeGroup_AveragePositionInRange,
-        avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMRP)
-      });
-    }
+    const value = currentRow.CompanyStructures_RangeGroup_AverageEEMRP !== 0 ? currentRow.CompanyStructures_RangeGroup_AverageEEMRP : null;
+    this.averageSeriesData.push({
+      y: value,
+      jobTitle: currentRow.CompanyJobs_Job_Title,
+      avgComparatio: currentRow.CompanyStructures_RangeGroup_AverageComparatio,
+      avgPositioninRange: currentRow.CompanyStructures_RangeGroup_AveragePositionInRange,
+      avgSalary: this.formatSalary(value)
+    });
   }
 
   private addSalaryRangeMinMidMax(xCoordinate, currentRow) {
@@ -250,13 +249,15 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addMRPPoint(currentRow) {
-    if (currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue != null && currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue !== 0) {
-      this.mrpSeriesData.push({
-        y: currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue,
-        jobTitle: currentRow.CompanyJobs_Job_Title,
-        mrp: this.formatMRP(currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue, currentRow.CompanyStructures_RangeGroup_MrpPercentile)
-      });
-    }
+    const value = currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue !== 0
+      ? currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue
+      : null;
+
+    this.mrpSeriesData.push({
+      y: value,
+      jobTitle: currentRow.CompanyJobs_Job_Title,
+      mrp: this.formatMRP(value, currentRow.CompanyStructures_RangeGroup_MrpPercentile)
+    });
   }
 
   private formatOutlierCount(min: boolean, count: number) {
