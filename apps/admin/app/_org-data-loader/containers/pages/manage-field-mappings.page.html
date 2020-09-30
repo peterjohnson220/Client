@@ -136,7 +136,7 @@
           </kendo-tabstrip-tab>
 
           <kendo-tabstrip-tab title="Benefits"
-                              *ngIf="env.name != 'production' && hasBenefitsAccess">
+                              *ngIf="env.name !== 'production'">
             <ng-template kendoTabContent>
               <pf-field-mapper [payfactorsDataFields]="payfactorsBenefitsDataFields"
                                [loaderType]="templateReferenceConstants.LoaderType.Benefits"
