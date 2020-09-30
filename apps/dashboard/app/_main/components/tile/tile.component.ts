@@ -127,8 +127,9 @@ export class TileComponent implements OnInit, OnDestroy {
 
   getMarketingVideoIframeUrl (url: string): any {
     // extract video id from the url that looks like this: https://payfactors.wistia.com/medias/95g6ckx96u
-    const iframeUrl = /[^/]*$/.exec(url)[0];
-    return this.sanitizer.bypassSecurityTrustResourceUrl(`https://fast.wistia.net/embed/iframe/${iframeUrl}?seo=false&videoFoam=true`);
+    const videoIdRegex = new RegExp(/[^/]*$/);
+    const videoId = url.length ? videoIdRegex.exec(url)[0] : '95g6ckx96u';
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`https://fast.wistia.net/embed/iframe/${videoId}?seo=false&videoFoam=true`);
   }
 }
 
