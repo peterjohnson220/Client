@@ -28,6 +28,11 @@ describe('PfEmailValidators', () => {
       expect(PfEmailValidators.emailFormat(testControl)).toEqual({ 'emailFormat': { valid: false } });
     });
 
+    it('should reject empty space', () => {
+      testControl.setValue(' ');
+      expect(PfEmailValidators.emailFormat(testControl)).toEqual({ 'emailFormat': { valid: false } });
+    });
+
     it('should accept email with hyphen', () => {
       testControl.setValue('test-test@test.com');
       expect(PfEmailValidators.emailFormat(testControl)).toEqual(null);
@@ -37,6 +42,12 @@ describe('PfEmailValidators', () => {
       testControl.setValue('test\'test@test.com');
       expect(PfEmailValidators.emailFormat(testControl)).toEqual(null);
     });
+
+    it('should accept null email', () => {
+      testControl.setValue(null);
+      expect(PfEmailValidators.emailFormat(testControl)).toEqual(null);
+    });
+
   });
 
   describe('workEmail', () => {
