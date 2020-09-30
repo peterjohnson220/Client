@@ -20,7 +20,8 @@ const initialState: State = {
 
 export function reducer(state: State = initialState, action: fromJobGridActions.Actions) {
   switch (action.type) {
-    case fromJobGridActions.GET_QUICK_PRICE_MARKET_DATA: {
+    case fromJobGridActions.GET_QUICK_PRICE_MARKET_DATA:
+    case fromJobGridActions.GET_PEER_JOB_DATA: {
       return {
         ...state,
         loading: true,
