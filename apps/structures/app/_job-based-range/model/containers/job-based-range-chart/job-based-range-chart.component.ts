@@ -82,7 +82,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
+    this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe(scrolledContent => {
       if (scrolledContent && this.chartInstance) {
         this.initialY = this.chartInstance.legend.options.y;
         this.chartInstance.legend.group.attr({
@@ -175,8 +175,17 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addSalaryRangeQuartile(xCoordinate, currentRow) {
-    this.salaryRangeSeriesDataModel.Quartile.push(StructuresHighchartsService.formatColumnRange(
-      xCoordinate, currentRow.CompanyStructures_Ranges_Quartile_First, currentRow.CompanyStructures_Ranges_Quartile_Second));
+    this.salaryRangeSeriesDataModel.Quartile.First.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, currentRow.CompanyStructures_Ranges_Min, currentRow.CompanyStructures_Ranges_Quartile_First));
+
+    this.salaryRangeSeriesDataModel.Quartile.Second.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, currentRow.CompanyStructures_Ranges_Quartile_First, currentRow.CompanyStructures_Ranges_Mid));
+
+    this.salaryRangeSeriesDataModel.Quartile.Third.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, currentRow.CompanyStructures_Ranges_Mid, currentRow.CompanyStructures_Ranges_Quartile_Second));
+
+    this.salaryRangeSeriesDataModel.Quartile.Fourth.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, currentRow.CompanyStructures_Ranges_Quartile_Second, currentRow.CompanyStructures_Ranges_Max));
   }
 
   private addSalaryRangeQuintile(xCoordinate, currentRow) {
@@ -300,7 +309,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   private processChartData() {
     this.salaryRangeSeriesDataModel = {
       MinMidMax: [],
-      Quartile: [],
+      Quartile: {
+        First: [],
+        Second: [],
+        Third: [],
+        Fourth: []
+      },
       Quintile: [],
       Tertile: []
     };
@@ -332,8 +346,10 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       // check for new max
       this.determineChartMax(currentRow);
 
-      // always add to salary range group
-      this.addSalaryRangeMinMidMax(i, currentRow);
+      // add to salary range group
+      if (this.rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile) {
+        this.addSalaryRangeMinMidMax(i, currentRow);
+      }
 
       // always add to midPoint
       this.addMidPoint(i, currentRow);
@@ -379,7 +395,10 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       this.chartInstance.series[JobRangeModelChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
     } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
-      this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartile].setData(this.salaryRangeSeriesDataModel.Quartile, false);
+      this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartileFirst].setData(this.salaryRangeSeriesDataModel.Quartile.First, false);
+      this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartileSecond].setData(this.salaryRangeSeriesDataModel.Quartile.Second, false);
+      this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartileThird].setData(this.salaryRangeSeriesDataModel.Quartile.Third, false);
+      this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartileFourth].setData(this.salaryRangeSeriesDataModel.Quartile.Fourth, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
     } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {
