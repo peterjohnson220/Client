@@ -119,7 +119,7 @@ export class ModelSettingsModalEffects {
         ).pipe(
           mergeMap((r) => {
               const actions = [];
-
+              const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
               // TODO: Move this out into a helper class, too much complexity for here [BC]
               if (!r.ValidationResult.Pass && r.ValidationResult.FailureReason === 'Model Name Exists') {
                 actions.push(new fromModelSettingsModalActions.ModelNameExistsFailure());
@@ -137,14 +137,17 @@ export class ModelSettingsModalEffects {
                     Payload: { Title: 'Model Created', Message: `Created, ${r.RangeGroup.RangeGroupName}`},
                     Type: NotificationType.Event
                   }));
+                  actions.push(new fromSharedActions.GetOverriddenRanges(
+                    { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
                 } else {
                   actions.push(new fromSharedActions.SetMetadata(
                     PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
                   ));
                   actions.push(new fromModelSettingsModalActions.CloseModal());
-                  const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+
                   actions.push(new fromDataGridActions.LoadData(modelPageViewId));
-                  actions.push(new fromSharedActions.GetOverriddenRanges({ pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
+                  actions.push(new fromSharedActions.GetOverriddenRanges(
+                    { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
 
                   switch (data.action.payload.fromPage) {
                     case Pages.Employees: {
