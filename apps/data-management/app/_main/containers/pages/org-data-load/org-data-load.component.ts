@@ -698,12 +698,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         break;
     }
 
-    let shouldShowToolTip = this.completedMappings.length !== this.totalTypesToLoad;
-
-    if (this.env.name === 'production') {
-      // all but benefits
-      shouldShowToolTip = this.completedMappings.length !== this.totalTypesToLoad - 1;
-    }
+    const shouldShowToolTip = this.completedMappings.length !== this.totalTypesToLoad;
 
     if (shouldShowToolTip || !this.mappings || this.mappings.length === 0) {
       this.showFieldMapperTooltip = true;
