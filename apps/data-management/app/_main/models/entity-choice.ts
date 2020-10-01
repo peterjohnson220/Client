@@ -91,7 +91,8 @@ export function getEntityChoicesForOrgLoader(shouldShowBenefits: boolean): Entit
       ToolTip: `Fields within this entity capture the subsidiary information for employee data.`,
       FileBeginsWith: 'subsidiaries',
       templateReferenceConstants: LoaderType.Subsidiaries,
-      dbName: 'Subsidiary'
+      dbName: 'Subsidiary',
+      isEnabled: false
     },
     {
       ...getDefaultEntityChoice(),

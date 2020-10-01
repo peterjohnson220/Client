@@ -618,16 +618,11 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   }
 
   shouldDisableBtn() {
-    let part1 = (!this.paymarketMappingComplete
+    const part1 = (!this.paymarketMappingComplete
       || !this.jobMappingComplete
       || !this.structureMappingComplete
       || !this.structureMappingMappingComplete
-      || !this.employeeMappingComplete
-      || !this.subsidiariesMappingComplete);
-
-    if (this.env.name !== 'production') {
-      part1 = part1 || !this.benefitMappingComplete;
-    }
+      || !this.employeeMappingComplete);
 
     const part2 = this.delimiter === '';
     const part3 = this.emailRecipients.length === 0;

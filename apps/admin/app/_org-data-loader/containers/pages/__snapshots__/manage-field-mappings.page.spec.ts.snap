@@ -188,11 +188,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
           >
             
           </kendo-tabstrip-tab>
-          <kendo-tabstrip-tab
-            title="Subsidiaries"
-          >
-            
-          </kendo-tabstrip-tab>
+          
           
         </kendo-tabstrip>
         <div
@@ -413,11 +409,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
           >
             
           </kendo-tabstrip-tab>
-          <kendo-tabstrip-tab
-            title="Subsidiaries"
-          >
-            
-          </kendo-tabstrip-tab>
+          
           
         </kendo-tabstrip>
         <div
@@ -638,11 +630,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           >
             
           </kendo-tabstrip-tab>
-          <kendo-tabstrip-tab
-            title="Subsidiaries"
-          >
-            
-          </kendo-tabstrip-tab>
+          
           
         </kendo-tabstrip>
         <div
@@ -972,11 +960,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
           >
             
           </kendo-tabstrip-tab>
-          <kendo-tabstrip-tab
-            title="Subsidiaries"
-          >
-            
-          </kendo-tabstrip-tab>
+          
           
         </kendo-tabstrip>
         <div

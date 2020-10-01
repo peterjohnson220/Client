@@ -121,7 +121,8 @@
                                (mappingComplete)="onEmployeeMappingComplete($event)"></pf-field-mapper>
             </ng-template>
           </kendo-tabstrip-tab>
-          <kendo-tabstrip-tab title="Subsidiaries">
+          <kendo-tabstrip-tab title="Subsidiaries"
+                              *ngIf="1===0">
             <ng-template kendoTabContent>
               <pf-field-mapper [payfactorsDataFields]="payfactorsSubsidiariesDataFields"
                                [loaderType]="templateReferenceConstants.LoaderType.Subsidiaries"
