@@ -11,6 +11,10 @@ import { ComphubApiService } from 'libs/data/payfactors-api';
 import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest, JobPricedHistorySummaryResponse } from 'libs/models/payfactors-api';
 import * as fromNavigationActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
 import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
+import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import * as fromExchangeFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { QuickPriceType } from 'libs/constants';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
@@ -18,6 +22,7 @@ import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
+
 import { ComphubPages } from '../data';
 import { DataCardHelper, MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromComphubMainReducer from '../reducers';
@@ -260,6 +265,19 @@ export class SummaryCardEffects {
                 }));
               } else {
                 actions.push(new fromMarketsCardActions.SetDefaultPaymarketAsSelected());
+                actions.push(new fromExchangeExplorerMapActions.SetPeerMapBounds({
+                  TopLeft: response.ExchangeDataSearchFilterContext.TopLeft,
+                  BottomRight: response.ExchangeDataSearchFilterContext.BottomRight,
+                  Centroid: null
+                }));
+                actions.push(new fromExchangeFilterContextActions.SetFilterContext(response.ExchangeDataSearchFilterContext));
+                actions.push(new fromExchangeExplorerMapActions.SetMapZoom(response.ExchangeDataSearchFilterContext.ZoomLevel));
+                let filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(response.Filters, response.SearchFilterMappingData);
+                filters = PayfactorsApiModelMapper.mapSelectedFilters(filters);
+                actions.push(new fromSearchFiltersActions.RefreshFilters({
+                  filters: filters,
+                  keepFilteredOutOptions: false
+                }));
               }
               actions.push(new fromComphubPageActions.SetSelectedJobData(jobData));
               actions.push(new fromSummaryCardActions.SetMinPaymarketMinimumWage(response.MinPaymarketMinimumWage));
@@ -278,6 +296,7 @@ export class SummaryCardEffects {
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
     private comphubApiService: ComphubApiService,
+    private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
     private winRef: WindowRef
   ) {}
 }

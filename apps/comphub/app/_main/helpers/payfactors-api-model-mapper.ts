@@ -8,13 +8,14 @@ import {
 
 import { PayMarket } from 'libs/models/paymarket';
 import { KendoDropDownItem } from 'libs/models/kendo';
+import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api';
+import { Filter } from 'libs/features/search/models';
+import { MDScopeSizeCategory } from 'libs/constants';
 
 import {
   TrendingJobGroup, PricingPaymarket, MarketDataScope,
   JobData, JobGridData, CountryDataSet, JobSalaryTrend, MarketDataLocation
 } from '../models';
-import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api';
-import { MDScopeSizeCategory } from 'libs/constants';
 
 export class PayfactorsApiModelMapper {
 
@@ -138,5 +139,15 @@ export class PayfactorsApiModelMapper {
         GeoLabelDisplayName: md.GeoLabelDisplayName
       };
     });
+  }
+
+  static mapSelectedFilters(filters: any): Filter[] {
+    const mappedFilters = filters;
+    mappedFilters.forEach(filter => {
+      filter.Options.forEach(options => {
+        options.Selected = true;
+      });
+    });
+    return mappedFilters;
   }
 }
