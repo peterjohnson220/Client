@@ -70,7 +70,7 @@ export function reducer(state = initialState, action: fromJobManagementActions.A
         ...state,
         jobId: null,
         jobFormData: null,
-        jobDescriptionSummary: null,
+        jobDescriptionSummary: defaultJobDescriptionSummary,
         attachments: [],
         structures: [],
         selectedStructureId: state.structuresList && state.structuresList.length > 0
