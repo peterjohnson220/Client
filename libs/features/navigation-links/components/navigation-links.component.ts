@@ -46,7 +46,7 @@ export class NavigationLinksComponent implements OnInit, OnDestroy {
 
   handleClick($event) {
     const linkName = $event.target.innerText;
-    switch (linkName.trim()) {
+    switch (linkName) {
       case 'Download Organizational Data': {
           const notification = {
             NotificationId: '',
