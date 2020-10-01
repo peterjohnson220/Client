@@ -10,7 +10,7 @@ import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/action
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/peer';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
-import * as fromRequestPeerAccessActions from '../actions/request-peer-access.actions';
+import * as fromRequestPeerAccessActions from '../actions';
 
 @Injectable()
 export class RequestPeerAccessEffects {
@@ -37,7 +37,7 @@ export class RequestPeerAccessEffects {
         SettingValue: 'true'
       }
     ))
-    );
+  );
 
   constructor(
     private actions$: Actions,

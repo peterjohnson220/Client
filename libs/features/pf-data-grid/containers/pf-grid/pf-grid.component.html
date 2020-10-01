@@ -10,8 +10,8 @@
       [scrollable]="compactGrid ? 'none': ''"
       [resizable]="(selectedRecordId && allowSplitView) ? false : enableResize"
       [sortable]="{
-        allowSort: allowSort  | isSortable:selectedRecordId:defaultSortDescriptor,
-        mode: allowMultipleSort? 'multiple' : 'single'
+        allowSort: allowSort,
+        mode: allowMultipleSort ? 'multiple' : 'single'
       }"
       [sort]="sortDescriptor$ | async"
       [ngClass]="theme"

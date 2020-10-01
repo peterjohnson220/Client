@@ -1,4 +1,4 @@
-import * as fromUpsertDataCutPageActions from '../actions/upsert-data-cut-page.actions';
+import * as fromUpsertActions from '../actions';
 
 export interface State {
   upsertingDataCut: boolean;
@@ -16,38 +16,38 @@ export const initialState: State = {
 // Reducer
 export function reducer(
   state = initialState,
-  action: fromUpsertDataCutPageActions.Actions
+  action: fromUpsertActions.UpsertPeerDataCutActions
 ): State {
   switch (action.type) {
-    case fromUpsertDataCutPageActions.UPSERT_DATA_CUT: {
+    case fromUpsertActions.UPSERT_DATA_CUT: {
       return {
         ...state,
         upsertingDataCut: true,
         upsertingDataCutError: false
       };
     }
-    case fromUpsertDataCutPageActions.UPSERT_DATA_CUT_SUCCESS: {
+    case fromUpsertActions.UPSERT_DATA_CUT_SUCCESS: {
       return {
         ...state,
         upsertingDataCut: false,
         upsertingDataCutError: false
       };
     }
-    case fromUpsertDataCutPageActions.UPSERT_DATA_CUT_ERROR: {
+    case fromUpsertActions.UPSERT_DATA_CUT_ERROR: {
       return {
         ...state,
         upsertingDataCut: false,
         upsertingDataCutError: true
       };
     }
-    case fromUpsertDataCutPageActions.CANCEL_UPSERT_DATA_CUT: {
+    case fromUpsertActions.CANCEL_UPSERT_DATA_CUT: {
       return {
         ...state,
         upsertingDataCut: false,
         upsertingDataCutError: false
       };
     }
-    case fromUpsertDataCutPageActions.PAGE_IN_VIEW_IN_IFRAME: {
+    case fromUpsertActions.PAGE_IN_VIEW_IN_IFRAME: {
       return {
         ...state,
         pageInViewInIframe: true

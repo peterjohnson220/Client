@@ -1,11 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated button when passesGuidelines is false 1`] = `
-<pf-upsert-data-cut-page
+exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when passesGuidelines is false 1`] = `
+<pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  displayInClassicAspIframe="false"
   employeesValid$={[Function Store]}
   exchangeExplorer={[Function Object]}
   guidelinesService={[Function DojGuidelinesStub]}
@@ -22,7 +23,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
-  route={[Function Object]}
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
@@ -71,15 +71,16 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
       </button>
     </pf-exchange-explorer>
   </pf-async-container>
-</pf-upsert-data-cut-page>
+</pf-upsert-peer-data-cut>
 `;
 
-exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data cut page with an Add button 1`] = `
-<pf-upsert-data-cut-page
+exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page with an Add button 1`] = `
+<pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  displayInClassicAspIframe="false"
   employeesValid$={[Function Store]}
   exchangeExplorer={[Function Object]}
   guidelinesService={[Function DojGuidelinesStub]}
@@ -96,7 +97,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
-  route={[Function Object]}
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
@@ -144,15 +144,16 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
       </button>
     </pf-exchange-explorer>
   </pf-async-container>
-</pf-upsert-data-cut-page>
+</pf-upsert-peer-data-cut>
 `;
 
-exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data cut page with an Update button 1`] = `
-<pf-upsert-data-cut-page
+exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page with an Update button 1`] = `
+<pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
+  displayInClassicAspIframe="false"
   employeesValid$={[Function Store]}
   exchangeExplorer={[Function Object]}
   guidelinesService={[Function DojGuidelinesStub]}
@@ -169,7 +170,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
-  route={[Function Object]}
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
@@ -217,15 +217,16 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
       </button>
     </pf-exchange-explorer>
   </pf-async-container>
-</pf-upsert-data-cut-page>
+</pf-upsert-peer-data-cut>
 `;
 
-exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbents filter when untaggedIncumbentCount$ > 0 1`] = `
-<pf-upsert-data-cut-page
+exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter when untaggedIncumbentCount$ > 0 1`] = `
+<pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  displayInClassicAspIframe="false"
   employeesValid$={[Function Store]}
   exchangeExplorer={[Function Object]}
   guidelinesService={[Function DojGuidelinesStub]}
@@ -242,7 +243,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
-  route={[Function Object]}
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
@@ -303,15 +303,16 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
       </button>
     </pf-exchange-explorer>
   </pf-async-container>
-</pf-upsert-data-cut-page>
+</pf-upsert-peer-data-cut>
 `;
 
-exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button when passesGuidelines is true 1`] = `
-<pf-upsert-data-cut-page
+exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGuidelines is true 1`] = `
+<pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  displayInClassicAspIframe="false"
   employeesValid$={[Function Store]}
   exchangeExplorer={[Function Object]}
   guidelinesService={[Function DojGuidelinesStub]}
@@ -328,7 +329,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
-  route={[Function Object]}
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
@@ -376,15 +376,16 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
       </button>
     </pf-exchange-explorer>
   </pf-async-container>
-</pf-upsert-data-cut-page>
+</pf-upsert-peer-data-cut>
 `;
 
-exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button when passesGuidelines is true 1`] = `
-<pf-upsert-data-cut-page
+exports[`Libs - Upsert Peer Data Cut should enable the update button when passesGuidelines is true 1`] = `
+<pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
-  cutGuid={[Function String]}
+  cutGuid="null"
+  displayInClassicAspIframe="false"
   employeesValid$={[Function Store]}
   exchangeExplorer={[Function Object]}
   guidelinesService={[Function DojGuidelinesStub]}
@@ -401,7 +402,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
-  route={[Function Object]}
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
@@ -439,7 +439,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
         class="btn legacy-primary-btn au-btn-add ml-2"
         type="button"
       >
-         Update 
+         Add 
       </button>
       <button
         class="btn btn-secondary au-btn-cancel ml-2"
@@ -449,15 +449,16 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
       </button>
     </pf-exchange-explorer>
   </pf-async-container>
-</pf-upsert-data-cut-page>
+</pf-upsert-peer-data-cut>
 `;
 
-exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' button and message when peer terms haven't been accepted 1`] = `
-<pf-upsert-data-cut-page
+exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and message when peer terms haven't been accepted 1`] = `
+<pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  displayInClassicAspIframe="false"
   employeesValid$={[Function Store]}
   exchangeExplorer={[Function Object]}
   guidelinesService={[Function DojGuidelinesStub]}
@@ -474,7 +475,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' bu
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
-  route={[Function Object]}
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
@@ -547,16 +547,17 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' bu
       </button>
     </pf-exchange-explorer>
   </pf-async-container>
-</pf-upsert-data-cut-page>
+</pf-upsert-peer-data-cut>
 `;
 
-exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Requested' button and 'Access Requested' message when
+exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' button and 'Access Requested' message when
   peer terms haven't been accepted and access has been requested 1`] = `
-<pf-upsert-data-cut-page
+<pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  displayInClassicAspIframe="false"
   employeesValid$={[Function Store]}
   exchangeExplorer={[Function Object]}
   guidelinesService={[Function DojGuidelinesStub]}
@@ -573,7 +574,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Re
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Store]}
-  route={[Function Object]}
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
@@ -646,16 +646,17 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Re
       </button>
     </pf-exchange-explorer>
   </pf-async-container>
-</pf-upsert-data-cut-page>
+</pf-upsert-peer-data-cut>
 `;
 
-exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requesting Access' button when peer terms haven't been accepted and access
+exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' button when peer terms haven't been accepted and access
   is being requested 1`] = `
-<pf-upsert-data-cut-page
+<pf-upsert-peer-data-cut
   accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  displayInClassicAspIframe="false"
   employeesValid$={[Function Store]}
   exchangeExplorer={[Function Object]}
   guidelinesService={[Function DojGuidelinesStub]}
@@ -672,7 +673,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requestin
   persistedWeightingTypeForDataCutsSubscription={[Function Subscriber]}
   requestPeerAccessMessage={[Function String]}
   requestingPeerAccess$={[Function Observable]}
-  route={[Function Object]}
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
@@ -747,5 +747,5 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requestin
       </button>
     </pf-exchange-explorer>
   </pf-async-container>
-</pf-upsert-data-cut-page>
+</pf-upsert-peer-data-cut>
 `;

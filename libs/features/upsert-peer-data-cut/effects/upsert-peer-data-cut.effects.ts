@@ -14,16 +14,14 @@ import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api/settin
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 
-import * as fromUpsertDataCutPageActions from '../actions/upsert-data-cut-page.actions';
+import * as fromUpsertPeerDataCutActions from '../actions';
 
 @Injectable()
-export class UpsertDataCutPageEffects {
-
-
+export class UpsertPeerDataCutEffects {
   @Effect()
   upsertDataCut$ = this.actions$.pipe(
-    ofType(fromUpsertDataCutPageActions.UPSERT_DATA_CUT),
-    map((action: fromUpsertDataCutPageActions.UpsertDataCut) => action.payload),
+    ofType(fromUpsertPeerDataCutActions.UPSERT_DATA_CUT),
+    map((action: fromUpsertPeerDataCutActions.UpsertDataCut) => action.payload),
     withLatestFrom(
       this.exchangeExplorerContextService.selectFilterContext(),
       this.libsExchangeExplorerStore.pipe(select(fromLibsExchangeExplorerReducers.getPeerMapCompaniesFromSummary)),
@@ -43,8 +41,8 @@ export class UpsertDataCutPageEffects {
         PayMarketName: latest.paymarket.PayMarket,
         Companies: latest.companies
       }).pipe(
-        map((payload) => new fromUpsertDataCutPageActions.UpsertDataCutSuccess({UserJobMatchId: payload.Key, IsUpdate: payload.Value})),
-        catchError(() => of(new fromUpsertDataCutPageActions.UpsertDataCutError()))
+        map((payload) => new fromUpsertPeerDataCutActions.UpsertDataCutSuccess({UserJobMatchId: payload.Key, IsUpdate: payload.Value})),
+        catchError(() => of(new fromUpsertPeerDataCutActions.UpsertDataCutError()))
       );
     })
   );
@@ -52,18 +50,18 @@ export class UpsertDataCutPageEffects {
   // // Window Communication
   @Effect({ dispatch: false })
   upsertDataCutSuccess$ = this.actions$.pipe(
-      ofType(fromUpsertDataCutPageActions.UPSERT_DATA_CUT_SUCCESS),
-      tap((action: fromUpsertDataCutPageActions.UpsertDataCutSuccess) => {
-        this.windowCommunicationService.postMessage(action.type, action.payload);
-      })
+    ofType(fromUpsertPeerDataCutActions.UPSERT_DATA_CUT_SUCCESS),
+    tap((action: fromUpsertPeerDataCutActions.UpsertDataCutSuccess) => {
+      this.windowCommunicationService.postMessage(action.type, action.payload);
+    })
   );
 
   @Effect({ dispatch: false })
   cancelUpsertDataCut$ = this.actions$.pipe(
-      ofType(fromUpsertDataCutPageActions.CANCEL_UPSERT_DATA_CUT),
-      tap((action: fromUpsertDataCutPageActions.CancelUpsertDataCut) => {
-        this.windowCommunicationService.postMessage(action.type);
-      })
+    ofType(fromUpsertPeerDataCutActions.CANCEL_UPSERT_DATA_CUT),
+    tap((action: fromUpsertPeerDataCutActions.CancelUpsertDataCut) => {
+      this.windowCommunicationService.postMessage(action.type);
+    })
   );
 
   @Effect({ dispatch: false })
@@ -77,15 +75,15 @@ export class UpsertDataCutPageEffects {
   @Effect()
   selectWeightingTypeForAddDataCuts$ = this.actions$
     .pipe(
-      ofType(fromUpsertDataCutPageActions.SELECT_WEIGHTING_TYPE),
-      switchMap((action: fromUpsertDataCutPageActions.SelectWeightingType) => {
+      ofType(fromUpsertPeerDataCutActions.SELECT_WEIGHTING_TYPE),
+      switchMap((action: fromUpsertPeerDataCutActions.SelectWeightingType) => {
         return this.uiPersistenceSettingsApiService.putUiPersistenceSetting({
           FeatureArea: FeatureAreaConstants.PeerDataCuts,
           SettingName: UiPersistenceSettingConstants.PeerAddDataModalWeightingTypeSelection,
           SettingValue: action.payload.newWeightingType
         })
           .pipe(
-            map(() => new fromUpsertDataCutPageActions.SelectedWeightingTypePersisted()),
+            map(() => new fromUpsertPeerDataCutActions.SelectedWeightingTypePersisted()),
             catchError(() => of())
           );
       })

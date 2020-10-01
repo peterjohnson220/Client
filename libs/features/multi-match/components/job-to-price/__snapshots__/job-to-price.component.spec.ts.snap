@@ -34,13 +34,16 @@ exports[`Project - MultiMatch - JobToPrice Component should display Title, code 
     </div>
     <div
       class="dropzone"
+      data-company-job-id="1"
       data-job-id="100"
+      data-paymarket-id="1"
       dragula="data-cuts-bag"
     />
     <div
       class="paymarket"
     >
         
+      
     </div>
     <div
       class="d-flex mt-2"
@@ -104,13 +107,16 @@ exports[`Project - MultiMatch - JobToPrice Component should display data cuts wh
     </div>
     <div
       class="dropzone"
+      data-company-job-id="1"
       data-job-id="100"
+      data-paymarket-id="1"
       dragula="data-cuts-bag"
     />
     <div
       class="paymarket"
     >
         
+      
     </div>
     <div
       class="d-flex mt-2"
@@ -235,13 +241,16 @@ exports[`Project - MultiMatch - JobToPrice Component should display error messag
     </div>
     <div
       class="dropzone"
+      data-company-job-id="1"
       data-job-id="100"
+      data-paymarket-id="1"
       dragula="data-cuts-bag"
     />
     <div
       class="paymarket"
     >
         
+      
     </div>
     <div
       class="d-flex mt-2"
@@ -319,13 +328,16 @@ exports[`Project - MultiMatch - JobToPrice Component should display loading mess
     </div>
     <div
       class="dropzone"
+      data-company-job-id="1"
       data-job-id="100"
+      data-paymarket-id="1"
       dragula="data-cuts-bag"
     />
     <div
       class="paymarket"
     >
         
+      
     </div>
     <div
       class="d-flex mt-2"
@@ -396,13 +408,16 @@ exports[`Project - MultiMatch - JobToPrice Component should display with 2 decim
     </div>
     <div
       class="dropzone"
+      data-company-job-id="1"
       data-job-id="100"
+      data-paymarket-id="1"
       dragula="data-cuts-bag"
     />
     <div
       class="paymarket"
     >
         
+      
     </div>
     <div
       class="d-flex mt-2"
@@ -527,13 +542,16 @@ exports[`Project - MultiMatch - JobToPrice Component should hide data cuts when 
     </div>
     <div
       class="dropzone"
+      data-company-job-id="1"
       data-job-id="100"
+      data-paymarket-id="1"
       dragula="data-cuts-bag"
     />
     <div
       class="paymarket"
     >
         
+      
     </div>
     <div
       class="d-flex mt-2"
@@ -597,13 +615,16 @@ exports[`Project - MultiMatch - JobToPrice Component should show data cuts when 
     </div>
     <div
       class="dropzone"
+      data-company-job-id="1"
       data-job-id="100"
+      data-paymarket-id="1"
       dragula="data-cuts-bag"
     />
     <div
       class="paymarket"
     >
         
+      
     </div>
     <div
       class="d-flex mt-2"
@@ -698,13 +719,16 @@ exports[`Project - MultiMatch - JobToPrice Component should show job detail when
     </div>
     <div
       class="dropzone"
+      data-company-job-id="1"
       data-job-id="100"
+      data-paymarket-id="1"
       dragula="data-cuts-bag"
     />
     <div
       class="paymarket"
     >
         
+      
     </div>
     <div
       class="d-flex mt-2"
@@ -802,13 +826,16 @@ exports[`Project - MultiMatch - JobToPrice Component should show new job match c
     </div>
     <div
       class="dropzone"
+      data-company-job-id="1"
       data-job-id="100"
+      data-paymarket-id="1"
       dragula="data-cuts-bag"
     />
     <div
       class="paymarket"
     >
         
+      
     </div>
     <div
       class="d-flex mt-2"

@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
 
-export const UPSERT_DATA_CUT  = '[Legacy Content/Upsert Data Cut Page] Upsert Data Cut';
-export const UPSERT_DATA_CUT_SUCCESS  = '[Legacy Content/Upsert Data Cut Page] Upsert Data Cut Success';
-export const UPSERT_DATA_CUT_ERROR  = '[Legacy Content/Upsert Data Cut Page] Upsert Data Cut Error';
-export const CANCEL_UPSERT_DATA_CUT = '[Legacy Content/Upsert Data Cut Page] Cancel Upsert Data Cut';
-export const PAGE_IN_VIEW_IN_IFRAME = '[Legacy Content/Upsert Data Cut Page] Page In View From IFrame';
-export const SELECT_WEIGHTING_TYPE = '[Legacy Content/Upsert Data Cut Page] Select Weighting Type';
-export const SELECTED_WEIGHTING_TYPE_PERSISTED = '[Legacy Content/Upsert Data Cut Page] Selected Weighting Type Persisted';
+export const UPSERT_DATA_CUT  = '[Upsert Peer Data Cut] Upsert Data Cut';
+export const UPSERT_DATA_CUT_SUCCESS  = '[Upsert Peer Data Cut] Upsert Data Cut Success';
+export const UPSERT_DATA_CUT_ERROR  = '[Upsert Peer Data Cut] Upsert Data Cut Error';
+export const CANCEL_UPSERT_DATA_CUT = '[Upsert Peer Data Cut] Cancel Upsert Data Cut';
+export const PAGE_IN_VIEW_IN_IFRAME = '[Upsert Peer Data Cut] Page In View From IFrame';
+export const SELECT_WEIGHTING_TYPE = '[Upsert Peer Data Cut] Select Weighting Type';
+export const SELECTED_WEIGHTING_TYPE_PERSISTED = '[Upsert Peer Data Cut] Selected Weighting Type Persisted';
 
 export class UpsertDataCut implements Action {
   readonly type = UPSERT_DATA_CUT;
@@ -42,7 +42,7 @@ export class SelectedWeightingTypePersisted implements Action {
   readonly type = SELECTED_WEIGHTING_TYPE_PERSISTED;
 }
 
-export type Actions
+export type UpsertPeerDataCutActions
   = UpsertDataCut
   | UpsertDataCutSuccess
   | UpsertDataCutError

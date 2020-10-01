@@ -12,16 +12,11 @@
     </div>
     <div class="vertical-separator my-2 ml-auto"></div>
   </div>
-  <ngb-tabset [destroyOnHide]="false" (tabChange)="tabChange($event)">
-    <ngb-tab [title]="'Pricing Details'" [id]="pageViewIds.PricingDetailsTabContainer">
+  <ngb-tabset [destroyOnHide]="false" (tabChange)="tabChange($event)">    
+    <ngb-tab [title]="'Pricing Details'" [id]="pageViewIds.PayMarkets">
       <ng-template ngbTabContent>
-        <div class="full-height" *ngIf="tabStatusOpened[pageViewIds.PricingDetailsTabContainer] === true">
-          <div [style.display]="pricingDetailsView === 'Not Priced' ? 'none' : 'inline'">
-            <pf-pricing-details-grid [filters]="jobDetailsFilters" [unPricedCount]="notPricedCount"></pf-pricing-details-grid>
-          </div>
-          <div [style.display]="pricingDetailsView === 'Priced' ? 'none' : 'inline'">
-            <pf-not-priced-paymarkets-grid [filters]="jobDetailsFilters" [pricedCount]="pricedCount"></pf-not-priced-paymarkets-grid>
-          </div>
+        <div *ngIf="tabStatusOpened[pageViewIds.PayMarkets] === true" class="full-height">
+          <pf-paymarkets-grid [filters]="jobDetailsFilters"></pf-paymarkets-grid>
         </div>
       </ng-template>
     </ngb-tab>
