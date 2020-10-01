@@ -46,11 +46,11 @@ export class NotesManagerComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['notesManagerConfiguration'] && changes['notesManagerConfiguration'].currentValue['EntityId']) {
+    if (changes.notesManagerConfiguration?.currentValue?.EntityId) {
       this.resetForm();
       this.store.dispatch(new fromNotesManagerActions.GetNotes({
-        Entity: changes['notesManagerConfiguration'].currentValue['Entity'],
-        EntityId: changes['notesManagerConfiguration'].currentValue['EntityId']
+        Entity: changes.notesManagerConfiguration.currentValue.Entity,
+        EntityId: changes.notesManagerConfiguration.currentValue.EntityId
       }));
     }
   }

@@ -109,6 +109,11 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   rangeOverrides: CompanyStructureRangeOverride[];
 
 
+  gridConfig = {
+    PersistColumnWidth: false,
+    CaptureGridScroll: true
+  };
+
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     private actionsSubject: ActionsSubject,

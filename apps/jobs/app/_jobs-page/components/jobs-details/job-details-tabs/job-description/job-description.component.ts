@@ -27,12 +27,14 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
   readonly JOB_SUMMARY_MIN_LENGTH = 10;
 
   loading$: Observable<boolean>;
-  jobDescriptionSummary$: Observable<AsyncStateObj<JobDescriptionSummary>>;
   updatedJobDescription$: Observable<string>;
 
   loadJobDescriptionSuccessSubscription: Subscription;
 
   jobDescriptionSummary: JobDescriptionSummary;
+
+  jobDescriptionSummaryAsyncObjSubscription: Subscription;
+  jobDescriptionSummaryAsyncObj: AsyncStateObj<JobDescriptionSummary>;
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,
@@ -45,8 +47,11 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
         this.jobDescriptionSummary = action.payload;
       });
 
+    this.jobDescriptionSummaryAsyncObjSubscription = this.store.select(fromJobsPageReducer.getJobDescriptionSummary).subscribe((o) => {
+      this.jobDescriptionSummaryAsyncObj = o;
+    });
+
     this.loading$ = this.store.select(fromJobsPageReducer.getLoading);
-    this.jobDescriptionSummary$ = this.store.select(fromJobsPageReducer.getJobDescriptionSummary);
     this.updatedJobDescription$ = this.store.select(fromJobsPageReducer.getUpdatedJobDescription);
   }
 
@@ -64,6 +69,7 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     this.loadJobDescriptionSuccessSubscription.unsubscribe();
+    this.jobDescriptionSummaryAsyncObjSubscription.unsubscribe();
   }
 
   saveJobDescription() {

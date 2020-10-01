@@ -14,10 +14,10 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 
-import * as fromUpsertDataCutActions from '../../../actions/upsert-data-cut-page.actions';
-import * as fromLegacyAddPeerDataReducer from '../../../reducers';
-import { UpsertDataCutPageComponent } from './upsert-data-cut.page';
-import * as fromRequestPeerAccessActions from '../../../actions/request-peer-access.actions';
+import { UpsertPeerDataCutComponent } from './upsert-peer-data-cut.component';
+import * as fromUpsertPeerDataCutActions from '../../actions/upsert-peer-data-cut.actions';
+import * as fromUpsertPeerDataCutReducer from '../../reducers';
+import * as fromRequestPeerAccessActions from '../../actions/request-peer-access.actions';
 
 class DojGuidelinesStub {
   passing = true;
@@ -35,14 +35,14 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   LngLatBounds: () => ({})
 }));
 
-describe('Legacy Content - Peer - Upsert Data Cut', () => {
-  let fixture: ComponentFixture<UpsertDataCutPageComponent>;
-  let instance: UpsertDataCutPageComponent;
+describe('Libs - Upsert Peer Data Cut', () => {
+  let fixture: ComponentFixture<UpsertPeerDataCutComponent>;
+  let instance: UpsertPeerDataCutComponent;
   let store: Store<fromRootState.State>;
   let route: ActivatedRoute;
   let guidelinesService: DojGuidelinesStub;
   const mockDataCutGUID = 'MockCutGUID';
-  const queryStringParams = { companyPayMarketId: 1, companyJobId: 2, userSessionId: 3, dataCutGuid: null, userJobMatchId: 0 };
+  let dataCutGuid = null;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -51,21 +51,18 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           feature_peer_exchangeExplorer: combineReducers(fromLibsPeerExchangeExplorerReducers.reducers),
-          legacy_upsertPeerData: combineReducers(fromLegacyAddPeerDataReducer.reducers)
+          peer_upsertDataCut: combineReducers(fromUpsertPeerDataCutReducer.reducers)
         })
       ],
       providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: { queryParamMap: { get: (key) => queryStringParams[key] } }
-          }
+          provide: ActivatedRoute
         },
         { provide: DojGuidelinesService, useClass: DojGuidelinesStub },
         { provide: SettingsService, useClass: SettingsService }
       ],
       declarations: [
-        UpsertDataCutPageComponent
+        UpsertPeerDataCutComponent
       ],
       // Shallow Testing
       schemas: [NO_ERRORS_SCHEMA]
@@ -78,34 +75,47 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
     spyOn(store, 'dispatch');
 
-    fixture = TestBed.createComponent(UpsertDataCutPageComponent);
+    fixture = TestBed.createComponent(UpsertPeerDataCutComponent);
     instance = fixture.componentInstance;
 
     instance.untaggedIncumbentCount$ = of(0);
     instance.hasRequestedPeerAccess$ = of(false);
     instance.hasAcceptedPeerTerms$ = of(true);
 
+    instance.displayInClassicAspIframe = false;
+
     instance.exchangeExplorer = {
       onMessage: jest.fn
     } as any;
+
+    instance.companyPayMarketId = 1;
+    instance.companyJobId = 2;
+    instance.userSessionId = 3;
+    instance.userJobMatchId = 0;
+    instance.isPayMarketOverride = false;
+    instance.cutGuid = null;
   });
 
   it('should display the upsert data cut page with an Add button', () => {
-    queryStringParams.dataCutGuid = null;
+    dataCutGuid = null;
+    instance.cutGuid = dataCutGuid;
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
   it('should display the upsert data cut page with an Update button', () => {
-    queryStringParams.dataCutGuid = mockDataCutGUID;
+    dataCutGuid = mockDataCutGUID;
+    instance.cutGuid = dataCutGuid;
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
-  it(`should call onMessage on the exchange explorer on init to set the context`, () => {
-    queryStringParams.dataCutGuid = null;
+  it(`should call onMessage on the exchange explorer on init to set the context if being displayed in classic ASP iframe`, () => {
+    dataCutGuid = null;
+    instance.cutGuid = dataCutGuid;
+    instance.displayInClassicAspIframe = true;
     const expectedSetContextMessage: MessageEvent = {
       data: {
         payfactorsMessage: {
@@ -131,8 +141,8 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
   it('should dispatch the LoadDataCutValidation action on init', () => {
     const expectedAction = (new fromDataCutValidationActions.LoadDataCutValidation({
-      CompanyJobId: queryStringParams.companyJobId,
-      UserSessionId: queryStringParams.userSessionId
+      CompanyJobId: 2,
+      UserSessionId: 3
     }));
 
     fixture.detectChanges();
@@ -141,13 +151,14 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
   });
 
   it('should dispatch the upsert data cut action when clicking add', () => {
-    queryStringParams.dataCutGuid = null;
-    const expectedAction = new fromUpsertDataCutActions.UpsertDataCut({
-      DataCutGuid: queryStringParams.dataCutGuid,
-      CompanyJobId: queryStringParams.companyJobId,
-      CompanyPayMarketId: queryStringParams.companyPayMarketId,
+    dataCutGuid = null;
+    instance.cutGuid = dataCutGuid;
+    const expectedAction = new fromUpsertPeerDataCutActions.UpsertDataCut({
+      DataCutGuid: dataCutGuid,
+      CompanyJobId: 2,
+      CompanyPayMarketId: 1,
       IsPayMarketOverride: false,
-      UserSessionId: queryStringParams.userSessionId,
+      UserSessionId: 3,
       UserJobMatchId: 0,
       ZoomLevel: 0
     });
@@ -159,14 +170,15 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
   });
 
   it('should dispatch the upsert data cut action when clicking update', () => {
-    queryStringParams.dataCutGuid = mockDataCutGUID;
-    const expectedAction = new fromUpsertDataCutActions.UpsertDataCut({
-      DataCutGuid: queryStringParams.dataCutGuid,
-      CompanyJobId: queryStringParams.companyJobId,
-      CompanyPayMarketId: queryStringParams.companyPayMarketId,
+    dataCutGuid = mockDataCutGUID;
+    instance.cutGuid = dataCutGuid;
+    const expectedAction = new fromUpsertPeerDataCutActions.UpsertDataCut({
+      DataCutGuid: dataCutGuid,
+      CompanyJobId: 2,
+      CompanyPayMarketId: 1,
       IsPayMarketOverride: false,
-      UserSessionId: queryStringParams.userSessionId,
-      UserJobMatchId: queryStringParams.userJobMatchId,
+      UserSessionId: 3,
+      UserJobMatchId: 0,
       ZoomLevel: 0
     });
 
@@ -177,7 +189,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
   });
 
   it('should dispatch the cancel action when clicking cancel', () => {
-    const expectedAction = new fromUpsertDataCutActions.CancelUpsertDataCut();
+    const expectedAction = new fromUpsertPeerDataCutActions.CancelUpsertDataCut();
 
     instance.cancel();
 
@@ -189,7 +201,8 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
   it('should enable the add button when passesGuidelines is true', () => {
     const mapResponse = generateMockExchangeMapResponse();
 
-    queryStringParams.dataCutGuid = null;
+    dataCutGuid = null;
+    instance.cutGuid = dataCutGuid;
     mapResponse.MapSummary.OverallMapStats.CompanyCount = 5;
 
     guidelinesService.passing = true;
@@ -200,7 +213,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
   });
 
   it('should enable the update button when passesGuidelines is true', () => {
-    queryStringParams.dataCutGuid = mockDataCutGUID;
+    dataCutGuid = mockDataCutGUID;
 
     fixture.detectChanges();
 
@@ -209,7 +222,8 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
   it('should call validateDataCut when map summary changes changes', () => {
     const payload = generateMockExchangeStatCompanyMakeup();
-    queryStringParams.dataCutGuid = null;
+    dataCutGuid = null;
+    instance.cutGuid = dataCutGuid;
     instance.peerMapCompanies$ = of(payload);
 
     spyOn(guidelinesService, 'validateDataCut');
@@ -219,7 +233,8 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
   });
 
   it('should disable the add/updated button when passesGuidelines is false', () => {
-    queryStringParams.dataCutGuid = null;
+    dataCutGuid = null;
+    instance.cutGuid = dataCutGuid;
     guidelinesService.passing = false;
 
     fixture.detectChanges();
@@ -269,21 +284,21 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
   it(`should show disabled 'Requesting Access' button when peer terms haven't been accepted and access
   is being requested`, () => {
-      instance.hasAcceptedPeerTerms$ = of(false);
-      instance.requestingPeerAccess$ = of(true);
+    instance.hasAcceptedPeerTerms$ = of(false);
+    instance.requestingPeerAccess$ = of(true);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      expect(fixture).toMatchSnapshot();
-    });
+    expect(fixture).toMatchSnapshot();
+  });
 
   it(`should show disabled 'Access Requested' button and 'Access Requested' message when
   peer terms haven't been accepted and access has been requested`, () => {
-      instance.hasAcceptedPeerTerms$ = of(false);
-      instance.hasRequestedPeerAccess$ = of(true);
+    instance.hasAcceptedPeerTerms$ = of(false);
+    instance.hasRequestedPeerAccess$ = of(true);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      expect(fixture).toMatchSnapshot();
-    });
+    expect(fixture).toMatchSnapshot();
+  });
 });

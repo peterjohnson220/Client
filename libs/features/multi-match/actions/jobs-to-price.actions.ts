@@ -61,7 +61,7 @@ export class ClearAllJobs implements Action {
 export class AddNewDataCuts implements Action {
   readonly type = ADD_DATA_CUTS_TO_JOB_TO_PRICE;
 
-  constructor(public payload: {JobId: number, DataCuts: DataCutDetails[]}) {}
+  constructor(public payload: {JobId: number, PaymarketId: number, CompanyJobId: number, DataCuts: DataCutDetails[]}) {}
 }
 export class RemoveJobCut implements Action {
   readonly type = REMOVE_JOB_CUT;

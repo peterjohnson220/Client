@@ -102,20 +102,20 @@ export class PayMarketsPageComponent implements AfterViewInit, OnInit, OnDestroy
     this.identitySubscription.unsubscribe();
   }
 
-  customSortOptions = (sortDescriptor: SortDescriptor[]): SortDescriptor[] => {
-    if (sortDescriptor && sortDescriptor.length > 0) {
-      const sizeSortInfo = sortDescriptor.find(s => s.field === 'CompanyPayMarkets_ScopeSize');
+  customSortOptions = (previousSortDescriptor: SortDescriptor[], currentSortDescriptor: SortDescriptor[]): SortDescriptor[] => {
+    if (currentSortDescriptor && currentSortDescriptor.length > 0) {
+      const sizeSortInfo = currentSortDescriptor.find(s => s.field === 'CompanyPayMarkets_ScopeSize');
       if (sizeSortInfo) {
-        sortDescriptor = this.getSizeColumnSort(sizeSortInfo);
+        currentSortDescriptor = this.getSizeColumnSort(sizeSortInfo);
       }
-      if (!sortDescriptor.some(s => s.field === 'CompanyPayMarkets_IsDefaultPayMarket')) {
-        sortDescriptor.unshift({
+      if (!currentSortDescriptor.some(s => s.field === 'CompanyPayMarkets_IsDefaultPayMarket')) {
+        currentSortDescriptor.unshift({
           dir: 'desc',
           field: 'CompanyPayMarkets_IsDefaultPayMarket'
         });
       }
     }
-    return sortDescriptor;
+    return currentSortDescriptor;
   }
 
   handleSelectedRowAction(payMarketId: number, payMarketName: string, popover: any) {

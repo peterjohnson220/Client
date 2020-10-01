@@ -25,7 +25,7 @@ export class DataGridToDataViewsHelper {
 
   static buildDataViewDataRequest(
     baseEntityId: number, fields: ViewField[], filters: DataViewFilter[],
-    pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean, applyDefaultFilters: boolean) {
+    pagingOptions: PagingOptions, sortDescriptor: SortDescriptor[], withCount: boolean, applyDefaultFilters: boolean, linkGroups = null) {
 
     return {
       BaseEntityId: baseEntityId,
@@ -34,6 +34,7 @@ export class DataGridToDataViewsHelper {
       PagingOptions: pagingOptions,
       WithCount: withCount,
       ApplyDefaultFilters: applyDefaultFilters,
+      LinkGroups: linkGroups
     };
   }
 

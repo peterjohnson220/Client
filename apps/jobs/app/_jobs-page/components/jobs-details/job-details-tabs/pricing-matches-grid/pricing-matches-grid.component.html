@@ -1,22 +1,28 @@
 
-<pf-data-grid
-  [pageViewId]="pageViewId + '_' + filter.Value"
-  [showTitle]="false"
-  [columnTemplates]="colTemplates"
-  [customHeaderTemplate]="pricingMatchesHeader"
-  [inboundFilters]="[filter]"
-  [defaultSort]="defaultSort"
-  [pagingOptions]="defaultPagingOptions"
-  [compactGrid]="true"
-  [borders]="false"
-  [contentClassNamesOverrides]="'p-0'"
-  [backgroundColor]="'#F7F7F9'"
-  [noRecordsFound]="'This pricing has no data cuts.'"
-  [actionBarConfig]="actionBarConfig"
-  [headerClassName]="'jobs-page-sub-grid-header'"
-  [applyUserDefaultCompensationFields]="true"
-  [allowSort]="false">
-</pf-data-grid>
+<ng-container *ngIf="pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID; else unpricedPaymarket">
+  <pf-data-grid
+    [pageViewId]="pageViewId + '_' + filter.Value"
+    [showTitle]="false"
+    [columnTemplates]="colTemplates"
+    [customHeaderTemplate]="pricingMatchesHeader"
+    [inboundFilters]="[filter]"
+    [defaultSort]="defaultSort"
+    [pagingOptions]="defaultPagingOptions"
+    [compactGrid]="true"
+    [borders]="false"
+    [contentClassNamesOverrides]="'p-0'"
+    [backgroundColor]="'#F7F7F9'"
+    [noRecordsFound]="'This pricing has no data cuts.'"
+    [actionBarConfig]="actionBarConfig"
+    [headerClassName]="'jobs-page-sub-grid-header'"
+    [applyUserDefaultCompensationFields]="true"
+    [allowSort]="false">
+  </pf-data-grid>
+</ng-container>
+
+<ng-template #unpricedPaymarket>
+  <div class="p-3">This is an unpriced Pay Market. Please select this Pay Market and click on the Create Project button in order to price it.</div>
+</ng-template>
 
 <ng-template #pricingMatchesHeader>
   <div class="row no-gutters text-center py-1" style="background-color: #F7F7F9">

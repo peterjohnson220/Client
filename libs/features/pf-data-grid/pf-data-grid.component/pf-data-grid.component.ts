@@ -88,6 +88,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() allowMultipleSort = false;
   @Input() showSplitViewToggle = false;
   @Input() showSortControls = true;
+  @Input() linkGroups = [];
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();
@@ -217,6 +218,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       if (this.actionBarConfig.AllowSaveFilter) {
         this.store.dispatch(new fromActions.LoadSavedViews(changes['pageViewId'].currentValue));
       }
+    }
+
+    if (changes['linkGroups']) {
+      this.store.dispatch(new fromActions.UpdateLinkGroups(this.pageViewId, changes['linkGroups'].currentValue));
     }
 
     if (changes['selectionField']) {
