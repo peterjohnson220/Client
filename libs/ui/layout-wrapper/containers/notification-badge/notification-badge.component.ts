@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 
 import * as fromAppNotificationsReducer from 'libs/features/app-notifications/reducers';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromLibsUserNotificationStore from 'libs/features/user-notifications/reducers';
+import * as fromLibsUserNotificationActions from 'libs/features/user-notifications/actions/user-notification-list.actions';
 
 @Component({
   selector: 'pf-notification-badge',
@@ -14,19 +16,20 @@ import * as fromAppNotificationsActions from 'libs/features/app-notifications/ac
 })
 export class NotificationBadgeComponent implements OnInit {
   notificationCount$: Observable<number>;
-  loading$: Observable<boolean>;
 
-  constructor(private store: Store<fromAppNotificationsReducer.State>) {
-    this.notificationCount$ = store.select(fromAppNotificationsReducer.getUnreadCountAsyncObj).pipe(
+  constructor(private store: Store<fromAppNotificationsReducer.State>,
+              private userNotificationStore: Store<fromLibsUserNotificationStore.State>) {
+    this.notificationCount$ = store.select(fromAppNotificationsReducer.getUnseenCountAsyncObj).pipe(
       map(asyncObj => asyncObj.obj)
-    );
-    this.loading$ = store.select(fromAppNotificationsReducer.getUnreadCountAsyncObj).pipe(
-      map(asyncObj => asyncObj.loading)
     );
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new fromAppNotificationsActions.UpdateUserNotificationUnreadCount());
+    this.store.dispatch(new fromAppNotificationsActions.UpdateUserNotificationsUnseenCount());
   }
 
+  markAllNotificationsAsSeen() {
+    this.store.dispatch(new fromAppNotificationsActions.ClearUserNotificationUnseenCount());
+    this.userNotificationStore.dispatch(new fromLibsUserNotificationActions.MarkAllNotificationsSeen());
+  }
 }

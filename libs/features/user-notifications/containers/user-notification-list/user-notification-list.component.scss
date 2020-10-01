@@ -16,12 +16,14 @@
 
 .notification-row {
   cursor: pointer;
-
-  &.is-read {
-    background-color: #dddddd;
-  }
+  border-radius:2px;
 
   &:hover {
     background-color: #cccccc;
   }
+}
+
+.notification-table{
+  border-collapse:separate;
+  border-spacing:.5em;
 }

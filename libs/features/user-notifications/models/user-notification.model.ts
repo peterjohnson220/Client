@@ -8,6 +8,8 @@ export interface UserNotification {
   Message: string;
   EnableHtml: boolean;
   IsRead: boolean;
+  IsSeen: boolean;
   ShowBadge: boolean;
   CreateDate: Date;
+  BaseUrl: string;
 }

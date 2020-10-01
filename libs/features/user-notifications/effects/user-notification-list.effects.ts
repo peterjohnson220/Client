@@ -6,9 +6,9 @@ import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
 
 import { NotificationsApiService } from 'libs/data/payfactors-api';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import { PayfactorsApiModelMapper } from 'libs/features/user-notifications/helpers';
 
 import * as fromUserNotificationListActions from '../actions/user-notification-list.actions';
-import { PayfactorsApiModelMapper } from '../helpers';
 import { UserNotification } from '../models';
 
 @Injectable()
@@ -54,6 +54,20 @@ export class UserNotificationListEffects {
             new fromAppNotificationsActions.UpdateUserNotificationUnreadCount(),
             new fromUserNotificationListActions.MarkAllNotificationsReadSuccess()]),
           catchError(() => of(new fromUserNotificationListActions.MarkAllNotificationsReadError()))
+        );
+      })
+    );
+
+  @Effect()
+  markAllNotificationsSeen$ = this.actions$
+    .pipe(
+      ofType<fromUserNotificationListActions.MarkAllNotificationsSeen>(fromUserNotificationListActions.MARK_ALL_NOTIFICATIONS_SEEN),
+      switchMap((action) => {
+        return this.notificationApiService.markAllNotificationsAsSeen().pipe(
+          mergeMap(response => [new fromUserNotificationListActions.GetUserNotifications(),
+            new fromAppNotificationsActions.ClearUserNotificationUnseenCount(),
+            new fromUserNotificationListActions.MarkAllNotificationsSeenSuccess()]),
+          catchError(() => of(new fromUserNotificationListActions.MarkAllNotificationsSeenError()))
         );
       })
     );

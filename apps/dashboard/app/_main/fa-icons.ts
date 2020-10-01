@@ -1,5 +1,5 @@
 ﻿import { faArrowCircleLeft } from '@fortawesome/pro-solid-svg-icons/faArrowCircleLeft';
-import { faCommentAlt} from '@fortawesome/pro-regular-svg-icons';
+import { faCommentAlt } from '@fortawesome/pro-regular-svg-icons';
 import { faHome } from '@fortawesome/pro-solid-svg-icons/faHome';
 import { faChartBar } from '@fortawesome/pro-solid-svg-icons/faChartBar';
 import { faAmbulance } from '@fortawesome/pro-solid-svg-icons/faAmbulance';
