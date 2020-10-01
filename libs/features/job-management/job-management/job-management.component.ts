@@ -1,12 +1,14 @@
 import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, EventEmitter, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
 
+import { Observable, Subscription } from 'rxjs';
 import { Store, ActionsSubject } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
+
+import { CompanyJob } from 'libs/models';
 
 import * as fromJobManagementActions from '../actions';
+import * as fromNotesManagerActions from '../../notes-manager/actions';
 import * as fromJobManagementReducer from '../reducers';
-import { ofType } from '@ngrx/effects';
-import { CompanyJob } from 'libs/models';
 
 @Component({
   selector: 'pf-job-management',
@@ -37,7 +39,8 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
 	    As a Payfactors standalone page
     Replace all Add Job modals & componenets with the generic job-management-component
   */
-  constructor(private store: Store<fromJobManagementReducer.State>, private actionsSubject: ActionsSubject) { }
+  constructor(private store: Store<fromJobManagementReducer.State>,
+              private actionsSubject: ActionsSubject) { }
 
   ngOnInit() {
     this.loading$ = this.store.select(fromJobManagementReducer.getLoading);
@@ -69,6 +72,7 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
 
   onCancelChanges() {
     this.store.dispatch(new fromJobManagementActions.ResetState());
+    this.store.dispatch(new fromNotesManagerActions.ClearNotes());
     this.cancelChanges.emit();
   }
 

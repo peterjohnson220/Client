@@ -1,6 +1,6 @@
 <pf-async-container [loading]="loading$ | async">
   <div class="px-3">
-    <ngb-tabset #jobsTabs [destroyOnHide]="false" (tabChange)="tabChange($event)">
+    <ngb-tabset #jobsTabs [destroyOnHide]="false" (tabChange)="tabChange()">
       <ngb-tab [title]="'Standard Fields'" [id]="jobManagementTabs.StandardFields">
         <ng-template ngbTabContent>
           <perfect-scrollbar class="mt-4 tab-content overflow-hidden">
@@ -27,6 +27,15 @@
           <perfect-scrollbar class="mt-4 tab-content overflow-hidden">
             <pf-job-attachments #attachmentsComponent></pf-job-attachments>
           </perfect-scrollbar>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab [title]="'Notes'" [id]="jobManagementTabs.Notes">
+        <ng-template ngbTabContent>
+          <div class="mt-4 tab-content">
+            <pf-notes-manager #notesManagerComponent
+                              [display]="'component'"
+                              [notesManagerConfiguration]="notesManagerConfiguration"></pf-notes-manager>
+          </div>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

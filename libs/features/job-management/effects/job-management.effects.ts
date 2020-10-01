@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, forkJoin } from 'rxjs';
 
+import { Observable, of, forkJoin } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { EditableJobDescriptionPipe } from 'libs/core';
-import { CompanyJob, CompanyJobAttachment, UserContext, JobDescriptionSummary } from 'libs/models';
+import { CompanyJob, CompanyJobAttachment, UserContext, JobDescriptionSummary, NotesBase, NoteRequest } from 'libs/models';
 import {
   CompanyJobApiService,
   StructuresApiService,
@@ -17,8 +17,11 @@ import {
 import * as fromRootState from 'libs/state/state';
 import * as fromJobManagementReducer from '../reducers';
 import * as fromJobManagementActions from '../actions';
+import * as fromNotesManagerReducer from '../../notes-manager/reducers';
+import * as fromNotesManagerActions from '../../notes-manager/actions';
 
 import { ToastrService } from 'ngx-toastr';
+import { SaveNotesRequest } from '../../../models/payfactors-api/notes/save-notes-request.model';
 
 @Injectable()
 export class JobManagementEffects {
@@ -173,8 +176,9 @@ export class JobManagementEffects {
         of(saveStructureMappings).pipe(
           withLatestFrom(
             this.store.pipe(select(fromJobManagementReducer.getStructures)),
-            (action: fromJobManagementActions.SaveStructureMappings, structures) =>
-              ({ action, structures })
+            this.store.pipe(select(fromNotesManagerReducer.getNotes)),
+            (action: fromJobManagementActions.SaveStructureMappings, structures, notes) =>
+              ({ action, structures, notes })
           )
         ),
       ),
@@ -189,7 +193,7 @@ export class JobManagementEffects {
           .addJobStructureMapping(data.action.jobId, updatedStructures)
           .pipe(
             map((response: any) => {
-              return new fromJobManagementActions.SaveCompanyJobSuccess();
+              return new fromNotesManagerActions.SaveNotes(data.action.jobId);
             }),
             catchError(response =>
               this.handleError('There was an error saving your job information. Please contact you service associate for assistance.'))
