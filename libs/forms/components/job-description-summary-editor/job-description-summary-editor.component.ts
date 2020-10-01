@@ -75,7 +75,7 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
   }
 
   reset() {
-    this.jobDescriptionTextArea.nativeElement.style = '';
+    this.jobDescriptionForm.patchValue({ JobDescription: '' });
   }
 
 }

@@ -1,12 +1,10 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import cloneDeep from 'lodash/cloneDeep';
-
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/index';
-
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
@@ -19,12 +17,12 @@ import { AsyncStateObj, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
 import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, PagingOptions, ViewField, getDefaultPagingOptions } from 'libs/models/payfactors-api';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
-
 import * as fromRootState from 'libs/state/state';
 import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
 import * as fromModifyPricingsReducer from 'libs/features/multi-match/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromJobManagementActions from 'libs/features/job-management/actions';
 
 import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';
@@ -416,6 +414,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleJobManagmentModal(toggle: boolean, jobId: number = null, event = null) {
+    if (jobId === null) {
+      this.store.dispatch(new fromJobManagementActions.ResetState());
+    }
+
     this.editingJobId = jobId;
     this.showJobManagementModal.next(toggle);
     if (event) {
