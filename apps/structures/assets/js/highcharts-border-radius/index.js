@@ -21,6 +21,10 @@
           const x = point.shapeArgs.x;
           const y = point.shapeArgs.y;
 
+          if (x == null || y == null || w == null || h == null) {
+            return;
+          }
+
           let radiusTopLeft = H.relativeLength(options.borderRadiusTopLeft || 0, w);
           let radiusTopRight = H.relativeLength(options.borderRadiusTopRight || 0, w);
           let radiusBottomRight = H.relativeLength(options.borderRadiusBottomRight || 0, w);
