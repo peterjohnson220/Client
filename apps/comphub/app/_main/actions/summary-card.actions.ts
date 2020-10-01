@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { JobPricedHistorySummaryRequest, SharePricingSummaryRequest } from 'libs/models/payfactors-api';
+import { SharePricingSummaryRequest } from 'libs/models/payfactors-api';
 
 import { JobData, JobSalaryTrend } from '../models';
 
@@ -28,9 +28,7 @@ export const PRICE_NEW_PEER_JOB = '[Comphub/Summary Card] Price New Peer Job';
 export const RECALCULATE_JOB_DATA = '[Comphub/Summary Card] Recalculate Job';
 export const RECALCULATE_JOB_DATA_SUCCESS = '[Comphub/Summary Card] Recalculate Job Success';
 export const RECALCULATE_JOB_DATA_ERROR = '[Comphub/Summary Card] Recalculate Job Error';
-export const GET_JOB_PRICED_HISTORY_SUMMARY = '[Comphub/Summary Card] Get Job Priced History Summary';
-export const GET_JOB_PRICED_HISTORY_SUMMARY_SUCCESS = '[Comphub/Summary Card] Get Job Priced History Summary Success';
-export const GET_JOB_PRICED_HISTORY_SUMMARY_ERROR = '[Comphub/Summary Card] Get Job Priced History Summary Error';
+export const SET_SHOW_JOB_PRICED_HISTORY_SUMMARY = '[Comphub/Summary Card] Set Show Job Priced History Summary';
 
 export class PriceNewJob implements Action {
   readonly type = PRICE_NEW_JOB;
@@ -41,7 +39,7 @@ export class PriceNewJob implements Action {
 export class GetNationalJobTrendData implements Action {
   readonly type = GET_JOB_NATIONAL_TREND;
 
-  constructor(public payload: JobData) {}
+  constructor(public payload: { countryCode: string, jobCode: string }) {}
 }
 
 export class GetNationalJobTrendDataSuccess implements Action {
@@ -168,19 +166,10 @@ export class RecalculateJobDataError implements Action {
   readonly type = RECALCULATE_JOB_DATA_ERROR;
   constructor() {}
 }
-export class GetJobPricedHistorySummary implements Action {
-  readonly type = GET_JOB_PRICED_HISTORY_SUMMARY;
-  constructor(public payload: JobPricedHistorySummaryRequest) {}
-}
 
-export class GetJobPricedHistorySummarySuccess implements Action {
-  readonly type = GET_JOB_PRICED_HISTORY_SUMMARY_SUCCESS;
-  constructor() {}
-}
-
-export class GetJobPricedHistorySummaryError implements Action {
-  readonly type = GET_JOB_PRICED_HISTORY_SUMMARY_ERROR;
-  constructor() {}
+export class SetShowJobPricedHistorySummary implements Action {
+  readonly type = SET_SHOW_JOB_PRICED_HISTORY_SUMMARY;
+  constructor(public payload: boolean) {}
 }
 
 export type Actions
@@ -208,6 +197,4 @@ export type Actions
   | RecalculateJobData
   | RecalculateJobDataSuccess
   | RecalculateJobDataError
-  | GetJobPricedHistorySummary
-  | GetJobPricedHistorySummarySuccess
-  | GetJobPricedHistorySummaryError;
+  | SetShowJobPricedHistorySummary;

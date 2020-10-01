@@ -6,3 +6,4 @@ export * from './add-paymarket-form.effects';
 export * from './comphub-page.effects';
 export * from './summary-card.effects';
 export * from './job-grid.effects';
+export * from './quick-price-history.effects';

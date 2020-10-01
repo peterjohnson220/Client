@@ -158,18 +158,13 @@ export function reducer(state = initialState, action: fromSummaryCardActions.Act
         recalculatingError: true
       };
     }
-    case fromSummaryCardActions.GET_JOB_PRICED_HISTORY_SUMMARY: {
+    case fromSummaryCardActions.SET_SHOW_JOB_PRICED_HISTORY_SUMMARY: {
       return {
         ...state,
-        showJobPricedHistorySummary: true
+        showJobPricedHistorySummary: action.payload
       };
     }
-    case fromSummaryCardActions.PRICE_NEW_JOB: {
-      return {
-        ...state,
-        showJobPricedHistorySummary: false
-      };
-    }
+    case fromSummaryCardActions.PRICE_NEW_JOB:
     case fromSummaryCardActions.PRICE_NEW_PEER_JOB: {
       return {
         ...state,

@@ -20,6 +20,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   minPaymarketMinimumWage$={[Function Observable]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
@@ -91,7 +92,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -121,7 +124,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -298,7 +301,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -338,7 +343,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -588,7 +593,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -618,7 +625,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -795,7 +802,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -835,7 +844,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -1068,6 +1077,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
@@ -1139,7 +1149,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -1169,7 +1181,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               class="v"
               data-qa-id="cnt-currency"
             >
-              CAD
+                
             </div>
           </div>
           <div
@@ -1346,7 +1358,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -1386,7 +1400,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                     <div
                       class="v"
                     >
-                      CAD
+                      
                     </div>
                   </div>
                 </div>
@@ -1636,7 +1650,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -1666,7 +1682,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      CAD
+                        
                     </div>
                   </div>
                   <div
@@ -1843,7 +1859,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -1883,7 +1901,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                             <div
                               class="v"
                             >
-                              CAD
+                              
                             </div>
                           </div>
                         </div>
@@ -2116,6 +2134,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
@@ -2187,7 +2206,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -2217,7 +2238,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -2394,7 +2415,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -2434,7 +2457,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -2684,7 +2707,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -2714,7 +2739,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -2891,7 +2916,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -2931,7 +2958,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -3164,6 +3191,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   minPaymarketMinimumWage$={[Function Observable]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
@@ -3235,7 +3263,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -3265,7 +3295,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -3442,7 +3472,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -3482,7 +3514,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -3732,7 +3764,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -3762,7 +3796,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -3939,7 +3973,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -3979,7 +4015,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -4212,6 +4248,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   minPaymarketMinimumWage$={[Function Observable]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
@@ -4283,7 +4320,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -4313,7 +4352,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -4490,7 +4529,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -4530,7 +4571,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -4780,7 +4821,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -4810,7 +4853,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -4987,7 +5030,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -5027,7 +5072,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -5260,6 +5305,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
@@ -5331,7 +5377,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -5361,7 +5409,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -5538,7 +5586,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -5578,7 +5628,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -5828,7 +5878,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -5858,7 +5910,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -6035,7 +6087,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -6075,7 +6129,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -6308,6 +6362,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
@@ -6379,7 +6434,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -6409,7 +6466,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -6586,7 +6643,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -6626,7 +6685,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -6876,7 +6935,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -6906,7 +6967,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -7083,7 +7144,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -7123,7 +7186,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -7356,6 +7419,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
@@ -7427,7 +7491,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -7457,7 +7523,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -7643,7 +7709,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -7683,7 +7751,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -7933,7 +8001,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -7963,7 +8033,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -8149,7 +8219,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -8189,7 +8261,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>

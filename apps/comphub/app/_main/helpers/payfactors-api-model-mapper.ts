@@ -52,7 +52,8 @@ export class PayfactorsApiModelMapper {
       Location: payMarket.GeoValue,
       Size: payMarket.SizeValue,
       SizeLabel: payMarket.SizeLabel,
-      CurrencyCode: payMarket.CurrencyCode
+      CurrencyCode: payMarket.CurrencyCode,
+      CountryCode: payMarket.CountryCode
     };
   }
 
@@ -101,7 +102,9 @@ export class PayfactorsApiModelMapper {
       Tcc75: q.Tcc75,
       Incs: q.Incs,
       Orgs: q.Orgs,
-      ShowJd: false
+      ShowJd: false,
+      ExchangeName: q.ExchangeName,
+      EffectiveDate: q.EffectiveDate
     };
   }
 

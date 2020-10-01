@@ -34,7 +34,7 @@ import {
   ComphubFooterComponent, JobGridComponent, MarketDataJobGridComponent, PeerJobGridComponent
 } from './containers';
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
-  SummaryCardEffects, JobGridEffects } from './effects';
+  SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects } from './effects';
 import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
@@ -58,7 +58,8 @@ import { BasicDataGridModule } from 'libs/features/basic-data-grid';
             AddPayMarketFormEffects,
             ComphubPageEffects,
             SummaryCardEffects,
-            JobGridEffects
+            JobGridEffects,
+            QuickPriceHistoryEffects
         ]),
         PerfectScrollbarModule,
         PDFExportModule,

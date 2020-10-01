@@ -14,7 +14,7 @@ import * as fromBasicDataGridReducer from 'libs/features/basic-data-grid/reducer
 import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
 
 import * as fromComphubPageActions from '../../actions/comphub-page.actions';
-import * as fromSummaryCardActions from '../../actions/summary-card.actions';
+import * as fromQuickPriceHistoryActions from '../../actions/quick-price-history.actions';
 import * as fromComphubMainReducer from '../../reducers';
 import { QuickPriceHistoryContext, WorkflowContext } from '../../models';
 
@@ -32,6 +32,8 @@ export class QuickPriceHistoryComponent implements OnInit, OnDestroy, AfterViewI
   isQuickPriceHistoryOpen$: Observable<boolean>;
   isQuickPriceHistoryNoteDismissed$: Observable<boolean>;
   workflowContext$: Observable<WorkflowContext>;
+  loadingJobDataHistory$: Observable<boolean>;
+  loadingJobDataErrorMessage$: Observable<string>;
 
   hasMoreDataOnServerSubscription: Subscription;
   isQuickPriceHistoryOpenSubscription: Subscription;
@@ -59,6 +61,8 @@ export class QuickPriceHistoryComponent implements OnInit, OnDestroy, AfterViewI
     this.isQuickPriceHistoryNoteDismissed$ = this.settingsService.selectUiPersistenceSetting<boolean>(
       FeatureAreaConstants.CompHub, UiPersistenceSettingConstants.QuickPriceHistoryNoteDismissed
     );
+    this.loadingJobDataHistory$ = this.store.select(fromComphubMainReducer.getLoadingJobDataHistory);
+    this.loadingJobDataErrorMessage$ = this.store.select(fromComphubMainReducer.getLoadingJobDataHistoryErrorMessage);
   }
 
   ngOnInit(): void {
@@ -86,6 +90,7 @@ export class QuickPriceHistoryComponent implements OnInit, OnDestroy, AfterViewI
   ngOnDestroy(): void {
     this.hasMoreDataOnServerSubscription.unsubscribe();
     this.isQuickPriceHistoryOpenSubscription.unsubscribe();
+    this.workflowContextSub.unsubscribe();
   }
 
   handleScrollBottom(): void {
@@ -100,8 +105,7 @@ export class QuickPriceHistoryComponent implements OnInit, OnDestroy, AfterViewI
 
   handleCellClicked(event: any): void {
     const request = this.buildJobPricedHistorySummaryRequest(event);
-    this.store.dispatch(new fromSummaryCardActions.GetJobPricedHistorySummary(request));
-    this.close();
+    this.store.dispatch(new fromQuickPriceHistoryActions.GetJobPricedHistorySummary(request));
   }
 
   closeNote(): void {

@@ -6,6 +6,7 @@
   [gridHasData]="gridHasData"
   [gridColumnsConfiguration]="gridColumnsConfiguration"
   [selectedJobData]="(selectedJobData$ | async)"
+  [currencyCode]="workflowContext?.activeCountryDataSet?.CurrencyCode"
   (sortChanged)="loadJobResults($event)"
   (loadMoreClicked)="loadJobResults($event)"
   (selectionChanged)="handleSelectionChanged($event)"
