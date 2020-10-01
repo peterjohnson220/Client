@@ -31,8 +31,8 @@ export class JobsApiService {
     return this.payfactorsApiService.get(`CustomExport.GetCustomExportData?pageName=Jobs`);
   }
 
-  getPricingsToModify(pricingIds: number[]) {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/GetPricingsToModify`, pricingIds);
+  getPricingsToModify(pricings: any[]) {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/GetPricingsToModify`, pricings);
   }
 
   getPricingCuts(request: any) {

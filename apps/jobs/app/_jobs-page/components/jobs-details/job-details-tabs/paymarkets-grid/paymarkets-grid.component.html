@@ -1,29 +1,31 @@
 <pf-data-grid
-  *ngIf="viewMode === 'Priced'"
-  [pageViewId]="pricedDataPageViewId"
+  [pageViewId]="pageViewId"
+  [linkGroups]="['AllPaymarketsForJobs']"
   [showTitle]="false"
-  [selectionField]="'CompanyJobPricing_ID'"
+  [selectionField]="'JobIdPayMarketId'"
   [enableSelection]="true"
-  [columnTemplates]="pricedDataColTemplates"
+  [columnTemplates]="columnTemplates"
   [expandedRowTemplate]="pricingMatchesGrid"
+  [actionBarConfig]="actionBarConfig"  
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
+  [customSortOptions]="customSortOptions"
   [preserveSelectionsOnGetConfig]="true"
-  [actionBarConfig]="actionBarConfig"
+  [applyUserDefaultCompensationFields]="true"
   [headerClassName]="'jobs-page-sub-grid-header'"
   [applyUserDefaultCompensationFields]="true"
   [pagingOptions]="defaultPagingOptions"
   [gridConfig]="gridConfig"
   [pageable]="!gridConfig.EnableInfiniteScroll"
-  [noRecordsFound]="noRecordsMessage">
+  [noRecordsFound]="'There are no results for the filter criteria you have selected.'">
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
-  <pf-pricing-matches-grid
+  <pf-pricing-matches-grid 
     [pricingInfo]="dataRow"
     (notesEmitter)="openPricingMatchNotesManager($event)"
-    (reScopeSurveyDataEmitter)="openReScopeSurveyDataModal($event)"
-  ></pf-pricing-matches-grid>
+    (reScopeSurveyDataEmitter)="openReScopeSurveyDataModal($event)">
+  </pf-pricing-matches-grid>
 </ng-template>
 
 <ng-template #payMarketColumn let-dataRow="dataRow">
@@ -77,36 +79,40 @@
   </div>
 </ng-template>
 
-<ng-template #pricedDataPayMarketFilter>
+<ng-template #adjPctColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <pf-pricing-details-adj-pct-column [dataRow]="dataRow"></pf-pricing-details-adj-pct-column>
+</ng-template>
+
+<ng-template #payMarketFilter>
   <kendo-dropdownlist
-    style="width: 250px"
-    [(ngModel)]="pricedDataSelectedPayMarket"
+    [attr.data-qa-id]="'ddm-operator-' + payMarketField.SourceName"  
+    [(ngModel)]="selectedPayMarket"
     [textField]="'Value'"
     [valueField]="'Id'"
     [defaultItem]="{Value:'All Pay Markets', Id: null}"
-    [data]="pricedDataFilteredPayMarketOptions"
+    [data]="filteredPayMarketOptions"
     (valueChange)="handlePayMarketFilterChanged($event)"
     [filterable]="true"
-    (filterChange)="handleFilter($event)"
-    [attr.data-qa-id]="'ddm-operator-'+pricedDataPayMarketField.SourceName"
+    (filterChange)="handlePayMarketDropDownFilterChanged($event)"    
+    style="width: 250px"
     class="k-dropdown-white form-control">
   </kendo-dropdownlist>
 </ng-template>
 
-<ng-template #changeView>
-  <div class="d-flex flex-fill">
-    <div class="view-change d-flex" (click)="switchViewToNotPriced()">
-      <div class="pricing-count-badge">
-        <span class="badge badge-primary mr-2">{{unPricedCount || 0}}</span>
-        <span>Pay Market{{unPricedCount === 1 ? '' : 's'}} Not Priced</span>
-      </div>
-    </div>
-    <div *ngIf="(updatingPricingMatch$ | async)?.saving" class="ml-auto my-auto" >
-      <pf-loading-indicator></pf-loading-indicator>
-      <span class="pl-2">Recalculating Pricings</span>
-    </div>
+<ng-template #priciedFilter>
+  <div class="d-flex">
+    <label class="my-auto pr-3">Priced:</label>
+    <kendo-dropdownlist
+      [attr.data-qa-id]="'ddm-operator-' + pricedField.SourceName"  
+      [(ngModel)]="pricedFilterValue"
+      [textField]="'display'"
+      [valueField]="'value'"
+      [data]="bitFilterOptions"
+      (valueChange)="handlePricedFilterChanged($event)"
+      style="width: 75px"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>   
   </div>
-
 </ng-template>
 
 <pf-notes-manager
@@ -121,11 +127,18 @@
   </div>
 </ng-template>
 
+<ng-template #globalActions>
+  <div class="d-flex flex-fill">
+    <div *ngIf="(recalculatingPricingInfo$ | async)" class="ml-auto my-auto" >
+      <pf-loading-indicator></pf-loading-indicator>
+      <span class="pl-2">Recalculating Pricings</span>
+    </div>
+  </div>
+
 <pf-re-scope-survey-data
   [modalConfiguration]="reScopeSurveyDataConfiguration"
   (reScopeSubmitted)="reScopeSurveyDataCut($event)"
-  (cancelChanges)="showReScopeSurveyDataModal.next(false);"
->
-
+  (cancelChanges)="showReScopeSurveyDataModal.next(false);">
 </pf-re-scope-survey-data>
+
 

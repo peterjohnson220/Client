@@ -28,8 +28,6 @@ import * as fromJobsPageReducer from '../../../reducers';
 })
 
 export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked, OnDestroy, OnChanges {
-  permissions = Permissions;
-  permissionCheckEnum = PermissionCheckEnum;
 
   @Input() dataRow: any;
   @Input() pricingInfo: any;
@@ -39,6 +37,8 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   @ViewChild('jobTitleText') jobTitleText: ElementRef;
   @ViewChild('detailsText') detailsText: ElementRef;
   @ViewChild('reScopeSurveyDataTemplate') reScopeSurveyDataTemplate: ElementRef<any>;
+
+  permissions = Permissions;
 
   jobsSelectedRow$: Observable<any>;
 
@@ -79,7 +79,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   ngOnInit() {
     this.jobsSelectedRow$ = this.store.select(fromPfDataGridReducer.getSelectedRow, PageViewIds.Jobs);
 
-    this.canModifyPricings = this.permissionService.CheckPermission([this.permissions.MODIFY_PRICINGS], this.permissionCheckEnum.Single);
+    this.canModifyPricings = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS], PermissionCheckEnum.Single);
 
     const pricingMatchPageViewId = `${PageViewIds.PricingMatches}_${this.pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID}`;
     this.pricingMatchesDataSuscription = this.store.select(fromPfDataGridReducer.getData, pricingMatchPageViewId).subscribe(data => {
@@ -93,7 +93,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
         this.showDeletePricingMatchModal.next(false);
       });
 
-      this.jobsGridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
+    this.jobsGridFieldSubscription = this.store.select(fromPfDataGridReducer.getFields, PageViewIds.Jobs)
       .pipe(filter(f => !isEmpty(f)))
       .subscribe(fields => {
         this.jobsGridJobStatusField = fields.find(f => f.SourceName === 'JobStatus');
@@ -103,7 +103,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       .pipe(ofType(fromPfDataGridActions.UPDATE_GRID_DATA_ROW))
       .subscribe((action: fromPfDataGridActions.UpdateGridDataRow) => {
         const key = 'CompanyJobs_Pricings_CompanyJobPricing_ID';
-        if (action.pageViewId === PageViewIds.PricingDetails && action.data[key] === this.pricingInfo[key]) {
+        if (action.pageViewId === PageViewIds.PayMarkets && action.data[key] === this.pricingInfo[key]) {
           this.pricingInfo = action.data[key];
         }
       });

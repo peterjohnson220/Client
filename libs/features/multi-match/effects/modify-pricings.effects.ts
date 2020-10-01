@@ -37,7 +37,7 @@ private searchFilterMappingDataObj: SearchFilterMappingDataObj
   modifyPricings$: Observable<Action> = this.action$.pipe(
     ofType(fromModifyPricingsActions.GET_PRICINGS_TO_MODIFY),
     switchMap((action: any) => {
-      return this.jobsApiService.getPricingsToModify(action.payload.PricingIds).pipe(
+      return this.jobsApiService.getPricingsToModify(action.payload.Pricings).pipe(
         mergeMap(response => {
           const actions = [];
           actions.push(new fromContextActions.SetModifyPricingsSearchContext(response.Context));
@@ -71,6 +71,8 @@ private searchFilterMappingDataObj: SearchFilterMappingDataObj
         || (!!f.DeletedJobMatchCutIds && f.DeletedJobMatchCutIds.length)).map(s =>  {
           return {
             PricingId: s.Id,
+            JobId: s.CompanyJobId,
+            PaymarketId: s.PaymarketId,
             MatchesToDeleted: (s.DeletedJobMatchCutIds || []),
             SurveyCutMatchesToAdded: (s.DataCutsToAdd || [])
               .filter(f => f.DataSource === SurveySearchResultDataSources.Surveys).map( m => m.ServerInfo.SurveyDataId),
