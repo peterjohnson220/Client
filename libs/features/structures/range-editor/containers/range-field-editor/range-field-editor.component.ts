@@ -134,6 +134,11 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
     // kendo should be ensuring that only numbers make it this far
     const targetValue = parseFloat(event.target.value);
 
+    if (Number.isNaN(targetValue)) {
+      this.rangeFieldElement['value'] = this.fieldValue;
+      return;
+    }
+
     // we got this far, consider it valid. construct the payload and dispatch the action
     const payload = {
       pageViewId: this.pageViewId,
