@@ -11,11 +11,12 @@ export interface State {
   changingJobStatus: AsyncStateObj<boolean>;
   deletingJob: AsyncStateObj<boolean>;
   deletingPricing: AsyncStateObj<boolean>;
+  updatingPricing: AsyncStateObj<boolean>;
   deletingPricingMatch: AsyncStateObj<boolean>;
   updatingPricingMatch: AsyncStateObj<boolean>;
+  recalculatingRelatedPricings: AsyncStateObj<boolean>;
   companyPayMarkets: any;
   structureGradeNames: any;
-  pricingDetailsView: string;
   exportOptions: any;
   navigatingToOldPage: AsyncStateObj<boolean>;
 }
@@ -26,11 +27,12 @@ export const initialState: State = {
   changingJobStatus: generateDefaultAsyncStateObj<boolean>(false),
   deletingJob: generateDefaultAsyncStateObj<boolean>(false),
   deletingPricing: generateDefaultAsyncStateObj<boolean>(false),
+  updatingPricing: generateDefaultAsyncStateObj<boolean>(false),
   deletingPricingMatch: generateDefaultAsyncStateObj<boolean>(false),
   updatingPricingMatch: generateDefaultAsyncStateObj<boolean>(false),
+  recalculatingRelatedPricings: generateDefaultAsyncStateObj<boolean>(false),
   companyPayMarkets: [],
   structureGradeNames: [],
-  pricingDetailsView: 'Priced',
   exportOptions: [{
     Display: 'Download Pricings',
     Name: 'DownloadPricings',
@@ -66,8 +68,10 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
       curState = AsyncStateObjHelper.resetErrors(curState, 'changingJobStatus');
       curState = AsyncStateObjHelper.resetErrors(curState, 'deletingJob');
       curState = AsyncStateObjHelper.resetErrors(curState, 'deletingPricing');
+      curState = AsyncStateObjHelper.resetErrors(curState, 'updatingPricing');
       curState = AsyncStateObjHelper.resetErrors(curState, 'deletingPricingMatch');
       curState = AsyncStateObjHelper.resetErrors(curState, 'updatingPricingMatch');
+      curState = AsyncStateObjHelper.resetErrors(curState, 'recalculatingRelatedPricings');
       return curState;
     }
     case fromJobsPageActions.CREATING_PROJECT: {
@@ -118,6 +122,15 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     case fromJobsPageActions.DELETING_PRICING_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'deletingPricing', action.error);
     }
+    case fromJobsPageActions.UPDATING_PRICING: {
+      return AsyncStateObjHelper.saving(state, 'updatingPricing');
+    }
+    case fromJobsPageActions.UPDATING_PRICING_SUCCESS: {
+      return AsyncStateObjHelper.savingSuccess(state, 'updatingPricing');
+    }
+    case fromJobsPageActions.UPDATING_PRICING_ERROR: {
+      return AsyncStateObjHelper.savingError(state, 'updatingPricing', action.error);
+    }
     case fromJobsPageActions.DELETING_PRICING_MATCH: {
       return AsyncStateObjHelper.saving(state, 'deletingPricingMatch');
     }
@@ -136,11 +149,14 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
     case fromJobsPageActions.UPDATING_PRICING_MATCH_ERROR: {
       return AsyncStateObjHelper.savingError(state, 'updatingPricingMatch', action.error);
     }
-    case fromJobsPageActions.CHANGE_PRICING_DETAILS_VIEW: {
-      return {
-        ...state,
-        pricingDetailsView: action.payload
-      };
+    case fromJobsPageActions.RECALCULATING_RELATED_PRICINGS: {
+      return AsyncStateObjHelper.saving(state, 'recalculatingRelatedPricings');
+    }
+    case fromJobsPageActions.RECALCULATING_RELATED_PRICINGS_SUCCESS: {
+      return AsyncStateObjHelper.savingSuccess(state, 'recalculatingRelatedPricings');
+    }
+    case fromJobsPageActions.RECALCULATING_RELATED_PRICINGS_ERROR: {
+      return AsyncStateObjHelper.savingError(state, 'recalculatingRelatedPricings', action.error);
     }
     case fromJobsPageActions.LOAD_CUSTOM_EXPORTS_SUCCESS: {
       if (action.payload.DisplayText) {
@@ -217,11 +233,12 @@ export const getCreatingProject = (state: State) => state.creatingProject;
 export const getChangingJobStatus = (state: State) => state.changingJobStatus;
 export const getDeletingJob = (state: State) => state.deletingJob;
 export const getDeletingPricing = (state: State) => state.deletingPricing;
+export const getUpdatingPricing = (state: State) => state.updatingPricing;
 export const getDeletingPricingMatch = (state: State) => state.deletingPricingMatch;
 export const getUpdatingPricingMatch = (state: State) => state.updatingPricingMatch;
+export const getRecalculatingPricingInfo = (state: State) => (state.updatingPricingMatch.saving || state.updatingPricing.saving);
 export const getCompanyPayMarkets = (state: State) => state.companyPayMarkets;
 export const getStructureGradeNames = (state: State) => state.structureGradeNames;
-export const getPricingDetailsView = (state: State) => state.pricingDetailsView;
 export const getExportOptions = (state: State) => state.exportOptions;
 export const getNavigatingToOldPage = (state: State) => state.navigatingToOldPage;
 

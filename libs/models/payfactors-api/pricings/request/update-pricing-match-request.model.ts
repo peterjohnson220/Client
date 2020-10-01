@@ -1,8 +1,4 @@
-export enum PricingUpdateStrategy {
-  ParentLinkedSlotted = 0,
-  Parent = 1,
-  LinkedSlotted = 2
-}
+import { PricingUpdateStrategy } from './pricing-update-strategy.enum';
 
 export interface UpdatePricingMatchRequest {
   MatchId: number;

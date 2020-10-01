@@ -20,10 +20,12 @@ export class PayfactorsApiModelMapper {
         Level: sj.Job.Level,
         Paymarket: sj.Paymarket,
         PaymarketId: sj.PaymarketId,
+        CompanyJobId: sj.CompanyJobId,
         Title: sj.Job.Title,
         TotalDataCuts: sj.DataCutsCount,
         LoadingDataCuts: false,
-        LoadingDataCutsError: false
+        LoadingDataCutsError: false,
+        LinkedPaymarketId: sj.LinkedPaymarketId
       };
     });
   }

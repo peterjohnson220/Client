@@ -60,6 +60,7 @@ export class Permissions {
   public static SECURITY_SETTINGS = 'Security Settings';
   public static DATA_MANAGEMENT = 'Data Management';
   public static MODIFY_PRICINGS = 'Modify Pricings';
+  public static MODIFY_MATCH_NOTES = 'Modify Match Notes';
   public static HRIS_INBOUND_INTEGRATION = 'HRIS Inbound Integration';
   public static HRIS_OUTBOUND_INTEGRATION = 'HRIS Outbound Integration';
   public static CREATE_JOB_HIERARCHY = 'Create Job Hierarchy';

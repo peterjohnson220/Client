@@ -14,8 +14,9 @@ export const LOAD_MORE_DATA = '[PfDataGrid] Load More Data';
 export const LOAD_MORE_DATA_SUCCESS = '[PfDataGrid] Load More Data Success';
 export const UPDATE_FIELDS = '[PfDataGrid] Update Data Fields';
 export const UPDATE_FIELDS_SUCCESS = '[PfDataGrid] Update Data Fields Success';
-export const UPDATE_SELECTION_FIELD = '[PfDataGrid] Update Selection Field';
 export const UPDATE_PAGING_OPTIONS = '[PfDataGrid] Update Paging Options';
+export const UPDATE_LINK_GROUPS = '[PfDataGrid] Update Link Groups';
+export const UPDATE_SELECTION_FIELD = '[PfDataGrid] Update Selection Field';
 export const UPDATE_DEFAULT_SORT_DESCRIPTOR = '[PfDataGrid] Update Default Sort Descriptor';
 export const UPDATE_SORT_DESCRIPTOR = '[PfDataGrid] Update Sort Descriptor';
 export const UPDATE_SORT_DESCRIPTOR_NO_DATA_RETRIEVAL = '[PfDataGrid] Update Sort Descriptor No Data Retrieval';
@@ -84,6 +85,11 @@ export class LoadViewConfigSuccess implements Action {
 export class UpdatePagingOptions implements Action {
   readonly type = UPDATE_PAGING_OPTIONS;
   constructor(public pageViewId: string, public pagingOptions: PagingOptions) { }
+}
+
+export class UpdateLinkGroups implements Action {
+  readonly type = UPDATE_LINK_GROUPS;
+  constructor(public pageViewId: string, public linkGroups: []) { }
 }
 
 export class UpdateDefaultSortDescriptor implements Action {
@@ -400,6 +406,7 @@ export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
   | UpdatePagingOptions
+  | UpdateLinkGroups
   | UpdateDefaultSortDescriptor
   | UpdateSortDescriptor
   | UpdateSortDescriptorNoDataRetrieval

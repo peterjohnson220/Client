@@ -35,23 +35,22 @@ import { MatchesModalModule } from '../_matches-modal/matches-modal.module';
 
 import {
   JobsDetailsComponent,
+  PaymarketsGridComponent,
   EmployeesGridComponent,
-  PricingDetailsGridComponent,
   JobDescriptionComponent,
   StructureGridComponent,
   PricingMatchesGridComponent,
   ProjectDetailsGridComponent,
   PricingHistoryGridComponent,
-  NotPricedPaymarketsGridComponent,
   ExportListPopoverComponent,
   PricingDetailsMrpColumnComponent,
   PeerExchangeMatchesComponent,
   PricingMatchesJobTitleComponent,
+  PricingDetailsAdjPctColumnComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects } from './effects';
-import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricingMatchError } from './pipes';
-
+import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricingMatchError, ModifyPricingError } from './pipes';
 
 @NgModule({
   imports: [
@@ -59,7 +58,6 @@ import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricin
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
 
     // 3rd Party
     LayoutModule,
@@ -101,14 +99,13 @@ import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricin
 
     // Job Details Components
     JobsDetailsComponent,
+    PaymarketsGridComponent,
     EmployeesGridComponent,
-    PricingDetailsGridComponent,
     PricingMatchesGridComponent,
     JobDescriptionComponent,
     StructureGridComponent,
     ProjectDetailsGridComponent,
     PricingHistoryGridComponent,
-    NotPricedPaymarketsGridComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent,
@@ -122,7 +119,9 @@ import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricin
     ShowingActiveJobs,
     PricingMatchTypePipe,
     JobTitleCodePipe,
-    ModifyPricingMatchError
+    ModifyPricingError,
+    ModifyPricingMatchError,
+    PricingDetailsAdjPctColumnComponent
   ]
 })
 export class JobsPageModule {

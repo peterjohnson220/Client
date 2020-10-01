@@ -38,7 +38,6 @@ import {
   SelectAllPanelComponent
 } from './components';
 import {
-  IsSortablePipe,
   SortDirectionPipe,
   IsColumnVisiblePipe,
   MappedFieldNamePipe,
@@ -86,7 +85,6 @@ import {
     SelectAllPanelComponent,
 
     // Pipes
-    IsSortablePipe,
     SortDirectionPipe,
     IsColumnVisiblePipe,
     MappedFieldNamePipe,

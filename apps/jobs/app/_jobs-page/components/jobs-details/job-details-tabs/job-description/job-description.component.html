@@ -13,19 +13,19 @@
     </div>
     <div class="d-flex">
       <div class="text-danger">       
-        <div *ngIf="(jobDescriptionSummary$ | async).loadingError">
+        <div *ngIf="jobDescriptionSummaryAsyncObj?.loadingError">
           We encountered an error while loading your the job description for your job
         </div>
-        <div *ngIf="(jobDescriptionSummary$ | async).savingError">
+        <div *ngIf="jobDescriptionSummaryAsyncObj?.savingError">
           We encountered an error while saving your job description
         </div>
       </div>
-      <div *ngIf="(jobDescriptionSummary$ | async)?.savingSuccess">
+      <div *ngIf="jobDescriptionSummaryAsyncObj?.savingSuccess">
         <b>Job Description Updated!</b>
       </div>
-      <button *ngIf="(jobDescriptionSummary$ | async).obj | editableJobDescription"
+      <button *ngIf="jobDescriptionSummaryAsyncObj?.obj | editableJobDescription"
               class="btn btn-primary ml-auto"
-              [disabled]="(updatedJobDescription$ | async) === (jobDescriptionSummary$ | async)?.obj?.JobSummary"
+              [disabled]="(updatedJobDescription$ | async) === jobDescriptionSummaryAsyncObj?.obj?.JobSummary"
               [innerText]="'Save'"
               (click)="saveJobDescription()">
       </button>

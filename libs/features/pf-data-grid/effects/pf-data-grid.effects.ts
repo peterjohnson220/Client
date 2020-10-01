@@ -76,8 +76,9 @@ export class PfDataGridEffects {
                 this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
                 this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
                 this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, loadDataAction.pageViewId)),
-                (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
-                  ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters })
+                this.store.pipe(select(fromPfDataGridReducer.getLinkGroups, loadDataAction.pageViewId)),
+                (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, linkGroups) =>
+                  ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, linkGroups })
               )
             ),
           ),
@@ -92,7 +93,8 @@ export class PfDataGridEffects {
                   data.pagingOptions,
                   data.sortDescriptor,
                   withCount,
-                  data.applyDefaultFilters))
+                  data.applyDefaultFilters,
+                  data.linkGroups))
                 .pipe(
                   map((response: DataViewEntityResponseWithCount) => {
                     if (data.pagingOptions.From > 0 && !withCount) {

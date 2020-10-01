@@ -14,7 +14,7 @@ export const initialState: State = {
 // Reducer
 export function reducer(
   state = initialState,
-  action: fromRequestPeerAccessActions.Actions
+  action: fromRequestPeerAccessActions.RequestPeerAccessActions
 ): State {
   switch (action.type) {
     case fromRequestPeerAccessActions.REQUEST_PEER_ACCESS: {
