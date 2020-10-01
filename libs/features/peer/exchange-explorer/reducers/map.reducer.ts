@@ -191,6 +191,12 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         mapLoaded: true
       };
     }
+    case fromPeerMapActions.SET_MAP_ZOOM: {
+      return {
+        ...state,
+        zoom: action.payload
+      };
+    }
     default: {
       return state;
     }
