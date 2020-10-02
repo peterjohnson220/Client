@@ -36,7 +36,7 @@ export class NotesManagerContentComponent implements OnInit, OnChanges, OnDestro
 
   noteForm: FormGroup;
   get f() { return this.noteForm.controls; }
-  readonly DEFAULT_MAX_LENGTH = 255;
+  readonly DEFAULT_MAX_LENGTH = 8000;
 
   deleteNoteOperation: NoteOperation = NoteOperation.Delete;
 
@@ -115,6 +115,7 @@ export class NotesManagerContentComponent implements OnInit, OnChanges, OnDestro
 
   resetForm() {
     this.noteForm.reset();
+    this.editModeIndex = -1;
   }
 
   ngOnDestroy() {
