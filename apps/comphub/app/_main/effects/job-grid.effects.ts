@@ -100,10 +100,11 @@ export class JobGridEffects {
       ofType(fromExchangeExplorerActions.SET_FILTER_CONTEXT),
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getWorkflowContext),
-        (action, workflowContext) => ({ action, workflowContext })
+        this.store.select(fromComphubMainReducer.getIsQuickPriceHistoryOpen),
+        (action, workflowContext, isFromJobHistory) => ({ action, workflowContext, isFromJobHistory })
       ),
       map((data) => {
-        if (data.workflowContext.selectedPageId === ComphubPages.Jobs) {
+        if (data.workflowContext.selectedPageId === ComphubPages.Jobs && !data.isFromJobHistory) {
           return new fromJobGridActions.GetPeerJobData();
         } else {
           return { type: 'No Action' };

@@ -453,7 +453,7 @@
               <pf-salary-trend-chart
                 [isHourly]="isHourly"
                 [currencyCode]="currencyCode"
-                [salaryTrendData]="jobSalaryTrendData">
+                [salaryTrendData]="(salaryTrendData$ | async)">
               </pf-salary-trend-chart>
             </div>
           </div>
