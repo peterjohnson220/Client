@@ -7,13 +7,15 @@ import { DragulaService } from 'ng2-dragula';
 import orderBy from 'lodash/orderBy';
 
 import { DATE_FORMATS } from 'libs/features/org-data-loader/constants';
-import { ConverterSettings } from 'libs/models/hris-api';
+import { ConverterSettings } from 'libs/models';
 import { ImportDataType } from 'libs/constants';
 
 import * as fromConverterSettingsActions from '../../actions/converter-settings.actions';
 import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
+import * as fromHrisConnectionsActions from '../../actions/hris-connection.actions';
 import * as fromFieldMappingReducer from '../../reducers';
 import { EntityDataField, EntityField } from '../../models';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -38,8 +40,8 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
 
   providerFields$: Observable<EntityField>;
   payfactorFields$: Observable<EntityField>;
-
   globalDateSetting$: Observable<ConverterSettings>;
+  fullReplaceModes$: Observable<any>;
 
   filteredProviderFields: EntityDataField[] = [];
   filteredPayfactorsFields: EntityDataField[] = [];
@@ -48,12 +50,14 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   providerFieldsSubscription: Subscription;
   payfactorFieldsSubscription: Subscription;
   globalDateSettingSubscription: Subscription;
+  fullReplaceModesSubscription: Subscription;
 
 
   providerFields: EntityDataField[];
   payfactorsFields: EntityDataField[];
 
   selectedDateFormat = 'Select format for date fields';
+  doFullReplace = true;
 
   constructor(private store: Store<fromFieldMappingReducer.State>, private dragulaService: DragulaService) {
   }
@@ -61,12 +65,23 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.payfactorFields$ = this.store.select(fromFieldMappingReducer.getPayfactorsFields);
     this.providerFields$ = this.store.select(fromFieldMappingReducer.getProviderFields);
+    this.fullReplaceModes$ = this.store.select(fromFieldMappingReducer.getFullReplaceModes);
 
     if (this.entityType.toLowerCase() === 'employees') {
       this.globalDateSetting$ = this.store.select(fromFieldMappingReducer.getGlobalDateSetting);
       this.globalDateSettingSubscription = this.globalDateSetting$.subscribe(v => {
         if (v) {
           this.selectedDateFormat = v.options.DateTimeFormat;
+        }
+      });
+    }
+
+    if (this.entityType.toLowerCase() === 'employees' || this.entityType.toLowerCase() === 'structuremapping') {
+      this.fullReplaceModesSubscription = this.fullReplaceModes$.pipe(filter((v) => !!v)).subscribe(v => {
+        if (this.entityType.toLowerCase() === 'employees') {
+          this.doFullReplace = v.doFullReplaceEmployees;
+        } else if (this.entityType.toLowerCase() === 'structuremapping') {
+          this.doFullReplace = v.doFullReplaceStructureMappings;
         }
       });
     }
@@ -127,6 +142,7 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
     this.payfactorFieldsSubscription.unsubscribe();
     this.providerFieldsSubscription.unsubscribe();
     this.globalDateSettingSubscription?.unsubscribe();
+    this.fullReplaceModesSubscription?.unsubscribe();
     this.dragulaSub.unsubscribe();
     this.dragulaService.destroy(this.entityGroupName);
   }
@@ -198,6 +214,11 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
         provider: this.provider
       }
     }));
+  }
+
+  updateFullReplaceModeSetting(event) {
+    this.doFullReplace = event.target.value === 'true';
+    this.store.dispatch(new fromHrisConnectionsActions.ToggleFullReplaceMode({entityType: this.entityType, doFullReplace: this.doFullReplace}));
   }
 
 }
