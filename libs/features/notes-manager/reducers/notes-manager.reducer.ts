@@ -27,7 +27,7 @@ export function reducer(state = initialState, action: fromNotesManagerActions.Ac
     case fromNotesManagerActions.RESET_STATE:
       return initialState;
     case fromNotesManagerActions.CLEAR_NOTES:
-      return {...initialState, currentUserId: state.currentUserId };
+      return {...initialState, currentUserId: state.currentUserId, apiServiceIndicator: state.apiServiceIndicator };
     case fromNotesManagerActions.LOAD_API_SERVICE:
       return loadStateProperty(state, 'apiServiceIndicator', action.payload);
     case fromNotesManagerActions.LOAD_USER_ID:
