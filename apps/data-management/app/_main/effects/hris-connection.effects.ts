@@ -3,9 +3,12 @@ import { Router } from '@angular/router';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
+
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import isNumber from 'lodash/isNumber';
+import cloneDeep from 'lodash/cloneDeep';
+
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
@@ -185,7 +188,7 @@ export class HrisConnectionEffects {
             action,
             userContext,
             selectedProvider,
-            selectedEntities,
+            selectedEntities
           };
         }
       ),
@@ -272,47 +275,90 @@ export class HrisConnectionEffects {
       })
     );
 
-    @Effect()
-    toggleValidationMode$: Observable<Action> = this.actions$
-      .pipe(
-        ofType<fromHrisConnectionActions.ToggleValidationMode>(fromHrisConnectionActions.TOGGLE_VALIDATION_MODE),
-        withLatestFrom(
-          this.store.pipe(select(fromRootState.getUserContext)),
-          this.store.pipe(select(fromReducers.getHrisConnectionSummary)),
-        (action, userContext, connectionSummary) => {
-          return {
-            action,
-            userContext,
-            connectionSummary
-          };
-        }),
-        switchMap((obj) => {
-          const request: PatchProperty = {
-            PropertyName: 'ValidationMode',
-            PropertyValue: obj.action.payload
-          };
-          const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, obj.connectionSummary);
-          loaderSettingsDto.settings.find( setting => setting.KeyName === 'ValidateOnly').KeyValue = obj.action.payload.toString();
-          return this.connectionService.patchConnection(obj.userContext, obj.connectionSummary.connectionID, [request], false)
-            .pipe(
-              mergeMap(() => {
-                return [
-                  new fromHrisConnectionActions.GetHrisConnectionSummary(),
-                  new fromLoadersSettingsActions.SavingLoaderSettings(loaderSettingsDto),
-                  new fromHrisConnectionActions.ToggleValidationModeSuccess()
-                ];
-              }),
-            catchError(e => of(new fromHrisConnectionActions.ToggleValidationModeError()))
-          );
-        })
-      );
+  @Effect()
+  toggleValidationMode$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromHrisConnectionActions.ToggleValidationMode>(fromHrisConnectionActions.TOGGLE_VALIDATION_MODE),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        this.store.pipe(select(fromReducers.getHrisConnectionSummary)),
+        this.store.pipe(select(fromReducers.getFullReplaceModes)),
+      (action, userContext, connectionSummary, fullReplaceModes) => {
+        return {
+          action,
+          userContext,
+          connectionSummary,
+          fullReplaceModes
+        };
+      }),
+      switchMap((obj) => {
+        const request: PatchProperty = {
+          PropertyName: 'ValidationMode',
+          PropertyValue: obj.action.payload
+        };
+        const newConnectionSummary = cloneDeep(obj.connectionSummary);
+        newConnectionSummary.fullReplaceModes = {
+          EmployeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
+          StructureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
+        };
+        const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
+        loaderSettingsDto.settings.find( setting => setting.KeyName === 'ValidateOnly').KeyValue = obj.action.payload.toString();
+        return this.connectionService.patchConnection(obj.userContext, obj.connectionSummary.connectionID, [request], false)
+          .pipe(
+            mergeMap(() => {
+              return [
+                new fromHrisConnectionActions.GetHrisConnectionSummary(),
+                new fromLoadersSettingsActions.SavingLoaderSettings(loaderSettingsDto),
+                new fromHrisConnectionActions.ToggleValidationModeSuccess()
+              ];
+            }),
+          catchError(e => of(new fromHrisConnectionActions.ToggleValidationModeError()))
+        );
+      })
+    );
+
+  @Effect()
+  toggleFullReplaceMode$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromHrisConnectionActions.ToggleFullReplaceMode>(fromHrisConnectionActions.TOGGLE_FULLREPLACE_MODE),
+      map(() => {
+        return new fromHrisConnectionActions.ToggleFullReplaceModeSuccess();
+      })
+    );
+
+  @Effect()
+  toggleFullReplaceModeSuccess$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromHrisConnectionActions.ToggleFullReplaceModeSuccess>(fromHrisConnectionActions.TOGGLE_FULLREPLACE_MODE_SUCCESS),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        this.store.pipe(select(fromReducers.getHrisConnectionSummary)),
+        this.store.pipe(select(fromReducers.getFullReplaceModes)),
+      (action, userContext, connectionSummary, fullReplaceModes) => {
+        return {
+          action,
+          userContext,
+          connectionSummary,
+          fullReplaceModes
+        };
+      }),
+      map((obj) => {
+        const newConnectionSummary = cloneDeep(obj.connectionSummary);
+        newConnectionSummary.fullReplaceModes = {
+          EmployeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
+          StructureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
+        };
+        const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
+
+        return  new fromLoadersSettingsActions.SavingLoaderSettings(loaderSettingsDto);
+      })
+    );
 
   constructor(
     private actions$: Actions,
     private store: Store<fromHrisConnectionReducer.State>,
     private connectionService: ConnectionsHrisApiService,
     private loaderConfigurationGroupsApi: ConfigurationGroupApiService,
-    private loaderSettingsApiService: LoaderSettingsApiService,
-    private router: Router,
+    private loaderSettingsApiService: LoaderSettingsApiService
   ) {}
 }

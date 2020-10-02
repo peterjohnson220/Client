@@ -17,6 +17,8 @@ export interface State {
   isValidCredentials: boolean;
   showAuthenticationWarning: boolean;
   openReauthenticationModal: boolean;
+  fullReplaceEmployees: boolean;
+  fullReplaceStructureMappings: boolean;
 }
 
 export const initialState: State = {
@@ -30,7 +32,9 @@ export const initialState: State = {
   validationErrors: null,
   isValidCredentials: false,
   showAuthenticationWarning: false,
-  openReauthenticationModal: false
+  openReauthenticationModal: false,
+  fullReplaceEmployees: true,
+  fullReplaceStructureMappings: true,
 };
 
 export function reducer(state: State = initialState, action: fromHrisConnectionActions.Actions) {
@@ -183,6 +187,22 @@ export function reducer(state: State = initialState, action: fromHrisConnectionA
         connectionSummary: connectionSummary
       };
     }
+    case fromHrisConnectionActions.SET_FULLREPLACE_MODE: {
+      return {
+        ...state,
+        fullReplaceEmployees: action.payload.employeeFullReplace,
+        fullReplaceStructureMappings: action.payload.structureMappingsFullReplace
+      };
+    }
+    case fromHrisConnectionActions.TOGGLE_FULLREPLACE_MODE: {
+      return {
+        ...state,
+        fullReplaceEmployees: action.payload.entityType.toLowerCase() === 'employees' ?
+          action.payload.doFullReplace : state.fullReplaceEmployees,
+        fullReplaceStructureMappings: action.payload.entityType.toLowerCase() === 'structuremapping' ?
+          action.payload.doFullReplace : state.fullReplaceStructureMappings
+      };
+    }
     default:
       return state;
   }
@@ -200,3 +220,9 @@ export const getValidationErrors = (state: State) => state.validationErrors;
 export const getActiveConnectionId = (state: State) => state.summary && state.summary.connectionID ? state.summary.connectionID : null;
 export const getReauthenticationModalOpen = (state: State) => state.openReauthenticationModal;
 export const getIsValidCredentials = (state: State) => state.isValidCredentials;
+export const getFullReplaceModes = (state: State) => {
+  return {
+    doFullReplaceEmployees: state.fullReplaceEmployees,
+    doFullReplaceStructureMappings: state.fullReplaceStructureMappings
+  };
+};

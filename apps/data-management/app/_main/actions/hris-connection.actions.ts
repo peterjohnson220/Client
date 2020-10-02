@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import {CredentialsPackage, PatchProperty} from 'libs/models/hris-api/connection/request';
-import {ConnectionSummary} from '../models';
+import { CredentialsPackage } from 'libs/models/hris-api/connection/request';
+import { ConnectionSummary } from '../models';
 
 export const GET_CURRENT_HRIS_CONNECTION = '[Data Management/HRIS Connections] Get Current HRIS Connection';
 export const GET_CURRENT_HRIS_CONNECTION_ERROR = '[Data Management/HRIS Connections] Get Current HRIS Connection Error';
@@ -33,6 +33,12 @@ export const PATCH_CONNECTION_SUCCESS = '[Data Management/Hris Connections] Patc
 export const TOGGLE_VALIDATION_MODE = '[Data Management/Hris Connections] Toggle Validation Mode';
 export const TOGGLE_VALIDATION_MODE_ERROR = '[Data Management/Hris Connections] Toggle Validation Mode Error';
 export const TOGGLE_VALIDATION_MODE_SUCCESS = '[Data Management/Hris Connections] Toggle Validation Mode Success';
+
+export const SET_FULLREPLACE_MODE = '[Data Management/Hris Connections] Set Full Replace Mode';
+
+export const TOGGLE_FULLREPLACE_MODE = '[Data Management/Hris Connections] Toggle Full Replace Mode';
+export const TOGGLE_FULLREPLACE_MODE_ERROR = '[Data Management/Hris Connections] Toggle Full Replace Mode Error';
+export const TOGGLE_FULLREPLACE_MODE_SUCCESS = '[Data Management/Hris Connections] Toggle Full Replace Mode Success';
 
 // TODO: Delete this
 export const OUTBOUND_JDM_VALIDATE = '[Data Management/Transfer Data Page] Validate Outbound JDM Credentials';
@@ -144,6 +150,28 @@ export class ToggleValidationModeSuccess implements Action {
   constructor() {}
 }
 
+export class SetFullReplaceMode implements Action {
+  readonly type = SET_FULLREPLACE_MODE;
+
+  constructor(public payload: { employeeFullReplace: string, structureMappingsFullReplace: string}) {}
+}
+
+export class ToggleFullReplaceMode implements Action {
+  readonly type = TOGGLE_FULLREPLACE_MODE;
+
+  constructor(public payload: { entityType: string, doFullReplace: boolean}) {}
+}
+export class ToggleFullReplaceModeError implements Action {
+  readonly type = TOGGLE_FULLREPLACE_MODE_ERROR;
+
+  constructor() {}
+}
+export class ToggleFullReplaceModeSuccess implements Action {
+  readonly type = TOGGLE_FULLREPLACE_MODE_SUCCESS;
+
+  constructor() {}
+}
+
 // TODO: Delete for outbound
 export class OutboundJdmValidate implements Action {
   readonly type = OUTBOUND_JDM_VALIDATE;
@@ -180,4 +208,8 @@ export type Actions
   | OutboundJdmValidateSuccess
   | ToggleValidationMode
   | ToggleValidationModeError
-  | ToggleValidationModeSuccess;
+  | ToggleValidationModeSuccess
+  | SetFullReplaceMode
+  | ToggleFullReplaceMode
+  | ToggleFullReplaceModeError
+  | ToggleFullReplaceModeSuccess;
