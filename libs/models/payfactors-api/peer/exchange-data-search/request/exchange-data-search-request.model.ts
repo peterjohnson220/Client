@@ -14,4 +14,6 @@ export interface SearchExchangeAggregationsRequest extends BaseExchangeDataSearc
 
 export interface QuickPriceExchangeDataSearchRequest extends BaseExchangeDataSearchRequest {
   ViewOnly: boolean;
+  CompanyPayMarketId?: number;
+  CountryCode?: string;
 }
