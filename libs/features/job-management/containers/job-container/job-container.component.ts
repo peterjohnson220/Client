@@ -14,6 +14,7 @@ import * as fromJobManagementReducer from '../../reducers';
 import { StandardFieldsComponent } from '../standard-fields/standard-fields.component';
 import { JobAttachmentsComponent } from '../job-attachments/job-attachments.component';
 import { ApiServiceType } from '../../../notes-manager/constants/api-service-type-constants';
+import { NotesManagerComponent } from '../../../notes-manager/notes-manager/notes-manager.component';
 
 enum JobManagementTabs {
   StandardFields = 'StandardFields',
@@ -35,6 +36,7 @@ export class JobContainerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('standardFieldsComponent') standardFieldsComponent: StandardFieldsComponent;
   @ViewChild('attachmentsComponent') attachmentsComponent: JobAttachmentsComponent;
   @ViewChild('jobsTabs') jobsTabs: NgbTabset;
+  @ViewChild(NotesManagerComponent) notesManager: NotesManagerComponent;
 
   loading$: Observable<boolean>;
   jobUserDefinedFields$: Observable<CompanyJobUdf[]>;

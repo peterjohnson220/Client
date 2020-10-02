@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, EventEmitter, OnDestroy, ContentChildren, ViewChild } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store, ActionsSubject } from '@ngrx/store';
@@ -9,6 +9,9 @@ import { CompanyJob } from 'libs/models';
 import * as fromJobManagementActions from '../actions';
 import * as fromNotesManagerActions from '../../notes-manager/actions';
 import * as fromJobManagementReducer from '../reducers';
+import { NotesManagerContentComponent } from '../../notes-manager/notes-manager-content/notes-manager-content.component';
+import { NotesManagerComponent } from '../../notes-manager/notes-manager/notes-manager.component';
+import { JobContainerComponent } from '../containers';
 
 @Component({
   selector: 'pf-job-management',
@@ -22,6 +25,8 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() cancelChanges = new EventEmitter();
   @Output() saveSuccess = new EventEmitter();
+
+  @ViewChild(JobContainerComponent) jobContainer: JobContainerComponent;
 
   loading$: Observable<boolean>;
   saving$: Observable<boolean>;
@@ -71,6 +76,7 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onCancelChanges() {
+    this.jobContainer.notesManager.notesManagerContent.resetForm();
     this.store.dispatch(new fromJobManagementActions.ResetState());
     this.store.dispatch(new fromNotesManagerActions.ClearNotes());
     this.cancelChanges.emit();

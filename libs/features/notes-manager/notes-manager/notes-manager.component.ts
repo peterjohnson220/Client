@@ -1,14 +1,14 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { AsyncStateObj, NoteRequest } from 'libs/models';
 import { NotesManagerConfiguration } from 'libs/models/notes';
 
 import * as fromNotesManagerReducer from '../reducers';
 import * as fromNotesManagerActions from '../actions';
-import { SaveNotesRequest } from '../../../models/payfactors-api/notes/save-notes-request.model';
+import { NotesManagerContentComponent } from '../notes-manager-content/notes-manager-content.component';
 
 @Component({
   selector: 'pf-notes-manager',
@@ -19,6 +19,8 @@ export class NotesManagerComponent implements OnInit {
   @Input() notesManagerConfiguration: NotesManagerConfiguration;
   @Input() display: 'component' | 'modal' = 'modal';
   @Output() cancelChanges = new EventEmitter();
+
+  @ViewChild(NotesManagerContentComponent) notesManagerContent: NotesManagerContentComponent;
 
   loading$: Observable<boolean>;
   savingNotes$: Observable<AsyncStateObj<boolean>>;
@@ -33,6 +35,7 @@ export class NotesManagerComponent implements OnInit {
   }
 
   onCancelChanges() {
+    this.notesManagerContent.resetForm();
     this.store.dispatch(new fromNotesManagerActions.ClearNotes());
     this.cancelChanges.emit();
   }

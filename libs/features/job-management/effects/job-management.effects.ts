@@ -193,7 +193,11 @@ export class JobManagementEffects {
           .addJobStructureMapping(data.action.jobId, updatedStructures)
           .pipe(
             map((response: any) => {
-              return new fromNotesManagerActions.SaveNotes(data.action.jobId);
+              if (data.notes.obj.length > 0 ) {
+                return new fromNotesManagerActions.SaveNotes(data.action.jobId);
+              } else {
+                return new fromJobManagementActions.SaveCompanyJobSuccess();
+              }
             }),
             catchError(response =>
               this.handleError('There was an error saving your job information. Please contact you service associate for assistance.'))
