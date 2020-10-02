@@ -3,7 +3,6 @@ import { CurrencyPipe, getCurrencySymbol } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import cloneDeep from 'lodash/cloneDeep';
 import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
 import { pdf } from '@progress/kendo-drawing';
 const { exportPDF } = pdf;
@@ -59,7 +58,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
   selectedRateSubscription: Subscription;
-  salaryTrendSubscription: Subscription;
   filterContextSubscription: Subscription;
   workflowContextSubscription: Subscription;
   showJobHistorySummarySubscription: Subscription;
@@ -117,9 +115,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedPaymarketSubscription = this.selectedPaymarket$.subscribe(paymarket => this.paymarket = paymarket);
     this.selectedRateSubscription = this.selectedRate$.subscribe(r => this.selectedRate = r);
     this.showJobHistorySummarySubscription = this.showJobsHistorySummary$.subscribe(x => this.showJobHistorySummary = x);
-    this.salaryTrendSubscription = this.salaryTrendData$.subscribe(trendData => {
-      this.jobSalaryTrendData = cloneDeep(trendData);
-    });
     this.workflowContextSubscription = this.workflowContext$.subscribe(wfc => {
       if (!!wfc && wfc.selectedPageId === ComphubPages.Summary) {
         this.workflowContext = wfc;
@@ -141,7 +136,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedPaymarketSubscription.unsubscribe();
     this.selectedRateSubscription.unsubscribe();
     this.showJobHistorySummarySubscription.unsubscribe();
-    this.salaryTrendSubscription.unsubscribe();
     if (this.isPeerQuickPriceType && this.filterContextSubscription) {
       this.filterContextSubscription.unsubscribe();
     }

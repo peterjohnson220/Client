@@ -16,7 +16,6 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   minPaymarketMinimumWage$={[Function Observable]}
@@ -25,7 +24,6 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -1073,7 +1071,6 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
@@ -1082,7 +1079,6 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -2130,7 +2126,6 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
@@ -2139,7 +2134,6 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -3187,7 +3181,6 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   minPaymarketMinimumWage$={[Function Observable]}
@@ -3196,7 +3189,6 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -4244,7 +4236,6 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   minPaymarketMinimumWage$={[Function Observable]}
@@ -4253,7 +4244,6 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -5301,7 +5291,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
@@ -5310,7 +5299,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -6358,7 +6346,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
@@ -6367,7 +6354,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -7415,7 +7401,6 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
@@ -7424,7 +7409,6 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
