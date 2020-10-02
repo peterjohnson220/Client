@@ -39,7 +39,8 @@ export class PayfactorsApiModelMapper {
         Location: pm.GeoValue,
         Size: pm.SizeValue,
         SizeLabel: pm.SizeLabel,
-        CurrencyCode: pm.CurrencyCode
+        CurrencyCode: pm.CurrencyCode,
+        CountryCode: pm.CountryCode
       };
     });
   }
