@@ -116,8 +116,9 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   handleSearchClosed(): void {
     // after the search is closed, make sure we trigger the job change if there is a mismatch
     setTimeout(() => {
-      if (this.jobSearch.value && this.jobSearch.value !== this.selectedJob) {
-        this.handleJobSearchValueChanged(this.jobSearch.value);
+      const searchField = this.isPeerQuickPriceType ? this.exchangeJobSearch : this.jobSearch;
+      if (searchField?.value && searchField.value !== this.selectedJob) {
+        this.handleJobSearchValueChanged(searchField.value);
       }
     }, 0);
   }

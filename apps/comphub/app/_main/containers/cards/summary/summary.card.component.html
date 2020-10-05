@@ -187,7 +187,8 @@
                    paymarket?.CompanyPayMarketId &&
                    !(creatingProject$ | async) &&
                    !(creatingProjectError$ | async) &&
-                   !isPeerQuickPriceType"
+                   !isPeerQuickPriceType &&
+                   !showJobHistorySummary"
                     [attr.data-qa-id]="'btn-create-project'"
                     (click)="handleCreateProjectClicked()"
                     ngbTooltip="Create Project">
