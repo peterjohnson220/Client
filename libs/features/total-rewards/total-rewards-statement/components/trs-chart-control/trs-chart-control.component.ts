@@ -2,7 +2,7 @@ import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, Chang
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
-import { ChartControl, StatementModeEnum, UpdateTitleRequest, CalculationControl } from '../../models/';
+import { ChartControl, StatementModeEnum, UpdateTitleRequest, CalculationControl } from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
 
-import { StatementListViewModel } from '../../../../shared/models';
+import { StatementListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 @Component({
   selector: 'pf-grid-action-menu',

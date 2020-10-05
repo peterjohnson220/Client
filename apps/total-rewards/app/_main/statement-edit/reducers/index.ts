@@ -1,13 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+import { AsyncStateObj } from 'libs/models';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromPageReducer from './statement-edit.page.reducer';
-import { AsyncStateObj } from 'libs/models';
-
-import { Statement } from '../../../shared/models';
 
 // Feature area state
 export interface StatementEditState {

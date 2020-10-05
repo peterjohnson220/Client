@@ -1,16 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { DragulaModule } from 'ng2-dragula';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
-
-import { generateDefaultAsyncStateObj } from 'libs/models';
 import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
-import * as statementEditReducer from '../../../_main/statement-edit/reducers/statement-edit.page.reducer';
-import * as fromTotalRewardsStatementEditReducer from '../../../_main/statement-edit/reducers';
 import {
-  Statement,
   generateMockStatement,
   generateMockStatementWithSingleControl,
   generateMockStatementWithSingleCalculationControl,
@@ -23,21 +16,11 @@ describe('TotalRewardsStatementComponent', () => {
   let component: TotalRewardsStatementComponent;
   let fixture: ComponentFixture<TotalRewardsStatementComponent>;
 
-  const initialState = { totalRewards_statementEdit: { page: statementEditReducer.initialState } };
-  initialState.totalRewards_statementEdit.page.statement = generateDefaultAsyncStateObj<Statement>(generateMockStatement());
-  let store: MockStore<fromTotalRewardsStatementEditReducer.State>;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [DragulaModule.forRoot()],
-      providers: [
-        provideMockStore({})
-      ],
       declarations: [TotalRewardsStatementComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
-
-    store = TestBed.inject(MockStore);
   }));
 
   beforeEach(() => {
@@ -47,7 +30,8 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should create with initial state', () => {
     // arrange
-    store.setState({ totalRewards_statementEdit: { page: statementEditReducer.initialState } } as any);
+    component.statement = generateMockStatement();
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
 
     // act
     fixture.detectChanges();
@@ -58,7 +42,7 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render a mock statement derived from template A', () => {
     // arrange
-    fixture.componentInstance.statement = statementEditReducer.initialState.statement.obj;
+    component.statement = generateMockStatement();
     component.employeeRewardsData = generateMockEmployeeRewardsData();
 
     // act
@@ -70,9 +54,9 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render the expected number of pages', () => {
     // arrange
-    const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj.Pages = [{} as any, {} as any];
-    fixture.componentInstance.statement = statementEditState.statement.obj;
+    component.statement = generateMockStatement();
+    component.statement.Pages = [{} as any, {} as any];
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
 
     // act
     fixture.detectChanges();
@@ -84,9 +68,9 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render the expected number of sections', () => {
     // arrange
-    const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj.Pages = [{ Sections: [{}, {}, {}, {}, {}] }] as any;
-    fixture.componentInstance.statement = statementEditState.statement.obj;
+    component.statement = generateMockStatement();
+    component.statement.Pages = [{ Sections: [{}, {}, {}, {}, {}] }] as any;
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
 
     // act
     fixture.detectChanges();
@@ -98,9 +82,9 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render the expected number of columns', () => {
     // arrange
-    const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj.Pages = [{ Sections: [{ Columns: [{}] } as any ] }];
-    fixture.componentInstance.statement = statementEditState.statement.obj;
+    component.statement = generateMockStatement();
+    component.statement.Pages = [{ Sections: [{ Columns: [{}] } as any ] }];
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
 
     // act
     fixture.detectChanges();
@@ -112,9 +96,7 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render a rich text control', () => {
     // arrange
-    const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.RichTextEditor, null);
-    fixture.componentInstance.statement = statementEditState.statement.obj;
+    component.statement = generateMockStatementWithSingleControl(TotalRewardsControlEnum.RichTextEditor, null);
 
     // act
     fixture.detectChanges();
@@ -126,9 +108,7 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render an image control', () => {
     // arrange
-    const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Image, null);
-    fixture.componentInstance.statement = statementEditState.statement.obj;
+    component.statement = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Image, null);
 
     // act
     fixture.detectChanges();
@@ -140,9 +120,7 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render a calculation control', () => {
     // arrange
-    const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleCalculationControl();
-    fixture.componentInstance.statement = statementEditState.statement.obj;
+    component.statement = generateMockStatementWithSingleCalculationControl();
     component.employeeRewardsData = generateMockEmployeeRewardsData();
 
     // act
@@ -155,9 +133,7 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render a chart control', () => {
     // arrange
-    const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Chart, null);
-    fixture.componentInstance.statement = statementEditState.statement.obj;
+    component.statement = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Chart, null);
 
     // act
     fixture.detectChanges();
@@ -169,9 +145,7 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render a title control', () => {
     // arrange
-    const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Title, null);
-    fixture.componentInstance.statement = statementEditState.statement.obj;
+    component.statement = generateMockStatementWithSingleControl(TotalRewardsControlEnum.Title, null);
 
     // act
     fixture.detectChanges();
@@ -183,9 +157,7 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should render a summary control', () => {
     // arrange
-    const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleControl(TotalRewardsControlEnum.CalculationSummary, null);
-    fixture.componentInstance.statement = statementEditState.statement.obj;
+    component.statement = generateMockStatementWithSingleControl(TotalRewardsControlEnum.CalculationSummary, null);
 
     // act
     fixture.detectChanges();
@@ -213,10 +185,7 @@ describe('TotalRewardsStatementComponent', () => {
 
   it('should not include calc control if rewards data is present, but no fields are visible', () => {
     // arrange
-    const statementEditState = statementEditReducer.initialState;
-    statementEditState.statement.obj = generateMockStatementWithSingleCalculationControlAndNoVisibleFields();
-    component.statement = statementEditState.statement.obj;
-
+    component.statement = generateMockStatementWithSingleCalculationControlAndNoVisibleFields();
     component.employeeRewardsData = generateMockEmployeeRewardsData();
 
     // act

@@ -3,8 +3,8 @@ import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnDestroy
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { UpdateSettingsChartColorRequest } from '../../../../shared/models';
-import { FontFamily, FontSize } from '../../../../shared/types';
+import { UpdateSettingsChartColorRequest } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { FontFamily, FontSize } from 'libs/features/total-rewards/total-rewards-statement/types';
 
 import { environment } from 'environments/environment';
 

@@ -2,23 +2,22 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 
 import { Router } from '@angular/router';
 
-import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
-import { PagingOptions, getDefaultPagingOptions } from 'libs/models/payfactors-api/search/request';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
 import * as fromEmployeeManagementReducers from 'libs/features/employee-management/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
 import {
   ActionBarConfig,
   ColumnChooserType,
-  getDefaultActionBarConfig, getDefaultGridRowActionsConfig,
+  getDefaultActionBarConfig,
+  getDefaultGridRowActionsConfig,
   GridConfig,
   GridRowActionsConfig
 } from 'libs/features/pf-data-grid/models';

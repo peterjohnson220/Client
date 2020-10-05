@@ -6,7 +6,6 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ChartModule } from '@progress/kendo-angular-charts';
-import { DragulaModule } from 'ng2-dragula';
 import 'hammerjs';
 import { QuillModule } from 'ngx-quill';
 import { UploadModule } from '@progress/kendo-angular-upload';
@@ -37,7 +36,6 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
 
     // Third Party
     ChartModule,
-    DragulaModule.forRoot(),
     QuillModule.forRoot(),
     FontAwesomeModule,
     NgbDropdownModule,
@@ -75,6 +73,6 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     CurrencyPipe
   ],
 })
-export class SharedModule {
+export class TotalRewardsStatementModule {
   constructor() {}
 }

@@ -3,9 +3,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { ListAreaColumn } from 'libs/models/common/list-area';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromActions from '../actions/statement-assignment.page.actions';
-import { Statement } from '../../../shared/models';
 
 export interface State {
   statement: AsyncStateObj<Statement>;

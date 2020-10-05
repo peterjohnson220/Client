@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectionStrategy, AfterViewInit, Output, Event
 
 import { SuccessEvent, ErrorEvent, FileRestrictions, FileInfo, SelectEvent } from '@progress/kendo-angular-upload';
 
-import { DeleteImageRequest, ImageControl, SaveImageRequest, StatementModeEnum } from '../../models/';
+import { DeleteImageRequest, ImageControl, SaveImageRequest, StatementModeEnum } from '../../models';
 
 @Component({
   selector: 'pf-trs-image-control',

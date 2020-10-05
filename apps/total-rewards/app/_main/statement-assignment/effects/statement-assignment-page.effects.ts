@@ -10,10 +10,10 @@ import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/
 import { ExportAssignedEmployeesRequest } from 'libs/models/payfactors-api/total-rewards/request';
 import { MappingHelper } from 'libs/core/helpers';
 import { TotalRewardsApiService, TotalRewardsAssignmentApiService, TotalRewardsPdfGenerationService } from 'libs/data/payfactors-api/total-rewards';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 
-import { Statement } from '../../../shared/models';
-import { TrsConstants } from './../../../shared/constants/trs-constants';
 import * as fromStatementAssignmentPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';

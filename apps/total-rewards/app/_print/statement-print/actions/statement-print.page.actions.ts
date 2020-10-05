@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { StatementForPrint } from '../../../shared/models';
+import { StatementForPrint } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 export const LOAD_STATEMENT = '[Total Rewards/Statement Print] Load Statement';
 export const LOAD_STATEMENT_SUCCESS = '[Total Rewards/Statement Print] Load Statement Success';

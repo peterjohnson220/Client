@@ -18,6 +18,7 @@ import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { WindowCommunicationService } from 'libs/core/services';
 import { ListAreaService } from 'libs/core/services/list-area.service';
 import { PfListAreaModule } from 'libs/features/list-area/list-area.module';
+import * as fromTrsStatement from 'libs/features/total-rewards/total-rewards-statement';
 
 import { reducers } from './reducers';
 import { StatementAssignmentRoutingModule } from './statement-assignment-routing.module';
@@ -27,7 +28,6 @@ import * as effects from './effects';
 import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
 import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
 import { GenerateStatementModalComponent } from './components/generate-statement-modal/generate-statement-modal.component';
-import * as fromTrsShared from '../../shared';
 import { UnassignEmployeesModalComponent } from './components/unassign-employees-modal/unassign-employees-modal.component';
 import { GridActionMenuComponent } from './components/grid-action-menu/grid-action-menu.component';
 
@@ -60,7 +60,7 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
     PfFormsModule,
     PfSearchModule,
     PfListAreaModule,
-    fromTrsShared.SharedModule,
+    fromTrsStatement.TotalRewardsStatementModule,
 
     // Routing
     StatementAssignmentRoutingModule,

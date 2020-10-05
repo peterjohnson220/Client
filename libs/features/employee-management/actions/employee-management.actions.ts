@@ -43,6 +43,7 @@ export const VALIDATE_EMPLOYEE_KEYS_SUCCESS = '[EmployeeManagement] Validate Emp
 export const VALIDATE_EMPLOYEE_KEYS_ERROR = '[EmployeeManagement] Validate Employee Keys Error';
 export const LOAD_COMPANYJOB_BY_ID = '[EmployeeManagement] Load Company Jobs By ID';
 
+
 export class ShowEmployeeForm implements Action {
   readonly type = SHOW_EMPLOYEE_FORM;
   constructor(public payload: boolean) { }

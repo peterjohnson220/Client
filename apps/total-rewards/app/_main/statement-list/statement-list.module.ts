@@ -11,6 +11,7 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import {PfCommonUIModule} from 'libs/ui/common';
 import {PfFormsModule} from 'libs/forms';
+import * as fromTrsStatement from 'libs/features/total-rewards/total-rewards-statement';
 
 import {reducers} from './reducers';
 import {StatementGridEffects, TemplateSelectorEffects} from './effects';
@@ -18,7 +19,6 @@ import {StatementListPageComponent} from './statement-list.page';
 import {StatementsGridComponent, TemplateCardSelectorComponent} from './containers';
 import {GridActionMenuComponent} from './components';
 import {StatementListRoutingModule} from './statement-list-routing.module';
-import * as fromTrsShared from '../../shared';
 
 @NgModule({
   imports: [
@@ -37,7 +37,7 @@ import * as fromTrsShared from '../../shared';
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
-    fromTrsShared.SharedModule,
+    fromTrsStatement.TotalRewardsStatementModule,
 
     // Routing,
     StatementListRoutingModule

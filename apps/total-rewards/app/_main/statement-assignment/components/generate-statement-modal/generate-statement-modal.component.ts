@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angu
 
 import { Observable, Subscription } from 'rxjs';
 
-import { Statement } from '../../../../shared/models';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { DeliveryMethod } from '../../models';
 
 @Component({
