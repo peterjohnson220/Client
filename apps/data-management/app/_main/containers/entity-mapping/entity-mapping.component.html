@@ -26,16 +26,22 @@
   <div class="col-sm-8">
     <h5>{{targetName}} Fields</h5>
     <div class="row">
-      <div class="col-7">
+      <div class="col-6">
         <pf-input-debounce [id]="'payfactorsEntitySearch-' + entityType.toLowerCase()" [delay]="400"
           (valueChanged)="handleSearchTermChanged($event, 'payfactors')" [placeholderText]="'Search'" pfClickElsewhere>
         </pf-input-debounce>
       </div>
-      <div *ngIf="entityType.toLowerCase() === 'employees'" class="col-5">
+      <div *ngIf="entityType.toLowerCase() === 'employees'" class="col-4">
         <pf-date-format-dropdown [provider]="provider"
                                  [selectedDateFormat]="selectedDateFormat"
                                  (handleDateFormatSelected)="onDateFormatSelected($event)">
         </pf-date-format-dropdown>
+      </div>
+      <div *ngIf="entityType.toLowerCase() === 'employees'|| entityType.toLowerCase() === 'structuremapping'" class="col-2">
+        <select class="form-control form-control" [(ngModel)]='doFullReplace' (change)='updateFullReplaceModeSetting($event)'>
+          <option [value]="true">Full Replace</option>
+          <option [value]="false">Append</option>
+        </select>
       </div>
     </div>
     <div class="container-fluid my-3 border rounded pf-entity-table" *ngIf="filteredPayfactorsFields.length > 0">

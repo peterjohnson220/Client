@@ -8,10 +8,11 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, skip } from 'rxjs/operators';
 
-import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
-import { EmailRecipientModel, SyncScheduleDtoModel, TransferScheduleSummary, UserContext } from 'libs/models';
+import * as fromLoadersSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import * as fromRootState from 'libs/state/state';
+import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
+import { EmailRecipientModel, SyncScheduleDtoModel, TransferScheduleSummary, UserContext } from 'libs/models';
 
 import { PayfactorsApiModelMapper } from '../../../../helpers';
 import * as fromHrisConnectionActions from '../../../../actions/hris-connection.actions';
@@ -41,6 +42,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
   restoreCompletedSubscription: Subscription;
   connectionSummarySub: Subscription;
   identitySubscription: Subscription;
+  loaderSettingsSubscription: Subscription;
 
   transferScheduleSummary: TransferScheduleSummary[] = [];
   syncSchedulesBackup: SyncScheduleDtoModel[] = [];
@@ -107,6 +109,16 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
             loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId,
             loaderType: 'Organizational Data',
           }));
+          this.store.dispatch(new fromLoadersSettingsActions.LoadingLoaderSettings(this.companyId, connectionSummary.loaderConfigurationGroupId));
+        }
+      });
+    this.loaderSettingsSubscription = this.store.select(fromDataManagementMainReducer.getLoaderSettings).pipe(filter((v) => !!v))
+      .subscribe(v => {
+        if (v.length > 0) {
+          this.store.dispatch(new fromHrisConnectionActions.SetFullReplaceMode({
+            employeeFullReplace: v.find(ls => ls.KeyName === 'IsEmployeesFullReplace')?.KeyValue,
+            structureMappingsFullReplace: v.find(ls => ls.KeyName === 'IsStructureMappingsFullReplace')?.KeyValue
+          }));
         }
       });
     this.showIntegrationFinishedModal$ = this.store.select(fromDataManagementMainReducer.getShowSetupCompleteModal);
@@ -122,6 +134,7 @@ export class TransferSchedulePageComponent implements OnInit, OnDestroy {
     this.restoreCompletedSubscription.unsubscribe();
     this.connectionSummarySub.unsubscribe();
     this.identitySubscription.unsubscribe();
+    this.loaderSettingsSubscription.unsubscribe();
   }
 
   onCancel() {

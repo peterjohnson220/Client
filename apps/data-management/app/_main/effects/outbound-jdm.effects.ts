@@ -61,7 +61,7 @@ export class OutboundJdmEffects {
           canEditMappings: false,
           selectedEntities: [],
           loaderConfigurationGroupId: null,
-          validationMode: false
+          validationMode: false,
         };
 
         return [

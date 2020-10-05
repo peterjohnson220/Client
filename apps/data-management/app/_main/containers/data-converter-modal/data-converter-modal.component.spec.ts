@@ -32,8 +32,6 @@ describe('Data Management - Main - Data Converter Modal', () => {
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(DataConverterModalComponent);
     instance = fixture.componentInstance;
-
-    // instance.connectionId = 1;
   });
 
   it('should create', () => {

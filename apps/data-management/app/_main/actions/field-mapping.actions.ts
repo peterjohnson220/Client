@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { MappingPackage } from 'libs/models';
-import { EntityDataField, EntityField, ConverterOptions } from '../models';
+import { EntityDataField, EntityField } from '../models';
 
 export const INIT_FIELD_MAPPING_CARD = '[Data Management/Field Mappings] Init Field Mapping Card';
 export const INIT_FIELD_MAPPING_CARD_ERROR = '[Data Management/Field Mappings] Init Field Mapping Card Error';
@@ -195,6 +195,8 @@ export class LoadMappedFieldsSucces implements Action {
 
   constructor(public payload: { payfactorsFields: EntityField, providerFields: EntityField }) {}
 }
+
+
 
 // outbound jdm actions, delete me
 export class SaveOutboundJdmFieldMappings implements Action {

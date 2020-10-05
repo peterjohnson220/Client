@@ -13,6 +13,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
   loadType={[Function String]}
+  loaderSettingsSubscription={[Function Subscriber]}
   primaryCompositeDataLoadType={[Function String]}
   restoreCompletedSubscription={[Function Subscriber]}
   router={[Function Object]}
@@ -153,6 +154,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
   loadType={[Function String]}
+  loaderSettingsSubscription={[Function Subscriber]}
   primaryCompositeDataLoadType={[Function String]}
   restoreCompletedSubscription={[Function Subscriber]}
   router={[Function Object]}

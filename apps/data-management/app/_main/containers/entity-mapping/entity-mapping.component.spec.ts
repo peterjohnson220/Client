@@ -11,7 +11,8 @@ import { generateMockConverterSettings } from 'libs/models';
 
 import * as fromFieldMappingReducer from '../../reducers';
 import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
-import * as fromFConverterSettingsActions from '../../actions/converter-settings.actions';
+import * as fromConverterSettingsActions from '../../actions/converter-settings.actions';
+import * as fromHrisConnectionsActions from '../../actions/hris-connection.actions';
 import { generateMockProviderEntityFields, generateMockPayfactorsEntityFields } from '../../models';
 
 import { EntityMappingComponent } from './entity-mapping.component';
@@ -89,11 +90,23 @@ describe('Data Management - Main - Entity Mapping Component', () => {
 
   it('should dispatch an action when dateformat dropdown changes', () => {
     const mockConverterSetting = generateMockConverterSettings();
-    const expectedAction = new fromFConverterSettingsActions.AddConverterSetting({converterSetting: mockConverterSetting});
+    const expectedAction = new fromConverterSettingsActions.AddConverterSetting({converterSetting: mockConverterSetting});
 
     spyOn(store, 'dispatch');
 
     instance.onDateFormatSelected('yyyy-MM-ddzzz');
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+
+  });
+
+  it('should dispatch an action when replacement mode dropdown changes', () => {
+    instance.entityType = 'Employees';
+    const expectedAction = new fromHrisConnectionsActions.ToggleFullReplaceMode({entityType: 'Employees', doFullReplace: true});
+
+    spyOn(store, 'dispatch');
+
+    instance.updateFullReplaceModeSetting({target: { value: true}});
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
 

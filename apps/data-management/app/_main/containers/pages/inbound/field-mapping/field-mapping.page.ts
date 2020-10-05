@@ -6,6 +6,8 @@ import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import isEmpty from 'lodash/isEmpty';
 
+import { LoaderSetting } from 'libs/models';
+
 import * as fromFieldMappingActions from '../../../../actions/field-mapping.actions';
 import * as fromHrisConnectionActions from '../../../../actions/hris-connection.actions';
 import * as fromDataManagementMainReducer from '../../../../reducers';
@@ -24,8 +26,10 @@ export class FieldMappingPageComponent implements OnInit, OnDestroy {
   canSaveMappings$: Observable<boolean>;
   errorSavingMapping$: Observable<boolean>;
   savingMappings$: Observable<boolean>;
+  loaderSettings$: Observable<LoaderSetting[]>;
 
   connectionSummarySub: Subscription;
+  loaderSettingsSubscription: Subscription;
 
   selectedEntities: string[];
   workflowComplete: boolean;
@@ -40,6 +44,7 @@ export class FieldMappingPageComponent implements OnInit, OnDestroy {
     this.canSaveMappings$ = this.store.select(fromDataManagementMainReducer.canSaveMappings);
     this.savingMappings$ = this.store.select(fromDataManagementMainReducer.savingMappings);
     this.errorSavingMapping$ = this.store.select(fromDataManagementMainReducer.savingMappingsError);
+    this.loaderSettings$ = this.store.select(fromDataManagementMainReducer.getLoaderSettings);
 
     this.store.dispatch(new fromHrisConnectionActions.GetHrisConnectionSummary());
     this.connectionSummarySub = this.store.select(fromDataManagementMainReducer.getHrisConnectionSummary)
@@ -53,6 +58,16 @@ export class FieldMappingPageComponent implements OnInit, OnDestroy {
       return [
         this.store.dispatch(new fromFieldMappingActions.InitFieldMappingCard(this.selectedEntities))
       ];
+    });
+
+    this.loaderSettingsSubscription = this.loaderSettings$.pipe(filter((v) => !!v))
+    .subscribe(v => {
+      if (v.length > 0) {
+        this.store.dispatch(new fromHrisConnectionActions.SetFullReplaceMode({
+          employeeFullReplace: v.find(ls => ls.KeyName === 'IsEmployeesFullReplace')?.KeyValue,
+          structureMappingsFullReplace: v.find(ls => ls.KeyName === 'IsStructureMappingsFullReplace')?.KeyValue
+        }));
+      }
     });
   }
 
