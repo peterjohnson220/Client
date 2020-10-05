@@ -1,0 +1,19 @@
+.radio-button-container {
+  padding: 0 1.5rem 1.5rem;
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='2' fill='%230883BE'/%3E%3C/svg%3E");
+  background-size: 100%;
+}
+
+.custom-radio .custom-control-input ~ .custom-control-label::before {
+  transform: scale(1.2);
+  cursor: pointer;
+  border: #ccc solid 1px;
+  background-color: white;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: none;
+}

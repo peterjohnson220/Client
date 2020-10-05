@@ -52,22 +52,25 @@
             </div>
           </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column *ngFor="let col of (listAreaColumns$ | async)" [field]="col.ColumnDatabaseName" class="ellipsize show-tooltip">
-          <ng-template kendoGridHeaderTemplate let-column>
-            <div class="ellipsis-overflowing-text-wrap show-tooltip">
-              <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='desc'"
-                class="sort-icon" [icon]="['far', 'long-arrow-down']">
-              </fa-icon>
-              <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='asc'"
-                       class="sort-icon" [icon]="['far', 'long-arrow-up']">
-              </fa-icon>
-              {{col.ColumnDisplayName}}
-            </div>
-          </ng-template>
-          <ng-template *ngIf="col.ColumnDatabaseName === 'TotalRewardsLastStatementGeneratedDate'" kendoGridCellTemplate let-dataItem>
-              {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
-          </ng-template>
-        </kendo-grid-column>
+        <ng-container *ngFor="let col of (listAreaColumns$ | async)">
+          <kendo-grid-column *ngIf="col.Visible" [field]="col.ColumnDatabaseName" class="ellipsize show-tooltip">
+            <ng-template kendoGridHeaderTemplate let-column>
+              <div class="ellipsis-overflowing-text-wrap show-tooltip">
+                <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='desc'"
+                  class="sort-icon" [icon]="['far', 'long-arrow-down']">
+                </fa-icon>
+                <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='asc'"
+                         class="sort-icon" [icon]="['far', 'long-arrow-up']">
+                </fa-icon>
+                {{col.ColumnDisplayName}}
+              </div>
+            </ng-template>
+            <ng-template *ngIf="col.ColumnDatabaseName === 'TotalRewardsLastStatementGeneratedDate'" kendoGridCellTemplate let-dataItem>
+                {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
+            </ng-template>
+          </kendo-grid-column>
+        </ng-container>
+        
         <ng-template kendoPagerTemplate>
           <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
           <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>

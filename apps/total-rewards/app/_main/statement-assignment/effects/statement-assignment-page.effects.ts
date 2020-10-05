@@ -10,12 +10,14 @@ import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/
 import { ExportAssignedEmployeesRequest } from 'libs/models/payfactors-api/total-rewards/request';
 import { MappingHelper } from 'libs/core/helpers';
 import { TotalRewardsApiService, TotalRewardsAssignmentApiService, TotalRewardsPdfGenerationService } from 'libs/data/payfactors-api/total-rewards';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 
 import { Statement } from '../../../shared/models';
 import { TrsConstants } from './../../../shared/constants/trs-constants';
 import * as fromStatementAssignmentPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
+import { ElectronicDeliveryHelper } from '../models';
 
 @Injectable()
 export class StatementAssignmentPageEffects {
@@ -39,7 +41,9 @@ export class StatementAssignmentPageEffects {
       switchMap((action: fromStatementAssignmentPageActions.LoadAssignedEmployeesListAreaColumns) =>
         this.userProfileApiService.getListAreaColumns({ ListAreaName: 'TotalRewardsAssignedEmployees', UdfType: null }).pipe(
           map((response: ListAreaColumnResponse[]) => {
-            const listAreaColumns =  MappingHelper.mapListAreaColumnResponseListToListAreaColumnList(response);
+            const electronicDeliveryFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.TotalRewardsElectronicDelivery, false);
+            let listAreaColumns =  MappingHelper.mapListAreaColumnResponseListToListAreaColumnList(response);
+            listAreaColumns = ElectronicDeliveryHelper.setColumnsVisible(listAreaColumns, electronicDeliveryFeatureFlagEnabled);
             return new fromStatementAssignmentPageActions.LoadAssignedEmployeesListAreaColumnsSuccess(listAreaColumns);
           }),
           catchError(response => of(new fromStatementAssignmentPageActions.LoadAssignedEmployeesListAreaColumnsError()))
@@ -149,5 +153,7 @@ export class StatementAssignmentPageEffects {
     private totalRewardsAssignmentApi: TotalRewardsAssignmentApiService,
     private totalRewardsPdfGenerationService: TotalRewardsPdfGenerationService,
     private userProfileApiService: UserProfileApiService,
-    private store: Store<fromTotalRewardsReducer.State>) {}
+    private store: Store<fromTotalRewardsReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {}
 }

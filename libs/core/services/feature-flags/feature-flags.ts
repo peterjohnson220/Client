@@ -6,4 +6,5 @@ export class FeatureFlags {
   static readonly PfDataGridInfiniteScroll = 'pf-data-grid-infinite-scroll';
   static readonly StructuresAdvancedModeling = 'structures-advanced-modeling';
   static readonly JobsHierarchyPage = 'jobs-hierarchy-page';
+  static readonly TotalRewardsElectronicDelivery = 'total-rewards-electronic-delivery';
 }
