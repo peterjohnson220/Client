@@ -43,6 +43,11 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   pageViewId: string;
   pageViewIdSubscription: Subscription;
 
+  gridConfig = {
+    PersistColumnWidth: false,
+    CaptureGridScroll: true
+  };
+
   constructor(
     private store: Store<fromSharedJobBasedRangeReducer.State>,
     private route: ActivatedRoute,
