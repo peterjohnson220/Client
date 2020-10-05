@@ -43,6 +43,11 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   pageViewId: string;
   pageViewIdSubscription: Subscription;
 
+  gridConfig = {
+    PersistColumnWidth: false,
+    CaptureGridScroll: true
+  };
+
   constructor(
     public store: Store<fromSharedJobBasedRangeReducer.State>,
     public route: ActivatedRoute,
