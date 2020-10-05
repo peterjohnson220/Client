@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
 import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-rewards';
@@ -210,11 +210,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   }
 
   handleGenerateStatementsClick(deliveryMethod: DeliveryMethod) {
-    if (deliveryMethod === DeliveryMethod.PDFExport) {
-      this.store.dispatch(new fromPageActions.GenerateStatements());
-    } else {
-      this.handleCancelGenerateStatementModal();
-    }
+    this.store.dispatch(new fromPageActions.GenerateStatements(deliveryMethod));
   }
 
   handleAssignEmployeesClick() {

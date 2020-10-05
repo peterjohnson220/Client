@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { DeliveryMethod } from '../models';
 
 export const RESET_STATE = '[Total Rewards/Statement Assignment] Reset State';
 
@@ -69,6 +70,7 @@ export class CloseGenerateStatementModal implements Action {
 
 export class GenerateStatements implements Action {
   readonly type = GENERATE_STATEMENTS;
+  constructor(public payload: DeliveryMethod) {}
 }
 
 export class GenerateStatementsSuccess implements Action {

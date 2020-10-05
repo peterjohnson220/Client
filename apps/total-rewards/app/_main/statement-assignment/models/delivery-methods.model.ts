@@ -1,8 +1,8 @@
 import { ListAreaColumn } from 'libs/models/common/list-area';
 
 export enum DeliveryMethod {
-  Electronic = 'Electronic',
-  PDFExport = 'PDFExport'
+  Email = 'Email',
+  PDFExport = 'PDF'
 }
 
 export class ElectronicDeliveryHelper {
