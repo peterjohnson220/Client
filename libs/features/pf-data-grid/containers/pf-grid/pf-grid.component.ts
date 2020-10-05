@@ -328,7 +328,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onScroll(event: ContentScrollEvent): void {
-    if (this.gridConfig.CaptureGridScroll) {
+    if (this.gridConfig?.CaptureGridScroll) {
       this.store.dispatch(new fromActions.CaptureGridScrolled(this.pageViewId, event));
     }
   }
