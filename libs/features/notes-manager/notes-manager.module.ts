@@ -20,7 +20,7 @@ import { reducers } from './reducers';
 import { NotesManagerEffects } from './effects';
 
 import { NotesManagerComponent } from './notes-manager/notes-manager.component';
-import { NotesManagerContentComponent } from './notes-manager-content/notes-manager-content.component';
+import { NotesManagerContentComponent } from './containers';
 
 @NgModule({
   imports: [

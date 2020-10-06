@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { AsyncStateObj, generateDefaultAsyncStateObj, UserContext } from 'libs/models';
 import { NotesBase } from 'libs/models/notes';
 import { AsyncStateObjHelper } from 'libs/core';
 
@@ -10,16 +10,12 @@ import { NoteOperation } from '../constants/note-operation-constants';
 
 export interface State {
   notes: AsyncStateObj<NotesBase[]>;
-  savingNotes: AsyncStateObj<boolean>;
-  apiServiceIndicator: ApiServiceType;
-  currentUserId: number;
+  apiService: ApiServiceType;
 }
 
 export const initialState: State = {
   notes: generateDefaultAsyncStateObj<NotesBase[]>([]),
-  savingNotes: generateDefaultAsyncStateObj<boolean>(false),
-  apiServiceIndicator: null,
-  currentUserId: -1
+  apiService: null,
 };
 
 export function reducer(state = initialState, action: fromNotesManagerActions.Actions): State {
@@ -27,11 +23,15 @@ export function reducer(state = initialState, action: fromNotesManagerActions.Ac
     case fromNotesManagerActions.RESET_STATE:
       return initialState;
     case fromNotesManagerActions.CLEAR_NOTES:
-      return {...initialState, currentUserId: state.currentUserId, apiServiceIndicator: state.apiServiceIndicator };
+      return {
+        ...state,
+        notes: generateDefaultAsyncStateObj<NotesBase[]>([])
+      };
     case fromNotesManagerActions.LOAD_API_SERVICE:
-      return loadStateProperty(state, 'apiServiceIndicator', action.payload);
-    case fromNotesManagerActions.LOAD_USER_ID:
-      return loadStateProperty(state, 'currentUserId', action.payload);
+      return {
+        ...state,
+        apiService: action.payload
+      };
     case fromNotesManagerActions.GET_NOTES:
       return AsyncStateObjHelper.loading(state, 'notes');
     case fromNotesManagerActions.GET_NOTES_SUCCESS:
@@ -39,100 +39,74 @@ export function reducer(state = initialState, action: fromNotesManagerActions.Ac
     case fromNotesManagerActions.GET_NOTES_ERROR:
       return AsyncStateObjHelper.loadingError(state, 'notes', action.payload);
     case fromNotesManagerActions.ADD_NOTE:
-      return addNote(state, 'notes', action.payload);
-    case fromNotesManagerActions.DELETE_NOTE:
-      return determineDeleteType(state, 'notes', action.payload); // action.payload is a single note
+      return addNote(state, action.noteText, action.userContext);
     case fromNotesManagerActions.EDIT_NOTE:
-      return inplaceStateEdit(state, 'notes', editHelper(state, action.payload));
+      return editNote(state, action.oldNote, action.noteText);
+    case fromNotesManagerActions.DELETE_NOTE:
+      return deleteNote(state, action.payload);
     case fromNotesManagerActions.SAVE_NOTES:
-      return AsyncStateObjHelper.saving(state, 'savingNotes');
+      return AsyncStateObjHelper.saving(state, 'notes');
     case fromNotesManagerActions.SAVE_NOTES_SUCCESS:
-      return AsyncStateObjHelper.savingSuccess(state, 'savingNotes');
+      return AsyncStateObjHelper.savingSuccess(state, 'notes');
     case fromNotesManagerActions.SAVE_NOTES_ERROR:
-      return AsyncStateObjHelper.savingError(state, 'savingNotes', action.payload);
+      return AsyncStateObjHelper.savingError(state, 'notes', action.payload);
     default:
       return state;
   }
 }
 
-export function determineDeleteType(state: State, propertyName: string, note: NotesBase): State {
-  if (note.NoteOperation === NoteOperation.Add) {
-    return removeStateElement(state, propertyName, note);
-  } else {
-    const noteMarkedForDelete: NotesBase = {...note, NoteOperation: NoteOperation.Delete};
-    return inplaceStateEdit(state, propertyName, {OldObj: note, NewObj: noteMarkedForDelete});
-  }
-}
-
-export function editHelper(state: State, payload) {
-  const updatedNote: NotesBase = {...payload.OldObj, Notes: payload.ReplacementStr, EditUser: state.currentUserId,
-    NoteOperation: payload.OldObj.NoteOperation === NoteOperation.Add ? NoteOperation.Add : NoteOperation.Edit};
-
-  return { OldObj: payload.OldObj, NewObj: updatedNote };
-}
-
-export function inplaceStateEdit(state, propertyName: string, payload?: any) {
-  let updatedObjList: any[] = [];
-  const isArray = Array.isArray(state[propertyName].obj);
-
-  if (isArray) {
-    const oldObjIndex = state[propertyName].obj.findIndex(element => element === payload.OldObj);
-    updatedObjList = cloneDeep(state[propertyName].obj);
-    updatedObjList[oldObjIndex] = cloneDeep(payload.NewObj);
-  }
-
-  return {
-    ...state,
-    [propertyName]: { ...state[propertyName], obj: isArray ? updatedObjList : payload.NewObj }
-  };
-}
-
-export function removeStateElement(state, propertyName: string, payload: any) {
-  let updatedObjList: any;
-  const isArray = Array.isArray(state[propertyName].obj);
-
-  if (isArray) {
-    updatedObjList = state[propertyName].obj.filter(element => element !== payload);
-  }
-
-  return {
-    ...state,
-    [propertyName]: { ...state[propertyName], obj: isArray ? updatedObjList : null }
-  };
-}
-
-export function loadStateProperty(state, propertyName: string, payload?: any) {
-  return {
-    ...state,
-    [propertyName]: payload
-  };
-}
-
-export function addNote(state, propertyName: string, payload?: any) {
-  const tempNote: NotesBase = {
+export function addNote(state: State, noteText: string, userContext: UserContext) {
+  const newNote: NotesBase = {
     Id: null,
-    Notes : payload.noteText,
-    UserId : state.currentUserId,
-    FirstName : payload.userFirstName,
-    LastName : payload.userLastName,
-    UserPicture : payload.userPhoto,
+    Notes: noteText,
+    UserId: userContext.UserId,
+    FirstName: userContext.FirstName,
+    LastName: userContext.LastName,
+    UserPicture: userContext.UserPicture,
     CreateDate: new Date(Date.now()).toString(),
     NoteOperation: NoteOperation.Add
   };
 
-  const notesToDisplay = state[propertyName].obj.concat(tempNote).sort((a: NotesBase, b: NotesBase) => {
-    return new Date(b.CreateDate).getTime() - new Date(a.CreateDate).getTime();
-  });
+  const updatedNotes = cloneDeep(state.notes.obj);
+  updatedNotes.unshift(newNote);
 
+  return updateNotes(state, updatedNotes);
+}
+
+export function editNote(state: State, oldNote: NotesBase, noteText: string) {
+
+  const noteToUpdateIndex = state.notes.obj.findIndex(element => element === oldNote);
+  const updatedNotes: NotesBase[] = cloneDeep(state.notes.obj);
+  const noteToUpdate = updatedNotes[noteToUpdateIndex];
+  noteToUpdate.Notes = noteText;
+  noteToUpdate.NoteOperation = NoteOperation.Add ? NoteOperation.Add : NoteOperation.Edit;
+
+  return updateNotes(state, updatedNotes);
+}
+
+export function deleteNote(state: State, noteToDelete: NotesBase): State {
+  const updatedNotes: NotesBase[] = cloneDeep(state.notes.obj);
+  const noteToUpdateIndex = state.notes.obj.findIndex(element => element === noteToDelete);
+
+  if (noteToDelete.NoteOperation === NoteOperation.Add) {
+    updatedNotes.splice(noteToUpdateIndex, 1);
+  } else {
+    updatedNotes[noteToUpdateIndex].NoteOperation = NoteOperation.Delete;
+  }
+
+  return updateNotes(state, updatedNotes);
+}
+
+export function updateNotes(state: State, notes: NotesBase[]) {
   return {
     ...state,
-    [propertyName]: { ...state[propertyName], loading: false, obj: notesToDisplay}
+    notes: {
+      ...state.notes,
+      obj: notes
+    }
   };
 }
 
 export const getState = (state: State) => state;
-export const getLoading = (state: State) => state.notes.loading;
 export const getNotes = (state: State) => state.notes;
-export const getSavingNotes = (state: State) => state.savingNotes;
-export const getApiServiceIndicator = (state: State) => state.apiServiceIndicator;
-export const getUserId = (state: State) => state.currentUserId;
+export const getApiService = (state: State) => state.apiService;

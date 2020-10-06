@@ -1,5 +1,5 @@
 export enum ApiServiceType {
-  CompanyJobs,
-  PricingMatch,
-  Pricing
+  CompanyJobs = 1,
+  PricingMatch = 2,
+  Pricing = 3
 }

@@ -36,7 +36,6 @@
   <pf-pricing-matches-job-title
     [dataRow]="dataRow"
     [pricingInfo]="pricingInfo"
-    (notesEmitter)="openMatchNotesModal($event)"
     (reScopeSurveyDataEmitter)="reScopeSurveyDataEmitter.emit($event)"></pf-pricing-matches-job-title>
 </ng-template>
 
@@ -60,13 +59,3 @@
     <span [innerHTML]="dataRow[fieldName] | humanizeNumber | emptyPlaceholder"></span>
   </div>
 </ng-template>
-
-<ng-template #matchNotesHeader>
-  <div class="p-2">
-    <strong>Scope: </strong>
-      {{selectedMatchForNotes.vw_PricingMatchesJobTitlesMerged_Source}}{{selectedMatchScope}}
-      <span>{{selectedMatchForNotes.vw_PricingMatchesJobTitlesMerged_Effective_Date | date: 'MM/dd/yyyy'}}</span>
-  </div>
-</ng-template>
-
-

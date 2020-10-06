@@ -7,12 +7,14 @@ import { Action, Store, select } from '@ngrx/store';
 import { map, switchMap, catchError, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { EditableJobDescriptionPipe } from 'libs/core';
-import { CompanyJob, CompanyJobAttachment, UserContext, JobDescriptionSummary, NotesBase, NoteRequest } from 'libs/models';
+import { CompanyJob, CompanyJobAttachment, UserContext, JobDescriptionSummary } from 'libs/models';
+import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
 import {
   CompanyJobApiService,
   StructuresApiService,
   StructureRangeGroupApiService,
-  DashboardApiService } from 'libs/data/payfactors-api';
+  DashboardApiService
+} from 'libs/data/payfactors-api';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromJobManagementReducer from '../reducers';
@@ -21,7 +23,6 @@ import * as fromNotesManagerReducer from '../../notes-manager/reducers';
 import * as fromNotesManagerActions from '../../notes-manager/actions';
 
 import { ToastrService } from 'ngx-toastr';
-import { SaveNotesRequest } from '../../../models/payfactors-api/notes/save-notes-request.model';
 
 @Injectable()
 export class JobManagementEffects {
@@ -66,7 +67,7 @@ export class JobManagementEffects {
               new fromJobManagementActions.LoadJobOptionsSuccess(options[0], options[1], options[2], options[3], options[4]),
               new fromJobManagementActions.LoadStructurePaymarketGrade()
             ]),
-            catchError(response => this.handleError('There was an error loading the job information'))
+            catchError(() => of(new fromJobManagementActions.HandleApiError('There was an error loading the job information')))
           )
       )
     );
@@ -89,7 +90,8 @@ export class JobManagementEffects {
       switchMap((data) =>
         this.structuresApiService.getStructurePaymarketsAndGrades(data.structureId ? data.structureId : -1).pipe(
           map((structurePaymarketGrade) => new fromJobManagementActions.LoadStructurePaymarketGradeSuccess(structurePaymarketGrade)),
-          catchError(response => this.handleError('There was an error loading the job structure information')))
+          catchError(() => of(new fromJobManagementActions.HandleApiError('There was an error loading the job structure information')))
+        )
       )
     );
 
@@ -108,7 +110,7 @@ export class JobManagementEffects {
       switchMap((data) =>
         this.companyJobApiService.getCompanyJob(data.jobId).pipe(
           map((job) => new fromJobManagementActions.LoadJobSuccess(job)),
-          catchError(response => this.handleError('There was an error loading the job information'))
+          catchError(() => of(new fromJobManagementActions.HandleApiError('There was an error loading the job information')))
         )
       )
     );
@@ -121,7 +123,7 @@ export class JobManagementEffects {
         (action: fromJobManagementActions.UploadAttachments) =>
           this.companyJobApiService.uploadAttachments(action.attachments).pipe(
             map((attachments: CompanyJobAttachment[]) => new fromJobManagementActions.UploadAttachmentsSuccess(attachments)),
-            catchError(response => this.handleError('There was an error while uploading your attachments'))
+            catchError(() => of(new fromJobManagementActions.HandleApiError('There was an error while uploading your attachments')))
           )
       )
     );
@@ -162,7 +164,8 @@ export class JobManagementEffects {
               if (response.status === 409) {
                 return of(new fromJobManagementActions.SetDuplicateJobCodeError(true));
               } else {
-                return this.handleError('There was an error saving your job information. Please contact you service associate for assistance.');
+                return of(new fromJobManagementActions.HandleApiError(
+                  'There was an error saving your job information. Please contact you service associate for assistance.'));
               }
             })
           );
@@ -192,17 +195,31 @@ export class JobManagementEffects {
         return this.structuresRangeGroupApiService
           .addJobStructureMapping(data.action.jobId, updatedStructures)
           .pipe(
-            map((response: any) => {
-              if (data.notes.obj.length > 0 ) {
-                return new fromNotesManagerActions.SaveNotes(data.action.jobId);
+            map(() => {
+              if (data.notes.obj.length > 0) {
+                return new fromNotesManagerActions.SaveNotes(data.action.jobId, ApiServiceType.CompanyJobs);
               } else {
                 return new fromJobManagementActions.SaveCompanyJobSuccess();
               }
             }),
-            catchError(response =>
-              this.handleError('There was an error saving your job information. Please contact you service associate for assistance.'))
+            catchError(() => {
+              return of(new fromJobManagementActions.HandleApiError(
+                'There was an error saving your job information. Please contact you service associate for assistance.'));
+            })
           );
       }));
+
+
+  @Effect()
+  handleApiError$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromJobManagementActions.HANDLE_API_ERROR),
+      switchMap((action: fromJobManagementActions.HandleApiError) => {
+        this.handleError(action.payload);
+        return of(null);
+      })
+    );
+
 
   private buildCompanyJobRequest(
     userContext: UserContext,
@@ -237,11 +254,10 @@ export class JobManagementEffects {
   }
 
   // This should be extracted into a common interceptor of http errors
-  private handleError(message: string, title: string = 'Error'): Observable<Action> {
+  private handleError(message: string, title: string = 'Error'): void {
     const toastContent = `
     <div class="message-container"><div class="alert-triangle-icon mr-3"></div>${message}</div>`;
     this.toastr.error(toastContent, title, this.toastrOverrides);
-    return of(new fromJobManagementActions.HandleApiError(message));
   }
 
   // This should be extracted into a common libs function
