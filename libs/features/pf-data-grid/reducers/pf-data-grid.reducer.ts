@@ -59,6 +59,7 @@ export interface DataGridState {
   totalCount: number;
   lastUpdateFieldsDate: Date;
   visibleKeys: number[];
+  unexpectedError: boolean;
 }
 
 export interface DataGridStoreState {
@@ -174,6 +175,7 @@ export const getHasMoreDataOnServer = (state: DataGridStoreState, pageViewId: st
 export const getLoadingMoreData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingMoreData;
 export const getLastUpdateFieldsDate = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].lastUpdateFieldsDate;
 export const getVisibleKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].visibleKeys;
+export const getUnexpectedError = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].unexpectedError;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -632,7 +634,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            loading: false
+            loading: false,
+            unexpectedError: true
           }
         }
       };
