@@ -38,13 +38,11 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
     public controlSetting: TemplateSettingsControl;
     private bodyVisibilityBeforeDrag: boolean;
     private changesSubject: Subject<any>;
-    private bulkChangesSubject: Subject<any>;
 
     private controlTypeSubscription: Subscription;
 
     constructor(private sharedJdmStore: Store<fromJdmSharedReducer.State>) {
         this.changesSubject = new Subject();
-        this.bulkChangesSubject = new Subject();
     }
 
     toggleBody() {
@@ -83,11 +81,11 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     handleDataChangesDetected(dataRowChangeObj: any) {
-        this.changesSubject.next({ control: this.templateControl, change: dataRowChangeObj });
+      this.changesSubject.next({ control: this.templateControl, change: dataRowChangeObj });
     }
 
     handleBulkDataChangesDetected(bulkData: string[]) {
-        this.bulkChangesSubject.next({ control: this.templateControl, attributes: this.controlType.Attributes, bulkData: bulkData });
+      this.bulkDataChangesDetected.emit({ control: this.templateControl, attributes: this.controlType.Attributes, bulkData: bulkData });
     }
 
     hideOnExport() {
@@ -176,15 +174,12 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
         const RTEWithDataCount = this.getRTEWithDataCount();
 
         const controlDataChanges$ = RTEWithDataCount > 0 ? this.changesSubject.pipe(skip(RTEWithDataCount)) : this.changesSubject;
-        const bulkControlDataChanges$ = this.bulkChangesSubject.pipe(skip(this.templateControl.Data.length ? 1 : 0));
 
         controlDataChanges$.pipe(
             debounceTime(500),
             distinctUntilChanged()).subscribe(dataRowChangeObj =>
                 this.dataChangesDetected.emit(dataRowChangeObj)
             );
-
-        bulkControlDataChanges$.subscribe(bulkDataChangeObj => this.bulkDataChangesDetected.emit(bulkDataChangeObj));
     }
 
     private getRTEWithDataCount() {
