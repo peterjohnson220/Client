@@ -25,7 +25,6 @@ import { PageViewIds } from '../../../../constants';
 export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
   @ViewChild('projectAccessColumn') projectAccessColumn: ElementRef;
-  @ViewChild('projectOwnerColumn') projectOwnerColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
@@ -84,8 +83,7 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
       }
     };
     this.colTemplates = {
-      'HasProjectAccess': { Template: this.projectAccessColumn },
-      'Create_User': { Template: this.projectOwnerColumn }
+      'HasProjectAccess': { Template: this.projectAccessColumn }
     };
   }
 

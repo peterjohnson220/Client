@@ -34,7 +34,6 @@ import { AsyncStateObj } from 'libs/models';
 export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
 
-  @ViewChild('createUserColumn') createUserColumn: ElementRef;
   @ViewChild('pricingActionsColumn') pricingActionsColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
 
@@ -139,7 +138,6 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
       }
     };
     this.colTemplates = {
-      'Create_User': { Template: this.createUserColumn },
       'CompanyJobPricing_ID': { Template: this.pricingActionsColumn }
     };
   }

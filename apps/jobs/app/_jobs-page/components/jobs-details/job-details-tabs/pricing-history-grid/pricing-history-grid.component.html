@@ -14,15 +14,6 @@
   [pageable]="!gridConfig.EnableInfiniteScroll">
 </pf-data-grid>
 
-<ng-template #createUserColumn let-dataRow="dataRow">
-  <ng-container *ngIf="dataRow['Users_First_Name'] && dataRow['Users_Last_Name']; else pfAdmin">
-    {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
-  </ng-container>
-  <ng-template #pfAdmin>
-    Payfactors Admin
-  </ng-template>
-</ng-template>
-
 <ng-template #pricingActionsColumn let-dataRow="dataRow">
   <div class="d-flex justify-content-end">
     <button
