@@ -83,7 +83,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   pricedField: ViewField;
   pricedFilterValue: any;
 
-  selectedPricingPayMarket: string;
   getPricingReviewedSuccessSubscription: Subscription;
 
   recalculatingPricingInfo$: Observable<boolean>;
