@@ -25,6 +25,7 @@ import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromOrgDataFieldMappingsActions from '../actions/organizational-data-field-mapping.actions';
 import * as fromConverterSettingsActions from '../actions/converter-settings.actions';
 import * as fromReducers from '../reducers';
+import { FullReplaceModes } from '../models';
 
 @Injectable()
 export class FieldMappingEffects {
@@ -143,10 +144,11 @@ export class FieldMappingEffects {
     mergeMap(obj => {
       if (!obj.isDirty) {
         const newConnectionSummary = cloneDeep(obj.connectionSummary);
-        newConnectionSummary.fullReplaceModes = {
-          EmployeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
-          StructureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
+        const newFullReplaceModes: FullReplaceModes = {
+          employeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
+          structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
         };
+        newConnectionSummary.fullReplaceModes = newFullReplaceModes;
         const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
         return [
           new fromConverterSettingsActions.SaveConverterSettings(),
@@ -159,10 +161,11 @@ export class FieldMappingEffects {
         .pipe(
           mergeMap((response: any) => {
             const newConnectionSummary = cloneDeep(obj.connectionSummary);
-            newConnectionSummary.fullReplaceModes = {
-              EmployeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
-              StructureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
+            const newFullReplaceModes: FullReplaceModes = {
+              employeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
+              structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
             };
+            newConnectionSummary.fullReplaceModes = newFullReplaceModes;
             const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
             const loadersMappingPackage = PayfactorsApiModelMapper.getLoadersMappings(obj.userContext.CompanyId, obj.connectionSummary, obj.payfactorsFields);
 

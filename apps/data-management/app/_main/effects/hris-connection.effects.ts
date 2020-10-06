@@ -15,15 +15,16 @@ import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/
 import { LoadTypes, CompositeDataLoadTypes } from 'libs/constants';
 import { ConnectionsHrisApiService, ConfigurationGroupApiService, LoaderSettingsApiService } from 'libs/data/payfactors-api';
 import { ConnectionSummaryResponse, CredentialsPackage, ValidateCredentialsResponse, PatchProperty } from 'libs/models';
+import * as fromLoadersSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import * as fromRootState from 'libs/state/state';
 
 import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromHrisConnectionReducer from '../reducers/hris-connection.reducer';
 import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
-import * as fromLoadersSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import * as fromTransferDataPageActions from '../actions/transfer-data-page.actions';
 import * as fromReducers from '../reducers';
 import { TransferDataWorkflowStep } from '../data';
+import { FullReplaceModes } from '../models';
 
 @Injectable()
 export class HrisConnectionEffects {
@@ -297,10 +298,11 @@ export class HrisConnectionEffects {
           PropertyValue: obj.action.payload
         };
         const newConnectionSummary = cloneDeep(obj.connectionSummary);
-        newConnectionSummary.fullReplaceModes = {
-          EmployeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
-          StructureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
+        const newFullReplaceModes: FullReplaceModes = {
+          employeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
+          structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
         };
+        newConnectionSummary.fullReplaceModes = newFullReplaceModes;
         const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
         loaderSettingsDto.settings.find( setting => setting.KeyName === 'ValidateOnly').KeyValue = obj.action.payload.toString();
         return this.connectionService.patchConnection(obj.userContext, obj.connectionSummary.connectionID, [request], false)
@@ -344,10 +346,11 @@ export class HrisConnectionEffects {
       }),
       map((obj) => {
         const newConnectionSummary = cloneDeep(obj.connectionSummary);
-        newConnectionSummary.fullReplaceModes = {
-          EmployeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
-          StructureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
+        const newFullReplaceModes: FullReplaceModes = {
+          employeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
+          structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
         };
+        newConnectionSummary.fullReplaceModes = newFullReplaceModes;
         const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
 
         return  new fromLoadersSettingsActions.SavingLoaderSettings(loaderSettingsDto);

@@ -153,7 +153,7 @@ export class ToggleValidationModeSuccess implements Action {
 export class SetFullReplaceMode implements Action {
   readonly type = SET_FULLREPLACE_MODE;
 
-  constructor(public payload: { employeeFullReplace: string, structureMappingsFullReplace: string}) {}
+  constructor(public payload: { employeeFullReplace: boolean, structureMappingsFullReplace: boolean}) {}
 }
 
 export class ToggleFullReplaceMode implements Action {

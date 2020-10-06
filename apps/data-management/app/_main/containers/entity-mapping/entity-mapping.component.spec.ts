@@ -106,7 +106,7 @@ describe('Data Management - Main - Entity Mapping Component', () => {
 
     spyOn(store, 'dispatch');
 
-    instance.updateFullReplaceModeSetting({target: { value: true}});
+    instance.updateFullReplaceModeSetting({target: { value: 'true'}});
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
 

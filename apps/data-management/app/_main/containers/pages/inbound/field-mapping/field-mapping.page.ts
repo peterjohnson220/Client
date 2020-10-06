@@ -63,9 +63,11 @@ export class FieldMappingPageComponent implements OnInit, OnDestroy {
     this.loaderSettingsSubscription = this.loaderSettings$.pipe(filter((v) => !!v))
     .subscribe(v => {
       if (v.length > 0) {
+        const isEmployeeFullReplace = v.find(ls => ls.KeyName === 'IsEmployeesFullReplace')?.KeyValue === 'true';
+        const isStructureMappingsFullReplace = v.find(ls => ls.KeyName === 'IsStructureMappingsFullReplace')?.KeyValue === 'true';
         this.store.dispatch(new fromHrisConnectionActions.SetFullReplaceMode({
-          employeeFullReplace: v.find(ls => ls.KeyName === 'IsEmployeesFullReplace')?.KeyValue,
-          structureMappingsFullReplace: v.find(ls => ls.KeyName === 'IsStructureMappingsFullReplace')?.KeyValue
+          employeeFullReplace: isEmployeeFullReplace,
+          structureMappingsFullReplace: isStructureMappingsFullReplace
         }));
       }
     });
