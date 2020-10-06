@@ -118,7 +118,7 @@
   [apiServiceIndicator]="notesApiServiceType"
   [isEditable]="false"
   [notesHeader]="pricingNotesHeader"
-  [modalTitle]="'Match Notes - ' + (selectedJobRow | jobTitleCode : 'CompanyJobs' : 'Job_Title' : 'Job_Code')"
+  [modalTitle]="'Pricing Notes - ' + (selectedJobRow | jobTitleCode : 'CompanyJobs' : 'Job_Title' : 'Job_Code')"
   (saveSuccess)="reloadPaymarkets()"
   (cancelChanges)="closeNotesManager()">
 </pf-notes-manager>
@@ -127,7 +127,7 @@
 <ng-template #pricingNotesHeader >
   <div class="pr-5 py-1">
     <span class="pr-3"><b >Pay Market:</b></span>
-    <span>{{selectedPricingPayMarket}}</span>
+    <span>{{payMarketForNotes}}</span>
   </div>
 </ng-template>
 

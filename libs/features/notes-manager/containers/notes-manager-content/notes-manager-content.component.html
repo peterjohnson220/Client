@@ -35,40 +35,41 @@
         <div *ngIf="note.NoteOperation !== deleteNoteOperation" class="card mb-3 flex-fill">
           <div class="card-header d-flex align-items-center">
             <span class="mr-auto">{{note.FirstName}} {{note.LastName}}</span>
-            <div *ngIf="note.UserId === userContext?.UserId" class="d-flex align-items-center">
-              <ng-container  *ngIf="noteIndex == editModeIndex">
-                <fa-icon 
-                  [icon]="['far', 'check']" title="Save Edit" style="color: green;"
-                  [attr.data-qa-id]="'btn-jobs-page-notes-confirm-edit'"
-                  class="ml-3"
-                  [fixedWidth]="true"
-                  (click)="confirmEdit(note)">
-                </fa-icon>
-                <fa-icon 
-                  [icon]="['far', 'times']" title="Cancel Edit" style="color: red;"
-                  [attr.data-qa-id]="'btn-jobs-page-notes-cancel-edit'"
-                  class="ml-3"
-                  [fixedWidth]="true"
-                  (click)="editModeIndex = -1">
-                </fa-icon>
-              </ng-container>
-              <ng-container *ngIf="editModeIndex == -1 && isEditable">
-                <fa-icon 
-                  [icon]="['far', 'edit']" title="Edit Note"
-                  [attr.data-qa-id]="'btn-jobs-page-notes-edit'"
-                  class="ml-3"
-                  [fixedWidth]="true"
-                  (click)="editNote(note, noteIndex)">
-                </fa-icon>
-                <fa-icon 
-                  [icon]="['far', 'trash-alt']" title="Delete Note"
-                  [attr.data-qa-id]="'btn-jobs-page-notes-delete'"
-                  class="ml-3"
-                  [fixedWidth]="true"
-                  (click)="deleteNote(note)">
-                </fa-icon>
-              </ng-container>
-              
+            <div  class="d-flex align-items-center">
+              <ng-container *ngIf="note.UserId === userContext?.UserId">
+                <ng-container  *ngIf="noteIndex == editModeIndex">
+                  <fa-icon 
+                    [icon]="['far', 'check']" title="Save Edit" style="color: green;"
+                    [attr.data-qa-id]="'btn-jobs-page-notes-confirm-edit'"
+                    class="ml-3"
+                    [fixedWidth]="true"
+                    (click)="confirmEdit(note)">
+                  </fa-icon>
+                  <fa-icon 
+                    [icon]="['far', 'times']" title="Cancel Edit" style="color: red;"
+                    [attr.data-qa-id]="'btn-jobs-page-notes-cancel-edit'"
+                    class="ml-3"
+                    [fixedWidth]="true"
+                    (click)="editModeIndex = -1">
+                  </fa-icon>
+                </ng-container>
+                <ng-container *ngIf="editModeIndex == -1 && isEditable">
+                  <fa-icon 
+                    [icon]="['far', 'edit']" title="Edit Note"
+                    [attr.data-qa-id]="'btn-jobs-page-notes-edit'"
+                    class="ml-3"
+                    [fixedWidth]="true"
+                    (click)="editNote(note, noteIndex)">
+                  </fa-icon>
+                  <fa-icon 
+                    [icon]="['far', 'trash-alt']" title="Delete Note"
+                    [attr.data-qa-id]="'btn-jobs-page-notes-delete'"
+                    class="ml-3"
+                    [fixedWidth]="true"
+                    (click)="deleteNote(note)">
+                  </fa-icon>
+                </ng-container>
+              </ng-container>            
               <span class="align ml-3">{{note.CreateDate | date: 'MM/dd/yyyy'}}</span>
             </div>
           </div>
