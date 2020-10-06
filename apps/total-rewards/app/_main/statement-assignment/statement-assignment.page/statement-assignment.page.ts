@@ -11,7 +11,7 @@ import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-re
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { AppNotification } from 'libs/features/app-notifications/models';
 import { AsyncStateObj } from 'libs/models/state';
-import { GridTypeEnum } from 'libs/models/common';
+import { GridTypeEnum, ListAreaColumn } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
@@ -57,7 +57,10 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   assignedEmployeesLoading$: Observable<boolean>;
   assignedEmployeesTotal$: Observable<number>;
   assignedEmployeesTotalOrSelectedCount$: Observable<number>;
-  assignedEmployeesListAreaColumns$: Observable<any[]>;
+  assignedEmployeesListAreaColumns$: Observable<ListAreaColumn[]>;
+
+  savingGridColumns$: Observable<boolean>;
+  savingGridColumnsError$: Observable<boolean>;
 
   employeeSearchTerm$: Observable<string>;
   electronicDeliveryFeatureFlagEnabled: boolean;
@@ -130,10 +133,14 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.assignedEmployeesLoading$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesLoading));
     this.assignedEmployeesTotal$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotal));
     this.assignedEmployeesTotalOrSelectedCount$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotalOrSelectedCount));
-    this.assignedEmployeesListAreaColumns$ = this.store.pipe(select(fromPageReducer.getListAreaColumns));
+    this.assignedEmployeesListAreaColumns$ = this.store.pipe(select(fromPageReducer.getGridColumns));
 
     // exports
     this.exportEventId$ = this.store.pipe(select(fromPageReducer.getExportEventAsync));
+
+    // Column Chooser
+    this.savingGridColumns$ = this.store.pipe(select(fromPageReducer.getSavingGridColumns));
+    this.savingGridColumnsError$ = this.store.pipe(select(fromPageReducer.getSavingGridColumnsError));
 
     // subscriptions
     this.routeParamSubscription$ = this.route.params.subscribe(params => {
@@ -287,5 +294,9 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
 
   handleExportClicked() {
     this.store.dispatch(new fromPageActions.ExportAssignedEmployees());
+  }
+
+  handleSaveGridColumns(columns: ListAreaColumn[]): void {
+    this.store.dispatch(new fromPageActions.SaveGridColumns(columns));
   }
 }

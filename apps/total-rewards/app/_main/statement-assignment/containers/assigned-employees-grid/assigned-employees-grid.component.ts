@@ -53,7 +53,7 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     this.selectedCompanyEmployeeIds$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
     this.selectAllState$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getSelectAllState));
     this.selectedCompanyEmployeeIdsSubscription = this.selectedCompanyEmployeeIds$.subscribe(ids => this.selectedCompanyEmployeeIds = ids);
-    this.listAreaColumns$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getListAreaColumns));
+    this.listAreaColumns$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getGridColumns));
     window.addEventListener('scroll', this.onScroll, true);
   }
 

@@ -5,3 +5,4 @@ export * from './list-area-filter-pills';
 export * from './list-area-filter-sidebar';
 export * from './list-area-filter-text';
 export * from './list-area-base-filter';
+export * from './list-area-column-chooser';
