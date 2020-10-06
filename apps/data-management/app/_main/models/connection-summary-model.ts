@@ -15,8 +15,8 @@ export interface ConnectionSummary {
 }
 
 export interface FullReplaceModes {
-  EmployeesFullReplace: string;
-  StructureMappingsFullReplace: string;
+  EmployeesFullReplace: boolean;
+  StructureMappingsFullReplace: boolean;
 }
 
 export function generateMockExistingConnectionSummary(): ConnectionSummary {
