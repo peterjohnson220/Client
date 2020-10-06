@@ -79,9 +79,9 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
     if (this.entityType.toLowerCase() === 'employees' || this.entityType.toLowerCase() === 'structuremapping') {
       this.fullReplaceModesSubscription = this.fullReplaceModes$.pipe(filter((v) => !!v)).subscribe(v => {
         if (this.entityType.toLowerCase() === 'employees') {
-          this.doFullReplace = v.doFullReplaceEmployees === 'true';
+          this.doFullReplace = v.doFullReplaceEmployees;
         } else if (this.entityType.toLowerCase() === 'structuremapping') {
-          this.doFullReplace = v.doFullReplaceStructureMappings === 'true';
+          this.doFullReplace = v.doFullReplaceStructureMappings;
         }
       });
     }
