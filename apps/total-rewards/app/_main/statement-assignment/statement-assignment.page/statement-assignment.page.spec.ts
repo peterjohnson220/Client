@@ -6,6 +6,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import { AbstractFeatureFlagService } from 'libs/core/services';
 
 import { StatementAssignmentPageComponent } from './statement-assignment.page';
 import * as fromStatementAssignmentReducer from '../reducers';
@@ -37,6 +38,10 @@ describe('AssignedEmployeesGridComponent', () => {
           provide: Router,
           useValue: { },
         },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn() }
+        }
       ]
     });
 

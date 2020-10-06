@@ -1,6 +1,8 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { of } from 'rxjs';
+
 import { GenerateStatementModalComponent } from './generate-statement-modal.component';
 
 describe('GenerateStatementModalComponent', () => {
@@ -17,6 +19,7 @@ describe('GenerateStatementModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GenerateStatementModalComponent);
     component = fixture.componentInstance;
+    component.isOpen$ = of(false);
     fixture.detectChanges();
   });
 

@@ -13,6 +13,7 @@ import { AppNotification } from 'libs/features/app-notifications/models';
 import { AsyncStateObj } from 'libs/models/state';
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
@@ -21,7 +22,7 @@ import * as fromAssignmentsModalActions from '../actions/statement-assignment-mo
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
 import { Statement } from '../../../shared/models';
 import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
-import { StatementAssignmentConfig } from '../models';
+import { DeliveryMethod, StatementAssignmentConfig } from '../models';
 
 
 @Component({
@@ -59,6 +60,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   assignedEmployeesListAreaColumns$: Observable<any[]>;
 
   employeeSearchTerm$: Observable<string>;
+  electronicDeliveryFeatureFlagEnabled: boolean;
 
   statement: Statement;
   assignedEmployeesGridState = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState;
@@ -81,8 +83,10 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     private store: Store<fromPageReducer.State>,
     private route: ActivatedRoute, private router: Router,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.filters$ = this.filterChangeSubject.asObservable();
+    this.electronicDeliveryFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.TotalRewardsElectronicDelivery, false);
   }
 
   private setSearchContext() {
@@ -205,8 +209,12 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromPageActions.CloseGenerateStatementModal());
   }
 
-  handleGenerateStatementsClick() {
-    this.store.dispatch(new fromPageActions.GenerateStatements());
+  handleGenerateStatementsClick(deliveryMethod: DeliveryMethod) {
+    if (deliveryMethod === DeliveryMethod.PDFExport) {
+      this.store.dispatch(new fromPageActions.GenerateStatements());
+    } else {
+      this.handleCancelGenerateStatementModal();
+    }
   }
 
   handleAssignEmployeesClick() {

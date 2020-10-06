@@ -83,7 +83,8 @@
         [sendingGenerateRequestSuccess]="sendingGenerateRequestSuccess$ | async"
         [sendingGenerateRequestError]="sendingGenerateRequestError$ | async"
         [companyEmployeeIdsTotal]="assignedEmployeesTotalOrSelectedCount$ | async"
-        (generateStatementsClick)="handleGenerateStatementsClick()"
+        [electronicDeliveryEnabled]="electronicDeliveryFeatureFlagEnabled"
+        (generateStatementsClick)="handleGenerateStatementsClick($event)"
         (cancelClick)="handleCancelGenerateStatementModal()"
       ></pf-generate-statement-modal>
       <pf-unassign-employees-modal

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -33,6 +35,8 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementAssignment', reducers),
