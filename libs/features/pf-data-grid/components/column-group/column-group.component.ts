@@ -12,6 +12,7 @@ import { ColumnGroup } from '../../models';
 export class ColumnGroupComponent implements OnChanges {
   @Input() columnGroup: ColumnGroup;
   @Input() showFieldsOverride: boolean;
+  @Input() selectAllEnabled: boolean;
   @Output() fieldClicked: EventEmitter<ViewField> = new EventEmitter<ViewField>();
 
   @ViewChild('selectAllCheckbox', { static: true }) selectAllCheckbox: ElementRef;
@@ -30,6 +31,12 @@ export class ColumnGroupComponent implements OnChanges {
     if (changes && changes.showFieldsOverride && changes.showFieldsOverride) {
       this.showFields = changes.showFieldsOverride.currentValue;
     }
+  }
+
+  handleSelectAllClicked() {
+    this.columnGroup.FilteredFields.forEach(field => {
+      field.IsSelected = this.selectAllCheckbox.nativeElement.checked;
+    });
   }
 
   trackByFn(index: any, field: ViewField) {

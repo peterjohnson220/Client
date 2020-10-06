@@ -38,10 +38,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   chartLocale: string; // en-US
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
+  selectedFieldsSubscription: Subscription;
   metadataSubscription: Subscription;
   pageViewId: string;
   pageViewIdSubscription: Subscription;
   jobRangeData: GridDataResult;
+  selectedFields: any[];
   currency: string;
   controlPointDisplay: string;
   rate: string;
@@ -52,6 +54,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   filterPanelSub: Subscription;
   initialY: number;
   gridScrolledSub: Subscription;
+  groupFieldSelected = false;
 
   constructor(
     public store: Store<any>,
@@ -79,6 +82,14 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       if (data && this.rate && this.currency) {
         this.jobRangeData = data;
         this.processChartData();
+      }
+    });
+
+    this.selectedFieldsSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
+      if (fields) {
+        this.selectedFields = fields;
+        const anyGroupField = this.selectedFields.find(f => f.Group && f.IsSelected);
+        this.groupFieldSelected = !!anyGroupField;
       }
     });
 
@@ -428,5 +439,6 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.pageViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
     this.gridScrolledSub.unsubscribe();
+    this.selectedFieldsSubscription.unsubscribe();
   }
 }
