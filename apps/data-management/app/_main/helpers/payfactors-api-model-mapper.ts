@@ -270,7 +270,8 @@ export class PayfactorsApiModelMapper {
       selectedEntities: connectionSummary.selectedEntities.map(e => OrgDataEntityType[e]),
       connectionID: connectionSummary.connection_ID,
       loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId,
-      validationMode: connectionSummary.validationMode
+      validationMode: connectionSummary.validationMode,
+      fullReplaceModes: null
     };
   }
 
@@ -302,8 +303,8 @@ export class PayfactorsApiModelMapper {
     isSubsidiariesLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Subsidiaries),
     isBenefitsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Benefits),
     fileFormat: LoaderFileFormat.JSON,
-    isEmployeesFullReplace: summary.fullReplaceModes?.EmployeesFullReplace,
-    isStructureMappingsFullReplace: summary.fullReplaceModes?.StructureMappingsFullReplace,
+    isEmployeesFullReplace: summary.fullReplaceModes.employeesFullReplace,
+    isStructureMappingsFullReplace: summary.fullReplaceModes.structureMappingsFullReplace,
     validateOnly: summary.validationMode,
   })
 

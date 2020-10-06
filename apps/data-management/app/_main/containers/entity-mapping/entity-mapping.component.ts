@@ -217,8 +217,8 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   }
 
   updateFullReplaceModeSetting(event) {
-    this.doFullReplace = event.target.value;
-    this.store.dispatch(new fromHrisConnectionsActions.ToggleFullReplaceMode({entityType: this.entityType, doFullReplace: event.target.value}));
+    this.doFullReplace = event.target.value === 'true';
+    this.store.dispatch(new fromHrisConnectionsActions.ToggleFullReplaceMode({entityType: this.entityType, doFullReplace: this.doFullReplace}));
   }
 
 }
