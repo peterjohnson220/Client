@@ -7,13 +7,11 @@ import { Action, select, Store } from '@ngrx/store';
 
 import { BaseNotesApiService, CompanyJobsNotesApi, PricingMatchNotesApi, PricingNotesApi } from 'libs/data/payfactors-api';
 import { NoteRequest, NotesBase } from 'libs/models/notes';
+import { SaveNotesRequest } from 'libs/models/payfactors-api/notes/save-notes-request.model';
 
 import * as fromNotesManagerReducer from '../reducers';
 import * as fromNotesManagerActions from '../actions';
 import { ApiServiceType } from '../constants/api-service-type-constants';
-import { State } from '../reducers/notes-manager.reducer';
-import { SaveNotesRequest } from '../../../models/payfactors-api/notes/save-notes-request.model';
-import { IsNullOrEmpty } from '../../../../apps/data-insights/app/_data-view/models';
 
 @Injectable()
 export class NotesManagerEffects {
@@ -33,9 +31,9 @@ export class NotesManagerEffects {
       mergeMap((getNotes: fromNotesManagerActions.GetNotes) =>
         of(getNotes).pipe(
           withLatestFrom(
-            this.store.pipe(select(fromNotesManagerReducer.getApiServiceIndicator)),
+            this.store.pipe(select(fromNotesManagerReducer.getApiService)),
             (action: fromNotesManagerActions.GetNotes, apiServiceIndicator) =>
-              ({ action, apiServiceIndicator})
+              ({ action, apiServiceIndicator })
           )
         )
       ),
@@ -56,21 +54,23 @@ export class NotesManagerEffects {
       mergeMap((saveNotes: fromNotesManagerActions.SaveNotes) =>
         of(saveNotes).pipe(
           withLatestFrom(
-            this.store.pipe(select(fromNotesManagerReducer.getApiServiceIndicator)),
+            this.store.pipe(select(fromNotesManagerReducer.getApiService)),
             this.store.pipe(select(fromNotesManagerReducer.getNotes)),
-            (action: fromNotesManagerActions.SaveNotes, apiServiceIndicator, notes) =>
-              ({ action, apiServiceIndicator, notes})
+            (action: fromNotesManagerActions.SaveNotes, apiService, notes) =>
+              ({ action, apiService, notes })
           )
         )
       ),
-      switchMap((data) =>
-        this.selectServiceApi(data.apiServiceIndicator).saveNotes(this.generateSaveNoteRequest(data.notes.obj, data.action.payload)).pipe(
-          map((response: any) => {
-            return new fromNotesManagerActions.SaveNotesSuccess(data.apiServiceIndicator);
-          }),
-          catchError(response => of(new fromNotesManagerActions.SaveNotesError(response)))
-        )
-      )
+      switchMap((data) => {
+        const apiService = data.action.apiService ? data.action.apiService : data.apiService;
+        return this.selectServiceApi(apiService)
+          .saveNotes(this.generateSaveNoteRequest(data.notes.obj, data.action.entityId)).pipe(
+            map(() => {
+              return new fromNotesManagerActions.SaveNotesSuccess(apiService);
+            }),
+            catchError(response => of(new fromNotesManagerActions.SaveNotesError(response)))
+          );
+      })
     );
 
   private selectServiceApi(selectedService: ApiServiceType): BaseNotesApiService {

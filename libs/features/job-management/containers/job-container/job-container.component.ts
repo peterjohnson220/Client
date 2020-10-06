@@ -5,16 +5,17 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { ofType } from '@ngrx/effects';
 
-import { CompanyJobUdf, NoteRequest } from 'libs/models';
+import { CompanyJobUdf } from 'libs/models';
+import { NotesManagerComponent } from 'libs/features/notes-manager/notes-manager/notes-manager.component';
+import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
 
-import { NotesManagerConfiguration } from '../../../../models/notes';
 import * as fromJobManagementActions from '../../actions';
 import * as fromNotesManagerActions from '../../../notes-manager/actions';
 import * as fromJobManagementReducer from '../../reducers';
+
 import { StandardFieldsComponent } from '../standard-fields/standard-fields.component';
 import { JobAttachmentsComponent } from '../job-attachments/job-attachments.component';
-import { ApiServiceType } from '../../../notes-manager/constants/api-service-type-constants';
-import { NotesManagerComponent } from '../../../notes-manager/notes-manager/notes-manager.component';
+
 
 enum JobManagementTabs {
   StandardFields = 'StandardFields',
@@ -29,7 +30,7 @@ enum JobManagementTabs {
   templateUrl: './job-container.component.html',
   styleUrls: ['./job-container.component.scss']
 })
-export class JobContainerComponent implements OnInit, OnDestroy, OnChanges {
+export class JobContainerComponent implements OnInit, OnChanges, OnDestroy {
   // TODO: NgbTabset is deprecated. We should use NgbNav instead.
   @Input() jobId: number;
 
@@ -38,43 +39,46 @@ export class JobContainerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('jobsTabs') jobsTabs: NgbTabset;
   @ViewChild(NotesManagerComponent) notesManager: NotesManagerComponent;
 
+  notesApiServiceType: ApiServiceType;
+
   loading$: Observable<boolean>;
   jobUserDefinedFields$: Observable<CompanyJobUdf[]>;
 
-  onShowFormSubscription: Subscription;
   resetStateSubscription: Subscription;
   saveNotesSuccessSubscription: Subscription;
+  saveNotesErrorSubscription: Subscription;
+  resetNotesSubscription: Subscription;
 
   jobManagementTabs = JobManagementTabs;
 
-  notesManagerConfiguration: NotesManagerConfiguration;
-
-  noteRequestList: NoteRequest[] = [];
-
-  constructor(private store: Store<fromJobManagementReducer.State>,
-              private actionsSubject: ActionsSubject) {
-
-    this.saveNotesSuccessSubscription = actionsSubject
+  constructor(private store: Store<fromJobManagementReducer.State>, private actionsSubject: ActionsSubject) {
+    this.saveNotesSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromNotesManagerActions.SAVE_NOTES_SUCCESS))
       .subscribe(data => {
-        switch (data['payload']) {
-          case ApiServiceType.CompanyJobs:
-            this.store.dispatch(new fromJobManagementActions.SaveCompanyJobSuccess());
-            this.store.dispatch(new fromNotesManagerActions.ClearNotes());
-            break;
+        if (data['apiServiceType'] === ApiServiceType.CompanyJobs) {
+          this.store.dispatch(new fromJobManagementActions.SaveCompanyJobSuccess());
         }
       });
 
-    this.notesManagerConfiguration = {
-      ModalTitle: 'Company Job Notes',
-      ShowModal$: null,
-      IsEditable: true,
-      NotesHeader: undefined,
-      EntityId: undefined,
-      PlaceholderText: 'To add notes to this job, fill out the area below, click Add and then Save.',
-      ApiServiceIndicator: ApiServiceType.CompanyJobs
-    };
+    this.saveNotesErrorSubscription = this.actionsSubject
+      .pipe(ofType(fromNotesManagerActions.SAVE_NOTES_ERROR))
+      .subscribe(data => {
+        if (data['payload'] === ApiServiceType.CompanyJobs) {
+          this.store.dispatch(new fromJobManagementActions.HandleApiError('There was an error saving your job notes.'));
+        }
+      });
 
+    this.resetNotesSubscription = this.actionsSubject
+      .pipe(ofType(fromNotesManagerActions.RESET_STATE))
+      .subscribe(data => {
+        this.notesApiServiceType = null;
+      });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.jobId?.currentValue) {
+      this.notesApiServiceType = ApiServiceType.CompanyJobs;
+    }
   }
 
   ngOnInit() {
@@ -82,32 +86,19 @@ export class JobContainerComponent implements OnInit, OnDestroy, OnChanges {
     this.jobUserDefinedFields$ = this.store.select(fromJobManagementReducer.getCompanyJobUdfs);
 
     this.resetStateSubscription = this.actionsSubject
-    .pipe(ofType(fromJobManagementActions.RESET_STATE))
-    .subscribe(data => {
-      if (this.jobsTabs) {
-        this.jobsTabs.select(JobManagementTabs.StandardFields);
-      }
-    });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.jobId.currentValue !== undefined) {
-      this.notesManagerConfiguration = {
-        ModalTitle: 'Company Job Notes',
-        ShowModal$: null,
-        IsEditable: true,
-        NotesHeader: undefined,
-        EntityId: this.jobId,
-        PlaceholderText: 'To add notes to this job, fill out the area below, click Add and then Save.',
-        ApiServiceIndicator: ApiServiceType.CompanyJobs
-      };
-    }
+      .pipe(ofType(fromJobManagementActions.RESET_STATE))
+      .subscribe(data => {
+        if (this.jobsTabs) {
+          this.jobsTabs.select(JobManagementTabs.StandardFields);
+        }
+      });
   }
 
   ngOnDestroy() {
-    this.onShowFormSubscription.unsubscribe();
-    this.resetStateSubscription.unsubscribe();
-    this.saveNotesSuccessSubscription.unsubscribe();
+    this.resetStateSubscription?.unsubscribe();
+    this.saveNotesSuccessSubscription?.unsubscribe();
+    this.saveNotesErrorSubscription?.unsubscribe();
+    this.resetNotesSubscription?.unsubscribe();
   }
 
   tabChange() {

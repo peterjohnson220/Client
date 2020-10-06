@@ -10,7 +10,6 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
-import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
@@ -41,7 +40,6 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'vw_CompanyJobsStructureInfo_Structure_Search'
   }];
-  defaultPagingOptions: PagingOptions;
   fieldsExcludedFromExport = [
     'CompanyJob_ID',
     'CompanyPayMarket_ID',
@@ -88,9 +86,6 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
       EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
       ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
     };
-    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
-      ? getDefaultPagingOptions()
-      : { From: 0, Count: 20 };
   }
 
   ngAfterViewInit() {

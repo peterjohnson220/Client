@@ -8,11 +8,9 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
-import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
-import { AsyncStateObj, NotesManagerConfiguration } from 'libs/models';
 import { PricingUpdateStrategy, UpdatePricingMatchRequest, ViewField } from 'libs/models/payfactors-api';
 import * as fromNotesManagerActions from 'libs/features/notes-manager/actions';
 import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
@@ -45,9 +43,9 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('matchInfoColumn') matchInfoColumn: ElementRef;
   @ViewChild('genericMrpColumn') genericMrpColumn: ElementRef;
-  @ViewChild('pricingNotesHeader') pricingNotesHeader: TemplateRef<any>;
 
   pageViewId = PageViewIds.PayMarkets;
+  apiServiceType = ApiServiceType;
 
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
@@ -66,7 +64,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     dir: 'asc',
     field: 'CompanyPayMarkets_PayMarket'
   }];
-  defaultPagingOptions: PagingOptions;
 
   allPayMarkets = { display: '', value: null };
   pricedPayMarkets = { display: 'Yes', value: 'notnull' };
@@ -87,32 +84,31 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   pricedFilterValue: any;
 
   selectedPricingPayMarket: string;
-  getNotesSuccessSubscription: Subscription;
-  getAddingPricingMatchNoteSuccessSubscription: Subscription;
   getPricingReviewedSuccessSubscription: Subscription;
-  showNotesManager = new BehaviorSubject<boolean>(false);
-  showNotesManager$ = this.showNotesManager.asObservable();
 
   recalculatingPricingInfo$: Observable<boolean>;
 
-  // This is needed to refresh the matches grid after adding a new note to increment count
-  selectedPricingId: number;
-  notesManagerConfiguration: NotesManagerConfiguration;
   selectedJobRow: any;
   selectedJobRowSubscription: Subscription;
 
   jobTitleCodePipe: JobTitleCodePipe;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
 
+  // This is needed to refresh the matches grid after updating the scopes
+  selectedPricingId: number;
   showReScopeSurveyDataModal = new BehaviorSubject<boolean>(false);
   showReScopeSurveyDataModal$ = this.showReScopeSurveyDataModal.asObservable();
   reScopeSurveyDataSubscription: Subscription;
   reScopeSurveyDataConfiguration: ReScopeSurveyDataModalConfiguration;
   matchIdForReScope: number;
 
+  notesApiServiceType: ApiServiceType;
+  pricingIdForNotes: number;
+  payMarketForNotes: string;
+
   constructor(private store: Store<fromJobsPageReducer.State>,
-              private actionsSubject: ActionsSubject,
-              private featureFlagService: AbstractFeatureFlagService) { }
+    private actionsSubject: ActionsSubject,
+    private featureFlagService: AbstractFeatureFlagService) { }
 
   ngOnInit(): void {
     this.jobTitleCodePipe = new JobTitleCodePipe();
@@ -145,29 +141,10 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
       }
     });
 
-    // We show the NotesModal only after the Notes have loaded. This way we ensure the modal height doesn't jump around but is dynamic
-    this.getNotesSuccessSubscription = this.actionsSubject
-      .pipe(ofType(fromNotesManagerActions.GET_NOTES_SUCCESS, fromNotesManagerActions.GET_NOTES_ERROR))
-      .subscribe(data => {
-          this.showNotesManager.next(true);
-      });
-
     this.getPricingReviewedSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromPricingDetailsActions.SAVING_PRICING_SUCCESS))
       .subscribe(data => {
         this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PayMarkets));
-      });
-
-    this.getAddingPricingMatchNoteSuccessSubscription = this.actionsSubject
-      .pipe(ofType(fromNotesManagerActions.SAVE_NOTES_SUCCESS))
-      .subscribe(data => {
-        switch (data['payload']) {
-          case ApiServiceType.PricingMatch:
-            this.store.dispatch(new fromPfGridActions.LoadData(`${PageViewIds.PricingMatches}_${this.selectedPricingId}`));
-            break;
-        }
-
-        this.showNotesManager.next(false);
       });
 
     this.reScopeSurveyDataSubscription = this.actionsSubject
@@ -185,19 +162,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
       EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
       ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
       SelectAllPanelItemName: 'pricings'
-    };
-    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
-      ? getDefaultPagingOptions()
-      : { From: 0, Count: 20 };
-
-    this.notesManagerConfiguration = {
-      ModalTitle: 'Pricing Notes',
-      ShowModal$: this.showNotesManager$,
-      IsEditable: false,
-      NotesHeader: undefined,
-      EntityId: undefined,
-      PlaceholderText: undefined,
-      ApiServiceIndicator: ApiServiceType.Pricing
     };
 
     this.reScopeSurveyDataConfiguration = {
@@ -237,8 +201,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnDestroy() {
     this.companyPayMarketsSubscription.unsubscribe();
     this.gridFieldSubscription.unsubscribe();
-    this.getNotesSuccessSubscription.unsubscribe();
-    this.getAddingPricingMatchNoteSuccessSubscription.unsubscribe();
     this.getPricingReviewedSuccessSubscription.unsubscribe();
     this.selectedJobRowSubscription.unsubscribe();
     this.reScopeSurveyDataSubscription.unsubscribe();
@@ -297,39 +259,6 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
 
-  openPricingNotesManager(event: any, selectedPricing: any) {
-    this.selectedPricingPayMarket = selectedPricing['CompanyPayMarkets_PayMarket'];
-    this.selectedPricingId = selectedPricing['CompanyJobs_Pricings_CompanyJobPricing_ID'];
-    this.notesManagerConfiguration = {
-      ...this.notesManagerConfiguration,
-      EntityId: selectedPricing['CompanyJobs_Pricings_CompanyJobPricing_ID'],
-      IsEditable: false,
-      ModalTitle: `Pricing Notes -
-        ${this.jobTitleCodePipe.transform(this.selectedJobRow,
-        'CompanyJobs',
-        'Job_Title',
-        'Job_Code')}`,
-      NotesHeader: this.pricingNotesHeader,
-      PlaceholderText: undefined,
-      ApiServiceIndicator: ApiServiceType.Pricing
-    };
-
-    event.stopPropagation();
-  }
-
-  openPricingMatchNotesManager(event: any) {
-    this.selectedPricingId = event.ParentPricingId;
-    this.notesManagerConfiguration = {
-      ...this.notesManagerConfiguration,
-      EntityId: event.Configuration.EntityId,
-      IsEditable: true,
-      ModalTitle: event.Configuration.ModalTitle,
-      NotesHeader: event.Configuration.NotesHeader,
-      PlaceholderText: 'Please add any notes you would like to attach to this match.',
-      ApiServiceIndicator: ApiServiceType.PricingMatch
-    };
-  }
-
   openReScopeSurveyDataModal(event: any) {
     this.reScopeSurveyDataConfiguration = {
       ...this.reScopeSurveyDataConfiguration,
@@ -359,6 +288,25 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.store.dispatch(new fromJobsPageActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
     this.showReScopeSurveyDataModal.next(false);
+  }
+
+  reloadPaymarkets() {
+    if (this.pricingIdForNotes) {
+      this.store.dispatch(new fromPfGridActions.LoadData(`${PageViewIds.PayMarkets}`));
+    }
+    this.closeNotesManager();
+  }
+
+  openNotesManager(event: any, dataRow: any) {
+    this.notesApiServiceType = ApiServiceType.Pricing;
+    this.pricingIdForNotes = dataRow.CompanyJobs_Pricings_CompanyJobPricing_ID;
+    this.payMarketForNotes = dataRow.CompanyPayMarkets_PayMarket;
+    event.stopPropagation();
+  }
+
+  closeNotesManager() {
+    this.pricingIdForNotes = null;
+    this.notesApiServiceType = null;
   }
 
 }

@@ -1,0 +1,97 @@
+<pf-async-container [loading]="(notes$ | async)?.loading" [smartLoadingMask]="false">
+  <div class="d-flex">
+    <ng-container [ngTemplateOutlet]="notesHeader"></ng-container>
+  </div>
+  <form id="notes-manager-form" [formGroup]="noteForm">
+    <div *ngIf="isEditable" class="add-note-text-container p-2">
+      <textarea 
+        #noteTextArea
+        class="note-text-area form-control"
+        formControlName="Notes"
+        [ngClass]="{ 'is-invalid': f.Notes.errors && f.Notes.dirty }"
+        [attr.data-qa-id]="'txt-add-notes'"
+        [placeholder]="placeholderText"
+        [pfFocus]="true"
+        [attr.rows]="5">
+      </textarea>
+      <span *ngIf="f.Notes.errors?.required" class="invalid-feedback">A note is required to add.</span>
+      <span *ngIf="f.Notes.errors?.maxLengthTrimmed" class="invalid-feedback">Note exceeds max length of {{DEFAULT_MAX_LENGTH}}.</span>
+
+      <div class="w-100 p-2 d-flex justify-content-end">
+        <button type="button" class="btn btn-secondary" (click)="addNote()" [disabled]="f.Notes.errors">Add Note</button>
+      </div>
+    </div>
+    <div class="note-list-container p-2">
+      <div class="text-danger" *ngIf="(notes$ | async)?.loadingError">
+        <strong>
+          We encountered a problem loading your notes. Please close the popup window and try again.
+        </strong>
+      </div>
+      <div *ngFor="let note of (notes$ | async)?.obj; let noteIndex = index; trackBy: trackByFn" class="d-flex">
+        <div *ngIf="note.NoteOperation !== deleteNoteOperation">
+          <img style="height: 45px; width: 45px;" class="mr-3"
+               [attr.src]="avatarUrl + (note.UserPicture ? note.UserPicture : defaultUserImage)">
+        </div>
+        <div *ngIf="note.NoteOperation !== deleteNoteOperation" class="card mb-3 flex-fill">
+          <div class="card-header d-flex align-items-center">
+            <span class="mr-auto">{{note.FirstName}} {{note.LastName}}</span>
+            <div *ngIf="note.UserId === userContext?.UserId" class="d-flex align-items-center">
+              <ng-container  *ngIf="noteIndex == editModeIndex">
+                <fa-icon 
+                  [icon]="['far', 'check']" title="Save Edit" style="color: green;"
+                  [attr.data-qa-id]="'btn-jobs-page-notes-confirm-edit'"
+                  class="ml-3"
+                  [fixedWidth]="true"
+                  (click)="confirmEdit(note)">
+                </fa-icon>
+                <fa-icon 
+                  [icon]="['far', 'times']" title="Cancel Edit" style="color: red;"
+                  [attr.data-qa-id]="'btn-jobs-page-notes-cancel-edit'"
+                  class="ml-3"
+                  [fixedWidth]="true"
+                  (click)="editModeIndex = -1">
+                </fa-icon>
+              </ng-container>
+              <ng-container *ngIf="editModeIndex == -1 && isEditable">
+                <fa-icon 
+                  [icon]="['far', 'edit']" title="Edit Note"
+                  [attr.data-qa-id]="'btn-jobs-page-notes-edit'"
+                  class="ml-3"
+                  [fixedWidth]="true"
+                  (click)="editNote(note, noteIndex)">
+                </fa-icon>
+                <fa-icon 
+                  [icon]="['far', 'trash-alt']" title="Delete Note"
+                  [attr.data-qa-id]="'btn-jobs-page-notes-delete'"
+                  class="ml-3"
+                  [fixedWidth]="true"
+                  (click)="deleteNote(note)">
+                </fa-icon>
+              </ng-container>
+              
+              <span class="align ml-3">{{note.CreateDate | date: 'MM/dd/yyyy'}}</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <textarea 
+              *ngIf="noteIndex == editModeIndex; else readonly" #revisedNote
+              class="note-text-area form-control"
+              formControlName="EditNotes"
+              [ngClass]="{ 'is-invalid': f.EditNotes.errors }"
+              [attr.data-qa-id]="'txt-edit-note'"
+              [placeholder]="'Please enter a message.'"
+              [pfFocus]="true"
+              [pfFocusElementShowing]="true"
+              [attr.rows]="5">
+            </textarea>
+            <span *ngIf="f.EditNotes.errors?.required" class="invalid-feedback">A note is required to save the edit.</span>
+            <span *ngIf="f.EditNotes.errors?.maxLengthTrimmed" class="invalid-feedback">Note edit exceeds max length of {{DEFAULT_MAX_LENGTH}}</span>
+            <ng-template #readonly>
+              {{note.Notes}}
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</pf-async-container>

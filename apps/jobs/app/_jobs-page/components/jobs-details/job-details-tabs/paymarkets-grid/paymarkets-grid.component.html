@@ -14,7 +14,6 @@
   [applyUserDefaultCompensationFields]="true"
   [headerClassName]="'jobs-page-sub-grid-header'"
   [applyUserDefaultCompensationFields]="true"
-  [pagingOptions]="defaultPagingOptions"
   [gridConfig]="gridConfig"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [noRecordsFound]="'There are no results for the filter criteria you have selected.'">
@@ -23,7 +22,6 @@
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">
   <pf-pricing-matches-grid 
     [pricingInfo]="dataRow"
-    (notesEmitter)="openPricingMatchNotesManager($event)"
     (reScopeSurveyDataEmitter)="openReScopeSurveyDataModal($event)">
   </pf-pricing-matches-grid>
 </ng-template>
@@ -35,7 +33,7 @@
     <fa-icon class="pl-2" icon="link"></fa-icon>
   </span>
   <span kendoTooltip *ngIf="dataRow['CompanyJobs_Pricings_HasNotes']" position="right" title="Pricing Notes"
-    (click)="openPricingNotesManager($event, dataRow)">
+    (click)="openNotesManager($event, dataRow)">
     <fa-icon [icon]="['far', 'sticky-note']" class="pl-2"></fa-icon>
   </span>
   <br>
@@ -116,9 +114,15 @@
 </ng-template>
 
 <pf-notes-manager
-  [notesManagerConfiguration]="notesManagerConfiguration"
-  (cancelChanges)="showNotesManager.next(false);">
+  [entityId]="pricingIdForNotes"
+  [apiServiceIndicator]="notesApiServiceType"
+  [isEditable]="false"
+  [notesHeader]="pricingNotesHeader"
+  [modalTitle]="'Match Notes - ' + (selectedJobRow | jobTitleCode : 'CompanyJobs' : 'Job_Title' : 'Job_Code')"
+  (saveSuccess)="reloadPaymarkets()"
+  (cancelChanges)="closeNotesManager()">
 </pf-notes-manager>
+
 
 <ng-template #pricingNotesHeader >
   <div class="pr-5 py-1">

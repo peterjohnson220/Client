@@ -8,11 +8,10 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api';
-import {PermissionCheckEnum, Permissions} from 'libs/constants/permissions';
-import {PermissionService} from 'libs/core/services';
+import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
+import { PermissionService } from 'libs/core/services';
 
 import { PageViewIds } from '../../../../constants';
-import { JobTitleCodePipe } from '../../../../pipes';
 
 @Component({
   selector: 'pf-pricing-matches-grid',
@@ -22,14 +21,12 @@ import { JobTitleCodePipe } from '../../../../pipes';
 export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() pricingInfo: any;
-  @Output() notesEmitter = new EventEmitter();
   @Output() reScopeSurveyDataEmitter = new EventEmitter();
 
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
   @ViewChild('agingColumn') agingColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('pricingInfoColumn') pricingInfoColumn: ElementRef;
-  @ViewChild('matchNotesHeader') matchNotesHeader: TemplateRef<any>;
 
   colTemplates = {};
 
@@ -55,15 +52,9 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
     Count: 500
   };
   actionBarConfig: ActionBarConfig;
-  selectedMatchForNotes: any;
-  selectedMatchScope = '';
-  matchNoteManagerConfig = {};
-
-  jobTitleCodePipe: JobTitleCodePipe;
 
   hasModifyPricingPemission: boolean;
   constructor(private permissionService: PermissionService) {
-    this.jobTitleCodePipe = new JobTitleCodePipe();
     this.hasModifyPricingPemission = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS],
       PermissionCheckEnum.Single);
   }
@@ -92,25 +83,5 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
       [PfDataGridColType.currency]: { Template: this.currencyColumn },
       [PfDataGridColType.pricingInfo]: { Template: this.pricingInfoColumn }
     };
-  }
-
-  openMatchNotesModal(event: any) {
-    this.selectedMatchScope = event.Scope;
-    this.selectedMatchForNotes = event.DataRow;
-    this.matchNoteManagerConfig = {
-      ModalTitle: `Match Notes - ${this.jobTitleCodePipe.transform(this.selectedMatchForNotes,
-        'vw_PricingMatchesJobTitlesMerged',
-        'Job_Title',
-        'Job_Code')}`,
-      EnableAdd: true,
-      NotesHeader: this.matchNotesHeader,
-      EntityId: event.EntityId
-    };
-
-    const data = {
-      Configuration: this.matchNoteManagerConfig,
-      ParentPricingId: event.DataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']
-    };
-    this.notesEmitter.emit(data);
   }
 }

@@ -31,8 +31,5 @@ export const selectNotesManagerState =
 
 // Notes
 export const getState = createSelector(selectNotesManagerState, fromNotesManagerReducer.getState);
-export const getLoading = createSelector(selectNotesManagerState, fromNotesManagerReducer.getLoading);
 export const getNotes = createSelector(selectNotesManagerState, fromNotesManagerReducer.getNotes);
-export const getSavingNotes = createSelector(selectNotesManagerState, fromNotesManagerReducer.getSavingNotes);
-export const getApiServiceIndicator = createSelector(selectNotesManagerState, fromNotesManagerReducer.getApiServiceIndicator);
-export const getUserId = createSelector(selectNotesManagerState, fromNotesManagerReducer.getUserId);
+export const getApiService = createSelector(selectNotesManagerState, fromNotesManagerReducer.getApiService);

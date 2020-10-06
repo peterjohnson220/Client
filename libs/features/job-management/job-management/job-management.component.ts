@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, EventEmitter, OnDestroy, ContentChildren, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store, ActionsSubject } from '@ngrx/store';
@@ -9,8 +9,6 @@ import { CompanyJob } from 'libs/models';
 import * as fromJobManagementActions from '../actions';
 import * as fromNotesManagerActions from '../../notes-manager/actions';
 import * as fromJobManagementReducer from '../reducers';
-import { NotesManagerContentComponent } from '../../notes-manager/notes-manager-content/notes-manager-content.component';
-import { NotesManagerComponent } from '../../notes-manager/notes-manager/notes-manager.component';
 import { JobContainerComponent } from '../containers';
 
 @Component({
@@ -58,6 +56,7 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
     this.saveSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromJobManagementActions.SAVE_COMPANY_JOB_SUCCESS))
       .subscribe(data => {
+        this.resetForms();
         this.saveSuccess.emit();
       });
 
@@ -73,13 +72,18 @@ export class JobManagementComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy() {
     this.saveSuccessSubscription.unsubscribe();
     this.showModalSubscription.unsubscribe();
+    this.jobFormDataSubscription.unsubscribe();
   }
 
   onCancelChanges() {
-    this.jobContainer.notesManager.notesManagerContent.resetForm();
-    this.store.dispatch(new fromJobManagementActions.ResetState());
-    this.store.dispatch(new fromNotesManagerActions.ClearNotes());
+    this.resetForms();
     this.cancelChanges.emit();
+  }
+
+  resetForms() {
+    this.jobContainer.notesManager.notesManagerContent?.resetForm();
+    this.store.dispatch(new fromJobManagementActions.ResetState());
+    this.store.dispatch(new fromNotesManagerActions.ResetState());
   }
 
 }

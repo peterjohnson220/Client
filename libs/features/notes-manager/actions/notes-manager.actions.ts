@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { UserContext } from 'libs/models';
 
 import { NotesBase } from '../../../models/notes';
 import { ApiServiceType } from '../constants/api-service-type-constants';
@@ -6,7 +7,6 @@ import { ApiServiceType } from '../constants/api-service-type-constants';
 export const RESET_STATE = '[Notes Manager] Reset State';
 export const CLEAR_NOTES = '[Notes Manager] Clear Notes';
 export const LOAD_API_SERVICE = '[Notes Manager] Load Api Service';
-export const LOAD_USER_ID = '[Notes Manager] Load User Id';
 export const GET_NOTES = '[Notes Manager] Get Notes';
 export const GET_NOTES_SUCCESS = '[Notes Manager] Get Notes Success';
 export const GET_NOTES_ERROR = '[Notes Manager] Get Notes Error';
@@ -32,11 +32,6 @@ export class LoadApiService implements Action {
   constructor(public payload: ApiServiceType) { }
 }
 
-export class LoadUserId implements Action {
-  readonly type = LOAD_USER_ID;
-  constructor(public payload: number) { }
-}
-
 export class GetNotes implements Action {
   readonly type = GET_NOTES;
   constructor(public payload: number) { }
@@ -54,8 +49,7 @@ export class GetNotesError implements Action {
 
 export class AddNote implements Action {
   readonly type = ADD_NOTE;
-  constructor(public payload: { noteText: string, userFirstName: string, userLastName: string, userPhoto: string }) {
-  }
+  constructor(public noteText: string, public userContext: UserContext) { }
 }
 
 export class DeleteNote implements Action {
@@ -66,17 +60,17 @@ export class DeleteNote implements Action {
 
 export class EditNote implements Action {
   readonly type = EDIT_NOTE;
-  constructor(public payload: { OldObj: NotesBase, ReplacementStr: string}) {}
+  constructor(public oldNote, public noteText: string) {}
 }
 
 export class SaveNotes implements Action {
   readonly type = SAVE_NOTES;
-  constructor(public payload: number) { }
+  constructor(public entityId: number, public apiService: ApiServiceType = null) { }
 }
 
 export class SaveNotesSuccess implements Action {
   readonly type = SAVE_NOTES_SUCCESS;
-  constructor(public payload: ApiServiceType) { }
+  constructor(public apiServiceType: ApiServiceType) { }
 }
 
 export class SaveNotesError implements Action {
@@ -88,7 +82,6 @@ export type Actions
   = ResetState
   | ClearNotes
   | LoadApiService
-  | LoadUserId
   | GetNotes
   | GetNotesSuccess
   | GetNotesError

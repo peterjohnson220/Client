@@ -71,7 +71,7 @@ const INITIAL_STATE: DataGridStoreState = {
 
 export const DEFAULT_PAGING_OPTIONS: PagingOptions = {
   From: 0,
-  Count: 20
+  Count: 40
 };
 
 export enum SelectAllStatus {

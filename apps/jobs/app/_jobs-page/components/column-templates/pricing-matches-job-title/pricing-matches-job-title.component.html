@@ -45,7 +45,11 @@
     </div>
   </ng-template>
 
-  <div [class.survey-cut]="dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'] && !pricingInfo['CompanyPayMarkets_Linked_PayMarket_Name'] && canModifyPricings" (click)="reScopeSurveyData()" [class.collapsed]="isCollapsed" class="kendo-tooltip-container pr-3" #jobTitleText>
+  <div #jobTitleText
+    class="kendo-tooltip-container pr-3"
+    [class.collapsed]="isCollapsed"
+    [class.survey-cut]="dataRow | isSurveyCut: pricingInfo: canModifyPricings"
+    (click)="reScopeSurveyData()">
     <pf-job-title-code
       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code"
@@ -55,7 +59,9 @@
   <div [pfSecuredResource]="permissions.MODIFY_MATCH_NOTES" class="notes-link-container" *ngIf="!pricingInfo.CompanyPayMarkets_Linked_PayMarket_Name">
     <em>
       <small>
-        <a class="add-notes-link" (click)="openAddNotesModal()">Notes ({{dataRow.CompanyJobs_PricingsMatches_MatchNotesCount}})</a>
+        <a class="add-notes-link"(click)="openNotesManager()">
+          Notes ({{dataRow.CompanyJobs_PricingsMatches_MatchNotesCount}})
+        </a>
       </small>
     </em>
   </div>
@@ -77,7 +83,7 @@
   <div #detailsText [class.collapsed]="isCollapsed" class="details-text-padding">
     <small>
       <em class="text-muted">
-        {{dataRow.vw_PricingMatchesJobTitlesMerged_Source}}{{getScope()}}
+        {{dataRow.vw_PricingMatchesJobTitlesMerged_Source}}{{dataRow | getMatchScope}}
         <span>{{dataRow.vw_PricingMatchesJobTitlesMerged_Effective_Date | date: 'MM/dd/yyyy'}}</span>
       </em>
     </small>
@@ -105,13 +111,15 @@
   <div class="survey-job-template-container pl-3 pb-4">
     <div class="row">
       <div>
-        <span class="pf-brand-secondary-color survey-job-title">{{dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title']}}</span>&nbsp;&nbsp;<span class="survey-job-code">({{dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code']}})</span>
+        <span class="pf-brand-secondary-color survey-job-title">{{dataRow['vw_PricingMatchesJobTitlesMerged_Job_Title']}}</span>
+        &nbsp;&nbsp;
+        <span class="survey-job-code">({{dataRow['vw_PricingMatchesJobTitlesMerged_Job_Code']}})</span>
       </div>
     </div>
     <div class="row">
       <div>
         <em class="text-muted">
-          {{dataRow.vw_PricingMatchesJobTitlesMerged_Source}}{{getScope()}}
+          {{dataRow.vw_PricingMatchesJobTitlesMerged_Source}}{{dataRow | getMatchScope}}
           <span>{{dataRow.vw_PricingMatchesJobTitlesMerged_Effective_Date | date: 'MM/dd/yyyy'}}</span>
         </em>
       </div>
@@ -177,3 +185,23 @@
     </div>
   </ng-container>
 </pf-modal-form>
+
+<pf-notes-manager
+  [entityId]="pricingMatchIdForNotes"
+  [apiServiceIndicator]="notesApiServiceType"
+  [notesHeader]="matchNotesHeader"
+  [placeholderText]="'Please add any notes you would like to attach to this match.'"
+  [modalTitle]="'Match Notes - ' + (dataRow | jobTitleCode : 'vw_PricingMatchesJobTitlesMerged' : 'Job_Title' : 'Job_Code')"
+  (saveSuccess)="reloadPricingMatches()"
+  (cancelChanges)="closeNotesManager()">
+</pf-notes-manager>
+
+
+<ng-template #matchNotesHeader>
+  <div class="p-2">
+    <strong>Scope: </strong>
+      {{dataRow.vw_PricingMatchesJobTitlesMerged_Source}}{{dataRow | getMatchScope}}
+      <span>{{dataRow.vw_PricingMatchesJobTitlesMerged_Effective_Date | date: 'MM/dd/yyyy'}}</span>
+  </div>
+</ng-template>
+

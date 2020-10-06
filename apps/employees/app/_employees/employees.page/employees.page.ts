@@ -11,7 +11,6 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
 import { PfSecuredResourceDirective } from 'libs/forms/directives';
-import { PagingOptions, getDefaultPagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
 import * as fromEmployeeManagementReducers from 'libs/features/employee-management/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-grid.actions';
@@ -60,7 +59,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     dir: 'asc',
     field: 'CompanyEmployees_Employee_ID'
   }];
-  defaultPagingOptions: PagingOptions;
   selectedDropdown: NgbDropdown;
   selectedCompanyEmployeeIds: number[];
   selectedCompanyEmployeeId: number;
@@ -102,9 +100,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
       SelectAllPanelItemName: 'employees'
     };
-    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
-      ? getDefaultPagingOptions()
-      : { From: 0, Count: 20 };
   }
 
   ngOnInit(): void {

@@ -1,47 +1,85 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
 
-import { AsyncStateObj, NoteRequest } from 'libs/models';
-import { NotesManagerConfiguration } from 'libs/models/notes';
+import { AsyncStateObj, NotesBase } from 'libs/models';
 
 import * as fromNotesManagerReducer from '../reducers';
 import * as fromNotesManagerActions from '../actions';
-import { NotesManagerContentComponent } from '../notes-manager-content/notes-manager-content.component';
+import { NotesManagerContentComponent } from '../containers';
+import { ApiServiceType } from '../constants/api-service-type-constants';
 
 @Component({
   selector: 'pf-notes-manager',
   templateUrl: './notes-manager.component.html',
   styleUrls: ['./notes-manager.component.scss']
 })
-export class NotesManagerComponent implements OnInit {
-  @Input() notesManagerConfiguration: NotesManagerConfiguration;
+export class NotesManagerComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() entityId: number;
   @Input() display: 'component' | 'modal' = 'modal';
+  @Input() isEditable = true;
+  @Input() apiServiceIndicator: ApiServiceType;
+  @Input() notesHeader: TemplateRef<any>;
+  @Input() placeholderText: string;
+  @Input() modalTitle: string;
+
   @Output() cancelChanges = new EventEmitter();
+  @Output() saveSuccess = new EventEmitter();
 
   @ViewChild(NotesManagerContentComponent) notesManagerContent: NotesManagerContentComponent;
 
-  loading$: Observable<boolean>;
-  savingNotes$: Observable<AsyncStateObj<boolean>>;
+  showNotesManager = new BehaviorSubject<boolean>(false);
+  showNotesManager$ = this.showNotesManager.asObservable();
 
-  noteRequestList: NoteRequest[] = [];
+  saveNotesSuccessSubscritpion: Subscription;
 
-  constructor(private store: Store<fromNotesManagerReducer.State>) {}
+  notes$: Observable<AsyncStateObj<NotesBase[]>>;
+
+  constructor(private store: Store<fromNotesManagerReducer.State>, private actionsSubject: ActionsSubject) { }
 
   ngOnInit() {
-    this.loading$ = this.store.select(fromNotesManagerReducer.getLoading);
-    this.savingNotes$ = this.store.select(fromNotesManagerReducer.getSavingNotes);
+    this.notes$ = this.store.select(fromNotesManagerReducer.getNotes);
+
+    this.saveNotesSuccessSubscritpion = this.actionsSubject
+      .pipe(ofType(fromNotesManagerActions.SAVE_NOTES_SUCCESS))
+      .subscribe(data => {
+        this.resetNotesManager();
+        this.saveSuccess.emit();
+      });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.apiServiceIndicator?.currentValue) {
+      this.store.dispatch(new fromNotesManagerActions.LoadApiService(changes.apiServiceIndicator.currentValue));
+    }
+
+    if (changes.entityId?.currentValue) {
+      this.notesManagerContent?.resetForm();
+      this.store.dispatch(new fromNotesManagerActions.GetNotes(changes.entityId.currentValue));
+      if (this.display === 'modal') {
+        this.showNotesManager.next(true);
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.saveNotesSuccessSubscritpion?.unsubscribe();
   }
 
   onCancelChanges() {
+    this.cancelChanges.emit();
+    this.resetNotesManager();
+  }
+
+  resetNotesManager() {
     this.notesManagerContent.resetForm();
     this.store.dispatch(new fromNotesManagerActions.ClearNotes());
-    this.cancelChanges.emit();
+    this.showNotesManager.next(false);
   }
 
   saveNotes() {
-    this.store.dispatch(new fromNotesManagerActions.SaveNotes(this.notesManagerConfiguration.EntityId));
-    this.store.dispatch(new fromNotesManagerActions.ClearNotes());
+    this.store.dispatch(new fromNotesManagerActions.SaveNotes(this.entityId));
   }
 }

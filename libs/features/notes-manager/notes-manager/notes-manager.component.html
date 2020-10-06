@@ -3,18 +3,18 @@
   <ng-container *ngSwitchCase="'modal'">
     <pf-modal-form
       [modalId]="'au-modal-notes-manager'"
-      [title]="notesManagerConfiguration?.ModalTitle"
-      [isOpen$]="notesManagerConfiguration?.ShowModal$"
+      [title]="modalTitle"
+      [isOpen$]="showNotesManager$"
       [size]="'lg'"
       [centered]="false"
-      [showSpinner]="notesManagerConfiguration?.IsEditable"
+      [showSpinner]="isEditable"
       [showFooter]="true"
-      [showSubmit]="notesManagerConfiguration?.IsEditable"
-      [submitting]="(savingNotes$ | async).saving"
+      [showSubmit]="isEditable"
+      [submitting]="(notes$ | async)?.saving"
       [primaryButtonText]="'Save'"
       [primaryButtonTextSubmitting]="'Saving'"
-      [allowDismiss]="!(loading$ | async)"
-      [secondaryButtonText]="notesManagerConfiguration?.IsEditable ? 'Cancel' : 'Close'"
+      [allowDismiss]="!((notes$ | async)?.saving || (notes$ | async)?.loading)"
+      [secondaryButtonText]="isEditable ? 'Cancel' : 'Close'"
       (onSubmit)="saveNotes()"
       (onDismiss)="onCancelChanges()">
 
@@ -26,5 +26,11 @@
 </ng-container>
 
 <ng-template #notesManagerContent>
-  <pf-notes-manager-content [notesManagerConfiguration]="notesManagerConfiguration"></pf-notes-manager-content>
+  <div [ngClass]="display === 'modal' ? 'note-list-container' : 'h-100'">
+    <pf-notes-manager-content
+      [isEditable]="isEditable"
+      [placeholderText]="placeholderText"
+      [notesHeader]="notesHeader">
+    </pf-notes-manager-content>
+  </div>
 </ng-template>
