@@ -128,17 +128,20 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
         'PreventMidsBelowCurrent': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
         'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
           'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled),
-          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage)
+          'Percentage': new FormControl({
+            value: this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage,
+            disabled: !this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled
+          })
         }),
         'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
           'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Enabled),
           'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Percentage)
         }),
         'MissingMarketDataType': new FormGroup({
-            'Type': new FormControl(String(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
-            'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Percentage)
-          })
-        });
+          'Type': new FormControl(String(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
+          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Percentage)
+        })
+      });
     } else {
       advancedSettingForGroup = new FormGroup({
         'PreventMidsBelowCurrent': new FormControl(false),
@@ -204,7 +207,12 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     }
 
     if (!this.modelSettingsForm.valid) {
-      this.activeTab = 'modelTab';
+      if (this.modelSettingsForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled').value
+        && !this.modelSettingsForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage').valid) {
+        this.activeTab = 'advancedModelingTab';
+      } else {
+        this.activeTab = 'modelTab';
+      }
     }
   }
 
@@ -303,7 +311,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modelNameExistsFailureSub = this.modelNameExistsFailure$.subscribe(mef => this.modelNameExistsFailure = mef);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.enableJobRangeTypesSub = this.enableJobRangeTypes$.subscribe(c => this.enableJobRangeTypes = c);
-
   }
 
   private unsubscribe() {
