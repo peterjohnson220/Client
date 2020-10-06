@@ -38,7 +38,7 @@
         </pf-date-format-dropdown>
       </div>
       <div *ngIf="entityType.toLowerCase() === 'employees'|| entityType.toLowerCase() === 'structuremapping'" class="col-2">
-        <select class="form-control form-control" [(ngModel)]='doFullReplace' (change)='updateFullReplaceModeSetting($event)'>
+        <select class="form-control form-control" [(ngModel)]="doFullReplace" (change)="updateFullReplaceModeSetting($event)">
           <option [value]="true">Full Replace</option>
           <option [value]="false">Append</option>
         </select>
