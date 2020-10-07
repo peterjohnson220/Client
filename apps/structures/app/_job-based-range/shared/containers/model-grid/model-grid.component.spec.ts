@@ -8,7 +8,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import { PermissionService, PfCommonModule } from 'libs/core';
+import { AbstractFeatureFlagService, PermissionService, PfCommonModule } from 'libs/core';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ModelGridComponent } from './model-grid.component';
@@ -57,6 +57,10 @@ describe('Job Range Structures - Model page', () => {
         {
           provide: StructuresPagesService,
           useClass: MockStructuresPagesService
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn() }
         }
       ]
     });

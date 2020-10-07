@@ -36,7 +36,6 @@
     [actionBarConfig]="fullGridActionBarConfig"
     [pageTheme]="'next-gen'"
     [contentClassNamesOverrides]="'py-3 px-4'"
-    [pageable]="true"
     [borders]="false"
     [reorderable]="reorderable"
     [syncScrollWithSplit]="true"
@@ -47,7 +46,8 @@
     [saveSort]="saveSort"
     [modifiedKey]="modifiedKey"
     [allowMultipleSort]="allowMultipleSort"
-    [gridConfig]="gridConfig">
+    [gridConfig]="gridConfig"
+    [pageable]="!gridConfig.EnableInfiniteScroll">
   </pf-data-grid>
 </ng-template>
 

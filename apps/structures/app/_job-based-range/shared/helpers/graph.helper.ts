@@ -3,8 +3,7 @@ export class GraphHelper {
     const defaultOffset = 56;
     const multiLineHeaderOffset = 46;
     const defaultSingleRecordHeight = 120;
-    const rowHeight = 59;
-
+    const rowHeight = 60;
     if (data.length > 1) {
       return (rowHeight * data.length) + (multiLineHeader ? (multiLineHeaderOffset + defaultOffset) : defaultOffset);
     } else {

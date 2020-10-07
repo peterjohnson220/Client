@@ -11,7 +11,6 @@
   [aboveGridTemplate]="aboveGridTemplate"
   [applyDefaultFilters]="false"
   [actionBarConfig]="actionBarConfig"
-  [pageable]="true"
   [borders]="false"
   [contentClassNamesOverrides]="'py-3 px-4'"
   [pageTheme]="'next-gen'"
@@ -20,7 +19,9 @@
   [syncScrollWithSplit]="true"
   [saveSort]="true"
   [showSplitViewToggle]="true"
-  [gridConfig]="gridConfig">
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [pagingOptions]="defaultPagingOptions">
 </pf-data-grid>
 
 <ng-template #jobTitleCode let-dataRow="dataRow" let-fieldName="fieldName">

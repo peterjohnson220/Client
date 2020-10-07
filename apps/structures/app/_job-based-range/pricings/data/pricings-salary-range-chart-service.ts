@@ -159,7 +159,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile ? 'rgb(174,210,238)' : 'transparent',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.MinMidMax
@@ -170,7 +170,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(210,230,246)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Tertile
@@ -181,7 +181,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(210,230,246)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quintile
@@ -192,7 +192,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(174,210,238)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quartile
@@ -203,7 +203,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(210,230,246)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: false
@@ -214,7 +214,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(174,210,238)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: false
@@ -225,7 +225,7 @@ export class PricingsSalaryRangeChartService {
           animation: false,
           color: 'rgb(210,230,246)',
           enableMouseTracking: false,
-          pointWidth: 60,
+          pointWidth: 61,
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: false

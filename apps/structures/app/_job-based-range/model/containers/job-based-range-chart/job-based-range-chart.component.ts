@@ -4,7 +4,8 @@ import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
+import { take } from 'rxjs/operators';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
@@ -82,6 +83,10 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       if (data && this.rate && this.currency) {
         this.jobRangeData = data;
         this.processChartData();
+
+        this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).pipe(take(1)).subscribe(scrolledContent => {
+          this.refreshChartLegendPosition(scrolledContent);
+        });
       }
     });
 
@@ -94,12 +99,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     });
 
     this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe(scrolledContent => {
-      if (scrolledContent && this.chartInstance) {
-        this.initialY = this.chartInstance.legend.options.y;
-        this.chartInstance.legend.group.attr({
-          translateY: this.initialY + scrolledContent.scrollTop
-        });
-      }
+      this.refreshChartLegendPosition(scrolledContent);
     });
   }
 
@@ -107,6 +107,15 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     // set the instance
     if (chart) {
       this.chartInstance = chart;
+    }
+  }
+
+  private refreshChartLegendPosition(scrolledContent: ContentScrollEvent) {
+    if (scrolledContent && this.chartInstance) {
+      this.initialY = this.chartInstance.legend.options.y;
+      this.chartInstance.legend.group.attr({
+        translateY: this.initialY + scrolledContent.scrollTop
+      });
     }
   }
 
