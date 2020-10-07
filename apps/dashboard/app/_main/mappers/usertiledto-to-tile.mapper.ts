@@ -198,8 +198,6 @@ export class UserTileToTileMapper {
           tile.CssClass = 'tile-blue';
           tile.PreviewType = tile.TilePreviewData.length !== 0 ? tile.PreviewType : TilePreviewTypes.Icon;
           tile.Label = tile.TilePreviewData.length !== 0 ? 'Total Reward Statements' : tile.Label;
-          tile.MarketingDescription = MarketingTileDescriptions.TotalRewards;
-          tile.MarketingButtonText = 'LEARN MORE';
           break;
 
       case TileTypes.InternationalData:
