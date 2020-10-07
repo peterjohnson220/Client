@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
@@ -38,6 +39,7 @@ import { NotesManagerContentComponent } from './containers';
     LayoutModule,
     GridModule,
     DropDownListModule,
+    PerfectScrollbarModule,
 
     // Payfactors
     PfCommonUIModule,
