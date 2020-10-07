@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { StatementModeEnum, StatementForPrint, TotalRewardsControlEnum, ImageControl } from '../../../shared/models';
-import { TrsConstants } from '../../../shared/constants/trs-constants';
+import { StatementModeEnum, StatementForPrint, TotalRewardsControlEnum, ImageControl } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
 
 import * as fromReducers from '../reducers';
 import * as fromPageActions from '../actions/statement-print.page.actions';

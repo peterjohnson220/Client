@@ -1,6 +1,6 @@
 import { BaseControl } from './base-control';
-import { Layout } from './';
-import { TotalRewardsControlEnum } from '../models/total-rewards-control-enum';
+import { Layout } from './index';
+import { TotalRewardsControlEnum } from './total-rewards-control-enum';
 import { LabelWithOverride } from './label-with-override';
 
 export class TitleControl implements BaseControl {

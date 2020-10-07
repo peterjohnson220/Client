@@ -20,6 +20,7 @@ export interface State {
   employee: AsyncStateObj<CompanyEmployee>;
   employeeValidation: AsyncStateObj<EmployeeValidation>;
   moreJobsToLoad: boolean;
+  showTotalRewards: boolean;
 }
 
 export const initialState: State = {
@@ -36,7 +37,8 @@ export const initialState: State = {
   employeesUserDefinedFields: generateDefaultAsyncStateObj<GenericKeyValue<string, string>[]>([]),
   employee: generateDefaultAsyncStateObj<CompanyEmployee>(null),
   employeeValidation: generateDefaultAsyncStateObj<EmployeeValidation>(null),
-  moreJobsToLoad: true
+  moreJobsToLoad: true,
+  showTotalRewards: false
 };
 
 

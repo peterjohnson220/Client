@@ -13,6 +13,8 @@ import { AppNotification } from 'libs/features/app-notifications/models';
 import { AsyncStateObj } from 'libs/models/state';
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 
 import * as fromPageReducer from '../reducers';
@@ -20,8 +22,6 @@ import * as fromPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
-import { Statement } from '../../../shared/models';
-import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
 import { DeliveryMethod, StatementAssignmentConfig } from '../models';
 
 

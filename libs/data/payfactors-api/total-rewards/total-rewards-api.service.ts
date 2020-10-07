@@ -7,8 +7,8 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { StatementListSearchRequest } from 'libs/models/payfactors-api/total-rewards/request';
 import { StatementListResponse } from 'libs/models/payfactors-api/total-rewards/response';
 
-import { SaveSettingsRequest } from 'apps/total-rewards/app/shared/models/request-models';
-import { Settings, Statement, StatementForPrint } from 'apps/total-rewards/app/shared/models/';
+import { SaveSettingsRequest } from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
+import { Settings, Statement, StatementForPrint } from 'libs/features/total-rewards/total-rewards-statement/models/';
 
 
 @Injectable({

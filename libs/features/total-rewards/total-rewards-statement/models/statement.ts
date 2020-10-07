@@ -8,7 +8,7 @@ import {
   AuditRecord,
   Settings,
   Layout
-} from './';
+} from './index';
 import { TotalRewardsControlEnum } from './total-rewards-control-enum';
 import { TitleControl } from './title-control';
 import { generateMockAuditRecord } from './audit-record';

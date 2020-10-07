@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
-
-import { Statement } from '../../../shared/models';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 export const RESET_STATE = '[Total Rewards/Statement Assignment] Reset State';
 

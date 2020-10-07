@@ -5,8 +5,8 @@ import { switchMap, map,  catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
+import { StatementForPrint } from 'libs/features/total-rewards/total-rewards-statement/models';
 
-import { StatementForPrint } from '../../../shared/models';
 import * as fromPageActions from '../actions/statement-print.page.actions';
 
 @Injectable()

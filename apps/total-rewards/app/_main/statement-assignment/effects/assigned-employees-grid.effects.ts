@@ -6,10 +6,10 @@ import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
+import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
 
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
-import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
 
 @Injectable()
 export class AssignedEmployeesGridEffects {

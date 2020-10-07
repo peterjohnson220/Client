@@ -1,8 +1,8 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { EmployeeSearchResult } from 'libs/models/payfactors-api/total-rewards/response/employee-search-response.model';
+import { TotalRewardsAssignmentService} from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
 
-import { TotalRewardsAssignmentService} from '../../../shared/services/total-rewards-assignment.service';
 import * as fromEmployeeSearchResultsActions from '../actions/employee-search-results.actions';
 
 export interface State {

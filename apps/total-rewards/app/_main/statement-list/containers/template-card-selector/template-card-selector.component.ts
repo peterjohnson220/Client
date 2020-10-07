@@ -4,11 +4,10 @@ import {select, Store} from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+import { generateMockStatement, Statement, StatementModeEnum, Template, TemplatePreview } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromTotalRewardsReducer from './../../reducers';
 import * as fromTemplateSelectorActions from '../../actions/template-selector.actions';
-
-import { generateMockStatement, Statement, StatementModeEnum, Template, TemplatePreview } from '../../../../shared/models';
 
 @Component({
   selector: 'pf-total-rewards-template-card-selector',

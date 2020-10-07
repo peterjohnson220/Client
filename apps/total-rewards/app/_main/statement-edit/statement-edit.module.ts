@@ -11,8 +11,8 @@ import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { TotalRewardsStatementModule } from 'libs/features/total-rewards/total-rewards-statement';
 
-import { SharedModule } from '../../shared';
 import { StatementEditRoutingModule } from './statement-edit-routing.module';
 import { StatementEditPageComponent } from './statement-edit.page';
 import { SettingsPanelComponent } from './components';
@@ -37,7 +37,7 @@ import { StatementEditPageEffects } from './effects/statement-edit.page.effects'
 
     PfCommonModule,
     PfCommonUIModule,
-    SharedModule,
+    TotalRewardsStatementModule,
 
     // Routing
     StatementEditRoutingModule
