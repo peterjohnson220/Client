@@ -47,14 +47,15 @@ export class AdvancedModelingComponent implements OnInit, OnDestroy {
       this.metadata = md;
     });
 
-    if (this.preventMidsFromIncreasingMoreThanPercentPercentage.value) {
-      this.preventMidsFromIncreasingMoreThanPercentPercentage.setValidators([Validators.required, Validators.min(0.1), Validators.max(100)]);
-      this.preventMidsFromIncreasingMoreThanPercentPercentage.updateValueAndValidity();
-    }
+    this.togglePercentValidation(this.preventMidsFromIncreasingMoreThanPercentEnabled.value);
   }
 
   handlePreventMidsFromIncreasingMoreThanPercentChanged(event: any) {
-    if (event.target.checked) {
+    this.togglePercentValidation(event.target.checked);
+  }
+
+  private togglePercentValidation(percentEnabled: boolean) {
+    if (percentEnabled) {
       this.preventMidsFromIncreasingMoreThanPercentPercentage.enable();
       this.preventMidsFromIncreasingMoreThanPercentPercentage.setValidators([Validators.required, Validators.min(0.1), Validators.max(100)]);
     } else {
