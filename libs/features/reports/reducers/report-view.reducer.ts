@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 
-import * as fromReportsViewActions from '../actions/reports-view-page.actions';
+import * as fromReportsViewActions from '../actions/report-view.actions';
 
 export interface State {
   workbookViewUrl: AsyncStateObj<string>;
@@ -17,6 +17,7 @@ export function reducer(state = initialState, action: fromReportsViewActions.Act
     case fromReportsViewActions.GET_COMPANY_REPORT_VIEW_URL:
     case fromReportsViewActions.GET_COMPANY_REPORT_SHEET_VIEW_URL:
     case fromReportsViewActions.GET_STANDARD_REPORT_SHEET_VIEW_URL:
+    case fromReportsViewActions.GET_PEER_STANDARD_REPORT_VIEW_URL:
     case fromReportsViewActions.GET_STANDARD_REPORT_VIEW_URL: {
       const workbookViewUrlAsyncClone = cloneDeep(state.workbookViewUrl);
 

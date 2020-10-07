@@ -8,4 +8,5 @@ export class FeatureFlags {
   static readonly JobsHierarchyPage = 'jobs-hierarchy-page';
   static readonly TotalRewardsElectronicDelivery = 'total-rewards-electronic-delivery';
   static readonly TotalRewardsStyledTemplate = 'total-rewards-styled-template';
+  static readonly PeerDashboard_PeerTrendsReport = 'peer-dashboard_peer-trends-report';
 }

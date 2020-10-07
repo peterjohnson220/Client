@@ -4,12 +4,12 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { generateDefaultAsyncStateObj } from 'libs/models';
+import { generateMockView, generateMockWorkbook } from 'libs/features/reports/models';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDashboardsActions from '../../../actions/dashboards.actions';
 import { TableauWorkbookCardComponent } from './tableau-workbook-card.component';
-import { generateMockWorkbook, generateMockView } from '../../../models';
-import { generateDefaultAsyncStateObj } from 'libs/models';
 
 describe('Data Insights - Tableau Workbook Card', () => {
   let instance: TableauWorkbookCardComponent;

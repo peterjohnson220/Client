@@ -48,12 +48,26 @@
           </div>
           <div class="d-flex flex-grow-2 flex-column justify-content-between mr-2">
             <div class="card card-body flex-column justify-content-top flex-grow-1 text-center">
-              <h4>Top Exchange Job Families</h4>
-              <div class="d-flex flex-grow-1 flex-column justify-content-center text-center">
-                <div>
-                  <pf-exchange-job-family-chart></pf-exchange-job-family-chart>
+
+              <ng-container *ngIf="peerTrendsReportEnabled">
+                <h4>Peer Trends</h4>
+                <div class="d-flex flex-grow-1 flex-column justify-content-center text-center">
+                  <pf-report-preview
+                    [workbook]="(peerTrendsReportWorkbookAsync$ | async).obj"
+                    (onClickEvent)="handlePeerTrendsReportClick()"
+                  ></pf-report-preview>
                 </div>
-              </div>
+              </ng-container>
+
+              <ng-container *ngIf="!peerTrendsReportEnabled">
+                <h4>Top Exchange Job Families</h4>
+                <div class="d-flex flex-grow-1 flex-column justify-content-center text-center">
+                  <div>
+                    <pf-exchange-job-family-chart></pf-exchange-job-family-chart>
+                  </div>
+                </div>
+              </ng-container>
+
             </div>
           </div>
           <div class="d-flex flex-grow-2 flex-column justify-content-between">
@@ -89,3 +103,4 @@
   (uploadOrgDataEvent)="handleUploadOrgData($event)"
   (modalDismissedEvent)="closeUploadOrgDataModal()">
 </pf-upload-org-data-modal>
+<pf-peer-trend-report-modal [selectedWorkbook]="(peerTrendsReportWorkbookAsync$ | async)?.obj"></pf-peer-trend-report-modal>

@@ -1,14 +1,21 @@
 import { Action } from '@ngrx/store';
 
-export const GET_STANDARD_REPORT_VIEW_URL = '[Data Insights/Reports View Page] Get Standard Report View Url';
-export const GET_STANDARD_REPORT_SHEET_VIEW_URL = '[Data Insights/Reports View Page] Get Standard Report Sheet View Url';
-export const GET_COMPANY_REPORT_VIEW_URL = '[Data Insights/Reports View Page] Get Company Report View Url';
-export const GET_COMPANY_REPORT_SHEET_VIEW_URL = '[Data Insights/Reports View Page] Get Company Report Sheet View Url';
-export const GET_VIEW_URL_SUCCESS = '[Data Insights/Reports View Page] Get View Url Report Success';
-export const GET_VIEW_URL_ERROR = '[Data Insights/Reports View Page] Get View Url Report Error';
+export const GET_STANDARD_REPORT_VIEW_URL = '[Reports/Reports View] Get Standard Report View Url';
+export const GET_PEER_STANDARD_REPORT_VIEW_URL = '[Reports/Reports View] Get Peer Standard Report View Url';
+export const GET_STANDARD_REPORT_SHEET_VIEW_URL = '[Reports/Reports View] Get Standard Report Sheet View Url';
+export const GET_COMPANY_REPORT_VIEW_URL = '[Reports/Reports View] Get Company Report View Url';
+export const GET_COMPANY_REPORT_SHEET_VIEW_URL = '[Reports/Reports View] Get Company Report Sheet View Url';
+export const GET_VIEW_URL_SUCCESS = '[Reports/Reports View] Get View Url Report Success';
+export const GET_VIEW_URL_ERROR = '[Reports/Reports View] Get View Url Report Error';
 
 export class GetStandardReportViewUrl implements Action {
   readonly type = GET_STANDARD_REPORT_VIEW_URL;
+
+  constructor(public payload: { workbookId: string }) {}
+}
+
+export class GetPeerStandardReportViewUrl implements Action {
+  readonly type = GET_PEER_STANDARD_REPORT_VIEW_URL;
 
   constructor(public payload: { workbookId: string }) {}
 }
@@ -43,6 +50,7 @@ export class GetViewUrlError implements Action {
 
 export type Actions
   = GetStandardReportViewUrl
+  | GetPeerStandardReportViewUrl
   | GetStandardReportSheetViewUrl
   | GetCompanyReportViewUrl
   | GetCompanyReportSheetViewUrl

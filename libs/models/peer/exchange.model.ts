@@ -6,6 +6,7 @@ export interface Exchange {
   ExchangeManagerUserId?: number;
   Status: StatusEnum;
   ExchangeType: string;
+  IsSystemExchange: boolean;
   CreateDate: Date;
   CreateUser: number;
   EditDate?: Date;
@@ -19,6 +20,7 @@ export function generateMockExchange(): Exchange {
     ExchangeManagerUserId: null,
     Status: StatusEnum.Active,
     ExchangeType: 'Type',
+    IsSystemExchange: false,
     CreateDate: new Date(1512056138449),
     CreateUser: 2437,
     EditDate: null,

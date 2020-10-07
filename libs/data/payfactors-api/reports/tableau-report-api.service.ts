@@ -18,8 +18,17 @@ export class TableauReportApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetStandardReports`);
   }
 
+  getPeerTrendsStandardReport(): Observable<TableauReportResponse> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetPeerTrendsStandardReport`);
+  }
+
   getStandardReportViewUrl(workbookId: string): Observable<string> {
     return this.payfactorsApiService.get(`${this.endpoint}/Default.GetStandardReportViewUrl`,
+      { params: { workbookId: workbookId }});
+  }
+
+  getPeerStandardReportViewUrl(workbookId: string): Observable<string> {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetPeerStandardReportViewUrl`,
       { params: { workbookId: workbookId }});
   }
 

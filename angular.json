@@ -717,7 +717,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/drift.js"
+              "assets/js/drift.js",
+              "assets/js/tableau-2.2.0.min.js"
             ]
           },
           "configurations": {
