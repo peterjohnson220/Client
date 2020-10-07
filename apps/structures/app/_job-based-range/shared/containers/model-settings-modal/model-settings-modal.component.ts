@@ -128,10 +128,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
         'PreventMidsBelowCurrent': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
         'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
           'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled),
-          'Percentage': new FormControl({
-            value: this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage,
-            disabled: !this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled
-          })
+          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage)
         }),
         'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
           'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Enabled),
