@@ -8,5 +8,6 @@ export enum MarketingTileDescriptions {
     PayMarkets = 'Get a true picture of your labor market with custom pay variations, geo-differentials, and multi-market analysis built in.',
     Employees = 'Take an employee point-of-view into your company and quickly benchmark against the market to ensure pay equity.',
     Jobs = 'A central repository for all your jobs, displaying pay markets, data cuts, and employees associated with each position.',
-    InternationalData = 'Reliable, HR-reported data from 13 countries—all part of the best comp technology on the planet.'
+    InternationalData = 'Reliable, HR-reported data from 13 countries—all part of the best comp technology on the planet.',
+    TotalRewards = '[TODO: TotalRewards marketing text]'
 }
