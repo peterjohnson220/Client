@@ -61,6 +61,9 @@ export class TemplateCardSelectorComponent implements OnInit, OnDestroy {
   }
 
   onPreview(templateId: string, templateName: string) {
+    // bail on Styled preview until we can actually show a Styled preview
+    if (templateName === 'Styled') { return; }
+
     const matchingTemplate = this.templates.find(t => t.id === templateId);
     if (matchingTemplate) {
       this.mockStatement = {...generateMockStatement(), Pages : matchingTemplate.Pages};
