@@ -26,7 +26,7 @@
 </ng-container>
 
 <ng-template #notesManagerContent>
-  <div [ngClass]="display === 'modal' ? 'note-list-container' : 'h-100'">
+  <div [ngClass]="display === 'modal' ? 'note-list-container' : 'h-100 overflow-hidden'" class="pl-2">
     <pf-notes-manager-content
       [isEditable]="isEditable"
       [placeholderText]="placeholderText"

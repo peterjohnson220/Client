@@ -31,7 +31,7 @@
       </ngb-tab>
       <ngb-tab [title]="'Notes'" [id]="jobManagementTabs.Notes">
         <ng-template ngbTabContent>
-          <perfect-scrollbar class="mt-4 pr-2 tab-content overflow-hidden">
+          <div class="mt-4 tab-content">
             <pf-notes-manager
               [entityId]="jobId"
               [display]="'component'"
@@ -39,7 +39,7 @@
               [placeholderText]="'To add notes to this job, fill out the area below, click Add and then Save.'"
               [modalTitle]="'Company Job Notes'">
             </pf-notes-manager>
-          </perfect-scrollbar>
+          </div>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>
