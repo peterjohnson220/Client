@@ -7,7 +7,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, BehaviorSubject, Subscription } from 'rxjs';
 import { CheckableSettings, TreeViewComponent, TreeItem } from '@progress/kendo-angular-treeview';
 import { Align } from '@progress/kendo-angular-popup';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { GroupedListItem, PfConstants } from 'libs/models';

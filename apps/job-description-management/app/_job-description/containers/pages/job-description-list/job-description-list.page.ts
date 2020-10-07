@@ -5,7 +5,7 @@ import { FilterDescriptor, SortDescriptor, State } from '@progress/kendo-data-qu
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { debounceTime, takeWhile, filter, take } from 'rxjs/operators';
 
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
@@ -100,10 +100,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   public ssoTokenId: string;
   public ssoAgentId: string;
   public requireSSOLogin$: Observable<boolean>;
-  public jobDescriptionSSOLoginUrl$: Observable<string>;
-  public jobDescriptionSSOAuthResult$: Observable<string>;
-  public jobDescriptionSSOAuthError$: Observable<string>;
-
 
   private templateListItems$: Observable<TemplateListItem[]>;
   private enableJdmTemplatesInClient$: Observable<boolean>;
@@ -120,10 +116,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   private deleteJobDescriptionSuccessSubscription: Subscription;
   private enabledJdmTemplatesInClientSubscription: Subscription;
   private requireSSOLoginSubscription: Subscription;
-  private jobDescriptionSSOLoginUrlSubscription: Subscription;
-  private jobDescriptionSSOAuthResultSubscription: Subscription;
-  private jobDescriptionSSOAuthErrorSubscription: Subscription;
-
 
   notification: { error: AppNotification<NotificationPayload> } = {
     error: {
@@ -172,10 +164,6 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.userFilterListLoading$ = this.store.select(fromJobDescriptionReducers.getUserFilterLoading);
     this.deleteJobDescriptionSuccess$ = this.store.select(fromJobDescriptionReducers.getDeletingJobDescriptionSuccess);
     this.templateListItems$ = this.store.select(fromTemplateReducer.getTemplateList);
-
-    this.jobDescriptionSSOLoginUrl$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOLoginUrl);
-    this.jobDescriptionSSOAuthResult$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthResult);
-    this.jobDescriptionSSOAuthError$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionSSOAuthError);
 
     this.requireSSOLogin$ = this.settingsService.selectCompanySetting<boolean>(
       CompanySettingsEnum.JDMExternalWorkflowsRequireSSOLogin
@@ -439,51 +427,20 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
 
       if (this.isPublic) {
         this.initAuthSubscriptions();
-      } else {
-          this.initPostAuthCheckSubscriptions();
       }
+
+      this.initPostAuthCheckSubscriptions();
+
     });
   }
 
   private initAuthSubscriptions() {
 
-    this.jobDescriptionSSOLoginUrlSubscription = this.jobDescriptionSSOLoginUrl$.subscribe( ssoLoginUrl => {
-      if (ssoLoginUrl) {
-        // Redirect to SSO login. After logging in you will be redirected back here with tokenid and agentid params from the sso for use in authenticating.
-        const currentURL = window.location.href;
-        const currentURLWithToken = `${currentURL.slice(0, currentURL.indexOf('?'))}?jwt=${this.tokenId}`;
-        const encodedUrl = encodeURIComponent(currentURLWithToken);
-
-        window.location.href = `${ssoLoginUrl}&appurl=${encodedUrl}`;
-      }
-    });
-
     this.requireSSOLoginSubscription = this.requireSSOLogin$.subscribe(requireSSOLoginResult => {
-      if (requireSSOLoginResult  && this.tokenId != null && this.ssoTokenId == null && this.ssoAgentId == null) {
-
-        this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
-
-      } else if (requireSSOLoginResult && this.tokenId != null) {
-
-        this.store.dispatch(new fromJobDescriptionActions.AuthenticateSSOParams({tokenId: this.ssoTokenId, agentId: this.ssoAgentId}));
-
-       this.jobDescriptionSSOAuthResultSubscription = this.jobDescriptionSSOAuthResult$.subscribe( result => {
-          if (result) {
-            this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
-            this.initPostAuthCheckSubscriptions();
-          }
-        });
-
-       this.jobDescriptionSSOAuthErrorSubscription = this.jobDescriptionSSOAuthError$.subscribe( result => {
-          if (result) {
-            this.store.dispatch(new fromJobDescriptionActions.GetSSOLoginUrl());
-          }
-        });
-      } else if (requireSSOLoginResult === false) {
-         this.initPostAuthCheckSubscriptions();
+      if (requireSSOLoginResult && this.tokenId != null) {
+        this.store.dispatch(new fromHeaderActions.GetSsoHeaderDropdownNavigationLinks());
       }
     });
-
   }
 
   private initPostAuthCheckSubscriptions() {
@@ -585,8 +542,5 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
     this.deleteJobDescriptionSuccessSubscription.unsubscribe();
     this.enabledJdmTemplatesInClientSubscription.unsubscribe();
     this.requireSSOLoginSubscription?.unsubscribe();
-    this.jobDescriptionSSOLoginUrlSubscription?.unsubscribe();
-    this.jobDescriptionSSOAuthResultSubscription?.unsubscribe();
-    this.jobDescriptionSSOAuthErrorSubscription?.unsubscribe();
   }
 }

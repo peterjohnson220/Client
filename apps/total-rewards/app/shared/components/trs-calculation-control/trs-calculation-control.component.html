@@ -23,23 +23,25 @@
     </thead>
     <tbody>
       <tr *ngFor="let listItem of controlData.DataFields; let i = index " class="trs-calculation-row w-100">
-        <td *ngIf="displayFieldInTable(listItem)" class="text-left" [class.last-before-summary]="controlData.DataFields.length - 1 === i">
-          <pf-string-editor
-            [value]="listItem.Name.Override"
-            [placeholder]="listItem.Name.Default"
-            [maxCharacters]="30"
-            [inEditMode]="inEditMode"
-            (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-string-editor>
-        </td>
-        <td *ngIf="displayFieldInTable(listItem)"
-            class="contribution-field text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
-          {{getEmployerContributionValue(listItem.DatabaseField)}}
-        </td>
-        <td *ngIf="displayFieldInTable(listItem)">
-          <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
-            <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
-          </button>
-        </td>
+        <ng-template *ngIf="displayFieldInTable(listItem); then includeField;"></ng-template>
+        <ng-template #includeField>
+          <td class="text-left" [class.last-before-summary]="controlData.DataFields.length - 1 === i">
+            <pf-string-editor
+              [value]="listItem.Name.Override"
+              [placeholder]="listItem.Name.Default"
+              [maxCharacters]="30"
+              [inEditMode]="inEditMode"
+              (valueChange)="onCompFieldNameChange(listItem, $event)"></pf-string-editor>
+          </td>
+          <td class="contribution-field text-right" [ngClass]="inPreviewMode ? 'preview-mode-animation' : '' ">
+            {{getEmployerContributionValue(listItem.DatabaseField)}}
+          </td>
+          <td *ngIf="inEditMode">
+            <button type="button" class="remove-btn btn btn-sm btn-outline-danger" (click)="removeField(listItem)">
+              <fa-icon class="fa-sm" [icon]="'trash-alt'"></fa-icon>
+            </button>
+          </td>
+        </ng-template>
       </tr>
       <tr class="trs-calculation-row w-100">
         <td class="summary text-left">

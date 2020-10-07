@@ -5,6 +5,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
+import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+
 import { StatementAssignmentPageComponent } from './statement-assignment.page';
 import * as fromStatementAssignmentReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
@@ -22,6 +24,7 @@ describe('AssignedEmployeesGridComponent', () => {
         StoreModule.forRoot({
           ...fromStatementAssignmentReducer.reducers,
           totalRewards_statementAssignment: combineReducers(fromStatementAssignmentReducer.reducers),
+          feature_appnotifications: combineReducers(fromAppNotificationsMainReducer.reducers),
         })],
       declarations: [StatementAssignmentPageComponent],
       schemas: [NO_ERRORS_SCHEMA],
@@ -136,7 +139,7 @@ describe('AssignedEmployeesGridComponent', () => {
 
   it('handleClearFilter should remove the expected filter', () => {
     // arrange, set the current gridState up to have one filter
-    spyOn(store, 'dispatch');
+    spyOn(component.filterChangeSubject, 'next');
     const currentGridState = {
       filter: {
         filters: [{ field: 'LastName', operator: 'contains', value: 'a' }]
@@ -146,18 +149,18 @@ describe('AssignedEmployeesGridComponent', () => {
 
     // arrange, create the filter to be removed and the expected action
     const filterToRemove = { field: 'LastName', operator: 'contains', value: 'a' };
-    const loadEmployeesAction = new fromAssignedEmployeesGridActions.LoadAssignedEmployees({ filter: { filters: [] } } as any);
+    const remainingFilters = [];
 
     // act
     component.handleClearFilter(filterToRemove);
 
     // assert
-    expect(store.dispatch).toHaveBeenCalledWith(loadEmployeesAction);
+    expect(component.filterChangeSubject.next).toHaveBeenCalledWith(remainingFilters);
   });
 
   it('handleClearAllFilters should remove all filters', () => {
     // arrange, set the current gridState up to have one filter
-    spyOn(store, 'dispatch');
+    spyOn(component.filterChangeSubject, 'next');
     const currentGridState = {
       filter: {
         filters: [
@@ -169,12 +172,24 @@ describe('AssignedEmployeesGridComponent', () => {
     component.assignedEmployeesGridState = currentGridState;
 
     // arrange, create the filter to be removed and the expected action
-    const loadEmployeesAction = new fromAssignedEmployeesGridActions.LoadAssignedEmployees({ filter: { filters: [] } } as any);
+    const emptyFilters = [];
 
     // act
     component.handleClearAllFilters();
 
     // assert
-    expect(store.dispatch).toHaveBeenCalledWith(loadEmployeesAction);
+    expect(component.filterChangeSubject.next).toHaveBeenCalledWith(emptyFilters);
+  });
+
+  it('should dispatch the expected action when Assign Employees is clicked', () => {
+    // arrange
+    spyOn(store, 'dispatch');
+    const exportEmployeesAction = new fromPageActions.ExportAssignedEmployees();
+
+    // act
+    component.handleExportClicked();
+
+    // assert
+    expect(store.dispatch).toHaveBeenCalledWith(exportEmployeesAction);
   });
 });

@@ -2,45 +2,74 @@
      [class.peer]="job.DataSource === surveySearchResultDataSources.Peer"
      [attr.data-qa-id]="'cnt-DataSource-'+job.DataSource.toString().trim()">
   <div class="d-flex justify-content-between">
-    <div class="d-flex">
-      <div class="job-title">
-        {{job.Title}}
+    <div class="result-body flex-grow-1">
+      <div class="d-flex justify-content-between">
+        <div class="d-flex">
+          <div class="job-title">
+            {{job.Title}}
+          </div>
+          <div class="job-code">
+            ({{job.Code}})
+          </div>
+        </div>
+        <div *ngIf="!!job.Matches"
+             class="matches"
+             (mouseenter)="handleMatchesMouseEnter($event)"
+             (mouseleave)="handleMatchesMouseLeave()">
+          {{job.Matches}}
+        </div>
       </div>
-      <div class="job-code">
-        ({{job.Code}})
+
+      <div class="vendor">
+        <ng-container [ngSwitch]="job.DataSource">
+          <ng-container *ngSwitchCase="surveySearchResultDataSources.Surveys">
+            {{job.Source}} - {{job.SurveyName}} ({{job.EffectiveDate | date: 'shortDate'}})
+          </ng-container>
+          <ng-container *ngSwitchCase="surveySearchResultDataSources.Payfactors">
+            {{job.Source}}
+          </ng-container>
+          <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
+            Payfactors Peer - {{job.SurveyName}}
+          </ng-container>
+        </ng-container>
       </div>
-    </div>
-    <div *ngIf="!!job.Matches"
-         class="matches"
-         (mouseenter)="handleMatchesMouseEnter($event)"
-         (mouseleave)="handleMatchesMouseLeave()">
-      {{job.Matches}}
-    </div>
-  </div>
 
-  <div class="vendor">
-    <ng-container [ngSwitch]="job.DataSource">
-      <ng-container *ngSwitchCase="surveySearchResultDataSources.Surveys">
-        {{job.Source}} - {{job.SurveyName}} ({{job.EffectiveDate | date: 'shortDate'}})
-      </ng-container>
-      <ng-container *ngSwitchCase="surveySearchResultDataSources.Payfactors">
-        {{job.Source}}
-      </ng-container>
-      <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
-        Payfactors Peer - {{job.SurveyName}}
-      </ng-container>
-    </ng-container>
-  </div>
+      <div class="d-flex mt-2">
+        <div class="link au-lnk-show-hide-data-cuts" (click)="toggleDataCutsDisplay()">
+          {{toggleDataCutsLabel}}
+        </div>
+        <div class="link mx-2">
+          |
+        </div>
+        <div class="link au-lnk-show-hide-job-details" (click)="toggleJobDetailDisplay()">
+          {{toggleJobDetailLabel}}
+        </div>
+        <ng-container *ngIf="isPeerJob && refineInPeerDisplayed">
+          <div class="link mx-2">
+            |
+          </div>
+          <div class="link au-lnk-refine-job-in-peer" (click)="toggleRefineInPeerDisplay()">
+            {{toggleRefineInPeerLabel}}
+          </div>
+        </ng-container>
+      </div>
 
-  <div class="d-flex mt-2">
-    <div class="link au-lnk-show-hide-data-cuts" (click)="toggleDataCutsDisplay()">
-      {{toggleDataCutsLabel}}
     </div>
-    <div class="link mx-2">
-      |
-    </div>
-    <div class="link au-lnk-show-hide-job-details" (click)="toggleJobDetailDisplay()">
-      {{toggleJobDetailLabel}}
+    <div class="peer-org-weighted-nat-avg card" *ngIf="showPeerOrgWeightedNatAvgCard">
+      <div class="avg-pay-container d-flex justify-content-between">
+        <div class="label-indicator">Base 50th</div>
+        <div>{{!job.PeerJobInfo.NatAvgBase50th ? '--' : job.PeerJobInfo.NatAvgBase50th | comp: compRate : annualDisplay }}</div>
+      </div>
+      <div class="avg-pay-container d-flex justify-content-between">
+        <div class="label-indicator">TCC 50th</div>
+        <div>{{!job.PeerJobInfo.NatAvgTCC50th ? '--' : job.PeerJobInfo.NatAvgTCC50th | comp: compRate: annualDisplay}}</div>
+      </div>
+      <div class="card-footer d-flex justify-content-between">
+        <div class="text-muted small"><i>National</i></div>
+        <div class="text-muted small">
+          <i>Orgs: {{!job.PeerJobInfo.NatAvgOrgs ? '--' : job.PeerJobInfo.NatAvgOrgs}}</i>
+        </div>
+      </div>
     </div>
   </div>
 

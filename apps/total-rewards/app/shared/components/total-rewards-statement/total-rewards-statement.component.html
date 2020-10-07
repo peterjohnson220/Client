@@ -1,4 +1,6 @@
 <div *ngIf="statement" class="container statement mb-4 rounded" [ngClass]="fontSizeCssClass + ' ' + fontFamilyCssClass">
+  <pf-async-container [loading]="loadingData">
+  </pf-async-container>
   <div class="d-flex justify-content-end">
     <pf-effective-date
       [mode]="mode"
@@ -9,7 +11,7 @@
   <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page mt-n4">
     <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section">
       <div *ngFor="let column of section.Columns; trackBy: trackByFn" [ngClass]="'col-' + column?.Layout?.Width" class="trs-column">
-        <div class="row columnRow h-100">
+        <div class="row columnRow">
           <div *ngFor="let control of column.Controls; trackBy: trackByFn" [ngClass]="'col-' + control?.Layout?.Width + ' control-type-' + control.ControlType">
             <div *ngIf="control.ControlType === controlType.RichTextEditor">
               <pf-trs-rich-text-control
@@ -28,10 +30,11 @@
                 [mode]="mode"
                 (saveImage)="handleSaveImage($event)"
                 (removeImage)="handleRemoveImage($event)"
+                (imageLoaded)="handleImageLoaded($event)"
                 class="p-1"></pf-trs-image-control>
             </div>
 
-            <div *ngIf="control.ControlType === controlType.Calculation">
+            <div *ngIf="control.ControlType === controlType.Calculation && visibleCalculationControls.includes(control)">
               <pf-trs-calculation-control
                 [controlData]="control"
                 [mode]="mode"
@@ -48,10 +51,11 @@
                 [controlData]="control"
                 [mode]="mode"
                 [employeeRewardsData]="employeeRewardsData"
-                [calculationControls]="calculationControls"
+                [calculationControls]="visibleCalculationControls"
                 [chartColors]="statement.Settings.ChartColors"
                 (onTitleChange)="handleOnControlTitleChange($event)"
                 (settingsClick)="handleChartControlSettingsClick()"
+                (chartRender)="handleChartRender($event)"
                 class="p-1"></pf-trs-chart-control>
             </div>
 
@@ -69,7 +73,7 @@
                 [mode]="mode"
                 [controlData]="control"
                 [employeeRewardsData]="employeeRewardsData"
-                [calculationControls]="calculationControls"
+                [calculationControls]="visibleCalculationControls"
                 (onTitleChange)="handleOnControlTitleChange($event)"
                 class="p-1"></pf-trs-summary-control>
             </div>
@@ -77,6 +81,6 @@
         </div>
       </div>
     </section>
-    <span class="page-break"></span>
+    <span *ngIf="pageBreakAfter" class="page-break"></span>
   </div>
 </div>

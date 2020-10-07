@@ -28,6 +28,8 @@ export class PayfactorsApiModelMapper {
         Name: r.Name,
         TemplateId: r.TemplateId,
         HiddenElementIds: r.HiddenElementIds,
+        HiddenControlNameElementIds: r.HiddenControlNameElementIds,
+        HiddenSubHeadingElementIds: r.HiddenSubHeadingElementIds,
         JobInformationFields: r.JobInformationFields,
         Template: r.Template
       };
@@ -42,6 +44,8 @@ export class PayfactorsApiModelMapper {
         return {
           CompanyId: v.CompanyId,
           HiddenElementIds: v.HiddenElementIds,
+          HiddenControlNameElementIds: v.HiddenControlNameElementIds,
+          HiddenSubHeadingElementIds: v.HiddenSubHeadingElementIds,
           Id: v.Id,
           JobInformationFields: selectedJobInformationFields !== undefined
                                 ? selectedJobInformationFields.map(ji => ji.Id)

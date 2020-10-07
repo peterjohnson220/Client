@@ -19,6 +19,7 @@ verDetails = ""
 
 isPublishable = true
 isAutoDeployBranch = false
+buildRunning = true
 
 pipeline {
   agent { label 'ubuntu' }
@@ -26,6 +27,7 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr:'20'))
     disableConcurrentBuilds()
+    parallelsAlwaysFailFast()
     timeout(time: 30, unit: 'MINUTES', activity: true)
   }
 
@@ -34,7 +36,7 @@ pipeline {
       steps {
         script {
           deleteDir()
-          
+
           git branch: "master", credentialsId: 'gitsshkey', url: 'git@github.com:PayFactors/client.git'
           sh "git branch"
 
@@ -46,7 +48,7 @@ pipeline {
 
             suffix = '-Sales'
             env.buildConfig = '--configuration=sales'
-            
+
             slackTitle = (isAutoDeployBranch) ? 'Build/Deploy' : 'Build'
 
             env.pkgFullName = pkgName + ".${env.pkgVersion}${suffix}${verDetails}"
@@ -74,15 +76,15 @@ pipeline {
             slackCh = "f-build"
             echo "slackCh: ${slackCh}"
 
-            sh 'npm install'
+            sh 'npm ci'
           }
         }
-        
+
         stash includes: 'CHANGES', name: 'changes'
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -107,7 +109,7 @@ pipeline {
           junit 'output/coverage/junit/junit.xml'
         }
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -116,19 +118,44 @@ pipeline {
 
     stage('Build') {
       steps {
-        script {
-          nodejs(nodeVersion) {
-            echo "Getting list of apps..."
-            sh 'ls -I "smallbiz" apps > dirs'
-            sh """
-              cat dirs | time parallel -j-3 --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && echo "{} build complete"'
-            """
-          }
-        }
+        parallel (
+          Build: {
+            script {
+              nodejs(nodeVersion) {
+                echo "Getting list of apps..."
+                sh 'ls apps > dirs'
+                sh """
+                  cat dirs | time parallel -j-${env.Client_Build_Throttle} --halt soon,fail=1 'node_modules/.bin/ng build {} ${env.buildConfig} --progress=false && node_modules/.bin/gulp purgecss -a={} && echo "{} build complete"'
+                """
+                sh "cp apps/data-insights/reports.html dist/apps/data-insights/reports.html"
+                buildRunning = false
+              }
+            }
+          },
+          BuildTimeTracker: {
+            script {
+              timerCnt=0
+              alerted=false
+
+              while (buildRunning == true) {
+                sh 'sleep 30'
+                timerCnt++
+
+                // If build takes longer than 30 min, alert once.
+                if ( timerCnt > 60 && alerted==false ) {
+                  echo '30m passed, alerting slack...'
+                  slackSend channel: 't-devops', color: 'warning', message: ":warning: Client build time for <${env.buildurl}|*${env.BRANCH_NAME} #${env.BUILD_NUMBER}*> on ${env.NODE_NAME} has exceeded 30m. Please check."
+                  alerted=true
+                }
+              }
+              echo 'buildRunning is now false'
+            }
+          }, failFast: true
+        )
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -149,7 +176,7 @@ pipeline {
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -170,7 +197,7 @@ pipeline {
       }
       post {
         failure {
-          script { 
+          script {
             sendSlackFail(env.lastAuthor, env.pkgVersion)
           }
         }
@@ -179,7 +206,7 @@ pipeline {
   }
   post {
     success {
-      script { 
+      script {
         fullDur = (currentBuild.durationString).replace(' and counting',"")
         slackSend channel: slackCh, color: 'good', message: "<${env.buildurl}|*${slackTitle} Success*> - ${fullDur}\n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.BUILD_NUMBER} - ${env.pkgVersion} \nAuthor: ${env.lastAuthor}"
       }
@@ -219,7 +246,7 @@ def getGitChangeLog() {
   return gitchangelog
 }
 
-def sendSlackFail(gitAuthor, pkgVersion) { 
+def sendSlackFail(gitAuthor, pkgVersion) {
   fullDur = (currentBuild.durationString).replace(' and counting',"")
   slackSend channel: slackCh, color: 'danger', message: "<${env.buildurl}|*${slackTitle} Failure*> (Stage: ${STAGE_NAME}) - ${fullDur}\n*${env.JOB_NAME.replaceAll('%2F','/')}* - #${env.BUILD_NUMBER} - ${pkgVersion} \nAuthor: ${gitAuthor}"
 }

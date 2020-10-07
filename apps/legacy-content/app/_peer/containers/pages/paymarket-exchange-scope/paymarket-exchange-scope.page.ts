@@ -19,7 +19,7 @@ export class PaymarketExchangeScopeComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
   exchangeScopes$: Observable<ExchangeScopes[]>;
-  selectedExchangeScopes$: Observable<GenericKeyValue<number, string>[]>;
+  selectedExchangeScopes$: Observable<GenericKeyValue<number, number>[]>;
 
   // Subscriptions
   exchangeScopesSub: Subscription;
@@ -29,7 +29,7 @@ export class PaymarketExchangeScopeComponent implements OnInit, OnDestroy {
   companyPayMarketId: number;
   exchanges: GenericKeyValue<number, string>[];
   exchangeScopes: ExchangeScopes[];
-  exchangeScopeSelections: GenericKeyValue<number, string>[];
+  exchangeScopeSelections: GenericKeyValue<number, number>[];
 
   constructor(
     private route: ActivatedRoute,
@@ -105,8 +105,8 @@ export class PaymarketExchangeScopeComponent implements OnInit, OnDestroy {
 
   selectScope(row: number, event: ExchangeScopeItem) {
     let scopeId = null;
-    if (event && event.Id) {
-      scopeId = event.Id;
+    if (event && event.ExchangeScopeId) {
+      scopeId = event.ExchangeScopeId;
     }
     this.store.dispatch(new fromPaymarketExchangeScopeActions.SelectScope({
       Row: row,
@@ -136,7 +136,7 @@ export class PaymarketExchangeScopeComponent implements OnInit, OnDestroy {
       const scopeId = this.exchangeScopeSelections[row].Value;
       const exchangeScopeItems = this.getScopesForRow(row);
       if (exchangeScopeItems && scopeId) {
-        const exchangeScopeItem = exchangeScopeItems.find(x => x.Id === scopeId);
+        const exchangeScopeItem = exchangeScopeItems.find(x => x.ExchangeScopeId === scopeId);
         if (exchangeScopeItem) {
           return exchangeScopeItem;
         }

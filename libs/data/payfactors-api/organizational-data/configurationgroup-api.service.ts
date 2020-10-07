@@ -6,7 +6,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { ConfigurationGroup } from 'libs/models/data-loads';
 import { HttpParams } from '@angular/common/http';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 
 export class ConfigurationGroupApiService {
     private endpoint = 'LoaderConfigurationGroup';

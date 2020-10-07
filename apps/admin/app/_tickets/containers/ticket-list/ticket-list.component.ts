@@ -7,7 +7,8 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { GridDataResult, PageChangeEvent, SortSettings } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
-import { orderBy, cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 
 import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
 import { UserContext } from 'libs/models/security';

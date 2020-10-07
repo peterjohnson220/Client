@@ -19,8 +19,9 @@ import { JobTitleCodePipe } from '../../../../pipes';
 })
 export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnChanges {
 
-  @Input() pricingInfo: any[];
+  @Input() pricingInfo: any;
   @Output() notesEmitter = new EventEmitter();
+  @Output() reScopeSurveyDataEmitter = new EventEmitter();
 
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
   @ViewChild('agingColumn') agingColumn: ElementRef;
@@ -52,7 +53,7 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
     Count: 500
   };
   actionBarConfig: ActionBarConfig;
-  selectedMatchForNotes = {};
+  selectedMatchForNotes: any;
   selectedMatchScope = '';
   matchNoteManagerConfig = {};
 
@@ -71,8 +72,11 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes.pricingInfo) {
-      this.filter.Value = changes.pricingInfo.currentValue['CompanyJobs_Pricings_CompanyJobPricing_ID'];
-      this.rate = changes.pricingInfo.currentValue['CompanyJobs_Pricings_Rate'];
+      const newFilterValue = changes.pricingInfo.currentValue.CompanyJobs_Pricings_CompanyJobPricing_ID;
+      if (newFilterValue && newFilterValue !== this.filter.Value) {
+        this.filter.Value = newFilterValue;
+        this.rate = changes.pricingInfo.currentValue.CompanyJobs_Pricings_Rate;
+      }
     }
   }
 

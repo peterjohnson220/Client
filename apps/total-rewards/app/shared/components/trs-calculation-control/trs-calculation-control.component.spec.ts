@@ -2,17 +2,18 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
+import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
 import { TrsCalculationControlComponent } from './trs-calculation-control.component';
 import { CompensationFieldPipe } from '../../pipes/compensation-field-pipe';
 import {
   CalculationControl,
   CompensationField,
-  LabelWithOverride,
   generateMockCalculationControl,
-  generateMockEmployeeRewardsData,
+  LabelWithOverride,
   StatementModeEnum
 } from '../../models';
-import {StringEditorComponent} from '../string-editor';
+import { StringEditorComponent } from '../string-editor';
 
 describe('TrsCalculationControlComponent', () => {
   let component: TrsCalculationControlComponent;
@@ -84,10 +85,21 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should render the supplied title', () => {
+    component.mode = StatementModeEnum.Preview;
+    component.employeeRewardsData = {
+      EmployeeBase: 65000
+    } as any;
     component.controlData = {
       Title: { Default: 'test title' } as LabelWithOverride,
       Summary: {} as LabelWithOverride,
-      DataFields: []
+      DataFields: [
+        {
+          Id: '123',
+          DatabaseField: 'EmployeeBase',
+          Name: {} as LabelWithOverride,
+          IsVisible: false
+        }
+      ] as CompensationField[]
     } as CalculationControl;
 
     fixture.detectChanges();
@@ -96,6 +108,7 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should render the supplied Summary', () => {
+    component.mode = StatementModeEnum.Edit;
     component.controlData = {
       Title: { Default: '' } as LabelWithOverride,
       Summary: { Default: 'test summary'} as LabelWithOverride,
@@ -108,6 +121,7 @@ describe('TrsCalculationControlComponent', () => {
   });
 
   it('should display the Add Field button if a field has been removed', () => {
+    component.mode = StatementModeEnum.Edit;
     component.controlData = {
       Title: { Default: '' } as LabelWithOverride,
       Summary: { Default: 'test summary'} as LabelWithOverride,
@@ -148,7 +162,7 @@ describe('TrsCalculationControlComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should include fields in preview mode if employee data is 0 for a given field', () => {
+  it('should exclude fields in preview mode if employee data is 0 for a given field', () => {
     component.employeeRewardsData = generateMockEmployeeRewardsData();
     component.controlData = generateMockCalculationControl();
     component.mode = StatementModeEnum.Preview;

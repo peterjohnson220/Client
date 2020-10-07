@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { SystemUserGroupsResponse, CompanyIndustriesResponse, CompanyTilesResponse,
   CompanyDataSetsReponse, CompanyClientTypesReponse, ListCompositeFields } from 'libs/models/payfactors-api';

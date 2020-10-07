@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 import { UserAndRoleModel, UserAssignedRole } from 'libs/models/security/roles';

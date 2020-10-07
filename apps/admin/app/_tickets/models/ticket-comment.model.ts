@@ -5,6 +5,8 @@ export interface TicketComment extends Comment {
   TicketId: number;
   UserEmail?: string;
   Level?: TicketCommentLevel;
+  AttachmentNames?: string[];
+  CreateDateWithoutTime?: Date;
 }
 
 export function generateMockTicketComment(): TicketComment {

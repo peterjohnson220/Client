@@ -4,6 +4,9 @@
     "main.ts",
     "polyfills.ts"
   ],
+  "compilerOptions": {
+    "target": "es5"
+  },
   "exclude": [
     "**/*.spec.ts"
   ]

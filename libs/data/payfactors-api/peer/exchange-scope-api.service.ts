@@ -6,7 +6,9 @@ import { ExchangeScopeItem, ExchangeScopes, UpsertExchangeExplorerScopeRequest }
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExchangeScopeApiService {
   private endpoint = 'ExchangeScope';
 
@@ -38,9 +40,9 @@ export class ExchangeScopeApiService {
     return this.payfactorsApiService.get<ExchangeScopes[]>(`${this.endpoint}/GetCompanyExchangeScopes`);
   }
 
-  deleteExchangeScope(exchangeScopeGuid: string): Observable<boolean> {
+  deleteExchangeScope(exchangeScopeId: number): Observable<boolean> {
     return this.payfactorsApiService.post<boolean>(`${this.endpoint}/DeleteExchangeScope`,
-      { ExchangeScopeGuid: exchangeScopeGuid }
+      { ExchangeScopeId: exchangeScopeId }
     );
   }
 

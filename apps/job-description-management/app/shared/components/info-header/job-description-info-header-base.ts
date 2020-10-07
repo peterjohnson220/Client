@@ -58,7 +58,8 @@ export abstract class JobDescriptionInfoHeaderBase implements OnInit, OnChanges 
       if (jif.FieldName === 'TemplateName'
         && (this.jobDescription
         && !this.jobDescription['WorkflowId']
-        && this.jobDescription['JobDescriptionStatus'] !== 'Draft')) {
+        && this.jobDescription['JobDescriptionStatus'] !== 'Draft'
+        && this.jobDescription['JobDescriptionStatus'] !== 'In Review')) {
         return;
       }
       if (index % 2 === 0) {

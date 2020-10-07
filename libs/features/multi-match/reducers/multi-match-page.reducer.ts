@@ -10,7 +10,7 @@ export interface State {
 const initialState: State = {
   projectContext: null,
   savingChanges: false,
-  saveChangesError: false
+  saveChangesError: false,
 };
 
 // Reducer function
@@ -33,14 +33,14 @@ export function reducer(state = initialState, action: fromMultiMatchPageActions.
       return {
         ...state,
         savingChanges: false,
-        saveChangesError: true
+        saveChangesError: true,
       };
     }
     case fromMultiMatchPageActions.SAVE_JOB_MATCH_UPDATES_SUCCESS: {
       return {
         ...state,
         savingChanges: false,
-        saveChangesError: false
+        saveChangesError: false,
       };
     }
     default: {

@@ -8,28 +8,30 @@
   <div class="position-relative">
     <pf-async-container [loadingError]="isSavingError" [hideReloadButton]="true">
       <div>
+        <div *ngIf="showFontFamilyMenu">
         <h3 class="my-4">Text</h3>
-        <h4 class="mb-3">Font Family</h4>
-        <div ngbDropdown class="font-family-container d-inline-block mb-4">
-          <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
-            {{ fontFamily }}
-          </button>
-          <div ngbDropdownMenu class="w-auto">
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Default')" class="default-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
-              Default
-            </a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Arial')" class="arial-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
-              Arial
-            </a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Georgia')" class="georgia-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
-              Georgia
-            </a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Times New Roman')" class="times-new-roman-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
-              Times New Roman
-            </a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Helvetica')" class="helvetica-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
-              Helvetica
-            </a>
+          <h4 class="mb-3">Font Family</h4>
+          <div ngbDropdown class="font-family-container d-inline-block mb-4">
+            <button ngbDropdownToggle class="btn btn-outline-primary" [attr.tabindex]="isOpen ? 0 : -1">
+              {{ fontFamily }}
+            </button>
+            <div ngbDropdownMenu class="w-auto">
+              <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Default')" class="default-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+                Default
+              </a>
+              <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Arial')" class="arial-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+                Arial
+              </a>
+              <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Georgia')" class="georgia-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+                Georgia
+              </a>
+              <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Times New Roman')" class="times-new-roman-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+                Times New Roman
+              </a>
+              <a ngbDropdownItem href="javascript:void(0)" (click)="onFontFamilyChange('Helvetica')" class="helvetica-font-family d-block p-2" [attr.tabindex]="isOpen ? 0 : -1">
+                Helvetica
+              </a>
+            </div>
           </div>
         </div>
         <h4 class="mb-3">Font Size</h4>
@@ -49,7 +51,7 @@
             </a>
           </div>
         </div>
-        <h3 class="my-4">Charts</h3>
+        <h3 *ngIf="showFontFamilyMenu" class="my-4">Charts</h3>
         <h4 class="mb-3">Chart Colors</h4>
         <div class="d-flex mb-4">
           <div *ngFor="let chartColor of chartColors; let i = index;" class="color-picker-container mr-4">

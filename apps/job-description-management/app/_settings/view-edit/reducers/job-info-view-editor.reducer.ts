@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';

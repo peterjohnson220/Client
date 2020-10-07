@@ -5,7 +5,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import 'rxjs/add/observable/forkJoin';
 import { filter, map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromUserContextReducer from 'libs/state/app-context/reducers/user-context.reducer';

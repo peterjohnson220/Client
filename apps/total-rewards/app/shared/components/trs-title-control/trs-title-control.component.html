@@ -1,9 +1,9 @@
-<div class="col-12 h-100 position-relative" [ngClass]="{'edit-mode': mode === modeEnum.Edit}">
-  <h2 class="my-auto trs-statement-title">
+<div class="col-8 h-100 position-relative text-center" [ngClass]="{'edit-mode': mode === modeEnum.Edit}">
+  <h2 class="my-auto trs-statement-title d-inline-block mw-100">
     <pf-string-editor
       [placeholder]="controlData.Title.Default"
       [value]="controlData.Title.Override"
-      [maxCharacters]="60"
+      [maxCharacters]="40"
       [inEditMode]="mode === modeEnum.Edit"
       [isMultiline]="true"
       (valueChange)="onTitleChange($event)"
@@ -16,3 +16,4 @@
     </span>
   </h3>
 </div>
+<div class="col-4"></div>

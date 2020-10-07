@@ -6,8 +6,9 @@ import { Store } from '@ngrx/store';
 import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SurveySearchResultDataSources } from 'libs/constants';
+import { annualDisplay, compRate } from 'libs/core/pipes';
 
-import { DataCutDetails, JobResult, MatchesDetailsTooltipData, DataCut } from '../../models';
+import { DataCut, DataCutDetails, JobResult, MatchesDetailsTooltipData } from '../../models';
 import { hasMoreDataCuts } from '../../helpers';
 import * as fromSurveySearchReducer from '../../reducers';
 
@@ -21,10 +22,13 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Input() cutsDraggable: boolean;
   @Input() currencyCode: string;
   @Input() legacyIframeImplementation: boolean;
+  @Input() refineInPeerDisplayed: boolean;
+  @Input() rate: string;
   @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCutDetails> = new EventEmitter<DataCutDetails>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() refineInPeerClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
 
   // Observables
   loadingResults$: Observable<boolean>;
@@ -34,10 +38,12 @@ export class JobResultComponent implements OnInit, OnDestroy {
   private loadingResultsSub: Subscription;
 
   toggleDataCutsLabel: string;
+  toggleRefineInPeerLabel = 'Refine';
   showDataCuts: boolean;
   showJobDetail: boolean;
   matchesMouseLeaveTimer: number;
   surveySearchResultDataSources = SurveySearchResultDataSources;
+  annualDisplay: annualDisplay = annualDisplay.full;
 
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';
@@ -52,6 +58,19 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
   }
+
+  get compRate(): compRate {
+    return !!this.rate && this.rate === compRate.hourly.toString() ? compRate.hourly : compRate.annual;
+  }
+
+  get isPeerJob(): boolean {
+    return this.job.DataSource === this.surveySearchResultDataSources.Peer;
+  }
+
+  get showPeerOrgWeightedNatAvgCard(): boolean {
+    return this.isPeerJob && !!this.job.PeerJobInfo;
+  }
+
   get toggleJobDetailLabel() {
     return (this.showJobDetail ? 'Hide' : 'Show') + ' Job Detail';
   }
@@ -83,6 +102,10 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   toggleJobDetailDisplay(): void {
     this.showJobDetail = !this.showJobDetail;
+  }
+
+  toggleRefineInPeerDisplay(): void {
+    this.refineInPeerClicked.emit(this.job);
   }
 
   handleDataCutSelected(dataCut: DataCut) {

@@ -18,7 +18,8 @@
   [autoFitColumnsToHeader]="true"
   [reorderable]="true"
   [syncScrollWithSplit]="true"
-  [saveSort]="true">
+  [saveSort]="true"
+  [showSplitViewToggle]="true">
 </pf-data-grid>
 
 <ng-template #jobTitleCode let-dataRow="dataRow" let-fieldName="fieldName">
@@ -56,7 +57,8 @@
 </ng-template>
 
 <ng-template #gridGlobalActions>
-  <pf-model-settings-btn [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" [metadata]="(metaData$ | async)" (clicked)="handleModelSettingsBtnClicked()"></pf-model-settings-btn>
+  <pf-duplicate-model-modal [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" [rangeGroupId]="rangeGroupId"></pf-duplicate-model-modal>
+  <pf-model-settings-btn [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" [metadata]="metaData$ | async" (modelSettingsClicked)="handleModelSettingsBtnClicked()" (duplicateModelClicked)="handleDuplicateModelBtnClicked()"></pf-model-settings-btn>
 </ng-template>
 
 <ng-template #aboveGridTemplate>

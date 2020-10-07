@@ -18,7 +18,7 @@ export const LOAD_CURRENCIES_ERROR = '[Peer Main/Map/Export Data Cuts] Load Curr
 export class ExportDataCuts implements Action {
   readonly type = EXPORT_DATA_CUTS;
 
-  constructor(public payload: {selectedRate: string, scopes: string[], exportCurrentMap: boolean, selectedWeightingType: string, selectedCurrency: string}) {}
+  constructor(public payload: {selectedRate: string, scopes: number[], exportCurrentMap: boolean, selectedWeightingType: string, selectedCurrency: string}) {}
 }
 
 export class ExportDataCutsSuccess implements Action {

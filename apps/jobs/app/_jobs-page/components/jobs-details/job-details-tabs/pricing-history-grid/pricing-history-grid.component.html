@@ -5,10 +5,14 @@
   [inboundFilters]="filters"
   [defaultSort]="defaultSort"
   [allowSort]="false"
-  [noRecordsFound]="'This job has not been priced and does not have any pricing history.'"  
+  [noRecordsFound]="noRecordsMessage"
   [applyDefaultFilters]="false"
   [headerClassName]="'jobs-page-sub-grid-header'"
-  [actionBarConfig]="actionBarConfig">
+  [actionBarConfig]="actionBarConfig"
+  [showSortControls]="false"
+  [gridConfig]="gridConfig"
+  [pagingOptions]="defaultPagingOptions"
+  [pageable]="!gridConfig.EnableInfiniteScroll">
 </pf-data-grid>
 
 <ng-template #createUserColumn let-dataRow="dataRow">
@@ -22,21 +26,21 @@
 
 <ng-template #pricingActionsColumn let-dataRow="dataRow">
   <div class="d-flex justify-content-end">
-    <button 
+    <button
       [attr.data-qa-id]="'btn-jobs-page-pricing-history-details'"
       type="button"
       (click)="pricingId = dataRow['CompanyJobs_Pricings_CompanyJobPricing_ID']"
       class="btn btn-secondary mr-3">
       View Pricing
     </button>
-    <button 
+    <button
       [attr.data-qa-id]="'btn-jobs-page-pricing-history-delete'"
       [pfSecuredResource]="permissions.PRICING_PROJECTS_DELETE"
       type="button"
       (click)="showDeletePricingModal(dataRow)"
       class="btn btn-secondary pf-icon-btn-transparent">
       <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
-    </button>    
+    </button>
   </div>
 </ng-template>
 

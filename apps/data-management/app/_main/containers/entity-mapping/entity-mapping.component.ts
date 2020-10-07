@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { DragulaService } from 'ng2-dragula';
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 
 import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
 import * as fromFieldMappingReducer from '../../reducers';

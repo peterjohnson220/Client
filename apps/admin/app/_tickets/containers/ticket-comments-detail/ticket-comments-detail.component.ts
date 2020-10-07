@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/c
 
 import { Store } from '@ngrx/store';
 
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { TicketCommentLevel } from 'libs/models/payfactors-api/service/response';
 import { UserTicketCommentRequest } from 'libs/models/payfactors-api/service/request';
@@ -33,6 +33,12 @@ export class TicketCommentsDetailComponent implements OnChanges {
 
   addNewComment() {
     const commentsCopy = cloneDeep(this._comments);
+    if (commentsCopy.length > 0) {
+      const firstComment = commentsCopy[0];
+      if (firstComment.Content === '' && firstComment.Level === TicketCommentLevel.Admin) {
+        commentsCopy.shift();
+      }
+    }
     const ticketId = this.ticketId;
     const comment: TicketComment = {
       TicketId: ticketId,

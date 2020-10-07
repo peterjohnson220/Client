@@ -1,4 +1,4 @@
-<div class="col-12 printClass trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': !isValid, 'edit-mode': (mode === statementModeEnum.Edit), 'preview-mode': (mode === statementModeEnum.Preview)}">
+<div class="col-12 trs-rich-text-control" [ngClass]="{'active': isFocused, 'invalid': !isValid}" pfModeClassifierDirective [mode]="mode">
   <div class="heading">
     <h4 class="primary-control-heading mb-1 d-inline-block">
       <pf-string-editor
@@ -8,7 +8,7 @@
         [inEditMode]="mode === statementModeEnum.Edit"
         (valueChange)="onTitleChanged($event)"></pf-string-editor>
     </h4>
-    <div kendoTooltip class="tooltip-wrapper d-inline-block ml-2 align-top">
+    <div *ngIf="mode !== statementModeEnum.Print" kendoTooltip class="tooltip-wrapper d-inline-block ml-2 align-top">
       <label 
         *ngIf="controlData?.DataFields?.length"
         class="info position-relative"
@@ -17,7 +17,7 @@
       </label>
     </div>
   </div>
-  <div>
+  <div *ngIf="mode !== statementModeEnum.Print; else rawHtml">
     <a (click)="onClickEditor()">
       <quill-editor
         #richText
@@ -30,4 +30,7 @@
       </quill-editor>
     </a>
   </div>
+  <ng-template #rawHtml>
+    <div [innerHtml]="bindEmployeeDataHtml()"></div>
+  </ng-template>
 </div>

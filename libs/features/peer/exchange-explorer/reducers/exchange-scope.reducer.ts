@@ -23,7 +23,7 @@ export interface State extends EntityState<ExchangeScopeItem> {
 
 // Create entity adapter
 export const adapter: EntityAdapter<ExchangeScopeItem> = createEntityAdapter<ExchangeScopeItem>({
-  selectId: (exchangeScopeItem: ExchangeScopeItem) => exchangeScopeItem.Id,
+  selectId: (exchangeScopeItem: ExchangeScopeItem) => exchangeScopeItem.ExchangeScopeId,
   sortComparer: (a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending)
 });
 
@@ -43,6 +43,8 @@ export const initialState: State = adapter.getInitialState({
   exchangeScopeToDelete: null
 });
 
+export let initialLoadCompleteState: State = null;
+
 // Reducer
 export function reducer(state = initialState, action: fromExchangeScopeActions.Actions): State {
   switch (action.type) {
@@ -54,10 +56,16 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
   }
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS_SUCCESS: {
       const scopes: ExchangeScopeItem[] = action.payload;
-      return {
+      const newState = {
         ...adapter.setAll(scopes, state),
         loadingByJobs: false
       };
+
+      if (!initialLoadCompleteState) {
+        initialLoadCompleteState = newState;
+      }
+
+      return newState;
     }
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS_ERROR: {
       return {
@@ -74,10 +82,16 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
     }
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_SUCCESS: {
       const scopes: ExchangeScopeItem[] = action.payload;
-      return {
+      const newState = {
         ...adapter.setAll(scopes, state),
         loadingByExchange: false
       };
+
+      if (!initialLoadCompleteState) {
+        initialLoadCompleteState = newState;
+      }
+
+      return newState;
     }
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_ERROR: {
       return {
@@ -168,6 +182,9 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
         ...state,
         exchangeScopeToDelete: action.payload
       };
+    }
+    case fromExchangeScopeActions.RESET_INITIALLY_LOADED_STATE: {
+      return !!initialLoadCompleteState ? {...initialLoadCompleteState} : {...state};
     }
     default: {
       return state;

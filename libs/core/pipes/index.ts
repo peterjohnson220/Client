@@ -15,3 +15,4 @@ export * from './empty-placeholder.pipe';
 export * from './validation-error-results.pipe';
 export * from './time-elapsed.pipe';
 export * from './editable-job-description.pipe';
+export * from './rate-currency-conversion.pipe';

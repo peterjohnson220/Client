@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { GenerateFeedRequest, MarketDataFeed } from 'libs/models/payfactors-api';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MarketDataFeedApiService {
   private endpoint = 'MarketDataFeed';
 

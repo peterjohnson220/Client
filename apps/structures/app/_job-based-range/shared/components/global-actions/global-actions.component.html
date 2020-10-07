@@ -4,5 +4,5 @@
     <button [pfSecuredResource]="_Permissions.STRUCTURES_PUBLISH" class="btn btn-secondary" (click)="handlePublishModelClicked()">Publish</button>
   </ng-container>
 
-  <pf-model-settings-btn [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" [metadata]="metadata" (clicked)="handleModelSettingsClicked()"></pf-model-settings-btn>
+  <pf-model-settings-btn [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" [metadata]="metadata" (modelSettingsClicked)="handleModelSettingsClicked()" (duplicateModelClicked)="handleDuplicateModelClicked()"></pf-model-settings-btn>
 </div>

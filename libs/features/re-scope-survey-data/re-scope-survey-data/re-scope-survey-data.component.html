@@ -1,0 +1,66 @@
+<pf-modal-form
+  [modalId]="'au-modal-re-scope-survey-data'"
+  [title]="'Change Scope'"
+  [size]="'xl'"
+  [isOpen$]="modalConfiguration.ShowModal$"
+  [primaryButtonText]="'Save'"
+  [windowClass]="'re-scope-survey-data-modal-container'"
+  [submitEnabled]="selectedSurveyDataId > 0"
+  (onDismiss)="resetModal(true)"
+  (onSubmit)="reScopeSubmitted.emit(selectedSurveyDataId);"
+  (onModalOpen)="resetModal(false)"
+>
+  <ng-container basic-content>
+    <div class="re-scope-modal-container">
+      <div class="re-scope-modal-content">
+        <div class="re-scope-header-container p-2">
+          <div *ngIf="modalConfiguration.ShowPricingWarning" class="card border-danger re-scope-warning mb-2">
+            <div class="p-2">
+              <fa-icon [icon]="['fas','exclamation-circle']"></fa-icon>
+              Changing a scope will affect the most recent pricing and cannot be undone
+            </div>
+          </div>
+          <div class="pb-3">
+            Search for and select a new scope for this match. Once selected, click Save to change the scope.
+          </div>
+        </div>
+        <div class="alternate-survey-data-scopes">
+          <pf-data-grid
+            *ngIf="reScopeSurveyDataFilters.length && pageViewId"
+            [actionBarConfig]="actionBarConfig"
+            [showTitle]="true"
+            [pageViewId]="pageViewId"
+            [selectionField]="'SurveyData_Survey_Data_ID'"
+            [selectionFieldExistsOnBase]="false"
+            [inboundFilters]="reScopeSurveyDataFilters"
+            [defaultSort]="defaultSort"
+            [titleActionsTemplate]="modalConfiguration.SurveyJobTemplate"
+            [columnTemplates]="columnTemplates"
+            [enableResize]="false">
+          </pf-data-grid>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>
+
+<ng-template #scopeSearchColumn let-dataRow="dataRow">
+  {{dataRow['SurveyData_Scope1']}} / {{dataRow['SurveyData_Scope2']}} / {{dataRow['SurveyData_Scope3']}}
+</ng-template>
+
+<ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  {{ dataRow[fieldName] | rateCurrencyConvert: 'Annual': (modalConfiguration?.Rate || 'Annual'): (reScopeContext?.CurrencyConversionFactor || 1) | comp: (modalConfiguration?.Rate || 'Annual') | emptyPlaceholder}}
+</ng-template>
+
+<ng-template #scopeSearchFilter let-field="field">
+  <div class="scope-search-text-filter pb-4">
+    <pf-input-debounce [placeholderText]="field.FilterPlaceholder"
+                       [hideClearBtn]="false"
+                       [minWidth]="275"
+                       [delay]="400"
+                       [(ngModel)]="getClonedField(field).FilterValue"
+                       (valueChanged)="handleScopeSearch(field, $event)"
+                       [id]="'txt-' + field.SourceName">
+    </pf-input-debounce>
+  </div>
+</ng-template>

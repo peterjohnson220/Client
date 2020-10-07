@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { FilterDescriptor } from '@progress/kendo-data-query';
 import { of, Subject } from 'rxjs';
 

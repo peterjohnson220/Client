@@ -5,7 +5,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunityJob } from 'libs/models/community/community-job.model';
 import { CommunityJobSearchResponse } from 'libs/models/community/community-job-search-response.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CommunityJobApiService {
   private endpoint = 'CommunityJobs';
 

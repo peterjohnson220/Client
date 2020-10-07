@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -6,14 +6,16 @@ import { Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import { RangeType } from 'libs/features/employee-management/models';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { PageViewIds } from '../../../../constants';
 import * as fromJobsPageReducer from '../../../../reducers';
@@ -39,6 +41,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'vw_CompanyJobsStructureInfo_Structure_Search'
   }];
+  defaultPagingOptions: PagingOptions;
   fieldsExcludedFromExport = [
     'CompanyJob_ID',
     'CompanyPayMarket_ID',
@@ -53,8 +56,14 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
   payMarketOptions: any;
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
-  constructor(private store: Store<fromJobsPageReducer.State>) {
+  constructor(
+    private store: Store<fromJobsPageReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.companyPayMarketSubscription = this.store.select(fromJobsPageReducer.getCompanyPayMarkets)
       .subscribe(o => {
         this.filteredPayMarketOptions = o;
@@ -74,6 +83,14 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
       ExportSourceName: 'Structures',
       ActionBarClassName: 'ml-0 mr-3 mt-1'
     };
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+    };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
   }
 
   ngAfterViewInit() {

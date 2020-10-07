@@ -19,3 +19,11 @@
   right: 8px;
   top: 2px;
 }
+
+::ng-deep .k-dropzone-hovered {
+  background-color: #EAEAEA !important;
+}
+
+::ng-deep .k-dropzone-hint {
+  display: none !important;
+}

@@ -1,7 +1,28 @@
 <pf-page-with-title-bar [returnUrl]="'/statement/edit/' + (statement$ | async)?.StatementId">
   <ng-container page-title>{{ (statement$ | async)?.StatementName }}: Assigned Employees</ng-container>
   <ng-container page-actions>
-    <button type="button" class="btn btn-primary open-assign-modal" (click)="openAssignModal()">Assign Employees</button>
+    <pf-input-debounce class="mr-2" [style.width.px]="300"
+                       [value]="(employeeSearchTerm$ | async)"
+                       [disabled]="(!(assignedEmployeesTotal$ | async) && !(employeeSearchTerm$ | async))"
+                       [placeholderText]="'Search for an employee by Name or ID'"
+                       [automationClassName]="'au-tb-assigned-employee-search'"
+                       (valueChanged)="onSearchTermChange($event)">
+    </pf-input-debounce>
+    <button type="button"
+            class="btn btn-primary open-assign-modal"
+            [disabled]="(statement$ | async)?.AssignedCompanyEmployeeIds?.length === statementAssignmentMax"
+            [attr.title]="(statement$ | async)?.AssignedCompanyEmployeeIds?.length === statementAssignmentMax ? 'You have reached the 100,000 employees limit.' : ''"
+            (click)="openAssignModal()">
+            Assign Employees
+    </button>
+    <button type="button"
+            id="export-btn"
+            class="btn btn-secondary"
+            [disabled]="!(assignedEmployeesTotal$ | async) || (isExportingAssignedEmployees$ | async) || (exportEventId$ | async)?.loading"
+            [attr.title]="'Export Employee Benefits Report'"
+            (click)="handleExportClicked()">
+      <fa-icon icon="download"></fa-icon>
+    </button>
   </ng-container>
   <ng-container page-content>
     <div class="flex-column-container">
@@ -9,7 +30,7 @@
         <div class="d-flex grid-actions-container">
           <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length === 0" (click)="handleClearSelectionsClick()">
             <fa-icon [icon]="['far', 'times']"></fa-icon>
-            Clear Selections
+            Clear Selections <span *ngIf="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length > 0">({{(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length}})</span>
           </button>
           <div class="vertical-separator mr-3"></div>
           <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length === 0" (click)="handleOpenUnassignModalClick()">
@@ -32,7 +53,9 @@
         <div class="grid-wrapper" [class.expanded-filters]="getIsFiltersPanelOpen$ | async">
           <pf-assigned-employees-grid
             [gridState]="assignedEmployeesGridState"
-            (gridStateChange)="handleAssignedEmployeesGridStateChange($event)">
+            [displayNoEmployeesImage]="!(assignedEmployeesLoading$ | async) && !isChangingFilters && (filters$ | async)?.length === 0 && !(this.employeeSearchTerm$ | async)"
+            (gridStateChange)="handleAssignedEmployeesGridStateChange($event)"
+            (openAssignModalClicked)="openAssignModal()">
           </pf-assigned-employees-grid>
         </div>
         <div class="filter-wrapper" [class.expanded]="getIsFiltersPanelOpen$ | async">
@@ -46,9 +69,8 @@
         </div>
       </div>
       <pf-footer-bar
-        [primaryButtonText]="'Generate'"
-        [primaryButtonEnabled]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length"
-        [primaryButtonToolTip]="(assignedEmployeesSelectedCompanyEmployeeIds$ | async)?.length ? '' : 'Select employees to generate statements'"
+        [primaryButtonText]="(assignedEmployeesTotalOrSelectedCount$ | async) > 0 ? 'Generate (' + (assignedEmployeesTotalOrSelectedCount$ | async) + ')' : 'Generate'"
+        [primaryButtonEnabled]="(assignedEmployeesTotalOrSelectedCount$ | async) > 0"
         [secondaryButtonText]="'Back to Canvas'"
         (primaryButtonClick)="handleOpenGenerateStatementModalClick()"
         (secondaryButtonClick)="handleBackToCanvasClick()"
@@ -60,7 +82,7 @@
         [sendingGenerateRequest]="sendingGenerateRequest$ | async"
         [sendingGenerateRequestSuccess]="sendingGenerateRequestSuccess$ | async"
         [sendingGenerateRequestError]="sendingGenerateRequestError$ | async"
-        [selectedCompanyEmployeeIds]="assignedEmployeesSelectedCompanyEmployeeIds$ | async"
+        [companyEmployeeIdsTotal]="assignedEmployeesTotalOrSelectedCount$ | async"
         (generateStatementsClick)="handleGenerateStatementsClick()"
         (cancelClick)="handleCancelGenerateStatementModal()"
       ></pf-generate-statement-modal>

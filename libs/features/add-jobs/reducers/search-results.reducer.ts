@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { toggleJobSelection, updateSelectedJobCodes, updateSelectedJobIds } from 'libs/features/add-jobs/helpers';
 import { JobResult } from 'libs/features/add-jobs/models';

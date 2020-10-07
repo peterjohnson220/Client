@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { isObject } from 'lodash';
 import { asapScheduler, Observable, of, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
+
 
 import { OrgDataEntityType } from 'libs/constants';
 

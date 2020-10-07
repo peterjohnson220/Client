@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { isEmpty, isNumber, isObject } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
+import isNumber from 'lodash/isNumber';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 

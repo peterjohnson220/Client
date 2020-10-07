@@ -44,7 +44,13 @@ export class PricingLoaderSettingsHelper {
         Min: 0, Max: 100, NumericValue: 1, DefaultValue: 1, Decimals: 2, GroupColumnSize: 100 },
       { KeyName: LoaderSettingKeyName.PricingsCompositeAdj, GroupName: 'Adjustments', DisplayName: 'Composite Adj',
         LoaderSettingsId: null, KeyValue: '0',
-        Min: -100, Max: 100, NumericValue: 0, DefaultValue: 0, Decimals: 2, GroupColumnSize: 100 }
+        Min: -100, Max: 100, NumericValue: 0, DefaultValue: 0, Decimals: 2, GroupColumnSize: 100 },
+      { KeyName: LoaderSettingKeyName.PricingsAging, GroupName: 'Adjustments', DisplayName: 'Aging Percent',
+        LoaderSettingsId: null, KeyValue: '3',
+        Min: 0, Max: 99, NumericValue: 3, DefaultValue: 3, Decimals: 2, GroupColumnSize: 100 },
+      { KeyName: LoaderSettingKeyName.PricingsMatchAdj, GroupName: 'Adjustments', DisplayName: 'Match Adj',
+        LoaderSettingsId: null, KeyValue: '0',
+        Min: 0, Max: 99, NumericValue: 0, DefaultValue: 0, Decimals: 2, GroupColumnSize: 100 }
     ];
   }
 

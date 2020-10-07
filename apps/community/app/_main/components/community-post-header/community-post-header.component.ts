@@ -29,9 +29,12 @@ export class CommunityPostHeaderComponent {
   @Input() userPollId: string;
   @Input() hasReplies: boolean;
   @Input() hidePostActions: boolean;
-  @Input() hideEdit = false;
 
   constructor(public store: Store<fromCommunityPostReducer.State>) {
+  }
+
+  get hideUserActionsMenu() {
+    return  !this.isCurrentUserPost && !this.isUserAdmin();
   }
 
   isUserAdmin(): boolean {

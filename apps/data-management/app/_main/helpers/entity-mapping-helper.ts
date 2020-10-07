@@ -1,4 +1,5 @@
-import { isEmpty, isObject } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
 
 import { OrgDataEntityType } from 'libs/constants';
 import { MappingPackage } from 'libs/models/hris-api';

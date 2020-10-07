@@ -7,7 +7,9 @@ import { FormSubmissionResponse, ExchangeSignupCompany } from 'libs/models/payfa
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExchangeSignupFormApiService {
   private readonly endpoint = 'ExchangeSignupForm';
 

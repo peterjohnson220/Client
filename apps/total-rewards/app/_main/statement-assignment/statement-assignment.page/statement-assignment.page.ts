@@ -1,15 +1,18 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
-import { Observable, Subscription, Subject } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
-import { CompanyEmployee } from 'libs/models/company';
+import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-rewards';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { AppNotification } from 'libs/features/app-notifications/models';
+import { AsyncStateObj } from 'libs/models/state';
+import { GridTypeEnum } from 'libs/models/common';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
@@ -18,13 +21,15 @@ import * as fromAssignmentsModalActions from '../actions/statement-assignment-mo
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
 import { Statement } from '../../../shared/models';
 import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
+import { StatementAssignmentConfig } from '../models';
+
 
 @Component({
   selector: 'pf-statement-assignment-page',
   templateUrl: './statement-assignment.page.html',
   styleUrls: ['./statement-assignment.page.scss']
 })
-export class StatementAssignmentPageComponent implements AfterViewInit, OnDestroy, OnInit {
+export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   @ViewChild(StatementAssignmentModalComponent, {static: true}) public StatementAssignmentModalComponent: StatementAssignmentModalComponent;
 
   statement$: Observable<Statement>;
@@ -35,6 +40,8 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   sendingGenerateRequestError$: Observable<boolean>;
   getIsFiltersPanelOpen$: Observable<boolean>;
   getNotification$: Observable<AppNotification<any>[]>;
+  isExportingAssignedEmployees$: Observable<boolean>;
+  exportEventId$: Observable<AsyncStateObj<string>>;
 
   assignedEmployeesSelectedCompanyEmployeeIds$: Observable<number[]>;
 
@@ -43,29 +50,40 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   sendingUnassignRequestSuccess$: Observable<boolean>;
   sendingUnassignRequestError$: Observable<boolean>;
   isSingleEmployeeAction$: Observable<boolean>;
-  openActionMenuEmployee$: Observable<CompanyEmployee>;
+  openActionMenuEmployee$: Observable<TotalRewardAssignedEmployee>;
   unassignEmployeesSuccess$: Observable<boolean>;
 
   assignedEmployeesLoading$: Observable<boolean>;
   assignedEmployeesTotal$: Observable<number>;
+  assignedEmployeesTotalOrSelectedCount$: Observable<number>;
   assignedEmployeesListAreaColumns$: Observable<any[]>;
+
+  employeeSearchTerm$: Observable<string>;
 
   statement: Statement;
   assignedEmployeesGridState = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState;
 
   statementSubscription$ = new Subscription();
   routeParamSubscription$ = new Subscription();
-  queryParamSubscription$ = new Subscription();
   filterChangeSubscription = new Subscription();
   unassignEmployeesSuccessSubscription = new Subscription();
+  appNotificationSubscription: Subscription;
+  exportEventIdSubscription: Subscription;
 
-  filterChangeSubject = new Subject<FilterDescriptor[]>();
+  exportEventId = null;
+  filterChangeSubject = new BehaviorSubject<FilterDescriptor[]>([]);
+  filters$: Observable<FilterDescriptor[]>;
+  isChangingFilters: boolean;
+  statementAssignmentMax = StatementAssignmentConfig.statementAssignmentMax;
+  private readonly FILTER_DEBOUNCE_TIME = 400;
 
   constructor(
     private store: Store<fromPageReducer.State>,
     private route: ActivatedRoute, private router: Router,
     private appNotificationStore: Store<fromAppNotificationsMainReducer.State>,
-  ) { }
+  ) {
+    this.filters$ = this.filterChangeSubject.asObservable();
+  }
 
   private setSearchContext() {
     const setContextMessage: MessageEvent = {
@@ -83,6 +101,8 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   ngOnInit(): void {
     // observables
     this.statement$ = this.store.pipe(select(fromPageReducer.getStatement));
+    this.employeeSearchTerm$ = this.store.pipe(select(fromPageReducer.getEmployeeSearchTerm));
+    this.isExportingAssignedEmployees$ = this.store.pipe(select(fromPageReducer.getIsExportingAssignedEmployees));
 
     // Generate Modal
     this.isGenerateStatementModalOpen$ = this.store.pipe(select(fromPageReducer.getIsGenerateStatementModalOpen));
@@ -105,7 +125,11 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.assignedEmployeesSelectedCompanyEmployeeIds$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
     this.assignedEmployeesLoading$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesLoading));
     this.assignedEmployeesTotal$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotal));
+    this.assignedEmployeesTotalOrSelectedCount$ = this.store.pipe(select(fromPageReducer.getAssignedEmployeesTotalOrSelectedCount));
     this.assignedEmployeesListAreaColumns$ = this.store.pipe(select(fromPageReducer.getListAreaColumns));
+
+    // exports
+    this.exportEventId$ = this.store.pipe(select(fromPageReducer.getExportEventAsync));
 
     // subscriptions
     this.routeParamSubscription$ = this.route.params.subscribe(params => {
@@ -114,42 +138,52 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     this.statementSubscription$ = this.statement$.subscribe(s => this.statement = s);
     this.filterChangeSubscription = this.filterChangeSubject.pipe(
       distinctUntilChanged(),
-      debounceTime(400)
+      debounceTime(this.FILTER_DEBOUNCE_TIME)
     ).subscribe((filters: FilterDescriptor[]) => {
+      if (!this.isChangingFilters) {
+        return;
+      }
+      this.isChangingFilters = false;
       // the filters component mutates the gridState's filters directly so workaround a potential read only error by cloning
       this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
       this.assignedEmployeesGridState.filter.filters = filters;
       this.assignedEmployeesGridState.skip = 0;
+      this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, cloneDeep(this.assignedEmployeesGridState)));
       this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
     });
     this.unassignEmployeesSuccessSubscription = this.unassignEmployeesSuccess$.subscribe(u => {
       if (u) {
         this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
         this.assignedEmployeesGridState.skip = 0;
-        this.assignedEmployeesGridState.take = TotalRewardsAssignmentService.defaultAssignedEmployeesGridState.take;
-        this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+      }
+    });
+    this.exportEventIdSubscription = this.exportEventId$.subscribe(eventId => {
+      if (eventId?.obj !== this.exportEventId) {
+        this.exportEventId = eventId.obj;
+      }
+    });
+    this.appNotificationSubscription = this.getNotification$.subscribe(notification => {
+      const successNotification = notification.find((x) => x.Level === 'Success' && x.NotificationId === this.exportEventId) ;
+      if (successNotification) {
+        this.store.dispatch(new fromPageActions.ExportAssignedEmployeesComplete());
       }
     });
 
     // dispatches, search init
     this.store.dispatch(new fromPageActions.LoadAssignedEmployeesListAreaColumns());
     this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+    this.store.dispatch(new fromPageActions.GetExportingAssignedEmployee());
 
     this.setSearchContext();
-  }
-
-  ngAfterViewInit(): void {
-    this.queryParamSubscription$ = this.route.queryParams.subscribe( queryParams => {
-      if (queryParams['openModal'] && (queryParams['openModal'] === '1')) {
-        this.store.dispatch(new fromAssignmentsModalActions.OpenModal());
-      }
-    });
   }
 
   ngOnDestroy(): void {
     this.statementSubscription$.unsubscribe();
     this.routeParamSubscription$.unsubscribe();
-    this.queryParamSubscription$.unsubscribe();
+    this.exportEventIdSubscription.unsubscribe();
+    this.appNotificationSubscription.unsubscribe();
+    this.unassignEmployeesSuccessSubscription.unsubscribe();
+    this.filterChangeSubscription.unsubscribe();
     this.store.dispatch(new fromPageActions.ResetState());
   }
 
@@ -176,11 +210,13 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
     const currentFilter = cloneDeep(this.assignedEmployeesGridState.filter);
     this.assignedEmployeesGridState = cloneDeep($event);
     this.assignedEmployeesGridState.filter = currentFilter;
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, this.assignedEmployeesGridState));
     this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
   }
 
   // filter handler methods
   handleFilterChanged(filters: FilterDescriptor[]) {
+    this.isChangingFilters = true;
     this.filterChangeSubject.next(filters);
   }
 
@@ -193,17 +229,14 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
   }
 
   handleClearFilter(filterDescriptor: FilterDescriptor) {
-    // the filters component mutates the gridState's filters directly so workaround a potential read only error by cloning
-    this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
-    this.assignedEmployeesGridState.filter.filters = this.assignedEmployeesGridState.filter.filters.filter(f => f.field !== filterDescriptor.field);
-    this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+    this.isChangingFilters = true;
+    const remainingFilters = this.assignedEmployeesGridState.filter.filters.filter(f => f.field !== filterDescriptor.field);
+    this.filterChangeSubject.next(remainingFilters);
   }
 
   handleClearAllFilters() {
-    // the filters component mutates the gridState's filters directly so workaround a potential read only error by cloning
-    this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
-    this.assignedEmployeesGridState.filter.filters = [];
-    this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+    this.isChangingFilters = true;
+    this.filterChangeSubject.next([]);
   }
 
   handleOpenUnassignModalClick() {
@@ -216,6 +249,7 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
 
   handleCancelUnassignEmployeesModal() {
     this.store.dispatch(new fromPageActions.CloseUnassignModal());
+    this.store.dispatch(new fromAssignedEmployeesGridActions.CloseActionMenu());
   }
 
   handleClearSelectionsClick() {
@@ -229,5 +263,13 @@ export class StatementAssignmentPageComponent implements AfterViewInit, OnDestro
 
   handleBackToCanvasClick() {
     this.router.navigate(['/statement/edit/' + this.statement.StatementId]);
+  }
+
+  onSearchTermChange(searchTerm: string) {
+    this.store.dispatch(new fromAssignedEmployeesGridActions.UpdateEmployeeSearchTerm({ searchTerm, gridState: this.assignedEmployeesGridState }));
+  }
+
+  handleExportClicked() {
+    this.store.dispatch(new fromPageActions.ExportAssignedEmployees());
   }
 }

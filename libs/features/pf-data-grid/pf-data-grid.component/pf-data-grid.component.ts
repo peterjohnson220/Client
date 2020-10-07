@@ -20,6 +20,7 @@ import {
   GridConfig
 } from '../models';
 import { getUserFilteredFields } from '../components';
+import { SelectAllStatus } from '../reducers/pf-data-grid.reducer';
 
 @Component({
   selector: 'pf-data-grid',
@@ -35,6 +36,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() navigationURL: string;
   @Input() showTitle = true;
   @Input() selectionField: string;
+  @Input() selectionFieldExistsOnBase: true;
   @Input() columnTemplates: any;
   @Input() aboveGridTemplate: TemplateRef<any>;
   @Input() rightGridTemplate: TemplateRef<any>;
@@ -50,6 +52,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() lockedPillText: string;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() enableSelection = false;
+  @Input() enableResize = true;
   @Input() defaultSort: SortDescriptor[];
   @Input() pagingOptions: PagingOptions;
   @Input() noRecordsFound: string;
@@ -82,6 +85,10 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() gridConfig: GridConfig;
   @Input() modifiedKey: string = null;
   @Input() resetWidthForSplitView = false;
+  @Input() allowMultipleSort = false;
+  @Input() showSplitViewToggle = false;
+  @Input() showSortControls = true;
+  @Input() linkGroups = [];
   @ViewChild('splitViewContainer', { static: false }) splitViewContainer: ElementRef;
 
   splitViewEmitter = new EventEmitter<string>();
@@ -95,6 +102,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   getNotification$: Observable<AppNotification<any>[]>;
   getExportEventId$: Observable<number>;
   getExportViewId$: Observable<number>;
+  selectAllState$: Observable<string>;
+  totalCount$: Observable<number>;
+  uniqueVisibleKeys$: Observable<number[]>;
 
   userFilteredFieldsSubscription: Subscription;
   selectedRecordIdSubscription: Subscription;
@@ -102,10 +112,14 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   getNotificationSubscription: Subscription;
   getExportEventIdSubscription: Subscription;
   getExportViewIdSubscription: Subscription;
+  getGridScrolledSubscription: Subscription;
+  getEnablePricingReviewed: Subscription;
 
   userFilteredFields: ViewField[];
   selectedRecordId: number;
   exportEventId = null;
+  normalSplitViewWidth: string;
+  selectAllStatus = SelectAllStatus;
 
   constructor(
     private store: Store<fromReducer.State>,
@@ -144,6 +158,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.getExportEventId$ = this.store.select(fromReducer.getExportEventId, this.pageViewId);
     this.getNotification$ = this.appNotificationStore.select(fromAppNotificationsMainReducer.getNotifications);
     this.getExportViewId$ = this.store.select(fromReducer.getExportViewId, this.pageViewId);
+    this.selectAllState$ = this.store.select(fromReducer.getSelectAllState, this.pageViewId);
+    this.totalCount$ = this.store.select(fromReducer.getTotalCount, this.pageViewId);
+    this.uniqueVisibleKeys$ = this.store.select(fromReducer.getVisibleKeys, this.pageViewId);
 
     this.getExportEventIdSubscription = this.getExportEventId$.subscribe(eventId => {
       if (eventId !== this.exportEventId) {
@@ -162,6 +179,14 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
         this.store.dispatch(new fromActions.GetExportingStatus(this.pageViewId, exportViewId));
       }
     });
+
+    this.getGridScrolledSubscription = this.store.select(fromReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
+      if (scrolledContent && this.syncScrollWithSplit) {
+        this.splitViewContainer.nativeElement.scrollTop = scrolledContent.scrollTop;
+      }
+    });
+
+    this.normalSplitViewWidth = this.gridContainerSplitViewWidth;
   }
 
   ngOnDestroy() {
@@ -172,9 +197,17 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     this.getExportEventIdSubscription.unsubscribe();
     this.getNotificationSubscription.unsubscribe();
     this.getExportViewIdSubscription.unsubscribe();
+    this.getGridScrolledSubscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {
+
+    // IMPORTANT: Do not change the order of the if statements.
+    // We have to dispatch the update to the applyUserDefaultCompensationFields before we dispatch the LoadViewConfig action
+    // On prod builds the order in which we dispatch actions matters. If we load the view config
+    // before we set the applyUserDefaultCompensationFields, we don't get the correct input value
+    // of the applyUserDefaultCompensationFields flag when loading the ViewConfig
+    // This issue is not present for non-prod builds so be careful with your local testing
     if (changes['applyUserDefaultCompensationFields']) {
       this.store.dispatch(new fromActions.UpdateApplyUserDefaultCompensationFields(this.pageViewId,
         changes['applyUserDefaultCompensationFields'].currentValue));
@@ -187,8 +220,12 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
       }
     }
 
+    if (changes['linkGroups']) {
+      this.store.dispatch(new fromActions.UpdateLinkGroups(this.pageViewId, changes['linkGroups'].currentValue));
+    }
+
     if (changes['selectionField']) {
-      this.store.dispatch(new fromActions.UpdateSelectionField(this.pageViewId, changes['selectionField'].currentValue));
+      this.store.dispatch(new fromActions.UpdateSelectionField(this.pageViewId, changes['selectionField'].currentValue, this.selectionFieldExistsOnBase));
     }
 
     if (changes['inboundFilters']) {
@@ -210,12 +247,15 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     if (changes['saveSort']) {
       this.store.dispatch(new fromActions.UpdateSaveSort(this.pageViewId, changes['saveSort'].currentValue));
     }
+
     if (changes['preserveSelectionsOnGetConfig']) {
       this.store.dispatch(new fromActions.UpdatePreserveSelectionsOnGetConfig(this.pageViewId, changes['preserveSelectionsOnGetConfig'].currentValue));
     }
+
     if (changes['fieldsExcludedFromExport']) {
       this.store.dispatch(new fromActions.UpdateFieldsExcludedFromExport(this.pageViewId, changes['fieldsExcludedFromExport'].currentValue));
     }
+
     if (changes['gridConfig']) {
       this.store.dispatch(new fromActions.UpdateGridConfig(this.pageViewId, changes['gridConfig'].currentValue));
     }
@@ -261,6 +301,9 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
     return this.splitViewTemplate && (this.selectedRecordId || !this.splitOnSelection);
   }
 
+  toggleSplitView() {
+    this.gridContainerSplitViewWidth = this.gridContainerSplitViewWidth === this.normalSplitViewWidth ? '100%' : this.normalSplitViewWidth;
+  }
   handleGridScroll(event: ContentScrollEvent) {
     if (this.syncScrollWithSplit) {
       this.splitViewContainer.nativeElement.scrollTop = event.scrollTop;

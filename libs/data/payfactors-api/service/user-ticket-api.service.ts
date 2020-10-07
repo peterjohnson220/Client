@@ -16,7 +16,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { GenericKeyValue } from 'libs/models';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserTicketApiService {
   private endpoint = 'Ticket';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });

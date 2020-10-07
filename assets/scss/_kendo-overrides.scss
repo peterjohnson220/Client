@@ -40,6 +40,19 @@
   }
 }
 
+.k-numerictextbox {
+  &.right {
+    input {
+      text-align: right;
+    }
+  }
+
+  &.left {
+    input {
+      text-align: left;
+    }
+  }
+}
 
 .k-filter-menu .k-dropdown .k-dropdown-wrap {
   border-color: $border-grey;

@@ -31,7 +31,7 @@ export enum CompanySettingsEnum {
   EnableJobRangeStructureRangeTypes = 'EnableJobRangeStructureRangeTypes',
   CommunityDisableAttachments = 'CommunityDisableAttachments',
   JDMExternalWorkflowsRequireSSOLogin = 'JDMExternalWorkflowsRequireSSOLogin',
-  EnableUserNotifications = 'EnableUserNotifications'
+  DefaultProjectDataSearchToPeerTab = 'DefaultProjectDataSearchToPeerTab'
 }
 
 export interface CompanySetting {

@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { TotalRewardsSearchApiService } from 'libs/data/payfactors-api/total-rewards';
 
@@ -20,16 +19,36 @@ export class AssignedEmployeesGridEffects {
     ofType(fromAssignedEmployeesGridActions.LOAD_ASSIGNED_EMPLOYEES),
     withLatestFrom(
       this.store.select(fromTotalRewardsReducer.getStatement),
-      (action: fromAssignedEmployeesGridActions.LoadAssignedEmployees, statement) => ({ payload: action.payload, statementId: statement.StatementId })
+      this.store.select(fromTotalRewardsReducer.getEmployeeSearchTerm),
+      (action: fromAssignedEmployeesGridActions.LoadAssignedEmployees, statement, employeeSearchTerm) =>
+        ({ payload: action.payload, statementId: statement.StatementId, employeeSearchTerm })
     ),
-    map(data => ({ statementId: data.statementId, gridListState: data.payload || TotalRewardsAssignmentService.defaultAssignedEmployeesGridState })),
-    switchMap(combined =>
-      this.totalRewardsSearchApi.getAssignedEmployees({ StatementId: combined.statementId, GridListState: combined.gridListState }).pipe(
-        map((response: GridDataResult) => new fromAssignedEmployeesGridActions.LoadAssignedEmployeesSuccess(response)),
+    map(data => ({
+      statementId: data.statementId,
+      gridListState: data.payload || TotalRewardsAssignmentService.defaultAssignedEmployeesGridState,
+      employeeSearchTerm: data.employeeSearchTerm
+    })),
+    switchMap(combined => {
+      const request = {
+        StatementId: combined.statementId,
+        EmployeeSearchTerm: combined.employeeSearchTerm,
+        GridListState: combined.gridListState
+      };
+      return this.totalRewardsSearchApi.getAssignedEmployees(request).pipe(
+        map((response) => new fromAssignedEmployeesGridActions.LoadAssignedEmployeesSuccess(response)),
         catchError(() => of(new fromAssignedEmployeesGridActions.LoadAssignedEmployeesError()))
-      )
-    )
+      );
+    })
   );
+
+  @Effect()
+  updateEmployeeSearchTerm$ = this.actions$
+    .pipe(
+      ofType(fromAssignedEmployeesGridActions.UPDATE_EMPLOYEE_SEARCH_TERM),
+      map((action: fromAssignedEmployeesGridActions.UpdateEmployeeSearchTerm) => {
+        return new fromAssignedEmployeesGridActions.LoadAssignedEmployees(action.payload.gridState);
+      })
+    );
 
   constructor(
     private actions$: Actions,

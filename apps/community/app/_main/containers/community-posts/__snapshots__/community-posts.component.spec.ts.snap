@@ -7,6 +7,7 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   communityPostEdited$={[Function Store]}
   communityPosts$={[Function Store]}
   communityPostsSubscription={[Function Subscriber]}
+  communityTopics$={[Function Store]}
   filterStore={[Function Store]}
   filteredByPost$={[Function Store]}
   filtersModifiedEvent={[Function EventEmitter]}

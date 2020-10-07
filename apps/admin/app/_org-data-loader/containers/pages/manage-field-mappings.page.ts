@@ -1,6 +1,9 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import { delay, isNumber, isObject, isEmpty } from 'lodash';
+import delay from 'lodash/delay';
+import isNumber from 'lodash/isNumber';
+import isObject from 'lodash/isObject';
+import isEmpty from 'lodash/isEmpty';
 import { Store } from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {filter, take, takeUntil} from 'rxjs/operators';
@@ -14,8 +17,9 @@ import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader
 import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { ConfigSetting } from 'libs/models/security';
-import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
+import { ConfigSettingsSelectorFactory, SettingsService } from 'libs/state/app-context/services';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
+import { CompanySettingsEnum, CompanySetting } from 'libs/models';
 import {
   ConfigurationGroup,
   EmailRecipientModel, LoaderFieldSet,
@@ -29,6 +33,7 @@ import * as fromCompanyReducer from 'libs/features/company/company-selector/redu
 import {CompanySelectorComponent} from 'libs/features/company/company-selector/components';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
 import { SftpUserModel } from 'libs/models/Sftp';
+import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -37,7 +42,7 @@ import * as fromOrgDataConfigurationActions from '../../actions/org-data-loader-
 import * as fromSftpUserActions from '../../actions/sftp-user.actions';
 import {
     LoaderType, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
-    ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
+    ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS
 } from '../../constants';
 import { OrgDataFilenamePatternSet } from '../../models';
 import { ACCEPTED_FILE_EXTENSIONS } from '../../constants/public-key-filename-constants';
@@ -109,6 +114,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   sftpUserNameIsValid$: Observable<boolean>;
   private emailRecipients: EmailRecipientModel[];
   private sftpUserNameIsValid: boolean;
+  private selectedCompanySetting$: Observable<CompanySetting[]>;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -170,6 +176,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     private orgDataAutoloaderApi: LoaderFieldMappingsApiService,
     private notificationService: NotificationService,
     private configSettingsSelectorFactory: ConfigSettingsSelectorFactory,
+    private companySettingsApiService: CompanySettingsApiService,
     private cdr: ChangeDetectorRef,
   ) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
@@ -249,6 +256,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       this.selectedCompany = f;
       if (f) {
         this.companySelector.isDisabled = true;
+        this.getSelectedCompanySetting();
         this.CompanySelected();
         this.cdr.detectChanges();
       }
@@ -355,6 +363,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     ).subscribe(isValid => {
       this.sftpUserNameIsValid = isValid;
     });
+
   } // end constructor
 
   ngOnInit() {
@@ -407,6 +416,20 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       this.dateFormat = $event.dateFormat;
     }
     this.isEmployeesFullReplace = $event.isFullReplace;
+  }
+
+  private getSelectedCompanySetting() {
+    this.selectedCompanySetting$ = this.companySettingsApiService.getCompanySettings(this.selectedCompany.CompanyId);
+
+    this.selectedCompanySetting$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(companySetting => !!companySetting)
+    ).subscribe(setting => {
+      const jobRangeStruct = setting.find(s => s.Key === CompanySettingsEnum.EnableJobRangeStructureRangeTypes);
+      if (jobRangeStruct.Value === 'true') {
+        this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
+      }
+    });
   }
 
   CompanySelected() {

@@ -16,6 +16,7 @@ import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
 import { StructuresPagesService } from '../../shared/services';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
+import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
 
 
 @Component({
@@ -70,6 +71,10 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   // Events
   handleModelSettingsBtnClicked() {
     this.store.dispatch(new fromModelSettingsModalActions.OpenModal());
+  }
+
+  handleDuplicateModelBtnClicked() {
+    this.store.dispatch(new fromDuplicateModelModalActions.OpenModal());
   }
 
   // Lifecycle

@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { orderBy } from 'lodash';
-import * as cloneDeep from 'lodash.clonedeep';
+import orderBy from 'lodash/orderBy';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';

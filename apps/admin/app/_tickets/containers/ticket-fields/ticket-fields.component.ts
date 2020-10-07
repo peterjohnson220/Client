@@ -5,7 +5,8 @@ import {
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, flatMap, map, takeUntil } from 'rxjs/operators';
-import { orderBy, cloneDeep } from 'lodash';
+import orderBy from 'lodash/orderBy';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { UserApiService } from 'libs/data/payfactors-api/user';
 import { TicketValuePickerComponent } from '../index';

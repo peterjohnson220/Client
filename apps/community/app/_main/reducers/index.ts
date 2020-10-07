@@ -1,7 +1,7 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import * as fromRoot from 'libs/state/state';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromCommunityPollRequestReducer from './community-poll-request.reducer';
 import * as fromCommunityPollResponseReducer from './community-poll-response.reducer';

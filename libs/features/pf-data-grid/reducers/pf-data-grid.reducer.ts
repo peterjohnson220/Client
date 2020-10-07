@@ -1,5 +1,10 @@
-import { cloneDeep, orderBy, uniq, uniqBy, isNumber } from 'lodash';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
+import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
+import isNumber from 'lodash/isNumber';
+
+import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
 import { groupBy, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 
 import { arrayMoveMutate, arraySortByString, SortDirection } from 'libs/core/functions';
@@ -14,6 +19,8 @@ export interface DataGridState {
   loading: boolean;
   baseEntity: DataViewEntity;
   selectionField: string;
+  linkGroups: [];
+  selectionFieldExistsOnBase: boolean;
   fields: ViewField[];
   groupedFields: any[];
   inboundFilters: PfDataGridFilter[];
@@ -46,6 +53,12 @@ export interface DataGridState {
   fieldsExcludedFromExport: [];
   gridConfig: GridConfig;
   modifiedKeys: any[];
+  gridScrolledContent: ContentScrollEvent;
+  hasMoreDataOnServer: boolean;
+  loadingMoreData: boolean;
+  totalCount: number;
+  lastUpdateFieldsDate: Date;
+  visibleKeys: number[];
 }
 
 export interface DataGridStoreState {
@@ -72,13 +85,18 @@ export const getState = (state: DataGridStoreState) => state;
 export const getGrid = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId];
 export const getLoading = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].loading : null;
 export const getBaseEntity = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].baseEntity : null;
+export const getLinkGroups = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].linkGroups : null;
 export const getSelectionField = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].selectionField : null;
 export const getFieldsExcludedForExport = (state: DataGridStoreState, pageViewId: string) =>
   state.grids[pageViewId] ? state.grids[pageViewId].fieldsExcludedFromExport : [];
 export const getPrimaryKey = (state: DataGridStoreState, pageViewId: string) => {
-  return state.grids[pageViewId] && state.grids[pageViewId].baseEntity
-    ? `${state.grids[pageViewId].baseEntity.SourceName}_${state.grids[pageViewId].selectionField}`
-    : '';
+  if (state.grids[pageViewId] && state.grids[pageViewId].baseEntity) {
+    return state.grids[pageViewId].selectionFieldExistsOnBase ?
+      `${state.grids[pageViewId].baseEntity.SourceName}_${state.grids[pageViewId].selectionField}` :
+      state.grids[pageViewId].selectionField;
+  } else {
+    return '';
+  }
 };
 export const getFields = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId]
   ? state.grids[pageViewId].fields : null;
@@ -150,9 +168,12 @@ export const getFieldsFilterCount = (state: DataGridStoreState, pageViewId: stri
 export const getGridConfig = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].gridConfig : null;
 export const getFilterPanelOpen = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].filterPanelOpen : null;
 export const getModifiedKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId] ? state.grids[pageViewId].modifiedKeys : null;
-
-
-
+export const getGridScrolledContent = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].gridScrolledContent;
+export const getTotalCount = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].totalCount;
+export const getHasMoreDataOnServer = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].hasMoreDataOnServer;
+export const getLoadingMoreData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingMoreData;
+export const getLastUpdateFieldsDate = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].lastUpdateFieldsDate;
+export const getVisibleKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].visibleKeys;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -178,8 +199,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
             splitViewFilters: [],
             selectedKeys:
               (state.grids[action.pageViewId] && state.grids[action.pageViewId].preserveSelectionsOnGetConfig && state.grids[action.pageViewId].selectedKeys)
-                  ? state.grids[action.pageViewId].selectedKeys
-                  : []
+                ? state.grids[action.pageViewId].selectedKeys
+                : []
           }
         }
       };
@@ -224,6 +245,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           selectedVisibleFields.length === loadDataVisibleFieldsIds.length ? SelectAllStatus.checked :
             SelectAllStatus.indeterminate;
 
+      const loadDataVisibleKeys = uniq(loadDataVisibleFieldsIds);
+
       return {
         ...state,
         grids: {
@@ -234,8 +257,51 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
               data: action.payload.Data,
               total: action.payload.TotalCount
             },
+            totalCount: action.payload.TotalCount,
             loading: false,
-            selectAllState: loadDataSelectAllState
+            selectAllState: loadDataSelectAllState,
+            hasMoreDataOnServer: action.payload.Data.length < action.payload.TotalCount,
+            visibleKeys: loadDataVisibleKeys
+          }
+        }
+      };
+    case fromPfGridActions.LOAD_MORE_DATA:
+      const gridPagingOptions = cloneDeep(state.grids[action.pageViewId].pagingOptions);
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            loading: true,
+            loadingMoreData: true,
+            pagingOptions: { From: gridPagingOptions.From + gridPagingOptions.Count, Count: gridPagingOptions.Count }
+          }
+        }
+      };
+    case fromPfGridActions.LOAD_MORE_DATA_SUCCESS:
+      const gridDataClone: GridDataResult = cloneDeep(state.grids[action.pageViewId].data);
+      gridDataClone.data = gridDataClone.data.concat(action.payload.Data);
+
+      const currentSelectAllState = state.grids[action.pageViewId].selectAllState;
+      const loadMoreDataSelectAllState = currentSelectAllState === SelectAllStatus.checked
+        ? SelectAllStatus.indeterminate
+        : currentSelectAllState === SelectAllStatus.indeterminate ? SelectAllStatus.indeterminate : SelectAllStatus.unchecked;
+
+      const loadMoreDataVisibleKeys = uniq(getVisibleFieldsIds(state, action.pageViewId, gridDataClone.data));
+
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            data: gridDataClone,
+            loading: false,
+            loadingMoreData: false,
+            hasMoreDataOnServer: gridDataClone.data.length < state.grids[action.pageViewId].totalCount,
+            selectAllState: loadMoreDataSelectAllState,
+            visibleKeys: loadMoreDataVisibleKeys
           }
         }
       };
@@ -262,6 +328,17 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           }
         }
       };
+    case fromPfGridActions.UPDATE_FIELDS_SUCCESS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            lastUpdateFieldsDate: new Date()
+          }
+        }
+      };
     case fromPfGridActions.UPDATE_SELECTION_FIELD:
       return {
         ...state,
@@ -269,7 +346,19 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            selectionField: action.selectionField
+            selectionField: action.selectionField,
+            selectionFieldExistsOnBase: action.existsOnBase
+          }
+        }
+      };
+    case fromPfGridActions.UPDATE_LINK_GROUPS:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            linkGroups: action.linkGroups
           }
         }
       };
@@ -281,6 +370,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             pagingOptions: action.pagingOptions,
+            expandedRows: [],
             loading: true
           },
         }
@@ -298,6 +388,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           },
         }
       };
+    case fromPfGridActions.UPDATE_SORT_DESCRIPTOR_NO_DATA_RETRIEVAL:
     case fromPfGridActions.UPDATE_SORT_DESCRIPTOR:
       return {
         ...state,
@@ -306,7 +397,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             sortDescriptor: action.sortDescriptor,
-            loading: true
+            loading: action.type === fromPfGridActions.UPDATE_SORT_DESCRIPTOR
           },
         }
       };
@@ -405,7 +496,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.CLEAR_FILTER:
-      const clearedFilterFields = cloneDeep(state.grids[action.pageViewId].fields);
+      const clearedFilterFields: ViewField[] = cloneDeep(state.grids[action.pageViewId].fields);
       const clearedFilterField = clearedFilterFields.find(f => f.DataElementId === action.field.DataElementId);
 
       if (clearedFilterField && action.resetOperator) {
@@ -414,6 +505,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
 
       clearedFilterField.FilterValue = null;
       clearedFilterField.FilterValues = null;
+      clearedFilterField.FilterOperator = null;
       const svf = state.grids[action.pageViewId].splitViewFilters.filter(f => f.SourceName !== action.field.SourceName);
       return {
         ...state,
@@ -621,7 +713,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
       const dataItemInActiveCollection = newSelectedData.find(d => d[dataPrimaryKey] === action.payload);
       const selectedDataIndex = newSelectedData.indexOf(dataItemInActiveCollection);
 
-      selectedDataIndex > - 1 ? newSelectedData.splice(selectedDataIndex, 1) : newSelectedData.push(selectedDataItem);
+      selectedDataIndex > -1 ? newSelectedData.splice(selectedDataIndex, 1) : newSelectedData.push(selectedDataItem);
 
 
       if (newSelectedKeys && (newSelectedKeys.length === grid.data.total || newSelectedKeys.length === grid.pagingOptions.Count)) {
@@ -928,7 +1020,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           });
         }
 
-
         // replace the original row with the updated row
         gridData.data[action.rowIndex] = rowToUpdate;
 
@@ -949,9 +1040,9 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         };
       } else {
         // no data found, just return
-          return {
-            ...state
-          };
+        return {
+          ...state
+        };
       }
     case fromPfGridActions.UPDATE_MODIFIED_KEYS:
       return {
@@ -976,6 +1067,32 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             modifiedKeys: [...state.grids[action.pageViewId].modifiedKeys, action.payload]
+          }
+        }
+      };
+    case fromPfGridActions.DELETE_MODIFIED_KEY:
+      if (!state.grids[action.pageViewId].modifiedKeys.includes(action.payload)) {
+        return state;
+      }
+
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
+            modifiedKeys: state.grids[action.pageViewId].modifiedKeys.filter((modifiedKey => modifiedKey !== action.payload))
+          }
+        }
+      };
+    case fromPfGridActions.CAPTURE_GRID_SCROLLED:
+      return {
+        ...state,
+        grids: {
+          ...state.grids,
+          [ action.pageViewId ]: {
+            ...state.grids[ action.pageViewId ],
+            gridScrolledContent: action.payload
           }
         }
       };
@@ -1143,7 +1260,7 @@ export function findSortDescriptor(fields: ViewField[]): SortDescriptor[] {
 export function reorderFieldsColumnGroup(groupedFields: any[], oldIndex: number, newIndex: number, level: number): ViewField[] {
   const groupedFilteredFields =
     orderBy(groupedFields.filter(f => f.DataElementId !== undefined && f.IsSelectable && f.IsSelected ||
-                                      f.Fields !== undefined && f.HasSelection), 'Order');
+      f.Fields !== undefined && f.HasSelection), 'Order');
 
   // Each level has it's own indices
   if (level === 0) {
@@ -1235,7 +1352,7 @@ export function getViewFieldsFromGroupedFields(groupedFields: any[], isSelectedO
     // Fields at level 0
     if (groupedField.DataElementId !== undefined) {
       if (isSelectedOnly && groupedField.IsSelectable && groupedField.IsSelected ||
-            !isSelectedOnly && (!groupedField.IsSelectable || !groupedField.IsSelected)) {
+        !isSelectedOnly && (!groupedField.IsSelectable || !groupedField.IsSelected)) {
         result.push(groupedField);
       }
     }
@@ -1245,7 +1362,7 @@ export function getViewFieldsFromGroupedFields(groupedFields: any[], isSelectedO
       groupedField.Fields.forEach(function (field) {
         if (field.DataElementId !== undefined) {
           if (isSelectedOnly && field.IsSelectable && field.IsSelected ||
-                !isSelectedOnly && (!field.IsSelectable || !field.IsSelected)) {
+            !isSelectedOnly && (!field.IsSelectable || !field.IsSelected)) {
             result.push(field);
           }
         }

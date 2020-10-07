@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as cloneDeep from 'lodash.clonedeep';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+
+import cloneDeep from 'lodash/cloneDeep';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, filter } from 'rxjs/internal/operators';
 
 import {
   LoaderType,
@@ -9,25 +11,27 @@ import {
   ORG_DATA_PF_JOB_FIELDS,
   ORG_DATA_PF_PAYMARKET_FIELDS,
   ORG_DATA_PF_STRUCTURE_FIELDS,
-  ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
+  ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS,
+  ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS,
 } from 'libs/features/org-data-loader/constants';
 import {LoaderEntityStatus, VisibleLoaderOptionModel} from 'libs/features/org-data-loader/models';
 import { LoaderFieldSet } from 'libs/models/data-loads';
 import {CompanySelectorItem} from 'libs/features/company/company-selector/models';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers';
+import { CompanySetting, CompanySettingsEnum } from 'libs/models';
+import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/organizational-data-field-mapping.actions';
 import {EntityChoice} from '../../models';
-
-
 
 @Component({
   selector: 'pf-file-mapping',
   templateUrl: './file-mapping.component.html',
   styleUrls: ['./file-mapping.component.scss']
 })
-export class FileMappingComponent implements OnInit {
+export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
+
   @Input() entities: EntityChoice[];
   @Input() existingCompanyLoaderSettings: ILoadSettings;
   @Input() selectedCompany: CompanySelectorItem;
@@ -50,10 +54,14 @@ export class FileMappingComponent implements OnInit {
   visibleLoaderOptions: VisibleLoaderOptionModel;
   companyMappings$: Observable<LoaderFieldSet[]>;
   companyMappingsLoading$: Observable<boolean>;
+  selectedCompanySetting$: Observable<CompanySetting[]>;
+  private unsubscribe$ = new Subject();
 
   selected: boolean;
 
-  constructor (private store: Store<fromOrgDataAutoloaderReducer.State>) {
+  constructor(
+    private store: Store<fromOrgDataAutoloaderReducer.State>,
+    private companySettingsApiService: CompanySettingsApiService) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
     this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
@@ -72,6 +80,27 @@ export class FileMappingComponent implements OnInit {
 
     this.companyMappings$ = this.store.select(fromOrgDataAutoloaderReducer.getFieldMappings);
     this.companyMappingsLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingFieldMappings);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(true);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes.selectedCompany && !!changes.selectedCompany.currentValue) {
+    this.selectedCompanySetting$ = this.companySettingsApiService.getCompanySettings(this.selectedCompany.CompanyId);
+
+    this.selectedCompanySetting$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(companySetting => !!companySetting)
+    ).subscribe(setting => {
+      const jobRangeStruct = setting.find(s => s.Key === CompanySettingsEnum.EnableJobRangeStructureRangeTypes);
+      if (jobRangeStruct.Value === 'true') {
+        this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
+        this.updateEntities();
+      }
+    });
+    }
   }
 
   ngOnInit(): void {

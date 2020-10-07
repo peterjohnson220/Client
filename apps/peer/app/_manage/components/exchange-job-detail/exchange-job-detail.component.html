@@ -10,7 +10,14 @@
           <fa-icon icon="times"></fa-icon><span>Reject</span>
         </button>
       </div>
-      <div *ngIf="!selectedCompanyJob.IsPendingPeerUserReview && selectedCompanyJob.IsAssociated">
+      <div class="button-container" *ngIf="!selectedCompanyJob.IsPendingPeerUserReview && selectedCompanyJob.IsAssociated">
+        <button
+          class="create-project"
+          [pfSecuredResource]="permissions.NEW_PROJECT"
+          (click)="handleCreateProjectClick()"
+        >
+          <fa-icon [icon]="['far','calculator']" ></fa-icon><span>Create Project</span>
+        </button>
         <button class="unmatch" (click)="handleUnmatchClick()">
           <pf-unmatch-icon></pf-unmatch-icon><span>Unmatch</span>
         </button>

@@ -2,7 +2,6 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromRoot from 'libs/state/state';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
-import { CompanyEmployee } from 'libs/models/company';
 
 import * as fromPageReducer from './statement-assignment.page.reducer';
 import * as fromAssignmentModalReducer from './statement-assignment-modal.reducer';
@@ -114,6 +113,16 @@ export const getSendingUnassignRequestError = createSelector(
   fromPageReducer.getUnassignEmployeesError
 );
 
+export const getIsExportingAssignedEmployees = createSelector(
+  selectPageState,
+  fromPageReducer.getIsExporting
+);
+
+export const getExportEventAsync = createSelector(
+  selectPageState,
+  fromPageReducer.getExportEventAsync
+);
+
 // Assignments Modal Selectors
 export const getIsAssignmentsModalOpen = createSelector(
   selectAssignmentsModalState,
@@ -167,19 +176,14 @@ export const getAssignedEmployeesGridState = createSelector(
   (state: IFeatureGridState<fromAssignedEmployeesGridReducer.State>) => state.grid.grid
 );
 
-export const {
-  selectAll: getAssignedEmployees
-} = fromAssignedEmployeesGridReducer.adapter.getSelectors(getAssignedEmployeesFeatureState);
-
 export const getAssignedEmployeesTotal = createSelector(
   getAssignedEmployeesFeatureState,
   fromAssignedEmployeesGridReducer.getAssignedEmployeesTotal
 );
 
 export const getAssignedEmployeesGridData = createSelector(
-  getAssignedEmployees,
-  getAssignedEmployeesTotal,
-  (data: CompanyEmployee[], total: number) => ({ data, total })
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getAssignedEmployeesGridData
 );
 
 export const getAssignedEmployeesLoading = createSelector(
@@ -202,6 +206,12 @@ export const getAssignedEmployeesSelectedCompanyEmployeeIdCount = createSelector
   fromAssignedEmployeesGridReducer.getSelectedCompanyEmployeeIdCount
 );
 
+export const getAssignedEmployeesTotalOrSelectedCount = createSelector(
+  getAssignedEmployeesTotal,
+  getAssignedEmployeesSelectedCompanyEmployeeIdCount,
+  (total, selected) => selected || total
+);
+
 export const getOpenActionMenuEmployee = createSelector(
   getAssignedEmployeesFeatureState,
   fromAssignedEmployeesGridReducer.getOpenActionMenuEmployee
@@ -211,3 +221,10 @@ export const getSelectAllState = createSelector(
   getAssignedEmployeesFeatureState,
   fromAssignedEmployeesGridReducer.getSelectAllState
 );
+
+export const getEmployeeSearchTerm = createSelector(
+  getAssignedEmployeesFeatureState,
+  fromAssignedEmployeesGridReducer.getEmployeeSearchTerm
+);
+
+

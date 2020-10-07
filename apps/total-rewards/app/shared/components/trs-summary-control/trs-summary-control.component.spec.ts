@@ -2,10 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
+import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
 import { TrsSummaryControlComponent } from './trs-summary-control.component';
 import {
   generateMockCalculationControl,
-  generateMockEmployeeRewardsData,
   LabelWithOverride,
   StatementModeEnum
 } from '../../models';

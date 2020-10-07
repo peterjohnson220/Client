@@ -34,10 +34,10 @@ import {
   PfDataGridSaveViewModalComponent,
   ColumnChooserComponent,
   ColumnGroupComponent,
-  ColumnGroupListComponent
+  ColumnGroupListComponent,
+  SelectAllPanelComponent
 } from './components';
 import {
-  IsSortablePipe,
   SortDirectionPipe,
   IsColumnVisiblePipe,
   MappedFieldNamePipe,
@@ -82,9 +82,9 @@ import {
     ColumnChooserComponent,
     ColumnGroupComponent,
     ColumnGroupListComponent,
+    SelectAllPanelComponent,
 
     // Pipes
-    IsSortablePipe,
     SortDirectionPipe,
     IsColumnVisiblePipe,
     MappedFieldNamePipe,

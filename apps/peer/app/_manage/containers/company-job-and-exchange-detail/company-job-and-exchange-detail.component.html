@@ -28,7 +28,8 @@
         [exchangeJobLoadingError]="mappedExchangeJobsLoadingError$ | async"
         (approveClick)="handleApprovePendingMatchClick($event)"
         (rejectClick)="handleRejectPendingMatchClick($event)"
-        (unmatchClick)="handleUnmatchClick()">
+        (unmatchClick)="handleUnmatchClick()"
+        (createProjectClick)="handleCreateProjectClick()">
       </pf-exchange-job-detail>
       <ng-template #exchangeJobSearch>
         <pf-exchange-job-search ></pf-exchange-job-search>
@@ -37,3 +38,4 @@
   </div>
 </section>
 <pf-confirm-unmatch-modal></pf-confirm-unmatch-modal>
+<pf-confirm-create-project-modal></pf-confirm-create-project-modal>

@@ -4,16 +4,19 @@
   [pageable]="true"
   [sortable]="true"
   [filterable]="true"
+  [selectable]="selectableSettings"
+  (selectionChange)="gridSelectionChange($event)"
   (edit)="displaySsoUrl($event)"
   >
+  <kendo-grid-checkbox-column [width]="8"></kendo-grid-checkbox-column>
   <kendo-grid-column field="CompanyId" [width]="50"></kendo-grid-column>
   <kendo-grid-column field="CompanyName" [width]="50"></kendo-grid-column>
   <kendo-grid-column field="IdpId" [width]="100"></kendo-grid-column>
   <kendo-grid-column field="EmailDomain" [width]="100"></kendo-grid-column>
   <kendo-grid-column field="SsoLogOutUrl" [width]="140"></kendo-grid-column>
-  <kendo-grid-command-column title="SSO Url" width="30">
+  <kendo-grid-command-column title="Commands" width="20">
     <ng-template kendoGridCellTemplate>
-      <button kendoGridEditCommand [primary]="true">SSO Url</button>
+      <button kendoGridEditCommand [primary]="true">Sso Url</button>
     </ng-template>
   </kendo-grid-command-column>
 </kendo-grid>

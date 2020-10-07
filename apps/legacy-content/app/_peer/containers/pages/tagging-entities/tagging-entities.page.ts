@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { TagInformation, TagInformationRequest, Tag, SaveTagInformationRequest, TagEntityTypeEnum, TagCategoryDataTypeEnum } from 'libs/models/peer';
 import {RegexStrings, KeyboardKeys} from 'libs/constants';

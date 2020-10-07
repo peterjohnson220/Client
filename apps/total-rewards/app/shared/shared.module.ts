@@ -26,6 +26,7 @@ import { CompensationFieldPipe } from './pipes/compensation-field-pipe';
 import { EffectiveDateComponent } from './components/effective-date/effective-date.component';
 import { FooterBarComponent } from './components/footer-bar/footer-bar.component';
 import { NoRecordsFoundCallToActionComponent } from './components/no-records-found-call-to-action/no-records-found-call-to-action.component';
+import { ModeClassifierDirective } from './directives/pf-mode-classifier-directive';
 
 @NgModule({
   imports: [
@@ -60,13 +61,15 @@ import { NoRecordsFoundCallToActionComponent } from './components/no-records-fou
     EffectiveDateComponent,
     FooterBarComponent,
     NoRecordsFoundCallToActionComponent,
+    ModeClassifierDirective
   ],
   exports: [
     StringEditorComponent,
     TotalRewardsStatementComponent,
     CompensationFieldPipe,
     FooterBarComponent,
-    NoRecordsFoundCallToActionComponent
+    NoRecordsFoundCallToActionComponent,
+    ModeClassifierDirective
   ],
   providers: [
     CurrencyPipe

@@ -3,7 +3,9 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
 import { RegistrationForm } from '../../../models/user/registration-form.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AccountApiService {
   private endpoint = 'Account';
 

@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { ContentScrollEvent } from '@progress/kendo-angular-grid';
 
 import { PfDataGridFilter, ColumnResize, GridConfig } from '../models';
 import { ColumnReorder } from '../models';
@@ -9,12 +10,16 @@ export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
 export const LOAD_VIEW_CONFIG_SUCCESS = '[PfDataGrid] Load View Config Success';
 export const LOAD_DATA = '[PfDataGrid] Load Data';
 export const LOAD_DATA_SUCCESS = '[PfDataGrid] Load Data Success';
+export const LOAD_MORE_DATA = '[PfDataGrid] Load More Data';
+export const LOAD_MORE_DATA_SUCCESS = '[PfDataGrid] Load More Data Success';
 export const UPDATE_FIELDS = '[PfDataGrid] Update Data Fields';
 export const UPDATE_FIELDS_SUCCESS = '[PfDataGrid] Update Data Fields Success';
-export const UPDATE_SELECTION_FIELD = '[PfDataGrid] Update Selection Field';
 export const UPDATE_PAGING_OPTIONS = '[PfDataGrid] Update Paging Options';
+export const UPDATE_LINK_GROUPS = '[PfDataGrid] Update Link Groups';
+export const UPDATE_SELECTION_FIELD = '[PfDataGrid] Update Selection Field';
 export const UPDATE_DEFAULT_SORT_DESCRIPTOR = '[PfDataGrid] Update Default Sort Descriptor';
 export const UPDATE_SORT_DESCRIPTOR = '[PfDataGrid] Update Sort Descriptor';
+export const UPDATE_SORT_DESCRIPTOR_NO_DATA_RETRIEVAL = '[PfDataGrid] Update Sort Descriptor No Data Retrieval';
 export const UPDATE_SAVE_SORT = '[PfDataGrid] Update Save Sort';
 export const UPDATE_APPLY_DEFAULT_FILTERS = '[PfDataGrid] Update Apply Default Filters';
 export const UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS = '[PfDataGrid] Update Apply User Default Compensation Fields';
@@ -57,12 +62,15 @@ export const RESET = '[PfDataGrid] Reset';
 export const REORDER_COLUMNS = '[PfDataGrid] Reorder Columns';
 export const REORDER_COLUMNS_SUCCESS = '[PfDataGrid] Reorder Columns Success';
 export const UPDATE_ROW = '[PfDataGrid] Update Data Row';
+export const UPDATE_GRID_DATA_ROW = '[PfDataGrid] Update Grid Row Data';
 export const UPDATE_FIELDS_EXCLUDED_FROM_EXPORT = '[PfDataGrid] Update Fields Excluded FromExport';
 export const UPDATE_PRESERVE_SELECTIONS_ON_GET_CONFIG = '[PfDataGrid] Update Preserve Selections On Get Config';
 export const UPDATE_COLUMN_WIDTH = '[PfDataGrid] Update Column Width';
 export const UPDATE_GRID_CONFIG = '[PfDataGrid] Update Grid Config';
 export const UPDATE_MODIFIED_KEYS = '[PfDataGrid] Update Modified Keys';
 export const UPDATE_MODIFIED_KEY = '[PfDataGrid] Update Modified Key';
+export const DELETE_MODIFIED_KEY = '[PfDataGrid] Delete Modified Key';
+export const CAPTURE_GRID_SCROLLED = '[PfDataGrid] Capture Grid Scrolled';
 
 export class LoadViewConfig implements Action {
   readonly type = LOAD_VIEW_CONFIG;
@@ -79,6 +87,11 @@ export class UpdatePagingOptions implements Action {
   constructor(public pageViewId: string, public pagingOptions: PagingOptions) { }
 }
 
+export class UpdateLinkGroups implements Action {
+  readonly type = UPDATE_LINK_GROUPS;
+  constructor(public pageViewId: string, public linkGroups: []) { }
+}
+
 export class UpdateDefaultSortDescriptor implements Action {
   readonly type = UPDATE_DEFAULT_SORT_DESCRIPTOR;
   constructor(public pageViewId: string, public sortDescriptor: SortDescriptor[]) { }
@@ -87,6 +100,11 @@ export class UpdateDefaultSortDescriptor implements Action {
 export class UpdateSortDescriptor implements Action {
   readonly type = UPDATE_SORT_DESCRIPTOR;
   constructor(public pageViewId: string, public sortDescriptor: SortDescriptor[]) { }
+}
+
+export class UpdateSortDescriptorNoDataRetrieval implements Action {
+  readonly type = UPDATE_SORT_DESCRIPTOR_NO_DATA_RETRIEVAL;
+  constructor(public pageViewId: string, public sortDescriptor: SortDescriptor[]) {}
 }
 
 export class UpdateSaveSort implements Action {
@@ -125,6 +143,16 @@ export class LoadDataSuccess implements Action {
   constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
 }
 
+export class LoadMoreData implements Action {
+  readonly type = LOAD_MORE_DATA;
+  constructor(public pageViewId: string) { }
+}
+
+export class LoadMoreDataSuccess implements Action {
+  readonly type = LOAD_MORE_DATA_SUCCESS;
+  constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
+}
+
 export class UpdateFields implements Action {
   readonly type = UPDATE_FIELDS;
   constructor(public pageViewId: string, public fields: ViewField[]) { }
@@ -137,7 +165,7 @@ export class UpdateFieldsSuccess implements Action {
 
 export class UpdateSelectionField implements Action {
   readonly type = UPDATE_SELECTION_FIELD;
-  constructor(public pageViewId: string, public selectionField: string) { }
+  constructor(public pageViewId: string, public selectionField: string, public existsOnBase = true) { }
 }
 
 export class UpdateInboundFilters implements Action {
@@ -322,25 +350,30 @@ export class Reset implements Action {
 
 export class ReorderColumns implements Action {
   readonly type = REORDER_COLUMNS;
-
   constructor(public pageViewId: string, public payload: ColumnReorder) {}
 }
 
 export class ReorderColumnsSuccess {
   readonly type = REORDER_COLUMNS_SUCCESS;
-
   constructor() {}
 }
 
 export class UpdateRow {
   readonly type = UPDATE_ROW;
+  constructor(public pageViewId: string, public rowIndex: number, public data: any, public fieldNames?: any[], public resortGrid = false) {}
+}
 
-  constructor(public pageViewId: string, public rowIndex: number, public data: any, public fieldNames?: any[]) {}
+// This Action does not update the gridData in the state.
+// Instead the pf-grid.component subscribes to this action and updates the data for the kendo grid directly
+// If we were to change the state, the data for the kendo grid is reassigned and the kendoGridDetailTemplate is destroyed/recreated
+// This causes a flicker and loss of focus for the kendoGridDetailTemplate
+export class UpdateGridDataRow {
+  readonly type = UPDATE_GRID_DATA_ROW;
+  constructor(public pageViewId: string, public rowIndex: number, public data: any) {}
 }
 
 export class UpdateColumnWidth implements Action {
   readonly type = UPDATE_COLUMN_WIDTH;
-
   constructor(public pageViewId: string, public payload: ColumnResize) {}
 }
 
@@ -359,18 +392,32 @@ export class UpdateModifiedKey implements Action {
   constructor(public pageViewId: string, public payload: number) {}
 }
 
+export class DeleteModifiedKey implements Action {
+  readonly type = DELETE_MODIFIED_KEY;
+  constructor(public pageViewId: string, public payload: number) {}
+}
+
+export class CaptureGridScrolled implements Action {
+  readonly type = CAPTURE_GRID_SCROLLED;
+  constructor(public pageViewId: string, public payload: ContentScrollEvent) {}
+}
+
 export type DataGridActions =
   | LoadViewConfig
   | LoadViewConfigSuccess
   | UpdatePagingOptions
+  | UpdateLinkGroups
   | UpdateDefaultSortDescriptor
   | UpdateSortDescriptor
+  | UpdateSortDescriptorNoDataRetrieval
   | UpdateSaveSort
   | UpdatePreserveSelectionsOnGetConfig
   | UpdateApplyDefaultFilters
   | UpdateApplyUserDefaultCompensationFields
   | LoadData
   | LoadDataSuccess
+  | LoadMoreData
+  | LoadMoreDataSuccess
   | UpdateFields
   | UpdateFieldsSuccess
   | UpdateSelectionField
@@ -413,7 +460,10 @@ export type DataGridActions =
   | ReorderColumnsSuccess
   | UpdateFieldsExcludedFromExport
   | UpdateRow
+  | UpdateGridDataRow
   | UpdateColumnWidth
   | UpdateGridConfig
   | UpdateModifiedKeys
-  | UpdateModifiedKey;
+  | UpdateModifiedKey
+  | DeleteModifiedKey
+  | CaptureGridScrolled;

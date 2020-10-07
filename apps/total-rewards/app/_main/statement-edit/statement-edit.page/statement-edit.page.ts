@@ -3,9 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+import { AsyncStateObj } from 'libs/models/state';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+import { GenericNameValue } from 'libs/models/common';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
@@ -27,6 +29,8 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   statementSavingSuccess$: Observable<boolean>;
   statementSavingError$: Observable<boolean>;
   mode$: Observable<models.StatementModeEnum>;
+  assignedEmployeesAsync$: Observable<AsyncStateObj<GenericNameValue<number>[]>>;
+  employeeRewardsDataAsync$: Observable<AsyncStateObj<EmployeeRewardsData>>;
 
   isSettingsPanelOpen$: Observable<boolean>;
   settingsSaving$: Observable<boolean>;
@@ -39,7 +43,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   statement: models.Statement;
   statementId: string;
-  employeeRewardsData: models.EmployeeRewardsData;
+  employeeRewardsData: EmployeeRewardsData;
   mode: models.StatementModeEnum;
   modeEnum = models.StatementModeEnum;
 
@@ -65,6 +69,10 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.settingsSavingSuccess$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaveSuccess));
     this.settingsSavingError$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectIsSettingsSaveError));
 
+    // PREVIEW
+    this.assignedEmployeesAsync$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.selectAssignedEmployees));
+    this.employeeRewardsDataAsync$ = this.store.pipe(select(fromTotalRewardsStatementEditReducer.getEmployeeData));
+
     // SUBSCRIPTIONS
     this.urlParamSubscription = this.route.params.subscribe(params => {
       this.statementId = params['id'];
@@ -79,7 +87,8 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
     this.modeSubscription = this.mode$.subscribe(e => {
       this.mode = e;
       if (this.mode === models.StatementModeEnum.Preview) {
-        this.employeeRewardsData = models.generateMockEmployeeRewardsData();
+        this.store.dispatch(new fromEditStatementPageActions.ResetEmployeeRewardsData());
+        this.store.dispatch(new fromEditStatementPageActions.SearchAssignedEmployees({ statementId: this.statementId, searchTerm: ''}));
       }
     });
   }
@@ -117,7 +126,7 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
 
   // FOOTER METHODS
   handleAssignEmployeesClick() {
-    this.router.navigate(['statement/edit/' + this.statementId + '/assignments'], { queryParams: { openModal: 1 } } ).then();
+    this.router.navigate(['statement/edit/' + this.statementId + '/assignments']).then();
   }
 
   handleBackToStatementsClick() {
@@ -198,5 +207,18 @@ export class StatementEditPageComponent implements OnDestroy, OnInit {
   // EFFECTIVE DATE
   handleEffectiveDateChange(date: Date) {
     this.store.dispatch(new fromEditStatementPageActions.UpdateEffectiveDate({ effectiveDate: date }));
+  }
+
+  // PREVIEW
+  handleAssignedEmployeesFilterChange(value: string): void {
+    this.store.dispatch(new fromEditStatementPageActions.SearchAssignedEmployees({ statementId: this.statementId, searchTerm: value }));
+  }
+
+  handleAssignedEmployeesValueChange(employeeId: number): void {
+    if (!employeeId) {
+      this.store.dispatch(new fromEditStatementPageActions.ResetEmployeeRewardsData());
+      return;
+    }
+    this.store.dispatch(new fromEditStatementPageActions.GetEmployeeRewardsData({ companyEmployeeId: employeeId }));
   }
 }

@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
 import { TrsRichTextControlComponent } from './trs-rich-text-control.component';
-import { StatementModeEnum, generateMockEmployeeRewardsData } from '../../models';
+import { StatementModeEnum } from '../../models';
 
 describe('TrsChartControlComponent', () => {
   let component: TrsRichTextControlComponent;
@@ -179,5 +181,39 @@ describe('TrsChartControlComponent', () => {
     expect(component.formatDataFieldValue('')).toBe('');
     expect(component.formatDataFieldValue('string with spaces')).toBe('string with spaces');
     expect(component.formatDataFieldValue('nospaces')).toBe('nospaces');
+  });
+
+  it('quillToolbarContainer should contain supported font families when enabled', () => {
+    // arrange
+    component.showFontFamilyMenu = true;
+
+    // act
+    const config = component.quillToolbarContainer;
+
+    // assert
+    expect(config[0][0].font).toStrictEqual(['Arial', 'Georgia', 'TimesNewRoman', 'Verdana']);
+  });
+
+  it('quillToolbarContainer should not contain font families when disabled', () => {
+    // arrange
+    component.showFontFamilyMenu = false;
+
+    // act
+    const config = component.quillToolbarContainer;
+
+    // assert
+    expect(config[0][0].font).toBeUndefined();
+  });
+
+  it('should not include Quill editor in print mode', () => {
+    // arrange
+    component.mode = StatementModeEnum.Print;
+    component.controlData = { Title: {} } as any;
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture.debugElement.nativeElement.querySelector('quill-editor')).toBeFalsy();
   });
 });

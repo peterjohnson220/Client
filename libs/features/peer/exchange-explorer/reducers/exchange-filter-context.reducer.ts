@@ -23,10 +23,12 @@ export const initialState: State = {
   IsFilteredBySimilarExchangeJobIds: false,
   LimitToPayMarket: false,
   PayMarketLocation: null,
-  ScopeGUID: null,
+  ScopeId: null,
   SimilarExchangeJobIds: [],
   WeightingType: WeightType.Inc
 };
+
+export let initialLoadCompleteState: State = null;
 
 // Reducer
 export function reducer(state = initialState, action: fromExchangeExplorerActions.Actions): State {
@@ -34,15 +36,21 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
     case fromExchangeExplorerActions.SET_FILTER_CONTEXT: {
       const filterContext: ExchangeDataSearchFilterContext = action.payload;
       const defaultScopeId = (<any>action).defaultScopeId;
-      const hasDefaultScope = state.ScopeGUID === defaultScopeId;
-      const scopeGuid = hasDefaultScope ? defaultScopeId : filterContext.ScopeGUID;
-      return {
+      const hasDefaultScope = state.ScopeId === defaultScopeId;
+      const scopeId = hasDefaultScope ? defaultScopeId : filterContext.ScopeId;
+      const newState = {
         ...state,
         ...filterContext,
         hasBeenSet: true,
         hasDefaultScope: hasDefaultScope,
-        ScopeGUID: scopeGuid
+        ScopeId: scopeId
       };
+
+      if (!initialLoadCompleteState) {
+        initialLoadCompleteState = newState;
+      }
+
+      return newState;
     }
     case fromExchangeExplorerActions.TOGGLE_LIMIT_TO_PAYMARKET: {
       return {
@@ -67,14 +75,14 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
         ...state,
         selectedScope: action.payload,
         hasDefaultScope: action.payload.IsDefault,
-        ScopeGUID: action.payload.Id
+        ScopeId: action.payload.ExchangeScopeId
       };
     }
     case fromExchangeExplorerActions.CLEAR_EXCHANGE_SCOPE_SELECTION: {
       return {
         ...state,
         selectedScope: null,
-        ScopeGUID: null
+        ScopeId: null
       };
     }
     case fromExchangeExplorerActions.SET_EXCHANGE_JOB_SELECTION: {
@@ -84,13 +92,17 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
         ExchangeJobId: action.payload.exchangeJobId,
         SimilarExchangeJobIds: action.payload.similarExchangeJobIds,
         selectedScope: null,
-        ScopeGUID: null
+        ScopeId: null
       };
     }
     case fromExchangeExplorerActions.RESET_STATE: {
+      initialLoadCompleteState = null;
       return {
         ...initialState
       };
+    }
+    case fromExchangeExplorerActions.RESET_INITIALLY_LOADED_STATE: {
+      return !!initialLoadCompleteState ? {...initialLoadCompleteState} : {...state};
     }
     case fromExchangeExplorerActions.SET_WEIGHTING_TYPE: {
       return {
@@ -106,7 +118,7 @@ export function reducer(state = initialState, action: fromExchangeExplorerAction
 
 // Selector Functions
 export const getHasAppliedContext = (state: State) => state.hasBeenSet;
-export const getScopeGuid = (state: State) => state.ScopeGUID;
+export const getScopeId = (state: State) => state.ScopeId;
 export const getLimitToPayMarket = (state: State) => state.LimitToPayMarket;
 export const getIncludeUntaggedIncumbents = (state: State) => state.IncludeUntaggedIncumbents;
 export const getExcludeIndirectJobMatches = (state: State) => !state.IsFilteredBySimilarExchangeJobIds;

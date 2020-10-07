@@ -16,7 +16,7 @@ export class GenerateStatementModalComponent {
   @Input() sendingGenerateRequest: boolean;
   @Input() sendingGenerateRequestSuccess: boolean;
   @Input() sendingGenerateRequestError: boolean;
-  @Input() selectedCompanyEmployeeIds: number[] = [];
+  @Input() companyEmployeeIdsTotal: number;
 
   @Output() generateStatementsClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();

@@ -38,7 +38,7 @@ describe('GenerateStatementModalComponent', () => {
 
   it('should show the expected number of employees in the modal message', () => {
     // arrange
-    component.selectedCompanyEmployeeIds = [1, 2, 3];
+    component.companyEmployeeIdsTotal = 3;
 
     // act
     fixture.detectChanges();
@@ -50,7 +50,7 @@ describe('GenerateStatementModalComponent', () => {
 
   it('should hide the employee pluralization when 1 employee is selected', () => {
     // arrange
-    component.selectedCompanyEmployeeIds = [3];
+    component.companyEmployeeIdsTotal = 1;
 
     // act
     fixture.detectChanges();

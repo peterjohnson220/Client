@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import * as fromBulkExportPopoverActions from '../actions/bulk-export-popover.actions';
 import { ControlLabel } from 'libs/features/job-description-management/models';

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
+import { GenericNameValue } from 'libs/models/common';
 
 import { EmployeeSearchResult } from 'libs/models/payfactors-api/total-rewards/response';
 
@@ -27,5 +28,24 @@ export class TotalRewardsAssignmentService {
       },
       sort: []
     };
+  }
+
+  static mapSearchResults(results: EmployeeSearchResult[]): GenericNameValue<number>[] {
+    return results.map(employee => {
+      let displayName = '';
+      if (employee.FirstName) {
+        displayName += `${employee.FirstName} `;
+      }
+      if (employee.LastName) {
+        displayName += `${employee.LastName} `;
+      }
+      if (employee.EmployeeId) {
+        displayName += `(${employee.EmployeeId})`;
+      }
+      return {
+        Value: employee.CompanyEmployeeId,
+        Name: displayName
+      };
+    });
   }
 }

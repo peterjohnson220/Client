@@ -6,17 +6,20 @@ import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/pf-data-grid/models';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
+import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
 import * as fromJobsPageActions from '../../../../actions';
 import * as fromJobsPageReducer from '../../../../reducers';
@@ -36,7 +39,7 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
   @ViewChild('pricingActionsColumn') pricingActionsColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
 
-  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
+  inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Status'];
   pageViewId = PageViewIds.PricingHistory;
 
   colTemplates = {};
@@ -48,15 +51,18 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     dir: 'desc',
     field: 'CompanyJobs_Pricings_Effective_Date'
   }];
+  defaultPagingOptions: PagingOptions;
 
   permissions = Permissions;
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
+  getPricingReviewedSuccessSubscription: Subscription;
   payMarketField: ViewField;
   filteredPayMarketOptions: any;
   payMarketOptions: any;
   selectedPayMarket: any;
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
   pricingId: number;
 
   showPricingDetails = new BehaviorSubject<boolean>(false);
@@ -70,9 +76,23 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
 
   getPricingDetailsSuccessSubscription: Subscription;
   getDeletingPricingSuccessSubscription: Subscription;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
+  noRecordsMessage: string;
 
-  constructor(private store: Store<fromJobsPageReducer.State>, private actionsSubject: ActionsSubject) {
-
+  constructor(
+    private store: Store<fromJobsPageReducer.State>,
+    private actionsSubject: ActionsSubject,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+    };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
   }
 
   ngOnInit(): void {
@@ -96,6 +116,12 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
         this.showPricingDetails.next(true);
       });
 
+    this.getPricingReviewedSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromPricingDetailsActions.SAVING_PRICING_SUCCESS))
+      .subscribe(data => {
+        this.store.dispatch(new fromPfDataGridActions.LoadData(PageViewIds.PricingHistory));
+      });
+
     this.deletingPricing$ = this.store.select(fromJobsPageReducer.getDeletingPricing);
     this.getDeletingPricingSuccessSubscription = this.actionsSubject
       .pipe(ofType(fromJobsPageActions.DELETING_PRICING_SUCCESS))
@@ -108,7 +134,6 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
       ...getDefaultActionBarConfig(),
       ActionBarClassName: 'ml-0 mr-3 mt-1'
     };
-
   }
 
   ngAfterViewInit() {
@@ -128,6 +153,12 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     if (changes['filters']) {
       this.filters = cloneDeep(changes['filters'].currentValue)
         .filter(f => this.inboundFiltersToApply.indexOf(f.SourceName) > -1);
+
+      if (this.filters.find(x => x.SourceName === 'Status')) {
+        this.noRecordsMessage = 'There is no pricing history for the filter criteria you have selected.';
+      } else {
+        this.noRecordsMessage = 'This job has not been priced and does not have any pricing history.';
+      }
     }
   }
 

@@ -1,8 +1,8 @@
-import * as cloneDeep from 'lodash.clonedeep';
-import * as isEqual from 'lodash.isequal';
-import * as transform from 'lodash/transform';
-import * as isObject from 'lodash/isObject';
-import * as mergeWith from 'lodash/mergeWith';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
+import transform from 'lodash/transform';
+import isObject from 'lodash/isObject';
+import mergeWith from 'lodash/mergeWith';
 
 export class UndoHelper {
   // Certain operations trigger saves where everything is the same except a date field.

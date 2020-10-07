@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { BasicDataViewField, PagingOptions, DataViewFilter } from 'libs/models/payfactors-api';
 

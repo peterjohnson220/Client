@@ -7,15 +7,12 @@ import { of } from 'rxjs';
 
 import { UserProfileApiService } from 'libs/data/payfactors-api/user';
 import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
+import { ExportAssignedEmployeesRequest } from 'libs/models/payfactors-api/total-rewards/request';
 import { MappingHelper } from 'libs/core/helpers';
-import {
-  TotalRewardsApiService,
-  TotalRewardsAssignmentApiService,
-  TotalRewardsPdfGenerationService,
-  TotalRewardsSearchApiService
-} from 'libs/data/payfactors-api/total-rewards';
+import { TotalRewardsApiService, TotalRewardsAssignmentApiService, TotalRewardsPdfGenerationService } from 'libs/data/payfactors-api/total-rewards';
 
 import { Statement } from '../../../shared/models';
+import { TrsConstants } from './../../../shared/constants/trs-constants';
 import * as fromStatementAssignmentPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
@@ -56,14 +53,22 @@ export class StatementAssignmentPageEffects {
       withLatestFrom(
         this.store.select(fromTotalRewardsReducer.getStatement),
         this.store.select(fromTotalRewardsReducer.getAssignedEmployeesSelectedCompanyEmployeeIds),
-        (action: fromStatementAssignmentPageActions.GenerateStatements, statement, companyEmployeeIds) =>
-          ({ action, companyEmployeeIds, statementId: statement.StatementId })
+        this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
+        (action: fromStatementAssignmentPageActions.GenerateStatements, statement, companyEmployeeIds, gridState) =>
+          ({ action, companyEmployeeIds, statementId: statement.StatementId, gridState })
       ),
-      switchMap((combined) =>
-        this.totalRewardsPdfGenerationService.generateStatements({ CompanyEmployeeIds: combined.companyEmployeeIds, StatementId: combined.statementId }).pipe(
+      map(data => ({
+        StatementId: data.statementId,
+        CompanyEmployeeIds: data.companyEmployeeIds,
+        GenerateByQuery: (data.companyEmployeeIds && data.companyEmployeeIds.length) ? null : data.gridState,
+        WaitForPdfGenerationSelector: TrsConstants.READY_FOR_PDF_GENERATION_SELECTOR
+      })),
+      switchMap(request =>
+        this.totalRewardsPdfGenerationService.generateStatements(request).pipe(
           mergeMap((response) => [
             new fromStatementAssignmentPageActions.GenerateStatementsSuccess({ eventId: response }),
-            new fromStatementAssignmentPageActions.CloseGenerateStatementModal()
+            new fromStatementAssignmentPageActions.CloseGenerateStatementModal(),
+            new fromAssignedEmployeesGridActions.ClearSelections()
           ]),
           catchError(error => of(new fromStatementAssignmentPageActions.GenerateStatementsError(error)))
         )
@@ -79,8 +84,9 @@ export class StatementAssignmentPageEffects {
         this.store.select(fromTotalRewardsReducer.getAssignedEmployeesSelectedCompanyEmployeeIds),
         this.store.select(fromTotalRewardsReducer.getIsSingleEmployeeAction),
         this.store.select(fromTotalRewardsReducer.getOpenActionMenuEmployee),
-        (action: fromStatementAssignmentPageActions.GenerateStatements, statement, companyEmployeeIds, isSingleAction, actionMenuEmployee) =>
-          ({ action, companyEmployeeIds, statementId: statement.StatementId, isSingleAction, actionMenuEmployee })
+        this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
+        (action: fromStatementAssignmentPageActions.GenerateStatements, statement, companyEmployeeIds, isSingleAction, actionMenuEmployee, gridState) =>
+          ({ action, companyEmployeeIds, statementId: statement.StatementId, isSingleAction, actionMenuEmployee, gridState })
       ),
       concatMap((data) =>
         this.totalRewardsAssignmentApi.unassignEmployees(
@@ -88,13 +94,50 @@ export class StatementAssignmentPageEffects {
             statementId: data.statementId,
             CompanyEmployeeIds: (data.isSingleAction ? [data.actionMenuEmployee.CompanyEmployeeId] : data.companyEmployeeIds)
           }).pipe(
-          mergeMap(() => [
-            new fromStatementAssignmentPageActions.UnassignEmployeesSuccess(),
+          mergeMap((response) => [
+            new fromStatementAssignmentPageActions.UnassignEmployeesSuccess(response),
             new fromAssignedEmployeesGridActions.ClearSelections(),
             new fromStatementAssignmentPageActions.CloseUnassignModal(),
-            new fromAssignedEmployeesGridActions.LoadAssignedEmployees()
+            new fromAssignedEmployeesGridActions.LoadAssignedEmployees({...data.gridState, skip: 0})
           ]),
           catchError(() => of(new fromStatementAssignmentPageActions.UnassignEmployeesError()))
+        )
+      )
+    );
+
+  @Effect()
+  exportAssignedEmployees$ = this.actions$.pipe(
+    ofType(fromStatementAssignmentPageActions.START_EXPORT_ASSIGNED_EMPLOYEES),
+    withLatestFrom(
+      this.store.select(fromTotalRewardsReducer.getStatement),
+      this.store.select(fromTotalRewardsReducer.getAssignedEmployeesSelectedCompanyEmployeeIds),
+      this.store.select(fromTotalRewardsReducer.getEmployeeSearchTerm),
+      this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
+      (action: fromStatementAssignmentPageActions.ExportAssignedEmployees, statement, selectedEmployees, searchTerm, gridState) =>
+        ({ statementId: statement.StatementId, selectedEmployees, searchTerm, gridState })
+    ),
+    switchMap(data => {
+      const request: ExportAssignedEmployeesRequest = {
+        StatementId: data.statementId,
+        EmployeeIds: data.selectedEmployees,
+        EmployeeSearchTerm: data.searchTerm,
+        GridListState: data.gridState
+      };
+      return this.totalRewardsAssignmentApi.exportAssignedEmployees(request).pipe(
+        map((response: string) => new fromStatementAssignmentPageActions.ExportAssignedEmployeesSuccess(response)),
+        catchError(() => of(new fromStatementAssignmentPageActions.ExportAssignedEmployeesError()))
+      );
+    })
+  );
+
+  @Effect()
+  getExportingAssignedEmployees$ = this.actions$
+    .pipe(
+      ofType(fromStatementAssignmentPageActions.GET_EXPORTING_ASSIGNED_EMPLOYEES),
+      switchMap((action: fromStatementAssignmentPageActions.GetExportingAssignedEmployee) =>
+        this.totalRewardsAssignmentApi.getRunningExport().pipe(
+          map((response: string) => new fromStatementAssignmentPageActions.GetExportingAssignedEmployeeSuccess(response)),
+          catchError(error => of(new fromStatementAssignmentPageActions.GetExportingAssignedEmployeeError()))
         )
       )
     );

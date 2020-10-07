@@ -1,4 +1,4 @@
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 
 import { KendoTypedDropDownItem } from './kendo-dropdown-item.model';
 

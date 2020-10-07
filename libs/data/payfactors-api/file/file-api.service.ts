@@ -14,7 +14,9 @@ import { catchError, filter, switchMap } from 'rxjs/operators';
 
 import { FileDownloadError, FileDownloadProgress, FileDownloadSuccess } from 'libs/features/file-download/actions/file-download.actions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class FileApiService {
 
   constructor(

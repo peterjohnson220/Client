@@ -12,7 +12,9 @@ import { BaseExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/e
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExchangeDataCutsApiService {
   private endpoint = 'ExchangeDataCuts';
 

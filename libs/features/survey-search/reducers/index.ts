@@ -93,3 +93,8 @@ export const getMatchesDetailsTooltipOpen = createSelector(
   fromTooltipContainerReducer.getMatchesDetailsTooltipOpen
 );
 
+export const getProjectSearchContextCountryCode = createSelector(
+  getProjectSearchContext,
+    context => !!context ? context.CountryCode : null
+);
+

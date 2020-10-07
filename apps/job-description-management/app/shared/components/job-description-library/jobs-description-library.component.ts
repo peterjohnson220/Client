@@ -1,11 +1,11 @@
 import { Component, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { StripHtmlPipe } from 'libs/core/pipes';
 
-import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket } from 'libs/features/job-description-management/models';
+import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibraryBucket, SortDirection } from 'libs/features/job-description-management/models';
 
 @Component({
   selector: 'pf-job-description-library',
@@ -28,7 +28,9 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   jobLibraryResults: JobDescriptionLibraryResult[] = [];
   keyword = '';
   jobTitleSearch = '';
-  
+  sourceSortDirection: SortDirection = SortDirection.Ascending;
+  selectedSources: string[] = [];
+
   constructor(
     private sanitizer: DomSanitizer
   ) { }
@@ -40,11 +42,19 @@ export class JobDescriptionLibraryComponent implements OnChanges {
   // Events
   handleJobTitleChange(value: any) {
     this.jobTitleSearch = value;
+    this.pageNumber = 1;
     this.searchChanged.emit(this.buildSearchRequest());
   }
 
   handleKeywordChange(value: any) {
     this.keyword = value;
+    this.pageNumber = 1;
+    this.searchChanged.emit(this.buildSearchRequest());
+  }
+
+  handleSourceChange(value: any) {
+    this.selectedSources = value;
+    this.pageNumber = 1;
     this.searchChanged.emit(this.buildSearchRequest());
   }
 
@@ -57,6 +67,12 @@ export class JobDescriptionLibraryComponent implements OnChanges {
     this.activeBucket = this.buckets.find(x => x.Key === bucketKey);
     this.pageNumber = 1;
     this.tabChanged.emit(this.buildSearchRequest());
+  }
+
+  handleSourceSortChange() {
+    this.sourceSortDirection = this.sourceSortDirection === SortDirection.Descending ? SortDirection.Ascending :  SortDirection.Descending;
+    this.pageNumber = 1;
+    this.searchChanged.emit(this.buildSearchRequest());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -83,7 +99,9 @@ export class JobDescriptionLibraryComponent implements OnChanges {
       PageSize: this.pageSize,
       PageNumber: this.pageNumber,
       JobTitle: this.jobTitleSearch,
-      JobDescriptionId: null
+      JobDescriptionId: null,
+      Sources: this.selectedSources.join(','),
+      SourceSortDirection: this.sourceSortDirection
     };
 
     return searchRequest;

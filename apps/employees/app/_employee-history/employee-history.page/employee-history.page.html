@@ -14,7 +14,10 @@
   [columnTemplates]="colTemplates"
   [actionBarConfig]="actionBarConfig"
   [inboundFilters]="loadDateFilter"
-  [fieldsExcludedFromExport]="fieldsExcludedFromExport">
+  [fieldsExcludedFromExport]="fieldsExcludedFromExport"
+  [pageable]="!gridConfig?.EnableInfiniteScroll"
+  [gridConfig]="gridConfig"
+  [pagingOptions]="defaultPagingOptions">
 </pf-data-grid>
 
 <ng-template #gridActions>

@@ -61,7 +61,8 @@ export class PfDataGridEffects {
     .pipe(
       ofType(
         fromPfDataGridActions.LOAD_DATA,
-        fromPfDataGridActions.UPDATE_PAGING_OPTIONS
+        fromPfDataGridActions.UPDATE_PAGING_OPTIONS,
+        fromPfDataGridActions.LOAD_MORE_DATA
       ),
       groupBy((action: fromPfDataGridActions.LoadData) => action.pageViewId),
       mergeMap(pageViewIdGroup => pageViewIdGroup
@@ -75,13 +76,15 @@ export class PfDataGridEffects {
                 this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, loadDataAction.pageViewId)),
                 this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
                 this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, loadDataAction.pageViewId)),
-                (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters) =>
-                  ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters })
+                this.store.pipe(select(fromPfDataGridReducer.getLinkGroups, loadDataAction.pageViewId)),
+                (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, linkGroups) =>
+                  ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, linkGroups })
               )
             ),
           ),
           switchMap((data) => {
             if (data.fields) {
+              const withCount = !data.action.type.includes('Load More Data');
               return this.dataViewApiService
                 .getDataWithCount(DataGridToDataViewsHelper.buildDataViewDataRequest(
                   data.baseEntity.Id,
@@ -89,11 +92,17 @@ export class PfDataGridEffects {
                   DataGridToDataViewsHelper.mapFieldsToFiltersUseValuesProperty(data.fields),
                   data.pagingOptions,
                   data.sortDescriptor,
-                  true,
-                  data.applyDefaultFilters))
+                  withCount,
+                  data.applyDefaultFilters,
+                  data.linkGroups))
                 .pipe(
-                  map((response: DataViewEntityResponseWithCount) =>
-                    new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response)),
+                  map((response: DataViewEntityResponseWithCount) => {
+                    if (data.pagingOptions.From > 0 && !withCount) {
+                      return new fromPfDataGridActions.LoadMoreDataSuccess(data.action.pageViewId, response);
+                    } else {
+                      return new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response);
+                    }
+                  }),
                   catchError(error => {
                     const msg = 'We encountered an error while loading your data';
                     return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));

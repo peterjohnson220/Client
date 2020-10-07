@@ -4,7 +4,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { catchError, switchMap, map } from 'rxjs/internal/operators';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { DataLoadEmailRecipientsApiService } from 'libs/data/payfactors-api/data-loads/data-load-email-recipients-api.service';
 

@@ -48,7 +48,8 @@
     <pf-ticket-attachments
       [ticketId]="selectedTicketId"
       [canAddAttachments]="ticket.NoteAccessLevel === noteAccessLevel.Owner"
-      [attachments]="ticket?.Attachments">
+      [attachments]="ticket?.Attachments"
+      [isTicketClosed] = "ticket.TicketStatus === 'Closed'">
     </pf-ticket-attachments>
     <pf-ticket-notes
       [ticketId]="selectedTicketId"

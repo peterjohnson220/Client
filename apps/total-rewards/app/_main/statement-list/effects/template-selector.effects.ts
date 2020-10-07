@@ -57,7 +57,8 @@ export class TemplateSelectorEffects {
         id: model.Id,
         name: model.Name,
         description: model.Description,
-        thumbnailUrl: model.ThumbnailUrl
+        thumbnailUrl: model.ThumbnailUrl,
+        Pages: model.Pages
       });
     });
     return templates;

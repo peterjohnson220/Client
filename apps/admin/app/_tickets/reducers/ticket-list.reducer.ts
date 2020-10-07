@@ -1,6 +1,3 @@
-
-import { orderBy, cloneDeep, zipObject, map, keyBy } from 'lodash';
-
 import * as fromTicketListActions from '../actions/ticket-list.actions';
 import { UserTicketGridItem } from '../models';
 import { GridDataResult } from '@progress/kendo-angular-grid';

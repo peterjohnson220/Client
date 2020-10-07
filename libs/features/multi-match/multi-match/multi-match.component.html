@@ -6,11 +6,15 @@
       [modalId]="'au-modal-multi-match'"
       [isOpen$]="showMultiMatchModal$"
       [showFooter]="true"
-      [title]="'Modify Pricings'"
+      [title]="'Price Jobs'"
       [primaryButtonText]="'Save'"
       [windowClass]="'multi-match-modal'"
       (onDismiss)="handleCancelClicked()"
-      (onSubmit)="showMultiMatchModal.next(false)"
+      (onSubmit)="handleSaveClicked()"
+      [showSpinner]="true"
+      [submitEnabled]="!(savingChanges$ | async)"
+      [primaryButtonTextSubmitting]="'Saving'"
+      [submitting]="saveChangesStarted"
     >
       <ng-container basic-content>
         <div class="multi-match-modal-body-container">
@@ -27,6 +31,9 @@
 
 <ng-template #multiMatchContent>
   <div class="multi-match-content">
+    <div *ngIf="hasError" class="alert alert-danger">
+      Something went wrong. Please try again later.
+    </div>
     <pf-search-layout [resultsCount]="numberOfResults$ | async">
       <ng-container sidebar>
         <pf-search-filters

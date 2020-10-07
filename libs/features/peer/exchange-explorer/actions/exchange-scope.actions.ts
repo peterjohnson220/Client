@@ -40,9 +40,12 @@ export const EXIT_DELETE_EXCHANGE_SCOPE_MODE =
   '[Features/Peer/Exchange Explorer/Exchange Scopes] Exit Delete Exchange Scope Mode';
 export const SET_EXCHANGE_SCOPE_TO_DELETE =
   '[Features/Peer/Exchange Explorer/Exchange Scopes] Set Exchange Scope To Delete';
+export const RESET_INITIALLY_LOADED_STATE = '[Features/Peer/Exchange Explorer/Exchange Scopes] Reset Initially Loaded State';
 
 export class LoadExchangeScopesByJobs implements Action {
   readonly type = LOAD_EXCHANGE_SCOPES_BY_JOBS;
+
+  constructor(public payload?: {exchangeJobIds: number[]}) {}
 }
 
 export class LoadExchangeScopesByJobsSuccess implements Action {
@@ -102,13 +105,13 @@ export class UpsertExchangeScopeError implements Action {
 export class DeleteExchangeScope implements Action {
   readonly type = DELETE_EXCHANGE_SCOPE;
 
-  constructor(public payload: string) {}
+  constructor(public payload: number) {}
 }
 
 export class DeleteExchangeScopeSuccess implements Action {
   readonly type = DELETE_EXCHANGE_SCOPE_SUCCESS;
 
-  constructor(public payload: string) {}
+  constructor(public payload: number) {}
 }
 
 export class DeleteExchangeScopeError implements Action {
@@ -129,6 +132,10 @@ export class SetExchangeScopeToDelete implements Action {
   constructor(public payload: ExchangeScopeItem) {}
 }
 
+export class ResetInitiallyLoadedState implements Action {
+  readonly type = RESET_INITIALLY_LOADED_STATE;
+}
+
 export type Actions
   = LoadExchangeScopesByJobs
   | LoadExchangeScopesByJobsSuccess
@@ -147,4 +154,5 @@ export type Actions
   | DeleteExchangeScopeError
   | EnterDeleteExchangeScopeMode
   | ExitDeleteExchangeScopeMode
-  | SetExchangeScopeToDelete;
+  | SetExchangeScopeToDelete
+  | ResetInitiallyLoadedState;

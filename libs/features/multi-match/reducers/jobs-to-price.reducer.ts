@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { JobMatchCut } from 'libs/models/payfactors-api';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
@@ -99,7 +99,8 @@ export function reducer(state = initialState, action: fromJobsToPriceActions.Job
     case fromJobsToPriceActions.ADD_DATA_CUTS_TO_JOB_TO_PRICE: {
       const dataCuts = action.payload.DataCuts;
       const jobsToPriceCopy = cloneDeep(state.jobsToPrice);
-      const jobToPrice = jobsToPriceCopy.find(x => x.Id === action.payload.JobId);
+      const jobToPrice = action.payload.JobId !== 0 ? jobsToPriceCopy.find(x => x.Id === action.payload.JobId) :
+        jobsToPriceCopy.find(x => x.PaymarketId === action.payload.PaymarketId && x.CompanyJobId === action.payload.CompanyJobId);
       if (jobToPrice) {
         addJobCuts(jobToPrice, dataCuts);
       }

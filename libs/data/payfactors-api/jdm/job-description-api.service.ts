@@ -38,7 +38,9 @@ import {
   JobDescriptionBulkExportPayload
 } from 'libs/features/job-description-management/models/job-description-bulk-export-payload.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class JobDescriptionApiService {
   private endpoint = 'JobDescription';
 

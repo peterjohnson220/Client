@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { TemplateControl } from 'libs/models/jdm/template';
 import { arrayMoveMutate, arrayMove } from 'libs/core/functions';

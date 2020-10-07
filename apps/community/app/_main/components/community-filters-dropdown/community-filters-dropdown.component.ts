@@ -44,7 +44,7 @@ export class CommunityFiltersDropdownComponent implements OnInit, AfterViewInit 
     const element = document.querySelector(`#${filterId} kendo-searchbar input`) as HTMLInputElement;
     setTimeout(function () {
       element.placeholder = `${placeHolderValue}`;
-    }, 0);
+    }, 500);
   }
 
   openFilter() {

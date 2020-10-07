@@ -13,6 +13,7 @@ import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/
 import { generateMockConfigurationGroup, GenerateMockEmailRecipient, MappingModel } from 'libs/models/data-loads';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
+import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 
 import * as fromOrgDataLoaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -29,6 +30,11 @@ describe('ManageFieldMapperPageComponent', () => {
 
     constructor() {
       this.show = jest.fn();
+    }
+  }
+
+  class MockCompanySettingsApiService {
+    constructor() {
     }
   }
 
@@ -74,6 +80,10 @@ describe('ManageFieldMapperPageComponent', () => {
           provide: NotificationService,
           useClass: MockNotificationService,
         },
+        {
+          provide: CompanySettingsApiService,
+          useClass: MockCompanySettingsApiService,
+        }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })

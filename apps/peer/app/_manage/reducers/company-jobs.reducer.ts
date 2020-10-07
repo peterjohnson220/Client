@@ -39,6 +39,9 @@ export interface State extends EntityState<CompanyJob> {
   savingAssociationSuccess: boolean;
   savingAssociationError: boolean;
   showConfirmUnmatchModal: boolean;
+  showConfirmCreateProjectModal: boolean;
+  creatingProject: boolean;
+  creatingProjectError: boolean;
 }
 
 export const adapter: EntityAdapter<CompanyJob> = createEntityAdapter<CompanyJob>({
@@ -76,7 +79,10 @@ const initialState: State = adapter.getInitialState({
   savingAssociation: false,
   savingAssociationSuccess: false,
   savingAssociationError: false,
-  showConfirmUnmatchModal: false
+  showConfirmUnmatchModal: false,
+  showConfirmCreateProjectModal: false,
+  creatingProject: false,
+  creatingProjectError: false,
 });
 
 export function reducer(state, action) {
@@ -276,7 +282,7 @@ export function reducer(state, action) {
         }
         case fromPeerCompanyJobs.CREATE_ASSOCIATION_ERROR:
         case fromPeerCompanyJobs.APPROVE_PENDING_MATCH_ERROR:
-        case fromPeerCompanyJobs.UNMATCH_ERROR: {
+        case fromPeerCompanyJobs.UNMATCH_ERROR:{
           return {
             ...featureState,
             savingAssociation: false,
@@ -293,6 +299,29 @@ export function reducer(state, action) {
           return {
             ...featureState,
             showConfirmUnmatchModal: false
+          };
+        case fromPeerCompanyJobs.CREATE_PROJECT:
+          return{
+            ...featureState,
+            creatingProject: true
+          }
+        case fromPeerCompanyJobs.CREATE_PROJECT_ERROR:
+          return{
+            ...featureState,
+            creatingProject: false,
+            creatingProjectError: true
+          }
+        case fromPeerCompanyJobs.CONFIRM_CREATE_PROJECT:
+          return {
+            ...featureState,
+            creatingProjectError: false,
+            showConfirmCreateProjectModal: true
+          };
+        case fromPeerCompanyJobs.CANCEL_CREATE_PROJECT:
+          return {
+            ...featureState,
+            creatingProjectError: false,
+            showConfirmCreateProjectModal: false
           };
         default: {
           return featureState;
@@ -338,3 +367,8 @@ export const getSavingAssociation = (state: State) => state.savingAssociation;
 export const getSavingAssociationSuccess = (state: State) => state.savingAssociationSuccess;
 export const getSavingAssociationError = (state: State) => state.savingAssociationError;
 export const getShowConfirmUnmatchModal = (state: State) => state.showConfirmUnmatchModal;
+
+// Selector functions, create project
+export const getShowConfirmCreateProjectModal = (state: State) => state.showConfirmCreateProjectModal;
+export const getCreatingProject = (state: State) => state.creatingProject;
+export const getCreatingProjectError = (state: State) => state.creatingProjectError;

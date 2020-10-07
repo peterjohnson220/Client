@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { Company } from 'libs/models/company/company.model';
 import { ValidationResultItem } from 'libs/models/common';

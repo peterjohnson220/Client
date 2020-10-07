@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {SavedFilterType, UserFilterUpsertRequest} from 'libs/models/payfactors-api/';
 import {SavedFilter, SaveFilterModalData} from 'libs/features/user-filter/models';

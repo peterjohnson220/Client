@@ -27,7 +27,9 @@ import {
 import { PayfactorsApiService } from '../payfactors-api.service';
 import {ExchangeManagementDetails} from '../../../../apps/admin/app/_peer/models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExchangeApiService {
   private endpoint = 'Exchange';
 

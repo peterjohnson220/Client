@@ -15,7 +15,9 @@
   [noRecordsFound]="'No jobs available. Please change your search criteria or add a new job.'"
   [actionBarConfig]="actionBarConfig"
   [gridRowActionsConfig]="(!(selectedRecordId$ | async))? gridRowActionsConfig: null"
-  [resetWidthForSplitView]="true">
+  [resetWidthForSplitView]="true"
+  [pagingOptions]="defaultPagingOptions"
+  [pageable]="!gridConfig.EnableInfiniteScroll">
 </pf-data-grid>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
@@ -103,7 +105,7 @@
   <pf-export-list-popover
     [disableCustomExport]="!selectedPricingIds.length"
     [disabledCustomExportTooltip]="'Select a pricing'"
-    [disablePopover]="disableExportPopover"
+    [disablePopover]="this.selectedJobPricingCount < 1 && this.selectedPricingIds.length < 1"
     [disabledPopoverTooltip]="'Select a Priced Job'"
     (exportEmitter)="exportPricings($event)">
   </pf-export-list-popover>
@@ -112,11 +114,11 @@
 
 <ng-template #gridActions>
   <button
-    [disabled]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
+    [disabled]="!(selectedJobIds.length || selectedPricingIds.length || selectedUnpricedPaymarkets.length)"
     [attr.data-qa-id]="'btn-jobs-page-clear-selections'"
     type="button"
     (click)="clearSelections()"
-    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
+    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedUnpricedPaymarkets.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-secondary pf-btn-borderless"
   >
     <fa-icon [icon]="['far', 'times']" ></fa-icon>
@@ -127,23 +129,24 @@
     [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]">
   </div>
   <button
-    [disabled]="!(jobStatusField | showingActiveJobs) || !(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length)"
+    [disabled]="!(jobStatusField | showingActiveJobs) || (updatingPricingMatch$ | async).saving
+      || !(selectedJobIds.length || selectedPricingIds.length || selectedUnpricedPaymarkets.length)"
     [pfSecuredResource]="permissions.NEW_PROJECT"
     [attr.data-qa-id]="'btn-jobs-page-create-project'"
     type="button"
     (click)="openCreateProjectModal()"
-    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedJobPayMarketCombos.length) ? 'No Jobs or Pricings Selected' : ''"
+    [title]="!(selectedJobIds.length || selectedPricingIds.length || selectedUnpricedPaymarkets.length) ? 'No Jobs or Pricings Selected' : ''"
     class="btn btn-secondary pf-btn-borderless"
   >
     <fa-icon [icon]="['far', 'calculator']" ></fa-icon>
     Create Project
-    <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length > 0 && (jobStatusField | showingActiveJobs)">
-      ({{selectedJobIds.length + selectedPricingIds.length + selectedJobPayMarketCombos.length}})
+    <span *ngIf="selectedJobIds.length + selectedPricingIds.length + selectedUnpricedPaymarkets.length > 0 && (jobStatusField | showingActiveJobs)">
+      ({{selectedJobIds.length + selectedPricingIds.length + selectedUnpricedPaymarkets.length}})
     </span>
   </button>
   <button
     [pfSecuredResource]="permissions.MODIFY_PRICINGS"
-    [disabled]="!(jobStatusField | showingActiveJobs) || !selectedPricingIds.length"
+    [disabled]="!(jobStatusField | showingActiveJobs) || !selectedPricings.length || (updatingPricingMatch$ | async).saving"
     [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
     (click)="modifyPricings()"
     type="button"
@@ -151,10 +154,10 @@
     <fa-icon *ngIf="!(pricingsToModify$ | async).loading" [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
     <pf-loading-indicator *ngIf="(pricingsToModify$ | async).loading"></pf-loading-indicator
   >
-    Modify Pricings <span *ngIf="selectedPricingIds.length && (jobStatusField | showingActiveJobs)">({{selectedPricingIds.length}})</span>
+    Price Jobs <span *ngIf="selectedPricings.length && (jobStatusField | showingActiveJobs)">({{selectedPricings.length}})</span>
   </button>
   <button
-    [disabled]="!(selectedJobIds.length)"
+    [disabled]="!(selectedJobIds.length) || (updatingPricingMatch$ | async).saving"
     [pfSecuredResource]="permissions.JOBS_INACTIVATE_ACTIVATE"
     [attr.data-qa-id]="'btn-jobs-page-inactivate-activate-jobs'"
     type="button"
@@ -251,7 +254,7 @@
       &bull; Pricing Count: {{selectedPricingIds.length}}
     </div>
     <div>
-      &bull; Job:Pay Market Associations: {{selectedJobPayMarketCombos.length}}
+      &bull; Unpriced Pay Market Count: {{selectedUnpricedPaymarkets.length}}
     </div>
     <div *ngIf="(creatingProject$ | async).savingError">
       <br>
@@ -363,6 +366,7 @@
 </pf-job-management>
 
 <pf-multi-match-component
+  (afterSaveChanges) = "matchModalSaved()"
   [display]="'modal'"
   [featureImplementation]="multiMatchImplementation"
 ></pf-multi-match-component>

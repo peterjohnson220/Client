@@ -18,10 +18,16 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import 'quill-mention';
 
-import { EmployeeRewardsData, RichTextControl, StatementModeEnum } from '../../models';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
+
+import { RichTextControl, StatementModeEnum } from '../../models';
 import { UpdateStringPropertyRequest, UpdateTitleRequest } from '../../models/request-models';
 
+import { environment } from 'environments/environment';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
 const Quill = require('quill');
+const cheerio = require('cheerio');
 
 const supportedFonts = ['Arial', 'Georgia', 'TimesNewRoman', 'Verdana'];
 
@@ -36,7 +42,7 @@ Quill.register(font, true);
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy {
-  @ViewChild('richText', { static: true }) richText: any;
+  @ViewChild('richText', { static: false }) richText: any;
 
   @Input() controlData: RichTextControl;
   @Input() mode: StatementModeEnum;
@@ -60,16 +66,11 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   lastMouseDownElement: HTMLElement;
 
+  showFontFamilyMenu = environment.enableTrsCustomFontFamilies;
+
   quillConfig = {
     toolbar: {
-      container: [
-        [{ 'font': supportedFonts }],
-        [{ 'size': ['small', false, 'large'] }],
-        ['bold', 'italic', 'underline'],
-        [{ 'color': [] }],
-        [{ 'align': [] }],
-        [{ 'list': 'bullet' }],
-      ]
+      container: this.quillToolbarContainer,
     },
     mention: {
       allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
@@ -110,30 +111,41 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return [];
   }
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) { }
+  get quillToolbarContainer(): any[] {
+    const allOptions = [
+      [{ 'font': supportedFonts }],
+      [{ 'size': ['small', false, 'large'] }],
+      ['bold', 'italic', 'underline'],
+      [{ 'color': [] }],
+      [{ 'align': [] }],
+      [{ 'list': 'bullet' }],
+    ];
+
+    // remove the custom font family menu if disabled in environment
+    return (this.showFontFamilyMenu) ? allOptions : allOptions.slice(1);
+  }
+
+  constructor(private changeDetectorRef: ChangeDetectorRef, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.title = this.controlData.Title.Default;
     this.htmlContent = this.controlData.Content;
-
-    this.onContentChangedSubscription = this.onContentChangedSubject.pipe(
-      debounceTime(500),
-      distinctUntilChanged()
-    ).subscribe((update: UpdateStringPropertyRequest)  => {
-      if (this.mode === StatementModeEnum.Edit) {
-        this.onContentChange.emit(update);
-      }
-    });
+    this.setupContentChangedSubscription();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.mode) {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
+    if (changes.mode || changes.employeeRewardsData) {
       this.bindEmployeeData();
     }
   }
 
   ngOnDestroy() {
-    this.onContentChangedSubscription.unsubscribe();
+    if (this.onContentChangedSubscription) {
+      this.onContentChangedSubscription.unsubscribe();
+    }
   }
 
   onTitleChanged(newTitle: string) {
@@ -156,9 +168,16 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     // get a handle to quill and the quill mention container that holds the data fields
     this.quillApi = quill;
     this.quillMentionContainer = quill.getModule('mention').mentionContainer;
+
+    if (this.mode === StatementModeEnum.Print && this.employeeRewardsData) {
+      this.bindEmployeeData();
+    }
   }
 
   onContentChanged(quillContentChange: any) {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
     // get dom node references to the container around the quill content and the content nodes (p tags)
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
     const contentNodes = this.richTextNode.querySelectorAll('.ql-editor p, .ql-editor li') as NodeListOf<HTMLElement>;
@@ -184,6 +203,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onSelectionChanged(quillSelectionChange: any) {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
     if (quillSelectionChange.oldRange === null) {
       this.isFocused = true;
     }
@@ -201,6 +223,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     this.quillMentionContainer.scrollTop = 0;
   }
 
+  // This binding method is for the Quill rich text editor, readonly copy of bound html should use bindEmployeeDataHtml
   bindEmployeeData(): void {
     if (!this.quillApi) { return; }
 
@@ -221,6 +244,19 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     this.quillApi.container.firstChild.setAttribute('data-placeholder', newEditorPlaceholderText);
   }
 
+  // This method is used in print view when Quill editor is not rendered
+  bindEmployeeDataHtml(): SafeHtml {
+    const $ = cheerio.load('<div class=\'ql-editor\'>' + this.htmlContent + '</div>');
+    const spans = $('.ql-editor span').toArray();
+    for (const span of spans) {
+      if (span.attribs['data-value']) {
+        const employeeField = this.controlData.DataFields.find(f => f.Value === span.attribs['data-value']);
+        $('[data-value="' + employeeField.Value + '"]', '.ql-editor').replaceWith(this.getFormattedDataFieldValue(employeeField.Key));
+      }
+    }
+    return this.sanitizer.bypassSecurityTrustHtml($.html());
+  }
+
   getDataFieldPlaceholderText(dataFieldKey: string): string {
     const dataField = this.controlData.DataFields.find(df => df.Key === dataFieldKey);
     return dataField.Value;
@@ -233,13 +269,16 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   formatDataFieldValue(value: any): string {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const dateValue = new Date(value);
 
-    if (typeof value === 'string') {
+    if ( typeof value === 'string' ) {
       return value;
-    } else if (typeof value === 'number') {
+    } else if ( typeof value === 'number' ) {
       return value.toString();
-    } else if (value && typeof value === 'object' && typeof value.getMonth === 'function') {
+    } else if ( value && typeof value === 'object' && typeof value.getMonth === 'function' ) {
       return months[value.getMonth()] + ' ' + value.getDate() + ' ' + value.getFullYear();
+    } else if ( value && isFinite(dateValue.getTime()) ) {
+      return months[dateValue.getMonth()] + ' ' + dateValue.getDate() + ' ' + dateValue.getFullYear();
     }
 
     // if not a string, number or date, unclear how to format, so return empty string
@@ -248,6 +287,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   @HostListener('document:mousedown', ['$event'])
   onDocumentMouseDown(event: MouseEvent): void {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
     // focus the editor if the mousedown target is the quill editor
     if (this.richTextNode.contains(event.target as HTMLElement)) {
       this.isFocused = true;
@@ -257,10 +299,27 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
 
   @HostListener('document:mouseup', ['$event'])
   onDocumentMouseUp(event: MouseEvent): void {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
     // bail if the mousedown target is the quill editor, since clicking + dragging + releasing outside should maintain focus
     if (this.richTextNode.contains(this.lastMouseDownElement)) {
       return;
     }
     this.isFocused = false;
+  }
+
+  setupContentChangedSubscription(): void {
+    // Get the F outta here if in print mode
+    if (this.mode === StatementModeEnum.Print) { return; }
+
+    this.onContentChangedSubscription = this.onContentChangedSubject.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe((update: UpdateStringPropertyRequest) => {
+      if (this.mode === StatementModeEnum.Edit) {
+        this.onContentChange.emit(update);
+      }
+    });
   }
 }

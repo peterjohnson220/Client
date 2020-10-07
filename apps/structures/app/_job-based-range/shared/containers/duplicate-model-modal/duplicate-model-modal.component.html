@@ -1,0 +1,40 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="'Duplicate Model'"
+  [modalId]="'duplicate-model-modal-form'"
+  [attr.data-qa-id]="'duplicate-model-modal'"
+  [isOpen$]="modalOpen$"
+  [submitting]="(duplicatingModelAsyncObj$ | async)?.saving"
+  [formGroup]="modelSettingsForm"
+  [primaryButtonText]="'Duplicate'"
+  [primaryButtonTextSubmitting]="'Duplicating'"
+  [secondaryButtonText]="'Cancel'"
+  (onSubmit)="handleModalSubmit()"
+  (onSubmitAttempt)="handleModalSubmitAttempt()"
+  (onDismiss)="handleModalDismiss()">
+
+  <ng-container form-content>
+    <div *ngIf="modalOpen$ | async">
+      <div class="form-group">
+        <label for="model-name">New Model Name</label>
+        <input type="text"
+               class="form-control"
+               id="model-name"
+               formControlName="ModelName"
+               [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.ModelName.valid) || modelNameExistsFailure }"
+               [maxlength]="50"
+               (input)="clearModelNameExistsFailure()"/>
+        <div class="invalid-feedback">
+          <div *ngIf="!formControls.ModelName.valid">Please provide a new model name.</div>
+          <div *ngIf="modelNameExistsFailure">Model Name Exists</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container footer-left>
+    <div *ngIf="(duplicatingModelAsyncObj$ | async)?.savingError" class="invalid-feedback d-block">
+      Error duplicating model
+    </div>
+  </ng-container>
+</pf-modal-form>

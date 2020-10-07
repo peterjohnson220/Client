@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
+import { TooltipModule } from '@progress/kendo-angular-tooltip';
+import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 
 import { NgbTooltipModule, NgbTabsetModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -12,8 +14,6 @@ import * as fromFaIcons from './fa-icons';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
-import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -25,7 +25,8 @@ import {
   RangeEditorModule,
   NotesManagerModule,
   MultiMatchModule,
-  PricingMatchModule
+  PricingMatchModule,
+  ReScopeSurveyDataModule
 } from 'libs/features';
 
 import { JobsPageComponent } from './jobs.page/jobs.page';
@@ -34,23 +35,22 @@ import { MatchesModalModule } from '../_matches-modal/matches-modal.module';
 
 import {
   JobsDetailsComponent,
+  PaymarketsGridComponent,
   EmployeesGridComponent,
-  PricingDetailsGridComponent,
   JobDescriptionComponent,
   StructureGridComponent,
   PricingMatchesGridComponent,
   ProjectDetailsGridComponent,
   PricingHistoryGridComponent,
-  NotPricedPaymarketsGridComponent,
   ExportListPopoverComponent,
   PricingDetailsMrpColumnComponent,
   PeerExchangeMatchesComponent,
   PricingMatchesJobTitleComponent,
+  PricingDetailsAdjPctColumnComponent
 } from './components';
 import { reducers } from './reducers';
 import { JobsPageEffects, JobDescriptionEffects, JobPeerMatchesEffects } from './effects';
-import { CannontDeletePricingMatchMessage, ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe } from './pipes';
-
+import { ShowingActiveJobs, PricingMatchTypePipe, JobTitleCodePipe, ModifyPricingMatchError, ModifyPricingError } from './pipes';
 
 @NgModule({
   imports: [
@@ -58,7 +58,6 @@ import { CannontDeletePricingMatchMessage, ShowingActiveJobs, PricingMatchTypePi
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
 
     // 3rd Party
     LayoutModule,
@@ -74,6 +73,7 @@ import { CannontDeletePricingMatchMessage, ShowingActiveJobs, PricingMatchTypePi
     ]),
     FontAwesomeModule,
     TooltipModule,
+    NumericTextBoxModule,
     DropDownListModule,
 
     // Routing
@@ -91,6 +91,7 @@ import { CannontDeletePricingMatchMessage, ShowingActiveJobs, PricingMatchTypePi
     NotesManagerModule,
     MultiMatchModule,
     PricingMatchModule,
+    ReScopeSurveyDataModule
   ],
   declarations: [
     // Pages
@@ -98,14 +99,13 @@ import { CannontDeletePricingMatchMessage, ShowingActiveJobs, PricingMatchTypePi
 
     // Job Details Components
     JobsDetailsComponent,
+    PaymarketsGridComponent,
     EmployeesGridComponent,
-    PricingDetailsGridComponent,
     PricingMatchesGridComponent,
     JobDescriptionComponent,
     StructureGridComponent,
     ProjectDetailsGridComponent,
     PricingHistoryGridComponent,
-    NotPricedPaymarketsGridComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent,
@@ -116,10 +116,12 @@ import { CannontDeletePricingMatchMessage, ShowingActiveJobs, PricingMatchTypePi
     ExportListPopoverComponent,
 
     // Pipes
-    CannontDeletePricingMatchMessage,
     ShowingActiveJobs,
     PricingMatchTypePipe,
-    JobTitleCodePipe
+    JobTitleCodePipe,
+    ModifyPricingError,
+    ModifyPricingMatchError,
+    PricingDetailsAdjPctColumnComponent
   ]
 })
 export class JobsPageModule {

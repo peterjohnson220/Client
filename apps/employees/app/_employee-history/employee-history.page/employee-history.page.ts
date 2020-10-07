@@ -2,14 +2,15 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { IntlService } from '@progress/kendo-angular-intl';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
-import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
+import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { EmployeeHistoryPageViewId } from '../models';
 
@@ -29,21 +30,26 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
     dir: 'asc',
     field: 'vw_EmployeeHistory_Employee_ID'
   }];
+  defaultPagingOptions: PagingOptions;
   filterTemplates = {};
   colTemplates = {};
   actionBarConfig: ActionBarConfig;
+  gridConfig: GridConfig;
   loadDateFilter: PfDataGridFilter[] = [];
   fieldsExcludedFromExport = ['CompanyEmployeeHistory_ID', 'HiddenRate'];
   showEmployeeHistoryModal = new BehaviorSubject<boolean>(false);
   showEmployeeHistoryModal$ = this.showEmployeeHistoryModal.asObservable();
   routeSubscription: Subscription;
   historyDate: Date;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private intlService: IntlService
+    private intlService: IntlService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
@@ -53,6 +59,15 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
       ExportSourceName: 'Employee History',
       ColumnChooserType: ColumnChooserType.ColumnGroup
     };
+    this.gridConfig = {
+      PersistColumnWidth: true,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
+      SelectAllPanelItemName: 'employees'
+    };
+    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
+      ? getDefaultPagingOptions()
+      : { From: 0, Count: 20 };
     this.setHistoryDate(this.route.snapshot.params.date);
   }
 

@@ -1,0 +1,144 @@
+<pf-data-grid
+  [pageViewId]="pageViewId"
+  [linkGroups]="['AllPaymarketsForJobs']"
+  [showTitle]="false"
+  [selectionField]="'JobIdPayMarketId'"
+  [enableSelection]="true"
+  [columnTemplates]="columnTemplates"
+  [expandedRowTemplate]="pricingMatchesGrid"
+  [actionBarConfig]="actionBarConfig"  
+  [inboundFilters]="filters"
+  [defaultSort]="defaultSort"
+  [customSortOptions]="customSortOptions"
+  [preserveSelectionsOnGetConfig]="true"
+  [applyUserDefaultCompensationFields]="true"
+  [headerClassName]="'jobs-page-sub-grid-header'"
+  [applyUserDefaultCompensationFields]="true"
+  [pagingOptions]="defaultPagingOptions"
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [noRecordsFound]="'There are no results for the filter criteria you have selected.'">
+</pf-data-grid>
+
+<ng-template #pricingMatchesGrid let-dataRow="dataRow">
+  <pf-pricing-matches-grid 
+    [pricingInfo]="dataRow"
+    (notesEmitter)="openPricingMatchNotesManager($event)"
+    (reScopeSurveyDataEmitter)="openReScopeSurveyDataModal($event)">
+  </pf-pricing-matches-grid>
+</ng-template>
+
+<ng-template #payMarketColumn let-dataRow="dataRow">
+  <b>{{dataRow['CompanyPayMarkets_PayMarket']}}</b>
+  <span kendoTooltip *ngIf="dataRow['CompanyPayMarkets_Linked_PayMarket_Name']" data-html="true" position="right"
+        title="This pay market is linked to {{dataRow['CompanyPayMarkets_Linked_PayMarket_Name']}}.">
+    <fa-icon class="pl-2" icon="link"></fa-icon>
+  </span>
+  <span kendoTooltip *ngIf="dataRow['CompanyJobs_Pricings_HasNotes']" position="right" title="Pricing Notes"
+    (click)="openPricingNotesManager($event, dataRow)">
+    <fa-icon [icon]="['far', 'sticky-note']" class="pl-2"></fa-icon>
+  </span>
+  <br>
+  <small>
+    <em class="text-muted">
+      Industry: {{dataRow['CompanyPayMarkets_Industry_Value'] || 'N/A' }}
+      &#8226;
+      Size: {{dataRow['CompanyPayMarkets_Size_Value'] || 'N/A'}}
+      {{dataRow['CompanyPayMarkets_Size_Label'] ? ' - ' + dataRow['CompanyPayMarkets_Size_Label'] : ''}}
+      &#8226;
+      Location: {{dataRow['CompanyPayMarkets_Geo_Value'] || 'N/A'}}
+    </em>
+  </small>
+</ng-template>
+
+<ng-template #agingColumn>
+  <div class="ellipsis-overflowing-text">
+    <span [innerHTML]="'' | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #genericMrpColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <pf-pricing-details-mrp-column
+    [dataRow]="dataRow"
+    [fieldName]="fieldName"
+  ></pf-pricing-details-mrp-column>
+</ng-template>
+
+<ng-template #currencyColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div class="ellipsis-overflowing-text">
+    <span *ngIf="!fieldName.includes('Pct'); else pctValue" [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
+  </div>
+  <ng-template #pctValue>
+    <span [innerHTML]="dataRow[fieldName] | comp: dataRow['CompanyJobs_Pricings_Rate'] : 'full' | emptyPlaceholder"></span>
+  </ng-template>
+</ng-template>
+
+<ng-template #matchInfoColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <div pfEllipsisActive class="ellipsis-overflowing-text">
+    <span [innerHTML]="dataRow[fieldName] | humanizeNumber | emptyPlaceholder"></span>
+  </div>
+</ng-template>
+
+<ng-template #adjPctColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <pf-pricing-details-adj-pct-column [dataRow]="dataRow"></pf-pricing-details-adj-pct-column>
+</ng-template>
+
+<ng-template #payMarketFilter>
+  <kendo-dropdownlist
+    [attr.data-qa-id]="'ddm-operator-' + payMarketField.SourceName"  
+    [(ngModel)]="selectedPayMarket"
+    [textField]="'Value'"
+    [valueField]="'Id'"
+    [defaultItem]="{Value:'All Pay Markets', Id: null}"
+    [data]="filteredPayMarketOptions"
+    (valueChange)="handlePayMarketFilterChanged($event)"
+    [filterable]="true"
+    (filterChange)="handlePayMarketDropDownFilterChanged($event)"    
+    style="width: 250px"
+    class="k-dropdown-white form-control">
+  </kendo-dropdownlist>
+</ng-template>
+
+<ng-template #priciedFilter>
+  <div class="d-flex">
+    <label class="my-auto pr-3">Priced:</label>
+    <kendo-dropdownlist
+      [attr.data-qa-id]="'ddm-operator-' + pricedField.SourceName"  
+      [(ngModel)]="pricedFilterValue"
+      [textField]="'display'"
+      [valueField]="'value'"
+      [data]="bitFilterOptions"
+      (valueChange)="handlePricedFilterChanged($event)"
+      style="width: 75px"
+      class="k-dropdown-white form-control">
+    </kendo-dropdownlist>   
+  </div>
+</ng-template>
+
+<pf-notes-manager
+  [notesManagerConfiguration]="notesManagerConfiguration"
+  (cancelChanges)="showNotesManager.next(false);">
+</pf-notes-manager>
+
+<ng-template #pricingNotesHeader >
+  <div class="pr-5 py-1">
+    <span class="pr-3"><b >Pay Market:</b></span>
+    <span>{{selectedPricingPayMarket}}</span>
+  </div>
+</ng-template>
+
+<ng-template #globalActions>
+  <div class="d-flex flex-fill">
+    <div *ngIf="(recalculatingPricingInfo$ | async)" class="ml-auto my-auto" >
+      <pf-loading-indicator></pf-loading-indicator>
+      <span class="pl-2">Recalculating Pricings</span>
+    </div>
+  </div>
+
+<pf-re-scope-survey-data
+  [modalConfiguration]="reScopeSurveyDataConfiguration"
+  (reScopeSubmitted)="reScopeSurveyDataCut($event)"
+  (cancelChanges)="showReScopeSurveyDataModal.next(false);">
+</pf-re-scope-survey-data>
+
+

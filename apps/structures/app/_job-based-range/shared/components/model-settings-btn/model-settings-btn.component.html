@@ -1,8 +1,24 @@
-<button class="btn btn-secondary" (click)="clicked.emit()">
-  <ng-container *ngIf="metadata.IsCurrent; else cogs">
+<ng-template #popContent>
+  <div class="popover-body-container">
+    <div class="text-right"><span (click)="showModelSettings()">Model Settings</span></div>
+    <div class="text-right"><span (click)="showDuplicateModel()">Duplicate Model</span></div>
+  </div>
+</ng-template>
+
+
+<ng-container *ngIf="metadata.IsCurrent; else cogs">
+  <button class="btn btn-secondary" (click)="modelSettingsClicked.emit()">
     Create Model
-  </ng-container>
-  <ng-template #cogs>
+  </button>
+</ng-container>
+<ng-template #cogs>
+  <button type="button"
+          id="column-popover-btn"
+          class="btn btn-secondary"
+          placement="bottom-right"
+          #p="ngbPopover"
+          [ngbPopover]="popContent"
+          [autoClose]="'outside'">
     <fa-icon icon="cogs"></fa-icon>
-  </ng-template>
-</button>
+  </button>
+</ng-template>

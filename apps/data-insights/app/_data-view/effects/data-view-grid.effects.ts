@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { isNumber } from 'lodash';
+import isNumber from 'lodash/isNumber';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
 

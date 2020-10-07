@@ -12,6 +12,8 @@ export interface MatchedSurveyJob extends SurveyJob {
   DataCutsCount?: number;
   Paymarket?: string;
   PaymarketId?: number;
+  CompanyJobId?: number;
+  LinkedPaymarketId?: number;
 }
 
 interface Survey {

@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { LoaderSetting, LoaderSettingKeyName } from 'libs/models/data-loads';
 

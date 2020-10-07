@@ -1,5 +1,5 @@
 <pf-layout-wrapper
-  [displayRightSideBar]="displayRightSideBar"
+  [displayRightSideBar]="displayRightSideBar && !userNotificationsFeatureFlag.value"
   [rightSideBarFontAwesomeOpenIcon]="rightSideBarOpenIcon"
   [rightSidebarShouldBeOpen]="isRightSidebarOpen"
   (onRightSidebarToggle)="saveRightSidebarToggle($event)"

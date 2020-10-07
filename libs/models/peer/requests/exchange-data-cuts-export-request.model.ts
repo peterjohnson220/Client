@@ -8,7 +8,7 @@ export interface ExchangeDataCutsExportRequest {
   ExchangeJobToCompanyJobIds: number[];
   FilterModel: BaseExchangeDataSearchRequest;
   SelectedRate: string;
-  SelectedExchangeScopeGuids: string[];
+  SelectedExchangeScopeIds: number[];
   SelectedWeightingType: string;
   SelectedCurrency: string;
 }
@@ -20,7 +20,7 @@ export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExp
     ExchangeJobToCompanyJobIds: [1, 2],
     FilterModel: {} as BaseExchangeDataSearchRequest,
     SelectedRate: RateType.Annual,
-    SelectedExchangeScopeGuids: ['1234567890'],
+    SelectedExchangeScopeIds: [1,2,3],
     SelectedWeightingType: WeightType.Inc,
     SelectedCurrency: 'USD'
   };

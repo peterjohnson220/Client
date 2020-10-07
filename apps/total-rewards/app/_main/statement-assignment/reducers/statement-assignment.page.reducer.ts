@@ -1,4 +1,4 @@
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
@@ -21,6 +21,8 @@ export interface State {
   UnassignEmployeesSuccess: boolean;
   UnassignEmployeesError: boolean;
   generateStatementEventId: string;
+  isExporting: boolean;
+  exportEventId: AsyncStateObj<string>;
 }
 
 export const initialState: State = {
@@ -36,7 +38,9 @@ export const initialState: State = {
   UnassignEmployees: false,
   UnassignEmployeesSuccess: false,
   UnassignEmployeesError: false,
-  generateStatementEventId: null
+  generateStatementEventId: null,
+  isExporting: false,
+  exportEventId: generateDefaultAsyncStateObj<string>(null),
 };
 
 export function reducer(state = initialState, action: fromActions.StatementAssignmentPageActions): State {
@@ -80,7 +84,8 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
       const localState = cloneDeep(state);
       return {
         ...localState,
-        isGenerateStatementModalOpen: false
+        isGenerateStatementModalOpen: false,
+        sendingGenerateStatementRequestError: false
       };
     }
     case fromActions.GENERATE_STATEMENTS: {
@@ -151,13 +156,15 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
       };
     }
     case fromActions.UNASSIGN_EMPLOYEES_SUCCESS: {
-      const localState = cloneDeep(state);
+      const statement = cloneDeep(state.statement);
+      statement.obj.AssignedCompanyEmployeeIds = action.payload;
       return {
-        ...localState,
+        ...state,
         isSingleEmployeeAction: false,
         UnassignEmployees: false,
         UnassignEmployeesSuccess: true,
-        UnassignEmployeesError: false
+        UnassignEmployeesError: false,
+        statement: statement
       };
     }
     case fromActions.UNASSIGN_EMPLOYEES_ERROR: {
@@ -167,6 +174,69 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
         UnassignEmployees: false,
         UnassignEmployeesSuccess: false,
         UnassignEmployeesError: true
+      };
+    }
+    case fromActions.START_EXPORT_ASSIGNED_EMPLOYEES: {
+      return {
+        ...state,
+        isExporting: true
+      };
+    }
+    case fromActions.START_EXPORT_ASSIGNED_EMPLOYEES_SUCCESS: {
+      const asyncClone = cloneDeep(state.exportEventId);
+      asyncClone.obj = action.payload;
+      return {
+        ...state,
+        exportEventId: asyncClone
+      };
+    }
+    case fromActions.START_EXPORT_ASSIGNED_EMPLOYEES_ERROR: {
+      return {
+        ...state,
+        isExporting: false
+      };
+    }
+    case fromActions.EXPORT_ASSIGNED_EMPLOYEES_COMPLETE: {
+      const asyncClone = cloneDeep(state.exportEventId);
+      asyncClone.obj = null;
+      return {
+        ...state,
+        isExporting: false,
+        exportEventId: asyncClone
+      };
+    }
+    case fromActions.GET_EXPORTING_ASSIGNED_EMPLOYEES: {
+      const asyncClone = cloneDeep(state.exportEventId);
+      asyncClone.loading = true;
+      return {
+        ...state,
+        exportEventId: asyncClone
+      };
+    }
+    case fromActions.GET_EXPORTING_ASSIGNED_EMPLOYEES_SUCCESS: {
+      const asyncClone = cloneDeep(state.exportEventId);
+      asyncClone.loading = false;
+      asyncClone.obj = action.payload;
+      return {
+        ...state,
+        exportEventId: asyncClone,
+        isExporting: action.payload?.length > 0
+      };
+    }
+    case fromActions.GET_EXPORTING_ASSIGNED_EMPLOYEES_ERROR: {
+      const asyncClone = cloneDeep(state.exportEventId);
+      asyncClone.loading = false;
+      return {
+        ...state,
+        exportEventId: asyncClone
+      };
+    }
+    case fromActions.UPDATE_STATEMENT_ASSIGNED_EMPLOYEES: {
+      const statementClone = cloneDeep(state.statement);
+      statementClone.obj.AssignedCompanyEmployeeIds = action.payload;
+      return {
+        ...state,
+        statement: statementClone
       };
     }
     default: {
@@ -195,3 +265,5 @@ export const getIsSingleEmployeeAction = (state: State) => state.isSingleEmploye
 export const getUnassignEmployees = (state: State) => state.UnassignEmployees;
 export const getUnassignEmployeesSuccess = (state: State) => state.UnassignEmployeesSuccess;
 export const getUnassignEmployeesError = (state: State) => state.UnassignEmployeesError;
+export const getIsExporting = (state: State) => state.isExporting;
+export const getExportEventAsync = (state: State) => state.exportEventId;

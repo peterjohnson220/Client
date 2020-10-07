@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunityPost, CommunityReply, CommunitySearchResult, CommunityUserInfo } from 'libs/models/community';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CommunityPostApiService {
   private endpoint = 'CommunityPosts';
 
@@ -22,6 +24,10 @@ export class CommunityPostApiService {
 
   updatePostLike(payload: any): Observable<boolean> {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/UpdatePostLike`, payload);
+  }
+
+  updatePostFavorite(payload: any): Observable<boolean> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/UpdatePostFavorite`, payload);
   }
 
   updatePostReplyLike(payload: any): Observable<boolean> {

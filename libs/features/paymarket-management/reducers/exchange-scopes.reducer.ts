@@ -1,4 +1,5 @@
-import { cloneDeep, orderBy } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { ExchangeScopes } from 'libs/models/peer/exchange-scope';

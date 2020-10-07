@@ -1,5 +1,5 @@
 import * as communityAttachmentActions from '../actions/community-attachment.actions';
-import * as cloneDeep from 'lodash.clonedeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { EntityAdapter, createEntityAdapter, EntityState } from '@ngrx/entity';
 import { CommunityAttachmentModalState, CommunityAttachmentUploadStatus } from 'libs/models';
 
