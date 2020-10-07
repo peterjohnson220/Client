@@ -8,7 +8,9 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
-import { StatementForPrint, generateMockStatementWithSingleControl, generateMockImageControl } from 'libs/features/total-rewards/total-rewards-statement/models';
+import {
+  StatementForPrint, generateMockStatementWithSingleControl, generateMockImageControl
+} from 'libs/features/total-rewards/total-rewards-statement/models';
 import { generateMockChartControl } from 'libs/features/total-rewards/total-rewards-statement/models/chart-control';
 
 import * as fromStatementPrintReducer from '../reducers';

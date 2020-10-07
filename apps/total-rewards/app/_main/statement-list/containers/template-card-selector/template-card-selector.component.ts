@@ -1,8 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 import {select, Store} from '@ngrx/store';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
 import { generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import { generateMockStatement, Statement, StatementModeEnum, Template, TemplatePreview } from 'libs/features/total-rewards/total-rewards-statement/models';
 
@@ -31,10 +33,16 @@ export class TemplateCardSelectorComponent implements OnInit, OnDestroy {
   statementModeEnum = StatementModeEnum;
   mockStatement: Statement;
   mockData = generateMockEmployeeRewardsData();
+  totalRewardsStyledTemplateFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsStyledTemplate, value: false };
+  unsubscribe$ = new Subject<void>();
 
   templateSub: Subscription;
 
-  constructor(private store: Store<fromTotalRewardsReducer.State>) {}
+  constructor(
+    private store: Store<fromTotalRewardsReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService) {
+      this.featureFlagService.bindEnabled(this.totalRewardsStyledTemplateFeatureFlag, this.unsubscribe$);
+  }
 
   ngOnInit(): void {
     this.templates$ = this.store.pipe(select(fromTotalRewardsReducer.getTemplates));
@@ -50,6 +58,7 @@ export class TemplateCardSelectorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.templateSub.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   reload(): void {
@@ -62,7 +71,7 @@ export class TemplateCardSelectorComponent implements OnInit, OnDestroy {
 
   onPreview(templateId: string, templateName: string) {
     // bail on Styled preview until we can actually show a Styled preview
-    if (templateName === 'Styled') { return; }
+    if (templateName === TrsConstants.TEMPLATE_NAMES.STYLED) { return; }
 
     const matchingTemplate = this.templates.find(t => t.id === templateId);
     if (matchingTemplate) {
@@ -82,4 +91,14 @@ export class TemplateCardSelectorComponent implements OnInit, OnDestroy {
     this.templatePreview = null;
   }
 
+  isTemplateEnabled(template: Template): boolean {
+    switch (template.name) {
+      case TrsConstants.TEMPLATE_NAMES.SIMPLE :
+        return true;
+      case TrsConstants.TEMPLATE_NAMES.STYLED:
+        return this.totalRewardsStyledTemplateFeatureFlag.value;
+      default:
+        return false;
+    }
+  }
 }
