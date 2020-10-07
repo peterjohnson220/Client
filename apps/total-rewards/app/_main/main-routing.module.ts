@@ -6,7 +6,8 @@ const routes: Routes = [
   { path: 'statement/edit', loadChildren: () => import('./statement-edit/statement-edit.module').then(m => m.StatementEditModule) },
   { path: 'statement/edit/:id/assignments',
     loadChildren: () => import('./statement-assignment/statement-assignment.module').then(m => m.StatementAssignmentModule)
-  }
+  },
+  { path: 'verification', loadChildren: () => import('../_electronic-delivery/electronic-delivery.module').then(m => m.ElectronicDeliveryModule)}
 ];
 
 @NgModule({
