@@ -12,7 +12,8 @@ import {
   getDefaultActionBarConfig,
   getDefaultGridRowActionsConfig,
   GridRowActionsConfig,
-  PfDataGridFilter
+  PfDataGridFilter,
+  GridConfig
 } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
@@ -22,6 +23,7 @@ import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 import * as fromReducer from 'libs/features/pf-data-grid/reducers';
 import { PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
@@ -88,14 +90,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   modelPageViewId: string;
   modelPageViewIdSubscription: Subscription;
   rangeGroupType = RangeGroupType.Job;
-  defaultPagingOptions: PagingOptions = {
-    From: 0,
-    Count: 50
-  };
-  defaultSort: SortDescriptor[] = [{
-    dir: 'asc',
-    field: 'CompanyStructures_Ranges_Mid'
-  }];
+  defaultPagingOptions: PagingOptions;
+  defaultSort: SortDescriptor[];
   singleRecordActionBarConfig: ActionBarConfig;
   fullGridActionBarConfig: ActionBarConfig;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
@@ -109,17 +105,15 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedDropdown: NgbDropdown;
   rangeOverrides: CompanyStructureRangeOverride[];
 
-
-  gridConfig = {
-    PersistColumnWidth: false,
-    CaptureGridScroll: true
-  };
+  gridConfig: GridConfig;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     private actionsSubject: ActionsSubject,
     private permissionService: PermissionService,
-    private structuresPagesService: StructuresPagesService
+    private structuresPagesService: StructuresPagesService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
@@ -142,6 +136,21 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.invalidMidPointRanges = [];
     this.modifiedKeys = [];
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      CaptureGridScroll: true,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+    };
+    this.defaultPagingOptions = {
+      From: 0,
+      Count: 50
+    };
+    this.defaultSort = [{
+      dir: 'asc',
+      field: 'CompanyStructures_Ranges_Mid'
+    }];
   }
 
   hideRowActions(): boolean {

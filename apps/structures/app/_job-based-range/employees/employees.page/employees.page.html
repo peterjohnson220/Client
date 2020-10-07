@@ -12,7 +12,6 @@
   [aboveGridTemplate]="aboveGridTemplate"
   [actionBarConfig]="actionBarConfig"
   [borders]="false"
-  [pageable]="true"
   [contentClassNamesOverrides]="'py-3 px-4'"
   [pageTheme]="'next-gen'"
   [defaultColumnWidth]="135"
@@ -20,7 +19,9 @@
   [syncScrollWithSplit]="true"
   [saveSort]="true"
   [showSplitViewToggle]="true"
-  [gridConfig]="gridConfig">
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [pagingOptions]="defaultPagingOptions">
 </pf-data-grid>
 
 <ng-template #graph>

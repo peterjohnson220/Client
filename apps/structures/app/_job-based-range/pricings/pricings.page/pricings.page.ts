@@ -4,10 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
@@ -43,15 +45,15 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   pageViewId: string;
   pageViewIdSubscription: Subscription;
 
-  gridConfig = {
-    PersistColumnWidth: false,
-    CaptureGridScroll: true
-  };
+  gridConfig: GridConfig;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
+  defaultPagingOptions: PagingOptions;
 
   constructor(
     private store: Store<fromSharedJobBasedRangeReducer.State>,
     private route: ActivatedRoute,
-    private structuresPagesService: StructuresPagesService
+    private structuresPagesService: StructuresPagesService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.rangeGroupId = this.route.parent.snapshot.params.id;
@@ -71,6 +73,17 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._Permissions = Permissions;
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      CaptureGridScroll: true,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+    };
+    this.defaultPagingOptions = {
+      From: 0,
+      Count: 50
+    };
   }
 
   // Events
