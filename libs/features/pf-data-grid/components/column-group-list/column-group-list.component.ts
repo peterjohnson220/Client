@@ -16,11 +16,12 @@ import { ColumnChooserType, ColumnGroup } from '../../models';
 export class ColumnGroupListComponent implements OnChanges {
   @Input() fields: ViewField[];
   @Input() searchTerm: string;
+  @Input() selectAllEnabled: boolean;
   @Input() columnChooserType: ColumnChooserType;
 
   columnGroups: ColumnGroup[] = [];
   allFields: ViewField[];
-  nonGroupedFields: ViewField[];
+  nonGroupedFields: any[];
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes && changes.fields && changes.fields.currentValue) {

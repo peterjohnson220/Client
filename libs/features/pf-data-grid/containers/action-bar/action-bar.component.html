@@ -41,6 +41,7 @@
                          [columnChooserType]="actionBarConfig.ColumnChooserType"
                          [reorderable]="reorderable"
                          (saveColumns)="updateFields($event)"
+                         [selectAllEnabled]="actionBarConfig.EnableGroupSelectAll"
                          [showSelectAllColumns]="actionBarConfig.ShowSelectAllColumns"
                          [submitButtonText]="actionBarConfig.ColumnChooserSubmitText">
       </pf-column-chooser>

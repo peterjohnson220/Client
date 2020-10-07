@@ -1,28 +1,29 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { select, Store, ActionsSubject } from '@ngrx/store';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { ofType } from '@ngrx/effects';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import {
-  PfDataGridFilter,
   ActionBarConfig,
+  ColumnChooserType,
   getDefaultActionBarConfig,
+  getDefaultGridRowActionsConfig,
   GridRowActionsConfig,
-  getDefaultGridRowActionsConfig
+  PfDataGridFilter
 } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import {  CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
+import { CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { PermissionService } from 'libs/core/services';
 import * as fromReducer from 'libs/features/pf-data-grid/reducers';
+import { PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 import { PageViewIds } from '../../constants/page-view-ids';
@@ -135,6 +136,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       AllowExport: true,
       ExportSourceName: 'Job Range Structures',
       CustomExportType: 'JobRangeStructures',
+      ColumnChooserType: ColumnChooserType.Hybrid,
+      EnableGroupSelectAll: true
     };
 
     this.invalidMidPointRanges = [];
