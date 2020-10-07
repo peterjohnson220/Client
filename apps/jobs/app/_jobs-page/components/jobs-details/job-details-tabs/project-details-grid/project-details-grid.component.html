@@ -21,14 +21,9 @@
     </a>
   </ng-container>
   <ng-template #noAccess>
-    Owned by {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
+    Owned by {{dataRow['UserSessions_Create_User']}}
   </ng-template>
 </ng-template>
-
-<ng-template #projectOwnerColumn let-dataRow="dataRow">
-  {{dataRow['Users_First_Name']}} {{dataRow['Users_Last_Name']}}
-</ng-template>
-
 
 <ng-template #payMarketFilter>
   <kendo-dropdownlist
