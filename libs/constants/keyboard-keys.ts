@@ -9,5 +9,7 @@ export enum KeyboardKeys {
   ARROW_UP = 'ArrowUp',
   ARROW_DOWN = 'ArrowDown',
   HOME = 'Home',
-  END = 'End'
+  END = 'End',
+  SHIFT = 'Shift',
+  ESCAPE= 'Escape'
 }

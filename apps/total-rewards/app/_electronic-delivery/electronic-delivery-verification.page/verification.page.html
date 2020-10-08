@@ -14,8 +14,7 @@
                    #inputToFocus
                    formControlName="input{{inputIndex}}"
                    (click)="highlightValue(inputIndex)"
-                   (keydown)="handleKeyDown($event)"
-                   (keyup)="handleKeyUp(inputIndex)"
+                   (keyup)="handleKeyUp($event, inputIndex)"
                    class="code-input h4" type="text" maxlength="1" />
         </div>
       </form>
