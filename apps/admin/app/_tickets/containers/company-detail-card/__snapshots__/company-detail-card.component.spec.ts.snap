@@ -3,6 +3,7 @@
 exports[`Admin - Tickets - Company Detail Card Should display details about a company 1`] = `
 <pf-company-detail-card
   companyDetail={[Function Object]}
+  companyNotesModal={[Function CompanyNotesModalComponent]}
   store={[Function Store]}
 >
   <div
@@ -35,7 +36,13 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
         <div
           class="detail-text mb-2"
         >
-          MockCompanyDetailName
+           MockCompanyDetailName 
+          
+          <fa-icon
+            class="pl-2 note-modal-icon"
+            ngbtooltip="Company Notes"
+            placement="right"
+          />
         </div>
       </div>
     </div>
@@ -153,6 +160,8 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
         </div>
       </div>
     </div>
-  </div>
+  </div><pf-company-notes-modal>
+    
+  </pf-company-notes-modal>
 </pf-company-detail-card>
 `;

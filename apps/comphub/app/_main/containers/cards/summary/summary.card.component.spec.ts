@@ -191,24 +191,23 @@ describe('Comphub - Main - Summary Card Component', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch load job trend chart and add new completed pricing record ' +
-  'when selected page is Summary and job data has been changed', () => {
+  it('should dispatch load job trend chart when selected page is Summary and job data has been changed', () => {
     spyOn(store, 'dispatch');
 
-    instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
+    instance.selectedJobData$ = of({...generateFakeJobData(), JobId: 3});
     instance.lastJobData = generateFakeJobData();
     instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Summary});
     instance.ngOnInit();
 
-    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
-    const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData({
+      countryCode: 'USA',
+      jobCode: 'Ab1234'
+    });
 
     expect(store.dispatch).toHaveBeenCalledWith(getNationalJobTrendDataAction);
-    expect(store.dispatch).toHaveBeenCalledWith(addCompletedPricingHistoryAction);
   });
 
-  it('should NOT dispatch load job trend chart and add new completed pricing record ' +
-  'when selected page is Summary and job data has NOT been changed', () => {
+  it('should NOT dispatch load job trend chart when selected page is Summary and job data has NOT been changed', () => {
     spyOn(store, 'dispatch');
 
     instance.selectedJobData$ = of(generateFakeJobData());
@@ -216,27 +215,29 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Summary});
     instance.ngOnInit();
 
-    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
-    const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData({
+      countryCode: 'USA',
+      jobCode: 'Ab1234'
+    });
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getNationalJobTrendDataAction);
-    expect(store.dispatch).not.toHaveBeenCalledWith(addCompletedPricingHistoryAction);
   });
 
   it('should NOT dispatch load job trend chart and add new completed pricing record ' +
   'when selected page is NOT Summary and job data has been changed', () => {
     spyOn(store, 'dispatch');
 
-    instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
+    instance.selectedJobData$ = of({...generateFakeJobData(), JobId: 3});
     instance.lastJobData = generateFakeJobData();
     instance.workflowContext$ = of({...generateMockWorkflowContext(), selectedPageId: ComphubPages.Markets});
     instance.ngOnInit();
 
-    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
-    const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData({
+      countryCode: 'USA',
+      jobCode: 'Ab1234'
+    });
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getNationalJobTrendDataAction);
-    expect(store.dispatch).not.toHaveBeenCalledWith(addCompletedPricingHistoryAction);
   });
 
   it('should display USD for currency when active market data is USA', () => {

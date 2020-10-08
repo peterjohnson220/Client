@@ -16,6 +16,7 @@ export const CLOSE_GENERATE_STATEMENT_MODAL = '[Total Rewards/Statement Assignme
 export const GENERATE_STATEMENTS = '[Total Rewards/Statement Assignment] Generate Statements';
 export const GENERATE_STATEMENTS_SUCCESS = '[Total Rewards/Statement Assignment] Generate Statements Success';
 export const GENERATE_STATEMENTS_ERROR = '[Total Rewards/Statement Assignment] Generate Statements Error';
+export const UPDATE_STATEMENT_IS_GENERATING = '[Total Rewards/Statement Assignment] Update Statement Is Generating';
 
 export const LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS = '[Total Rewards/Statement Assignment] Load Assigned Employees List Area Columns';
 export const LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_SUCCESS = '[Total Rewards/Statement Assignment] Load Assigned Employees List Area Columns Success';
@@ -79,6 +80,11 @@ export class GenerateStatementsSuccess implements Action {
 export class GenerateStatementsError implements Action {
   readonly type = GENERATE_STATEMENTS_ERROR;
   constructor(public payload: any) {}
+}
+
+export class UpdateStatementIsGenerating implements Action {
+  readonly type = UPDATE_STATEMENT_IS_GENERATING;
+  constructor(public payload: boolean) {}
 }
 
 export class LoadAssignedEmployeesListAreaColumns implements Action {
@@ -200,4 +206,5 @@ export type StatementAssignmentPageActions =
   GetExportingAssignedEmployee |
   GetExportingAssignedEmployeeSuccess |
   GetExportingAssignedEmployeeError |
-  UpdateStatementAssignedEmployees;
+  UpdateStatementAssignedEmployees |
+  UpdateStatementIsGenerating;

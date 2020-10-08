@@ -1,0 +1,56 @@
+@import 'comphub-page';
+@import 'comphub-styles';
+@import 'colors';
+
+button {
+  height: 38px;
+}
+
+.cancel-btn {
+  font-size: 16px;
+  box-shadow: none;
+}
+
+.actions-section {
+  justify-content: flex-start;
+  background-color: white;
+  padding-bottom: 0;
+  z-index: 99999;
+  position: relative;
+  box-shadow: 0 -1px 3px 0 rgba(0,0,0,0.17);
+}
+
+.smb-counter {
+  font-weight: 500;
+
+  .count {
+    font-size: 1.5rem;
+    margin-right: .5rem;
+  }
+}
+
+.smb-limit-disabling-message {
+  position: absolute;
+  color: white;
+  display: flex;
+  bottom: 65px;
+  margin: 0 auto;
+  width: 500px;
+  padding: 1rem;
+  border-radius: .25rem;
+  background-color: $pf-additional-colors-green;
+  left: 0px;
+  right: 0px;
+
+  .icon {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+  }
+
+  a {
+    color: white;
+  }
+}

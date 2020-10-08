@@ -1,5 +1,5 @@
 export enum RoundingTypes {
-  Round,
-  RoundUp,
-  RoundDown
+  Round = 1,
+  RoundUp = 2,
+  RoundDown = 3
 }

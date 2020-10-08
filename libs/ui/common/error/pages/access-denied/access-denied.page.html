@@ -1,4 +1,7 @@
-<div class="mt-5 d-flex flex-column justify-content-center align-items-center">
-  <h2>Access Denied</h2>
-  <h6 class="text-muted">We're sorry. You do not have access to this page.</h6>
-</div>
+<pf-base-error-page
+  [iconStyle]="'fal'"
+  [iconName]="'ban'"
+  [errorCode]="'401'"
+  [errorTitle]="'Access Denied'"
+  [errorMessage]="'We\'re sorry. You do not have access to this page.'"
+></pf-base-error-page>

@@ -1,4 +1,7 @@
-<div class="alert alert-danger" role="alert">
-  <span *ngIf="(errorMessage$ | async)?.length">{{ errorMessage$ | async }}</span>
-  <span *ngIf="!((errorMessage$ | async)?.length)">Forbidden</span>
-</div>
+<pf-base-error-page
+  [iconStyle]="'fal'"
+  [iconName]="'ban'"
+  [errorCode]="'403'"
+  [errorTitle]="'Forbidden'"
+  [errorMessage]="((errorMessage$ | async)?.length) ? (errorMessage$ | async) : 'We\'re sorry. You do not have permission to access this resource.'"
+></pf-base-error-page>

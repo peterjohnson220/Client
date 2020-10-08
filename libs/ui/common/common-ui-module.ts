@@ -13,9 +13,19 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 
 import * as fromFaIcons from './fa-icons';
 import { EllipsisViewMoreComponent } from './content';
-import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent, TokenExpirationPageComponent, ForbiddenPageComponent } from './error';
-import { LoadingIndicatorComponent, LoadingUserContextComponent,
-         AsyncContainerComponent } from './loading';
+import {
+  ErrorIndicatorComponent,
+  BaseErrorPageComponent,
+  NotFoundErrorPageComponent,
+  AccessDeniedPageComponent,
+  TokenExpirationPageComponent,
+  ForbiddenPageComponent,
+  ServerErrorPageComponent
+} from './error';
+import {
+  LoadingIndicatorComponent, LoadingUserContextComponent,
+  AsyncContainerComponent
+} from './loading';
 import { PageWithTitleBarComponent, PageWithLeftMenuComponent } from './page-layout';
 import { TermsConditionsModalComponent } from './terms-conditions-modal';
 import { ValidationResultsComponent } from './validation';
@@ -47,7 +57,13 @@ const components = [
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective,
 
   // Error
-  ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent, TokenExpirationPageComponent, ForbiddenPageComponent,
+  BaseErrorPageComponent,
+  ErrorIndicatorComponent,
+  NotFoundErrorPageComponent,
+  AccessDeniedPageComponent,
+  TokenExpirationPageComponent,
+  ForbiddenPageComponent,
+  ServerErrorPageComponent,
 
   // Loading
   AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,

@@ -1,4 +1,5 @@
 import { RangeDistributionType, RangeDistributionSetting } from 'libs/models/payfactors-api';
+import { AdvancedSetting } from './advanced-setting.model';
 
 export interface RangeGroupMetadata {
   Paymarket: string;
@@ -16,4 +17,5 @@ export interface RangeGroupMetadata {
   RangeDistributionTypeId: number;
   RangeDistributionTypes: RangeDistributionType[];
   RangeDistributionSetting: RangeDistributionSetting;
+  RangeAdvancedSetting: AdvancedSetting;
 }

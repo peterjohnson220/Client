@@ -9,7 +9,8 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from 'environments/environment';
-import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
+import { CompositeDataLoadTypes, LoadTypes, PermissionCheckEnum, Permissions } from 'libs/constants';
+import { PermissionService } from 'libs/core';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import {
     AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
@@ -18,18 +19,18 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
-import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
 import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { LoaderFileFormat, LoaderSettingsKeys, LoaderType } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers/org-data-load-helper';
 import { FileUploadDataRequestModel, LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
+import * as fromFileUploadReducer from 'libs/features/org-data-loader/state/reducers';
+import { CompanySetting, CompanySettingsEnum } from 'libs/models/company';
 import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, LoaderSetting, MappingModel } from 'libs/models/data-loads';
 import { UserContext } from 'libs/models/security';
-import {CompanySetting, CompanySettingsEnum} from 'libs/models/company';
 import * as fromRootState from 'libs/state/state';
-import {LoadingProgressBarModel} from 'libs/ui/common/loading/models';
+import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -54,6 +55,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   loadOptions: EntityChoice[];
   userMappings: KeyValue<number, string>[];
 
+  private totalTypesToLoad = 0;
   private unsubscribe$ = new Subject();
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
@@ -116,15 +118,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     'Please choose a file for each entity type and select a delimiter',
     'Please fully map each field and select the date format if applicable'
   ];
-  private paymarketMappingComplete: boolean;
+
   private isPaymarketsLoadEnabled: boolean;
-  private jobMappingComplete: boolean;
   private isJobsLoadEnabled: boolean;
-  private structureMappingComplete: boolean;
   private isStructuresLoadEnabled: boolean;
-  private structureMappingMappingComplete: boolean;
+  private isSubsidiariesLoadEnabled: boolean;
+  private isBenefitsLoadEnabled: boolean;
   private isStructureMappingsLoadEnabled: boolean;
-  private employeeMappingComplete: boolean;
   private isEmployeesLoadEnabled: boolean;
   mappings: MappingModel[];
   private isStructureMappingsFullReplace: boolean;
@@ -135,6 +135,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private loaderSaveCoordination: LoaderSaveCoordination;
   showFieldMapperTooltip = false;
 
+  private completedMappings = [];
   notification: { success: AppNotification<NotificationPayload>, error: AppNotification<NotificationPayload> };
   private gettingColumnNames: boolean;
   private createdConfigurationGroup$: Observable<ConfigurationGroup>;
@@ -150,12 +151,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     title: 'Uploading Files...'
   };
 
+  hasBenefitsAccess = false;
+
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
-    private cdr: ChangeDetectorRef) {
-
-    this.loadOptions = getEntityChoicesForOrgLoader();
-    this.AddAndSetSelectedMapping(this.configGroupSeed);
+    private cdr: ChangeDetectorRef,
+    private permissions: PermissionService) {
 
     this.userContext$ = this.mainStore.select(fromRootState.getUserContext);
     this.companies$ = this.mainStore.select(fromCompanyReducer.getCompanies);
@@ -218,6 +219,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.isJobsLoadEnabled = resp.isJobsLoadEnabled;
       this.isPaymarketsLoadEnabled = resp.isPaymarketsLoadEnabled;
       this.isStructuresLoadEnabled = resp.isStructuresLoadEnabled;
+      this.isSubsidiariesLoadEnabled = resp.isSubsidiariesLoadEnabled;
+      this.isBenefitsLoadEnabled = resp.isBenefitsLoadEnabled;
       this.isStructureMappingsLoadEnabled = resp.isStructureMappingsLoadEnabled;
       this.isEmployeesFullReplace = resp.isEmployeesFullReplace;
       this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
@@ -302,7 +305,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.AddAndSetSelectedMapping(configurationGroup);
     });
 
-    const companySettingSubscription =  this.companySettings$.pipe(
+    const companySettingSubscription = this.companySettings$.pipe(
       filter(companySetting => !!companySetting),
       take(1),
       takeUntil(this.unsubscribe$)
@@ -332,11 +335,15 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.isActive = true;
     this.mappings = [];
     this.existingLoaderSettings = [];
-    this.paymarketMappingComplete = true;
-    this.jobMappingComplete = true;
-    this.structureMappingComplete = true;
-    this.structureMappingMappingComplete = true;
-    this.employeeMappingComplete = true;
+
+    // mark all complete until something changes
+    for (const item in LoaderType) {
+      if (isNaN(Number(item))) {
+        this.completedMappings.push(item);
+      }
+    }
+
+    this.totalTypesToLoad = this.completedMappings.length;
   }
 
   private getEntityChoice(loaderType: string) {
@@ -363,6 +370,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       window.location.href = this.env.companyAdminUrl;
       return;
     }
+
+    this.hasBenefitsAccess = this.userContext.AccessLevel === 'Admin' ||
+      this.permissions.CheckPermission([Permissions.TOTAL_REWARDS], PermissionCheckEnum.Single);
+    this.loadOptions = getEntityChoicesForOrgLoader(this.hasBenefitsAccess);
+    this.AddAndSetSelectedMapping(this.configGroupSeed);
+
     this.hideAccess = false;
     this.spinnerType = 'SVG';
     this.notificationMessageInit();
@@ -375,7 +388,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.stepIndex = OrgUploadStep.Entity;
     }
     // reset any checked loads
-    this.loadOptions = getEntityChoicesForOrgLoader();
+    this.loadOptions = getEntityChoicesForOrgLoader(this.hasBenefitsAccess);
   }
 
   validateAccess() {
@@ -383,7 +396,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return true;
     }
     return (this.userContext.AccessLevel !== 'Admin' &&
-      this.companySettings.find( cs => cs.Key === CompanySettingsEnum.ManualOrgDataLoadLink).Value !== 'true');
+      this.companySettings.find(cs => cs.Key === CompanySettingsEnum.ManualOrgDataLoadLink).Value !== 'true');
   }
 
   notificationMessageInit() {
@@ -450,8 +463,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
           existingIsStructureMappingFullReplaceSetting ? existingIsStructureMappingFullReplaceSetting.KeyValue === 'true' : null;
       }
     }
-
-
   }
 
   private getSettings(newValue: ConfigurationGroup) {
@@ -492,7 +503,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.mappingOptions = [this.configGroupSeed];
         this.selectedMapping = this.configGroupSeed;
         this.selectedDelimiter = this.defaultDelimiter;
-        this.loadOptions = getEntityChoicesForOrgLoader();
+        this.loadOptions = getEntityChoicesForOrgLoader(this.hasBenefitsAccess);
         break;
 
       case OrgUploadStep.Entity:
@@ -654,86 +665,66 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   onMappingComplete($event: LoaderEntityStatus) {
     this.showFieldMapperTooltip = false;
+    this.addOrReplaceMappings($event.loaderType, $event.mappings);
+    this.addOrReplaceCompletedEntities($event);
 
+    const isEnabled = $event.loadEnabled;
     switch ($event.loaderType) {
       case LoaderType.PayMarkets:
-        this.onPaymarketMappingComplete($event);
+        this.isPaymarketsLoadEnabled = isEnabled;
         break;
       case LoaderType.Jobs:
-        this.onJobMappingComplete($event);
+        this.isJobsLoadEnabled = isEnabled;
         break;
       case LoaderType.Structures:
-        this.onStructureMappingComplete($event);
+        this.isStructureMappingsLoadEnabled = isEnabled;
         break;
       case LoaderType.StructureMapping:
-        this.onStructureMappingMappingComplete($event);
+        this.isStructureMappingsLoadEnabled = isEnabled;
+        this.isStructureMappingsFullReplace = $event.isFullReplace;
         break;
       case LoaderType.Employees:
-        this.onEmployeeMappingComplete($event);
+        this.isEmployeesLoadEnabled = isEnabled;
+        if ($event.dateFormat) {
+          this.dateFormat = $event.dateFormat;
+        }
+        this.isEmployeesFullReplace = $event.isFullReplace;
+        break;
+      case LoaderType.Subsidiaries:
+        this.isSubsidiariesLoadEnabled = isEnabled;
+        break;
+      case LoaderType.Benefits:
+        this.isBenefitsLoadEnabled = isEnabled;
         break;
     }
 
-    if (!this.paymarketMappingComplete || !this.jobMappingComplete || !this.structureMappingComplete ||
-      !this.structureMappingMappingComplete || !this.employeeMappingComplete) {
+    const shouldShowToolTip = this.completedMappings.length !== this.totalTypesToLoad;
+
+    if (shouldShowToolTip || !this.mappings || this.mappings.length === 0) {
       this.showFieldMapperTooltip = true;
     }
 
     this.cdr.detectChanges();
   }
 
-  onPaymarketMappingComplete($event: LoaderEntityStatus) {
-    this.paymarketMappingComplete = $event.complete;
-    this.isPaymarketsLoadEnabled = $event.loadEnabled;
-    if (this.paymarketMappingComplete) {
-      this.addOrReplaceMappings('PayMarkets', $event.mappings);
+  private addOrReplaceCompletedEntities($event: LoaderEntityStatus) {
+    this.completedMappings = this.completedMappings.filter(f => f !== $event.loaderType);
+    if ($event.complete) {
+      this.completedMappings.push($event.loaderType);
     }
-  }
-
-  onJobMappingComplete($event: LoaderEntityStatus) {
-    this.jobMappingComplete = $event.complete;
-    this.isJobsLoadEnabled = $event.loadEnabled;
-    if (this.jobMappingComplete) {
-      this.addOrReplaceMappings('Jobs', $event.mappings);
-    }
-  }
-
-  onStructureMappingComplete($event: LoaderEntityStatus) {
-    this.structureMappingComplete = $event.complete;
-    this.isStructuresLoadEnabled = $event.loadEnabled;
-    if (this.structureMappingComplete) {
-      this.addOrReplaceMappings('Structures', $event.mappings);
-    }
-  }
-
-  onStructureMappingMappingComplete($event: LoaderEntityStatus) {
-    this.structureMappingMappingComplete = $event.complete;
-    this.isStructureMappingsLoadEnabled = $event.loadEnabled;
-    if (this.structureMappingMappingComplete) {
-      this.addOrReplaceMappings('StructureMapping', $event.mappings);
-    }
-    this.isStructureMappingsFullReplace = $event.isFullReplace;
-  }
-
-  onEmployeeMappingComplete($event: LoaderEntityStatus) {
-    this.employeeMappingComplete = $event.complete;
-    this.isEmployeesLoadEnabled = $event.loadEnabled;
-    if (this.employeeMappingComplete) {
-      this.addOrReplaceMappings('Employees', $event.mappings);
-    }
-    if ($event.dateFormat) {
-      this.dateFormat = $event.dateFormat;
-    }
-    this.isEmployeesFullReplace = $event.isFullReplace;
   }
 
   private addOrReplaceMappings(loaderType: string, mappings: string[]) {
-    const mappingsModel: MappingModel = {
-      LoaderType: loaderType,
-      Mappings: mappings
-    };
 
     this.mappings = this.mappings.filter(mapping => mapping.LoaderType !== loaderType);
-    this.mappings.push(mappingsModel);
+
+    if (mappings && mappings.length > 0) {
+      const mappingsModel: MappingModel = {
+        LoaderType: loaderType,
+        Mappings: mappings
+      };
+      this.mappings.push(mappingsModel);
+    }
   }
 
   private saveSettingsAndMappings(loaderSettingsToSave, loaderConfigurationGroup) {
@@ -765,6 +756,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     newLoaderSettings.isJobsLoadEnabled = this.isJobsLoadEnabled;
     newLoaderSettings.isPaymarketsLoadEnabled = this.isPaymarketsLoadEnabled;
     newLoaderSettings.isStructuresLoadEnabled = this.isStructuresLoadEnabled;
+    newLoaderSettings.isSubsidiariesLoadEnabled = this.isSubsidiariesLoadEnabled;
+    newLoaderSettings.isBenefitsLoadEnabled = this.isBenefitsLoadEnabled;
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;

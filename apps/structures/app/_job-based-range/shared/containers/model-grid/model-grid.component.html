@@ -60,7 +60,7 @@
 </ng-template>
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow" let-rowIndex="rowIndex">
-  <div [pfSecuredResource]="metaData.IsCurrent? permissions.STRUCTURES_ADD_EDIT_DELETE : permissions.STRUCTURES_CREATE_EDIT_MODEL"
+  <div [pfSecuredResource]="metaData.IsCurrent? permissions.STRUCTURES_ADD_EDIT_DELETE && permissions.STRUCTURES_PUBLISH : permissions.STRUCTURES_CREATE_EDIT_MODEL"
        ngbDropdown container="body" #p="ngbDropdown" (openChange)="handleSelectedRowAction(p)">
     <fa-icon
       ngbDropdownToggle
@@ -71,7 +71,7 @@
       <button ngbDropdownItem (click)="openRemoveRangeModal(dataRow['CompanyStructures_Ranges_CompanyStructuresRanges_ID'])">
         Delete Job
       </button>
-      <button *ngIf="modifiedKeys != null && modifiedKeys.includes(dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID)"
+      <button *ngIf="showRevertChanges(dataRow.CompanyStructures_Ranges_CompanyStructuresRanges_ID)"
               ngbDropdownItem (click)="revertChanges(dataRow, rowIndex)">
         Revert Changes
       </button>
@@ -158,7 +158,7 @@
   <div pfEllipsisActive class="ellipsis-overflowing-text-wrap no-formatting-info-circle-wrapper" *ngIf="dataRow[fieldName]; else noValue">
     <div>{{dataRow[fieldName]}}</div>
     <div class="no-formatting-info-circle" *ngIf="modifiedKey !== null && modifiedKeys != null && modifiedKeys.includes(dataRow[modifiedKey])">
-      <fa-icon [icon]="['fas','info-circle']" placement="left" [ngbTooltip]="tipContent" container="body"></fa-icon>
+      <fa-icon [icon]="['fas','info-circle']" placement="left" [ngbTooltip]="getRangeOverrideTooltip(dataRow[modifiedKey])" container="body"></fa-icon>
     </div>
   </div>
 </ng-template>

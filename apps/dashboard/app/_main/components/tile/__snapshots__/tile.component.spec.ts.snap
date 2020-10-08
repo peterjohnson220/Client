@@ -7,9 +7,13 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
   enableCoreJdmInClient$={[Function Observable]}
   enableCoreJdmInClientSubscription={[Function Subscriber]}
   highlightMarketingContent="false"
+  marketingVideoMouseOver="false"
+  marketingVideoUrl$={[Function Store]}
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
+  sanitizer={[Function DomSanitizerImpl]}
   settingsService={[Function SettingsService]}
+  store={[Function Store]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
@@ -41,6 +45,7 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
       
       
       
+      
     </div>
     
   </div>
@@ -54,9 +59,13 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
   enableCoreJdmInClient$={[Function Observable]}
   enableCoreJdmInClientSubscription={[Function Subscriber]}
   highlightMarketingContent="false"
+  marketingVideoMouseOver="false"
+  marketingVideoUrl$={[Function Store]}
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
+  sanitizer={[Function DomSanitizerImpl]}
   settingsService={[Function SettingsService]}
+  store={[Function Store]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
@@ -88,6 +97,7 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
       
       
       
+      
     </div>
     
   </div>
@@ -101,9 +111,13 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
   enableCoreJdmInClient$={[Function Observable]}
   enableCoreJdmInClientSubscription={[Function Subscriber]}
   highlightMarketingContent="false"
+  marketingVideoMouseOver="false"
+  marketingVideoUrl$={[Function Store]}
   ngAppRoot={[Function String]}
   previewModel={[Function Object]}
+  sanitizer={[Function DomSanitizerImpl]}
   settingsService={[Function SettingsService]}
+  store={[Function Store]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
@@ -129,6 +143,7 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
       
       
       <pf-tile-preview-list />
+      
       
       
       

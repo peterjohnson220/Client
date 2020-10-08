@@ -79,7 +79,7 @@ describe('TrsChartControlComponent', () => {
     component.calculationControls = [];
 
     // act
-    const chartPreviewData = component.getChartPreviewData();
+    const chartPreviewData = component.getChartData();
 
     // assert
     expect(chartPreviewData).toEqual([]);
@@ -90,7 +90,7 @@ describe('TrsChartControlComponent', () => {
     component.calculationControls = [{ DataFields: [], Title: { Default: 'Default' } as any, ControlType: TotalRewardsControlEnum.Calculation } as any];
 
     // act
-    const chartPreviewData = component.getChartPreviewData();
+    const chartPreviewData = component.getChartData();
 
     // assert
     expect(chartPreviewData[0].category).toBe('Default');
@@ -102,7 +102,7 @@ describe('TrsChartControlComponent', () => {
     component.calculationControls = [control as any];
 
     // act
-    const chartPreviewData = component.getChartPreviewData();
+    const chartPreviewData = component.getChartData();
 
     // assert
     expect(chartPreviewData[0].category).toBe('Override');
@@ -114,7 +114,7 @@ describe('TrsChartControlComponent', () => {
     component.employeeRewardsData = { EmployeeBase: 100000 } as any;
 
     // act
-    const chartPreviewData = component.getChartPreviewData();
+    const chartPreviewData = component.getChartData();
 
     // assert
     expect(chartPreviewData[0].value).toBe(0);
@@ -127,13 +127,13 @@ describe('TrsChartControlComponent', () => {
     component.employeeRewardsData = { EmployeeBase: 100000 } as any;
 
     // act
-    const chartPreviewData = component.getChartPreviewData();
+    const chartPreviewData = component.getChartData();
 
     // assert
     expect(chartPreviewData[0].value).toBe(0);
   });
 
-  it('should calc `getChartPreviewData` as the expected value when visible DataFields exists', () => {
+  it('should calc `getChartPreviewData` as the expected value when visible DataFields exists and sum greater than 1k', () => {
     // arrange
     const dataFields = [
       { Id: '1', DatabaseField: 'EmployeeMedicalInsurance', Name: { Default: 'Medical Insurance' }, IsVisible: true },
@@ -144,10 +144,39 @@ describe('TrsChartControlComponent', () => {
     component.employeeRewardsData = { EmployeeMedicalInsurance: 10000, EmployeeDentalInsurance: 20000, EmployeeVisionInsurance: 30000 } as any;
 
     // act
-    const chartPreviewData = component.getChartPreviewData();
+    const chartPreviewData = component.getChartData();
 
     // assert
     expect(chartPreviewData[0].value).toBe(40);
+  });
+
+  it('should calc `getChartPreviewData` as the expected value when visible DataFields exists and sum less than 1k', () => {
+    // arrange
+    const dataFields = [
+      { Id: '1', DatabaseField: 'EmployeeMedicalInsurance', Name: { Default: 'Medical Insurance' }, IsVisible: true }
+    ];
+    component.calculationControls = [
+      { DataFields: dataFields, Title: {} as any, ControlType: TotalRewardsControlEnum.Calculation } as CalculationControl
+    ];
+
+    // 1-499 returns a number less than 1
+    const resultThatReturnLessThan1 = [1, 33, 499];
+    for (let i = 0; i < resultThatReturnLessThan1.length; i ++) {
+      component.employeeRewardsData = { EmployeeMedicalInsurance: resultThatReturnLessThan1[i] } as any;
+      const value = component.getChartData()[0].value;
+      expect(Number.isInteger(value)).toBeFalsy();
+      expect(component.labelContent({value})).toBe('<1k');
+    }
+
+    // 500-1000 returns 1
+    const resultThatReturn1 = [500, 666, 999];
+    for (let i = 0; i < resultThatReturn1.length; i ++) {
+      component.employeeRewardsData = { EmployeeMedicalInsurance: resultThatReturn1[i] } as any;
+      const value = component.getChartData()[0].value;
+      expect(value).toBe(1);
+      expect(component.labelContent({value})).toBe('1k');
+    }
+
   });
 
   it('should calc `getChartPreviewData` without a decimal when a visible DataField exists that maps to a non-whole number when formatted', () => {
@@ -157,7 +186,7 @@ describe('TrsChartControlComponent', () => {
     component.employeeRewardsData = { EmployeeBase: 99555 } as any;
 
     // act
-    const chartPreviewData = component.getChartPreviewData();
+    const chartPreviewData = component.getChartData();
 
     // assert
     expect(chartPreviewData[0].value.toString().indexOf('.')).toBe(-1);
@@ -175,7 +204,7 @@ describe('TrsChartControlComponent', () => {
     component.employeeRewardsData = { EmployeeBase: 100000, EmployeePensionPlan: 20000 } as any;
 
     // act
-    const chartPreviewData = component.getChartPreviewData();
+    const chartPreviewData = component.getChartData();
 
     // assert
     expect(chartPreviewData.length).toBe(2);
@@ -192,7 +221,7 @@ describe('TrsChartControlComponent', () => {
     component.calculationControls = [cashCalcControl as any, retirementCalcControl as any];
 
     // act
-    const chartEditData = component.getChartEditData();
+    const chartEditData = component.getMockChartData();
 
     // assert
     expect(chartEditData.length).toBe(2);
@@ -206,7 +235,7 @@ describe('TrsChartControlComponent', () => {
     component.calculationControls = [cashCalcControl as any];
 
     // act
-    const chartEditData = component.getChartEditData();
+    const chartEditData = component.getMockChartData();
 
     // assert
     expect(isNaN(chartEditData[0].value)).toBeFalsy();

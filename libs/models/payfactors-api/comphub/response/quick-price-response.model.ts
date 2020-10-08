@@ -1,11 +1,18 @@
 import { JobPricingLimitInfoResponse } from './job-pricing-limit-info-response.model';
 
 export interface QuickPriceResponse {
-  Count: number;
-  Data: QuickPriceMarketData[];
   PricingLimitInfo: JobPricingLimitInfoResponse;
   MinPaymarketMinimumWage: number;
   MaxPaymarketMinimumWage: number;
+}
+
+export interface QuickPriceListResponse extends QuickPriceResponse {
+  Count: number;
+  Data: QuickPriceMarketData[];
+}
+
+export interface QuickPriceJobDataResponse extends QuickPriceResponse {
+  Data: QuickPriceMarketData;
 }
 
 export interface QuickPriceMarketData {
@@ -26,5 +33,7 @@ export interface QuickPriceMarketData {
   Tcc75?: number;
   Incs?: number;
   Orgs?: number;
+  ExchangeName?: string;
+  EffectiveDate?: Date;
 }
 

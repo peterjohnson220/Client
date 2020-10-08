@@ -12,7 +12,10 @@ export class JobRangeModelChartService {
       case JobRangeModelChartSeries.SalaryRangeTertile: {
         return 'Salary range Tertile';
       }
-      case JobRangeModelChartSeries.SalaryRangeQuartile: {
+      case JobRangeModelChartSeries.SalaryRangeQuartileFirst:
+      case JobRangeModelChartSeries.SalaryRangeQuartileSecond:
+      case JobRangeModelChartSeries.SalaryRangeQuartileThird:
+      case JobRangeModelChartSeries.SalaryRangeQuartileFourth: {
         return 'Salary range Quartile';
       }
       case JobRangeModelChartSeries.SalaryRangeQuintile: {
@@ -99,7 +102,7 @@ export class JobRangeModelChartService {
       },
       yAxis: {
         labels: {
-          formatter: function() {
+          formatter: function () {
             return StructuresHighchartsService.formatYAxisLabel(this.value, locale, currencyCode, rate);
           }
         },
@@ -122,6 +125,26 @@ export class JobRangeModelChartService {
       },
       plotOptions: {
         series: {
+          events: {
+            legendItemClick: function (event) {
+              if (event.target.userOptions.name === JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeQuartileFirst)) {
+                if (event.target.chart.yAxis[0].series[JobRangeModelChartSeries.SalaryRangeQuartileFirst].visible) {
+                  event.target.chart.yAxis[0].series[JobRangeModelChartSeries.SalaryRangeQuartileFirst].hide();
+                  event.target.chart.yAxis[0].series[JobRangeModelChartSeries.SalaryRangeQuartileSecond].hide();
+                  event.target.chart.yAxis[0].series[JobRangeModelChartSeries.SalaryRangeQuartileThird].hide();
+                  event.target.chart.yAxis[0].series[JobRangeModelChartSeries.SalaryRangeQuartileFourth].hide();
+                } else {
+                  event.target.chart.yAxis[0].series[JobRangeModelChartSeries.SalaryRangeQuartileFirst].show();
+                  event.target.chart.yAxis[0].series[JobRangeModelChartSeries.SalaryRangeQuartileSecond].show();
+                  event.target.chart.yAxis[0].series[JobRangeModelChartSeries.SalaryRangeQuartileThird].show();
+                  event.target.chart.yAxis[0].series[JobRangeModelChartSeries.SalaryRangeQuartileFourth].show();
+                }
+                return false;
+              } else {
+                return true;
+              }
+            }
+          },
           stickyTracking: false,
           groupPadding: 0,
           pointPadding: 0.1,
@@ -140,7 +163,7 @@ export class JobRangeModelChartService {
           name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeMinMidMax),
           type: 'columnrange',
           animation: false,
-          color: 'rgb(174,210,238)',
+          color: rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile ? 'rgb(174,210,238)' : 'transparent',
           enableMouseTracking: false,
           pointWidth: 42,
           stacking: 'normal',
@@ -169,17 +192,6 @@ export class JobRangeModelChartService {
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Tertile
         },
         {
-          name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeQuartile),
-          type: 'columnrange',
-          animation: false,
-          color: 'rgb(210,230,246)',
-          enableMouseTracking: false,
-          pointWidth: 42,
-          stacking: 'normal',
-          borderRadius: 0,
-          showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quartile
-        },
-        {
           name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeQuintile),
           type: 'columnrange',
           animation: false,
@@ -189,6 +201,52 @@ export class JobRangeModelChartService {
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quintile
+        },
+        {
+          name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeQuartileFirst),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(174,210,238)',
+          enableMouseTracking: false,
+          pointWidth: 42,
+          stacking: 'normal',
+          borderRadiusBottomRight: 5,
+          borderRadiusBottomLeft: 5,
+          showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quartile
+        },
+        {
+          name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeQuartileSecond),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(210,230,246)',
+          enableMouseTracking: false,
+          pointWidth: 42,
+          stacking: 'normal',
+          borderRadius: 0,
+          showInLegend: false
+        },
+        {
+          name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeQuartileThird),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(174,210,238)',
+          enableMouseTracking: false,
+          pointWidth: 42,
+          stacking: 'normal',
+          borderRadius: 0,
+          showInLegend: false
+        },
+        {
+          name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.SalaryRangeQuartileFourth),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(210,230,246)',
+          enableMouseTracking: false,
+          pointWidth: 42,
+          stacking: 'normal',
+          borderRadiusTopRight: 5,
+          borderRadiusTopLeft: 5,
+          showInLegend: false
         },
         {
           name: JobRangeModelChartService.getFormattedSeriesName(JobRangeModelChartSeries.RangeMid),
@@ -466,7 +524,7 @@ export class JobRangeModelChartService {
               '<div style="color: white">{point.mrp}</div>',
             footerFormat: '</div>'
           }
-        },
+        }
       ]
     };
   }

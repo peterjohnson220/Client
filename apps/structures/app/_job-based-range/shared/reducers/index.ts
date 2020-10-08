@@ -80,6 +80,10 @@ export const getControlPointsAsyncObj = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getControlPointsAsyncObj
 );
 
+export const getRangeOverrides = createSelector(
+  selectSharedState, fromSharedReducer.getRangeOverrides
+);
+
 export const getStructureNameSuggestionsAsyncObj = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getStructureNameSuggestionsAsyncObj
 );

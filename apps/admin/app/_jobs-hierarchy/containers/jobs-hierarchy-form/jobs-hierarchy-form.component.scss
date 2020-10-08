@@ -1,0 +1,23 @@
+@import 'libs/styles/dragula-drag-drop';
+
+.card-content {
+  height: 250px;
+  overflow-y: scroll;
+}
+
+.job-level {
+  margin-bottom: 5px;
+  padding: .5rem .35rem .5rem 1rem;
+  height: 33px;
+  background-color:#FFF;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.list-box {
+  height: 250px;
+  width: 100%;
+  overflow-y: scroll;
+  border-color: lightgray;
+  padding-top: 10px;
+}

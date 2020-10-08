@@ -25,6 +25,7 @@ import { DashboardEffects,
   TimelineActivityEffects,
   DashboardTcModalEffects,
   CompositeSummaryDownloadEffects } from './effects';
+  import { MarketingSettingsEffects } from 'libs/features/marketing-settings/marketing-settings.effects';
 
 // Reducers
 import { reducers } from './reducers';
@@ -51,7 +52,6 @@ import { CompositeSummaryDownloadComponent } from './components';
 import { BasicListComponent } from './components';
 import { TilePreviewTotalRewardsComponent } from './components';
 
-
 @NgModule({
   imports: [
     // Angular
@@ -68,7 +68,8 @@ import { TilePreviewTotalRewardsComponent } from './components';
       DashboardEffects,
       TimelineActivityEffects,
       DashboardTcModalEffects,
-      CompositeSummaryDownloadEffects
+      CompositeSummaryDownloadEffects,
+      MarketingSettingsEffects
     ]),
     ChartsModule,
     DateInputsModule,

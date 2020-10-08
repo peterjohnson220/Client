@@ -4,7 +4,6 @@ import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOptio
 
 import { TrendingJobGroup } from '../models';
 
-
 export const GET_TRENDING_JOBS = '[Comphub/Jobs Card] Get Trending Jobs';
 export const GET_TRENDING_JOBS_SUCCESS = '[Comphub/Jobs Card] Get Trending Jobs Success';
 export const GET_TRENDING_JOBS_ERROR = '[Comphub/Jobs Card] Get Trending Jobs Error';
@@ -64,7 +63,7 @@ export class ClearJobSearchOptions implements Action {
 export class SetSelectedJob implements Action {
   readonly type = SET_SELECTED_JOB;
 
-  constructor(public payload: { jobTitle: string, exchangeJobId?: number, navigateToNextCard?: boolean }) {}
+  constructor(public payload: { jobTitle: string, exchangeJobId?: number }) {}
 }
 
 export class ClearSelectedJob implements Action {

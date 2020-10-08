@@ -14,6 +14,7 @@ import { generateMockStructureRangeDistributionTypes, generateMockRangeDistribut
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import { RangeRoundingComponent } from './range-rounding.component';
+import { generateMockRangeAdvancedSetting } from '../../models';
 
 describe('Job Based Ranges - Rounding Settings', () => {
   let instance: RangeRoundingComponent;
@@ -66,8 +67,8 @@ describe('Job Based Ranges - Rounding Settings', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting()
-
+      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
     instance.roundingSettings = generateMockRoundingSettingsDataObj();
@@ -92,7 +93,7 @@ describe('Job Based Ranges - Rounding Settings', () => {
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch UpdateRoundingPoint to set zero for mid, min and max and update defaultSet when rate is annual', () => {
+  it('should dispatch UpdateRoundingPoint to set 0 for mid, min and max and update defaultSet when rate is annual', () => {
     spyOn(instance.store, 'dispatch');
     const expectedAction1 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'min', RoundingPoint: 0 });
     const expectedAction2 = new fromSharedJobBasedRangeActions.UpdateRoundingPoint( { RoundingSetting: 'mid', RoundingPoint: 0 });
@@ -127,5 +128,4 @@ describe('Job Based Ranges - Rounding Settings', () => {
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction3);
 
   });
-
 });

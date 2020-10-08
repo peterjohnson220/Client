@@ -1,6 +1,7 @@
-import { Component, Input, TemplateRef, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, TemplateRef, OnChanges, SimpleChanges, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 import { RateType } from 'libs/data/data-sets';
 import { CompanySettingsEnum } from 'libs/models/company';
@@ -12,13 +13,15 @@ import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
 
 import * as fromRangeFieldActions from '../../actions/range-field-edit.actions';
+import * as fromSharedJobBasedRangeReducer from '../../../../../../apps/structures/app/_job-based-range/shared/reducers';
+import { RangeGroupMetadata } from '../../../../../../apps/structures/app/_job-based-range/shared/models';
 
 @Component({
   selector: 'pf-range-field-editor',
   templateUrl: './range-field-editor.component.html',
   styleUrls: ['./range-field-editor.component.scss']
 })
-export class RangeFieldEditorComponent implements OnChanges {
+export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   // The PageViewId of the pf-data-grid this editor is on
   @Input() pageViewId: string;
 
@@ -59,17 +62,28 @@ export class RangeFieldEditorComponent implements OnChanges {
   @Input() rowIndex: number;
   @Input() fieldName: string;
   @Input() isMid: boolean;
+  @Input() isJobPage: boolean;
   @ViewChild('rangeField') public rangeFieldElement: ElementRef;
 
   canEditCurrentStructureRanges: boolean;
   value: number;
   focused: boolean;
   hasCanCreateEditModelStructurePermission: boolean;
+  isCurrent: boolean;
+  hasCanEditPublishedStructureRanges: boolean;
+  metadata$: Observable<RangeGroupMetadata>;
+
+  metadataSub: Subscription;
 
   get editable() {
-    return this.hasCanCreateEditModelStructurePermission &&
+    return this.isCurrent || this.isJobPage ?  (this.hasCanCreateEditModelStructurePermission &&
       this.rangeGroupType === RangeGroupType.Job &&
-      ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure);
+      ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure) &&
+      this.hasCanEditPublishedStructureRanges)
+      :
+      (this.hasCanCreateEditModelStructurePermission &&
+      this.rangeGroupType === RangeGroupType.Job &&
+      ((this.currentStructure && this.canEditCurrentStructureRanges) || !this.currentStructure));
   }
 
   get format() {
@@ -90,6 +104,7 @@ export class RangeFieldEditorComponent implements OnChanges {
 
   constructor(
     private store: Store<any>,
+    public jobBasedRangeStore: Store<fromSharedJobBasedRangeReducer.State>,
     private settingsService: SettingsService,
     private permissionService: PermissionService
   ) {
@@ -97,6 +112,10 @@ export class RangeFieldEditorComponent implements OnChanges {
       .subscribe(s => this.canEditCurrentStructureRanges = s);
     this.hasCanCreateEditModelStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
       PermissionCheckEnum.Single);
+    this.hasCanEditPublishedStructureRanges = this.permissionService.CheckPermission([Permissions.STRUCTURES_PUBLISH],
+      PermissionCheckEnum.Single);
+
+    this.metadata$ = this.jobBasedRangeStore.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
   }
 
   handleFocus() {
@@ -143,6 +162,20 @@ export class RangeFieldEditorComponent implements OnChanges {
     if (!!changes.dataRow && changes.dataRow.currentValue !== changes.dataRow.previousValue) {
       this.value = this.formatNumber(this.fieldValue);
     }
+  }
+
+  ngOnInit(): void {
+    if (!this.isJobPage) {
+      this.metadataSub = this.metadata$.subscribe(metadata => {
+        if (metadata) {
+          this.isCurrent = metadata.IsCurrent;
+        }
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.metadataSub.unsubscribe();
   }
 
   private formatNumber(value: number) {

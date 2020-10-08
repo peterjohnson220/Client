@@ -10,6 +10,8 @@ import * as fromAddPayMarketFormReducer from './add-paymarket-form.reducer';
 import * as fromMarketsCardReducer from './markets-card.reducer';
 import * as fromDataCardReducer from './data-card.reducer';
 import * as fromSummaryCardReducer from './summary-card.reducer';
+import * as fromJobGridReducer from './job-grid.reducer';
+import * as fromQuickPriceHistoryReducer from './quick-price-history.reducer';
 
 // Feature area state
 export interface ComphubMainState {
@@ -19,6 +21,8 @@ export interface ComphubMainState {
   marketsCard: fromMarketsCardReducer.State;
   dataCard: fromDataCardReducer.State;
   summaryCard: fromSummaryCardReducer.State;
+  jobGrid: fromJobGridReducer.State;
+  quickPriceHistory: fromQuickPriceHistoryReducer.State;
 }
 
 // Extend root state with feature area state
@@ -33,7 +37,9 @@ export const reducers = {
   marketsCard: fromMarketsCardReducer.reducer,
   dataCard: fromDataCardReducer.reducer,
   addPayMarketForm: fromAddPayMarketFormReducer.reducer,
-  summaryCard: fromSummaryCardReducer.reducer
+  summaryCard: fromSummaryCardReducer.reducer,
+  jobGrid: fromJobGridReducer.reducer,
+  quickPriceHistory: fromQuickPriceHistoryReducer.reducer
 };
 
 // Select Feature Area
@@ -68,6 +74,16 @@ export const selectDataCardState = createSelector(
 export const selectSummaryCardState = createSelector(
   selectFeatureAreaState,
   (state: ComphubMainState) => state.summaryCard
+);
+
+export const selectJobGridState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubMainState) => state.jobGrid
+);
+
+export const selectQuickPriceHistoryState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubMainState) => state.quickPriceHistory
 );
 
 // Jobs Card
@@ -147,6 +163,11 @@ export const getJobPricingBlocked = createSelector(
   fromComphubPageReducer.getJobPricingBlocked
 );
 
+export const getSmbLimitReached = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getSmbLimitReached
+);
+
 export const getCountryDataSetsLoaded = createSelector(
   selectComphubPageState,
   fromComphubPageReducer.getCountryDataSetsLoaded
@@ -160,6 +181,11 @@ export const getCountryDataSets = createSelector(
 export const getExchangeDataSets = createSelector(
   selectComphubPageState,
   fromComphubPageReducer.getExchangeDataSets
+);
+
+export const getExchangeDataSetLoaded = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getExchangeDataSetLoaded
 );
 
 export const getActiveCountryDataSet = createSelector(
@@ -180,6 +206,21 @@ export const getWorkflowContext = createSelector(
 export const getQuickPriceType = createSelector(
   getWorkflowContext,
   (context) => context.quickPriceType
+);
+
+export const getIsQuickPriceHistoryOpen = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getIsQuickPriceHistoryModalOpen
+);
+
+export const getFooterContext = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getFooterContext
+);
+
+export const getSelectedJobData = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getSelectedJobData
 );
 
 // Markets Card
@@ -240,26 +281,6 @@ export const getMarketDataScopesLoading = createSelector(
 );
 
 // Data Card
-export const getJobGridResults = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getJobGridResults
-);
-
-export const getLoadingJobGridResults = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getLoadingJobGridResults
-);
-
-export const getLoadingJobGridResultsError = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getLoadingJobGridResultsError
-);
-
-export const getSelectedJobData = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getSelectedJobData
-);
-
 export const getMarketDataChange = createSelector(
   selectDataCardState,
   fromDataCardReducer.getMarketDataChange
@@ -370,4 +391,46 @@ export const getMinPaymarketMinimumWage = createSelector(
 export const getMaxPaymarketMinimumWage = createSelector(
   selectSummaryCardState,
   fromSummaryCardReducer.getMaxPaymarketMinimumWage
+);
+
+export const getRecalculatingJobData = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getRecalculatingJobData
+);
+
+export const getRecalculatingJobDataError = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getRecalculatingJobDataError
+);
+
+export const getShowJobPricedHistorySummary = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getShowJobPricedHistorySummary
+);
+
+// Job Grid
+export const getJobGridResults = createSelector(
+  selectJobGridState,
+  fromJobGridReducer.getJobGridResults
+);
+
+export const getLoadingJobGridResults = createSelector(
+  selectJobGridState,
+  fromJobGridReducer.getLoadingJobGridResults
+);
+
+export const getLoadingJobGridResultsError = createSelector(
+  selectJobGridState,
+  fromJobGridReducer.getLoadingJobGridResultsError
+);
+
+// Quick Price History
+export const getLoadingJobDataHistory = createSelector(
+  selectQuickPriceHistoryState,
+  fromQuickPriceHistoryReducer.getLoadingJobDataHistory
+);
+
+export const getLoadingJobDataHistoryErrorMessage = createSelector(
+  selectQuickPriceHistoryState,
+  fromQuickPriceHistoryReducer.getLoadingJobDataHistoryErrorMessage
 );

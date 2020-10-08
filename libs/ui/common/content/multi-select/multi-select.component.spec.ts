@@ -7,11 +7,11 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { RemoteDataSourceService } from 'libs/core/services';
+import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
+import { FileApiService } from 'libs/data/payfactors-api/file';
+import { ConfigSetting, UserContext } from 'libs/models/security';
 
 import { MultiSelectComponent } from './multi-select.component';
-import { PayfactorsApiService } from '../../../../data/payfactors-api/payfactors-api.service';
-import { FileApiService } from '../../../../data/payfactors-api/file';
-import { ConfigSetting, UserContext } from '../../../../models/security';
 
 describe('UI/Common/Content - Multi Select', () => {
   let fixture: ComponentFixture<MultiSelectComponent>;
@@ -130,6 +130,19 @@ describe('UI/Common/Content - Multi Select', () => {
     fixture.detectChanges();
 
     expect(component.selectFacadeClick.emit).toHaveBeenCalled();
+  });
+
+  it('should NOT emit when the select facade is clicked if disabled', () => {
+    spyOn(component.selectFacadeClick, 'emit');
+    component.disabled = true;
+    component.isExpanded = true;
+    component.isLoading = false;
+    const selectFacade = fixture.debugElement.nativeElement.querySelector('.select-facade');
+    selectFacade.click();
+
+    fixture.detectChanges();
+
+    expect(component.selectFacadeClick.emit).not.toHaveBeenCalled();
   });
 
   it('should emit when the clear selections button is clicked', () => {

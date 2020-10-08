@@ -2,6 +2,7 @@
 
 exports[`Comphub - Main - Summary Card Component should display - as the min wage when there is no wage data 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -15,15 +16,14 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   minPaymarketMinimumWage$={[Function Observable]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -34,6 +34,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -50,29 +53,30 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -86,7 +90,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -116,7 +122,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -202,6 +208,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -290,7 +299,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -330,7 +341,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -519,12 +530,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
-                class="v"
+                class="mt-3"
               />
             </div>
           </div>
@@ -548,29 +554,30 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -584,7 +591,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -614,7 +623,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -700,6 +709,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -788,7 +800,9 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -828,7 +842,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -1017,12 +1031,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
                       class="job-description"
                     >
                       <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
-                      <div
-                        class="v"
+                        class="mt-3"
                       />
                     </div>
                   </div>
@@ -1048,6 +1057,7 @@ exports[`Comphub - Main - Summary Card Component should display - as the min wag
 
 exports[`Comphub - Main - Summary Card Component should display CAD for currency when active market data is Canada 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -1061,15 +1071,14 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -1080,6 +1089,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -1096,29 +1108,30 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -1132,7 +1145,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -1162,7 +1177,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               class="v"
               data-qa-id="cnt-currency"
             >
-              CAD
+                
             </div>
           </div>
           <div
@@ -1248,6 +1263,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -1336,7 +1354,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -1376,7 +1396,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                     <div
                       class="v"
                     >
-                      CAD
+                      
                     </div>
                   </div>
                 </div>
@@ -1565,12 +1585,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
-                class="v"
+                class="mt-3"
               />
             </div>
           </div>
@@ -1594,29 +1609,30 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -1630,7 +1646,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -1660,7 +1678,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      CAD
+                        
                     </div>
                   </div>
                   <div
@@ -1746,6 +1764,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -1834,7 +1855,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -1874,7 +1897,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                             <div
                               class="v"
                             >
-                              CAD
+                              
                             </div>
                           </div>
                         </div>
@@ -2063,12 +2086,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       class="job-description"
                     >
                       <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
-                      <div
-                        class="v"
+                        class="mt-3"
                       />
                     </div>
                   </div>
@@ -2094,6 +2112,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
 
 exports[`Comphub - Main - Summary Card Component should display USD for currency when active market data is USA 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -2107,15 +2126,14 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -2126,6 +2144,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -2142,29 +2163,30 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -2178,7 +2200,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -2208,7 +2232,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -2294,6 +2318,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -2382,7 +2409,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -2422,7 +2451,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -2611,12 +2640,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
-                class="v"
+                class="mt-3"
               />
             </div>
           </div>
@@ -2640,29 +2664,30 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -2676,7 +2701,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -2706,7 +2733,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -2792,6 +2819,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -2880,7 +2910,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -2920,7 +2952,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -3109,12 +3141,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       class="job-description"
                     >
                       <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
-                      <div
-                        class="v"
+                        class="mt-3"
                       />
                     </div>
                   </div>
@@ -3140,6 +3167,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
 
 exports[`Comphub - Main - Summary Card Component should display min wage range if min and max are different 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -3153,15 +3181,14 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   minPaymarketMinimumWage$={[Function Observable]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -3172,6 +3199,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -3188,29 +3218,30 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -3224,7 +3255,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -3254,7 +3287,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -3340,6 +3373,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -3428,7 +3464,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -3468,7 +3506,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -3657,12 +3695,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
-                class="v"
+                class="mt-3"
               />
             </div>
           </div>
@@ -3686,29 +3719,30 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -3722,7 +3756,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -3752,7 +3788,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -3838,6 +3874,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -3926,7 +3965,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -3966,7 +4007,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -4155,12 +4196,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
                       class="job-description"
                     >
                       <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
-                      <div
-                        class="v"
+                        class="mt-3"
                       />
                     </div>
                   </div>
@@ -4186,6 +4222,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage range i
 
 exports[`Comphub - Main - Summary Card Component should display min wage when available 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -4199,15 +4236,14 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Observable]}
   minPaymarketMinimumWage$={[Function Observable]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -4218,6 +4254,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -4234,29 +4273,30 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -4270,7 +4310,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -4300,7 +4342,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -4386,6 +4428,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -4474,7 +4519,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -4514,7 +4561,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -4703,12 +4750,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
-                class="v"
+                class="mt-3"
               />
             </div>
           </div>
@@ -4732,29 +4774,30 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -4768,7 +4811,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -4798,7 +4843,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -4884,6 +4929,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -4972,7 +5020,9 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -5012,7 +5062,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -5201,12 +5251,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
                       class="job-description"
                     >
                       <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
-                      <div
-                        class="v"
+                        class="mt-3"
                       />
                     </div>
                   </div>
@@ -5232,6 +5277,7 @@ exports[`Comphub - Main - Summary Card Component should display min wage when av
 
 exports[`Comphub - Main - Summary Card Component should hide create project button has access to projects tile but no paymarketId 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -5245,15 +5291,14 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -5264,6 +5309,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -5280,29 +5328,30 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -5316,7 +5365,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -5346,7 +5397,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -5432,6 +5483,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -5520,7 +5574,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -5560,7 +5616,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -5749,12 +5805,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
-                class="v"
+                class="mt-3"
               />
             </div>
           </div>
@@ -5778,29 +5829,30 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -5814,7 +5866,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -5844,7 +5898,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -5930,6 +5984,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -6018,7 +6075,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -6058,7 +6117,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -6247,12 +6306,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="job-description"
                     >
                       <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
-                      <div
-                        class="v"
+                        class="mt-3"
                       />
                     </div>
                   </div>
@@ -6278,6 +6332,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
 
 exports[`Comphub - Main - Summary Card Component should hide create project button when no access to projects tile 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -6291,15 +6346,14 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -6310,6 +6364,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -6326,29 +6383,30 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -6362,7 +6420,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -6392,7 +6452,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -6478,6 +6538,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -6566,7 +6629,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -6606,7 +6671,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -6795,12 +6860,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
-                class="v"
+                class="mt-3"
               />
             </div>
           </div>
@@ -6824,29 +6884,30 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -6860,7 +6921,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -6890,7 +6953,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -6976,6 +7039,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -7064,7 +7130,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -7104,7 +7172,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -7293,12 +7361,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                       class="job-description"
                     >
                       <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
-                      <div
-                        class="v"
+                        class="mt-3"
                       />
                     </div>
                   </div>
@@ -7324,6 +7387,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
 
 exports[`Comphub - Main - Summary Card Component should show create project button when has access to projects tile 1`] = `
 <pf-summary-card
+  calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
   cp={[Function Object]}
@@ -7337,15 +7401,14 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   glossaryOpen$={[Function Store]}
   isPeerQuickPriceType="false"
   jobData="null"
-  jobSalaryTrendData="null"
   mapSummary$={[Function Store]}
   maxPaymarketMinimumWage$={[Function Store]}
   minPaymarketMinimumWage$={[Function Store]}
+  pageId={[Function String]}
   paymarket={[Function Object]}
   pdf={[Function PDFExportComponent]}
   rates={[Function Array]}
   salaryTrendData$={[Function Store]}
-  salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
@@ -7356,6 +7419,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   sharePricingSummaryConflict$={[Function Store]}
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
+  showJobHistorySummary="false"
+  showJobHistorySummarySubscription={[Function Subscriber]}
+  showJobsHistorySummary$={[Function Store]}
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
@@ -7372,29 +7438,30 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
     
     
     <div
-      class="d-flex h-100 summary-container"
+      class="h-100 summary-container"
     >
       <div
-        class="d-flex h-100"
+        class="d-flex"
       >
         
         <div
-          class="info-sidebar"
+          class="info-sidebar h-100"
         >
           <div
             class="item"
           >
+            <ng-containter />
             <div
               class="h"
             >
               Rate
             </div>
-            <div
-              class="v"
-              data-qa-id="cnt-selectedRate"
-            >
-              Annual
-            </div>
+            <kendo-dropdownlist
+              class="rates-dropdown"
+              data-qa-id="ddm-rate"
+              textfield="Name"
+              valuefield="Value"
+            />
           </div>
           <div
             class="item"
@@ -7408,7 +7475,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              03/01/2019
+              
+              
+               03/01/2019 
             </div>
           </div>
           <div
@@ -7438,7 +7507,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               class="v"
               data-qa-id="cnt-currency"
             >
-              USD
+                
             </div>
           </div>
           <div
@@ -7524,6 +7593,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
         <div
           class="summary"
         >
+          <pf-async-container
+            class="flex-grow-1"
+          />
           <div
             class="header"
           >
@@ -7621,7 +7693,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                     <div
                       class="v"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                 </div>
@@ -7661,7 +7735,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                     <div
                       class="v"
                     >
-                      USD
+                      
                     </div>
                   </div>
                 </div>
@@ -7850,12 +7924,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               class="job-description"
             >
               <div
-                class="h"
-              >
-                Job Description
-              </div>
-              <div
-                class="v"
+                class="mt-3"
               />
             </div>
           </div>
@@ -7879,29 +7948,30 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
             />
             
             <div
-              class="d-flex h-100 summary-container"
+              class="h-100 summary-container"
             >
               <div
-                class="d-flex h-100"
+                class="d-flex"
               >
                 
                 <div
-                  class="info-sidebar"
+                  class="info-sidebar h-100"
                 >
                   <div
                     class="item"
                   >
+                    <ng-containter />
                     <div
                       class="h"
                     >
                       Rate
                     </div>
-                    <div
-                      class="v"
-                      data-qa-id="cnt-selectedRate"
-                    >
-                      Annual
-                    </div>
+                    <kendo-dropdownlist
+                      class="rates-dropdown"
+                      data-qa-id="ddm-rate"
+                      textfield="Name"
+                      valuefield="Value"
+                    />
                   </div>
                   <div
                     class="item"
@@ -7915,7 +7985,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      03/01/2019
+                      
+                      
+                       03/01/2019 
                     </div>
                   </div>
                   <div
@@ -7945,7 +8017,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                      USD
+                        
                     </div>
                   </div>
                   <div
@@ -8031,6 +8103,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                 <div
                   class="summary"
                 >
+                  <pf-async-container
+                    class="flex-grow-1"
+                  />
                   <div
                     class="header"
                   >
@@ -8128,7 +8203,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                             <div
                               class="v"
                             >
-                              03/01/2019
+                              
+                              
+                               03/01/2019 
                             </div>
                           </div>
                         </div>
@@ -8168,7 +8245,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                             <div
                               class="v"
                             >
-                              USD
+                              
                             </div>
                           </div>
                         </div>
@@ -8357,12 +8434,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                       class="job-description"
                     >
                       <div
-                        class="h"
-                      >
-                        Job Description
-                      </div>
-                      <div
-                        class="v"
+                        class="mt-3"
                       />
                     </div>
                   </div>
