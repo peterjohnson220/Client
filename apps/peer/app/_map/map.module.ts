@@ -18,7 +18,7 @@ import {
   ExchangeMapPageComponent,
   SaveExchangeScopeModalComponent
 } from './containers';
-import { ExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects } from './effects';
+import { SaveExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects } from './effects';
 import { reducers } from './reducers';
 
 @NgModule({
@@ -35,7 +35,7 @@ import { reducers } from './reducers';
     DropDownListModule,
     StoreModule.forFeature('peer_map', reducers),
     EffectsModule.forFeature([
-      ExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects
+      SaveExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects
     ]),
 
     // Payfactors

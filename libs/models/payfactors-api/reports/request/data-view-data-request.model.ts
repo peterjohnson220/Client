@@ -19,6 +19,7 @@ export interface BasicDataViewField {
   IsHidden?: boolean;
   SortOrder?: number;
   SortDirection?: 'asc' | 'desc';
+  Width?: number;
 }
 
 export interface DataViewField extends BasicDataViewField {
@@ -37,7 +38,6 @@ export interface DataViewField extends BasicDataViewField {
   FormulaName?: string;
   IsPublic?: boolean;
   AccessLevel?: DataViewAccessLevel;
-  Width?: number;
 }
 
 export interface BasicDataViewDataRequest {

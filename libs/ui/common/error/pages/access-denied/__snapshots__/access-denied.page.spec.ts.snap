@@ -2,17 +2,6 @@
 
 exports[`Access Denied Page should show the error message 1`] = `
 <pf-access-denied-page>
-  <div
-    class="mt-5 d-flex flex-column justify-content-center align-items-center"
-  >
-    <h2>
-      Access Denied
-    </h2>
-    <h6
-      class="text-muted"
-    >
-      We're sorry. You do not have access to this page.
-    </h6>
-  </div>
+  <pf-base-error-page />
 </pf-access-denied-page>
 `;

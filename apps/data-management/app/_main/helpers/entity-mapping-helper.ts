@@ -1,10 +1,11 @@
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
+import cloneDeep from 'lodash/cloneDeep';
 
-import { OrgDataEntityType } from 'libs/constants';
+import { OrgDataEntityType, ImportDataType } from 'libs/constants';
 import { MappingPackage } from 'libs/models/hris-api';
 
-import { EntityField, EntityDataField } from '../models';
+import { EntityField, EntityDataField, DateFormat, ConverterOptions } from '../models';
 
 export class EntityMappingHelper {
   static addAssocaitionToProviderEntity(entityType: string, entity: EntityDataField, providerFields: EntityField): EntityField {
@@ -101,7 +102,9 @@ export class EntityMappingHelper {
             const pEntityIndex = providerDataFields.findIndex( x => {
               return x.FieldName.toLowerCase() === field.sourceField.toLowerCase();
             });
-
+            providerDataFields[pEntityIndex].Metadata = {
+              ...field.sourceMetadata.metadata
+            };
             payfactorsDataFields[pfEntityIndex].AssociatedEntity.push(providerDataFields[pEntityIndex]);
             providerDataFields[pEntityIndex].HasAssociation = true;
           });
@@ -112,7 +115,7 @@ export class EntityMappingHelper {
       return { updatedProviderFields: providerFields, updatedPayfactorsFields: payfactorsFields };
   }
 
-  static removeUnselectedEntities(selectedEntities: string[], payfactorsFields: EntityField): EntityField{
+  static removeUnselectedEntities(selectedEntities: string[], payfactorsFields: EntityField): EntityField {
     const filteredPfFields: EntityField = {
       Employees: [],
       Jobs: [],
@@ -125,5 +128,21 @@ export class EntityMappingHelper {
       filteredPfFields[e] = payfactorsFields[e];
     });
     return filteredPfFields;
+  }
+
+  static addConverterOptions(dataType: number, entity: EntityDataField, converterOptions: ConverterOptions): EntityDataField {
+    switch (dataType) {
+      case ImportDataType.Date: {
+        const updatedEntity = cloneDeep(entity);
+        updatedEntity.Metadata = {
+          ...updatedEntity.Metadata,
+          'ConverterOptions': converterOptions
+        };
+
+        return updatedEntity;
+      }
+      default:
+        return entity;
+    }
   }
 }

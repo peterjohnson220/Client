@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRootState from '../../state/state';
+import * as fromCompanySettingsActions from '../../state/app-context/actions/company-settings.actions';
 import { NewRelicService, RouteTrackingService, AbstractFeatureFlagService, FeatureFlagHelper } from '../../core/services';
 import { UserContext } from '../../models/security';
 
@@ -59,6 +60,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
     this.userContextSub = this.userContext$.pipe(filter(uc => !!uc)).subscribe(uc => {
+      this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
       NewRelicService.setCustomAttributes(uc.CompanyId, uc.UserId, uc.IpAddress, uc.SessionId, this.getTargetUrl());
       this.featureFlagService.initialize(uc.ConfigSettings.find(cs => cs.Name === 'LaunchDarklyClientSdkKey')?.Value,
         FeatureFlagHelper.buildContext(uc), uc.FeatureFlagBootstrapJson);

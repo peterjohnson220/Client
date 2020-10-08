@@ -10,7 +10,6 @@ import * as fromMdScopeReducer from './market-data-scope.reducer';
 import * as fromDefaultScopesReducer from './default-scopes.reducer';
 import * as fromExchangeScopesReducer from './exchange-scopes.reducer';
 import * as fromPaymarketAssociationsReducer from './paymarket-associations.reducer';
-import * as fromBasicDataGridReducer from './basic-data-grid.reducer';
 
 // Feature area state
 export interface PayMarketManagementState {
@@ -20,7 +19,6 @@ export interface PayMarketManagementState {
   defaultScopes: fromDefaultScopesReducer.State;
   exchangeScopes: fromExchangeScopesReducer.State;
   payMarketAssociations: fromPaymarketAssociationsReducer.State;
-  basicDataGrid: fromBasicDataGridReducer.BasicGridStateStore;
 }
 
 // Extend root state with feature area state
@@ -35,8 +33,7 @@ export const reducers = {
   marketDataScope: fromMdScopeReducer.reducer,
   defaultScopes: fromDefaultScopesReducer.reducer,
   exchangeScopes: fromExchangeScopesReducer.reducer,
-  payMarketAssociations: fromPaymarketAssociationsReducer.reducer,
-  basicDataGrid: fromBasicDataGridReducer.reducer
+  payMarketAssociations: fromPaymarketAssociationsReducer.reducer
 };
 
 // Select Feature Area
@@ -56,8 +53,6 @@ export const selectExchangeScopesState =
   createSelector(selectPayMarketManagementFeature, (state: PayMarketManagementState) => state.exchangeScopes);
 export const selectPayMarketAssociationsState =
   createSelector(selectPayMarketManagementFeature, (state: PayMarketManagementState) => state.payMarketAssociations);
-export const selectBasicDataGridState =
-  createSelector(selectPayMarketManagementFeature, (state: PayMarketManagementState) => state.basicDataGrid);
 
 // Pay Market Modal
 export const getPayMarketModalOpen = createSelector(selectPayMarketModalState, fromPayMarketModalReducer.getPayMarketModalOpen);
@@ -93,14 +88,3 @@ export const getSelectedExchanges = createSelector(selectExchangeScopesState, fr
 // Paymarket Associations
 export const getPayMarketAssociationsSummary =
   createSelector(selectPayMarketAssociationsState, fromPaymarketAssociationsReducer.getPayMarketAssociationSummary);
-
-// Basic Data Grid
-export const getData = createSelector(selectBasicDataGridState, fromBasicDataGridReducer.getData);
-export const getBaseEntity = createSelector(selectBasicDataGridState, fromBasicDataGridReducer.getBaseEntity);
-export const getFields = createSelector(selectBasicDataGridState, fromBasicDataGridReducer.getFields);
-export const getVisibleFields = createSelector(selectBasicDataGridState, fromBasicDataGridReducer.getVisibleFields);
-export const getFilters = createSelector(selectBasicDataGridState, fromBasicDataGridReducer.getFilters);
-export const getPagingOptions = createSelector(selectBasicDataGridState, fromBasicDataGridReducer.getPagingOptions);
-export const getApplyDefaultFilters = createSelector(selectBasicDataGridState, fromBasicDataGridReducer.getApplyDefaultFilters);
-export const getDistinct = createSelector(selectBasicDataGridState, fromBasicDataGridReducer.getDistinct);
-export const getLoadingMoreData = createSelector(selectBasicDataGridState, fromBasicDataGridReducer.getLoadingMoreData);

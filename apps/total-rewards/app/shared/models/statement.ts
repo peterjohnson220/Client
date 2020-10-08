@@ -27,6 +27,7 @@ export interface Statement {
   Settings: Settings;
   EffectiveDate: Date;
   AssignedCompanyEmployeeIds?: number[];
+  IsStatementGenerating: boolean;
 }
 
 export function generateMockStatement(): Statement {
@@ -40,6 +41,7 @@ export function generateMockStatement(): Statement {
     AuditRecord: generateMockAuditRecord(),
     Settings: generateMockSettings(),
     EffectiveDate: new Date('December 17, 2019 03:24:00'),
+    IsStatementGenerating: false,
     Pages: [{
       Sections: [{
         Columns: [{

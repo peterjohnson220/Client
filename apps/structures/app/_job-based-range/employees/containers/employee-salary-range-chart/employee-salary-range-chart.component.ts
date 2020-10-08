@@ -173,8 +173,17 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addSalaryRangeQuartile(xCoordinate) {
-    this.salaryRangeSeriesDataModel.Quartile.push(StructuresHighchartsService.formatColumnRange(
-      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Quartile_First, this.jobRangeData.CompanyStructures_Ranges_Quartile_Second));
+    this.salaryRangeSeriesDataModel.Quartile.First.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Min, this.jobRangeData.CompanyStructures_Ranges_Quartile_First));
+
+    this.salaryRangeSeriesDataModel.Quartile.Second.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Quartile_First, this.jobRangeData.CompanyStructures_Ranges_Mid));
+
+    this.salaryRangeSeriesDataModel.Quartile.Third.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Mid, this.jobRangeData.CompanyStructures_Ranges_Quartile_Second));
+
+    this.salaryRangeSeriesDataModel.Quartile.Fourth.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, this.jobRangeData.CompanyStructures_Ranges_Quartile_Second, this.jobRangeData.CompanyStructures_Ranges_Max));
   }
 
   private addSalaryRangeQuintile(xCoordinate) {
@@ -273,7 +282,12 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
       this.salaryRangeSeriesDataModel = {
         MinMidMax: [],
-        Quartile: [],
+        Quartile: {
+          First: [],
+          Second: [],
+          Third: [],
+          Fourth: []
+        },
         Quintile: [],
         Tertile: []
       };
@@ -350,7 +364,10 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
         this.chartInstance.series[EmployeeSalaryRangeChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
         this.chartInstance.series[EmployeeSalaryRangeChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
       } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
-        this.chartInstance.series[EmployeeSalaryRangeChartSeries.SalaryRangeQuartile].setData(this.salaryRangeSeriesDataModel.Quartile, false);
+        this.chartInstance.series[EmployeeSalaryRangeChartSeries.SalaryRangeQuartileFirst].setData(this.salaryRangeSeriesDataModel.Quartile.First, false);
+        this.chartInstance.series[EmployeeSalaryRangeChartSeries.SalaryRangeQuartileSecond].setData(this.salaryRangeSeriesDataModel.Quartile.Second, false);
+        this.chartInstance.series[EmployeeSalaryRangeChartSeries.SalaryRangeQuartileThird].setData(this.salaryRangeSeriesDataModel.Quartile.Third, false);
+        this.chartInstance.series[EmployeeSalaryRangeChartSeries.SalaryRangeQuartileFourth].setData(this.salaryRangeSeriesDataModel.Quartile.Fourth, false);
         this.chartInstance.series[EmployeeSalaryRangeChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
         this.chartInstance.series[EmployeeSalaryRangeChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
       } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {

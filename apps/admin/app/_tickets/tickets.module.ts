@@ -21,6 +21,7 @@ import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommentBoxModule } from 'libs/features';
+import { PfCompanyNotesModalModule } from 'libs/features';
 
 import { TicketDetailCardComponent } from './components';
 import {
@@ -70,7 +71,8 @@ import { TicketSharedEffects } from './effects/ticket-shared.effects';
     PfCommonUIModule,
     PfFormsModule,
     PfCommonModule,
-    PfCommentBoxModule
+    PfCommentBoxModule,
+    PfCompanyNotesModalModule,
   ],
   declarations: [
     // Pipes

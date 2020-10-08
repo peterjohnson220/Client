@@ -6,33 +6,33 @@ export interface EntityFieldMappingDefinitionModel {
 }
 
 export function getEntityFieldMappingDefinition(loaderType: LoaderType) {
-    switch (loaderType) {
-      case LoaderType.PayMarkets:
-        return {
-          fieldMappingDefinitionModel: getPaymarketsCustomDictionary()
-        };
-        break;
-      case LoaderType.Jobs:
-        return {
-          fieldMappingDefinitionModel: getJobsCustomDictionary()
-        };
-        break;
-      case LoaderType.Structures:
-        return {
-          fieldMappingDefinitionModel: getStructuresCustomDictionary()
-        };
-        break;
-      case LoaderType.StructureMapping:
-        return {
-          fieldMappingDefinitionModel: getStructureMappingsCustomDictionary()
-        };
-        break;
-      case LoaderType.Employees:
-        return {
-          fieldMappingDefinitionModel: getEmployeesCustomDictionary()
-        };
-        break;
-    }
+  switch (loaderType) {
+    case LoaderType.PayMarkets:
+      return {
+        fieldMappingDefinitionModel: getPaymarketsCustomDictionary()
+      };
+    case LoaderType.Structures:
+      return {
+        fieldMappingDefinitionModel: getStructuresCustomDictionary()
+      };
+    case LoaderType.Employees:
+      return {
+        fieldMappingDefinitionModel: getEmployeesCustomDictionary()
+      };
+    case LoaderType.Benefits:
+      return {
+        fieldMappingDefinitionModel: getBenefitsCustomDictionary()
+      };
+    default:
+      return {
+        fieldMappingDefinitionModel: getEmptyDictionary()
+      };
+  }
+}
+
+export function getEmptyDictionary(): GenericKeyValue<string, string>[] {
+  const emptyDictionary: GenericKeyValue<string, string>[] = [];
+  return emptyDictionary;
 }
 
 export function getPaymarketsCustomDictionary(): GenericKeyValue<string, string>[] {
@@ -43,11 +43,6 @@ export function getPaymarketsCustomDictionary(): GenericKeyValue<string, string>
     }
   ];
   return paymarketsCustomDictionary;
-}
-
-export function getJobsCustomDictionary(): GenericKeyValue<string, string>[] {
-  const jobsCustomDictionary: GenericKeyValue<string, string>[] = [];
-  return jobsCustomDictionary;
 }
 
 export function getStructuresCustomDictionary(): GenericKeyValue<string, string>[] {
@@ -92,37 +87,46 @@ export function getStructuresCustomDictionary(): GenericKeyValue<string, string>
   return structuresCustomDictionary;
 }
 
-export function getStructureMappingsCustomDictionary(): GenericKeyValue<string, string>[] {
-  const structureMappingsCustomDictionary: GenericKeyValue<string, string>[] = [];
-  return structureMappingsCustomDictionary;
-}
-
 export function getEmployeesCustomDictionary(): GenericKeyValue<string, string>[] {
   const employeesCustomDictionary: GenericKeyValue<string, string>[] = [
     {
       Key: 'Zip',
-        Value: 'Work Zip'
+      Value: 'Work Zip'
     },
     {
       Key: 'Country',
-        Value: 'CountryCode'
+      Value: 'CountryCode'
     },
     {
       Key: 'Employee_Status',
-        Value: 'Status'
+      Value: 'Status'
     },
     {
       Key: 'Base',
-        Value: 'Salary'
+      Value: 'Salary'
     },
     {
       Key: 'STIElig',
-        Value: 'STI Eligibility'
+      Value: 'STI Eligibility'
     },
     {
       Key: 'LTIElig',
-        Value: 'LTI Eligibility'
+      Value: 'LTI Eligibility'
     }
   ];
   return employeesCustomDictionary;
+}
+
+export function getBenefitsCustomDictionary(): GenericKeyValue<string, string>[] {
+  const benefitsCustomDictionary: GenericKeyValue<string, string>[] = [
+    {
+      Key: 'Employer_Value',
+      Value: 'Employee Contribution'
+    },
+    {
+      Key: 'CompanyEmployee_Value',
+      Value: 'Company Contribution'
+    }
+  ];
+  return benefitsCustomDictionary;
 }

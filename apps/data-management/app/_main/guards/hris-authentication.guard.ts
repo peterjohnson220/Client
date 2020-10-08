@@ -39,7 +39,8 @@ export class HrisAuthenticationGuard implements CanActivate, CanActivateChild {
   }
 
   private canAccess(connectionSummary: ConnectionSummary): Observable<boolean> {
-    if (!this.matchesConnectionStatus(HRISConnectionAuthenticationStatus.ERROR , connectionSummary) && !this.matchesConnectionStatus(HRISConnectionAuthenticationStatus.NOTSTARTED, connectionSummary)) {
+    if (!this.matchesConnectionStatus(HRISConnectionAuthenticationStatus.ERROR , connectionSummary)
+      && !this.matchesConnectionStatus(HRISConnectionAuthenticationStatus.NOTSTARTED, connectionSummary)) {
       return of(true);
     } else {
       this.router.navigate(['/']);

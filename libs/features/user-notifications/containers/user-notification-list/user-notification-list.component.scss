@@ -1,0 +1,29 @@
+.page-header {
+  color: #495057;
+  font-size: 1.2rem;
+  height: 50px;
+
+  .title {
+    text-transform: uppercase;
+  }
+}
+
+.no-notifications {
+  font-style: italic;
+  font-size: 14px;
+  margin-left: 2.2rem;
+}
+
+.notification-row {
+  cursor: pointer;
+  border-radius:2px;
+
+  &:hover {
+    background-color: #cccccc;
+  }
+}
+
+.notification-table{
+  border-collapse:separate;
+  border-spacing:.5em;
+}

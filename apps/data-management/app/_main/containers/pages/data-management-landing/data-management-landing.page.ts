@@ -54,8 +54,8 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
     takeUntil(this.unsubscribe$)).subscribe(cs => {
       if (cs) {
         this.connectionNeedsAuthentication = (!cs.hasConnection &&
-        (cs.statuses.length && cs.statuses.includes(HRISConnectionAuthenticationStatus.ERROR)))  
-        || cs.statuses.includes(HRISConnectionAuthenticationStatus.NOTSTARTED);
+        (cs.statuses.length && cs.statuses.includes(HRISConnectionAuthenticationStatus.ERROR))) ||
+        cs.statuses.includes(HRISConnectionAuthenticationStatus.NOTSTARTED);
       }
     });
   }

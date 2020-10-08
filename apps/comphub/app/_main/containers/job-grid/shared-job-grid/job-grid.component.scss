@@ -1,0 +1,141 @@
+@import 'comphub-page';
+@import 'comphub-styles';
+@import 'colors';
+
+.table th {
+  border-top: none;
+}
+
+.table td,th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table tr:last-child {
+  border-bottom: 2px solid $comphub-header-background-grey;
+}
+
+.top-column-header th {
+  border-bottom: none;
+  padding: 0;
+}
+
+.main-column-header th {
+  padding-top: 0;
+  border-bottom: 2px solid $comphub-header-background-grey;
+  font-weight: normal;
+  font-size: 16px;
+  cursor: default;
+
+  &.sortable-header {
+    cursor: pointer;
+  }
+}
+
+.text-column {
+  font-weight: $comphub-bold-font-weight;
+}
+
+.hidden {
+  display: none;
+}
+
+.expand-caret {
+  width: 40px;
+  text-align: center;
+
+  fa-icon {
+    color: #000000;
+    font-size: 1.35rem;
+  }
+}
+
+.table tr.jd-row {
+
+  td {
+    white-space: normal;
+    padding: .5rem 1rem 1rem 1rem;
+    line-height: 1.75rem;
+    background: #f3f3f3;
+  }
+
+  &:hover {
+    background: none;
+  }
+}
+
+.table tr.selected {
+  background-color: #c7deff;
+}
+
+.job-row {
+  cursor: pointer;
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%230883BE'/%3E%3C/svg%3E");
+  background-size: 100%;
+}
+
+.custom-radio .custom-control-input ~ .custom-control-label::before {
+  transform: scale(1.5);
+  cursor: pointer;
+  border: $comphub-job-grid-grey solid 1px;
+  background-color: white;
+}
+
+::ng-deep .page-item.active .page-link {
+  z-index: auto;
+  background-color: $comphub-header-blue;
+  border-color: $comphub-header-blue;
+}
+
+.unsorted-spacer{
+  width: 17.5px;
+  display: inline-block;
+}
+
+.job-title-column {
+  width: 21vw;
+  max-width: 21vw;
+}
+
+.education-column {
+  width: 10vw;
+  max-width: 10vw;
+}
+
+@media all and (max-width: 1200px) {
+  .job-title-column {
+    width: 40vw;
+    max-width: 40vw;
+  }
+}
+
+.text-bold {
+  font-weight: $comphub-bold-font-weight;
+}
+
+.content-top-bar {
+  min-height: 25px;
+  margin-bottom: 2rem;
+}
+
+.effective-date, .rate, .paymarket {
+  color: #212529;
+}
+
+.jd-row ::ng-deep {
+  h6 {
+    margin: 1rem 0;
+    svg {
+      display: none;
+    }
+    font-weight: bold;
+  }
+}
+
+.results-title {
+  font-size: 21px;
+}

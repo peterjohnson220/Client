@@ -1,8 +1,8 @@
-<div *ngIf="salaryTrendData?.Data.length" data-qa-id="cht-salary-trend">
+<div *ngIf="localSalaryTrendData?.Data.length" data-qa-id="cht-salary-trend">
   <div class="percentage-change" [attr.data-qa-id]="'cnt-percentageChange'">
-    <span *ngIf="salaryTrendData.PercentageChange !== 0"
-          [ngClass]="salaryTrendData.PercentageChange > 0 ? 'plus-sign' : 'text-danger'">
-      {{salaryTrendData.PercentageChange > 0 ? '+' : '-' }}
+    <span *ngIf="localSalaryTrendData?.PercentageChange !== 0"
+          [ngClass]="localSalaryTrendData?.PercentageChange > 0 ? 'plus-sign' : 'text-danger'">
+      {{localSalaryTrendData.PercentageChange > 0 ? '+' : '-' }}
     </span>
     {{absoluteValueOfPercentageChange | number : '1.2-2'}}%
   </div>
@@ -20,7 +20,7 @@
       <kendo-chart-series-item
         type="area"
         [color]="'#009900'"
-        [data]="salaryTrendData?.Data"
+        [data]="localSalaryTrendData?.Data"
         [name]="'National'"
         [field]="isHourly ? 'SalaryHourly' : 'SalaryAnnual'"
         categoryField="EffectiveDate">

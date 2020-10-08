@@ -68,7 +68,7 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
     }
     case fromActions.LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_SUCCESS: {
       const localState = cloneDeep(state);
-      return AsyncStateObjHelper.loadingSuccess(state, 'listAreaColumns', action.payload);
+      return AsyncStateObjHelper.loadingSuccess(localState, 'listAreaColumns', action.payload);
     }
     case fromActions.LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'listAreaColumns');
@@ -114,6 +114,13 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
         sendingGenerateStatementRequest: false,
         sendingGenerateStatementRequestSuccess: false,
         sendingGenerateStatementRequestError: true,
+      };
+    }
+    case fromActions.UPDATE_STATEMENT_IS_GENERATING: {
+      const localState = cloneDeep(state);
+      localState.statement.obj = { ...localState.statement.obj, IsStatementGenerating: action.payload };
+      return {
+        ...localState
       };
     }
     case fromActions.TOGGLE_GRID_FILTERS: {

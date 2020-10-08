@@ -15,3 +15,4 @@ export * from './hris-integration-status';
 export * from './hris-integration-sidebar';
 export * from './hris-reauthentication-modal';
 export * from './outbound-transfer-schedule-summary';
+export * from './data-converter-modal';

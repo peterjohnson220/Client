@@ -62,7 +62,7 @@ enum EmailValidatorGroup {
 export class PfEmailValidators {
 
   static emailFormat(control: FormControl): ValidationErrors {
-    return !EMAIL_VALIDATOR.test(control.value) ? { 'emailFormat': { valid: false } } : null;
+    return control.value && !EMAIL_VALIDATOR.test(control.value) ? { 'emailFormat': { valid: false } } : null;
   }
 
   static workEmail(control: FormControl): ValidationErrors {

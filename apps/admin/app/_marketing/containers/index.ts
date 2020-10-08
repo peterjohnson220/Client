@@ -1,1 +1,1 @@
-export * from  './marketing-image.component';
+export * from  './marketing-settings.component';

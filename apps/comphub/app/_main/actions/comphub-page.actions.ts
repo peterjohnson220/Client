@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Action } from '@ngrx/store';
 
 import { ComphubPages } from '../data';
-import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet } from '../models';
+import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, FooterContext, JobData } from '../models';
 
 export const INIT = '[Comphub/Comphub Page] Init Comphub Page';
 export const NAVIGATE_TO_CARD = '[Comphub/Comphub Page] Navigate to Card';
@@ -24,6 +24,11 @@ export const GET_EXCHANGE_DATA_SETS = '[Comphub/Comphub Page] Get Exchange Data 
 export const GET_EXCHANGE_DATA_SETS_SUCCESS = '[Comphub/Comphub Page] Get Exchange Data Sets Success';
 export const UPDATE_ACTIVE_EXCHANGE_DATA_SET = '[Comphub/Comphub Page] Update Active Exchange Data Set';
 export const SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT = '[Comphub/Comphub Page] Set Quick Price Type In Workflow Context';
+export const SET_QUICK_PRICE_HISTORY_MODAL_OPEN = '[Comphub/Comphub Page] Set Quick Price History Modal Open';
+export const UPDATE_FOOTER_CONTEXT = '[Comphub/Comphub Page] Update Footer Context';
+export const SET_FOOTER_CONTEXT = '[Comphub/Comphub Page] Set Footer Context';
+export const SET_SELECTED_JOB_DATA = '[Comphub/Comphub Page] Set Selected Job Data';
+export const CLEAR_SELECTED_JOB_DATA = '[Comphub/Comphub Page] Clear Selected Job Data';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -135,6 +140,31 @@ export class SetQuickPriceTypeInWorkflowContext implements Action {
   constructor(public payload: string) {}
 }
 
+export class SetQuickPriceHistoryModalOpen implements Action {
+  readonly type = SET_QUICK_PRICE_HISTORY_MODAL_OPEN;
+  constructor(public isOpen: boolean) {}
+}
+
+export class UpdateFooterContext implements Action {
+  readonly type = UPDATE_FOOTER_CONTEXT;
+  constructor() {}
+}
+
+export class SetFooterContext implements Action {
+  readonly type = SET_FOOTER_CONTEXT;
+  constructor(public payload: FooterContext) {}
+}
+
+export class SetSelectedJobData implements Action {
+  readonly type = SET_SELECTED_JOB_DATA;
+  constructor(public payload: JobData) {}
+}
+
+export class ClearSelectedJobData implements Action {
+  readonly type = CLEAR_SELECTED_JOB_DATA;
+  constructor() {}
+}
+
 export type Actions
   = Init
   | NavigateToCard
@@ -154,4 +184,9 @@ export type Actions
   | GetExchangeDataSets
   | GetExchangeDataSetsSuccess
   | UpdateActiveExchangeDataSet
-  | SetQuickPriceTypeInWorkflowContext;
+  | SetQuickPriceTypeInWorkflowContext
+  | SetQuickPriceHistoryModalOpen
+  | UpdateFooterContext
+  | SetFooterContext
+  | SetSelectedJobData
+  | ClearSelectedJobData;

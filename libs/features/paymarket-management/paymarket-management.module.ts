@@ -14,6 +14,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { BasicDataGridModule } from 'libs/features/basic-data-grid';
 
 import { PayMarketModalComponent, GeneralFormComponent, MarketDataScopeComponent,
   DefaultScopesComponent, ExchangeScopesComponent, PaymarketAssociationsComponent,
@@ -22,10 +23,9 @@ import { PayMarketModalComponent, GeneralFormComponent, MarketDataScopeComponent
   EmployeeRecordsComponent,
   StructuresComponent
 } from './containers';
-import { BasicDataGridComponent } from './components';
 import { reducers } from './reducers';
 import { GeneralFormEffects, MarketDataScopeEffects, DefaultScopesEffects, ExchangeScopesEffects,
-  PayMarketModalEffects, PaymarketAssociationsEffects, BasicDataGridEffects
+  PayMarketModalEffects, PaymarketAssociationsEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 
@@ -42,8 +42,7 @@ import * as fromFaIcons from './fa-icons';
       DefaultScopesEffects,
       ExchangeScopesEffects,
       PayMarketModalEffects,
-      PaymarketAssociationsEffects,
-      BasicDataGridEffects
+      PaymarketAssociationsEffects
     ]),
     DropDownsModule,
     NumericTextBoxModule,
@@ -55,7 +54,8 @@ import * as fromFaIcons from './fa-icons';
 
     // Payfactors
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    BasicDataGridModule
   ],
   declarations: [
     // Containers
@@ -68,10 +68,7 @@ import * as fromFaIcons from './fa-icons';
     PricingProjectsComponent,
     PricingsComponent,
     EmployeeRecordsComponent,
-    StructuresComponent,
-
-    // Components
-    BasicDataGridComponent
+    StructuresComponent
   ],
   exports: [ PayMarketModalComponent, PaymarketAssociationsComponent ]
 })

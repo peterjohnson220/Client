@@ -24,6 +24,7 @@ export enum NotificationType {
 export interface NotificationPayload {
   Title: string;
   Message: string;
+  SecondaryMessage?: string;
   FileType?: string;
 }
 

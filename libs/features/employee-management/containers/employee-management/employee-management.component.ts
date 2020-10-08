@@ -9,7 +9,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { IntlService } from '@progress/kendo-angular-intl';
 
 import * as fromRootState from 'libs/state/state';
-import { PfValidators } from 'libs/forms/validators';
+import { PfEmailValidators, PfValidators } from 'libs/forms/validators';
 import { AsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee, UserContext, PfConstants } from 'libs/models';
 
 import * as fromEmployeeManagementReducer from '../../reducers';
@@ -70,6 +70,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
   jobCode: string;
   jobSearchTerm: string;
 
+  readonly MAX_EMAIL_LENGTH = 100;
   readonly DEFAULT_MAX_LENGTH = 255;
   readonly HOURLY_CONVERSION_RATE = 2080;
   readonly PAGE_SIZE = 20;
@@ -271,7 +272,10 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
       Remun: 0,
       Fixed: 0,
       StructureRangeGroupId: null,
-      GradeCode: null
+      GradeCode: null,
+      EmailAddress: ['', [
+        Validators.maxLength(this.MAX_EMAIL_LENGTH),
+        PfEmailValidators.emailFormat]]
     });
   }
 
@@ -494,7 +498,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
         Remun: this.employee.Remun,
         Fixed: this.employee.Fixed,
         StructureRangeGroupId: this.employee.StructureRangeGroupId,
-        GradeCode: this.employee.GradeCode
+        GradeCode: this.employee.GradeCode,
+        EmailAddress: this.employee.EmailAddress
       });
       this.updateUDFFields();
       this.loadStructures();

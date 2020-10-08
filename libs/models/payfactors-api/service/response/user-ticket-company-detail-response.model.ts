@@ -8,6 +8,7 @@ export interface UserTicketCompanyDetailResponse {
   NumberOfOpenTickets: number;
   NumberOfRecentTickets: number;
   RecentTickets: UserTicketTabItem[];
+  NotesCount: number;
 }
 
 export function generateMockUserTicketCompanyDetailResponse() {

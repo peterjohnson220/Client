@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 
 import { RangeGroupMetadata } from '../models';
@@ -22,6 +22,8 @@ export const GET_OVERRIDDEN_RANGES_ERROR = '[Structures - Job Based Range - Shar
 export const REVERTING_RANGE_CHANGES = '[Structures - Job Based Range - Shared] Reverting Range Changes';
 export const REVERTING_RANGE_CHANGES_SUCCESS = '[Structures - Job Based Range - Shared] Reverting Range Changes Success';
 export const REVERTING_RANGE_CHANGES_ERROR = '[Structures - Job Based Range - Shared] Reverting Range Changes Error';
+export const UPDATE_OVERRIDES = '[Structures - Job Based Range - Shared] Update Overrides';
+
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -91,6 +93,8 @@ export class GetOverriddenRanges implements Action {
 
 export class GetOverriddenRangesSuccess implements Action {
   readonly type = GET_OVERRIDDEN_RANGES_SUCCESS;
+
+  constructor(public payload: CompanyStructureRangeOverride[]) {}
 }
 
 export class GetOverriddenRangesError implements Action {
@@ -124,6 +128,12 @@ export class RevertingRangeChangesError implements Action {
   constructor(public error: any) {}
 }
 
+export class UpdateOverrides implements  Action {
+  readonly type = UPDATE_OVERRIDES;
+
+  constructor(public payload: { rangeId: number, overrideToUpdate: CompanyStructureRangeOverride, removeOverride: boolean}) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -141,4 +151,5 @@ export type SharedActions
   | GetOverriddenRangesError
   | RevertingRangeChanges
   | RevertingRangeChangesSuccess
-  | RevertingRangeChangesError;
+  | RevertingRangeChangesError
+  | UpdateOverrides;

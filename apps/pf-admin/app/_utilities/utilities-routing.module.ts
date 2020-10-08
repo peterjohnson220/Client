@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'yoy-default-scopes/:id', component: YoyDefaultScopesPageComponent, canActivate: [PfAdminGuard] },
   { path: 'loadjobdescriptions', component: UtilitiesSelectCompanyPageComponent, canActivate: [PfAdminGuard] },
   { path: 'loadjobdescriptions/:id', component: JobDescriptionLoaderPageComponent, canActivate: [LoadJobDescriptionLoaderGuard, PfAdminGuard] },
-  { path: 'not-found', component: NotFoundErrorPageComponent },
+  { path: 'not-found', redirectTo: '/not-found' },
 ];
 
 @NgModule({

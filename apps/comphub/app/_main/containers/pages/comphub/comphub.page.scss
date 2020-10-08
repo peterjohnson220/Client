@@ -3,7 +3,7 @@
 
 .accordion {
   background-color: #ffffff;
-  height: 100%;
+  height: calc(100vh - 106px);
   width: 100%;
   overflow: hidden;
 }

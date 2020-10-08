@@ -4,3 +4,4 @@ export * from './company-structure-range.model';
 export * from './company-structure-view.model';
 export * from './company-structure.model';
 export * from './ranges';
+export * from './company-structure-range-override.model';

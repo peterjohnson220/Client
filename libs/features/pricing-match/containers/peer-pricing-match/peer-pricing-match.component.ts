@@ -43,5 +43,4 @@ export class PeerPricingMatchComponent implements OnInit, OnChanges {
     this.badImageUrl = true;
     return null;
   }
-
 }

@@ -5,9 +5,9 @@ import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models';
 import { BasicDataViewField, DataViewFieldDataType, DataViewFilter } from 'libs/models/payfactors-api';
+import * as fromBasicDataGridReducer from 'libs/features/basic-data-grid/reducers';
+import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
 
-import * as fromPayMarketManagementReducer from '../../reducers';
-import * as fromBasicDataGridActions from '../../actions/basic-data-grid.actions';
 import { PayMarketAssociationType } from '../../models';
 import { PayMarketAssociationsHelper } from '../../helpers';
 
@@ -65,11 +65,11 @@ export class PricingProjectsComponent implements OnInit, OnChanges, OnDestroy {
   ];
 
   constructor(
-    private store: Store<fromPayMarketManagementReducer.State>
+    private basicGridStore: Store<fromBasicDataGridReducer.State>
   ) {
-    this.pricingProjects$ = this.store.select(fromPayMarketManagementReducer.getData, PayMarketAssociationType.PricingProjects);
-    this.fields$ = this.store.select(fromPayMarketManagementReducer.getVisibleFields, PayMarketAssociationType.PricingProjects);
-    this.loadingMoreData$ = this.store.select(fromPayMarketManagementReducer.getLoadingMoreData, PayMarketAssociationType.PricingProjects);
+    this.pricingProjects$ = this.basicGridStore.select(fromBasicDataGridReducer.getData, PayMarketAssociationType.PricingProjects);
+    this.fields$ = this.basicGridStore.select(fromBasicDataGridReducer.getVisibleFields, PayMarketAssociationType.PricingProjects);
+    this.loadingMoreData$ = this.basicGridStore.select(fromBasicDataGridReducer.getLoadingMoreData, PayMarketAssociationType.PricingProjects);
     this.initAssociationsGrids();
   }
 
@@ -79,7 +79,7 @@ export class PricingProjectsComponent implements OnInit, OnChanges, OnDestroy {
         this.currentRecordCount = asyncObj.obj.length;
       }
     });
-    this.store.dispatch(new fromBasicDataGridActions.GetData(PayMarketAssociationType.PricingProjects));
+    this.basicGridStore.dispatch(new fromBasicDataGridActions.GetData(PayMarketAssociationType.PricingProjects));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -94,12 +94,12 @@ export class PricingProjectsComponent implements OnInit, OnChanges, OnDestroy {
 
   handleScrollBottom(): void {
     if (this.currentRecordCount < this.totalCount) {
-      this.store.dispatch(new fromBasicDataGridActions.GetMoreData(PayMarketAssociationType.PricingProjects));
+      this.basicGridStore.dispatch(new fromBasicDataGridActions.GetMoreData(PayMarketAssociationType.PricingProjects));
     }
   }
 
   private initAssociationsGrids(): void {
-    this.store.dispatch(new fromBasicDataGridActions.InitGrid(
+    this.basicGridStore.dispatch(new fromBasicDataGridActions.InitGrid(
       PayMarketAssociationType.PricingProjects,
       {
         BaseEntity: this.baseEntity,
@@ -119,7 +119,7 @@ export class PricingProjectsComponent implements OnInit, OnChanges, OnDestroy {
       FilterType: 'ProjectNotOrphanedFilterStrategy',
       Operator: null
     });
-    this.store.dispatch(new fromBasicDataGridActions.UpdateFilters(PayMarketAssociationType.PricingProjects, pricingProjectsFilters));
+    this.basicGridStore.dispatch(new fromBasicDataGridActions.UpdateFilters(PayMarketAssociationType.PricingProjects, pricingProjectsFilters));
   }
 
 }

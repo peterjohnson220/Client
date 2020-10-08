@@ -6,3 +6,4 @@ export * from './mappings';
 export * from './sync-schedules';
 export * from './hris-api.service';
 export * from './on-demand-sync';
+export * from './converter-settings';

@@ -2,17 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { MarketingSettingsEffects } from 'libs/features/marketing-settings/marketing-settings.effects';
+
+// Reducers
+import { reducers } from './reducers';
+
 // Third party
 import { UploadModule } from '@progress/kendo-angular-upload';
 
 // Containers
-import { MarketingImageComponent} from './containers';
+import { MarketingSettingsComponent} from './containers';
 
 // Routing
 import { MarketingRoutingModule } from './marketing-routing.module';
 
 // Libs / Controls
 import { PfCommonUIModule } from 'libs/ui/common';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   imports: [
@@ -24,13 +31,17 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
     // 3rd Party
     UploadModule,
+    StoreModule.forFeature('marketingMain', reducers),
+    EffectsModule.forFeature([
+      MarketingSettingsEffects,
+    ]),
 
     // Routing
     MarketingRoutingModule
   ],
   declarations: [
     // Components
-    MarketingImageComponent
+    MarketingSettingsComponent
   ]
 })
 export class MarketingModule { }

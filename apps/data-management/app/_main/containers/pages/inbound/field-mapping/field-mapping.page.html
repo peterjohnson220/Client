@@ -14,6 +14,8 @@
         targetName="Payfactors">
       </pf-field-selection-card>
       <pf-field-mappings-card *ngIf="!connectionSummary?.provider?.UsesFieldSelection"
+        [provider]="connectionSummary?.provider?.ProviderCode"
+        [connectionId]="connectionSummary?.connectionID"
         [selectedEntities]="selectedEntities"
         sourceName="Import"
         targetName="Payfactors">
@@ -32,4 +34,5 @@
     </div>
   </div>
   <pf-default-paymarket-confirmation-modal></pf-default-paymarket-confirmation-modal>
+  <pf-data-converter-modal></pf-data-converter-modal>  
 </pf-async-container>

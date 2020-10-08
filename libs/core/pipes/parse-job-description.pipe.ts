@@ -60,10 +60,10 @@ export class JobDescriptionParserPipe implements PipeTransform {
 
       // add header tags and an icon around the delimiter text itself, and slice the colon off the text
       const headerHtml = `<h6>${section.headerIcon}${section.text.slice(0, -1)}</h6>`;
-      html = headerHtml + html.substring(section.text.length, html.length);
+      html = headerHtml + `<span class="description-content">${html.substring(section.text.length, html.length)}</span>`;
 
       // wrap in a span and append it to the html string being built up
-      parsedJobDescriptionHtml += `<span class="${section.cssClass}">${html}</span>`;
+      parsedJobDescriptionHtml += `<div class="${section.cssClass} description-container">${html}</div>`;
     }
 
     return this.sanitizer.bypassSecurityTrustHtml(parsedJobDescriptionHtml);

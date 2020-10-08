@@ -1,0 +1,12 @@
+<pf-comphub-job-grid #peerJobGrid
+  [jobTitle]="(selectedJobTitle$ | async)"
+  [jobGridData]="(jobResults$ | async)"
+  [loading]="(jobResultsLoading$ | async)"
+  [loadingError]="(jobResultsLoadingError$ | async)"
+  [gridHasData]="gridHasData"
+  [gridColumnsConfiguration]="gridColumnsConfiguration"
+  [selectedJobData]="(selectedJobData$ | async)"
+  [currencyCode]="workflowContext?.activeCountryDataSet?.CurrencyCode"
+  (jobDescriptionToggled)="handleExpandJdClicked($event)">
+
+</pf-comphub-job-grid>

@@ -29,10 +29,13 @@ import {
   FileMappingComponent,
   PfCheckboxComponent,
   ProviderListComponent,
-  IntegrationCompleteModalComponent
+  IntegrationCompleteModalComponent,
+  DateFormatDropDownComponent,
+  DateConverterFormComponent
 } from './components';
 import {
   CustomEmployeeIdentifierComponent,
+  DataConverterModalComponent,
   DataManagementHomePageComponent,
   DataManagementLandingPageComponent,
   EntityMappingComponent,
@@ -81,7 +84,8 @@ import {
   OutboundJdmEffects,
   TransferDataPageEffects,
   TransferScheduleEffects,
-  ProviderListEffects
+  ProviderListEffects,
+  ConverterSettingsEffects
 } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { MainRoutingModule } from './main-routing.module';
@@ -117,7 +121,8 @@ import { HrisAuthenticationGuard } from './guards';
       TransferScheduleEffects,
       EntityIdentifiersEffects,
       EntitySelectionEffects,
-      ProviderListEffects
+      ProviderListEffects,
+      ConverterSettingsEffects
     ]),
     FontAwesomeModule,
     NgbDropdownModule,
@@ -204,7 +209,10 @@ import { HrisAuthenticationGuard } from './guards';
     OutboundJdmViewSelectionPageComponent,
     OutboundTransferScheduleSummaryComponent,
     ProviderListComponent,
-    FieldSelectionCardComponent
+    FieldSelectionCardComponent,
+    DateConverterFormComponent,
+    DataConverterModalComponent,
+    DateFormatDropDownComponent
   ],
   providers: [
     // Guards

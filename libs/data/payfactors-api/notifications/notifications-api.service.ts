@@ -31,11 +31,19 @@ export class NotificationsApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetUserNotificationUnreadBadgeCount`);
   }
 
+  getUserNotificationUnseenCount(): Observable<number> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetUserNotificationUnseenBadgeCount`);
+  }
+
   markNotificationAsRead(userNotificationId: number): Observable<boolean> {
     return this.payfactorsApiService.post(`${this.endpoint}/MarkNotificationAsRead/${userNotificationId}`, {}, () => true);
   }
 
   markAllNotificationsAsRead(): Observable<boolean> {
     return this.payfactorsApiService.post(`${this.endpoint}/MarkAllNotificationsAsRead`, {}, () => true);
+  }
+
+  markAllNotificationsAsSeen(): Observable<boolean> {
+    return this.payfactorsApiService.post(`${this.endpoint}/MarkAllNotificationsAsSeen`, {}, () => true);
   }
 }

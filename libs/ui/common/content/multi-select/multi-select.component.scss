@@ -9,7 +9,7 @@ $light-border: 1px solid #ccc;
   overflow: hidden;
 }
 
-.action-item:hover {
+.action-item:not(.disabled):hover {
   cursor: pointer;
   background-color: $selected-item-light-background-color;
 }

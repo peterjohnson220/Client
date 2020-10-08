@@ -163,4 +163,8 @@ export class DataViewApiService {
   exportGrid(request: ExportGridRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/ExportGrid`, request);
   }
+
+  getCountWithBasicDataRequest(request: BasicDataViewDataRequest): Observable<number> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetDataCount`, request);
+  }
 }

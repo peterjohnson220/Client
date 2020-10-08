@@ -1,5 +1,6 @@
 import { RangeDistributionType, generateMockStructureRangeDistributionTypes} from './structure-range-distribution-type.model';
 import { RangeDistributionSetting, generateMockRangeDistributionSetting } from './range-distribution-setting.model';
+import { AdvancedSettingResponse, generateMockRangeAdvancedSettingResponse } from './advanced-setting-response.model';
 
 export interface StructureRangeGroupResponse {
   CompanyStructuresRangeGroupId: number;
@@ -21,6 +22,7 @@ export interface StructureRangeGroupResponse {
   RangeDistributionTypeId: number;
   RangeDistributionTypes: RangeDistributionType[];
   RangeDistributionSetting: RangeDistributionSetting;
+  RangeAdvancedSetting: AdvancedSettingResponse;
 }
 
 export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupResponse {
@@ -43,6 +45,7 @@ export function generateMockCompanyStructureRangeGroup(): StructureRangeGroupRes
     EffectiveDate: new Date('1995-12-17T03:24:00'),
     RangeDistributionTypeId: 1,
     RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-    RangeDistributionSetting: generateMockRangeDistributionSetting()
+    RangeDistributionSetting: generateMockRangeDistributionSetting(),
+    RangeAdvancedSetting: generateMockRangeAdvancedSettingResponse()
   };
 }

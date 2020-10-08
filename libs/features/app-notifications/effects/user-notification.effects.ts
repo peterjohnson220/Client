@@ -32,6 +32,18 @@ export class UserNotificationEffects {
       })
     );
 
+  @Effect()
+  updateUnseenCount$ = this.action$
+    .pipe(
+      ofType<fromAppNotificationsActions.UpdateUserNotificationsUnseenCount>(fromAppNotificationsActions.UPDATE_USER_NOTIFICATION_UNSEEN_COUNT),
+      switchMap(action => {
+        return this.notificationsApiService.getUserNotificationUnseenCount().pipe(
+          map(unreadCount => new fromAppNotificationsActions.UpdateUserNotificationUnseenCountSuccess({ notificationCount: unreadCount })),
+          catchError(() => of(new fromAppNotificationsActions.UpdateUserNotificationUnseenCountError()))
+        );
+      })
+    );
+
   constructor(
     private action$: Actions,
     private notificationsApiService: NotificationsApiService

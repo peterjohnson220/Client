@@ -7,7 +7,17 @@
   <div class="row">
     <div class="col-sm">
       <div class="detail-label">Name</div>
-      <div class="detail-text mb-2">{{companyDetail.Name}}</div>
+      <div class="detail-text mb-2">
+        {{companyDetail.Name}}
+        <fa-icon
+          *ngIf="companyDetail.NotesCount > 0"
+          [icon]="['far', 'sticky-note']"
+          class="pl-2 note-modal-icon"
+          (click)="openNotesModal($event, companyDetail.Id,companyDetail.Name)"
+          ngbTooltip="Company Notes"
+          placement="right"
+        ></fa-icon>
+      </div>
     </div>
   </div>
   <div class="row" *ngIf="companyDetail.ClientType">
@@ -42,3 +52,6 @@
     </div>
   </div>
 </div>
+
+<!-- modal -->
+<pf-company-notes-modal></pf-company-notes-modal>

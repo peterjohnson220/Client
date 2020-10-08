@@ -8,6 +8,7 @@ export interface CompanyDetail {
   RangeOfOpenedTickets: number;
   RecentTickets: number;
   RecentTicketIds: UserTicketTabItem[];
+  NotesCount: number;
 }
 
 export function generateMockCompanyDetail() {
@@ -18,6 +19,7 @@ export function generateMockCompanyDetail() {
     OpenTickets: 1,
     RangeOfOpenedTickets: 1,
     RecentTickets: 1,
-    RecentTicketIds: generateMockUserTicketTabItems()
+    RecentTicketIds: generateMockUserTicketTabItems(),
+    NotesCount: 1,
   };
 }
