@@ -26,8 +26,7 @@ import * as fromFaIcons from './fa-icons';
   ],
   declarations: [GuidelinesBadgeComponent],
   exports: [GuidelinesBadgeComponent],
-  providers: [DojGuidelinesService, ExchangeExplorerContextService, PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper,
-    { provide: SearchFilterMappingDataObj, useValue: {} }]
+  providers: [DojGuidelinesService, ExchangeExplorerContextService, PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper]
 })
 export class GuidelinesBadgeModule {
   constructor(library: FaIconLibrary) {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
@@ -14,7 +14,7 @@ import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { UserFilterApiService } from 'libs/data/payfactors-api';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { SavedFiltersHelper } from 'libs/features/add-jobs/helpers';
-
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 @Injectable()
 export class JobSearchUserFilterEffects {
@@ -23,12 +23,15 @@ export class JobSearchUserFilterEffects {
   initJobSearchUserFilter$ = this.actions$
   .pipe(
     ofType(fromUserFilterActions.INIT),
-    switchMap(() => {
+    withLatestFrom(
+      this.store.select(fromSearchReducer.getSearchFilterMappingData),
+      (action, searchFilterMappingDataObj) => ({ action, searchFilterMappingDataObj })),
+    switchMap((data) => {
       return this.userFilterApiService.getAll({ Type: this.userFilterTypeData.Type })
         .pipe(
           mergeMap(response => [
               new fromUserFilterActions.GetSuccess(
-                this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response)),
+                this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response, data.searchFilterMappingDataObj)),
               new fromSearchPageActions.ShowPage(),
               new fromUserFilterActions.ApplyDefault()
           ]),

@@ -9,18 +9,17 @@ import { DragulaService } from 'ng2-dragula';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchBase } from 'libs/features/search/containers/search-base';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+
+import { enableDatacutsDragging } from '../../survey-search/helpers';
+import * as fromSurveySearchResultsActions from '../../survey-search/actions/survey-search-results.actions';
+import { staticFilters, SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from '../../survey-search/data';
 
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromModifyPricingsActions from '../actions/modify-pricings.actions';
-
 import * as fromMultiMatchReducer from '../reducers';
 import { JobToPrice } from '../models';
-
-import { enableDatacutsDragging } from '../../survey-search/helpers';
-import * as fromSurveySearchResultsActions from '../../survey-search/actions/survey-search-results.actions';
-import { staticFilters } from '../../survey-search/data';
-
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
 
 @Component({
@@ -56,7 +55,7 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
     private dragulaService: DragulaService,
     private actionsSubject: ActionsSubject
   ) {
-    super(store);
+    super(store, SurveySearchFilterMappingDataObj, SearchFeatureIds.MultiMatch, SurveySearchUserFilterType);
     this.hasErrorSubscription = this.store.select(fromMultiMatchReducer.getHasError).subscribe(v => this.hasError = v);
     this.isSavedSubscription = this.store.select(fromMultiMatchReducer.getIsSaving)
       .subscribe(v => {

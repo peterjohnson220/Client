@@ -11,7 +11,6 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
-import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { WindowCommunicationService } from 'libs/core/services';
 import { ListAreaService } from 'libs/core/services/list-area.service';
@@ -22,7 +21,7 @@ import { StatementAssignmentRoutingModule } from './statement-assignment-routing
 import { StatementAssignmentPageComponent } from './statement-assignment.page';
 import { StatementAssignmentModalComponent, AssignedEmployeesGridComponent, EmployeeSearchResultsComponent } from './containers';
 import * as effects from './effects';
-import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
+import { EmployeeSearchUserFilterType} from './models';
 import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
 import { GenerateStatementModalComponent } from './components/generate-statement-modal/generate-statement-modal.component';
 import * as fromTrsShared from '../../shared';
@@ -72,8 +71,6 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
     GridActionMenuComponent
   ],
   providers: [
-    { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },
-    { provide: UserFilterTypeData, useValue: EmployeeSearchUserFilterType},
     WindowCommunicationService,
     ListAreaService
   ]

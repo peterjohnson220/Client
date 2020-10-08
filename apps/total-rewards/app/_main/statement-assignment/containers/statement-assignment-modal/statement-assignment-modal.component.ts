@@ -7,13 +7,14 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchBase } from 'libs/features/search/containers/search-base';
 import * as fromRootState from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
-import {FilterType, TextFilter} from 'libs/features/search/models';
+import { FilterType, TextFilter } from 'libs/features/search/models';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 import * as fromStatementAssignmentsReducers from '../../reducers';
 import * as fromStatementAssignmentModalActions from '../../actions/statement-assignment-modal.actions';
 import * as fromEmployeeSearchResultsActions from '../../actions/employee-search-results.actions';
-import { StatementAssignmentConfig } from '../../models';
+import { SearchFilterMappingData, StatementAssignmentConfig, EmployeeSearchUserFilterType } from '../../models';
 import { Statement } from '../../../../shared/models';
 
 @Component({
@@ -57,7 +58,7 @@ export class StatementAssignmentModalComponent extends SearchBase implements OnI
   statementAssignmentMax = StatementAssignmentConfig.statementAssignmentMax;
 
   constructor(store: Store<fromSearchReducer.State>) {
-    super(store);
+    super(store, SearchFilterMappingData, SearchFeatureIds.StatementAssignment, EmployeeSearchUserFilterType);
     this.userContext$ = store.select(fromRootState.getUserContext);
     this.statement$ = this.store.pipe(select(fromStatementAssignmentsReducers.getStatement));
     this.selectedEmployeesCount$ = store.select(fromStatementAssignmentsReducers.getSelectedEmployeesCount);

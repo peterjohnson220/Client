@@ -10,6 +10,10 @@ import * as fromUserFilterPopoverActions from 'libs/features/user-filter/actions
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
+import { UserFilterTypeData } from 'libs/features/user-filter/models';
+
+import { SearchFilterMappingDataObj } from '../../models';
 
 @Directive()
 @Injectable()
@@ -19,7 +23,10 @@ export abstract class SearchBase {
   searchingChildFilters$: Observable<boolean>;
 
   protected constructor(
-    protected store: Store<fromSearchReducer.State>
+    protected store: Store<fromSearchReducer.State>,
+    private searchFilterMappingDataObj: SearchFilterMappingDataObj,
+    private searchFeatureId: SearchFeatureIds,
+    private userFilterTypeData: UserFilterTypeData
   ) {
     this.numberOfResults$ = this.store.select(fromSearchReducer.getNumberOfResultsOnServer);
     this.searchingFilter$ = this.store.select(fromSearchReducer.getSearchingFilter);
@@ -37,6 +44,9 @@ export abstract class SearchBase {
       case 'Set Context':
         // Always reset the app before setting the context (on open)
         this.resetApp();
+        this.store.dispatch(new fromSearchPageActions.SetSearchFilterMappingData(this.searchFilterMappingDataObj));
+        this.store.dispatch(new fromSearchPageActions.SetSearchFeatureId(this.searchFeatureId));
+        this.store.dispatch(new fromSearchPageActions.SetUserFilterTypeData(this.userFilterTypeData));
         this.onSetContext(event.data.payfactorsMessage.payload);
         break;
     }
