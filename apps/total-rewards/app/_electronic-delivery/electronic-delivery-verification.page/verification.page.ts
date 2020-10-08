@@ -14,7 +14,10 @@ export class VerificationPageComponent implements OnInit {
   maxInputLength: number[];
   focusNextInput: boolean;
   currentYear = new Date().getFullYear();
-
+  specialKeys = [
+    KeyboardKeys.SHIFT,
+    KeyboardKeys.ESCAPE,
+  ];
 
   constructor(private fb: FormBuilder) {
     this.maxInputLength = Array(6).fill(0).map((x, i) => i);
@@ -38,15 +41,14 @@ export class VerificationPageComponent implements OnInit {
   }
 
   highlightValue(index: number): void {
-    this.inputToFocus.toArray()[index].nativeElement?.select();
+    if (index <= this.maxInputLength.length - 1) {
+      this.inputToFocus.toArray()[index].nativeElement?.select();
+    }
   }
 
-  handleKeyDown(e: KeyboardEvent): void {
-    this.focusNextInput = e.key !== KeyboardKeys.BACKSPACE;
-  }
-
-  handleKeyUp(index: number): void {
-    if (this.inputToFocus.toArray().length - 1 !== index && this.focusNextInput) {
+  handleKeyUp(e: KeyboardEvent, index: number): void {
+    this.focusNextInput = this.handleFocusNextInput(e);
+    if (this.inputToFocus.toArray().length - 1 !== index && this.focusNextInput && index <= this.maxInputLength.length - 1) {
       this.inputToFocus.toArray()[index + 1].nativeElement.focus();
       this.inputToFocus.toArray()[index + 1].nativeElement.select();
     }
@@ -54,6 +56,12 @@ export class VerificationPageComponent implements OnInit {
 
   get disableButton(): boolean {
     const inputs = this.verificationInputForm.value.inputs;
-    return Object.values(inputs).includes('');
+    return Object.keys(inputs).map(i => inputs[i]).includes('');
+  }
+
+  private handleFocusNextInput(e: KeyboardEvent): boolean {
+    const hasValue = !!(e.target as HTMLInputElement).value;
+    const containsSpecialKey = this.specialKeys.findIndex(x => x.toString() === e.key) !== -1;
+    return hasValue && !containsSpecialKey;
   }
 }
