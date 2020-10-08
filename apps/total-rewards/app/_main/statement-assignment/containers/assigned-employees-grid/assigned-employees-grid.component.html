@@ -68,6 +68,19 @@
             <ng-template *ngIf="col.ColumnDatabaseName === 'TotalRewardsLastStatementGeneratedDate'" kendoGridCellTemplate let-dataItem>
                 {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
             </ng-template>
+            <ng-template *ngIf="col.ColumnDatabaseName === 'TotalRewardsDeliveryStatus'" kendoGridCellTemplate let-dataItem>
+              <div class="status-column d-flex" *ngIf="dataItem.TotalRewardsDeliveryStatus">
+                <div class="flex-fill ellipsis-text">
+                  <fa-icon icon="circle" class="circle-icon"
+                           [class.yellow]="dataItem.TotalRewardsDeliveryStatus === 'Pending'"
+                           [class.green]="dataItem.TotalRewardsDeliveryStatus === 'Opened'"
+                           [class.light-blue]="dataItem.TotalRewardsDeliveryStatus === 'Delivered'"
+                           [class.red]="dataItem.TotalRewardsDeliveryStatus === 'Invalid Email' || dataItem.TotalRewardsDeliveryStatus === 'Undeliverable'">
+                  </fa-icon>
+                  <span>{{dataItem.TotalRewardsDeliveryStatus}}</span>
+              </div>
+              </div>
+            </ng-template>
           </kendo-grid-column>
         </ng-container>
         
