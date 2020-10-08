@@ -26,6 +26,16 @@ export class PayfactorsSearchApiHelper {
     return multiSelects.concat(filterableMultiSelects).concat(rangeFilters).concat(filtersWithAggCounts).concat(filterableMultiSelectsWithAggCounts);
   }
 
+  getSelectedFilterValues(filters: Filter[], backingField: string): any[] {
+    const filter = filters.find(sf => sf.BackingField === backingField);
+    const filtersWithSelections = this.getSelectedFiltersAsSearchFilters([filter]);
+    if (!filter || !filtersWithSelections?.length || !filtersWithSelections[0].Options?.length) {
+      return [];
+    }
+
+    return filtersWithSelections[0].Options.map(o => o.Value);
+  }
+
   getTextFiltersWithValuesAsSearchFields(filters: Filter[]): SearchField[] {
     return this.payfactorsSearchApiModelMapper.mapFiltersToSearchFields(FiltersHelper.getTextFiltersWithValues(filters));
   }

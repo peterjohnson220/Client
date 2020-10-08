@@ -1,0 +1,22 @@
+<div class="user-notifications" *ngIf="userNotificationsFeatureFlag.value">
+  <div *ngIf="DisplayHeader" class="page-header d-flex align-items-center">
+    <div>
+      <span class="title">Notifications</span>
+    </div>
+  </div>
+
+  <button *ngIf="DisplayHeader" class="btn btn-secondary" (click)="markAllAsRead()">Mark all as read</button>
+
+  <table class="table mt-3 notification-table" *ngIf="!!(userNotificationsAsyncObj$ | async)?.obj?.length; else noNotifications">
+    <tbody>
+      <tr class="notification-row"
+          *ngFor="let notification of (userNotificationsAsyncObj$ | async)?.obj; let i = index"
+          (click)="openNotification(notification)">
+        <pf-user-notification [UserNotification]="notification" ></pf-user-notification>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noNotifications>
+  <p class="no-notifications">No Notifications</p>
+</ng-template>

@@ -4,8 +4,13 @@ exports[`Peer - Map - Save Exchange Scope Modal should show the form text and no
 <pf-save-exchange-scope-modal
   exchangeScopeApiService={[Function Object]}
   fb={[Function FormBuilder]}
+  parentPayMarketOptions={[Function Array]}
+  parentPayMarketOptions$={[Function Store]}
+  parentPayMarketOptionsLoading$={[Function Store]}
+  parentPayMarketOptionsSub={[Function Subscriber]}
   saveExchangeScopeForm={[Function FormGroup]}
   saveExchangeScopeModalOpen$={[Function Store]}
+  saveExchangeScopeModalOpenSub={[Function Subscriber]}
   store={[Function Store]}
   upsertExchangeScopeEvent={[Function EventEmitter]}
   upsertingExchangeScope$={[Function Store]}
@@ -42,6 +47,9 @@ exports[`Peer - Map - Save Exchange Scope Modal should show the form text and no
       name="exchangeScopeDescription"
       placeholder="Add a brief description about the Exchange Scope you are creating..."
       rows="5"
+    />
+    <pf-multi-select
+      data-qa-id="ddm-create-scope-paymarket-defaults"
     />
     
     <label

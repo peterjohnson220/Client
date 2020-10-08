@@ -84,7 +84,7 @@ export class SearchFiltersEffects {
           const parentFilter = data.parentFilters.find(x => x.BackingField === childFilter.ParentBackingField) as MultiSelectFilter;
           const parentOption = parentFilter.Options.find(x => x.Value === JSON.parse(data.action.payload.option.Value).ParentOptionValue);
 
-          if (parentOption.Selected) {
+          if (parentOption?.Selected) {
             actions.push(new fromSearchFiltersActions.ToggleMultiSelectOption({filterId: parentFilter.Id, option: { Value: parentOption.Value}}));
           }
         }

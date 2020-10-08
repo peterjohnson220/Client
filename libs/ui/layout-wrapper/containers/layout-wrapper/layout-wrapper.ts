@@ -6,7 +6,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
-import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import { AbstractFeatureFlagService, RealTimeFlag, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromRootState from '../../../../state/state';
@@ -81,7 +80,6 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
-      this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
       this.store.dispatch(new fromHeaderActions.GetHeaderUserHomePageLink({
         userId: userContext.UserId
       }));

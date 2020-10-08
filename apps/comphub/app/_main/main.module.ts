@@ -28,15 +28,19 @@ import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 
 
-import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
-  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent } from './containers';
+import {
+  ComphubPageComponent, JobsCardComponent, MarketsCardComponent, CardLayoutComponent,
+  SummaryCardComponent, PeerDataCardComponent, ParentDataCardComponent, QuickPriceHistoryComponent,
+  ComphubFooterComponent, JobGridComponent, MarketDataJobGridComponent, PeerJobGridComponent
+} from './containers';
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
-  SummaryCardEffects } from './effects';
+  SummaryCardEffects, JobGridEffects, QuickPriceHistoryEffects } from './effects';
 import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
+import { BasicDataGridModule } from 'libs/features/basic-data-grid';
 
 @NgModule({
     imports: [
@@ -53,7 +57,9 @@ import * as fromFaIcons from './fa-icons';
             MarketsCardEffects,
             AddPayMarketFormEffects,
             ComphubPageEffects,
-            SummaryCardEffects
+            SummaryCardEffects,
+            JobGridEffects,
+            QuickPriceHistoryEffects
         ]),
         PerfectScrollbarModule,
         PDFExportModule,
@@ -76,7 +82,8 @@ import * as fromFaIcons from './fa-icons';
         PfCommonUIModule,
         PfFormsModule,
         PfExchangeExplorerModule,
-        GuidelinesBadgeModule
+        GuidelinesBadgeModule,
+        BasicDataGridModule
     ],
   declarations: [
     // Components
@@ -94,11 +101,15 @@ import * as fromFaIcons from './fa-icons';
     JobsCardComponent,
     MarketsCardComponent,
     CardLayoutComponent,
-    DataCardComponent,
     SummaryCardComponent,
     PaymarketCardsComponent,
     PeerDataCardComponent,
-    ParentDataCardComponent
+    ParentDataCardComponent,
+    QuickPriceHistoryComponent,
+    ComphubFooterComponent,
+    JobGridComponent,
+    MarketDataJobGridComponent,
+    PeerJobGridComponent
   ],
   providers: [
     WindowRef,

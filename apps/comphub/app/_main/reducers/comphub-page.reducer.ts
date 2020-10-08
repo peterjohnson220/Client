@@ -5,7 +5,7 @@ import { QuickPriceType } from 'libs/constants';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { AccordionCard, AccordionCards, ComphubPages } from '../data';
-import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, WorkflowContext } from '../models';
+import { CountryDataSet, JobPricingLimitInfo, ExchangeDataSet, WorkflowContext, FooterContext, JobData } from '../models';
 
 export interface State {
   cards: AccordionCard[];
@@ -18,10 +18,13 @@ export interface State {
   exchangeDataSets: ExchangeDataSet[];
   exchangeDataSetLoaded: boolean;
   workflowContext: WorkflowContext;
+  isQuickPriceHistoryModalOpen: boolean;
+  footerContext: FooterContext;
+  selectedJobData: JobData;
 }
 
 const initialState: State = {
-  cards: AccordionCards,
+  cards: AccordionCards.defaultAccordionCards,
   selectedPageId: ComphubPages.Jobs,
   pagesAccessed: [ComphubPages.Jobs],
   accessiblePages: [ComphubPages.Jobs],
@@ -36,13 +39,16 @@ const initialState: State = {
     activeCountryDataSet: null,
     activeExchangeDataSet: null,
     quickPriceType: QuickPriceType.ENTERPRISE
-  }
+  },
+  isQuickPriceHistoryModalOpen: false,
+  footerContext: null,
+  selectedJobData: null,
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
   switch (action.type) {
     case fromComphubPageActions.NAVIGATE_TO_CARD: {
-      const selectedPageId = AccordionCards.find(ac => ac.Id === action.payload.cardId).Id;
+      const selectedPageId = state.cards.find(ac => ac.Id === action.payload.cardId).Id;
       const selectedPageIndex = state.cards.findIndex(c => c.Id === selectedPageId);
       return {
         ...state,
@@ -55,7 +61,8 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
       };
     }
     case fromComphubPageActions.NAVIGATE_TO_NEXT_CARD: {
-      const nextPage = AccordionCards[AccordionCards.findIndex(ac => ac.Id === state.selectedPageId) + 1].Id;
+      const cards = state.cards;
+      const nextPage = cards[cards.findIndex(ac => ac.Id === state.selectedPageId) + 1].Id;
       const selectedPageIndex = state.cards.findIndex(c => c.Id === nextPage);
       return {
         ...state,
@@ -69,7 +76,8 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
       };
     }
     case fromComphubPageActions.NAVIGATE_TO_PREVIOUS_CARD: {
-      const previousPage = AccordionCards[AccordionCards.findIndex(ac => ac.Id === state.selectedPageId) - 1].Id;
+      const cards = state.cards;
+      const previousPage = cards[cards.findIndex(ac => ac.Id === state.selectedPageId) - 1].Id;
       const selectedPageIndex = state.cards.findIndex(c => c.Id === previousPage);
       return {
         ...state,
@@ -108,15 +116,9 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
     case fromComphubPageActions.UPDATE_CARD_SUBTITLE: {
       const newCards = cloneDeep(state.cards);
       newCards.find(c => c.Id === action.payload.cardId).Subtitle = action.payload.subTitle;
-      const selectedPageId = state.selectedPageId;
-      const selectedPageIndex = newCards.findIndex(c => c.Id === selectedPageId);
       return {
         ...state,
-        cards: newCards,
-        workflowContext: {
-          ...state.workflowContext,
-          selectedPageIndex: selectedPageIndex
-        }
+        cards: newCards
       };
     }
     case fromComphubPageActions.SET_JOB_PRICING_LIMIT_INFO: {
@@ -180,12 +182,40 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
       };
     }
     case fromComphubPageActions.SET_QUICK_PRICE_TYPE_IN_WORKFLOW_CONTEXT: {
+      const cards: AccordionCard[] = action.payload === QuickPriceType.PEER
+        ? AccordionCards.peerAccordionCards
+        : AccordionCards.defaultAccordionCards;
       return {
         ...state,
+        cards: cards,
         workflowContext: {
           ...state.workflowContext,
           quickPriceType: action.payload
         }
+      };
+    }
+    case fromComphubPageActions.SET_QUICK_PRICE_HISTORY_MODAL_OPEN: {
+      return {
+        ...state,
+        isQuickPriceHistoryModalOpen: action.isOpen
+      };
+    }
+    case fromComphubPageActions.SET_FOOTER_CONTEXT: {
+      return {
+        ...state,
+        footerContext: action.payload
+      };
+    }
+    case fromComphubPageActions.SET_SELECTED_JOB_DATA: {
+      return {
+        ...state,
+        selectedJobData: action.payload
+      };
+    }
+    case fromComphubPageActions.CLEAR_SELECTED_JOB_DATA: {
+      return {
+        ...state,
+        selectedJobData: null
       };
     }
     default: {
@@ -204,6 +234,7 @@ export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInf
 export const getCountryDataSetsLoaded = (state: State) => state.countryDataSetLoaded;
 export const getCountryDataSets = (state: State) => state.countryDataSets;
 export const getExchangeDataSets = (state: State) => state.exchangeDataSets;
+export const getExchangeDataSetLoaded = (state: State) => state.exchangeDataSetLoaded;
 export const getActiveCountryDataSet = (state: State) => state.countryDataSets.find(cds => cds.Active);
 export const getActiveExchangeDataSet = (state: State) => state.exchangeDataSets.find(eds => eds.Active);
 export const getWorkflowContext = (state: State) => state.workflowContext;
@@ -214,5 +245,16 @@ export const getJobPricingBlocked = createSelector(
   (jobPricingLimitInfo: JobPricingLimitInfo, activeCountryDataSet: CountryDataSet, workflowContext: WorkflowContext) => {
     return ((!!jobPricingLimitInfo && jobPricingLimitInfo.Used >= jobPricingLimitInfo.Available)
       || (!activeCountryDataSet && workflowContext.quickPriceType === QuickPriceType.ENTERPRISE));
+  }
+);
+export const getIsQuickPriceHistoryModalOpen = (state: State) => state.isQuickPriceHistoryModalOpen;
+export const getFooterContext = (state: State) => state.footerContext;
+export const getSelectedJobData = (state: State) => state.selectedJobData;
+export const getSmbLimitReached = createSelector(
+  getJobPricingBlocked,
+  getCountryDataSetsLoaded,
+  getWorkflowContext,
+  (jobPricingBlocked: boolean, countryDataSetsLoaded: boolean, workflowContext: WorkflowContext) => {
+    return jobPricingBlocked && countryDataSetsLoaded && workflowContext.quickPriceType === QuickPriceType.SMALL_BUSINESS;
   }
 );

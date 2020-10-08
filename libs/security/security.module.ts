@@ -6,6 +6,7 @@ import {
   AuthorizationGuard, TileEnabledGuard, LoadUserGuard, LoadCompanyGuard,
   PfServicesAdminOnlyGuard
 } from './guards';
+import { JobsHierarchyPageGuard } from './guards/jobs-hierarchy-page.guard';
 
 @NgModule({
   providers: [
@@ -20,6 +21,7 @@ import {
     LoadCompanyGuard,
     TabularReportBuilderGuard,
     PfServicesAdminOnlyGuard,
+    JobsHierarchyPageGuard,
 
     // Services
     SettingsService

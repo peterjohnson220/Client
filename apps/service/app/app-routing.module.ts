@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppWrapperComponent } from 'libs/features/app-root';
 import { UserContextGuard, TileEnabledGuard } from 'libs/security';
-import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
+import { DEFAULT_ROUTES } from 'libs/ui/common';
 
 export const routes: Routes = [
   {
@@ -14,9 +14,7 @@ export const routes: Routes = [
       { path: '', loadChildren: () => import('apps/service/app/_service/service.module').then(m => m.ServiceModule) }
     ]
   },
-  { path: 'access-denied', component: AccessDeniedPageComponent },
-  { path: 'not-found', component: NotFoundErrorPageComponent },
-  { path: '**', component: NotFoundErrorPageComponent }
+  ...DEFAULT_ROUTES
 ];
 
 @NgModule({

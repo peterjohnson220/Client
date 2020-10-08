@@ -11,3 +11,9 @@ export interface ExchangeDataSearchRequest extends BaseExchangeDataSearchRequest
 }
 
 export interface SearchExchangeAggregationsRequest extends BaseExchangeDataSearchRequest, BaseSearchAggregationsRequest { }
+
+export interface QuickPriceExchangeDataSearchRequest extends BaseExchangeDataSearchRequest {
+  ViewOnly: boolean;
+  CompanyPayMarketId?: number;
+  CountryCode?: string;
+}

@@ -1,36 +1,35 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import delay from 'lodash/delay';
+import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
-import isEmpty from 'lodash/isEmpty';
+
 import { Store } from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
-import {filter, take, takeUntil} from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
+
 import { NotificationRef, NotificationService, NotificationSettings } from '@progress/kendo-angular-notification';
 
 import { environment } from 'environments/environment';
+import { LoadTypes } from 'libs/constants';
 import { CompositeDataLoadTypes } from 'libs/constants/composite-data-load-types';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
+import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
+import { CompanySelectorComponent } from 'libs/features/company/company-selector/components';
+import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
+import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
+import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { LoaderFileFormat } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { ConfigSetting } from 'libs/models/security';
 import { ConfigSettingsSelectorFactory, SettingsService } from 'libs/state/app-context/services';
-import * as fromEmailRecipientsActions from 'libs/features/loader-email-reipients/state/actions/email-recipients.actions';
 import { CompanySettingsEnum, CompanySetting } from 'libs/models';
 import {
-  ConfigurationGroup,
-  EmailRecipientModel, LoaderFieldSet,
-  LoaderSaveCoordination,
-  LoaderSetting, MappingModel
+    ConfigurationGroup, EmailRecipientModel, LoaderFieldSet, LoaderSaveCoordination, LoaderSetting, MappingModel
 } from 'libs/models/data-loads';
-import { LoadTypes } from 'libs/constants';
-import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
-import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
-import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
-import {CompanySelectorComponent} from 'libs/features/company/company-selector/components';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
 import { SftpUserModel } from 'libs/models/Sftp';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
@@ -41,12 +40,12 @@ import * as fromConfigurationGroupsActions from '../../actions/configuration-gro
 import * as fromOrgDataConfigurationActions from '../../actions/org-data-loader-configuration.actions';
 import * as fromSftpUserActions from '../../actions/sftp-user.actions';
 import {
-    LoaderType, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
-    ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS
+    LoaderType, ORG_DATA_PF_BENEFITS_MAPPING_FIELDS, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS,
+    ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
+    ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS, ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS
 } from '../../constants';
 import { OrgDataFilenamePatternSet } from '../../models';
 import { ACCEPTED_FILE_EXTENSIONS } from '../../constants/public-key-filename-constants';
-
 
 @Component({
   selector: 'pf-autoloader-field-mapping-page',
@@ -61,8 +60,12 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   payfactorsStructureDataFields: string[];
   payfactorsStructureMappingDataFields: string[];
   payfactorsEmployeeDataFields: string[];
+  payfactorsSubsidiariesDataFields: string[];
+  payfactorsBenefitsDataFields: string[];
   paymarketMappingComplete: boolean;
   jobMappingComplete: boolean;
+  subsidiariesMappingComplete: boolean;
+  benefitMappingComplete: boolean;
   structureMappingComplete: boolean;
   structureMappingMappingComplete: boolean;
   employeeMappingComplete: boolean;
@@ -84,6 +87,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   isStructureMappingsLoadEnabled: boolean;
   isEmployeesFullReplace: boolean;
   isStructureMappingsFullReplace: boolean;
+  isSubsidiariesLoadEnabled: boolean;
+  isBenefitsLoadEnabled: boolean;
   loaderSettings$: Observable<LoaderSetting[]>;
   loaderSettingsLoading$: Observable<boolean>;
   existingCompanyLoaderSettings: LoaderSetting[];
@@ -184,12 +189,16 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
     this.payfactorsStructureMappingDataFields = ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS;
     this.payfactorsEmployeeDataFields = ORG_DATA_PF_EMPLOYEE_FIELDS;
+    this.payfactorsSubsidiariesDataFields = ORG_DATA_PF_SUBSIDIARIES_MAPPING_FIELDS;
+    this.payfactorsBenefitsDataFields = ORG_DATA_PF_BENEFITS_MAPPING_FIELDS;
 
     this.paymarketMappingComplete = true;
     this.jobMappingComplete = true;
+    this.subsidiariesMappingComplete = true;
     this.structureMappingComplete = true;
     this.structureMappingMappingComplete = true;
     this.employeeMappingComplete = true;
+    this.benefitMappingComplete = true;
 
     this.companies$ = this.store.select(fromCompanyReducer.getCompanies);
     this.selectedCompany$ = this.store.select(fromCompanyReducer.getSelectedCompany);
@@ -226,6 +235,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.isStructureMappingsLoadEnabled = false;
     this.isEmployeesFullReplace = true;
     this.isStructureMappingsFullReplace = true;
+    this.isSubsidiariesLoadEnabled = false;
+    this.isBenefitsLoadEnabled = false;
     this.existingCompanyLoaderSettings = [];
     this.visibleLoaderOptions = {
       clientFileName: true,
@@ -292,6 +303,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
         this.isStructureMappingsLoadEnabled = resp.isStructureMappingsLoadEnabled;
         this.isEmployeesFullReplace = resp.isEmployeesFullReplace;
         this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
+        this.isSubsidiariesLoadEnabled = resp.isSubsidiariesLoadEnabled;
+        this.isBenefitsLoadEnabled = resp.isBenefitsLoadEnabled;
       });
 
     this.configurationGroups$
@@ -389,11 +402,27 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSubsidiariesMappingComplete($event: LoaderEntityStatus) {
+    this.subsidiariesMappingComplete = $event.complete;
+    this.isSubsidiariesLoadEnabled = $event.loadEnabled;
+    if (this.subsidiariesMappingComplete) {
+      this.addOrReplaceMappings('Subsidiaries', $event.mappings);
+    }
+  }
+
   onStructureMappingComplete($event: LoaderEntityStatus) {
     this.structureMappingComplete = $event.complete;
     this.isStructuresLoadEnabled = $event.loadEnabled;
     if (this.structureMappingComplete) {
       this.addOrReplaceMappings('Structures', $event.mappings);
+    }
+  }
+
+  onBenefitsMappingComplete($event: LoaderEntityStatus) {
+    this.benefitMappingComplete = $event.complete;
+    this.isBenefitsLoadEnabled = $event.loadEnabled;
+    if (this.benefitMappingComplete) {
+      this.addOrReplaceMappings('Benefits', $event.mappings);
     }
   }
 
@@ -459,20 +488,20 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   }
 
   SaveConfiguration() {
-      const loaderSettingsToSave = this.getLoaderSettingsToSave();
-      const sftpUser = this.getSftpUserToSave();
+    const loaderSettingsToSave = this.getLoaderSettingsToSave();
+    const sftpUser = this.getSftpUserToSave();
 
-      const request: OrgDataLoaderConfigurationSaveRequest = {
-        LoaderSettings: loaderSettingsToSave,
-        LoaderFieldMappings: this.mappings,
-        SftpUser: sftpUser,
-        LoaderConfigurationGroupId: this.selectedConfigGroup ? this.selectedConfigGroup.LoaderConfigurationGroupId : null,
-        CompanyId: this.selectedCompany.CompanyId,
-        LoadType: LoadTypes.Sftp
-      };
-      if ((this.sftpPublicKey && this.userConfirmation()) || !this.sftpPublicKey) {
-        this.store.dispatch(new fromOrgDataConfigurationActions.SaveConfiguration({request: request, publicKey: this.sftpPublicKey}));
-      }
+    const request: OrgDataLoaderConfigurationSaveRequest = {
+      LoaderSettings: loaderSettingsToSave,
+      LoaderFieldMappings: this.mappings,
+      SftpUser: sftpUser,
+      LoaderConfigurationGroupId: this.selectedConfigGroup ? this.selectedConfigGroup.LoaderConfigurationGroupId : null,
+      CompanyId: this.selectedCompany.CompanyId,
+      LoadType: LoadTypes.Sftp
+    };
+    if ((this.sftpPublicKey && this.userConfirmation()) || !this.sftpPublicKey) {
+      this.store.dispatch(new fromOrgDataConfigurationActions.SaveConfiguration({ request: request, publicKey: this.sftpPublicKey }));
+    }
   }
 
   private userConfirmation() {
@@ -520,6 +549,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     newLoaderSettings.isJobsLoadEnabled = this.isJobsLoadEnabled;
     newLoaderSettings.isPaymarketsLoadEnabled = this.isPaymarketsLoadEnabled;
     newLoaderSettings.isStructuresLoadEnabled = this.isStructuresLoadEnabled;
+    newLoaderSettings.isSubsidiariesLoadEnabled = this.isSubsidiariesLoadEnabled;
+    newLoaderSettings.isBenefitsLoadEnabled = this.isBenefitsLoadEnabled;
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
@@ -587,17 +618,18 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   }
 
   shouldDisableBtn() {
-    let part1 = (!this.paymarketMappingComplete
+    const part1 = (!this.paymarketMappingComplete
       || !this.jobMappingComplete
       || !this.structureMappingComplete
       || !this.structureMappingMappingComplete
       || !this.employeeMappingComplete);
-    let part2 = this.delimiter === '';
-    let part3 = this.emailRecipients.length === 0;
-    let part4 = !this.isValidExtension(this.sftpPublicKey);
-    let part5 = this.sftpUserNameIsValid === false;
-    let part6 = !this.isPublicKeyAuthInfoComplete();
-    let part7 = (this.savingConfiguration || this.loaderSettingsLoading || this.fieldMappingsLoading);
+
+    const part2 = this.delimiter === '';
+    const part3 = this.emailRecipients.length === 0;
+    const part4 = !this.isValidExtension(this.sftpPublicKey);
+    const part5 = this.sftpUserNameIsValid === false;
+    const part6 = !this.isPublicKeyAuthInfoComplete();
+    const part7 = (this.savingConfiguration || this.loaderSettingsLoading || this.fieldMappingsLoading);
 
     return part1 || part2 || part3 || part4 || part5 || part6 || part7;
   }

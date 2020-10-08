@@ -6,9 +6,15 @@ import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 import orderBy from 'lodash/orderBy';
 
+import { DATE_FORMATS } from 'libs/features/org-data-loader/constants';
+import { ConverterSettings } from 'libs/models/hris-api';
+import { ImportDataType } from 'libs/constants';
+
+import * as fromConverterSettingsActions from '../../actions/converter-settings.actions';
 import * as fromFieldMappingActions from '../../actions/field-mapping.actions';
 import * as fromFieldMappingReducer from '../../reducers';
 import { EntityDataField, EntityField } from '../../models';
+
 
 @Component({
   selector: 'pf-entity-mapping',
@@ -17,10 +23,15 @@ import { EntityDataField, EntityField } from '../../models';
 })
 export class EntityMappingComponent implements OnInit, OnDestroy {
 
+  dateFormats: Array<{ text: string, value: string}> = DATE_FORMATS;
+  public importDataType = ImportDataType;
+
+  @Input() provider: string;
   @Input() entityType: string;
   @Input() entityGroupName = 'associated-bag';
   @Input() sourceName: string;
   @Input() targetName: string;
+  @Input() connectionId: number;
 
   private providerSearchTerm = '';
   private payfactorsSearchTerm = '';
@@ -28,15 +39,21 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   providerFields$: Observable<EntityField>;
   payfactorFields$: Observable<EntityField>;
 
+  globalDateSetting$: Observable<ConverterSettings>;
+
   filteredProviderFields: EntityDataField[] = [];
   filteredPayfactorsFields: EntityDataField[] = [];
 
   dragulaSub: Subscription;
   providerFieldsSubscription: Subscription;
   payfactorFieldsSubscription: Subscription;
+  globalDateSettingSubscription: Subscription;
+
 
   providerFields: EntityDataField[];
   payfactorsFields: EntityDataField[];
+
+  selectedDateFormat = 'Select format for date fields';
 
   constructor(private store: Store<fromFieldMappingReducer.State>, private dragulaService: DragulaService) {
   }
@@ -44,6 +61,15 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.payfactorFields$ = this.store.select(fromFieldMappingReducer.getPayfactorsFields);
     this.providerFields$ = this.store.select(fromFieldMappingReducer.getProviderFields);
+
+    if (this.entityType.toLowerCase() === 'employees') {
+      this.globalDateSetting$ = this.store.select(fromFieldMappingReducer.getGlobalDateSetting);
+      this.globalDateSettingSubscription = this.globalDateSetting$.subscribe(v => {
+        if (v) {
+          this.selectedDateFormat = v.options.DateTimeFormat;
+        }
+      });
+    }
 
     this.providerFieldsSubscription = this.providerFields$
     .subscribe(v => {
@@ -100,6 +126,7 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.payfactorFieldsSubscription.unsubscribe();
     this.providerFieldsSubscription.unsubscribe();
+    this.globalDateSettingSubscription?.unsubscribe();
     this.dragulaSub.unsubscribe();
     this.dragulaService.destroy(this.entityGroupName);
   }
@@ -126,6 +153,11 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
       payfactorsEntityIndex: pfEntityId,
       entityType: this.entityType
     }));
+    this.store.dispatch(new fromConverterSettingsActions.RemoveConverterSetting({
+      connectionId: this.connectionId,
+      entityType: this.entityType,
+      fieldName: entity.FieldName
+    }));
   }
 
   addAssociatedItem(pfEntityId: number, entity: EntityDataField) {
@@ -134,5 +166,38 @@ export class EntityMappingComponent implements OnInit, OnDestroy {
       entityType: this.entityType,
       payfactorsEntityId: pfEntityId
     }));
+    this.store.dispatch(new fromConverterSettingsActions.AddConverterSetting({
+      connectionId: this.connectionId,
+      entityType: this.entityType,
+      fieldName: entity.FieldName
+    }));
   }
+
+  onDateFormatSelected(dateFormat: string) {
+    this.selectedDateFormat = dateFormat;
+    const converterOptions: ConverterSettings = {
+      connection_ID: this.connectionId,
+      fieldName: null,
+      entityType: 'Employees',
+      options: {
+        DateTimeFormat: this.selectedDateFormat
+      },
+      dataType: 'Date'
+    };
+    this.store.dispatch(new fromConverterSettingsActions.AddConverterSetting({converterSetting: converterOptions}));
+  }
+
+  showDataConverterModal(field: EntityDataField) {
+    this.store.dispatch(new fromConverterSettingsActions.OpenDataConverterModal({
+      open: true,
+      modalInfo: {
+        connectionId: this.connectionId,
+        dataType: ImportDataType[field.DataType],
+        fieldName: field.FieldName,
+        entityType: this.entityType,
+        provider: this.provider
+      }
+    }));
+  }
+
 }

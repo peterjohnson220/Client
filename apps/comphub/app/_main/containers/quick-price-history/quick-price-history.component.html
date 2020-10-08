@@ -1,0 +1,46 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Quick Price History'"
+  [showSubmit]="false"
+  [modalId]="'au-modal-quick-price-history'"
+  [isOpen$]=" isQuickPriceHistoryOpen$"
+  (onDismiss)="close()">
+
+  <ng-container basic-content>
+    <div class="d-flex flex-column quick-price-history-grid">
+      <div *ngIf="!(isQuickPriceHistoryNoteDismissed$ | async)" class="note-container d-flex">
+        <div class="w-100">
+          <span class="bold-text">Note: </span>
+          <span>History for jobs priced before <span class="bold-text">10/7/2020</span> is not available to view.</span>
+        </div>
+        <fa-icon [icon]="['far', 'times']" class="close-note-btn" [title]="'Close'" (click)="closeNote()"></fa-icon>
+      </div>
+      <pf-async-container
+        [loading]="(loadingJobDataHistory$ | async)"
+        [hideReloadButton]="true">
+      </pf-async-container>
+      <div *ngIf="!!(loadingJobDataErrorMessage$ | async)?.length" class="mb-3 text-danger">
+        {{(loadingJobDataErrorMessage$ | async)}}
+      </div>
+      <div class="h-100 d-flex">
+        <div class="h-100 w-100">
+          <pf-basic-data-grid
+            [gridId]="gridId"
+            [dataAsync$]="data$"
+            [fields$]="fields$"
+            [settings]="gridSettings"
+            [loadingMoreData$]="loadingMoreData$"
+            class="h-100"
+            (scrollBottom)="handleScrollBottom()"
+            (cellClicked)="handleCellClicked($event)">
+          </pf-basic-data-grid>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</pf-modal-form>
+
+<ng-template #base50Column let-dataItem="dataItem">
+  {{dataItem['QuickPrice_CompletedPricingHistory_Base50'] | currency : dataItem['CountryCurrency_Currency_Code'] : 'symbol-narrow'}}
+</ng-template>

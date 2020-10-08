@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
-import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
@@ -82,7 +82,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe( scrolledContent => {
+    this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe(scrolledContent => {
       if (scrolledContent && this.chartInstance) {
         this.initialY = this.chartInstance.legend.options.y;
         this.chartInstance.legend.group.attr({
@@ -153,12 +153,13 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addAverage(currentRow) {
+    const value = currentRow.CompanyStructures_RangeGroup_AverageEEMRP !== 0 ? currentRow.CompanyStructures_RangeGroup_AverageEEMRP : null;
     this.averageSeriesData.push({
-      y: currentRow.CompanyStructures_RangeGroup_AverageEEMRP,
+      y: value,
       jobTitle: currentRow.CompanyJobs_Job_Title,
       avgComparatio: currentRow.CompanyStructures_RangeGroup_AverageComparatio,
       avgPositioninRange: currentRow.CompanyStructures_RangeGroup_AveragePositionInRange,
-      avgSalary: this.formatSalary(currentRow.CompanyStructures_RangeGroup_AverageEEMRP)
+      avgSalary: this.formatSalary(value)
     });
   }
 
@@ -173,8 +174,17 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addSalaryRangeQuartile(xCoordinate, currentRow) {
-    this.salaryRangeSeriesDataModel.Quartile.push(StructuresHighchartsService.formatColumnRange(
-      xCoordinate, currentRow.CompanyStructures_Ranges_Quartile_First, currentRow.CompanyStructures_Ranges_Quartile_Second));
+    this.salaryRangeSeriesDataModel.Quartile.First.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, currentRow.CompanyStructures_Ranges_Min, currentRow.CompanyStructures_Ranges_Quartile_First));
+
+    this.salaryRangeSeriesDataModel.Quartile.Second.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, currentRow.CompanyStructures_Ranges_Quartile_First, currentRow.CompanyStructures_Ranges_Mid));
+
+    this.salaryRangeSeriesDataModel.Quartile.Third.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, currentRow.CompanyStructures_Ranges_Mid, currentRow.CompanyStructures_Ranges_Quartile_Second));
+
+    this.salaryRangeSeriesDataModel.Quartile.Fourth.push(StructuresHighchartsService.formatColumnRange(
+      xCoordinate, currentRow.CompanyStructures_Ranges_Quartile_Second, currentRow.CompanyStructures_Ranges_Max));
   }
 
   private addSalaryRangeQuintile(xCoordinate, currentRow) {
@@ -239,10 +249,14 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private addMRPPoint(currentRow) {
+    const value = currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue !== 0
+      ? currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue
+      : null;
+
     this.mrpSeriesData.push({
-      y: currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue,
+      y: value,
       jobTitle: currentRow.CompanyJobs_Job_Title,
-      mrp: this.formatMRP(currentRow.CompanyStructures_RangeGroup_MarketReferencePointValue, currentRow.CompanyStructures_RangeGroup_MrpPercentile)
+      mrp: this.formatMRP(value, currentRow.CompanyStructures_RangeGroup_MrpPercentile)
     });
   }
 
@@ -296,7 +310,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   private processChartData() {
     this.salaryRangeSeriesDataModel = {
       MinMidMax: [],
-      Quartile: [],
+      Quartile: {
+        First: [],
+        Second: [],
+        Third: [],
+        Fourth: []
+      },
       Quintile: [],
       Tertile: []
     };
@@ -375,7 +394,10 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       this.chartInstance.series[JobRangeModelChartSeries.RangeTertileFirst].setData(this.dataPointSeriesDataModel.TertileFirst, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeTertileSecond].setData(this.dataPointSeriesDataModel.TertileSecond, false);
     } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quartile) {
-      this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartile].setData(this.salaryRangeSeriesDataModel.Quartile, false);
+      this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartileFirst].setData(this.salaryRangeSeriesDataModel.Quartile.First, false);
+      this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartileSecond].setData(this.salaryRangeSeriesDataModel.Quartile.Second, false);
+      this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartileThird].setData(this.salaryRangeSeriesDataModel.Quartile.Third, false);
+      this.chartInstance.series[JobRangeModelChartSeries.SalaryRangeQuartileFourth].setData(this.salaryRangeSeriesDataModel.Quartile.Fourth, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeQuartileFirst].setData(this.dataPointSeriesDataModel.QuartileFirst, false);
       this.chartInstance.series[JobRangeModelChartSeries.RangeQuartileSecond].setData(this.dataPointSeriesDataModel.QuartileSecond, false);
     } else if (this.rangeDistributionTypeId === RangeDistributionTypeIds.Quintile) {

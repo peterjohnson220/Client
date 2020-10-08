@@ -6,6 +6,7 @@ export interface PricingPaymarket {
   Size: string;
   SizeLabel: string;
   CurrencyCode: string;
+  CountryCode?: string;
 }
 
 export function generateMockPricingPaymarket(): PricingPaymarket {

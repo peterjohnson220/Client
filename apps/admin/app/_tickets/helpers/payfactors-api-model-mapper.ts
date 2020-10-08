@@ -101,7 +101,8 @@ export class PayfactorsApiModelMapper {
       OpenTickets: response.NumberOfOpenTickets,
       RecentTickets: response.NumberOfRecentTickets,
       RecentTicketIds: response.RecentTickets,
-      RangeOfOpenedTickets: response.NumberOfDays
+      RangeOfOpenedTickets: response.NumberOfDays,
+      NotesCount: response.NotesCount
     };
   }
 

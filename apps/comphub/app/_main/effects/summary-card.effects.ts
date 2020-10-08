@@ -10,15 +10,20 @@ import { WindowRef } from 'libs/core/services';
 import { ComphubApiService } from 'libs/data/payfactors-api';
 import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest } from 'libs/models/payfactors-api';
 import * as fromNavigationActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
+import * as fromBasicDataGridActions from 'libs/features/basic-data-grid/actions/basic-data-grid.actions';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
+
 import { ComphubPages } from '../data';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromComphubMainReducer from '../reducers';
+import { QuickPriceHistoryContext } from '../models';
+import * as fromJobGridActions from '../actions/job-grid.actions';
+
 
 @Injectable()
 export class SummaryCardEffects {
@@ -35,8 +40,9 @@ export class SummaryCardEffects {
         new fromComphubPageActions.ResetPagesAccessed(),
         new fromJobsCardActions.ClearSelectedJob(),
         new fromMarketsCardActions.SetToDefaultPaymarket(),
-        new fromDataCardActions.ClearSelectedJobData(),
-        new fromSummaryCardActions.ResetCreateProjectStatus()
+        new fromComphubPageActions.ClearSelectedJobData(),
+        new fromSummaryCardActions.ResetCreateProjectStatus(),
+        new fromBasicDataGridActions.GetCount(QuickPriceHistoryContext.gridId)
       ])
     );
 
@@ -44,14 +50,10 @@ export class SummaryCardEffects {
   getJobNationalTrend$ = this.actions$
     .pipe(
       ofType(fromSummaryCardActions.GET_JOB_NATIONAL_TREND),
-      withLatestFrom(
-        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
-        (action: fromSummaryCardActions.GetNationalJobTrendData, activeCountryDataSet) => ({ action, activeCountryDataSet })
-      ),
-      switchMap((data) => {
+      switchMap((action: fromSummaryCardActions.GetNationalJobTrendData) => {
           return this.comphubApiService.getJobSalaryTrendData({
-            JobCode: data.action.payload.JobCode,
-            CountryCode: data.activeCountryDataSet.CountryCode
+            JobCode: action.payload.jobCode,
+            CountryCode: action.payload.countryCode
           })
             .pipe(
               map(response => {
@@ -159,7 +161,13 @@ export class SummaryCardEffects {
         JobTitle: data.action.payload.JobTitle,
         JobCode: data.action.payload.JobCode,
         CountryCode: data.countryDataSet.CountryCode,
-        CompanyPayMarketId: data.selectedPayMarket.CompanyPayMarketId
+        CompanyPayMarketId: data.selectedPayMarket.CompanyPayMarketId,
+        Base25: data.action.payload.Base25,
+        Base50: data.action.payload.Base50,
+        Base75: data.action.payload.Base75,
+        Tcc25: data.action.payload.Tcc25,
+        Tcc50: data.action.payload.Tcc50,
+        Tcc75: data.action.payload.Tcc75
       };
       return this.comphubApiService.addCompletedPricingHistory(request)
         .pipe(
@@ -182,11 +190,46 @@ export class SummaryCardEffects {
         new fromComphubPageActions.ResetPagesAccessed(),
         new fromJobsCardActions.ClearSelectedJob(),
         new fromMarketsCardActions.SetDefaultPaymarketAsSelected(),
-        new fromDataCardActions.ClearSelectedJobData(),
+        new fromComphubPageActions.ClearSelectedJobData(),
         new fromDataCardActions.SetForceRefreshPeerMap(true),
-        new fromSummaryCardActions.ResetCreateProjectStatus()
+        new fromSummaryCardActions.ResetCreateProjectStatus(),
+        new fromBasicDataGridActions.GetCount(QuickPriceHistoryContext.gridId)
       ])
     );
+
+  @Effect()
+  recalculateJobData$ = this.actions$
+    .pipe(
+      ofType(fromSummaryCardActions.RECALCULATE_JOB_DATA),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        this.store.select(fromComphubMainReducer.getSelectedPaymarket),
+        this.store.select(fromComphubMainReducer.getSelectedJobData),
+        (action: fromJobGridActions.GetQuickPriceMarketData, dataSet, paymarket, jobData) => ({ action, dataSet, paymarket, jobData })
+      ),
+      switchMap((data) => {
+          return this.comphubApiService.getQuickPriceJobData({
+            JobId: data.jobData.JobId,
+            CompanyPaymarketId: data.paymarket.CompanyPayMarketId,
+            CountryCode: data.dataSet.CountryCode
+          })
+            .pipe(
+              mergeMap((response) => {
+                const actions = [];
+                const jobData = PayfactorsApiModelMapper.mapQuickPriceMarketDataToJobData(response.Data);
+                actions.push(new fromComphubPageActions.SetSelectedJobData(jobData));
+                actions.push(new fromComphubPageActions.SetJobPricingLimitInfo(response.PricingLimitInfo));
+                actions.push(new fromSummaryCardActions.SetMinPaymarketMinimumWage(response.MinPaymarketMinimumWage));
+                actions.push(new fromSummaryCardActions.SetMaxPaymarketMinimumWage(response.MaxPaymarketMinimumWage));
+                actions.push(new fromSummaryCardActions.RecalculateJobDataSuccess());
+                actions.push(new fromSummaryCardActions.AddCompletedPricingHistory(jobData));
+                return actions;
+              }),
+              catchError((error) => of(new fromSummaryCardActions.RecalculateJobDataError(),
+                new fromComphubPageActions.HandleApiError(error)))
+            );
+        }
+      ));
 
   constructor(
     private actions$: Actions,

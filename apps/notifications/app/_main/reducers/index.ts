@@ -5,13 +5,11 @@ import * as fromRoot from 'libs/state/state';
 
 import * as fromDataViewsExportReducer from './data-views-export.reducer';
 import * as fromTotalRewardsStatementPdfsReducer from './total-rewards-statement-pdfs.reducer';
-import * as fromUserNotificationListReducer from './user-notification-list.reducer';
 
 // Feature area state
 export interface NotificationsMainState {
   dataViewsExportNotifications: fromDataViewsExportReducer.State;
   totalRewardsStatementPdfNotifications: fromTotalRewardsStatementPdfsReducer.State;
-  userNotificationList: fromUserNotificationListReducer.State;
 }
 
 // Extend root state with feature area state
@@ -23,7 +21,6 @@ export interface State extends fromRoot.State {
 export const reducers = {
   dataViewsExportNotifications: fromDataViewsExportReducer.reducer,
   totalRewardsStatementPdfNotifications: fromTotalRewardsStatementPdfsReducer.reducer,
-  userNotificationList: fromUserNotificationListReducer.reducer
 };
 
 // Select feature area
@@ -40,10 +37,7 @@ export const selectTotalRewardsStatementPdfsState = createSelector(
   (state: NotificationsMainState) => state.totalRewardsStatementPdfNotifications
 );
 
-export const selectUserNotificationListState = createSelector(
-  selectFeatureAreaState,
-  (state: NotificationsMainState) => state.userNotificationList
-);
+
 
 // Data Insights Export
 export const getDataViewExports = createSelector(
@@ -67,8 +61,3 @@ export const getTotalRewardsStatementPdfsLoadingError = createSelector(
   fromTotalRewardsStatementPdfsReducer.getTotalRewardsStatementPdfsLoadingError
 );
 
-// User Notification List
-export const getUserNotificationsAsyncObj = createSelector(
-  selectUserNotificationListState,
-  fromUserNotificationListReducer.getUserNotificationsAsyncObj
-);

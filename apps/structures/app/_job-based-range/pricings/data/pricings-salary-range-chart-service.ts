@@ -12,7 +12,10 @@ export class PricingsSalaryRangeChartService {
       case PricingsSalaryRangeChartSeries.SalaryRangeTertile: {
         return 'Salary range Tertile';
       }
-      case PricingsSalaryRangeChartSeries.SalaryRangeQuartile: {
+      case PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst:
+      case PricingsSalaryRangeChartSeries.SalaryRangeQuartileSecond:
+      case PricingsSalaryRangeChartSeries.SalaryRangeQuartileThird:
+      case PricingsSalaryRangeChartSeries.SalaryRangeQuartileFourth: {
         return 'Salary range Quartile';
       }
       case PricingsSalaryRangeChartSeries.SalaryRangeQuintile: {
@@ -116,6 +119,26 @@ export class PricingsSalaryRangeChartService {
       },
       plotOptions: {
         series: {
+          events: {
+            legendItemClick: function (event) {
+              if (event.target.userOptions.name === PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst)) {
+                if (event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst].visible) {
+                  event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst].hide();
+                  event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileSecond].hide();
+                  event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileThird].hide();
+                  event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFourth].hide();
+                } else {
+                  event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst].show();
+                  event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileSecond].show();
+                  event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileThird].show();
+                  event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFourth].show();
+                }
+                return false;
+              } else {
+                return true;
+              }
+            }
+          },
           stickyTracking: false,
           groupPadding: 0,
           pointPadding: 0.1,
@@ -134,7 +157,7 @@ export class PricingsSalaryRangeChartService {
           name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeMinMidMax),
           type: 'columnrange',
           animation: false,
-          color: 'rgb(174,210,238)',
+          color: rangeDistributionTypeId !== RangeDistributionTypeIds.Quartile ? 'rgb(174,210,238)' : 'transparent',
           enableMouseTracking: false,
           pointWidth: 60,
           stacking: 'normal',
@@ -153,17 +176,6 @@ export class PricingsSalaryRangeChartService {
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Tertile
         },
         {
-          name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuartile),
-          type: 'columnrange',
-          animation: false,
-          color: 'rgb(210,230,246)',
-          enableMouseTracking: false,
-          pointWidth: 60,
-          stacking: 'normal',
-          borderRadius: 0,
-          showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quartile
-        },
-        {
           name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuintile),
           type: 'columnrange',
           animation: false,
@@ -173,6 +185,50 @@ export class PricingsSalaryRangeChartService {
           stacking: 'normal',
           borderRadius: 0,
           showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quintile
+        },
+        {
+          name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(174,210,238)',
+          enableMouseTracking: false,
+          pointWidth: 60,
+          stacking: 'normal',
+          borderRadius: 0,
+          showInLegend: rangeDistributionTypeId === RangeDistributionTypeIds.Quartile
+        },
+        {
+          name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuartileSecond),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(210,230,246)',
+          enableMouseTracking: false,
+          pointWidth: 60,
+          stacking: 'normal',
+          borderRadius: 0,
+          showInLegend: false
+        },
+        {
+          name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuartileThird),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(174,210,238)',
+          enableMouseTracking: false,
+          pointWidth: 60,
+          stacking: 'normal',
+          borderRadius: 0,
+          showInLegend: false
+        },
+        {
+          name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuartileFourth),
+          type: 'columnrange',
+          animation: false,
+          color: 'rgb(210,230,246)',
+          enableMouseTracking: false,
+          pointWidth: 60,
+          stacking: 'normal',
+          borderRadius: 0,
+          showInLegend: false
         },
         {
           name: PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.RangeMid),

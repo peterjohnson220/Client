@@ -17,8 +17,10 @@ import { faBookOpen } from '@fortawesome/pro-solid-svg-icons/faBookOpen';
 import { faCaretRight } from '@fortawesome/pro-solid-svg-icons/faCaretRight';
 import { faCaretDown } from '@fortawesome/pro-solid-svg-icons/faCaretDown';
 
+import { faTimes as farTimes } from '@fortawesome/pro-regular-svg-icons/faTimes';
+
 export const faIcons = [
   faTimes, faCheckCircle, faPlusCircle, faUserCircle, faMapMarkerAlt, faDatabase, faFileAlt,
   faInfoCircle, faBook, faSortUp, faSortDown, faExclamationTriangle, faFilePdf, faShare, faFilePlus, faBookOpen,
-  faCaretRight, faCaretDown
+  faCaretRight, faCaretDown, farTimes
 ];

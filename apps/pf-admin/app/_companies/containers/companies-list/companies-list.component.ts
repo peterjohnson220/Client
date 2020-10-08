@@ -1,17 +1,18 @@
 import {Component, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-
 import { process, State } from '@progress/kendo-data-query';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 
+import { CompanyNotesModalComponent } from 'libs/features/company/company-notes/containers/company-notes-modal';
+
 import * as fromCompaniesGridActions from '../../actions/companies-grid.actions';
+import * as fromCompaniesActions from '../../actions/companies.actions';
 import * as fromCompaniesGridReducer from '../../reducers';
 import { CompanyGridItem } from '../../models';
 import { CompaniesListViews } from '../../constants/companies-list-constants';
-import { CompanyNotesModalComponent } from '../company-notes-modal';
 
 @Component({
     selector: 'pf-companies-list',
@@ -67,12 +68,16 @@ export class CompaniesListComponent implements OnChanges {
         this.loadItems();
     }
 
-    public openNotesModal($event: any, dataItem: any) {
+    public openNotesModal($event: any, companyId: number, companyName: string) {
         $event.stopPropagation();
-        this.companyNotesModal.open(dataItem);
+        this.companyNotesModal.open(companyId, companyName, false);
     }
 
     private loadItems(): void {
         this.gridView = process(this.companiesList, this.state);
+    }
+
+    onModalClose($event: any) {
+        this.store.dispatch( new fromCompaniesActions.LoadCompanies());
     }
 }

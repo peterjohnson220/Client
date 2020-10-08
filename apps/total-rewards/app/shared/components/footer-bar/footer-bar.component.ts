@@ -9,6 +9,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class FooterBarComponent {
   @Input() primaryButtonText = '';
   @Input() primaryButtonEnabled = true;
+  @Input() showPrimaryButtonSpinner = false;
   @Input() primaryButtonToolTip = '';
   @Input() secondaryButtonText = '';
 

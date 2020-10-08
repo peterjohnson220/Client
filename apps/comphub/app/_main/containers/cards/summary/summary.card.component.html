@@ -2,10 +2,7 @@
   pageTitle="Summary"
   pageSubTitle="Let's review a summary of your pricing activity"
   pageIconClass="file-alt"
-  [page]="comphubPages.Summary"
-  [hideNextButton]="true"
-  [hideBackButton]="isPeerQuickPriceType"
-  [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Summary">
+  [page]="comphubPages.Summary">
 
   <ng-container page-content>
 
@@ -61,16 +58,19 @@
 </pf-share-pricing-summary-modal>
 
 <ng-template #summary>
-  <div class="d-flex h-100 summary-container">
-    <div class="d-flex h-100">
-      <div class="info-sidebar" *ngIf="!isPeerQuickPriceType">
+  <div class="h-100 summary-container">
+    <div class="d-flex">
+      <div class="info-sidebar h-100" *ngIf="!isPeerQuickPriceType">
         <div class="item">
-          <div class="h">Rate</div>
-          <div class="v" [attr.data-qa-id]="'cnt-selectedRate'">{{selectedRate}}</div>
+          <ng-containter [ngTemplateOutlet]="rateTemplate"></ng-containter>
         </div>
         <div class="item">
           <div class="h">Effective Date</div>
-          <div class="v" [attr.data-qa-id]="'cnt-effectiveDate'">{{firstDayOfMonth | date:'MM/dd/yyyy'}}</div>
+          <div class="v" [attr.data-qa-id]="'cnt-effectiveDate'">
+            <ng-container *ngIf="!showJobHistorySummary; else jobDataEffectiveDateTemplate">
+              {{firstDayOfMonth | date:'MM/dd/yyyy'}}
+            </ng-container>
+          </div>
         </div>
         <div class="item">
           <div class="h">FLSA</div>
@@ -78,7 +78,9 @@
         </div>
         <div class="item">
           <div class="h">Currency</div>
-          <div class="v" [attr.data-qa-id]="'cnt-currency'">{{workflowContext?.activeCountryDataSet?.CurrencyCode}}</div>
+          <div class="v" [attr.data-qa-id]="'cnt-currency'">
+            {{currencyCode}}
+          </div>
         </div>
         <div class="item">
           <div class="h">Market</div>
@@ -93,7 +95,7 @@
           <div class="v" [attr.data-qa-id]="'cnt-minWage'" [innerHTML]="getPaymarketMinimumWage(
           minPaymarketMinimumWage$ | async,
           maxPaymarketMinimumWage$ | async,
-          workflowContext?.activeCountryDataSet?.CurrencyCode
+          currencyCode
           )"></div>
         </div>
         <div class="item">
@@ -109,22 +111,25 @@
       </div>
 
       <!--Peer Sidebar -->
-      <div class="info-sidebar" *ngIf="isPeerQuickPriceType">
+      <div class="info-sidebar h-100" *ngIf="isPeerQuickPriceType">
           <div class="item">
-            <div class="h">Rate</div>
-            <kendo-dropdownlist class="rates-dropdown"
-                                [attr.data-qa-id]="'ddm-rate'"
-                                [data]="rates"
-                                textField="Name"
-                                valueField="Value"
-                                [valuePrimitive]="true"
-                                [(ngModel)]="selectedRate"
-                                (selectionChange)="handleRateSelectionChange($event)">
-            </kendo-dropdownlist>
+            <div class="h">Peer Network</div>
+            <div class="v" [attr.data-qa-id]="'cnt-peer-network'">
+              <ng-container *ngIf="!showJobHistorySummary; else jobDataExchangeNameTemplate">
+                {{workflowContext?.activeExchangeDataSet?.ExchangeName}}
+              </ng-container>
+            </div>
+          </div>
+          <div class="item">
+            <ng-containter [ngTemplateOutlet]="rateTemplate"></ng-containter>
           </div>
           <div class="item">
             <div class="h">Effective Date</div>
-            <div class="v" [attr.data-qa-id]="'cnt-effectiveDate'">{{currentDate | date:'MM/dd/yyyy'}}</div>
+            <div class="v" [attr.data-qa-id]="'cnt-effectiveDate'">
+              <ng-container *ngIf="!showJobHistorySummary; else jobDataEffectiveDateTemplate">
+                {{currentDate | date:'MM/dd/yyyy'}}
+              </ng-container>
+            </div>
           </div>
           <div class="item">
             <div class="h">Currency</div>
@@ -153,6 +158,11 @@
       </div>
 
       <div class="summary">
+        <pf-async-container [loading]="calculatingJobData$ | async"
+                            [loadingErrorMessage]="'Error loading job data'"
+                            [hideReloadButton]="true"
+                            class="flex-grow-1">
+        </pf-async-container>
         <div class="header">
           <div class="job-title" [attr.data-qa-id]="'cnt-jobTitle'">
             {{jobData?.JobTitle}}
@@ -177,7 +187,8 @@
                    paymarket?.CompanyPayMarketId &&
                    !(creatingProject$ | async) &&
                    !(creatingProjectError$ | async) &&
-                   !isPeerQuickPriceType"
+                   !isPeerQuickPriceType &&
+                   !showJobHistorySummary"
                     [attr.data-qa-id]="'btn-create-project'"
                     (click)="handleCreateProjectClicked()"
                     ngbTooltip="Create Project">
@@ -214,7 +225,11 @@
               <div class="col">
                 <div class="item">
                   <div class="h">Effective Date</div>
-                  <div class="v">{{firstDayOfMonth | date:'MM/dd/yyyy'}}</div>
+                  <div class="v">
+                    <ng-container *ngIf="!showJobHistorySummary; else jobDataEffectiveDateTemplate">
+                      {{firstDayOfMonth | date:'MM/dd/yyyy'}}
+                    </ng-container>
+                  </div>
                 </div>
               </div>
               <div class="col">
@@ -228,7 +243,7 @@
               <div class="col">
                 <div class="item">
                   <div class="h">Currency</div>
-                  <div class="v">{{workflowContext?.activeCountryDataSet?.CurrencyCode}}</div>
+                  <div class="v">{{currencyCode}}</div>
                 </div>
               </div>
               <div class="col">
@@ -259,7 +274,7 @@
                   <div class="v">{{getPaymarketMinimumWage(
                     minPaymarketMinimumWage$ | async,
                     maxPaymarketMinimumWage$ | async,
-                    workflowContext?.activeCountryDataSet?.CurrencyCode
+                    currencyCode
                   )}}</div>
                 </div>
               </div>
@@ -278,6 +293,18 @@
             <div class="row">
               <div class="col">
                 <div class="item">
+                  <div class="h">Peer Network</div>
+                  <div class="v">
+                    <ng-container *ngIf="!showJobHistorySummary; else jobDataExchangeNameTemplate">
+                      {{workflowContext?.activeExchangeDataSet?.ExchangeName}}
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="item">
                   <div class="h">Rate</div>
                   <div class="v">{{selectedRate}}</div>
                 </div>
@@ -285,7 +312,11 @@
               <div class="col">
                 <div class="item">
                   <div class="h">Effective Date</div>
-                  <div class="v">{{currentDate | date:'MM/dd/yyyy'}}</div>
+                  <div class="v">
+                    <ng-container *ngIf="!showJobHistorySummary; else jobDataEffectiveDateTemplate">
+                      {{currentDate | date:'MM/dd/yyyy'}}
+                    </ng-container>
+                  </div>
                 </div>
               </div>
               <div class="col">
@@ -346,11 +377,25 @@
         <div class="d-flex justify-content-between incs-and-orgs" *ngIf="isPeerQuickPriceType">
           <div class="item flex-column flex-grow-1">
             <div class="h">Orgs</div>
-            <div class="v" [attr.data-qa-id]="'cnt-orgs'">{{(mapSummary$ | async)?.OverallMapStats?.CompanyCount | number:'1.0'}}</div>
+            <div class="v" [attr.data-qa-id]="'cnt-orgs'">
+              <ng-container *ngIf="!showJobHistorySummary; else jobDataOrgsValue">
+                {{(mapSummary$ | async)?.OverallMapStats?.CompanyCount | number:'1.0'}}
+              </ng-container>
+              <ng-template #jobDataOrgsValue>
+                {{jobData?.Orgs | number:'1.0'}}
+              </ng-template>
+            </div>
           </div>
           <div class="item flex-column flex-grow-1 ml-auto">
             <div class="h">Incs</div>
-            <div class="v" [attr.data-qa-id]="'cnt-incs'">{{(mapSummary$ | async)?.OverallMapStats?.SalaryCount | number:'1.0'}}</div>
+            <div class="v" [attr.data-qa-id]="'cnt-incs'">
+              <ng-container *ngIf="!showJobHistorySummary; else jobDataIncsValue">
+                {{(mapSummary$ | async)?.OverallMapStats?.SalaryCount | number:'1.0'}}
+              </ng-container>
+              <ng-template #jobDataIncsValue>
+                {{jobData?.Incs | number:'1.0'}}
+              </ng-template>
+            </div>
           </div>
         </div>
 
@@ -366,10 +411,7 @@
             <div class="gr">
               <pf-salary-bar-chart
                 [isHourly]="isHourly"
-                [currencyCode]="
-                !isPeerQuickPriceType ?
-                workflowContext?.activeCountryDataSet?.CurrencyCode :
-                paymarket?.CurrencyCode"
+                [currencyCode]="currencyCode"
                 [salary25]="jobData?.Base25"
                 [salary50]="jobData?.Base50"
                 [salary75]="jobData?.Base75">
@@ -387,10 +429,7 @@
             <div class="gr">
               <pf-salary-bar-chart
                 [isHourly]="isHourly"
-                [currencyCode]="
-                !isPeerQuickPriceType ?
-                workflowContext?.activeCountryDataSet?.CurrencyCode :
-                paymarket?.CurrencyCode"
+                [currencyCode]="currencyCode"
                 [salary25]="jobData?.Tcc25"
                 [salary50]="jobData?.Tcc50"
                 [salary75]="jobData?.Tcc75">
@@ -399,7 +438,7 @@
           </div>
 
           <!-- If PEER user show the Map, if not then show the trend graph. -->
-          <div class="map" *ngIf="isPeerQuickPriceType">
+          <div class="g" *ngIf="isPeerQuickPriceType">
             <img height='225px' width='225px' alt='Peer Data Map' [src]="getPeerMapSrcString()">
           </div>
 
@@ -414,8 +453,8 @@
             <div class="gr">
               <pf-salary-trend-chart
                 [isHourly]="isHourly"
-                [currencyCode]="workflowContext?.activeCountryDataSet?.CurrencyCode"
-                [salaryTrendData]="jobSalaryTrendData">
+                [currencyCode]="currencyCode"
+                [salaryTrendData]="(salaryTrendData$ | async)">
               </pf-salary-trend-chart>
             </div>
           </div>
@@ -423,22 +462,41 @@
 
         <div class="job-description-wrapper">
           <div class="skills" *ngIf="jobData?.Skills.length">
-            <div class="h">
-              Top Skills
+            <div class="h title-container">
+              Skills
             </div>
 
-            <div class="d-flex flex-wrap">
+            <div class="d-flex flex-wrap ml-3">
               <span *ngFor="let skill of jobData.Skills" class="badge">{{skill}}</span>
             </div>
           </div>
 
           <div class="job-description">
-            <div class="h">Job Description</div>
-
-            <div class="v" [innerHTML]="jobData?.JobDescription | jobDescriptionParser"></div>
+            <div class="mt-3" [innerHTML]="jobData?.JobDescription | jobDescriptionParser"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</ng-template>
+
+<ng-template #rateTemplate>
+  <div class="h">Rate</div>
+  <kendo-dropdownlist class="rates-dropdown"
+                      [attr.data-qa-id]="'ddm-rate'"
+                      [data]="rates"
+                      textField="Name"
+                      valueField="Value"
+                      [valuePrimitive]="true"
+                      [(ngModel)]="selectedRate"
+                      (selectionChange)="handleRateSelectionChange($event)">
+  </kendo-dropdownlist>
+</ng-template>
+
+<ng-template #jobDataEffectiveDateTemplate>
+  {{jobData?.EffectiveDate | date:'MM/dd/yyyy'}}
+</ng-template>
+
+<ng-template #jobDataExchangeNameTemplate>
+  {{jobData?.ExchangeName}}
 </ng-template>

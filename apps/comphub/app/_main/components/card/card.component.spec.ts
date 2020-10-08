@@ -2,11 +2,12 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardComponent } from './card.component';
-import { AccordionCards } from '../../data';
+import { AccordionCard, AccordionCards } from '../../data';
 
 describe('Comphub - Accordion Card Layout', () => {
   let instance: CardComponent;
   let fixture: ComponentFixture<CardComponent>;
+  let cards: AccordionCard[];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,13 +17,14 @@ describe('Comphub - Accordion Card Layout', () => {
 
     fixture = TestBed.createComponent(CardComponent);
     instance = fixture.componentInstance;
+    cards = AccordionCards.defaultAccordionCards;
 
     fixture.detectChanges();
   });
 
   it('should emit cardHeaderClick with current card id when current selected card index smaller than card index', () => {
-    instance.card = AccordionCards[1];
-    instance.prevCard = AccordionCards[0];
+    instance.card = cards[1];
+    instance.prevCard = cards[0];
     // Markets is the header title
     instance.cardIndex = 1;
     instance.selectedCardIndex = 0;
@@ -35,8 +37,8 @@ describe('Comphub - Accordion Card Layout', () => {
   });
 
   it('should emit cardHeaderClick with previous card id when current selected card index greater than or equal to card index', () => {
-    instance.card = AccordionCards[1];
-    instance.prevCard = AccordionCards[0];
+    instance.card = cards[1];
+    instance.prevCard = cards[0];
     // Jobs is the header title
     instance.cardIndex = 1;
     instance.selectedCardIndex = 2;

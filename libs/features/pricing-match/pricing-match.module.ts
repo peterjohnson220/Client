@@ -8,7 +8,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from '../../ui/common/common-ui-module';
-import { PfCommonModule } from '../../core';
+import { PfCommonModule } from 'libs/core';
+import { PfFormsModule } from 'libs/forms';
 
 import { reducers } from './reducers';
 import { PricingMatchComponent } from './pricing-match/pricing-match.component';
@@ -29,6 +30,7 @@ import * as fromFaIcons from './fa-icons';
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
+    PfFormsModule,
 
     StoreModule.forFeature('feature_pricingMatch', reducers),
     EffectsModule.forFeature([
@@ -41,7 +43,7 @@ import * as fromFaIcons from './fa-icons';
     PricingMatchComponent,
     PricingMatchPropertyComponent,
     PricingMatchDetailsComponent,
-    PeerPricingMatchComponent,
+    PeerPricingMatchComponent
   ],
   exports: [PricingMatchComponent]
 })

@@ -54,7 +54,7 @@ describe('Comphub - Main - Comphub Page', () => {
   });
 
   it('should track by the accordion Id', () => {
-    const card = AccordionCards[0];
-    expect(instance.trackById(1, AccordionCards[0])).toBe(card.Id);
+    const card = AccordionCards.defaultAccordionCards[0];
+    expect(instance.trackById(1, AccordionCards.defaultAccordionCards[0])).toBe(card.Id);
   });
 });

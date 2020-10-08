@@ -53,7 +53,8 @@ export class MarketsCardHelper {
       Location: 'National',
       Size: 'All',
       SizeLabel: 'Employees',
-      CurrencyCode: ''
+      CurrencyCode: 'USD',
+      CountryCode: 'USA'
     };
   }
 
@@ -65,7 +66,8 @@ export class MarketsCardHelper {
       Location: '',
       Size: 'All',
       SizeLabel: '',
-      CurrencyCode: 'USD'
+      CurrencyCode: 'USD',
+      CountryCode: 'USA'
     };
   }
 }

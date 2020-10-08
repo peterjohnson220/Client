@@ -85,7 +85,7 @@
                 <pf-file-mapping [entities]="loadOptions"
                                  [selectedCompany]="selectedCompany"
                                  [companySettings]="companySettings"
-                                 [loaderConfigurationGroupId]="selectedMapping.LoaderConfigurationGroupId"
+                                 [loaderConfigurationGroupId]="selectedMapping?.LoaderConfigurationGroupId"
                                  (mappingComplete)="onMappingComplete($event)">
                 </pf-file-mapping>
               </div>

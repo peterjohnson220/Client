@@ -11,7 +11,6 @@ import { ExchangeJobSearchOption } from 'libs/models/peer/ExchangeJobSearchOptio
 import { QuickPriceType } from 'libs/constants';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
-import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
@@ -37,7 +36,7 @@ export class JobsCardEffects {
       ),
       switchMap((data) => {
         let trendingJobs$ = of(null);
-        if (data.qpType === QuickPriceType.ENTERPRISE) {
+        if (data.qpType === QuickPriceType.ENTERPRISE || data.qpType === QuickPriceType.SMALL_BUSINESS) {
           const countryCode = !!data.activeCountryDataSet ? data.activeCountryDataSet.CountryCode : CountryCode.USA;
           trendingJobs$ = this.comphubApiService.getTrendingJobs(countryCode);
         }
@@ -113,13 +112,10 @@ export class JobsCardEffects {
         const actions = [];
 
         actions.push(new fromComphubPageActions.ResetAccessiblePages());
-        actions.push(new fromDataCardActions.ClearSelectedJobData());
+        actions.push(new fromComphubPageActions.ClearSelectedJobData());
         actions.push( new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: payload.jobTitle}));
-        actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Data]));
-
-        if (payload.navigateToNextCard) {
-          actions.push(new fromComphubPageActions.NavigateToNextCard());
-        }
+        actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets]));
+        actions.push(new fromComphubPageActions.UpdateFooterContext());
 
         return actions;
       })
@@ -131,7 +127,8 @@ export class JobsCardEffects {
       ofType(fromJobsCardActions.CLEAR_SELECTED_JOB),
       mergeMap(() => [
         new fromComphubPageActions.ResetAccessiblePages(),
-        new fromDataCardActions.ClearSelectedJobData()
+        new fromComphubPageActions.ClearSelectedJobData(),
+        new fromComphubPageActions.UpdateFooterContext()
       ])
     );
 
@@ -152,6 +149,5 @@ export class JobsCardEffects {
     private comphubApiService: ComphubApiService,
     private jobSearchApiService: JobSearchApiService,
     private exchangeJobSearchApiService: ExchangeJobSearchApiService
-  ) {
-  }
+  ) {}
 }

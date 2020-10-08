@@ -1,0 +1,45 @@
+<div class="d-flex">
+  <div class="col">
+    <div class="row p-2">
+      <b>Previous Notes</b>
+    </div>
+    <div class="comment-section">
+      <ng-container *ngFor="let note of notes;">
+        <div class="comment p-2">
+                <div class="col-1">
+                  <div class="row avatar">
+                    <img [src]="avatarUrl + note.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" height="60px" width="60px">
+                  </div>
+                </div>
+                <div class="col-11 pl-4">
+                  <div class="row p-1">
+                    <div class="info">
+                      <a href="#">{{note.FirstName}} {{note.LastName}}</a>
+                      <span class="pl-2">{{note.CreateDate | amDateFormat:'MM/DD/YYYY'}}</span>
+                    </div>
+                  </div>
+                  <div class="row p-1">
+                      <div *ngIf="!isEditMode || selectedNodeId != note.Id">
+                        <p>{{note.Note}}</p>
+                      </div>
+                      <div *ngIf="isEditMode && selectedNodeId == note.Id">
+                        <textarea class="form-control" autofocus spellcheck="false" rows="4" cols="90" [pfFocus]="true" (keyup)="updateText($event, note)">{{note.Note}}</textarea>
+                      </div>
+                    <div class="button justify-content-end" *ngIf="note.CreateUser === userId && !viewOnly">
+                      <button type="button" class="ml-1" (click)="toggleEditMode(note)" *ngIf="!isEditMode || selectedNodeId != note.Id">
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                      </button>
+                      <button type="button" class="ml-1" (click)="update(note)" *ngIf="isEditMode && selectedNodeId == note.Id">
+                        <fa-icon icon="check"></fa-icon>
+                      </button>
+                      <button type="button" class="ml-1" (click)="delete(note)">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+         </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

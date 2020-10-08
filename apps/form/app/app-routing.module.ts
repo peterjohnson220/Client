@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
+import { DEFAULT_ROUTES } from 'libs/ui/common';
 
 import { FormAppWrapperComponent } from './shared/components';
 
@@ -21,8 +20,7 @@ export const routes: Routes = [
       { path: '**', redirectTo: '/not-found' }
     ]
   },
-  { path: 'not-found', component: NotFoundErrorPageComponent },
-  { path: '**', component: NotFoundErrorPageComponent }
+  ...DEFAULT_ROUTES
 ];
 
 @NgModule({
