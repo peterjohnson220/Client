@@ -22,6 +22,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   fieldMappingsLoading="false"
+  hasBenefitsAccess="false"
   isActive={[Function Boolean]}
   isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
@@ -57,6 +58,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  selectedCompanyBenefits$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -247,6 +249,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   fieldMappingsLoading="false"
+  hasBenefitsAccess="false"
   isActive={[Function Boolean]}
   isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
@@ -282,6 +285,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  selectedCompanyBenefits$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -472,6 +476,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   fieldMappingsLoading="false"
+  hasBenefitsAccess="false"
   isActive={[Function Boolean]}
   isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
@@ -507,6 +512,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  selectedCompanyBenefits$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -697,6 +703,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   fieldMappingsLoading="false"
+  hasBenefitsAccess="false"
   isActive={[Function Boolean]}
   isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
@@ -732,6 +739,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   savingConfiguration="false"
   selectedCompany="undefined"
   selectedCompany$={[Function Store]}
+  selectedCompanyBenefits$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -806,6 +814,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
   fieldMappingsLoading="false"
+  hasBenefitsAccess="false"
   isActive={[Function Boolean]}
   isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
@@ -841,6 +850,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  selectedCompanyBenefits$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"

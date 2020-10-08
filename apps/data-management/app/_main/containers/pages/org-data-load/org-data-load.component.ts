@@ -9,7 +9,7 @@ import { filter, take, takeUntil } from 'rxjs/operators';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from 'environments/environment';
-import { CompositeDataLoadTypes, LoadTypes, PermissionCheckEnum, Permissions } from 'libs/constants';
+import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import { PermissionService } from 'libs/core';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import {
@@ -52,13 +52,14 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
   private defaultDelimiter = ',';
 
-  loadOptions: EntityChoice[];
+  loadOptions: EntityChoice[] = [];
   userMappings: KeyValue<number, string>[];
 
   private totalTypesToLoad = 0;
   private unsubscribe$ = new Subject();
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
+  private companyHasBenefits$: Observable<boolean>;
   private organizationalDataTemplateLink$: Observable<string>;
   private configGroups$: Observable<ConfigurationGroup[]>;
   private customJobFields$: Observable<any>;
@@ -178,6 +179,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.emailRecipientsModalOpen$ = this.mainStore.select(fromDataManagementMainReducer.getEmailRecipientsModalOpen);
     this.createdConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getCreatedConfigurationGroup);
     this.companySettings$ = this.mainStore.select(fromRootState.getCompanySettings);
+    this.companyHasBenefits$ = this.mainStore.select(fromCompanyReducer.companyHasBenefits);
 
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$)
@@ -185,8 +187,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.selectedCompany = f;
       this.clearSelections();
       if (f) {
+        this.mainStore.dispatch(new fromCompanySelectorActions.CompanyHasBenefits());
         this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, this.loadType, this.primaryCompositeDataLoadType));
-        this.getPayfactorCustomFields(f.CompanyId);
       }
     });
 
@@ -318,6 +320,19 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       );
 
+    this.companyHasBenefits$
+      .pipe(
+        filter(uc => !!uc),
+        takeUntil(this.unsubscribe$)
+      ).subscribe(f => {
+        this.hasBenefitsAccess = f;
+        this.loadOptions = getEntityChoicesForOrgLoader(this.hasBenefitsAccess);
+
+        // reset any checked loads
+        this.AddAndSetSelectedMapping(this.configGroupSeed);
+        this.getPayfactorCustomFields(this.selectedCompany.CompanyId);
+      });
+
     const companiesSubscription = this.companies$.pipe(
       filter(uc => !!uc),
       take(1),
@@ -328,7 +343,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.companySettings = f.companySetting;
         this.userContext = f.user;
         this.companies = f.company;
+
         this.setInitValues();
+
       });
 
 
@@ -371,11 +388,6 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.hasBenefitsAccess = this.userContext.AccessLevel === 'Admin' ||
-      this.permissions.CheckPermission([Permissions.TOTAL_REWARDS], PermissionCheckEnum.Single);
-    this.loadOptions = getEntityChoicesForOrgLoader(this.hasBenefitsAccess);
-    this.AddAndSetSelectedMapping(this.configGroupSeed);
-
     this.hideAccess = false;
     this.spinnerType = 'SVG';
     this.notificationMessageInit();
@@ -387,8 +399,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.mainStore.dispatch(new fromCompanySelectorActions.SetSelectedCompany(this.selectedCompany));
       this.stepIndex = OrgUploadStep.Entity;
     }
-    // reset any checked loads
-    this.loadOptions = getEntityChoicesForOrgLoader(this.hasBenefitsAccess);
+
   }
 
   validateAccess() {
