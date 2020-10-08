@@ -4,7 +4,7 @@
   </div>
   <form id="notes-manager-form" [formGroup]="noteForm" class="h-100 overflow-hidden">
     <div class="d-flex flex-column h-100 overflow-hidden">
-      <div  *ngIf="isEditable" class="d-flex flex-row pr-3 py-3">
+      <div  *ngIf="isEditable" class="pr-3 py-3" style="display: flex">
         <div style="height: 45px; width: 45px;" class="mr-4"></div>
         <div class="d-flex flex-column w-100">
           <textarea 
@@ -15,7 +15,7 @@
             [attr.data-qa-id]="'txt-add-notes'"
             [placeholder]="placeholderText"
             [pfFocus]="true"
-            [attr.rows]="8">
+            [attr.rows]="5">
           </textarea>
           <span *ngIf="f.Notes.errors?.required" class="invalid-feedback">A note is required to add.</span>
           <span *ngIf="f.Notes.errors?.maxLengthTrimmed" class="invalid-feedback">Note exceeds max length of {{DEFAULT_MAX_LENGTH}}.</span>
