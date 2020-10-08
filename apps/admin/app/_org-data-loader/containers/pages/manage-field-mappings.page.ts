@@ -14,6 +14,7 @@ import { NotificationRef, NotificationService, NotificationSettings } from '@pro
 import { environment } from 'environments/environment';
 import { LoadTypes } from 'libs/constants';
 import { CompositeDataLoadTypes } from 'libs/constants/composite-data-load-types';
+import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 import * as fromCompanySelectorActions from 'libs/features/company/company-selector/actions';
 import { CompanySelectorComponent } from 'libs/features/company/company-selector/components';
@@ -24,15 +25,14 @@ import { LoaderFileFormat } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import { ConfigSetting } from 'libs/models/security';
-import { ConfigSettingsSelectorFactory, SettingsService } from 'libs/state/app-context/services';
-import { CompanySettingsEnum, CompanySetting } from 'libs/models';
+import { CompanySetting, CompanySettingsEnum } from 'libs/models';
 import {
     ConfigurationGroup, EmailRecipientModel, LoaderFieldSet, LoaderSaveCoordination, LoaderSetting, MappingModel
 } from 'libs/models/data-loads';
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
+import { ConfigSetting } from 'libs/models/security';
 import { SftpUserModel } from 'libs/models/Sftp';
-import { CompanySettingsApiService } from 'libs/data/payfactors-api';
+import { ConfigSettingsSelectorFactory, SettingsService } from 'libs/state/app-context/services';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -622,7 +622,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       || !this.jobMappingComplete
       || !this.structureMappingComplete
       || !this.structureMappingMappingComplete
-      || !this.employeeMappingComplete);
+      || !this.employeeMappingComplete
+      || !this.subsidiariesMappingComplete);
 
     const part2 = this.delimiter === '';
     const part3 = this.emailRecipients.length === 0;
