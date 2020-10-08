@@ -13,11 +13,12 @@ import { TotalRewardsApiService, TotalRewardsAssignmentApiService, TotalRewardsP
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
+import { SaveListAreaColumnsRequest } from 'libs/models/payfactors-api/user-profile/request';
 
 import * as fromStatementAssignmentPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromTotalRewardsReducer from '../reducers';
-import { ElectronicDeliveryHelper } from '../models';
+import { AssignedEmployeesGridHelper } from '../models';
 
 @Injectable()
 export class StatementAssignmentPageEffects {
@@ -43,7 +44,7 @@ export class StatementAssignmentPageEffects {
           map((response: ListAreaColumnResponse[]) => {
             const electronicDeliveryFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.TotalRewardsElectronicDelivery, false);
             let listAreaColumns =  MappingHelper.mapListAreaColumnResponseListToListAreaColumnList(response);
-            listAreaColumns = ElectronicDeliveryHelper.setColumnsVisible(listAreaColumns, electronicDeliveryFeatureFlagEnabled);
+            listAreaColumns = AssignedEmployeesGridHelper.filterGridColumns(listAreaColumns, electronicDeliveryFeatureFlagEnabled);
             return new fromStatementAssignmentPageActions.LoadAssignedEmployeesListAreaColumnsSuccess(listAreaColumns);
           }),
           catchError(response => of(new fromStatementAssignmentPageActions.LoadAssignedEmployeesListAreaColumnsError()))
@@ -145,6 +146,33 @@ export class StatementAssignmentPageEffects {
           catchError(error => of(new fromStatementAssignmentPageActions.GetExportingAssignedEmployeeError()))
         )
       )
+    );
+
+  @Effect()
+  saveListAreaColumns$ = this.actions$
+    .pipe(
+      ofType(fromStatementAssignmentPageActions.SAVE_GRID_COLUMNS),
+      switchMap((action: fromStatementAssignmentPageActions.SaveGridColumns) => {
+        const request: SaveListAreaColumnsRequest = {
+          Columns: MappingHelper.mapListAreaColumnListToListAreaColumnRequestList(action.payload)
+        };
+        return this.userProfileApiService.saveListAreaColumns(request)
+          .pipe(
+            map((response) => new fromStatementAssignmentPageActions.SaveGridColumnsSuccess(action.payload)),
+            catchError(() => of(new fromStatementAssignmentPageActions.SaveGridColumnsError()))
+          );
+      })
+    );
+
+  @Effect()
+  saveGridColumnsSuccess$ = this.actions$
+    .pipe(
+      ofType(fromStatementAssignmentPageActions.SAVE_GRID_COLUMNS_SUCCESS),
+      withLatestFrom(
+        this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
+        (action: fromStatementAssignmentPageActions.SaveGridColumnsSuccess, gridState) => ({ action, gridState })
+      ),
+      map((data) => new fromAssignedEmployeesGridActions.LoadAssignedEmployees(data.gridState))
     );
 
   constructor(

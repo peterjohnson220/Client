@@ -78,9 +78,9 @@ export const getSendingGenerateStatementRequestError = createSelector(
   fromPageReducer.getSendingGenerateStatementRequestError
 );
 
-export const getListAreaColumns = createSelector(
+export const getGridColumns = createSelector(
   selectPageState,
-  fromPageReducer.getListAreaColumns
+  fromPageReducer.getGridColumns
 );
 
 export const getIsFiltersPanelOpen = createSelector(
@@ -121,6 +121,16 @@ export const getIsExportingAssignedEmployees = createSelector(
 export const getExportEventAsync = createSelector(
   selectPageState,
   fromPageReducer.getExportEventAsync
+);
+
+export const getSavingGridColumns = createSelector(
+  selectPageState,
+  fromPageReducer.getSavingGridColumns
+);
+
+export const getSavingGridColumnsError = createSelector(
+  selectPageState,
+  fromPageReducer.getSavingGridColumnsError
 );
 
 // Assignments Modal Selectors

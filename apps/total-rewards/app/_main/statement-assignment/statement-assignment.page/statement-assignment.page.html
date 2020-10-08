@@ -23,8 +23,16 @@
             (click)="handleExportClicked()">
       <fa-icon icon="download"></fa-icon>
     </button>
+    <pf-list-area-column-chooser [listAreaColumns]="assignedEmployeesListAreaColumns$ | async"
+                                 (saveColumns)="handleSaveGridColumns($event)">
+    </pf-list-area-column-chooser>
   </ng-container>
   <ng-container page-content>
+    <pf-async-container
+      [loading]="savingGridColumns$ | async"
+      [loadingError]="savingGridColumnsError$ | async"
+      [loadingErrorMessage]="'Error Saving Selected Columns'">
+    </pf-async-container>
     <div class="flex-column-container">
       <div class="d-flex mb-2">
         <div class="d-flex grid-actions-container">
