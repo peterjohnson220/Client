@@ -185,17 +185,27 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.selectedKeysSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
       this.selectedJobIds = sk || [];
+      this.selectedPricings = [...this.selectedPricings.filter(f => f.PaymarketId),
+        ...this.selectedJobIds.map(v => {return {
+          JobId: v,
+        };
+        })];
     });
 
     this.selectedPaymarketsSubscription = this.store.select(fromPfDataGridReducer.getSelectedData, PageViewIds.PayMarkets).subscribe(data => {
       if (data) {
-        this.selectedPricings = data.map(v => {
+        this.selectedPricings = [...data.map(v => {
           return {
             PricingId: v.CompanyJobs_Pricings_CompanyJobPricing_ID,
             JobId: v.CompanyJobs_CompanyJob_ID,
             PaymarketId: v.CompanyPayMarkets_CompanyPayMarket_ID,
           };
-        });
+        }),
+          ...this.selectedJobIds.map(v => {
+          return {
+            JobId: v
+          };
+        })];
         this.selectedPricingIds = data
           .filter(d => d.CompanyJobs_Pricings_CompanyJobPricing_ID)
           .map(d => d.CompanyJobs_Pricings_CompanyJobPricing_ID);
