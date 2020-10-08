@@ -1,3 +1,7 @@
+import { SortOption } from 'libs/models/payfactors-api/comphub';
+
+import { QuickPriceGridContext } from '../models';
+
 export class DataCardHelper {
   static firstDayOfMonth(): Date {
     const currentDate = new Date();
@@ -9,5 +13,16 @@ export class DataCardHelper {
       return 0;
     }
     return annualValue / 2080;
+  }
+
+  static getSortOption(gridContext: QuickPriceGridContext): SortOption {
+    if (gridContext.Sort) {
+      // only allowing single sort
+      return {
+        Dir: gridContext.Sort.dir,
+        Field: gridContext.Sort.field
+      };
+    }
+    return null;
   }
 }

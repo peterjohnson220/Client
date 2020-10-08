@@ -76,6 +76,27 @@
             </div>
           </div>
           <div class="form-group row">
+            <label class="col-2 col-form-label">Email Address</label>
+            <div class="col-4">
+              <input  data-qa-id="txt-employee-form-email"
+                      type="text"
+                      class="form-control"
+                      formControlName="EmailAddress"
+                      [maxlength]="MAX_EMAIL_LENGTH"
+                      [ngClass]="{ 'is-invalid': !f.EmailAddress.valid && f.EmailAddress.touched }"
+                      autocomplete="email">
+              <span *ngIf="f.EmailAddress.errors?.maxlength" class="invalid-feedback">Email Address cannot be longer than {{MAX_EMAIL_LENGTH}} characters</span>
+              <span *ngIf="f.EmailAddress.errors?.emailFormat" class="invalid-feedback">Invalid Email Address</span>
+            </div>
+            <label class="col-2 col-form-label">Work State</label>
+            <div class="col-4">
+              <input data-qa-id="txt-employee-form-state" type="text" class="form-control"
+                     formControlName="State"
+                     [maxlength]="DEFAULT_MAX_LENGTH"
+                     [ngClass]="{ 'is-invalid': !f.State.valid && f.State.touched }">
+            </div>
+          </div>
+          <div class="form-group row">
             <label class="col-2 col-form-label">Job <span class="text-danger">*</span></label>
             <div class="col-4">
               <kendo-combobox #jobsCombobox
@@ -101,12 +122,12 @@
               </kendo-combobox>
               <span *ngIf="f.CompanyJobId.errors?.required" class="invalid-feedback">Job is required</span>
             </div>
-            <label class="col-2 col-form-label">Work State</label>
+            <label class="col-2 col-form-label">Work Zip</label>
             <div class="col-4">
-              <input data-qa-id="txt-employee-form-state" type="text" class="form-control"
-                     formControlName="State"
+              <input data-qa-id="txt-employee-form-zip" type="text" class="form-control"
+                     formControlName="Zip"
                      [maxlength]="DEFAULT_MAX_LENGTH"
-                     [ngClass]="{ 'is-invalid': !f.State.valid && f.State.touched }">
+                     [ngClass]="{ 'is-invalid': !f.Zip.valid && f.Zip.touched }">
             </div>
           </div>
           <div class="form-group row">
@@ -129,26 +150,6 @@
                               [ngClass]="{ 'is-invalid': !f.CompanyPayMarketId.valid && f.CompanyPayMarketId.touched }"></kendo-combobox>
               <span *ngIf="f.CompanyPayMarketId.errors?.required" class="invalid-feedback">Pay Market is required</span>
             </div>
-            <label class="col-2 col-form-label">Work Zip</label>
-            <div class="col-4">
-              <input data-qa-id="txt-employee-form-zip" type="text" class="form-control"
-                     formControlName="Zip"
-                     [maxlength]="DEFAULT_MAX_LENGTH"
-                     [ngClass]="{ 'is-invalid': !f.Zip.valid && f.Zip.touched }">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-2 col-form-label">Rate <span class="text-danger">*</span></label>
-            <div class="col-4">
-              <kendo-combobox class="form-control"
-                              data-qa-id="ddl-employee-form-rate"
-                              placeholder="Select a Rate..."
-                              formControlName="Rate"
-                              (valueChange)="onCompChanges()"
-                              [data]="rates"
-                              [ngClass]="{ 'is-invalid': !f.Rate.valid && f.Rate.touched }"></kendo-combobox>
-              <span *ngIf="f.Rate.errors?.required" class="invalid-feedback">Rate is required</span>
-            </div>
             <label class="col-2 col-form-label">Work Country <span class="text-danger">*</span></label>
             <div class="col-4">
               <kendo-combobox #workCountryCombobox
@@ -169,6 +170,27 @@
             </div>
           </div>
           <div class="form-group row">
+            <label class="col-2 col-form-label">Rate <span class="text-danger">*</span></label>
+            <div class="col-4">
+              <kendo-combobox class="form-control"
+                              data-qa-id="ddl-employee-form-rate"
+                              placeholder="Select a Rate..."
+                              formControlName="Rate"
+                              (valueChange)="onCompChanges()"
+                              [data]="rates"
+                              [ngClass]="{ 'is-invalid': !f.Rate.valid && f.Rate.touched }"></kendo-combobox>
+              <span *ngIf="f.Rate.errors?.required" class="invalid-feedback">Rate is required</span>
+            </div>
+            <label class="col-2 col-form-label">Date of Birth</label>
+            <div class="col-4">
+              <kendo-datepicker class="form-control"
+                                data-qa-id="dpckr-employee-form-dob"
+                                formControlName="DOB"
+                                [format]="'MM/dd/yyyy'"
+                                [ngClass]="{ 'is-invalid': !f.DOB.valid && f.DOB.touched }"></kendo-datepicker>
+            </div>
+          </div>
+          <div class="form-group row">
             <label class="col-2 col-form-label">Currency Code <span class="text-danger">*</span></label>
             <div class="col-4">
               <kendo-combobox #currencyCombobox
@@ -186,23 +208,6 @@
                               [ngClass]="{ 'is-invalid': !f.CurrencyCode.valid && f.CurrencyCode.touched }"></kendo-combobox>
               <span *ngIf="f.CurrencyCode.errors?.required" class="invalid-feedback">Currency is required</span>
             </div>
-            <label class="col-2 col-form-label">Date of Birth</label>
-            <div class="col-4">
-              <kendo-datepicker class="form-control"
-                                data-qa-id="dpckr-employee-form-dob"
-                                formControlName="DOB"
-                                [format]="'MM/dd/yyyy'"
-                                [ngClass]="{ 'is-invalid': !f.DOB.valid && f.DOB.touched }"></kendo-datepicker>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-2 col-form-label">Facility</label>
-            <div class="col-4">
-              <input data-qa-id="txt-employee-form-facility" type="text" class="form-control"
-                     formControlName="Facility"
-                     [maxlength]="DEFAULT_MAX_LENGTH"
-                     [ngClass]="{ 'is-invalid': !f.Facility.valid && f.Facility.touched }">
-            </div>
             <label class="col-2 col-form-label">Date of Hire</label>
             <div class="col-4">
               <kendo-datepicker class="form-control"
@@ -213,14 +218,12 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-2 col-form-label">Base Salary</label>
+            <label class="col-2 col-form-label">Facility</label>
             <div class="col-4">
-              <kendo-numerictextbox class="form-control"
-                                    data-qa-id="txt-employee-form-base"
-                                    formControlName="Base"
-                                    (valueChange)="onCompChanges()"
-                                    [ngClass]="{ 'is-invalid': !f.Base.valid && f.Base.touched }"
-                                    [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
+              <input data-qa-id="txt-employee-form-facility" type="text" class="form-control"
+                     formControlName="Facility"
+                     [maxlength]="DEFAULT_MAX_LENGTH"
+                     [ngClass]="{ 'is-invalid': !f.Facility.valid && f.Facility.touched }">
             </div>
             <label class="col-2 col-form-label">Department</label>
             <div class="col-4">
@@ -239,13 +242,13 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-2 col-form-label">STI</label>
+            <label class="col-2 col-form-label">Base Salary</label>
             <div class="col-4">
               <kendo-numerictextbox class="form-control"
-                                    data-qa-id="txt-employee-form-sti"
-                                    formControlName="STI"
+                                    data-qa-id="txt-employee-form-base"
+                                    formControlName="Base"
                                     (valueChange)="onCompChanges()"
-                                    [ngClass]="{ 'is-invalid': !f.STI.valid && f.STI.touched }"
+                                    [ngClass]="{ 'is-invalid': !f.Base.valid && f.Base.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
             <label class="col-2 col-form-label">LTI</label>
@@ -259,13 +262,13 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-2 col-form-label">Bonus</label>
+            <label class="col-2 col-form-label">STI</label>
             <div class="col-4">
               <kendo-numerictextbox class="form-control"
-                                    data-qa-id="txt-employee-form-bonus"
-                                    formControlName="Bonus"
+                                    data-qa-id="txt-employee-form-sti"
+                                    formControlName="STI"
                                     (valueChange)="onCompChanges()"
-                                    [ngClass]="{ 'is-invalid': !f.Bonus.valid && f.Bonus.touched }"
+                                    [ngClass]="{ 'is-invalid': !f.STI.valid && f.STI.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
             <label class="col-2 col-form-label">Bonus Percentage</label>
@@ -278,12 +281,13 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-2 col-form-label">Bonus Target</label>
+            <label class="col-2 col-form-label">Bonus</label>
             <div class="col-4">
               <kendo-numerictextbox class="form-control"
-                                    data-qa-id="txt-employee-form-bonustarget"
-                                    formControlName="BonusTarget"
-                                    [ngClass]="{ 'is-invalid': !f.BonusTarget.valid && f.BonusTarget.touched }"
+                                    data-qa-id="txt-employee-form-bonus"
+                                    formControlName="Bonus"
+                                    (valueChange)="onCompChanges()"
+                                    [ngClass]="{ 'is-invalid': !f.Bonus.valid && f.Bonus.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
             <label class="col-2 col-form-label">Bonus Target Percentage</label>
@@ -292,6 +296,25 @@
                                     data-qa-id="txt-employee-form-bonus-target-pct"
                                     formControlName="BonusTargetPct"
                                     [ngClass]="{ 'is-invalid': !f.BonusTargetPct.valid && f.BonusTargetPct.touched }"
+                                    [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-2 col-form-label">Bonus Target</label>
+            <div class="col-4">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-bonustarget"
+                                    formControlName="BonusTarget"
+                                    [ngClass]="{ 'is-invalid': !f.BonusTarget.valid && f.BonusTarget.touched }"
+                                    [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
+            </div>
+            <label class="col-2 col-form-label">TCC</label>
+            <div class="col-4">
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-tcc"
+                                    formControlName="TCC"
+                                    [placeholder]="calculatedTCC | number : '1.2-2'"
+                                    [ngClass]="{ 'is-invalid': !f.TCC.valid && f.TCC.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
           </div>
@@ -305,13 +328,13 @@
                 [ngClass]="{ 'is-invalid': !f.FTE.valid && f.FTE.touched }"
                 min="0" max="1" autoCorrect="true" class="form-control" [spinners]="false"></kendo-numerictextbox>
             </div>
-            <label class="col-2 col-form-label">TCC</label>
+            <label class="col-2 col-form-label">TDC</label>
             <div class="col-4">
               <kendo-numerictextbox class="form-control"
-                                    data-qa-id="txt-employee-form-tcc"
-                                    formControlName="TCC"
-                                    [placeholder]="calculatedTCC | number : '1.2-2'"
-                                    [ngClass]="{ 'is-invalid': !f.TCC.valid && f.TCC.touched }"
+                                    data-qa-id="txt-employee-form-tdc"
+                                    formControlName="TDC"
+                                    [placeholder]="calculatedTDC | number : '1.2-2'"
+                                    [ngClass]="{ 'is-invalid': !f.TDC.valid && f.TDC.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
           </div>
@@ -324,13 +347,12 @@
                                     [ngClass]="{ 'is-invalid': !f.Allow.valid && f.Allow.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
-            <label class="col-2 col-form-label">TDC</label>
+            <label class="col-2 col-form-label">Target TCC</label>
             <div class="col-4">
               <kendo-numerictextbox class="form-control"
-                                    data-qa-id="txt-employee-form-tdc"
-                                    formControlName="TDC"
-                                    [placeholder]="calculatedTDC | number : '1.2-2'"
-                                    [ngClass]="{ 'is-invalid': !f.TDC.valid && f.TDC.touched }"
+                                    data-qa-id="txt-employee-form-target-tcc"
+                                    formControlName="TargetTCC"
+                                    [ngClass]="{ 'is-invalid': !f.TargetTCC.valid && f.TargetTCC.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
           </div>
@@ -343,12 +365,12 @@
                                     [ngClass]="{ 'is-invalid': !f.TargetLTIP.valid && f.TargetLTIP.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
-            <label class="col-2 col-form-label">Target TCC</label>
+            <label class="col-2 col-form-label">Total Fixed Pay</label>
             <div class="col-4">
               <kendo-numerictextbox class="form-control"
-                                    data-qa-id="txt-employee-form-target-tcc"
-                                    formControlName="TargetTCC"
-                                    [ngClass]="{ 'is-invalid': !f.TargetTCC.valid && f.TargetTCC.touched }"
+                                    data-qa-id="txt-employee-form-tfp"
+                                    formControlName="Fixed"
+                                    [ngClass]="{ 'is-invalid': !f.Fixed.valid && f.Fixed.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
           </div>
@@ -361,24 +383,6 @@
                                     [ngClass]="{ 'is-invalid': !f.TargetTDC.valid && f.TargetTDC.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
-            <label class="col-2 col-form-label">Total Fixed Pay</label>
-            <div class="col-4">
-              <kendo-numerictextbox class="form-control"
-                                    data-qa-id="txt-employee-form-tfp"
-                                    formControlName="Fixed"
-                                    [ngClass]="{ 'is-invalid': !f.Fixed.valid && f.Fixed.touched }"
-                                    [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-2 col-form-label">Total Guaranteed Pay</label>
-            <div class="col-4">
-              <kendo-numerictextbox class="form-control"
-                                    data-qa-id="txt-employee-form-tgp"
-                                    formControlName="TGP"
-                                    [ngClass]="{ 'is-invalid': !f.TGP.valid && f.TGP.touched }"
-                                    [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
-            </div>
             <label class="col-2 col-form-label">Gender</label>
             <div class="col-4">
               <kendo-combobox class="form-control"
@@ -389,12 +393,12 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-2 col-form-label">Total Remuneration</label>
+            <label class="col-2 col-form-label">Total Guaranteed Pay</label>
             <div class="col-4">
               <kendo-numerictextbox class="form-control"
-                                    data-qa-id="txt-employee-form-remun"
-                                    formControlName="Remun"
-                                    [ngClass]="{ 'is-invalid': !f.Remun.valid && f.Remun.touched }"
+                                    data-qa-id="txt-employee-form-tgp"
+                                    formControlName="TGP"
+                                    [ngClass]="{ 'is-invalid': !f.TGP.valid && f.TGP.touched }"
                                     [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
             <label class="col-2 col-form-label">STI Eligibility</label>
@@ -410,16 +414,13 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-2 col-form-label">LTI Eligibility</label>
+            <label class="col-2 col-form-label">Total Remuneration</label>
             <div class="col-4">
-              <kendo-combobox class="form-control"
-                              data-qa-id="ddl-employee-form-lti-elig"
-                              [data]="yesNo"
-                              [valueField]="'Value'"
-                              [textField]="'Name'"
-                              [valuePrimitive]="true"
-                              formControlName="LTIElig"
-                              placeholder="Select Eligibility..."></kendo-combobox>
+              <kendo-numerictextbox class="form-control"
+                                    data-qa-id="txt-employee-form-remun"
+                                    formControlName="Remun"
+                                    [ngClass]="{ 'is-invalid': !f.Remun.valid && f.Remun.touched }"
+                                    [spinners]="false" min="0" autoCorrect="true"></kendo-numerictextbox>
             </div>
             <label [class.hidden]="!selectedStructure?.Is.GradeRange" class="col-2 col-form-label">Grade</label>
             <div [class.hidden]="!selectedStructure?.Is.GradeRange" class="col-4">
@@ -438,6 +439,17 @@
             </div>
           </div>
           <div class="form-group row">
+            <label class="col-2 col-form-label">LTI Eligibility</label>
+            <div class="col-4">
+              <kendo-combobox class="form-control"
+                              data-qa-id="ddl-employee-form-lti-elig"
+                              [data]="yesNo"
+                              [valueField]="'Value'"
+                              [textField]="'Name'"
+                              [valuePrimitive]="true"
+                              formControlName="LTIElig"
+                              placeholder="Select Eligibility..."></kendo-combobox>
+            </div>
             <label class="col-2 col-form-label">Structure Name</label>
             <div class="col-4">
               <kendo-combobox class="form-control" placeholder="Select a Structure Name..."

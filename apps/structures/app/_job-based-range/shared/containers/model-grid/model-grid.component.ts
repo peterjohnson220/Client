@@ -14,7 +14,7 @@ import {
   getDefaultGridRowActionsConfig
 } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import {  CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
@@ -76,6 +76,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   metaData$: Observable<RangeGroupMetadata>;
   metaDataSub: Subscription;
+  rangeOverrides$: Observable<CompanyStructureRangeOverride[]>;
+  rangeOverridesSub: Subscription;
   selectedRecordId$: Observable<number>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
   roundingSettingsSub: Subscription;
@@ -99,10 +101,13 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   invalidMidPointRanges: number[];
   hasAddEditDeleteStructurePermission: boolean;
   hasCreateEditStructureModelPermission: boolean;
+  hasCanEditPublishedStructureRanges: boolean;
   filterTemplates = {};
   modifiedKeys: any[];
   modifiedKeysSubscription: Subscription;
   selectedDropdown: NgbDropdown;
+  rangeOverrides: CompanyStructureRangeOverride[];
+
 
   gridConfig = {
     PersistColumnWidth: false,
@@ -117,7 +122,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
-
+    this.rangeOverrides$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRangeOverrides));
     this.singleRecordActionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: false
@@ -144,10 +149,29 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
+  getRangeOverrideTooltip(rangeId: number): string {
+    // grab the override record
+    if (this.rangeOverrides) {
+      const currentOverride = this.rangeOverrides.find(o => o.CompanyStructuresRangesId === rangeId);
+      if (!!currentOverride && !this.isManualOverride(currentOverride)) {
+        if (currentOverride.UsePublishedRange) {
+          return 'No market data exists for this job so the published range was used.';
+        }
+        if (currentOverride.MidForcedToCurrent) {
+          return 'Modeled midpoint was calculated below the published job midpoint so the published job range info was used.';
+        }
+      }
+    }
+    // fallback to the normal message
+    return 'One or more fields in this range have been manually changed.';
+  }
+
   initPermissions() {
     this.hasAddEditDeleteStructurePermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_ADD_EDIT_DELETE],
       PermissionCheckEnum.Single);
     this.hasCreateEditStructureModelPermission = this.permissionService.CheckPermission([Permissions.STRUCTURES_CREATE_EDIT_MODEL],
+      PermissionCheckEnum.Single);
+    this.hasCanEditPublishedStructureRanges = this.permissionService.CheckPermission([Permissions.STRUCTURES_PUBLISH],
       PermissionCheckEnum.Single);
   }
 
@@ -228,6 +252,22 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.selectedDropdown = dropdown;
   }
 
+  showRevertChanges(rangeId: number): boolean {
+    if (this.rangeOverrides) {
+      const currentOverride = this.rangeOverrides.find(o => o.CompanyStructuresRangesId === rangeId);
+      if (!!currentOverride) {
+        return this.isManualOverride(currentOverride);
+      }
+    } else {
+      return false;
+    }
+  }
+
+  isManualOverride(dto: CompanyStructureRangeOverride): boolean {
+    return dto.Max || dto.Min || dto.Mid || dto.FirstTertile || dto.SecondTertile || dto.FirstQuartile || dto.SecondQuartile || dto.FirstQuintile
+    || dto.SecondQuintile || dto.ThirdQuintile || dto.FourthQuintile;
+  }
+
   // Lifecycle
   ngAfterViewInit() {
     this.colTemplates = {
@@ -259,6 +299,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.modelPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelPageViewId = pv);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.metaDataSub = this.metaData$.subscribe(md => this.metaData = md);
+    this.rangeOverridesSub = this.rangeOverrides$.subscribe(ro => this.rangeOverrides = ro);
     this.removingRange$ = this.store.select(fromSharedJobBasedRangeReducer.getRemovingRange);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelPageViewId);
     this.removingRangeSuccessSubscription = this.actionsSubject
@@ -278,6 +319,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.roundingSettingsSub.unsubscribe();
     this.metaDataSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
+    this.rangeOverridesSub.unsubscribe();
     this.modifiedKeysSubscription.unsubscribe();
   }
 }

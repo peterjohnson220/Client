@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppWrapperComponent } from 'libs/features/app-root';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { TileEnabledGuard, UserContextGuard, TabularReportBuilderGuard } from 'libs/security';
-import { AccessDeniedPageComponent, NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
+import { DEFAULT_ROUTES } from 'libs/ui/common';
 
 export const routes: Routes = [
   {
@@ -21,9 +21,7 @@ export const routes: Routes = [
       }
     ]
   },
-  { path: 'access-denied', component: AccessDeniedPageComponent },
-  { path: 'not-found', component: NotFoundErrorPageComponent },
-  { path: '**', component: NotFoundErrorPageComponent }
+  ...DEFAULT_ROUTES
 ];
 
 @NgModule({

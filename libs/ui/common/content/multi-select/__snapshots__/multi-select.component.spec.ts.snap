@@ -3,6 +3,8 @@
 exports[`UI/Common/Content - Multi Select should hide checkbox panel when not expanded 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  disabled="false"
+  disabledMessage=""
   displayNamePreview="false"
   highlightSelected="false"
   isExpanded="false"
@@ -53,6 +55,8 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
 exports[`UI/Common/Content - Multi Select should hide the loading indicator when not loading 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  disabled="false"
+  disabledMessage=""
   displayNamePreview="false"
   highlightSelected="false"
   isExpanded={[Function Boolean]}
@@ -177,6 +181,8 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
 exports[`UI/Common/Content - Multi Select should render its options when expanded 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  disabled="false"
+  disabledMessage=""
   displayNamePreview="false"
   highlightSelected="false"
   isExpanded={[Function Boolean]}
@@ -297,6 +303,8 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
 exports[`UI/Common/Content - Multi Select should render the correct primary label text 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  disabled="false"
+  disabledMessage=""
   displayNamePreview="false"
   highlightSelected="false"
   isExpanded="false"
@@ -353,6 +361,8 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
 exports[`UI/Common/Content - Multi Select should show the checkbox panel when expanded 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  disabled="false"
+  disabledMessage=""
   displayNamePreview="false"
   highlightSelected="false"
   isExpanded={[Function Boolean]}
@@ -477,6 +487,8 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
 exports[`UI/Common/Content - Multi Select should show the loading indicator when loading 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  disabled="false"
+  disabledMessage=""
   displayNamePreview="false"
   highlightSelected="false"
   isExpanded={[Function Boolean]}

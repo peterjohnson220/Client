@@ -94,3 +94,7 @@ pf-salary-trend-chart {
     }
   }
 }
+
+.k-chart-tooltip-wrapper.k-animation-container-shown {
+  transition: none !important;
+}

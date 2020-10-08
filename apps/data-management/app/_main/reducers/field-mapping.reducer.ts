@@ -35,7 +35,7 @@ export const initialState: State = {
   defaultPaymarketLoading: false,
   defaultPaymarketLoadingError: false,
   defaultPaymarketModalOpen: false,
-  isDirty: false
+  isDirty: false,
 };
 
 export function reducer(state: State = initialState, action: fromFieldMappingActions.Actions) {
@@ -116,7 +116,6 @@ export function reducer(state: State = initialState, action: fromFieldMappingAct
           action.payload.entityType,
           action.payload.entity,
           cloneDeep(state.providerFields));
-
       return {
         ...state,
         payfactorsFields: updatedPayfactorsFields,

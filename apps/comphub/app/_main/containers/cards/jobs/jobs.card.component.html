@@ -2,20 +2,14 @@
   pageTitle="Jobs"
   pageSubTitle="First, let's find a job to price"
   pageIconClass="user-circle"
-  [hideBackButton]="true"
-  [page]="comphubPages.Jobs"
-  [nextButtonEnabled]="
-    (!(jobPricingBlocked$ | async) &&
-    (selectedJob$ | async)?.length) &&
-    workflowContext?.selectedPageId === comphubPages.Jobs"
-  [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Jobs">
+  [page]="comphubPages.Jobs">
 
   <ng-container page-content>
 
     <div class="row">
       <div class="col-lg-12 col-xl-9">
 
-        <div *ngIf="workflowContext?.quickPriceType === quickPriceTypes.ENTERPRISE">
+        <div *ngIf="!isPeerQuickPriceType">
           <div class="data-set-selector" *ngIf="(countryDataSets$ | async)?.length > 1">
           <kendo-dropdownlist
             (valueChange)="handleCountryDataSetChanged($event)"
@@ -46,6 +40,7 @@
             [disabled]="jobPricingBlocked$ | async"
             [popupSettings]="popupSettings"
             [attr.data-qa-id]="'txt-job-search'"
+            (close)="handleSearchClosed()"
             (valueChange)="handleJobSearchValueChanged($event)"
             (filterChange)="handleJobSearchFilterChange($event)">
             <ng-template kendoAutoCompleteNoDataTemplate>
@@ -54,7 +49,7 @@
           </kendo-autocomplete>
 
       </div>
-        <div *ngIf="workflowContext?.quickPriceType === quickPriceTypes.PEER">
+        <div *ngIf="isPeerQuickPriceType">
       <div class="data-set-selector exchange-selector">
         <label class="exchange-dropdown-label">Peer Exchange: </label>
         <kendo-dropdownlist
@@ -80,6 +75,7 @@
             [disabled]="jobPricingBlocked$ | async"
             [popupSettings]="popupSettings"
             [attr.data-qa-id]="'txt-job-search'"
+            (close)="handleSearchClosed()"
             (valueChange)="handleJobSearchValueChanged($event)"
             (filterChange)="handleJobSearchFilterChange($event)">
             <ng-template kendoAutoCompleteNoDataTemplate>
@@ -90,14 +86,18 @@
       </div>
     </div>
 
-    <div class="row">
+    <pf-market-data-job-grid *ngIf="!isPeerQuickPriceType"></pf-market-data-job-grid>
+
+    <pf-peer-job-grid *ngIf="isPeerQuickPriceType"></pf-peer-job-grid>
+
+    <div *ngIf="!selectedJob?.length" class="row">
       <div class="col-lg-12 col-xl-9">
 
         <div class="uppercase-header mt-5 mb-2">Trending Jobs</div>
         <p class="mb-4">Check out these recently priced jobs that are trending across the Payfactors universe!</p>
 
         <pf-async-container [loading]="loadingTrendingJobs$ | async">
-          <div class="row" *ngIf="countryDataSetsLoaded$ | async">
+          <div class="row" *ngIf="(countryDataSetsLoaded$ | async) || (exchangeDataSetsLoaded$ | async)">
             <ng-container *ngIf="(trendingJobGroups$ | async)?.length && !(loadingTrendingJobs$ | async); else noTrendingJobGroups">
               <div class="col-6" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
                 <pf-trending-job-group
@@ -125,6 +125,14 @@
   </ng-container>
 
   <ng-container custom-actions>
+    <ng-container *ngIf="(pricedJobsCount$ | async) as pricedJobsCountAsync">
+      <span *ngIf="!pricedJobsCountAsync.loading && pricedJobsCountAsync.obj > 0"
+            class="priced-jobs-btn"
+            (click)="openQuickPriceHistoryModal()">
+        {{pricedJobsCountAsync.obj}} Job<span *ngIf="pricedJobsCountAsync.obj > 1">s</span> Priced
+      </span>
+    </ng-container>
+
     <div class="smb-limit-disabling-message" *ngIf="(jobPricingBlocked$ | async)
     && (countryDataSetsLoaded$ | async)
     && (userContext$ | async)?.CompanySystemUserGroupsGroupName === systemUserGroupNames.SmallBusiness">
@@ -141,3 +149,5 @@
   </ng-container>
 
 </pf-card-layout>
+
+<pf-quick-price-history></pf-quick-price-history>

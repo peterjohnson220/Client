@@ -7,7 +7,6 @@ import { debounceTime } from 'rxjs/operators';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
-import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
@@ -42,7 +41,6 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   workflowContext$: Observable<WorkflowContext>;
   forceRefresh$: Observable<boolean>;
   mapFilter$: Observable<any>;
-  loadingMap$: Observable<boolean>;
 
   // Subscriptions
   payMarketSubscription: Subscription;
@@ -55,7 +53,6 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   workflowContextSubscription: Subscription;
   forceRefreshSubscription: Subscription;
   mapFilterSubscription: Subscription;
-  loadingMapSubscription: Subscription;
 
   forceRefresh: boolean;
   selectedExchangeId: number;
@@ -75,7 +72,6 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
   pageLoading: boolean;
 
   constructor(private store: Store<fromComphubMainReducer.State>,
-              public guidelinesService: DojGuidelinesService,
               private changeDetectorRef: ChangeDetectorRef,
               private exchangeExplorerStore: Store<fromLibsPeerExchangeExplorerReducers.State>) {
     this.selectedJobTitle$ = this.store.select(fromComphubMainReducer.getSelectedJob);
@@ -89,7 +85,6 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.forceRefresh$ = this.store.select(fromComphubMainReducer.getForcePeerMapRefresh);
     this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
     this.mapFilter$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapFilter);
-    this.loadingMap$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapLoading);
   }
 
   showMap() {
@@ -132,7 +127,6 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     });
 
     this.mapFilterSubscription = this.mapFilter$.subscribe(f => this.mapFilter = f);
-    this.loadingMapSubscription = this.loadingMap$.subscribe(x => this.pageLoading = x);
   }
 
   onSelectedPageIdDelayedChanges(workflowContext: WorkflowContext): void {
@@ -155,8 +149,6 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
         } as MessageEvent;
         this.exchangeExplorer.onMessage(setContextMessage);
         this.refreshMapData();
-      } else {
-        this.pageLoading = false;
       }
     } else
     if (this.displayMap && this.selectedPageIdDelayed !== ComphubPages.Data) {
@@ -166,7 +158,6 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
           Centroid: null
       }));
       this.displayMap = false;
-      this.pageLoading = true;
     }
   }
 
@@ -181,7 +172,6 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.forceRefreshSubscription.unsubscribe();
     this.selectedPageIdDelayedSubscription.unsubscribe();
     this.mapFilterSubscription.unsubscribe();
-    this.loadingMapSubscription.unsubscribe();
   }
 
   get untaggedIncumbentMessage(): string {
@@ -214,9 +204,5 @@ export class PeerDataCardComponent implements OnInit, OnDestroy {
     this.mapJobTitle = this.selectedJobTitle;
     this.mapExchangeId = this.selectedExchangeId;
     this.mapPayMarketId = this.selectedPayMarketId;
-  }
-
-  get failsGuidelines(): boolean {
-    return !this.guidelinesService.passesGuidelines;
   }
 }

@@ -1,27 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import isEmpty from 'lodash/isEmpty';
 import isString from 'lodash/isString';
 
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {FileRestrictions} from '@progress/kendo-angular-upload';
+import { FileRestrictions } from '@progress/kendo-angular-upload';
 
 import {
-  BONUS_TARGET_COLUMN_NAME, BONUS_TARGET_DISPLAY_NAME,
-  DATE_FORMATS,
-  LoaderType,
-  ORG_DATA_CLIENTFIELDS_INDEX_RESET,
-  ORG_DATA_REMOVE_URL,
-  ORG_DATA_UPLOAD_URL
+    BONUS_TARGET_COLUMN_NAME, BONUS_TARGET_DISPLAY_NAME, DATE_FORMATS, LoaderType, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL,
+    ORG_DATA_UPLOAD_URL
 } from 'libs/features/org-data-loader/constants';
-import {DateFormatItem,
-  FilenamePattern,
-  LoaderEntityStatus,
-  VisibleLoaderOptionModel,
-  EntityFieldMappingDefinitionModel,
-  getEntityFieldMappingDefinition} from 'libs/features/org-data-loader/models';
-import {LoaderFieldSet} from 'libs/models/data-loads';
+import {
+    DateFormatItem, EntityFieldMappingDefinitionModel, FilenamePattern, getEntityFieldMappingDefinition, LoaderEntityStatus,
+    VisibleLoaderOptionModel
+} from 'libs/features/org-data-loader/models';
+import { LoaderFieldSet } from 'libs/models/data-loads';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -113,9 +107,10 @@ export class FieldMapperComponent implements OnInit, OnChanges {
         if (internalField === BONUS_TARGET_COLUMN_NAME) {
           internalField = BONUS_TARGET_DISPLAY_NAME;
         }
-        this.addMappingWithoutCompleteEvent(internalField, mapping.ClientField);
+        this.addMapping(internalField, mapping.ClientField);
       }
     }
+    this.fireCompleteEvent();
   }
 
   changeIsFullReplace(isFullReplace: boolean) {
@@ -142,7 +137,8 @@ export class FieldMapperComponent implements OnInit, OnChanges {
   };
 
   ApplyMapping() {
-    this.addMappingWithCompleteEvent(this.selectedPfField, this.selectedClientField);
+    this.addMapping(this.selectedPfField, this.selectedClientField);
+    this.fireCompleteEvent();
     this.selectedClientField = '';
     this.selectedPfField = '';
   }
@@ -178,15 +174,6 @@ export class FieldMapperComponent implements OnInit, OnChanges {
 
   // Private Methods
 
-  private addMappingWithCompleteEvent(pfField, clientField) {
-    this.addMapping(pfField, clientField);
-    this.fireCompleteEvent();
-  }
-
-  private addMappingWithoutCompleteEvent(pfField, clientField) {
-    this.addMapping(pfField, clientField);
-  }
-
   private addMapping(pfField, clientField) {
     const value = pfField + '__' + clientField;
     this.mappedFields.push(value);
@@ -219,12 +206,13 @@ export class FieldMapperComponent implements OnInit, OnChanges {
     for (let i = 0; i < this.clientFields.length; i++) {
       for (let j = 0; j < this.payfactorsDataFields.length; j++) {
         if (this.compareFields(this.payfactorsDataFields[j], this.clientFields[i])) {
-          this.addMappingWithCompleteEvent(this.payfactorsDataFields[j], this.clientFields[i]);
+          this.addMapping(this.payfactorsDataFields[j], this.clientFields[i]);
           i = ORG_DATA_CLIENTFIELDS_INDEX_RESET;
           break;
         }
       }
     }
+    this.fireCompleteEvent();
   }
 
   private fireCompleteEvent() {

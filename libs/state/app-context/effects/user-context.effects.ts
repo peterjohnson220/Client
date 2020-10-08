@@ -21,7 +21,7 @@ export class UserContextEffects {
           map((identity: any) => new userContextActions.GetUserContextSuccess(identity)),
           catchError(error => {
             const redirectToAfterSuccessfulLogin = window.location.pathname + window.location.search;
-            return of(new userContextActions.GetUserContextError({error: error, redirectUrl: redirectToAfterSuccessfulLogin}));
+            return of(new userContextActions.GetUserContextError({ error: error, redirectUrl: redirectToAfterSuccessfulLogin }));
           })
         )
       )
@@ -38,7 +38,9 @@ export class UserContextEffects {
         } else if (errorContext.error.status === 404) {
           return new userContextActions.GetUserContext404Error();
         } else if (errorContext.error.status === 403) {
-          return new userContextActions.GetUserContext403Error({errorMessage: errorContext.error.error.error.message});
+          return new userContextActions.GetUserContext403Error({ errorMessage: errorContext.error.error.error.message });
+        } else if (errorContext.error.status === 500) {
+          return new userContextActions.GetUserContext500Error();
         }
       })
     );
@@ -48,12 +50,11 @@ export class UserContextEffects {
     .pipe(
       ofType(userContextActions.GET_USER_CONTEXT_401_ERROR),
       tap((action: userContextActions.GetUserContext401Error) => {
-          if (isPlatformBrowser(this.platformId)) {
-            window.location.href = `/?redirect=` + encodeURIComponent(action.redirect);
-          }
-          return null;
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.href = `/?redirect=` + encodeURIComponent(action.redirect);
         }
-      )
+        return null;
+      })
     );
 
   @Effect({ dispatch: false })
@@ -61,11 +62,10 @@ export class UserContextEffects {
     .pipe(
       ofType(userContextActions.GET_USER_CONTEXT_403_ERROR),
       tap((action: userContextActions.GetUserContext403Error) => {
-          if (isPlatformBrowser(this.platformId)) {
-            this.router.navigate(['/forbidden']);
-          }
+        if (isPlatformBrowser(this.platformId)) {
+          this.router.navigate(['/forbidden']);
         }
-      )
+      })
     );
 
   @Effect({ dispatch: false })
@@ -73,17 +73,28 @@ export class UserContextEffects {
     .pipe(
       ofType(userContextActions.GET_USER_CONTEXT_404_ERROR),
       tap((action: userContextActions.GetUserContext404Error) => {
-          if (isPlatformBrowser(this.platformId)) {
-            this.router.navigate(['/not-found']);
-          }
-          return null;
+        if (isPlatformBrowser(this.platformId)) {
+          this.router.navigate(['/not-found']);
         }
-      )
+        return null;
+      })
+    );
+
+  @Effect({ dispatch: false })
+  getUserContext500Error$ = this.actions$
+    .pipe(
+      ofType(userContextActions.GET_USER_CONTEXT_500_ERROR),
+      tap((action: userContextActions.GetUserContext500Error) => {
+        if (isPlatformBrowser(this.platformId)) {
+          this.router.navigate(['/server-error']);
+        }
+        return null;
+      })
     );
 
   constructor(private actions$: Actions,
-              private companySecurityApiService: CompanySecurityApiService,
-              private router: Router,
-              @Inject(PLATFORM_ID) private platformId: Object) {
+    private companySecurityApiService: CompanySecurityApiService,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object) {
   }
 }

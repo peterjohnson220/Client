@@ -28,6 +28,7 @@ import { RangeValuePipe } from './pipes';
 import { reducers } from './reducers';
 import { StructuresPagesService, UrlService } from './services';
 import * as fromFaIcons from './fa-icons';
+import { AdvancedModelingComponent } from './containers/advanced-modeling';
 
 @NgModule({
   imports: [
@@ -58,6 +59,7 @@ import * as fromFaIcons from './fa-icons';
   declarations: [
     ModelGridComponent,
     RangeRoundingComponent,
+    AdvancedModelingComponent,
     GridContextComponent,
     ModelSettingsModalComponent,
     ModelSettingsBtnComponent,

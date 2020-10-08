@@ -4,7 +4,7 @@ export interface GenericMappableField {
   isArray: boolean;
   dataType: ImportDataType;
   name: string;
-  metaData: any;
+  metadata: any;
 }
 
 export function generateMockGenericMappableField(): GenericMappableField {
@@ -12,6 +12,6 @@ export function generateMockGenericMappableField(): GenericMappableField {
     isArray: false,
     dataType: ImportDataType.String,
     name: 'Mock Generic Field Name',
-    metaData: ''
+    metadata: ''
   };
 }

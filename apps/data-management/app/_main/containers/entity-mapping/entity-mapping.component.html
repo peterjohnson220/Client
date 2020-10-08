@@ -26,10 +26,16 @@
   <div class="col-sm-8">
     <h5>{{targetName}} Fields</h5>
     <div class="row">
-      <div class="col">
+      <div class="col-7">
         <pf-input-debounce [id]="'payfactorsEntitySearch-' + entityType.toLowerCase()" [delay]="400"
           (valueChanged)="handleSearchTermChanged($event, 'payfactors')" [placeholderText]="'Search'" pfClickElsewhere>
         </pf-input-debounce>
+      </div>
+      <div *ngIf="entityType.toLowerCase() === 'employees'" class="col-5">
+        <pf-date-format-dropdown [provider]="provider"
+                                 [selectedDateFormat]="selectedDateFormat"
+                                 (handleDateFormatSelected)="onDateFormatSelected($event)">
+        </pf-date-format-dropdown>
       </div>
     </div>
     <div class="container-fluid my-3 border rounded pf-entity-table" *ngIf="filteredPayfactorsFields.length > 0">
@@ -46,16 +52,19 @@
           [dragulaModel]="field.AssociatedEntity"
           [attr.payfactors-entity-id]="field.EntityFieldId">
           <div class="col-1 d-flex justify-content-center">
-            <div ngbDropdown>
+            <div ngbDropdown container="body">
               <h5 class="m-0 entity-btn-group btn" ngbDropdownToggle><fa-icon icon="ellipsis-h" class=""></fa-icon></h5>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu">
-                <button ngbDropdownItem 
-                  class="dropdown-item"
+                <button ngbDropdownItem class="dropdown-item"
                   [disabled]="field.AssociatedEntity.length === 0"
                   (click)="removeAssociatedItem(field.EntityFieldId, field.AssociatedEntity[0])">
                   Clear Mapping
                 </button>
-                <!--TODO: Add new button for field mapping modal popup here-->
+                <button ngbDropdownItem  class="dropdown-item" *ngIf="field.DataType === importDataType.Date || field.DataType === importDataType.DateTime"
+                  [disabled]="field.AssociatedEntity.length === 0"
+                  (click)="showDataConverterModal(field)">
+                  Date Format
+                </button>
               </div>
             </div>
           </div>

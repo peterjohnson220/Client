@@ -37,23 +37,30 @@ export class TrsChartControlComponent implements OnChanges {
     // the chart animates on change detection, possibly because it thinks it's getting new values, so only change data when the mode changes
     if ((changes.mode && changes.mode.currentValue !== changes.mode.previousValue)
       || changes.employeeRewardsData || (changes.calculationControls?.currentValue !== changes.calculationControls?.previousValue && this.inEditMode)) {
-      this.chartData = this.inEditMode ? this.getChartEditData() : this.getChartPreviewData();
+      this.chartData = this.inEditMode ? this.getMockChartData() : this.getChartData();
     }
   }
 
-  getChartPreviewData(): { category: string, value: number }[] {
+  getChartData(): { category: string, value: number }[] {
     return this.calculationControls.map((c: CalculationControl) => {
       const sumOfVisibleFields = TotalRewardsStatementService.sumCalculationControl(c, this.employeeRewardsData);
-      return { category: c.Title.Override || c.Title.Default, value: (sumOfVisibleFields) ? +(sumOfVisibleFields / 1000).toFixed(0) : 0 };
+      const fractionDigits = sumOfVisibleFields < 500 ? 3 : 0;
+      return {
+        category: c.Title.Override || c.Title.Default,
+        value: (sumOfVisibleFields) ? +(sumOfVisibleFields / 1000).toFixed(fractionDigits) : 0
+      };
     });
   }
 
-  getChartEditData(): { category: string, value: number }[] {
+  getMockChartData(): { category: string, value: number }[] {
     const mockEditValues = [55, 10, 20, 10];
     return this.calculationControls.map((c: CalculationControl, i: number) => ({ category: c.Title.Override || c.Title.Default, value: mockEditValues[i] }));
   }
 
   public labelContent(e: any): string {
+    if (e.value < 1) {
+      return '<1k';
+    }
     return e.value + 'k';
   }
 

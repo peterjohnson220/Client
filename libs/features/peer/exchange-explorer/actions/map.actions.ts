@@ -20,6 +20,7 @@ export const AUTO_ZOOM_COMPLETE = '[Features/Peer/ExchangeExplorer/Map] Auto Zoo
 export const SET_PEER_MAP_BOUNDS = '[Features/Peer/ExchangeExplorer/Map] Set Peer Map Bounds';
 export const MOVE_END = '[Features/Peer/ExchangeExplorer/Map] Move End';
 export const INITIAL_ZOOM_COMPLETE = '[Features/Peer/ExchangeExplorer/Map] Initial Zoom Complete';
+export const SET_MAP_ZOOM = '[Features/Peer/ExchangeExplorer/Map] Set Map Zoom';
 
 
 export class LoadPeerMapData implements Action {
@@ -98,6 +99,12 @@ export class InitialZoomComplete implements Action {
   constructor() {}
 }
 
+export class SetMapZoom implements Action {
+  readonly type = SET_MAP_ZOOM;
+
+  constructor(public payload: number) {}
+}
+
 
 export type Actions
   = LoadPeerMapData
@@ -114,4 +121,5 @@ export type Actions
   | ClearMapFilterBounds
   | AutoZoomComplete
   | SetPeerMapBounds
-  | MoveEnd;
+  | MoveEnd
+  | SetMapZoom;

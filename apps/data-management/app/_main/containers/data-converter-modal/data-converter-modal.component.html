@@ -1,0 +1,18 @@
+<pf-modal-form [size]="'md'"
+               [title]="titleName"
+               [showFooter]="false"
+               [showSubmit]="false"
+               [modalId]="'au-modal-data-converter'"
+               [isOpen$]=" showDataConverterModal$"
+               (onDismiss)="closeDataConverterModal()">
+  <ng-container basic-content>
+    <pf-date-converter-form [fieldName]="fieldName"
+                            [provider]="provider"
+                            [selectedDateFormat]="selectedDateFormat"
+                            [entityType]="entityType"
+                            [dataType]="dataType"
+                            (onDateConverterFormSave)="saveDataConverterModal($event)"
+                            (onDateConverterFormCancel)="closeDataConverterModal()">
+    </pf-date-converter-form>
+  </ng-container>
+</pf-modal-form>

@@ -5,6 +5,8 @@ import * as fromLoaderSettingsReducer from 'libs/features/org-data-loader/state/
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
 
+import { SelectorHelper } from '../helpers';
+
 import * as fromTransferDataPageReducer from './transfer-data-page.reducer';
 import * as fromOrganizationalDataPageReducer from './organizational-data-page.reducer';
 import * as fromFieldMappingReducer from './field-mapping.reducer';
@@ -16,7 +18,8 @@ import * as fromEntityIdentifierReducer from './entity-identifiers.reducer';
 import * as fromEntitySelectionReducer from './entity-selection.reducer';
 import * as fromOutboundJdmReducer from './outbound-jdm.reducer';
 import * as fromProviderListReducer from './provider-list.reducer';
-import {SelectorHelper} from '../helpers';
+import * as fromConverterSettingsReducer from './converter-settings.reducer';
+
 
 export interface DataManagementMainState {
   transferDataPage: fromTransferDataPageReducer.State;
@@ -32,6 +35,7 @@ export interface DataManagementMainState {
   entitySelection: fromEntitySelectionReducer.State;
   outboundJdm: fromOutboundJdmReducer.State;
   providerList: fromProviderListReducer.State;
+  converterSettings: fromConverterSettingsReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -51,7 +55,8 @@ export const reducers = {
   entityIdentifiers: fromEntityIdentifierReducer.reducer,
   entitySelection: fromEntitySelectionReducer.reducer,
   outboundJdm: fromOutboundJdmReducer.reducer,
-  providerList: fromProviderListReducer.reducer
+  providerList: fromProviderListReducer.reducer,
+  converterSettings: fromConverterSettingsReducer.reducer,
 };
 
 // Select Feature Area
@@ -111,6 +116,11 @@ export const selectOutboundJdmState = createSelector(
 export const selectProviderListState = createSelector(
   selectFeatureAreaState,
   (state: DataManagementMainState) => state.providerList
+);
+
+export const selectConverterSettingsState = createSelector(
+  selectFeatureAreaState,
+  (state: DataManagementMainState) => state.converterSettings
 );
 
 // Transfer Data Page
@@ -347,6 +357,12 @@ export const getEntitySelectionPageSelections = createSelector(getSelectedEntiti
   return { selections: s1, providerSupportedEntities: s2.obj };
 });
 export const getShowRemoveEntityModal = createSelector(selectEntitySelectionState, fromEntitySelectionReducer.getShowRemoveEntityModal);
+
+// converter settings
+export const getConverterSettings = createSelector(selectConverterSettingsState, fromConverterSettingsReducer.getConverterSettings);
+export const getGlobalDateSetting = createSelector(selectConverterSettingsState, fromConverterSettingsReducer.getGlobalDateSetting);
+export const getDataConverterModalInfo = createSelector(selectConverterSettingsState, fromConverterSettingsReducer.getDataConverterModalInfo);
+export const isDataConverterModalOpen = createSelector(selectConverterSettingsState, fromConverterSettingsReducer.isDataConverterModalOpen);
 
 // Outbound
 export const getOutboundProviders = createSelector(selectTransferDataPageState, fromTransferDataPageReducer.getOutboundProviders);

@@ -7,7 +7,7 @@ import * as fromRoot from 'libs/state/state';
 import * as fromForgotPasswordReducer from './forgot-password.reducer';
 import * as fromFirstLoginReducer from './first-login-reducer';
 import * as fromResetPasswordReducer from './reset-password.reducer';
-import * as fromMarketingReducer from './marketing-image.reducer';
+import * as fromMarketingReducer from 'libs/features/marketing-settings/marketing-settings.reducer';
 import * as fromLoginReducer from './login.reducer';
 
 // Feature area state
@@ -15,7 +15,7 @@ export interface AuthMainState {
   forgotPassword: fromForgotPasswordReducer.State;
   resetPassword: fromResetPasswordReducer.State;
   firstLogin: fromFirstLoginReducer.State;
-  marketingImage: fromMarketingReducer.State;
+  marketingSettings: fromMarketingReducer.State;
   login: fromLoginReducer.State;
 }
 
@@ -29,7 +29,7 @@ export const reducers = {
   forgotPassword: fromForgotPasswordReducer.reducer,
   resetPassword: fromResetPasswordReducer.reducer,
   firstLogin: fromFirstLoginReducer.reducer,
-  marketingImage: fromMarketingReducer.reducer,
+  marketingSettings: fromMarketingReducer.reducer,
   login: fromLoginReducer.reducer
 };
 
@@ -90,7 +90,7 @@ export const getUsername =
 
 // marketing
 export const getMarketingState =
-  createSelector(selectAuthMainState, (state: AuthMainState) => state.marketingImage);
+  createSelector(selectAuthMainState, (state: AuthMainState) => state.marketingSettings);
 
 export const getMarketingImage =
   createSelector(getMarketingState, fromMarketingReducer.getMarketingImage);

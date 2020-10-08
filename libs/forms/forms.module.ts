@@ -21,7 +21,8 @@ import {
   LocationSearchComponent,
   ActionButtonComponent,
   TypeaheadComponent,
-  JobDescriptionSummaryEditorComponent
+  JobDescriptionSummaryEditorComponent,
+  CopyToClipboardButtonComponent
 } from './components';
 
 const declarations = [
@@ -38,7 +39,8 @@ const declarations = [
   LocationSearchComponent,
   ActionButtonComponent,
   TypeaheadComponent,
-  JobDescriptionSummaryEditorComponent
+  JobDescriptionSummaryEditorComponent,
+  CopyToClipboardButtonComponent
 ];
 
 @NgModule({

@@ -1,12 +1,41 @@
-a {
-  font-size: 1.3rem;
-  margin-right: 0.5rem;
-}
+@import "colors";
 
-.notifications-badge {
-  line-height: 1;
-}
-
-.no-notification-icon {
+.notification-icon {
   color: white;
 }
+
+.notification-icon-container{
+  // to make icon bigger:
+  cursor:pointer;
+}
+
+::ng-deep .notification-list-popover {
+    min-width:550px !important;
+
+}
+
+.notification-header{
+  background-color: #dddddd;
+  padding:1px;
+  border-radius:2px;
+}
+
+.notification-count-badge {
+  top: -5px;
+  right: -5px;
+  background:$pf-brand-tertiary-color;
+  font-size:250%;
+}
+
+// Popover overrides
+.custom-modal-popover ::ng-deep .popover {
+  left: 17px !important;
+
+  .popover-body {
+    padding:0 !important;
+  }
+
+  .arrow {
+    right: 1rem !important;
+  }
+ }

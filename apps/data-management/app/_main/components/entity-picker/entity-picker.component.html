@@ -1,4 +1,4 @@
-<div *ngFor="let entity of entities"
+<div *ngFor="let entity of activeEntities()"
      class="py-2">
   <pf-checkbox [isChecked]="entity.isChecked"
                [DisplayText]="entity.DisplayText"

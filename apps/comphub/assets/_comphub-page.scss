@@ -28,16 +28,11 @@
 
 .actions-section {
   display: flex;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   justify-content: center;
   padding-bottom: 2rem;
   height: 4.5rem;
 
   button {
-    width: 105px;
     margin-right: .5rem;
   }
 }

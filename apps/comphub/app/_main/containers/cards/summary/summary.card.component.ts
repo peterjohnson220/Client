@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 import { CurrencyPipe, getCurrencySymbol } from '@angular/common';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import cloneDeep from 'lodash/cloneDeep';
 import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
 import { pdf } from '@progress/kendo-drawing';
 const { exportPDF } = pdf;
@@ -26,15 +25,14 @@ import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import { JobData, PricingPaymarket, JobSalaryTrend, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
-
-import { environment } from 'environments/environment';
-
 @Component({
   selector: 'pf-summary-card',
   templateUrl: './summary.card.component.html',
   styleUrls: ['./summary.card.component.scss']
 })
 export class SummaryCardComponent implements OnInit, OnDestroy {
+  @Input() pageId = ComphubPages.Summary;
+
   @ViewChild('pdf', { static: true }) pdf: PDFExportComponent;
 
   selectedJobData$: Observable<JobData>;
@@ -54,19 +52,22 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   filterContext$: Observable<any>;
   workflowContext$: Observable<WorkflowContext>;
   mapSummary$: Observable<ExchangeMapSummary>;
+  calculatingJobData$: Observable<boolean>;
+  showJobsHistorySummary$: Observable<boolean>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
   selectedRateSubscription: Subscription;
-  salaryTrendSubscription: Subscription;
   filterContextSubscription: Subscription;
   workflowContextSubscription: Subscription;
+  showJobHistorySummarySubscription: Subscription;
   private userContextSubscription: Subscription;
 
   jobData: JobData;
   lastJobData: JobData;
   jobSalaryTrendData: JobSalaryTrend;
   paymarket: PricingPaymarket;
+  lastPaymarket: PricingPaymarket;
   selectedRate: RateType;
   firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
   currentDate: Date = new Date();
@@ -78,6 +79,8 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   isPeerQuickPriceType = false;
   filterContextHasFilters = false;
   rates: KendoDropDownItem[] = Rates;
+  showJobHistorySummary: boolean;
+  currencyCode: string;
 
   private mbAccessToken: string;
 
@@ -103,21 +106,26 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.maxPaymarketMinimumWage$ = this.store.select(fromComphubMainReducer.getMaxPaymarketMinimumWage);
     this.workflowContext$ = this.store.select(fromComphubMainReducer.getWorkflowContext);
     this.mapSummary$ = this.exchangeExplorerStore.select(fromLibsPeerExchangeExplorerReducers.getPeerMapSummary);
+    this.calculatingJobData$ = this.store.select(fromComphubMainReducer.getRecalculatingJobData);
+    this.showJobsHistorySummary$ = this.store.select(fromComphubMainReducer.getShowJobPricedHistorySummary);
   }
 
   ngOnInit() {
     this.selectedJobDataSubscription = this.selectedJobData$.subscribe(data => this.jobData = data);
     this.selectedPaymarketSubscription = this.selectedPaymarket$.subscribe(paymarket => this.paymarket = paymarket);
     this.selectedRateSubscription = this.selectedRate$.subscribe(r => this.selectedRate = r);
-    this.salaryTrendSubscription = this.salaryTrendData$.subscribe(trendData => {
-      this.jobSalaryTrendData = cloneDeep(trendData);
-    });
+    this.showJobHistorySummarySubscription = this.showJobsHistorySummary$.subscribe(x => this.showJobHistorySummary = x);
     this.workflowContextSubscription = this.workflowContext$.subscribe(wfc => {
-      this.workflowContext = wfc;
-      this.isPeerQuickPriceType = wfc.quickPriceType === QuickPriceType.PEER;
-      this.onWorkflowContextChanges(wfc);
+      if (!!wfc && wfc.selectedPageId === ComphubPages.Summary) {
+        this.workflowContext = wfc;
+        this.isPeerQuickPriceType = wfc.quickPriceType === QuickPriceType.PEER;
+        if (this.showJobHistorySummary && this.pageId === ComphubPages.SummaryHistory) {
+          this.updateSummaryHistoryData();
+        } else if (!this.showJobHistorySummary && this.pageId === ComphubPages.Summary) {
+          this.onWorkflowContextChanges();
+        }
+      }
     });
-
     this.userContextSubscription = this.userContext$.subscribe(uc => {
       this.mbAccessToken = uc.MapboxAccessToken;
     });
@@ -127,8 +135,10 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedJobDataSubscription.unsubscribe();
     this.selectedPaymarketSubscription.unsubscribe();
     this.selectedRateSubscription.unsubscribe();
-    this.salaryTrendSubscription.unsubscribe();
-    this.filterContextSubscription.unsubscribe();
+    this.showJobHistorySummarySubscription.unsubscribe();
+    if (this.isPeerQuickPriceType && this.filterContextSubscription) {
+      this.filterContextSubscription.unsubscribe();
+    }
     this.workflowContextSubscription.unsubscribe();
     this.userContextSubscription.unsubscribe();
   }
@@ -213,23 +223,26 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   private loadJobTrendChart() {
-    this.store.dispatch(new fromSummaryCardActions.GetNationalJobTrendData(this.jobData));
+    const countryCode: string = this.showJobHistorySummary
+      ? this.jobData.PayMarket.CountryCode
+      : this.workflowContext.activeCountryDataSet.CountryCode;
+    this.store.dispatch(new fromSummaryCardActions.GetNationalJobTrendData({ countryCode, jobCode: this.jobData.JobCode }));
   }
 
   private loadPeerQuickPriceData() {
     this.store.dispatch(new fromDataCardActions.GetPeerQuickPriceData());
   }
 
-  private addNewCompletedPricingHistoryRecord() {
-    this.store.dispatch(new fromSummaryCardActions.AddCompletedPricingHistory(this.jobData));
-  }
-
   private getPDFFileName(): string {
     return `PricingSummaryFor${this.jobData.JobTitle.replace(/ |\./g, '')}.pdf`;
   }
 
-  private jobDataHasChanged(): boolean {
-    return (!!this.jobData && !isEqual(this.jobData, this.lastJobData));
+  private jobHasChanged(): boolean {
+    return (!!this.jobData && !isEqual(this.jobData.JobId, this.lastJobData?.JobId));
+  }
+
+  private paymarketHasChanged(): boolean {
+    return (!!this.paymarket && !isEqual(this.lastPaymarket?.CompanyPayMarketId, this.paymarket?.CompanyPayMarketId));
   }
 
   getPeerMapSrcString() {
@@ -276,13 +289,19 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     return optionsStr.replace(/,\s*$/, '');
   }
 
-  onWorkflowContextChanges(workflowContext: WorkflowContext): void {
-    if (workflowContext.selectedPageId === this.comphubPages.Summary && this.jobDataHasChanged() && !this.isPeerQuickPriceType) {
+  onWorkflowContextChanges(): void {
+    if (!this.isPeerQuickPriceType) {
+      if (this.paymarketHasChanged() || this.jobHasChanged()) {
+        this.store.dispatch(new fromSummaryCardActions.RecalculateJobData());
+        if (this.jobHasChanged()) {
+          this.loadJobTrendChart();
+        }
+      }
+      this.lastPaymarket = this.paymarket;
       this.lastJobData = this.jobData;
-      this.loadJobTrendChart();
-      this.addNewCompletedPricingHistoryRecord();
+      this.currencyCode = this.workflowContext.activeCountryDataSet.CurrencyCode;
       this.currencySymbol = getCurrencySymbol(this.workflowContext.activeCountryDataSet.CurrencyCode, 'narrow');
-    } else if (workflowContext.selectedPageId === this.comphubPages.Summary && this.isPeerQuickPriceType) {
+    } else if (this.isPeerQuickPriceType) {
       this.store.dispatch(new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Jobs, ComphubPages.Markets, ComphubPages.Data]));
       this.lastJobData = this.jobData;
       this.loadPeerQuickPriceData();
@@ -291,12 +310,28 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
         this.filterContext = fc;
         this.filterContextHasFilters = fc.Filters.filter(x => x.Options.length > 0).length > 0;
       });
+      this.currencyCode = this.paymarket.CurrencyCode;
       this.currencySymbol = getCurrencySymbol(this.paymarket.CurrencyCode, 'narrow');
     }
   }
 
-  handleRateSelectionChange(type : KendoDropDownItem) {
+  handleRateSelectionChange(type: KendoDropDownItem) {
     const selectedRateType = RateType[type.Value];
     this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRateType));
+  }
+
+  private updateSummaryHistoryData(): void {
+    this.paymarket = this.jobData.PayMarket;
+    this.currencyCode = this.paymarket.CurrencyCode;
+    this.currencySymbol = getCurrencySymbol(this.paymarket.CurrencyCode, 'narrow');
+    if (!this.isPeerQuickPriceType) {
+      this.loadJobTrendChart();
+    } else {
+      this.filterContext$ = this.exchangeExplorerContextService.selectFilterContext();
+      this.filterContextSubscription = this.filterContext$.subscribe(fc => {
+        this.filterContext = fc;
+        this.filterContextHasFilters = fc.Filters.filter(x => x.Options.length > 0).length > 0;
+      });
+    }
   }
 }

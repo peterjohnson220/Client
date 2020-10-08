@@ -6,8 +6,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
-import { PfCommonModule } from 'libs/core';
-import { generateMockStructureRangeDistributionTypes, generateMockRangeDistributionSetting } from 'libs/models/payfactors-api';
+import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
+import {
+  generateMockRangeDistributionSetting,
+  generateMockStructureRangeDistributionTypes
+} from 'libs/models/payfactors-api';
 import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
@@ -16,6 +19,7 @@ import { ModelSettingsModalComponent } from './model-settings-modal.component';
 import { UrlService } from '../../services';
 import { Pages } from '../../constants/pages';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
+import { generateMockRangeAdvancedSetting } from '../../models';
 
 describe('Job Based Ranges - Model Settings Modal', () => {
   let instance: ModelSettingsModalComponent;
@@ -23,7 +27,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
   let store: Store<fromJobBasedRangeReducer.State>;
   let ngbModal: NgbModal;
   let urlService: UrlService;
-
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -48,6 +52,10 @@ describe('Job Based Ranges - Model Settings Modal', () => {
           provide: UrlService,
           useValue: { isInWorkflow: jest.fn()}
         },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
         SettingsService
       ]
     });
@@ -59,6 +67,8 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     store = TestBed.inject(Store);
     ngbModal = TestBed.inject(NgbModal);
     urlService = TestBed.inject(UrlService);
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
+
     // mock the metadata
     instance.metadata = {
       Paymarket: 'Boston',
@@ -75,8 +85,8 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting()
-
+      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
     instance.modelSetting = {
@@ -94,7 +104,8 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       StructureName: 'testStruc',
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting()
+      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
     instance.ngOnInit();
@@ -169,8 +180,8 @@ describe('Job Based Ranges - Model Settings Modal', () => {
       IsCurrent: false,
       RangeDistributionTypeId: 1,
       RangeDistributionTypes: generateMockStructureRangeDistributionTypes(),
-      RangeDistributionSetting: generateMockRangeDistributionSetting()
-
+      RangeDistributionSetting: generateMockRangeDistributionSetting(),
+      RangeAdvancedSetting: generateMockRangeAdvancedSetting()
     };
 
     instance.buildForm();
@@ -212,6 +223,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     instance.rangeGroupId = 1;
     instance.page = Pages.Model;
     instance.roundingSettings = {};
+
     const expectedAction = new fromModelSettingsModalActions.SaveModelSettings({
       rangeGroupId: instance.rangeGroupId,
       formValue: instance.modelSetting,
@@ -224,8 +236,4 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     expect(instance.store.dispatch).toHaveBeenCalledWith(expectedAction);
     expect(instance.attemptedSubmit).toEqual(false);
   });
-
-
-
-
 });

@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { MappingPackage } from 'libs/models';
-import { EntityDataField, EntityField } from '../models';
+import { EntityDataField, EntityField, ConverterOptions } from '../models';
 
 export const INIT_FIELD_MAPPING_CARD = '[Data Management/Field Mappings] Init Field Mapping Card';
 export const INIT_FIELD_MAPPING_CARD_ERROR = '[Data Management/Field Mappings] Init Field Mapping Card Error';
@@ -235,5 +235,6 @@ export type Actions
  | LoadMappedFields
  | LoadMappedFieldsError
  | LoadMappedFieldsSucces
+ | TrySaveMapping
  | SaveOutboundJdmFieldMappings
  | SaveOutboundJdmFieldMappingsSuccess;

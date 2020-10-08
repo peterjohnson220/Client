@@ -4,10 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { AppNotification, NotificationPayload, NotificationSource, ProgressStatusPayload } from './notification.model';
 import { ReportBuilderMessageFormatter } from './report-builder-message-formatter.model';
-import { ExchangeDataCutsMessageFormatter } from './exchange-data-cuts-message-formatter';
 import { GenericMessageFormatter } from './generic-message-formatter';
-import { JobDescriptionBulkExportFormatter } from './job-description-bulk-export-formatter';
-import { JobDescriptionPublishTemplateFormatter } from './job-description-publish-template-formatter';
 
 @Injectable()
 export class NotificationHelper {

@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
-  QuickPriceResponse, QuickPriceRequest, TrendingJobGroupResponse,
+  QuickPriceListResponse, QuickPriceRequest, TrendingJobGroupResponse,
   JobPricingLimitInfoResponse, JobSalaryTrendRequest, JobSalaryTrendResponse,
   PayMarketDataResponse, SharePricingSummaryRequest, CreateQuickPriceProjectRequest, CountryDataSetResponse,
-  AddCompletedPricingHistoryRequest
+  AddCompletedPricingHistoryRequest, JobPricedHistorySummaryRequest, JobPricedHistorySummaryResponse, QuickPriceJobDataRequest, QuickPriceJobDataResponse
 } from '../../../models/payfactors-api/comphub';
-import { BaseExchangeDataSearchRequest } from '../../../models/payfactors-api/peer/exchange-data-search/request';
+import { QuickPriceExchangeDataSearchRequest } from '../../../models/payfactors-api/peer/exchange-data-search/request';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { ExchangeDataSet, PeerQuickPriceData } from '../../../../apps/comphub/app/_main/models';
 
@@ -30,11 +30,15 @@ export class ComphubApiService {
       { params: { exchangeId: exchangeId } });
   }
 
-  getQuickPriceData(request: QuickPriceRequest): Observable<QuickPriceResponse>  {
-    return this.payfactorsApiService.post<QuickPriceResponse>(`${this.endpoint}/GetQuickPriceData`, request);
+  getQuickPriceData(request: QuickPriceRequest): Observable<QuickPriceListResponse>  {
+    return this.payfactorsApiService.post<QuickPriceListResponse>(`${this.endpoint}/GetQuickPriceData`, request);
   }
 
-  getPeerQuickPriceData(context: BaseExchangeDataSearchRequest): Observable<PeerQuickPriceData> {
+  getQuickPriceJobData(request: QuickPriceJobDataRequest): Observable<QuickPriceJobDataResponse>  {
+    return this.payfactorsApiService.post<QuickPriceJobDataResponse>(`${this.endpoint}/GetQuickPriceJobData`, request);
+  }
+
+  getPeerQuickPriceData(context: QuickPriceExchangeDataSearchRequest): Observable<PeerQuickPriceData> {
     return this.payfactorsApiService.post<PeerQuickPriceData>(`${this.endpoint}/GetPeerQuickPriceData`, context);
   }
 
@@ -72,5 +76,9 @@ export class ComphubApiService {
 
   addCompletedPricingHistory(request: AddCompletedPricingHistoryRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/AddCompletedPricingHistory`, request);
+  }
+
+  getJobPricedHistorySummary(request: JobPricedHistorySummaryRequest): Observable<JobPricedHistorySummaryResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetJobPricedHistorySummary`, request);
   }
 }

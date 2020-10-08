@@ -18,6 +18,7 @@ export class CardComponent {
   @Input() cardIndex: number;
   @Input() selectedCardIndex: number;
   @Input() hasCardHeader = true;
+  @Input() showJobPricedHistorySummary = false;
 
   @Output() cardHeaderClick: EventEmitter<string> = new EventEmitter<string>();
 

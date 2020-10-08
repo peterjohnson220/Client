@@ -18,7 +18,7 @@ export class ClickElsewhereDirective {
     }
 
     // bail out if the clicked dom node is classed whitelisted
-    if (this.whitelist && this.whitelist.some(w => targetElement.classList.value.indexOf(w) >= 0)) {
+    if (this.whitelist && this.whitelist.some(w => targetElement?.classList?.value?.indexOf(w) >= 0)) {
       return;
     }
 

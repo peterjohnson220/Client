@@ -40,3 +40,8 @@ export const getUnreadCountAsyncObj = createSelector(
   selectAppNotificationsState,
   fromAppNotificationsReducer.getUnreadCountAsyncObj
 );
+
+export const getUnseenCountAsyncObj = createSelector(
+  selectAppNotificationsState,
+  fromAppNotificationsReducer.getUnseenCountAsyncObj
+);

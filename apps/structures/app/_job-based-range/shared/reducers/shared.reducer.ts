@@ -1,5 +1,5 @@
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
-import { RoundingSettingsDataObj, RoundingSetting } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RoundingSetting, CompanyStructureRangeOverride } from 'libs/models/structures';
 
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -14,6 +14,7 @@ export interface State {
   metadata: RangeGroupMetadata;
   roundingSettings: RoundingSettingsDataObj;
   removingRange: AsyncStateObj<boolean>;
+  rangeOverrides: CompanyStructureRangeOverride[];
 }
 
 const initialState: State = {
@@ -32,17 +33,18 @@ const initialState: State = {
       RoundingPoint: 0
     },
   },
-  removingRange: generateDefaultAsyncStateObj<boolean>(false)
+  removingRange: generateDefaultAsyncStateObj<boolean>(false),
+  rangeOverrides: []
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
   switch (action.type) {
     case fromSharedActions.SET_METADATA:
       const newState = cloneDeep(state);
-      const setting = setRangeDistributionType(action.payload, newState);
+      const roundingSettings = setRangeDistributionType(action.payload, newState);
       return {
         ...state,
-        roundingSettings: setting,
+        roundingSettings: roundingSettings,
         metadata: action.payload
       };
     case fromSharedActions.UPDATE_ROUNDING_TYPE: {
@@ -102,6 +104,20 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         roundingSettings: newSetting
       };
     }
+    case fromSharedActions.GET_OVERRIDDEN_RANGES_SUCCESS: {
+      return {
+        ...state,
+        rangeOverrides: action.payload
+      };
+    }
+    case fromSharedActions.UPDATE_OVERRIDES: {
+      const updatedRangeOverrides = updateOverrides(action.payload.rangeId, cloneDeep(state.rangeOverrides),
+        action.payload.overrideToUpdate, action.payload.removeOverride);
+      return {
+        ...state,
+        rangeOverrides: updatedRangeOverrides
+      };
+    }
 
     default:
       return state;
@@ -111,6 +127,7 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
 export const getMetadata = (state: State) => state.metadata;
 export const getRoundingSettings = (state: State) => state.roundingSettings;
 export const getRemovingRange = (state: State) => state.removingRange;
+export const getRangeOverrides = (state: State) => state.rangeOverrides;
 
 export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {
   return settings[name] = setting;
@@ -123,6 +140,19 @@ function updateRoundingPoints(roundingPoint: number, settings: RoundingSettingsD
     }
   }
   return settings;
+}
+
+function updateOverrides(rangeId: number, overrides: CompanyStructureRangeOverride[],
+                         overrideToUpdate: CompanyStructureRangeOverride, remove: boolean): CompanyStructureRangeOverride[] {
+  const rangeOverride = overrides.find(ro => ro.CompanyStructuresRangesId === rangeId);
+  if (!!rangeOverride && !remove) {
+    overrides.splice(overrides.indexOf(rangeOverride), 1, overrideToUpdate);
+  } else if (!!rangeOverride && remove) {
+    overrides.splice(overrides.indexOf(rangeOverride), 1);
+  } else {
+    overrides.push(overrideToUpdate);
+  }
+  return overrides;
 }
 
 function setRangeDistributionType(metadata: RangeGroupMetadata, state) {

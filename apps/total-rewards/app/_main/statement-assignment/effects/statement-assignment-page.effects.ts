@@ -68,7 +68,8 @@ export class StatementAssignmentPageEffects {
           mergeMap((response) => [
             new fromStatementAssignmentPageActions.GenerateStatementsSuccess({ eventId: response }),
             new fromStatementAssignmentPageActions.CloseGenerateStatementModal(),
-            new fromAssignedEmployeesGridActions.ClearSelections()
+            new fromAssignedEmployeesGridActions.ClearSelections(),
+            new fromStatementAssignmentPageActions.UpdateStatementIsGenerating(true)
           ]),
           catchError(error => of(new fromStatementAssignmentPageActions.GenerateStatementsError(error)))
         )

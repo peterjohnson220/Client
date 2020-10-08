@@ -2,13 +2,15 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { RoundingSettingsDataObj } from 'libs/models/structures';
 import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
+import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
 import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
@@ -39,6 +41,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   savingModelSettingsAsyncObj$: Observable<AsyncStateObj<null>>;
   modelNameExistsFailure$: Observable<boolean>;
   roundingSettings$: Observable<RoundingSettingsDataObj>;
+
   enableJobRangeTypes$: Observable<boolean>;
 
   controlPointsAsyncObjSub: Subscription;
@@ -64,11 +67,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modelSetting: RangeGroupMetadata;
   minSpreadTooltip: string;
   maxSpreadTooltip: string;
+  structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
+  unsubscribe$ = new Subject<void>();
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     public urlService: UrlService,
-    private settingService: SettingsService
+    private settingService: SettingsService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
@@ -84,6 +90,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     );
     this.minSpreadTooltip = ModelSettingsModalConstants.MIN_SPREAD_TOOL_TIP;
     this.maxSpreadTooltip = ModelSettingsModalConstants.MAX_SPREAD_TOOL_TIP;
+    this.featureFlagService.bindEnabled(this.structuresAdvancedModelingFeatureFlag, this.unsubscribe$);
   }
 
   get formControls() {
@@ -115,6 +122,41 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   }
 
   buildForm() {
+    let advancedSettingForGroup;
+    if (this.metadata.RangeAdvancedSetting !== null) {
+      advancedSettingForGroup = new FormGroup({
+        'PreventMidsBelowCurrent': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsBelowCurrent),
+        'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
+          'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled),
+          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage)
+        }),
+        'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
+          'Enabled': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Enabled),
+          'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.PreventMidsFromIncreasingWithinPercentOfNextLevel.Percentage)
+        }),
+        'MissingMarketDataType': new FormGroup({
+            'Type': new FormControl(String(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Type)),
+            'Percentage': new FormControl(this.metadata.RangeAdvancedSetting.MissingMarketDataType.Percentage)
+          })
+        });
+    } else {
+      advancedSettingForGroup = new FormGroup({
+        'PreventMidsBelowCurrent': new FormControl(false),
+        'PreventMidsFromIncreasingMoreThanPercent': new FormGroup({
+          'Enabled': new FormControl(false),
+          'Percentage': new FormControl(null)
+        }),
+        'PreventMidsFromIncreasingWithinPercentOfNextLevel': new FormGroup({
+          'Enabled': new FormControl(false),
+          'Percentage': new FormControl(null)
+        }),
+        'MissingMarketDataType': new FormGroup({
+          'Type': new FormControl(String(MissingMarketDataTypes.LeaveValuesBlank)),
+          'Percentage': new FormControl(null)
+        })
+      });
+    }
+
     this.modelSettingsForm = new FormGroup({
       'StructureName': new FormControl(this.metadata.StructureName, [Validators.required, Validators.maxLength(50)]),
       'ModelName': new FormControl(!this.metadata.IsCurrent || this.isNewModel ? this.metadata.ModelName : '', [Validators.required, Validators.maxLength(50)]),
@@ -127,6 +169,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       'Currency': new FormControl(this.metadata.Currency || 'USD', [Validators.required]),
       'RangeDistributionSetting': new FormControl(this.metadata.RangeDistributionSetting),
       'RangeDistributionTypeId': new FormControl(this.metadata.RangeDistributionTypeId),
+      'RangeAdvancedSetting': advancedSettingForGroup
     });
     // set active tab to model
     this.activeTab = 'modelTab';
@@ -271,6 +314,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modelNameExistsFailureSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.enableJobRangeTypesSub.unsubscribe();
+    this.unsubscribe$.next();
   }
 
   private reset() {

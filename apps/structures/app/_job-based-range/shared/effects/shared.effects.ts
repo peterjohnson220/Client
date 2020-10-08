@@ -13,13 +13,13 @@ import { NotificationLevel, NotificationSource, NotificationType } from 'libs/fe
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
+import * as fromRangeFieldActions from 'libs/features/structures/range-editor/actions/range-field-edit.actions';
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import { RangeGroupMetadata } from '../models';
 import * as fromSharedReducer from '../reducers';
 import { PagesHelper } from '../helpers/pages.helper';
-
 
 @Injectable()
 export class SharedEffects {
@@ -38,10 +38,17 @@ export class SharedEffects {
             PayfactorsApiModelMapper.mapRecalculateRangesWithoutMidInputToRecalculateRangesWithoutMidRequest(
               data.action.payload.rangeGroupId, data.action.payload.rounding))
             .pipe(
-              map(() => {
+              mergeMap(() => {
+                const actions = [];
                 const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
-                return new pfDataGridActions.LoadData(modelPageViewId);
-              })
+                actions.push(new pfDataGridActions.LoadData(modelPageViewId));
+                actions.push(new fromSharedActions.GetOverriddenRanges({
+                  pageViewId: modelPageViewId,
+                  rangeGroupId: data.action.payload.rangeGroupId
+                }));
+
+                return actions;
+              }),
             );
         }
       ));
@@ -75,16 +82,25 @@ export class SharedEffects {
       ofType(fromSharedActions.GET_OVERRIDDEN_RANGES),
       switchMap(
         (action: fromSharedActions.GetOverriddenRanges) =>
-          this.structureModelingApiService.getOverriddenRangeIds(action.payload.rangeGroupId)
+          this.structureModelingApiService.getOverriddenRanges(action.payload.rangeGroupId)
             .pipe(
               mergeMap((response) =>
                 [
-                  new fromSharedActions.GetOverriddenRangesSuccess(),
-                  new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response)
+                  new fromSharedActions.GetOverriddenRangesSuccess(response),
+                  new fromPfDataGridActions.UpdateModifiedKeys(action.payload.pageViewId, response.map(o => o.CompanyStructuresRangesId))
                 ]),
               catchError(error => of(new fromSharedActions.GetOverriddenRangesError(error)))
             )
       )
+    );
+
+  @Effect()
+  refreshOverriddenRanges$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromRangeFieldActions.UpdateRangeFieldSuccess>(fromRangeFieldActions.UPDATE_RANGE_FIELD_SUCCESS),
+      map(action => {
+        return new fromSharedActions.UpdateOverrides({ rangeId: action.payload.modifiedKey, overrideToUpdate: action.payload.override, removeOverride: false});
+      })
     );
 
   @Effect()
@@ -98,10 +114,17 @@ export class SharedEffects {
             action.payload.rangeGroupId,
             action.payload.roundingSettings))
             .pipe(
-              mergeMap(() => {
+              mergeMap((response) => {
                 const actions = [];
-
-                actions.push(new fromPfDataGridActions.DeleteModifiedKey(action.payload.pageViewId, action.payload.rangeId));
+                // only remove the key if the override was deleted
+                if (response.OverrideDeleted) {
+                  actions.push(new fromPfDataGridActions.DeleteModifiedKey(action.payload.pageViewId, action.payload.rangeId));
+                  actions.push(new fromSharedActions.UpdateOverrides( { rangeId: action.payload.rangeId, overrideToUpdate: response.Override,
+                    removeOverride: true }));
+                } else {
+                  actions.push(new fromSharedActions.UpdateOverrides( { rangeId: action.payload.rangeId, overrideToUpdate: response.Override,
+                    removeOverride: false }));
+                }
                 actions.push(new fromSharedActions.RevertingRangeChangesSuccess({
                   pageViewId: action.payload.pageViewId,
                   refreshRowDataViewFilter: action.payload.refreshRowDataViewFilter,

@@ -8,7 +8,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
   HostListener
 } from '@angular/core';
@@ -56,7 +55,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   htmlContent: string;
   title: string;
   statementModeEnum = StatementModeEnum;
-  editorPlaceholderText = 'Insert test here ...';
+  editorPlaceholderText = 'Insert text here ...';
 
   quillApi: any;
   quillMentionContainer: HTMLElement;
@@ -100,7 +99,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   };
 
   get richTextNode(): HTMLElement {
-    return this.richText.elementRef.nativeElement;
+    return this.richText?.elementRef?.nativeElement;
   }
 
   // quill mention requires options with a lower case `value`
@@ -133,13 +132,11 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     this.setupContentChangedSubscription();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     // Get the F outta here if in print mode
     if (this.mode === StatementModeEnum.Print) { return; }
 
-    if (changes.mode || changes.employeeRewardsData) {
-      this.bindEmployeeData();
-    }
+    this.isValid = !this.isContentHeightGreaterThanContainerHeight();
   }
 
   ngOnDestroy() {
@@ -169,14 +166,25 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     this.quillApi = quill;
     this.quillMentionContainer = quill.getModule('mention').mentionContainer;
 
-    if (this.mode === StatementModeEnum.Print && this.employeeRewardsData) {
-      this.bindEmployeeData();
+    if (this.mode !== StatementModeEnum.Print) {
+      this.isValid = !this.isContentHeightGreaterThanContainerHeight();
     }
   }
 
   onContentChanged(quillContentChange: any) {
     // Get the F outta here if in print mode
     if (this.mode === StatementModeEnum.Print) { return; }
+
+    this.isValid = !this.isContentHeightGreaterThanContainerHeight();
+
+    if (quillContentChange.source === 'user' && this.isValid) {
+      this.onContentChangedSubject.next({ ControlId: this.controlData.Id, value: this.htmlContent });
+    }
+  }
+
+  isContentHeightGreaterThanContainerHeight(): boolean {
+
+    if (!this.richTextNode) { return false; } // dom isn't ready yet.
 
     // get dom node references to the container around the quill content and the content nodes (p tags)
     const container = this.richTextNode.querySelector('.ql-editor') as HTMLElement;
@@ -188,18 +196,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
       totalContentHeightInPixels += contentNodes[i].offsetHeight;
     }
 
-    // if we're over the pixel height of the container undo the change by applying the previous delta
-    if (totalContentHeightInPixels > container.offsetHeight) {
-      quillContentChange.editor.setContents(quillContentChange.oldDelta.ops);
-      this.isValid = false;
-      setTimeout(() => {
-        this.isValid = true;
-        this.changeDetectorRef.detectChanges();
-      }, 1000);
-    } else if (quillContentChange.source === 'user') {
-      // change has occurred, so tell parent to save if the content changes was made by a user and not the initial load done programmatically
-      this.onContentChangedSubject.next({ ControlId: this.controlData.Id, value: this.htmlContent });
-    }
+    return totalContentHeightInPixels > container.offsetHeight;
   }
 
   onSelectionChanged(quillSelectionChange: any) {
@@ -223,28 +220,6 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     this.quillMentionContainer.scrollTop = 0;
   }
 
-  // This binding method is for the Quill rich text editor, readonly copy of bound html should use bindEmployeeDataHtml
-  bindEmployeeData(): void {
-    if (!this.quillApi) { return; }
-
-    // loop through each op, aka a quill instruction to insert a chunk of text
-    const delta = this.quillApi.editor.delta;
-    delta.ops.forEach((op: { insert: any }) => {
-      const mention = op.insert.mention;
-      // if there's a mention attr it's a datafield, so adjust the displayed value according to the mode to show real data or a placeholder
-      if (mention) {
-        mention.value = (this.mode === StatementModeEnum.Edit) ? this.getDataFieldPlaceholderText(mention.id) : this.getFormattedDataFieldValue(mention.id);
-      }
-    });
-
-    this.quillApi.setContents(delta.ops);
-
-    // in preview mode hide the placeholder by setting to an empty string since we don't want to see edit instructions when the control is not editable
-    const newEditorPlaceholderText = (this.mode === StatementModeEnum.Edit) ? this.editorPlaceholderText : '';
-    this.quillApi.container.firstChild.setAttribute('data-placeholder', newEditorPlaceholderText);
-  }
-
-  // This method is used in print view when Quill editor is not rendered
   bindEmployeeDataHtml(): SafeHtml {
     const $ = cheerio.load('<div class=\'ql-editor\'>' + this.htmlContent + '</div>');
     const spans = $('.ql-editor span').toArray();
@@ -291,7 +266,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     if (this.mode === StatementModeEnum.Print) { return; }
 
     // focus the editor if the mousedown target is the quill editor
-    if (this.richTextNode.contains(event.target as HTMLElement)) {
+    if (this.richTextNode?.contains(event.target as HTMLElement)) {
       this.isFocused = true;
     }
     this.lastMouseDownElement = event.target as HTMLElement;
@@ -303,7 +278,7 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     if (this.mode === StatementModeEnum.Print) { return; }
 
     // bail if the mousedown target is the quill editor, since clicking + dragging + releasing outside should maintain focus
-    if (this.richTextNode.contains(this.lastMouseDownElement)) {
+    if (this.richTextNode?.contains(this.lastMouseDownElement)) {
       return;
     }
     this.isFocused = false;
