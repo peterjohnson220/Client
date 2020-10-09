@@ -1,11 +1,11 @@
 import { NavigationLink } from 'libs/models/navigation/navigation-link.model';
 
-export class SiteAdminNavigationLinkResponse {
+export class AdminNavigationLinkResponse {
     NavigationLinkGroup: string;
     Links: NavigationLink[];
 }
 
-export function generateMockSiteAdminNavigationLinkResponse() {
+export function generateMockAdminNavigationLinkResponse() {
     return {
         NavigationLinkGroup: 'MockNavigationLinkGroup',
         Links: [

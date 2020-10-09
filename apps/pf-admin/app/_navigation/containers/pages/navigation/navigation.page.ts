@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromNavigationActions from '../../../actions/navigation-links.actions';
-import * as fromNavigationReducer from '../../../reducers';
+import * as fromNavigationActions from 'libs/features/admin-navigation-links/actions/navigation.actions';
+import * as fromNavigationReducer from 'libs/features/admin-navigation-links/reducers';
 import { NavigationLinkGroup } from 'libs/models/navigation';
 
 @Component({
@@ -20,10 +20,10 @@ export class NavigationPageComponent implements OnInit {
     constructor(private store: Store<fromNavigationReducer.State>) {
         this.navigationLinkGroupsLoading$ = this.store.select(fromNavigationReducer.getNavigationLinksLoading);
         this.navigationLinkGroupsLoadingError$ = this.store.select(fromNavigationReducer.getNavigationLinksLoadingError);
-        this.navigationLinkGroups$ = this.store.select(fromNavigationReducer.getLinks);
+        this.navigationLinkGroups$ = this.store.select(fromNavigationReducer.getAdminLinks);
     }
 
     ngOnInit() {
-        this.store.dispatch(new fromNavigationActions.LoadNavigationLinks());
+        this.store.dispatch(new fromNavigationActions.LoadNavigationLinks('site-admin'));
     }
 }
