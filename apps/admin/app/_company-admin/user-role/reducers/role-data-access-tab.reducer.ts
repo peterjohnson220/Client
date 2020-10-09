@@ -101,7 +101,7 @@ export const getDataTypes = (state: State) => state.dataTypes;
 export const getRoleDataRestrictions = (state: State) => state.currentRoleDataRestrictions;
 
 export const getRoleDataRestrictionsForSave = (state: State) =>
-  convertRoleDataRestrictionForSave(state.dataFields, state.currentRoleDataRestrictions, state.currentRoleId, state.dataTypes);
+  convertRoleDataRestrictionForSave(state.dataFields, state.currentRoleDataRestrictions, state.currentRoleId);
 
 export const getDataAccessTabHasPendingChanges = (state: State) => {
   let changed = false;
@@ -153,11 +153,11 @@ function convertRoleDataRestrictionForUI(dataFields: DataField[], roleDataRestri
 }
 
 
-function convertRoleDataRestrictionForSave(dataFields: DataField[], dataRestrictions: RoleDataRestriction[], roleId: number, dataTypes: DataType[]) {
+function convertRoleDataRestrictionForSave(dataFields: DataField[], dataRestrictions: RoleDataRestriction[], roleId: number) {
   const newRoleDataRestrictions = [];
   dataRestrictions.filter(f => f.DataFieldId).forEach(r => {
-    const dataField = dataFields.find(df => df.Id === r.DataFieldId);
-    if (dataField.FieldType === DataFieldTypes.MULTISELECT || dataField.FieldType === DataFieldTypes.CONDITIONAL_MULTISELECT) {
+    const dataFieldType = dataFields.find(df => df.Id === r.DataFieldId).FieldType;
+    if (dataFieldType === DataFieldTypes.MULTISELECT || dataFieldType === DataFieldTypes.CONDITIONAL_MULTISELECT) {
       r.DataValue.forEach(dv => {
         newRoleDataRestrictions.push({
           DataFieldId: r.DataFieldId,
@@ -172,15 +172,9 @@ function convertRoleDataRestrictionForSave(dataFields: DataField[], dataRestrict
         DataFieldId: r.DataFieldId,
         RoleId: roleId,
         DataConditionIsEqual: r.DataConditionIsEqual,
-        DataValue: isJobsUdfOrJobFamily(dataField, dataTypes) && r.DataValue === '' ? '(Blank)' : r.DataValue
+        DataValue: r.DataValue
       });
     }
   });
   return newRoleDataRestrictions;
-}
-
-function isJobsUdfOrJobFamily(dataField: DataField, dataTypes: DataType[]): boolean {
-  const isJobsDataType = dataTypes.find(dt => dt.Name === 'Jobs').DataFields.includes(dataField);
-
-  return (dataField.Name.includes('UDF_CHAR') && isJobsDataType) || dataField.Name === 'Job_Family';
 }

@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output,
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { merge as observableMerge, fromEvent as observableFromEvent, Subject, Subscription } from 'rxjs';
-import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 
 import { PfConstants } from '../../../models/common';
 import { Observable } from 'rxjs';
@@ -22,12 +22,11 @@ import { RemoteDataSourceService } from 'libs/core/services';
   ]
 })
 export class TypeaheadComponent implements OnInit, OnDestroy, ControlValueAccessor {
-  public innerValue;
   private inputEvents;
   private eventStream;
   private clearEvent;
+  private innerValue;
   remoteDataSourceSubscription: Subscription;
-  focus$ = new Subject<string>();
 
   @Input() placeholderText = 'Search...';
   @Input() delay = PfConstants.DEBOUNCE_DELAY;
@@ -44,7 +43,6 @@ export class TypeaheadComponent implements OnInit, OnDestroy, ControlValueAccess
   @Input() numTypeaheadResults = 10;
   @Input() apiEndpoint = '';
   @Input() apiResponsePropertyForTypeahead = '';
-  @Input() isJobsUdfOrJobFamily = false;
   @Output() valueChanged = new EventEmitter();
   @Output() ngModelChange = new EventEmitter();
 
@@ -80,7 +78,7 @@ export class TypeaheadComponent implements OnInit, OnDestroy, ControlValueAccess
     }
   }
   clearValue() {
-    this.innerValue = null;
+    this.innerValue = '';
     this.clearEvent.next('');
     this.ngModelChange.emit(this.innerValue);
     this.valueChanged.emit(this.innerValue);
@@ -109,17 +107,11 @@ export class TypeaheadComponent implements OnInit, OnDestroy, ControlValueAccess
     this.propogateChange = fn;
   }
 
-  refreshRemoteData(endpoint: string = this.apiEndpoint, responseProperty: string = this.apiResponsePropertyForTypeahead,
-    isJobsUdfOrJobFamily: boolean = this.isJobsUdfOrJobFamily) {
+  refreshRemoteData(endpoint: string = this.apiEndpoint, responseProperty: string = this.apiResponsePropertyForTypeahead) {
     if (endpoint) {
       this.remoteDataSourceSubscription =  this.remoteDataSourceService.getDataSource(`${endpoint}`).subscribe(
         s => {
           this.typeaheadOptions = [];
-
-          if (isJobsUdfOrJobFamily) {
-            this.typeaheadOptions.push('(Blank)');
-          }
-
           s.map(o => {
             this.typeaheadOptions.push(responseProperty ? o[responseProperty] : JSON.stringify(o));
           });
@@ -130,14 +122,8 @@ export class TypeaheadComponent implements OnInit, OnDestroy, ControlValueAccess
 
   registerOnTouched() { }
 
-  typeaheadFn = (text$: Observable<string>) => {
-    const debouncedText$ = text$.pipe(debounceTime(this.delay), distinctUntilChanged());
-    const inputFocus$ = this.focus$;
-
-    return observableMerge(debouncedText$, inputFocus$).pipe(
-      map(term => (term === '' ? this.typeaheadOptions
-        : this.typeaheadOptions.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, this.numTypeaheadResults))
-    );
-  }
-
+  typeaheadFn = (text$: Observable<string>) => text$
+    .debounceTime(this.delay)
+    .distinctUntilChanged()
+    .map(term => this.typeaheadOptions.filter(v => new RegExp(term, 'gi').test(v)).splice(0, this.numTypeaheadResults))
 }
