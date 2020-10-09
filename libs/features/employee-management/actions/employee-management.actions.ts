@@ -1,5 +1,9 @@
 import { Action } from '@ngrx/store';
+
 import { CompanyEmployee, GenericKeyValue, KendoTypedDropDownItem } from 'libs/models';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+
 import { EmployeeValidation, Job, LoadJobsState, Structure } from '../models';
 
 export const HANDLE_API_ERROR = '[EmployeeManagement] Handle API Error';
@@ -42,7 +46,17 @@ export const VALIDATE_EMPLOYEE_KEYS = '[EmployeeManagement] Validate Employee Ke
 export const VALIDATE_EMPLOYEE_KEYS_SUCCESS = '[EmployeeManagement] Validate Employee Keys Success';
 export const VALIDATE_EMPLOYEE_KEYS_ERROR = '[EmployeeManagement] Validate Employee Keys Error';
 export const LOAD_COMPANYJOB_BY_ID = '[EmployeeManagement] Load Company Jobs By ID';
-
+export const OPEN_TOTAL_REWARDS_STATEMENT = '[EmployeeManagement] Open Total Rewards Statement';
+export const CLOSE_TOTAL_REWARDS_STATEMENT = '[EmployeeManagement] Close Total Rewards Statement';
+export const GET_TOTAL_REWARDS_STATEMENT = '[EmployeeManagement] Get Total Rewards Statement';
+export const GET_TOTAL_REWARDS_STATEMENT_SUCCESS = '[EmployeeManagement] Get Total Rewards Statement Success';
+export const GET_TOTAL_REWARDS_STATEMENT_ERROR = '[EmployeeManagement] Get Total Rewards Statement Error';
+export const GET_EMPLOYEE_TOTAL_REWARDS_DATA = '[EmployeeManagement] Get Employee Total Rewards Data';
+export const GET_EMPLOYEE_TOTAL_REWARDS_DATA_SUCCESS = '[EmployeeManagement] Get Employee Total Rewards Data Success';
+export const GET_EMPLOYEE_TOTAL_REWARDS_DATA_ERROR = '[EmployeeManagement] Get Employee Total Rewards Data Error';
+export const GET_TOTAL_REWARDS_STATEMENT_ID = '[EmployeeManagement] Get Total Rewards Statement Id';
+export const GET_TOTAL_REWARDS_STATEMENT_ID_SUCCESS = '[EmployeeManagement] Get Total Rewards Statement Id Success';
+export const GET_TOTAL_REWARDS_STATEMENT_ID_ERROR = '[EmployeeManagement] Get Total Rewards Statement Id Error';
 
 export class ShowEmployeeForm implements Action {
   readonly type = SHOW_EMPLOYEE_FORM;
@@ -255,6 +269,55 @@ export class LoadCompanyJobById implements Action {
   constructor(public payload: number) { }
 }
 
+export class OpenTotalRewardsStatement implements Action {
+  readonly type = OPEN_TOTAL_REWARDS_STATEMENT;
+}
+
+export class CloseTotalRewardsStatement implements Action {
+  readonly type = CLOSE_TOTAL_REWARDS_STATEMENT;
+}
+
+export class GetTotalRewardsStatement implements Action {
+  readonly type = GET_TOTAL_REWARDS_STATEMENT;
+}
+
+export class GetTotalRewardsStatementSuccess implements Action {
+  readonly type = GET_TOTAL_REWARDS_STATEMENT_SUCCESS;
+  constructor(public payload: Statement) {}
+}
+
+export class GetTotalRewardsStatementError implements Action {
+  readonly type = GET_TOTAL_REWARDS_STATEMENT_ERROR;
+}
+
+export class GetEmployeeTotalRewardsData implements Action {
+  readonly type = GET_EMPLOYEE_TOTAL_REWARDS_DATA;
+  constructor(public payload: number) {}
+}
+
+export class GetEmployeeTotalRewardsDataSuccess implements Action {
+  readonly type = GET_EMPLOYEE_TOTAL_REWARDS_DATA_SUCCESS;
+  constructor(public payload: EmployeeRewardsData) {}
+}
+
+export class GetEmployeeTotalRewardsDataError implements Action {
+  readonly type = GET_EMPLOYEE_TOTAL_REWARDS_DATA_ERROR;
+}
+
+export class GetTotalRewardsStatementId implements Action {
+  readonly type = GET_TOTAL_REWARDS_STATEMENT_ID;
+  constructor(public payload: { companyEmployeeId: number }) {}
+}
+
+export class GetTotalRewardsStatementIdSuccess implements Action {
+  readonly type = GET_TOTAL_REWARDS_STATEMENT_ID_SUCCESS;
+  constructor(public payload: { statementId: string }) {}
+}
+
+export class GetTotalRewardsStatementIdError implements Action {
+  readonly type = GET_TOTAL_REWARDS_STATEMENT_ID_ERROR;
+}
+
 export type Actions
   = HandleApiError
   | ShowEmployeeForm
@@ -298,4 +361,16 @@ export type Actions
   | ValidateEmployeeKeysSuccess
   | ValidateEmployeeKeysError
   | LoadCompanyJobById
-  | LoadMoreCompanyJobsSuccess;
+  | LoadMoreCompanyJobsSuccess
+  | OpenTotalRewardsStatement
+  | CloseTotalRewardsStatement
+  | GetTotalRewardsStatement
+  | GetTotalRewardsStatementSuccess
+  | GetTotalRewardsStatementError
+  | GetEmployeeTotalRewardsData
+  | GetEmployeeTotalRewardsDataSuccess
+  | GetEmployeeTotalRewardsDataError
+  | GetTotalRewardsStatementError
+  | GetTotalRewardsStatementId
+  | GetTotalRewardsStatementIdSuccess
+  | GetTotalRewardsStatementIdError;
