@@ -14,7 +14,6 @@
        [ngClass]="automationClassName"
        [attr.data-qa-id]="'txt-'+id"
        (selectItem)="onItemSelect($event.item)"
-       (focus)="focus$.next($any($event).target.value)"
        [ngbTypeahead]="typeaheadFn">
 <div *ngIf="!hideClearBtn"
      class="input-group">
@@ -34,7 +33,6 @@
          [attr.data-qa-id]="'txt-'+id"
          [style.min-width]="minWidth + 'px'"
          (selectItem)="onItemSelect($event.item)"
-         (focus)="focus$.next($any($event).target.value)"
          [ngbTypeahead]="typeaheadFn">
   <div (click)="clearValue()"
        class="input-group-append"

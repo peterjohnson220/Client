@@ -23,7 +23,6 @@ export class DataFieldFilterComponent implements OnInit {
   _DataFieldTypes = DataFieldTypes;
   Operators = [{ value: true, text: 'Is equal to' }, { value: false, text: 'Is not equal to' }];
   selectedField: DataField;
-  dataValue: string;
   constructor() { }
 
   get isMultiSelect(): boolean {
@@ -36,7 +35,7 @@ export class DataFieldFilterComponent implements OnInit {
     this.selectedField = this.dataType.DataFields.find(f => f.Id === value);
     this.roleDataRestrictionChanged.emit({ property: 'DataFieldId', value: this.selectedField.Id });
     if (this.typeaheadComponent) {
-      this.typeaheadComponent.refreshRemoteData(this.buildApiEndpoint(), 'Value', this.isJobsUdfOrJobFamily());
+      this.typeaheadComponent.refreshRemoteData(this.buildApiEndpoint(), 'Value');
       this.typeaheadComponent.clearValue();
     }
   }
@@ -44,9 +43,6 @@ export class DataFieldFilterComponent implements OnInit {
   ngOnInit() {
     if (this.dataType && this.dataType.DataFields && this.roleDataRestriction) {
       this.selectedField = this.dataType.DataFields.find(f => f.Id === this.roleDataRestriction.DataFieldId);
-      this.dataValue = this.isJobsUdfOrJobFamily() && this.roleDataRestriction.DataValue === ''
-        ? '(Blank)'
-        : this.roleDataRestriction.DataValue;
     }
   }
 
@@ -62,9 +58,5 @@ export class DataFieldFilterComponent implements OnInit {
       endpoint += `&dataField=${this.toTitleCase(this.selectedField.Name)}`;
     }
     return endpoint;
-  }
-
-  isJobsUdfOrJobFamily(): boolean {
-    return (this.selectedField.Name.includes('UDF_CHAR') && this.dataType.Name === 'Jobs') || this.selectedField.Name === 'Job_Family';
   }
 }
