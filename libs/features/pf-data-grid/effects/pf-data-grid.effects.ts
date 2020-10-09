@@ -146,7 +146,7 @@ export class PfDataGridEffects {
               data.gridConfig))
             .pipe(
               map((response: any[]) => {
-                return new fromPfDataGridActions.HandleApiError(data.action.pageViewId, 'test');
+                return new fromPfDataGridActions.UpdateFieldsSuccess(data.action.pageViewId);
               }),
               catchError(error => {
                 const msg = 'We encountered an error while loading your data';
