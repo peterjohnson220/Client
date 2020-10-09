@@ -3,10 +3,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Permissions } from 'libs/constants';
+import { RangeGroupMetadata } from 'libs/models/structures';
 
-import { RangeGroupMetadata } from '../../models';
 import * as fromSharedJobBasedRangeReducer from '../../reducers';
-
 
 @Component({
   selector: 'pf-global-actions',

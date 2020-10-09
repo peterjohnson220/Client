@@ -2,7 +2,7 @@ import orderBy from 'lodash/orderBy';
 
 import { UpdateDataViewFieldsRequest, UserDataElement } from 'libs/models/payfactors-api';
 
-import { FieldType, Field, Filter, UserDataView } from '../models';
+import { Filter, FieldType, Field, UserDataView  } from '../models';
 
 export class FieldsHelper {
 

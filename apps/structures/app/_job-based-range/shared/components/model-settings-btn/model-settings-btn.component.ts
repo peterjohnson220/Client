@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
-import { RangeGroupMetadata } from '../../models';
+import { RangeGroupMetadata } from 'libs/models/structures';
 
 @Component({
   selector: 'pf-model-settings-btn',

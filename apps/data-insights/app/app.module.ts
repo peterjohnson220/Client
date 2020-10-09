@@ -9,9 +9,9 @@ import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { SentryErrorHandler, SentryService } from 'libs/core/services';
+import { FormulaEditorModule } from 'libs/features/formula-editor';
 
 import { AppRoutingModule } from './app-routing.module';
-
 
 @NgModule({
   imports: [
@@ -26,7 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
     PfLayoutWrapperModule,
     PfSecurityModule,
     PfStateModule,
-
+    FormulaEditorModule,
 
     // Routing
     AppRoutingModule

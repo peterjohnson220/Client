@@ -5,6 +5,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -17,7 +18,6 @@ import * as fromRangeFieldActions from 'libs/features/structures/range-editor/ac
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
-import { RangeGroupMetadata } from '../models';
 import * as fromSharedReducer from '../reducers';
 import { PagesHelper } from '../helpers/pages.helper';
 

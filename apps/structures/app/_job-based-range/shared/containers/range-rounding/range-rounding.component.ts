@@ -3,13 +3,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { RangeGroupMetadata, RoundingPoint, RoundingType } from '../../models';
+import { RoundingPoint, RoundingType } from '../../models';
 import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../data';
 
 @Component({

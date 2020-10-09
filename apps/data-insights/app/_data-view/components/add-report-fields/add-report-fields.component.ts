@@ -1,16 +1,13 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import orderBy from 'lodash/orderBy';
-
 import { groupBy } from '@progress/kendo-data-query';
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
-
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 
 import { PfConstants } from 'libs/models/common';
-
-import { Field, FieldListItem, FieldType } from '../../models';
+import { Field, FieldListItem, FieldType } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-add-report-fields',

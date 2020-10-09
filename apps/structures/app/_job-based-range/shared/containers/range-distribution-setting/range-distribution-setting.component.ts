@@ -5,12 +5,13 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { CompanySettingsEnum } from 'libs/models';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { RangeGroupMetadata, RangeDistributionSettingForm } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
 import { RangeDistributionSetting } from 'libs/models/payfactors-api';
 
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { ControlPoint, RangeGroupMetadata, RangeDistributionSettingForm } from '../../models';
+import { ControlPoint } from '../../models';
 import { ModelSettingsModalConstants } from '../../constants/model-settings-modal-constants';
 
 @Component({
@@ -47,11 +48,13 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   rangeDistributionSetting: RangeDistributionSetting;
   showMinSpread: boolean;
   showMaxSpread: boolean;
+  showMidFormula: boolean;
   minSpreadTooltip: string;
   maxSpreadTooltip: string;
   fieldsDisabledTooltip: string;
   payTypeTooltip: string;
   enablePercentilesAndRangeSpreads: boolean;
+
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -85,11 +88,7 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
     this.rangeDistributionSettingForm = new FormGroup({
       'CompanyStructuresRangeGroupId': new FormControl(this.rangeGroupId),
-      'RangeDistributionTypeId': new FormControl({
-          value: this.metadata.RangeDistributionTypeId,
-          disabled: true// we always want to disable
-        }, [Validators.required]
-      ),
+      'RangeDistributionTypeId': new FormControl({value: this.metadata.RangeDistributionTypeId, disabled: true}, [Validators.required]),
       'PayType': new FormControl(this.metadata.PayType, [Validators.required]),
       'ControlPoint': new FormControl({ value: this.metadata.ControlPoint, disabled: true }, [Validators.required]),
       'Minimum': new FormControl({ value: this.metadata.SpreadMin, disabled: !this.enablePercentilesAndRangeSpreads }, [Validators.required]),
@@ -104,21 +103,14 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       'FourthQuintile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
       'MinPercentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
       'MaxPercentile': new FormControl({ value: null, disabled: !this.enablePercentilesAndRangeSpreads }),
+      'ControlPoint_Formula': new FormControl({ value: null })
     });
-
-    this.subscriptions.push(
-      // any time the inner form changes update the parent of any change
-      this.rangeDistributionSettingForm.valueChanges.subscribe(value => {
-        this.onChange(value);
-        this.onTouched();
-      })
-    );
 
     if (!!this.metadata.RangeDistributionTypeId) {
       this.setFormValidators(this.metadata.RangeDistributionTypeId);
     }
 
-    if (!!this.metadata.ControlPoint) {
+    if (!!this.metadata.ControlPoint || !!this.metadata.RangeDistributionSetting?.ControlPoint_Formula) {
       this.enablePercentilesAndRangeSpreadFields();
     }
   }
@@ -149,8 +141,10 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
 
   handlePayTypeSelectionChange(value: ControlPoint) {
     if (!!value) {
-      // Set MRP vaue of the selected pay type
-      this.rangeDistributionSettingForm.controls['ControlPoint'].setValue(value.FieldName);
+      if (!this.showMidFormula) {
+        // Set MRP vaue of the selected pay type
+        this.rangeDistributionSettingForm.controls['ControlPoint'].setValue(value.FieldName);
+      }
 
       // Update range values of the selected pay type
       this.controlPointRanges = this.controlPoints.filter(c => c.Category === value.Category && c.RangeDisplayName !== 'MRP');
@@ -218,11 +212,24 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     }
   }
 
+  handleMidToggle() {
+    this.showMidFormula = !this.showMidFormula;
+    if (this.showMidFormula) {
+      this.formControls.ControlPoint.patchValue(null);
+      this.setValidation('ControlPoint', 'ControlPoint_Formula');
+    } else {
+      this.formControls.ControlPoint_Formula.patchValue(null);
+      this.setValidation('ControlPoint_Formula', 'ControlPoint');
+    }
+  }
+
   loadMinMaxState() {
     const minSpread = !!this.metadata.SpreadMin;
     const maxSpread = !!this.metadata.SpreadMax;
     const minPercentile = !!this.metadata.RangeDistributionSetting?.MinPercentile;
     const maxPercentile = !!this.metadata.RangeDistributionSetting?.MaxPercentile;
+    const midPercentile = !!this.metadata.ControlPoint;
+    const midFormula = !!this.metadata.RangeDistributionSetting?.ControlPoint_Formula?.FormulaId || this.showMidFormula;
 
     // default to using spread
     if (minSpread || (!minSpread && !minPercentile)) {
@@ -239,6 +246,14 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     } else {
       this.showMaxSpread = false;
       this.setValidation('Maximum', 'MaxPercentile');
+    }
+
+    if (midPercentile || (!midPercentile && !midFormula)) {
+      this.showMidFormula = false;
+      this.setValidation('ControlPoint_Formula', 'ControlPoint');
+    } else {
+      this.showMidFormula = true;
+      this.setValidation('ControlPoint', 'ControlPoint_Formula');
     }
   }
 
@@ -280,7 +295,16 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
   // Lifecycle
   ngOnInit(): void {
     this.buildForm();
-    this.enablePercentilesAndRangeSpreads = !!this.metadata.ControlPoint;
+    this.enablePercentilesAndRangeSpreads = (!!this.metadata.ControlPoint || !!this.metadata.RangeDistributionSetting?.ControlPoint_Formula);
+
+    this.subscriptions.push(
+      // any time the inner form changes update the parent of any change
+      this.rangeDistributionSettingForm.valueChanges.subscribe(value => {
+        this.onChange(value);
+        this.onTouched();
+      })
+    );
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -320,15 +344,6 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
     this.subscriptions.forEach(s => s.unsubscribe());
   }
 
-  onChange: any = () => {};
-  onTouched: any = () => {};
-
-  writeValue(value) {
-    if (value) {
-      this.value = this.mapToRangeDistributionSettingForm(value);
-    }
-  }
-
   mapToRangeDistributionSettingForm(value: RangeDistributionSetting): RangeDistributionSettingForm {
     return {
       PayType: this.metadata.PayType,
@@ -346,8 +361,18 @@ export class RangeDistributionSettingComponent implements ControlValueAccessor, 
       ThirdQuintile: value.ThirdQuintile,
       FourthQuintile: value.FourthQuintile,
       MinPercentile: value.MinPercentile,
-      MaxPercentile: value.MaxPercentile
+      MaxPercentile: value.MaxPercentile,
+      ControlPoint_Formula: value.ControlPoint_Formula
     };
+  }
+
+  onChange: any = () => {};
+  onTouched: any = () => {};
+
+  writeValue(value) {
+    if (value) {
+      this.value = this.mapToRangeDistributionSettingForm(value);
+    }
   }
 
   // communicate the inner form validation to the parent form

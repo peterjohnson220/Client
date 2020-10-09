@@ -12,13 +12,13 @@ import {
   generateMockStructureRangeDistributionTypes
 } from 'libs/models/payfactors-api';
 import { SettingsService } from 'libs/state/app-context/services';
+import { generateMockRangeAdvancedSetting } from 'libs/models/structures';
 
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import { ModelSettingsModalComponent } from './model-settings-modal.component';
 import { UrlService } from '../../services';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
-import { generateMockRangeAdvancedSetting } from '../../models';
 import { PageViewIds } from '../../constants/page-view-ids';
 
 describe('Job Based Ranges - Model Settings Modal', () => {

@@ -3,8 +3,7 @@ import { Action } from '@ngrx/store';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
-
-import { RangeGroupMetadata } from '../models';
+import { RangeGroupMetadata } from 'libs/models/structures';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
 export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';

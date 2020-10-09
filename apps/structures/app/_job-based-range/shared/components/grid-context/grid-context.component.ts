@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { RangeGroupMetadata } from '../../models';
+import { RangeGroupMetadata } from 'libs/models/structures';
+
 import * as fromJobBasedRangeReducer from '../../reducers';
 import * as fromJobBasedRangeActions from '../../actions/shared.actions';
 

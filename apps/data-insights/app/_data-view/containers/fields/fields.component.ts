@@ -7,10 +7,10 @@ import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { AsyncStateObj } from 'libs/models/state';
+import { Field, UserDataView, Suggestion } from 'libs/features/formula-editor';
+import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
-import * as fromFieldsActions from '../../actions/fields.actions';
-import { Field, UserDataView, Suggestion } from '../../models';
 
 @Component({
   selector: 'pf-data-view-fields',

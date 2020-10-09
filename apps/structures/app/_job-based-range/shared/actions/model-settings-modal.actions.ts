@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
 
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { Currency } from 'libs/models';
+import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 
-import { ControlPoint, Currency, RangeGroupMetadata } from '../models';
+import { ControlPoint } from '../models';
 
 export const OPEN_MODAL = '[Structures - Job Based Range - Model Settings] Open Modal';
 export const CLOSE_MODAL = '[Structures - Job Based Range - Model Settings] Close Modal';

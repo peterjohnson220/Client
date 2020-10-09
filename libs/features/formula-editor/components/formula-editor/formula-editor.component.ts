@@ -5,10 +5,17 @@ import { EditorFromTextArea } from 'codemirror';
 
 import { Suggestion } from '../../models';
 
+
+import 'codemirror/mode/spreadsheet/spreadsheet';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/addon/display/placeholder';
+import 'codemirror/addon/hint/show-hint';
+
+
 @Component({
   selector: 'pf-formula-editor',
   templateUrl: './formula-editor.component.html',
-  styleUrls: ['./formula-editor.component.scss']
+  styleUrls: ['./formula-editor.component.scss'],
 })
 export class FormulaEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() initialFormula: string;
@@ -124,4 +131,5 @@ export class FormulaEditorComponent implements OnInit, AfterViewInit, OnChanges 
   private handleInputRead(): void {
     this.isInsertingFunctionTemplate = false;
   }
+
 }

@@ -4,10 +4,10 @@ import { RoundingSettingsDataObj, RoundingSetting, CompanyStructureRangeOverride
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { AsyncStateObjHelper } from 'libs/core';
 
 import * as fromSharedActions from '../actions/shared.actions';
-import { RangeGroupMetadata } from '../models';
 import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
 
 export interface State {

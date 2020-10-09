@@ -10,13 +10,13 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { DataViewApiService, UserApiService } from 'libs/data/payfactors-api';
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
+import { PayfactorsApiModelMapper } from 'libs/features/formula-editor';
+import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
 
 import * as fromDataViewActions from '../actions/data-view.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
 import * as fromFiltersActions from '../actions/filters.actions';
-import * as fromFieldsActions from '../actions/fields.actions';
 import * as fromDataViewReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../helpers';
 
 @Injectable()
 export class DataViewEffects {
@@ -42,7 +42,7 @@ export class DataViewEffects {
                 new fromDataViewActions.GetUserDataViewSuccess(userDataView),
                 new fromDataViewGridActions.SetSortDescriptor(sortDescriptor),
                 new fromFieldsActions.SetSelectedFields(selectedFields),
-                new fromFieldsActions.GetReportFieldsSuccess(availableFields),
+                new fromFieldsActions.GetAvailableReportFieldsSuccess(availableFields),
                 new fromFiltersActions.SetFilters(filters),
                 new fromDataViewGridActions.GetData(),
                 new fromDataViewGridActions.GetDataCount()

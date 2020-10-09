@@ -5,6 +5,7 @@ import { Action, Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
@@ -13,7 +14,6 @@ import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPublishModelModalActions from '../actions/publish-model-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
 import * as fromSharedReducer from '../reducers';
-import { RangeGroupMetadata } from '../models';
 import { PagesHelper } from '../helpers/pages.helper';
 
 @Injectable()

@@ -2,9 +2,10 @@ import { Action } from '@ngrx/store';
 
 import { Field } from '../models';
 
-export const GET_REPORT_FIELDS = '[Data Insights / Data View Fields] Get Report Fields';
-export const GET_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View Fields] Get Report Fields Success';
-export const GET_REPORT_FIELDS_ERROR = '[Data Insights / Data View Fields] Get Report Fields Error';
+export const GET_AVAILABLE_REPORT_FIELDS_BY_PAGE_VIEW_ID = '[Data Insights / Data View Fields] Get Available Report Fields By PageViewId';
+export const GET_AVAILABLE_REPORT_FIELDS = '[Data Insights / Data View Fields] Get Available Report Fields';
+export const GET_AVAILABLE_REPORT_FIELDS_SUCCESS = '[Data Insights / Data View Fields] Get Available Report Fields Success';
+export const GET_AVAILABLE_REPORT_FIELDS_ERROR = '[Data Insights / Data View Fields] Get Available Report Fields Error';
 export const ADD_SELECTED_FIELD = '[Data Insights / Data View Fields] Add Selected Field';
 export const REMOVE_SELECTED_FIELD = '[Data Insights / Data View Fields] Remove Selected Field';
 export const SAVE_REPORT_FIELDS = '[Data Insights / Data View Fields] Save Report Fields';
@@ -20,20 +21,26 @@ export const REMOVE_FORMULA_FIELD = '[Data Insights / Data View Fields] Remove F
 export const SORT_FIELD = '[Data Insights / Data View Fields] Sort Field';
 export const CLEAR_FORMATING = '[Data Insights / Data View Fields] Clear Formating';
 
-export class GetReportFields implements Action {
-  readonly type = GET_REPORT_FIELDS;
+export class GetAvailableReportFieldsByPageViewId implements Action {
+  readonly type = GET_AVAILABLE_REPORT_FIELDS_BY_PAGE_VIEW_ID;
+
+  constructor(public payload: { pageViewId: string }) {}
+}
+
+export class GetAvailableReportFields implements Action {
+  readonly type = GET_AVAILABLE_REPORT_FIELDS;
 
   constructor(public payload: { dataViewId: number }) {}
 }
 
-export class GetReportFieldsSuccess implements Action {
-  readonly type = GET_REPORT_FIELDS_SUCCESS;
+export class GetAvailableReportFieldsSuccess implements Action {
+  readonly type = GET_AVAILABLE_REPORT_FIELDS_SUCCESS;
 
   constructor(public payload: Field[]) {}
 }
 
-export class GetReportFieldsError implements Action {
-  readonly type = GET_REPORT_FIELDS_ERROR;
+export class GetAvailableReportFieldsError implements Action {
+  readonly type = GET_AVAILABLE_REPORT_FIELDS_ERROR;
 
   constructor() {}
 }
@@ -123,9 +130,10 @@ export class ClearFormating implements Action {
 }
 
 export type Actions
-  = GetReportFields
-  | GetReportFieldsSuccess
-  | GetReportFieldsError
+  = GetAvailableReportFieldsByPageViewId
+  | GetAvailableReportFields
+  | GetAvailableReportFieldsSuccess
+  | GetAvailableReportFieldsError
   | RemoveSelectedField
   | SaveReportFields
   | SaveReportFieldsSuccess

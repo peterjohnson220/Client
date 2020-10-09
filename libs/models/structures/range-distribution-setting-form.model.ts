@@ -1,3 +1,5 @@
+import { FormulaFieldModalObj } from 'libs/models/formula-editor';
+
 export interface RangeDistributionSettingForm {
     CompanyStructuresRangeGroupId: number;
     RangeDistributionTypeId: number;
@@ -15,4 +17,5 @@ export interface RangeDistributionSettingForm {
     ControlPoint: string;
     MinPercentile: string;
     MaxPercentile: string;
+    ControlPoint_Formula: FormulaFieldModalObj;
 }

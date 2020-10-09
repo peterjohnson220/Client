@@ -2,6 +2,20 @@
 // If the the dynamically added content can't be styled using the shadow-piercing descendant combinator :host ::ng-deep
 // add those styles to this file.
 
+$dark-grey: #999999;
+
+%label {
+  text-transform: uppercase;
+  color: $dark-grey;
+  font-size: .95rem;
+}
+
+$grid-border-color: #d6d6d6;
+$icon-blue-color: #0883BE;
+$background-grey: #eaeaea;
+$card-header-grey: #495057;
+$baby-blue: #ebf3fd;
+
 
 // Popover pill detail
 .popover.pill-detail-popover{
@@ -38,4 +52,79 @@
 .popover.saved-filters-popover .arrow{
   right: 35px !important;
   left: inherit !important;
+}
+
+
+// Filter Options
+.filter-options {
+  .k-list .k-item.k-state-selected {
+    background-color: #ffffff;
+    color: #404040;
+  }
+
+  .k-checkbox:checked + .k-checkbox-label::before {
+    background-color: #0883BE !important;
+    color: #404040;
+    border-color: #0883BE;
+  }
+
+  .badge-info {
+    font-size: 100%;
+  }
+}
+
+// Formula editor
+.formula-suggestions {
+  .k-dropdown .k-state-focused {
+    box-shadow: none !important;
+  }
+
+  .k-dropdown .k-dropdown-wrap {
+    border-color: transparent;
+    background-color: transparent;
+  }
+
+  .k-dropdown .k-input,
+  .k-dropdown .k-select {
+    color: transparent;
+  }
+}
+
+pf-formula-editor {
+  .CodeMirror {
+    padding: 1rem;
+    font-size: 16px;
+    font-weight: 300;
+    position: absolute;
+    height: 150px;
+    width: calc(100% - 2rem);
+    resize: none;
+    border: 1px solid #ced4da;
+    background-color: transparent;
+  
+    &:focus {
+      outline-color: $background-grey;
+    }
+  
+    &:disabled {
+      background-color: #e9ecef;
+    }
+  }
+
+  .CodeMirror-placeholder.CodeMirror-line-like {
+    color: grey;
+  }
+
+  .CodeMirror-readonly {
+    .CodeMirror {
+      background-color: #e9ecef;
+    }
+    .CodeMirror-cursor {
+      visibility: hidden !important;
+    }
+  }
+}
+
+.CodeMirror-hints {
+  z-index: 1000000;
 }
