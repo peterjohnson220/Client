@@ -195,6 +195,57 @@ export class SharedEffects {
         );
       }));
 
+  @Effect()
+  getCurrentRangeGroup: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_CURRENT_RANGE_GROUP),
+      switchMap((action: fromSharedActions.GetCurrentRangeGroup) => {
+        return this.structureModelingApiService.getCurrentRangeGroup(
+          action.payload.RangeGroupId,
+          action.payload.PaymarketId,
+          action.payload.Rate)
+          .pipe(
+            map((res) => {
+              return new fromSharedActions.GetCurrentRangeGroupSuccess(res);
+            }),
+            catchError((err) => of(new fromSharedActions.GetCurrentRangeGroupError(err)))
+          );
+      })
+    );
+
+  @Effect()
+  getData: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_DATA_BY_RANGE_GROUP_ID),
+      mergeMap((action: fromSharedActions.GetDataByRangeGroupId) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getFields, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, action.payload.pageViewId)),
+            (a: fromSharedActions.GetDataByRangeGroupId, baseEntity, fields, pagingOptions, sortDescriptor) =>
+              ({ a, baseEntity, fields, pagingOptions, sortDescriptor }))
+        )
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
+          data.baseEntity.Id,
+          data.fields,
+          data.a.payload.filters,
+          data.pagingOptions,
+          data.sortDescriptor,
+          false,
+          false,
+        )).pipe(
+          map((res) => {
+            return new fromSharedActions.GetDataByRangeGroupIdSuccess(res);
+          }),
+          catchError((err) => of(new fromSharedActions.GetDataByRangeGroupIdError(err)))
+        );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromSharedReducer.State>,

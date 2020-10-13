@@ -1,0 +1,14 @@
+.rangeChart {
+  position: absolute;
+  width: 100%;
+  display: block;
+  margin-bottom: 25px;
+}
+
+::ng-deep .split-view-container {
+  margin-bottom: 50px;
+}
+
+.highcharts-series-group{
+  margin-top: -5px;
+}

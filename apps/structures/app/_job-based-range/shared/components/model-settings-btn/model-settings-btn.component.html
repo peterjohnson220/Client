@@ -11,7 +11,11 @@
     Create Model
   </button>
 </ng-container>
+
 <ng-template #cogs>
+  <button *ngIf="currentRangeGroupId" class="btn btn-secondary compareButton" (click)="compareWithCurrent()">
+    Compare
+  </button>
   <button type="button"
           id="column-popover-btn"
           class="btn btn-secondary"

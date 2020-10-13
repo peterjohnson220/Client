@@ -44,6 +44,11 @@ export class StructuresHighchartsService {
       StructuresHighchartsService.formatDataPoint(dataPointType, value, chartLocale, md.Currency, md.Rate) : null;
   }
 
+  static formatCompareCurrentDataPoint(hasCurrentStructure, dataPointType, value, chartLocale, isCurrent, currency, rate) {
+    return isCurrent || hasCurrentStructure ?
+      StructuresHighchartsService.formatDataPoint(dataPointType, value, chartLocale, currency, rate) : null;
+  }
+
   static formatNewDataPoint(hasCurrentStructure, dataPointType, value, chartLocale, md: RangeGroupMetadata) {
     return !md.IsCurrent && !hasCurrentStructure ?
       StructuresHighchartsService.formatDataPoint(dataPointType, value, chartLocale, md.Currency, md.Rate) : null;
@@ -160,6 +165,49 @@ export class StructuresHighchartsService {
       iconColor: !!delta ? delta.color : delta
     };
   }
+
+  static getCompareDataPoint(xCoordinate, dataPointTypeId, jobRangeData, hasCurrentStructure, chartLocale, isCurrent, currency, rate) {
+    let dataPointValue;
+    let dataPointTitle;
+
+    if (dataPointTypeId === RangeDistributionDataPointTypeIds.Mid) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Mid;
+      dataPointTitle = 'Midpoint';
+    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.TertileFirst) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Tertile_First;
+      dataPointTitle = 'Top 1st 3rd';
+    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.TertileSecond) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Tertile_Second;
+      dataPointTitle = 'Top 2nd 3rd';
+    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.QuartileFirst) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Quartile_First;
+      dataPointTitle = 'Top 1st 4th';
+    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.QuartileSecond) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Quartile_Second;
+      dataPointTitle = 'Top 3rd 4th';
+    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.QuintileFirst) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Quintile_First;
+      dataPointTitle = 'Top 1st 5th';
+    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.QuintileSecond) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Quintile_Second;
+      dataPointTitle = 'Top 2nd 5th';
+    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.QuintileThird) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Quintile_Third;
+      dataPointTitle = 'Top 3rd 5th';
+    } else if (dataPointTypeId === RangeDistributionDataPointTypeIds.QuintileFourth) {
+      dataPointValue = jobRangeData.CompanyStructures_Ranges_Quintile_Fourth;
+      dataPointTitle = 'Top 4th 5th';
+    }
+
+    return {
+      x: xCoordinate,
+      y: dataPointValue,
+      jobTitle: jobRangeData.CompanyJobs_Job_Title,
+      dataPoint: StructuresHighchartsService.formatCompareCurrentDataPoint(hasCurrentStructure, dataPointTitle, dataPointValue, chartLocale,
+        isCurrent, currency, rate),
+    };
+  }
+
 
   static getChartMin(jobRangeData, rangeDistributionTypeId) {
       let comparisonValue = jobRangeData.CompanyStructures_Ranges_Min == null ? 0 : jobRangeData.CompanyStructures_Ranges_Min;

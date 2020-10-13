@@ -68,6 +68,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Output() addJobs = new EventEmitter();
   @Output() publishModel = new EventEmitter();
   @Output() openModelSettings = new EventEmitter();
+  @Output() compareModelClicked = new EventEmitter();
 
   permissions = Permissions;
 
@@ -107,6 +108,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
 
   gridConfig: GridConfig;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
+  currentRangeGroup: any;
+  currentRangeGroupId: number;
+  currentRangeGroupName: any;
+  compareFlag: boolean;
+  currentRangeGroup$: Observable<AsyncStateObj<any>>;
+  currentRangeGroupSub: Subscription;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
@@ -151,6 +158,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       dir: 'asc',
       field: 'CompanyStructures_Ranges_Mid'
     }];
+    this.currentRangeGroup$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCurrentRangeGroup));
   }
 
   hideRowActions(): boolean {
@@ -274,6 +282,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     || dto.SecondQuintile || dto.ThirdQuintile || dto.FourthQuintile;
   }
 
+  handleCompareModelClicked() {
+    this.compareFlag = true;
+    this.store.dispatch(new fromSharedJobBasedRangeActions.ComparingModels());
+    this.compareModelClicked.emit(this.currentRangeGroupId);
+  }
+
   // Lifecycle
   ngAfterViewInit() {
     this.colTemplates = {
@@ -302,6 +316,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.compareFlag = false;
     this.modelPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelPageViewId = pv);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.metaDataSub = this.metaData$.subscribe(md => this.metaData = md);
@@ -317,6 +332,14 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.modifiedKeysSubscription = this.store.select(fromReducer.getModifiedKeys, this.modelPageViewId).subscribe(
       modifiedKeys => this.modifiedKeys = modifiedKeys
     );
+    this.currentRangeGroupSub = this.currentRangeGroup$.subscribe(rangeGroup => {
+      if (rangeGroup.obj) {
+        this.currentRangeGroup = rangeGroup.obj;
+        this.currentRangeGroupId = this.currentRangeGroup.CompanyStructuresRangeGroupId;
+        this.currentRangeGroupName = this.currentRangeGroup.RangeGroupName;
+      }
+    });
+
     window.addEventListener('scroll', this.scroll, true);
   }
 
@@ -327,5 +350,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.roundingSettingsSub.unsubscribe();
     this.rangeOverridesSub.unsubscribe();
     this.modifiedKeysSubscription.unsubscribe();
+    this.currentRangeGroupSub.unsubscribe();
   }
 }

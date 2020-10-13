@@ -16,7 +16,7 @@ import {
   DuplicateModelResponse,
   DuplicateModelRequest,
   RevertRangeChangesRequest,
-  RevertRangeResponse
+  RevertRangeResponse, CurrentRangeGroupResponseModel
 } from 'libs/models/payfactors-api';
 import { CompanyStructureRange, CompanyStructureRangeOverride } from 'libs/models/structures';
 
@@ -77,5 +77,11 @@ export class StructureModelingApiService {
 
   revertRangeChanges(request: RevertRangeChangesRequest): Observable<RevertRangeResponse> {
     return this.payfactorsApiService.post<RevertRangeResponse>(`${this.endpoint}/RevertRangeChanges`, request);
+  }
+
+  getCurrentRangeGroup(rangeGroupId: number, paymarketId: number, rate: string): Observable<CurrentRangeGroupResponseModel> {
+    return this.payfactorsApiService.get<CurrentRangeGroupResponseModel>(`${this.endpoint}/GetCurrentStructureRangeGroup`, {
+      params: { rangeGroupId, paymarketId, rate}
+    });
   }
 }

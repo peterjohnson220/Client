@@ -11,8 +11,10 @@ export class ModelSettingsBtnComponent {
   @ViewChild('p') public p: any;
 
   @Input() metadata: RangeGroupMetadata;
+  @Input() currentRangeGroupId: number;
   @Output() modelSettingsClicked = new EventEmitter();
   @Output() duplicateModelClicked = new EventEmitter();
+  @Output() compareModelClicked = new EventEmitter();
 
   constructor() {}
 
@@ -23,6 +25,11 @@ export class ModelSettingsBtnComponent {
 
   showDuplicateModel() {
     this.duplicateModelClicked.emit();
+    this.p.close();
+  }
+
+  compareWithCurrent() {
+    this.compareModelClicked.emit();
     this.p.close();
   }
 }

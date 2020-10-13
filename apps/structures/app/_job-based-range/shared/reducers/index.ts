@@ -84,6 +84,21 @@ export const getRangeOverrides = createSelector(
   selectSharedState, fromSharedReducer.getRangeOverrides
 );
 
+export const getCurrentRangeGroup = createSelector(
+  selectSharedState,
+  fromSharedReducer.getCurrentRangeGroup
+);
+
+export const getComparingModels = createSelector(
+  selectSharedState,
+  fromSharedReducer.getComparingModels
+);
+
+export const getData = createSelector(
+  selectSharedState,
+  fromSharedReducer.getData
+);
+
 export const getStructureNameSuggestionsAsyncObj = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getStructureNameSuggestionsAsyncObj
 );
