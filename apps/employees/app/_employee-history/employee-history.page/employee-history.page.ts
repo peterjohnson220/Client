@@ -63,6 +63,8 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
       ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
       SelectAllPanelItemName: 'employees'
     };
+
+    this.setHistoryDate(this.route.snapshot.params.date);
   }
 
   ngOnInit(): void {
