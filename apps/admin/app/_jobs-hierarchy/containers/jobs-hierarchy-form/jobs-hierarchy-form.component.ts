@@ -179,6 +179,14 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  jobInHierarchyClicked(index) {
+    const currentState = this.jobLevelHierarchyForm.value.jobLevelsInHierarchy[index];
+
+    // @ts-ignore
+    this.jobLevelsInHierarchyFormArray.controls[index].selected = !currentState;
+    this.jobLevelHierarchyForm.value.jobLevelsInHierarchy[index] = !currentState;
+  }
+
   applyToHierarchy() {
     const selectedJobLevels = this.jobLevelHierarchyForm.value.jobLevels
       .map((checked, i) => checked ? this.jobLevels[i] : null)
