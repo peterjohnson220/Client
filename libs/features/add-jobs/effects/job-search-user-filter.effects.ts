@@ -12,7 +12,6 @@ import * as fromUserFilterPopoverActions from 'libs/features/user-filter/actions
 import * as fromUserFilterReducer from 'libs/features/user-filter/reducers';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { UserFilterApiService } from 'libs/data/payfactors-api';
-import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { SavedFiltersHelper } from 'libs/features/add-jobs/helpers';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
@@ -25,9 +24,10 @@ export class JobSearchUserFilterEffects {
     ofType(fromUserFilterActions.INIT),
     withLatestFrom(
       this.store.select(fromSearchReducer.getSearchFilterMappingData),
-      (action, searchFilterMappingDataObj) => ({ action, searchFilterMappingDataObj })),
+      this.store.select(fromSearchReducer.getUserFilterTypeData),
+      (action, searchFilterMappingDataObj, userFilterTypeData) => ({ action, searchFilterMappingDataObj, userFilterTypeData })),
     switchMap((data) => {
-      return this.userFilterApiService.getAll({ Type: this.userFilterTypeData.Type })
+      return this.userFilterApiService.getAll({ Type: data.userFilterTypeData.Type })
         .pipe(
           mergeMap(response => [
               new fromUserFilterActions.GetSuccess(
@@ -84,12 +84,13 @@ export class JobSearchUserFilterEffects {
     ofType(fromSaveFilterModalActions.SAVE),
     withLatestFrom(
       this.store.select(fromUserFilterReducer.getSavedFilters),
-      (action: fromSaveFilterModalActions.Save, savedFilters) => ({ action, savedFilters})
+      this.store.select(fromSearchReducer.getUserFilterTypeData),
+      (action: fromSaveFilterModalActions.Save, savedFilters, userFilterTypeData) => ({ action, savedFilters, userFilterTypeData})
     ),
     mergeMap((data) => {
       const actions = [];
       const modalData = data.action.payload;
-      const upsertRequest = this.savedFiltersHelper.buildUpsertRequest(modalData);
+      const upsertRequest = this.savedFiltersHelper.buildUpsertRequest(modalData, data.userFilterTypeData);
       const isDefaultFilter = this.savedFiltersHelper.isDefaultFilter(modalData.SavedFilter);
       let currentDefault = null;
       if (modalData.SetAsDefault && !isDefaultFilter) {
@@ -143,7 +144,6 @@ export class JobSearchUserFilterEffects {
     private store: Store<fromUserFilterReducer.State>,
     private userFilterApiService: UserFilterApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
-    private userFilterTypeData: UserFilterTypeData,
     private savedFiltersHelper: SavedFiltersHelper
   ) { }
 }

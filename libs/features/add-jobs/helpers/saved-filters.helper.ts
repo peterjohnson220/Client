@@ -9,17 +9,16 @@ import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 export class SavedFiltersHelper {
 
   constructor(
-    private userFilterTypeData: UserFilterTypeData,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper) { }
 
-  buildUpsertRequest(modalData: SaveFilterModalData): UserFilterUpsertRequest {
+  buildUpsertRequest(modalData: SaveFilterModalData, userFilterTypeData: UserFilterTypeData): UserFilterUpsertRequest {
     const id = modalData.SavedFilter ? modalData.SavedFilter.Id : null;
     const isEditMode = !!id;
     const searchFilters = isEditMode
       ? null
       : this.payfactorsSearchApiModelMapper.mapMultiSelectFiltersToSearchFilters(modalData.SearchFiltersToSave);
     const request = {
-      Type: this.userFilterTypeData.Type,
+      Type: userFilterTypeData.Type,
       SavedFilter: {
         Name: modalData.Name,
         MetaInfo: {
