@@ -30,7 +30,6 @@ import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 
 import { PageViewIds } from '../../constants/page-view-ids';
 import { RangeGroupMetadata } from '../../models';
-import { Pages } from '../../constants/pages';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
@@ -60,11 +59,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() rangeGroupId: number;
-  @Input() page: Pages;
+  @Input() pageViewId: string;
   @Input() reorderable: boolean;
   @Input() saveSort = false;
   @Input() modifiedKey: string = null;
   @Input() allowMultipleSort = false;
+  @Input() compactGridMinHeight: string = null;
   @Output() addJobs = new EventEmitter();
   @Output() publishModel = new EventEmitter();
   @Output() openModelSettings = new EventEmitter();
@@ -200,24 +200,15 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
-    let pageViewIdToRefresh = '';
-
-    switch (metaInfo.page) {
-      case Pages.Employees: {
-        pageViewIdToRefresh = PageViewIds.Employees;
-        break;
-      }
-      case Pages.Pricings: {
-        pageViewIdToRefresh = PageViewIds.Pricings;
-        break;
-      }
-    }
-
-    if (pageViewIdToRefresh) {
-      store.dispatch(new fromPfDataGridActions.LoadData(pageViewIdToRefresh));
+    // We should dispatch this action only for Employees/Pricings pages
+    if (metaInfo.pageViewId === PageViewIds.EmployeesMinMidMax
+      || metaInfo.pageViewId === PageViewIds.EmployeesTertile
+      || metaInfo.pageViewId === PageViewIds.EmployeesQuartile
+      || metaInfo.pageViewId === PageViewIds.EmployeesQuintile
+      || metaInfo.pageViewId === PageViewIds.Pricings) {
+      store.dispatch(new fromPfDataGridActions.LoadData(metaInfo.pageViewId));
     }
   }
-
 
   // Events
   handleAddJobsClicked() {

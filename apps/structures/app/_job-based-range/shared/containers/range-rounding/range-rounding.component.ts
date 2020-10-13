@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -10,7 +10,6 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { RangeGroupMetadata, RoundingPoint, RoundingType } from '../../models';
-import { Pages } from '../../constants/pages';
 import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../data';
 
 @Component({
@@ -19,9 +18,6 @@ import { StructuresRoundingPoints, StructuresRoundingTypes } from '../../data';
   styleUrls: ['./range-rounding.component.scss']
 })
 export class RangeRoundingComponent implements OnInit, OnDestroy {
-  @Input() rangeGroupId: number;
-  @Input() page: Pages;
-
   metaData$: Observable<RangeGroupMetadata>;
   metadataSub: Subscription;
   roundingSettings$: Observable<RoundingSettingsDataObj>;

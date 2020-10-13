@@ -48,6 +48,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() customHeaderTemplate: TemplateRef<any>;
   @Input() filterPanelTemplates: TemplateRef<any>;
   @Input() noRecordsFoundTemplate: TemplateRef<any>;
+  @Input() subHeaderTemplate: TemplateRef<any>;
   // TODO: lockedPillText needs to be a collection of objects
   @Input() lockedPillText: string;
   @Input() inboundFilters: PfDataGridFilter[];
@@ -58,6 +59,7 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   @Input() noRecordsFound: string;
   @Input() fieldsExcludedFromExport: [];
   @Input() compactGrid = false;
+  @Input() compactGridMinHeight: string = null;
   @Input() backgroundColor: string;
   @Input() applyDefaultFilters: boolean;
   @Input() applyUserDefaultCompensationFields: boolean;

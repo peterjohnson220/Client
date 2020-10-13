@@ -19,7 +19,6 @@ import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import { PageViewIds } from '../constants/page-view-ids';
 import * as fromSharedReducer from '../reducers';
-import { Pages } from '../constants/pages';
 import { RangeGroupMetadata } from '../models';
 import { UrlService } from '../services';
 import { Workflow } from '../constants/workflow';
@@ -149,15 +148,16 @@ export class ModelSettingsModalEffects {
                   actions.push(new fromSharedActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
 
-                  switch (data.action.payload.fromPage) {
-                    case Pages.Employees: {
-                      actions.push(new fromDataGridActions.LoadData(PageViewIds.Employees));
-                      break;
-                    }
-                    case Pages.Pricings: {
-                      actions.push(new fromDataGridActions.LoadData(PageViewIds.Pricings));
-                      break;
-                    }
+                  if (data.action.payload.fromPageViewId === PageViewIds.EmployeesMinMidMax) {
+                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesMinMidMax));
+                  } else if (data.action.payload.fromPageViewId === PageViewIds.EmployeesTertile) {
+                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesTertile));
+                  } else if (data.action.payload.fromPageViewId === PageViewIds.EmployeesQuartile) {
+                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesQuartile));
+                  } else if (data.action.payload.fromPageViewId === PageViewIds.EmployeesQuintile) {
+                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesQuintile));
+                  } else if (data.action.payload.fromPageViewId === PageViewIds.Pricings) {
+                    actions.push(new fromDataGridActions.LoadData(PageViewIds.Pricings));
                   }
                 }
 

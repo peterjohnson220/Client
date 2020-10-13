@@ -17,9 +17,9 @@ import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import { ModelSettingsModalComponent } from './model-settings-modal.component';
 import { UrlService } from '../../services';
-import { Pages } from '../../constants/pages';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
 import { generateMockRangeAdvancedSetting } from '../../models';
+import { PageViewIds } from '../../constants/page-view-ids';
 
 describe('Job Based Ranges - Model Settings Modal', () => {
   let instance: ModelSettingsModalComponent;
@@ -221,13 +221,13 @@ describe('Job Based Ranges - Model Settings Modal', () => {
     instance.ngOnInit();
 
     instance.rangeGroupId = 1;
-    instance.page = Pages.Model;
+    instance.pageViewId = PageViewIds.ModelMinMidMax;
     instance.roundingSettings = {};
 
     const expectedAction = new fromModelSettingsModalActions.SaveModelSettings({
       rangeGroupId: instance.rangeGroupId,
       formValue: instance.modelSetting,
-      fromPage: Pages.Model,
+      fromPageViewId: PageViewIds.ModelMinMidMax,
       rounding: instance.roundingSettings
     });
 
