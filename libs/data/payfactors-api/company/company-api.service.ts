@@ -1,22 +1,17 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {PayfactorsApiService} from '../payfactors-api.service';
-import {CompanyDto, CompanyFormData, LegacyCompanySettingDto} from 'libs/models/company';
+import { CompanyDto, CompanyFormData, LegacyCompanySettingDto } from 'libs/models/company';
+import { Company, CompanyBaseInformation } from 'libs/models/company/company.model';
+import { EntityDescriptionTypeEnum } from 'libs/models/entity-description/entity-description-type.enum';
 import {
-  CompanyClientTypesReponse,
-  CompanyDataSetsReponse,
-  CompanyIndustriesResponse,
-  CompanyNote,
-  CompanyTilesResponse,
-  JobPricingLimitInfoResponse,
-  ListCompositeFields,
-  SystemUserGroupsResponse
+    CompanyClientTypesReponse, CompanyDataSetsReponse, CompanyIndustriesResponse, CompanyNote, CompanyTilesResponse,
+    JobPricingLimitInfoResponse, ListCompositeFields, SystemUserGroupsResponse
 } from 'libs/models/payfactors-api';
-import {Company, CompanyBaseInformation} from 'libs/models/company/company.model';
-import {SubsidiaryInfo} from 'libs/models/subsidiary';
-import {EntityDescriptionTypeEnum} from 'libs/models/entity-description/entity-description-type.enum';
+import { SubsidiaryInfo } from 'libs/models/subsidiary';
+
+import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +21,7 @@ export class CompanyApiService {
 
   constructor(
     private payfactorsApiService: PayfactorsApiService
-  ) {}
+  ) { }
 
   get(companyId: number): Observable<CompanyDto> {
     return this.payfactorsApiService.get<CompanyDto>(this.endpoint + `(${companyId})`);
@@ -54,7 +49,7 @@ export class CompanyApiService {
 
   getCompanyBaseInformation(searchTerm?: string, take?: number) {
     if (searchTerm || take) {
-      return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`, { params: {searchTerm, take} });
+      return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`, { params: { searchTerm, take } });
     }
     return this.payfactorsApiService.get<CompanyBaseInformation[]>(`${this.endpoint}/GetCompanyBaseInformation`);
   }
@@ -83,6 +78,11 @@ export class CompanyApiService {
     return this.payfactorsApiService.get<CompanyTilesResponse[]>(`${this.endpoint}(${companyId})/Default.GetCompanyTiles`);
   }
 
+  companyHasTile(companyId: number, tileName: string): Observable<boolean> {
+    return this.payfactorsApiService.get<boolean>(`${this.endpoint}/CompanyHasTile`,
+      { params: { companyId: companyId, tileName: tileName } });
+  }
+
   getCompanyDataSets(companyId: number): Observable<CompanyDataSetsReponse[]> {
     return this.payfactorsApiService.get<CompanyDataSetsReponse[]>(`${this.endpoint}(${companyId})/Default.GetCompanyDataSets`);
   }
@@ -97,22 +97,22 @@ export class CompanyApiService {
 
   getJobPricingLimitInfoByCompanyId(companyId: number): Observable<JobPricingLimitInfoResponse> {
     return this.payfactorsApiService.get<JobPricingLimitInfoResponse>(`${this.endpoint}/GetJobPricingLimitInfoByCompanyId`,
-      { params: {companyId: companyId} });
+      { params: { companyId: companyId } });
   }
 
   getCompanySubsidiaryInfo(companyId: number): Observable<SubsidiaryInfo[]> {
     return this.payfactorsApiService.get<SubsidiaryInfo[]>(`${this.endpoint}/GetCompanySubsidiaryInfo`,
-      { params: {companyId: companyId} });
+      { params: { companyId: companyId } });
   }
 
   getCompanyNotes(companyId: number): Observable<CompanyNote[]> {
     return this.payfactorsApiService.get<CompanyNote[]>(`${this.endpoint}/GetCompanyNotes`,
-      { params: {companyId: companyId} });
+      { params: { companyId: companyId } });
   }
 
   saveCompanyNote(note: CompanyNote, action: string) {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.SaveCompanyNote`,
-      {Note: note.Note, User: note.CreateUser, Date: note.CreateDate, Id: note.Id, CompanyId: note.CompanyId, Action: action});
+      { Note: note.Note, User: note.CreateUser, Date: note.CreateDate, Id: note.Id, CompanyId: note.CompanyId, Action: action });
   }
 
   getOrganizationalData() {
@@ -121,17 +121,16 @@ export class CompanyApiService {
 
   getCompanyLogos() {
     return this.payfactorsApiService.get(this.endpoint + '/Default.GetCompanyLogos');
-
   }
 
   getEntityDescription(entityType: EntityDescriptionTypeEnum, entityId: number) {
     switch (entityType) {
       case EntityDescriptionTypeEnum.Company:
         return this.payfactorsApiService.get(`${this.endpoint}/GetCompanyDescription`,
-          {params: { companyId: entityId }});
+          { params: { companyId: entityId } });
       case EntityDescriptionTypeEnum.Subsidiary:
         return this.payfactorsApiService.get(`${this.endpoint}/GetSubsidiaryDescription`,
-          {params: { subsidiaryId: entityId }});
+          { params: { subsidiaryId: entityId } });
     }
   }
 }

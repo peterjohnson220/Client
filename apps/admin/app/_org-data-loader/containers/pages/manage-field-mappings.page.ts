@@ -120,6 +120,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   private emailRecipients: EmailRecipientModel[];
   private sftpUserNameIsValid: boolean;
   private selectedCompanySetting$: Observable<CompanySetting[]>;
+  public hasBenefitsAccess = false;
+  selectedCompanyBenefits$: Observable<boolean>;
 
   private toastOptions: NotificationSettings = {
     animation: {
@@ -202,6 +204,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
 
     this.companies$ = this.store.select(fromCompanyReducer.getCompanies);
     this.selectedCompany$ = this.store.select(fromCompanyReducer.getSelectedCompany);
+    this.selectedCompanyBenefits$ = this.store.select(fromCompanyReducer.companyHasBenefits);
     this.companyMappings$ = this.store.select(fromOrgDataAutoloaderReducer.getFieldMappings);
     this.companyMappingsLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingFieldMappings);
     this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
@@ -266,11 +269,19 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     ).subscribe(f => {
       this.selectedCompany = f;
       if (f) {
+        this.store.dispatch(new fromCompanySelectorActions.CompanyHasBenefits());
         this.companySelector.isDisabled = true;
         this.getSelectedCompanySetting();
         this.CompanySelected();
         this.cdr.detectChanges();
       }
+    });
+
+    this.selectedCompanyBenefits$.pipe(
+      filter(uc => !!uc),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      this.hasBenefitsAccess = f;
     });
 
     this.companies$.pipe(
@@ -623,7 +634,9 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       || !this.structureMappingComplete
       || !this.structureMappingMappingComplete
       || !this.employeeMappingComplete
-      || !this.subsidiariesMappingComplete);
+      || !this.subsidiariesMappingComplete
+      || (this.hasBenefitsAccess && !this.benefitMappingComplete)
+    );
 
     const part2 = this.delimiter === '';
     const part3 = this.emailRecipients.length === 0;
