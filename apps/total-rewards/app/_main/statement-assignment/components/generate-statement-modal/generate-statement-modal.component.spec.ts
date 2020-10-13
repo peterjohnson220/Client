@@ -8,6 +8,9 @@ import { GenerateStatementModalComponent } from './generate-statement-modal.comp
 describe('GenerateStatementModalComponent', () => {
   let component: GenerateStatementModalComponent;
   let fixture: ComponentFixture<GenerateStatementModalComponent>;
+  const emailTemplateComponent: any = {
+    init: jest.fn()
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -20,6 +23,7 @@ describe('GenerateStatementModalComponent', () => {
     fixture = TestBed.createComponent(GenerateStatementModalComponent);
     component = fixture.componentInstance;
     component.isOpen$ = of(false);
+    component.emailTemplateComponent = emailTemplateComponent;
     fixture.detectChanges();
   });
 

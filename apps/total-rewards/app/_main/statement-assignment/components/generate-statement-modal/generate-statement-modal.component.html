@@ -6,7 +6,7 @@
   [primaryButtonText]="'Generate'"
   [primaryButtonTextSubmitting]="'Generating...'"
   [submitting]="sendingGenerateRequest"
-  [submitEnabled]="electronicDeliveryEnabled ? !!selectedDeliveryMethod : true"
+  [submitEnabled]="submitEnabled"
   (onSubmit)="onGenerateStatements()"
   (onDismiss)="onCancel()">
   <ng-container basic-content>
@@ -49,6 +49,13 @@
                    Download Bulk PDF
             </label>
           </div>
+        </div>
+
+        <div class="email-form-container" [class.shown]="electronicDeliveryEnabled && selectedDeliveryMethod === deliveryMethod.Email">
+          <pf-statement-email-template #emailTemplate
+            [statement]="statement"
+            [statementEmailTemplate]="statementEmailTemplate">
+          </pf-statement-email-template>
         </div>
       </div>
     </pf-async-container>

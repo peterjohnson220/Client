@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { FilterDescriptor, State } from '@progress/kendo-data-query';
 
-import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-rewards';
+import { StatementEmailTemplate, TotalRewardAssignedEmployee } from 'libs/models/payfactors-api/total-rewards';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { AppNotification } from 'libs/features/app-notifications/models';
 import { AsyncStateObj } from 'libs/models/state';
@@ -21,9 +21,9 @@ import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
 import * as fromAssignmentsModalActions from '../actions/statement-assignment-modal.actions';
+import * as fromGenerateStatementModalActions from '../actions/generate-statement-modal.actions';
 import { StatementAssignmentModalComponent } from '../containers/statement-assignment-modal';
-import { DeliveryMethod, StatementAssignmentConfig } from '../models';
-
+import { DeliveryOption, StatementAssignmentConfig } from '../models';
 
 @Component({
   selector: 'pf-statement-assignment-page',
@@ -43,6 +43,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
   getNotification$: Observable<AppNotification<any>[]>;
   isExportingAssignedEmployees$: Observable<boolean>;
   exportEventId$: Observable<AsyncStateObj<string>>;
+  statementEmailTemplate$: Observable<StatementEmailTemplate>;
 
   assignedEmployeesSelectedCompanyEmployeeIds$: Observable<number[]>;
 
@@ -118,6 +119,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.sendingGenerateRequestError$ = this.store.pipe(select(fromPageReducer.getSendingGenerateStatementRequestError));
     this.getIsFiltersPanelOpen$ = this.store.pipe(select(fromPageReducer.getIsFiltersPanelOpen));
     this.getNotification$ = this.appNotificationStore.pipe(select(fromAppNotificationsMainReducer.getNotifications));
+    this.statementEmailTemplate$ = this.store.pipe(select(fromPageReducer.getStatementEmailTemplate));
 
     // Unassign Modal
     this.isUnassignEmployeesModalOpen$ = this.store.pipe(select(fromPageReducer.getIsUnassignEmployeesModalOpen));
@@ -145,6 +147,9 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     // subscriptions
     this.routeParamSubscription$ = this.route.params.subscribe(params => {
       this.store.dispatch(new fromPageActions.LoadStatement({ statementId: params['id'] }));
+      if (this.electronicDeliveryFeatureFlagEnabled) {
+        this.store.dispatch(new fromGenerateStatementModalActions.GetStatementEmailTemplate({ statementId: params['id'] }));
+      }
     });
     this.statementSubscription$ = this.statement$.subscribe(s => this.statement = s);
     this.filterChangeSubscription = this.filterChangeSubject.pipe(
@@ -216,8 +221,11 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     this.store.dispatch(new fromPageActions.CloseGenerateStatementModal());
   }
 
-  handleGenerateStatementsClick(deliveryMethod: DeliveryMethod) {
-    this.store.dispatch(new fromPageActions.GenerateStatements(deliveryMethod));
+  handleGenerateStatementsClick(deliveryOption: DeliveryOption) {
+    this.store.dispatch(new fromPageActions.GenerateStatements({ method: deliveryOption.Method, emailTemplate: deliveryOption.EmailTemplate }));
+    if (deliveryOption.SaveEmailTemplate && deliveryOption.EmailTemplate) {
+      this.store.dispatch(new fromGenerateStatementModalActions.SaveStatementEmailTemplate(deliveryOption.EmailTemplate));
+    }
   }
 
   handleAssignEmployeesClick() {

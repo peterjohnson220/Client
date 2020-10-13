@@ -26,10 +26,13 @@ import { StatementAssignmentPageComponent } from './statement-assignment.page';
 import { StatementAssignmentModalComponent, AssignedEmployeesGridComponent, EmployeeSearchResultsComponent } from './containers';
 import * as effects from './effects';
 import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
-import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
-import { GenerateStatementModalComponent } from './components/generate-statement-modal/generate-statement-modal.component';
-import { UnassignEmployeesModalComponent } from './components/unassign-employees-modal/unassign-employees-modal.component';
-import { GridActionMenuComponent } from './components/grid-action-menu/grid-action-menu.component';
+import {
+  EmployeeResultComponent,
+  GenerateStatementModalComponent,
+  UnassignEmployeesModalComponent,
+  GridActionMenuComponent,
+  StatementEmailTemplateComponent
+} from './components';
 
 @NgModule({
   imports: [
@@ -47,7 +50,8 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
       effects.EmployeeSearchUserFilterEffects,
       effects.StatementAssignmentModalEffects,
       effects.StatementAssignmentPageEffects,
-      effects.AssignedEmployeesGridEffects
+      effects.AssignedEmployeesGridEffects,
+      effects.GenerateStatementModalEffects
     ]),
     SharedModule,
     GridModule,
@@ -73,7 +77,8 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
     GenerateStatementModalComponent,
     AssignedEmployeesGridComponent,
     UnassignEmployeesModalComponent,
-    GridActionMenuComponent
+    GridActionMenuComponent,
+    StatementEmailTemplateComponent
   ],
   providers: [
     { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },

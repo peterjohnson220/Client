@@ -2,6 +2,8 @@ import { Action } from '@ngrx/store';
 
 import { ListAreaColumn } from 'libs/models/common/list-area';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { StatementEmailTemplate } from 'libs/models/payfactors-api/total-rewards/response';
+
 import { DeliveryMethod } from '../models';
 
 export const RESET_STATE = '[Total Rewards/Statement Assignment] Reset State';
@@ -74,7 +76,7 @@ export class CloseGenerateStatementModal implements Action {
 
 export class GenerateStatements implements Action {
   readonly type = GENERATE_STATEMENTS;
-  constructor(public payload: DeliveryMethod) {}
+  constructor(public payload: { method: DeliveryMethod, emailTemplate?: StatementEmailTemplate }) {}
 }
 
 export class GenerateStatementsSuccess implements Action {
