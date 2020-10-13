@@ -79,7 +79,7 @@ export function editNote(state: State, oldNote: NotesBase, noteText: string) {
   const updatedNotes: NotesBase[] = cloneDeep(state.notes.obj);
   const noteToUpdate = updatedNotes[noteToUpdateIndex];
   noteToUpdate.Notes = noteText;
-  noteToUpdate.NoteOperation = NoteOperation.Add ? NoteOperation.Add : NoteOperation.Edit;
+  noteToUpdate.NoteOperation = noteToUpdate.NoteOperation === NoteOperation.Add ? NoteOperation.Add : NoteOperation.Edit;
 
   return updateNotes(state, updatedNotes);
 }
