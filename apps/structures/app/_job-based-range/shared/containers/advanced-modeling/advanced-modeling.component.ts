@@ -7,7 +7,6 @@ import { Observable, Subscription } from 'rxjs';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { RangeGroupMetadata } from '../../models';
-import { Pages } from '../../constants/pages';
 import { AdvancedModelingHelper } from '../../helpers/advanced-modeling.helper';
 
 @Component({
@@ -16,8 +15,6 @@ import { AdvancedModelingHelper } from '../../helpers/advanced-modeling.helper';
   styleUrls: ['./advanced-modeling.component.scss']
 })
 export class AdvancedModelingComponent implements OnInit, OnDestroy {
-  @Input() rangeGroupId: number;
-  @Input() page: Pages;
   @Input() advancedSettingForm: FormGroup;
   @Input() attemptedSubmit: true;
 

@@ -13,7 +13,8 @@
     [actionBarConfig]="singleRecordActionBarConfig"
     [reorderable]="reorderable"
     [modifiedKey]="modifiedKey"
-    [gridConfig]="gridConfig">
+    [gridConfig]="gridConfig"
+    [compactGridMinHeight]="compactGridMinHeight">
   </pf-data-grid>
 </ng-container>
 
@@ -95,7 +96,7 @@
       [rowIndex]="rowIndex"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ page: page }"
+      [updateMetaInfo]="{ pageViewId: pageViewId }"
       [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
       [readonlyValueTemplate]="rangeValue">
     </pf-range-field-editor>
@@ -118,7 +119,7 @@
       [rowIndex]="rowIndex"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ page: page }"
+      [updateMetaInfo]="{ pageViewId: pageViewId }"
       [readonlyValueTemplate]="rangeValue">
     </pf-range-field-editor>
   </ng-container>
@@ -185,7 +186,10 @@
   {{mid | rangeValue: (metaData$ | async)?.Rate }}
 </ng-template>
 
-<pf-model-settings-modal [rangeGroupId]="rangeGroupId" [page]="page"></pf-model-settings-modal>
+<pf-model-settings-modal
+  [rangeGroupId]="rangeGroupId"
+  [pageViewId]="pageViewId">
+</pf-model-settings-modal>
 
 <pf-modal-form
   [size]="'md'"

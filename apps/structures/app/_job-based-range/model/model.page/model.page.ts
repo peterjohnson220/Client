@@ -14,7 +14,6 @@ import { PermissionService } from 'libs/core/services';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
-import { Pages } from '../../shared/constants/pages';
 import { RangeGroupMetadata } from '../../shared/models';
 import { StructuresPagesService, UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
@@ -32,7 +31,6 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   metaData$: Observable<RangeGroupMetadata>;
   filters: PfDataGridFilter[];
   rangeGroupId: any;
-  page = Pages.Model;
 
   colTemplates = {};
   filter: PfDataGridFilter;

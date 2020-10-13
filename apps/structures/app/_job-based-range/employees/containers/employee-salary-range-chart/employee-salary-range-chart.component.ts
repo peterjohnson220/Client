@@ -10,7 +10,6 @@ import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
-import { PageViewIds } from '../../../shared/constants/page-view-ids';
 import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
 import { RangeGroupMetadata } from '../../../shared/models';
@@ -18,6 +17,7 @@ import { DataPointSeries } from '../../../shared/models/data-point-series.model'
 import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/range-distribution-data-point-type-ids';
+import { PagesHelper } from '../../../shared/helpers/pages.helper';
 
 @Component({
   selector: 'pf-employee-salary-range-chart',
@@ -43,7 +43,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   dataSubscription: Subscription;
   jobDataSubscription: Subscription;
   metadataSubscription: Subscription;
-  pageViewId = PageViewIds.Employees;
+  pageViewId: string;
   jobRangeViewId: string;
   jobRangeViewIdSubscription: Subscription;
   currency: string;
@@ -57,6 +57,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
   hasCurrentStructure: boolean;
   metaData: RangeGroupMetadata;
   rangeDistributionTypeId: number;
+  filterPanelSub: Subscription;
 
   constructor(
     public store: Store<any>,
@@ -65,6 +66,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     this.metadataSubscription = this.store.select(fromSharedJobBasedRangeReducer.getMetadata).subscribe(md => {
       if (md) {
         this.metaData = md;
+        this.pageViewId = PagesHelper.getEmployeePageViewIdByRangeDistributionType(this.metaData.RangeDistributionTypeId);
         this.isCurrent = md.IsCurrent;
         this.rate = md.Rate;
         this.currency = md.Currency;
@@ -403,6 +405,13 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     StructuresHighchartsService.initializeHighcharts();
+    this.filterPanelSub = this.store.select(fromPfGridReducer.getFilterPanelOpen, this.pageViewId).subscribe(filterPanelOpen => {
+      if (filterPanelOpen === false) {
+        setTimeout(() => {
+          this.chartInstance.reflow();
+        }, 0);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -410,6 +419,7 @@ export class EmployeeSalaryRangeChartComponent implements OnInit, OnDestroy {
     this.metadataSubscription.unsubscribe();
     this.jobDataSubscription.unsubscribe();
     this.jobRangeViewIdSubscription.unsubscribe();
+    this.filterPanelSub.unsubscribe();
   }
 }
 

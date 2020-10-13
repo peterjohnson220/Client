@@ -17,7 +17,6 @@ import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ControlPoint, Currency, RangeGroupMetadata } from '../../models';
-import { Pages } from '../../constants/pages';
 import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
@@ -30,7 +29,7 @@ import { ModelSettingsModalConstants } from '../../constants/model-settings-moda
 })
 export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
-  @Input() page: Pages;
+  @Input() pageViewId: string;
   @ViewChild(RangeDistributionSettingComponent, { static: false }) public rdSettingComponent: RangeDistributionSettingComponent;
 
   modalOpen$: Observable<boolean>;
@@ -182,7 +181,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
         {
           rangeGroupId: this.rangeGroupId,
           formValue: this.modelSetting,
-          fromPage: this.page,
+          fromPageViewId: this.pageViewId,
           rounding: this.roundingSettings
         })
       );
