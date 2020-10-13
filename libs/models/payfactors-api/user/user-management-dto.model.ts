@@ -22,7 +22,7 @@ export function generateMockUserManagementDto(): UserManagementDto {
         FirstName: 'MockFirstName',
         LastName: 'MockLastName',
         EmailAddress: 'mock@email.com',
-        Password: 'password',
+        Password: 'Password1#',
         Title: 'MockTitle',
         Active: true,
         PhoneNumber: '1-800-54-GIANT',
