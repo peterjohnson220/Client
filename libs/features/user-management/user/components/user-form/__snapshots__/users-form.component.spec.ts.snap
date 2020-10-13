@@ -15,7 +15,8 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
   formBuilder={[Function FormBuilder]}
   modalService={[Function NgbModal]}
   newUser={[Function Object]}
-  passwordValidatorSubscription={[Function Subscriber]}
+  passwordFocused="false"
+  passwordValidationRules={[Function Array]}
   saveUser={[Function EventEmitter]}
   selectedValues={[Function Array]}
   showUserRoleModal={[Function BehaviorSubject]}
@@ -280,13 +281,36 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
           type="password"
         />
         
-        <span
-          class="invalid-feedback"
+        <div
+          class="text-danger small"
         >
-          Password is required
-        </span>
-        
-        
+          
+        </div>
+        <div
+          class="text-danger small"
+        >
+          
+        </div>
+        <div
+          class="text-danger small"
+        >
+          
+        </div>
+        <div
+          class="text-danger small"
+        >
+          
+        </div>
+        <div
+          class="text-danger small"
+        >
+          
+        </div>
+        <div
+          class="text-danger small"
+        >
+          
+        </div>
         <button
           class="btn btn-link"
           type="button"
