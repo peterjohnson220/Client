@@ -1,3 +1,5 @@
+@import '_colors';
+
 .k-grid .k-hierarchy-cell {
   width: 0;
 }
@@ -13,9 +15,20 @@
 .k-grid .k-hierarchy-col {
   width: 0px;
 }
+#pricingMatchesHeader {
+  background-color: $theme-header;
+  margin: 1% 0 0 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
 
-.wtg-adj-cell {
-  width: 65px;
+.fakeColumnHeader {
+  border-left: solid 2px $theme-grid-line-color;
+}
+
+.wtg-adj-source-cell {
+  width: 58px;
+  white-space: nowrap;
 }
 .pricingMatch {
   min-height: 200px;

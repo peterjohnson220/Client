@@ -21,6 +21,7 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
   @Input() rows = 9;
   @Input() jobDescriptionSummary: JobDescriptionSummary;
   @Input() isJdmEnabled = true;
+  @Input() theme: 'default' | 'job-details-theme' = 'default';
 
   @Output() jobDescriptionChanged: EventEmitter<string> = new EventEmitter<string>();
 
@@ -55,6 +56,10 @@ export class JobDescriptionSummaryEditorComponent implements OnInit, OnDestroy, 
       if (changes['jobDescriptionSummary'].currentValue) {
         this.jobDescriptionForm.patchValue({ JobDescription: changes['jobDescriptionSummary'].currentValue.JobSummary });
       }
+    }
+
+    if (changes['theme']) {
+      this.theme = changes['theme'].currentValue;
     }
   }
 
