@@ -14,6 +14,8 @@ import { UpdatePricingMatchRequest, PricingUpdateStrategy, ViewField } from 'lib
 import { PermissionService } from 'libs/core';
 import { AsyncStateObj } from 'libs/models';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
+import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
+
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 
@@ -31,7 +33,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   @Input() dataRow: any;
   @Input() pricingInfo: any;
-  @Output() notesEmitter = new EventEmitter();
   @Output() reScopeSurveyDataEmitter = new EventEmitter();
 
   @ViewChild('jobTitleText') jobTitleText: ElementRef;
@@ -39,6 +40,9 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
   @ViewChild('reScopeSurveyDataTemplate') reScopeSurveyDataTemplate: ElementRef<any>;
 
   permissions = Permissions;
+
+  notesApiServiceType: ApiServiceType;
+  pricingMatchIdForNotes: number;
 
   jobsSelectedRow$: Observable<any>;
 
@@ -104,7 +108,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       .subscribe((action: fromPfDataGridActions.UpdateGridDataRow) => {
         const key = 'CompanyJobs_Pricings_CompanyJobPricing_ID';
         if (action.pageViewId === PageViewIds.PayMarkets && action.data[key] === this.pricingInfo[key]) {
-          this.pricingInfo = action.data[key];
+          this.pricingInfo = action.data;
         }
       });
 
@@ -139,11 +143,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.isActiveJobSubscription.unsubscribe();
   }
 
-  getScope(): string {
-    return `${this.dataRow.vw_PricingMatchesJobTitlesMerged_Scope1 ? ' - ' + this.dataRow.vw_PricingMatchesJobTitlesMerged_Scope1 : ''}
-    ${this.dataRow.vw_PricingMatchesJobTitlesMerged_Scope2 ? ' - ' + this.dataRow.vw_PricingMatchesJobTitlesMerged_Scope2 : ''}
-    ${this.dataRow.vw_PricingMatchesJobTitlesMerged_Scope3 ? ' - ' + this.dataRow.vw_PricingMatchesJobTitlesMerged_Scope3 : ''}`;
-  }
 
   checkOverflow(element) {
     // IE hack because IE calculates offsets differently
@@ -177,15 +176,6 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
     this.store.dispatch(new fromJobsPageActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
   }
 
-  openAddNotesModal() {
-    const data = {
-      EntityId: this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
-      DataRow: this.dataRow,
-      Scope: this.getScope()
-    };
-    this.notesEmitter.emit(data);
-  }
-
   reScopeSurveyData() {
     if (this.dataRow['CompanyJobs_PricingsMatches_Survey_Data_ID'] &&
       !this.pricingInfo['CompanyPayMarkets_Linked_PayMarket_Name'] &&
@@ -203,4 +193,23 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       this.reScopeSurveyDataEmitter.emit(data);
     }
   }
+
+  reloadPricingMatches() {
+    if (this.pricingMatchIdForNotes) {
+      const pricingId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricing_ID;
+      this.store.dispatch(new fromPfDataGridActions.LoadData(`${PageViewIds.PricingMatches}_${pricingId}`));
+    }
+    this.closeNotesManager();
+  }
+
+  openNotesManager() {
+    this.notesApiServiceType = ApiServiceType.PricingMatch;
+    this.pricingMatchIdForNotes = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID;
+  }
+
+  closeNotesManager() {
+    this.pricingMatchIdForNotes = null;
+    this.notesApiServiceType = null;
+  }
+
 }

@@ -1,5 +1,5 @@
 
-<ng-container *ngIf="pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID; else unpricedPaymarket">
+<ng-container *ngIf="pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID">
   <pf-data-grid
     [pageViewId]="pageViewId + '_' + filter.Value"
     [showTitle]="false"
@@ -20,9 +20,10 @@
   </pf-data-grid>
 </ng-container>
 
-<ng-template #unpricedPaymarket>
-  <div class="p-3">This is an unpriced Pay Market. Please select this Pay Market and click on the Create Project button in order to price it.</div>
-</ng-template>
+<ng-container *ngIf="!pricingInfo.CompanyJobs_Pricings_CompanyJobPricing_ID">
+  <div *ngIf="!hasModifyPricingPemission" class="p-3">This is an unpriced Pay Market. Please select this Pay Market and click on the Create Project button in order to price it.</div>
+  <div *ngIf="hasModifyPricingPemission" class="p-3">This is an unpriced Pay Market. Select the Pay Market and click on Create Project or Price Jobs to create a pricing.</div>
+</ng-container>
 
 <ng-template #pricingMatchesHeader>
   <div class="row no-gutters text-center py-1" style="background-color: #F7F7F9">
@@ -35,7 +36,6 @@
   <pf-pricing-matches-job-title
     [dataRow]="dataRow"
     [pricingInfo]="pricingInfo"
-    (notesEmitter)="openMatchNotesModal($event)"
     (reScopeSurveyDataEmitter)="reScopeSurveyDataEmitter.emit($event)"></pf-pricing-matches-job-title>
 </ng-template>
 
@@ -59,13 +59,3 @@
     <span [innerHTML]="dataRow[fieldName] | humanizeNumber | emptyPlaceholder"></span>
   </div>
 </ng-template>
-
-<ng-template #matchNotesHeader>
-  <div>
-    <strong>Scope: </strong>
-      {{selectedMatchForNotes.vw_PricingMatchesJobTitlesMerged_Source}}{{selectedMatchScope}}
-      <span>{{selectedMatchForNotes.vw_PricingMatchesJobTitlesMerged_Effective_Date | date: 'MM/dd/yyyy'}}</span>
-  </div>
-</ng-template>
-
-

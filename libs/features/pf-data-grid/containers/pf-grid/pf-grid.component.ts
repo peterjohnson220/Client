@@ -89,6 +89,7 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   selectAllState$: Observable<string>;
   selectedKeys$: Observable<number[]>;
   totalCount$: Observable<number>;
+  unexpectedError$: Observable<boolean>;
 
   expandedRowsSubscription: Subscription;
   expandedRows: number[];
@@ -131,6 +132,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
   lastUpdateFieldsDateSubscription: Subscription;
 
   filtersUpdatedCountSubscription: Subscription;
+
+
 
   readonly MIN_SPLIT_VIEW_COL_WIDTH = 100;
 
@@ -227,6 +230,8 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
           this.scrollToTop();
         }
       });
+
+    this.unexpectedError$ = this.store.select(fromReducer.getUnexpectedError, this.pageViewId);
   }
 
   ngOnDestroy() {
@@ -455,6 +460,10 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
     this.store.dispatch(new fromActions.SaveView(this.pageViewId, null, DataViewType.userDefault));
   }
 
+  reload() {
+    location.reload();
+  }
+
   get enableInfiniteScroll(): boolean {
     return this.gridConfig?.EnableInfiniteScroll && !this.pageable;
   }
@@ -507,4 +516,6 @@ export class PfGridComponent implements OnInit, OnDestroy, OnChanges {
       });
     });
   }
+
+
 }
