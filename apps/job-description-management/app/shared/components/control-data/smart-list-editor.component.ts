@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener, ElementRef, OnDestroy } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import cloneDeep from 'lodash/cloneDeep';
@@ -26,17 +26,22 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   @Input() additionalProperties: any;
   @Input() undoChanges$: Observable<boolean>;
   @Input() replaceContents$: Observable<boolean>;
+  @Input() rebuildQuillAfterDiscardDraft$: Observable<boolean>;
 
 
   @Output() dataChangesDetected = new EventEmitter();
   @Output() smartEditorChangesDetected = new EventEmitter();
   @Output() additionalPropertiesChangesDetected = new EventEmitter();
 
+  private rebuildQuillAfterDiscardDraftSubscription = new Subscription();
+  private undoChangesSubscription = new Subscription();
+
   private rteData = '';
   private showDataTable = false;
   private newDataFromLibraryIdentifierString = '========>FROM LIBRARY';
   private unsubscribe$ = new Subject();
   private replaceContent = false;
+  private rebuildQuillAfterDiscardDraft = false;
 
   constructor(
     private elRef: ElementRef
@@ -56,7 +61,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.undoChanges$) {
-      this.undoChanges$.subscribe(val => {
+     this.undoChangesSubscription = this.undoChanges$.subscribe(val => {
         if (val) {
           this.rebuildQuillHtmlFromSavedData();
         }
@@ -68,6 +73,14 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
         takeUntil(this.unsubscribe$)
       ).subscribe((c) => {
         this.replaceContent = c;
+      });
+    }
+
+    if (this.rebuildQuillAfterDiscardDraft$) {
+     this.rebuildQuillAfterDiscardDraftSubscription = this.rebuildQuillAfterDiscardDraft$.subscribe(val => {
+        if (val) {
+          this.rebuildQuillAfterDiscardDraft = val;
+        }
       });
     }
   }
@@ -85,6 +98,9 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
             this.rebuildQuillHtmlFromSavedData();
             this.focusRTE();
             this.replaceContent = false;
+          } else if (this.rebuildQuillAfterDiscardDraft) {
+            this.rebuildQuillHtmlFromSavedData();
+            this.rebuildQuillAfterDiscardDraft = false;
           }
         }
       } else if (this.replaceContent) {
@@ -98,6 +114,8 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.undoChangesSubscription.unsubscribe();
+    this.rebuildQuillAfterDiscardDraftSubscription.unsubscribe();
   }
 
   focusRTE() {

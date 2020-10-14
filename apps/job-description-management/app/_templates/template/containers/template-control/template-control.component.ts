@@ -3,11 +3,12 @@ import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
 import { skip, distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { TemplateControl, TemplateSettings, TemplateSettingsControl, ControlType } from 'libs/models';
 
 import * as fromJdmSharedReducer from 'libs/features/job-description-management/reducers';
+import * as fromTemplateReducer from '../../../../_templates/template/reducers';
 
 @Component({
     selector: 'pf-template-control',
@@ -40,9 +41,12 @@ export class TemplateControlComponent implements OnInit, OnChanges, OnDestroy {
     private changesSubject: Subject<any>;
 
     private controlTypeSubscription: Subscription;
+    rebuildQuillAfterDiscardDraft$: Observable<boolean>;
 
-    constructor(private sharedJdmStore: Store<fromJdmSharedReducer.State>) {
+    constructor(private sharedJdmStore: Store<fromJdmSharedReducer.State>,
+                private templateReducer: Store<fromTemplateReducer.State>) {
         this.changesSubject = new Subject();
+        this.rebuildQuillAfterDiscardDraft$ = this.templateReducer.select(fromTemplateReducer.getTemplateDiscardDraft);
     }
 
     toggleBody() {
