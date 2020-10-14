@@ -159,8 +159,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
       this.assignedEmployeesGridState = cloneDeep(this.assignedEmployeesGridState);
       this.assignedEmployeesGridState.filter.filters = filters;
       this.assignedEmployeesGridState.skip = 0;
-      this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, cloneDeep(this.assignedEmployeesGridState)));
-      this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+      this.refreshGrid();
     });
     this.unassignEmployeesSuccessSubscription = this.unassignEmployeesSuccess$.subscribe(u => {
       if (u) {
@@ -229,8 +228,7 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
     const currentFilter = cloneDeep(this.assignedEmployeesGridState.filter);
     this.assignedEmployeesGridState = cloneDeep($event);
     this.assignedEmployeesGridState.filter = currentFilter;
-    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, this.assignedEmployeesGridState));
-    this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
+    this.refreshGrid();
   }
 
   // filter handler methods
@@ -294,5 +292,10 @@ export class StatementAssignmentPageComponent implements OnDestroy, OnInit {
 
   handleSaveGridColumns(columns: ListAreaColumn[]): void {
     this.store.dispatch(new fromPageActions.SaveGridColumns(columns));
+  }
+
+  private refreshGrid() {
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, this.assignedEmployeesGridState));
+    this.store.dispatch(new fromAssignedEmployeesGridActions.LoadAssignedEmployees(this.assignedEmployeesGridState));
   }
 }

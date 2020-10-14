@@ -6,6 +6,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
+import * as fromEmployeeManagementReducer from 'libs/features/employee-management/reducers';
 import { AbstractFeatureFlagService } from 'libs/core/services';
 
 import { StatementAssignmentPageComponent } from './statement-assignment.page';
@@ -26,6 +27,7 @@ describe('AssignedEmployeesGridComponent', () => {
           ...fromStatementAssignmentReducer.reducers,
           totalRewards_statementAssignment: combineReducers(fromStatementAssignmentReducer.reducers),
           feature_appnotifications: combineReducers(fromAppNotificationsMainReducer.reducers),
+          feature_employee_management: combineReducers(fromEmployeeManagementReducer.reducers)
         })],
       declarations: [StatementAssignmentPageComponent],
       schemas: [NO_ERRORS_SCHEMA],

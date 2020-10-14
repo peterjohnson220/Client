@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, mergeMap, catchError, withLatestFrom, concatMap } from 'rxjs/operators';
+import { switchMap, map, mergeMap, catchError, withLatestFrom, concatMap, delay } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { UserProfileApiService } from 'libs/data/payfactors-api/user';
@@ -14,6 +14,9 @@ import { Statement } from 'libs/features/total-rewards/total-rewards-statement/m
 import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 import { SaveListAreaColumnsRequest } from 'libs/models/payfactors-api/user-profile/request';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
+import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
+import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromStatementAssignmentPageActions from '../actions/statement-assignment.page.actions';
 import * as fromAssignedEmployeesGridActions from '../actions/assigned-employees-grid.actions';
@@ -174,6 +177,21 @@ export class StatementAssignmentPageEffects {
         (action: fromStatementAssignmentPageActions.SaveGridColumnsSuccess, gridState) => ({ action, gridState })
       ),
       map((data) => new fromAssignedEmployeesGridActions.LoadAssignedEmployees(data.gridState))
+    );
+
+  @Effect()
+  saveEmpoyeeSuccess$ = this.actions$
+    .pipe(
+      ofType(fromEmployeeManagementActions.SAVE_EMPLOYEE_SUCCESS),
+      delay(1800),
+      withLatestFrom(
+        this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
+        (action: fromEmployeeManagementActions.SaveEmployeeSuccess, gridState) => ({action, gridState})
+      ),
+      mergeMap((data) => [
+          new fromGridActions.UpdateGrid(GridTypeEnum.TotalRewardsAssignedEmployees, data.gridState),
+          new fromAssignedEmployeesGridActions.LoadAssignedEmployees(data.gridState)
+      ]),
     );
 
   constructor(
