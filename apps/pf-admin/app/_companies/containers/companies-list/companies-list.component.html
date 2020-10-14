@@ -32,8 +32,7 @@
     </kendo-grid-column>
     <kendo-grid-column field="TicketCount" title="Open Tickets" [width]="125">
       <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-        <a (click)="$event.stopPropagation()"
-           href="/client/admin/tickets?company_name={{dataItem.CompanyName}}">{{dataItem.TicketCount > 0 ? dataItem.TicketCount : "-"}}</a>
+        <a (click)="openCompanyTickets($event, dataItem.CompanyName)">{{dataItem.TicketCount > 0 ? dataItem.TicketCount : "-"}}</a>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="NotesCount" title="Notes" [width]="80">
