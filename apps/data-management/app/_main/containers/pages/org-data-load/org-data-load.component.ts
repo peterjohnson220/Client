@@ -189,6 +189,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       if (f) {
         this.mainStore.dispatch(new fromCompanySelectorActions.CompanyHasBenefits());
         this.mainStore.dispatch(new fromOrganizationalDataActions.GetConfigGroups(f.CompanyId, this.loadType, this.primaryCompositeDataLoadType));
+
+        // reset any checked loads
+        this.AddAndSetSelectedMapping(this.configGroupSeed);
+        this.getPayfactorCustomFields(this.selectedCompany.CompanyId);
       }
     });
 
@@ -322,15 +326,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
     this.companyHasBenefits$
       .pipe(
-        filter(uc => !!uc),
         takeUntil(this.unsubscribe$)
       ).subscribe(f => {
         this.hasBenefitsAccess = f;
         this.loadOptions = getEntityChoicesForOrgLoader(this.hasBenefitsAccess);
 
-        // reset any checked loads
-        this.AddAndSetSelectedMapping(this.configGroupSeed);
-        this.getPayfactorCustomFields(this.selectedCompany.CompanyId);
+
       });
 
     const companiesSubscription = this.companies$.pipe(
