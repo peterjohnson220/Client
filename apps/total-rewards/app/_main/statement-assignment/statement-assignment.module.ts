@@ -18,6 +18,7 @@ import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { WindowCommunicationService } from 'libs/core/services';
 import { ListAreaService } from 'libs/core/services/list-area.service';
 import { PfListAreaModule } from 'libs/features/list-area/list-area.module';
+import { EmployeeManagementModule } from 'libs/features/employee-management';
 import * as fromTrsStatement from 'libs/features/total-rewards/total-rewards-statement';
 
 import { reducers } from './reducers';
@@ -60,6 +61,7 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
     PfFormsModule,
     PfSearchModule,
     PfListAreaModule,
+    EmployeeManagementModule,
     fromTrsStatement.TotalRewardsStatementModule,
 
     // Routing

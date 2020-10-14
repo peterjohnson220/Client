@@ -45,9 +45,8 @@
                        class="gray-text">
               </fa-icon>
               <div ngbDropdownMenu aria-labelledby="total-rewards-actions-{{dataItem?.CompanyEmployeeId}}">
-                <button ngbDropdownItem (click)="onActionMenuUnassignClick()">
-                  <span>Unassign</span>
-                </button>
+                <button ngbDropdownItem (click)="onActionMenuUnassignClick()"><span>Unassign</span></button>
+                <button [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE" ngbDropdownItem (click)="handleEditClicked()"><span>Edit</span></button>
               </div>
             </div>
           </ng-template>
@@ -83,7 +82,7 @@
             </ng-template>
           </kendo-grid-column>
         </ng-container>
-        
+
         <ng-template kendoPagerTemplate>
           <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
           <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
@@ -113,3 +112,5 @@
 <ng-template #noRecordsAvailable>
   No records available.
 </ng-template>
+
+<pf-employee-management></pf-employee-management>
