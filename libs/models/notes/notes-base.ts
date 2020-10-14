@@ -1,13 +1,12 @@
+import { NoteOperation } from '../../features/notes-manager/constants/note-operation-constants';
+
 export interface NotesBase {
+  Id: number;
   Notes:  string;
   UserId:  number;
-  User: {
-    FirstName:  number;
-    LastName:  number;
-    UserPicture:  string;
-  };
-  CreateDate:  Date;
-  CreateUser:  Date;
-  EditDate:  Date;
-  EditUser:  Date;
+  FirstName:  string;
+  LastName:  string;
+  UserPicture:  string;
+  CreateDate:  string; // DateTimes from DB come back as strings.
+  NoteOperation: NoteOperation;
 }

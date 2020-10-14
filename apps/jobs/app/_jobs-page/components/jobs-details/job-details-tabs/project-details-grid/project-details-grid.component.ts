@@ -9,7 +9,6 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
-import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
@@ -26,7 +25,6 @@ import { PageViewIds } from '../../../../constants';
 export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
   @ViewChild('projectAccessColumn') projectAccessColumn: ElementRef;
-  @ViewChild('projectOwnerColumn') projectOwnerColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket'];
@@ -38,7 +36,6 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
     dir: 'asc',
     field: 'UserSessions_Session_Name'
   }];
-  defaultPagingOptions: PagingOptions;
 
   gridFieldSubscription: Subscription;
   companyPayMarketsSubscription: Subscription;
@@ -76,9 +73,6 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
       EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
       ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
     };
-    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
-      ? getDefaultPagingOptions()
-      : { From: 0, Count: 20 };
   }
 
   ngAfterViewInit() {
@@ -89,8 +83,7 @@ export class ProjectDetailsGridComponent implements AfterViewInit, OnDestroy, On
       }
     };
     this.colTemplates = {
-      'HasProjectAccess': { Template: this.projectAccessColumn },
-      'Create_User': { Template: this.projectOwnerColumn }
+      'HasProjectAccess': { Template: this.projectAccessColumn }
     };
   }
 

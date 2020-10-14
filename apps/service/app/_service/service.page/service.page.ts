@@ -7,7 +7,6 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
-import { PagingOptions, getDefaultPagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromRootState from 'libs/state/state';
@@ -44,7 +43,6 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     dir: 'desc',
     field: 'UserTickets_Create_Date'
   }];
-  defaultPagingOptions: PagingOptions;
   inboundFilters: PfDataGridFilter[];
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
@@ -74,9 +72,6 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
       EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
       ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
     };
-    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
-      ? getDefaultPagingOptions()
-      : { From: 0, Count: 20 };
     this.ticketTypes$ = this.store.pipe(select(fromServicePageReducer.getTicketTypeNames));
     this.supportTeam$ = this.store.pipe(select(fromServicePageReducer.getSupportTeam));
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
