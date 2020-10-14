@@ -78,8 +78,8 @@ export class CompanyApiService {
     return this.payfactorsApiService.get<CompanyTilesResponse[]>(`${this.endpoint}(${companyId})/Default.GetCompanyTiles`);
   }
 
-  companyHasTile(companyId: number, tileName: string): Observable<boolean> {
-    return this.payfactorsApiService.get<boolean>(`${this.endpoint}/CompanyHasTile`,
+  companyHasTile(companyId: number, tileName: string): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/CompanyHasTile`,
       { params: { companyId: companyId, tileName: tileName } });
   }
 
