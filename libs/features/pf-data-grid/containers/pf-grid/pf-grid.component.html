@@ -1,7 +1,7 @@
 <pf-async-container
   [loading]="(loading$ | async) && !loadingMoreData"
   [loadingError]="(unexpectedError$ | async)"
-  [loadingErrorMessage]="'We encountered an error while processing your request. Please try reloading your page.'"  
+  [loadingErrorMessage]="'We encountered an error while processing your request. Please try reloading your page.'"
   (reload)="reload()">
   <ng-container *ngIf="customHeaderTemplate" [ngTemplateOutlet]="customHeaderTemplate"></ng-container>
   <div [ngClass]="enableInfiniteScroll ? 'infinite-scroll-container' : 'h-100'">
@@ -27,7 +27,7 @@
       (columnResize)="onColumnResize($event)"
       (contentScroll)="onScroll($event)"
       (scrollBottom)="loadMore()">
-      <kendo-grid-checkbox-column [resizable]="false" [reorderable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="34">
+      <kendo-grid-checkbox-column [resizable]="false" [reorderable]="false" *ngIf="enableSelection" [headerClass]="getCheckboxHeaderClass()" [class]="{'pf-grid-checkbox': true}" showSelectAll="true" [width]="25">
         <ng-template kendoGridHeaderTemplate>
           <input type="checkbox" id="selectAllCheckboxId"
                  [checked]="(selectAllState$ | async) === selectAllStatus.checked"
@@ -49,7 +49,7 @@
         <ng-container *ngIf="col.Group && col.HasSelection">
           <kendo-grid-column-group
             [title]="col.Group"
-            [headerClass]="[customHeaderClass, 'text-center', getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
+            [headerClass]="[customHeaderClass, 'text-center', getColumnHeaderClass(), getColTextAlignClass(col), hasHeaderDividers ? 'border-left' : ''].join(' ')"
             [locked]="false">
             <ng-template kendoGridHeaderTemplate let-column="column">
               <div pfEllipsisActive class="ellipsis-text">{{column.title}}</div>
@@ -59,11 +59,11 @@
                 <kendo-grid-column
                   [field]="col | mappedFieldName"
                   [title]="col.DisplayName"
-                  [headerClass]="['px-1', customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
+                  [headerClass]="['px-1', customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col), getGroupHeaderDividers(col)].join(' ')"
                   [style]="{
                         'background-color': backgroundColor ? backgroundColor : '',
                         'overflow': 'inherit'}"
-                  [class]="['px-1', getColumnClasses(col), getColTextAlignClass(col)].join(' ')"
+                  [class]="['px-1', getColumnClasses(col), getColTextAlignClass(col), getGroupColDividers(col)].join(' ')"
                   [width]="selectedRecordId && allowSplitView ? null : col.Width"
                   [minResizableWidth]="30">
 
@@ -90,11 +90,11 @@
             [sortable]="col.IsSortable"
             [field]="col | mappedFieldName"
             [title]="col.DisplayName"
-            [headerClass]="[customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col)].join(' ')"
+            [headerClass]="[customHeaderClass, getColumnHeaderClass(), getColTextAlignClass(col), hasHeaderDividers ? 'border-left' : ''].join(' ')"
             [style]="{
           'background-color': backgroundColor ? backgroundColor : '',
           'overflow': 'inherit'}"
-            [class]="[getColumnClasses(col), getColTextAlignClass(col)].join(' ')"
+            [class]="[getColumnClasses(col), getColTextAlignClass(col), hasColDividers ? 'border-left' : ''].join(' ')"
             [width]="getColWidth(col)"
             [minResizableWidth]="30">
 

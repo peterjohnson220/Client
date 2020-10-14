@@ -8,6 +8,7 @@ import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, PfDataGr
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
+import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
@@ -42,6 +43,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   _Permissions = null;
   pageViewId: string;
   pageViewIdSubscription: Subscription;
+  pfThemeType = PfThemeType;
 
   gridConfig = {
     PersistColumnWidth: false,

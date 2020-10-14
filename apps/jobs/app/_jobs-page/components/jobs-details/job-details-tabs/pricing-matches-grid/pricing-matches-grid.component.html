@@ -11,11 +11,11 @@
     [compactGrid]="true"
     [borders]="false"
     [contentClassNamesOverrides]="'p-0'"
-    [backgroundColor]="'#F7F7F9'"
     [noRecordsFound]="'This pricing has no data cuts.'"
     [actionBarConfig]="actionBarConfig"
-    [headerClassName]="'jobs-page-sub-grid-header'"
+    [pageTheme]="pfThemeType.TertiaryGrid"
     [applyUserDefaultCompensationFields]="true"
+    [hasColDividers]="true"
     [allowSort]="false">
   </pf-data-grid>
 </ng-container>
@@ -26,9 +26,10 @@
 </ng-container>
 
 <ng-template #pricingMatchesHeader>
-  <div class="row no-gutters text-center py-1" style="background-color: #F7F7F9">
-    <span class="wtg-adj-cell">Wtg.</span>|<span class="wtg-adj-cell">Adj. %</span>
-    <span style="width: 99%"></span>
+  <div id="pricingMatchesHeader" class="row no-gutters">
+    &nbsp;<span class="wtg-adj-source-cell text-white text-center">Wtg.&nbsp;</span><span class="fakeColumnHeader">&nbsp;</span>
+     <span class="wtg-adj-source-cell text-white text-center">Adj. %&nbsp;</span><span class="fakeColumnHeader">&nbsp;</span>
+     <span class="wtg-adj-source-cell text-white">Source Job</span>
   </div>
 </ng-template>
 

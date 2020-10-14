@@ -6,10 +6,13 @@
   [noRecordsFound] = "'This job has not been added to any Salary Structures.'"
   [defaultSort]="defaultSort"
   [headerClassName]="'jobs-page-sub-grid-header'"
+  [pageTheme]="pfThemeType.JobDetails"
+  [borders]="false"
   [actionBarConfig]="actionBarConfig"
   [defaultColumnWidth]="150"
   [fieldsExcludedFromExport]="fieldsExcludedFromExport"
   [pageable]="!gridConfig.EnableInfiniteScroll"
+  [hasHeaderDividers]="true"
   [gridConfig]="gridConfig">
 </pf-data-grid>
 

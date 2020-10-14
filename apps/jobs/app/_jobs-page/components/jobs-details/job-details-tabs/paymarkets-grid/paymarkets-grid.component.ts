@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 import { BehaviorSubject, EMPTY, Observable, of, Subscription, timer } from 'rxjs';
 import { debounce, switchMap } from 'rxjs/operators';
@@ -12,18 +12,18 @@ import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { ReScopeSurveyDataModalConfiguration } from 'libs/features/re-scope-survey-data/models';
 import { PricingUpdateStrategy, UpdatePricingMatchRequest, ViewField } from 'libs/models/payfactors-api';
-import * as fromNotesManagerActions from 'libs/features/notes-manager/actions';
 import * as fromReScopeActions from 'libs/features/re-scope-survey-data/actions';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPricingDetailsActions from 'libs/features/pricing-details/actions';
+import { ApiServiceType } from 'libs/features/notes-manager/constants/api-service-type-constants';
+import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromJobsPageActions from '../../../../actions';
 import * as fromJobsPageReducer from '../../../../reducers';
 import { PageViewIds } from '../../../../constants';
 import { JobTitleCodePipe } from '../../../../pipes';
-import { ApiServiceType } from '../../../../../../../../libs/features/notes-manager/constants/api-service-type-constants';
 
 @Component({
   selector: 'pf-paymarkets-grid',
@@ -49,6 +49,8 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
 
   actionBarConfig: ActionBarConfig;
   gridConfig: GridConfig;
+
+  pfThemeType = PfThemeType;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Status', 'Priced'];
   mrpFields = ['AllowMRP', 'BaseMRP', 'BonusMRP', 'BonusPctMRP', 'BonusTargetMRP', 'BonusTargetPctMRP', 'FixedMRP', 'LTIPMRP', 'LTIPPctMRP', 'RemunMRP',
