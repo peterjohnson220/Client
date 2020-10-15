@@ -9,3 +9,11 @@ export interface CustomCompanySettings {
   EnableLiveChat: boolean;
   EnableIntervalAgingFactor: boolean;
 }
+
+export interface CustomCompanySetting {
+  Key: string;
+  Value: boolean;
+  DisplayName: string;
+  Index: number;
+  Type: string;
+}
