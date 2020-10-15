@@ -11,6 +11,12 @@ export interface ConnectionSummary {
   selectedEntities: OrgDataEntityType[];
   loaderConfigurationGroupId?: number;
   validationMode: boolean;
+  fullReplaceModes: FullReplaceModes;
+}
+
+export interface FullReplaceModes {
+  employeesFullReplace: boolean;
+  structureMappingsFullReplace: boolean;
 }
 
 export function generateMockExistingConnectionSummary(): ConnectionSummary {
@@ -23,7 +29,11 @@ export function generateMockExistingConnectionSummary(): ConnectionSummary {
     selectedEntities: [OrgDataEntityType.Employees],
     statuses: [],
     loaderConfigurationGroupId: 12345,
-    validationMode: false
+    validationMode: false,
+    fullReplaceModes: {
+      employeesFullReplace: true,
+      structureMappingsFullReplace: true
+    }
   };
 }
 
@@ -36,6 +46,10 @@ export function generateMockNewConnectionSummary(): ConnectionSummary {
     selectedEntities: [],
     statuses: [],
     loaderConfigurationGroupId: 12345,
-    validationMode: true
+    validationMode: true,
+    fullReplaceModes: {
+      employeesFullReplace: true,
+      structureMappingsFullReplace: true
+    }
   };
 }

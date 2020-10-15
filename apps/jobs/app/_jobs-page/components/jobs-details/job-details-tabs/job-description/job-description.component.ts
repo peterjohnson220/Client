@@ -1,18 +1,17 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, OnDestroy, ViewChild } from '@angular/core';
 
 import { Store, ActionsSubject } from '@ngrx/store';
-
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
+import { ofType } from '@ngrx/effects';
 
 import { JobDescriptionSummaryEditorComponent } from 'libs/forms';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
+import { JobDescriptionSummary, AsyncStateObj } from 'libs/models';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import * as fromJobDescriptionActions from '../../../../actions';
-
-import { JobDescriptionSummary, AsyncStateObj } from 'libs/models';
-import { ofType } from '@ngrx/effects';
+import * as fromJobManagementActions from 'libs/features/job-management/actions';
 
 @Component({
   selector: 'pf-job-description',
@@ -68,6 +67,7 @@ export class JobDescriptionComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
+    this.store.dispatch(new fromJobManagementActions.ResetState());
     this.loadJobDescriptionSuccessSubscription.unsubscribe();
     this.jobDescriptionSummaryAsyncObjSubscription.unsubscribe();
   }

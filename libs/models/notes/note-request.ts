@@ -1,8 +1,7 @@
-export interface AddNoteRequestResponseBase {
-  Entity: string;
-  EntityId: number;
-}
+import { NoteOperation } from '../../features/notes-manager/constants/note-operation-constants';
 
-export interface AddNoteRequest extends AddNoteRequestResponseBase {
-  Notes: string;
+export interface NoteRequest {
+  NoteId: number;
+  NoteText: string;
+  NoteOperation: NoteOperation;
 }

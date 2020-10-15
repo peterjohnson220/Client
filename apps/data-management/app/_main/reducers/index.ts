@@ -340,6 +340,7 @@ export const getValidationErrors = createSelector(selectHrisConnectionState, fro
 export const getShowAuthenticationWarning = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getShowAuthenticationWarning);
 export const getActiveConnectionId = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getActiveConnectionId);
 export const getHrisReauthenticationModalOpen = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getReauthenticationModalOpen);
+export const getFullReplaceModes = createSelector(selectHrisConnectionState, fromHrisConnectionReducer.getFullReplaceModes);
 
 // entity identifiers
 export const getEmployeeIdentifiers = createSelector(selectEntityIdentifierState, fromEntityIdentifierReducer.GetEmployeeIdentifiers);
