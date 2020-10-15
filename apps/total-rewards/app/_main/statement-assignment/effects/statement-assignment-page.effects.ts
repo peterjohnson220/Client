@@ -183,7 +183,7 @@ export class StatementAssignmentPageEffects {
   saveEmpoyeeSuccess$ = this.actions$
     .pipe(
       ofType(fromEmployeeManagementActions.SAVE_EMPLOYEE_SUCCESS),
-      delay(1800),
+      delay(2200),
       withLatestFrom(
         this.store.select(fromTotalRewardsReducer.getAssignedEmployeesGridState),
         (action: fromEmployeeManagementActions.SaveEmployeeSuccess, gridState) => ({action, gridState})
