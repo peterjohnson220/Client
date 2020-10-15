@@ -4,28 +4,45 @@
         {{statementTitle}}
     </ng-container>
     <ng-container page-actions>
-      <button type="button" class="btn btn-secondary" >
+      <button type="button"
+              class="btn btn-secondary"
+              [attr.data-qa-id]="'btn-downloadPdf'"
+              (click)="pdf.saveAs(pdfFileName)"
+              ngbTooltip="Export">
         <fa-icon [icon]="'download'"  aria-hidden="true"></fa-icon>
       </button>
     </ng-container>
     <ng-container page-content>
       <div class="canvas mx-auto pb-1 mt-2" >
-          <pf-async-container [loading]="(statementLoading$ | async)"
-                              [loadingError]="(statementLoadingError$ | async)">
-            <ng-container basic-content>
-              <div class="text-center">
-                <div class="grey-border text-left d-inline-block">
-                  <pf-total-rewards-statement
-                    [statement]="statement"
-                    [mode]="mode"
-                    [loadingData]="(employeeRewardsDataAsync$ | async)?.loading"
-                    [employeeRewardsData]="employeeRewardsData"
-                  ></pf-total-rewards-statement>
-                </div>
+        <pf-async-container [loading]="(statementLoading$ | async)"
+                            [loadingError]="(statementLoadingError$ | async)">
+          <ng-container basic-content>
+            <div class="text-center">
+              <div class="grey-border text-left d-inline-block">
+                <pf-total-rewards-statement
+                  [statement]="statement"
+                  [mode]="mode"
+                  [loadingData]="(employeeRewardsDataAsync$ | async)?.loading"
+                  [employeeRewardsData]="employeeRewardsData"
+                ></pf-total-rewards-statement>
               </div>
-            </ng-container>
-          </pf-async-container>
+            </div>
+          </ng-container>
+        </pf-async-container>
       </div>
     </ng-container>
   </pf-page-with-title-bar>
+
+  <div class="k-pdf-export hide-export">
+    <kendo-pdf-export #pdf
+                      [paperSize]="'Letter'"
+                      [scale]=".7"
+                      [creator]="'Payfactors'">
+      <pf-total-rewards-statement
+        [statement]="statement"
+        [employeeRewardsData]="employeeRewardsData"
+        [mode]="printMode"
+      ></pf-total-rewards-statement>
+    </kendo-pdf-export>
+  </div>
 </ng-container>
