@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Data Management - Main - Load And Export File Card has access should show 1`] = `
+<pf-load-and-export-files-card
+  canImportOrgData="false"
+  manualImportOrgDataSubscription={[Function Subscriber]}
+  settingsService={[Function Object]}
+>
+  
+</pf-load-and-export-files-card>
+`;
+
+exports[`Data Management - Main - Load And Export File Card no access should not show anything 1`] = `
+<pf-load-and-export-files-card
+  canImportOrgData="false"
+  manualImportOrgDataSubscription={[Function Subscriber]}
+  settingsService={[Function Object]}
+>
+  
+</pf-load-and-export-files-card>
+`;

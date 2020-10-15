@@ -5,8 +5,10 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromNavigationActions from '../actions/navigation.actions';
-import * as fromNavigationReducer from '../reducers';
+
+import * as fromNavigationActions from 'libs/features/admin-navigation-links/actions/navigation.actions';
+import * as fromNavigationReducer from 'libs/features/admin-navigation-links/reducers';
+
 import { NavigationPageComponent } from './navigation.page';
 
 describe('Admin - Company-Admin - Navigation Page', () => {
@@ -32,9 +34,9 @@ describe('Admin - Company-Admin - Navigation Page', () => {
     store = TestBed.inject(Store);
   });
 
-  it('Should dispatch a LoadLinks Action when the page is loaded', () => {
+  it('Should dispatch a LoadNavigationLinks Action when the page is loaded', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromNavigationActions.LoadCompanyAdminNavigationLinks();
+    const expectedAction = new fromNavigationActions.LoadNavigationLinks('company-admin');
     fixture.detectChanges();
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
