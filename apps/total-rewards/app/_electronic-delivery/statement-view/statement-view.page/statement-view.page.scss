@@ -1,34 +1,28 @@
-@import 'colors';
-$max-card-width: 286px;
-
-.info {
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-li {
-  width: $max-card-width;
-  transition: box-shadow 0.3s ease-in-out;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.01), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
-
-  a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .img-placeholder {
-    border-radius: 0.25rem;
-    color: $pf-primary-blue;
-    background-color: $grey;
-    height: 204px;
-  }
-}
-
-li:hover {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.06), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
-}
-
 .grey-border {
   border: 2rem solid #e8e8e8;
+}
+
+.hide-export {
+  position: relative;
+  overflow: hidden;
+
+  > * {
+    position: absolute;
+    width: 100%;
+  }
+}
+
+::ng-deep {
+  pf-string-editor{
+    .wrapper {
+      overflow: visible !important;
+    }
+  }
+  pf-effective-date{
+    .print-mode {
+      .field-wrapper {
+        transform: none;
+      }
+    }
+  }
 }

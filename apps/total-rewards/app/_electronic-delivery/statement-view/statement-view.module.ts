@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -22,8 +23,9 @@ import { StatementViewPageEffects } from './effects/statement-view.page.effects'
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementView', reducers),
-    EffectsModule.forFeature([ StatementViewPageEffects ]),
+    EffectsModule.forFeature([StatementViewPageEffects]),
     FontAwesomeModule,
+    PDFExportModule,
 
     // Payfactors
     PfCommonModule,

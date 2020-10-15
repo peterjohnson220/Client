@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -18,7 +19,10 @@ import * as fromPageActions from '../actions/statement-view.page.actions';
   styleUrls: ['./statement-view.page.scss']
 })
 export class StatementViewPageComponent implements OnDestroy, OnInit {
+
   mode = StatementModeEnum.Preview;
+  printMode = StatementModeEnum.Print;
+
   statement$: Observable<Statement>;
   statementLoading$: Observable<boolean>;
   statementLoadingError$: Observable<boolean>;
@@ -75,6 +79,12 @@ export class StatementViewPageComponent implements OnDestroy, OnInit {
         this.employeeRewardsData.EmployeeFirstName + ' ' + this.employeeRewardsData.EmployeeLastName :
         this.employeeRewardsData.EmployeeId
       );
+  }
+
+  get pdfFileName(): string {
+    return (this.statement.StatementName + '_' +
+      this.employeeRewardsData.EmployeeFirstName + '_' + this.employeeRewardsData.EmployeeLastName + '_' +
+      formatDate(new Date(), 'MMMddyyyy', 'en')).replace(' ', '_');
   }
 
 }
