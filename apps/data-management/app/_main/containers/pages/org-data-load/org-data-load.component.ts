@@ -689,7 +689,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.isJobsLoadEnabled = isEnabled;
         break;
       case LoaderType.Structures:
-        this.isStructureMappingsLoadEnabled = isEnabled;
+        this.isStructuresLoadEnabled = isEnabled;
         break;
       case LoaderType.StructureMapping:
         this.isStructureMappingsLoadEnabled = isEnabled;
