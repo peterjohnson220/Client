@@ -7,6 +7,7 @@ import * as fromPageReducer from './statement-assignment.page.reducer';
 import * as fromAssignmentModalReducer from './statement-assignment-modal.reducer';
 import * as fromEmployeeSearchResultsReducer from './employee-search-results.reducer';
 import * as fromAssignedEmployeesGridReducer from './assigned-employees-grid.reducer';
+import * as fromGenerateStatementModalReducer from './generate-statement-modal.reducer';
 
 // Page Module State
 export interface StatementAssignmentState {
@@ -14,6 +15,7 @@ export interface StatementAssignmentState {
   assignmentsModal: fromAssignmentModalReducer.State;
   employeeSearch: fromEmployeeSearchResultsReducer.State;
   assignedEmployees: IFeatureGridState<fromAssignedEmployeesGridReducer.State>;
+  generateStatementModal: fromGenerateStatementModalReducer.State;
 }
 
 // Extend root state with Page Module State
@@ -25,7 +27,8 @@ export const reducers = {
   page: fromPageReducer.reducer,
   assignmentsModal: fromAssignmentModalReducer.reducer,
   employeeSearch: fromEmployeeSearchResultsReducer.reducer,
-  assignedEmployees: fromAssignedEmployeesGridReducer.reducer
+  assignedEmployees: fromAssignedEmployeesGridReducer.reducer,
+  generateStatementModal: fromGenerateStatementModalReducer.reducer
 };
 
 // Select Feature Area
@@ -50,6 +53,11 @@ export const selectEmployeeSearchState = createSelector(
 export const selectAssignedEmployeesState = createSelector(
   selectFeatureAreaState,
   (state: StatementAssignmentState) => state.assignedEmployees
+);
+
+export const selectGenerateStatementModalState = createSelector(
+  selectFeatureAreaState,
+  (state: StatementAssignmentState) => state.generateStatementModal
 );
 
 // Page Selectors
@@ -237,4 +245,8 @@ export const getEmployeeSearchTerm = createSelector(
   fromAssignedEmployeesGridReducer.getEmployeeSearchTerm
 );
 
-
+// Generate Statement Modal
+export const getStatementEmailTemplate = createSelector(
+  selectGenerateStatementModalState,
+  fromGenerateStatementModalReducer.getStatementEmailTemplate
+);

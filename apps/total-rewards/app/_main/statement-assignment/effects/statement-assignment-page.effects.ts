@@ -70,7 +70,8 @@ export class StatementAssignmentPageEffects {
         CompanyEmployeeIds: data.companyEmployeeIds,
         GenerateByQuery: (data.companyEmployeeIds && data.companyEmployeeIds.length) ? null : data.gridState,
         WaitForPdfGenerationSelector: TrsConstants.READY_FOR_PDF_GENERATION_SELECTOR,
-        Method: data.action.payload
+        Method: data.action.payload.method,
+        EmailTemplate: data.action.payload.emailTemplate
       })),
       switchMap(request =>
         this.totalRewardsPdfGenerationService.generateStatements(request).pipe(

@@ -5,3 +5,4 @@ export * from './employee-search-user-filter.effects';
 export * from './statement-assignment-modal.effects';
 export * from './statement-assignment-page.effects';
 export * from './assigned-employees-grid.effects';
+export * from './generate-statement-modal.effects';
