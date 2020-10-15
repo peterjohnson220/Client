@@ -13,6 +13,8 @@ exports[`Libs - Features - Peer - Exchange Explorer should load the exchange exp
   numberOfResults$={[Function Store]}
   pageShown$={[Function Store]}
   payMarket$={[Function Store]}
+  searchFeatureId={[Function String]}
+  searchFilterMappingDataObj="null"
   searchingChildFilters$={[Function Store]}
   searchingFilter$={[Function Store]}
   selectedExchangeJobId$={[Function Store]}
@@ -22,6 +24,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should load the exchange exp
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
   store={[Function Store]}
+  userFilterTypeData="null"
 >
   <pf-search-layout>
     
@@ -62,6 +65,8 @@ exports[`Libs - Features - Peer - Exchange Explorer should show a disabled payma
   numberOfResults$={[Function Store]}
   pageShown$={[Function Store]}
   payMarket$={[Function Observable]}
+  searchFeatureId={[Function String]}
+  searchFilterMappingDataObj="null"
   searchingChildFilters$={[Function Store]}
   searchingFilter$={[Function Store]}
   selectedExchangeJobId$={[Function Store]}
@@ -71,6 +76,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show a disabled payma
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
   store={[Function Store]}
+  userFilterTypeData="null"
 >
   <pf-search-layout>
     
@@ -113,6 +119,8 @@ exports[`Libs - Features - Peer - Exchange Explorer should show pf-child-filter 
   numberOfResults$={[Function Store]}
   pageShown$={[Function Store]}
   payMarket$={[Function Store]}
+  searchFeatureId={[Function String]}
+  searchFilterMappingDataObj="null"
   searchingChildFilters$={[Function Observable]}
   searchingFilter$={[Function Store]}
   selectedExchangeJobId$={[Function Store]}
@@ -122,6 +130,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show pf-child-filter 
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
   store={[Function Store]}
+  userFilterTypeData="null"
 >
   <pf-search-layout>
     
@@ -167,6 +176,8 @@ exports[`Libs - Features - Peer - Exchange Explorer should show pf-single-filter
   numberOfResults$={[Function Store]}
   pageShown$={[Function Store]}
   payMarket$={[Function Store]}
+  searchFeatureId={[Function String]}
+  searchFilterMappingDataObj="null"
   searchingChildFilters$={[Function Store]}
   searchingFilter$={[Function Observable]}
   selectedExchangeJobId$={[Function Store]}
@@ -176,6 +187,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show pf-single-filter
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
   store={[Function Store]}
+  userFilterTypeData="null"
 >
   <pf-search-layout>
     
@@ -217,6 +229,8 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange job
   numberOfResults$={[Function Store]}
   pageShown$={[Function Store]}
   payMarket$={[Function Store]}
+  searchFeatureId={[Function String]}
+  searchFilterMappingDataObj="null"
   searchingChildFilters$={[Function Store]}
   searchingFilter$={[Function Store]}
   selectedExchangeJobId$={[Function Store]}
@@ -226,6 +240,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange job
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
   store={[Function Store]}
+  userFilterTypeData="null"
 >
   <pf-search-layout>
     
@@ -267,6 +282,8 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange job
   numberOfResults$={[Function Store]}
   pageShown$={[Function Store]}
   payMarket$={[Function Observable]}
+  searchFeatureId={[Function String]}
+  searchFilterMappingDataObj="null"
   searchingChildFilters$={[Function Store]}
   searchingFilter$={[Function Store]}
   selectedExchangeJobId$={[Function Store]}
@@ -276,6 +293,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange job
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
   store={[Function Store]}
+  userFilterTypeData="null"
 >
   <pf-search-layout>
     
@@ -319,6 +337,8 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange sco
   numberOfResults$={[Function Store]}
   pageShown$={[Function Store]}
   payMarket$={[Function Observable]}
+  searchFeatureId={[Function String]}
+  searchFilterMappingDataObj="null"
   searchingChildFilters$={[Function Store]}
   searchingFilter$={[Function Store]}
   selectedExchangeJobId$={[Function Store]}
@@ -328,6 +348,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exchange sco
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
   store={[Function Store]}
+  userFilterTypeData="null"
 >
   <pf-search-layout>
     
@@ -370,6 +391,8 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exclude indi
   numberOfResults$={[Function Store]}
   pageShown$={[Function Store]}
   payMarket$={[Function Store]}
+  searchFeatureId={[Function String]}
+  searchFilterMappingDataObj="null"
   searchingChildFilters$={[Function Store]}
   searchingFilter$={[Function Store]}
   selectedExchangeJobId$={[Function Store]}
@@ -379,6 +402,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the exclude indi
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
   store={[Function Store]}
+  userFilterTypeData="null"
 >
   <pf-search-layout>
     
@@ -420,6 +444,8 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the paymarket bo
   numberOfResults$={[Function Store]}
   pageShown$={[Function Store]}
   payMarket$={[Function Observable]}
+  searchFeatureId={[Function String]}
+  searchFilterMappingDataObj="null"
   searchingChildFilters$={[Function Store]}
   searchingFilter$={[Function Store]}
   selectedExchangeJobId$={[Function Store]}
@@ -429,6 +455,7 @@ exports[`Libs - Features - Peer - Exchange Explorer should show the paymarket bo
   shouldShowExcludeIndirectJobMatchesFilter={[Function Boolean]}
   shouldShowPayMarketBoundsFilter={[Function Boolean]}
   store={[Function Store]}
+  userFilterTypeData="null"
 >
   <pf-search-layout>
     

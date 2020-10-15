@@ -11,8 +11,9 @@ import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs
 import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions/search-results.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
-import { staticFilters } from '../../../shared/data';
+import { staticFilters, StructuresSearchFilterMappingDataObj, StructuresJobSearchUserFilterType } from '../../../shared/data';
 
 @Component({
   selector: 'pf-add-jobs-modal-wrapper',
@@ -29,7 +30,7 @@ export class AddJobsModalWrapperComponent extends SearchBase {
   constructor(
     store: Store<fromSearchReducer.State>
   ) {
-    super(store);
+    super(store, StructuresSearchFilterMappingDataObj, SearchFeatureIds.AddJobs, StructuresJobSearchUserFilterType);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
   }
 

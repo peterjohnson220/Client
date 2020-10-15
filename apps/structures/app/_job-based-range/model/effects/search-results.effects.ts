@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, withLatestFrom, mergeMap, catchError, map } from 'rxjs/operators';
+import { switchMap, withLatestFrom, mergeMap, catchError, map, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
-import { JobBasedRangeJobSearchResponse, JobSearchRequestStructuresRangeGroup, JobSearchPricingDataResponse, JobSearchContext } from 'libs/models/payfactors-api/job-search';
+import { JobBasedRangeJobSearchResponse, JobSearchRequestStructuresRangeGroup, JobSearchPricingDataResponse,
+  JobSearchContext } from 'libs/models/payfactors-api/job-search';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
@@ -16,6 +17,7 @@ import * as fromAddJobsSearchResultsActions from 'libs/features/add-jobs/actions
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 import * as fromInfiniteScrollActions from 'libs/features/infinite-scroll/actions/infinite-scroll.actions';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 
 import * as fromSharedReducer from '../../shared/reducers';
 
@@ -74,9 +76,13 @@ export class SearchResultsEffects {
         this.store.select(fromSearchReducer.getResultsPagingOptions),
         this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
         this.store.select(fromSharedReducer.getMetadata),
-        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, contextStructureRangeGroupId, metadata) =>
-          ({ action, filters, pagingOptions, contextStructureRangeGroupId, metadata })
+        this.store.select(fromSearchReducer.getSearchFilterMappingData),
+        this.store.select(fromSearchReducer.getSearchFeatureId),
+        (action: fromSearchResultsActions.GetResults,
+         filters, pagingOptions, contextStructureRangeGroupId, metadata, searchFilterMappingDataObj, searchFeatureId) =>
+          ({ action, filters, pagingOptions, contextStructureRangeGroupId, metadata, searchFilterMappingDataObj, searchFeatureId })
       ),
+      filter((data) => data.searchFeatureId === SearchFeatureIds.AddJobs),
       switchMap(data => {
         const searchRequest: JobSearchRequestStructuresRangeGroup = {
           SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
@@ -91,7 +97,7 @@ export class SearchResultsEffects {
           .pipe(
             mergeMap((searchResponse: JobBasedRangeJobSearchResponse) => {
               const actions = [];
-              const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters);
+              const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters, data.searchFilterMappingDataObj);
               if (searchRequest.PagingOptions.From > 0) {
                 actions.push(new fromSearchResultsActions.GetMoreResultsSuccess());
                 actions.push(new fromAddJobsSearchResultsActions.AddJobResults(

@@ -3,6 +3,7 @@ import isEqual from 'lodash/isEqual';
 
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import { Filter } from '../models';
+import * as fromSearchResultsActions from '../actions/search-results.actions';
 
 export interface State {
   filter: Filter;
@@ -114,6 +115,9 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
         ...state,
         filter: filterCopy
       };
+    }
+    case fromSingledFilterActions.RESET: {
+      return initialState;
     }
     default: {
       return state;

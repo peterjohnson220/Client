@@ -12,7 +12,7 @@ import {
   MultiSelectFilter,
   MultiSelectOption,
   RangeFilter,
-  ResultsPagingOptions,
+  ResultsPagingOptions, SearchFilterMappingData,
   SearchFilterMappingDataObj,
   TextFilter
 } from '../models';
@@ -22,36 +22,33 @@ import { FiltersHelper } from './filters.helper';
 @Injectable()
 export class PayfactorsSearchApiModelMapper {
 
-  constructor(private searchFilterMappingData: SearchFilterMappingDataObj) {}
+  constructor() {}
 
   ///
   /// IN
   ///
-   mapSearchFiltersToFilters(searchFilters: SearchFilter[], mappingDataObject: SearchFilterMappingDataObj = null): Filter[] {
-    if (mappingDataObject !== null) {
-      this.searchFilterMappingData = mappingDataObject;
-    }
-    return searchFilters.map(sf => this.mapSearchFilterToFilter(sf)).filter(ft => !!ft);
+   mapSearchFiltersToFilters(searchFilters: SearchFilter[], mappingDataObject: SearchFilterMappingDataObj): Filter[] {
+    return searchFilters.map(sf => this.mapSearchFilterToFilter(sf, mappingDataObject)).filter(ft => !!ft);
   }
 
-   mapSearchFiltersToMultiSelectFilters(searchFilters: SearchFilter[], mappingDataObject: SearchFilterMappingDataObj = null): MultiSelectFilter[] {
-    return searchFilters.map(sf => this.mapSearchFilterToMultiFilter(sf));
+   mapSearchFiltersToMultiSelectFilters(searchFilters: SearchFilter[], mappingDataObject: SearchFilterMappingDataObj): MultiSelectFilter[] {
+    return searchFilters.map(sf => this.mapSearchFilterToMultiFilter(sf, this.getMappingData(sf.Name, mappingDataObject)));
   }
 
-   mapSearchFilterToFilter(searchFilter: SearchFilter): Filter {
-    const mappingData = this.getMappingData(searchFilter.Name);
+   mapSearchFilterToFilter(searchFilter: SearchFilter, mappingDataObject: SearchFilterMappingDataObj): Filter {
+    const mappingData = this.getMappingData(searchFilter.Name, mappingDataObject);
     if (!!mappingData) {
       switch (mappingData.Type) {
         case FilterType.Multi:
-          return this.mapSearchFilterToMultiFilter(searchFilter);
+          return this.mapSearchFilterToMultiFilter(searchFilter, mappingData);
         case FilterType.FilterableMulti: {
           if (searchFilter.IsParentWithoutChild) {
-            return this.mapSearchFilterToMultiFilter(searchFilter);
+            return this.mapSearchFilterToMultiFilter(searchFilter, mappingData);
           }
-          return this.mapSearchFilterToFilterableMultiFilter(searchFilter);
+          return this.mapSearchFilterToFilterableMultiFilter(searchFilter, mappingData);
         }
         case FilterType.Range:
-          return this.mapSearchFilterToRangeFilter(searchFilter);
+          return this.mapSearchFilterToRangeFilter(searchFilter, mappingData);
         default:
           return null;
       }
@@ -60,16 +57,13 @@ export class PayfactorsSearchApiModelMapper {
 
    mapSearchSavedFilterResponseToSavedFilter(
      surveySavedFilterResponse: SearchSavedFilterResponse[],
-     mappingDataObject: SearchFilterMappingDataObj = null): SavedFilter[] {
-     if (mappingDataObject !== null) {
-       this.searchFilterMappingData = mappingDataObject;
-     }
+     mappingDataObject: SearchFilterMappingDataObj): SavedFilter[] {
     return surveySavedFilterResponse.map(ssfr => {
       return {
         Id: ssfr.Id,
         Name: ssfr.Name,
         MetaInfo: ssfr.MetaInfo,
-        Filters: FiltersHelper.selectAll(this.mapSearchFiltersToFilters(ssfr.Filters)),
+        Filters: FiltersHelper.selectAll(this.mapSearchFiltersToFilters(ssfr.Filters, mappingDataObject)),
         Selected: false
       };
     });
@@ -184,8 +178,7 @@ export class PayfactorsSearchApiModelMapper {
     });
   }
 
-  private mapSearchFilterToMultiFilter(searchFilter: SearchFilter): MultiSelectFilter {
-    const mappingData = this.getMappingData(searchFilter.Name);
+  private mapSearchFilterToMultiFilter(searchFilter: SearchFilter, mappingData: SearchFilterMappingData): MultiSelectFilter {
     return {
       Id: searchFilter.Name.split('_').join(''),
       BackingField: mappingData.BackingField,
@@ -206,8 +199,7 @@ export class PayfactorsSearchApiModelMapper {
     };
   }
 
-  private mapSearchFilterToFilterableMultiFilter(searchFilter: SearchFilter): FilterableMultiSelectFilter {
-    const mappingData = this.getMappingData(searchFilter.Name);
+  private mapSearchFilterToFilterableMultiFilter(searchFilter: SearchFilter, mappingData: SearchFilterMappingData): FilterableMultiSelectFilter {
     return {
       Id: searchFilter.Name.split('_').join(''),
       BackingField: mappingData.BackingField,
@@ -227,11 +219,10 @@ export class PayfactorsSearchApiModelMapper {
     };
   }
 
-  private mapSearchFilterToRangeFilter(searchFilter: SearchFilter): RangeFilter {
+  private mapSearchFilterToRangeFilter(searchFilter: SearchFilter, mappingData: SearchFilterMappingData): RangeFilter {
     const minValue = Number(this.getNumberValueFromSearchFilterOption(searchFilter.Options, 'min'));
     const maxValue = Number(this.getNumberValueFromSearchFilterOption(searchFilter.Options, 'max'));
     const precision = Number(this.getPrecisionFromSearchFilterOption(searchFilter.Options, 'max'));
-    const mappingData = this.getMappingData(searchFilter.Name);
 
     return {
       Id: searchFilter.Name.split('_').join(''),
@@ -269,8 +260,8 @@ export class PayfactorsSearchApiModelMapper {
     return value;
   }
 
-  private getMappingData(searchFilterName: string) {
-      return Object.keys(this.searchFilterMappingData).map(e => this.searchFilterMappingData[e])
+  private getMappingData(searchFilterName: string, searchFilterMappingData: SearchFilterMappingDataObj): SearchFilterMappingData {
+      return Object.keys(searchFilterMappingData).map(e => searchFilterMappingData[e])
       .find(sfmd => sfmd.BackingField === searchFilterName);
   }
 }

@@ -67,8 +67,6 @@ import { AddJobsUserFilterPopoverConfig } from './data';
   ],
   providers: [
     SavedFiltersHelper,
-    {provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData},
-    {provide: UserFilterTypeData, useValue: JobSearchUserFilterType},
     {provide: UserFilterPopoverConfig, useValue: AddJobsUserFilterPopoverConfig}
   ]
 })
