@@ -101,6 +101,25 @@ export class LoaderDashboardPageEffects {
       })
     );
 
+  @Effect()
+  redropExportedSourceFile$: Observable<Action> = this.actions$
+    .pipe(
+      ofType<fromLoaderDashboardPageActions.RedropExportedSourceFile>(fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE),
+      withLatestFrom(
+        this.store.pipe(select(fromRootState.getUserContext)),
+        (action, userContext) => {
+          return { action, userContext };
+        }),
+      switchMap(obj => {
+        return this.integrationApiService.RedropExportedSourceFile(obj.action.payload, obj.userContext).pipe(
+          map(() => {
+            return new fromLoaderDashboardPageActions.RedropExportedSourceFileSuccess();
+          }),
+          catchError(e => of(new fromLoaderDashboardPageActions.RedropExportedSourceFileError()))
+        );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private integrationApiService: IntegrationApiService,
