@@ -1,6 +1,15 @@
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+
 import { KeyboardKeys } from 'libs/constants';
+import { UserContext } from 'libs/models/security';
+import * as fromRootState from 'libs/state/state';
+
+import * as fromPageReducer from '../../statement-view/reducers';
+import * as fromPageActions from '../actions/verification.page.actions';
 
 @Component({
   selector: 'pf-verification',
@@ -10,6 +19,7 @@ import { KeyboardKeys } from 'libs/constants';
 export class VerificationPageComponent implements OnInit {
   @ViewChildren('inputToFocus') inputToFocus: QueryList<ElementRef>;
 
+  userContext$: Observable<UserContext>;
   verificationInputForm: FormGroup;
   maxInputLength: number[];
   focusNextInput: boolean;
@@ -19,12 +29,14 @@ export class VerificationPageComponent implements OnInit {
     KeyboardKeys.ESCAPE,
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private store: Store<fromPageReducer.State>) {
     this.maxInputLength = Array(6).fill(0).map((x, i) => i);
+    this.userContext$ = this.store.select(fromRootState.getUserContext);
   }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.store.dispatch(new fromPageActions.RequestToken({resend: false, suppressEmail: false}));
   }
 
   initializeForm(): void {
@@ -52,6 +64,16 @@ export class VerificationPageComponent implements OnInit {
       this.inputToFocus.toArray()[index + 1].nativeElement.focus();
       this.inputToFocus.toArray()[index + 1].nativeElement.select();
     }
+  }
+
+  validateCode(): void {
+    this.store.dispatch(new fromPageActions.ValidateToken(this.getCodeInput()));
+  }
+
+  private getCodeInput(): string {
+    // lol. Will be removed after inputs are put together
+    const inputDetails = this.verificationInputForm.getRawValue().inputs;
+    return `${inputDetails.input0}${inputDetails.input1}${inputDetails.input2}${inputDetails.input3}${inputDetails.input4}${inputDetails.input5}`;
   }
 
   get disableButton(): boolean {

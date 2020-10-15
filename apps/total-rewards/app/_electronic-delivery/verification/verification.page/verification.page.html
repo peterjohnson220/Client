@@ -6,7 +6,7 @@
     <hr>
     <div class="verification-content">
       <h3 class="font-weight-bold mb-4">Check your email</h3>
-      <p class="info">Please enter the verification code we just sent to johndoe@company.com</p>
+      <p class="info">Please enter the verification code we just sent to {{(userContext$ | async)?.EmailAddress}}</p>
     <div class="d-flex flex-column align-items-center">
       <form [formGroup]="verificationInputForm" class="mb-5">
         <div formGroupName="inputs">
@@ -18,7 +18,9 @@
                    class="code-input h4" type="text" maxlength="1" />
         </div>
       </form>
-      <button type="button" [disabled]="disableButton" [class.btn-enabled]="!disableButton" class="btn btn-primary btn-continue mb-4">Continue</button>
+      <button type="button" [disabled]="disableButton" [class.btn-enabled]="!disableButton"
+              (click)="validateCode()"
+              class="btn btn-primary btn-continue mb-4">Continue</button>
       <a class="h6 mb-4" href="javascript:void(0);">Didn't receive a code?</a>
       <p class="font-weight-light	text-primary">All Rights Reserved Payfactors @ {{currentYear}} | Privacy Policy</p>
     </div>

@@ -1,0 +1,28 @@
+.grey-border {
+  border: 2rem solid #e8e8e8;
+}
+
+.hide-export {
+  position: relative;
+  overflow: hidden;
+
+  > * {
+    position: absolute;
+    width: 100%;
+  }
+}
+
+::ng-deep {
+  pf-string-editor{
+    .wrapper {
+      overflow: visible !important;
+    }
+  }
+  pf-effective-date{
+    .print-mode {
+      .field-wrapper {
+        transform: none;
+      }
+    }
+  }
+}

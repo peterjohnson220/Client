@@ -13,7 +13,7 @@ export const routes: Routes = [
     loadChildren: () => import('./_main/main.module').then(m => m.MainModule)
   },
   { path: 'edelivery',
-    canActivate: [UserContextGuard, TileEnabledGuard],
+    canActivate: [UserContextGuard],
     component: AppWrapperComponent,
     loadChildren: () => import('./_electronic-delivery/electronic-delivery.module').then(m => m.ElectronicDeliveryModule)
   },
