@@ -2,8 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import orderBy from 'lodash/orderBy';
 
 import { ReportOrderType } from 'libs/constants';
-
-import { View, Workbook } from '../models';
+import { View, Workbook } from 'libs/features/reports/models';
 
 export class ViewsHelper {
   static getOrderByFn(type: ReportOrderType, views: View[]): View[] {

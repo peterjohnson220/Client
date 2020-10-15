@@ -30,6 +30,24 @@ $navbar-dark-hover-color: $navbar-dark-color;
   min-height: 65%;
 }
 
+.modal-xxl .modal-dialog {
+  max-width: 90%;
+  min-height: 90%;
+}
+
+.modal-open .modal.modal-static-xxl {
+  overflow-y: hidden;
+
+  .modal-dialog {
+    max-width: 90%;
+    width: 90%;
+    height: 90%;
+    .modal-content {
+      height: 100%;
+    }
+  }
+}
+
 // Adding modal-xlg override to be used with pf-modal-form windowClass input.
 // Conforms to the max-width the current XL bootstrap modal uses (not available until we upgrade versions).
 .modal-xlg .modal-dialog {

@@ -9,7 +9,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { Permissions } from 'libs/constants';
 
-import { Workbook } from '../../../models';
+import { Workbook } from 'libs/features/reports/models';
 import * as fromDataInsightsPageActions from '../../../actions/data-insights-page.actions';
 import * as fromDashboardsActions from '../../../actions/dashboards.actions';
 import * as fromViewsActions from '../../../actions/views.actions';

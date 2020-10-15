@@ -6,10 +6,10 @@ import { of } from 'rxjs';
 
 import { TableauReportApiService } from 'libs/data/payfactors-api';
 
-import * as fromReportViewPageActions from '../actions/reports-view-page.actions';
+import * as fromReportViewPageActions from '../actions/report-view.actions';
 
 @Injectable()
-export class ReportViewPageEffects {
+export class ReportViewEffects {
 
   @Effect()
   getStandardReport$ = this.actions$
@@ -17,6 +17,21 @@ export class ReportViewPageEffects {
       ofType(fromReportViewPageActions.GET_STANDARD_REPORT_VIEW_URL),
       switchMap((action: fromReportViewPageActions.GetStandardReportViewUrl) => {
           return this.tableauReportApiService.getStandardReportViewUrl(action.payload.workbookId).pipe(
+            map((response) => {
+              return new fromReportViewPageActions.GetViewUrlSuccess(response);
+            }),
+            catchError(() => of(new fromReportViewPageActions.GetViewUrlError()))
+          );
+        }
+      )
+    );
+
+  @Effect()
+  getPeerStandardReport$ = this.actions$
+    .pipe(
+      ofType(fromReportViewPageActions.GET_PEER_STANDARD_REPORT_VIEW_URL),
+      switchMap((action: fromReportViewPageActions.GetPeerStandardReportViewUrl) => {
+          return this.tableauReportApiService.getPeerStandardReportViewUrl(action.payload.workbookId).pipe(
             map((response) => {
               return new fromReportViewPageActions.GetViewUrlSuccess(response);
             }),
