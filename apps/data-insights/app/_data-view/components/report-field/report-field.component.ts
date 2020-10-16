@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
-import { Field } from '../../models';
+import { Field } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-report-field',

@@ -1,4 +1,4 @@
-import { RangeDistributionType, RangeDistributionSetting } from 'libs/models/payfactors-api';
+import { RangeDistributionType, RangeDistributionSetting } from '../payfactors-api';
 import { AdvancedSetting } from './advanced-setting.model';
 
 export interface RangeGroupMetadata {

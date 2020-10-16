@@ -9,11 +9,11 @@ import * as fromAppNotificationsMainReducer from 'libs/features/app-notification
 import { AppNotification } from 'libs/features/app-notifications/models';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
+import { UserDataView, DataViewAccessLevel, SharedDataViewUser, Filter } from 'libs/features/formula-editor';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
 import * as fromFiltersActions from '../../actions/filters.actions';
-import { SharedDataViewUser, UserDataView, DataViewAccessLevel, Filter } from '../../models';
 import {
   DeleteUserWorkbookModalComponent,
   ShareReportModalComponent,

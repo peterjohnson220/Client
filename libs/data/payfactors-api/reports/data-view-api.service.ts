@@ -167,4 +167,8 @@ export class DataViewApiService {
   getCountWithBasicDataRequest(request: BasicDataViewDataRequest): Observable<number> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetDataCount`, request);
   }
+
+  getAvailableDataViewPricingFields(pageViewId: string): Observable<DataViewField[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetAvailableDataViewPricingFields`, { params: { pageViewId: pageViewId } }, this.extractRawResponse);
+  }
 }

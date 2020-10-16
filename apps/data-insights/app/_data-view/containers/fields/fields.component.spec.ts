@@ -5,11 +5,11 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockField } from 'libs/features/formula-editor';
+import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
-import * as fromFieldsActions from '../../actions/fields.actions';
 import { FieldsComponent } from './fields.component';
-import { generateMockField } from '../../models';
 
 describe('Data Insights - Fields Comopnent', () => {
   let instance: FieldsComponent;

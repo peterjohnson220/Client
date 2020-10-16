@@ -17,9 +17,10 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { FormulaEditorModule } from 'libs/features/formula-editor';
 
 import {
-  FormulaEditorComponent, AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
+  AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
   FieldGroupComponent, FilterCardComponent, BitFilterComponent, DateRangeFilterComponent, MultiSelectFilterComponent,
   NumericFilterComponent, TextFilterComponent, ReportFieldComponent, ShareReportModalComponent,
   ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent, ViewInfoComponent
@@ -75,7 +76,8 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
     PfCommonUIModule,
 
     // Data Insights
-    DataInsightsSharedModule
+    DataInsightsSharedModule,
+    FormulaEditorModule
   ],
 
   declarations: [
@@ -84,7 +86,7 @@ import { DataInsightsSharedModule } from '../_shared/shared.module';
     NumericFieldFormattingModalComponent, FormulasComponent, EditDataViewModalComponent, DuplicateDataViewModalComponent, DateFieldFormattingModalComponent,
 
     // Components
-    FormulaEditorComponent, AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
+    AddReportFieldsComponent, ConfigureSidebarComponent, DeleteUserWorkbookModalComponent,
     FieldGroupComponent, FilterCardComponent, BitFilterComponent, DateRangeFilterComponent, MultiSelectFilterComponent,
     NumericFilterComponent, TextFilterComponent, ReportFieldComponent, ShareReportModalComponent,
     ViewAllFieldsComponent, FormulaCardComponent, DeleteUserFormulaModalComponent, ViewInfoComponent

@@ -1,0 +1,60 @@
+
+<div class="form-group" [formGroup]="structuresFormulaForm">
+        
+    <div class="form-group row">
+        <div class="input-group">
+          <input type="text" class="form-control" [placeholder]="'Formula Name'" [value]="formulaFieldObj.FieldName" [maxlength]="maxFieldNameLength"
+            (change)="handleFormulaNameChange($event)" [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.FieldName.invalid }"                                   
+            [pfValidatable]="true" ngbAutoFocus formControlName="FieldName" name="FormulaName"/>
+  
+          <div class="input-group-append" *ngIf="formulaFieldObj.IsPublic">
+              <span class="input-group-text"> 
+                  <input type="reset" formControlName="IsPublic" [ngbTooltip]="publicFormulaContent" [value]="true" class="hidden" (click)="handlePublicChange($event)"/>
+                <fa-icon [ngbTooltip]="publicFormulaContent" icon="globe" aria-hidden="true"></fa-icon>
+              </span>
+          </div>
+  
+          <div class="input-group-append" *ngIf="!formulaFieldObj.IsPublic">
+              <span class="input-group-text">
+                  <input type="reset" formControlName="IsPublic" [ngbTooltip]="privateFormulaContent" [value]="false" class="hidden" (click)="handlePublicChange($event)"/>
+                  <fa-icon [ngbTooltip]="privateFormulaContent" icon="eye" aria-hidden="true" ></fa-icon>
+              </span>
+          </div>
+        </div>
+
+        <span *ngIf="attemptedSubmit && (formControls.FieldName.hasError('required') || formControls.FieldName.hasError('minLength'))" class="text-danger float-right">Formula Name Required</span>
+     
+    </div>
+
+    <div class="form-group row">
+      <div class="instructions">
+        Use <b>[</b> to find and insert existing fields in your formula. Use <b>$</b> to view formula syntax.
+      </div>
+    </div>
+
+    <div class="form-group row">
+        <pf-formula-editor
+        [initialFormula]="formulaFieldObj.Formula"
+        [fieldSuggestions]="fieldSuggestions"
+        [functionSuggestions]="functionSuggestions"
+        [validating]="validating"
+        [isValid]="isValidFormula"
+        [disabled]="!isEditable"
+        [isWaitingForValidation]="isWaitingForValidation"
+        (formulaChanged)="handleFormulaChanged($event)">
+        </pf-formula-editor>
+        <span class="text-danger float-right" *ngIf="attemptedSubmit && !formulaFieldObj.Formula">Formula Required</span>
+
+        <div class="text-danger float-right" *ngIf="(saveFormulaFieldError$ | async)">
+          <span class="text-danger">{{(savingErrorMessage$ | async)}}</span>      
+        </div>
+
+    </div>
+
+</div>
+<ng-template #publicFormulaContent>
+  This formula is public and will be viewable for any user in your organization.
+</ng-template>
+<ng-template #privateFormulaContent>
+  This formula is private and will only be viewable to you.
+</ng-template>

@@ -1,4 +1,5 @@
 import { Field, generateMockField, FieldDataType } from './field.model';
+
 import { FilterOperator, Between, Equals, Contains, IsTrueFalse, IsNullOrEmpty, IsNotNullOrEmpty } from './filter-operators.model';
 
 export interface Filter {

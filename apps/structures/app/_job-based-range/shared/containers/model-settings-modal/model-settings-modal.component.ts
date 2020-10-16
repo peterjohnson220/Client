@@ -6,7 +6,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
@@ -16,7 +16,7 @@ import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { ControlPoint, Currency, RangeGroupMetadata } from '../../models';
+import { ControlPoint, Currency } from '../../models';
 import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
@@ -42,7 +42,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   roundingSettings$: Observable<RoundingSettingsDataObj>;
 
   enableJobRangeTypes$: Observable<boolean>;
-
   controlPointsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
   metadataSub: Subscription;
@@ -218,13 +217,44 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       // Prevent the hidden controls from failing validation
       this.modelSettingsForm.controls['SpreadMin'].setValue(setting.Minimum);
       this.modelSettingsForm.controls['SpreadMax'].setValue(setting.Maximum);
-      this.modelSettingsForm.controls['ControlPoint'].setValue(setting.ControlPoint);
+
+      if (!!setting.ControlPoint) {
+        this.modelSettingsForm.controls['ControlPoint'].setValue(setting.ControlPoint);
+        this.setRequired('ControlPoint');
+        if (!!this.modelSetting.RangeDistributionSetting) {
+          this.modelSetting.RangeDistributionSetting.ControlPoint_Formula = null;
+        }
+      }
+
+      if (!!setting.ControlPoint_Formula?.Formula) {
+        if (!this.modelSetting.RangeDistributionSetting.ControlPoint_Formula.IsPublic) {
+          this.modelSetting.RangeDistributionSetting.ControlPoint_Formula.IsPublic = true;
+        }
+        this.modelSettingsForm.controls['ControlPoint'].setValue(null);
+        this.clearRequiredValidator('ControlPoint');
+      }
+
       this.modelSettingsForm.controls['RangeDistributionTypeId'].setValue(setting.RangeDistributionTypeId);
       this.modelSettingsForm.controls['PayType'].setValue(setting.PayType);
 
       this.modelSetting = this.modelSettingsForm.getRawValue();
       this.modelSetting.RangeDistributionSetting = setting;
+
+      if (!setting.ControlPoint_Formula?.Formula) {
+        this.modelSetting.RangeDistributionSetting.ControlPoint_Formula = null;
+      }
     }
+  }
+
+  setRequired(controlName: string) {
+    this.modelSettingsForm.get(controlName).setValidators([Validators.required]);
+    this.modelSettingsForm.get(controlName).updateValueAndValidity();
+  }
+
+  clearRequiredValidator(controlName: string) {
+    this.modelSettingsForm.get(controlName).reset();
+    this.modelSettingsForm.get(controlName).clearValidators();
+    this.modelSettingsForm.get(controlName).updateValueAndValidity();
   }
 
   handleModalDismiss() {

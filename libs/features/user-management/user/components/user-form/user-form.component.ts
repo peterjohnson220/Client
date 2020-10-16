@@ -4,13 +4,13 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import {BehaviorSubject, forkJoin, Observable} from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { ISubscription } from 'rxjs/Subscription';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfValidators, PfEmailValidators, PfEmailTakenValidator } from 'libs/forms';
 import { GenericMenuItem, SubsidiaryInfo, UserAssignedRole } from 'libs/models';
 import { UserManagementDto } from 'libs/models/payfactors-api/user';
 import { UserApiService } from 'libs/data/payfactors-api';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Field } from '../../../../../../apps/data-insights/app/_data-view/models';
+import { Field } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-user-form',

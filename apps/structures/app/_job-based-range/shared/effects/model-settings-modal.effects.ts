@@ -6,6 +6,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { Observable, of, timer } from 'rxjs';
 import { catchError, debounce, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
 import { CompositeFieldApiService } from 'libs/data/payfactors-api/composite-field';
 import { StructureModelingApiService, StructuresApiService } from 'libs/data/payfactors-api/structures';
@@ -19,7 +20,6 @@ import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import { PageViewIds } from '../constants/page-view-ids';
 import * as fromSharedReducer from '../reducers';
-import { RangeGroupMetadata } from '../models';
 import { UrlService } from '../services';
 import { Workflow } from '../constants/workflow';
 import { PagesHelper } from '../helpers/pages.helper';

@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { appendOrdinalSuffix } from 'libs/core/functions';
 
@@ -18,7 +19,6 @@ import { GraphHelper } from '../../../shared/helpers/graph.helper';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
 import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
-import { RangeGroupMetadata } from '../../../shared/models';
 import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/range-distribution-data-point-type-ids';
 
 @Component({

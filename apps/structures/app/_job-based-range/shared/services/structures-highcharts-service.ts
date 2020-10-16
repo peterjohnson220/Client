@@ -1,6 +1,7 @@
 import * as Highcharts from 'highcharts';
 import { RateType } from 'libs/data/data-sets';
-import { RangeGroupMetadata } from '../models';
+import { RangeGroupMetadata } from 'libs/models/structures';
+
 import { RangeDistributionDataPointTypeIds } from '../constants/range-distribution-data-point-type-ids';
 import { RangeDistributionTypeIds } from '../constants/range-distribution-type-ids';
 

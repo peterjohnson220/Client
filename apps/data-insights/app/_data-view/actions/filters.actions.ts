@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Field, Filter, GetFilterOptionsData } from '../models';
+import { Field, Filter, GetFilterOptionsData } from 'libs/features/formula-editor';
 
 export const ADD_FILTER = '[Data Insights / Data View Filters] Add Filter';
 export const UPDATE_FILTER = '[Data Insights / Data View Filters] Update Filter ';

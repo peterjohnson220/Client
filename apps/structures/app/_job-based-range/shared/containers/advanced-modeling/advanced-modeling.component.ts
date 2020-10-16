@@ -4,9 +4,10 @@ import { FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
+
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { RangeGroupMetadata } from '../../models';
 import { AdvancedModelingHelper } from '../../helpers/advanced-modeling.helper';
 
 @Component({

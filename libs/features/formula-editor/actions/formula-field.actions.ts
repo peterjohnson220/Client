@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
 
 import { DataViewField } from 'libs/models/payfactors-api';
+import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 
-import { FormulaFieldModalObj, FieldDataType, Field } from '../models';
+import { FieldDataType, Field } from '../models';
 
 export const VALIDATE_FORMULA = '[Data Insights / Formula Field Modal] Validate Formula';
 export const VALIDATE_FORMULA_SUCCESS = '[Data Insights / Formula Field Modal] Validate Formula Success';

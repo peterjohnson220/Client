@@ -1,5 +1,5 @@
-import { FieldDataType } from './field.model';
-import { DataViewAccessLevel } from './user-data-view.model';
+import { FieldDataType, DataViewAccessLevel } from 'libs/features/formula-editor';
+
 
 export interface FormulaFieldModalObj {
   FieldName: string;
@@ -11,4 +11,12 @@ export interface FormulaFieldModalObj {
   DataType?: FieldDataType;
   IsPublic: boolean;
   AccessLevel?: DataViewAccessLevel;
+}
+
+export function generateFormulaFieldModalObj(): FormulaFieldModalObj {
+  return {
+    FieldName: '',
+    Formula: '',
+    IsPublic: true
+  };
 }

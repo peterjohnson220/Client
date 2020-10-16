@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Action, Store } from '@ngrx/store';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { WindowCommunicationService } from 'libs/core/services';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
@@ -22,7 +23,6 @@ import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromSharedModelSettingsActions from '../../shared/actions/model-settings-modal.actions';
 import { UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
-import { RangeGroupMetadata } from '../../shared/models';
 import { PagesHelper } from '../../shared/helpers/pages.helper';
 
 @Injectable()

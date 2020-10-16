@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { RateType } from 'libs/data/data-sets';
 import { CompanySettingsEnum } from 'libs/models/company';
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
 import { DataViewFilter } from 'libs/models/payfactors-api';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
@@ -14,7 +14,6 @@ import { PermissionService } from 'libs/core/services';
 
 import * as fromRangeFieldActions from '../../actions/range-field-edit.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../../../../apps/structures/app/_job-based-range/shared/reducers';
-import { RangeGroupMetadata } from '../../../../../../apps/structures/app/_job-based-range/shared/models';
 
 @Component({
   selector: 'pf-range-field-editor',

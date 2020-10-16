@@ -6,8 +6,8 @@ import { GridDataResult, ContentScrollEvent } from '@progress/kendo-angular-grid
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
-
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
+import { RangeGroupMetadata } from 'libs/models/structures';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
@@ -23,7 +23,6 @@ import { RangeDistributionDataPointTypeIds } from '../../../shared/constants/ran
 import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
-import { RangeGroupMetadata } from '../../../shared/models';
 
 @Component({
   selector: 'pf-compare-job-based-range-chart',

@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { Entity } from '../../models';
+import { Entity } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-base-data-view-modal',

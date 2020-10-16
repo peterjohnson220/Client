@@ -6,13 +6,13 @@ import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
 import { EmployeeRangeChartService, EmployeeSalaryRangeChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-import { RangeGroupMetadata } from '../../../shared/models';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
 import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';

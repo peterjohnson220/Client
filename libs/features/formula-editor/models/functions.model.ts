@@ -1,4 +1,4 @@
-import { Suggestion } from './suggestion.model';
+import { Suggestion } from 'libs/features/formula-editor';
 
 export enum FunctionName {
   IF = 'IF',

@@ -2,6 +2,7 @@ import { generateMockRoundingSettingsDataObj, PercentageSetting, RoundingSetting
 import { MissingMarketDataTypeSetting } from 'libs/models/structures/ranges/missing-market-data-type-setting.model';
 import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
 
+
 export interface AdvancedSetting {
   Rounding: RoundingSettingsDataObj;
   PreventMidsBelowCurrent: boolean;

@@ -1,10 +1,12 @@
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 
+import { FieldDataType } from '../models';
+
 import {
   FilterOperator, Equals,
   Between, IsAfter, IsBefore, Is,
   LessThan, GreaterThan, GreaterThanOrEqual, LessThanOrEqual,
-  FieldDataType, IsTrueFalse, Contains, DoesNotContain, DoesNotEqual, IsNullOrEmpty, IsNotNullOrEmpty
+  IsTrueFalse, Contains, DoesNotContain, DoesNotEqual, IsNullOrEmpty, IsNotNullOrEmpty
 } from '../models';
 
 export class FilterOperatorHelper {

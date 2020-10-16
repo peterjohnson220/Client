@@ -1,0 +1,13 @@
+.hidden {
+    display: block;
+    opacity:0; 
+    position: absolute;
+    z-index: 2;
+  }
+
+.instructions {
+  padding: 1rem;
+  border-left: 8px solid #47A8CD;
+  background-color: #DAEDF5;
+}
+

@@ -1,4 +1,5 @@
-import { BaseDataView, generateMockEntity } from '../../_shared/models';
+import { BaseDataView } from './base-data-view.model';
+import { generateMockEntity } from './entity.model';
 
 export enum DataViewAccessLevel {
   ReadOnly = 'ReadOnly',

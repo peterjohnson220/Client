@@ -5,6 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -15,7 +16,6 @@ import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { AddJobsModalWrapperComponent } from '../containers/add-jobs-modal';
-import { RangeGroupMetadata } from '../../shared/models';
 import { StructuresPagesService, UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
 import * as fromSharedActions from '../../shared/actions/shared.actions';

@@ -8,14 +8,13 @@ import { of } from 'rxjs';
 
 import { DataViewApiService } from 'libs/data/payfactors-api';
 import { PfConstants } from 'libs/models/common';
+import { DataViewAccessLevel, Field, PayfactorsApiModelMapper, FieldsHelper } from 'libs/features/formula-editor';
+import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
+import * as fromFormulaFieldModalActions from 'libs/features/formula-editor/actions/formula-field.actions';
 
 import * as fromDataInsightsMainReducer from '../reducers';
-import * as fromFieldsActions from '../actions/fields.actions';
 import * as fromFiltersActions from '../actions/filters.actions';
 import * as fromDataViewGridActions from '../actions/data-view-grid.actions';
-import * as fromFormulaFieldModalActions from '../../_data-view/actions/formula-field.actions';
-import { PayfactorsApiModelMapper, FieldsHelper } from '../helpers';
-import { DataViewAccessLevel, Field } from '../models';
 
 @Injectable()
 export class FieldsEffects {
@@ -23,16 +22,16 @@ export class FieldsEffects {
   @Effect()
   getReportFields$ = this.action$
   .pipe(
-    ofType(fromFieldsActions.GET_REPORT_FIELDS),
-    switchMap((action: fromFieldsActions.GetReportFields) => {
+    ofType(fromFieldsActions.GET_AVAILABLE_REPORT_FIELDS),
+    switchMap((action: fromFieldsActions.GetAvailableReportFields) => {
       return this.dataViewApiService.getUserDataViewFields(action.payload.dataViewId)
       .pipe(
         mergeMap((response) => [
-            new fromFieldsActions.GetReportFieldsSuccess(
+            new fromFieldsActions.GetAvailableReportFieldsSuccess(
               PayfactorsApiModelMapper.mapDataViewFieldsToFields(response))
           ]
         ),
-        catchError(() => of(new fromFieldsActions.GetReportFieldsError()))
+        catchError(() => of(new fromFieldsActions.GetAvailableReportFieldsError()))
       );
     })
   );
