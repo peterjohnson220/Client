@@ -7,15 +7,20 @@
         </h4>
       </div>
     </div>
-    <div class="row px-3" *ngIf="canImportOrgData">
+    <div class="row px-3" *ngIf="canImportOrgData || canExportOrgData">
       <div class="col-8">
         <h4 class="load-type-title">Org Data</h4>
       </div>
       <div class="col-4 text-right">
-        <div ngbDropdown placement="bottom-right" class="d-inline-block">
-          <button class="btn btn-outline-primary px-3" id="orgDataImportBtnGroup" ngbDropdownToggle><span class="mr-1">Import</span></button>
-          <div ngbDropdownMenu aria-labelledby="orgDataImportBtnGroup" class="dropdown-menu text-right">
-            <a *ngIf="canImportOrgData" ngbDropdownItem class="dropdown-item" [routerLink]="['/org-data-load']">Import Once</a>
+        <div class="d-flex justify-content-end">
+          <div *ngIf="canExportOrgData" class="p-2">
+            <a class="btn btn-outline-primary px-3" (click)="handleOrgDataExportClick($event)" [href]="'/odata/Company/GetOrganizationalData'">Export</a>
+          </div>
+          <div ngbDropdown placement="bottom-right" class="p-2 d-inline-block" *ngIf="canImportOrgData">
+            <button class="btn btn-outline-primary px-3" id="orgDataImportBtnGroup" ngbDropdownToggle><span class="mr-1">Import</span></button>
+            <div ngbDropdownMenu aria-labelledby="orgDataImportBtnGroup" class="dropdown-menu text-right">
+              <a *ngIf="canImportOrgData" ngbDropdownItem class="dropdown-item" [routerLink]="['/org-data-load']">Import Once</a>
+            </div>
           </div>
         </div>
       </div>
