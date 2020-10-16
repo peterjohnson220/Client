@@ -1,29 +1,48 @@
-<div class="d-flex justify-content-center h-100">
-  <div class="verification-container bg-white">
-    <div class="img-container text-center">
-      <img height="55" width="220px" src="/client/total-rewards/assets/images/payfactors-logo.png" alt="payfactors-logo">
-    </div>
-    <hr>
-    <div class="verification-content">
-      <h3 class="font-weight-bold mb-4">Check your email</h3>
-      <p class="info">Please enter the verification code we just sent to {{(userContext$ | async)?.EmailAddress}}</p>
-    <div class="d-flex flex-column align-items-center">
-      <form [formGroup]="verificationInputForm" class="mb-5">
-        <div formGroupName="inputs">
-            <input *ngFor="let inputIndex of maxInputLength"
-                   #inputToFocus
-                   formControlName="input{{inputIndex}}"
-                   (click)="highlightValue(inputIndex)"
-                   (keyup)="handleKeyUp($event, inputIndex)"
-                   class="code-input h4" type="text" maxlength="1" />
-        </div>
-      </form>
-      <button type="button" [disabled]="disableButton" [class.btn-enabled]="!disableButton"
-              (click)="validateCode()"
-              class="btn btn-primary btn-continue mb-4">Continue</button>
-      <a class="h6 mb-4" href="javascript:void(0);">Didn't receive a code?</a>
-      <p class="font-weight-light	text-primary">All Rights Reserved Payfactors @ {{currentYear}} | Privacy Policy</p>
-    </div>
+<pf-total-rewards-statement-view *ngIf="(tokenStatus$ | async)?.obj === tokenStatus.Valid && (employeeData$ | async);else verification"
+  [loading]="(tokenStatus$ | async)?.loading"
+  [loadingError]="(tokenStatus$ | async)?.loadingError"
+  [employeeRewardsData]="employeeData$ | async"
+  [statement]="statement$ | async">
+</pf-total-rewards-statement-view>
+
+<ng-template #verification>
+  <div class="d-flex justify-content-center h-100">
+    <div class="verification-container bg-white">
+      <div class="img-container text-center">
+        <img height="55" width="220px" src="/client/total-rewards/assets/images/payfactors-logo.png" alt="payfactors-logo">
+      </div>
+      <hr>
+      <div class="verification-content">
+        <h3 class="font-weight-bold mb-4">Check your email</h3>
+        <p class="info">Please enter the verification code we just sent to {{(userContext$ | async)?.EmailAddress}}</p>
+        <p class="text-danger text-center validation-error"
+           *ngIf="!(tokenStatus$ | async)?.loading &&
+           ((tokenStatus$ | async)?.obj === tokenStatus.Invalid || (tokenStatus$ | async)?.obj === tokenStatus.Expired)">
+          Verification code is invalid or has expired
+        </p>
+      <div class="d-flex flex-column align-items-center">
+        <form [formGroup]="verificationInputForm" class="mb-5">
+          <div formGroupName="inputs">
+              <input *ngFor="let inputIndex of maxInputLength"
+                     #inputToFocus
+                     formControlName="input{{inputIndex}}"
+                     (click)="highlightValue(inputIndex)"
+                     (keyup)="handleKeyUp($event, inputIndex)"
+                     class="code-input h4" type="text" maxlength="1" />
+          </div>
+        </form>
+        <button type="button"
+                [disabled]="disableButton || (tokenStatus$ | async)?.loading"
+                [class.btn-enabled]="!(disableButton || (tokenStatus$ | async)?.loading)"
+                (click)="validateCode()"
+                class="btn btn-primary btn-continue mb-4">
+          <span *ngIf="isValidating$ | async">Validating...</span>
+          <span *ngIf="!(isValidating$ | async)">Continue</span>
+        </button>
+        <a class="h6 mb-4" href="javascript:void(0);">Didn't receive a code?</a>
+        <p class="font-weight-light	text-primary">All Rights Reserved Payfactors @ {{currentYear}} | Privacy Policy</p>
+      </div>
+      </div>
     </div>
   </div>
-</div>
+</ng-template>

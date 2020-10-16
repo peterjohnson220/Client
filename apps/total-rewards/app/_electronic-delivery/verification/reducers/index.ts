@@ -32,7 +32,7 @@ export const getStatement = createSelector(
   fromPageReducer.getStatement
 );
 
-export const getStatementEmployeeData = createSelector(
+export const getEmployeeData = createSelector(
   selectPageState,
   fromPageReducer.getEmployeeData
 );

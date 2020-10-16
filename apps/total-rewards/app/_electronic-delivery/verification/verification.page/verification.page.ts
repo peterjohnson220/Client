@@ -6,9 +6,12 @@ import { Store } from '@ngrx/store';
 
 import { KeyboardKeys } from 'libs/constants';
 import { UserContext } from 'libs/models/security';
+import { AsyncStateObj } from 'libs/models/state';
+import { EmployeeRewardsData, TokenStatus } from 'libs/models/payfactors-api/total-rewards';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import * as fromRootState from 'libs/state/state';
 
-import * as fromPageReducer from '../../statement-view/reducers';
+import * as fromPageReducer from '../../verification/reducers';
 import * as fromPageActions from '../actions/verification.page.actions';
 
 @Component({
@@ -20,6 +23,13 @@ export class VerificationPageComponent implements OnInit {
   @ViewChildren('inputToFocus') inputToFocus: QueryList<ElementRef>;
 
   userContext$: Observable<UserContext>;
+  employeeData$: Observable<EmployeeRewardsData>;
+  statement$: Observable<Statement>;
+  isValidating$: Observable<boolean>;
+  resent$: Observable<boolean>;
+  tokenStatus$: Observable<AsyncStateObj<TokenStatus>>;
+
+  tokenStatus = TokenStatus;
   verificationInputForm: FormGroup;
   maxInputLength: number[];
   focusNextInput: boolean;
@@ -32,6 +42,11 @@ export class VerificationPageComponent implements OnInit {
   constructor(private fb: FormBuilder, private store: Store<fromPageReducer.State>) {
     this.maxInputLength = Array(6).fill(0).map((x, i) => i);
     this.userContext$ = this.store.select(fromRootState.getUserContext);
+    this.employeeData$ = this.store.select(fromPageReducer.getEmployeeData);
+    this.statement$ = this.store.select(fromPageReducer.getStatement);
+    this.tokenStatus$ = this.store.select(fromPageReducer.getTokenStatusAsync);
+    this.isValidating$ = this.store.select(fromPageReducer.getIsValidating);
+    this.resent$ = this.store.select(fromPageReducer.getResent);
   }
 
   ngOnInit(): void {
