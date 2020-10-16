@@ -7,13 +7,13 @@
 
 <ng-template #verification>
   <div class="d-flex justify-content-center h-100">
-    <div class="verification-container bg-white">
+    <div class="verification-container bg-white h-100">
       <div class="img-container text-center">
         <img height="55" width="220px" src="/client/total-rewards/assets/images/payfactors-logo.png" alt="payfactors-logo">
       </div>
       <hr>
       <div class="verification-content">
-        <h3 class="font-weight-bold mb-4">Check your email</h3>
+        <h3 class="mb-4">Check your email</h3>
         <p class="info">Please enter the verification code we just sent to {{(userContext$ | async)?.EmailAddress}}</p>
         <p class="text-danger text-center validation-error"
            *ngIf="!(tokenStatus$ | async)?.loading &&
@@ -21,25 +21,30 @@
           Verification code is invalid or has expired
         </p>
       <div class="d-flex flex-column align-items-center">
-        <form [formGroup]="verificationInputForm" class="mb-5">
-          <div formGroupName="inputs">
-              <input *ngFor="let inputIndex of maxInputLength"
-                     #inputToFocus
-                     formControlName="input{{inputIndex}}"
-                     (click)="highlightValue(inputIndex)"
-                     (keyup)="handleKeyUp($event, inputIndex)"
-                     class="code-input h4" type="text" maxlength="1" />
+        <div class="verification-code-container">
+          <input type="text"
+               placeholder="Verifcation Code"
+               maxlength="{{VERIFICATION_CODE_LENGTH}}"
+               class="w-100 verification-code form-control"
+               [(ngModel)]="verificationCode">
+          <div class="resend-container">
+            <span *ngIf="(tokenStatus$ | async)?.loading && !(resent$ | async)"><pf-loading-indicator></pf-loading-indicator></span>
+            <ng-container *ngIf="!(tokenStatus$ | async)?.loading">
+              <button class="btn resend-btn" (click)="resend()" [class.text-success]="(resent$ | async)">
+                <span *ngIf="!(resent$ | async)">Resend</span>
+                <span *ngIf="(resent$ | async)">Sent!</span>
+              </button>
+            </ng-container>
           </div>
-        </form>
+        </div>
         <button type="button"
-                [disabled]="disableButton || (tokenStatus$ | async)?.loading"
+                [disabled]="verificationCode?.length !== VERIFICATION_CODE_LENGTH || (tokenStatus$ | async)?.loading"
                 [class.btn-enabled]="!(disableButton || (tokenStatus$ | async)?.loading)"
                 (click)="validateCode()"
                 class="btn btn-primary btn-continue mb-4">
           <span *ngIf="isValidating$ | async">Validating...</span>
           <span *ngIf="!(isValidating$ | async)">Continue</span>
         </button>
-        <a class="h6 mb-4" href="javascript:void(0);">Didn't receive a code?</a>
         <p class="font-weight-light	text-primary">All Rights Reserved Payfactors @ {{currentYear}} | Privacy Policy</p>
       </div>
       </div>
