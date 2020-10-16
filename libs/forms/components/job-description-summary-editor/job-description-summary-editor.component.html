@@ -24,14 +24,14 @@
         title="Export to Word"
         (click)="exportJobDescription('docx')"
         [attr.data-qa-id]="'btn-jobs-page-export-jd-word'">
-        <fa-icon fa-icon [icon]="['fal', 'file-word']" [size]="actionIconSize"></fa-icon>
+        <fa-icon fa-icon [icon]="['fal', 'file-word']" [size]="actionIconSize" [ngClass]="theme"></fa-icon>
       </div>
       <div
         class="export-btn export-pdf"
         title="Export to PDF"
         (click)="exportJobDescription('pdf')"
         [attr.data-qa-id]="'btn-jobs-page-export-jd-pdf'">
-        <fa-icon fa-icon [icon]="['fal', 'file-pdf']" [size]="actionIconSize"></fa-icon>
+        <fa-icon fa-icon [icon]="['fal', 'file-pdf']" [size]="actionIconSize" [ngClass]="theme"></fa-icon>
       </div>
     </div>
   </div>

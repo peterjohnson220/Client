@@ -187,6 +187,10 @@ html .k-grid tr:hover {
   td:first-child {
     border-left: none !important;
   }
+
+  td {
+    border-bottom: none !important;
+  }
 }
 
 .k-grid.pricing-details-theme {
@@ -210,11 +214,29 @@ html .k-grid tr:hover {
       border: none !important;
     }
 
-    th {
-      border-color: $theme-grid-line-color !important;
-      border-width: 2px !important;
-      vertical-align: bottom !important;
+    tr:first-child{
+      th {
+        border-color: $theme-grid-line-color !important;
+        border-width: 2px !important;
+        vertical-align: bottom !important;
+        padding-bottom: 5px;
+      }
     }
+
+    tr:last-child{
+      th {
+        border-color: $theme-grid-line-color !important;
+        border-width: 2px !important;
+        vertical-align: bottom !important;
+        padding-top: 0;
+        padding-bottom: 5px;
+      }
+    }
+
+  }
+
+  tbody > tr:last-child > td {
+    border-bottom: solid 1px $theme-grid-line-color;
   }
 }
 
@@ -227,6 +249,8 @@ html .k-grid tr:hover {
     }
     th {
       border-color: white;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
   }
 
