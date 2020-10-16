@@ -22,6 +22,8 @@ export class PricingDetailsAdjPctColumnComponent implements OnInit, OnChanges, O
 
   @Input() dataRow: any;
 
+  adjPct = 0;
+
   canModifyPricings: boolean;
 
   isActiveJob = true;
@@ -46,8 +48,8 @@ export class PricingDetailsAdjPctColumnComponent implements OnInit, OnChanges, O
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.dataRow && changes.dataRow.currentValue) {
-      const adjPctValue = changes.dataRow.currentValue.CompanyJobs_Pricings_Composite_Adjustment;
-      this.dataRow.CompanyJobs_Pricings_Composite_Adjustment = adjPctValue ? adjPctValue : 0;
+      const dataRowadjPct = changes.dataRow.currentValue.CompanyJobs_Pricings_Composite_Adjustment;
+      this.adjPct = dataRowadjPct ? dataRowadjPct : 0;
     }
   }
 
@@ -58,13 +60,9 @@ export class PricingDetailsAdjPctColumnComponent implements OnInit, OnChanges, O
   updatePricingMatch() {
     const pricingId = this.dataRow.CompanyJobs_Pricings_CompanyJobPricing_ID;
 
-    if (!this.dataRow.CompanyJobs_Pricings_Composite_Adjustment) {
-      this.dataRow.CompanyJobs_Pricings_Composite_Adjustment = 0;
-    }
-
     const request: UpdatePricingRequest = {
       PricingId: pricingId,
-      CompositeAdjsPct: this.dataRow.CompanyJobs_Pricings_Composite_Adjustment,
+      CompositeAdjsPct: this.adjPct,
       UpdateRelatedPricings: false
     };
 

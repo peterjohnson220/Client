@@ -9,12 +9,13 @@
     [controlType]="controlType"
     [data]="jobDescriptionControl.Data"
     [readOnly]="readOnly || controlType.ReadOnly"
+    [checkInheritedData]="true"
     [additionalProperties]="jobDescriptionControl.AdditionalProperties"
     [isCompare]="isCompare"
     (dataChangesDetected)="handleDataChangesDetected($event)"
     (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
     (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
-    [undoChanges$]="undoChanges$" 
+    [undoChanges$]="undoChanges$"
     [replaceContents$]="replaceContents$">
   </pf-control-data-renderer>
 </ng-template>
@@ -41,12 +42,13 @@
         [controlType]="controlType"
         [data]="jobDescriptionControl.Data"
         [readOnly]="readOnly || controlType.ReadOnly"
+        [checkInheritedData]="true"
         [additionalProperties]="jobDescriptionControl.AdditionalProperties"
         [isCompare]="isCompare"
         (dataChangesDetected)="handleDataChangesDetected($event)"
         (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
         (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
-        [undoChanges$]="undoChanges$" 
+        [undoChanges$]="undoChanges$"
         [replaceContents$]="replaceContents$">
       </pf-control-data-renderer>
     </div>
@@ -77,13 +79,14 @@
         [controlType]="controlType"
         [data]="jobDescriptionControl.Data"
         [readOnly]="readOnly || controlType.ReadOnly"
+        [checkInheritedData]="true"
         [additionalProperties]="jobDescriptionControl.AdditionalProperties"
         [isCompare]="isCompare"
         (dataChangesDetected)="handleDataChangesDetected($event)"
         (dataRowDeleted)="handledDataRowDeleted($event)"
         (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
         (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
-        [undoChanges$]="undoChanges$" 
+        [undoChanges$]="undoChanges$"
         [replaceContents$]="replaceContents$">
       </pf-control-data-renderer>
     </div>

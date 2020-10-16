@@ -8,12 +8,16 @@ import cloneDeep from 'lodash/cloneDeep';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of, forkJoin } from 'rxjs';
-import { catchError, filter, mergeMap, withLatestFrom, tap, map, switchMap } from 'rxjs/operators';
+import { catchError, filter, mergeMap, withLatestFrom, tap, map, switchMap, endWith } from 'rxjs/operators';
 
-import { LoaderFieldMappingsApiService, MappingsHrisApiService, PayMarketApiService } from 'libs/data/payfactors-api';
+import { ConverterSettingsHrisApiService,
+  LoaderFieldMappingsApiService,
+  LoaderSettingsApiService,
+  MappingsHrisApiService,
+  PayMarketApiService } from 'libs/data/payfactors-api';
 import { OrgDataEntityType } from 'libs/constants';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import { PayMarket } from 'libs/models';
+import { ConverterSettings, LoaderSetting, PayMarket } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 
 import { PayfactorsApiModelMapper, EntityMappingHelper } from '../helpers';
@@ -21,6 +25,7 @@ import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromOrgDataFieldMappingsActions from '../actions/organizational-data-field-mapping.actions';
 import * as fromConverterSettingsActions from '../actions/converter-settings.actions';
 import * as fromReducers from '../reducers';
+import { FullReplaceModes } from '../models';
 
 @Injectable()
 export class FieldMappingEffects {
@@ -70,10 +75,23 @@ export class FieldMappingEffects {
         })
       ));
 
+      actions.push(this.converterSettingsApiService.get(obj.userContext, obj.connectionSummary.connectionID).pipe(
+        map((response: ConverterSettings[]) => {
+          return new fromConverterSettingsActions.GetConverterSettingsSuccess(response);
+        })
+      ));
+
+      if (obj.connectionSummary.loaderConfigurationGroupId) {
+        actions.push(this.loaderSettingsApiService.getCompanyLoaderSettings(obj.userContext.CompanyId, obj.connectionSummary.loaderConfigurationGroupId).pipe(
+          map((result: LoaderSetting[]) => {
+            return new fromLoaderSettingsActions.LoadingLoaderSettingsSuccess(result);
+          })
+        ));
+      }
+
       return forkJoin(actions).pipe(
         mergeMap((response) => {
           return [...response,
-            new fromConverterSettingsActions.GetConverterSettings(),
             new fromFieldMappingActions.InitFieldMappingCardSuccess()
           ];
         }),
@@ -112,19 +130,29 @@ export class FieldMappingEffects {
       this.store.pipe(select(fromReducers.getPayfactorsFields)),
       this.store.pipe(select(fromReducers.getHrisConnectionSummary)),
       this.store.pipe(select(fromReducers.isFieldMappingPageDirty)),
-      (action, userContext, payfactorsFields, connectionSummary, isDirty) => {
+      this.store.pipe(select(fromReducers.getFullReplaceModes)),
+      (action, userContext, payfactorsFields, connectionSummary, isDirty, fullReplaceModes) => {
         return {
           action,
           userContext,
           payfactorsFields,
           connectionSummary,
-          isDirty
+          isDirty,
+          fullReplaceModes
       };
     }),
     mergeMap(obj => {
       if (!obj.isDirty) {
+        const newConnectionSummary = cloneDeep(obj.connectionSummary);
+        const newFullReplaceModes: FullReplaceModes = {
+          employeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
+          structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
+        };
+        newConnectionSummary.fullReplaceModes = newFullReplaceModes;
+        const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
         return [
           new fromConverterSettingsActions.SaveConverterSettings(),
+          new fromLoaderSettingsActions.SavingLoaderSettings(loaderSettingsDto),
           new fromFieldMappingActions.SaveMappingSuccess(obj.connectionSummary.hasConnection)
         ];
       }
@@ -132,13 +160,18 @@ export class FieldMappingEffects {
       return this.mappingsHrisApiService.saveMappingFields(obj.userContext, mappingPackage)
         .pipe(
           mergeMap((response: any) => {
-            const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, obj.connectionSummary);
-
+            const newConnectionSummary = cloneDeep(obj.connectionSummary);
+            const newFullReplaceModes: FullReplaceModes = {
+              employeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
+              structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
+            };
+            newConnectionSummary.fullReplaceModes = newFullReplaceModes;
+            const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
             const loadersMappingPackage = PayfactorsApiModelMapper.getLoadersMappings(obj.userContext.CompanyId, obj.connectionSummary, obj.payfactorsFields);
 
             return [
-              new fromLoaderSettingsActions.SavingLoaderSettings(loaderSettingsDto),
               new fromConverterSettingsActions.SaveConverterSettings(),
+              new fromLoaderSettingsActions.SavingLoaderSettings(loaderSettingsDto),
               new fromOrgDataFieldMappingsActions.SavingFieldMappings(loadersMappingPackage),
               new fromFieldMappingActions.SaveMappingSuccess(obj.connectionSummary.hasConnection),
             ];
@@ -220,6 +253,8 @@ export class FieldMappingEffects {
     private mappingsHrisApiService: MappingsHrisApiService,
     private paymarketsApiService: PayMarketApiService,
     private loaderFieldMappingsApiService: LoaderFieldMappingsApiService,
+    private converterSettingsApiService: ConverterSettingsHrisApiService,
+    private loaderSettingsApiService: LoaderSettingsApiService,
     private router: Router
   ) {}
 }

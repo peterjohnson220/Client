@@ -5,7 +5,7 @@ import { ImportDataType, OrgDataEntityType, TransferMethodTypes } from 'libs/con
 import { LoaderFileFormat, LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import {
-    AuthenticationTypeResponse, ConnectionPostRequest, ConnectionSummaryResponse, CredentialsPackage, FieldMappingsDTO, LoaderSettingsDTO,
+    AuthenticationTypeResponse, ConnectionPostRequest, ConnectionSummaryResponse, CredentialsPackage, FieldMappingsDTO, LoaderSetting, LoaderSettingsDTO,
     MappingPackage, MappingPayloadItem, PatchProperty, PayfactorsEntityFieldsResponse, ProviderEntitiyFieldsResponse, ProviderResponse,
     ProviderSupportedEntityDTO, SyncScheduleDtoModel, TransferMethodResponse, TransferScheduleSummary, UserContext
 } from 'libs/models';
@@ -270,7 +270,8 @@ export class PayfactorsApiModelMapper {
       selectedEntities: connectionSummary.selectedEntities.map(e => OrgDataEntityType[e]),
       connectionID: connectionSummary.connection_ID,
       loaderConfigurationGroupId: connectionSummary.loaderConfigurationGroupId,
-      validationMode: connectionSummary.validationMode
+      validationMode: connectionSummary.validationMode,
+      fullReplaceModes: null
     };
   }
 
@@ -302,10 +303,8 @@ export class PayfactorsApiModelMapper {
     isSubsidiariesLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Subsidiaries),
     isBenefitsLoadEnabled: summary.selectedEntities.includes(OrgDataEntityType.Benefits),
     fileFormat: LoaderFileFormat.JSON,
-
-    // TODO: we need a UI to determine these settings
-    isEmployeesFullReplace: false,
-    isStructureMappingsFullReplace: false,
+    isEmployeesFullReplace: summary.fullReplaceModes.employeesFullReplace,
+    isStructureMappingsFullReplace: summary.fullReplaceModes.structureMappingsFullReplace,
     validateOnly: summary.validationMode,
   })
 

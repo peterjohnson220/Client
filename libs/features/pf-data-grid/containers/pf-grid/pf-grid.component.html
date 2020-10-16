@@ -1,4 +1,8 @@
-<pf-async-container [loading]="(loading$ | async) && !loadingMoreData">
+<pf-async-container
+  [loading]="(loading$ | async) && !loadingMoreData"
+  [loadingError]="(unexpectedError$ | async)"
+  [loadingErrorMessage]="'We encountered an error while processing your request. Please try reloading your page.'"  
+  (reload)="reload()">
   <ng-container *ngIf="customHeaderTemplate" [ngTemplateOutlet]="customHeaderTemplate"></ng-container>
   <div [ngClass]="enableInfiniteScroll ? 'infinite-scroll-container' : 'h-100'">
     <kendo-grid

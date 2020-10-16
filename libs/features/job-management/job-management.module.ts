@@ -22,6 +22,7 @@ import { JobManagementEffects } from './effects/job-management.effects';
 import { reducers } from './reducers';
 
 import { JobManagementComponent } from './job-management/job-management.component';
+import { NotesManagerModule } from '../notes-manager';
 import {
   StandardFieldsComponent,
   UserDefinedFieldsComponent,
@@ -51,6 +52,7 @@ import {
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
+    NotesManagerModule,
   ],
   declarations: [
     // Feature
