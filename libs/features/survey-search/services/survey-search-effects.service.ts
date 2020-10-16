@@ -39,7 +39,7 @@ export class SurveySearchEffectsService {
         (action: fromSearchResultsActions.GetResults, filters, pagingOptions, searchContext, selectedDataCuts, searchFilterMappingDataObj, searchFeatureId) =>
           ({ action, filters, pagingOptions, searchContext, selectedDataCuts, searchFilterMappingDataObj, searchFeatureId })
       ),
-      filter((data) => data.searchFeatureId === (SearchFeatureIds.MultiMatch || SearchFeatureIds.AddSurveyData)),
+      filter((data) => data.searchFeatureId === SearchFeatureIds.MultiMatch || data.searchFeatureId === SearchFeatureIds.AddSurveyData),
       switchMap(l => {
         const searchRequest = this.payfactorsSurveySearchApiHelper.buildSurveySearchRequest({
           Filters: l.filters,
