@@ -15,6 +15,7 @@ import { reducers } from './reducers';
 import { StatementViewRoutingModule } from './statement-view-routing.module';
 import { StatementViewPageComponent } from './statement-view.page';
 import { StatementViewPageEffects } from './effects/statement-view.page.effects';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { StatementViewPageEffects } from './effects/statement-view.page.effects'
     PfCommonModule,
     PfCommonUIModule,
     TotalRewardsStatementModule,
+    SharedModule,
 
     // Routing
     StatementViewRoutingModule
