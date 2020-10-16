@@ -481,7 +481,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     );
     this.routerParamsSubscription = urlParams.subscribe(params => {
       this.jobDescriptionId = params['id'];
-      this.viewName = params.queryParams['viewName'];
+      this.viewName = params.queryParams['viewName'] ?? 'Default' ;
       this.revisionNumber = params['versionNumber'];
       this.tokenId = params.queryParams['jwt'];
       this.ssoTokenId = params.queryParams['tokenid'];

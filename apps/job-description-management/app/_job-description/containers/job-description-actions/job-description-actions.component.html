@@ -1,11 +1,10 @@
 <ng-container *ngIf="!!identity && !!jobDescription">
 
   <ng-container *ngIf="!(jobDescriptionViewsAsync$ | async)?.loading
-      && isUserDefinedViewsAvailable
       && !(editingJobDescription$ | async)
       && jobDescription.JobDescriptionStatus !== 'In Review'">
     <kendo-dropdownlist class="viewNamesDropdownList"
-      [defaultItem]="'Default'"
+      [(ngModel)]="viewName"
       [data]="jobDescriptionViews"
       (valueChange)="handleViewChanged($event)">
     </kendo-dropdownlist>

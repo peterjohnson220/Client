@@ -48,7 +48,7 @@ export class JobDescriptionEffects {
                 jobDescriptionId: response.JobDescriptionId,
                 revision: response.JobDescriptionRevision
               }));
-              if (!data.action.payload.InWorkflow && !data.userContext.IsPublic && !data.action.payload.ViewName) {
+              if (!data.action.payload.InWorkflow && !data.userContext.IsPublic) {
                 actions.push(new fromJobDescriptionActions.GetViews({ templateId: response.TemplateId }));
               }
               return actions;
