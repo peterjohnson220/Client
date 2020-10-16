@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -24,10 +25,12 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
 
   canImportOrgData: boolean;
   canExportOrgData: boolean;
+  canExportPricingData: boolean;
 
   constructor(private settingsService: SettingsService,
     private permissionService: PermissionService,
-    private notificationStore: Store<fromAppNotificationsMainReducer.State>) {
+    private notificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private router: Router) {
 
   }
 
@@ -37,6 +40,8 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
       .subscribe(setting => this.canImportOrgData = (setting === 'true'));
     this.canExportOrgData = this.permissionService
       .CheckPermission([Permissions.CAN_DOWNLOAD_ORGANIZATIONAL_DATA], PermissionCheckEnum.Single);
+    this.canExportPricingData = this.permissionService
+      .CheckPermission([Permissions.CAN_DOWNLOAD_PRICING_DATA], PermissionCheckEnum.Single);
   }
 
   ngOnDestroy() {
@@ -44,7 +49,7 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
   }
 
   canView() {
-    return this.canImportOrgData || this.canExportOrgData;
+    return this.canImportOrgData || this.canExportOrgData || this.canExportPricingData;
   }
 
   handleOrgDataExportClick($event) {
@@ -60,6 +65,11 @@ export class LoadAndExportFilesCardComponent implements OnInit, OnDestroy {
     };
     this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(notification));
     this.notificationStore.dispatch(new fromOrgDataNavigationLinkActions.InitiateOrgDataExport());
+    $event.preventDefault();
+  }
+
+  handlePricingDataExportClick($event) {
+    this.router.navigate(['/pricing-loader/pricing-loaders-download']);
     $event.preventDefault();
   }
 }
