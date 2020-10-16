@@ -64,6 +64,7 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
         if (!this.hasError) {
           this.afterSaveChanges.emit(true);
           this.showMultiMatchModal.next(false);
+          super.resetActions();
         }
       }
       if (!!v) {
@@ -123,9 +124,9 @@ export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy
   }
 
   handleCancelClicked() {
+    super.resetActions();
     switch (this.featureImplementation) {
       case MODIFY_PRICINGS:
-        super.resetActions();
         this.showMultiMatchModal.next(false);
         this.hasError = false;
         this.onResetApp();

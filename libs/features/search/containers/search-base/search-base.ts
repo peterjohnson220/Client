@@ -9,6 +9,8 @@ import * as fromSaveFilterModalActions from 'libs/features/user-filter/actions/s
 import * as fromUserFilterPopoverActions from 'libs/features/user-filter/actions/user-filter-popover.actions';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+import * as fromSingledActions from 'libs/features/search/actions/singled-filter.actions';
+import * as fromChildFilterActions from 'libs/features/search/actions/child-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
@@ -63,14 +65,16 @@ export abstract class SearchBase {
   }
 
   resetActions() {
-    this.store.dispatch(new fromSearchPageActions.HidePage());
     this.store.dispatch(new fromSaveFilterModalActions.CloseSaveModal());
     this.store.dispatch(new fromSearchFiltersActions.RemoveFilters());
-    this.store.dispatch(new fromSearchPageActions.HideFilterSearch());
-    this.store.dispatch(new fromSearchPageActions.HideChildFilterSearch());
     this.store.dispatch(new fromUserFilterActions.Reset());
     this.store.dispatch(new fromUserFilterPopoverActions.ClosePopover());
-    this.store.dispatch(new fromSearchResultsActions.ClearResults());
+
+    this.store.dispatch(new fromSingledActions.Reset());
+    this.store.dispatch(new fromChildFilterActions.Reset());
+    this.store.dispatch(new fromSearchResultsActions.Reset());
+    this.store.dispatch(new fromSearchPageActions.Reset());
+    this.store.dispatch(new fromSearchFiltersActions.Reset());
   }
   onResetApp?(): void;
   onSetContext?(payload: any): void;
