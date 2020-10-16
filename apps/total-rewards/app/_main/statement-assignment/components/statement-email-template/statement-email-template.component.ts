@@ -16,7 +16,7 @@ export class StatementEmailTemplateComponent implements OnInit, OnChanges {
   @Input() statement: Statement;
   @Input() statementEmailTemplate: StatementEmailTemplate;
 
-  readonly SUBJECT_MAX_LENGTH = 50;
+  readonly SUBJECT_MAX_LENGTH = 200;
   readonly CONTENT_MAX_LENGTH = 500;
 
   emailForm: FormGroup;
