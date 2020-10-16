@@ -10,6 +10,7 @@ import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
+import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
@@ -18,7 +19,6 @@ import { RangeGroupMetadata } from '../../shared/models';
 import { StructuresPagesService, UrlService } from '../../shared/services';
 import { Workflow } from '../../shared/constants/workflow';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
-
 
 @Component({
   selector: 'pf-model-page',
@@ -39,10 +39,16 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   pageViewId: string;
   pageViewIdSubscription: Subscription;
   _Permissions = null;
+  compareModelFilters: DataViewFilter[];
+  comparingFlag: boolean;
+  comparingSub: Subscription;
+  metadataSub: Subscription;
+  metadata: RangeGroupMetadata;
 
   constructor(
     private store: Store<any>,
     private route: ActivatedRoute,
+    private sharedStore: Store<fromSharedJobBasedRangeReducer.State>,
     private urlService: UrlService,
     private permissionService: PermissionService,
     private structuresPagesService: StructuresPagesService
@@ -67,6 +73,9 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       PermissionCheckEnum.Single);
 
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
+    this.comparingSub = this.sharedStore.select(fromSharedJobBasedRangeReducer.getComparingModels).subscribe(flag => {
+      this.comparingFlag = flag;
+    })
     this._Permissions = Permissions;
   }
 
@@ -88,13 +97,41 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.AddJobsModalComponent.onMessage(setContextMessage);
   }
 
+  handleCompareModelClicked(currentRangeGroupId) {
+    this.compareModelFilters = [
+      {
+        EntitySourceName: 'CompanyStructures_RangeGroup',
+        SourceName: 'CompanyStructuresRangeGroup_ID',
+        Operator: '=',
+        Values: [currentRangeGroupId]
+      },
+      {
+        EntitySourceName: 'CompanyJobs',
+        SourceName: 'JobStatus',
+        Operator: '=',
+        Values: [1]
+      }
+    ];
+
+    this.sharedStore.dispatch(new fromSharedActions.GetDataByRangeGroupId({
+      pageViewId: this.pageViewId,
+      filters: this.compareModelFilters
+    }));
+  }
+
   // Lifecycle
   ngOnInit(): void {
+    this.comparingFlag = false;
     this.route.params.subscribe((params) => {
       this.rangeGroupId = params['id'];
       // This object must be being attached to the state at a later time since its being marked readonly and needs to be copied
       this.filters = cloneDeep(this.filters);
       this.filters.find(f => f.SourceName === 'CompanyStructuresRangeGroup_ID').Value = this.rangeGroupId;
+    });
+    this.metadataSub = this.metaData$.subscribe( md => {
+      if (md) {
+        this.metadata = md;
+      }
     });
   }
 
@@ -112,10 +149,17 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       pageViewId: this.pageViewId,
       rangeGroupId: this.rangeGroupId
     }));
+    this.store.dispatch(new fromSharedActions.GetCurrentRangeGroup({
+      RangeGroupId: this.rangeGroupId,
+      PaymarketId: this.metadata.PaymarketId,
+      Rate: this.metadata.Rate
+    }));
   }
 
   ngOnDestroy(): void {
     this.store.dispatch(new pfDataGridActions.Reset());
     this.pageViewIdSubscription.unsubscribe();
+    this.comparingSub.unsubscribe();
+    this.metadataSub.unsubscribe();
   }
 }

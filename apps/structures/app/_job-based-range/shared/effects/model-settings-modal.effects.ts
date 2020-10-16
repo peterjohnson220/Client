@@ -138,6 +138,8 @@ export class ModelSettingsModalEffects {
                   }));
                   actions.push(new fromSharedActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
+                  actions.push(new fromSharedActions.GetCurrentRangeGroup(
+                    {RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId, PaymarketId: r.RangeGroup.CompanyPayMarketId, Rate: r.RangeGroup.Rate}));
                 } else {
                   actions.push(new fromSharedActions.SetMetadata(
                     PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)

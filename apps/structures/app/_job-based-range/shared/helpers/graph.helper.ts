@@ -10,4 +10,10 @@ export class GraphHelper {
       return (multiLineHeader ? (multiLineHeaderOffset + defaultSingleRecordHeight) : defaultSingleRecordHeight);
     }
   }
+
+  static getCompareChartHeight(dataLength: number): number {
+    const defaultOffset = 56;
+    const rowHeight = 60;
+    return (rowHeight * dataLength) + defaultOffset;
+  }
 }

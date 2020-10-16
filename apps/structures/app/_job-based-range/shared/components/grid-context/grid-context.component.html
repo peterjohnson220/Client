@@ -3,6 +3,12 @@
     <button *ngIf="enableReturnBtn" routerLink="../../" class="btn btn-secondary">Return to ranges</button>
     <h4 *ngIf="title">{{title}}</h4>
   </div>
+
+  <div *ngIf="currentRangeGroupName && compareFlag" class="alert alert-info rounded my-auto" role="alert">
+    Currently comparing to current model <b>{{currentRangeGroupName}}</b>
+    <button class="btn btn-link" (click)="handleEndCompare()">end</button>
+  </div>
+
   <div *ngIf="metadata">
     <span class="text-muted">{{ metadata.Paymarket }}, {{ metadata.Rate }}, {{ metadata.Currency }}</span>
   </div>

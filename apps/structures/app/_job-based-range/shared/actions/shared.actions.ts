@@ -23,7 +23,14 @@ export const REVERTING_RANGE_CHANGES = '[Structures - Job Based Range - Shared] 
 export const REVERTING_RANGE_CHANGES_SUCCESS = '[Structures - Job Based Range - Shared] Reverting Range Changes Success';
 export const REVERTING_RANGE_CHANGES_ERROR = '[Structures - Job Based Range - Shared] Reverting Range Changes Error';
 export const UPDATE_OVERRIDES = '[Structures - Job Based Range - Shared] Update Overrides';
-
+export const GET_CURRENT_RANGE_GROUP = '[Structures - Job Based Range - Shared] Get Current Range Group';
+export const GET_CURRENT_RANGE_GROUP_SUCCESS = '[Structures - Job Based Range - Shared] Get Current Range Group Success';
+export const GET_CURRENT_RANGE_GROUP_ERROR = '[Structures - Job Based Range - Shared] Get Current Range Group Error';
+export const GET_DATA_BY_RANGE_GROUP_ID = '[Structures - Job Based Range - Shared] Get Data By Range Group Id';
+export const GET_DATA_BY_RANGE_GROUP_ID_SUCCESS = '[Structures - Job Based Range - Shared] Get Data by Range Group Success';
+export const GET_DATA_BY_RANGE_GROUP_ID_ERROR = '[Structures - Job Based Range - Shared] Get Data by Range Group Id Error';
+export const COMPARING_MODELS = '[Structures - Job Based Range - Shared] Comparing Models';
+export const END_COMPARING_MODELS = '[Structures - Job Based Range - Shared] End Comparing Models';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -134,6 +141,50 @@ export class UpdateOverrides implements  Action {
   constructor(public payload: { rangeId: number, overrideToUpdate: CompanyStructureRangeOverride, removeOverride: boolean}) {}
 }
 
+export class GetCurrentRangeGroup implements Action {
+  readonly type = GET_CURRENT_RANGE_GROUP;
+
+  constructor(public payload: any) {}
+}
+
+export class GetCurrentRangeGroupSuccess implements Action {
+  readonly type = GET_CURRENT_RANGE_GROUP_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetCurrentRangeGroupError implements Action {
+  readonly type = GET_CURRENT_RANGE_GROUP_ERROR;
+
+  constructor(public payload: any) {}
+}
+
+export class GetDataByRangeGroupId implements Action {
+  readonly type = GET_DATA_BY_RANGE_GROUP_ID;
+
+  constructor(public payload: { pageViewId: string, filters: DataViewFilter[] }) {}
+}
+
+export class GetDataByRangeGroupIdSuccess implements Action {
+  readonly type = GET_DATA_BY_RANGE_GROUP_ID_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetDataByRangeGroupIdError implements Action {
+  readonly type = GET_DATA_BY_RANGE_GROUP_ID_ERROR;
+
+  constructor(public payload: any) {}
+}
+
+export class ComparingModels implements Action {
+  readonly type = COMPARING_MODELS;
+}
+
+export class EndComparingModels implements Action {
+  readonly type = END_COMPARING_MODELS;
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -152,4 +203,12 @@ export type SharedActions
   | RevertingRangeChanges
   | RevertingRangeChangesSuccess
   | RevertingRangeChangesError
-  | UpdateOverrides;
+  | UpdateOverrides
+  | GetCurrentRangeGroup
+  | GetCurrentRangeGroupSuccess
+  | GetCurrentRangeGroupError
+  | GetDataByRangeGroupId
+  | GetDataByRangeGroupIdSuccess
+  | GetDataByRangeGroupIdError
+  | ComparingModels
+  | EndComparingModels;
