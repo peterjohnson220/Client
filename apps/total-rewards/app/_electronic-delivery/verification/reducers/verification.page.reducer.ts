@@ -41,19 +41,24 @@ export function reducer(state = initialState, action: fromActions.VerificationPa
       return AsyncStateObjHelper.loadingError(localState, 'tokenStatus');
     }
     case fromActions.VALIDATE_TOKEN: {
-      const localState: State = cloneDeep(state);
-
-      return AsyncStateObjHelper.loading(localState, 'tokenStatus');
+      const tokenStatus = cloneDeep(state.tokenStatus);
+      tokenStatus.loading = true;
+      return {
+        ...state,
+        tokenStatus: tokenStatus,
+        isValidating: true
+      };
     }
     case fromActions.VALIDATE_TOKEN_SUCCESS: {
       const tokenStatus = cloneDeep(state.tokenStatus);
-      tokenStatus.obj = action.payload.TokenStatus;
+      tokenStatus.obj = action.payload.Status;
       tokenStatus.loading = false;
       return {
         ...state,
         tokenStatus: tokenStatus,
         statement: action.payload.Statement,
-        employeeData: action.payload.EmployeeData
+        employeeData: action.payload.EmployeeData,
+        isValidating: false
       };
     }
     case fromActions.VALIDATE_TOKEN_ERROR: {

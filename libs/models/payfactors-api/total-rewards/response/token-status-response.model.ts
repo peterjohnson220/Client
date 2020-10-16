@@ -2,7 +2,7 @@ import { Statement } from 'libs/features/total-rewards/total-rewards-statement/m
 import { EmployeeRewardsData } from './employee-rewards-data';
 
 export interface TokenStatusResponse {
-  TokenStatus: TokenStatus;
+  Status: TokenStatus;
   LockedUntil?: Date;
 }
 

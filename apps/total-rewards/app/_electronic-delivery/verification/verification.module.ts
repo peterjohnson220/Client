@@ -11,8 +11,9 @@ import { PfFormsModule } from 'libs/forms';
 
 import { VerificationRoutingModule } from './verification-routing.module';
 import { VerificationPageComponent } from './verification.page';
-import { reducers } from '../statement-view/reducers';
+import { reducers } from '../verification/reducers';
 import { VerificationPageEffects } from './effects/verification.page.effects';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { VerificationPageEffects } from './effects/verification.page.effects';
     PfCommonUIModule,
     PfCommonModule,
     PfFormsModule,
+    SharedModule,
 
     // Routing
     VerificationRoutingModule

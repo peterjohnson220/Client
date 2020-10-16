@@ -35,7 +35,18 @@ export class VerificationPageEffects {
         this.totalRewardsApiService.validateToken({
           Token: action.payload
         }).pipe(
-          map((response: TokenValidationResponse) => new fromPageActions.ValidateTokenSuccess(response)),
+          map((response: TokenValidationResponse) => {
+            if (response.EmployeeData?.EmployeeDOH) {
+              response.EmployeeData.EmployeeDOH = new Date(response.EmployeeData.EmployeeDOH);
+            }
+            if (response.EmployeeData?.EmployeeDOB) {
+              response.EmployeeData.EmployeeDOB = new Date(response.EmployeeData.EmployeeDOB);
+            }
+            if (response.Statement) {
+              response.Statement.EffectiveDate = new Date();
+            }
+            return new fromPageActions.ValidateTokenSuccess(response);
+          }),
           catchError(error => of(new fromPageActions.ValidateTokenError()))
         ))
     );
