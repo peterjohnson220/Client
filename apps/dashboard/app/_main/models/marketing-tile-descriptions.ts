@@ -9,5 +9,5 @@ export enum MarketingTileDescriptions {
     Employees = 'Take an employee point-of-view into your company and quickly benchmark against the market to ensure pay equity.',
     Jobs = 'A central repository for all your jobs, displaying pay markets, data cuts, and employees associated with each position.',
     InternationalData = 'Reliable, HR-reported data from 13 countries—all part of the best comp technology on the planet.',
-    TotalRewards = 'TODO: Total Rewards marketing text'
+    TotalRewards = 'Engage and educate your employees by communicating the value and mechanics of their pay.'
 }
