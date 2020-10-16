@@ -71,4 +71,8 @@ export class TotalRewardsApiService {
   saveStatementEmailTemplate(request: StatementEmailTemplate): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/SaveStatementEmailTemplate`, request);
   }
+
+  getStatementIdByCompanyEmployeeId(companyEmployeeId: number): Observable<string> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementIdByCompanyEmployeeId?companyEmployeeId=${companyEmployeeId}`);
+  }
 }
