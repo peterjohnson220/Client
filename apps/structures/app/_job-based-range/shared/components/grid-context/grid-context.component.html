@@ -6,7 +6,9 @@
 
   <div *ngIf="currentRangeGroupName && compareFlag" class="alert alert-info rounded my-auto" role="alert">
     Currently comparing to current model <b>{{currentRangeGroupName}}</b>
-    <button class="btn btn-link" (click)="handleEndCompare()">end</button>
+    <div class="alert-link-wrapper">
+      <a (click)="handleEndCompare()">end</a>
+    </div>
   </div>
 
   <div *ngIf="metadata">
