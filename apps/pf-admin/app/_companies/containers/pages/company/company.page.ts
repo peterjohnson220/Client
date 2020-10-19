@@ -14,7 +14,7 @@ import * as fromRootReducer from 'libs/state/state';
 import * as fromPfAdminMainReducer from '../../../reducers';
 import * as fromCompanyPageActions from '../../../actions/company-page.actions';
 import { CompanyPageHelper } from '../../../helpers';
-import { CustomCompanySettings } from '../../../models';
+import { CustomCompanySetting, CustomCompanySettings } from '../../../models';
 import { CompanyFormContext } from '../../../models/company-form-context';
 import { CompanyFormComponent } from '../../company-form';
 import { CompanyTagsModalComponent } from '../../../components';
@@ -32,7 +32,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   companyTagsModalComponent: CompanyTagsModalComponent;
   companyId: -1;
   companyFormData: CompanyFormData;
-  customCompanySettings: CustomCompanySettings;
+  customCompanySettings: CustomCompanySetting[];
   jdmEnabled: boolean;
   isEditMode: boolean;
   companyLogoImgPath: string;
@@ -149,7 +149,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCompanyPageActions.LoadFormData({ companyId: this.companyId }));
   }
 
-  handleSaveClicked(customSettings: CustomCompanySettings) {
+  handleSaveClicked(settings) {
     // TODO: Communication between the form and the pages should be done with events.
     // The page should not have a direct reference to the form components
     this.companyForm.companyForm.markAllAsTouched();
@@ -157,18 +157,16 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const customSettings: CustomCompanySettings = settings.filter(s => s.Type === 'Custom')
+      .map(setting => ({ [setting.Key]: setting.Value }))
+      .reduce(function (key, value) {
+        return Object.assign(key, value);
+      }, {});
+
     let companyFormData = this.companyForm.buildFormData();
     companyFormData = Object.assign({},
       companyFormData,
-      { EnablePricingReview: customSettings.EnablePricingReview },
-      { ParticipateInPeerDataExchange: customSettings.ParticipateInPeerDataExchange },
-      { EnableLibraryForRoutedJobDescriptions: customSettings.EnableLibraryForRoutedJobDescriptions },
-      { EnableEmployeeAcknowledgement: customSettings.EnableEmployeeAcknowledgement },
-      { EnableWorkflowEmployeeResults: customSettings.EnableWorkflowEmployeeResults },
-      { RestrictWorkflowToCompanyEmployeesOnly: customSettings.RestrictWorkflowToCompanyEmployeesOnly },
-      { HideSecondarySurveyDataFields: customSettings.HideSecondarySurveyDataFields },
-      { EnableIntervalAgingFactor: customSettings.EnableIntervalAgingFactor },
-      { EnableLiveChat: customSettings.EnableLiveChat });
+      customSettings);
     if (!this.isEditMode) {
       this.store.dispatch(new fromCompanyPageActions.CreateCompany(companyFormData));
     } else {
