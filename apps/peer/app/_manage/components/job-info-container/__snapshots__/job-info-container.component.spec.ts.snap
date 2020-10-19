@@ -6,60 +6,69 @@ exports[`Peer - Job Info Container should show the job code, when showJobCode is
   showJobCode={[Function Boolean]}
 >
   <div
-    class="info-container"
+    class="d-flex flex-column h-100"
   >
     <div
-      class="info-row"
+      class="pr-3"
     >
-      <div
-        class="label"
+      <h5
+        class="mb-3 font-weight-bold"
       >
-        Company Job:
+        Company Job
+      </h5>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Job:
+        </label>
+        <span>
+          Mock Job 
+          
+          
+           - 1002
+        </span>
       </div>
-      <div>
-        Mock Job 
-        
-        
-         - 1002
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Job Family:
+        </label>
+        <span>
+          Mock Family
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25 mb-0"
+        >
+          Job Level:
+        </label>
+        <span>
+          Mock Level
+        </span>
+      </div>
+      <div
+        class="info-row"
+      >
+        <label
+          class="font-weight-bold w-25"
+        >
+          Job Description:
+        </label>
       </div>
     </div>
     <div
-      class="info-row"
+      class="info-row border-0 pr-3 job-description-container"
     >
-      <div
-        class="label"
-      >
-        Job Family:
-      </div>
-      <div>
-        Mock Family
-      </div>
-    </div>
-    <div
-      class="info-row"
-    >
-      <div
-        class="label"
-      >
-        Job Level:
-      </div>
-      <div>
-        Mock Level
-      </div>
-    </div>
-    <div
-      class="info-row-flex-column flex-grow-1"
-    >
-      <div
-        class="label"
-      >
-        Job Description:
-      </div>
-      <div
-        class="job-description-container"
-      >
-         Lorem Ipsum 
-      </div>
+       Lorem Ipsum 
     </div>
   </div>
 </pf-job-info-container>

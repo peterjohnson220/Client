@@ -157,6 +157,12 @@ export function reducer(state, action) {
           };
         }
         // mapped exchange job
+        case fromPeerCompanyJobs.SET_MAPPED_EXCHANGE_JOBS: {
+          return {
+            ...featureState,
+            mappedExchangeJob: action.payload
+          };
+        }
         case fromPeerCompanyJobs.LOAD_MAPPED_EXCHANGE_JOBS: {
           return {
             ...featureState,

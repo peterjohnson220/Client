@@ -4,12 +4,14 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
-import escape from 'lodash/escape';
 
 import { CompanyJobToMapTo, ExchangeJobMapping, Job, LatestCompanyJob } from 'libs/models';
+import { Permissions } from 'libs/constants';
 
 import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromPeerManagementReducer from '../../reducers';
+
+import * as companyJobsActions from '../../actions/company-jobs.actions';
 
 @Component({
   selector: 'pf-exchange-job-mapping-info',
@@ -21,6 +23,8 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   @Output() closeClicked = new EventEmitter();
   @Output() editMappingClicked = new EventEmitter();
   @ViewChild(NgbCarousel) carousel: NgbCarousel;
+
+  permissions = Permissions;
 
   // Observables
   selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
@@ -145,10 +149,12 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
 
   onCarouselSlideChange(slideEvent: NgbSlideEvent): void {
     this.store.dispatch(new fromExchangeJobMappingInfoActions.SetActiveMapping(+slideEvent.current));
+    if (this.selectedCompanyJob) {
+      this.setSelectedCompanyJob();
+    }
   }
   // Lifecycle
   ngOnInit() {
-
     this.selectedCompanyJobsSubscription = this.selectedCompanyJobInfoModels$.subscribe(jobs => {
       this.selectedJobs = jobs;
     });
@@ -179,35 +185,13 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
         if (this.selectedCompanyJob) {
           this.selectedExchangeJobToCompanyJobId = this.selectedExchangeJobMapping.CompanyJobMappings.find(f =>
             f.CompanyJobId === this.selectedCompanyJob.CompanyJobId).ExchangeJobToCompanyJobId;
+          this.setSelectedCompanyJob();
         }
       }
 
     });
 
     this.addingMappingSubscription = this.addingMapping$.subscribe(em => this.addingMapping = em);
-  }
-
-  buildNoResultsString(): string {
-
-    let s = 'No results for ';
-
-    const companyJob = escape(this.companyJobQuery);
-    const jobDescription = escape(this.companyDescriptionQuery);
-
-    if (!companyJob && !jobDescription) {
-      s += '<u>' + this.selectedExchangeJobMapping.ExchangeJobTitle + '</u>';
-    } else if (companyJob) {
-      s += '<u>' + companyJob + '</u>';
-      if (jobDescription) {
-        s += ' <i>and</i> ';
-      }
-    }
-
-    if (jobDescription) {
-      s += '<u>' + jobDescription + '</u>';
-    }
-    return s;
-
   }
 
   ngOnDestroy() {
@@ -234,5 +218,22 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
       JobLevel: ejm.ExchangeJobLevel,
       JobDescription: ejm.ExchangeJobDescription
     };
+  }
+
+  handleCreateProjectClick() {
+    this.store.dispatch(new companyJobsActions.ConfirmCreateProject());
+  }
+
+  setSelectedCompanyJob(): void {
+    const companyJob = {
+      CompanyJobId: this.selectedCompanyJob.CompanyJobId,
+      JobTitle: this.selectedCompanyJob.JobTitle,
+      JobCode: this.selectedCompanyJob.JobCode,
+      JobDescription: this.selectedCompanyJob.JobDescription,
+      JobFamily: this.selectedCompanyJob.JobFamily,
+      IsAssociated: true,
+      IsPendingPeerUserReview: false
+    };
+    setTimeout(() => this.store.dispatch(new companyJobsActions.SetSelectedCompanyJob(companyJob)), 0);
   }
 }
