@@ -68,7 +68,7 @@ describe('Peer - Apply Mapping Button', () => {
 
     spyOn(instance.applyMapping, 'emit');
 
-    const applyMappingBtn = fixture.debugElement.query(By.css('.btn'));
+    const applyMappingBtn = fixture.debugElement.query(By.css('.associate'));
     applyMappingBtn.triggerEventHandler('click', null);
 
     expect(instance.applyMapping.emit).toHaveBeenCalled();
