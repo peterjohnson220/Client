@@ -31,9 +31,14 @@ export function reducer(state = initialState, action: fromActions.VerificationPa
       return AsyncStateObjHelper.loading(localState, 'tokenStatus');
     }
     case fromActions.REQUEST_TOKEN_SUCCESS: {
-      const localState: State = cloneDeep(state);
+      const tokenStatus = cloneDeep(state.tokenStatus);
+      tokenStatus.loading = false;
 
-      return AsyncStateObjHelper.loadingSuccess(localState, 'tokenStatus');
+      return {
+        ...state,
+        tokenStatus: tokenStatus,
+        resent: action.payload.resent
+      };
     }
     case fromActions.REQUEST_TOKEN_ERROR: {
       const localState: State = cloneDeep(state);

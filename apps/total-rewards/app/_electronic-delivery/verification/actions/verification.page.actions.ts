@@ -16,7 +16,7 @@ export class RequestToken implements Action {
 
 export class RequestTokenSuccess implements Action {
   readonly type = REQUEST_TOKEN_SUCCESS;
-  constructor() {}
+  constructor(public payload: { resent: boolean }) {}
 }
 
 export class RequestTokenError implements Action {

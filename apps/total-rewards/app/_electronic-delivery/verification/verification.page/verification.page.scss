@@ -8,7 +8,6 @@ hr {
 }
 
 .verification-container {
-  width: 515px;
 
   .img-container {
     margin: 19px 0;
@@ -16,17 +15,12 @@ hr {
 
   .verification-content {
     padding: 1.5rem 3.5rem 4rem 3.5rem;
-
-    .info {
-      font-size: 16.25px;
-      line-height: 16px;
-    }
     margin-bottom: 5rem;
   }
 
   .btn-continue {
     height: 40px;
-    width: 430px;
+    width: 100%;
   }
 
   .btn-enabled {
@@ -34,28 +28,30 @@ hr {
   }
 }
 
-.code-input {
-  text-align: center;
-  border-top-style: hidden;
-  border-right-style: hidden;
-  border-left-style: hidden;
-  border-bottom-style: groove;
-  border-bottom-color: #979797;
-  margin: 0 6px;
-  outline: none;
-  width: 43px;
-}
+.verification-code-container {
+  width: 100%;
+  position: relative;
+  margin-bottom: 1rem;
 
-@media (max-width: 575.98px) {
-  .code-input {
-    width: 29px;
+  .verification-code {
+    border-radius: 5px;
+    height: 40px;
   }
 
-  .btn-continue {
-    width: 259px !important;
-  }
+  .resend-container {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
 
-  .info {
-    margin-bottom: 3rem;
+    .resend-btn {
+      box-shadow: none;
+      color: #0275D8;
+      cursor: pointer;
+      padding: 0;
+
+      &.text-success {
+        cursor: default;
+      }
+    }
   }
 }
