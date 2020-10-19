@@ -11,10 +11,11 @@ import { QuillModule } from 'ngx-quill';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { StringEditorComponent, TotalRewardsStatementComponent } from './components';
+import { StringEditorComponent, TotalRewardsStatementComponent, StatementDownloadComponent } from './components';
 import { TrsTitleControlComponent } from './components/trs-title-control/trs-title-control.component';
 import { TrsImageControlComponent } from './components/trs-image-control/trs-image-control.component';
 import { TrsCalculationControlComponent } from './components/trs-calculation-control/trs-calculation-control.component';
@@ -42,6 +43,7 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     UploadModule,
     NgbTooltipModule,
     DatePickerModule,
+    PDFExportModule,
 
     // Payfactors
     PfCommonUIModule,
@@ -59,7 +61,8 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     EffectiveDateComponent,
     FooterBarComponent,
     NoRecordsFoundCallToActionComponent,
-    ModeClassifierDirective
+    ModeClassifierDirective,
+    StatementDownloadComponent
   ],
   exports: [
     StringEditorComponent,
@@ -67,7 +70,8 @@ import { ModeClassifierDirective } from './directives/pf-mode-classifier-directi
     CompensationFieldPipe,
     FooterBarComponent,
     NoRecordsFoundCallToActionComponent,
-    ModeClassifierDirective
+    ModeClassifierDirective,
+    StatementDownloadComponent
   ],
   providers: [
     CurrencyPipe

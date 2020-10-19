@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -17,7 +15,6 @@ import { StatementViewComponent } from './components';
     CommonModule,
 
     FontAwesomeModule,
-    PDFExportModule,
 
     // Payfactors
     PfCommonModule,

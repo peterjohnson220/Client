@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { formatDate } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
 import { Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { StatementDownloadComponent } from 'libs/features/total-rewards/total-rewards-statement/components/statement-download';
 
 @Component({
   selector: 'pf-total-rewards-statement-view',
@@ -11,12 +11,12 @@ import { Statement, StatementModeEnum } from 'libs/features/total-rewards/total-
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatementViewComponent {
+  @ViewChild(StatementDownloadComponent) statementDownload: StatementDownloadComponent;
   @Input() statement: Statement;
   @Input() loading: boolean;
   @Input() loadingError: boolean;
   @Input() employeeRewardsData: EmployeeRewardsData;
   mode = StatementModeEnum.Preview;
-  printMode = StatementModeEnum.Print;
 
   constructor() { }
 
@@ -29,10 +29,8 @@ export class StatementViewComponent {
       );
   }
 
-  get pdfFileName(): string {
-    return (this.statement.StatementName + '_' +
-      this.employeeRewardsData.EmployeeFirstName + '_' + this.employeeRewardsData.EmployeeLastName + '_' +
-      formatDate(new Date(), 'MMMddyyyy', 'en')).replace(' ', '_');
+  public downloadStatement(): void {
+    this.statementDownload.downloadPdf();
   }
 
 }

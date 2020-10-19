@@ -1,0 +1,20 @@
+.hide-export {
+  overflow: hidden;
+}
+
+::ng-deep {
+  .k-pdf-export {
+    pf-string-editor{
+      .wrapper {
+        overflow: visible;
+      }
+    }
+    pf-effective-date{
+      .print-mode {
+        .field-wrapper {
+          transform: none;
+        }
+      }
+    }
+  }
+}
