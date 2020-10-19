@@ -86,6 +86,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   isStructuresLoadEnabled: boolean;
   isStructureMappingsLoadEnabled: boolean;
   isEmployeesFullReplace: boolean;
+  isBenefitsFullReplace: boolean;
   isStructureMappingsFullReplace: boolean;
   isSubsidiariesLoadEnabled: boolean;
   isBenefitsLoadEnabled: boolean;
@@ -237,6 +238,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.isStructuresLoadEnabled = false;
     this.isStructureMappingsLoadEnabled = false;
     this.isEmployeesFullReplace = true;
+    this.isBenefitsFullReplace = true;
     this.isStructureMappingsFullReplace = true;
     this.isSubsidiariesLoadEnabled = false;
     this.isBenefitsLoadEnabled = false;
@@ -313,6 +315,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
         this.isStructuresLoadEnabled = resp.isStructuresLoadEnabled;
         this.isStructureMappingsLoadEnabled = resp.isStructureMappingsLoadEnabled;
         this.isEmployeesFullReplace = resp.isEmployeesFullReplace;
+        this.isBenefitsFullReplace = resp.isBenefitsFullReplace;
         this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
         this.isSubsidiariesLoadEnabled = resp.isSubsidiariesLoadEnabled;
         this.isBenefitsLoadEnabled = resp.isBenefitsLoadEnabled;
@@ -435,6 +438,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     if (this.benefitMappingComplete) {
       this.addOrReplaceMappings('Benefits', $event.mappings);
     }
+
+    this.isBenefitsFullReplace = $event.isFullReplace;
   }
 
   onStructureMappingMappingComplete($event: LoaderEntityStatus) {
@@ -564,6 +569,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     newLoaderSettings.isBenefitsLoadEnabled = this.isBenefitsLoadEnabled;
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
+    newLoaderSettings.isBenefitsFullReplace = this.isBenefitsFullReplace
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
     newLoaderSettings.fileFormat = LoaderFileFormat.CSV;
 

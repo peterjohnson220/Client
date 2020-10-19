@@ -4,13 +4,19 @@
 
 <ng-template #content>
   <div class="container-fluid">
-    <div><span *ngIf="mappingErrorMessage && clientFields.length" class="text-danger">Supplied Client fields do not match saved mapped fields. Please re-map.</span></div>
-    <div
-      class="row mt-3"
-      *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees || loaderType === templateReferenceConstants.LoaderType.StructureMapping">
-      <div *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees" class="col-md-4 d-flex">
-        <label class="text-nowrap mr-4" for="dateFormat">Date Format: </label>
-        <kendo-combobox class="form-control flex-fill" id="dateFormat" [(ngModel)]="dateFormat"
+    <div><span *ngIf="mappingErrorMessage && clientFields.length"
+            class="text-danger">Supplied Client fields do not match saved mapped fields. Please re-map.</span></div>
+    <div class="row mt-3"
+         *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees 
+          || loaderType === templateReferenceConstants.LoaderType.StructureMapping 
+          || loaderType === templateReferenceConstants.LoaderType.Benefits">
+      <div *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees"
+           class="col-md-4 d-flex">
+        <label class="text-nowrap mr-4"
+               for="dateFormat">Date Format: </label>
+        <kendo-combobox class="form-control flex-fill"
+                        id="dateFormat"
+                        [(ngModel)]="dateFormat"
                         [data]="dateFormatsFilteredData"
                         textField="text"
                         valueField="value"
@@ -22,53 +28,56 @@
         <span class="text-danger ml-2">*</span>
       </div>
       <div class="col-md-4">
-        <div class="d-inline-block mr-2" >
-          <input
-            type="radio"
-            id="addRecords_{{loaderType}}"
-            name="addOrFullReplaceRecords_{{loaderType}}"
-            class="k-radio"
-            [checked]="!isFullReplace"
-            (click)="changeIsFullReplace(false)"/>
-          <label class="k-radio-label" for="addRecords_{{loaderType}}">Add</label>
+        <div class="d-inline-block mr-2">
+          <input type="radio"
+                 id="addRecords_{{loaderType}}"
+                 name="addOrFullReplaceRecords_{{loaderType}}"
+                 class="k-radio"
+                 [checked]="!isFullReplace"
+                 (click)="changeIsFullReplace(false)" />
+          <label class="k-radio-label"
+                 for="addRecords_{{loaderType}}">Add</label>
         </div>
         <div class="d-inline-block">
-          <input
-            type="radio"
-            id="fullReplaceRecords_{{loaderType}}"
-            name="addOrFullReplaceRecords_{{loaderType}}"
-            class="k-radio"
-            [checked]="isFullReplace"
-            (click)="changeIsFullReplace(true)"/>
-          <label class="k-radio-label" for="fullReplaceRecords_{{loaderType}}">Full Replace</label>
+          <input type="radio"
+                 id="fullReplaceRecords_{{loaderType}}"
+                 name="addOrFullReplaceRecords_{{loaderType}}"
+                 class="k-radio"
+                 [checked]="isFullReplace"
+                 (click)="changeIsFullReplace(true)" />
+          <label class="k-radio-label"
+                 for="fullReplaceRecords_{{loaderType}}">Full Replace</label>
         </div>
       </div>
     </div>
 
-    <div class="row mt-3" *ngIf="visibleLoaderOptions.selectFile">
+    <div class="row mt-3"
+         *ngIf="visibleLoaderOptions.selectFile">
       <div class="col">
-        <kendo-upload
-          [saveUrl]="uploadSaveUrl"
-          [removeUrl]="removeUrl"
-          [autoUpload]="true"
-          [restrictions]="fileRestrictions"
-          [multiple]="false"
-          [disabled]="(!delimiter || delimiter == '') || (loaderType === 'Employees' && (!dateFormat || dateFormat === ''))"
-          (success)="successEventHandler($event)"
-          (upload)="uploadEventHandler($event)"
-          (remove)="removeEventHandler()">
+        <kendo-upload [saveUrl]="uploadSaveUrl"
+                      [removeUrl]="removeUrl"
+                      [autoUpload]="true"
+                      [restrictions]="fileRestrictions"
+                      [multiple]="false"
+                      [disabled]="(!delimiter || delimiter == '') || (loaderType === 'Employees' && (!dateFormat || dateFormat === ''))"
+                      (success)="successEventHandler($event)"
+                      (upload)="uploadEventHandler($event)"
+                      (remove)="removeEventHandler()">
           <kendo-upload-messages select="Select file...">
           </kendo-upload-messages>
         </kendo-upload>
       </div>
     </div>
 
-    <div class="row mt-3" *ngIf="filenamePattern">
-      <div class="col" *ngIf="visibleLoaderOptions.clientFileName">
+    <div class="row mt-3"
+         *ngIf="filenamePattern">
+      <div class="col"
+           *ngIf="visibleLoaderOptions.clientFileName">
         Client file name for this entity must
         <span *ngIf="filenamePattern.IsStartWithRestricted; else elseBlock">begin with </span>
         <ng-template #elseBlock>contain </ng-template>
-        <span class="font-weight-bold text-monospace d-inline-block px-2 bg-light rounded text-pre">{{filenamePattern.Name}}</span>
+        <span
+              class="font-weight-bold text-monospace d-inline-block px-2 bg-light rounded text-pre">{{filenamePattern.Name}}</span>
       </div>
     </div>
 
@@ -81,32 +90,41 @@
 
     <div class="row mt-3">
       <div class="col px-0">
-        <select name="payfactors_fields" size="20" class="list-box d-block mx-auto w-50 px-2" [(ngModel)]="selectedPfField">
-          <option *ngFor="let field of payfactorsDataFields" value="{{field}}">{{field}}</option>
+        <select name="payfactors_fields"
+                size="20"
+                class="list-box d-block mx-auto w-50 px-2"
+                [(ngModel)]="selectedPfField">
+          <option *ngFor="let field of payfactorsDataFields"
+                  value="{{field}}">{{field}}</option>
         </select>
       </div>
       <div class="col px-0">
-        <select name="client_fields" size="20" class="list-box d-block mx-auto w-auto px-2" [(ngModel)]="selectedClientField">
-          <option *ngFor="let field of clientFields" value="{{field}}">{{field}}</option>
+        <select name="client_fields"
+                size="20"
+                class="list-box d-block mx-auto w-auto px-2"
+                [(ngModel)]="selectedClientField">
+          <option *ngFor="let field of clientFields"
+                  value="{{field}}">{{field}}</option>
         </select>
       </div>
-      <div class="col px-0 align-self-center" role="group">
-        <button
-          type="button"
-          class="btn btn-primary d-block my-3 mx-auto"
-          (click)="ApplyMapping()"
-          [disabled]="!selectedPfField || !selectedClientField"
-        >Map &gt;</button>
-        <button
-          type="button"
-          class="btn btn-primary d-block my-3 mx-auto"
-          (click)="RemoveMapping()"
-          [disabled]="!selectedMapping"
-        >&lt; Remove Mapping</button>
+      <div class="col px-0 align-self-center"
+           role="group">
+        <button type="button"
+                class="btn btn-primary d-block my-3 mx-auto"
+                (click)="ApplyMapping()"
+                [disabled]="!selectedPfField || !selectedClientField">Map &gt;</button>
+        <button type="button"
+                class="btn btn-primary d-block my-3 mx-auto"
+                (click)="RemoveMapping()"
+                [disabled]="!selectedMapping">&lt; Remove Mapping</button>
       </div>
       <div class="col px-0">
-        <select name="mapped_fields" size="20" class="list-box d-block mx-auto w-auto px-2 mapped-fields" [(ngModel)]="selectedMapping">
-          <option *ngFor="let field of mappedFields" value="{{field}}">{{formatMappingForDisplay(field)}}</option>
+        <select name="mapped_fields"
+                size="20"
+                class="list-box d-block mx-auto w-auto px-2 mapped-fields"
+                [(ngModel)]="selectedMapping">
+          <option *ngFor="let field of mappedFields"
+                  value="{{field}}">{{formatMappingForDisplay(field)}}</option>
         </select>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import {CredentialsPackage} from 'libs/models/hris-api/connection/request';
+import { CredentialsPackage } from 'libs/models/hris-api/connection/request';
 
 import * as fromHrisConnectionActions from '../actions/hris-connection.actions';
-import {ConnectionSummary} from '../models';
+import { ConnectionSummary } from '../models';
 
 export interface State {
   loading: boolean;
@@ -19,6 +19,7 @@ export interface State {
   openReauthenticationModal: boolean;
   fullReplaceEmployees: boolean;
   fullReplaceStructureMappings: boolean;
+  fullReplaceBenefits: boolean;
 }
 
 export const initialState: State = {
@@ -35,6 +36,7 @@ export const initialState: State = {
   openReauthenticationModal: false,
   fullReplaceEmployees: true,
   fullReplaceStructureMappings: true,
+  fullReplaceBenefits: true
 };
 
 export function reducer(state: State = initialState, action: fromHrisConnectionActions.Actions) {
@@ -223,6 +225,7 @@ export const getIsValidCredentials = (state: State) => state.isValidCredentials;
 export const getFullReplaceModes = (state: State) => {
   return {
     doFullReplaceEmployees: state.fullReplaceEmployees,
-    doFullReplaceStructureMappings: state.fullReplaceStructureMappings
+    doFullReplaceStructureMappings: state.fullReplaceStructureMappings,
+    doFullReplaceBenefits: state.fullReplaceBenefits
   };
 };
