@@ -229,3 +229,7 @@ pf-workflow-config {
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
 }
+
+.ql-editor, .ql-editor-output {
+  word-break: break-word;
+}
