@@ -7,7 +7,7 @@
       <button type="button"
               class="btn btn-secondary"
               [attr.data-qa-id]="'btn-downloadPdf'"
-              (click)="pdf.saveAs(pdfFileName)"
+              (click)="downloadStatement()"
               ngbTooltip="Export">
         <fa-icon [icon]="'download'"  aria-hidden="true"></fa-icon>
       </button>
@@ -33,16 +33,8 @@
     </ng-container>
   </pf-page-with-title-bar>
 
-  <div class="k-pdf-export hide-export">
-    <kendo-pdf-export #pdf
-                      [paperSize]="'Letter'"
-                      [scale]=".7"
-                      [creator]="'Payfactors'">
-      <pf-total-rewards-statement
-        [statement]="statement"
-        [employeeRewardsData]="employeeRewardsData"
-        [mode]="printMode"
-      ></pf-total-rewards-statement>
-    </kendo-pdf-export>
-  </div>
+  <pf-total-rewards-statement-download
+    [statement]="statement"
+    [employeeRewardsData]="employeeRewardsData">
+  </pf-total-rewards-statement-download>
 </ng-container>

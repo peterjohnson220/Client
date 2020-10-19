@@ -1,0 +1,12 @@
+<div class="k-pdf-export hide-export position-relative">
+  <kendo-pdf-export [paperSize]="'Letter'"
+                    [scale]=".7"
+                    [creator]="'Payfactors'">
+    <pf-total-rewards-statement
+      [statement]="statement"
+      [employeeRewardsData]="employeeRewardsData"
+      [mode]="printMode"
+    ></pf-total-rewards-statement>
+  </kendo-pdf-export>
+</div>
+
