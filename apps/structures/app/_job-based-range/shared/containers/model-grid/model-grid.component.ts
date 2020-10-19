@@ -180,7 +180,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
           return 'Modeled midpoint was calculated below the published job midpoint so the published job range info was used.';
         }
         if (currentOverride.MidForcedToCurrentPercent) {
-          return 'Calculated midpoint exceeded ' + this.metaData.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage + '%, midpoint was calculated at ' + this.metaData.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage + '%.';
+          return 'Calculated midpoint exceeded ' + this.metaData.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage +
+            '%, midpoint was calculated at ' + this.metaData.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage + '%.';
         }
       }
     }

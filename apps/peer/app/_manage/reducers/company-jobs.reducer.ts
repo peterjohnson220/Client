@@ -282,7 +282,7 @@ export function reducer(state, action) {
         }
         case fromPeerCompanyJobs.CREATE_ASSOCIATION_ERROR:
         case fromPeerCompanyJobs.APPROVE_PENDING_MATCH_ERROR:
-        case fromPeerCompanyJobs.UNMATCH_ERROR:{
+        case fromPeerCompanyJobs.UNMATCH_ERROR: {
           return {
             ...featureState,
             savingAssociation: false,
@@ -301,16 +301,16 @@ export function reducer(state, action) {
             showConfirmUnmatchModal: false
           };
         case fromPeerCompanyJobs.CREATE_PROJECT:
-          return{
+          return {
             ...featureState,
             creatingProject: true
-          }
+          };
         case fromPeerCompanyJobs.CREATE_PROJECT_ERROR:
-          return{
+          return {
             ...featureState,
             creatingProject: false,
             creatingProjectError: true
-          }
+          };
         case fromPeerCompanyJobs.CONFIRM_CREATE_PROJECT:
           return {
             ...featureState,

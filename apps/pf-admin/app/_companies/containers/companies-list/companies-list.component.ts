@@ -73,9 +73,9 @@ export class CompaniesListComponent implements OnChanges {
         this.companyNotesModal.open(companyId, companyName, false);
     }
 
-    public openCompanyTickets($event: any, companyName:string){
+    public openCompanyTickets($event: any, companyName: string) {
         $event.stopPropagation();
-        window.open('/client/admin/tickets?company_name=' + encodeURIComponent(companyName),'_self');
+        window.open('/client/admin/tickets?company_name=' + encodeURIComponent(companyName), '_self');
     }
 
     private loadItems(): void {

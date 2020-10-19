@@ -5,7 +5,7 @@ import { FilterDescriptor } from '@progress/kendo-data-query';
 import { FilterOperator } from 'libs/features/job-description-management/models';
 
 @Directive()
-export abstract class ListAreaBaseFilter implements OnChanges {
+export abstract class ListAreaBaseFilterDirective implements OnChanges {
   @Input() filter: FilterDescriptor;
   @Input() disableDropdown = false;
   @Output() filterChanged = new EventEmitter();

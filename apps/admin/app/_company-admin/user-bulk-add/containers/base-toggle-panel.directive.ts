@@ -7,14 +7,14 @@ export enum PanelState {
 }
 
 @Directive()
-export abstract class BaseTogglePanel {
+export abstract class BaseTogglePanelDirective {
   @Input() isToggled = true;
   @Output() notifyComplete: EventEmitter<any> = new EventEmitter();
   @Output() notifyCancel: EventEmitter<any> = new EventEmitter();
   @Input() panelId: any;
   panelState: PanelState = PanelState.Default;
   _panelState: typeof PanelState = PanelState;
-  constructor() { }
+  protected constructor() { }
 
   handleHeaderClick() {
     this.isToggled = !this.isToggled;

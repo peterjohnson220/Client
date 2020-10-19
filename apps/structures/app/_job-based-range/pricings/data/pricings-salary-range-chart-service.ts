@@ -121,7 +121,8 @@ export class PricingsSalaryRangeChartService {
         series: {
           events: {
             legendItemClick: function (event) {
-              if (event.target.userOptions.name === PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst)) {
+              const formattedChartSeriesName = PricingsSalaryRangeChartService.getFormattedSeriesName(PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst);
+              if (event.target.userOptions.name === formattedChartSeriesName) {
                 if (event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst].visible) {
                   event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileFirst].hide();
                   event.target.chart.yAxis[0].series[PricingsSalaryRangeChartSeries.SalaryRangeQuartileSecond].hide();
