@@ -17,17 +17,21 @@ import { AsyncStateObj, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
 import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/survey-search/data';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import * as fromRootState from 'libs/state/state';
 import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
 import * as fromModifyPricingsReducer from 'libs/features/multi-match/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromJobManagementActions from 'libs/features/job-management/actions';
+import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 
 import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';
 import * as fromJobsPageActions from '../actions';
 import * as fromJobsPageReducer from '../reducers';
+
 
 @Component({
   selector: 'pf-jobs-page',
@@ -473,6 +477,9 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       RestrictSearchToPayMarketCountry: this.restrictSurveySearchToPaymarketCountry
     };
 
+    this.store.dispatch(new fromSearchPageActions.SetSearchFilterMappingData(SurveySearchFilterMappingDataObj));
+    this.store.dispatch(new fromSearchPageActions.SetSearchFeatureId(SearchFeatureIds.MultiMatch));
+    this.store.dispatch(new fromSearchPageActions.SetUserFilterTypeData(SurveySearchUserFilterType));
     this.store.dispatch(new fromModifyPricingsActions.GetPricingsToModify(payload));
   }
 
