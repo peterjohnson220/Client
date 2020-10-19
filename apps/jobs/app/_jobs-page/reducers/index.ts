@@ -5,12 +5,14 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromJobsPageReducer from './jobs-page.reducer';
+import * as fromModifyPricingsReducer from './modify-pricings.reducer';
 import * as fromJobDescriptionReducer from './job-description.reducer';
 import * as fromJobPeerMatchesReducer from './peer-matches-exchange.reducer';
 
 // Feature area state
 export interface JobsPageStateMain {
   jobsPage: fromJobsPageReducer.State;
+  modifyPricings: fromModifyPricingsReducer.State;
   jobDescription: fromJobDescriptionReducer.State;
   peerMatches: fromJobPeerMatchesReducer.State;
 }
@@ -23,6 +25,7 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   jobsPage: fromJobsPageReducer.reducer,
+  modifyPricings: fromModifyPricingsReducer.reducer,
   jobDescription: fromJobDescriptionReducer.reducer,
   peerMatches: fromJobPeerMatchesReducer.reducer
 };
@@ -39,15 +42,21 @@ export const getJobsPageId = createSelector(selectJobsPageState, fromJobsPageRed
 export const getCreatingProject = createSelector(selectJobsPageState, fromJobsPageReducer.getCreatingProject);
 export const getChangingJobStatus = createSelector(selectJobsPageState, fromJobsPageReducer.getChangingJobStatus);
 export const getDeletingJob = createSelector(selectJobsPageState, fromJobsPageReducer.getDeletingJob);
-export const getDeletingPricing = createSelector(selectJobsPageState, fromJobsPageReducer.getDeletingPricing);
-export const getUpdatingPricing = createSelector(selectJobsPageState, fromJobsPageReducer.getUpdatingPricing);
-export const getDeletingPricingMatch = createSelector(selectJobsPageState, fromJobsPageReducer.getDeletingPricingMatch);
-export const getUpdatingPricingMatch = createSelector(selectJobsPageState, fromJobsPageReducer.getUpdatingPricingMatch);
-export const getRecalculatingPricingInfo = createSelector(selectJobsPageState, fromJobsPageReducer.getRecalculatingPricingInfo);
 export const getStructureGradeNames = createSelector(selectJobsPageState, fromJobsPageReducer.getStructureGradeNames);
 export const getCompanyPayMarkets = createSelector(selectJobsPageState, fromJobsPageReducer.getCompanyPayMarkets);
 export const getExportOptions = createSelector(selectJobsPageState, fromJobsPageReducer.getExportOptions);
 export const getNavigatingToOldPage = createSelector(selectJobsPageState, fromJobsPageReducer.getNavigatingToOldPage);
+
+// Modify Pricings Selectors
+
+export const selectModifyPricingsPageState =
+  createSelector(selectJobsPageMainState, (state: JobsPageStateMain) => state.modifyPricings);
+
+export const getDeletingPricing = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getDeletingPricing);
+export const getUpdatingPricing = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getUpdatingPricing);
+export const getDeletingPricingMatch = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getDeletingPricingMatch);
+export const getUpdatingPricingMatch = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getUpdatingPricingMatch);
+export const getRecalculatingPricingInfo = createSelector(selectModifyPricingsPageState, fromModifyPricingsReducer.getRecalculatingPricingInfo);
 
 // Job Description Selectors
 export const selectJobDescriptionState =
