@@ -3,10 +3,12 @@
 exports[`Data Management - Main - Load And Export File Card has access should show export button 1`] = `
 <pf-load-and-export-files-card
   canExportOrgData={[Function Observable]}
+  canExportPricingData={[Function Observable]}
   canImportOrgData="false"
   manualImportOrgDataSubscription={[Function Subscriber]}
   notificationStore={[Function Store]}
   permissionService={[Function Object]}
+  router={[Function Object]}
   settingsService={[Function Object]}
 >
   <div
@@ -29,36 +31,74 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
         </div>
       </div>
       
-      <div
-        class="row px-3"
-      >
+      <div>
         <div
-          class="col-8"
-        >
-          <h4
-            class="load-type-title"
-          >
-            Org Data
-          </h4>
-        </div>
-        <div
-          class="col-4 text-right"
+          class="row px-3"
         >
           <div
-            class="d-flex justify-content-end"
+            class="col-8"
           >
-            
-            <div
-              class="p-2"
+            <h4
+              class="load-type-title"
             >
-              <a
-                class="btn btn-outline-primary px-3"
-                href="/odata/Company/GetOrganizationalData"
+              Org Data
+            </h4>
+          </div>
+          <div
+            class="col-4 text-right"
+          >
+            <div
+              class="d-flex justify-content-end"
+            >
+              
+              <div
+                class="p-2"
               >
-                Export
-              </a>
+                <a
+                  class="btn btn-outline-primary px-3"
+                  href="/odata/Company/GetOrganizationalData"
+                >
+                  Export
+                </a>
+              </div>
+              
             </div>
-            
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        
+        <hr />
+        <div
+          class="row px-3"
+        >
+          <div
+            class="col-8"
+          >
+            <h4
+              class="load-type-title"
+            >
+              Pricing Data
+            </h4>
+          </div>
+          <div
+            class="col-4 text-right"
+          >
+            <div
+              class="d-flex justify-content-end"
+            >
+              <div
+                class="p-2"
+              >
+                <a
+                  class="btn btn-outline-primary px-3"
+                  href="#"
+                >
+                  Export
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -70,10 +110,12 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
 exports[`Data Management - Main - Load And Export File Card has access should show import button 1`] = `
 <pf-load-and-export-files-card
   canExportOrgData={[Function Observable]}
+  canExportPricingData={[Function Observable]}
   canImportOrgData="false"
   manualImportOrgDataSubscription={[Function Subscriber]}
   notificationStore={[Function Store]}
   permissionService={[Function Object]}
+  router={[Function Object]}
   settingsService={[Function Object]}
 >
   <div
@@ -96,36 +138,74 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
         </div>
       </div>
       
-      <div
-        class="row px-3"
-      >
+      <div>
         <div
-          class="col-8"
-        >
-          <h4
-            class="load-type-title"
-          >
-            Org Data
-          </h4>
-        </div>
-        <div
-          class="col-4 text-right"
+          class="row px-3"
         >
           <div
-            class="d-flex justify-content-end"
+            class="col-8"
           >
-            
-            <div
-              class="p-2"
+            <h4
+              class="load-type-title"
             >
-              <a
-                class="btn btn-outline-primary px-3"
-                href="/odata/Company/GetOrganizationalData"
+              Org Data
+            </h4>
+          </div>
+          <div
+            class="col-4 text-right"
+          >
+            <div
+              class="d-flex justify-content-end"
+            >
+              
+              <div
+                class="p-2"
               >
-                Export
-              </a>
+                <a
+                  class="btn btn-outline-primary px-3"
+                  href="/odata/Company/GetOrganizationalData"
+                >
+                  Export
+                </a>
+              </div>
+              
             </div>
-            
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        
+        <hr />
+        <div
+          class="row px-3"
+        >
+          <div
+            class="col-8"
+          >
+            <h4
+              class="load-type-title"
+            >
+              Pricing Data
+            </h4>
+          </div>
+          <div
+            class="col-4 text-right"
+          >
+            <div
+              class="d-flex justify-content-end"
+            >
+              <div
+                class="p-2"
+              >
+                <a
+                  class="btn btn-outline-primary px-3"
+                  href="#"
+                >
+                  Export
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -137,10 +217,12 @@ exports[`Data Management - Main - Load And Export File Card has access should sh
 exports[`Data Management - Main - Load And Export File Card no access should not show anything 1`] = `
 <pf-load-and-export-files-card
   canExportOrgData={[Function Observable]}
+  canExportPricingData={[Function Observable]}
   canImportOrgData="false"
   manualImportOrgDataSubscription={[Function Subscriber]}
   notificationStore={[Function Store]}
   permissionService={[Function Object]}
+  router={[Function Object]}
   settingsService={[Function Object]}
 >
   <div
@@ -163,36 +245,74 @@ exports[`Data Management - Main - Load And Export File Card no access should not
         </div>
       </div>
       
-      <div
-        class="row px-3"
-      >
+      <div>
         <div
-          class="col-8"
-        >
-          <h4
-            class="load-type-title"
-          >
-            Org Data
-          </h4>
-        </div>
-        <div
-          class="col-4 text-right"
+          class="row px-3"
         >
           <div
-            class="d-flex justify-content-end"
+            class="col-8"
           >
-            
-            <div
-              class="p-2"
+            <h4
+              class="load-type-title"
             >
-              <a
-                class="btn btn-outline-primary px-3"
-                href="/odata/Company/GetOrganizationalData"
+              Org Data
+            </h4>
+          </div>
+          <div
+            class="col-4 text-right"
+          >
+            <div
+              class="d-flex justify-content-end"
+            >
+              
+              <div
+                class="p-2"
               >
-                Export
-              </a>
+                <a
+                  class="btn btn-outline-primary px-3"
+                  href="/odata/Company/GetOrganizationalData"
+                >
+                  Export
+                </a>
+              </div>
+              
             </div>
-            
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        
+        <hr />
+        <div
+          class="row px-3"
+        >
+          <div
+            class="col-8"
+          >
+            <h4
+              class="load-type-title"
+            >
+              Pricing Data
+            </h4>
+          </div>
+          <div
+            class="col-4 text-right"
+          >
+            <div
+              class="d-flex justify-content-end"
+            >
+              <div
+                class="p-2"
+              >
+                <a
+                  class="btn btn-outline-primary px-3"
+                  href="#"
+                >
+                  Export
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -19,6 +20,7 @@ describe('Data Management - Main - Load And Export File Card', () => {
   let instance: LoadAndExportFilesCardComponent;
   let fixture: ComponentFixture<LoadAndExportFilesCardComponent>;
   let store: Store<fromAppNotificationsMainReducer.State>;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,6 +38,10 @@ describe('Data Management - Main - Load And Export File Card', () => {
         {
           provide: PermissionService,
           useValue: { CheckPermission: () => of(true)}
+        },
+        {
+          provide: Router,
+          useValue: { navigate: jest.fn() },
         }
       ],
       declarations: [ LoadAndExportFilesCardComponent ],
@@ -46,10 +52,7 @@ describe('Data Management - Main - Load And Export File Card', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.inject(Store);
-  });
-
-  it('should create', () => {
-    expect(fixture).toBeTruthy();
+    router = TestBed.inject(Router);
   });
 
   it('no access should not show anything', () => {
@@ -95,5 +98,13 @@ describe('Data Management - Main - Load And Export File Card', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedOrgDataNavigationAction);
     expect(store.dispatch).toHaveBeenCalledWith(expectedAppNotificationAction);
+  });
+
+  it('should tell the Router to navigate to the pricing loader download page', () => {
+    spyOn(router, 'navigate');
+
+    instance.handlePricingDataExportClick({preventDefault: jest.fn()});
+
+    expect(router.navigate).toHaveBeenCalledWith(['/pricing-loader/pricing-loaders-download']);
   });
 });
