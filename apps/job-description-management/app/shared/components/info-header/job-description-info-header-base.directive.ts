@@ -14,7 +14,7 @@ import * as fromJobDescriptionAppliesToActions from 'libs/features/job-descripti
 import { JobDescriptionAppliesToItem } from 'libs/features/job-description-management/models';
 
 @Directive()
-export abstract class JobDescriptionInfoHeaderBase implements OnInit, OnChanges {
+export abstract class JobDescriptionInfoHeaderBaseDirective implements OnInit, OnChanges {
   jobInfoFieldRows: any;
 
   jobDescriptionAppliesToItems$: Observable<JobDescriptionAppliesToItem[]>;

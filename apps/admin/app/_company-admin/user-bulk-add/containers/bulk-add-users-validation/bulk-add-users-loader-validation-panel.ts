@@ -9,7 +9,7 @@ import { ValidationError } from 'libs/models/admin/validation-error.model';
 
 import { toggleStateAnimation } from '../../animations/toggle-animations';
 import { BaseBulkAddUsersTogglePanelComponent } from '../base-bulk-add-users-toggle-panel';
-import { PanelState } from '../base-toggle-panel';
+import { PanelState } from '../base-toggle-panel.directive';
 import * as fromBulkAddUsersReducer from '../../reducers';
 import * as fromUserBulkAddActions from '../../actions/user-bulk-add.action';
 

@@ -13,7 +13,7 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 
 @Directive()
 @Injectable()
-export abstract class SearchBase {
+export abstract class SearchBaseDirective {
   numberOfResults$: Observable<number>;
   searchingFilter$: Observable<boolean>;
   searchingChildFilters$: Observable<boolean>;

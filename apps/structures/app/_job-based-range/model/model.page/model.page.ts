@@ -75,7 +75,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
     this.comparingSub = this.sharedStore.select(fromSharedJobBasedRangeReducer.getComparingModels).subscribe(flag => {
       this.comparingFlag = flag;
-    })
+    });
     this._Permissions = Permissions;
   }
 

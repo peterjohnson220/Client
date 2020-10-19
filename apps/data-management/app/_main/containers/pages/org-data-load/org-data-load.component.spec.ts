@@ -38,7 +38,7 @@ describe('OrgDataLoadComponent', () => {
         {
           provide: PermissionService,
           useValue: { CheckPermission: jest.fn(() => true) }
-        },],
+        }],
       schemas: [NO_ERRORS_SCHEMA]
     });
 

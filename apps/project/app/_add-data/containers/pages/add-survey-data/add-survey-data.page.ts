@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
-import { SearchBase } from 'libs/features/search/containers/search-base';
+import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 
@@ -24,7 +24,7 @@ import { staticFilters } from 'libs/features/survey-search/data';
   templateUrl: './add-survey-data.page.html',
   styleUrls: ['./add-survey-data.page.scss']
 })
-export class AddSurveyDataPageComponent extends SearchBase {
+export class AddSurveyDataPageComponent extends SearchBaseDirective {
   selectedCuts$: Observable<DataCutDetails[]>;
   addingData$: Observable<boolean>;
   pageShown$: Observable<boolean>;
