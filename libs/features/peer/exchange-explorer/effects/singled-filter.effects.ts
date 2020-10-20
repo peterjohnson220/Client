@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, switchMap, withLatestFrom, filter } from 'rxjs/operators';
 
 import { SearchFilter } from 'libs/models/payfactors-api';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
@@ -10,7 +10,8 @@ import { MultiSelectFilter } from 'libs/features/search/models';
 import { SearchExchangeAggregationsRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';
-import { InfiniteScrollActionContext, InfiniteScrollEffectsService } from 'libs/features/infinite-scroll/services/infinite-scroll-effects.service';
+import { InfiniteScrollEffectsService } from 'libs/features/infinite-scroll/services/infinite-scroll-effects.service';
+import { SearchFeatureIds } from 'libs/features/search/enums/search-feature-ids';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
@@ -29,9 +30,11 @@ export class SingledFilterEffects {
         this.searchStore.pipe(select(fromSearchReducer.getSingledFilterSearchValue)),
         this.searchStore.pipe(select(fromSearchReducer.getParentFilters)),
         this.searchStore.pipe(select(fromSearchReducer.getChildFilters)),
-        (infiniteScrollActionContext, filterContext, singledFilter, searchValue, filters, subFilters) => ({
-          infiniteScrollActionContext, filterContext, singledFilter, searchValue, filters, subFilters
+        this.searchStore.select(fromSearchReducer.getSearchFeatureId),
+        (infiniteScrollActionContext, filterContext, singledFilter, searchValue, filters, subFilters, searchFeatureId) => ({
+          infiniteScrollActionContext, filterContext, singledFilter, searchValue, filters, subFilters, searchFeatureId
         })),
+      filter((data) => data.searchFeatureId === SearchFeatureIds.ExchangeExplorer),
       switchMap(data => {
         const request: SearchExchangeAggregationsRequest = {
           ...data.filterContext,
