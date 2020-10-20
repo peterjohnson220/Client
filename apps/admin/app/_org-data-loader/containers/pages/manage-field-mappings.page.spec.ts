@@ -10,7 +10,7 @@ import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loa
 import {CompanySelectorComponent} from 'libs/features/company/company-selector/components';
 import { LoaderEntityStatus } from 'libs/features/org-data-loader/models';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
-import { generateMockConfigurationGroup, GenerateMockEmailRecipient, MappingModel } from 'libs/models/data-loads';
+import { GenerateMockEmailRecipient, MappingModel } from 'libs/models/data-loads';
 import { ConfigSettingsSelectorFactory } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
 import { CompanySettingsApiService } from 'libs/data/payfactors-api';
@@ -19,6 +19,7 @@ import * as fromOrgDataLoaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import { ManageFieldMappingsPageComponent } from './manage-field-mappings.page';
 import { LoaderType } from '../../constants';
+import { AbstractFeatureFlagService, FeatureFlagContext } from '../../../../../../libs/core/services/feature-flags';
 
 describe('ManageFieldMapperPageComponent', () => {
   let component: ManageFieldMappingsPageComponent;
@@ -56,6 +57,12 @@ describe('ManageFieldMapperPageComponent', () => {
     }
   }
 
+  class MockAbstractFeatureFlagService {
+    bindEnabled(key: string, defaultValue?: boolean, context?: FeatureFlagContext) {
+      jest.fn();
+    }
+  }
+
   beforeEach(() => {
     mockSftpDomainSelector = jest.fn();
     mockSftpPortSelector = jest.fn();
@@ -83,6 +90,10 @@ describe('ManageFieldMapperPageComponent', () => {
         {
           provide: CompanySettingsApiService,
           useClass: MockCompanySettingsApiService,
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useClass: MockAbstractFeatureFlagService
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]

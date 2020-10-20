@@ -32,7 +32,8 @@ import {
 import { OrgDataLoaderConfigurationSaveRequest } from 'libs/models/data-loads/request';
 import { ConfigSetting } from 'libs/models/security';
 import { SftpUserModel } from 'libs/models/Sftp';
-import { ConfigSettingsSelectorFactory, SettingsService } from 'libs/state/app-context/services';
+import { ConfigSettingsSelectorFactory} from 'libs/state/app-context/services';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
@@ -54,6 +55,8 @@ import { ACCEPTED_FILE_EXTENSIONS } from '../../constants/public-key-filename-co
 })
 export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   @ViewChild('companySelector') companySelector: CompanySelectorComponent;
+
+  benefitsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.BenefitsLoaderConfiguration, value: false };
   env = environment;
   payfactorsPaymarketDataFields: string[];
   payfactorsJobDataFields: string[];
@@ -105,7 +108,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
   emailRecipientsModalOpen$: Observable<boolean>;
   private configurationGroups$: Observable<ConfigurationGroup[]>;
   selectedConfigGroup: ConfigurationGroup;
-  private unsubscribe$ = new Subject();
+  private unsubscribe$ = new Subject<void>();
   loadType = LoadTypes.Sftp;
   primaryCompositeDataLoadType = CompositeDataLoadTypes.OrgData;
   sftpUserName$: Observable<string>;
@@ -186,6 +189,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     private configSettingsSelectorFactory: ConfigSettingsSelectorFactory,
     private companySettingsApiService: CompanySettingsApiService,
     private cdr: ChangeDetectorRef,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
@@ -247,6 +251,8 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       clientFileName: true,
       selectFile: true
     };
+
+    this.featureFlagService.bindEnabled(this.benefitsLoaderFeatureFlag, this.unsubscribe$);
 
     this.loaderSettingsLoading$.pipe(
       takeUntil(this.unsubscribe$)
@@ -397,7 +403,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCompanySelectorActions.GetCompanies());
   }
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
   }
 
   onPaymarketMappingComplete($event: LoaderEntityStatus) {
@@ -641,7 +647,7 @@ export class ManageFieldMappingsPageComponent implements OnInit, OnDestroy {
       || !this.structureMappingMappingComplete
       || !this.employeeMappingComplete
       || !this.subsidiariesMappingComplete
-      || (this.hasBenefitsAccess && !this.benefitMappingComplete)
+      || ((this.hasBenefitsAccess && this.benefitsLoaderFeatureFlag.value) && !this.benefitMappingComplete)
     );
 
     const part2 = this.delimiter === '';

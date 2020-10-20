@@ -136,7 +136,7 @@
           </kendo-tabstrip-tab>
 
           <kendo-tabstrip-tab title="Benefits"
-                              *ngIf="hasBenefitsAccess">
+                              *ngIf="hasBenefitsAccess && benefitsLoaderFeatureFlag.value">
             <ng-template kendoTabContent>
               <pf-field-mapper [payfactorsDataFields]="payfactorsBenefitsDataFields"
                                [loaderType]="templateReferenceConstants.LoaderType.Benefits"
