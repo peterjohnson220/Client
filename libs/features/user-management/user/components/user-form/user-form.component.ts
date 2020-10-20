@@ -170,7 +170,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       SsoId: this.f.ssoId.value,
       RoleId: this.f.userRole.value,
       Password: password,
-      SendWelcomeEmail: password ? this.f.sendWelcomeEmail.value : false,
+      SendWelcomeEmail: this.f.sendWelcomeEmail.value,
       UserSubsidiaryIds: this.selectedValues
     };
   }
