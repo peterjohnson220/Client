@@ -131,6 +131,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private isStructureMappingsFullReplace: boolean;
   private dateFormat: string;
   private isEmployeesFullReplace: boolean;
+  private isBenefitsFullReplace: boolean;
   private isActive: boolean;
   private isCompanyOnAutoloader: boolean;
   private loaderSaveCoordination: LoaderSaveCoordination;
@@ -229,12 +230,14 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.isBenefitsLoadEnabled = resp.isBenefitsLoadEnabled;
       this.isStructureMappingsLoadEnabled = resp.isStructureMappingsLoadEnabled;
       this.isEmployeesFullReplace = resp.isEmployeesFullReplace;
+      this.isBenefitsFullReplace = resp.isBenefitsFullReplace;
       this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
       this.isValidateOnly = resp.validateOnly;
 
       this.getEntityChoice(LoaderType.Employees).dateFormat = resp.dateFormat;
       this.getEntityChoice(LoaderType.Employees).isFullReplace = resp.isEmployeesFullReplace;
       this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = resp.isStructureMappingsFullReplace;
+      this.getEntityChoice(LoaderType.Benefits).isFullReplace = resp.isBenefitsFullReplace;
 
     });
 
@@ -468,9 +471,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
           this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsEmployeesFullReplace);
         const existingIsStructureMappingFullReplaceSetting =
           this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsStructureMappingsFullReplace);
-
+        const existingIsBenefitFullReplaceSetting =
+          this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsBenefitsFullReplace);
         this.getEntityChoice(LoaderType.Employees).dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : null;
         this.getEntityChoice(LoaderType.Employees).isFullReplace = existingIsEmpFullReplaceSetting ? existingIsEmpFullReplaceSetting.KeyValue === 'true' : null;
+        this.getEntityChoice(LoaderType.Benefits).isFullReplace =
+          existingIsBenefitFullReplaceSetting ? existingIsBenefitFullReplaceSetting.KeyValue === 'true' : null;
         this.getEntityChoice(LoaderType.StructureMapping).isFullReplace =
           existingIsStructureMappingFullReplaceSetting ? existingIsStructureMappingFullReplaceSetting.KeyValue === 'true' : null;
       }
@@ -707,6 +713,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         break;
       case LoaderType.Benefits:
         this.isBenefitsLoadEnabled = isEnabled;
+        this.isBenefitsFullReplace = $event.isFullReplace;
         break;
     }
 
@@ -772,6 +779,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     newLoaderSettings.isBenefitsLoadEnabled = this.isBenefitsLoadEnabled;
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
+    newLoaderSettings.isBenefitsFullReplace = this.isBenefitsFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
     newLoaderSettings.fileFormat = LoaderFileFormat.CSV;
     newLoaderSettings.validateOnly = this.isValidateOnly;

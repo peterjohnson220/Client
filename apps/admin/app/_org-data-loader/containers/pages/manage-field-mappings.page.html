@@ -145,6 +145,7 @@
                                [fieldMappings$]="companyMappings$"
                                [fieldMappingsLoading]="companyMappingsLoading$ | async"
                                [loadEnabled]="isBenefitsLoadEnabled"
+                               [isFullReplace]="isBenefitsFullReplace"
                                [visibleLoaderOptions]="visibleLoaderOptions"
                                (mappingComplete)="onBenefitsMappingComplete($event)"></pf-field-mapper>
             </ng-template>
