@@ -12,7 +12,7 @@
         <img height="55" width="220px" src="/client/total-rewards/assets/images/payfactors-logo.png" alt="payfactors-logo">
       </div>
       <hr>
-      <div class="verification-content">
+      <div *ngIf="(tokenStatus$ | async)?.obj === tokenStatus.Valid" class="verification-content">
         <h3 class="mb-4">Check your email</h3>
         <p class="info">Please enter the verification code we just sent to {{(userContext$ | async)?.EmailAddress}}</p>
         <p class="text-danger text-center validation-error"
@@ -47,6 +47,18 @@
         </button>
         <p class="font-weight-light	text-primary">All Rights Reserved Payfactors @ {{currentYear}} | Privacy Policy</p>
       </div>
+      </div>
+
+      <div *ngIf="(tokenStatus$ | async)?.obj === tokenStatus.NotFound" class="not-found-container d-flex flex-column align-items-center">
+        <p class="title">
+          It looks like your Total Rewards Statement is no longer available.
+        </p>
+        <p>
+          Please contact your company administrator for more information.
+        </p>
+        <div class="notfound-img-container">
+          <img src="/client/total-rewards/assets/images/verification-not-found.png"/>
+        </div>
       </div>
     </div>
   </div>

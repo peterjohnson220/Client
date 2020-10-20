@@ -55,3 +55,26 @@ hr {
     }
   }
 }
+
+.not-found-container {
+  .title {
+    font-weight: 500;
+    font-size: 16px;
+  }
+  p {
+    margin: 1rem 1rem 0;
+  }
+  .notfound-img-container {
+    padding-left: 4rem;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .notfound-img-container {
+    padding-left: 2rem !important;
+
+    img {
+      width: 250px;
+    }
+  }
+}
