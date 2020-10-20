@@ -67,6 +67,6 @@ export class GenerateStatementModalComponent implements OnInit, OnDestroy {
     if (!this.electronicDeliveryEnabled || this.selectedDeliveryMethod === DeliveryMethod.PDFExport) {
       return true;
     }
-    return this.emailTemplateComponent?.isValid;
+    return this.selectedDeliveryMethod === DeliveryMethod.Email && this.emailTemplateComponent?.isValid;
   }
 }
