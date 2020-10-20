@@ -183,6 +183,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
           return 'Calculated midpoint exceeded ' + this.metaData.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage +
             '%, midpoint was calculated at ' + this.metaData.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage + '%.';
         }
+        if (currentOverride.IncreaseCurrentByPercent) {
+          return 'No market data exists for this job so range was increased by ' + this.metaData.RangeAdvancedSetting.MissingMarketDataType.Percentage +
+            '% from published range.';
+        }
       }
     }
     // fallback to the normal message

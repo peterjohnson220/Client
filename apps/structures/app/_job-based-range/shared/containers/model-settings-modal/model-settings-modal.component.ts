@@ -203,7 +203,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
     if (!this.modelSettingsForm.valid) {
       if (this.modelSettingsForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled').value
-        && !this.modelSettingsForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage').valid) {
+        && !this.modelSettingsForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage').valid
+        || +this.modelSettingsForm.get('RangeAdvancedSetting.MissingMarketDataType.Type').value === MissingMarketDataTypes.IncreaseCurrentByPercent
+        && !this.modelSettingsForm.get('RangeAdvancedSetting.MissingMarketDataType.Percentage').valid
+      ) {
         this.activeTab = 'advancedModelingTab';
       } else {
         this.activeTab = 'modelTab';

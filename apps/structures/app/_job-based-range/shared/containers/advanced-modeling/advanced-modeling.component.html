@@ -22,7 +22,7 @@
       </label>
       <kendo-numerictextbox  class="form-control ie-fix input-percentage-field"
                              formControlName="Percentage"
-                             [ngClass]="{ 'is-invalid': attemptedSubmit && !preventMidsFromIncreasingMoreThanPercentPercentage.valid }"
+                             [ngClass]="{ 'is-invalid': attemptedSubmit && !preventMidsFromIncreasingMoreThanPercentPercentage.valid && preventMidsFromIncreasingMoreThanPercentEnabled.value }"
                              [format]="'n'"
                              [spinners]="false"
                              [decimals]="1"
@@ -46,7 +46,8 @@
                  id="LeaveValuesBlank"
                  value="{{getMissingMarketDataTypeValue('LeaveValuesBlank')}}"
                  formControlName="Type"
-                 class="control-margin">
+                 class="control-margin"
+                 (change)="handleRadioButtonChanged($event)">
           Leave midpoints blank if there is no market data
         </label>
       </div>
@@ -56,9 +57,37 @@
                  id="UsePublishedRange"
                  value="{{getMissingMarketDataTypeValue('UsePublishedRange')}}"
                  formControlName="Type"
-                 class="control-margin">
+                 class="control-margin"
+                 (change)="handleRadioButtonChanged($event)">
           Use published range if no market data exists
         </label>
+      </div>
+      <div class="form-group">
+        <label for="IncreaseCurrentByPercent">
+          <input type="radio"
+                 id="IncreaseCurrentByPercent"
+                 value="{{getMissingMarketDataTypeValue('IncreaseCurrentByPercent')}}"
+                 formControlName="Type"
+                 class="control-margin"
+                 (change)="handleRadioButtonChanged($event)">
+          Increase midpoint by
+        </label>
+        <kendo-numerictextbox  class="form-control ie-fix input-percentage-field"
+                               formControlName="Percentage"
+                               [ngClass]="{ 'is-invalid': attemptedSubmit && !missingMarketDataTypePercentage.valid && missingMarketDataTypeType.value == missingMarketDataTypesIncreaseCurrentByPercent }"
+                               [format]="'n'"
+                               [spinners]="false"
+                               [decimals]="2"
+                               [min]="0"
+                               [max]="100"
+                               [autoCorrect]="true">
+        </kendo-numerictextbox> %
+        <div class="text-danger"
+             *ngIf="missingMarketDataTypeType.value == missingMarketDataTypesIncreaseCurrentByPercent
+                    && !missingMarketDataTypePercentage.valid
+                    && (attemptedSubmit || missingMarketDataTypePercentage.touched)">
+          Range allowed is 0 to 100
+        </div>
       </div>
     </div>
   </div>
