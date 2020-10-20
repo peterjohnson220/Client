@@ -2,5 +2,6 @@
   [loading]="(statementLoading$ | async) || (employeeRewardsDataAsync$ | async)?.loading"
   [loadingError]="(statementLoadingError$ | async)"
   [employeeRewardsData]=" (employeeRewardsDataAsync$ | async)?.obj"
-  [statement]="statement$ | async">
+  [statement]="statement$ | async"
+  [showPayfactorsLogo]="false">
 </pf-total-rewards-statement-view>
