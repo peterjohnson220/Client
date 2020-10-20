@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { TokenValidationResponse } from 'libs/models/payfactors-api/total-rewards/response';
+import { TokenStatus, TokenValidationResponse } from 'libs/models/payfactors-api/total-rewards/response';
 
 export const REQUEST_TOKEN = '[Total Rewards/Delivery Page] Request Token';
 export const REQUEST_TOKEN_SUCCESS = '[Total Rewards/Delivery Page] Request Token Success';
@@ -16,7 +16,7 @@ export class RequestToken implements Action {
 
 export class RequestTokenSuccess implements Action {
   readonly type = REQUEST_TOKEN_SUCCESS;
-  constructor(public payload: { resent: boolean }) {}
+  constructor(public payload: { tokenStatus: TokenStatus, resent: boolean }) {}
 }
 
 export class RequestTokenError implements Action {

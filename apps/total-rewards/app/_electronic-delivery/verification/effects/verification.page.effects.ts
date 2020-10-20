@@ -22,7 +22,7 @@ export class VerificationPageEffects {
           Resend: action.payload.resend,
           SuppressEmail: action.payload.suppressEmail
         }).pipe(
-          map(() => new fromPageActions.RequestTokenSuccess({ resent: action.payload.resend })),
+          map((response) => new fromPageActions.RequestTokenSuccess({ tokenStatus: response.Status, resent: action.payload.resend })),
           catchError(error => of(new fromPageActions.RequestTokenError()))
         ))
     );

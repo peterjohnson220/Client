@@ -33,6 +33,7 @@ export function reducer(state = initialState, action: fromActions.VerificationPa
     case fromActions.REQUEST_TOKEN_SUCCESS: {
       const tokenStatus = cloneDeep(state.tokenStatus);
       tokenStatus.loading = false;
+      tokenStatus.obj = action.payload.tokenStatus;
 
       return {
         ...state,
