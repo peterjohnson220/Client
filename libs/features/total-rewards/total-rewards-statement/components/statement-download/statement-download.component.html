@@ -2,7 +2,8 @@
   <kendo-pdf-export class="position-absolute w-100"
                     [paperSize]="'Letter'"
                     [scale]=".7"
-                    [creator]="'Payfactors'">
+                    [creator]="'Payfactors'"
+                    forcePageBreak=".page-break">
     <pf-total-rewards-statement
       [statement]="statement"
       [employeeRewardsData]="employeeRewardsData"

@@ -23,7 +23,7 @@ export class StatementDownloadComponent {
 
   private getDefaultPdfName(): string {
     return (this.statement.StatementName + '_' + this.getEmployeeDisplayName() + '_' +
-      formatDate(new Date(), 'MMMddyyyy', 'en')).replace(' ', '_');
+      formatDate(new Date(), 'MMMddyyyy', 'en')).replace(' ', '_') + '.pdf';
   }
 
   public downloadPdf(fileName?: string): void {

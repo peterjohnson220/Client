@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { TotalRewardsStatementModule } from 'libs/features/total-rewards';
+import * as fromFaIcons from 'libs/features/total-rewards/total-rewards-statement/fa-icons';
 
 import { StatementViewComponent } from './components';
 
@@ -29,5 +30,7 @@ import { StatementViewComponent } from './components';
   ]
 })
 export class SharedModule {
-  constructor() {}
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
 }
