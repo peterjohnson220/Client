@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
+import { formatDate } from '@angular/common';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
 import { Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
@@ -31,6 +32,10 @@ export class StatementViewComponent {
 
   public downloadStatement(): void {
     this.statementDownload.downloadPdf();
+  }
+
+  get currentdate(): string {
+    return formatDate(new Date(), 'MM/dd/yyyy', 'en');
   }
 
 }

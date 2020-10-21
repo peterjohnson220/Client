@@ -1,5 +1,5 @@
 <ng-container *ngIf="!!employeeRewardsData && !!statement">
-  <pf-page-with-title-bar>
+  <pf-page-with-title-bar class = "desktop">
       <ng-container page-title>
         {{statementTitle}}
     </ng-container>
@@ -9,7 +9,7 @@
               [attr.data-qa-id]="'btn-downloadPdf'"
               (click)="downloadStatement()"
               ngbTooltip="Export">
-        <fa-icon [icon]="'download'"  aria-hidden="true"></fa-icon>
+        <fa-icon [icon]="'download'" aria-hidden="true"></fa-icon>
       </button>
     </ng-container>
     <ng-container page-content>
@@ -32,7 +32,27 @@
       </div>
     </ng-container>
   </pf-page-with-title-bar>
-
+  <div class="d-flex justify-content-center h-100 mobile">
+    <div class="bg-white h-100">
+      <img height="55" width="220px" class="mobile-img" src="/client/total-rewards/assets/images/payfactors-logo.png" alt="payfactors-logo">
+      <hr>
+      <div class="mobile-text">
+        <div>Your Total Rewards Statement is ready for review! Tap "View Statement" to see more.</div>
+        <div class="mobile-title">{{statement.StatementName}}</div>
+        <div class="mobile-middle-text">
+          <div>{{employeeRewardsData.EmployeeFirstName}} {{employeeRewardsData.EmployeeLastName}}</div>
+          <div>Effective Date: {{currentdate}}</div>
+        </div>
+      </div>
+      <button type="button"
+              class="mobile-btn btn btn-primary"
+              [attr.data-qa-id]="'btn-mobile-downloadPdf'"
+              (click)="downloadStatement()"
+              ngbTooltip="Export">
+        View Statement
+      </button>
+    </div>
+  </div>
   <pf-total-rewards-statement-download
     [statement]="statement"
     [employeeRewardsData]="employeeRewardsData">
