@@ -195,8 +195,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       // Set value for control point, range spread min and max, pay type
       this.updateRangeTypeSetting();
     } else {
-      // For structures with no range types PayType is the same as ControlPoint with no MRP posfix
-      const payType = this.modelSettingsForm.controls['ControlPoint'].value.replace('MRP', '');
+      // For structures with no range types PayType is the same as ControlPoint with no MRP postfix
+      const payType = this.modelSettingsForm.controls['ControlPoint'].value !== null
+        ? this.modelSettingsForm.controls['ControlPoint'].value.replace('MRP', '')
+        : null;
       this.modelSettingsForm.controls['PayType'].setValue(payType);
       this.modelSetting = this.modelSettingsForm.getRawValue();
     }
