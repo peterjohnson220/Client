@@ -11,6 +11,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'environments/environment';
 import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
 import { FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import {
     AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
@@ -31,7 +32,6 @@ import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, Loader
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
-import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -56,7 +56,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   loadOptions: EntityChoice[] = [];
   userMappings: KeyValue<number, string>[];
 
-  benefitsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.BenefitsLoaderConfiguration, value: false};
+  benefitsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.BenefitsLoaderConfiguration, value: false };
   private totalTypesToLoad = 0;
   private unsubscribe$ = new Subject<void>();
   private companies$: Observable<CompanySelectorItem[]>;
@@ -158,10 +158,10 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   benefitsEnabled = false;
 
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
-              private notificationStore: Store<fromAppNotificationsMainReducer.State>,
-              private cdr: ChangeDetectorRef,
-              private permissions: PermissionService,
-              private featureFlagService: AbstractFeatureFlagService) {
+    private notificationStore: Store<fromAppNotificationsMainReducer.State>,
+    private cdr: ChangeDetectorRef,
+    private permissions: PermissionService,
+    private featureFlagService: AbstractFeatureFlagService) {
 
     this.userContext$ = this.mainStore.select(fromRootState.getUserContext);
     this.companies$ = this.mainStore.select(fromCompanyReducer.getCompanies);
@@ -469,6 +469,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.getEntityChoice(LoaderType.Employees).dateFormat = null;
       this.getEntityChoice(LoaderType.Employees).isFullReplace = null;
       this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = null;
+      this.getEntityChoice(LoaderType.Benefits).isFullReplace = null;
     } else {
       if (this.existingLoaderSettings && this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.Delimiter)) {
         this.selectedDelimiter = this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.Delimiter).KeyValue;
