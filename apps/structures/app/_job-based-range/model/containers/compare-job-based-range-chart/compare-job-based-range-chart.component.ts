@@ -698,7 +698,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
 
   private refreshChartLegendPosition(scrolledContent: ContentScrollEvent) {
     if (scrolledContent && this.chartInstance) {
-      this.initialY = this.chartInstance.legend.options.y;
+      this.initialY = this.chartInstance.legend.options.y + 10;
       this.chartInstance.legend.group.attr({
         translateY: this.initialY + scrolledContent.scrollTop
       });
