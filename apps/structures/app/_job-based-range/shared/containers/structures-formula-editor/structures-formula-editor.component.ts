@@ -65,9 +65,13 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
 
   subscriptions: Subscription[] = [];
 
-  get formControls() { return this.structuresFormulaForm.controls; }
+  get formControls() {
+    return this.structuresFormulaForm.controls;
+  }
 
-  get FieldName() { return ( this.structuresFormulaForm.get('FieldName') ); }
+  get FieldName() {
+    return (this.structuresFormulaForm.get('FieldName'));
+  }
 
   constructor(public store: Store<fromJobBasedRangeReducer.State>) {
     this.formulaFieldSuggestions$ = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaFieldSuggestions));
@@ -97,11 +101,10 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     this.buildForm();
 
     const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(this.metadata?.RangeDistributionTypeId);
-    this.store.dispatch(new fromFieldActions.GetAvailableReportFieldsByPageViewId({pageViewId: modelPageViewId}));
+    this.store.dispatch(new fromFieldActions.GetAvailableReportFieldsByPageViewId({ pageViewId: modelPageViewId }));
     this.baseEntity$ = this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, modelPageViewId));
 
     this.subscriptions.push(
-
       this.structuresFormulaForm.valueChanges.subscribe(value => {
         this.onChange(value);
         this.onTouched();
@@ -120,24 +123,24 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
 
       this.formulaValid$.subscribe(result => {
         this.isValidFormula = result;
-        if (this.isValidFormula) {
+        if (this.isValidFormula && this.structuresFormulaForm.controls['FieldName'].valid) {
           this.structuresFormulaForm.controls['Formula'].setValue(this.formulaFieldObj.Formula);
           this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id }));
         }
       }),
 
       this.formulaChanged.pipe(debounceTime(this.VALIDATE_DEBOUNCE_TIME))
-           .subscribe((value) => this.handleFormulaChangedAfterDebounceTime(value))
-      );
+        .subscribe((value) => this.handleFormulaChangedAfterDebounceTime(value))
+    );
 
-      this.saveFormulaFieldSuccess$.subscribe(s => this.successfulFormulaSave = s);
+    this.saveFormulaFieldSuccess$.subscribe(s => this.successfulFormulaSave = s);
 
-      this.savedFormulaField$.subscribe(f => {
-        if (!!f) {
-          this.formulaFieldObj = cloneDeep(this.mapFormulaFieldObject(f));
-          this.structuresFormulaForm.controls['FormulaId'].setValue(f.FormulaId);
-        }
-      });
+    this.savedFormulaField$.subscribe(f => {
+      if (!!f) {
+        this.formulaFieldObj = cloneDeep(this.mapFormulaFieldObject(f));
+        this.structuresFormulaForm.controls['FormulaId'].setValue(f.FormulaId);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -149,8 +152,8 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     this.structuresFormulaForm = new FormGroup({
       'FormulaId': new FormControl(this.formulaFieldObj.FormulaId, [Validators.required]),
       'Formula': new FormControl({ value: this.formulaFieldObj.Formula }, [Validators.required]),
-      'FieldName': new FormControl( { value: this.formulaFieldObj.FieldName, disabled: false },
-        [ Validators.required, PfValidators.minLengthTrimWhitespace(1), Validators.maxLength(this.maxFieldNameLength)]),
+      'FieldName': new FormControl({ value: this.formulaFieldObj.FieldName, disabled: false },
+        [Validators.required, PfValidators.minLengthTrimWhitespace(1), Validators.maxLength(this.maxFieldNameLength)]),
       'IsPublic': new FormControl({ value: this.formulaFieldObj.IsPublic })
     });
   }
@@ -228,7 +231,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   }
 
   isValid(): boolean {
-    return this.structuresFormulaForm.valid && !!this.formulaFieldObj.Formula && this.isValidFormula && !!this.formulaFieldObj?.FormulaId ;
+    return this.structuresFormulaForm.valid && !!this.formulaFieldObj.Formula && this.isValidFormula && !!this.formulaFieldObj?.FormulaId;
   }
 
   get value(): FormulaFieldModalObj {
@@ -242,6 +245,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   }
 
   onChange: any = () => {};
+
   onTouched: any = () => {};
 
   writeValue(value) {
@@ -266,5 +270,4 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
 
   setDisabledState?(isDisabled: boolean): void {
   }
-
 }
