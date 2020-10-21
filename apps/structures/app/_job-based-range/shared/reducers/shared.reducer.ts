@@ -18,6 +18,7 @@ export interface State {
   currentRangeGroup: AsyncStateObj<any>;
   gettingData: AsyncStateObj<any>;
   comparingModels: boolean;
+  compareEnabled: boolean;
 }
 
 const initialState: State = {
@@ -40,7 +41,8 @@ const initialState: State = {
   rangeOverrides: [],
   currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
   gettingData: generateDefaultAsyncStateObj<any>(null),
-  comparingModels: false
+  comparingModels: false,
+  compareEnabled: false,
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -203,6 +205,51 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         comparingModels: false
       };
     }
+    case fromSharedActions.ENABLE_COMPARE_FLAG: {
+        return {
+          ...state,
+          compareEnabled: true
+        };
+    }
+    case fromSharedActions.DISABLE_COMPARE_FLAG: {
+      return {
+        ...state,
+        compareEnabled: false
+      };
+    }
+    case fromSharedActions.CONVERT_CURRENCY_AND_RATE: {
+      const convertJobRangeDataClone = cloneDeep(state.gettingData);
+
+      convertJobRangeDataClone.loading = true;
+      convertJobRangeDataClone.obj = null;
+      convertJobRangeDataClone.loadingError = false;
+
+      return {
+        ...state,
+        gettingData: convertJobRangeDataClone
+      };
+    }
+    case fromSharedActions.CONVERT_CURRENCY_AND_RATE_SUCCESS: {
+      const convertJobRangeDataClone = cloneDeep(state.gettingData);
+
+      convertJobRangeDataClone.loading = false;
+      convertJobRangeDataClone.obj = action.payload;
+
+      return {
+        ...state,
+        gettingData: convertJobRangeDataClone
+      };
+    }
+    case fromSharedActions.CONVERT_CURRENCY_AND_RATE_ERROR: {
+      const convertJobRangeDataClone = cloneDeep(state.gettingData);
+
+      convertJobRangeDataClone.loading = false;
+      convertJobRangeDataClone.loadingError = true;
+      return {
+        ...state,
+        gettingData: convertJobRangeDataClone
+      };
+    }
     default:
       return state;
   }
@@ -215,6 +262,7 @@ export const getRangeOverrides = (state: State) => state.rangeOverrides;
 export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
 export const getData = (state: State) => state.gettingData;
 export const getComparingModels = (state: State) => state.comparingModels;
+export const getCompareEnabled = (state: State) => state.compareEnabled;
 
 export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {
   return settings[name] = setting;

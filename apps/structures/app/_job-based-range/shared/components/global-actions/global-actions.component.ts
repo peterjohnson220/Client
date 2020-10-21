@@ -14,7 +14,6 @@ import * as fromSharedJobBasedRangeReducer from '../../reducers';
 })
 export class GlobalActionsComponent {
   @Input() metadata: RangeGroupMetadata;
-  @Input() currentRangeGroupId: number;
   @Output() addJobsClicked = new EventEmitter();
   @Output() publishModelClicked = new EventEmitter();
   @Output() modelSettingsClicked = new EventEmitter();

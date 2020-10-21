@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
+
+import * as fromSharedJobBasedRangeReducer from '../../reducers';
 
 @Component({
   selector: 'pf-model-settings-btn',
@@ -11,12 +15,19 @@ export class ModelSettingsBtnComponent {
   @ViewChild('p') public p: any;
 
   @Input() metadata: RangeGroupMetadata;
-  @Input() currentRangeGroupId: number;
   @Output() modelSettingsClicked = new EventEmitter();
   @Output() duplicateModelClicked = new EventEmitter();
   @Output() compareModelClicked = new EventEmitter();
 
-  constructor() {}
+  compareEnabled$: Observable<boolean>;
+  comparingFlag$: Observable<boolean>;
+
+  constructor(
+    private store: Store<fromSharedJobBasedRangeReducer.State>
+  ) {
+    this.compareEnabled$ = this.store.select(fromSharedJobBasedRangeReducer.getCompareEnabled);
+    this.comparingFlag$ = this.store.select(fromSharedJobBasedRangeReducer.getComparingModels);
+  }
 
   showModelSettings() {
     this.modelSettingsClicked.emit();
@@ -32,4 +43,12 @@ export class ModelSettingsBtnComponent {
     this.compareModelClicked.emit();
     this.p.close();
   }
+
+  getToolTipContent(enabled: boolean) {
+    if (enabled) {
+      return null;
+    }
+    return 'To compare this model it must have the same pay type and range type as the current published model.';
+  }
+
 }

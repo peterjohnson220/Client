@@ -73,6 +73,9 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
   xCoordinateOffest = .25;
   nullDataObject: any;
   singleDataRowFlag: boolean;
+  groupFieldSelected = false;
+  selectedFields: any[];
+  selectedFieldsSubscription: Subscription;
 
   constructor(
     public store: Store<any>,
@@ -130,6 +133,14 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
       if (data.obj && this.rate && this.currency) {
         this.compareData = data.obj;
         this.processChartData();
+      }
+    });
+
+    this.selectedFieldsSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
+      if (fields) {
+        this.selectedFields = fields;
+        const anyGroupField = this.selectedFields.find(f => f.Group && f.IsSelected);
+        this.groupFieldSelected = !!anyGroupField;
       }
     });
 
@@ -291,7 +302,6 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
 
       // add any outliers
       this.processAndAddOutliers(i, currentRow, compareRow);
-
     }
     // set the min/max
     this.chartInstance.yAxis[0].setExtremes(this.chartMin, this.chartMax, false);
@@ -724,6 +734,7 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.filterPanelSub.unsubscribe();
     this.currentRangeGroupSub.unsubscribe();
     this.gridScrolledSub.unsubscribe();
+    this.selectedFieldsSubscription.unsubscribe();
   }
 
 }
