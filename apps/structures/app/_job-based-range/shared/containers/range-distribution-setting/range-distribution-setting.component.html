@@ -30,7 +30,9 @@
           (filterChange)="handlePayTypeFilterChange($event)"
           (selectionChange)="handlePayTypeSelectionChange($event)">
       </kendo-combobox>
-      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="payTypeTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="payTypeTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
       <div class="col-3"></div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
@@ -39,37 +41,40 @@
     </div>
     <div class="form-group row">
       <label class="col-3 mt-2">Minimum</label>
-        <kendo-numerictextbox class="form-control col-4" *ngIf="showMinSpread"
-                              id="range-spread-min"
-                              placeholder="Minimum"
-                              formControlName="Minimum"
-                              [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.Minimum.invalid }"
-                              [format]="'n'"
-                              [spinners]="false"
-                              [decimals]="2"
-                              [max]="200"
-                              [min]="1"
-                              [autoCorrect]="true">
-        </kendo-numerictextbox>
-        <kendo-combobox id="min-percentile" class="form-control col-4" *ngIf="!showMinSpread"
-                        formControlName="MinPercentile"
-                        [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.MinPercentile.invalid }"
-                        [loading]="controlPointsAsyncObj.loading"
-                        [data]="controlPointRanges"
-                        [textField]="'RangeDisplayName'"
-                        [valueField]="'FieldName'"
-                        [clearButton]="false"
-                        [valuePrimitive]="true"
-                        [allowCustom]="false"
-                        [placeholder]="'Select Min'"
-                        [filterable]="false">
-        </kendo-combobox>
-        <fa-icon placement="top" [ngbTooltip]="minSpreadTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
-<!--        <a class="inline-link" href="javascript:void(0)" tabindex="-1">Calculate</a>-->
-        <a class="inline-link" href="javascript:void(0)" tabindex="-1" (click)="this.handleMinMaxPercentileToggle(true)">
+      <kendo-numerictextbox class="form-control col-4" *ngIf="showMinSpread"
+                            id="range-spread-min"
+                            placeholder="Minimum"
+                            formControlName="Minimum"
+                            [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.Minimum.invalid }"
+                            [format]="'n'"
+                            [spinners]="false"
+                            [decimals]="2"
+                            [max]="200"
+                            [min]="1"
+                            [autoCorrect]="true">
+      </kendo-numerictextbox>
+      <kendo-combobox id="min-percentile" class="form-control col-4" *ngIf="!showMinSpread"
+                      formControlName="MinPercentile"
+                      [ngClass]="{ 'is-invalid': attemptedSubmit && formControls.MinPercentile.invalid }"
+                      [loading]="controlPointsAsyncObj.loading"
+                      [data]="controlPointRanges"
+                      [textField]="'RangeDisplayName'"
+                      [valueField]="'FieldName'"
+                      [clearButton]="false"
+                      [valuePrimitive]="true"
+                      [allowCustom]="false"
+                      [placeholder]="'Select Min'"
+                      [filterable]="false">
+      </kendo-combobox>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [ngbTooltip]="minSpreadTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="inline-link-wrapper">
+        <a href="javascript:void(0)" tabindex="-1" (click)="this.handleMinMaxPercentileToggle(true)">
           <ng-container *ngIf="!showMinSpread">Enter Range Spread</ng-container>
           <ng-container *ngIf="showMinSpread">Enter Percentile Amount</ng-container>
         </a>
+      </div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         <ng-container *ngIf="!showMinSpread">Please select a range for minimum.</ng-container>
@@ -92,7 +97,9 @@
           [placeholder]="'Select First Tertile'"
           [filterable]="false">
       </kendo-combobox>
-      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
       <div class="col-3"></div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
@@ -114,7 +121,9 @@
           [placeholder]="'Select First Quartile'"
           [filterable]="false">
       </kendo-combobox>
-      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
       <div class="col-3"></div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
@@ -136,7 +145,9 @@
           [placeholder]="'Select First Quintile'"
           [filterable]="false">
       </kendo-combobox>
-      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
       <div class="col-3"></div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
@@ -158,7 +169,9 @@
           [placeholder]="'Select Second Quintile'"
           [filterable]="false">
       </kendo-combobox>
-      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
       <div class="col-3"></div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
@@ -189,13 +202,17 @@
           [attemptedSubmit]="attemptedSubmit">
         </pf-structures-formula-editor>
       </div>
-      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
-      <div class="col-3">
-        <a class="inline-link" href="javascript:void(0)" tabindex="-1" (click)="this.handleMidToggle()">
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="inline-link-wrapper">
+        <a href="javascript:void(0)" tabindex="-1" (click)="this.handleMidToggle()">
           <ng-container *ngIf="showMidFormula">Enter Percentile</ng-container>
           <ng-container *ngIf="!showMidFormula">Calculate</ng-container>
         </a>
       </div>
+      <div class="col-3"></div>
+      <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         Please select a midpoint.
       </div>
@@ -215,7 +232,9 @@
           [placeholder]="'Select Second Tertile'"
           [filterable]="false">
       </kendo-combobox>
-      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
       <div class="col-3"></div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
@@ -237,7 +256,9 @@
           [placeholder]="'Select Second Quartile'"
           [filterable]="false">
       </kendo-combobox>
-      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
       <div class="col-3"></div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
@@ -259,7 +280,9 @@
           [placeholder]="'Select Third Quintile'"
           [filterable]="false">
       </kendo-combobox>
-      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
       <div class="col-3"></div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
@@ -281,7 +304,9 @@
           [placeholder]="'Select Fourth Quintile'"
           [filterable]="false">
       </kendo-combobox>
-      <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" class="info-icon no-inline-links" icon="info-circle" aria-hidden="true"></fa-icon>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [hidden]="enablePercentilesAndRangeSpreads" [ngbTooltip]="fieldsDisabledTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
       <div class="col-3"></div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
@@ -314,12 +339,15 @@
                       [placeholder]="'Select Max'"
                       [filterable]="false">
       </kendo-combobox>
-      <fa-icon placement="top" [ngbTooltip]="maxSpreadTooltip" class="info-icon" icon="info-circle" aria-hidden="true"></fa-icon>
-<!--      <a class="inline-link" href="javascript:void(0)" tabindex="-1">Calculate</a>-->
-      <a class="inline-link" href="javascript:void(0)" tabindex="-1" (click)="this.handleMinMaxPercentileToggle(false)">
-        <ng-container *ngIf="!showMaxSpread">Enter Range Spread</ng-container>
-        <ng-container *ngIf="showMaxSpread">Enter Percentile Amount</ng-container>
-      </a>
+      <div class="fa-icon-wrapper">
+        <fa-icon placement="top" [ngbTooltip]="maxSpreadTooltip" icon="info-circle" aria-hidden="true"></fa-icon>
+      </div>
+      <div class="inline-link-wrapper">
+        <a href="javascript:void(0)" tabindex="-1" (click)="this.handleMinMaxPercentileToggle(false)">
+          <ng-container *ngIf="!showMaxSpread">Enter Range Spread</ng-container>
+          <ng-container *ngIf="showMaxSpread">Enter Percentile Amount</ng-container>
+        </a>
+      </div>
       <div class="col-3"></div>
       <div class="col-7 invalid-feedback">
         <ng-container *ngIf="!showMaxSpread">Please select a range for maximum.</ng-container>
