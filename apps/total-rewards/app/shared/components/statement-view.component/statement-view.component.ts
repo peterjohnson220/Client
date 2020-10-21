@@ -17,6 +17,7 @@ export class StatementViewComponent {
   @Input() loading: boolean;
   @Input() loadingError: boolean;
   @Input() employeeRewardsData: EmployeeRewardsData;
+  @Input() showPayfactorsLogo = true;
   mode = StatementModeEnum.Preview;
 
   constructor() { }

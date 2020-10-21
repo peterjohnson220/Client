@@ -1,4 +1,7 @@
 <ng-container *ngIf="!!employeeRewardsData && !!statement">
+  <span *ngIf="showPayfactorsLogo" class="navbar-brand logo mr-auto">
+    <img src="/client/total-rewards/assets/payfactors-transparent.png"/>
+  </span>
   <pf-page-with-title-bar class = "desktop">
       <ng-container page-title>
         {{statementTitle}}

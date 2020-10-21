@@ -2,6 +2,15 @@
   border: 2rem solid #e8e8e8;
 }
 
+.logo {
+  position: absolute;
+  top: 0;
+  color: #fff;
+  z-index: 1031;
+  img {
+    height: 35px;
+}
+  
 .mobile{
   display: none;
 }
@@ -46,5 +55,4 @@
   .mobile-btn{
     width: 75%;
   }
-
 }

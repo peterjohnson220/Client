@@ -120,8 +120,10 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromImportRequestActions.SwitchAssociationImportModalOpenAction(true));
     }
 
-    toggleGrid(num: number) {
+    toggleGrid(showCompanyJobs: boolean) {
+      if(this.showCompanyJobs != showCompanyJobs) {
         this.showCompanyJobs = !this.showCompanyJobs;
+      }
     }
 
     // Lifecycle

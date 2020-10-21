@@ -5,9 +5,9 @@ import { ImportDataType, OrgDataEntityType, TransferMethodTypes } from 'libs/con
 import { LoaderFileFormat, LoaderSettingsKeys } from 'libs/features/org-data-loader/constants';
 import { LoaderSettings, OrgDataLoadHelper } from 'libs/features/org-data-loader/helpers';
 import {
-    AuthenticationTypeResponse, ConnectionPostRequest, ConnectionSummaryResponse, CredentialsPackage, FieldMappingsDTO, LoaderSetting, LoaderSettingsDTO,
-    MappingPackage, MappingPayloadItem, PatchProperty, PayfactorsEntityFieldsResponse, ProviderEntitiyFieldsResponse, ProviderResponse,
-    ProviderSupportedEntityDTO, SyncScheduleDtoModel, TransferMethodResponse, TransferScheduleSummary, UserContext
+    AuthenticationTypeResponse, ConnectionPostRequest, ConnectionSummaryResponse, CredentialsPackage, FieldMappingsDTO, LoaderSetting,
+    LoaderSettingsDTO, MappingPackage, MappingPayloadItem, PatchProperty, PayfactorsEntityFieldsResponse, ProviderEntitiyFieldsResponse,
+    ProviderResponse, ProviderSupportedEntityDTO, SyncScheduleDtoModel, TransferMethodResponse, TransferScheduleSummary, UserContext
 } from 'libs/models';
 
 import {
@@ -181,7 +181,7 @@ export class PayfactorsApiModelMapper {
             name: field.AssociatedEntity[0].FieldName
           }
         })
-      )
+        )
     };
   }
 
@@ -305,7 +305,8 @@ export class PayfactorsApiModelMapper {
     fileFormat: LoaderFileFormat.JSON,
     isEmployeesFullReplace: summary.fullReplaceModes.employeesFullReplace,
     isStructureMappingsFullReplace: summary.fullReplaceModes.structureMappingsFullReplace,
-    validateOnly: summary.validationMode,
+    isBenefitsFullReplace: summary.fullReplaceModes.benefitsFullReplace,
+    validateOnly: summary.validationMode
   })
 
   static getLoaderSettingsDtoForConnection = (userContext: UserContext, summary: ConnectionSummary): LoaderSettingsDTO => ({

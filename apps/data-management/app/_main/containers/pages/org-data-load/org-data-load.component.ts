@@ -10,7 +10,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from 'environments/environment';
 import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
-import { PermissionService } from 'libs/core';
+import { FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core';
 import * as fromAppNotificationsActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import {
     AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
@@ -31,6 +31,7 @@ import { ConfigurationGroup, EmailRecipientModel, LoaderSaveCoordination, Loader
 import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 import { LoadingProgressBarModel } from 'libs/ui/common/loading/models';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import * as fromDataManagementMainReducer from '../../../reducers';
 import * as fromOrganizationalDataActions from '../../../actions/organizational-data-page.action';
@@ -55,8 +56,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   loadOptions: EntityChoice[] = [];
   userMappings: KeyValue<number, string>[];
 
+  benefitsLoaderFeatureFlag: RealTimeFlag = { key: FeatureFlags.BenefitsLoaderConfiguration, value: false};
   private totalTypesToLoad = 0;
-  private unsubscribe$ = new Subject();
+  private unsubscribe$ = new Subject<void>();
   private companies$: Observable<CompanySelectorItem[]>;
   private selectedCompany$: Observable<CompanySelectorItem>;
   private companyHasBenefits$: Observable<boolean>;
@@ -131,6 +133,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   private isStructureMappingsFullReplace: boolean;
   private dateFormat: string;
   private isEmployeesFullReplace: boolean;
+  private isBenefitsFullReplace: boolean;
   private isActive: boolean;
   private isCompanyOnAutoloader: boolean;
   private loaderSaveCoordination: LoaderSaveCoordination;
@@ -152,12 +155,13 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     title: 'Uploading Files...'
   };
 
-  hasBenefitsAccess = false;
+  benefitsEnabled = false;
 
   constructor(private mainStore: Store<fromDataManagementMainReducer.State>,
-    private notificationStore: Store<fromAppNotificationsMainReducer.State>,
-    private cdr: ChangeDetectorRef,
-    private permissions: PermissionService) {
+              private notificationStore: Store<fromAppNotificationsMainReducer.State>,
+              private cdr: ChangeDetectorRef,
+              private permissions: PermissionService,
+              private featureFlagService: AbstractFeatureFlagService) {
 
     this.userContext$ = this.mainStore.select(fromRootState.getUserContext);
     this.companies$ = this.mainStore.select(fromCompanyReducer.getCompanies);
@@ -180,6 +184,8 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     this.createdConfigurationGroup$ = this.mainStore.select(fromDataManagementMainReducer.getCreatedConfigurationGroup);
     this.companySettings$ = this.mainStore.select(fromRootState.getCompanySettings);
     this.companyHasBenefits$ = this.mainStore.select(fromCompanyReducer.companyHasBenefits);
+
+    this.featureFlagService.bindEnabled(this.benefitsLoaderFeatureFlag, this.unsubscribe$);
 
     this.selectedCompany$.pipe(
       takeUntil(this.unsubscribe$)
@@ -229,12 +235,14 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.isBenefitsLoadEnabled = resp.isBenefitsLoadEnabled;
       this.isStructureMappingsLoadEnabled = resp.isStructureMappingsLoadEnabled;
       this.isEmployeesFullReplace = resp.isEmployeesFullReplace;
+      this.isBenefitsFullReplace = resp.isBenefitsFullReplace;
       this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
       this.isValidateOnly = resp.validateOnly;
 
       this.getEntityChoice(LoaderType.Employees).dateFormat = resp.dateFormat;
       this.getEntityChoice(LoaderType.Employees).isFullReplace = resp.isEmployeesFullReplace;
       this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = resp.isStructureMappingsFullReplace;
+      this.getEntityChoice(LoaderType.Benefits).isFullReplace = resp.isBenefitsFullReplace;
 
     });
 
@@ -328,8 +336,9 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.unsubscribe$)
       ).subscribe(f => {
-        this.hasBenefitsAccess = f;
-        this.loadOptions = getEntityChoicesForOrgLoader(this.hasBenefitsAccess);
+        const benefitsLoaderFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.BenefitsLoaderConfiguration, false);
+        this.benefitsEnabled = f && benefitsLoaderFeatureFlagEnabled;
+        this.loadOptions = getEntityChoicesForOrgLoader(this.benefitsEnabled);
 
 
       });
@@ -375,7 +384,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
+    this.unsubscribe$.next();
   }
 
   setNewStart(notification) {
@@ -468,9 +477,12 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
           this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsEmployeesFullReplace);
         const existingIsStructureMappingFullReplaceSetting =
           this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsStructureMappingsFullReplace);
-
+        const existingIsBenefitFullReplaceSetting =
+          this.existingLoaderSettings.find(setting => setting.KeyName === LoaderSettingsKeys.IsBenefitsFullReplace);
         this.getEntityChoice(LoaderType.Employees).dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : null;
         this.getEntityChoice(LoaderType.Employees).isFullReplace = existingIsEmpFullReplaceSetting ? existingIsEmpFullReplaceSetting.KeyValue === 'true' : null;
+        this.getEntityChoice(LoaderType.Benefits).isFullReplace =
+          existingIsBenefitFullReplaceSetting ? existingIsBenefitFullReplaceSetting.KeyValue === 'true' : null;
         this.getEntityChoice(LoaderType.StructureMapping).isFullReplace =
           existingIsStructureMappingFullReplaceSetting ? existingIsStructureMappingFullReplaceSetting.KeyValue === 'true' : null;
       }
@@ -515,7 +527,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.mappingOptions = [this.configGroupSeed];
         this.selectedMapping = this.configGroupSeed;
         this.selectedDelimiter = this.defaultDelimiter;
-        this.loadOptions = getEntityChoicesForOrgLoader(this.hasBenefitsAccess);
+        this.loadOptions = getEntityChoicesForOrgLoader(this.benefitsEnabled);
         break;
 
       case OrgUploadStep.Entity:
@@ -707,6 +719,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         break;
       case LoaderType.Benefits:
         this.isBenefitsLoadEnabled = isEnabled;
+        this.isBenefitsFullReplace = $event.isFullReplace;
         break;
     }
 
@@ -772,6 +785,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
     newLoaderSettings.isBenefitsLoadEnabled = this.isBenefitsLoadEnabled;
     newLoaderSettings.isStructureMappingsLoadEnabled = this.isStructureMappingsLoadEnabled;
     newLoaderSettings.isEmployeesFullReplace = this.isEmployeesFullReplace;
+    newLoaderSettings.isBenefitsFullReplace = this.isBenefitsFullReplace;
     newLoaderSettings.isStructureMappingsFullReplace = this.isStructureMappingsFullReplace;
     newLoaderSettings.fileFormat = LoaderFileFormat.CSV;
     newLoaderSettings.validateOnly = this.isValidateOnly;

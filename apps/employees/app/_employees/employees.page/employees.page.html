@@ -155,15 +155,34 @@
   [showSubmit]="false"
   (onDismiss)="handleDismissTotalRewardsModal()">
   <ng-container basic-content>
-    <pf-async-container [loading]="(totalRewardsStatement$ | async)?.loading || (employeeRewardsData$ | async)?.loading">
-      <div class="mx-auto pb-1 pt-4 total-rewards-statement">
-        <pf-total-rewards-statement
-          [statement]="totalRewardsStatement"
-          [employeeRewardsData]="employeeRewardsData"
-          [loadingData]="(employeeRewardsData$ | async)?.loading"
-          [mode]="totalRewardsStatementMode">
-        </pf-total-rewards-statement>
-      </div>
-    </pf-async-container>
+
+    <div class="container mx-auto">
+      <button *ngIf="totalRewardsStatement && employeeRewardsData"
+              type="button"
+              class="btn btn-secondary d-block ml-auto mr-lg-5 mb-3"
+              [attr.data-qa-id]="'btn-downloadPdf'"
+              (click)="downloadStatement()"
+              ngbTooltip="Export">
+        <fa-icon [icon]="'download'" aria-hidden="true"></fa-icon>
+      </button>
+
+      <pf-async-container [loading]="(totalRewardsStatement$ | async)?.loading || (employeeRewardsData$ | async)?.loading">
+        <div *ngIf="employeeRewardsData" class="mx-auto pb-1 pt-4 total-rewards-statement">
+          <pf-total-rewards-statement
+            [statement]="totalRewardsStatement"
+            [employeeRewardsData]="employeeRewardsData"
+            [loadingData]="(employeeRewardsData$ | async)?.loading"
+            [mode]="totalRewardsStatementMode">
+          </pf-total-rewards-statement>
+        </div>
+      </pf-async-container>
+    </div>
+
+
   </ng-container>
 </pf-modal-form>
+
+<pf-total-rewards-statement-download
+  [statement]="totalRewardsStatement"
+  [employeeRewardsData]="employeeRewardsData">
+</pf-total-rewards-statement-download>

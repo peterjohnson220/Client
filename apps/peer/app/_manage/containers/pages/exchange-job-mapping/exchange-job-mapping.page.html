@@ -6,10 +6,10 @@
   <ng-container page-actions>
     <div *ngIf="peerManageJobsGridToggleFlag.value" class="btn-group btn-group-toggle">
       <label class="btn btn-secondary" [ngClass]="{'active': showCompanyJobs}">
-        <input type="radio" name="myJobs" id="myJobs" autocomplete="off" (click)="toggleGrid(0)"> My Jobs
+        <input type="radio" name="myJobs" id="myJobs" autocomplete="off" (click)="toggleGrid(true)"> My Jobs
       </label>
       <label class="btn btn-secondary" [ngClass]="{'active': !showCompanyJobs}">
-        <input type="radio" name="exchangeJobs" id="exchangeJobs" autocomplete="off" (click)="toggleGrid(1)"> Exchange Jobs
+        <input type="radio" name="exchangeJobs" id="exchangeJobs" autocomplete="off" (click)="toggleGrid(false)"> Exchange Jobs
       </label>
     </div>
 
