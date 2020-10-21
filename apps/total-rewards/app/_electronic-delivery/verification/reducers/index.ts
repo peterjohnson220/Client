@@ -51,3 +51,8 @@ export const getTokenStatusAsync = createSelector(
   selectPageState,
   fromPageReducer.getTokenStatusAsync
 );
+
+export const getLockedUntil = createSelector(
+  selectPageState,
+  fromPageReducer.getLockedUntil
+);
