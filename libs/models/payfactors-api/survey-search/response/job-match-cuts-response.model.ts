@@ -13,6 +13,11 @@ export interface JobMatchCut {
   SurveyJobCode?: string;
   PeerCutId?: string;
   CutFilterId?: string;
+  MatchWeight: number;
+  MatchAdjustment: number;
+  Incs: number;
+  Orgs: number;
+  WeightingType: string;
 }
 
 export function generateMockJobMatchCut(): JobMatchCut {
@@ -24,6 +29,11 @@ export function generateMockJobMatchCut(): JobMatchCut {
     JobCode: 'JB122',
     JobTitle: 'Janitor/Custodian',
     SurveyJobCode: 'KKNN',
-    DataCutId: 12345
+    DataCutId: 12345,
+    MatchWeight: 0,
+    MatchAdjustment: 0,
+    Incs: 0,
+    Orgs: 0,
+    WeightingType: 'I'
   };
 }

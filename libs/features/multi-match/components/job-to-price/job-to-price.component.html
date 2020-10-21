@@ -57,7 +57,10 @@
       <table class="data-cuts-table">
         <thead>
         <tr>
+          <th *ngIf="featureImplementation == modifyPricingsImplementation" class="text-nowrap">Weight</th>
+          <th *ngIf="featureImplementation == modifyPricingsImplementation" class="text-nowrap">Adj.(%)</th>
           <th>Title</th>
+          <th *ngIf="featureImplementation == modifyPricingsImplementation">Weighting</th>
           <th class="text-center">Base 50th</th>
           <th class="text-center">TCC 50th</th>
           <th></th>
@@ -65,8 +68,16 @@
         </thead>
         <tbody>
           <tr *ngFor="let dataCut of job.JobMatchCuts" [class.highlight]="dataCut.UserJobMatchId == null">
+            <td *ngIf="featureImplementation == modifyPricingsImplementation">{{dataCut.MatchWeight}}</td>
+            <td *ngIf="featureImplementation == modifyPricingsImplementation">{{dataCut.MatchAdjustment}}</td>
             <td class="scope-cell">
-              {{dataCut.JobTitle}} ({{dataCut.JobCode}}) - {{dataCut.Source}}
+              <div><span class="job-title">{{dataCut.JobTitle}} </span><span class="job-code">({{dataCut.JobCode}}) </span> </div>
+              <div class="paymarket"> {{dataCut.Source}} </div>
+            </td>
+            <td *ngIf="featureImplementation == modifyPricingsImplementation" class="text-nowrap">
+              <span *ngIf="dataCut.WeightingType=='I'">Inc ({{dataCut.Incs}})</span>
+              <span *ngIf="dataCut.WeightingType=='O'">Orgs ({{dataCut.Orgs}})</span>
+              <span *ngIf="dataCut.WeightingType!='O' && dataCut.WeightingType!='I'">{{dataCut.WeightingType}}</span>
             </td>
             <td class="text-center">{{dataCut.Base50 ? formatCurrency(dataCut.Base50) : "-"}}</td>
             <td class="text-center">{{dataCut.TCC50 ? formatCurrency(dataCut.TCC50) : "-"}}</td>
@@ -77,7 +88,7 @@
                       (click)="removeMatchCut(dataCut)">
              <fa-icon
 
-              [icon]="['far', 'times']" size="lg" ></fa-icon>
+              [icon]="['far', 'trash-alt']" ></fa-icon>
             </button>
             </td>
           </tr>
