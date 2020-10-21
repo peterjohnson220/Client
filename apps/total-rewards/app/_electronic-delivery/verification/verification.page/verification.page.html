@@ -12,7 +12,7 @@
         <img height="55" width="220px" src="/client/total-rewards/assets/images/payfactors-logo.png" alt="payfactors-logo">
       </div>
       <hr>
-      <div *ngIf="(tokenStatus$ | async)?.obj === tokenStatus.Valid" class="verification-content">
+      <div *ngIf="(tokenStatus$ | async)?.obj === tokenStatus.Valid || (tokenStatus$ | async)?.obj === tokenStatus.Invalid" class="verification-content">
         <h3 class="mb-4">Check your email</h3>
         <p class="info">Please enter the verification code we just sent to {{(userContext$ | async)?.EmailAddress}}</p>
         <p class="text-danger text-center validation-error"
@@ -23,7 +23,7 @@
       <div class="d-flex flex-column align-items-center">
         <div class="verification-code-container">
           <input type="text"
-               placeholder="Verifcation Code"
+               placeholder="Verification Code"
                maxlength="{{VERIFICATION_CODE_LENGTH}}"
                class="w-100 verification-code form-control"
                [(ngModel)]="verificationCode">
@@ -45,10 +45,8 @@
           <span *ngIf="isValidating$ | async">Validating...</span>
           <span *ngIf="!(isValidating$ | async)">Continue</span>
         </button>
-        <p class="font-weight-light	text-primary">All Rights Reserved Payfactors @ {{currentYear}} | Privacy Policy</p>
       </div>
       </div>
-
       <div *ngIf="(tokenStatus$ | async)?.obj === tokenStatus.NotFound" class="not-found-container d-flex flex-column align-items-center">
         <p class="title">
           It looks like your Total Rewards Statement is no longer available.
@@ -60,6 +58,11 @@
           <img src="/client/total-rewards/assets/images/verification-not-found.png"/>
         </div>
       </div>
+      <div *ngIf="(tokenStatus$ | async)?.obj === tokenStatus.Locked" class="locked-content text-center">
+        <h1 class="p-5">Sorry, we couldn't confirm it's you.</h1>
+        <h5 class="font-weight-normal">It looks like your verification code was entered incorrectly. Please wait {{lockedUntilTimeLeft}} minute<span *ngIf="lockedUntilTimeLeft !== 1">s</span> and try again or contact your company administrator.</h5>
+      </div>
+      <p class="font-weight-light	text-primary text-center">All Rights Reserved Payfactors @ {{currentYear}} | Privacy Policy</p>
     </div>
   </div>
 </ng-template>

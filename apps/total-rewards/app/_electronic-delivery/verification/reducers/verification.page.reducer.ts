@@ -13,6 +13,7 @@ export interface State {
   tokenStatus: AsyncStateObj<TokenStatus>;
   isValidating: boolean;
   resent: boolean;
+  lockedUntil: Date;
 }
 
 export const initialState: State = {
@@ -20,7 +21,8 @@ export const initialState: State = {
   employeeData: null,
   tokenStatus: generateDefaultAsyncStateObj<TokenStatus>(null),
   isValidating: false,
-  resent: false
+  resent: false,
+  lockedUntil: null
 };
 
 export function reducer(state = initialState, action: fromActions.VerificationPageActions): State {
@@ -38,7 +40,8 @@ export function reducer(state = initialState, action: fromActions.VerificationPa
       return {
         ...state,
         tokenStatus: tokenStatus,
-        resent: action.payload.resent
+        resent: action.payload.resent,
+        lockedUntil: action.payload.lockedUntil
       };
     }
     case fromActions.REQUEST_TOKEN_ERROR: {
@@ -64,7 +67,8 @@ export function reducer(state = initialState, action: fromActions.VerificationPa
         tokenStatus: tokenStatus,
         statement: action.payload.Statement,
         employeeData: action.payload.EmployeeData,
-        isValidating: false
+        isValidating: false,
+        lockedUntil: action.payload.LockedUntil
       };
     }
     case fromActions.VALIDATE_TOKEN_ERROR: {
@@ -84,3 +88,4 @@ export const getStatement = (state: State) => state.statement;
 export const getTokenStatusAsync = (state: State) => state.tokenStatus;
 export const getIsValidating = (state: State) => state.isValidating;
 export const getResent = (state: State) => state.resent;
+export const getLockedUntil = (state: State) => state.lockedUntil;
