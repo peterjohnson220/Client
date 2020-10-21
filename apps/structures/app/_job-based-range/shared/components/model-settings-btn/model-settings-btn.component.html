@@ -13,16 +13,23 @@
 </ng-container>
 
 <ng-template #cogs>
-  <button *ngIf="currentRangeGroupId" class="btn btn-secondary compareButton" (click)="compareWithCurrent()">
-    Compare
-  </button>
+  <div class="d-inline-block" tabindex="0" data-toggle="tooltip" placement="left" [ngbTooltip]="getToolTipContent((compareEnabled$ | async))">
+    <button *ngIf="!(comparingFlag$ | async)"
+            [disabled]="!(compareEnabled$ | async)"
+            class="btn btn-secondary compareButton"
+            (click)="compareWithCurrent()">
+      Compare
+    </button>
+  </div>
+
   <button type="button"
           id="column-popover-btn"
           class="btn btn-secondary"
           placement="bottom-right"
           #p="ngbPopover"
           [ngbPopover]="popContent"
-          [autoClose]="'outside'">
+          [autoClose]="'outside'"
+          [disabled]="(comparingFlag$ | async)">
     <fa-icon icon="cogs"></fa-icon>
   </button>
 </ng-template>

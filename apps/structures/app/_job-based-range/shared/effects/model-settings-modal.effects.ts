@@ -138,8 +138,11 @@ export class ModelSettingsModalEffects {
                   }));
                   actions.push(new fromSharedActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
-                  actions.push(new fromSharedActions.GetCurrentRangeGroup(
-                    {RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId, PaymarketId: r.RangeGroup.CompanyPayMarketId, Rate: r.RangeGroup.Rate}));
+                  actions.push(new fromSharedActions.GetCurrentRangeGroup({
+                    RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
+                    PaymarketId: r.RangeGroup.CompanyPayMarketId,
+                    PayType: r.RangeGroup.PayType
+                  }));
                 } else {
                   actions.push(new fromSharedActions.SetMetadata(
                     PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
@@ -149,6 +152,11 @@ export class ModelSettingsModalEffects {
                   actions.push(new fromDataGridActions.LoadData(modelPageViewId));
                   actions.push(new fromSharedActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
+                  actions.push(new fromSharedActions.GetCurrentRangeGroup({
+                    RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
+                    PaymarketId: r.RangeGroup.CompanyPayMarketId,
+                    PayType: r.RangeGroup.PayType
+                  }));
 
                   if (data.action.payload.fromPageViewId === PageViewIds.EmployeesMinMidMax) {
                     actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesMinMidMax));

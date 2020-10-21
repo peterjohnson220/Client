@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector, select } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
@@ -108,6 +108,11 @@ export const getCurrentRangeGroup = createSelector(
 export const getComparingModels = createSelector(
   selectSharedState,
   fromSharedReducer.getComparingModels
+);
+
+export const getCompareEnabled = createSelector(
+  selectSharedState,
+  fromSharedReducer.getCompareEnabled
 );
 
 export const getData = createSelector(

@@ -1,4 +1,4 @@
-<highcharts-chart [ngClass]="'rangeChart'"
+<highcharts-chart [ngClass]="groupFieldSelected ? 'rangeChartWithGroup' : 'rangeChart'"
                   [Highcharts]="Highcharts"
                   [constructorType]="chartConstructor"
                   [options]="chartOptions"
