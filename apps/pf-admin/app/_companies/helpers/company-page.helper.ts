@@ -107,7 +107,7 @@ export class CompanyPageHelper {
         Key: CompanySettingsEnum.EnablePricingReview,
         Value: false,
         DisplayName: CustomCompanySettingsDisplayEnum.EnablePricingReview,
-        Index: 15,
+        Index: 16,
         Type: CompanySettingsListType.Custom
       },
       {
@@ -121,49 +121,49 @@ export class CompanyPageHelper {
         Key: CompanySettingsEnum.EnableLibraryForRoutedJobDescriptions,
         Value: true,
         DisplayName: CustomCompanySettingsDisplayEnum.EnableLibraryForRoutedJobDescriptions,
-        Index: 6,
+        Index: 7,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.EnableEmployeeAcknowledgement,
         Value: false,
         DisplayName: CustomCompanySettingsDisplayEnum.EnableEmployeeAcknowledgement,
-        Index: 7,
+        Index: 8,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.EnableWorkflowEmployeeResults,
         Value: false,
         DisplayName: CustomCompanySettingsDisplayEnum.EnableWorkflowEmployeeResults,
-        Index: 8,
+        Index: 9,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.RestrictWorkflowToCompanyEmployeesOnly,
         Value: false,
         DisplayName: CustomCompanySettingsDisplayEnum.RestrictWorkflowToCompanyEmployeesOnly,
-        Index: 9,
+        Index: 10,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.HideSecondarySurveyDataFields,
         Value: true,
         DisplayName: CustomCompanySettingsDisplayEnum.HideSecondarySurveyDataFields,
-        Index: 11,
+        Index: 12,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.EnableLiveChat,
         Value: false,
         DisplayName: CustomCompanySettingsDisplayEnum.HideSecondarySurveyDataFields,
-        Index: 18,
+        Index: 19,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.EnableIntervalAgingFactor,
         Value: false,
         DisplayName: CustomCompanySettingsDisplayEnum.EnableIntervalAgingFactor,
-        Index: 14,
+        Index: 15,
         Type: CompanySettingsListType.Custom
       }
   ];
@@ -182,56 +182,56 @@ export class CompanyPageHelper {
         Key: CompanySettingsEnum.EnableLibraryForRoutedJobDescriptions,
         Value: company.EnableLibraryForRoutedJobDescriptions,
         DisplayName: CustomCompanySettingsDisplayEnum.EnableLibraryForRoutedJobDescriptions,
-        Index: 6,
+        Index: 7,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.EnableEmployeeAcknowledgement,
         Value: company.EnableEmployeeAcknowledgement,
         DisplayName: CustomCompanySettingsDisplayEnum.EnableEmployeeAcknowledgement,
-        Index: 7,
+        Index: 8,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.EnableWorkflowEmployeeResults,
         Value: company.EnableWorkflowEmployeeResults,
         DisplayName: CustomCompanySettingsDisplayEnum.EnableWorkflowEmployeeResults,
-        Index: 8,
+        Index: 9,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.RestrictWorkflowToCompanyEmployeesOnly,
         Value: company.RestrictWorkflowToCompanyEmployeesOnly,
         DisplayName: CustomCompanySettingsDisplayEnum.RestrictWorkflowToCompanyEmployeesOnly,
-        Index: 9,
+        Index: 10,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.HideSecondarySurveyDataFields,
         Value: company.HideSecondarySurveyDataFields,
         DisplayName: CustomCompanySettingsDisplayEnum.HideSecondarySurveyDataFields,
-        Index: 11,
+        Index: 12,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.EnableIntervalAgingFactor,
         Value: company.EnableIntervalAgingFactor,
         DisplayName: CustomCompanySettingsDisplayEnum.EnableIntervalAgingFactor,
-        Index: 14,
+        Index: 15,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.EnablePricingReview,
         Value: company.EnablePricingReview,
         DisplayName: CustomCompanySettingsDisplayEnum.EnablePricingReview,
-        Index: 15,
+        Index: 16,
         Type: CompanySettingsListType.Custom
       },
       {
         Key: CompanySettingsEnum.EnableLiveChat,
         Value: company.EnableLiveChat,
         DisplayName: CustomCompanySettingsDisplayEnum.EnableLiveChat,
-        Index: 18,
+        Index: 19,
         Type: CompanySettingsListType.Custom
       },
     ];
