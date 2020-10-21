@@ -235,14 +235,20 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
       this.isBenefitsLoadEnabled = resp.isBenefitsLoadEnabled;
       this.isStructureMappingsLoadEnabled = resp.isStructureMappingsLoadEnabled;
       this.isEmployeesFullReplace = resp.isEmployeesFullReplace;
-      this.isBenefitsFullReplace = resp.isBenefitsFullReplace;
       this.isStructureMappingsFullReplace = resp.isStructureMappingsFullReplace;
       this.isValidateOnly = resp.validateOnly;
 
       this.getEntityChoice(LoaderType.Employees).dateFormat = resp.dateFormat;
       this.getEntityChoice(LoaderType.Employees).isFullReplace = resp.isEmployeesFullReplace;
       this.getEntityChoice(LoaderType.StructureMapping).isFullReplace = resp.isStructureMappingsFullReplace;
-      this.getEntityChoice(LoaderType.Benefits).isFullReplace = resp.isBenefitsFullReplace;
+
+      // benefitsIsFullReplace setting might not exist and the existing parseSettingResponse method has defaults applicable to autoloader config
+      // we need a different default for benefitsIsFullReplace here.
+      const responseBenefitSetting =
+        f.find(setting => setting.KeyName === LoaderSettingsKeys.IsBenefitsFullReplace);
+      const fullReplace = responseBenefitSetting ? responseBenefitSetting.KeyValue === 'true' : false;
+      this.getEntityChoice(LoaderType.Benefits).isFullReplace = fullReplace;
+      this.isBenefitsFullReplace = fullReplace;
 
     });
 
@@ -483,7 +489,7 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
         this.getEntityChoice(LoaderType.Employees).dateFormat = existingDateFormatSetting ? existingDateFormatSetting.KeyValue : null;
         this.getEntityChoice(LoaderType.Employees).isFullReplace = existingIsEmpFullReplaceSetting ? existingIsEmpFullReplaceSetting.KeyValue === 'true' : null;
         this.getEntityChoice(LoaderType.Benefits).isFullReplace =
-          existingIsBenefitFullReplaceSetting ? existingIsBenefitFullReplaceSetting.KeyValue === 'true' : null;
+          existingIsBenefitFullReplaceSetting ? existingIsBenefitFullReplaceSetting.KeyValue === 'true' : false;
         this.getEntityChoice(LoaderType.StructureMapping).isFullReplace =
           existingIsStructureMappingFullReplaceSetting ? existingIsStructureMappingFullReplaceSetting.KeyValue === 'true' : null;
       }
