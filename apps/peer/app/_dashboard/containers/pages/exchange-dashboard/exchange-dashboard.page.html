@@ -50,7 +50,7 @@
             <div class="card card-body flex-column justify-content-top flex-grow-1 text-center">
 
               <ng-container *ngIf="peerTrendsReportEnabled">
-                <h4>Peer Trends</h4>
+                <h4>{{(peerTrendsReportWorkbookAsync$ | async)?.obj?.WorkbookName}}</h4>
                 <div class="d-flex flex-grow-1 flex-column justify-content-center text-center">
                   <pf-report-preview
                     [workbook]="(peerTrendsReportWorkbookAsync$ | async).obj"
