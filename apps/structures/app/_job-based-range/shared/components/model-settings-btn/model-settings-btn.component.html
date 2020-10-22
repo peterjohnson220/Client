@@ -13,15 +13,6 @@
 </ng-container>
 
 <ng-template #cogs>
-  <div class="d-inline-block" tabindex="0" data-toggle="tooltip" placement="left" [ngbTooltip]="getToolTipContent((compareEnabled$ | async))">
-    <button *ngIf="!(comparingFlag$ | async)"
-            [disabled]="!(compareEnabled$ | async)"
-            class="btn btn-secondary compareButton"
-            (click)="compareWithCurrent()">
-      Compare
-    </button>
-  </div>
-
   <button type="button"
           id="column-popover-btn"
           class="btn btn-secondary"
@@ -29,7 +20,7 @@
           #p="ngbPopover"
           [ngbPopover]="popContent"
           [autoClose]="'outside'"
-          [disabled]="(comparingFlag$ | async)">
+          [disabled]="comparingFlag">
     <fa-icon icon="cogs"></fa-icon>
   </button>
 </ng-template>

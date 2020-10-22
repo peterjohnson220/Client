@@ -22,12 +22,15 @@ export class GlobalActionsComponent {
 
   _Permissions = null;
   comparing$: Observable<boolean>;
+  compareEnabled$: Observable<boolean>;
 
   constructor(
     private store: Store<fromSharedJobBasedRangeReducer.State>
   ) {
     this._Permissions = Permissions;
     this.comparing$ = this.store.select(fromSharedJobBasedRangeReducer.getComparingModels);
+    this.compareEnabled$ = this.store.select(fromSharedJobBasedRangeReducer.getCompareEnabled);
+
   }
 
   handleAddJobsClicked() {
@@ -46,7 +49,15 @@ export class GlobalActionsComponent {
     this.duplicateModelClicked.emit();
   }
 
-  handleCompareModelClicked() {
+  compareWithCurrent() {
     this.compareModelClicked.emit();
   }
+
+  getToolTipContent(enabled: boolean) {
+    if (enabled) {
+      return null;
+    }
+    return 'To compare this model it must have the same pay type and range type as the current published model.';
+  }
+
 }
