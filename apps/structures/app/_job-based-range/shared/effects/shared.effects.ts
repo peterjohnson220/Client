@@ -233,8 +233,9 @@ export class SharedEffects {
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, action.payload.pageViewId)),
             this.store.pipe(select(fromSharedReducer.getCurrentRangeGroup)),
             this.store.pipe(select(fromSharedReducer.getMetadata)),
-            (a: fromSharedActions.GetDataByRangeGroupId, baseEntity, fields, pagingOptions, sortDescriptor, currentRangeGroup, metadata) =>
-              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, currentRangeGroup, metadata  }))
+            this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
+            (a: fromSharedActions.GetDataByRangeGroupId, baseEntity, fields, pagingOptions, sortDescriptor, currentRangeGroup, metadata, roundingSettings) =>
+              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, currentRangeGroup, metadata, roundingSettings}))
         )
       ),
       switchMap((data) => {
@@ -256,7 +257,7 @@ export class SharedEffects {
                 NewCurrency: data.metadata.Currency,
                 OldRate: data.currentRangeGroup.obj.Rate,
                 NewRate: data.metadata.Rate,
-                Rounding: data.metadata.RangeAdvancedSetting.Rounding,
+                Rounding: data.roundingSettings,
                 RangeDistributionTypeId: data.metadata.RangeDistributionTypeId,
                 JobRangeData: res
               }));

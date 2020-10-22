@@ -123,6 +123,12 @@ export class CompareJobBasedRangeChartComponent implements OnInit, OnDestroy {
       if (data && this.rate && this.currency) {
         this.jobRangeData = data;
 
+        this.shareStore.select(fromSharedJobBasedRangeReducer.getData).pipe(take(1)).subscribe( compareData => {
+          if (compareData.obj) {
+            this.processChartData();
+          }
+        });
+
         this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).pipe(take(1)).subscribe(scrolledContent => {
           this.refreshChartLegendPosition(scrolledContent);
         });
