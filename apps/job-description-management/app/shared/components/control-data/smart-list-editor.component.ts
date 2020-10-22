@@ -96,7 +96,6 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
           if ((currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) || this.replaceContent) {
             currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
             this.rebuildQuillHtmlFromSavedData();
-            this.focusRTE();
             this.replaceContent = false;
           } else if (this.rebuildQuillAfterDiscardDraft) {
             this.rebuildQuillHtmlFromSavedData();
