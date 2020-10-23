@@ -2100,7 +2100,9 @@
             ],
             "styles": [
               "assets/scss/client.scss",
-              "apps/jobs/styles.scss"
+              "apps/jobs/styles.scss",
+              "node_modules/mapbox-gl/dist/mapbox-gl.css",
+              "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
               "assets/js/pendo.js"

@@ -48,8 +48,8 @@
   <div #jobTitleText
     class="kendo-tooltip-container pr-3"
     [class.collapsed]="isCollapsed"
-    [class.survey-cut]="dataRow | isSurveyCut: pricingInfo: canModifyPricings"
-    (click)="reScopeSurveyData()">
+    [class.match-can-be-modified]="dataRow | canModifyMatch: pricingInfo: canModifyPricings"
+    (click)="handleMatchClick()">
     <pf-job-title-code
       [jobTitle]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Title"
       [jobCode]="dataRow.vw_PricingMatchesJobTitlesMerged_Job_Code"
@@ -187,7 +187,7 @@
 </pf-modal-form>
 
 <pf-notes-manager
-  [entityId]="pricingMatchIdForNotes"
+  [entityId]="pricingMatchIdForGridRefresh"
   [apiServiceIndicator]="notesApiServiceType"
   [notesHeader]="matchNotesHeader"
   [placeholderText]="'Please add any notes you would like to attach to this match.'"
@@ -204,4 +204,15 @@
       <span>{{dataRow.vw_PricingMatchesJobTitlesMerged_Effective_Date | date: 'MM/dd/yyyy'}}</span>
   </div>
 </ng-template>
+
+<pf-upsert-peer-data-modal
+  [entityConfiguration]="upsertPeerDataCutEntityConfiguration"
+  [companyJobId]="pricingInfo['CompanyJobs_CompanyJob_ID']"
+  [companyPayMarketId]="pricingInfo['CompanyPayMarkets_CompanyPayMarket_ID']"
+  [isPayMarketOverride]="false"
+  [cutGuid]="dataRow['ExchangeDataCut_FilterGUID']"
+  (cancelChanges)="closeUpsertPeerCutModal()"
+>
+
+</pf-upsert-peer-data-modal>
 

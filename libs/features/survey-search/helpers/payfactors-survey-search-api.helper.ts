@@ -21,6 +21,9 @@ export class PayfactorsSurveySearchApiHelper {
   ) {}
 
   buildSurveySearchRequest(data: LatestDataFromStoreForSearchRequest): SurveySearchRequest {
+    if (!data.PricingMatchDataSearchContext) {
+      return;
+    }
     const pagingOptions = this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.PagingOptions);
 
     return {

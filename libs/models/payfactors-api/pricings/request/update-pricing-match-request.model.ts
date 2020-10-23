@@ -5,5 +5,6 @@ export interface UpdatePricingMatchRequest {
   MatchWeight: number;
   MatchAdjustment: number;
   SurveyDataId: number;
+  ExchangeDataCutId: number;
   PricingUpdateStrategy: PricingUpdateStrategy;
 }

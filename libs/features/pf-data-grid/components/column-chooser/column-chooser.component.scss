@@ -1,1 +1,5 @@
 @import 'libs/styles/ngbootstrap-popover-overrides';
+
+.column-chooser-popover > .popover-body-container {
+  width: 260px;
+}

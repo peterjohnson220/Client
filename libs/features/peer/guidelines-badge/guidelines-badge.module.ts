@@ -12,6 +12,7 @@ import {ExchangeExplorerContextService} from '../exchange-explorer/services';
 import {SearchFilterMappingDataObj} from '../../search/models';
 import {PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper} from '../../search/helpers';
 import * as fromFaIcons from './fa-icons';
+import {DataCutValidationEffects} from './effects/data-cut-validation.effects';
 
 @NgModule({
 
@@ -21,7 +22,7 @@ import * as fromFaIcons from './fa-icons';
     CommonModule,
     StoreModule.forFeature('dataCutValidation', reducers),
     EffectsModule.forFeature([
-
+      DataCutValidationEffects
     ])
   ],
   declarations: [GuidelinesBadgeComponent],

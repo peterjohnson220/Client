@@ -33,7 +33,8 @@ export class ExchangeDataSearchApiService {
     }
 
     const lockedExchangeJobPayload = payload as {lockedExchangeJobId: number, companyPayMarketId: number};
-    const action = !!lockedExchangeJobPayload && !!lockedExchangeJobPayload.lockedExchangeJobId ? 'GetExchangeExplorerContextInfoForLockedExchangeJob' : 'GetExchangeExplorerContextInfo';
+    const action = !!lockedExchangeJobPayload && !!lockedExchangeJobPayload.lockedExchangeJobId
+      ? 'GetExchangeExplorerContextInfoForLockedExchangeJob' : 'GetExchangeExplorerContextInfo';
     return this.payfactorsApiService.get(`${this.endpoint}/${action}`, {
       params: payload
     });

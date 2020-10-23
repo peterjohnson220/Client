@@ -1,44 +1,46 @@
 <ng-template #popContent>
-  <div class="popover-body-container">
-    <p>
-      <pf-input-debounce id="column-search-box"
-                         [id]="'column-chooser-search'"
-                         (valueChanged)="(filter = $event)"
-                         [placeholderText]="'Search for a Column...'"></pf-input-debounce>
-    </p>
-    <div class="popover-body-content">
-      <pf-async-container [loading]="loading"></pf-async-container>
-      <div *ngIf="!loading"
-           class="list-group">
-        <h5 *ngIf="!(selectableColumns | filterArrayByName: filter : 'DisplayName').length">No Columns</h5>
-        <ng-container *ngIf="columnChooserType === columnChooserTypes.Column; else columnGroupsTemplate">
-          <ng-container *ngFor="let col of selectableColumns | filterArrayByName: filter : 'DisplayName'">
-            <div *ngIf="col.IsSelectable"
-                 class="px-2 py-1">
-              <input type="checkbox"
-                     [attr.data-qa-id]="'chk-' + col.SourceName"
-                     [(ngModel)]="col.IsSelected"
-                     [disabled]="col.IsLocked">
-              <span class="pl-2">
+  <div class="column-chooser-popover">
+    <div class="popover-body-container">
+      <p>
+        <pf-input-debounce id="column-search-box"
+                           [id]="'column-chooser-search'"
+                           (valueChanged)="(filter = $event)"
+                           [placeholderText]="'Search for a Column...'"></pf-input-debounce>
+      </p>
+      <div class="popover-body-content">
+        <pf-async-container [loading]="loading"></pf-async-container>
+        <div *ngIf="!loading"
+             class="list-group">
+          <h5 *ngIf="!(selectableColumns | filterArrayByName: filter : 'DisplayName').length">No Columns</h5>
+          <ng-container *ngIf="columnChooserType === columnChooserTypes.Column; else columnGroupsTemplate">
+            <ng-container *ngFor="let col of selectableColumns | filterArrayByName: filter : 'DisplayName'">
+              <div *ngIf="col.IsSelectable"
+                   class="px-2 py-1">
+                <input type="checkbox"
+                       [attr.data-qa-id]="'chk-' + col.SourceName"
+                       [(ngModel)]="col.IsSelected"
+                       [disabled]="col.IsLocked">
+                <span class="pl-2">
                 {{col.Group ? col.Group + ' ': ''}}
                 {{col.DisplayName}}
               </span>
-            </div>
+              </div>
+            </ng-container>
           </ng-container>
-        </ng-container>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="popover-body-footer d-flex ">
-    <div class="p-2"
-         *ngIf="showSelectAllColumns">
-      <button (click)="selectAllClicked()"
-              class="btn btn-secondary">Select All</button>
-    </div>
-    <div class="p-2 ml-auto">
-      <button [attr.data-qa-id]="'btn-columnChooserSave'"
-              (click)="saveButtonClicked()"
-              class="btn btn-primary">{{submitButtonText}}</button>
+    <div class="popover-body-footer d-flex ">
+      <div class="p-2"
+           *ngIf="showSelectAllColumns">
+        <button (click)="selectAllClicked()"
+                class="btn btn-secondary">Select All</button>
+      </div>
+      <div class="p-2 ml-auto">
+        <button [attr.data-qa-id]="'btn-columnChooserSave'"
+                (click)="saveButtonClicked()"
+                class="btn btn-primary">{{submitButtonText}}</button>
+      </div>
     </div>
   </div>
 </ng-template>

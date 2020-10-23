@@ -20,3 +20,5 @@ export * from './pricing-match';
 export * from './comment-box';
 export * from './re-scope-survey-data';
 export * from './company/company-notes';
+export * from './upsert-peer-data-cut';
+
