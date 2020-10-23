@@ -5,8 +5,9 @@ exports[`TrsChartControlComponent should show the title component and a settings
   calculationControls={[Function Array]}
   chartRender={[Function EventEmitter]}
   controlData={[Function Object]}
-  legendLabels={[Function Object]}
+  defaultLegendLabels={[Function Object]}
   onTitleChange={[Function EventEmitter]}
+  printModeLegendLabels={[Function Object]}
   settingsClick={[Function EventEmitter]}
 >
   <div

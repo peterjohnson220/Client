@@ -27,8 +27,12 @@ export class TrsChartControlComponent implements OnChanges {
 
   chartData: { category: string, value: number }[];
 
-  legendLabels: LegendLabels = {
-    font: '13px "DejaVu Sans"'
+  printModeLegendLabels: LegendLabels = {
+    font: '13px "DejaVu Sans", sans-serif'
+  };
+
+  defaultLegendLabels: LegendLabels = {
+    font: 'inherit'
   };
 
   get inEditMode(): boolean {
