@@ -11,7 +11,7 @@
   <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page mt-n4">
     <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section">
       <div *ngFor="let column of section.Columns; trackBy: trackByFn" [ngClass]="'col-' + column?.Layout?.Width" class="trs-column">
-        <div class="row columnRow">
+        <div *ngIf="(mode === statementModeEnum.Edit) || employeeRewardsData" class="row columnRow">
           <div *ngFor="let control of column.Controls; trackBy: trackByFn" [ngClass]="'col-' + control?.Layout?.Width + ' control-type-' + control.ControlType">
             <div *ngIf="control.ControlType === controlType.RichTextEditor">
               <pf-trs-rich-text-control

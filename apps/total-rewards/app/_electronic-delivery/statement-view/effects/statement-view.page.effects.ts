@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
 import { CompanyEmployeeApiService } from 'libs/data/payfactors-api/company';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { EmployeeRewardsDataService } from 'libs/features/total-rewards/total-rewards-statement/services/employee-rewards-data.service';
 
 import * as fromPageActions from '../actions/statement-view.page.actions';
 
@@ -32,13 +33,7 @@ export class StatementViewPageEffects {
         return this.companyEmployeeApiService.getBenefits(action.payload.companyEmployeeId)
           .pipe(
             map((response) => {
-              if (response.EmployeeDOH) {
-                response.EmployeeDOH = new Date(response.EmployeeDOH);
-              }
-              if (response.EmployeeDOB) {
-                response.EmployeeDOB = new Date(response.EmployeeDOB);
-              }
-              return new fromPageActions.GetEmployeeRewardsDataSuccess(response);
+              return new fromPageActions.GetEmployeeRewardsDataSuccess(EmployeeRewardsDataService.mapEmployeeRewardsDataDateFields(response));
             }),
             catchError(() => of(new fromPageActions.GetEmployeeRewardsDataError()))
           );

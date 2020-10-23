@@ -167,7 +167,7 @@
       </button>
 
       <pf-async-container [loading]="(totalRewardsStatement$ | async)?.loading || (employeeRewardsData$ | async)?.loading">
-        <div *ngIf="employeeRewardsData" class="mx-auto pb-1 pt-4 total-rewards-statement">
+        <div class="mx-auto pb-1 pt-4 total-rewards-statement">
           <pf-total-rewards-statement
             [statement]="totalRewardsStatement"
             [employeeRewardsData]="employeeRewardsData"

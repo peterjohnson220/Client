@@ -232,11 +232,6 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
     return this.sanitizer.bypassSecurityTrustHtml($.html());
   }
 
-  getDataFieldPlaceholderText(dataFieldKey: string): string {
-    const dataField = this.controlData.DataFields.find(df => df.Key === dataFieldKey);
-    return dataField.Value;
-  }
-
   getFormattedDataFieldValue(dataFieldKey: string): string {
     const dataFieldValue = this.employeeRewardsData[dataFieldKey];
     return this.formatDataFieldValue(dataFieldValue);

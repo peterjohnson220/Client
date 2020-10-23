@@ -12,6 +12,7 @@ import { PfConstants } from 'libs/models/common';
 import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
 import { Statement, Settings } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { SaveSettingsRequest } from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
+import { EmployeeRewardsDataService } from 'libs/features/total-rewards/total-rewards-statement/services/employee-rewards-data.service';
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromStatementEditActions from '../actions';
@@ -150,13 +151,7 @@ export class StatementEditPageEffects {
         return this.companyEmployeeApiService.getBenefits(action.payload.companyEmployeeId)
           .pipe(
             map((response) => {
-              if (response.EmployeeDOH) {
-                response.EmployeeDOH = new Date(response.EmployeeDOH);
-              }
-              if (response.EmployeeDOB) {
-                response.EmployeeDOB = new Date(response.EmployeeDOB);
-              }
-              return new fromStatementEditActions.GetEmployeeRewardsDataSuccess(response);
+              return new fromStatementEditActions.GetEmployeeRewardsDataSuccess(EmployeeRewardsDataService.mapEmployeeRewardsDataDateFields(response));
             }),
             catchError(() => of(new fromStatementEditActions.GetEmployeeRewardsDataError()))
           );

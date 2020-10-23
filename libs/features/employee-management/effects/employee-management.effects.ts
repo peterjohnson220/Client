@@ -16,6 +16,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromEmployeeManagementReducer from '../reducers';
 import * as fromEmployeeManagementActions from '../actions';
 import { PayfactorsApiModelMapper } from '../helpers';
+import { EmployeeRewardsDataService } from '../../total-rewards/total-rewards-statement/services/employee-rewards-data.service';
 
 @Injectable()
 export class EmployeeManagementEffects {
@@ -294,7 +295,7 @@ export class EmployeeManagementEffects {
     switchMap((action: fromEmployeeManagementActions.GetEmployeeTotalRewardsData) => {
       return this.companyEmployeeApiService.getBenefits(action.payload).pipe(
         map((response) => {
-          return new fromEmployeeManagementActions.GetEmployeeTotalRewardsDataSuccess(response);
+          return new fromEmployeeManagementActions.GetEmployeeTotalRewardsDataSuccess(EmployeeRewardsDataService.mapEmployeeRewardsDataDateFields(response));
         }),
         catchError(() => of(new fromEmployeeManagementActions.GetEmployeeTotalRewardsDataError()))
       );
