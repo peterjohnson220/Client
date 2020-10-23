@@ -4127,7 +4127,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.09mb",
+                  "baseline": "2.41mb",
                   "maximumWarning": "100kb",
                   "maximumError": "300kb"
                 }
