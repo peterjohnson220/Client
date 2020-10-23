@@ -17,30 +17,53 @@
                         [validFileStartsWith]="'pricings'"
                         [autoGetColumnNames]="false">
         </pf-file-upload>
-        <div class="form-group">
-          <label>Pricings</label>
-          <kendo-combobox [data]="(worksheetNames$ | async)?.obj"
+        <div class="form-group row">
+          <label class="col-md-5 col-form-label">Pricings</label>
+          <div class="col-md-7">
+            <kendo-combobox [data]="(worksheetNames$ | async)?.obj"
                           [ngModel]="pricingsSheetName"
                           [placeholder]="worksheetNamePlaceholder"
                           [style.width.px]="250"
                           (valueChange)="updatePricingsSheetName($event)">
-          </kendo-combobox>
+            </kendo-combobox>
+          </div>
         </div>
-        <div class="form-group">
-          <label>Pricing Notes</label>
-          <kendo-combobox [data]="(worksheetNames$ | async)?.obj"
+        <div class="form-group row">
+          <label class="col-md-5 col-form-label">Pricing Notes</label>
+          <div class="col-md-7">
+            <kendo-combobox [data]="(worksheetNames$ | async)?.obj"
                           [ngModel]="notesSheetName"
                           [placeholder]="worksheetNamePlaceholder"
                           [style.width.px]="250"
                           (valueChange)="updateNotesSheetName($event)">
-          </kendo-combobox>
+            </kendo-combobox>
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="pricingMatchNoteFeatureFlag.value">
+          <label class="col-md-5 col-form-label">Match Notes (existing composites only)</label>
+          <div class="col-md-7">
+            <kendo-combobox [data]="(worksheetNames$ | async)?.obj"
+                          [ngModel]="matchNotesSheetName"
+                          [placeholder]="worksheetNamePlaceholder"
+                          [style.width.px]="250"
+                          (valueChange)="updateMatchNotesSheetName($event)">
+            </kendo-combobox>
+          </div>
         </div>
       </div>
     </div>
     <div class="d-flex justify-content-end upload-pricings-footer">
-      <span *ngIf="duplicateNameError"
+      <span *ngIf="duplicatePricingAndNotesNameError"
             class="error-message text-danger pr-3">
         Pricings and Pricing Notes have the same tab name.
+      </span>
+      <span *ngIf="duplicatePricingAndMatchNotesNameError"
+            class="error-message text-danger pr-3">
+        Pricings and Match Notes have the same tab name.
+      </span>
+      <span *ngIf="duplicateNotesAndMatchNotesNameError"
+            class="error-message text-danger pr-3">
+        Pricing Notes and Match Notes have the same tab name.
       </span>
       <div class="mr-3 pt-1">
         <div class="d-flex validation-only">

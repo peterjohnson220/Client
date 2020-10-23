@@ -4,6 +4,7 @@ export enum LoaderSettingKeyName {
   // Pricings
   PricingsSheetName = 'PricingsSheetName',
   PricingNotesSheetName = 'PricingNotesSheetName',
+  PricingMatchNotesSheetName = 'PricingMatchNotesSheetName',
   // MRP Fields
   PricingsBaseMRP = 'PricingsBaseMRP',
   PricingsTCCMRP = 'PricingsTCCMRP',
