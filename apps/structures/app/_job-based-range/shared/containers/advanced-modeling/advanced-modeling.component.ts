@@ -4,11 +4,13 @@ import { FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
+import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market-data-type';
+
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { RangeGroupMetadata } from '../../models';
-import { Pages } from '../../constants/pages';
 import { AdvancedModelingHelper } from '../../helpers/advanced-modeling.helper';
+
 
 @Component({
   selector: 'pf-advanced-modeling',
@@ -16,14 +18,17 @@ import { AdvancedModelingHelper } from '../../helpers/advanced-modeling.helper';
   styleUrls: ['./advanced-modeling.component.scss']
 })
 export class AdvancedModelingComponent implements OnInit, OnDestroy {
-  @Input() rangeGroupId: number;
-  @Input() page: Pages;
   @Input() advancedSettingForm: FormGroup;
   @Input() attemptedSubmit: true;
 
   metaData$: Observable<RangeGroupMetadata>;
   metadataSub: Subscription;
   metadata: RangeGroupMetadata;
+
+  private formPreventMidsFromIncreasingMoreThanPercentEnabled = 'RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled';
+  private formPreventMidsFromIncreasingMoreThanPercentPercentage = 'RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage';
+  private formMissingMarketDataTypeType = 'RangeAdvancedSetting.MissingMarketDataType.Type';
+  private formMissingMarketDataTypePercentage = 'RangeAdvancedSetting.MissingMarketDataType.Percentage';
 
   constructor(public store: Store<fromJobBasedRangeReducer.State>) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
@@ -34,11 +39,51 @@ export class AdvancedModelingComponent implements OnInit, OnDestroy {
   }
 
   get preventMidsFromIncreasingMoreThanPercentEnabled() {
-    return this.advancedSettingForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled');
+    return this.advancedSettingForm.get(this.formPreventMidsFromIncreasingMoreThanPercentEnabled);
   }
 
   get preventMidsFromIncreasingMoreThanPercentPercentage() {
-    return this.advancedSettingForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage');
+    return this.advancedSettingForm.get(this.formPreventMidsFromIncreasingMoreThanPercentPercentage);
+  }
+
+  get missingMarketDataTypeType() {
+    return this.advancedSettingForm.get(this.formMissingMarketDataTypeType);
+  }
+
+  get missingMarketDataTypePercentage() {
+    return this.advancedSettingForm.get(this.formMissingMarketDataTypePercentage);
+  }
+
+  get missingMarketDataTypesIncreaseCurrentByPercent() {
+    return MissingMarketDataTypes.IncreaseCurrentByPercent;
+  }
+
+  handlePreventMidsFromIncreasingMoreThanPercentChanged(event: any) {
+    if (event.target.checked) {
+      this.setValidators(this.formPreventMidsFromIncreasingMoreThanPercentPercentage, 0.01, 100);
+    } else {
+      this.clearValidators(this.formPreventMidsFromIncreasingMoreThanPercentPercentage);
+    }
+  }
+
+  handleRadioButtonChanged(event: any) {
+    if (event.target.id === 'IncreaseCurrentByPercent') {
+      this.setValidators(this.formMissingMarketDataTypePercentage, 0, 100);
+    } else {
+      this.clearValidators(this.formMissingMarketDataTypePercentage);
+    }
+  }
+
+  private setValidators(controlName: string, min: number, max: number) {
+    this.advancedSettingForm.get(controlName).enable();
+    this.advancedSettingForm.get(controlName).setValidators([Validators.required, Validators.min(min), Validators.max(max)]);
+    this.advancedSettingForm.get(controlName).updateValueAndValidity();
+  }
+
+  private clearValidators(controlName: string) {
+    this.advancedSettingForm.get(controlName).disable();
+    this.advancedSettingForm.get(controlName).clearValidators();
+    this.advancedSettingForm.get(controlName).updateValueAndValidity();
   }
 
   // Lifecycle
@@ -47,22 +92,17 @@ export class AdvancedModelingComponent implements OnInit, OnDestroy {
       this.metadata = md;
     });
 
-    this.togglePercentValidation(this.preventMidsFromIncreasingMoreThanPercentEnabled.value);
-  }
-
-  handlePreventMidsFromIncreasingMoreThanPercentChanged(event: any) {
-    this.togglePercentValidation(event.target.checked);
-  }
-
-  private togglePercentValidation(percentEnabled: boolean) {
-    if (percentEnabled) {
-      this.preventMidsFromIncreasingMoreThanPercentPercentage.enable();
-      this.preventMidsFromIncreasingMoreThanPercentPercentage.setValidators([Validators.required, Validators.min(0.1), Validators.max(100)]);
+    if (this.preventMidsFromIncreasingMoreThanPercentEnabled.value) {
+      this.setValidators(this.formPreventMidsFromIncreasingMoreThanPercentPercentage, 0.01, 100);
     } else {
-      this.preventMidsFromIncreasingMoreThanPercentPercentage.disable();
-      this.preventMidsFromIncreasingMoreThanPercentPercentage.clearValidators();
+      this.clearValidators(this.formPreventMidsFromIncreasingMoreThanPercentPercentage);
     }
-    this.preventMidsFromIncreasingMoreThanPercentPercentage.updateValueAndValidity();
+
+    if (+this.missingMarketDataTypeType.value === MissingMarketDataTypes.IncreaseCurrentByPercent) {
+      this.setValidators(this.formMissingMarketDataTypePercentage, 0, 100);
+    } else {
+      this.clearValidators(this.formMissingMarketDataTypePercentage);
+    }
   }
 
   ngOnDestroy(): void {

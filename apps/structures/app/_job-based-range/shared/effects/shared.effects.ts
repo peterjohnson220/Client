@@ -5,6 +5,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
@@ -17,7 +18,6 @@ import * as fromRangeFieldActions from 'libs/features/structures/range-editor/ac
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
-import { RangeGroupMetadata } from '../models';
 import * as fromSharedReducer from '../reducers';
 import { PagesHelper } from '../helpers/pages.helper';
 
@@ -194,6 +194,98 @@ export class SharedEffects {
           })
         );
       }));
+
+  @Effect()
+  getCurrentRangeGroup: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_CURRENT_RANGE_GROUP),
+      switchMap((action: fromSharedActions.GetCurrentRangeGroup) => {
+        return this.structureModelingApiService.getCurrentRangeGroup(action.payload)
+          .pipe(
+            mergeMap((res) => {
+              const actions = [];
+
+              if (res) {
+                actions.push(new fromSharedActions.EnableCompareFlag());
+              } else {
+                actions.push(new fromSharedActions.DisableCompareFlag());
+              }
+
+              actions.push(new fromSharedActions.GetCurrentRangeGroupSuccess(res));
+
+              return actions;
+            }),
+            catchError((err) => of(new fromSharedActions.GetCurrentRangeGroupError(err)))
+          );
+      })
+    );
+
+  @Effect()
+  getData: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_DATA_BY_RANGE_GROUP_ID),
+      mergeMap((action: fromSharedActions.GetDataByRangeGroupId) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getFields, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, action.payload.pageViewId)),
+            this.store.pipe(select(fromSharedReducer.getCurrentRangeGroup)),
+            this.store.pipe(select(fromSharedReducer.getMetadata)),
+            this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
+            (a: fromSharedActions.GetDataByRangeGroupId, baseEntity, fields, pagingOptions, sortDescriptor, currentRangeGroup, metadata, roundingSettings) =>
+              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, currentRangeGroup, metadata, roundingSettings}))
+        )
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
+          data.baseEntity.Id,
+          data.fields,
+          data.a.payload.filters,
+          data.pagingOptions,
+          data.sortDescriptor,
+          false,
+          false,
+        )).pipe(
+          mergeMap((res) => {
+            const actions = [];
+
+            if (data.currentRangeGroup.obj.Currency !== data.metadata.Currency || data.currentRangeGroup.obj.Rate !== data.metadata.Rate ) {
+              actions.push(new fromSharedActions.ConvertCurrencyAndRate({
+                OldCurrency: data.currentRangeGroup.obj.Currency,
+                NewCurrency: data.metadata.Currency,
+                OldRate: data.currentRangeGroup.obj.Rate,
+                NewRate: data.metadata.Rate,
+                Rounding: data.roundingSettings,
+                RangeDistributionTypeId: data.metadata.RangeDistributionTypeId,
+                JobRangeData: res
+              }));
+            } else {
+              actions.push(new fromSharedActions.GetDataByRangeGroupIdSuccess(res));
+            }
+            return actions;
+          }),
+          catchError((err) => of(new fromSharedActions.GetDataByRangeGroupIdError(err)))
+        );
+      })
+    );
+
+
+  @Effect()
+  convertJobRangeData: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.CONVERT_CURRENCY_AND_RATE),
+      switchMap((action: fromSharedActions.ConvertCurrencyAndRate) => {
+        return this.structureModelingApiService.convertCurrencyAndRate(action.payload)
+          .pipe(
+            map((res) => {
+              return new fromSharedActions.ConvertCurrencyAndRateSuccess(res);
+            }),
+            catchError((err) => of(new fromSharedActions.ConvertCurrencyAndRateError(err)))
+          );
+      })
+    );
 
   constructor(
     private actions$: Actions,

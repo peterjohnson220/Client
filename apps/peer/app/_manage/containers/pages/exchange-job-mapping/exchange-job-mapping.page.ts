@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
@@ -16,6 +16,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { InputDebounceComponent } from 'libs/forms/components/input-debounce';
 import { ExchangeJobAssociationEntityTypes } from 'libs/constants/peer/exchange-job-association-entity-types';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 import * as fromAssociateJobsActions from 'libs/features/peer/job-association-match/actions/associate-jobs.actions';
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -26,7 +27,6 @@ import * as companyJobsActions from '../../../actions/company-jobs.actions';
 import * as fromPeerManagementReducer from '../../../reducers';
 import * as fromImportRequestActions from '../../../actions/import.actions';
 import { ExchangeJobMappingGridService } from '../../../services/exchange-job-mapping-grid.service';
-
 
 @Component({
     selector: 'pf-exchange-job-mapping-page',
@@ -44,6 +44,8 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     disableGridScollTo = false;
     _Permissions = null;
 
+    peerManageJobsGridToggleFlag: RealTimeFlag = { key: FeatureFlags.PeerManageJobsGridToggle, value: false };
+
     gridPageRowIndexToScrollTo$: Observable<number>;
     selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
     userContext$: Observable<UserContext>;
@@ -54,13 +56,15 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     companyJobsSearchTermSubscription: Subscription;
     exchangeIdSubscription: Subscription;
     selectedCompanyJob$: Observable<CompanyJob>;
+    unsubscribe$ = new Subject<void>();
 
     constructor(
         private store: Store<fromPeerManagementReducer.State>,
         private route: ActivatedRoute,
         private exchangeJobMappingGridService: ExchangeJobMappingGridService,
         private companySecurityApi: CompanySecurityApiService,
-        private settingsService: SettingsService
+        private settingsService: SettingsService,
+        private featureFlagService: AbstractFeatureFlagService
     ) {
         this.exchangeId$ = this.route.params.pipe(map(p => p.id));
 
@@ -70,6 +74,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.selectedCompanyJob$ = this.store.select(fromPeerManagementReducer.getCompanyJobsSelectedCompanyJob);
 
         this._Permissions = Permissions;
+        this.featureFlagService.bindEnabled(this.peerManageJobsGridToggleFlag, this.unsubscribe$);
     }
 
     handleSearchChanged(query: string): void {
@@ -115,6 +120,12 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromImportRequestActions.SwitchAssociationImportModalOpenAction(true));
     }
 
+    toggleGrid(showCompanyJobs: boolean) {
+      if(this.showCompanyJobs != showCompanyJobs) {
+        this.showCompanyJobs = !this.showCompanyJobs;
+      }
+    }
+
     // Lifecycle
     ngOnInit() {
         this.selectedExchangeJobMappingSubscription = this.selectedExchangeJobMapping$.subscribe(selectedMapping => {
@@ -148,6 +159,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobMapping));
         this.store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(null));
+        this.store.dispatch(new companyJobsActions.Reset());
     }
 
   handleExportButtonClick() {

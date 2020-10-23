@@ -59,6 +59,7 @@ export interface DataGridState {
   totalCount: number;
   lastUpdateFieldsDate: Date;
   visibleKeys: number[];
+  unexpectedError: boolean;
 }
 
 export interface DataGridStoreState {
@@ -71,7 +72,7 @@ const INITIAL_STATE: DataGridStoreState = {
 
 export const DEFAULT_PAGING_OPTIONS: PagingOptions = {
   From: 0,
-  Count: 20
+  Count: 40
 };
 
 export enum SelectAllStatus {
@@ -115,7 +116,7 @@ export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) 
 };
 export const getFilterableFields = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] && state.grids[pageViewId].fields
-    ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter && f.IsFilterable && (f.IsSelected || f.CustomFilterStrategy))
+    ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter && f.IsFilterable && (f.IsSelected || f.CustomFilterStrategy || f.IsAlwaysInResponse))
     : [];
 };
 export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => {
@@ -174,6 +175,7 @@ export const getHasMoreDataOnServer = (state: DataGridStoreState, pageViewId: st
 export const getLoadingMoreData = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].loadingMoreData;
 export const getLastUpdateFieldsDate = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].lastUpdateFieldsDate;
 export const getVisibleKeys = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].visibleKeys;
+export const getUnexpectedError = (state: DataGridStoreState, pageViewId: string) => state.grids[pageViewId].unexpectedError;
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
@@ -632,7 +634,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           ...state.grids,
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
-            loading: false
+            loading: false,
+            unexpectedError: true
           }
         }
       };

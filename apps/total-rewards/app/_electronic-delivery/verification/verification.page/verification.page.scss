@@ -1,0 +1,80 @@
+input:focus {
+  border-bottom-color: #0883BE;
+}
+
+hr {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.verification-container {
+
+  .img-container {
+    margin: 19px 0;
+  }
+
+  .verification-content, .locked-content {
+    padding: 1.5rem 3.5rem 4rem 3.5rem;
+    width: 37.5rem;
+  }
+
+  .btn-continue {
+    height: 40px;
+    width: 100%;
+  }
+
+  .btn-enabled {
+    background-color: #1F243D;
+  }
+}
+
+.verification-code-container {
+  width: 100%;
+  position: relative;
+  margin-bottom: 1rem;
+
+  .verification-code {
+    border-radius: 5px;
+    height: 40px;
+  }
+
+  .resend-container {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+
+    .resend-btn {
+      box-shadow: none;
+      color: #0275D8;
+      cursor: pointer;
+      padding: 0;
+
+      &.text-success {
+        cursor: default;
+      }
+    }
+  }
+}
+
+.not-found-container {
+  .title {
+    font-weight: 500;
+    font-size: 16px;
+  }
+  p {
+    margin: 1rem 1rem 0;
+  }
+  .notfound-img-container {
+    padding-left: 4rem;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .notfound-img-container {
+    padding-left: 2rem !important;
+
+    img {
+      width: 250px;
+    }
+  }
+}

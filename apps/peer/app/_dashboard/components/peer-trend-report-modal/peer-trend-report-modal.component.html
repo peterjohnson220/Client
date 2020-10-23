@@ -1,0 +1,29 @@
+<ng-template #peerTrendReportModal let-modal>
+
+  <div class="modal-header d-flex flex-column">
+    <div class="d-flex w-100">
+      <h4 class="modal-title">{{selectedWorkbook.WorkbookName}}</h4>
+
+      <button type="button" [attr.data-qa-id]="'btn-close'" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="modal-size" class="modal-body">
+    <pf-report-view
+      [reportTitle]="selectedWorkbook.WorkbookName"
+      [workbookId]="selectedWorkbook.WorkbookId"
+      [workbookName]="selectedWorkbook.WorkbookName"
+      [viewType]="peerTrendReportViewType"
+      fitToContainerId="modal-size"
+    ></pf-report-view>
+  </div>
+
+  <div class="modal-footer">
+      <button type="button" [attr.data-qa-id]="'btn-cancel'" class="btn btn-secondary" (click)="close()">
+        Cancel
+      </button>
+  </div>
+
+</ng-template>

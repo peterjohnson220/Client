@@ -9,7 +9,6 @@
   [actionBarConfig]="actionBarConfig"
   [defaultColumnWidth]="150"
   [fieldsExcludedFromExport]="fieldsExcludedFromExport"
-  [pagingOptions]="defaultPagingOptions"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [gridConfig]="gridConfig">
 </pf-data-grid>
@@ -66,6 +65,10 @@
 
 <ng-template #noValue>
   - -
+</ng-template>
+
+<ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName] || dataRow[fieldName] === 0; else noValue">{{dataRow[fieldName]}}%</ng-container>
 </ng-template>
 
 <ng-template #payMarketFilter>

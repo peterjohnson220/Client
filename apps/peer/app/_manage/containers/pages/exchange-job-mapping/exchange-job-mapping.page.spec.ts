@@ -11,6 +11,7 @@ import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
 import { SettingsService } from 'libs/state/app-context/services';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerManagementReducer from '../../../reducers';
@@ -25,6 +26,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
   let activatedRoute: ActivatedRoute;
   let exchangeJobMappingGridService: ExchangeJobMappingGridService;
   let store: Store<fromPeerManagementReducer.State>;
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -53,7 +55,11 @@ describe('Peer - Exchange Job Mapping Page', () => {
           provide: CompanySecurityApiService,
           useValue: { getIsCompanyAdmin: () => of(true) }
         },
-        SettingsService
+        SettingsService,
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        }
       ],
       declarations: [
         ExchangeJobMappingPageComponent
@@ -68,6 +74,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
 
     fixture = TestBed.createComponent(ExchangeJobMappingPageComponent);
     instance = fixture.componentInstance;
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
 
     spyOn(store, 'dispatch');
 

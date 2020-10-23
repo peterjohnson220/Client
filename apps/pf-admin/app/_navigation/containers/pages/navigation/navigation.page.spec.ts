@@ -4,9 +4,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import * as fromNavigationActions from 'libs/features/admin-navigation-links/actions/navigation.actions';
+import * as fromNavigationReducer from 'libs/features/admin-navigation-links/reducers';
 
-import * as fromNavigationActions from '../../../actions';
-import * as fromNavigationReducer from '../../../reducers';
 import { NavigationPageComponent } from './navigation.page';
 
 describe('Pf-Admin - Navigation - Navigation Page', () => {
@@ -32,9 +32,9 @@ describe('Pf-Admin - Navigation - Navigation Page', () => {
         store = TestBed.inject(Store);
     });
 
-    it('Should dispatch a LoadLinks Action when the page is loaded', () => {
+    it('Should dispatch a LoadNavigationLinks Action when the page is loaded', () => {
         spyOn(store, 'dispatch');
-        const expectedAction = new fromNavigationActions.LoadNavigationLinks();
+        const expectedAction = new fromNavigationActions.LoadNavigationLinks('site-admin');
         fixture.detectChanges();
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });

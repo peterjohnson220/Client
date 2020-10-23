@@ -6,12 +6,12 @@ import { combineReducers, StoreModule, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockField, Field } from 'libs/features/formula-editor';
+import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
-import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataViewMainReducer from '../../reducers';
 import { DataViewGridComponent } from './data-view-grid.component';
-import { generateMockField, Field } from '../../models';
 import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
 import { DateFieldFormattingModalComponent } from '../date-field-formatting-modal';
 

@@ -6,6 +6,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { Observable, of, timer } from 'rxjs';
 import { catchError, debounce, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
 import { CompositeFieldApiService } from 'libs/data/payfactors-api/composite-field';
 import { StructureModelingApiService, StructuresApiService } from 'libs/data/payfactors-api/structures';
@@ -19,8 +20,6 @@ import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import { PageViewIds } from '../constants/page-view-ids';
 import * as fromSharedReducer from '../reducers';
-import { Pages } from '../constants/pages';
-import { RangeGroupMetadata } from '../models';
 import { UrlService } from '../services';
 import { Workflow } from '../constants/workflow';
 import { PagesHelper } from '../helpers/pages.helper';
@@ -139,6 +138,11 @@ export class ModelSettingsModalEffects {
                   }));
                   actions.push(new fromSharedActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
+                  actions.push(new fromSharedActions.GetCurrentRangeGroup({
+                    RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
+                    PaymarketId: r.RangeGroup.CompanyPayMarketId,
+                    PayType: r.RangeGroup.PayType
+                  }));
                 } else {
                   actions.push(new fromSharedActions.SetMetadata(
                     PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
@@ -148,16 +152,22 @@ export class ModelSettingsModalEffects {
                   actions.push(new fromDataGridActions.LoadData(modelPageViewId));
                   actions.push(new fromSharedActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
+                  actions.push(new fromSharedActions.GetCurrentRangeGroup({
+                    RangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId,
+                    PaymarketId: r.RangeGroup.CompanyPayMarketId,
+                    PayType: r.RangeGroup.PayType
+                  }));
 
-                  switch (data.action.payload.fromPage) {
-                    case Pages.Employees: {
-                      actions.push(new fromDataGridActions.LoadData(PageViewIds.Employees));
-                      break;
-                    }
-                    case Pages.Pricings: {
-                      actions.push(new fromDataGridActions.LoadData(PageViewIds.Pricings));
-                      break;
-                    }
+                  if (data.action.payload.fromPageViewId === PageViewIds.EmployeesMinMidMax) {
+                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesMinMidMax));
+                  } else if (data.action.payload.fromPageViewId === PageViewIds.EmployeesTertile) {
+                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesTertile));
+                  } else if (data.action.payload.fromPageViewId === PageViewIds.EmployeesQuartile) {
+                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesQuartile));
+                  } else if (data.action.payload.fromPageViewId === PageViewIds.EmployeesQuintile) {
+                    actions.push(new fromDataGridActions.LoadData(PageViewIds.EmployeesQuintile));
+                  } else if (data.action.payload.fromPageViewId === PageViewIds.Pricings) {
+                    actions.push(new fromDataGridActions.LoadData(PageViewIds.Pricings));
                   }
                 }
 

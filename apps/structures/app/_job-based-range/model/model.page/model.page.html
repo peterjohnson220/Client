@@ -2,13 +2,15 @@
   [singleRecordView]="false"
   [inboundFilters]="filters"
   [rangeGroupId]="rangeGroupId"
-  [splitViewTemplate]="graph"
+  [splitViewTemplate]="comparingFlag ? compareGraph : graph"
   (addJobs)="openAddJobsModal()"
-  [page]="page"
+  [pageViewId]="pageViewId"
   [reorderable]="true"
   [saveSort]="true"
   [modifiedKey]="'CompanyStructures_Ranges_CompanyStructuresRanges_ID'"
-  [allowMultipleSort]="true">
+  [allowMultipleSort]="true"
+  (compareModelClicked)="handleCompareModelClicked($event)"
+  >
 </pf-model-grid>
 
 <pf-add-jobs-modal-wrapper></pf-add-jobs-modal-wrapper>
@@ -19,4 +21,8 @@
 
 <ng-template #graph>
   <pf-job-based-range-chart></pf-job-based-range-chart>
+</ng-template>
+
+<ng-template #compareGraph>
+  <pf-compare-job-based-range-chart></pf-compare-job-based-range-chart>
 </ng-template>

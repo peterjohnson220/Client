@@ -9,7 +9,6 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
-import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { DeletePricingRequest } from 'libs/models/payfactors-api/pricings/request';
 import { Permissions } from 'libs/constants';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
@@ -35,9 +34,9 @@ import { AsyncStateObj } from 'libs/models';
 export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDestroy, OnChanges {
   @Input() filters: PfDataGridFilter[];
 
-  @ViewChild('createUserColumn') createUserColumn: ElementRef;
   @ViewChild('pricingActionsColumn') pricingActionsColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
+  @ViewChild('auditUserColumn') auditUserColumn: ElementRef;
 
   inboundFiltersToApply = ['CompanyJob_ID', 'PayMarket', 'Status'];
   pageViewId = PageViewIds.PricingHistory;
@@ -51,7 +50,6 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
     dir: 'desc',
     field: 'CompanyJobs_Pricings_Effective_Date'
   }];
-  defaultPagingOptions: PagingOptions;
 
   permissions = Permissions;
   gridFieldSubscription: Subscription;
@@ -90,9 +88,6 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
       EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
       ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
     };
-    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
-      ? getDefaultPagingOptions()
-      : { From: 0, Count: 20 };
   }
 
   ngOnInit(): void {
@@ -144,8 +139,9 @@ export class PricingHistoryGridComponent implements AfterViewInit, OnInit, OnDes
       }
     };
     this.colTemplates = {
-      'Create_User': { Template: this.createUserColumn },
-      'CompanyJobPricing_ID': { Template: this.pricingActionsColumn }
+      'CompanyJobPricing_ID': { Template: this.pricingActionsColumn },
+      'Create_User': { Template: this.auditUserColumn },
+      'Edit_User': { Template: this.auditUserColumn }
     };
   }
 

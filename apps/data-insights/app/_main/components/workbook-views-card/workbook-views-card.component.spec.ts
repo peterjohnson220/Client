@@ -3,9 +3,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { DragulaModule } from 'ng2-dragula';
 
-import { WorkbookViewsCardComponent } from './workbook-views-card.component';
-import { generateMockWorkbook, generateMockView } from '../../models';
 import { generateDefaultAsyncStateObj } from 'libs/models';
+import { generateMockView, generateMockWorkbook } from 'libs/features/reports/models';
+
+import { WorkbookViewsCardComponent } from './workbook-views-card.component';
 
 describe('Data Insights - Workbook Views Card Component', () => {
   let instance: WorkbookViewsCardComponent;

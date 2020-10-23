@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
@@ -14,11 +15,9 @@ import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
-import { PageViewIds } from '../../shared/constants/page-view-ids';
-import { Pages } from '../../shared/constants/pages';
-import { RangeGroupMetadata } from '../../shared/models';
 import { StructuresPagesService } from '../../shared/services';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
+import { PagesHelper } from '../../shared/helpers/pages.helper';
 
 
 @Component({
@@ -34,20 +33,21 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('date', { static: true }) dateColumn: ElementRef;
 
   metaData$: Observable<RangeGroupMetadata>;
+  metadataSubscription: Subscription;
   colTemplates = {};
   filter: PfDataGridFilter;
-  employeePageViewId = PageViewIds.Employees;
-  page = Pages.Employees;
+  pageViewId: string;
   rangeGroupId: any;
   rangeId: number;
   actionBarConfig: ActionBarConfig;
   _Permissions = null;
-  pageViewId: string;
-  pageViewIdSubscription: Subscription;
+  modelPageViewId: string;
+  modelPageViewIdSubscription: Subscription;
 
   gridConfig: GridConfig;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
   defaultPagingOptions: PagingOptions;
+  filterTemplates = {};
 
   constructor(
     public store: Store<fromSharedJobBasedRangeReducer.State>,
@@ -56,6 +56,12 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
+    this.metadataSubscription = this.metaData$.subscribe(md => {
+      if (md) {
+        this.pageViewId = PagesHelper.getEmployeePageViewIdByRangeDistributionType(md.RangeDistributionTypeId);
+      }
+    });
+
     this.rangeGroupId = this.route.parent.snapshot.params.id;
     this.rangeId = parseInt(this.route.snapshot.params.id, 10);
 
@@ -68,11 +74,11 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
-      ShowFilterChooser: false
+      ShowFilterChooser: true
     };
 
     this._Permissions = Permissions;
-    this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
+    this.modelPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelPageViewId = pv);
     this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: false,
@@ -100,8 +106,6 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
     return;
   }
 
-
-
   ngAfterViewInit(): void {
     this.colTemplates = {
       [PfDataGridColType.rangeValue]: { Template: this.rangeValueColumn },
@@ -124,7 +128,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnDestroy(): void {
     this.store.dispatch(new fromPfDataGridActions.Reset());
-    this.pageViewIdSubscription.unsubscribe();
+    this.modelPageViewIdSubscription.unsubscribe();
+    this.metadataSubscription.unsubscribe();
   }
 }
-

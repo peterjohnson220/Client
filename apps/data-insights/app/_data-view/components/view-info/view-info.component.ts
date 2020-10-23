@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } f
 
 import { IntlService } from '@progress/kendo-angular-intl';
 
-import { Filter, UserDataView } from '../../models';
+import { UserDataView, Filter } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-view-info',

@@ -18,7 +18,9 @@ export interface ILoadSettings {
   isEmployeesFullReplace: boolean;
   isStructureMappingsFullReplace: boolean;
   isBenefitsLoadEnabled: boolean;
+  isBenefitsFullReplace: boolean;
   fileFormat: string;
+  validateOnly: boolean;
 }
 export class LoaderSettings implements ILoadSettings {
   isActive: boolean;
@@ -34,6 +36,7 @@ export class LoaderSettings implements ILoadSettings {
   isStructureMappingsFullReplace: boolean;
   isSubsidiariesLoadEnabled: boolean;
   isBenefitsLoadEnabled: boolean;
+  isBenefitsFullReplace: boolean;
   fileFormat: string;
   validateOnly: boolean;
 }
@@ -126,6 +129,11 @@ export class OrgDataLoadHelper {
       true,
       this.stringSettingToBooleanTransform
     );
+    loadSettings.isBenefitsFullReplace = this.getLoaderSettingValueIfSet<boolean>(response,
+      LoaderSettingsKeys.IsBenefitsFullReplace,
+      true,
+      this.stringSettingToBooleanTransform
+    );
 
     return loadSettings;
   }
@@ -192,6 +200,11 @@ export class OrgDataLoadHelper {
       this.getSettingIfChanged(
         LoaderSettingsKeys.IsBenefitsLoadEnabled,
         this.booleanSettingToStringTransform(newLoaderSettings.isBenefitsLoadEnabled),
+        existingLoaderSettings
+      ),
+      this.getSettingIfChanged(
+        LoaderSettingsKeys.IsBenefitsFullReplace,
+        this.booleanSettingToStringTransform(newLoaderSettings.isBenefitsFullReplace),
         existingLoaderSettings
       ),
     ].filter(setting => isObject(setting));

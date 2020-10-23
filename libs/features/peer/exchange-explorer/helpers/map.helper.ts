@@ -58,10 +58,7 @@ export class MapHelper {
       newState.initialMapBounds = [newTL.Lon, newBR.Lat, newBR.Lon, newTL.Lat];
       newState.mapFilter.TopLeft = newTL;
       newState.mapFilter.BottomRight = newBR;
-    }
-
-    //No map bounds, the map view isn't changing so end the autoZoom triggered by clearing map filter bounds
-    else {
+    } else { // No map bounds, the map view isn't changing so end the autoZoom triggered by clearing map filter bounds
       newState.autoZooming = false;
     }
 

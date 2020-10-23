@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { ActionBarConfig, ColumnChooserType, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { Permissions } from 'libs/constants';
@@ -14,8 +15,6 @@ import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
 import { PageViewIds } from '../../shared/constants/page-view-ids';
-import { Pages } from '../../shared/constants/pages';
-import { RangeGroupMetadata } from '../../shared/models';
 import { StructuresPagesService } from '../../shared/services';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
 import * as fromDuplicateModelModalActions from '../../shared/actions/duplicate-model-modal.actions';
@@ -36,14 +35,13 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   metaData$: Observable<RangeGroupMetadata>;
   filter: PfDataGridFilter;
   colTemplates = {};
-  pricingsPageViewId = PageViewIds.Pricings;
-  page = Pages.Pricings;
+  pageViewId = PageViewIds.Pricings;
   rangeGroupId: any;
   rangeId: number;
   actionBarConfig: ActionBarConfig;
   _Permissions = null;
-  pageViewId: string;
-  pageViewIdSubscription: Subscription;
+  modelPageViewId: string;
+  modelPageViewIdSubscription: Subscription;
 
   gridConfig: GridConfig;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
@@ -72,7 +70,7 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this._Permissions = Permissions;
-    this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
+    this.modelPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelPageViewId = pv);
     this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
     this.gridConfig = {
       PersistColumnWidth: false,
@@ -115,14 +113,14 @@ export class PricingsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Get all overridden ranges
     this.store.dispatch(new fromSharedActions.GetOverriddenRanges({
-      pageViewId: this.pageViewId,
+      pageViewId: this.modelPageViewId,
       rangeGroupId: this.rangeGroupId
     }));
   }
 
   ngOnDestroy(): void {
     this.store.dispatch(new fromPfDataGridActions.Reset());
-    this.pageViewIdSubscription.unsubscribe();
+    this.modelPageViewIdSubscription.unsubscribe();
   }
 }
 

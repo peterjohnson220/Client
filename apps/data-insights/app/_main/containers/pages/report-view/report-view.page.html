@@ -1,17 +1,14 @@
-<ng-container *ngIf="(workbookViewUrl$ | async) as workbookViewUrlAsync">
-  <pf-page-with-title-bar [returnUrl]="'/'">
-    <ng-container page-title>{{reportTitle}}</ng-container>
-    <ng-container page-content>
-      <pf-async-container
-        [loading]="workbookViewUrlAsync.loading || vizLoading"
-        [loadingError]="workbookViewUrlAsync.loadingError"
-        [loadingErrorMessage]="'Error loading this workbook'"
-        [opacityLevel]="1"
-        [hideReloadButton]="true">
-        <div id="vizContainer">
-
-        </div>
-      </pf-async-container>
-    </ng-container>
-  </pf-page-with-title-bar>
-</ng-container>
+<pf-page-with-title-bar [returnUrl]="'/'">
+  <ng-container page-title>{{reportTitle}}</ng-container>
+  <ng-container page-content>
+    <pf-report-view
+      [viewName]="viewName"
+      [viewType]="viewType"
+      [workbookName]="workbookName"
+      [workbookId]="workbookId"
+      [reportTitle]="reportTitle"
+      [tabSwitchUpdatesRoute]="true"
+      [showTabs]="true"
+    ></pf-report-view>
+  </ng-container>
+</pf-page-with-title-bar>

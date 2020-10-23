@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
-import { RangeGroupMetadata } from '../../models';
+import { RangeGroupMetadata } from 'libs/models/structures';
 
 @Component({
   selector: 'pf-model-settings-btn',
@@ -11,6 +11,7 @@ export class ModelSettingsBtnComponent {
   @ViewChild('p') public p: any;
 
   @Input() metadata: RangeGroupMetadata;
+  @Input() comparingFlag: boolean;
   @Output() modelSettingsClicked = new EventEmitter();
   @Output() duplicateModelClicked = new EventEmitter();
 
@@ -25,4 +26,5 @@ export class ModelSettingsBtnComponent {
     this.duplicateModelClicked.emit();
     this.p.close();
   }
+
 }

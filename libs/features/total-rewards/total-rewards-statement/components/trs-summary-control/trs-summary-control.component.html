@@ -11,7 +11,7 @@
     </pf-string-editor>
   </h3>
   <h4 *ngIf="getIsEditMode()">{{getEditValue()}}</h4>
-  <h4 *ngIf="!getIsEditMode()" [ngClass]="getIsPreviewMode ? 'preview-mode-animation' : '' ">
+  <h4 *ngIf="!getIsEditMode()" [ngClass]="getIsPreviewMode() ? 'preview-mode-animation' : '' ">
     {{getSumOfCalculationControls()}}
   </h4>
 </div>

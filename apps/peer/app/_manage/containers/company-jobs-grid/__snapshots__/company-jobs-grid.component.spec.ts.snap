@@ -21,7 +21,7 @@ exports[`CompanyJobsGridComponent should show a kendo grid with columns 1`] = `
   tooltipDir="undefined"
 >
   <div
-    class="company-jobs-grid-container position-relative k-tooltip-container h-100"
+    class="jobs-grid-container position-relative k-tooltip-container h-100"
     filter=".k-grid td"
     kendotooltip=""
     showon="none"

@@ -3,7 +3,6 @@ import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  Data,
   Router
 } from '@angular/router';
 
@@ -36,7 +35,8 @@ export class UrlParameterValidationGuard implements CanActivate {
     const queryParam = activeRoute.queryParamMap;
     const routeData = activeRoute.data;
     if (activeRoute.routeConfig.path === 'pricing-loaders-download') {
-      if (userContext.AccessLevel === 'Admin' && queryParam.get('companyId') !== null && queryParam.get('companyId') !== '' && queryParam.get('companyName') !== null) {
+      const hasCompanyId = queryParam.get('companyId') !== null && queryParam.get('companyId') !== '';
+      if (userContext.AccessLevel === 'Admin' && hasCompanyId && queryParam.get('companyName') !== null) {
         return of(true);
       } else if (this.permissionService.CheckPermission(routeData.Permissions, routeData.Check) && queryParam.keys.length === 0) {
         return of(true);

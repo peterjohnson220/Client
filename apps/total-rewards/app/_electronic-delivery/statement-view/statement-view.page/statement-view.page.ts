@@ -7,7 +7,6 @@ import { Observable, Subscription } from 'rxjs';
 import { AsyncStateObj } from 'libs/models/state';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
-import { StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-view.page.actions';
@@ -18,7 +17,6 @@ import * as fromPageActions from '../actions/statement-view.page.actions';
   styleUrls: ['./statement-view.page.scss']
 })
 export class StatementViewPageComponent implements OnDestroy, OnInit {
-  mode = StatementModeEnum.Preview;
   statement$: Observable<Statement>;
   statementLoading$: Observable<boolean>;
   statementLoadingError$: Observable<boolean>;
@@ -30,8 +28,6 @@ export class StatementViewPageComponent implements OnDestroy, OnInit {
   employeeRewardsData: EmployeeRewardsData;
 
   urlParamSubscription = new Subscription();
-  statementSubscription = new Subscription();
-  employeeRewardsDataSubscription = new Subscription();
 
   constructor(private store: Store<fromPageReducer.State>, private route: ActivatedRoute) { }
 
@@ -49,32 +45,10 @@ export class StatementViewPageComponent implements OnDestroy, OnInit {
       this.store.dispatch(new fromPageActions.GetEmployeeRewardsData({ companyEmployeeId: this.employeeId }));
       this.store.dispatch(new fromPageActions.LoadStatement(this.statementId));
     });
-    this.statementSubscription = this.statement$.subscribe(s => {
-      if (s) {
-        this.statement = s;
-      }
-    });
-    this.employeeRewardsDataSubscription = this.employeeRewardsDataAsync$.subscribe(e => {
-      if (!!e.obj) {
-        this.employeeRewardsData = e.obj;
-      }
-    });
-
   }
 
   ngOnDestroy(): void {
     this.urlParamSubscription.unsubscribe();
-    this.statementSubscription.unsubscribe();
-    this.employeeRewardsDataSubscription.unsubscribe();
-  }
-
-  get statementTitle(): string {
-    return this.statement.StatementName + ': ' +
-      (
-        (this.employeeRewardsData.EmployeeFirstName || this.employeeRewardsData.EmployeeLastName) ?
-        this.employeeRewardsData.EmployeeFirstName + ' ' + this.employeeRewardsData.EmployeeLastName :
-        this.employeeRewardsData.EmployeeId
-      );
   }
 
 }

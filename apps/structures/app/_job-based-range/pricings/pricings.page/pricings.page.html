@@ -4,7 +4,7 @@
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
   [columnTemplates]="colTemplates"
-  [pageViewId]="pricingsPageViewId"
+  [pageViewId]="pageViewId"
   [gridContainerSplitViewWidth]="'70%'"
   [splitViewTemplate]="graph"
   [splitOnSelection]="false"
@@ -70,7 +70,7 @@
       [inboundFilters]="[filter]"
       [rangeGroupId]="rangeGroupId"
       [singleRecordView]="true"
-      [page]="page"
+      [pageViewId]="pageViewId"
       [modifiedKey]="'CompanyStructures_Ranges_CompanyStructuresRanges_ID'">
     </pf-model-grid>
   </div>

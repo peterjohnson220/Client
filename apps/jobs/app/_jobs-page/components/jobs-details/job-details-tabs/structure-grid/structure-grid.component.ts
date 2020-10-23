@@ -10,7 +10,6 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/pf-data-grid/models';
-import { getDefaultPagingOptions, PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
@@ -33,6 +32,7 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
   @ViewChild('comparatioColumn') comparatioColumn: ElementRef;
   @ViewChild('currencyColumn') currencyColumn: ElementRef;
   @ViewChild('payMarketFilter') payMarketFilter: ElementRef;
+  @ViewChild('percentage') percentageColumn: ElementRef;
 
   pageViewId = PageViewIds.Structures;
   rangeTypeIds = RangeType;
@@ -41,7 +41,6 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'vw_CompanyJobsStructureInfo_Structure_Search'
   }];
-  defaultPagingOptions: PagingOptions;
   fieldsExcludedFromExport = [
     'CompanyJob_ID',
     'CompanyPayMarket_ID',
@@ -88,9 +87,6 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
       EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
       ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
     };
-    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
-      ? getDefaultPagingOptions()
-      : { From: 0, Count: 20 };
   }
 
   ngAfterViewInit() {
@@ -104,7 +100,8 @@ export class StructureGridComponent implements AfterViewInit, OnDestroy {
       'Structure_Search': { Template: this.nameColumn },
       'Mid': {Template: this.midColumn},
       'AvgEEComparatio': {Template: this.comparatioColumn},
-      [PfDataGridColType.currency]: { Template: this.currencyColumn }
+      [PfDataGridColType.currency]: { Template: this.currencyColumn },
+      [PfDataGridColType.percentage]: { Template: this.percentageColumn }
     };
   }
   ngOnDestroy() {

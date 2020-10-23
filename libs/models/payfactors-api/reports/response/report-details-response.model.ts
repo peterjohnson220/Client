@@ -4,6 +4,7 @@ export interface ReportDetailsResponse {
   DisplayName: string;
   Summary: string;
   Thumbnail: string;
+  Site: string;
   EditDate: Date;
   CreateDate: Date;
   LastEditedBy: string;

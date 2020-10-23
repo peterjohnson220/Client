@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import cloneDeep from 'lodash/cloneDeep';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/internal/operators';
+import { filter, takeUntil } from 'rxjs/internal/operators';
 
+import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 import { CompanySelectorItem } from 'libs/features/company/company-selector/models';
 import {
     LoaderType, ORG_DATA_PF_BENEFITS_MAPPING_FIELDS, ORG_DATA_PF_EMPLOYEE_FIELDS, ORG_DATA_PF_JOB_FIELDS,
@@ -15,11 +16,10 @@ import {
 import { ILoadSettings } from 'libs/features/org-data-loader/helpers';
 import { LoaderEntityStatus, VisibleLoaderOptionModel } from 'libs/features/org-data-loader/models';
 import { CompanySetting, CompanySettingsEnum, LoaderFieldSet } from 'libs/models';
-import { CompanySettingsApiService } from 'libs/data/payfactors-api';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/organizational-data-field-mapping.actions';
-import {EntityChoice} from '../../models';
+import { EntityChoice } from '../../models';
 
 @Component({
   selector: 'pf-file-mapping',
@@ -92,18 +92,18 @@ export class FileMappingComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes.selectedCompany && !!changes.selectedCompany.currentValue) {
-    this.selectedCompanySetting$ = this.companySettingsApiService.getCompanySettings(this.selectedCompany.CompanyId);
+      this.selectedCompanySetting$ = this.companySettingsApiService.getCompanySettings(this.selectedCompany.CompanyId);
 
-    this.selectedCompanySetting$.pipe(
-      takeUntil(this.unsubscribe$),
-      filter(companySetting => !!companySetting)
-    ).subscribe(setting => {
-      const jobRangeStruct = setting.find(s => s.Key === CompanySettingsEnum.EnableJobRangeStructureRangeTypes);
-      if (jobRangeStruct.Value === 'true') {
-        this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
-        this.updateEntities();
-      }
-    });
+      this.selectedCompanySetting$.pipe(
+        takeUntil(this.unsubscribe$),
+        filter(companySetting => !!companySetting)
+      ).subscribe(setting => {
+        const jobRangeStruct = setting.find(s => s.Key === CompanySettingsEnum.EnableJobRangeStructureRangeTypes);
+        if (jobRangeStruct.Value === 'true') {
+          this.payfactorsStructureDataFields = this.payfactorsStructureDataFields.concat(ORG_DATA_PF_JOB_RANGE_STRUCTURE_FIELDS);
+          this.updateEntities();
+        }
+      });
     }
   }
 

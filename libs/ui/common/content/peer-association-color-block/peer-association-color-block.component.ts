@@ -13,6 +13,7 @@ export class PeerAssociationColorBlockComponent {
   @Input() isAssociated: boolean;
   @Input() isPendingPeerUserReview: boolean;
   @Input() isApproved: boolean;
+  @Input() isNew: boolean;
   @Input() isExchangeSpecific: boolean;
   @Input() showStatusLabel: boolean;
 
@@ -34,6 +35,8 @@ export class PeerAssociationColorBlockComponent {
       return 'pending';
     } else if (this.isAssociated || this.unsavedExchangeJobAssociationsContainAssociations()) {
       return 'associated';
+    } else if (this.isNew) {
+      return 'new';
     }
     return 'not-associated';
   }
@@ -43,6 +46,8 @@ export class PeerAssociationColorBlockComponent {
       return 'associated';
     } else if (this.isAssociated && !this.isApproved) {
       return 'pending';
+    } else if (this.isNew) {
+      return 'new';
     }
     return 'not-associated';
   }
@@ -63,6 +68,8 @@ export class PeerAssociationColorBlockComponent {
       return 'Pending Review';
     } else if (associationClass === 'associated') {
       return 'Matched';
+    } else if (associationClass === 'new') {
+      return 'New';
     } else {
       return 'Not Matched';
     }

@@ -1,13 +1,6 @@
 @import 'kendo-grid';
 @import 'peer/peer-button';
 
-.company-jobs-grid-container {
-  &.short {
-    height: 250px;
-    transition: height .4s ease-in-out;
-  }
-}
-
 :host ::ng-deep .k-grid {
   tr, tr.k-alt {
     &:hover {

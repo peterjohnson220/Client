@@ -9,7 +9,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CompositeDataLoadTypes, LoadTypes } from 'libs/constants';
-import { PermissionService } from 'libs/core';
+import { AbstractFeatureFlagService, FeatureFlagContext, PermissionService } from 'libs/core';
 import * as fromCompanyReducer from 'libs/features/company/company-selector/reducers';
 import { CompanySettingsEnum, ConfigurationGroup, generateMockUserContext } from 'libs/models';
 
@@ -28,6 +28,11 @@ describe('OrgDataLoadComponent', () => {
   const companySetting_ManualOrgDataLoadLink_False = [
     { Key: CompanySettingsEnum.ManualOrgDataLoadLink, DisplayName: 'Manual Org Data Load Link', Value: 'false', Visible: true, DataType: 'string' }];
 
+  class MockAbstractFeatureFlagService {
+    bindEnabled(key: string, defaultValue?: boolean, context?: FeatureFlagContext) {
+      jest.fn();
+    }
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,7 +43,12 @@ describe('OrgDataLoadComponent', () => {
         {
           provide: PermissionService,
           useValue: { CheckPermission: jest.fn(() => true) }
-        },],
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useClass: MockAbstractFeatureFlagService
+        }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -192,7 +202,7 @@ describe('OrgDataLoadComponent', () => {
       LoadType: LoadTypes.Manual,
       PrimaryCompositeDataLoadType: CompositeDataLoadTypes.OrgData
     };
-    instance.AddAndSetSelectedMapping(configGroup);
+    instance.AddAndSetSelectedConfig(configGroup);
     expect(instance.selectedMapping.LoaderConfigurationGroupId).toEqual(configGroup.LoaderConfigurationGroupId);
   });
 

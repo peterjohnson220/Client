@@ -1,9 +1,10 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { View, Workbook } from 'libs/features/reports/models';
 
 import * as fromDashboardsActions from '../actions/dashboards.actions';
-import { DashboardView, View, Workbook } from '../models';
+import { DashboardView } from '../models';
 import { DashboardsHelper } from '../helpers';
 
 export interface State {

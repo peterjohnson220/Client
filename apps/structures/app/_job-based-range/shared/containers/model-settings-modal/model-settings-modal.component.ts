@@ -6,7 +6,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
@@ -16,8 +16,7 @@ import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
-import { ControlPoint, Currency, RangeGroupMetadata } from '../../models';
-import { Pages } from '../../constants/pages';
+import { ControlPoint, Currency } from '../../models';
 import { UrlService } from '../../services';
 import { Workflow } from '../../constants/workflow';
 import { RangeDistributionSettingComponent } from '../range-distribution-setting';
@@ -30,7 +29,7 @@ import { ModelSettingsModalConstants } from '../../constants/model-settings-moda
 })
 export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   @Input() rangeGroupId: number;
-  @Input() page: Pages;
+  @Input() pageViewId: string;
   @ViewChild(RangeDistributionSettingComponent, { static: false }) public rdSettingComponent: RangeDistributionSettingComponent;
 
   modalOpen$: Observable<boolean>;
@@ -43,7 +42,6 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   roundingSettings$: Observable<RoundingSettingsDataObj>;
 
   enableJobRangeTypes$: Observable<boolean>;
-
   controlPointsAsyncObjSub: Subscription;
   currenciesAsyncObjSub: Subscription;
   metadataSub: Subscription;
@@ -182,7 +180,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
         {
           rangeGroupId: this.rangeGroupId,
           formValue: this.modelSetting,
-          fromPage: this.page,
+          fromPageViewId: this.pageViewId,
           rounding: this.roundingSettings
         })
       );
@@ -197,15 +195,20 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       // Set value for control point, range spread min and max, pay type
       this.updateRangeTypeSetting();
     } else {
-      // For structures with no range types PayType is the same as ControlPoint with no MRP posfix
-      const payType = this.modelSettingsForm.controls['ControlPoint'].value.replace('MRP', '');
+      // For structures with no range types PayType is the same as ControlPoint with no MRP postfix
+      const payType = this.modelSettingsForm.controls['ControlPoint'].value !== null
+        ? this.modelSettingsForm.controls['ControlPoint'].value.replace('MRP', '')
+        : null;
       this.modelSettingsForm.controls['PayType'].setValue(payType);
       this.modelSetting = this.modelSettingsForm.getRawValue();
     }
 
     if (!this.modelSettingsForm.valid) {
       if (this.modelSettingsForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Enabled').value
-        && !this.modelSettingsForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage').valid) {
+        && !this.modelSettingsForm.get('RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage').valid
+        || +this.modelSettingsForm.get('RangeAdvancedSetting.MissingMarketDataType.Type').value === MissingMarketDataTypes.IncreaseCurrentByPercent
+        && !this.modelSettingsForm.get('RangeAdvancedSetting.MissingMarketDataType.Percentage').valid
+      ) {
         this.activeTab = 'advancedModelingTab';
       } else {
         this.activeTab = 'modelTab';
@@ -219,13 +222,44 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       // Prevent the hidden controls from failing validation
       this.modelSettingsForm.controls['SpreadMin'].setValue(setting.Minimum);
       this.modelSettingsForm.controls['SpreadMax'].setValue(setting.Maximum);
-      this.modelSettingsForm.controls['ControlPoint'].setValue(setting.ControlPoint);
+
+      if (!!setting.ControlPoint) {
+        this.modelSettingsForm.controls['ControlPoint'].setValue(setting.ControlPoint);
+        this.setRequired('ControlPoint');
+        if (!!this.modelSetting.RangeDistributionSetting) {
+          this.modelSetting.RangeDistributionSetting.ControlPoint_Formula = null;
+        }
+      }
+
+      if (!!setting.ControlPoint_Formula?.Formula) {
+        if (!this.modelSetting.RangeDistributionSetting.ControlPoint_Formula.IsPublic) {
+          this.modelSetting.RangeDistributionSetting.ControlPoint_Formula.IsPublic = true;
+        }
+        this.modelSettingsForm.controls['ControlPoint'].setValue(null);
+        this.clearRequiredValidator('ControlPoint');
+      }
+
       this.modelSettingsForm.controls['RangeDistributionTypeId'].setValue(setting.RangeDistributionTypeId);
       this.modelSettingsForm.controls['PayType'].setValue(setting.PayType);
 
       this.modelSetting = this.modelSettingsForm.getRawValue();
       this.modelSetting.RangeDistributionSetting = setting;
+
+      if (!setting.ControlPoint_Formula?.Formula) {
+        this.modelSetting.RangeDistributionSetting.ControlPoint_Formula = null;
+      }
     }
+  }
+
+  setRequired(controlName: string) {
+    this.modelSettingsForm.get(controlName).setValidators([Validators.required]);
+    this.modelSettingsForm.get(controlName).updateValueAndValidity();
+  }
+
+  clearRequiredValidator(controlName: string) {
+    this.modelSettingsForm.get(controlName).reset();
+    this.modelSettingsForm.get(controlName).clearValidators();
+    this.modelSettingsForm.get(controlName).updateValueAndValidity();
   }
 
   handleModalDismiss() {

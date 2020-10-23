@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Data Insights - Standard Report Component should match snapshot 1`] = `
+<pf-standard-report
+  router={[Function Object]}
+>
+  
+</pf-standard-report>
+`;

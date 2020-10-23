@@ -1,31 +1,7 @@
-<ng-container *ngIf="!!employeeRewardsData">
-  <pf-page-with-title-bar>
-      <ng-container page-title>
-        {{statementTitle}}
-    </ng-container>
-    <ng-container page-actions>
-      <button type="button" class="btn btn-secondary" >
-        <fa-icon [icon]="'download'"  aria-hidden="true"></fa-icon>
-      </button>
-    </ng-container>
-    <ng-container page-content>
-      <div class="canvas mx-auto pb-1 mt-2" >
-          <pf-async-container [loading]="(statementLoading$ | async)"
-                              [loadingError]="(statementLoadingError$ | async)">
-            <ng-container basic-content>
-              <div class="text-center">
-                <div class="grey-border text-left d-inline-block">
-                  <pf-total-rewards-statement
-                    [statement]="statement"
-                    [mode]="mode"
-                    [loadingData]="(employeeRewardsDataAsync$ | async)?.loading"
-                    [employeeRewardsData]="employeeRewardsData"
-                  ></pf-total-rewards-statement>
-                </div>
-              </div>
-            </ng-container>
-          </pf-async-container>
-      </div>
-    </ng-container>
-  </pf-page-with-title-bar>
-</ng-container>
+<pf-total-rewards-statement-view
+  [loading]="(statementLoading$ | async) || (employeeRewardsDataAsync$ | async)?.loading"
+  [loadingError]="(statementLoadingError$ | async)"
+  [employeeRewardsData]=" (employeeRewardsDataAsync$ | async)?.obj"
+  [statement]="statement$ | async"
+  [showPayfactorsLogo]="false">
+</pf-total-rewards-statement-view>

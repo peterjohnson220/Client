@@ -183,7 +183,8 @@ export class ClientServerFilterHelper {
 
   static removeNonSelectedMultiSelectFilterOptionsToMatchAggregateCount(multiSelectFilter: MultiSelectFilter) {
     const selectedOptions = multiSelectFilter.Options.filter(o => o.Selected || (o as FilterableMultiSelectOption)?.SelectionsCount > 0);
-    const nonSelectedOptions = multiSelectFilter.Options.filter(o => !o.Selected && (!!!(o as FilterableMultiSelectOption).SelectionsCount || (o as FilterableMultiSelectOption)?.SelectionsCount === 0));
+    const nonSelectedOptions = multiSelectFilter.Options.filter(o =>
+      o.Selected && (!!!(o as FilterableMultiSelectOption).SelectionsCount || (o as FilterableMultiSelectOption)?.SelectionsCount === 0));
     if (selectedOptions.length >= multiSelectFilter.AggregateCount) {
       multiSelectFilter.Options = selectedOptions;
       return;

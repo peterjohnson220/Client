@@ -7,13 +7,13 @@ import { getUserLocale } from 'get-user-locale';
 import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
 import { take } from 'rxjs/operators';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
 import { JobRangeModelChartService, JobRangeModelChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-import { RangeGroupMetadata } from '../../../shared/models';
 import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
@@ -112,7 +112,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
 
   private refreshChartLegendPosition(scrolledContent: ContentScrollEvent) {
     if (scrolledContent && this.chartInstance) {
-      this.initialY = this.chartInstance.legend.options.y;
+      this.initialY = this.chartInstance.legend.options.y + 10;
       this.chartInstance.legend.group.attr({
         translateY: this.initialY + scrolledContent.scrollTop
       });

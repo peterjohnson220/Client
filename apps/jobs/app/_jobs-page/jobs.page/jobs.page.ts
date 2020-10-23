@@ -1,12 +1,10 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import cloneDeep from 'lodash/cloneDeep';
-
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/index';
-
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
@@ -17,14 +15,14 @@ import {
 } from 'libs/features/pf-data-grid/models';
 import { AsyncStateObj, UserContext } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/multi-match/models';
-import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, PagingOptions, ViewField, getDefaultPagingOptions } from 'libs/models/payfactors-api';
+import { ChangeJobStatusRequest, CreateProjectRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
-
 import * as fromRootState from 'libs/state/state';
 import * as fromModifyPricingsActions from 'libs/features/multi-match/actions';
 import * as fromModifyPricingsReducer from 'libs/features/multi-match/reducers';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import * as fromJobManagementActions from 'libs/features/job-management/actions';
 
 import { PageViewIds } from '../constants';
 import { ShowingActiveJobs } from '../pipes';
@@ -89,7 +87,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     dir: 'asc',
     field: 'CompanyJobs_Job_Title'
   }];
-  defaultPagingOptions: PagingOptions;
 
   selectedJobPricingCount = 0;
   enablePageToggle = false;
@@ -163,9 +160,6 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled,
       SelectAllPanelItemName: 'jobs'
     };
-    this.defaultPagingOptions = this.hasInfiniteScrollFeatureFlagEnabled
-      ? getDefaultPagingOptions()
-      : { From: 0, Count: 20 };
   }
 
   ngOnInit() {
@@ -191,17 +185,27 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.selectedKeysSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
       this.selectedJobIds = sk || [];
+      this.selectedPricings = [...this.selectedPricings.filter(f => f.PaymarketId),
+        ...this.selectedJobIds.map(v => {return {
+          JobId: v,
+        };
+        })];
     });
 
     this.selectedPaymarketsSubscription = this.store.select(fromPfDataGridReducer.getSelectedData, PageViewIds.PayMarkets).subscribe(data => {
       if (data) {
-        this.selectedPricings = data.map(v => {
+        this.selectedPricings = [...data.map(v => {
           return {
             PricingId: v.CompanyJobs_Pricings_CompanyJobPricing_ID,
             JobId: v.CompanyJobs_CompanyJob_ID,
             PaymarketId: v.CompanyPayMarkets_CompanyPayMarket_ID,
           };
-        });
+        }),
+          ...this.selectedJobIds.map(v => {
+          return {
+            JobId: v
+          };
+        })];
         this.selectedPricingIds = data
           .filter(d => d.CompanyJobs_Pricings_CompanyJobPricing_ID)
           .map(d => d.CompanyJobs_Pricings_CompanyJobPricing_ID);
@@ -416,6 +420,10 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleJobManagmentModal(toggle: boolean, jobId: number = null, event = null) {
+    if (jobId === null) {
+      this.store.dispatch(new fromJobManagementActions.ResetState());
+    }
+
     this.editingJobId = jobId;
     this.showJobManagementModal.next(toggle);
     if (event) {

@@ -92,6 +92,7 @@
         [sendingGenerateRequestError]="sendingGenerateRequestError$ | async"
         [companyEmployeeIdsTotal]="assignedEmployeesTotalOrSelectedCount$ | async"
         [electronicDeliveryEnabled]="electronicDeliveryFeatureFlagEnabled"
+        [statementEmailTemplate]="statementEmailTemplate$ | async"
         (generateStatementsClick)="handleGenerateStatementsClick($event)"
         (cancelClick)="handleCancelGenerateStatementModal()"
       ></pf-generate-statement-modal>

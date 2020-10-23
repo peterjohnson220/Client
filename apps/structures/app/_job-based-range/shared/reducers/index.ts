@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector, select } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
@@ -8,6 +8,8 @@ import * as fromSharedReducer from './shared.reducer';
 import * as fromModelSettingsModalReducer from './model-settings-modal.reducer';
 import * as fromPublishModelModalReducer from './publish-model-modal.reducer';
 import * as fromDuplicateModelModalReducer from './duplicate-model-modal.reducer';
+import * as fromFieldsReducer from './fields.reducer';
+import * as fromFormulaFieldReducer from './formula-field.reducer';
 
 // Feature area state
 export interface JobBasedRangeSharedState {
@@ -15,6 +17,8 @@ export interface JobBasedRangeSharedState {
   modelSettingsModal: fromModelSettingsModalReducer.State;
   publishModelModal: fromPublishModelModalReducer.State;
   duplicateModelModal: fromDuplicateModelModalReducer.State;
+  fields: fromFieldsReducer.State;
+  formulaFields: fromFormulaFieldReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,7 +31,9 @@ export const reducers = {
   shared: fromSharedReducer.reducer,
   modelSettingsModal: fromModelSettingsModalReducer.reducer,
   publishModelModal: fromPublishModelModalReducer.reducer,
-  duplicateModelModal: fromDuplicateModelModalReducer.reducer
+  duplicateModelModal: fromDuplicateModelModalReducer.reducer,
+  fields: fromFieldsReducer.reducer,
+  formulaFields: fromFormulaFieldReducer.reducer
 };
 
 // Select Feature Area
@@ -56,6 +62,16 @@ export const selectDuplicateModelModalState = createSelector(
   (state: JobBasedRangeSharedState) => state.duplicateModelModal
 );
 
+export const selectFieldsState = createSelector(
+  selectFeatureAreaState,
+  (state: JobBasedRangeSharedState) => state.fields
+);
+
+export const selectFormulaFieldState = createSelector(
+  selectFeatureAreaState,
+  (state: JobBasedRangeSharedState) => state.formulaFields
+);
+
 // Shared
 export const getMetadata = createSelector(
   selectSharedState, fromSharedReducer.getMetadata
@@ -82,6 +98,26 @@ export const getControlPointsAsyncObj = createSelector(
 
 export const getRangeOverrides = createSelector(
   selectSharedState, fromSharedReducer.getRangeOverrides
+);
+
+export const getCurrentRangeGroup = createSelector(
+  selectSharedState,
+  fromSharedReducer.getCurrentRangeGroup
+);
+
+export const getComparingModels = createSelector(
+  selectSharedState,
+  fromSharedReducer.getComparingModels
+);
+
+export const getCompareEnabled = createSelector(
+  selectSharedState,
+  fromSharedReducer.getCompareEnabled
+);
+
+export const getData = createSelector(
+  selectSharedState,
+  fromSharedReducer.getData
 );
 
 export const getStructureNameSuggestionsAsyncObj = createSelector(
@@ -116,4 +152,51 @@ export const getDuplicatingModelAsyncObj = createSelector(
 
 export const getDuplicateModelNameExistsFailure = createSelector(
   selectDuplicateModelModalState, fromDuplicateModelModalReducer.getDuplicateModelNameExistsFailure
+);
+
+// Formula Fields
+export const getAvailablePricingFields = createSelector(
+  selectFieldsState, fromFieldsReducer.getReportFieldsAsync
+);
+
+export const getFormulaFieldSuggestions = createSelector(
+  selectFieldsState,
+  fromFieldsReducer.getFormulaFieldSuggestions
+);
+
+// Formula Field Modal
+export const getFormulaValidating = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getValidating
+);
+
+export const getFormulaValid = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getFormulaValid
+);
+
+
+export const getFormulaSavingSuccess = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getSavingSuccess
+);
+
+export const getFormulaSavingError = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getSavingError
+);
+
+export const getFormulaSavingErrorMessage = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getSavingErrorMessage
+);
+
+export const getFormulaDataType = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getFormulaDataType
+);
+
+export const getFormulaField = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getFormulaField
 );

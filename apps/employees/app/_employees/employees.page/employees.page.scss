@@ -1,5 +1,7 @@
 @import 'employees-page-styles';
 @import 'common/common';
+@import 'total-rewards/app-colors';
+@import 'total-rewards/statement-layout-variables';
 
 .header-bold,
 .page-content {
@@ -28,4 +30,9 @@
 
 .dropup .dropdown-toggle::after, .dropdown-toggle::after {
   display: none !important;
+}
+
+.total-rewards-statement {
+  width: $canvas-width;
+  background: $trs-canvas-background-color;
 }
