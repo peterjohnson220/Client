@@ -13,7 +13,7 @@
     </a>
   </div>
   <kendo-chart [transitions]="!inEditMode && !inPrintMode" [seriesColors]="chartColors" (legendItemClick)="onLegendItemClick($event)" (render)="onChartRender($event)">
-    <kendo-chart-legend position="bottom" [labels]="legendLabels">
+    <kendo-chart-legend position="bottom" [labels]="inPrintMode ? printModeLegendLabels : defaultLegendLabels">
     </kendo-chart-legend>
     <kendo-chart-series>
       <kendo-chart-series-item
