@@ -1,5 +1,7 @@
 import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
+import { LegendLabels } from '@progress/kendo-angular-charts';
+
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import { ChartControl, StatementModeEnum, UpdateTitleRequest, CalculationControl } from '../../models';
@@ -24,6 +26,10 @@ export class TrsChartControlComponent implements OnChanges {
   @Output() chartRender: EventEmitter<string> = new EventEmitter();
 
   chartData: { category: string, value: number }[];
+
+  legendLabels: LegendLabels = {
+    font: '13px "DejaVu Sans"'
+  };
 
   get inEditMode(): boolean {
     return this.mode === StatementModeEnum.Edit;
