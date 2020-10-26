@@ -13,7 +13,7 @@ import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
+import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/pf-data-grid/helpers';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 import * as fromRangeFieldActions from 'libs/features/structures/range-editor/actions/range-field-edit.actions';
 import { GridConfig } from 'libs/features/pf-data-grid/models';
@@ -50,15 +50,7 @@ export class SharedEffects {
                 const actions = [];
                 const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
 
-                if (data.gridConfig.EnableInfiniteScroll) {
-                  let totalPages = Math.floor(data.gridData.data.length / data.pagingOptions.Count);
-                  if (data.gridData.data.length % data.pagingOptions.Count !== 0) {
-                    totalPages++;
-                  }
-                  actions.push(new pfDataGridActions.ReloadData(modelPageViewId, totalPages * data.pagingOptions.Count));
-                } else {
-                  actions.push(new pfDataGridActions.LoadData(modelPageViewId));
-                }
+                actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
 
                 actions.push(new fromSharedActions.GetOverriddenRanges({
                   pageViewId: modelPageViewId,
@@ -93,16 +85,7 @@ export class SharedEffects {
 
             actions.push(new fromSharedActions.RemovingRangeSuccess());
             actions.push(new pfDataGridActions.ClearSelections(modelPageViewId, [data.action.payload]));
-
-            if (data.gridConfig.EnableInfiniteScroll) {
-              let totalPages = Math.floor(data.gridData.data.length / data.pagingOptions.Count);
-              if (data.gridData.data.length % data.pagingOptions.Count !== 0) {
-                totalPages++;
-              }
-              actions.push(new pfDataGridActions.ReloadData(modelPageViewId, totalPages * data.pagingOptions.Count));
-            } else {
-              actions.push(new pfDataGridActions.LoadData(modelPageViewId));
-            }
+            actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
 
             return actions;
           }),
