@@ -4,7 +4,9 @@
       <span>Created By </span>
       <a href="mailto:{{ticketDetail.OpenedBy}}?Subject=Payfactors%20Support%20Ticket%20#{{ticketDetail.TicketId}}">
         {{ticketDetail.OpenedBy}}</a>
-      - {{ticketDetail.CreateDate | date:'mediumDate'}}
+          <span class="text-muted">
+            - Date: {{ticketDetail.CreateDate | date:'shortDate'}} Time: {{ticketDetail.CreateDate | date:'shortTime'}}
+          </span>
     </div>
     <div>
       <fa-icon [icon]="['far', 'clock']"></fa-icon>
