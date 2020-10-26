@@ -87,14 +87,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "1.95mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -300,14 +292,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.45mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -523,14 +507,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.04mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -750,14 +726,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.24mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -977,14 +945,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.18mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1202,14 +1162,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "1.73mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1423,14 +1375,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.26mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1646,14 +1590,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.14mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2130,14 +2066,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.29mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2355,14 +2283,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.9mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2576,14 +2496,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.15mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -2799,14 +2711,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.49mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3021,14 +2925,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "3.8mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3243,14 +3139,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.24mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3464,14 +3352,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.26mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3685,14 +3565,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.02mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -3906,14 +3778,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.24mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -4124,14 +3988,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.41mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -4345,14 +4201,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.22mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -4564,14 +4412,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "1.96mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -4785,14 +4625,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "2.23mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -5002,14 +4834,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "1.98mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -5213,14 +5037,6 @@
               ]
             },
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "baseline": "5.59mb",
-                  "maximumWarning": "100kb",
-                  "maximumError": "300kb"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
