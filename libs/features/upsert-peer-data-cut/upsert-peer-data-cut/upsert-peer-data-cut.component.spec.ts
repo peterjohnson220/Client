@@ -191,6 +191,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
   it('should dispatch the upsert data cut action when clicking add', () => {
     dataCutGuid = null;
     instance.cutGuid = dataCutGuid;
+    instance.displayMap = true;
     const mockEntityConfig: UpsertPeerDataCutEntityConfigurationModel = {
       ParentEntity: UpsertPeerDataCutParentEntities.Projects,
       ParentEntityId: 3,
@@ -216,6 +217,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
   it('should dispatch the upsert data cut action when clicking update', () => {
     dataCutGuid = mockDataCutGUID;
     instance.cutGuid = dataCutGuid;
+    instance.displayMap = true;
     const mockEntityConfig: UpsertPeerDataCutEntityConfigurationModel = {
       ParentEntity: UpsertPeerDataCutParentEntities.Projects,
       ParentEntityId: 3,
@@ -273,6 +275,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
   it('should call validateDataCut when map summary changes changes', () => {
     const payload = generateMockExchangeStatCompanyMakeup();
     dataCutGuid = null;
+    instance.displayMap = true;
     instance.cutGuid = dataCutGuid;
     instance.peerMapCompanies$ = of(payload);
 

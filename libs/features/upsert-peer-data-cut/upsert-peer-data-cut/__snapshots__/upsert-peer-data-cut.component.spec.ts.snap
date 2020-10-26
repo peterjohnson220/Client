@@ -30,7 +30,6 @@ exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when 
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
-  untaggedIncumbentCount="0"
   untaggedIncumbentCount$={[Function Observable]}
   untaggedIncumbentCountSubscription={[Function Subscriber]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
@@ -167,7 +166,6 @@ exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter w
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
-  untaggedIncumbentCount={[Function Number]}
   untaggedIncumbentCount$={[Function Observable]}
   untaggedIncumbentCountSubscription={[Function Subscriber]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
@@ -212,7 +210,6 @@ exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGui
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
-  untaggedIncumbentCount="0"
   untaggedIncumbentCount$={[Function Observable]}
   untaggedIncumbentCountSubscription={[Function Subscriber]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
@@ -257,7 +254,6 @@ exports[`Libs - Upsert Peer Data Cut should enable the update button when passes
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
-  untaggedIncumbentCount="0"
   untaggedIncumbentCount$={[Function Observable]}
   untaggedIncumbentCountSubscription={[Function Subscriber]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
@@ -302,7 +298,6 @@ exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and mes
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
-  untaggedIncumbentCount="0"
   untaggedIncumbentCount$={[Function Observable]}
   untaggedIncumbentCountSubscription={[Function Subscriber]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
@@ -348,7 +343,6 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' but
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
-  untaggedIncumbentCount="0"
   untaggedIncumbentCount$={[Function Observable]}
   untaggedIncumbentCountSubscription={[Function Subscriber]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
@@ -394,7 +388,6 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' bu
   selectedWeightingType={[Function Object]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
-  untaggedIncumbentCount="0"
   untaggedIncumbentCount$={[Function Observable]}
   untaggedIncumbentCountSubscription={[Function Subscriber]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
