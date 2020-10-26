@@ -1061,7 +1061,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_MODIFIED_KEY:
-      if (state.grids[action.pageViewId].modifiedKeys.includes(action.payload)) {
+      if (state.grids[action.pageViewId].modifiedKeys == null || state.grids[action.pageViewId].modifiedKeys.includes(action.payload)) {
         return state;
       }
 
