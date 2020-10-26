@@ -529,40 +529,38 @@ export class OrgDataLoadComponent implements OnInit, OnDestroy {
 
     if (!this.loadOptions) { return; }
 
-    switch (this.stepIndex) {
-      case OrgUploadStep.Company:
-        this.mappingOptions = [this.configGroupSeed];
-        this.selectedMapping = this.configGroupSeed;
-        this.selectedDelimiter = this.defaultDelimiter;
-        this.loadOptions = getEntityChoicesForOrgLoader(this.benefitsEnabled);
-        break;
+    if (this.stepIndex === 1) {
+      this.mappingOptions = [this.configGroupSeed];
+      this.selectedMapping = this.configGroupSeed;
+      this.selectedDelimiter = this.defaultDelimiter;
+      this.loadOptions = getEntityChoicesForOrgLoader(this.benefitsEnabled);
+    }
 
-      case OrgUploadStep.Entity:
-        this.loadOptions.forEach(element => {
-          element.isChecked = false;
-        });
-        break;
+    if (this.stepIndex <= 2) {
+      this.loadOptions.forEach(element => {
+        element.isChecked = false;
+      });
+    }
 
-      case OrgUploadStep.Files:
-        this.loadOptions.forEach(element => {
-          element.File = null;
-          element.isSelectedTab = false;
-        });
+    if (this.stepIndex <= 3) {
 
+      this.loadOptions.forEach(element => {
+        element.File = null;
+        element.isSelectedTab = false;
+      });
+
+      if (this.uploadComponent) {
         this.uploadComponent.ClearAllFiles();
         this.uploadComponent.ClearAllErrorMessages();
+      }
 
-        if (this.loaderConfigGroup) {
-          this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.loaderConfigGroup.LoaderConfigurationGroupId);
-        } else {
-          this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.configGroupSeed.LoaderConfigurationGroupId);
-        }
-        this.selectedDelimiter = this.loaderSetting !== null && this.loaderSetting !== undefined ? this.loaderSetting.delimiter : this.defaultDelimiter;
 
-        break;
-
-      default:
-        break;
+      if (this.loaderConfigGroup) {
+        this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.loaderConfigGroup.LoaderConfigurationGroupId);
+      } else {
+        this.selectedMapping = this.mappingOptions.find(f => f.LoaderConfigurationGroupId === this.configGroupSeed.LoaderConfigurationGroupId);
+      }
+      this.selectedDelimiter = this.loaderSetting !== null && this.loaderSetting !== undefined ? this.loaderSetting.delimiter : this.defaultDelimiter;
     }
   }
 
