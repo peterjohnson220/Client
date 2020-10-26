@@ -5,6 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of, timer } from 'rxjs';
 import { catchError, debounce, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { CurrencyApiService } from 'libs/data/payfactors-api/currency';
@@ -14,6 +15,10 @@ import { AsyncStateObj } from 'libs/models/state';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 import * as fromDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
+import { GridConfig } from 'libs/features/pf-data-grid/models';
+import { PagingOptions } from 'libs/models/payfactors-api/search/request';
+import { GridDataHelper } from 'libs/features/pf-data-grid/helpers';
 
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
 import * as fromSharedActions from '../actions/shared.actions';
@@ -31,15 +36,19 @@ export class ModelSettingsModalEffects {
   cancelInNewWorkflow$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromModelSettingsModalActions.CANCEL),
-      withLatestFrom(this.store.pipe(select(fromSharedReducer.getMetadata)),
-        (action, metadata: RangeGroupMetadata) => {
-          return { action, metadata };
+      withLatestFrom(
+        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+        this.store.pipe(select(fromPfDataGridReducer.getData)),
+        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
+        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions) => {
+          return { action, metadata, gridConfig, gridData, pagingOptions };
         }
       ),
       filter(() => this.urlService.isInWorkflow(Workflow.NewJobBasedRange)),
       map((data) => {
         const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
-        return new fromDataGridActions.LoadData(modelPageViewId);
+        return GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions);
       })
     );
 
@@ -105,9 +114,13 @@ export class ModelSettingsModalEffects {
   saveModelSettings$: Observable<Action> = this.actions$
     .pipe(
       ofType<fromModelSettingsModalActions.SaveModelSettings>(fromModelSettingsModalActions.SAVE_MODEL_SETTINGS),
-      withLatestFrom(this.store.pipe(select(fromSharedReducer.getMetadata)),
-        (action, metadata: RangeGroupMetadata) => {
-          return { action, metadata };
+      withLatestFrom(
+        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+        this.store.pipe(select(fromPfDataGridReducer.getData)),
+        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
+        (action, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult, pagingOptions: PagingOptions) => {
+          return { action, metadata, gridConfig, gridData, pagingOptions };
         }
       ),
       switchMap((data) => {
@@ -148,8 +161,7 @@ export class ModelSettingsModalEffects {
                     PayfactorsApiModelMapper.mapStructuresRangeGroupResponseToRangeGroupMetadata(r.RangeGroup)
                   ));
                   actions.push(new fromModelSettingsModalActions.CloseModal());
-
-                  actions.push(new fromDataGridActions.LoadData(modelPageViewId));
+                  actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
                   actions.push(new fromSharedActions.GetOverriddenRanges(
                     { pageViewId: modelPageViewId, rangeGroupId: r.RangeGroup.CompanyStructuresRangeGroupId}));
                   actions.push(new fromSharedActions.GetCurrentRangeGroup({
