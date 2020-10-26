@@ -8,6 +8,7 @@ export class PricingLoaderSettingsHelper {
     return [
       { KeyName: LoaderSettingKeyName.PricingsSheetName, LoaderSettingsId: 0, KeyValue: null },
       { KeyName: LoaderSettingKeyName.PricingNotesSheetName, LoaderSettingsId: 0, KeyValue: null },
+      { KeyName: LoaderSettingKeyName.PricingMatchNotesSheetName, LoaderSettingsId: 0, KeyValue: null },
       { KeyName: LoaderSettingKeyName.ValidateOnly, LoaderSettingsId: 0, KeyValue: null },
       { KeyName: LoaderSettingKeyName.FileFormat, LoaderSettingsId: 0, KeyValue: LoaderFileFormat.XLSX }
     ];

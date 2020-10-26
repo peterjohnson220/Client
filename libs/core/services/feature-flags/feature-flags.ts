@@ -11,4 +11,5 @@ export class FeatureFlags {
   static readonly PeerManageJobsGridToggle = 'peer-manage-jobs-grid-toggle';
   static readonly PeerDashboard_PeerTrendsReport = 'peer-dashboard_peer-trends-report';
   static readonly BenefitsLoaderConfiguration = 'benefits-loader-configuration';
+  static readonly PricingMatchNotesTab = 'pricing-match-notes-tab';
 }
