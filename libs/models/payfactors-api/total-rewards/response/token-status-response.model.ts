@@ -6,7 +6,7 @@ export interface TokenStatusResponse {
   LockedUntil?: Date;
 }
 
-export interface TokenValidationResponse extends TokenStatusResponse {
+export interface DeliveryResponse extends TokenStatusResponse {
   Statement?: Statement;
   EmployeeData?: EmployeeRewardsData;
 }

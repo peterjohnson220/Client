@@ -6,7 +6,7 @@ import { switchMap, map,  catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { TotalRewardsEDeliveryApiService } from 'libs/data/payfactors-api/total-rewards';
-import { TokenStatusResponse, TokenValidationResponse } from 'libs/models/payfactors-api/total-rewards/response';
+import { TokenStatusResponse, DeliveryResponse } from 'libs/models/payfactors-api/total-rewards/response';
 
 import * as fromPageActions from '../actions/verification.page.actions';
 
@@ -35,10 +35,10 @@ export class VerificationPageEffects {
     this.actions$.pipe(
       ofType(fromPageActions.VALIDATE_TOKEN),
       switchMap((action: fromPageActions.ValidateToken) =>
-        this.totalRewardsApiService.validateToken({
+        this.totalRewardsApiService.deliverData({
           Token: action.payload
         }).pipe(
-          map((response: TokenValidationResponse) => {
+          map((response: DeliveryResponse) => {
             if (response.EmployeeData?.EmployeeDOH) {
               response.EmployeeData.EmployeeDOH = new Date(response.EmployeeData.EmployeeDOH);
             }
