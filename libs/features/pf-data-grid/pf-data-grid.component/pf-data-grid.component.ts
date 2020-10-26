@@ -4,7 +4,6 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { ContentScrollEvent } from '@progress/kendo-angular-grid';
 
 import { ViewField, SimpleDataView, PagingOptions, DataViewType } from 'libs/models/payfactors-api';
 import { AppNotification, NotificationLevel } from 'libs/features/app-notifications/models';
@@ -115,7 +114,6 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   getExportEventIdSubscription: Subscription;
   getExportViewIdSubscription: Subscription;
   getGridScrolledSubscription: Subscription;
-  getEnablePricingReviewed: Subscription;
 
   userFilteredFields: ViewField[];
   selectedRecordId: number;
@@ -306,10 +304,4 @@ export class PfDataGridComponent implements OnChanges, OnInit, OnDestroy {
   toggleSplitView() {
     this.gridContainerSplitViewWidth = this.gridContainerSplitViewWidth === this.normalSplitViewWidth ? '100%' : this.normalSplitViewWidth;
   }
-  handleGridScroll(event: ContentScrollEvent) {
-    if (this.syncScrollWithSplit) {
-      this.splitViewContainer.nativeElement.scrollTop = event.scrollTop;
-    }
-  }
-
 }
