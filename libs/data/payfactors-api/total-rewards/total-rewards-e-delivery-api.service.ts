@@ -7,8 +7,8 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import {
   DeliverTokenRequest,
   TokenStatusResponse,
-  TokenValidationRequest,
-  TokenValidationResponse
+  DeliveryToken,
+  DeliveryResponse
 } from '../../../models/payfactors-api/total-rewards';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class TotalRewardsEDeliveryApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/RequestDeliveryToken`, request);
   }
 
-  validateToken(request: TokenValidationRequest): Observable<TokenValidationResponse> {
-    return this.payfactorsApiService.post(`${this.endpoint}/ValidateToken`, request);
+  deliverData(request: DeliveryToken): Observable<DeliveryResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeliverData`, request);
   }
 }

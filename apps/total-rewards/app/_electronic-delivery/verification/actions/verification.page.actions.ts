@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { TokenStatus, TokenValidationResponse } from 'libs/models/payfactors-api/total-rewards/response';
+import { TokenStatus, DeliveryResponse } from 'libs/models/payfactors-api/total-rewards/response';
 
 export const REQUEST_TOKEN = '[Total Rewards/Delivery Page] Request Token';
 export const REQUEST_TOKEN_SUCCESS = '[Total Rewards/Delivery Page] Request Token Success';
@@ -31,7 +31,7 @@ export class ValidateToken implements Action {
 
 export class ValidateTokenSuccess implements Action {
   readonly type = VALIDATE_TOKEN_SUCCESS;
-  constructor(public payload: TokenValidationResponse) {}
+  constructor(public payload: DeliveryResponse) {}
 }
 
 export class ValidateTokenError implements Action {
