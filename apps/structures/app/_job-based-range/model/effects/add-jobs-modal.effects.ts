@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { Action, Store } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { WindowCommunicationService } from 'libs/core/services';
@@ -14,6 +14,7 @@ import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromAddJobsReducer from 'libs/features/add-jobs/reducers';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import { JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api';
@@ -40,63 +41,73 @@ export class AddJobsModalEffects {
     .pipe(
       ofType(fromAddJobsPageActions.ADD_SELECTED_JOBS),
       withLatestFrom(
-        this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
-        this.store.select(fromAddJobsReducer.getSelectedPaymarkets),
-        this.store.select(fromAddJobsReducer.getSelectedJobIds),
-        this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes),
-        this.store.select(fromSharedReducer.getMetadata),
-        this.store.select(fromSharedReducer.getRoundingSettings),
+        this.store.pipe(select(fromAddJobsReducer.getContextStructureRangeGroupId)),
+        this.store.pipe(select(fromAddJobsReducer.getSelectedPaymarkets)),
+        this.store.pipe(select(fromAddJobsReducer.getSelectedJobIds)),
+        this.store.pipe(select(fromAddJobsReducer.getSelectedPayfactorsJobCodes)),
+        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
+        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+        this.store.pipe(select(fromPfDataGridReducer.getData)),
+        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
         (action: fromAddJobsPageActions.AddSelectedJobs,
-         contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings) =>
-          ({action, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings})),
-      switchMap((contextData) => {
-          const companyJobIds = contextData.selectedJobIds.map(j => Number(j));
+         contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings, gridConfig, gridData, pagingOptions) =>
+          ({
+            action, contextStructureRangeGroupId, payMarkets, selectedJobIds, selectedJobCodes, metadata, roundingSettings, gridConfig, gridData,
+            pagingOptions
+          })),
+      switchMap((data) => {
+          const companyJobIds = data.selectedJobIds.map(j => Number(j));
 
           return this.structureModelingApiService.addJobsToRangeGroup({
-            StructuresRangeGroupId: contextData.contextStructureRangeGroupId,
+            StructuresRangeGroupId: data.contextStructureRangeGroupId,
             JobIds: companyJobIds,
-            PaymarketId: contextData.metadata.PaymarketId
+            PaymarketId: data.metadata.PaymarketId
           })
             .pipe(
-              mergeMap(() => this.getAddJobsSuccessActions(contextData)),
+              mergeMap(() => this.getAddJobsSuccessActions(data)),
               catchError(error => of(new fromAddJobsPageActions.AddJobsError(error.error.Message)))
             );
         }
       )
     );
 
-    @Effect()
-    addAllJobs$ = this.actions$
-      .pipe(
-        ofType(fromAddJobsPageActions.ADD_ALL_JOBS),
-        withLatestFrom(
-          this.store.select(fromSearchReducer.getParentFilters),
-          this.store.select(fromSearchReducer.getNumberOfResultsOnServer),
-          this.store.select(fromAddJobsReducer.getContextStructureRangeGroupId),
-          this.store.select(fromSharedReducer.getMetadata),
-          this.store.select(fromSharedReducer.getRoundingSettings),
-          (action: fromAddJobsPageActions.AddAllJobs, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings) =>
-            ({ action, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings })
-        ),
-        switchMap((data) => {
-            const searchRequest: JobSearchRequestStructuresRangeGroup = {
-              SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
-              Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
-              FilterOptions: { ReturnFilters: true, AggregateCount: 5 },
-              PagingOptions: { From: 0, Count: data.numberResults },
-              StructureRangeGroupId: data.contextStructureRangeGroupId,
-              PayMarketId: data.metadata.PaymarketId
-            };
-            return this.structureModelingApiService.addJobsFromSearchToRangeGroup(searchRequest)
-              .pipe(
-                mergeMap(() => this.getAddJobsSuccessActions(data)),
-                catchError(error => of(new fromAddJobsPageActions.AddJobsError(error.error.Message)))
-              );
-          }
-        )
-      );
+  @Effect()
+  addAllJobs$ = this.actions$
+    .pipe(
+      ofType(fromAddJobsPageActions.ADD_ALL_JOBS),
+      withLatestFrom(
+        this.store.pipe(select(fromSearchReducer.getParentFilters)),
+        this.store.pipe(select(fromSearchReducer.getNumberOfResultsOnServer)),
+        this.store.pipe(select(fromAddJobsReducer.getContextStructureRangeGroupId)),
+        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
+        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+        this.store.pipe(select(fromPfDataGridReducer.getData)),
+        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
+        (action: fromAddJobsPageActions.AddAllJobs, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings, gridConfig, gridData,
+         pagingOptions) =>
+          ({ action, filters, numberResults, contextStructureRangeGroupId, metadata, roundingSettings, gridConfig, gridData, pagingOptions })
+      ),
+      switchMap((data) => {
+          const searchRequest: JobSearchRequestStructuresRangeGroup = {
+            SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
+            Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
+            FilterOptions: { ReturnFilters: true, AggregateCount: 5 },
+            PagingOptions: { From: 0, Count: data.numberResults },
+            StructureRangeGroupId: data.contextStructureRangeGroupId,
+            PayMarketId: data.metadata.PaymarketId
+          };
+          return this.structureModelingApiService.addJobsFromSearchToRangeGroup(searchRequest)
+            .pipe(
+              mergeMap(() => this.getAddJobsSuccessActions(data)),
+              catchError(error => of(new fromAddJobsPageActions.AddJobsError(error.error.Message)))
+            );
+        }
+      )
+    );
 
-  @Effect({dispatch: false})
+  @Effect({ dispatch: false })
   addJobsSuccess$ = this.actions$
     .pipe(
       ofType(fromAddJobsPageActions.ADD_JOBS_SUCCESS),
@@ -121,7 +132,15 @@ export class AddJobsModalEffects {
       }));
     } else {
       const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
-      actions.push(new pfDataGridActions.LoadData(modelPageViewId));
+      if (data.gridConfig.EnableInfiniteScroll) {
+        let totalPages = Math.floor(data.gridData.data.length / data.pagingOptions.Count);
+        if (data.gridData.data.length % data.pagingOptions.Count !== 0) {
+          totalPages++;
+        }
+        actions.push(new pfDataGridActions.ReloadData(modelPageViewId, totalPages * data.pagingOptions.Count));
+      } else {
+        actions.push(new pfDataGridActions.LoadData(modelPageViewId));
+      }
     }
 
     return actions;

@@ -228,6 +228,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_DATA:
+    case fromPfGridActions.RELOAD_DATA:
       return {
         ...state,
         grids: {
@@ -239,6 +240,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_DATA_SUCCESS:
+    case fromPfGridActions.RELOAD_DATA_SUCCESS:
       const loadDataVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, action.payload.Data);
 
       const selectedVisibleFields = loadDataVisibleFieldsIds.filter(k => state.grids[action.pageViewId].selectedKeys.includes(k));
@@ -1093,8 +1095,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         ...state,
         grids: {
           ...state.grids,
-          [ action.pageViewId ]: {
-            ...state.grids[ action.pageViewId ],
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
             gridScrolledContent: action.payload
           }
         }
