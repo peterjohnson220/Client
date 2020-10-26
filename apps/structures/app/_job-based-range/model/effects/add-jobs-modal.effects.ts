@@ -7,7 +7,6 @@ import { Action, select, Store } from '@ngrx/store';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { WindowCommunicationService } from 'libs/core/services';
-import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromAddJobsPageActions from 'libs/features/add-jobs/actions/add-jobs-page.actions';
@@ -18,6 +17,7 @@ import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 import { PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import { JobSearchRequestStructuresRangeGroup } from 'libs/models/payfactors-api';
+import { GridDataHelper } from 'libs/features/pf-data-grid/helpers';
 
 import * as fromSharedReducer from '../../shared/reducers';
 import * as fromSharedActions from '../../shared/actions/shared.actions';
@@ -132,15 +132,7 @@ export class AddJobsModalEffects {
       }));
     } else {
       const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
-      if (data.gridConfig.EnableInfiniteScroll) {
-        let totalPages = Math.floor(data.gridData.data.length / data.pagingOptions.Count);
-        if (data.gridData.data.length % data.pagingOptions.Count !== 0) {
-          totalPages++;
-        }
-        actions.push(new pfDataGridActions.ReloadData(modelPageViewId, totalPages * data.pagingOptions.Count));
-      } else {
-        actions.push(new pfDataGridActions.LoadData(modelPageViewId));
-      }
+      actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
     }
 
     return actions;
