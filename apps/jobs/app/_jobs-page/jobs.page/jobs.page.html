@@ -58,7 +58,7 @@
       data-html="true" kendoTooltip class="pl-2"
       title="{{dataRow['CompanyJobs_JobAttachmentCount']}} Attachment(s)">
       <fa-icon icon="paperclip"></fa-icon>
-    </div>   
+    </div>
   </div>
 </ng-template>
 
@@ -100,7 +100,7 @@
     [disableCustomExport]="!selectedPricingIds.length"
     [disabledCustomExportTooltip]="'Select a pricing'"
     [disablePopover]="this.selectedJobPricingCount < 1 && this.selectedPricingIds.length < 1"
-    [disabledPopoverTooltip]="'Select a Priced Job'"
+    [disabledPopoverTooltip]="'Please select at least one priced job'"
     (exportEmitter)="exportPricings($event)">
   </pf-export-list-popover>
 </ng-template>
@@ -144,6 +144,7 @@
     [attr.data-qa-id]="'btn-jobs-page-modify-pricings'"
     (click)="modifyPricings()"
     type="button"
+    [title]="!selectedPricings.length ? 'No Pay Markets Selected' : ''"
     class="btn btn-secondary pf-btn-borderless">
     <fa-icon *ngIf="!(pricingsToModify$ | async).loading" [icon]="['fal', 'file-invoice-dollar']"></fa-icon>
     <pf-loading-indicator *ngIf="(pricingsToModify$ | async).loading"></pf-loading-indicator
