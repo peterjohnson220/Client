@@ -40,6 +40,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   selectedRate$: Observable<RateType>;
   salaryTrendData$: Observable<JobSalaryTrend>;
   sharePricingSummaryModalOpen$: Observable<boolean>;
+  sendingQuickPriceShareEmail$: Observable<boolean>;
   sharePricingSummaryError$: Observable<boolean>;
   sharePricingSummaryConflict$: Observable<boolean>;
   creatingProject$: Observable<boolean>;
@@ -95,6 +96,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedRate$ = this.store.select(fromComphubMainReducer.getSelectedRate);
     this.salaryTrendData$ = this.store.select(fromComphubMainReducer.getSalaryTrendData);
     this.sharePricingSummaryModalOpen$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryModalOpen);
+    this.sendingQuickPriceShareEmail$ = this.store.select(fromComphubMainReducer.getSendingQuickPriceShareEmail);
     this.sharePricingSummaryError$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryError);
     this.sharePricingSummaryConflict$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryConflict);
     this.creatingProject$ = this.store.select(fromComphubMainReducer.getCreatingProject);
@@ -174,15 +176,16 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromSummaryCardActions.CloseShareModal());
   }
 
-  handleShareModalSendClicked(toEmail: string) {
+  handleShareModalSendClicked(event: { emailAddress: string, note: string }) {
     this.pdf.export().then((group) => {
       exportPDF(group).then((data) => {
         data = data.replace('data:application/pdf;base64,', '');
         const request: SharePricingSummaryRequest = {
           JobTitle: this.jobData.JobTitle,
-          ToEmail: toEmail,
+          ToEmail: event.emailAddress,
           AttachmentFileName: this.getPDFFileName(),
-          AttachmentContent: data
+          AttachmentContent: data,
+          Note: event.note
         };
         this.store.dispatch(new fromSummaryCardActions.SharePricingSummary(request));
       });

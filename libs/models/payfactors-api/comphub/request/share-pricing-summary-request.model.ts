@@ -3,4 +3,5 @@ export interface SharePricingSummaryRequest {
   ToEmail: string;
   AttachmentFileName: string;
   AttachmentContent: string;
+  Note: string;
 }
