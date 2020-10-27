@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 
+import { AbstractFeatureFlagService } from 'libs/core';
+
 import * as fromHrisConnectionReducer from '../../../reducers/hris-connection.reducer';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
 
@@ -15,6 +17,7 @@ describe('DataManagementLandingPageComponent', () => {
   let fixture: ComponentFixture<DataManagementLandingPageComponent>;
   let store: MockStore<any>;
   let router: Router;
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
 
   const initialState = { data_management: { hrisConnection: fromHrisConnectionReducer.initialState } };
 
@@ -27,6 +30,10 @@ describe('DataManagementLandingPageComponent', () => {
           useValue: {
             navigate: jest.fn()
           }
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }
       ],
       declarations: [DataManagementLandingPageComponent ],
@@ -40,6 +47,7 @@ describe('DataManagementLandingPageComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(MockStore);
     router = TestBed.inject(Router);
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
   });
 
   it('should create', () => {

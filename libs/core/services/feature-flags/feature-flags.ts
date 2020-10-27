@@ -12,4 +12,5 @@ export class FeatureFlags {
   static readonly PeerDashboard_PeerTrendsReport = 'peer-dashboard_peer-trends-report';
   static readonly BenefitsLoaderConfiguration = 'benefits-loader-configuration';
   static readonly PricingMatchNotesTab = 'pricing-match-notes-tab';
+  static readonly LoadAndExportsFilesCards = 'dm-load-export-files-card';
 }
