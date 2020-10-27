@@ -51,6 +51,7 @@
 
 <pf-share-pricing-summary-modal
   [isOpen$]="sharePricingSummaryModalOpen$"
+  [isSendingEmail]="sendingQuickPriceShareEmail$ | async"
   [sharingConflict]="sharePricingSummaryConflict$ | async"
   [sharingError]="sharePricingSummaryError$ | async"
   (cancelClick)="handleShareModalCancelClicked()"
