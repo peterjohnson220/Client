@@ -54,6 +54,7 @@ export class TotalRewardsStatementComponent {
   @Output() onEffectiveDateChange: EventEmitter<Date> = new EventEmitter<Date>();
 
   controlType = TotalRewardsControlEnum;
+  statementModeEnum = StatementModeEnum;
 
   // check statement.Settings.FontSize and return small-font-size | medium-font-size | large-font-size | ''
   get fontSizeCssClass(): string {
