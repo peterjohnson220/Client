@@ -38,7 +38,7 @@ export interface EmployeeRewardsData {
 
 export function generateMockEmployeeRewardsData(): EmployeeRewardsData {
   return {
-    CompanyName: 'Rotherham Refurbs Ltd.',
+    CompanyName: 'Your Company',
     EmployeeId: '12345',
     EmployeeFirstName: 'John',
     EmployeeLastName: 'Smith',
