@@ -87,13 +87,15 @@ export class PayfactorsApiModelMapper {
       return [{
         SourceName: 'Is_Private',
         Operator: 'equalsornull',
-        Value: '0'
+        Value: '0',
+        ExcludeFromFilterSave: true
       }];
     }
     return [{
       SourceName: 'User_ID',
       Operator: '=',
-      Value: userId ? userId.toString() : null
+      Value: userId ? userId.toString() : null,
+      ExcludeFromFilterSave: true
     }];
   }
 }

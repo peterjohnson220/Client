@@ -64,7 +64,7 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
     this.actionBarConfig = {
       ...getDefaultActionBarConfig(),
       ShowActionBar: true,
-      AllowSaveFilter: false,
+      AllowSaveFilter: true,
       ShowFilterChooser: true
     };
     this.gridConfig = {
@@ -148,7 +148,8 @@ export class ServicePageComponent implements AfterViewInit, OnInit, OnDestroy {
       {
         SourceName: 'User_ID',
         Operator: '=',
-        Value: userContext.UserId ? userContext.UserId.toString() : null
+        Value: userContext.UserId ? userContext.UserId.toString() : null,
+        ExcludeFromFilterSave: true
       }
     ];
   }
