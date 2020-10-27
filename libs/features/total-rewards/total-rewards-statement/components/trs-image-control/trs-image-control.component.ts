@@ -1,8 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy, AfterViewInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, AfterViewInit, Output, EventEmitter, ViewChild, ElementRef, OnInit } from '@angular/core';
 
 import { SuccessEvent, ErrorEvent, FileRestrictions, FileInfo, SelectEvent } from '@progress/kendo-angular-upload';
 
 import { DeleteImageRequest, ImageControl, SaveImageRequest, StatementModeEnum } from '../../models';
+import { HorizontalAlignment } from '../../types';
 
 @Component({
   selector: 'pf-trs-image-control',
@@ -10,7 +11,7 @@ import { DeleteImageRequest, ImageControl, SaveImageRequest, StatementModeEnum }
   styleUrls: ['./trs-image-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsImageControlComponent implements AfterViewInit {
+export class TrsImageControlComponent implements AfterViewInit, OnInit {
   @ViewChild('image') image: ElementRef;
 
   @Input() controlData: ImageControl;
@@ -25,6 +26,7 @@ export class TrsImageControlComponent implements AfterViewInit {
   statementModeEnum = StatementModeEnum;
   isServerError = false;
   selectedFiles: FileInfo[] = [];
+  horizontalAlignment: HorizontalAlignment;
 
   // Kendo upload properties
   validFileExtensions = ['.jpg', '.jpeg', '.gif', '.png'];
@@ -34,6 +36,10 @@ export class TrsImageControlComponent implements AfterViewInit {
     allowedExtensions: this.validFileExtensions,
     maxFileSize: 1048576 // 1MB
   };
+
+  ngOnInit(): void {
+    this.setHorizontalAlignment();
+  }
 
   ngAfterViewInit() {
     if (this.controlData.FileUrl) {
@@ -80,4 +86,12 @@ export class TrsImageControlComponent implements AfterViewInit {
     }
   }
 
+  setHorizontalAlignment(): void {
+    const horizontalAlignment = this.controlData.HorizontalAlignment.toLocaleLowerCase();
+    if (horizontalAlignment === 'left' || horizontalAlignment === 'right' || horizontalAlignment === 'center') {
+      this.horizontalAlignment = horizontalAlignment;
+    } else {
+      this.horizontalAlignment = 'center';
+    }
+  }
 }
