@@ -11,7 +11,8 @@ export class PfPasswordValidators {
     numberOfRequiredUppercaseCharacters = 1,
     numberOfRequiredLowercaseCharacters = 1,
     numberOfRequiredSpecialCharacters = 1,
-    numberOfRequiredNumericCharacters = 1): any[] {
+    numberOfRequiredNumericCharacters = 1,
+    userName): any[] {
     const rules = [];
 
     // Min total character required
@@ -79,6 +80,16 @@ export class PfPasswordValidators {
       });
     }
 
+    // No username is allowed
+    if (userName) {
+      const userNameRegex = `^((?!${userName}).)*$`;
+      rules.push({
+        Name: 'Contains Username',
+        Message: 'Cannot contain username',
+        Rule: userNameRegex,
+        IsSatisfied: false,
+      });
+    }
     return rules;
   }
 

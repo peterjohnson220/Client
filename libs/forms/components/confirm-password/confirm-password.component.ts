@@ -44,31 +44,8 @@ export class ConfirmPasswordComponent implements OnInit {
       this.numberOfRequiredUppercaseCharacters,
       this.numberOfRequiredLowercaseCharacters,
       this.numberOfRequiredSpecialCharacters,
-      this.numberOfRequiredNumericCharacters);
-
-       // No username allowed
-    if (this.allowUsername) {
-      const username = this.allowUsername.split('@')[0].toLowerCase();
-      rules.push({
-        Name: 'Contains Username',
-        Message: 'Cannot contain username',
-        Rule: '',
-        IsSatisfied: false,
-        Validator: (vr: ValidationRules) => {
-          return (control: FormControl) => {
-            if (control.value) {
-              const password = control.value;
-              if (password.toLowerCase().includes(username)) {
-                vr.IsSatisfied = false;
-                return { passwordContainsUsername: true};
-              }
-            }
-            vr.IsSatisfied = true;
-            return null;
-          };
-        }
-      });
-    }
+      this.numberOfRequiredNumericCharacters,
+      this.allowUsername?.split('@')[0].toLowerCase());
 
     // Dynamically create password validators
     this.validationRules = rules;
@@ -94,9 +71,6 @@ export class ConfirmPasswordComponent implements OnInit {
   passwordValidator() {
     const currentPasswordControl = this.changePasswordForm.get('password');
     for (const validationRule of this.validationRules) {
-      if (validationRule.Name === 'Contains Username') {
-        continue; // ignore the Rule property as we are using a ValidatorFn on the object
-      }
       validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(currentPasswordControl.value);
     }
   }
