@@ -13,4 +13,5 @@ export class FeatureFlags {
   static readonly BenefitsLoaderConfiguration = 'benefits-loader-configuration';
   static readonly LoaderDashboardRedrops = 'loader-dashboard-redrops';
   static readonly PricingMatchNotesTab = 'pricing-match-notes-tab';
+  static readonly LoadAndExportsFilesCards = 'dm-load-export-files-card';
 }

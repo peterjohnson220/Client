@@ -10,6 +10,7 @@ import { Permissions } from 'libs/constants';
 import { TransferMethodTypes } from 'libs/constants/hris-api';
 import { AsyncStateObj } from 'libs/models/state';
 import { HRISConnectionAuthenticationStatus } from 'libs/constants/hris-connection-authenticationstatus';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core/services/feature-flags';
 
 import * as fromTransferDataPageActions from '../../../actions/transfer-data-page.actions';
 import * as fromHrisConnectionActions from '../../../actions/hris-connection.actions';
@@ -31,7 +32,7 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   public permissions = Permissions;
 
   // TODO:  Turn this into an AsyncStateObj
-  private unsubscribe$ = new Subject();
+  private unsubscribe$ = new Subject<void>();
   connectionSummary$: Observable<ConnectionSummary>;
   outboundConnectionSummary$: Observable<AsyncStateObj<ConnectionSummary>>;
   transferScheduleSummaryLoading$: Observable<boolean>;
@@ -40,15 +41,18 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
   loadingError$: Observable<boolean>;
 
   connectionNeedsAuthentication: boolean;
+  loadAndExportsFilesCardFlag: RealTimeFlag = { key: FeatureFlags.LoadAndExportsFilesCards, value: false };
 
 
-  constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router) {
+  constructor(private store: Store<fromDataManagementMainReducer.State>, private router: Router, private featureFlagService: AbstractFeatureFlagService) {
     this.outboundConnectionSummary$ = this.store.select(fromDataManagementMainReducer.getJdmConnectionSummaryObj);
     this.connectionSummary$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionSummary);
     this.loading$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoading);
     this.loadingError$ = this.store.select(fromDataManagementMainReducer.getHrisConnectionLoadingError);
     this.transferScheduleSummaryLoading$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryLoading);
     this.transferScheduleSummaryError$ = this.store.select(fromDataManagementMainReducer.getTransferScheduleSummaryError);
+
+    this.featureFlagService.bindEnabled(this.loadAndExportsFilesCardFlag, this.unsubscribe$);
 
     this.connectionSummary$.pipe(filter(cs => !!cs),
     takeUntil(this.unsubscribe$)).subscribe(cs => {
@@ -68,7 +72,6 @@ export class DataManagementLandingPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
-
     this.unsubscribe$.unsubscribe();
   }
 
