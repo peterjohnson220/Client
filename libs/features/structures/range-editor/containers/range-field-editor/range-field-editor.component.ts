@@ -179,7 +179,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.metadataSub.unsubscribe();
+    this.metadataSub?.unsubscribe();
   }
 
   private formatNumber(value: number) {
