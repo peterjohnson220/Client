@@ -50,4 +50,7 @@ export const getFilePackagesResult = createSelector(
   selectLoaderDashboardPageState,
   fromLoaderDashboardPageReducer.getFilePackagesResult
 );
-
+export const getRedropExportedSourceFile = createSelector(
+  selectLoaderDashboardPageState,
+  fromLoaderDashboardPageReducer.getRedropExportedSourceFile
+);

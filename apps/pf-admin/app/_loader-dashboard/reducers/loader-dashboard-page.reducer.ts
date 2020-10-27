@@ -11,12 +11,14 @@ export interface State {
   GridSearchPayload: GridSearchPayload;
   CompositeLoadsObj: AsyncStateObj<CompositeDataLoadViewResponse[]>;
   FilePackagesObj: AsyncStateObj<CompanyFilePackagesResponse[]>;
+  RedropExportedSourceFile: AsyncStateObj<boolean>;
 }
 
 export const initialState: State = {
   GridSearchPayload: null,
   CompositeLoadsObj: generateDefaultAsyncStateObj<CompositeDataLoadViewResponse[]>([]),
-  FilePackagesObj: generateDefaultAsyncStateObj<CompanyFilePackagesResponse[]>([])
+  FilePackagesObj: generateDefaultAsyncStateObj<CompanyFilePackagesResponse[]>([]),
+  RedropExportedSourceFile: generateDefaultAsyncStateObj<boolean>(false)
 };
 
 export function reducer(state = initialState, action: fromLoaderDashboardPageActions.Actions): State {
@@ -47,6 +49,15 @@ export function reducer(state = initialState, action: fromLoaderDashboardPageAct
     case fromLoaderDashboardPageActions.GET_FILE_PACKAGE_GRID_DATA_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'FilePackagesObj');
     }
+    case fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE: {
+      return AsyncStateObjHelper.loading(state, 'RedropExportedSourceFile');
+    }
+    case fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'RedropExportedSourceFile');
+    }
+    case fromLoaderDashboardPageActions.REDROP_EXPORTED_SOURCE_FILE_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'RedropExportedSourceFile');
+    }
     case fromLoaderDashboardPageActions.TOGGLE_SHOW_HIDE_TEST_COMPANIES: {
       const searchPayload = { ...state.GridSearchPayload };
       searchPayload.ExcludeTestCompanies = !searchPayload.ExcludeTestCompanies;
@@ -76,3 +87,4 @@ export const getCompositeLoadsResult = (state: State) => state.CompositeLoadsObj
 export const getGridSearchPayload = (state: State) => state.GridSearchPayload;
 export const getFilePackagesObj = (state: State) => state.FilePackagesObj;
 export const getFilePackagesResult = (state: State) => state.FilePackagesObj.obj;
+export const getRedropExportedSourceFile = (state: State) => state.RedropExportedSourceFile;
