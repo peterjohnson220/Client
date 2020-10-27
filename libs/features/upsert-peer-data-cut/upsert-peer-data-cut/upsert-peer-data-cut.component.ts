@@ -123,7 +123,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   upsert() {
-    if (this.entityConfiguration.BaseEntityId) {
+    if (this.displayMap) {
       this.store.dispatch(new fromUpsertDataCutActions.UpsertDataCut({
         DataCutGuid: this.cutGuid,
         CompanyJobId: this.companyJobId,
@@ -133,6 +133,8 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
         ZoomLevel: this.map ? this.map.getZoomLevel() : 0,
         BaseEntityId: this.entityConfiguration.BaseEntityId
       }));
+
+      this.displayMap = false;
     }
   }
 
@@ -211,19 +213,19 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
   setSubscriptions(): void {
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
-      if (this.entityConfiguration.BaseEntityId) {
+      if (this.displayMap) {
         this.guidelinesService.validateDataCut(pms, this.companyJobId, this.entityConfiguration, this.cutGuid);
       }
     });
     this.weightingTypeSubscription = this.weightingType$.subscribe(wts => {
-      if (this.entityConfiguration.BaseEntityId) {
+      if (this.displayMap) {
         if (this.cutGuid !== null) {
           this.selectedWeightingType = Weights.find(w => w.Value === wts);
         }
       }
     });
     this.persistedWeightingTypeForDataCutsSubscription = this.persistedWeightingTypeForDataCuts$.subscribe(weightingType => {
-      if (this.entityConfiguration.BaseEntityId) {
+      if (this.displayMap) {
         if (!!weightingType && this.cutGuid === null) {
           this.selectedWeightingType = Weights.find(w => w.Value === weightingType);
           this.store.dispatch(new fromLibsExchangeExplorerFilterContextActions
@@ -233,7 +235,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     });
 
     this.untaggedIncumbentCountSubscription = this.untaggedIncumbentCount$.subscribe( untaggedIncumbentCount => {
-      if (this.entityConfiguration.BaseEntityId) {
+      if (this.displayMap) {
         this.untaggedIncumbentCount = untaggedIncumbentCount;
       }
     });
