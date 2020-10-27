@@ -16,6 +16,7 @@ import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchan
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import * as fromDataCutValidationActions from 'libs/features/peer/actions/data-cut-validation.actions';
 import * as fromDataCutValidationReducer from 'libs/features/peer/guidelines-badge/reducers';
+import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
 
 import * as fromUpsertDataCutActions from '../actions/upsert-peer-data-cut.actions';
 import * as fromRequestPeerAccessActions from '../actions/request-peer-access.actions';
@@ -135,6 +136,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
       }));
 
       this.displayMap = false;
+      this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
     }
   }
 
@@ -146,6 +148,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     this.store.dispatch(new fromUpsertDataCutActions.CancelUpsertDataCut);
     this.cancelChanges.emit();
     this.displayMap = false;
+    this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
   }
 
   // Lifecycle events
