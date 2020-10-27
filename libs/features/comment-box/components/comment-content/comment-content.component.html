@@ -3,7 +3,7 @@
     <span class="user-name">{{comment.FullName}}</span>
     <span *ngIf="!!comment.CompanyName" class="text-muted ml-2">@ {{comment.CompanyName}}</span>
   </div>
-  <div class="content">
+  <div class="content d-flex flex-column">
     <quill-view-html [content]="comment.Content" theme="snow" class="view-only"></quill-view-html>
     <div class="comment-date text-muted">
       Date: {{comment.CreateDate | date:'shortDate'}} Time: {{comment.CreateDate | date:'shortTime'}}
