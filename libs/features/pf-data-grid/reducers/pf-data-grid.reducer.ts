@@ -509,7 +509,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
 
       clearedFilterField.FilterValue = null;
       clearedFilterField.FilterValues = null;
-      clearedFilterField.FilterOperator = null;
       const svf = state.grids[action.pageViewId].splitViewFilters.filter(f => f.SourceName !== action.field.SourceName);
       return {
         ...state,
