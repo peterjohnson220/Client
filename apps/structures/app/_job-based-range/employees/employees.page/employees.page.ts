@@ -121,7 +121,7 @@ export class EmployeesPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     // Get all overridden ranges
     this.store.dispatch(new fromSharedActions.GetOverriddenRanges({
-      pageViewId: this.pageViewId,
+      pageViewId: this.modelPageViewId,
       rangeGroupId: this.rangeGroupId
     }));
   }
