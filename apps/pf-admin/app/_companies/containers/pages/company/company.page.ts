@@ -32,6 +32,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   companyTagsModalComponent: CompanyTagsModalComponent;
   companyId: -1;
   companyFormData: CompanyFormData;
+  customCompanySettingsObj: CustomCompanySettings;
   customCompanySettings: CustomCompanySetting[];
   jdmEnabled: boolean;
   isEditMode: boolean;
@@ -157,16 +158,12 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const customSettings: CustomCompanySettings = settings.filter(s => s.Type === 'Custom')
-      .map(setting => ({ [setting.Key]: setting.Value }))
-      .reduce(function (key, value) {
-        return Object.assign(key, value);
-      }, {});
+    this.customCompanySettingsObj = this.filterCustomCompanySettings(settings);
 
     let companyFormData = this.companyForm.buildFormData();
     companyFormData = Object.assign({},
       companyFormData,
-      customSettings);
+      this.customCompanySettingsObj);
     if (!this.isEditMode) {
       this.store.dispatch(new fromCompanyPageActions.CreateCompany(companyFormData));
     } else {
@@ -183,5 +180,15 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   handleCancelClicked() {
     this.router.navigate(['/companies']);
     this.store.dispatch(new fromCompanyPageActions.Reset());
+  }
+
+  filterCustomCompanySettings(settings): CustomCompanySettings {
+    const customSettings: CustomCompanySettings = settings.filter(s => s.Type === 'Custom')
+      .map(setting => ({ [setting.Key]: setting.Value }))
+      .reduce(function (key, value) {
+        return Object.assign(key, value);
+      }, {});
+
+      return customSettings;
   }
 }
