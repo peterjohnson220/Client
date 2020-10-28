@@ -24,6 +24,11 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   readonly MIN_PASSWORD_LENGTH = 8;
   readonly MAX_PASSWORD_LENGTH = 255;
+  readonly PASSWORD_ALLOW_SPACES = false;
+  readonly PASSWORD_UPPER_CASE_CHARS = 1;
+  readonly PASSWORD_LOWER_CASE_CHARS = 1;
+  readonly PASSWORD_SPECIAL_CHARS = 1;
+  readonly PASSWORD_NUMERIC_CHARS = 1;
 
   readonly DEFAULT_USER_ROLE = 2;
   readonly DEFAULT_STATUS = true;
@@ -127,8 +132,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   setPasswordValidator(value: boolean) {
     if (value && this.f.status.value.toString() === 'true') {
-      // Dynamically create password validators
-      this.passwordValidationRules = PfPasswordValidators.getPasswordValidationRules(this.MIN_PASSWORD_LENGTH);
+      this.updatePasswordRules();
       const passwordValidators = [PfValidators.required];
       for (const validationRule of this.passwordValidationRules) {
           passwordValidators.push(validationRule.Validator ? validationRule.Validator(validationRule)
@@ -261,8 +265,27 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   validatePassword() {
     for (const validationRule of this.passwordValidationRules) {
-      validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(this.f.password.value);
+      if (validationRule.Name === 'Contains Username') {
+        // case insesitive comparison
+        validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(this.f.password.value.toLowerCase());
+      } else {
+        validationRule.IsSatisfied = new RegExp(validationRule.Rule).test(this.f.password.value);
+      }
     }
+  }
+
+  updatePasswordRules() {
+    // Dynamically create password validators
+    this.passwordValidationRules = PfPasswordValidators.getPasswordValidationRules(
+    this.MIN_PASSWORD_LENGTH,
+    this.PASSWORD_ALLOW_SPACES,
+    this.PASSWORD_UPPER_CASE_CHARS,
+    this.PASSWORD_LOWER_CASE_CHARS,
+    this.PASSWORD_SPECIAL_CHARS,
+    this.PASSWORD_NUMERIC_CHARS,
+    this.userForm.controls['emailAddress']?.value?.split('@')[0].toLowerCase());
+
+    this.validatePassword();
   }
 
   setPasswordFocus() {
