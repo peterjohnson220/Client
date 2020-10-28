@@ -34,8 +34,8 @@ export interface CompanyEmployee {
   Zip: string;
   Country: string;
   OrgUnit: string;
-  DOB: Date;
-  DOH: Date;
+  DOB: any;
+  DOH: any;
   StructureRangeGroupId: number;
   GradeCode: string;
   Facility: string;
