@@ -6,7 +6,7 @@
   [primaryButtonText]="'Update'"
   [windowClass]="'upsert-peer-data-modal'"
   [showFooter]="false"
-  (onDismiss)="resetModal()"
+  (onDismiss)="resetModal(true)"
 >
   <ng-container basic-content>
     <pf-async-container [loading]="dataLoading">
@@ -18,7 +18,7 @@
           [companyPayMarketId]="companyPayMarketId"
           [isPayMarketOverride]="isPayMarketOverride"
           [cutGuid]="cutGuid"
-          (cancelChanges)="resetModal()"
+          (cancelChanges)="resetModal(false)"
         >
         </pf-upsert-peer-data-cut>
       </div>

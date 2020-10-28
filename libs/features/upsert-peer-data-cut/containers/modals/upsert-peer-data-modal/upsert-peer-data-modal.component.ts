@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {BehaviorSubject, Subscription} from 'rxjs';
-import {UpsertPeerDataCutModalConfiguration} from '../../../models';
 
 import * as fromUpsertPeerDataReducer from '../../../reducers';
 import * as fromUpsertPeerDataActions from '../../../actions';
@@ -51,7 +50,7 @@ export class UpsertPeerDataModalComponent implements OnDestroy, OnChanges {
       .pipe(ofType(fromUpsertPeerDataActions.UPSERT_DATA_CUT_SUCCESS))
       .subscribe(data => {
         if (this.entityConfiguration.BaseEntityId) {
-          this.resetModal();
+          this.resetModal(false);
         }
       });
   }
@@ -69,7 +68,7 @@ export class UpsertPeerDataModalComponent implements OnDestroy, OnChanges {
     }
   }
 
-  resetModal() {
+  resetModal(resetChild: boolean) {
     this.showUpsertPeerModal.next(false);
     this.dataLoading = false;
 
@@ -80,5 +79,9 @@ export class UpsertPeerDataModalComponent implements OnDestroy, OnChanges {
     this.store.dispatch(new fromSearchFiltersActions.Reset());
 
     this.cancelChanges.emit();
+
+    if (resetChild) {
+      this.upsertPeerDataCutComponent.cancel(false);
+    }
   }
 }
