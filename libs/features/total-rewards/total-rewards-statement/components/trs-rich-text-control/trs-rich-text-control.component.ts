@@ -221,6 +221,9 @@ export class TrsRichTextControlComponent implements OnInit, OnChanges, OnDestroy
   }
 
   bindEmployeeDataHtml(): SafeHtml {
+    if (!this.htmlContent) {
+      return '';
+    }
     const $ = cheerio.load('<div class=\'ql-editor\'>' + this.htmlContent + '</div>');
     const spans = $('.ql-editor span').toArray();
     for (const span of spans) {
