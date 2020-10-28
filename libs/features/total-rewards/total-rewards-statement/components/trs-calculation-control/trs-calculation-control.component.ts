@@ -1,10 +1,19 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input, OnChanges,
+  Output, SimpleChanges
+} from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
+
+import cloneDeep from 'lodash/cloneDeep';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import * as models from '../../models';
 import { TotalRewardsStatementService } from '../../services/total-rewards-statement.service';
+import { CompensationField, SelectableFieldsGroup } from '../../models';
 
 @Component({
   selector: 'pf-trs-calculation-control',
@@ -12,11 +21,12 @@ import { TotalRewardsStatementService } from '../../services/total-rewards-state
   styleUrls: ['./trs-calculation-control.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TrsCalculationControlComponent {
+export class TrsCalculationControlComponent implements OnChanges {
 
   @Input() controlData: models.CalculationControl;
   @Input() employeeRewardsData: EmployeeRewardsData;
   @Input() mode: models.StatementModeEnum;
+  @Input() companyUdfs: CompensationField[];
 
   @Output() onTitleChange: EventEmitter<models.UpdateTitleRequest> = new EventEmitter();
   @Output() onCompFieldTitleChange: EventEmitter<models.UpdateFieldOverrideNameRequest> = new EventEmitter();
@@ -25,6 +35,15 @@ export class TrsCalculationControlComponent {
   @Output() onCompFieldAdded: EventEmitter<models.UpdateFieldVisibilityRequest> = new EventEmitter();
 
   compensationValuePlaceholder = '$---,---';
+  selectableFields: CompensationField[];
+
+  constructor(public currencyPipe: CurrencyPipe) { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes?.companyUdfs?.currentValue?.length) {
+      this.selectableFields = this.buildSelectableFieldsList();
+    }
+  }
 
   get inEditMode(): boolean {
     return this.mode === models.StatementModeEnum.Edit;
@@ -38,15 +57,17 @@ export class TrsCalculationControlComponent {
     return this.controlData.DataFields.filter(f => f.IsVisible === false);
   }
 
-  constructor(public currencyPipe: CurrencyPipe) { }
-
   removeField(field: models.CompensationField) {
     this.onCompFieldRemoved.emit({ControlId: this.controlData.Id, DataFieldId: field.Id, IsVisible: false});
   }
 
   addField(event: any) {
-    const fieldToAdd = this.removedFields.find(f => f.Name.Default === event.target.text);
-    this.onCompFieldAdded.emit({ControlId: this.controlData.Id, DataFieldId: fieldToAdd.Id, IsVisible: true});
+    const fieldToAdd = this.removedFields.find(f => f.Name.Default === event.Name.Default);
+    if (fieldToAdd) {
+      this.onCompFieldAdded.emit({
+        ControlId: this.controlData.Id, DataFieldId: fieldToAdd.Id, IsVisible: true
+      });
+    }
   }
 
   onCompFieldNameChange(field: models.CompensationField, name: string) {
@@ -87,5 +108,40 @@ export class TrsCalculationControlComponent {
       return this.employeeRewardsData[compField.DatabaseField] !== null && this.employeeRewardsData[compField.DatabaseField] > 0;
     }
     return false;
+  }
+
+  private buildSelectableFieldsList(): models.CompensationField[] {
+    let filteredBenefitsFields: CompensationField[];
+    let filteredEmployeeUdfs: CompensationField[];
+    let filteredJobUdfs: CompensationField[];
+
+    filteredBenefitsFields = this.filterSelectableFields(this.controlData?.DataFields?.length, SelectableFieldsGroup.BenefitFields);
+    filteredEmployeeUdfs = this.filterSelectableFields(this.companyUdfs?.filter(f => f.Type === 'EmployeesUdf').length, SelectableFieldsGroup.EmployeesUdf);
+    filteredJobUdfs = this.filterSelectableFields(this.companyUdfs?.filter(f => f.Type === 'JobsUdf').length, SelectableFieldsGroup.JobsUdf);
+
+    return filteredBenefitsFields.concat(filteredEmployeeUdfs).concat(filteredJobUdfs);
+  }
+
+  private filterSelectableFields(fieldsLength: number, group: string): models.CompensationField[] {
+    if (fieldsLength) {
+      let filteredFieldsList: CompensationField[];
+      switch (group) {
+        case SelectableFieldsGroup.BenefitFields:
+          filteredFieldsList = cloneDeep(this.controlData.DataFields).filter(f => f.IsVisible === false);
+          filteredFieldsList.forEach(f => { f.Group = group; f.DisplayName = f.Name.Override ?? f.Name.Default; });
+          break;
+        case SelectableFieldsGroup.EmployeesUdf:
+          filteredFieldsList = cloneDeep(this.companyUdfs).filter(f => f.IsVisible === false && f.Type === 'EmployeesUdf');
+          filteredFieldsList.forEach(f => { f.Group = group; f.DisplayName = f.Name.Override ?? f.Name.Default; });
+          break;
+        case SelectableFieldsGroup.JobsUdf:
+          filteredFieldsList = cloneDeep(this.companyUdfs).filter(f => f.IsVisible === false && f.Type === 'JobsUdf');
+          filteredFieldsList.forEach(f => { f.Group = group; f.DisplayName = f.Name.Override ?? f.Name.Default; });
+          break;
+        default:
+        return [];
+      }
+      return filteredFieldsList;
+    }
   }
 }

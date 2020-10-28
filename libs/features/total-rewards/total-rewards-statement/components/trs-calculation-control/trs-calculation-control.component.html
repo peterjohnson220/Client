@@ -60,17 +60,8 @@
     </tbody>
   </table>
 
-  <ng-container *ngIf="inEditMode && (removedFields?.length > 0)">
-    <div ngbDropdown class="d-inline-block">
-      <button ngbDropdownToggle class="btn btn-sm btn-outline-primary add-button" title="Add Field">
-        <fa-icon class="fa-sm" [icon]="'plus'"></fa-icon>
-      </button>
-      <div ngbDropdownMenu class="w-auto">
-        <div *ngFor="let removedField of removedFields;">
-          <a ngbDropdownItem class="add-comp-field-item" (click)="addField($event)">{{removedField.Name.Default}}</a>
-        </div>
-      </div>
-    </div>
+  <ng-container *ngIf="inEditMode && (selectableFields?.length > 0)">
+    <pf-trs-compensation-fields-chooser [fields]="selectableFields" (fieldClicked)="addField($event)"></pf-trs-compensation-fields-chooser>
   </ng-container>
 
 </div>

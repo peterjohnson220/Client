@@ -1,6 +1,12 @@
 import { Action } from '@ngrx/store';
 
-import { Statement, SaveImageRequest, UpdateStringPropertyRequest, DeleteImageRequest } from 'libs/features/total-rewards/total-rewards-statement/models';
+import {
+  Statement,
+  SaveImageRequest,
+  UpdateStringPropertyRequest,
+  DeleteImageRequest,
+  CompensationField
+} from 'libs/features/total-rewards/total-rewards-statement/models';
 import * as requestModels from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
 
 // CONTROL UPDATES
@@ -13,6 +19,9 @@ export const REMOVE_CALCULATION_CONTROL_COMPENSATION_FIELD = '[Total Rewards/Edi
 export const UPDATE_RICH_TEXT_CONTROL_CONTENT = '[Total Rewards/Edit Statement] Update Rich Text Control Content';
 export const SAVE_IMAGE_CONTROL_IMAGE = '[Total Rewards/Edit Statement] Save Image Control Image';
 export const REMOVE_IMAGE_CONTROL_IMAGE = '[Total Rewards/Edit Statement] Remove Image Control Image';
+export const GET_COMPANY_UDF = '[Total Rewards/Edit Statement] Get Company UDF';
+export const GET_COMPANY_UDF_SUCCESS = '[Total Rewards/Edit Statement] Get Company UDF Success';
+export const GET_COMPANY_UDF_ERROR = '[Total Rewards/Edit Statement] Get Company UDF Error';
 
 export class UpdateStatementName implements Action {
   readonly type = UPDATE_STATEMENT_NAME;
@@ -59,6 +68,20 @@ export class RemoveImageControlImage implements Action {
   constructor(public payload: DeleteImageRequest) {}
 }
 
+export class GetCompanyUDF implements Action {
+  readonly type = GET_COMPANY_UDF;
+  constructor() {}
+}
+
+export class GetCompanyUDFSuccess implements Action {
+  readonly type = GET_COMPANY_UDF_SUCCESS;
+  constructor(public payload: CompensationField[]) {}
+}
+
+export class GetCompanyUDFError implements Action {
+  readonly type = GET_COMPANY_UDF_ERROR;
+  constructor() {}
+}
 
 export type ControlActions =
   UpdateStatementName |
@@ -70,4 +93,7 @@ export type ControlActions =
   UpdateRichTextControlContent |
   AddCalculationControlCompensationField |
   SaveImageControlImage |
-  RemoveImageControlImage;
+  RemoveImageControlImage |
+  GetCompanyUDF |
+  GetCompanyUDFSuccess |
+  GetCompanyUDFError;

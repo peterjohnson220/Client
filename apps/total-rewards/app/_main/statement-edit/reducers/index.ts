@@ -113,3 +113,8 @@ export const getEmployeeData = createSelector(
   selectPageState,
   (state: fromPageReducer.State) => state.employeeData
 );
+
+export const getCompanyUdf = createSelector(
+  selectPageState,
+  (state: fromPageReducer.State) => state.companyUdfs
+);

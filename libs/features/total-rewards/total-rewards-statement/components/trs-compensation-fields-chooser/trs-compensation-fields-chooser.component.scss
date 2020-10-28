@@ -1,0 +1,15 @@
+@import 'libs/styles/ngbootstrap-popover-overrides';
+
+.add-button {
+  border: none;
+  color: inherit;
+  opacity: .6;
+  &:hover {
+    color: white;
+  }
+}
+
+.popover-body-content {
+  max-height: 240px;
+  min-height: 240px;
+}
