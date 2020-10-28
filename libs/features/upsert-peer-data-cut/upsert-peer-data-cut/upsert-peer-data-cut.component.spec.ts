@@ -32,6 +32,10 @@ class DojGuidelinesStub {
   validateDataCut(selections: any) {
     return;
   }
+
+  clearMapCompanies() {
+    return;
+  }
 }
 
 @Component({

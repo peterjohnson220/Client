@@ -120,6 +120,10 @@ export class DojGuidelinesService implements OnDestroy {
     this.weightingTypeSubscription.unsubscribe();
   }
 
+  clearMapCompanies() {
+    this.previousMapCompanies = [];
+  }
+
   validateDataCut(mapCompanies: any, companyJobId: number, entityConfiguration: UpsertPeerDataCutEntityConfigurationModel, cutGuid: string = null) {
     if (!this.hasMinimumCompanies || !this.hasNoHardDominatingData) { return; }
 

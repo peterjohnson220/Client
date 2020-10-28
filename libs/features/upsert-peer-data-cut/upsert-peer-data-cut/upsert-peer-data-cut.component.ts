@@ -137,6 +137,7 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
 
       this.displayMap = false;
       this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
+      this.guidelinesService.clearMapCompanies();
     }
   }
 
@@ -144,11 +145,15 @@ export class UpsertPeerDataCutComponent implements OnInit, OnDestroy, OnChanges 
     this.store.dispatch(new fromRequestPeerAccessActions.RequestPeerAccess);
   }
 
-  cancel() {
+  cancel(sendEmit = true) {
     this.store.dispatch(new fromUpsertDataCutActions.CancelUpsertDataCut);
-    this.cancelChanges.emit();
     this.displayMap = false;
     this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
+    this.guidelinesService.clearMapCompanies();
+
+    if (sendEmit) {
+      this.cancelChanges.emit();
+    }
   }
 
   // Lifecycle events
