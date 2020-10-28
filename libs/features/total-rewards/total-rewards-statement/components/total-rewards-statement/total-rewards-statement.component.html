@@ -1,7 +1,7 @@
-<div *ngIf="statement" class="container statement mb-4 rounded" [ngClass]="fontSizeCssClass + ' ' + fontFamilyCssClass">
-  <pf-async-container [loading]="loadingData">
-  </pf-async-container>
-  <div class="d-flex justify-content-end">
+<div *ngIf="statement" class="container statement mb-4" [ngClass]="fontSizeCssClass + ' ' + fontFamilyCssClass">
+  <pf-async-container [loading]="loadingData"></pf-async-container>
+  <!-- TODO: the effective date should probably be changed over to a control like all the others vs. hardcoded at the top (my bad!) -->
+  <div *ngIf="statement?.TemplateName?.toLowerCase() !== 'styled'" class="d-flex justify-content-end">
     <pf-effective-date
       [mode]="mode"
       [effectiveDate]="statement.EffectiveDate"
@@ -10,7 +10,7 @@
   </div>
   <div *ngFor="let page of statement.Pages; trackBy: trackByFn" class="pb-4 trs-page mt-n4">
     <section *ngFor="let section of page.Sections; trackBy: trackByFn" class="row vertical-divider trs-section">
-      <div *ngFor="let column of section.Columns; trackBy: trackByFn" [ngClass]="'col-' + column?.Layout?.Width" class="trs-column">
+      <div *ngFor="let column of section.Columns; trackBy: trackByFn" [ngClass]="'col-' + column?.Layout?.Width" class="trs-column" [style.border-right-color]="statement.Settings.DividerColor">
         <div *ngIf="(mode === statementModeEnum.Edit) || employeeRewardsData" class="row columnRow">
           <div *ngFor="let control of column.Controls; trackBy: trackByFn" [ngClass]="'col-' + control?.Layout?.Width + ' control-type-' + control.ControlType">
             <div *ngIf="control.ControlType === controlType.RichTextEditor">
@@ -66,6 +66,9 @@
                 [controlData]="control"
                 [mode]="mode"
                 [employeeRewardsData]="employeeRewardsData"
+                [backgroundGraphicsEnabled]="control.EnableBackgroundGraphics"
+                [showEmployee]="control.ShowEmployee"
+                [titleInnerWidth]="control.TitleInnerWidth"
                 (titleChange)="handleOnControlTitleChange($event)"
                 class="p-1"></pf-trs-title-control>
             </div>

@@ -8,8 +8,9 @@ import {
   generateMockStatementWithSingleCalculationControl,
   generateMockStatementWithSingleCalculationControlAndNoVisibleFields,
   generateMockStatementWithSingleControl,
+  generateMockSettings,
   StatementModeEnum,
-  TotalRewardsControlEnum
+  TotalRewardsControlEnum,
 } from '../../models';
 import { TotalRewardsStatementComponent } from './total-rewards-statement.component';
 
@@ -200,5 +201,19 @@ describe('TotalRewardsStatementComponent', () => {
     // assert
     const calculationControls = fixture.nativeElement.querySelectorAll('pf-trs-calculation-control');
     expect(calculationControls.length).toBe(0);
+  });
+
+  it('should apply the divider color from settings to each column', () => {
+    // arrange
+    component.statement = generateMockStatementWithSingleCalculationControlAndNoVisibleFields();
+    component.statement.Settings = { ...generateMockSettings(), DividerColor: 'orange' };
+    component.employeeRewardsData = generateMockEmployeeRewardsData();
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    const columns = fixture.nativeElement.querySelectorAll('.trs-column');
+    columns.forEach(column => expect(column.style.borderRightColor).toBe('orange'));
   });
 });

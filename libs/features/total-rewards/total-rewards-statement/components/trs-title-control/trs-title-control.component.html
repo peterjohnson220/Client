@@ -1,19 +1,31 @@
-<div class="col-8 h-100 position-relative text-center" [ngClass]="{'edit-mode': mode === modeEnum.Edit}">
-  <h2 class="my-auto trs-statement-title d-inline-block mw-100">
-    <pf-string-editor
-      [placeholder]="controlData.Title.Default"
-      [value]="controlData.Title.Override"
-      [maxCharacters]="40"
-      [inEditMode]="mode === modeEnum.Edit"
-      [isMultiline]="true"
-      (valueChange)="onTitleChange($event)"
-    ></pf-string-editor>
-  </h2>
-  <h3 class="employee font-weight-normal p-1">
+<div 
+  class="trs-title h-100 position-relative text-center" 
+  [ngClass]="{'edit-mode': mode === modeEnum.Edit, 'background-graphics': backgroundGraphicsEnabled}"
+  [style.width]="titleInnerWidth">
+  <div class="overlap graphic" aria-hidden="true"></div>
+  <div class="line graphic top-vertical" aria-hidden="true"></div>
+  <div class="line graphic top-horizontal" aria-hidden="true"></div>
+  <div class="line graphic circle top" aria-hidden="true"></div>
+  <div class="outer graphic w-100" aria-hidden="true">
+    <div class="inner graphic d-flex" aria-hidden="true">
+      <h2 class="my-auto trs-statement-title d-inline-block mw-100">
+        <pf-string-editor
+          [placeholder]="controlData.Title.Default"
+          [value]="controlData.Title.Override"
+          [maxCharacters]="40"
+          [inEditMode]="mode === modeEnum.Edit"
+          [isMultiline]="true"
+          (valueChange)="onTitleChange($event)"
+        ></pf-string-editor>
+      </h2>
+    </div>
+  </div>
+  <div class="line graphic bottom-horizontal position-relative" aria-hidden="true"></div>
+  <div class="line graphic circle bottom position-relative" aria-hidden="true"></div>
+  <h3 *ngIf="showEmployee" class="employee font-weight-normal p-1">
     <span class="employee-name">{{ employeeName }}</span>
     <span *ngIf="employeeId">
       (<span class="employee-id">{{ employeeId }}</span>)
     </span>
   </h3>
 </div>
-<div class="col-4"></div>
