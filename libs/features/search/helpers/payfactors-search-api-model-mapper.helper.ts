@@ -106,7 +106,8 @@ export class PayfactorsSearchApiModelMapper {
     return filters.map((f: TextFilter) => {
       return {
         Name: f.BackingField,
-        Value: f.Value
+        Value: f.Value,
+        SearchType: f.SearchType
       };
     });
   }

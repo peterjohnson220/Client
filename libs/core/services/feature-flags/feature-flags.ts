@@ -14,4 +14,5 @@ export class FeatureFlags {
   static readonly LoaderDashboardRedrops = 'loader-dashboard-redrops';
   static readonly PricingMatchNotesTab = 'pricing-match-notes-tab';
   static readonly LoadAndExportsFilesCards = 'dm-load-export-files-card';
+  static readonly SurveySearchLightningMode = 'survey-search-lightning-mode';
 }

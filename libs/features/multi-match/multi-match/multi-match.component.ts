@@ -9,6 +9,7 @@ import { DragulaService } from 'ng2-dragula';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
@@ -19,9 +20,10 @@ import { JobToPrice } from '../models';
 
 import { enableDatacutsDragging } from '../../survey-search/helpers';
 import * as fromSurveySearchResultsActions from '../../survey-search/actions/survey-search-results.actions';
-import { staticFilters } from '../../survey-search/data';
+import { getSearchFilters } from '../../survey-search/data';
 
 import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
+
 
 @Component({
   selector: 'pf-multi-match-component',
@@ -44,6 +46,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   showMultiMatchModal$ = this.showMultiMatchModal.asObservable();
   saveChangesStarted = false;
   hasError: boolean;
+  matchMode: boolean;
 
   // Subscription
   private jobsToPriceSubscription: Subscription;
@@ -54,9 +57,11 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   constructor(
     store: Store<fromSearchReducer.State>,
     private dragulaService: DragulaService,
-    private actionsSubject: ActionsSubject
+    private actionsSubject: ActionsSubject,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     super(store);
+    this.matchMode = this.featureFlagService.enabled(FeatureFlags.SurveySearchLightningMode, false);
     this.hasErrorSubscription = this.store.select(fromMultiMatchReducer.getHasError).subscribe(v => this.hasError = v);
     this.isSavedSubscription = this.store.select(fromMultiMatchReducer.getIsSaving)
       .subscribe(v => {
@@ -105,7 +110,7 @@ export class MultiMatchComponent extends SearchBaseDirective implements OnInit, 
   }
 
   onSetContext(payload: any) {
-    this.store.dispatch(new fromSearchFiltersActions.AddFilters(staticFilters));
+    this.store.dispatch(new fromSearchFiltersActions.AddFilters(getSearchFilters(this.matchMode)));
     this.store.dispatch(new fromMultiMatchPageActions.SetProjectContext(payload));
     this.store.dispatch(new fromMultiMatchPageActions.GetProjectSearchContext(payload));
     this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(payload));

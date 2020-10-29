@@ -6,9 +6,10 @@ import {switchMap, catchError, mergeMap, withLatestFrom, map} from 'rxjs/operato
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
 
-import {JobsApiService, PricingApiService} from 'libs/data/payfactors-api/index';
-import { staticFilters } from '../../survey-search/data';
+import { JobsApiService, PricingApiService } from 'libs/data/payfactors-api/index';
+import { getSearchFilters } from '../../survey-search/data';
 import { PayfactorsApiModelMapper } from '../helpers';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import { SearchFilterMappingDataObj } from '../../search/models';
 import { SurveySearchFiltersHelper } from '../../survey-search/helpers';
@@ -20,8 +21,7 @@ import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import * as fromSurveySearchFiltersActions from '../../survey-search/actions/survey-search-filters.actions';
 import * as fromMultiMatchReducer from '../reducers';
 
-import {SurveySearchResultDataSources} from '../../../constants';
-import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
+import { SurveySearchResultDataSources } from '../../../constants';
 
 @Injectable()
 export class ModifyPricingsEffects {
@@ -30,7 +30,8 @@ export class ModifyPricingsEffects {
     private store: Store<fromMultiMatchReducer.State>,
     private jobsApiService: JobsApiService,
     private pricingApiService: PricingApiService,
-private searchFilterMappingDataObj: SearchFilterMappingDataObj
+private searchFilterMappingDataObj: SearchFilterMappingDataObj,
+    private featureFlagService: AbstractFeatureFlagService
   ) {}
 
   @Effect()
@@ -47,7 +48,8 @@ private searchFilterMappingDataObj: SearchFilterMappingDataObj
             ]));
           }
           actions.push(new fromSurveySearchFiltersActions.GetDefaultScopesFilter());
-          actions.push(new fromSearchFiltersActions.AddFilters(staticFilters));
+          actions.push(new fromSearchFiltersActions.AddFilters(
+            getSearchFilters(this.featureFlagService.enabled(FeatureFlags.SurveySearchLightningMode, false))));
           actions.push(new fromJobsToPriceActions.GetJobsToPriceSuccess(
             PayfactorsApiModelMapper.mapMatchedSurveyJobToJobsToPrice(response.PricingsToModify)));
           actions.push(new fromModifyPricingsActions.GetPricingsToModifySuccess());
