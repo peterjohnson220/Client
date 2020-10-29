@@ -6,7 +6,8 @@
   <input #selectAllCheckbox type="checkbox" class="k-checkbox select-all-checkbox"
     id="selectall-checkbox-{{columnGroup?.GroupIndex}}"
     [attr.data-qa-id]="'chk-selectall'"
-    [disabled]="true">
+    [disabled]="!selectAllEnabled"
+     (click)="handleSelectAllClicked()">
   <label class="k-checkbox-label" for="selectall-checkbox-{{columnGroup?.GroupIndex}}"></label>
   <h6 class="title">{{columnGroup?.Title}}</h6>
 </div>

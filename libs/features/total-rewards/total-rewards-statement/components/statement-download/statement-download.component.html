@@ -1,0 +1,14 @@
+<div class="k-pdf-export hide-export position-relative">
+  <kendo-pdf-export class="position-absolute w-100"
+                    [paperSize]="'Letter'"
+                    [scale]=".7"
+                    [creator]="'Payfactors'"
+                    forcePageBreak=".page-break">
+    <pf-total-rewards-statement
+      [statement]="statement"
+      [employeeRewardsData]="employeeRewardsData"
+      [mode]="printMode"
+    ></pf-total-rewards-statement>
+  </kendo-pdf-export>
+</div>
+

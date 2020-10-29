@@ -9,18 +9,17 @@ import { of } from 'rxjs';
 import * as fromRootState from 'libs/state/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/app-notifications/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
-
-
-import * as fromDataViewMainReducer from '../../reducers';
-import * as fromDataViewActions from '../../actions/data-view.actions';
-import { DataViewPageComponent } from './data-view.page';
-import { DeleteUserWorkbookModalComponent, ShareReportModalComponent } from '../../components';
 import {
   DataViewAccessLevel,
   generateMockSharedDataViewUser,
   SharedDataViewUser,
   generateMockUserDataView
-} from '../../models';
+} from 'libs/features/formula-editor';
+
+import * as fromDataViewMainReducer from '../../reducers';
+import * as fromDataViewActions from '../../actions/data-view.actions';
+import { DataViewPageComponent } from './data-view.page';
+import { DeleteUserWorkbookModalComponent, ShareReportModalComponent } from '../../components';
 import * as fromSharedReducer from '../../../_shared/reducers';
 import { DuplicateDataViewModalComponent } from '../duplicate-data-view-modal';
 import { EditDataViewModalComponent } from '../edit-data-view-modal';

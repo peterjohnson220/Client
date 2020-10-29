@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -16,6 +18,8 @@ import { UserFilterTypeData } from 'libs/features/user-filter/models';
 import { WindowCommunicationService } from 'libs/core/services';
 import { ListAreaService } from 'libs/core/services/list-area.service';
 import { PfListAreaModule } from 'libs/features/list-area/list-area.module';
+import { EmployeeManagementModule } from 'libs/features/employee-management';
+import * as fromTrsStatement from 'libs/features/total-rewards/total-rewards-statement';
 
 import { reducers } from './reducers';
 import { StatementAssignmentRoutingModule } from './statement-assignment-routing.module';
@@ -23,16 +27,20 @@ import { StatementAssignmentPageComponent } from './statement-assignment.page';
 import { StatementAssignmentModalComponent, AssignedEmployeesGridComponent, EmployeeSearchResultsComponent } from './containers';
 import * as effects from './effects';
 import { SearchFilterMappingData, EmployeeSearchUserFilterType} from './models';
-import { EmployeeResultComponent } from './components/employee-result/employee-result.component';
-import { GenerateStatementModalComponent } from './components/generate-statement-modal/generate-statement-modal.component';
-import * as fromTrsShared from '../../shared';
-import { UnassignEmployeesModalComponent } from './components/unassign-employees-modal/unassign-employees-modal.component';
-import { GridActionMenuComponent } from './components/grid-action-menu/grid-action-menu.component';
+import {
+  EmployeeResultComponent,
+  GenerateStatementModalComponent,
+  UnassignEmployeesModalComponent,
+  GridActionMenuComponent,
+  StatementEmailTemplateComponent
+} from './components';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     // 3rd Party
     StoreModule.forFeature('totalRewards_statementAssignment', reducers),
@@ -43,7 +51,8 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
       effects.EmployeeSearchUserFilterEffects,
       effects.StatementAssignmentModalEffects,
       effects.StatementAssignmentPageEffects,
-      effects.AssignedEmployeesGridEffects
+      effects.AssignedEmployeesGridEffects,
+      effects.GenerateStatementModalEffects
     ]),
     SharedModule,
     GridModule,
@@ -56,7 +65,8 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
     PfFormsModule,
     PfSearchModule,
     PfListAreaModule,
-    fromTrsShared.SharedModule,
+    EmployeeManagementModule,
+    fromTrsStatement.TotalRewardsStatementModule,
 
     // Routing
     StatementAssignmentRoutingModule,
@@ -69,7 +79,8 @@ import { GridActionMenuComponent } from './components/grid-action-menu/grid-acti
     GenerateStatementModalComponent,
     AssignedEmployeesGridComponent,
     UnassignEmployeesModalComponent,
-    GridActionMenuComponent
+    GridActionMenuComponent,
+    StatementEmailTemplateComponent
   ],
   providers: [
     { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },

@@ -121,11 +121,11 @@ export function getBenefitsCustomDictionary(): GenericKeyValue<string, string>[]
   const benefitsCustomDictionary: GenericKeyValue<string, string>[] = [
     {
       Key: 'Employer_Value',
-      Value: 'Employee Contribution'
+      Value: 'Company Contribution'
     },
     {
       Key: 'CompanyEmployee_Value',
-      Value: 'Company Contribution'
+      Value: 'Employee Contribution'
     }
   ];
   return benefitsCustomDictionary;

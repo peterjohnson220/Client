@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { generateMockView } from 'libs/features/reports/models';
+
 import { FavoriteViewsComponent } from './favorite-views.component';
-import { generateMockView } from '../../models';
 
 describe('Data Insights - Favorite Views Component', () => {
   let instance: FavoriteViewsComponent;

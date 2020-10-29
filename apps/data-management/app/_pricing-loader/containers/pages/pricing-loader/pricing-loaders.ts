@@ -149,8 +149,8 @@ export class PricingLoadersComponent implements OnInit, OnDestroy {
   }
 
   goDownload() {
-    window.open('/client/data-management/pricing-loader/pricing-loaders-download?company=' +
-      encodeURIComponent(this.selectedCompany.CompanyId + '-' + this.selectedCompany.CompanyName) + '&companyId=' + this.selectedCompany.CompanyId, '_blank');
+    window.open('/client/data-management/pricing-loader/pricing-loaders-download?companyId=' +
+      this.selectedCompany.CompanyId + '&companyName=' + encodeURIComponent(this.selectedCompany.CompanyName), '_blank');
   }
 
   handleProcessClicked(): void {

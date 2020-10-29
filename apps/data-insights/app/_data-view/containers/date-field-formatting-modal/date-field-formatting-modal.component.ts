@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Output, ViewChild} from '@angular/core';
-import { Field } from '../../models';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { FieldFormatType } from 'libs/models/payfactors-api';
-
-import { dateFormatCasing } from '../../helpers';
+import { Field, dateFormatCasing } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-date-field-formatting-modal',

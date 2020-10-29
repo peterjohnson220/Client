@@ -1,0 +1,22 @@
+@import 'total-rewards/app-colors';
+
+h3.employee {
+  margin-top: 0.35rem;
+  margin-left: -.25rem;;
+  font-size: 1.3rem;
+  overflow: hidden;
+  white-space: nowrap;
+  .employee-name, .employee-id { 
+    transition: background-color .3s ease-in-out, color .3s ease-in-out, padding .05s ease-in-out;
+  }
+}
+
+.edit-mode {
+  h3.employee {
+    .employee-name, .employee-id {
+      color: $trs-placeholder-font-color;
+      background-color: $trs-canvas-background-color;
+      padding: .3rem;
+    }
+  }
+}

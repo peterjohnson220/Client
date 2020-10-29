@@ -18,6 +18,7 @@ export const SET_SELECTED_COMPANY_JOB = '[Peer Manage/Company Jobs] Set Selected
 export const UPDATE_PAGE_ROW_INDEX_TO_SCROLL_TO = '[Peer Manage/Company Jobs] Update Page Row Index To Scroll To';
 
 // exchange job mapped to selected company job
+export const SET_MAPPED_EXCHANGE_JOBS = '[Peer Manage/Company Jobs] Set Mapped Exchange Jobs';
 export const LOAD_MAPPED_EXCHANGE_JOBS = '[Peer Manage/Company Jobs] Load Mapped Exchange Jobs';
 export const LOAD_MAPPED_EXCHANGE_JOBS_SUCCESS = '[Peer Manage/Company Jobs] Load Mapped Exchange Jobs Success';
 export const LOAD_MAPPED_EXCHANGE_JOBS_ERROR = '[Peer Manage/Company Jobs] Load Mapped Exchange Jobs Error';
@@ -95,6 +96,11 @@ export class SetSelectedCompanyJob implements Action {
 export class UpdatePageRowIndexToScrollTo implements Action {
   readonly type = UPDATE_PAGE_ROW_INDEX_TO_SCROLL_TO;
   constructor(public payload: number) {}
+}
+
+export class SetMappedExchangeJobs implements Action {
+  readonly type = SET_MAPPED_EXCHANGE_JOBS;
+  constructor(public payload: ExchangeJob) {}
 }
 
 export class LoadMappedExchangeJobs implements Action {
@@ -233,6 +239,7 @@ export type Actions =
   | SetSelectedCompanyJob
   | UpdatePageRowIndexToScrollTo
   // mapped exchange job in detail panel
+  | SetMappedExchangeJobs
   | LoadMappedExchangeJobs
   | LoadMappedExchangeJobsSuccess
   | LoadMappedExchangeJobsError

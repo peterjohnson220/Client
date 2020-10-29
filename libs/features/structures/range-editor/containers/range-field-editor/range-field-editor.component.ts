@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { RateType } from 'libs/data/data-sets';
 import { CompanySettingsEnum } from 'libs/models/company';
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { SettingsService } from 'libs/state/app-context/services';
 import { DataViewFilter } from 'libs/models/payfactors-api';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
@@ -14,7 +14,6 @@ import { PermissionService } from 'libs/core/services';
 
 import * as fromRangeFieldActions from '../../actions/range-field-edit.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../../../../apps/structures/app/_job-based-range/shared/reducers';
-import { RangeGroupMetadata } from '../../../../../../apps/structures/app/_job-based-range/shared/models';
 
 @Component({
   selector: 'pf-range-field-editor',
@@ -134,6 +133,11 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
     // kendo should be ensuring that only numbers make it this far
     const targetValue = parseFloat(event.target.value);
 
+    if (Number.isNaN(targetValue)) {
+      this.rangeFieldElement['value'] = this.fieldValue;
+      return;
+    }
+
     // we got this far, consider it valid. construct the payload and dispatch the action
     const payload = {
       pageViewId: this.pageViewId,
@@ -175,7 +179,7 @@ export class RangeFieldEditorComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    this.metadataSub.unsubscribe();
+    this.metadataSub?.unsubscribe();
   }
 
   private formatNumber(value: number) {

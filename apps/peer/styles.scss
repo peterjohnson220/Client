@@ -4,7 +4,7 @@
 @import 'peer/peer-colors';
 @import 'peer/peer-button';
 
-pf-company-jobs-grid {
+pf-company-jobs-grid, pf-exchange-job-mapping-grid {
   // hide the header border between the association color column and the company job title column
   .k-grid th.k-header:nth-of-type(2) {
     border-left: 0;
@@ -19,9 +19,61 @@ pf-company-jobs-grid {
   .match-button {
     @include peer-button($match-button-primary);
   }
+  .jobs-grid-container {
+    &.short {
+      height: 250px;
+      transition: height .4s ease-in-out;
+    }
+  }
 }
 
-pf-company-job-and-exchange-detail {
+pf-company-job-and-exchange-detail, pf-exchange-job-mapping-info {
+  a.close-panel {
+    position: absolute;
+    right: 0;
+    opacity: .85;
+    transition: opacity .3s ease-in-out;
+    color: #333;
+    &:hover{
+      opacity: 1;
+    }
+    top: 0;
+  }
+
+  button.unmatch {
+    @include peer-button($not-associated);
+    padding-top: 2px;
+    svg {
+      height: 1.15rem;
+      width: 20px;
+      vertical-align: -.125rem;
+    }
+  }
+
+  button.create-project {
+    @include peer-button($match-button-primary);
+    margin-right: 1rem;
+    svg {
+      height: 1.15rem;
+      width: 20px;
+    }
+  }
+
+  .no-search-results {
+    a.reset {
+      color: inherit;
+      text-decoration: underline;
+      svg {
+        font-size: .9rem;
+        transition: all .4s ease-in-out;
+      }
+      &:hover {
+        svg {
+          transform: rotate(720deg);
+        }
+      }
+    }
+  }
   pf-company-job-detail, pf-exchange-job-detail {
     .info-row {
       border-bottom: 1px solid $border-grey;
@@ -43,27 +95,12 @@ pf-company-job-and-exchange-detail {
       }
     }
   }
-  pf-exchange-job-search {
+  pf-exchange-job-search, pf-company-job-map-result {
     button.associate {
       @include peer-button($match-button-primary);
     }
-    .no-search-results {
-      a.reset {
-        color: inherit;
-        text-decoration: underline;
-        svg {
-          font-size: .9rem;
-          transition: all .4s ease-in-out;
-        }
-        &:hover {
-          svg {
-            transform: rotate(720deg);
-          }
-        }
-      }
-    }
   }
-  pf-exchange-job-detail {
+  pf-exchange-job-detail, pf-exchange-job-mapping-info {
     div.button-container {
       display: flex;
     }
@@ -72,23 +109,6 @@ pf-company-job-and-exchange-detail {
     }
     button.reject {
       @include peer-button($not-associated);
-    }
-    button.unmatch {
-      @include peer-button($not-associated);
-      padding-top: 2px;
-      svg {
-        height: 1.15rem;
-        width: 20px;
-        vertical-align: -.125rem;
-      }
-    }
-    button.create-project {
-      @include peer-button($match-button-primary);
-      margin-right: 1rem;
-      svg {
-        height: 1.15rem;
-        width: 20px;
-      }
     }
   }
 }

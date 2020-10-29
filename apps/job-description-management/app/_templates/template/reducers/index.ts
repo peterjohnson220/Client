@@ -170,6 +170,11 @@ export const getLoadingSummary = createSelector(
   fromTemplateReducer.getLoadingSummary
 );
 
+export const getTemplateDiscardDraft = createSelector(
+  selectTemplateState,
+  fromTemplateReducer.getTemplateDiscardDraft
+);
+
 // Company Jobs with No Template
 
 export const getCompanyJobsWithNoTemplate = createSelector(

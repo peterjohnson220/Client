@@ -5,10 +5,11 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockWorkbook } from 'libs/features/reports/models';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { SearchWorkbookModalComponent } from './search-workbook-modal.component';
-import { generateMockSearchResult, generateMockWorkbook } from '../../models';
+import { generateMockSearchResult } from '../../models';
 
 describe('Data Insights - Search Workbook Modal Component', () => {
   let instance: SearchWorkbookModalComponent;

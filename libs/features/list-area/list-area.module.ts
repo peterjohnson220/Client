@@ -5,14 +5,23 @@ import { FormsModule } from '@angular/forms';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 import { DatePickerModule } from '@progress/kendo-angular-dateinputs';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { ListAreaFilterBooleanComponent } from './components/list-area-filter-boolean';
-import { ListAreaFilterDateComponent } from './components/list-area-filter-date';
-import { ListAreaFilterNumberComponent } from './components/list-area-filter-number';
-import { ListAreaFilterPillsComponent } from './components/list-area-filter-pills';
-import { ListAreaFilterSidebarComponent } from './components/list-area-filter-sidebar';
-import { ListAreaFilterTextComponent } from './components/list-area-filter-text';
+import { PfCommonModule } from 'libs/core';
+import { PfFormsModule } from 'libs/forms';
+import { PfCommonUIModule } from 'libs/ui/common';
+
+import * as fromFaIcons from './fa-icons';
+import {
+  ListAreaFilterBooleanComponent,
+  ListAreaFilterDateComponent,
+  ListAreaFilterNumberComponent,
+  ListAreaFilterPillsComponent,
+  ListAreaFilterSidebarComponent,
+  ListAreaFilterTextComponent,
+  ListAreaColumnChooserComponent
+} from './components';
 
 @NgModule({
   imports: [
@@ -22,6 +31,11 @@ import { ListAreaFilterTextComponent } from './components/list-area-filter-text'
     NumericTextBoxModule,
     DatePickerModule,
     FontAwesomeModule,
+    NgbModule,
+
+    PfCommonModule,
+    PfFormsModule,
+    PfCommonUIModule
   ],
   declarations: [
     ListAreaFilterBooleanComponent,
@@ -30,6 +44,7 @@ import { ListAreaFilterTextComponent } from './components/list-area-filter-text'
     ListAreaFilterPillsComponent,
     ListAreaFilterSidebarComponent,
     ListAreaFilterTextComponent,
+    ListAreaColumnChooserComponent
   ],
   exports: [
     ListAreaFilterBooleanComponent,
@@ -38,10 +53,15 @@ import { ListAreaFilterTextComponent } from './components/list-area-filter-text'
     ListAreaFilterPillsComponent,
     ListAreaFilterSidebarComponent,
     ListAreaFilterTextComponent,
+    ListAreaColumnChooserComponent,
     DropDownsModule,
     NumericTextBoxModule,
-    DatePickerModule,
+    DatePickerModule
   ],
 })
 
-export class PfListAreaModule {}
+export class PfListAreaModule {
+  constructor(library: FaIconLibrary) {
+    library.addIcons(...fromFaIcons.faIcons);
+  }
+}

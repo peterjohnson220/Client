@@ -62,7 +62,8 @@ export class PfDataGridEffects {
       ofType(
         fromPfDataGridActions.LOAD_DATA,
         fromPfDataGridActions.UPDATE_PAGING_OPTIONS,
-        fromPfDataGridActions.LOAD_MORE_DATA
+        fromPfDataGridActions.LOAD_MORE_DATA,
+        fromPfDataGridActions.RELOAD_DATA
       ),
       groupBy((action: fromPfDataGridActions.LoadData) => action.pageViewId),
       mergeMap(pageViewIdGroup => pageViewIdGroup
@@ -77,7 +78,7 @@ export class PfDataGridEffects {
                 this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, loadDataAction.pageViewId)),
                 this.store.pipe(select(fromPfDataGridReducer.getApplyDefaultFilters, loadDataAction.pageViewId)),
                 this.store.pipe(select(fromPfDataGridReducer.getLinkGroups, loadDataAction.pageViewId)),
-                (action: fromPfDataGridActions.LoadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, linkGroups) =>
+                (action: fromPfDataGridActions.ReloadData, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, linkGroups) =>
                   ({ action, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, linkGroups })
               )
             ),
@@ -85,12 +86,22 @@ export class PfDataGridEffects {
           switchMap((data) => {
             if (data.fields) {
               const withCount = !data.action.type.includes('Load More Data');
+              const pagingOptions: PagingOptions = {
+                From: data.pagingOptions.From,
+                Count: data.pagingOptions.Count
+              };
+
+              if (data.action.type.includes('Reload Data')) {
+                pagingOptions.From = 0;
+                pagingOptions.Count = data.action.count;
+              }
+
               return this.dataViewApiService
                 .getDataWithCount(DataGridToDataViewsHelper.buildDataViewDataRequest(
                   data.baseEntity.Id,
                   data.fields,
                   DataGridToDataViewsHelper.mapFieldsToFiltersUseValuesProperty(data.fields),
-                  data.pagingOptions,
+                  pagingOptions,
                   data.sortDescriptor,
                   withCount,
                   data.applyDefaultFilters,
@@ -99,6 +110,8 @@ export class PfDataGridEffects {
                   map((response: DataViewEntityResponseWithCount) => {
                     if (data.pagingOptions.From > 0 && !withCount) {
                       return new fromPfDataGridActions.LoadMoreDataSuccess(data.action.pageViewId, response);
+                    } else if (data.action.type.includes('Reload Data')) {
+                      return new fromPfDataGridActions.ReloadDataSuccess(data.action.pageViewId, response);
                     } else {
                       return new fromPfDataGridActions.LoadDataSuccess(data.action.pageViewId, response);
                     }

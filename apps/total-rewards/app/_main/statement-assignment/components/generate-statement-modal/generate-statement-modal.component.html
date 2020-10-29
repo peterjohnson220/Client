@@ -6,6 +6,7 @@
   [primaryButtonText]="'Generate'"
   [primaryButtonTextSubmitting]="'Generating...'"
   [submitting]="sendingGenerateRequest"
+  [submitEnabled]="submitEnabled"
   (onSubmit)="onGenerateStatements()"
   (onDismiss)="onCancel()">
   <ng-container basic-content>
@@ -14,10 +15,49 @@
       [loadingError]="sendingGenerateRequestError"
       [loadingErrorMessage]="'Error Generating Statements'"
       [hideReloadButton]="true">
-      <p>
-        Generate {{ statement?.StatementName }} for <strong>{{ companyEmployeeIdsTotal }} employee{{ (companyEmployeeIdsTotal > 1) ? 's' : '' }}</strong>? 
-        To proceed, click Generate below.
-      </p>
+
+      <div class="d-flex flex-column">
+        <p>
+          Generate {{ statement?.StatementName }} for <strong>{{ companyEmployeeIdsTotal }} employee{{ (companyEmployeeIdsTotal > 1) ? 's' : '' }}</strong>? 
+          <span *ngIf="electronicDeliveryEnabled">To proceed, select a delivery method:</span>
+          <span *ngIf="!electronicDeliveryEnabled">To proceed, click Generate below.</span>
+        </p>
+        <div *ngIf="electronicDeliveryEnabled" class="d-flex flex-column radio-button-container" kendoTooltip position="right">
+          <div class="custom-radio mb-3">
+            <input type="radio"
+                   name="select-delivery-method"
+                   class="custom-control-input"
+                   id="electronicDeliveryMethod"
+                   [value]="deliveryMethod.Email"
+                   [(ngModel)]="selectedDeliveryMethod" />
+            <label class="custom-control-label"
+                   for="electronicDeliveryMethod"
+                   title="Send statements via secure email to each selected employee">
+                   Secure Email Delivery
+            </label>
+          </div>
+          <div class="custom-radio">
+            <input type="radio"
+                   name="select-delivery-method"
+                   class="custom-control-input"
+                   id="pdfExportMethod"
+                   [value]="deliveryMethod.PDFExport"
+                   [(ngModel)]="selectedDeliveryMethod" />
+            <label class="custom-control-label"
+                   for="pdfExportMethod"
+                   title="Generate a single bulk PDF containing 1 page per selected employee">
+                   Download Bulk PDF
+            </label>
+          </div>
+        </div>
+
+        <div class="email-form-container" [class.shown]="electronicDeliveryEnabled && selectedDeliveryMethod === deliveryMethod.Email">
+          <pf-statement-email-template #emailTemplate
+            [statement]="statement"
+            [statementEmailTemplate]="statementEmailTemplate">
+          </pf-statement-email-template>
+        </div>
+      </div>
     </pf-async-container>
   </ng-container>
 </pf-modal-form>

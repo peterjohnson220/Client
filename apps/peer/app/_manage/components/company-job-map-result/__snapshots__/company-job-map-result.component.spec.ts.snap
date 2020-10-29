@@ -15,9 +15,9 @@ exports[`Peer - Company Job Map Result should show a No Job Description message 
       <div
         class="d-flex flex-column"
       >
-        <strong>
+        <h6>
           1001 - MockCompanyJob
-        </strong>
+        </h6>
         <div
           class="mt-2"
         >

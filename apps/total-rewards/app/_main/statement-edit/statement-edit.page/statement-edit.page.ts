@@ -8,11 +8,11 @@ import cloneDeep from 'lodash/cloneDeep';
 import { AsyncStateObj } from 'libs/models/state';
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 import { GenericNameValue } from 'libs/models/common';
+import * as models from 'libs/features/total-rewards/total-rewards-statement/models';
+import { FontSize, FontFamily } from 'libs/features/total-rewards/total-rewards-statement/types';
 
 import * as fromTotalRewardsStatementEditReducer from '../reducers';
 import * as fromEditStatementPageActions from '../actions';
-import * as models from '../../../shared/models';
-import { FontSize, FontFamily } from '../../../shared/types';
 
 @Component({
   selector: 'pf-statement-edit.page',

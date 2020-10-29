@@ -4,6 +4,15 @@
   </ng-container>
 
   <ng-container page-actions>
+    <div *ngIf="peerManageJobsGridToggleFlag.value" class="btn-group btn-group-toggle">
+      <label class="btn btn-secondary" [ngClass]="{'active': showCompanyJobs}">
+        <input type="radio" name="myJobs" id="myJobs" autocomplete="off" (click)="toggleGrid(true)"> My Jobs
+      </label>
+      <label class="btn btn-secondary" [ngClass]="{'active': !showCompanyJobs}">
+        <input type="radio" name="exchangeJobs" id="exchangeJobs" autocomplete="off" (click)="toggleGrid(false)"> Exchange Jobs
+      </label>
+    </div>
+
     <pf-exchange-switcher></pf-exchange-switcher>
     <div class="omni-box">
       <!-- company jobs search box -->
@@ -26,7 +35,7 @@
       >
       </pf-input-debounce>
     </div>
-    <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">{{ showCompanyJobs ? 'Request Exchange Job' : 'Request Job' }}</button>
+    <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">Request Exchange Job</button>
 
     <button type="button" title="Export to Excel" id="export-popover-btn" class="btn btn-secondary" placement="bottom"
             (click)="handleExportButtonClick()">
@@ -55,13 +64,13 @@
     <!-- exchange jobs grid and detail panel -->
     <ng-template #exchangeJobs>
       <div class="flex-column-container">
-        <div class="exchange-job-mapping-grid-container" [class.collapse-grid]="collapse">
-          <pf-exchange-job-mapping-grid [exchangeId]="exchangeId" [disableScrollTo]="disableGridScollTo"
+        <div class="h-100">
+          <pf-exchange-job-mapping-grid [disableScrollTo]="disableGridScollTo"
             [pageRowIndexToScrollTo]="gridPageRowIndexToScrollTo$ | async">
           </pf-exchange-job-mapping-grid>
         </div>
 
-        <div *ngIf="collapse" class="mt-2 flex-grow-1 exchange-job-mapping-info-container">
+        <div *ngIf="selectedExchangeJobMapping$ | async" class="mt-2 flex-grow-1">
           <pf-exchange-job-mapping-info [exchangeId]="exchangeId" (closeClicked)="handleExchangeJobMappingInfoClosed()">
           </pf-exchange-job-mapping-info>
         </div>

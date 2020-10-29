@@ -4,11 +4,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockField, Field, Filter, getDefaultOperatorByDataType, GetFilterOptionsData, generateMockFilter } from 'libs/features/formula-editor';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromFiltersActions from '../../actions/filters.actions';
 import { FiltersComponent } from './filters.component';
-import { generateMockField, Field, Filter, getDefaultOperatorByDataType, GetFilterOptionsData, generateMockFilter } from '../../models';
 
 describe('Data Insights - Filters Comopnent', () => {
   let instance: FiltersComponent;

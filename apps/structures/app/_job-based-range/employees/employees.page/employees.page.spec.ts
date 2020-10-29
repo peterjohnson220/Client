@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/pf-data-grid/actions';
-import { PfCommonModule } from 'libs/core';
+import { AbstractFeatureFlagService, PfCommonModule } from 'libs/core';
 
 import * as fromJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
@@ -56,6 +56,10 @@ describe('Job Based Range Employees - Employees Page', () => {
         {
           provide: StructuresPagesService,
           useClass: MockStructuresPagesService
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn() }
         }
       ]
     });

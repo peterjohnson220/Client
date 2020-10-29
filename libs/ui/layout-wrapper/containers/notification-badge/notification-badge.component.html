@@ -1,15 +1,17 @@
 <div class="custom-modal-popover">
   <div class="notification-icon-container "
      [ngbPopover]="popContent"
+     [popoverTitle]="'Notifications'"
      [placement]="'bottom-right'"
      [autoClose]="'outside'"
      [popoverClass]="'notification-list-popover'"
      (click) = "markAllNotificationsAsSeen()">
 
-    <fa-icon *ngIf="!((notificationCount$ | async) > 0)" class="notification-icon" [icon]="['far', 'bell']" size="lg"></fa-icon>
 
-    <span *ngIf="((notificationCount$ | async) > 0)" class="fa-layers fa-fw ">
-      <fa-icon  class="notification-icon"  [icon]="['far', 'bell-on']" size="lg"></fa-icon>
+    <fa-icon *ngIf="!((notificationCount$ | async) > 0)" class="notification-icon" [icon]="['far', 'bell']"></fa-icon>
+
+    <span *ngIf="((notificationCount$ | async) > 0)" class="fa-layers fa-fw badge-layer">
+      <fa-icon class="notification-icon"  [icon]="['far', 'bell-on']" ></fa-icon>
       <span class="fa-layers-counter font-weight-bolder notification-count-badge" >{{(notificationCount$ | async)}}</span>
     </span>
 
@@ -17,8 +19,5 @@
 </div>
 
 <ng-template #popContent>
-  <div class="w-100 p-3 notification-header" >
-    <h5 class="d-inline-block display-5">Notifications</h5>
-  </div>
   <pf-user-notification-list [DisplayHeader]="false"></pf-user-notification-list>
 </ng-template>

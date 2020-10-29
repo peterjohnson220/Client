@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
-import { Settings } from '../../../shared/models';
-import * as requestModels from '../../../shared/models/request-models';
-import { FontSize, FontFamily } from '../../../shared/types';
+
+import { Settings } from 'libs/features/total-rewards/total-rewards-statement/models';
+import * as requestModels from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
+import { FontSize, FontFamily } from 'libs/features/total-rewards/total-rewards-statement/types';
 
 export const OPEN_SETTINGS_PANEL = '[Total Rewards/Edit Statement] Open Settings Panel';
 export const CLOSE_SETTINGS_PANEL = '[Total Rewards/Edit Statement] Close Settings Panel';

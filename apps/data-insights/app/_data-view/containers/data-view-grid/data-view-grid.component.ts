@@ -7,11 +7,12 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { FieldFormatType } from 'libs/models/payfactors-api/reports';
+import * as fromFieldsActions from 'libs/features/formula-editor/actions/fields.actions';
+import { Field, UserDataView, DataViewAccessLevel, Suggestion } from 'libs/features/formula-editor';
+import { FormulaFieldModalObj } from 'libs/models/formula-editor';
 
 import * as fromDataViewGridActions from '../../actions/data-view-grid.actions';
-import * as fromFieldsActions from '../../actions/fields.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Field, UserDataView, DataViewAccessLevel, FormulaFieldModalObj, Suggestion } from '../../models';
 import { NumericFieldFormattingModalComponent } from '../numeric-field-formating-modal';
 import { FormulaFieldModalComponent } from '../formula-field-modal';
 import { DateFieldFormattingModalComponent } from '../date-field-formatting-modal';
