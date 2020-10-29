@@ -1,17 +1,23 @@
 import { Component, ViewChild, OnInit, Input, OnDestroy, SimpleChanges, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { PfValidators } from 'libs/forms/validators';
-
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime } from 'rxjs/operators';
 
+import { PfValidators } from 'libs/forms/validators';
+import {
+  FormulaEditorComponent,
+  FieldDataType,
+  DataViewAccessLevel,
+  Suggestion,
+  functionSuggestionList
+} from 'libs/features/formula-editor';
+import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
+import { FormulaFieldModalObj } from 'libs/models/formula-editor';
+
 import * as fromDataViewMainReducer from '../../reducers';
-import * as fromFormulaFieldActions from '../../actions/formula-field.actions';
-import { FormulaFieldModalObj, Suggestion, functionSuggestionList, FieldDataType, DataViewAccessLevel } from '../../models';
-import { FormulaEditorComponent } from '../../components';
 
 @Component({
   selector: 'pf-formula-field-modal',

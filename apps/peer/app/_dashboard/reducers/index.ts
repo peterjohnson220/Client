@@ -17,6 +17,7 @@ import * as fromExchangeJobComparisonGridReducer from './exchange-job-comparison
 import * as fromCompanyIndustriesReducer from './company-industries.reducer';
 import * as fromExchangeDashboardTCModalReducer from './exchange-dashboard-tc-modal.reducer';
 import * as fromUploadOrgDataReducer from './upload-org-data.reducer';
+import * as fromPeerTrendsReportReducer from './peer-trend-report.reducer';
 
 // Feature area state
 export interface DashboardState {
@@ -28,6 +29,7 @@ export interface DashboardState {
   companyIndustries: fromCompanyIndustriesReducer.State;
   exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.State;
   uploadOrgData: fromUploadOrgDataReducer.State;
+  peerTrendsReportReducer: fromPeerTrendsReportReducer.State;
 }
 
 // Extend root state with feature area state
@@ -44,7 +46,8 @@ export const reducers = {
   exchangeJobComparison: fromExchangeJobComparisonGridReducer.reducer,
   companyIndustries: fromCompanyIndustriesReducer.reducer,
   exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.reducer,
-  uploadOrgData: fromUploadOrgDataReducer.reducer
+  uploadOrgData: fromUploadOrgDataReducer.reducer,
+  peerTrendsReportReducer: fromPeerTrendsReportReducer.reducer
 };
 
 // Select Feature Area
@@ -90,6 +93,8 @@ export const selectUploadOrgDataState = createSelector(
   selectFeatureAreaState,
   (state: DashboardState) => state.uploadOrgData
 );
+
+export const selectPeerTrendsReportState = createSelector(selectFeatureAreaState, (state: DashboardState) => state.peerTrendsReportReducer);
 
 // Exchange Dashboard Selectors
 export const getExchangeDashboardCompanyChartItems = createSelector(
@@ -377,3 +382,6 @@ export const getUploadOrgDataModalOpen = createSelector(
   selectUploadOrgDataState,
   fromUploadOrgDataReducer.getUploadOrgDataModalOpen
 );
+
+// Peer Trends Report
+export const getPeerTrendsReportWorkbook = createSelector(selectPeerTrendsReportState, fromPeerTrendsReportReducer.getPeerTrendsWorkbooksAsync);

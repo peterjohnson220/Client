@@ -1,11 +1,13 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { generateMockWorkbook } from 'libs/features/reports/models';
+
 import { TagWorkbookModalComponent } from './tag-workbook-modal.component';
-import { FormsModule } from '@angular/forms';
-import { generateMockSaveWorkbookTagObj, generateMockWorkbook } from '../../models';
+import { generateMockSaveWorkbookTagObj } from '../../models';
 
 describe('Data Insights - Tag Workbook Modal Component', () => {
   let instance: TagWorkbookModalComponent;

@@ -83,7 +83,6 @@ export class CompanyJobsGridComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new companyJobsActions.Reset());
     this.allSubscriptions.unsubscribe();
   }
 

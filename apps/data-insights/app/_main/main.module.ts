@@ -13,12 +13,14 @@ import { NgbPopoverModule, NgbTooltipModule, NgbCollapseModule } from '@ng-boots
 import { PfCommonModule, WindowRef } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfReportsModule } from 'libs/features/reports/reports.module';
 
 import { DataInsightsSharedModule } from '../_shared/shared.module';
 
-import { StandardReportComponent, TagWorkbookModalComponent, SearchWorkbookResultComponent,
+import {
+  TagWorkbookModalComponent, SearchWorkbookResultComponent,
   WorkbookViewsComponent, ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent,
-  DataViewReportsComponent, DataViewReportCardComponent
+  DataViewReportsComponent, DataViewReportCardComponent, StandardReportComponent
 } from './components';
 
 import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent,
@@ -26,7 +28,7 @@ import { DataInsightsPageComponent, DashboardsComponent, ReportViewPageComponent
   TableauWorkbookCardComponent, DataViewWorkbookCardComponent, CreateDataViewModalComponent
 } from './containers';
 
-import { DataInsightsPageEffects, DashboardsEffects, ReportViewPageEffects, ViewsEffects, DataViewEffects } from './effects';
+import { DataInsightsPageEffects, DashboardsEffects, ViewsEffects, DataViewEffects } from './effects';
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
@@ -43,7 +45,6 @@ import { MainRoutingModule } from './main-routing.module';
     EffectsModule.forFeature([
       DataInsightsPageEffects,
       DashboardsEffects,
-      ReportViewPageEffects,
       ViewsEffects,
       DataViewEffects
     ]),
@@ -62,6 +63,7 @@ import { MainRoutingModule } from './main-routing.module';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
+    PfReportsModule,
 
     // Data Insights
     DataInsightsSharedModule
@@ -73,9 +75,9 @@ import { MainRoutingModule } from './main-routing.module';
     TableauWorkbookCardComponent, DataViewWorkbookCardComponent, CreateDataViewModalComponent,
 
     // Components
-    StandardReportComponent, SearchWorkbookResultComponent, WorkbookViewsComponent,
+    SearchWorkbookResultComponent, WorkbookViewsComponent,
     ViewCardComponent, WorkbookViewsCardComponent, FavoriteViewsComponent, DataViewReportsComponent,
-    DataViewReportCardComponent
+    DataViewReportCardComponent, StandardReportComponent
   ],
   providers: [
     WindowRef

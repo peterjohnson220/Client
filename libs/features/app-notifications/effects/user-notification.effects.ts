@@ -17,7 +17,7 @@ export class UserNotificationEffects {
     .pipe(
       ofType<fromAppNotificationsActions.AddNotification>(fromAppNotificationsActions.ADD_NOTIFICATION),
       filter(action => action.payload.Type === NotificationType.User),
-      map(action => new fromAppNotificationsActions.UpdateUserNotificationUnreadCount())
+      map(action => new fromAppNotificationsActions.UpdateUserNotificationsUnseenCount())
     );
 
   @Effect()

@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { SharedDataViewUser } from '../../models';
+import { SharedDataViewUser } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-share-report-modal',

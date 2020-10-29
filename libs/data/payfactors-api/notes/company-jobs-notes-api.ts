@@ -19,7 +19,7 @@ export class CompanyJobsNotesApi extends BaseNotesApiService {
   }
 
   getNotes(entityId: number): Observable<NotesBase[]> {
-    return this.payfactorsApiService.get<NotesBase[]>(`${this.endpoint}/GetCompanyJobNotes`, {params: {entityId: entityId}});;
+    return this.payfactorsApiService.get<NotesBase[]>(`${this.endpoint}/GetCompanyJobNotes`, {params: {entityId: entityId}});
   }
 
   saveNotes(request: SaveNotesRequest) {

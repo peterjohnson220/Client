@@ -1,130 +1,126 @@
-<div class="mapping-info-container card h-100">
+<div class="card mb-2 mapping-info-container">
   <div class="card-header">
-    <div class="align-self-center mr-auto">
-      Job Information
-    </div>
+    <h6 class="mr-auto mb-0 font-weight-bold">Job Information</h6>
     <ng-container *ngIf="selectedExchangeJobMapping.Mapped">
       <button id="add-mapping-button"
-              class="btn btn-sm"
+              class="btn btn-sm mr-4"
               [disabled]="selectedExchangeJobMapping.CompanyJobMappings.length > 9"
               [ngClass]="{ 'btn-secondary': !addingMapping, 'btn-warning': addingMapping }"
               (click)="toggleAdding()">
-        {{ addingMapping ? 'Cancel' : 'Add Association' }}
+        <span>{{ addingMapping ? 'Cancel' : 'Add Match' }}</span>
       </button>
     </ng-container>
-
-    <div (click)="close()"
-         class="close-btn">
-      <fa-icon [icon]="['far','times']"></fa-icon>
-    </div>
+    <a href="javascript:void(0)" (click)="close()" class="close-panel mr-2 mt-1" title="Close">
+      <fa-icon icon="times"></fa-icon>
+    </a>
   </div>
-  <div class="card-body d-flex">
-    <pf-job-info-container [job]="exchangeJobInfo">
-    </pf-job-info-container>
-
-    <div class="vertical-separator"></div>
-    <pf-async-container class="company-job-mapping-container"
+  <div class="d-flex h-100">
+    <div class="w-50 pt-3 pl-3">
+      <pf-job-info-container [job]="exchangeJobInfo">
+      </pf-job-info-container>
+    </div>
+    <div class="vertical-separator mt-3 mb-2"></div>
+    <div class="w-50 pt-3 pl-3">
+      <pf-async-container class="company-job-mapping-container"
                         [opacityLevel]="0.4"
                         [noOpactity]="true"
                         [loading]="(applyingMapping$ | async) || (deletingMapping$ | async)  || (loadingExchangeMappingInfo$ | async)">
-      <div class="company-job-mapping d-flex flex-column justify-content-between"
-           *ngIf="selectedExchangeJobMapping.Mapped && !addingMapping ">
-        <ngb-carousel [activeId]="getActiveCompanyJobId$ | async"
-                      [interval]="0"
-                      (slide)="onCarouselSlideChange($event)">
-          <ng-container *ngFor="let mapping of selectedJobs; trackBy: trackById">
-            <ng-template ngbSlide
-                         [id]="mapping.CompanyJobId">
-              <button class="delete-mapping-button btn btn-sm btn-danger"
-                      [disabled]="(deletingMapping$ | async) || addingMapping"
-                      (click)="handleDeleteClick()">
-                <fa-icon icon="trash-alt" size="lg"></fa-icon>
-              </button>
-              <pf-job-info-container [job]="mapping"
-                                     [showJobCode]="true">
-              </pf-job-info-container>
-            </ng-template>
-          </ng-container>
-        </ngb-carousel>
-        <div class="carousel-controls d-flex flex-row justify-content-between"
-             *ngIf="selectedJobs.length > 1">
-          <div class="control control-left"
-               (click)="handleControlLeftClick()">
-            <fa-icon icon="chevron-circle-left" size="2x"></fa-icon>
-          </div>
-          <div class="indicators flex-grow-1 space-out-children text-center">
-            <span class="control"
-                  [ngClass]="{'active' : (getActiveCompanyJobId$ | async) ===  mapping.CompanyJobId}"
-                  *ngFor="let mapping of (selectedCompanyJobInfoModels$ | async)"
-                  (click)="handleIndicatorClick(mapping.CompanyJobId)">
-              <fa-icon icon="circle"></fa-icon>
-            </span>
-          </div>
-          <div class="control control-right"
-               (click)="handleControlRightClick()">
-            <fa-icon icon="chevron-circle-right" size="2x"></fa-icon>
-          </div>
-        </div>
-      </div>
-
-      <div class="company-job-mapping-add"
-           *ngIf="!selectedExchangeJobMapping.Mapped || addingMapping">
-        <div style="display:flex;">
-          <pf-input-debounce [placeholderText]="'Search for a Job Code or Title...'"
-                             [(ngModel)]="companyJobQuery"
-                             [disabled]="applyingMapping$ | async"
-                             (valueChanged)="handleSearchTitleValueChanged($event)"
-                             class="search-box">
-          </pf-input-debounce>
-          <pf-input-debounce [placeholderText]="'Search in the Job Description...'"
-                             [(ngModel)]="companyDescriptionQuery"
-                             [disabled]="applyingMapping$ | async"
-                             (valueChanged)="handleSearchDescValueChanged($event)"
-                             class="search-box">
-          </pf-input-debounce>
-        </div>
-
-        <div class="mapping-results-container"
-             [class.remove-scroll]="(companyJobsToMapToLoading$ | async) || (loadingExchangeMappingInfo$ | async)">
-          <pf-async-container [loading]="(companyJobsToMapToLoading$ | async) || (loadingExchangeMappingInfo$ | async)"
-                              [loadingError]="companyJobsToMapToLoadingError$ | async"
-                              [hideReloadButton]="true">
-
-            <ng-container *ngIf="(companyJobsToMapTo$ | async).length">
-
-              <pf-company-job-map-result *ngFor="let companyJobToMapTo of companyJobsToMapTo$ | async"
-                                         [companyJobToMapTo]=companyJobToMapTo
-                                         [applyingMapping]="applyingMapping$ | async"
-                                         [applyingMappingError]="applyingMappingError$ | async"
-                                         [selectedMapping]="(selectedMappingCompanyJobId$ | async) == companyJobToMapTo.CompanyJobId"
-                                         (applyMapping)="handleApplyMapping($event)"
-                                         [highlightFilter]="companyDescriptionQuery">
-              </pf-company-job-map-result>
-
+        <div class="company-job-mapping d-flex flex-column justify-content-between"
+             *ngIf="selectedExchangeJobMapping.Mapped && !addingMapping ">
+          <ngb-carousel [activeId]="getActiveCompanyJobId$ | async"
+                        [interval]="0"
+                        (slide)="onCarouselSlideChange($event)">
+            <ng-container *ngFor="let mapping of selectedJobs; trackBy: trackById">
+              <ng-template ngbSlide
+                           [id]="mapping.CompanyJobId">
+                <button class="unmatch float-right mr-3" (click)="handleDeleteClick()">
+                  <pf-unmatch-icon></pf-unmatch-icon><span>Unmatch</span>
+                </button>
+                <button
+                  class="create-project float-right mr-3"
+                  [pfSecuredResource]="permissions.NEW_PROJECT"
+                  (click)="handleCreateProjectClick()">
+                  <fa-icon [icon]="['far','calculator']" ></fa-icon><span>Create Project</span>
+                </button>
+                <pf-job-info-container [job]="mapping"
+                                       [showJobCode]="true">
+                </pf-job-info-container>
+              </ng-template>
             </ng-container>
-
-            <ng-container *ngIf="!(companyJobsToMapTo$ | async).length && !(companyJobsToMapToLoading$ | async)">
-
-              <div class="d-flex flex-column mt-5 align-items-center">
-                <h6 class="mb-1"
-                    innerHTML="{{buildNoResultsString()}}"></h6>
-                <h5><small class="text-muted">Please change your filter criteria to search again.</small></h5>
-              </div>
-
-            </ng-container>
-
-          </pf-async-container>
-
+          </ngb-carousel>
+          <div class="carousel-controls d-flex flex-row justify-content-between"
+               *ngIf="selectedJobs.length > 1">
+            <div class="control control-left"
+                 (click)="handleControlLeftClick()">
+              <fa-icon icon="chevron-circle-left" size="2x"></fa-icon>
+            </div>
+            <div class="indicators flex-grow-1 space-out-children text-center">
+              <span class="control"
+                    [ngClass]="{'active' : (getActiveCompanyJobId$ | async) ===  mapping.CompanyJobId}"
+                    *ngFor="let mapping of (selectedCompanyJobInfoModels$ | async)"
+                    (click)="handleIndicatorClick(mapping.CompanyJobId)">
+                <fa-icon icon="circle"></fa-icon>
+              </span>
+            </div>
+            <div class="control control-right"
+                 (click)="handleControlRightClick()">
+              <fa-icon icon="chevron-circle-right" size="2x"></fa-icon>
+            </div>
+          </div>
         </div>
-
-      </div>
-
-    </pf-async-container>
-
+        <div class="company-job-mapping-add"
+             *ngIf="!selectedExchangeJobMapping.Mapped || addingMapping">
+          <h5 class="font-weight-bold mb-4">Search for Company Job</h5>
+          <div style="display:flex;">
+            <pf-input-debounce [placeholderText]="'Search for a Job Code or Title...'"
+                               [(ngModel)]="companyJobQuery"
+                               [disabled]="applyingMapping$ | async"
+                               (valueChanged)="handleSearchTitleValueChanged($event)"
+                               class="search-box">
+            </pf-input-debounce>
+            <pf-input-debounce [placeholderText]="'Search in the Job Description...'"
+                               [(ngModel)]="companyDescriptionQuery"
+                               [disabled]="applyingMapping$ | async"
+                               (valueChanged)="handleSearchDescValueChanged($event)"
+                               class="search-box">
+            </pf-input-debounce>
+          </div>
+          <div class="mapping-results-container"
+               [class.remove-scroll]="(companyJobsToMapToLoading$ | async) || (loadingExchangeMappingInfo$ | async)">
+            <pf-async-container [loading]="(companyJobsToMapToLoading$ | async) || (loadingExchangeMappingInfo$ | async)"
+                                [loadingError]="companyJobsToMapToLoadingError$ | async"
+                                [hideReloadButton]="true">
+              <ng-container *ngIf="(companyJobsToMapTo$ | async).length">
+                <pf-company-job-map-result *ngFor="let companyJobToMapTo of companyJobsToMapTo$ | async"
+                                           [companyJobToMapTo]=companyJobToMapTo
+                                           [applyingMapping]="applyingMapping$ | async"
+                                           [applyingMappingError]="applyingMappingError$ | async"
+                                           [selectedMapping]="(selectedMappingCompanyJobId$ | async) == companyJobToMapTo.CompanyJobId"
+                                           (applyMapping)="handleApplyMapping($event)"
+                                           [highlightFilter]="companyDescriptionQuery">
+                </pf-company-job-map-result>
+              </ng-container>
+              <ng-container *ngIf="(companyJobQuery.length || companyDescriptionQuery.length) && !(companyJobsToMapTo$ | async).length && !(companyJobsToMapToLoading$ | async)">
+                <div class="d-flex flex-column mt-5 align-items-center no-search-results">
+                  <p class="text-center text-muted pt-4 mb-1">
+                    No results for <span class="font-italic">{{ companyJobQuery }} {{ companyDescriptionQuery }}</span>
+                  </p>
+                  <p class="text-center">
+                    <a href="javascript:void(0)" (click)="resetSearchValues()" class="reset font-italic">
+                      <fa-icon icon="redo-alt" class="mr-1"></fa-icon>Reset now
+                    </a>
+                  </p>
+                </div>
+              </ng-container>
+            </pf-async-container>
+          </div>
+        </div>
+      </pf-async-container>
+    </div>
   </div>
 
 </div>
-
+<pf-confirm-create-project-modal></pf-confirm-create-project-modal>
 <pf-delete-mapping-confirmation-modal [selectedExchangeJobTitle]="selectedExchangeJobMapping.ExchangeJobTitle"
                                       [jobTitle]="selectedCompanyJob?.JobTitle"
                                       [exchangeJobToCompanyJobId]="selectedExchangeJobToCompanyJobId">

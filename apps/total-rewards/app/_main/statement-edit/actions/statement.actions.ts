@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { Statement, StatementModeEnum } from '../../../shared/models';
+
+import { Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 // STATEMENT
 export const LOAD_STATEMENT = '[Total Rewards/Edit Statement] Load Statement';

@@ -3,13 +3,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { ListAreaColumn } from 'libs/models/common/list-area';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromActions from '../actions/statement-assignment.page.actions';
-import { Statement } from '../../../shared/models';
 
 export interface State {
   statement: AsyncStateObj<Statement>;
-  listAreaColumns: AsyncStateObj<any[]>;
+  gridColumns: AsyncStateObj<ListAreaColumn[]>;
   isGenerateStatementModalOpen: boolean;
   sendingGenerateStatementRequest: boolean;
   sendingGenerateStatementRequestSuccess: boolean;
@@ -27,7 +27,7 @@ export interface State {
 
 export const initialState: State = {
   statement: generateDefaultAsyncStateObj<Statement>(null),
-  listAreaColumns: generateDefaultAsyncStateObj<ListAreaColumn[]>([]),
+  gridColumns: generateDefaultAsyncStateObj<ListAreaColumn[]>([]),
   isGenerateStatementModalOpen: false,
   sendingGenerateStatementRequest: false,
   sendingGenerateStatementRequestSuccess: false,
@@ -40,7 +40,7 @@ export const initialState: State = {
   UnassignEmployeesError: false,
   generateStatementEventId: null,
   isExporting: false,
-  exportEventId: generateDefaultAsyncStateObj<string>(null),
+  exportEventId: generateDefaultAsyncStateObj<string>(null)
 };
 
 export function reducer(state = initialState, action: fromActions.StatementAssignmentPageActions): State {
@@ -64,14 +64,14 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
     }
     case fromActions.LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS: {
       const localState: State = cloneDeep(state);
-      return AsyncStateObjHelper.loading(localState, 'listAreaColumns');
+      return AsyncStateObjHelper.loading(localState, 'gridColumns');
     }
     case fromActions.LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_SUCCESS: {
-      const localState = cloneDeep(state);
-      return AsyncStateObjHelper.loadingSuccess(localState, 'listAreaColumns', action.payload);
+      const localState: State = cloneDeep(state);
+      return AsyncStateObjHelper.loadingSuccess(localState, 'gridColumns', action.payload);
     }
     case fromActions.LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_ERROR: {
-      return AsyncStateObjHelper.loadingError(state, 'listAreaColumns');
+      return AsyncStateObjHelper.loadingError(state, 'gridColumns');
     }
     case fromActions.OPEN_GENERATE_STATEMENT_MODAL: {
       const localState = cloneDeep(state);
@@ -246,6 +246,15 @@ export function reducer(state = initialState, action: fromActions.StatementAssig
         statement: statementClone
       };
     }
+    case fromActions.SAVE_GRID_COLUMNS: {
+      return AsyncStateObjHelper.loading(state, 'gridColumns');
+    }
+    case fromActions.SAVE_GRID_COLUMNS_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'gridColumns', action.payload);
+    }
+    case fromActions.SAVE_GRID_COLUMNS_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'gridColumns');
+    }
     default: {
       return state;
     }
@@ -262,8 +271,9 @@ export const getSendingGenerateStatementRequest = (state: State) => state.sendin
 export const getSendingGenerateStatementRequestSuccess = (state: State) => state.sendingGenerateStatementRequestSuccess;
 export const getSendingGenerateStatementRequestError = (state: State) => state.sendingGenerateStatementRequestError;
 
-export const getListAreaColumns = (state: State) => state.listAreaColumns.obj.filter(lac =>
-  lac.ColumnDatabaseName !== 'CompanyEmployeeId' && lac.ColumnDatabaseName !== 'AssignedStatementId');
+export const getGridColumns = (state: State) => state.gridColumns?.obj;
+export const getSavingGridColumns = (state: State) => state.gridColumns?.loading;
+export const getSavingGridColumnsError = (state: State) => state.gridColumns?.loadingError;
 
 export const getIsFiltersPanelOpen = (state: State) => state.isFiltersPanelOpen;
 

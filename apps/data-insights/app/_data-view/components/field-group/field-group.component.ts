@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 
-import { Field } from '../../models';
+import { Field } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-field-group',

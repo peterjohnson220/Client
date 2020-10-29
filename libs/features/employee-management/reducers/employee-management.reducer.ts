@@ -1,6 +1,8 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj, KendoTypedDropDownItem, GenericKeyValue, CompanyEmployee } from 'libs/models';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromEmployeeManagementActions from '../actions/employee-management.actions';
 import { EmployeeValidation, Job, Structure } from '../models';
@@ -20,6 +22,10 @@ export interface State {
   employee: AsyncStateObj<CompanyEmployee>;
   employeeValidation: AsyncStateObj<EmployeeValidation>;
   moreJobsToLoad: boolean;
+  isTotalRewardsStatementModalOpen: boolean;
+  totalRewardsStatement: AsyncStateObj<Statement>;
+  employeeTotalRewardsData: AsyncStateObj<EmployeeRewardsData>;
+  totalRewardsStatementId: AsyncStateObj<string>;
 }
 
 export const initialState: State = {
@@ -36,7 +42,11 @@ export const initialState: State = {
   employeesUserDefinedFields: generateDefaultAsyncStateObj<GenericKeyValue<string, string>[]>([]),
   employee: generateDefaultAsyncStateObj<CompanyEmployee>(null),
   employeeValidation: generateDefaultAsyncStateObj<EmployeeValidation>(null),
-  moreJobsToLoad: true
+  moreJobsToLoad: true,
+  isTotalRewardsStatementModalOpen: false,
+  totalRewardsStatement: generateDefaultAsyncStateObj<Statement>(null),
+  employeeTotalRewardsData: generateDefaultAsyncStateObj<EmployeeRewardsData>(null),
+  totalRewardsStatementId: generateDefaultAsyncStateObj<string>(null)
 };
 
 
@@ -365,6 +375,108 @@ export function reducer(state = initialState, action: fromEmployeeManagementActi
         saving: false
       };
     }
+    case fromEmployeeManagementActions.OPEN_TOTAL_REWARDS_STATEMENT: {
+      return {
+        ...state,
+        isTotalRewardsStatementModalOpen: true
+      };
+    }
+    case fromEmployeeManagementActions.CLOSE_TOTAL_REWARDS_STATEMENT: {
+      const statementClone: AsyncStateObj<Statement> = cloneDeep(state.totalRewardsStatement);
+      statementClone.obj = null;
+      const rewardsDataClone: AsyncStateObj<EmployeeRewardsData> = cloneDeep(state.employeeTotalRewardsData);
+      rewardsDataClone.obj = null;
+      const statementIdClone: AsyncStateObj<string> = cloneDeep(state.totalRewardsStatementId);
+      statementIdClone.obj = null;
+      return {
+        ...state,
+        isTotalRewardsStatementModalOpen: false,
+        totalRewardsStatement: statementClone,
+        employeeTotalRewardsData: rewardsDataClone,
+        totalRewardsStatementId: statementIdClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_TOTAL_REWARDS_STATEMENT: {
+      const statementClone: AsyncStateObj<Statement> = cloneDeep(state.totalRewardsStatement);
+      statementClone.loading = true;
+      statementClone.obj = null;
+      return {
+        ...state,
+        totalRewardsStatement: statementClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_TOTAL_REWARDS_STATEMENT_SUCCESS: {
+      const statementClone: AsyncStateObj<Statement> = cloneDeep(state.totalRewardsStatement);
+      statementClone.loading = false;
+      statementClone.obj = action.payload;
+      return {
+        ...state,
+        totalRewardsStatement: statementClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_TOTAL_REWARDS_STATEMENT_ERROR: {
+      const statementClone: AsyncStateObj<Statement> = cloneDeep(state.totalRewardsStatement);
+      statementClone.loading = false;
+      statementClone.loadingError = true;
+      return {
+        ...state,
+        totalRewardsStatement: statementClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_EMPLOYEE_TOTAL_REWARDS_DATA: {
+      const rewardsDataClone: AsyncStateObj<EmployeeRewardsData> = cloneDeep(state.employeeTotalRewardsData);
+      rewardsDataClone.loading = true;
+      rewardsDataClone.obj = null;
+      return {
+        ...state,
+        employeeTotalRewardsData: rewardsDataClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_EMPLOYEE_TOTAL_REWARDS_DATA_SUCCESS: {
+      const rewardsDataClone: AsyncStateObj<EmployeeRewardsData> = cloneDeep(state.employeeTotalRewardsData);
+      rewardsDataClone.loading = false;
+      rewardsDataClone.obj = action.payload;
+      return {
+        ...state,
+        employeeTotalRewardsData: rewardsDataClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_EMPLOYEE_TOTAL_REWARDS_DATA_ERROR: {
+      const rewardsDataClone: AsyncStateObj<EmployeeRewardsData> = cloneDeep(state.employeeTotalRewardsData);
+      rewardsDataClone.loading = false;
+      rewardsDataClone.loadingError = true;
+      return {
+        ...state,
+        employeeTotalRewardsData: rewardsDataClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_TOTAL_REWARDS_STATEMENT_ID: {
+      const statementIdClone: AsyncStateObj<string> = cloneDeep(state.totalRewardsStatementId);
+      statementIdClone.loading = true;
+      statementIdClone.obj = null;
+      return {
+        ...state,
+        totalRewardsStatementId: statementIdClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_TOTAL_REWARDS_STATEMENT_ID_SUCCESS: {
+      const statementIdClone: AsyncStateObj<string> = cloneDeep(state.totalRewardsStatementId);
+      statementIdClone.loading = false;
+      statementIdClone.obj = action.payload.statementId;
+      return {
+        ...state,
+        totalRewardsStatementId: statementIdClone
+      };
+    }
+    case fromEmployeeManagementActions.GET_TOTAL_REWARDS_STATEMENT_ID_ERROR: {
+      const statementIdClone: AsyncStateObj<string> = cloneDeep(state.totalRewardsStatementId);
+      statementIdClone.loading = false;
+      statementIdClone.loadingError = true;
+      return {
+        ...state,
+        totalRewardsStatementId: statementIdClone
+      };
+    }
     default:
       return state;
   }
@@ -384,3 +496,7 @@ export const getErrorMessage = (state: State) => state.errorMessage;
 export const getEmployeeAsync = (state: State) => state.employee;
 export const getEmployeeValidationAsync = (state: State) => state.employeeValidation;
 export const getMoreCompanyJobsToLoad = (state: State) => state.moreJobsToLoad;
+export const getIsTotalRewardsStatementModalOpen = (state: State) => state.isTotalRewardsStatementModalOpen;
+export const getTotalRewardsStatement = (state: State) => state.totalRewardsStatement;
+export const getEmployeeTotalRewardsData = (state: State) => state.employeeTotalRewardsData;
+export const getTotalRewardsStatementId = (state: State) => state.totalRewardsStatementId;

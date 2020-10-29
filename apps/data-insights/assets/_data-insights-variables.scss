@@ -1,4 +1,9 @@
 // Colors
+$grid-border-color: #d6d6d6;
+$icon-blue-color: #0883BE;
+$background-grey: #eaeaea;
+$card-header-grey: #495057;
+$baby-blue: #ebf3fd;
 $dark-grey: #999999;
 
 %label {
@@ -6,9 +11,3 @@ $dark-grey: #999999;
   color: $dark-grey;
   font-size: .95rem;
 }
-
-$grid-border-color: #d6d6d6;
-$icon-blue-color: #0883BE;
-$background-grey: #eaeaea;
-$card-header-grey: #495057;
-$baby-blue: #ebf3fd;

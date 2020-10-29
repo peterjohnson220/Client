@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Workbook } from '../models';
+import { Workbook } from 'libs/features/reports/models';
 
 export const GET_STANDARD_REPORTS = '[Data Insights/Data Insights Page] Get Standard Reports';
 export const GET_STANDARD_REPORTS_SUCCESS = '[Data Insights/Data Insights Page] Get Standard Reports Success';

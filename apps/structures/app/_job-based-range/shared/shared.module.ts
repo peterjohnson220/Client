@@ -7,13 +7,15 @@ import { StoreModule } from '@ngrx/store';
 import { NgbTabsetModule, NgbTooltipModule, NgbPopoverModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AutoCompleteModule, ComboBoxModule, DropDownListModule } from '@progress/kendo-angular-dropdowns';
-import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
+import { NumericTextBoxModule, SwitchModule } from '@progress/kendo-angular-inputs';
 import { EffectsModule } from '@ngrx/effects';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { PfDataGridModule } from 'libs/features/pf-data-grid';
 import { PfFormsModule } from 'libs/forms';
 import { RangeEditorModule } from 'libs/features/structures';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { FormulaEditorModule } from 'libs/features/formula-editor';
 
 import { GlobalActionsComponent, GridContextComponent, ModelSettingsBtnComponent } from './components';
 import {
@@ -23,12 +25,13 @@ import {
   RangeDistributionSettingComponent,
   DuplicateModelModalComponent
 } from './containers';
-import { ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects } from './effects';
+import { ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects, FieldsEffects, FormulaFieldEffects } from './effects';
 import { RangeValuePipe } from './pipes';
 import { reducers } from './reducers';
 import { StructuresPagesService, UrlService } from './services';
 import * as fromFaIcons from './fa-icons';
 import { AdvancedModelingComponent } from './containers/advanced-modeling';
+import { StructuresFormulaEditorComponent } from './containers/structures-formula-editor/structures-formula-editor.component';
 
 @NgModule({
   imports: [
@@ -38,7 +41,14 @@ import { AdvancedModelingComponent } from './containers/advanced-modeling';
 
     // 3rd Party
     StoreModule.forFeature('structures_jobBasedRange_shared', reducers),
-    EffectsModule.forFeature([ModelSettingsModalEffects, PublishModelModalEffects, SharedEffects, DuplicateModelModalEffects]),
+    EffectsModule.forFeature([
+      ModelSettingsModalEffects,
+      PublishModelModalEffects,
+      SharedEffects,
+      DuplicateModelModalEffects,
+      FieldsEffects,
+      FormulaFieldEffects
+    ]),
     FontAwesomeModule,
     NgbTabsetModule,
     AutoCompleteModule,
@@ -46,6 +56,8 @@ import { AdvancedModelingComponent } from './containers/advanced-modeling';
     NgbTooltipModule,
     NgbPopoverModule,
     NgbDropdownModule,
+    CodemirrorModule,
+    SwitchModule,
 
     // Payfactors
     PfDataGridModule,
@@ -54,7 +66,8 @@ import { AdvancedModelingComponent } from './containers/advanced-modeling';
     DropDownListModule,
     ReactiveFormsModule,
     RangeEditorModule,
-    PfCommonUIModule
+    PfCommonUIModule,
+    FormulaEditorModule
   ],
   declarations: [
     ModelGridComponent,
@@ -66,7 +79,8 @@ import { AdvancedModelingComponent } from './containers/advanced-modeling';
     RangeValuePipe,
     GlobalActionsComponent,
     RangeDistributionSettingComponent,
-    DuplicateModelModalComponent
+    DuplicateModelModalComponent,
+    StructuresFormulaEditorComponent
   ],
   exports: [
     ModelGridComponent,

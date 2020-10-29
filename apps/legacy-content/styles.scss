@@ -2,3 +2,11 @@
 @import "~@progress/kendo-theme-bootstrap/scss/all";
 
 @import 'legacy/legacy-styles';
+@import 'peer/peer-colors';
+@import 'peer/peer-button';
+
+pf-apply-mapping-button {
+  button.associate {
+    @include peer-button($match-button-primary);
+  }
+}

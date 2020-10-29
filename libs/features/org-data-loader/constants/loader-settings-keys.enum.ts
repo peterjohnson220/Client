@@ -12,5 +12,6 @@ export enum LoaderSettingsKeys {
   IsSubsidiariesLoadEnabled = 'IsSubsidiariesLoadEnabled',
   FileFormat = 'FileFormat',
   ValidateOnly = 'ValidateOnly',
-  IsBenefitsLoadEnabled = 'IsBenefitsLoadEnabled'
+  IsBenefitsLoadEnabled = 'IsBenefitsLoadEnabled',
+  IsBenefitsFullReplace = 'IsBenefitsFullReplace'
 }

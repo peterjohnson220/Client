@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Action, select, Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -11,12 +11,12 @@ import { UserProfileApiService } from 'libs/data/payfactors-api/user';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from 'libs/data/payfactors-api/jdm';
 import { CompanyJobViewListItemsResponse } from 'libs/models/payfactors-api/job-description/response';
 import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
+import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
+import { MappingHelper } from 'libs/core/helpers';
+import { SaveListAreaColumnsRequest } from 'libs/models/payfactors-api/user-profile';
 
 import * as fromJobDescriptionGridActions from '../actions/job-description-grid.actions';
 import * as fromJobDescriptionGridReducer from '../reducers';
-import { PayfactorsApiModelMapper } from 'libs/features/job-description-management/helpers';
-import { MappingHelper } from 'libs/core/helpers';
-
 
 @Injectable()
 export class JobDescriptionGridEffects {
@@ -61,12 +61,13 @@ export class JobDescriptionGridEffects {
       .pipe(
         ofType(fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS),
         switchMap((action: fromJobDescriptionGridActions.SaveListAreaColumns) => {
-            const newRequest = cloneDeep(action.payload);
-            newRequest.Columns = MappingHelper.mapListAreaColumnListToListAreaColumnRequestList(newRequest.Columns);
+            const request: SaveListAreaColumnsRequest = {
+              Columns: MappingHelper.mapListAreaColumnListToListAreaColumnRequestList(action.payload)
+            };
 
-            return this.userProfileApiService.saveListAreaColumns(newRequest).pipe(
+            return this.userProfileApiService.saveListAreaColumns(request).pipe(
               map(() => {
-                return new fromJobDescriptionGridActions.SaveListAreaColumnsSuccess({ ListAreaColumns: action.payload.Columns });
+                return new fromJobDescriptionGridActions.SaveListAreaColumnsSuccess({ ListAreaColumns: action.payload });
               }),
               catchError(response => of(new fromJobDescriptionGridActions.SaveListAreaColumnsError()))
             );

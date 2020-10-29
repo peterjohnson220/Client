@@ -11,7 +11,9 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingGridService={[Function Object]}
+  featureFlagService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
+  peerManageJobsGridToggleFlag={[Function Object]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
   selectedExchangeJobMapping$={[Function Store]}
@@ -20,11 +22,13 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   showCompanyJobs="false"
   showCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
   userContext$={[Function Store]}
 >
   <pf-page-with-title-bar>
     
      Manage Jobs 
+    
     
     <pf-exchange-switcher />
     <div
@@ -42,7 +46,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
       class="btn btn-secondary"
       type="button"
     >
-      Request Job
+      Request Exchange Job
     </button>
     <button
       class="btn btn-secondary"
@@ -74,16 +78,11 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
       class="flex-column-container"
     >
       <div
-        class="exchange-job-mapping-grid-container collapse-grid"
+        class="h-100"
       >
         <pf-exchange-job-mapping-grid />
       </div>
       
-      <div
-        class="mt-2 flex-grow-1 exchange-job-mapping-info-container"
-      >
-        <pf-exchange-job-mapping-info />
-      </div>
     </div>
     
   </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal />
@@ -101,7 +100,9 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingGridService={[Function Object]}
+  featureFlagService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
+  peerManageJobsGridToggleFlag={[Function Object]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
   selectedExchangeJobMapping$={[Function Store]}
@@ -110,11 +111,13 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   showCompanyJobs={[Function Boolean]}
   showCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
   userContext$={[Function Store]}
 >
   <pf-page-with-title-bar>
     
      Manage Jobs 
+    
     
     <pf-exchange-switcher />
     <div
@@ -186,7 +189,9 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   exchangeId$={[Function Observable]}
   exchangeIdSubscription={[Function Subscriber]}
   exchangeJobMappingGridService={[Function Object]}
+  featureFlagService={[Function Object]}
   gridPageRowIndexToScrollTo$={[Function Store]}
+  peerManageJobsGridToggleFlag={[Function Object]}
   route={[Function Object]}
   selectedCompanyJob$={[Function Store]}
   selectedExchangeJobMapping$={[Function Store]}
@@ -195,11 +200,13 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   showCompanyJobs="false"
   showCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
+  unsubscribe$={[Function Subject]}
   userContext$={[Function Store]}
 >
   <pf-page-with-title-bar>
     
      Manage Jobs 
+    
     
     <pf-exchange-switcher />
     <div
@@ -217,7 +224,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       class="btn btn-secondary"
       type="button"
     >
-      Request Job
+      Request Exchange Job
     </button>
     <button
       class="btn btn-secondary"
@@ -249,7 +256,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       class="flex-column-container"
     >
       <div
-        class="exchange-job-mapping-grid-container"
+        class="h-100"
       >
         <pf-exchange-job-mapping-grid />
       </div>

@@ -4,6 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { generateMockRangeAdvancedSetting } from 'libs/models/structures';
 import * as fromRootState from 'libs/state/state';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { PfCommonModule } from 'libs/core';
@@ -14,7 +15,6 @@ import { generateMockStructureRangeDistributionTypes, generateMockRangeDistribut
 import * as fromJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import { RangeRoundingComponent } from './range-rounding.component';
-import { generateMockRangeAdvancedSetting } from '../../models';
 
 describe('Job Based Ranges - Rounding Settings', () => {
   let instance: RangeRoundingComponent;
