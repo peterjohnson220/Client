@@ -4,12 +4,12 @@ import { select, Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 
+import { UserDataView } from 'libs/features/formula-editor';
+
 import { AbstractBaseDataViewModal } from '../../../_shared/containers';
 import * as fromSharedReducer from '../../../_shared/reducers';
-
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
-import { UserDataView } from '../../models';
 
 @Component({
   selector: 'pf-edit-data-view-modal',

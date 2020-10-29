@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { generateDefaultAsyncStateObj } from 'libs/models/state';
+import { generateMockView, generateMockWorkbook, View } from 'libs/features/reports/models';
 
 import { WorkbookViewsComponent } from './workbook-views.component';
-import { generateMockWorkbook, generateMockView, View } from '../../models';
 
 describe('Data Insights - Workbook Views Component', () => {
   let instance: WorkbookViewsComponent;

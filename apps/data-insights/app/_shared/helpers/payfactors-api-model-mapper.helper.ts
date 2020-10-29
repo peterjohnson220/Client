@@ -1,6 +1,5 @@
 import { DataViewEntityResponse } from 'libs/models/payfactors-api/reports/response';
-
-import { Entity } from '../models';
+import { Entity } from 'libs/features/formula-editor';
 
 export class PayfactorsApiModelMapper {
 

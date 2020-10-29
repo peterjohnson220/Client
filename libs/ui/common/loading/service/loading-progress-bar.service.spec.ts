@@ -28,7 +28,7 @@ describe('LoadingProgressBarService', () => {
 
   it('should progress a single progress bar', () => {
     const error = jest.fn();
-    const next = jest.fn()
+    const next = jest.fn();
 
     service.progressBar().subscribe( {
       next: next,
@@ -48,7 +48,7 @@ describe('LoadingProgressBarService', () => {
 
   it('should progress a second consecutive progress bar', () => {
     const error = jest.fn();
-    const next = jest.fn()
+    const next = jest.fn();
 
     const error_2 = jest.fn();
     const next_2 = jest.fn();
@@ -89,7 +89,7 @@ describe('LoadingProgressBarService', () => {
 
   it('should progress two progress bar', () => {
     const error = jest.fn();
-    const next = jest.fn()
+    const next = jest.fn();
 
     const error_2 = jest.fn();
     const next_2 = jest.fn();

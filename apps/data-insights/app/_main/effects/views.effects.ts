@@ -16,8 +16,8 @@ import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models
 import * as fromViewsActions from '../actions/views.actions';
 import * as fromDashboardActions from '../actions/dashboards.actions';
 import * as fromDataInsightsMainReducer from '../reducers';
-import { PayfactorsApiModelMapper, ViewsHelper } from '../helpers';
 import { DashboardView } from '../models';
+import { PayfactorsApiModelMapper } from '../helpers';
 
 @Injectable()
 export class ViewsEffects {

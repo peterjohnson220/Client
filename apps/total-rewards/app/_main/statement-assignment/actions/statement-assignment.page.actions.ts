@@ -1,8 +1,10 @@
 import { Action } from '@ngrx/store';
 
-import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
+import { ListAreaColumn } from 'libs/models/common/list-area';
+import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { StatementEmailTemplate } from 'libs/models/payfactors-api/total-rewards/response';
 
-import { Statement } from '../../../shared/models';
+import { DeliveryMethod } from '../models';
 
 export const RESET_STATE = '[Total Rewards/Statement Assignment] Reset State';
 
@@ -41,6 +43,10 @@ export const GET_EXPORTING_ASSIGNED_EMPLOYEES = '[Total Rewards/Statement Assign
 export const GET_EXPORTING_ASSIGNED_EMPLOYEES_SUCCESS = '[Total Rewards/Statement Assignment] Get Exporting Assigned Employees Success';
 export const GET_EXPORTING_ASSIGNED_EMPLOYEES_ERROR = '[Total Rewards/Statement Assignment] Get Exporting Assigned Employees Error';
 
+export const SAVE_GRID_COLUMNS = '[Total Rewards/Statement Assignment] Save Grid Columns';
+export const SAVE_GRID_COLUMNS_SUCCESS = '[Total Rewards/Statement Assignment] Save Grid Columns Success';
+export const SAVE_GRID_COLUMNS_ERROR = '[Total Rewards/Statement Assignment] Save Grid Columns Error';
+
 export class ResetState implements Action {
   readonly type = RESET_STATE;
 }
@@ -70,6 +76,7 @@ export class CloseGenerateStatementModal implements Action {
 
 export class GenerateStatements implements Action {
   readonly type = GENERATE_STATEMENTS;
+  constructor(public payload: { method: DeliveryMethod, emailTemplate?: StatementEmailTemplate }) {}
 }
 
 export class GenerateStatementsSuccess implements Action {
@@ -93,7 +100,7 @@ export class LoadAssignedEmployeesListAreaColumns implements Action {
 
 export class LoadAssignedEmployeesListAreaColumnsSuccess implements Action {
   readonly type = LOAD_ASSIGNED_EMPLOYEES_LIST_AREA_COLUMNS_SUCCESS;
-  constructor(public payload: ListAreaColumnResponse[]) {}
+  constructor(public payload: ListAreaColumn[]) {}
 }
 
 export class LoadAssignedEmployeesListAreaColumnsError implements Action {
@@ -178,6 +185,20 @@ export class UpdateStatementAssignedEmployees implements Action {
   constructor(public payload: number[]) {}
 }
 
+export class SaveGridColumns implements Action {
+  readonly type = SAVE_GRID_COLUMNS;
+  constructor(public payload: ListAreaColumn[]) {}
+}
+
+export class SaveGridColumnsSuccess implements Action {
+  readonly type = SAVE_GRID_COLUMNS_SUCCESS;
+  constructor(public payload: ListAreaColumn[]) {}
+}
+
+export class SaveGridColumnsError implements Action {
+  readonly type = SAVE_GRID_COLUMNS_ERROR;
+}
+
 export type StatementAssignmentPageActions =
   ResetState |
   LoadStatement |
@@ -207,4 +228,7 @@ export type StatementAssignmentPageActions =
   GetExportingAssignedEmployeeSuccess |
   GetExportingAssignedEmployeeError |
   UpdateStatementAssignedEmployees |
-  UpdateStatementIsGenerating;
+  UpdateStatementIsGenerating |
+  SaveGridColumns |
+  SaveGridColumnsSuccess |
+  SaveGridColumnsError;

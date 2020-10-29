@@ -8,3 +8,5 @@ export * from './override-and-save-range-field-request-model';
 export * from './duplicate-model-request.model';
 export * from './revert-range-changes-request.model';
 export * from './advanced-setting-request.model';
+export * from './current-range-group-request.model';
+export * from './convert-currency-and-rate-request.model';

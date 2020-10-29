@@ -44,3 +44,7 @@ export const getErrorMessage = createSelector(selectEmployeeDataState, fromEmplo
 export const getEmployee = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getEmployeeAsync);
 export const getEmployeeValidationAsync = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getEmployeeValidationAsync);
 export const getMoreCompanyJobsToLoad = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getMoreCompanyJobsToLoad);
+export const getIsTotalRewardsStatementModalOpen = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getIsTotalRewardsStatementModalOpen);
+export const getTotalRewardsStatement = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getTotalRewardsStatement);
+export const getEmployeeTotalRewardsData = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getEmployeeTotalRewardsData);
+export const getTotalRewardsStatementId = createSelector(selectEmployeeDataState, fromEmployeeManagementReducer.getTotalRewardsStatementId);

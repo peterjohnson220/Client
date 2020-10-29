@@ -205,7 +205,7 @@ function buildDefaultInputs(instance: RangeFieldEditorComponent): void {
   instance.rangeId = 987;
   instance.rate = RateType.Annual;
   instance.fieldValue = 55000;
-  instance.fieldName = 'Mid'
+  instance.fieldName = 'Mid';
   instance.dataRow = {};
   instance.rowIndex = 0;
 }

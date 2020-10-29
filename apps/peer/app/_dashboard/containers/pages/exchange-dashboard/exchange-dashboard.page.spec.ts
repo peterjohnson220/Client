@@ -8,12 +8,15 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockExchange } from 'libs/models';
+import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 
 import { ExchangeDashboardPageComponent } from './exchange-dashboard.page';
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
 import * as fromPeerDashboardReducer from '../../../reducers';
+import * as fromPeerSharedReducer from '../../../../shared/reducers';
 
 describe('Peer - Exchange Dashboard', () => {
+  let abstractFeatureFlagService: AbstractFeatureFlagService;
   let fixture: ComponentFixture<ExchangeDashboardPageComponent>;
   let instance: ExchangeDashboardPageComponent;
   let router: Router;
@@ -26,7 +29,8 @@ describe('Peer - Exchange Dashboard', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers)
+          peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers),
+          peer_shared: combineReducers(fromPeerSharedReducer.reducers)
         }),
       ],
       providers: [
@@ -38,6 +42,10 @@ describe('Peer - Exchange Dashboard', () => {
           provide: ActivatedRoute,
           useValue: { snapshot: { params: { id: 1 } }, parent: {parent: 'mock'} },
         },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        }
       ],
       declarations: [
         ExchangeDashboardPageComponent
@@ -52,6 +60,7 @@ describe('Peer - Exchange Dashboard', () => {
 
     fixture = TestBed.createComponent(ExchangeDashboardPageComponent);
     instance = fixture.componentInstance;
+    abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
 
     spyOn(store, 'dispatch');
   });

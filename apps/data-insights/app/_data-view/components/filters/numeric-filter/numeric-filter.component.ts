@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnChanges, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
 
-import { Equals, FilterOperator, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual } from '../../../models';
+import { Equals, FilterOperator, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-numeric-filter',

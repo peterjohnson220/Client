@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Entity } from '../models';
+import { Entity } from 'libs/features/formula-editor';
 
 export const GET_BASE_ENTITIES = '[Data Insights / Data View] Get Base Entities';
 export const GET_BASE_ENTITIES_SUCCESS = '[Data Insights / Data View] Get Base Entities Success';

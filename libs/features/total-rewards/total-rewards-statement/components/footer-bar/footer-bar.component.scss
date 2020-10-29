@@ -1,0 +1,10 @@
+@import 'total-rewards/statement-layout-variables';
+
+.footer-bar {
+  height: $footer-bar-height;
+  opacity: .95;
+  background-color: #fff;
+  .back-icon {
+    font-size: .9rem;
+  }
+}

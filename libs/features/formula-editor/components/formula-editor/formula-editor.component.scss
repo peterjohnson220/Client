@@ -1,0 +1,123 @@
+// @import 'data-insights-variables';
+@import 'colors';
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/addon/hint/show-hint';
+
+// Colors
+$dark-grey: #999999;
+
+%label {
+  text-transform: uppercase;
+  color: $dark-grey;
+  font-size: .95rem;
+}
+
+$grid-border-color: #d6d6d6;
+$icon-blue-color: #0883BE;
+$background-grey: #eaeaea;
+$card-header-grey: #495057;
+$baby-blue: #ebf3fd;
+
+
+pf-formula-editor {
+  .CodeMirror {
+    padding: 1rem;
+    font-size: 16px;
+    font-weight: 300;
+    position: absolute;
+    height: 150px;
+    width: calc(100% - 2rem);
+    resize: none;
+    border: 1px solid #ced4da;
+    background-color: transparent;
+  
+    &:focus {
+      outline-color: $background-grey;
+    }
+  
+    &:disabled {
+      background-color: #e9ecef;
+    }
+  }
+
+  .CodeMirror-placeholder.CodeMirror-line-like {
+    color: grey;
+  }
+
+  .CodeMirror-readonly {
+    .CodeMirror {
+      background-color: #e9ecef;
+    }
+    .CodeMirror-cursor {
+      visibility: hidden !important;
+    }
+  }
+}
+
+.CodeMirror-hints {
+  z-index: 1000000;
+}
+
+
+
+
+
+
+
+.formula-container {
+  height: 150px;
+  margin-bottom: 1rem;
+}
+
+.formula, .popup-anchor {
+  padding: 1rem;
+  font-size: 16px;
+  font-weight: 300;
+  position: absolute;
+}
+
+.formula {
+  height: 150px;
+  width: calc(100% - 2rem);
+  resize: none;
+  z-index: 2;
+  border: 1px solid #ced4da;
+  background-color: transparent;
+
+  &:focus {
+    outline-color: $background-grey;
+  }
+
+  &:disabled {
+    background-color: #e9ecef;
+  }
+}
+
+.popup-anchor {
+  z-index: 1;
+  color: transparent;
+  width: 947px;
+}
+
+.suggestions-popup-content {
+  min-width: 150px;
+  max-height: 150px;
+  overflow-y: auto;
+
+  .suggestion {
+    padding: 0.5rem 0;
+    &:hover {
+      background-color: #cccccc;
+    }
+  }
+}
+
+.validating-message {
+  font-size: 14px;
+
+  .valid-icon, .invalid-icon, .loading-icon {
+    margin-right: 0.5rem;
+    font-size: 16px;
+  }
+
+}

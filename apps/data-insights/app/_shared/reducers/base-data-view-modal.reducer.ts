@@ -1,9 +1,9 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { Entity } from 'libs/features/formula-editor';
 
 import * as fromDataViewModalActions from '../actions/base-data-view-modal.actions';
-import { Entity } from '../models';
 
 export interface State {
   baseEntitiesAsync: AsyncStateObj<Entity[]>;

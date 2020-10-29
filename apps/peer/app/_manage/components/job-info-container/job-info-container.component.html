@@ -1,20 +1,23 @@
-<div class="info-container">
-  <div class="info-row">
-    <div class="label">{{job.JobType}} Job:</div>
-    <div>{{ job.JobTitle }} <ng-container *ngIf="showJobCode"> - {{job.JobCode}}</ng-container></div>
-  </div>
-  <div class="info-row">
-    <div class="label">Job Family:</div>
-    <div>{{ job.JobFamily }}</div>
-  </div>
-  <div class="info-row">
-    <div class="label">Job Level:</div>
-    <div>{{ job.JobLevel }}</div>
-  </div>
-  <div class="info-row-flex-column flex-grow-1">
-    <div class="label">Job Description:</div>
-    <div class="job-description-container">
-      {{ job.JobDescription }}
+<div class="d-flex flex-column h-100">
+  <div class="pr-3">
+    <h5 class="mb-3 font-weight-bold">{{job.JobType ? job.JobType : "Company"}} Job</h5>
+    <div class="info-row">
+      <label class="font-weight-bold w-25 mb-0">Job:</label>
+      <span>{{ job.JobTitle }} <ng-container *ngIf="showJobCode"> - {{job.JobCode}}</ng-container></span>
     </div>
+    <div class="info-row">
+      <label class="font-weight-bold w-25 mb-0">Job Family:</label>
+      <span>{{ job.JobFamily }}</span>
+    </div>
+    <div class="info-row">
+      <label class="font-weight-bold w-25 mb-0">Job Level:</label>
+      <span>{{ job.JobLevel }}</span>
+    </div>
+    <div class="info-row">
+      <label class="font-weight-bold w-25">Job Description:</label>
+    </div>
+  </div>
+  <div class="info-row border-0 pr-3 job-description-container">
+    {{ job.JobDescription }}
   </div>
 </div>

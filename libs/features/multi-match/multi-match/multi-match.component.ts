@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
-import { SearchBase } from 'libs/features/search/containers/search-base';
+import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
@@ -28,7 +28,7 @@ import { LEGACY_PROJECTS, MODIFY_PRICINGS } from '../constants';
   templateUrl: './multi-match.component.html',
   styleUrls: ['./multi-match.component.scss']
 })
-export class MultiMatchComponent extends SearchBase implements OnInit, OnDestroy {
+export class MultiMatchComponent extends SearchBaseDirective implements OnInit, OnDestroy {
   @Input() display: 'component' | 'modal' = 'component';
   @Input() featureImplementation = LEGACY_PROJECTS;
   @Output() afterSaveChanges = new EventEmitter<boolean>();

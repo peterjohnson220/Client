@@ -22,6 +22,7 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping butt
   exchangeJobInfo={[Function Object]}
   getActiveCompanyJobId$={[Function Store]}
   loadingExchangeMappingInfo$={[Function Store]}
+  permissions={[Function Function]}
   selectedCompanyJobInfoModels$={[Function Store]}
   selectedCompanyJobsSubscription={[Function Subscriber]}
   selectedExchangeJobMapping={[Function Object]}
@@ -32,60 +33,77 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping butt
   store={[Function Store]}
 >
   <div
-    class="mapping-info-container card h-100"
+    class="card mb-2 mapping-info-container"
   >
     <div
       class="card-header"
     >
-      <div
-        class="align-self-center mr-auto"
+      <h6
+        class="mr-auto mb-0 font-weight-bold"
       >
-         Job Information 
-      </div>
+        Job Information
+      </h6>
       
-      <div
-        class="close-btn"
+      <a
+        class="close-panel mr-2 mt-1"
+        href="javascript:void(0)"
+        title="Close"
       >
-        <fa-icon />
-      </div>
+        <fa-icon
+          icon="times"
+        />
+      </a>
     </div>
     <div
-      class="card-body d-flex"
+      class="d-flex h-100"
     >
-      <pf-job-info-container />
       <div
-        class="vertical-separator"
-      />
-      <pf-async-container
-        class="company-job-mapping-container"
+        class="w-50 pt-3 pl-3"
       >
-        
-        
-        <div
-          class="company-job-mapping-add"
+        <pf-job-info-container />
+      </div>
+      <div
+        class="vertical-separator mt-3 mb-2"
+      />
+      <div
+        class="w-50 pt-3 pl-3"
+      >
+        <pf-async-container
+          class="company-job-mapping-container"
         >
+          
+          
           <div
-            style="display:flex;"
+            class="company-job-mapping-add"
           >
-            <pf-input-debounce
-              class="search-box"
-            />
-            <pf-input-debounce
-              class="search-box"
-            />
+            <h5
+              class="font-weight-bold mb-4"
+            >
+              Search for Company Job
+            </h5>
+            <div
+              style="display:flex;"
+            >
+              <pf-input-debounce
+                class="search-box"
+              />
+              <pf-input-debounce
+                class="search-box"
+              />
+            </div>
+            <div
+              class="mapping-results-container remove-scroll"
+            >
+              <pf-async-container>
+                
+                
+              </pf-async-container>
+            </div>
           </div>
-          <div
-            class="mapping-results-container remove-scroll"
-          >
-            <pf-async-container>
-              
-              
-            </pf-async-container>
-          </div>
-        </div>
-      </pf-async-container>
+        </pf-async-container>
+      </div>
     </div>
-  </div><pf-delete-mapping-confirmation-modal />
+  </div><pf-confirm-create-project-modal /><pf-delete-mapping-confirmation-modal />
 </pf-exchange-job-mapping-info>
 `;
 
@@ -111,6 +129,7 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
   exchangeJobInfo={[Function Object]}
   getActiveCompanyJobId$={[Function Store]}
   loadingExchangeMappingInfo$={[Function Store]}
+  permissions={[Function Function]}
   selectedCompanyJob={[Function Object]}
   selectedCompanyJobInfoModels$={[Function Store]}
   selectedCompanyJobsSubscription={[Function Subscriber]}
@@ -122,96 +141,110 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
   store={[Function Store]}
 >
   <div
-    class="mapping-info-container card h-100"
+    class="card mb-2 mapping-info-container"
   >
     <div
       class="card-header"
     >
-      <div
-        class="align-self-center mr-auto"
+      <h6
+        class="mr-auto mb-0 font-weight-bold"
       >
-         Job Information 
-      </div>
+        Job Information
+      </h6>
       
       
       <button
-        class="btn btn-sm btn-secondary"
+        class="btn btn-sm mr-4 btn-secondary"
         id="add-mapping-button"
       >
-         Add Association 
+        <span>
+          Add Match
+        </span>
       </button>
-      <div
-        class="close-btn"
+      <a
+        class="close-panel mr-2 mt-1"
+        href="javascript:void(0)"
+        title="Close"
       >
-        <fa-icon />
-      </div>
+        <fa-icon
+          icon="times"
+        />
+      </a>
     </div>
     <div
-      class="card-body d-flex"
+      class="d-flex h-100"
     >
-      <pf-job-info-container />
       <div
-        class="vertical-separator"
-      />
-      <pf-async-container
-        class="company-job-mapping-container"
+        class="w-50 pt-3 pl-3"
       >
-        
-        <div
-          class="company-job-mapping d-flex flex-column justify-content-between"
+        <pf-job-info-container />
+      </div>
+      <div
+        class="vertical-separator mt-3 mb-2"
+      />
+      <div
+        class="w-50 pt-3 pl-3"
+      >
+        <pf-async-container
+          class="company-job-mapping-container"
         >
-          <ngb-carousel>
-            
-            
-            
-            
-            
-          </ngb-carousel>
           
           <div
-            class="carousel-controls d-flex flex-row justify-content-between"
+            class="company-job-mapping d-flex flex-column justify-content-between"
           >
-            <div
-              class="control control-left"
-            >
-              <fa-icon
-                icon="chevron-circle-left"
-                size="2x"
-              />
-            </div>
-            <div
-              class="indicators flex-grow-1 space-out-children text-center"
-            >
+            <ngb-carousel>
               
-              <span
-                class="control active"
-              >
-                <fa-icon
-                  icon="circle"
-                />
-              </span>
-              <span
-                class="control"
-              >
-                <fa-icon
-                  icon="circle"
-                />
-              </span>
-            </div>
+              
+              
+              
+              
+            </ngb-carousel>
+            
             <div
-              class="control control-right"
+              class="carousel-controls d-flex flex-row justify-content-between"
             >
-              <fa-icon
-                icon="chevron-circle-right"
-                size="2x"
-              />
+              <div
+                class="control control-left"
+              >
+                <fa-icon
+                  icon="chevron-circle-left"
+                  size="2x"
+                />
+              </div>
+              <div
+                class="indicators flex-grow-1 space-out-children text-center"
+              >
+                
+                <span
+                  class="control active"
+                >
+                  <fa-icon
+                    icon="circle"
+                  />
+                </span>
+                <span
+                  class="control"
+                >
+                  <fa-icon
+                    icon="circle"
+                  />
+                </span>
+              </div>
+              <div
+                class="control control-right"
+              >
+                <fa-icon
+                  icon="chevron-circle-right"
+                  size="2x"
+                />
+              </div>
             </div>
           </div>
-        </div>
-        
-      </pf-async-container>
+          
+        </pf-async-container>
+      </div>
     </div>
-  </div><pf-delete-mapping-confirmation-modal />
+  </div><pf-confirm-create-project-modal /><pf-delete-mapping-confirmation-modal />
 </pf-exchange-job-mapping-info>
 `;
 
@@ -237,6 +270,7 @@ exports[`Peer - Exchange Job Mapping Info should display an add mapping button, 
   exchangeJobInfo={[Function Object]}
   getActiveCompanyJobId$={[Function Store]}
   loadingExchangeMappingInfo$={[Function Store]}
+  permissions={[Function Function]}
   selectedCompanyJobInfoModels$={[Function Store]}
   selectedCompanyJobsSubscription={[Function Subscriber]}
   selectedExchangeJobMapping={[Function Object]}
@@ -247,52 +281,66 @@ exports[`Peer - Exchange Job Mapping Info should display an add mapping button, 
   store={[Function Store]}
 >
   <div
-    class="mapping-info-container card h-100"
+    class="card mb-2 mapping-info-container"
   >
     <div
       class="card-header"
     >
-      <div
-        class="align-self-center mr-auto"
+      <h6
+        class="mr-auto mb-0 font-weight-bold"
       >
-         Job Information 
-      </div>
+        Job Information
+      </h6>
       
       
       <button
-        class="btn btn-sm btn-secondary"
+        class="btn btn-sm mr-4 btn-secondary"
         id="add-mapping-button"
       >
-         Add Association 
+        <span>
+          Add Match
+        </span>
       </button>
-      <div
-        class="close-btn"
+      <a
+        class="close-panel mr-2 mt-1"
+        href="javascript:void(0)"
+        title="Close"
       >
-        <fa-icon />
-      </div>
+        <fa-icon
+          icon="times"
+        />
+      </a>
     </div>
     <div
-      class="card-body d-flex"
+      class="d-flex h-100"
     >
-      <pf-job-info-container />
       <div
-        class="vertical-separator"
-      />
-      <pf-async-container
-        class="company-job-mapping-container"
+        class="w-50 pt-3 pl-3"
       >
-        
-        <div
-          class="company-job-mapping d-flex flex-column justify-content-between"
+        <pf-job-info-container />
+      </div>
+      <div
+        class="vertical-separator mt-3 mb-2"
+      />
+      <div
+        class="w-50 pt-3 pl-3"
+      >
+        <pf-async-container
+          class="company-job-mapping-container"
         >
-          <ngb-carousel>
-            
-          </ngb-carousel>
           
-        </div>
-        
-      </pf-async-container>
+          <div
+            class="company-job-mapping d-flex flex-column justify-content-between"
+          >
+            <ngb-carousel>
+              
+            </ngb-carousel>
+            
+          </div>
+          
+        </pf-async-container>
+      </div>
     </div>
-  </div><pf-delete-mapping-confirmation-modal />
+  </div><pf-confirm-create-project-modal /><pf-delete-mapping-confirmation-modal />
 </pf-exchange-job-mapping-info>
 `;

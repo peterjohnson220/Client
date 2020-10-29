@@ -1,4 +1,4 @@
-<ng-container *ngFor="let col of nonGroupedFields">
+<ng-container *ngFor="let col of nonGroupedFields | filterArrayByName: searchTerm : 'DisplayName'">
     <div *ngIf="col.IsSelectable && !col.Group"
          class="px-2 py-1">
       <input type="checkbox"
@@ -17,6 +17,7 @@
     <div *ngFor="let group of columnGroups; trackBy: trackByFn">
       <pf-column-group *ngIf="group.FilteredFields.length"
         [columnGroup]="group"
+        [selectAllEnabled]="selectAllEnabled"
         [showFieldsOverride]="searchTerm && searchTerm.length"
         (fieldClicked)="handleFieldClicked($event)">
       </pf-column-group>

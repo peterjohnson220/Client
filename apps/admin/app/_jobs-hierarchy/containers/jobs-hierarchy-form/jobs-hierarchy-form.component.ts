@@ -46,7 +46,9 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
   selectedHierarchySub: Subscription;
   shouldResetHierarchyFormSub: Subscription;
 
-  get f() { return this.jobLevelHierarchyForm.controls; }
+  get f() {
+    return this.jobLevelHierarchyForm.controls;
+  }
 
   get jobFamiliesFormArray() {
     return this.jobLevelHierarchyForm.controls.jobFamilies as FormArray;
@@ -141,7 +143,8 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
           this.jobLevelsFormArray.clear();
           this.jobLevelsInHierarchyFormArray.clear();
 
-          this.jobLevelsInHierarchy = this.selectedHierarchy.JobLevel.map(c => c.JobLevel);
+          const jobLevels = this.selectedHierarchy.JobLevel.map(c => c.JobLevel);
+          this.jobLevelsInHierarchy = Array.from(new Set(jobLevels));
           this.jobLevels = this.jobLevels.filter(item => !this.jobLevelsInHierarchy.includes(item));
 
           this.jobLevels.forEach(() => {
@@ -175,8 +178,16 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
 
     if (this.jobLevelHierarchyForm.valid) {
       this.attemptedSubmit = false;
-      this.store.dispatch(new fromJobsHierarchyActions.SaveJobLevelHierarchy({jobLevelHierarchy: this.mapJobLevelHierarchy()}));
+      this.store.dispatch(new fromJobsHierarchyActions.SaveJobLevelHierarchy({ jobLevelHierarchy: this.mapJobLevelHierarchy() }));
     }
+  }
+
+  jobInHierarchyClicked(index) {
+    const currentState = this.jobLevelHierarchyForm.value.jobLevelsInHierarchy[index];
+
+    // @ts-ignore
+    this.jobLevelsInHierarchyFormArray.controls[index].selected = !currentState;
+    this.jobLevelHierarchyForm.value.jobLevelsInHierarchy[index] = !currentState;
   }
 
   applyToHierarchy() {
@@ -198,14 +209,14 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
       .map((checked, i) => checked ? this.jobLevelsInHierarchy[i] : null)
       .filter(v => v !== null);
 
-      selectedJobLevelsInHierarchy.map(c => this.jobLevels.push(c));
+    selectedJobLevelsInHierarchy.map(c => this.jobLevels.push(c));
 
-      this.jobLevelsFormArray.clear();
+    this.jobLevelsFormArray.clear();
 
-      this.jobLevels.forEach(() => this.jobLevelsFormArray.push(new FormControl(false)));
-      this.jobLevelsInHierarchy = this.jobLevelsInHierarchy.filter(item => selectedJobLevelsInHierarchy.indexOf(item) < 0);
-      this.jobLevelsInHierarchyFormArray.clear();
-      this.jobLevelsInHierarchy.forEach(() => this.jobLevelsInHierarchyFormArray.push(new FormControl(false)));
+    this.jobLevels.forEach(() => this.jobLevelsFormArray.push(new FormControl(false)));
+    this.jobLevelsInHierarchy = this.jobLevelsInHierarchy.filter(item => selectedJobLevelsInHierarchy.indexOf(item) < 0);
+    this.jobLevelsInHierarchyFormArray.clear();
+    this.jobLevelsInHierarchy.forEach(() => this.jobLevelsInHierarchyFormArray.push(new FormControl(false)));
   }
 
   onJobFamilySelectionChange(target) {
@@ -225,7 +236,7 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
       } else {
         this.jobLevelsFormArray.controls[i].setValue(false);
       }
-   }
+    }
   }
 
   onJobLevelsInHierarchySelectionChange(selection: HTMLOptionsCollection) {
@@ -240,8 +251,8 @@ export class JobsHierarchyFormComponent implements OnInit, OnDestroy {
 
   mapJobLevelHierarchy(): JobLevelHierarchyDetail {
     const selectedJobFamilies = this.jobLevelHierarchyForm.value.jobFamilies
-    .map((checked, i) => checked ? this.jobFamilies[i] : null)
-    .filter(v => v !== null);
+      .map((checked, i) => checked ? this.jobFamilies[i] : null)
+      .filter(v => v !== null);
 
     const jobLevelsWithOrder: JobLevelOrder[] = [];
     this.jobLevelsInHierarchy.forEach((value, index) => {

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, HostListener, ElementRef, OnDestroy } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import cloneDeep from 'lodash/cloneDeep';
@@ -26,17 +26,22 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   @Input() additionalProperties: any;
   @Input() undoChanges$: Observable<boolean>;
   @Input() replaceContents$: Observable<boolean>;
+  @Input() rebuildQuillAfterDiscardDraft$: Observable<boolean>;
 
 
   @Output() dataChangesDetected = new EventEmitter();
   @Output() smartEditorChangesDetected = new EventEmitter();
   @Output() additionalPropertiesChangesDetected = new EventEmitter();
 
+  private rebuildQuillAfterDiscardDraftSubscription = new Subscription();
+  private undoChangesSubscription = new Subscription();
+
   private rteData = '';
   private showDataTable = false;
   private newDataFromLibraryIdentifierString = '========>FROM LIBRARY';
   private unsubscribe$ = new Subject();
   private replaceContent = false;
+  private rebuildQuillAfterDiscardDraft = false;
 
   constructor(
     private elRef: ElementRef
@@ -56,7 +61,7 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.undoChanges$) {
-      this.undoChanges$.subscribe(val => {
+     this.undoChangesSubscription = this.undoChanges$.subscribe(val => {
         if (val) {
           this.rebuildQuillHtmlFromSavedData();
         }
@@ -68,6 +73,14 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
         takeUntil(this.unsubscribe$)
       ).subscribe((c) => {
         this.replaceContent = c;
+      });
+    }
+
+    if (this.rebuildQuillAfterDiscardDraft$) {
+     this.rebuildQuillAfterDiscardDraftSubscription = this.rebuildQuillAfterDiscardDraft$.subscribe(val => {
+        if (val) {
+          this.rebuildQuillAfterDiscardDraft = val;
+        }
       });
     }
   }
@@ -83,8 +96,10 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
           if ((currentSourcedValue && currentSourcedValue.indexOf(this.newDataFromLibraryIdentifierString) > -1) || this.replaceContent) {
             currentData[i][sourcedAttributeName] = currentSourcedValue.replace(this.newDataFromLibraryIdentifierString, '');
             this.rebuildQuillHtmlFromSavedData();
-            this.focusRTE();
             this.replaceContent = false;
+          } else if (this.rebuildQuillAfterDiscardDraft) {
+            this.rebuildQuillHtmlFromSavedData();
+            this.rebuildQuillAfterDiscardDraft = false;
           }
         }
       } else if (this.replaceContent) {
@@ -98,6 +113,8 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+    this.undoChangesSubscription.unsubscribe();
+    this.rebuildQuillAfterDiscardDraftSubscription.unsubscribe();
   }
 
   focusRTE() {
@@ -302,15 +319,15 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
      false if there is nothing else, and true if there is something remaining.
   */
   hasUnstructuredData() {
-    var temp = this.rteData;
+    let temp = this.rteData;
 
     if (temp === null || temp.trim() === '') {
       return false;
     }
 
     // remove unordered and ordered list elements
-    temp = this.removeAllElements("<ul>", "</ul>", temp);
-    temp = this.removeAllElements("<ol>", "</ol>", temp);
+    temp = this.removeAllElements('<ul>', '</ul>', temp);
+    temp = this.removeAllElements('<ol>', '</ol>', temp);
 
     // get rid of remaining html tags
     temp = temp.replace(/<[^>]*>/g, '');
@@ -319,9 +336,9 @@ export class SmartListEditorComponent implements OnInit, OnChanges, OnDestroy {
 
   // Removes all occurrences of a html element, including the opening and closing tags.
   removeAllElements(opening: string, closing: string, text: string) {
-    var start = text.indexOf(opening);
-    var end = text.indexOf(closing);
-    while (start != -1) {
+    let start = text.indexOf(opening);
+    let end = text.indexOf(closing);
+    while (start !== -1) {
       text = text.substring(0, start) + text.substring(end + closing.length, text.length);
       start = text.indexOf(opening);
       end = text.indexOf(closing);

@@ -4,11 +4,12 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 
+import { StatementListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models';
+
 import * as fromStatementListReducers from '../reducers';
 import * as fromStatementListPageActions from '../actions/statement-list.page.actions';
 import * as fromStatementGridActions from '../actions/statement-grid.actions';
 import * as fromTemplateSelectorActions from '../actions/template-selector.actions';
-import { StatementListViewModel } from '../../../shared/models';
 
 @Component({
   selector: 'pf-total-rewards-statement-list-page',

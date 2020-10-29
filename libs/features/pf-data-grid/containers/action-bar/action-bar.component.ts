@@ -1,25 +1,26 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 
 import orderBy from 'lodash/orderBy';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { ViewField } from 'libs/models/payfactors-api';
+import { PagingOptions, ViewField } from 'libs/models/payfactors-api';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
-import { ActionBarConfig } from '../../models';
+import { ActionBarConfig, GridConfig } from '../../models';
+import { GridDataHelper } from '../../helpers';
 
 @Component({
   selector: 'pf-action-bar',
   templateUrl: './action-bar.component.html',
   styleUrls: ['./action-bar.component.scss'],
 })
-export class ActionBarComponent implements OnChanges {
+export class ActionBarComponent implements OnChanges, OnDestroy {
   @Input() actionBarConfig: ActionBarConfig;
   @Input() pageViewId: string;
   @Input() globalFilters: ViewField[];
@@ -30,6 +31,12 @@ export class ActionBarComponent implements OnChanges {
   exporting$: Observable<boolean>;
   loadingExportingStatus$: Observable<boolean>;
   data$: Observable<GridDataResult>;
+  data: GridDataResult;
+  gridConfig: GridConfig;
+  pagingOptions: PagingOptions;
+  dataSubscription: Subscription;
+  gridConfigSubscription: Subscription;
+  pagingOptionsSubscription: Subscription;
 
   constructor(private store: Store<fromReducer.State>) { }
 
@@ -40,6 +47,10 @@ export class ActionBarComponent implements OnChanges {
       this.exporting$ = this.store.select(fromReducer.getExportingGrid, this.pageViewId);
       this.loadingExportingStatus$ = this.store.select(fromReducer.getLoadingExportingStatus, this.pageViewId);
       this.data$ = this.store.select(fromReducer.getData, this.pageViewId);
+      this.dataSubscription = this.data$.subscribe(data => this.data = data);
+      this.pagingOptionsSubscription = this.store.select(fromReducer.getPagingOptions, this.pageViewId)
+        .subscribe(pagingOptions => this.pagingOptions = pagingOptions);
+      this.gridConfigSubscription = this.store.select(fromReducer.getGridConfig, this.pageViewId).subscribe(gridConfig => this.gridConfig = gridConfig);
     }
   }
 
@@ -51,7 +62,7 @@ export class ActionBarComponent implements OnChanges {
     }
 
     this.store.dispatch(new fromActions.UpdateFields(this.pageViewId, updatedFields));
-    this.store.dispatch(new fromActions.LoadData(this.pageViewId));
+    this.store.dispatch(GridDataHelper.getLoadDataAction(this.pageViewId, this.data, this.gridConfig, this.pagingOptions));
   }
 
   handleGlobalFilterValueChanged(field: ViewField, value: any) {
@@ -81,5 +92,11 @@ export class ActionBarComponent implements OnChanges {
     } else {
       return 'Export';
     }
+  }
+
+  ngOnDestroy(): void {
+    this.dataSubscription.unsubscribe();
+    this.gridConfigSubscription.unsubscribe();
+    this.pagingOptionsSubscription.unsubscribe();
   }
 }

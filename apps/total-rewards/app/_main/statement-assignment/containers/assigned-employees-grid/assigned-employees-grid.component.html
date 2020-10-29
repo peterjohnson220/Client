@@ -45,29 +45,44 @@
                        class="gray-text">
               </fa-icon>
               <div ngbDropdownMenu aria-labelledby="total-rewards-actions-{{dataItem?.CompanyEmployeeId}}">
-                <button ngbDropdownItem (click)="onActionMenuUnassignClick()">
-                  <span>Unassign</span>
-                </button>
+                <button ngbDropdownItem (click)="onActionMenuUnassignClick()"><span>Unassign</span></button>
+                <button [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE" ngbDropdownItem (click)="handleEditClicked()"><span>Edit</span></button>
               </div>
             </div>
           </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column *ngFor="let col of (listAreaColumns$ | async)" [field]="col.ColumnDatabaseName" class="ellipsize show-tooltip">
-          <ng-template kendoGridHeaderTemplate let-column>
-            <div class="ellipsis-overflowing-text-wrap show-tooltip">
-              <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='desc'"
-                class="sort-icon" [icon]="['far', 'long-arrow-down']">
-              </fa-icon>
-              <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='asc'"
-                       class="sort-icon" [icon]="['far', 'long-arrow-up']">
-              </fa-icon>
-              {{col.ColumnDisplayName}}
-            </div>
-          </ng-template>
-          <ng-template *ngIf="col.ColumnDatabaseName === 'TotalRewardsLastStatementGeneratedDate'" kendoGridCellTemplate let-dataItem>
-              {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
-          </ng-template>
-        </kendo-grid-column>
+        <ng-container *ngFor="let col of (listAreaColumns$ | async)">
+          <kendo-grid-column *ngIf="col.Visible" [field]="col.ColumnDatabaseName" class="ellipsize show-tooltip">
+            <ng-template kendoGridHeaderTemplate let-column>
+              <div class="ellipsis-overflowing-text-wrap show-tooltip">
+                <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='desc'"
+                  class="sort-icon" [icon]="['far', 'long-arrow-down']">
+                </fa-icon>
+                <fa-icon *ngIf="gridState.sort[0]?.field === column.field && gridState.sort[0]?.dir ==='asc'"
+                         class="sort-icon" [icon]="['far', 'long-arrow-up']">
+                </fa-icon>
+                {{col.ColumnDisplayName}}
+              </div>
+            </ng-template>
+            <ng-template *ngIf="col.ColumnDatabaseName === 'TotalRewardsLastStatementGeneratedDate'" kendoGridCellTemplate let-dataItem>
+                {{ dataItem.TotalRewardsLastStatementGeneratedDate | date: 'MM/dd/yyyy' }}
+            </ng-template>
+            <ng-template *ngIf="col.ColumnDatabaseName === 'TotalRewardsDeliveryStatus'" kendoGridCellTemplate let-dataItem>
+              <div class="status-column d-flex" *ngIf="dataItem.TotalRewardsDeliveryStatus">
+                <div class="flex-fill ellipsis-text">
+                  <fa-icon icon="circle" class="circle-icon"
+                           [class.yellow]="dataItem.TotalRewardsDeliveryStatus === 'Pending'"
+                           [class.green]="dataItem.TotalRewardsDeliveryStatus === 'Opened'"
+                           [class.light-blue]="dataItem.TotalRewardsDeliveryStatus === 'Delivered'"
+                           [class.red]="dataItem.TotalRewardsDeliveryStatus === 'Invalid Email' || dataItem.TotalRewardsDeliveryStatus === 'Undeliverable'">
+                  </fa-icon>
+                  <span>{{dataItem.TotalRewardsDeliveryStatus}}</span>
+              </div>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+        </ng-container>
+
         <ng-template kendoPagerTemplate>
           <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
           <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
@@ -97,3 +112,5 @@
 <ng-template #noRecordsAvailable>
   No records available.
 </ng-template>
+
+<pf-employee-management></pf-employee-management>

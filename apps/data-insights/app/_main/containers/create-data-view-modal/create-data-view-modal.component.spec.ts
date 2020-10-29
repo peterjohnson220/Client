@@ -7,9 +7,9 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockEntity, BaseDataView, generateMockBaseDataView } from 'libs/features/formula-editor';
 
 import * as fromSharedReducer from '../../../_shared/reducers';
-import { generateMockEntity, BaseDataView, generateMockBaseDataView } from '../../../_shared/models';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';

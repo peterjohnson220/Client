@@ -1,9 +1,9 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { Workbook } from 'libs/features/reports/models';
 
 import * as fromDataInsightsPageActions from '../actions/data-insights-page.actions';
-import { Workbook } from '../models';
 
 export interface State {
   standardWorkbooksAsync: AsyncStateObj<Workbook[]>;
