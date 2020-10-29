@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { Field } from '../../models';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { FieldFormatType } from 'libs/models/payfactors-api';
+import { Field } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-numeric-field-formatting-modal',

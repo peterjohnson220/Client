@@ -1,1 +1,1 @@
-export * from './user-notification-list'
+export * from './user-notification-list';

@@ -57,7 +57,11 @@ export class DataConverterModalComponent implements OnInit, OnDestroy {
         if (v.dataType === ImportDataType[ImportDataType.Date] || v.dataType === ImportDataType[ImportDataType.DateTime]) {
           this.titleName = 'Select Date Format';
           this.selectedConverterSetting = this.getCurrentlySelectedDateSetting(v);
-          this.selectedDateFormat = this.selectedConverterSetting.options.DateTimeFormat;
+          if (this.selectedConverterSetting) {
+            this.selectedDateFormat = this.selectedConverterSetting.options.DateTimeFormat;
+          } else {
+            this.selectedDateFormat = 'Select format for date fields';
+          }
         } else {
           this.titleName =  'Translate Field Data';
           // TODO: Add logic here for other translate data stuff.

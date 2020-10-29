@@ -6,6 +6,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
@@ -15,7 +16,6 @@ import * as fromDuplicateModelModalActions from '../actions/duplicate-model-moda
 import * as fromSharedReducer from '../reducers';
 import * as fromSharedActions from '../actions/shared.actions';
 import { PagesHelper } from '../helpers/pages.helper';
-import { RangeGroupMetadata } from '../models';
 
 
 @Injectable()

@@ -20,7 +20,7 @@ export function generateMockExchangeDataCutsExportRequest(): ExchangeDataCutsExp
     ExchangeJobToCompanyJobIds: [1, 2],
     FilterModel: {} as BaseExchangeDataSearchRequest,
     SelectedRate: RateType.Annual,
-    SelectedExchangeScopeIds: [1,2,3],
+    SelectedExchangeScopeIds: [1, 2, 3],
     SelectedWeightingType: WeightType.Inc,
     SelectedCurrency: 'USD'
   };

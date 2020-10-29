@@ -5,13 +5,13 @@ import { select, Store } from '@ngrx/store';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IntlService } from '@progress/kendo-angular-intl';
 
+import { BaseDataView, Entity, EntityData, FieldDataType } from 'libs/features/formula-editor';
+
 import { AbstractBaseDataViewModal } from '../../../_shared/containers';
-import { BaseDataView, Entity, EntityData } from '../../../_shared/models';
 import * as fromSharedReducer from '../../../_shared/reducers';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
-import { FieldDataType } from '../../../_data-view/models';
 
 @Component({
   selector: 'pf-create-data-view-modal',

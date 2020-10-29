@@ -6,8 +6,10 @@ import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
+import { Permissions } from 'libs/constants';
 import { GridTypeEnum, ListAreaColumn, SelectAllStatus } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import * as fromEmployeeManagementActions from 'libs/features/employee-management/actions';
 import { TotalRewardAssignedEmployee } from 'libs/models/payfactors-api';
 
 import * as fromAssignedEmployeesGridReducer from '../../reducers';
@@ -37,7 +39,9 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
 
   selectedCompanyEmployeeIds: number[];
   selectAllStatus = SelectAllStatus;
+  permissions = Permissions;
   selectedDropdown: NgbDropdown;
+  selectedCompanyEmployeeId: number;
 
   selectedCompanyEmployeeIdsSubscription = new Subscription();
   pageSizes = [20, 50, 100, 250];
@@ -53,7 +57,7 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
     this.selectedCompanyEmployeeIds$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getAssignedEmployeesSelectedCompanyEmployeeIds));
     this.selectAllState$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getSelectAllState));
     this.selectedCompanyEmployeeIdsSubscription = this.selectedCompanyEmployeeIds$.subscribe(ids => this.selectedCompanyEmployeeIds = ids);
-    this.listAreaColumns$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getListAreaColumns));
+    this.listAreaColumns$ = this.store.pipe(select(fromAssignedEmployeesGridReducer.getGridColumns));
     window.addEventListener('scroll', this.onScroll, true);
   }
 
@@ -87,7 +91,14 @@ export class AssignedEmployeesGridComponent implements OnInit, OnDestroy {
 
   handleSelectedRowAction(dropdown: NgbDropdown, employee: TotalRewardAssignedEmployee): void {
     this.selectedDropdown = dropdown;
+    this.selectedCompanyEmployeeId = employee.CompanyEmployeeId;
     this.store.dispatch(new fromAssignedEmployeesGridActions.OpenActionMenu(employee));
+  }
+
+  handleEditClicked(): void {
+    this.store.dispatch(new fromEmployeeManagementActions.EditEmployee({
+      companyEmployeeId: this.selectedCompanyEmployeeId
+    }));
   }
 
   onScroll = (): void => {

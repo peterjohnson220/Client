@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { DataViewAccessLevel, Field } from '../../models';
+import { DataViewAccessLevel, Field } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-user-formula-card',

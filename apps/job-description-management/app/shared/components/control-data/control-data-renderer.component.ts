@@ -21,6 +21,7 @@ export class ControlDataRendererComponent {
   @Input() isCompare = false;
   @Input() undoChanges$: Observable<boolean>;
   @Input() replaceContents$: Observable<boolean>;
+  @Input() rebuildQuillAfterDiscardDraft$: Observable<boolean>;
 
   @Output() dataChangesDetected = new EventEmitter();
   @Output() dataRowDeleted = new EventEmitter();

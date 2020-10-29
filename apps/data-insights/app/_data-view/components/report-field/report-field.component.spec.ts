@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { generateMockField } from 'libs/features/formula-editor';
+
 import { ReportFieldComponent } from './report-field.component';
-import { generateMockField } from '../../models';
 
 
 describe('Data-Insights Report Field Component', () => {

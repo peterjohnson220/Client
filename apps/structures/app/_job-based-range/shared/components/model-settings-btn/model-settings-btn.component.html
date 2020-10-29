@@ -11,6 +11,7 @@
     Create Model
   </button>
 </ng-container>
+
 <ng-template #cogs>
   <button type="button"
           id="column-popover-btn"
@@ -18,7 +19,8 @@
           placement="bottom-right"
           #p="ngbPopover"
           [ngbPopover]="popContent"
-          [autoClose]="'outside'">
+          [autoClose]="'outside'"
+          [disabled]="comparingFlag">
     <fa-icon icon="cogs"></fa-icon>
   </button>
 </ng-template>

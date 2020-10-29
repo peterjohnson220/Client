@@ -63,7 +63,7 @@ export function reducer(
         importingSuccess: false,
         importingError: false,
         validationErrors: []
-      }
+      };
     }
     default: {
       return state;

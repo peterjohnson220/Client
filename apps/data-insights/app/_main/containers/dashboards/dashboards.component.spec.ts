@@ -7,11 +7,12 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
+import { generateMockWorkbook } from 'libs/features/reports/models';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
 import { DashboardsComponent } from './dashboards.component';
-import { generateMockWorkbook, SaveWorkbookTagObj, generateMockSaveWorkbookTagObj, DashboardView } from '../../models';
+import { SaveWorkbookTagObj, generateMockSaveWorkbookTagObj, DashboardView } from '../../models';
 
 describe('Data Insights - Dashboards Comopnent', () => {
   let instance: DashboardsComponent;

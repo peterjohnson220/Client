@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
 
 import { WorkbookOrderType } from 'libs/constants';
+import { View, Workbook } from 'libs/features/reports/models';
 
-import { DashboardView, Workbook, SaveWorkbookTagObj, View } from '../models';
+import { DashboardView, SaveWorkbookTagObj} from '../models';
 
 export const GET_COMPANY_WORKBOOKS = '[Data Insights / Dashboards] Get Company Workbooks';
 export const GET_COMPANY_WORKBOOKS_SUCCESS = '[Data Insights / Dashboards] Get Company Workbooks Success';

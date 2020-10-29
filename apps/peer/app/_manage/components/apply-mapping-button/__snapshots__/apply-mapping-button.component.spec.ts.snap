@@ -22,8 +22,11 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button with a 
   selectedMapping={[Function Boolean]}
 >
   <button
-    class="btn btn-sm btn-primary"
+    class="associate"
   >
+    <fa-icon
+      icon="exchange"
+    />
     
     <span>
        Match 
@@ -39,8 +42,11 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button, when u
   applyMapping={[Function EventEmitter]}
 >
   <button
-    class="btn btn-sm btn-outline-primary"
+    class="associate"
   >
+    <fa-icon
+      icon="exchange"
+    />
     
     <span>
        Match 
@@ -59,8 +65,11 @@ exports[`Peer - Apply Mapping Button should show an applying mapping... button w
   selectedMapping={[Function Boolean]}
 >
   <button
-    class="btn btn-sm btn-primary"
+    class="associate"
   >
+    <fa-icon
+      icon="exchange"
+    />
     
     
     
@@ -79,8 +88,11 @@ exports[`Peer - Apply Mapping Button should show an error message under a Retry 
   selectedMapping={[Function Boolean]}
 >
   <button
-    class="btn btn-sm btn-outline-primary"
+    class="associate"
   >
+    <fa-icon
+      icon="exchange"
+    />
     
     
     <span>

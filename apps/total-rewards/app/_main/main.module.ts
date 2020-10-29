@@ -6,9 +6,9 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import * as fromFaIcons from 'libs/features/total-rewards/total-rewards-statement/fa-icons';
 
 import { MainRoutingModule } from './main-routing.module';
-import * as fromFaIcons from '../shared/fa-icons';
 
 @NgModule({
   imports: [

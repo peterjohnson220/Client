@@ -1,0 +1,35 @@
+@import 'total-rewards/statement-layout-variables';
+
+$chart-height: 250px;
+
+.trs-chart {
+  .heading {
+    width: 105%;
+    h4 {
+      width: 90%;
+    }
+  }
+
+  kendo-chart {
+    height: $chart-height;
+  }
+  
+  a.settings {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    transition: opacity .3s ease-in-out;
+  }
+
+  &.preview-mode {
+    a.settings {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}
+
+@media print {
+  .trs-chart kendo-chart {
+    height: #{($print-base-font-size / 13) * $chart-height}; // increase height proportionate to larger print base font size
+  }
+}

@@ -1,5 +1,6 @@
-import { generateMockProvider, Provider } from './provider.model';
 import { OrgDataEntityType } from 'libs/constants';
+
+import { generateMockProvider, Provider } from './provider.model';
 
 export interface ConnectionSummary {
   connectionID?: number;
@@ -17,6 +18,7 @@ export interface ConnectionSummary {
 export interface FullReplaceModes {
   employeesFullReplace: boolean;
   structureMappingsFullReplace: boolean;
+  benefitsFullReplace: boolean;
 }
 
 export function generateMockExistingConnectionSummary(): ConnectionSummary {
@@ -32,7 +34,8 @@ export function generateMockExistingConnectionSummary(): ConnectionSummary {
     validationMode: false,
     fullReplaceModes: {
       employeesFullReplace: true,
-      structureMappingsFullReplace: true
+      structureMappingsFullReplace: true,
+      benefitsFullReplace: true
     }
   };
 }
@@ -49,7 +52,8 @@ export function generateMockNewConnectionSummary(): ConnectionSummary {
     validationMode: true,
     fullReplaceModes: {
       employeesFullReplace: true,
-      structureMappingsFullReplace: true
+      structureMappingsFullReplace: true,
+      benefitsFullReplace: true
     }
   };
 }

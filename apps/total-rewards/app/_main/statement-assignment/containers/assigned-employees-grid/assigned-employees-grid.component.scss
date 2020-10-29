@@ -27,3 +27,29 @@
 .text-info {
   cursor: pointer;
 }
+.status-column {
+  .circle-icon {
+    font-size: 0.7rem;
+    margin-right: 1rem;
+  }
+
+  .yellow {
+    color: #FCC303;
+  }
+
+  .green {
+    color: #71B344;
+  }
+
+  .blue {
+    color: #0074E0;
+  }
+
+  .light-blue {
+    color: #4F95D5
+  }
+
+  .red {
+    color: #DC3545;
+  }
+}

@@ -59,7 +59,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
     fixture.detectChanges();
 
     // Find the close button in the template and trigger a click
-    const closeButton = fixture.debugElement.query(By.css('.close-btn'));
+    const closeButton = fixture.debugElement.query(By.css('.close-panel'));
     closeButton.triggerEventHandler('click', null);
 
     expect(instance.closeClicked.emit).toHaveBeenCalled();

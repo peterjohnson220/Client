@@ -3,8 +3,8 @@ import { Action } from '@ngrx/store';
 import { RoundingTypes } from 'libs/constants/structures/rounding-type';
 import { CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
-
-import { RangeGroupMetadata } from '../models';
+import { RangeGroupMetadata } from 'libs/models/structures';
+import { ConvertCurrencyAndRateRequestModel, CurrentRangeGroupRequestModel } from 'libs/models/payfactors-api/structures/request';
 
 export const SET_METADATA = '[Structures - Job Based Range - Shared] Set Metadata';
 export const RECALCULATE_RANGES_WITHOUT_MID = '[Structures - Job Based Range - Shared] Recalculate Ranges Without Mid';
@@ -23,6 +23,19 @@ export const REVERTING_RANGE_CHANGES = '[Structures - Job Based Range - Shared] 
 export const REVERTING_RANGE_CHANGES_SUCCESS = '[Structures - Job Based Range - Shared] Reverting Range Changes Success';
 export const REVERTING_RANGE_CHANGES_ERROR = '[Structures - Job Based Range - Shared] Reverting Range Changes Error';
 export const UPDATE_OVERRIDES = '[Structures - Job Based Range - Shared] Update Overrides';
+export const GET_CURRENT_RANGE_GROUP = '[Structures - Job Based Range - Shared] Get Current Range Group';
+export const GET_CURRENT_RANGE_GROUP_SUCCESS = '[Structures - Job Based Range - Shared] Get Current Range Group Success';
+export const GET_CURRENT_RANGE_GROUP_ERROR = '[Structures - Job Based Range - Shared] Get Current Range Group Error';
+export const GET_DATA_BY_RANGE_GROUP_ID = '[Structures - Job Based Range - Shared] Get Data By Range Group Id';
+export const GET_DATA_BY_RANGE_GROUP_ID_SUCCESS = '[Structures - Job Based Range - Shared] Get Data By Range Group Success';
+export const GET_DATA_BY_RANGE_GROUP_ID_ERROR = '[Structures - Job Based Range - Shared] Get Data By Range Group Id Error';
+export const COMPARING_MODELS = '[Structures - Job Based Range - Shared] Comparing Models';
+export const END_COMPARING_MODELS = '[Structures - Job Based Range - Shared] End Comparing Models';
+export const ENABLE_COMPARE_FLAG = '[Structures - Job Based Range - Shared] Enable Compare Flag';
+export const DISABLE_COMPARE_FLAG = '[Structures - Job Based Range - Shared] Disable Compare Flag';
+export const CONVERT_CURRENCY_AND_RATE = '[Structures - Job Based Range - Shared] Convert Currency And Rate';
+export const CONVERT_CURRENCY_AND_RATE_SUCCESS = '[Structures - Job Based Range - Shared] Convert Currency And Rate Success';
+export const CONVERT_CURRENCY_AND_RATE_ERROR = '[Structures - Job Based Range - Shared] Convert Currency And Rate Error';
 
 
 export class SetMetadata implements Action {
@@ -134,6 +147,76 @@ export class UpdateOverrides implements  Action {
   constructor(public payload: { rangeId: number, overrideToUpdate: CompanyStructureRangeOverride, removeOverride: boolean}) {}
 }
 
+export class GetCurrentRangeGroup implements Action {
+  readonly type = GET_CURRENT_RANGE_GROUP;
+
+  constructor(public payload: CurrentRangeGroupRequestModel) {}
+}
+
+export class GetCurrentRangeGroupSuccess implements Action {
+  readonly type = GET_CURRENT_RANGE_GROUP_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetCurrentRangeGroupError implements Action {
+  readonly type = GET_CURRENT_RANGE_GROUP_ERROR;
+
+  constructor(public payload: any) {}
+}
+
+export class GetDataByRangeGroupId implements Action {
+  readonly type = GET_DATA_BY_RANGE_GROUP_ID;
+
+  constructor(public payload: { pageViewId: string, filters: DataViewFilter[] }) {}
+}
+
+export class GetDataByRangeGroupIdSuccess implements Action {
+  readonly type = GET_DATA_BY_RANGE_GROUP_ID_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetDataByRangeGroupIdError implements Action {
+  readonly type = GET_DATA_BY_RANGE_GROUP_ID_ERROR;
+
+  constructor(public payload: any) {}
+}
+
+export class ComparingModels implements Action {
+  readonly type = COMPARING_MODELS;
+}
+
+export class EndComparingModels implements Action {
+  readonly type = END_COMPARING_MODELS;
+}
+
+export class EnableCompareFlag implements Action {
+  readonly type = ENABLE_COMPARE_FLAG;
+}
+
+export class DisableCompareFlag implements Action {
+  readonly type = DISABLE_COMPARE_FLAG;
+}
+
+export class ConvertCurrencyAndRate implements Action {
+  readonly type = CONVERT_CURRENCY_AND_RATE;
+
+  constructor(public payload: ConvertCurrencyAndRateRequestModel) {}
+}
+
+export class ConvertCurrencyAndRateSuccess implements Action {
+  readonly type = CONVERT_CURRENCY_AND_RATE_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class ConvertCurrencyAndRateError implements Action {
+  readonly type = CONVERT_CURRENCY_AND_RATE_ERROR;
+
+  constructor(public payload: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | RecalculateRangesWithoutMid
@@ -152,4 +235,17 @@ export type SharedActions
   | RevertingRangeChanges
   | RevertingRangeChangesSuccess
   | RevertingRangeChangesError
-  | UpdateOverrides;
+  | UpdateOverrides
+  | GetCurrentRangeGroup
+  | GetCurrentRangeGroupSuccess
+  | GetCurrentRangeGroupError
+  | GetDataByRangeGroupId
+  | GetDataByRangeGroupIdSuccess
+  | GetDataByRangeGroupIdError
+  | ComparingModels
+  | EndComparingModels
+  | EnableCompareFlag
+  | DisableCompareFlag
+  | ConvertCurrencyAndRate
+  | ConvertCurrencyAndRateSuccess
+  | ConvertCurrencyAndRateError;

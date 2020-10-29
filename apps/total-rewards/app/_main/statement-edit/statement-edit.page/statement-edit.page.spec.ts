@@ -7,10 +7,10 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { TimeElapsedPipe } from 'libs/core/pipes/time-elapsed.pipe';
+import { StatementModeEnum, Statement, generateMockStatement } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromStatementEditReducer from '../reducers';
 import { StatementEditPageComponent } from './statement-edit.page';
-import { StatementModeEnum, Statement, generateMockStatement } from '../../../shared/models';
 
 describe('StatementEditPageComponent', () => {
   let component: StatementEditPageComponent;

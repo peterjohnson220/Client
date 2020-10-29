@@ -1,7 +1,6 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { generateMockView } from '../../models';
 import { ViewCardComponent } from './view-card.component';
 
 describe('Data Insights - View Card Component', () => {

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { copyTextToClipboard } from "libs/core/functions";
+
+import { copyTextToClipboard } from 'libs/core/functions';
 
 @Component({
   selector: 'pf-copy-to-clipboard-button',
