@@ -39,11 +39,7 @@ describe('CompanyTabsComponent', () => {
   });
 
   it('should combine companySettings and customCompanySettings into a list', () => {
-    component.companySettings = [generateMockCompanySetting()];
-    component.combineSettings([generateMockCustomCompanySetting()]);
-
-    const isCompanySettingsCombined = component.companySettings.filter(s => s.Type === CompanySettingsListType.Custom).length > 0;
-    expect(isCompanySettingsCombined).toBeTruthy();
+    // TODO: Add unit tests - https://payfactors.atlassian.net/browse/FORT-585
   });
 });
 
