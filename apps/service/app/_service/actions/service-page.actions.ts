@@ -115,7 +115,7 @@ export class UpdateSelectedTicketStates implements Action {
 export class SetTicketListMode implements Action {
   readonly type = SET_TICKET_LIST_MODE;
 
-  constructor(public payload: { listType: TicketListMode, userId: number }) {}
+  constructor(public payload: { listType: TicketListMode, userId: number, resetFilter: boolean }) {}
 }
 
 export class GetUserTicket implements Action {

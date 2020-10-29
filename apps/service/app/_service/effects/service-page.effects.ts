@@ -131,7 +131,7 @@ export class ServicePageEffects {
         createdByField.IsFilterable = data.action.payload.listType === TicketListMode.AllCompanyTickets;
         return [
           new fromPfDataGridActions.UpdateFilter(ServicePageConfig.ServicePageViewId, createdByField),
-          new fromPfDataGridActions.UpdateInboundFilters(ServicePageConfig.ServicePageViewId, inboundFilters)
+          new fromPfDataGridActions.UpdateInboundFilters(ServicePageConfig.ServicePageViewId, inboundFilters, data.action.payload.resetFilter)
         ];
       })
     );
