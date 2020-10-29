@@ -1,26 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Router} from '@angular/router';
 
+import { Router } from '@angular/router';
+import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
-import cloneDeep from 'lodash/cloneDeep';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { Observable, of, forkJoin } from 'rxjs';
-import { catchError, filter, mergeMap, withLatestFrom, tap, map, switchMap, endWith } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, endWith, filter, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import { ConverterSettingsHrisApiService,
-  LoaderFieldMappingsApiService,
-  LoaderSettingsApiService,
-  MappingsHrisApiService,
-  PayMarketApiService } from 'libs/data/payfactors-api';
 import { OrgDataEntityType } from 'libs/constants';
+import {
+    ConverterSettingsHrisApiService, LoaderFieldMappingsApiService, LoaderSettingsApiService, MappingsHrisApiService, PayMarketApiService
+} from 'libs/data/payfactors-api';
 import * as fromLoaderSettingsActions from 'libs/features/org-data-loader/state/actions/loader-settings.actions';
 import { ConverterSettings, LoaderSetting, PayMarket } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 
-import { PayfactorsApiModelMapper, EntityMappingHelper } from '../helpers';
+import { EntityMappingHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromFieldMappingActions from '../actions/field-mapping.actions';
 import * as fromOrgDataFieldMappingsActions from '../actions/organizational-data-field-mapping.actions';
 import * as fromConverterSettingsActions from '../actions/converter-settings.actions';
@@ -40,8 +38,8 @@ export class FieldMappingEffects {
           action,
           userContext,
           connectionSummary
-      };
-    }),
+        };
+      }),
     switchMap(obj => {
       const actions = [];
 
@@ -50,13 +48,13 @@ export class FieldMappingEffects {
         actions.push(this.mappingsHrisApiService.getProviderFields(obj.userContext, entityType).pipe(
           map((response) => {
             const pFields = PayfactorsApiModelMapper.mapProviderEntityFieldsResponseToEntityDataField(response, entityType);
-            return new fromFieldMappingActions.LoadProviderFieldsByEntitySuccess({entity: entity, providerEntityFields: pFields});
+            return new fromFieldMappingActions.LoadProviderFieldsByEntitySuccess({ entity: entity, providerEntityFields: pFields });
           })
         ));
         actions.push(this.mappingsHrisApiService.getPayfactorsFields(obj.userContext, entityType).pipe(
           map((response) => {
             const pfFields = PayfactorsApiModelMapper.mapPayfactorsEntityFieldsResponseToEntityDataField(response, entityType);
-            return new fromFieldMappingActions.LoadPayfactorsFieldsByEntitySuccess({entity: entity, payfactorsEntityFields: pfFields});
+            return new fromFieldMappingActions.LoadPayfactorsFieldsByEntitySuccess({ entity: entity, payfactorsEntityFields: pfFields });
           })
         ));
         actions.push(this.loaderFieldMappingsApiService.getCustomFieldsByEntity(entityType, obj.userContext.CompanyId).pipe(
@@ -71,7 +69,7 @@ export class FieldMappingEffects {
 
       actions.push(this.mappingsHrisApiService.getMappedFields(obj.userContext).pipe(
         mergeMap(response => {
-          return [new fromFieldMappingActions.LoadMappedFields({mappedFields: response, selectedEntities: obj.connectionSummary.selectedEntities })];
+          return [new fromFieldMappingActions.LoadMappedFields({ mappedFields: response, selectedEntities: obj.connectionSummary.selectedEntities })];
         })
       ));
 
@@ -92,7 +90,7 @@ export class FieldMappingEffects {
       return forkJoin(actions).pipe(
         mergeMap((response) => {
           return [...response,
-            new fromFieldMappingActions.InitFieldMappingCardSuccess()
+          new fromFieldMappingActions.InitFieldMappingCardSuccess()
           ];
         }),
         catchError(error => of(new fromFieldMappingActions.InitFieldMappingCardError()))
@@ -110,14 +108,14 @@ export class FieldMappingEffects {
         return {
           action,
           payfactorsFields,
-      };
-    }),
+        };
+      }),
     mergeMap(obj => {
       const nextAction = !isEmpty(obj.payfactorsFields.Employees) &&
-      obj.payfactorsFields.Employees.some(field => field.FieldName === 'PayMarket' && isEmpty(field.AssociatedEntity)) ?
+        obj.payfactorsFields.Employees.some(field => field.FieldName === 'PayMarket' && isEmpty(field.AssociatedEntity)) ?
         new fromFieldMappingActions.OpenDefaultPaymarketModal() :
         new fromFieldMappingActions.SaveMapping();
-      return [ nextAction ];
+      return [nextAction];
     }),
     catchError((error) => of(new fromFieldMappingActions.SaveMappingError()))
   );
@@ -139,14 +137,15 @@ export class FieldMappingEffects {
           connectionSummary,
           isDirty,
           fullReplaceModes
-      };
-    }),
+        };
+      }),
     mergeMap(obj => {
       if (!obj.isDirty) {
         const newConnectionSummary = cloneDeep(obj.connectionSummary);
         const newFullReplaceModes: FullReplaceModes = {
           employeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
-          structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
+          structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings,
+          benefitsFullReplace: obj.fullReplaceModes.doFullReplaceBenefits
         };
         newConnectionSummary.fullReplaceModes = newFullReplaceModes;
         const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
@@ -163,7 +162,8 @@ export class FieldMappingEffects {
             const newConnectionSummary = cloneDeep(obj.connectionSummary);
             const newFullReplaceModes: FullReplaceModes = {
               employeesFullReplace: obj.fullReplaceModes.doFullReplaceEmployees,
-              structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings
+              structureMappingsFullReplace: obj.fullReplaceModes.doFullReplaceStructureMappings,
+              benefitsFullReplace: obj.fullReplaceModes.doFullReplaceBenefits
             };
             newConnectionSummary.fullReplaceModes = newFullReplaceModes;
             const loaderSettingsDto = PayfactorsApiModelMapper.getLoaderSettingsDtoForConnection(obj.userContext, newConnectionSummary);
@@ -177,11 +177,11 @@ export class FieldMappingEffects {
             ];
           }),
           catchError((error) => of(new fromFieldMappingActions.SaveMappingError())
-        ));
+          ));
     })
   );
 
-  @Effect({dispatch: false})
+  @Effect({ dispatch: false })
   saveMappingSuccess$: Observable<Action> = this.actions$.pipe(
     ofType<fromFieldMappingActions.SaveMappingSuccess>(fromFieldMappingActions.SAVE_MAPPING_SUCCESS),
     tap((action: fromFieldMappingActions.SaveMappingSuccess) => {
@@ -196,7 +196,7 @@ export class FieldMappingEffects {
   dismissDefaultPaymarketModal$: Observable<Action> = this.actions$.pipe(
     ofType<fromFieldMappingActions.DismissDefaultPaymarketModal>(fromFieldMappingActions.DISMISS_DEFAULT_PAYMARKET_MODAL),
     filter(action => action.payload.saveDefaultPaymarket),
-    mergeMap(() => [ new fromFieldMappingActions.SaveMapping() ]),
+    mergeMap(() => [new fromFieldMappingActions.SaveMapping()]),
     catchError((error) => of(new fromFieldMappingActions.SaveMappingError()))
   );
 
@@ -242,7 +242,7 @@ export class FieldMappingEffects {
             obj.action.payload.mappedFields,
             obj.action.payload.selectedEntities
           );
-        return [new fromFieldMappingActions.LoadMappedFieldsSucces({payfactorsFields: updatedPayfactorsFields, providerFields: updatedProviderFields})];
+        return [new fromFieldMappingActions.LoadMappedFieldsSucces({ payfactorsFields: updatedPayfactorsFields, providerFields: updatedProviderFields })];
       }
     })
   );
@@ -256,5 +256,5 @@ export class FieldMappingEffects {
     private converterSettingsApiService: ConverterSettingsHrisApiService,
     private loaderSettingsApiService: LoaderSettingsApiService,
     private router: Router
-  ) {}
+  ) { }
 }

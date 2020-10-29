@@ -1,7 +1,9 @@
 import orderBy from 'lodash/orderBy';
 import filter from 'lodash/filter';
 
-import { DashboardView, Workbook } from '../models';
+import { Workbook } from 'libs/features/reports/models';
+
+import { DashboardView } from '../models';
 
 export class DashboardsHelper {
   static getWorkbookFilterFn(view: DashboardView) {

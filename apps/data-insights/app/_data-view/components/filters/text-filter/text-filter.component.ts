@@ -1,6 +1,6 @@
 import { Component, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
-import { FilterOperator, Contains, DoesNotContain, IsNotNullOrEmpty, IsNullOrEmpty } from '../../../models';
+import { FilterOperator, Contains, DoesNotContain, IsNotNullOrEmpty, IsNullOrEmpty } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-text-filter',

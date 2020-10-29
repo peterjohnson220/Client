@@ -1,18 +1,8 @@
 <div *ngIf="!!workbook" class="standard-report d-flex flex-column">
-  <div class="preview d-flex justify-content-center align-items-center flex-grow-1"
-  (mouseenter)="handleMouseOverWorkbookContainer()"
-  (mouseleave)="handleMouseLeaveWorkbookContainer()">
-    <a [attr.data-qa-id]="'lnk-openWorkbook'" [routerLink]="[workbook.SourceUrl,workbook.WorkbookId]"
-      [queryParams]="{showTabs: workbook.ShowTabs, title: workbook.WorkbookName}">
-      <img class="img-fluid" [src]="workbook.Thumbnail" />
-
-      <div class="d-flex img-overlay" [ngClass]="displayOverlay ? 'displayed' : ''">
-        <div class="d-flex justify-content-center align-items-center workbook-description">
-          {{workbook.WorkbookDescription}}
-        </div>
-      </div>
-    </a>
-  </div>
+  <pf-report-preview
+    [workbook]="workbook"
+    (onClickEvent)="handleReportPreviewClicked()">
+  </pf-report-preview>
   <div class="type mt-3 mb-2">
     Payfactors Reports
   </div>

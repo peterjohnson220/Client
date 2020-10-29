@@ -7,12 +7,14 @@ import { of } from 'rxjs';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { TrsConstants } from 'libs/features/total-rewards/total-rewards-statement/constants/trs-constants';
+import {
+  StatementForPrint, generateMockStatementWithSingleControl, generateMockImageControl
+} from 'libs/features/total-rewards/total-rewards-statement/models';
+import { generateMockChartControl } from 'libs/features/total-rewards/total-rewards-statement/models/chart-control';
 
 import * as fromStatementPrintReducer from '../reducers';
 import { StatementPrintPageComponent } from './statement-print.page';
-import { StatementForPrint, generateMockStatementWithSingleControl, generateMockImageControl } from '../../../shared/models';
-import { generateMockChartControl } from '../../../shared/models/chart-control';
-import { TrsConstants } from '../../../shared/constants/trs-constants';
 
 describe('StatementPrintPageComponent', () => {
   let component: StatementPrintPageComponent;

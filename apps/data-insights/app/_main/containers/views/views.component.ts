@@ -6,10 +6,11 @@ import { Observable, Subscription } from 'rxjs';
 import { AsyncStateObj } from 'libs/models/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
+import { View, Workbook } from 'libs/features/reports/models';
 
 import * as fromViewsActions from '../../actions/views.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Workbook, SaveReportOrderData, View, DashboardView } from '../../models';
+import { SaveReportOrderData, DashboardView } from '../../models';
 import { DashboardsHeaderHelper } from '../../helpers';
 
 @Component({

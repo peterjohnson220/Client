@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { SearchBase } from 'libs/features/search/containers/search-base';
+import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromPaymarketActions from 'libs/features/add-jobs/actions/paymarkets.actions';
@@ -19,7 +19,7 @@ import { staticFilters } from '../../../shared/data';
   templateUrl: './add-jobs-modal-wrapper.component.html',
   styleUrls: ['./add-jobs-modal-wrapper.component.scss']
 })
-export class AddJobsModalWrapperComponent extends SearchBase {
+export class AddJobsModalWrapperComponent extends SearchBaseDirective {
   // Observables
   pageShown$: Observable<boolean>;
 

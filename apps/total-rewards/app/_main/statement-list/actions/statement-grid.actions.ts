@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { StatementListViewModel } from '../../../shared/models';
+import { StatementListViewModel } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 export const LOAD_STATEMENTS = '[Total Rewards/Statement List/Statement Grid] Load Statements';
 export const LOAD_STATEMENTS_SUCCESS = '[Total Rewards/Statements/Statement Grid] Load Statements Success';

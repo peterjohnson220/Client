@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { FilterCardComponent } from './filter-card.component';
 import {
   DataViewAccessLevel,
   Field,
@@ -13,7 +12,9 @@ import {
   getDefaultOperatorByDataType,
   GetFilterOptionsData,
   validateFilter
-} from '../../models';
+} from 'libs/features/formula-editor';
+
+import { FilterCardComponent } from './filter-card.component';
 
 describe('Data Insights - Filter Card Component', () => {
   let instance: FilterCardComponent;

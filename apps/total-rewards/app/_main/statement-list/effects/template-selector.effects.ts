@@ -7,9 +7,9 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap, concatMap, tap } from 'rxjs/operators';
 
 import { TotalRewardsApiService } from 'libs/data/payfactors-api/total-rewards';
+import { Template } from 'libs/features/total-rewards/total-rewards-statement/models';
 
 import * as fromTemplateSelectorActions from '../actions/template-selector.actions';
-import { Template } from '../../../shared/models';
 
 @Injectable()
 export class TemplateSelectorEffects {

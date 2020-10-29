@@ -120,7 +120,7 @@ export class SecurityManagementSettingsComponent implements OnInit, OnDestroy {
   getSaveRequest(): CompanySettingsSaveRequest {
     const historyNumber = this.passwordForm.get('passwordHistoryNumber');
     const expirationDays = this.passwordForm.get('passwordExpirationDays');
-    const sessionTimeoutMinutes = this.passwordForm.get('sessionTimeoutMinutes')
+    const sessionTimeoutMinutes = this.passwordForm.get('sessionTimeoutMinutes');
     const request: CompanySettingsSaveRequest = { CompanyId: this.companyId, Settings: []};
 
     if (historyNumber.dirty) {

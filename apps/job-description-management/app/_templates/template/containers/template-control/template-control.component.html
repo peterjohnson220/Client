@@ -1,13 +1,13 @@
 <div class="card mb-3">
   <div class="card-header" [class.control-drag-handle]="!readOnly" [style.border-left-color]="controlType?.Color">
-      {{templateControl.Label}} 
+      {{templateControl.Label}}
       <div class="btn-group float-right">
           <label *ngIf="editingTemplateSettings && controlSetting?.ShowLabelOnExport" class="btn btn-sm btn-secondary text-success" (click)="hideOnExport()">
             <fa-icon icon="eye" aria-hidden="true"></fa-icon> Header
           </label>
           <label *ngIf="editingTemplateSettings && !controlSetting?.ShowLabelOnExport" class="btn btn-sm btn-secondary text-danger" (click)="showOnExport()">
             <fa-icon icon="eye-slash" aria-hidden="true"></fa-icon> Header
-          </label>   
+          </label>
           <label *ngIf="controlType?.EditorType === 'List' && !readOnly" class="btn btn-sm btn-secondary" (click)="addDataRow(true)">
             <fa-icon icon="plus" aria-hidden="true"></fa-icon>
           </label>
@@ -35,7 +35,8 @@
               (dataChangesDetected)="handleDataChangesDetected($event)"
               (dataRowDeleted)="handledDataRowDeleted($event)"
               (bulkDataChangesDetected)="handleBulkDataChangesDetected($event)"
-              (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)">
+              (additionalPropertiesChangesDetected)="handleAdditionalPropertiesChangesDetected($event)"
+              [rebuildQuillAfterDiscardDraft$]="rebuildQuillAfterDiscardDraft$">
       </pf-control-data-renderer>
   </div>
 </div>

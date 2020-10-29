@@ -100,7 +100,7 @@ export function getEntityChoicesForOrgLoader(shouldShowBenefits: boolean): Entit
       FileBeginsWith: 'benefits',
       templateReferenceConstants: LoaderType.Benefits,
       dbName: 'Benefits',
-      isEnabled: false
+      isEnabled: shouldShowBenefits
     }
   ];
 }
