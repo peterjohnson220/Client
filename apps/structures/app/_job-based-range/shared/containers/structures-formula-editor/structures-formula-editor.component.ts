@@ -219,6 +219,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   handleFormulaChanged(value: string): void {
     this.isWaitingForValidation = true;
     this.formulaChanged.next(value);
+    this.store.dispatch(new fromFormulaFieldActions.WaitForFormulaValidation());
   }
 
   private handleFormulaChangedAfterDebounceTime(value: string): void {
