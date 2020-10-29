@@ -8,13 +8,11 @@ import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import { generateDefaultAsyncStateObj } from 'libs/models';
-
-import { generateMockEntity } from '../../../_shared/models';
+import { generateMockEntity, generateMockUserDataView } from 'libs/features/formula-editor';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
 import { DuplicateDataViewModalComponent } from './duplicate-data-view-modal.component';
-import { generateMockUserDataView } from '../../models';
 
 describe('Data Insights - Duplicate Data View Modal Component', () => {
   let instance: DuplicateDataViewModalComponent;

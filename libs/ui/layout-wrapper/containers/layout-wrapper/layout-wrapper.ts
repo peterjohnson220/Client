@@ -80,9 +80,11 @@ export class LayoutWrapperComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
-      this.store.dispatch(new fromHeaderActions.GetHeaderUserHomePageLink({
-        userId: userContext.UserId
-      }));
+      if (!!userContext?.UserId) {
+        this.store.dispatch(new fromHeaderActions.GetHeaderUserHomePageLink({
+          userId: userContext.UserId
+        }));
+      }
       if (!userContext.IsPublic && !userContext.WorkflowStepInfo) {
         this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
       }

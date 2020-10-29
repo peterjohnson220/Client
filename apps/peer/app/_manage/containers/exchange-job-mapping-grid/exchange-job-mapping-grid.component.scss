@@ -3,3 +3,17 @@
 .mapped .badge{
   width: 75px;
 }
+
+:host ::ng-deep .k-grid {
+  tr, tr.k-alt {
+    &:hover {
+      button {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.match-button {
+  visibility: hidden;
+}

@@ -1,34 +1,35 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { select, Store, ActionsSubject } from '@ngrx/store';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { ofType } from '@ngrx/effects';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 import {
-  PfDataGridFilter,
   ActionBarConfig,
+  ColumnChooserType,
   getDefaultActionBarConfig,
+  getDefaultGridRowActionsConfig,
   GridRowActionsConfig,
-  getDefaultGridRowActionsConfig
+  PfDataGridFilter,
+  GridConfig
 } from 'libs/features/pf-data-grid/models';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
-import {  CompanyStructureRangeOverride, RoundingSettingsDataObj } from 'libs/models/structures';
+import { CompanyStructureRangeOverride, RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { RangeGroupType } from 'libs/constants/structures/range-group-type';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { AsyncStateObj } from 'libs/models/state';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { PermissionService } from 'libs/core/services';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 import * as fromReducer from 'libs/features/pf-data-grid/reducers';
+import { PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/pf-data-grid/enums';
 import { PfThemeType } from 'libs/features/pf-data-grid/enums/pf-theme-type.enum';
 
 import { PageViewIds } from '../../constants/page-view-ids';
-import { RangeGroupMetadata } from '../../models';
-import { Pages } from '../../constants/pages';
 import * as fromPublishModelModalActions from '../../actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../actions/duplicate-model-modal.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
@@ -58,14 +59,16 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   @Input() splitViewTemplate: TemplateRef<any>;
   @Input() inboundFilters: PfDataGridFilter[];
   @Input() rangeGroupId: number;
-  @Input() page: Pages;
+  @Input() pageViewId: string;
   @Input() reorderable: boolean;
   @Input() saveSort = false;
   @Input() modifiedKey: string = null;
   @Input() allowMultipleSort = false;
+  @Input() compactGridMinHeight: string = null;
   @Output() addJobs = new EventEmitter();
   @Output() publishModel = new EventEmitter();
   @Output() openModelSettings = new EventEmitter();
+  @Output() compareModelClicked = new EventEmitter();
 
   permissions = Permissions;
 
@@ -89,14 +92,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   modelPageViewId: string;
   modelPageViewIdSubscription: Subscription;
   rangeGroupType = RangeGroupType.Job;
-  defaultPagingOptions: PagingOptions = {
-    From: 0,
-    Count: 50
-  };
-  defaultSort: SortDescriptor[] = [{
-    dir: 'asc',
-    field: 'CompanyStructures_Ranges_Mid'
-  }];
+  defaultPagingOptions: PagingOptions;
+  defaultSort: SortDescriptor[];
   singleRecordActionBarConfig: ActionBarConfig;
   fullGridActionBarConfig: ActionBarConfig;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
@@ -110,17 +107,21 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedDropdown: NgbDropdown;
   rangeOverrides: CompanyStructureRangeOverride[];
 
-
-  gridConfig = {
-    PersistColumnWidth: false,
-    CaptureGridScroll: true
-  };
+  gridConfig: GridConfig;
+  hasInfiniteScrollFeatureFlagEnabled: boolean;
+  currentRangeGroup: any;
+  currentRangeGroupId: number;
+  currentRangeGroupName: any;
+  compareFlag: boolean;
+  currentRangeGroup$: Observable<AsyncStateObj<any>>;
+  currentRangeGroupSub: Subscription;
 
   constructor(
     public store: Store<fromJobBasedRangeReducer.State>,
     private actionsSubject: ActionsSubject,
     private permissionService: PermissionService,
-    private structuresPagesService: StructuresPagesService
+    private structuresPagesService: StructuresPagesService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     this.metaData$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getMetadata));
     this.roundingSettings$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getRoundingSettings));
@@ -137,10 +138,28 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       AllowExport: true,
       ExportSourceName: 'Job Range Structures',
       CustomExportType: 'JobRangeStructures',
+      ColumnChooserType: ColumnChooserType.Hybrid,
+      EnableGroupSelectAll: true
     };
 
     this.invalidMidPointRanges = [];
     this.modifiedKeys = [];
+    this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
+    this.gridConfig = {
+      PersistColumnWidth: false,
+      CaptureGridScroll: true,
+      EnableInfiniteScroll: this.hasInfiniteScrollFeatureFlagEnabled,
+      ScrollToTop: this.hasInfiniteScrollFeatureFlagEnabled
+    };
+    this.defaultPagingOptions = {
+      From: 0,
+      Count: 50
+    };
+    this.defaultSort = [{
+      dir: 'asc',
+      field: 'CompanyStructures_Ranges_Mid'
+    }];
+    this.currentRangeGroup$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getCurrentRangeGroup));
   }
 
   hideRowActions(): boolean {
@@ -161,6 +180,14 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         }
         if (currentOverride.MidForcedToCurrent) {
           return 'Modeled midpoint was calculated below the published job midpoint so the published job range info was used.';
+        }
+        if (currentOverride.MidForcedToCurrentPercent) {
+          return 'Calculated midpoint exceeded ' + this.metaData.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage +
+            '%, midpoint was calculated at ' + this.metaData.RangeAdvancedSetting.PreventMidsFromIncreasingMoreThanPercent.Percentage + '%.';
+        }
+        if (currentOverride.IncreaseCurrentByPercent) {
+          return 'No market data exists for this job so range was increased by ' + this.metaData.RangeAdvancedSetting.MissingMarketDataType.Percentage +
+            '% from published range.';
         }
       }
     }
@@ -187,24 +214,15 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   updateMidSuccessCallbackFn(store: Store<any>, metaInfo: any) {
-    let pageViewIdToRefresh = '';
-
-    switch (metaInfo.page) {
-      case Pages.Employees: {
-        pageViewIdToRefresh = PageViewIds.Employees;
-        break;
-      }
-      case Pages.Pricings: {
-        pageViewIdToRefresh = PageViewIds.Pricings;
-        break;
-      }
-    }
-
-    if (pageViewIdToRefresh) {
-      store.dispatch(new fromPfDataGridActions.LoadData(pageViewIdToRefresh));
+    // We should dispatch this action only for Employees/Pricings pages
+    if (metaInfo.pageViewId === PageViewIds.EmployeesMinMidMax
+      || metaInfo.pageViewId === PageViewIds.EmployeesTertile
+      || metaInfo.pageViewId === PageViewIds.EmployeesQuartile
+      || metaInfo.pageViewId === PageViewIds.EmployeesQuintile
+      || metaInfo.pageViewId === PageViewIds.Pricings) {
+      store.dispatch(new fromPfDataGridActions.LoadData(metaInfo.pageViewId));
     }
   }
-
 
   // Events
   handleAddJobsClicked() {
@@ -270,6 +288,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     || dto.SecondQuintile || dto.ThirdQuintile || dto.FourthQuintile;
   }
 
+  handleCompareModelClicked() {
+    this.compareFlag = true;
+    this.store.dispatch(new fromSharedJobBasedRangeActions.ComparingModels());
+    this.compareModelClicked.emit(this.currentRangeGroupId);
+  }
+
   // Lifecycle
   ngAfterViewInit() {
     this.colTemplates = {
@@ -298,6 +322,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.compareFlag = false;
     this.modelPageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.modelPageViewId = pv);
     this.roundingSettingsSub = this.roundingSettings$.subscribe(rs => this.roundingSettings = rs);
     this.metaDataSub = this.metaData$.subscribe(md => this.metaData = md);
@@ -313,6 +338,14 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.modifiedKeysSubscription = this.store.select(fromReducer.getModifiedKeys, this.modelPageViewId).subscribe(
       modifiedKeys => this.modifiedKeys = modifiedKeys
     );
+    this.currentRangeGroupSub = this.currentRangeGroup$.subscribe(rangeGroup => {
+      if (rangeGroup.obj) {
+        this.currentRangeGroup = rangeGroup.obj;
+        this.currentRangeGroupId = this.currentRangeGroup.CompanyStructuresRangeGroupId;
+        this.currentRangeGroupName = this.currentRangeGroup.RangeGroupName;
+      }
+    });
+
     window.addEventListener('scroll', this.scroll, true);
   }
 
@@ -323,5 +356,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.roundingSettingsSub.unsubscribe();
     this.rangeOverridesSub.unsubscribe();
     this.modifiedKeysSubscription.unsubscribe();
+    this.currentRangeGroupSub.unsubscribe();
   }
 }

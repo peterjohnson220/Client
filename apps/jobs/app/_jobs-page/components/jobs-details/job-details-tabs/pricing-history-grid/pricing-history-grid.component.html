@@ -37,6 +37,15 @@
   </div>
 </ng-template>
 
+<ng-template #auditUserColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName]; else pfAdmin">
+    {{dataRow[fieldName]}}
+  </ng-container>
+  <ng-template #pfAdmin>
+    Payfactors Admin
+  </ng-template>
+</ng-template>
+
 <pf-pricing-details
   [showModal$]="showPricingDetails$"
   [pricingId]="pricingId"

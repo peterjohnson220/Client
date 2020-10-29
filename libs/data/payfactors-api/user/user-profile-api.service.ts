@@ -10,7 +10,6 @@ import {
 } from '../../../models/payfactors-api/user-profile/request';
 import { ListAreaColumnResponse, UserFilterResponse } from '../../../models/payfactors-api/user-profile/response';
 import { GetUserFilterListResponse } from '../../../models/payfactors-api/user-filter/response/get-user-filter-list-response.model';
-import { ListAreaColumn } from 'libs/models';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +36,7 @@ export class UserProfileApiService {
     return this.payfactorsApiService.get<GetUserFilterListResponse[]>(`${this.endpoint}.GetFilterList`);
   }
 
-  saveListAreaColumns(request: ListAreaColumn[]): Observable<number> {
+  saveListAreaColumns(request: SaveListAreaColumnsRequest): Observable<number> {
     return this.payfactorsApiService.post<number>(`${this.endpoint}.SaveListAreaColumns`, request);
   }
 }

@@ -1,4 +1,4 @@
-import { ReportType } from './report-types.enum';
+import { ReportType } from 'libs/features/reports/models/report-types.enum';
 
 export interface SearchResult {
   Type: ReportType;

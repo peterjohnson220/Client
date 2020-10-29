@@ -421,8 +421,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         deletingError: true
       };
     }
-
-    case fromJobDescriptionActions.UPDATE_JOB_DESCRIPTION_APPLIES_TO:
+    case fromJobDescriptionActions.UPDATE_JOB_DESCRIPTION_APPLIES_TO: {
       const asyncStateObjClone: AsyncStateObj<JobDescription> = cloneDeep(state.jobDescriptionAsync);
       asyncStateObjClone.obj.AppliesToField = action.payload.AppliesToField;
       asyncStateObjClone.obj.AppliesToValue = action.payload.AppliesToValue;
@@ -433,6 +432,7 @@ export function reducer(state = initialState, action: fromJobDescriptionActions.
         ...state,
         jobDescriptionAsync: asyncStateObjClone
       };
+    }
     case fromJobDescriptionActions.GET_SSO_LOGIN_URL_SUCCESS: {
       return {
         ...state,

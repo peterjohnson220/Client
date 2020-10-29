@@ -55,7 +55,10 @@ export class RangeFieldEditEffects {
                   || action.payload.pageViewId === PageViewIds.ModelTertile
                   || action.payload.pageViewId === PageViewIds.ModelQuartile
                   || action.payload.pageViewId === PageViewIds.ModelQuintile
-                  || action.payload.pageViewId === PageViewIds.Employees
+                  || action.payload.pageViewId === PageViewIds.EmployeesMinMidMax
+                  || action.payload.pageViewId === PageViewIds.EmployeesTertile
+                  || action.payload.pageViewId === PageViewIds.EmployeesQuartile
+                  || action.payload.pageViewId === PageViewIds.EmployeesQuintile
                   || action.payload.pageViewId === PageViewIds.Pricings) {
                   actions.push(new fromPfDataGridActions.UpdateModifiedKey(action.payload.pageViewId, action.payload.rangeId));
                 }

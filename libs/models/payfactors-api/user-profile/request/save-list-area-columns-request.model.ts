@@ -1,5 +1,5 @@
-import { ListAreaColumn } from '../../../common';
+import { ListAreaColumnRequest } from './list-area-column-request.model';
 
 export interface SaveListAreaColumnsRequest {
-  Columns: ListAreaColumn[];
+  Columns: ListAreaColumnRequest[];
 }

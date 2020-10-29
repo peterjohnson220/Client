@@ -70,6 +70,10 @@
   - -
 </ng-template>
 
+<ng-template #percentage let-dataRow="dataRow" let-fieldName="fieldName">
+  <ng-container *ngIf="dataRow[fieldName] || dataRow[fieldName] === 0; else noValue">{{dataRow[fieldName]}}%</ng-container>
+</ng-template>
+
 <ng-template #payMarketFilter>
   <kendo-dropdownlist
     style="width: 250px"

@@ -8,10 +8,10 @@ import {
 } from 'libs/models/payfactors-api/structures';
 import { CompositeFieldResponse } from 'libs/models/payfactors-api/composite-field/composite-field-response.model';
 import { CurrencyDto } from 'libs/models/common';
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { RoundingSettingsDataObj, RangeGroupMetadata, AdvancedSetting } from 'libs/models/structures';
 import { AdvancedSettingRequest } from 'libs/models/payfactors-api/structures/request/advanced-setting-request.model';
 
-import { AdvancedSetting, ControlPoint, Currency, RangeGroupMetadata } from '../models';
+import { ControlPoint, Currency } from '../models';
 
 
 export class PayfactorsApiModelMapper {

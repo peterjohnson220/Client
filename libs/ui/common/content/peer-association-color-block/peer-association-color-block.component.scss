@@ -16,6 +16,9 @@
   &.pending {
     background-color: $pending;
   }
+  &.new {
+  background-color: $new;
+  }
 }
 
 .status-label {

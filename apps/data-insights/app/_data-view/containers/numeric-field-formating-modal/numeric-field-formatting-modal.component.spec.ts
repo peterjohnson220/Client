@@ -4,8 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { generateMockField } from 'libs/features/formula-editor';
+
 import { NumericFieldFormattingModalComponent } from './numeric-field-formatting-modal.component';
-import { generateMockField } from '../../models';
 
 describe('Data Insights - Numeric Field Formatting Modal Component', () => {
   let instance: NumericFieldFormattingModalComponent;

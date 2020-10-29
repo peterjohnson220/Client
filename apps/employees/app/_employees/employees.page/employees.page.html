@@ -20,7 +20,7 @@
 
 <ng-template #gridRowActionsTemplate let-dataRow="dataRow">
   <div [pfSecuredResource]="[permissions.EMPLOYEES_ADD_EDIT_DELETE, permissions.NEW_PROJECT]" ngbDropdown container="body" #p="ngbDropdown"
-       (openChange)="handleSelectedRowAction(dataRow['CompanyEmployees_CompanyEmployee_ID'], p)">
+       (openChange)="handleSelectedRowAction(dataRow['CompanyEmployees_CompanyEmployee_ID'], p, $event)">
     <fa-icon ngbDropdownToggle
              icon="ellipsis-h"
              id="paymarket-actions-{{dataRow['CompanyEmployees_CompanyEmployee_ID']}}"
@@ -29,6 +29,9 @@
     <div ngbDropdownMenu aria-labelledby="employee-actions-{{dataRow['CompanyEmployees_CompanyEmployee_ID']}}">
       <button [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE" ngbDropdownItem (click)="handleEditClicked(true)">Edit</button>
       <button [pfSecuredResource]="permissions.NEW_PROJECT" ngbDropdownItem (click)="handlePriceJobsClicked(true)">Create Project</button>
+      <pf-async-container [pfSecuredResource]="permissions.TOTAL_REWARDS" [loading]="(totalRewardsStatementId$ | async)?.loading" [loadingError]="(totalRewardsStatementId$ | async)?.loadingError">
+        <button *ngIf="totalRewardsStatementId !== null" ngbDropdownItem (click)="handleViewTotalRewardsStatementClicked(dataRow['CompanyEmployees_CompanyEmployee_ID'])">View Total Rewards Statement</button>
+      </pf-async-container>
       <button [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE" ngbDropdownItem (click)="handleDeleteSingleEmployeeClicked()">Delete</button>
     </div>
   </div>
@@ -144,3 +147,42 @@
   (cancelClick)="showEmployeeHistoryModal.next(false)"
   (applyClicked)="handleEmployeeHistoryDateChange($event)">
 </pf-employee-history-date-picker>
+
+<pf-modal-form
+  [isOpen$]="showTotalRewardsStatementModal$"
+  [size]="'lg'"
+  [title]="getTotalRewardsModalTitle()"
+  [showSubmit]="false"
+  (onDismiss)="handleDismissTotalRewardsModal()">
+  <ng-container basic-content>
+
+    <div class="container mx-auto">
+      <button *ngIf="totalRewardsStatement && employeeRewardsData"
+              type="button"
+              class="btn btn-secondary d-block ml-auto mr-lg-5 mb-3"
+              [attr.data-qa-id]="'btn-downloadPdf'"
+              (click)="downloadStatement()"
+              ngbTooltip="Export">
+        <fa-icon [icon]="'download'" aria-hidden="true"></fa-icon>
+      </button>
+
+      <pf-async-container [loading]="(totalRewardsStatement$ | async)?.loading || (employeeRewardsData$ | async)?.loading">
+        <div *ngIf="employeeRewardsData" class="mx-auto pb-1 pt-4 total-rewards-statement">
+          <pf-total-rewards-statement
+            [statement]="totalRewardsStatement"
+            [employeeRewardsData]="employeeRewardsData"
+            [loadingData]="(employeeRewardsData$ | async)?.loading"
+            [mode]="totalRewardsStatementMode">
+          </pf-total-rewards-statement>
+        </div>
+      </pf-async-container>
+    </div>
+
+
+  </ng-container>
+</pf-modal-form>
+
+<pf-total-rewards-statement-download
+  [statement]="totalRewardsStatement"
+  [employeeRewardsData]="employeeRewardsData">
+</pf-total-rewards-statement-download>

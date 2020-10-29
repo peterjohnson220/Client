@@ -4,8 +4,9 @@ import { Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
 import { ReportOrderType } from 'libs/constants';
+import { View, Workbook } from 'libs/features/reports/models';
 
-import { Workbook, View, SaveReportOrderData } from '../../models';
+import { SaveReportOrderData } from '../../models';
 
 @Component({
   selector: 'pf-workbook-views-card',

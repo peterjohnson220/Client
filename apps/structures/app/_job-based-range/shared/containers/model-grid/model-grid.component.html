@@ -13,7 +13,8 @@
     [actionBarConfig]="singleRecordActionBarConfig"
     [reorderable]="reorderable"
     [modifiedKey]="modifiedKey"
-    [gridConfig]="gridConfig">
+    [gridConfig]="gridConfig"
+    [compactGridMinHeight]="compactGridMinHeight">
   </pf-data-grid>
 </ng-container>
 
@@ -36,7 +37,6 @@
     [actionBarConfig]="fullGridActionBarConfig"
     [pageTheme]="pfThemeType.NextGen"
     [contentClassNamesOverrides]="'py-3 px-4'"
-    [pageable]="true"
     [borders]="false"
     [reorderable]="reorderable"
     [syncScrollWithSplit]="true"
@@ -47,12 +47,17 @@
     [saveSort]="saveSort"
     [modifiedKey]="modifiedKey"
     [allowMultipleSort]="allowMultipleSort"
-    [gridConfig]="gridConfig">
+    [gridConfig]="gridConfig"
+    [pageable]="!gridConfig.EnableInfiniteScroll">
   </pf-data-grid>
 </ng-template>
 
 <ng-template #gridActions>
-  <pf-grid-context [title]="'Job Ranges'"></pf-grid-context>
+    <pf-grid-context
+      [title]="'Job Ranges'"
+      [currentRangeGroupName]="currentRangeGroupName"
+      [compareFlag]="compareFlag">
+    </pf-grid-context>
 </ng-template>
 
 <ng-template #gridActionsRightTemplate>
@@ -95,7 +100,7 @@
       [rowIndex]="rowIndex"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ page: page }"
+      [updateMetaInfo]="{ pageViewId: pageViewId }"
       [updateSuccessCallbackFn]="updateMidSuccessCallbackFn"
       [readonlyValueTemplate]="rangeValue">
     </pf-range-field-editor>
@@ -118,7 +123,7 @@
       [rowIndex]="rowIndex"
       [roundingSettings]="roundingSettings"
       [refreshRowDataViewFilter]="getRefreshFilter(dataRow)"
-      [updateMetaInfo]="{ page: page }"
+      [updateMetaInfo]="{ pageViewId: pageViewId }"
       [readonlyValueTemplate]="rangeValue">
     </pf-range-field-editor>
   </ng-container>
@@ -173,7 +178,8 @@
     (addJobsClicked)="handleAddJobsClicked()"
     (modelSettingsClicked)="handleModelSettingsClicked()"
     (publishModelClicked)="handlePublishModelClicked()"
-    (duplicateModelClicked)="handleDuplicateModelClicked()">
+    (duplicateModelClicked)="handleDuplicateModelClicked()"
+    (compareModelClicked)="handleCompareModelClicked()">
   </pf-global-actions>
 </ng-template>
 
@@ -185,7 +191,10 @@
   {{mid | rangeValue: (metaData$ | async)?.Rate }}
 </ng-template>
 
-<pf-model-settings-modal [rangeGroupId]="rangeGroupId" [page]="page"></pf-model-settings-modal>
+<pf-model-settings-modal
+  [rangeGroupId]="rangeGroupId"
+  [pageViewId]="pageViewId">
+</pf-model-settings-modal>
 
 <pf-modal-form
   [size]="'md'"

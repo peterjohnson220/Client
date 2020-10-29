@@ -3,7 +3,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewCh
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
 
-import { Workbook, SaveWorkbookTagObj } from '../../models';
+import { Workbook } from 'libs/features/reports/models';
+
+import { SaveWorkbookTagObj } from '../../models';
 
 @Component({
   selector: 'pf-tag-workbook-modal',

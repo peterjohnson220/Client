@@ -6,7 +6,7 @@ import { GenericNameValue } from 'libs/models/common';
 // PREVIEW
 export const SEARCH_ASSIGNED_EMPLOYEES = '[Total Rewards/Preview Statement] Search Employees';
 export const SEARCH_ASSIGNED_EMPLOYEES_SUCCESS = '[Total Rewards/Preview Statement] Search Employees Success';
-export const SEARCH_ASSIGNED_EMPLOYEES_ERROR = '[Total Rewards/Preview Statement] Search Employees Errpr';
+export const SEARCH_ASSIGNED_EMPLOYEES_ERROR = '[Total Rewards/Preview Statement] Search Employees Error';
 export const GET_EMPLOYEE_REWARDS_DATA = '[Total Rewards/Preview Statement] Get Employee Rewards Data';
 export const GET_EMPLOYEE_REWARDS_DATA_SUCCESS = '[Total Rewards/Preview Statement] Get Employee Rewards Data Success';
 export const GET_EMPLOYEE_REWARDS_DATA_ERROR = '[Total Rewards/Preview Statement] Get Employee Rewards Data Error';

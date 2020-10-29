@@ -1,0 +1,46 @@
+<div class="card mb-3 shadow-sm" *ngIf="canView()">
+  <div class="card-body">
+    <div class="row pb-3">
+      <div class="col d-flex justify-content-between">
+        <h4 class="card-title d-inline-block flex-grow-1">
+          Load and Export Files
+        </h4>
+      </div>
+    </div>
+    <div *ngIf="canImportOrgData || canExportOrgData">
+      <div class="row px-3">
+        <div class="col-8">
+          <h4 class="load-type-title">Org Data</h4>
+        </div>
+        <div class="col-4 text-right">
+          <div class="d-flex justify-content-end">
+            <div *ngIf="canExportOrgData" class="p-2">
+              <a class="btn btn-outline-primary px-3" (click)="handleOrgDataExportClick($event)" [href]="'/odata/Company/GetOrganizationalData'">Export</a>
+            </div>
+            <div ngbDropdown placement="bottom-right" class="p-2 d-inline-block" *ngIf="canImportOrgData">
+              <button class="btn btn-outline-primary px-3" id="orgDataImportBtnGroup" ngbDropdownToggle><span class="mr-1">Import</span></button>
+              <div ngbDropdownMenu aria-labelledby="orgDataImportBtnGroup" class="dropdown-menu text-right">
+                <a *ngIf="canImportOrgData" ngbDropdownItem class="dropdown-item" [routerLink]="['/org-data-load']">Import Once</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="canExportPricingData">
+      <hr *ngIf="canImportOrgData || canExportOrgData"/>
+      <div class="row px-3">
+        <div class="col-8">
+          <h4 class="load-type-title">Pricing Data</h4>
+        </div>
+        <div class="col-4 text-right">
+          <div class="d-flex justify-content-end">
+            <div class="p-2">
+              <a class="btn btn-outline-primary px-3" (click)="handlePricingDataExportClick($event)" [href]="'#'">Export</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -485,7 +485,7 @@ export class TemplatePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.companySubscription = this.company$.subscribe(company => {
       if (company) {
         this.companyName = company.CompanyName;
-        this.companyLogoPath = company
+        this.companyLogoPath = company?.CompanyLogo
           ? this.identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/company_logos/' + company.CompanyLogo
           : '';
         this.publicBaseUrl = this.identity.ConfigSettings.find(c => c.Name === 'CloudFiles_PublicBaseUrl').Value + '/';

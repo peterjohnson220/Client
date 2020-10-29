@@ -3,8 +3,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
+import { generateMockField } from 'libs/features/formula-editor';
+
 import { AddReportFieldsComponent } from './add-report-fields.component';
-import { generateMockField } from '../../models';
 
 describe('Data Insights - Add Report Field Component', () => {
   let instance: AddReportFieldsComponent;

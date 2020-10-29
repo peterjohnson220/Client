@@ -105,7 +105,9 @@ export class TileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.enableCoreJdmInClientSubscription.unsubscribe();
-    this.marketingVideoUrlSubscription.unsubscribe();
+    if (this.marketingVideoUrlSubscription) {
+      this.marketingVideoUrlSubscription.unsubscribe();
+    }
   }
 
   getTileHref(tile: Tile) {

@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { Statement, SaveImageRequest, UpdateStringPropertyRequest, DeleteImageRequest } from '../../../shared/models';
-import * as requestModels from '../../../shared/models/request-models';
+import { Statement, SaveImageRequest, UpdateStringPropertyRequest, DeleteImageRequest } from 'libs/features/total-rewards/total-rewards-statement/models';
+import * as requestModels from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
 
 // CONTROL UPDATES
 export const UPDATE_STATEMENT_NAME = '[Total Rewards/Edit Statement] Update Statement Name';

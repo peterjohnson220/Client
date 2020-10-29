@@ -25,20 +25,28 @@ export class NavigationLinksComponent implements OnInit {
   handleClick($event) {
     const linkName = $event.target.innerText;
 
-    if (linkName === 'Download Organizational Data') {
-      const notification = {
-        NotificationId: '',
-        Level: NotificationLevel.Info,
-        From: NotificationSource.GenericNotificationMessage,
-        Payload: {
-          Title: 'Please wait while your file is built'
-        },
-        EnableHtml: true,
-        Type: NotificationType.Event
-      };
-      this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(notification));
-      this.store.dispatch(new fromOrgDataNavigationLinkActions.InitiateOrgDataExport());
-      $event.preventDefault();
+    switch (linkName.trim()) {
+      case 'Download Organizational Data': {
+          const notification = {
+            NotificationId: '',
+            Level: NotificationLevel.Info,
+            From: NotificationSource.GenericNotificationMessage,
+            Payload: {
+              Title: 'Please wait while your file is built'
+            },
+            EnableHtml: true,
+            Type: NotificationType.Event
+          };
+          this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(notification));
+          this.store.dispatch(new fromOrgDataNavigationLinkActions.InitiateOrgDataExport());
+          $event.preventDefault();
+        }
+        break;
+      case 'Download Pricing Data': {
+          window.open('/client/data-management/pricing-loader/pricing-loaders-download', '_blank');
+          $event.preventDefault();
+        }
+        break;
     }
   }
 }

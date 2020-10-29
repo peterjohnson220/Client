@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Workbook } from '../../models';
+import { Workbook } from 'libs/features/reports/models';
+
 
 @Component({
   selector: 'pf-standard-report',
@@ -12,15 +14,13 @@ export class StandardReportComponent {
 
   displayOverlay: boolean;
 
-  handleMouseOverWorkbookContainer() {
-    if (this.workbook.WorkbookDescription) {
-      this.displayOverlay = true;
-    }
+  constructor(private router: Router) {
   }
 
-  handleMouseLeaveWorkbookContainer() {
-    if (this.workbook.WorkbookDescription) {
-      this.displayOverlay = false;
-    }
+  handleReportPreviewClicked(): void {
+    this.router.navigate(
+      [this.workbook.SourceUrl, this.workbook.WorkbookId],
+      {queryParams: {showTabs: this.workbook.ShowTabs, title: this.workbook.WorkbookName}}
+    ).then(r => {});
   }
 }

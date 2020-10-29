@@ -13,4 +13,7 @@ export interface TotalRewardAssignedEmployee {
   JobFamily: string;
   FLSAStatus: string;
   TotalRewardsLastStatementGeneratedDate?: Date;
+  TotalRewardsDeliveryMethod: string;
+  TotalRewardsDeliveryStatus: string;
+  EmailAddress: string;
 }
