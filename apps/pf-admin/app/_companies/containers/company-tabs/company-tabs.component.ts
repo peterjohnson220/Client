@@ -130,9 +130,7 @@ export class CompanyTabsComponent implements OnInit, OnChanges, OnDestroy {
             }
           });
 
-          customSettings.forEach(customSetting => {
-            this.companySettings.splice(customSetting.Index, 0, customSetting);
-          });
+          this.combineSettings(customSettings);
 
           this.maxProjectCountSetting = settings.find(setting => setting.Key === CompanySettingsEnum.MaxProjectJobCount);
         }
@@ -216,6 +214,12 @@ export class CompanyTabsComponent implements OnInit, OnChanges, OnDestroy {
 
   isConfigurableSetting(setting: CompanySetting): boolean {
     return (setting.DataType !== 'int') && (setting.Visible) && (setting.Key !== CompanySettingsEnum.MaxProjectJobCount);
+  }
+
+  combineSettings(customSettings) {
+    customSettings.forEach(customSetting => {
+      this.companySettings.splice(customSetting.Index, 0, customSetting);
+    });
   }
 
   private handleCompanyTabsContextLoaded(companyTabsContext: CompanyTabsContext) {
