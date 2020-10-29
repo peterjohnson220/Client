@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Input, forwardRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, forwardRef, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor } from '@angular/forms';
 
 import { Store, select } from '@ngrx/store';
@@ -35,7 +35,7 @@ import { PagesHelper } from '../../helpers/pages.helper';
     }
   ]
 })
-export class StructuresFormulaEditorComponent implements ControlValueAccessor, OnInit, OnDestroy, OnChanges {
+export class StructuresFormulaEditorComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy, OnChanges {
   @Input() metadata: RangeGroupMetadata;
   @Input() attemptedSubmit: boolean;
 
@@ -53,6 +53,7 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   baseEntity: DataViewEntity;
   formulaFieldObj: FormulaFieldModalObj;
   formulaChanged: Subject<string> = new Subject<string>();
+  pageLoaded = false;
 
   formulaFieldSuggestions$: Observable<Suggestion[]>;
   validating$: Observable<boolean>;
@@ -143,6 +144,10 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     });
   }
 
+  ngAfterViewInit() {
+    this.pageLoaded = true;
+  }
+
   ngOnDestroy(): void {
     this.formulaChanged.next(null);
     this.subscriptions.forEach(s => s.unsubscribe());
@@ -206,7 +211,6 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   handlePublicChange() {
     this.formulaFieldObj.IsPublic = !this.formulaFieldObj.IsPublic;
     this.structuresFormulaForm.controls['IsPublic'].setValue(this.formulaFieldObj.IsPublic);
-
     if (this.isValid()) {
       this.store.dispatch(new fromFormulaFieldActions.SaveFormulaField({ formula: this.getFormulaField(), baseEntityId: this.baseEntity?.Id }));
     }
@@ -231,7 +235,11 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
   }
 
   isValid(): boolean {
-    return this.structuresFormulaForm.valid && !!this.formulaFieldObj.Formula && this.isValidFormula && !!this.formulaFieldObj?.FormulaId;
+    if (this.pageLoaded) {
+      return this.structuresFormulaForm.valid && !!this.formulaFieldObj.Formula && this.isValidFormula && !!this.formulaFieldObj?.FormulaId;
+    } else {
+      return false;
+    }
   }
 
   get value(): FormulaFieldModalObj {
@@ -256,8 +264,13 @@ export class StructuresFormulaEditorComponent implements ControlValueAccessor, O
     }
   }
 
+  // communicate the inner form validation to the parent form
   validate(_: FormControl) {
-    return this.isValid() ? null : { Formula: { valid: false } };
+    if (this.pageLoaded) {
+      return this.isValid() ? null : { Formula: { valid: false } };
+    } else {
+      return false;
+    }
   }
 
   registerOnChange(fn: any): void {
