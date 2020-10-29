@@ -12,6 +12,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/pf-data-grid/pf-data-grid.module';
 import { EmployeeManagementModule } from 'libs/features/employee-management';
+import { TotalRewardsStatementModule } from 'libs/features/total-rewards/total-rewards-statement';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -44,7 +45,8 @@ import { SharedModule } from '../shared/shared.module';
     PfFormsModule,
     PfDataGridModule,
     EmployeeManagementModule,
-    SharedModule
+    SharedModule,
+    TotalRewardsStatementModule
   ],
   declarations: [
     EmployeesPageComponent,

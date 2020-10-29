@@ -1,5 +1,5 @@
 <div
-  class="company-jobs-grid-container position-relative k-tooltip-container {{ (selectedCompanyJob$ | async) ? 'short' : 'h-100' }}"
+  class="jobs-grid-container position-relative k-tooltip-container {{ (selectedCompanyJob$ | async) ? 'short' : 'h-100' }}"
   kendoTooltip
   showOn="none"
   filter=".k-grid td"
@@ -39,8 +39,7 @@
               [defaultItem]="{StatusId: '', StatusName: 'Select a Status'}"
               [valuePrimitive]="true"
               [value]="selectedStatusFilterOption"
-              (valueChange)="onStatusFilterChange($event, filterService)"
-              >
+              (valueChange)="onStatusFilterChange($event, filterService)">
             </kendo-dropdownlist>
           </ng-template>
 

@@ -2,7 +2,7 @@ import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Field } from '../../models';
+import { Field } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-delete-user-formula-modal',

@@ -126,7 +126,7 @@ export function reducer(state = initialState, action: fromSsoConfigActions.Actio
         updating: false,
         updatingSuccess: false,
         configuringError: true,
-      }
+      };
     default:
       return state;
   }

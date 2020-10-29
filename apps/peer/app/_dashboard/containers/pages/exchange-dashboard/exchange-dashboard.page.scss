@@ -10,6 +10,12 @@
   .exchange-dashboard-content {
     flex: 1 0;
   }
+
+  pf-report-preview {
+    overflow: hidden;
+    max-width: fit-content;
+    min-width: 300px;
+  }
 }
 
 .exchange-dashboard-sidebar {

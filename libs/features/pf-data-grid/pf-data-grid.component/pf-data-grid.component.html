@@ -71,13 +71,16 @@
               <pf-filter-chooser [pageViewId]="pageViewId" [hideToggleButtons]="displayFilterPanel$ | async"></pf-filter-chooser>
             </div>
           </div>
-          <div class="d-flex h-100 full-wrap overflow-hidden" [ngClass]="borders ? 'border' : ''">
+
+          <ng-container [ngTemplateOutlet]="subHeaderTemplate"></ng-container>
+
+          <div class="d-flex h-100 full-wrap" [ngClass]="borders ? 'border' : ''">
             <div [ngClass]="isSplitView() ? 'main-grid-split overflow-hidden' : 'main-grid-full'"
                 [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
               <div class="flex-column-container">
                 <div class="d-flex h-100">
-                  <div class="full-size-wrapper">
-                    <div [ngClass]="{'grid-container' : !compactGrid}">
+                  <div class="full-size-wrapper" [style.min-height]="compactGridMinHeight ? compactGridMinHeight : null">
+                    <div [ngClass]="{'grid-container' : !compactGrid, 'compact-grid-container' : compactGrid && compactGridMinHeight}">
                       <button *ngIf="this.showSplitViewToggle" class="btn btn-sm btn-secondary float-right overlayBtn" (click)="toggleSplitView()">
                         <fa-icon *ngIf="this.normalSplitViewWidth === this.gridContainerSplitViewWidth" [icon]="['fas','expand-alt']"></fa-icon>
                         <fa-icon *ngIf="this.normalSplitViewWidth !== this.gridContainerSplitViewWidth" [icon]="['fas','compress-alt']"></fa-icon>

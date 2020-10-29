@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { Field, Filter, FilterOperator, GetFilterOptionsData,
-  FieldDataType, validateFilter, getDefaultOperatorByDataType,
-  getDefaultSelectedOptions, getDefaultIsValid
-} from '../../models';
+import { Field, FieldDataType,
+  Filter, FilterOperator, GetFilterOptionsData,
+  validateFilter, getDefaultOperatorByDataType,
+  getDefaultSelectedOptions, getDefaultIsValid } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-filter-card',

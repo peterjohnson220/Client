@@ -6,3 +6,4 @@ export * from './range-distribution-setting.model';
 export * from './duplicate-model-response.model';
 export * from './advanced-setting-response.model';
 export * from './revert-range-response.model';
+export * from './current-range-group-response.model';

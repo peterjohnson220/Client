@@ -4,9 +4,10 @@ import { SettingsService } from '../state/app-context/services';
 import {
   UserContextGuard, PfAdminGuard, PeerTileEnabledGuard, TabularReportBuilderGuard,
   AuthorizationGuard, TileEnabledGuard, LoadUserGuard, LoadCompanyGuard,
-  PfServicesAdminOnlyGuard
+  PfServicesAdminOnlyGuard, UrlParameterValidationGuard
 } from './guards';
 import { JobsHierarchyPageGuard } from './guards/jobs-hierarchy-page.guard';
+
 
 @NgModule({
   providers: [
@@ -22,6 +23,7 @@ import { JobsHierarchyPageGuard } from './guards/jobs-hierarchy-page.guard';
     TabularReportBuilderGuard,
     PfServicesAdminOnlyGuard,
     JobsHierarchyPageGuard,
+    UrlParameterValidationGuard,
 
     // Services
     SettingsService

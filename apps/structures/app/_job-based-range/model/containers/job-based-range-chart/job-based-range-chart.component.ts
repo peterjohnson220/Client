@@ -4,15 +4,16 @@ import * as Highcharts from 'highcharts';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { ContentScrollEvent, GridDataResult } from '@progress/kendo-angular-grid';
+import { take } from 'rxjs/operators';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import { StructuresHighchartsService, StructuresPagesService } from '../../../shared/services';
 import { JobRangeModelChartService, JobRangeModelChartSeries } from '../../data';
 import { GraphHelper } from '../../../shared/helpers/graph.helper';
-import { RangeGroupMetadata } from '../../../shared/models';
 import { RangeDistributionTypeIds } from '../../../shared/constants/range-distribution-type-ids';
 import { SalaryRangeSeries } from '../../../shared/models/salary-range-series.model';
 import { DataPointSeries } from '../../../shared/models/data-point-series.model';
@@ -38,10 +39,12 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   chartLocale: string; // en-US
   chartInstance: Highcharts.Chart;
   dataSubscription: Subscription;
+  selectedFieldsSubscription: Subscription;
   metadataSubscription: Subscription;
   pageViewId: string;
   pageViewIdSubscription: Subscription;
   jobRangeData: GridDataResult;
+  selectedFields: any[];
   currency: string;
   controlPointDisplay: string;
   rate: string;
@@ -52,6 +55,7 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
   filterPanelSub: Subscription;
   initialY: number;
   gridScrolledSub: Subscription;
+  groupFieldSelected = false;
 
   constructor(
     public store: Store<any>,
@@ -79,16 +83,23 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
       if (data && this.rate && this.currency) {
         this.jobRangeData = data;
         this.processChartData();
+
+        this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).pipe(take(1)).subscribe(scrolledContent => {
+          this.refreshChartLegendPosition(scrolledContent);
+        });
+      }
+    });
+
+    this.selectedFieldsSubscription = this.store.select(fromPfGridReducer.getFields, this.pageViewId).subscribe(fields => {
+      if (fields) {
+        this.selectedFields = fields;
+        const anyGroupField = this.selectedFields.find(f => f.Group && f.IsSelected);
+        this.groupFieldSelected = !!anyGroupField;
       }
     });
 
     this.gridScrolledSub = this.pfGridStore.select(fromPfGridReducer.getGridScrolledContent, this.pageViewId).subscribe(scrolledContent => {
-      if (scrolledContent && this.chartInstance) {
-        this.initialY = this.chartInstance.legend.options.y;
-        this.chartInstance.legend.group.attr({
-          translateY: this.initialY + scrolledContent.scrollTop
-        });
-      }
+      this.refreshChartLegendPosition(scrolledContent);
     });
   }
 
@@ -96,6 +107,15 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     // set the instance
     if (chart) {
       this.chartInstance = chart;
+    }
+  }
+
+  private refreshChartLegendPosition(scrolledContent: ContentScrollEvent) {
+    if (scrolledContent && this.chartInstance) {
+      this.initialY = this.chartInstance.legend.options.y + 10;
+      this.chartInstance.legend.group.attr({
+        translateY: this.initialY + scrolledContent.scrollTop
+      });
     }
   }
 
@@ -428,5 +448,6 @@ export class JobBasedRangeChartComponent implements OnInit, OnDestroy {
     this.pageViewIdSubscription.unsubscribe();
     this.filterPanelSub.unsubscribe();
     this.gridScrolledSub.unsubscribe();
+    this.selectedFieldsSubscription.unsubscribe();
   }
 }

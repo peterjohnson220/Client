@@ -64,7 +64,7 @@ export class UserNotificationListEffects {
       ofType<fromUserNotificationListActions.MarkAllNotificationsSeen>(fromUserNotificationListActions.MARK_ALL_NOTIFICATIONS_SEEN),
       switchMap((action) => {
         return this.notificationApiService.markAllNotificationsAsSeen().pipe(
-          mergeMap(response => [new fromUserNotificationListActions.GetUserNotifications(),
+          mergeMap(response => [
             new fromAppNotificationsActions.ClearUserNotificationUnseenCount(),
             new fromUserNotificationListActions.MarkAllNotificationsSeenSuccess()]),
           catchError(() => of(new fromUserNotificationListActions.MarkAllNotificationsSeenError()))

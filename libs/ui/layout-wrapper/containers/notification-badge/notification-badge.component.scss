@@ -2,11 +2,12 @@
 
 .notification-icon {
   color: white;
+  font-size: 1.5em;
 }
 
 .notification-icon-container{
-  // to make icon bigger:
   cursor:pointer;
+  margin-right:1rem;
 }
 
 ::ng-deep .notification-list-popover {
@@ -14,17 +15,11 @@
 
 }
 
-.notification-header{
-  background-color: #dddddd;
-  padding:1px;
-  border-radius:2px;
-}
-
 .notification-count-badge {
-  top: -5px;
-  right: -5px;
+  top: -15px;
+  right: -15px;
   background:$pf-brand-tertiary-color;
-  font-size:250%;
+  font-size:3em;
 }
 
 // Popover overrides
@@ -38,4 +33,16 @@
   .arrow {
     right: 1rem !important;
   }
+
+  .popover-header {
+    font-size: initial !important;
+  }
  }
+
+.notification-icon-badged{
+  left:-10px !important;
+}
+
+.badge-layer{
+  left: -4px !important;
+}

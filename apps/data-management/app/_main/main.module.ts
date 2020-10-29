@@ -15,6 +15,7 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 
 import { PfCommonModule } from 'libs/core';
+import { PfNavigationLinksModule } from 'libs/features';
 import { PfCompanySelectorModule } from 'libs/features/company/company-selector/company-selector.module';
 import { PfEmailRecipientsModule } from 'libs/features/loader-email-reipients';
 import { PfFieldMapperModule } from 'libs/features/org-data-loader';
@@ -70,7 +71,8 @@ import {
   OutboundJdmViewSelectionPageComponent,
   OutboundProviderSelectionPageComponent,
   OutboundTransferSchedulePageComponent,
-  OutboundTransferScheduleSummaryComponent
+  OutboundTransferScheduleSummaryComponent,
+  LoadAndExportFilesCardComponent
 } from './containers';
 import {
   CustomFieldsEffect,
@@ -139,7 +141,8 @@ import { HrisAuthenticationGuard } from './guards';
     PfFormsModule,
     PfCompanySelectorModule,
     PfFieldMapperModule,
-    PfEmailRecipientsModule
+    PfEmailRecipientsModule,
+    PfNavigationLinksModule
   ],
   declarations: [
     // Pipes
@@ -212,7 +215,8 @@ import { HrisAuthenticationGuard } from './guards';
     FieldSelectionCardComponent,
     DateConverterFormComponent,
     DataConverterModalComponent,
-    DateFormatDropDownComponent
+    DateFormatDropDownComponent,
+    LoadAndExportFilesCardComponent,
   ],
   providers: [
     // Guards

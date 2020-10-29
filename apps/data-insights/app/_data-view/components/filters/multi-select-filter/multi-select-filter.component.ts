@@ -2,7 +2,7 @@ import { Component, Output, Input, EventEmitter, ViewChild, OnChanges, SimpleCha
 
 import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
 
-import { FilterOperator, Equals, DoesNotEqual, IsNullOrEmpty, IsNotNullOrEmpty } from '../../../models';
+import { FilterOperator, Equals, DoesNotEqual, IsNullOrEmpty, IsNotNullOrEmpty } from 'libs/features/formula-editor';
 
 @Component({
   selector: 'pf-multi-select-filter',

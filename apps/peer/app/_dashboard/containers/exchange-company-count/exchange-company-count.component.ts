@@ -47,11 +47,9 @@ export class ExchangeCompanyCountComponent implements OnInit, OnDestroy {
     this.companyChartItemsSubscription = this.companyChartItems$.subscribe(companyChartItem => {
       if (companyChartItem) {
         this.participatingCompaniesChartItem = companyChartItem[0];
-        if(this.participatingCompaniesChartItem.Category.includes('Propert')) {
+        if (this.participatingCompaniesChartItem.Category.includes('Propert')) {
           this.category = ExchangeChartTypeEnum.Subsidiary;
-        }
-
-        else {
+        } else {
           this.category = ExchangeChartTypeEnum.Company;
         }
       }

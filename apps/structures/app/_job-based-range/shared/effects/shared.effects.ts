@@ -4,20 +4,23 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { switchMap, map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromPfDataGridActions from 'libs/features/pf-data-grid/actions';
 import * as fromNotificationActions from 'libs/features/app-notifications/actions/app-notifications.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/app-notifications/models';
 import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
-import { DataGridToDataViewsHelper } from 'libs/features/pf-data-grid/helpers';
+import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/pf-data-grid/helpers';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 import * as fromRangeFieldActions from 'libs/features/structures/range-editor/actions/range-field-edit.actions';
+import { GridConfig } from 'libs/features/pf-data-grid/models';
+import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
-import { RangeGroupMetadata } from '../models';
 import * as fromSharedReducer from '../reducers';
 import { PagesHelper } from '../helpers/pages.helper';
 
@@ -28,9 +31,14 @@ export class SharedEffects {
   recalculateRangesWithoutMid$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedActions.RECALCULATE_RANGES_WITHOUT_MID),
-      withLatestFrom(this.store.pipe(select(fromSharedReducer.getMetadata)),
-        (action: fromSharedActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata) => {
-          return { action, metadata };
+      withLatestFrom(
+        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+        this.store.pipe(select(fromPfDataGridReducer.getData)),
+        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
+        (action: fromSharedActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult,
+         pagingOptions: PagingOptions) => {
+          return { action, metadata, gridConfig, gridData, pagingOptions };
         }
       ),
       switchMap((data) => {
@@ -41,7 +49,9 @@ export class SharedEffects {
               mergeMap(() => {
                 const actions = [];
                 const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
-                actions.push(new pfDataGridActions.LoadData(modelPageViewId));
+
+                actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
+
                 actions.push(new fromSharedActions.GetOverriddenRanges({
                   pageViewId: modelPageViewId,
                   rangeGroupId: data.action.payload.rangeGroupId
@@ -57,20 +67,28 @@ export class SharedEffects {
   removeRange$: Observable<Action> = this.actions$
     .pipe(
       ofType(fromSharedActions.REMOVING_RANGE),
-      withLatestFrom(this.store.pipe(select(fromSharedReducer.getMetadata)),
-        (action: fromSharedActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata) => {
-          return { action, metadata };
+      withLatestFrom(
+        this.store.pipe(select(fromSharedReducer.getMetadata)),
+        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+        this.store.pipe(select(fromPfDataGridReducer.getData)),
+        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
+        (action: fromSharedActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult,
+         pagingOptions: PagingOptions) => {
+          return { action, metadata, gridConfig, gridData, pagingOptions };
         }
       ),
       switchMap((data: any) => {
-        const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
         return this.structureModelingApiService.removeRange(data.action.payload).pipe(
-          mergeMap(() =>
-            [
-              new fromSharedActions.RemovingRangeSuccess(),
-              new pfDataGridActions.ClearSelections(modelPageViewId, [data.action.payload]),
-              new pfDataGridActions.LoadData(modelPageViewId),
-            ]),
+          mergeMap(() => {
+            const actions = [];
+            const modelPageViewId = PagesHelper.getModelPageViewIdByRangeDistributionType(data.metadata.RangeDistributionTypeId);
+
+            actions.push(new fromSharedActions.RemovingRangeSuccess());
+            actions.push(new pfDataGridActions.ClearSelections(modelPageViewId, [data.action.payload]));
+            actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
+
+            return actions;
+          }),
           catchError(error => of(new fromSharedActions.RemovingRangeError(error)))
         );
       })
@@ -99,7 +117,7 @@ export class SharedEffects {
     .pipe(
       ofType<fromRangeFieldActions.UpdateRangeFieldSuccess>(fromRangeFieldActions.UPDATE_RANGE_FIELD_SUCCESS),
       map(action => {
-        return new fromSharedActions.UpdateOverrides({ rangeId: action.payload.modifiedKey, overrideToUpdate: action.payload.override, removeOverride: false});
+        return new fromSharedActions.UpdateOverrides({ rangeId: action.payload.modifiedKey, overrideToUpdate: action.payload.override, removeOverride: false });
       })
     );
 
@@ -119,11 +137,15 @@ export class SharedEffects {
                 // only remove the key if the override was deleted
                 if (response.OverrideDeleted) {
                   actions.push(new fromPfDataGridActions.DeleteModifiedKey(action.payload.pageViewId, action.payload.rangeId));
-                  actions.push(new fromSharedActions.UpdateOverrides( { rangeId: action.payload.rangeId, overrideToUpdate: response.Override,
-                    removeOverride: true }));
+                  actions.push(new fromSharedActions.UpdateOverrides({
+                    rangeId: action.payload.rangeId, overrideToUpdate: response.Override,
+                    removeOverride: true
+                  }));
                 } else {
-                  actions.push(new fromSharedActions.UpdateOverrides( { rangeId: action.payload.rangeId, overrideToUpdate: response.Override,
-                    removeOverride: false }));
+                  actions.push(new fromSharedActions.UpdateOverrides({
+                    rangeId: action.payload.rangeId, overrideToUpdate: response.Override,
+                    removeOverride: false
+                  }));
                 }
                 actions.push(new fromSharedActions.RevertingRangeChangesSuccess({
                   pageViewId: action.payload.pageViewId,
@@ -194,6 +216,98 @@ export class SharedEffects {
           })
         );
       }));
+
+  @Effect()
+  getCurrentRangeGroup: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_CURRENT_RANGE_GROUP),
+      switchMap((action: fromSharedActions.GetCurrentRangeGroup) => {
+        return this.structureModelingApiService.getCurrentRangeGroup(action.payload)
+          .pipe(
+            mergeMap((res) => {
+              const actions = [];
+
+              if (res) {
+                actions.push(new fromSharedActions.EnableCompareFlag());
+              } else {
+                actions.push(new fromSharedActions.DisableCompareFlag());
+              }
+
+              actions.push(new fromSharedActions.GetCurrentRangeGroupSuccess(res));
+
+              return actions;
+            }),
+            catchError((err) => of(new fromSharedActions.GetCurrentRangeGroupError(err)))
+          );
+      })
+    );
+
+  @Effect()
+  getData: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.GET_DATA_BY_RANGE_GROUP_ID),
+      mergeMap((action: fromSharedActions.GetDataByRangeGroupId) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getFields, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getPagingOptions, action.payload.pageViewId)),
+            this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, action.payload.pageViewId)),
+            this.store.pipe(select(fromSharedReducer.getCurrentRangeGroup)),
+            this.store.pipe(select(fromSharedReducer.getMetadata)),
+            this.store.pipe(select(fromSharedReducer.getRoundingSettings)),
+            (a: fromSharedActions.GetDataByRangeGroupId, baseEntity, fields, pagingOptions, sortDescriptor, currentRangeGroup, metadata, roundingSettings) =>
+              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, currentRangeGroup, metadata, roundingSettings }))
+        )
+      ),
+      switchMap((data) => {
+        return this.dataViewApiService.getData(DataGridToDataViewsHelper.buildDataViewDataRequest(
+          data.baseEntity.Id,
+          data.fields,
+          data.a.payload.filters,
+          data.pagingOptions,
+          data.sortDescriptor,
+          false,
+          false,
+        )).pipe(
+          mergeMap((res) => {
+            const actions = [];
+
+            if (data.currentRangeGroup.obj.Currency !== data.metadata.Currency || data.currentRangeGroup.obj.Rate !== data.metadata.Rate) {
+              actions.push(new fromSharedActions.ConvertCurrencyAndRate({
+                OldCurrency: data.currentRangeGroup.obj.Currency,
+                NewCurrency: data.metadata.Currency,
+                OldRate: data.currentRangeGroup.obj.Rate,
+                NewRate: data.metadata.Rate,
+                Rounding: data.roundingSettings,
+                RangeDistributionTypeId: data.metadata.RangeDistributionTypeId,
+                JobRangeData: res
+              }));
+            } else {
+              actions.push(new fromSharedActions.GetDataByRangeGroupIdSuccess(res));
+            }
+            return actions;
+          }),
+          catchError((err) => of(new fromSharedActions.GetDataByRangeGroupIdError(err)))
+        );
+      })
+    );
+
+
+  @Effect()
+  convertJobRangeData: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedActions.CONVERT_CURRENCY_AND_RATE),
+      switchMap((action: fromSharedActions.ConvertCurrencyAndRate) => {
+        return this.structureModelingApiService.convertCurrencyAndRate(action.payload)
+          .pipe(
+            map((res) => {
+              return new fromSharedActions.ConvertCurrencyAndRateSuccess(res);
+            }),
+            catchError((err) => of(new fromSharedActions.ConvertCurrencyAndRateError(err)))
+          );
+      })
+    );
 
   constructor(
     private actions$: Actions,

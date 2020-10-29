@@ -18,6 +18,7 @@ export interface JobLevelHierarchyDetail {
     GroupingOrder: string;
     JobFamilies: string[];
     JobLevel: JobLevelOrder[];
+    Created: boolean;
 }
 
 export function generateMockJobLevelHierarchyDetail(): JobLevelHierarchyDetail {
@@ -26,6 +27,7 @@ export function generateMockJobLevelHierarchyDetail(): JobLevelHierarchyDetail {
     HierarchyName: '',
     GroupingOrder: '',
     JobFamilies: [''],
-    JobLevel: [generateMockJobLevelOrder()]
+    JobLevel: [generateMockJobLevelOrder()],
+    Created: false
   };
 }

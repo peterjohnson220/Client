@@ -116,7 +116,7 @@ export const getGlobalFilters = (state: DataGridStoreState, pageViewId: string) 
 };
 export const getFilterableFields = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] && state.grids[pageViewId].fields
-    ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter && f.IsFilterable && (f.IsSelected || f.CustomFilterStrategy))
+    ? state.grids[pageViewId].fields.filter(f => !f.IsGlobalFilter && f.IsFilterable && (f.IsSelected || f.CustomFilterStrategy || f.IsAlwaysInResponse))
     : [];
 };
 export const getPagingOptions = (state: DataGridStoreState, pageViewId: string) => {
@@ -228,6 +228,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_DATA:
+    case fromPfGridActions.RELOAD_DATA:
       return {
         ...state,
         grids: {
@@ -239,6 +240,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.LOAD_DATA_SUCCESS:
+    case fromPfGridActions.RELOAD_DATA_SUCCESS:
       const loadDataVisibleFieldsIds = getVisibleFieldsIds(state, action.pageViewId, action.payload.Data);
 
       const selectedVisibleFields = loadDataVisibleFieldsIds.filter(k => state.grids[action.pageViewId].selectedKeys.includes(k));
@@ -507,7 +509,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
 
       clearedFilterField.FilterValue = null;
       clearedFilterField.FilterValues = null;
-      clearedFilterField.FilterOperator = null;
       const svf = state.grids[action.pageViewId].splitViewFilters.filter(f => f.SourceName !== action.field.SourceName);
       return {
         ...state,
@@ -1059,7 +1060,7 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         }
       };
     case fromPfGridActions.UPDATE_MODIFIED_KEY:
-      if (state.grids[action.pageViewId].modifiedKeys.includes(action.payload)) {
+      if (state.grids[action.pageViewId].modifiedKeys == null || state.grids[action.pageViewId].modifiedKeys.includes(action.payload)) {
         return state;
       }
 
@@ -1093,8 +1094,8 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
         ...state,
         grids: {
           ...state.grids,
-          [ action.pageViewId ]: {
-            ...state.grids[ action.pageViewId ],
+          [action.pageViewId]: {
+            ...state.grids[action.pageViewId],
             gridScrolledContent: action.payload
           }
         }

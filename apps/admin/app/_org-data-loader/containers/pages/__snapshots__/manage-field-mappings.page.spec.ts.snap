@@ -4,6 +4,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
 <pf-autoloader-field-mapping-page
   acceptedFileExtensions={[Function Array]}
   benefitMappingComplete={[Function Boolean]}
+  benefitsLoaderFeatureFlag={[Function Object]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -21,8 +22,11 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
+  featureFlagService={[Function MockAbstractFeatureFlagService]}
   fieldMappingsLoading="false"
+  hasBenefitsAccess="false"
   isActive={[Function Boolean]}
+  isBenefitsFullReplace={[Function Boolean]}
   isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
@@ -57,6 +61,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  selectedCompanyBenefits$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -188,7 +193,11 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
           >
             
           </kendo-tabstrip-tab>
-          
+          <kendo-tabstrip-tab
+            title="Subsidiaries"
+          >
+            
+          </kendo-tabstrip-tab>
           
         </kendo-tabstrip>
         <div
@@ -225,6 +234,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
 <pf-autoloader-field-mapping-page
   acceptedFileExtensions={[Function Array]}
   benefitMappingComplete={[Function Boolean]}
+  benefitsLoaderFeatureFlag={[Function Object]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -242,8 +252,11 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   employeeMappingComplete="false"
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
+  featureFlagService={[Function MockAbstractFeatureFlagService]}
   fieldMappingsLoading="false"
+  hasBenefitsAccess="false"
   isActive={[Function Boolean]}
+  isBenefitsFullReplace={[Function Boolean]}
   isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
@@ -278,6 +291,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  selectedCompanyBenefits$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -409,7 +423,11 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
           >
             
           </kendo-tabstrip-tab>
-          
+          <kendo-tabstrip-tab
+            title="Subsidiaries"
+          >
+            
+          </kendo-tabstrip-tab>
           
         </kendo-tabstrip>
         <div
@@ -446,6 +464,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
 <pf-autoloader-field-mapping-page
   acceptedFileExtensions={[Function Array]}
   benefitMappingComplete={[Function Boolean]}
+  benefitsLoaderFeatureFlag={[Function Object]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -463,8 +482,11 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
+  featureFlagService={[Function MockAbstractFeatureFlagService]}
   fieldMappingsLoading="false"
+  hasBenefitsAccess="false"
   isActive={[Function Boolean]}
+  isBenefitsFullReplace={[Function Boolean]}
   isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
@@ -499,6 +521,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  selectedCompanyBenefits$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -630,7 +653,11 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           >
             
           </kendo-tabstrip-tab>
-          
+          <kendo-tabstrip-tab
+            title="Subsidiaries"
+          >
+            
+          </kendo-tabstrip-tab>
           
         </kendo-tabstrip>
         <div
@@ -667,6 +694,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
 <pf-autoloader-field-mapping-page
   acceptedFileExtensions={[Function Array]}
   benefitMappingComplete={[Function Boolean]}
+  benefitsLoaderFeatureFlag={[Function Object]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -684,8 +712,11 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
+  featureFlagService={[Function MockAbstractFeatureFlagService]}
   fieldMappingsLoading="false"
+  hasBenefitsAccess="false"
   isActive={[Function Boolean]}
+  isBenefitsFullReplace={[Function Boolean]}
   isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
@@ -720,6 +751,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   savingConfiguration="false"
   selectedCompany="undefined"
   selectedCompany$={[Function Store]}
+  selectedCompanyBenefits$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -776,6 +808,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
 <pf-autoloader-field-mapping-page
   acceptedFileExtensions={[Function Array]}
   benefitMappingComplete={[Function Boolean]}
+  benefitsLoaderFeatureFlag={[Function Object]}
   cdr={[Function ViewRef_]}
   companies$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -793,8 +826,11 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   employeeMappingComplete={[Function Boolean]}
   env={[Function Object]}
   existingCompanyLoaderSettings={[Function Array]}
+  featureFlagService={[Function MockAbstractFeatureFlagService]}
   fieldMappingsLoading="false"
+  hasBenefitsAccess="false"
   isActive={[Function Boolean]}
+  isBenefitsFullReplace={[Function Boolean]}
   isBenefitsLoadEnabled="false"
   isEmployeesFullReplace={[Function Boolean]}
   isEmployeesLoadEnabled="false"
@@ -829,6 +865,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   savingConfiguration="false"
   selectedCompany={[Function Object]}
   selectedCompany$={[Function Store]}
+  selectedCompanyBenefits$={[Function Store]}
   sftpDomainConfig$={[Function Store]}
   sftpPortConfig$={[Function Store]}
   sftpPublicKey="null"
@@ -960,7 +997,11 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
           >
             
           </kendo-tabstrip-tab>
-          
+          <kendo-tabstrip-tab
+            title="Subsidiaries"
+          >
+            
+          </kendo-tabstrip-tab>
           
         </kendo-tabstrip>
         <div

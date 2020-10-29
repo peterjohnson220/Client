@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 
-import { RoundingSettingsDataObj } from 'libs/models/structures';
+import { Currency } from 'libs/models';
+import { RoundingSettingsDataObj, RangeGroupMetadata } from 'libs/models/structures';
 
-import { ControlPoint, Currency, RangeGroupMetadata } from '../models';
-import { Pages } from '../constants/pages';
+import { ControlPoint } from '../models';
 
 export const OPEN_MODAL = '[Structures - Job Based Range - Model Settings] Open Modal';
 export const CLOSE_MODAL = '[Structures - Job Based Range - Model Settings] Close Modal';
@@ -78,7 +78,7 @@ export class GetStructureNameSuggestionsError implements Action {
 export class SaveModelSettings implements Action {
   readonly type = SAVE_MODEL_SETTINGS;
 
-  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPage: Pages, rounding: RoundingSettingsDataObj }) {}
+  constructor(public payload: { rangeGroupId: number; formValue: RangeGroupMetadata; fromPageViewId: string, rounding: RoundingSettingsDataObj }) {}
 }
 
 export class SaveModelSettingsSuccess implements Action {

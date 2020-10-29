@@ -10,6 +10,8 @@ export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
 export const LOAD_VIEW_CONFIG_SUCCESS = '[PfDataGrid] Load View Config Success';
 export const LOAD_DATA = '[PfDataGrid] Load Data';
 export const LOAD_DATA_SUCCESS = '[PfDataGrid] Load Data Success';
+export const RELOAD_DATA = '[PfDataGrid] Reload Data';
+export const RELOAD_DATA_SUCCESS = '[PfDataGrid] Reload Data Success';
 export const LOAD_MORE_DATA = '[PfDataGrid] Load More Data';
 export const LOAD_MORE_DATA_SUCCESS = '[PfDataGrid] Load More Data Success';
 export const UPDATE_FIELDS = '[PfDataGrid] Update Data Fields';
@@ -150,6 +152,16 @@ export class LoadMoreData implements Action {
 
 export class LoadMoreDataSuccess implements Action {
   readonly type = LOAD_MORE_DATA_SUCCESS;
+  constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
+}
+
+export class ReloadData implements Action {
+  readonly type = RELOAD_DATA;
+  constructor(public pageViewId: string, public count: number) { }
+}
+
+export class ReloadDataSuccess implements Action {
+  readonly type = RELOAD_DATA_SUCCESS;
   constructor(public pageViewId: string, public payload: DataViewEntityResponseWithCount) { }
 }
 
@@ -416,6 +428,8 @@ export type DataGridActions =
   | UpdateApplyUserDefaultCompensationFields
   | LoadData
   | LoadDataSuccess
+  | ReloadData
+  | ReloadDataSuccess
   | LoadMoreData
   | LoadMoreDataSuccess
   | UpdateFields

@@ -1,8 +1,8 @@
 import cloneDeep from 'lodash/cloneDeep';
 
+import { Filter, FieldsHelper } from 'libs/features/formula-editor';
+
 import * as fromFiltersActions from '../actions/filters.actions';
-import { Filter } from '../models';
-import { FieldsHelper } from '../helpers';
 
 export interface State {
   activeFilters: Filter[];

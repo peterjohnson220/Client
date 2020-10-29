@@ -14,6 +14,7 @@ export interface ActionBarConfig {
   GlobalFiltersTemplates?: { [key: string]: ElementRef<any> };
   ColumnChooserSubmitText: string;
   ShowSelectAllColumns: boolean;
+  EnableGroupSelectAll: boolean;
 }
 
 
@@ -34,6 +35,7 @@ export function getDefaultActionBarConfig(): ActionBarConfig {
     ExportSourceName: '',
     ColumnChooserType: ColumnChooserType.Column,
     ColumnChooserSubmitText: 'Save',
-    ShowSelectAllColumns: false
+    ShowSelectAllColumns: false,
+    EnableGroupSelectAll: false
   };
 }

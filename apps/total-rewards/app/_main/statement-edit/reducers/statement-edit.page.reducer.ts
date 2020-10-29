@@ -4,9 +4,9 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { GenericNameValue } from 'libs/models/common';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { EmployeeRewardsData, generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
+import { ImageControl, Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 
-import { ImageControl, Statement, StatementModeEnum } from '../../../shared/models';
-import { TotalRewardsStatementService } from '../../../shared/services/total-rewards-statement.service';
 import * as fromEditStatementActions from '../actions';
 
 

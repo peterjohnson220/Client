@@ -6,8 +6,12 @@ import { switchMap, withLatestFrom, mergeMap, catchError, map, filter } from 'rx
 import { Observable, of } from 'rxjs';
 
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
-import { JobBasedRangeJobSearchResponse, JobSearchRequestStructuresRangeGroup, JobSearchPricingDataResponse,
-  JobSearchContext } from 'libs/models/payfactors-api/job-search';
+import {
+  JobBasedRangeJobSearchResponse,
+  JobSearchRequestStructuresRangeGroup,
+  JobSearchPricingDataResponse,
+  JobSearchContext
+} from 'libs/models/payfactors-api/job-search';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { PayfactorsAddJobsApiModelMapper } from 'libs/features/add-jobs/helpers';
 import { ScrollIdConstants } from 'libs/features/infinite-scroll/models';

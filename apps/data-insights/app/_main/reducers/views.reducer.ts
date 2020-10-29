@@ -1,11 +1,12 @@
 import cloneDeep from 'lodash/cloneDeep';
 
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
+import { ReportOrderType } from 'libs/constants';
+import { View, Workbook } from 'libs/features/reports/models';
 
 import * as fromViewsActions from '../actions/views.actions';
-import { DashboardView, View, Workbook } from '../models';
+import { DashboardView } from '../models';
 import { ViewsHelper } from '../helpers';
-import { ReportOrderType } from 'libs/constants';
 
 export interface State {
   companyWorkbooksAsync: AsyncStateObj<Workbook[]>;

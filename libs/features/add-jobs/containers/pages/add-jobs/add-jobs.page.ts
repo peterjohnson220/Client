@@ -10,7 +10,7 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromSearchReducer from 'libs/features/search/reducers';
-import { SearchBase } from 'libs/features/search/containers/search-base';
+import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
 import { UserContext } from 'libs/models/security';
 import { CompanySettingsEnum } from 'libs/models/company';
 import { AddJobsConfig, SearchFilterMappingData, staticFilters, JobSearchUserFilterType } from 'libs/features/add-jobs/data';
@@ -27,7 +27,7 @@ import { ADD_JOBS_CONFIG_DEFAULT_TRUE } from '../../../constants';
   templateUrl: './add-jobs.page.html',
   styleUrls: ['./add-jobs.page.scss']
 })
-export class AddJobsPageComponent extends SearchBase implements OnInit, OnDestroy {
+export class AddJobsPageComponent extends SearchBaseDirective implements OnInit, OnDestroy {
   // Observables
   searchingFilter$: Observable<boolean>;
   numberOfSearchResults$: Observable<number>;

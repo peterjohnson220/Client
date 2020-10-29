@@ -121,8 +121,7 @@
                                (mappingComplete)="onEmployeeMappingComplete($event)"></pf-field-mapper>
             </ng-template>
           </kendo-tabstrip-tab>
-          <kendo-tabstrip-tab title="Subsidiaries"
-                              *ngIf="1===0">
+          <kendo-tabstrip-tab title="Subsidiaries">
             <ng-template kendoTabContent>
               <pf-field-mapper [payfactorsDataFields]="payfactorsSubsidiariesDataFields"
                                [loaderType]="templateReferenceConstants.LoaderType.Subsidiaries"
@@ -137,7 +136,7 @@
           </kendo-tabstrip-tab>
 
           <kendo-tabstrip-tab title="Benefits"
-                              *ngIf="1===0">
+                              *ngIf="hasBenefitsAccess && benefitsLoaderFeatureFlag.value">
             <ng-template kendoTabContent>
               <pf-field-mapper [payfactorsDataFields]="payfactorsBenefitsDataFields"
                                [loaderType]="templateReferenceConstants.LoaderType.Benefits"
@@ -146,6 +145,7 @@
                                [fieldMappings$]="companyMappings$"
                                [fieldMappingsLoading]="companyMappingsLoading$ | async"
                                [loadEnabled]="isBenefitsLoadEnabled"
+                               [isFullReplace]="isBenefitsFullReplace"
                                [visibleLoaderOptions]="visibleLoaderOptions"
                                (mappingComplete)="onBenefitsMappingComplete($event)"></pf-field-mapper>
             </ng-template>

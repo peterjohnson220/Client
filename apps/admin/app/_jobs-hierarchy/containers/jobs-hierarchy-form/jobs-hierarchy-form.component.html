@@ -5,7 +5,7 @@
       <div class="form-group row">
         <label class="control-label" for="hierarchyName">Hierarchy Name: <span class="text-danger">*</span></label>
         <input id="hierarchyName" type="text" class="form-control" formControlName="hierarchyName" placeholder="Hierarchy Name..."
-          [ngClass]="{'is-invalid': attemptedSubmit && (f['hierarchyName'].hasError('required') || f['hierarchyName'].hasError('maxlength'))}" 
+          [ngClass]="{'is-invalid': attemptedSubmit && (f['hierarchyName'].hasError('required') || f['hierarchyName'].hasError('maxlength'))}"
           [maxlength]="MAX_NAME_LENGTH">
         <span *ngIf="attemptedSubmit && f['hierarchyName'].hasError('required')" class="text-danger d-flex justify-content-end">Required</span>
         <span *ngIf="attemptedSubmit && f['hierarchyName'].hasError('maxlength')" class="text-danger d-flex justify-content-end">
@@ -24,20 +24,20 @@
 
     <div class="col-5">
       <div class="row pb-1">
-        <div class="control-label">Select the job families to be included in this hierarchy: </div>            
+        <div class="control-label">Select the job families to be included in this hierarchy: </div>
       </div>
       <div class="row">
         <div class="text-danger" *ngIf="attemptedSubmit && f['jobFamilies'].hasError('required')">At least one job family must be selected</div>
        </div>
     </div>
 
-    <div class="col-5">        
+    <div class="col-5">
       <div class="row card pt-1">
         <div class="card-content p-2" [ngClass]="{'is-invalid': attemptedSubmit && f['jobFamilies'].hasError('required')}">
           <div class="checkbox" *ngFor="let jobFamily of jobFamiliesFormArray.controls; let i = index">
             <label formArrayName="jobFamilies">
               <input type="checkbox" [formControlName]="i" (change)="onJobFamilySelectionChange($event.target)">
-              {{jobFamilies[i]}} 
+              {{jobFamilies[i]}}
             </label>
           </div>
         </div>
@@ -46,7 +46,7 @@
 
     <div class="col-5">
       <div class="row pb-1">
-        <div class="control-label my-2 px-0">Select the job levels to be included in this hierarchy and the order in which they should appear:</div>          
+        <div class="control-label my-2 px-0">Select the job levels to be included in this hierarchy and the order in which they should appear:</div>
       </div>
       <div class="row">
         <div class="text-danger" *ngIf="attemptedSubmit && f['jobLevelsInHierarchy'].hasError('required')">At least two job levels must be assigned to a hierarchy</div>
@@ -69,8 +69,8 @@
         <div class="col px-0">
           <select size="20" class="list-box d-block px-2" multiple (change)="onJobLevelsInHierarchySelectionChange($event.target.options)"
             dragula="job-levels-in-hierarchy-bag" [(dragulaModel)]="jobLevelsInHierarchy">
-            <option class="job-level dnd-job-level-reorder-handle" [selected]="jobLevelInHierarchy.selected"
-              [value]="jobLevelsInHierarchy[i]" formArrayName="jobLevelsInHierarchy" 
+            <option class="job-level dnd-job-level-reorder-handle" (click)="jobInHierarchyClicked(i)" [selected]="jobLevelInHierarchy.selected"
+              [value]="jobLevelsInHierarchy[i]" formArrayName="jobLevelsInHierarchy"
               *ngFor="let jobLevelInHierarchy of jobLevelsInHierarchyFormArray.controls; let i = index">
               {{jobLevelsInHierarchy[i]}}
             </option>

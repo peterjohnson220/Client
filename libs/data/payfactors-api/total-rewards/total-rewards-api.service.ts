@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+
+import { StatementListSearchRequest } from 'libs/models/payfactors-api/total-rewards/request';
+import { StatementEmailTemplate, StatementListResponse } from 'libs/models/payfactors-api/total-rewards/response';
+import { SaveSettingsRequest } from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
+import { Settings, Statement, StatementForPrint } from 'libs/features/total-rewards/total-rewards-statement/models/';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { StatementListSearchRequest } from 'libs/models/payfactors-api/total-rewards/request';
-import { StatementListResponse } from 'libs/models/payfactors-api/total-rewards/response';
-
-import { SaveSettingsRequest } from 'apps/total-rewards/app/shared/models/request-models';
-import { Settings, Statement, StatementForPrint } from 'apps/total-rewards/app/shared/models/';
-
 
 @Injectable({
   providedIn: 'root',
@@ -64,5 +62,17 @@ export class TotalRewardsApiService {
 
   deleteStatementImage(fileName: string): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteStatementImage?fileName=${fileName}`);
+  }
+
+  getStatementEmailTemplate(statementId: string): Observable<StatementEmailTemplate> {
+    return this.payfactorsApiService.get<StatementEmailTemplate>(`${this.endpoint}/GetStatementEmailTemplate?statementId=${statementId}`);
+  }
+
+  saveStatementEmailTemplate(request: StatementEmailTemplate): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/SaveStatementEmailTemplate`, request);
+  }
+
+  getStatementIdByCompanyEmployeeId(companyEmployeeId: number): Observable<string> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetStatementIdByCompanyEmployeeId?companyEmployeeId=${companyEmployeeId}`);
   }
 }

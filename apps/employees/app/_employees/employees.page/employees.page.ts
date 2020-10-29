@@ -2,11 +2,9 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 
 import { Router } from '@angular/router';
 
-import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { Permissions } from 'libs/constants';
@@ -17,16 +15,21 @@ import * as fromPfGridActions from 'libs/features/pf-data-grid/actions/pf-data-g
 import {
   ActionBarConfig,
   ColumnChooserType,
-  getDefaultActionBarConfig, getDefaultGridRowActionsConfig,
+  getDefaultActionBarConfig,
+  getDefaultGridRowActionsConfig,
   GridConfig,
   GridRowActionsConfig
 } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
+import { Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
+import { AsyncStateObj } from 'libs/models/state';
 
 import * as fromEmployeesReducer from '../reducers';
 import * as fromEmployeesPageActions from '../actions/employees-page.actions';
 import { EmployeesPageViewId } from '../models';
+import { StatementDownloadComponent } from 'libs/features/total-rewards/total-rewards-statement/components/statement-download';
 
 @Component({
   selector: 'pf-employees-page',
@@ -41,9 +44,13 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild('rateBasedSalaryColumn') rateBasedSalaryColumn: ElementRef;
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild(PfSecuredResourceDirective) pfSecuredResourceDirective: PfSecuredResourceDirective;
+  @ViewChild(StatementDownloadComponent) statementDownload: StatementDownloadComponent;
   permissions = Permissions;
   pricingJobs$: Observable<boolean>;
   pricingJobsError$: Observable<boolean>;
+  totalRewardsStatement$: Observable<AsyncStateObj<Statement>>;
+  employeeRewardsData$: Observable<AsyncStateObj<EmployeeRewardsData>>;
+  totalRewardsStatementId$: Observable<AsyncStateObj<string>>;
 
   showDeleteEmployeeModal = new BehaviorSubject<boolean>(false);
   showDeleteEmployeeModal$ = this.showDeleteEmployeeModal.asObservable();
@@ -51,8 +58,14 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   showEmployeeHistoryModal = new BehaviorSubject<boolean>(false);
   showEmployeeHistoryModal$ = this.showEmployeeHistoryModal.asObservable();
 
+  showTotalRewardsStatementModal = new BehaviorSubject<boolean>(false);
+  showTotalRewardsStatementModal$ = this.showTotalRewardsStatementModal.asObservable();
+
   selectedCompanyEmployeeIdsSubscription: Subscription;
   pricingJobsSubscription: Subscription;
+  totalRewardsStatementSubscription: Subscription;
+  employeeRewardsDataSubscription: Subscription;
+  totalRewardsStatementIdSubscription: Subscription;
 
   pageViewId = EmployeesPageViewId;
   defaultSort: SortDescriptor[] = [{
@@ -72,6 +85,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
   hasDropdownOptions: boolean;
   hasInfiniteScrollFeatureFlagEnabled: boolean;
+  totalRewardsStatementMode = StatementModeEnum.Print;
+  totalRewardsStatement: Statement;
+  employeeRewardsData: EmployeeRewardsData;
+  totalRewardsStatementId: string;
 
   constructor(
     public store: Store<fromEmployeesReducer.State>,
@@ -83,6 +100,10 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   ) {
     this.pricingJobs$ = this.store.pipe(select(fromEmployeesReducer.getPricingJobs));
     this.pricingJobsError$ = this.store.pipe(select(fromEmployeesReducer.getPricingsJobsError));
+    this.showTotalRewardsStatementModal$ = this.store.pipe(select(fromEmployeeManagementReducers.getIsTotalRewardsStatementModalOpen));
+    this.totalRewardsStatement$ = this.store.pipe(select(fromEmployeeManagementReducers.getTotalRewardsStatement));
+    this.employeeRewardsData$ = this.store.pipe(select(fromEmployeeManagementReducers.getEmployeeTotalRewardsData));
+    this.totalRewardsStatementId$ = this.store.pipe(select(fromEmployeeManagementReducers.getTotalRewardsStatementId));
     this.hasInfiniteScrollFeatureFlagEnabled = this.featureFlagService.enabled(FeatureFlags.PfDataGridInfiniteScroll, false);
 
     this.actionBarConfig = {
@@ -107,6 +128,9 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       this.selectedCompanyEmployeeIds = sk;
     });
     this.pricingJobsSubscription = this.pricingJobs$.subscribe(value => this.handlePricingJobsStatusChanged(value));
+    this.totalRewardsStatementSubscription = this.totalRewardsStatement$.subscribe(s => this.totalRewardsStatement = s.obj);
+    this.employeeRewardsDataSubscription = this.employeeRewardsData$.subscribe(e => this.employeeRewardsData = e.obj);
+    this.totalRewardsStatementIdSubscription = this.totalRewardsStatementId$.subscribe(id => this.totalRewardsStatementId = id.obj);
     window.addEventListener('scroll', this.scroll, true);
   }
 
@@ -132,6 +156,9 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
   ngOnDestroy(): void {
     this.selectedCompanyEmployeeIdsSubscription.unsubscribe();
     this.pricingJobsSubscription.unsubscribe();
+    this.totalRewardsStatementSubscription.unsubscribe();
+    this.employeeRewardsDataSubscription.unsubscribe();
+    this.totalRewardsStatementIdSubscription.unsubscribe();
   }
 
   public get priceJobsDisabled(): boolean {
@@ -205,9 +232,17 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.router.navigate([`history/${date}`]);
   }
 
-  handleSelectedRowAction(companyEmployeeId: number, dropdown: any) {
+  handleSelectedRowAction(companyEmployeeId: number, dropdown: any, isOpened: boolean) {
+    if (this.selectedDropdown?.isOpen() && this.selectedDropdown !== dropdown) {
+      this.selectedDropdown.close();
+    }
+
     this.selectedDropdown = dropdown;
     this.selectedCompanyEmployeeId = companyEmployeeId;
+
+    if (isOpened && this.pfSecuredResourceDirective.doAuthorize(this.permissions.TOTAL_REWARDS)) {
+      this.store.dispatch(new fromEmployeeManagementActions.GetTotalRewardsStatementId({ companyEmployeeId: companyEmployeeId }));
+    }
   }
 
   handleModalDismissed(): void {
@@ -220,6 +255,38 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     if (this.pfSecuredResourceDirective) {
       return this.pfSecuredResourceDirective.doAuthorizeAny(permissions);
     }
+  }
+
+  handleViewTotalRewardsStatementClicked(employeeId: number): void {
+    this.store.dispatch(new fromEmployeeManagementActions.OpenTotalRewardsStatement());
+    this.store.dispatch(new fromEmployeeManagementActions.GetTotalRewardsStatement());
+    this.store.dispatch(new fromEmployeeManagementActions.GetEmployeeTotalRewardsData(employeeId));
+  }
+
+  handleDismissTotalRewardsModal(): void {
+    this.store.dispatch(new fromEmployeeManagementActions.CloseTotalRewardsStatement());
+  }
+
+  getTotalRewardsModalTitle(): string {
+    let totalRewardsModalTitle = 'Your Total Rewards Statement - ';
+    if (this.employeeRewardsData) {
+      if (this.employeeRewardsData.EmployeeFirstName && this.employeeRewardsData.EmployeeLastName) {
+        totalRewardsModalTitle += this.employeeRewardsData.EmployeeFirstName + ' ' + this.employeeRewardsData.EmployeeLastName;
+      } else if (this.employeeRewardsData.EmployeeFirstName && !this.employeeRewardsData.EmployeeLastName) {
+        totalRewardsModalTitle += this.employeeRewardsData.EmployeeFirstName;
+      } else if (!this.employeeRewardsData.EmployeeFirstName && this.employeeRewardsData.EmployeeLastName) {
+        totalRewardsModalTitle += this.employeeRewardsData.EmployeeLastName;
+      } else {
+        if (this.employeeRewardsData.EmployeeId) {
+          totalRewardsModalTitle += this.employeeRewardsData.EmployeeId;
+        }
+      }
+    }
+    return totalRewardsModalTitle;
+  }
+
+  public downloadStatement(): void {
+    this.statementDownload.downloadPdf();
   }
 
   private handlePricingJobsStatusChanged(value: boolean): void {

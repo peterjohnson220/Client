@@ -37,7 +37,7 @@ export class ColumnSelectorPopoverComponent implements OnChanges {
   }
 
   saveButtonClicked() {
-    this.store.dispatch(new fromJobDescriptionGridActions.SaveListAreaColumns({ Columns: this.unsavedColumns }));
+    this.store.dispatch(new fromJobDescriptionGridActions.SaveListAreaColumns(this.unsavedColumns));
     this.columnPopover.close();
   }
 

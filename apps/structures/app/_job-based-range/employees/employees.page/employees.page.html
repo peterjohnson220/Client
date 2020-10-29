@@ -4,15 +4,13 @@
   [navigationURL]="'/marketdata/structures.asp'"
   [inboundFilters]="[filter]"
   [columnTemplates]="colTemplates"
-  [pageViewId]="employeePageViewId"
+  [pageViewId]="pageViewId"
   [gridContainerSplitViewWidth]="'60%'"
   [splitViewTemplate]="graph"
   [splitOnSelection]="false"
   [applyDefaultFilters]="false"
-  [aboveGridTemplate]="aboveGridTemplate"
   [actionBarConfig]="actionBarConfig"
   [borders]="false"
-  [pageable]="true"
   [contentClassNamesOverrides]="'py-3 px-4'"
   [pageTheme]="pfThemeType.NextGen"
   [defaultColumnWidth]="135"
@@ -20,8 +18,21 @@
   [syncScrollWithSplit]="true"
   [saveSort]="true"
   [showSplitViewToggle]="true"
-  [gridConfig]="gridConfig">
+  [gridConfig]="gridConfig"
+  [pageable]="!gridConfig.EnableInfiniteScroll"
+  [filterPanelTemplates]="filterTemplates"
+  [gridActionsTemplate]="gridActions"
+  [gridActionsRightTemplate]="gridActionsRightTemplate"
+  [subHeaderTemplate]="subHeaderTemplate">
 </pf-data-grid>
+
+<ng-template #gridActions>
+  <pf-grid-context [enableReturnBtn]="true"></pf-grid-context>
+</ng-template>
+
+<ng-template #gridActionsRightTemplate>
+  <pf-grid-context [enableReturnBtn]="false" [metadata]="metaData$ | async"></pf-grid-context>
+</ng-template>
 
 <ng-template #graph>
     <pf-employee-salary-range-chart
@@ -56,15 +67,15 @@
   <pf-model-settings-btn [pfSecuredResource]="_Permissions.STRUCTURES_CREATE_EDIT_MODEL" [metadata]="metaData$ | async" (modelSettingsClicked)="handleModelSettingsBtnClicked()" (duplicateModelClicked)="handleDuplicateModelBtnClicked()"></pf-model-settings-btn>
 </ng-template>
 
-<ng-template #aboveGridTemplate>
-  <div class="mb-3">
-    <pf-grid-context [enableReturnBtn]="true" [metadata]="metaData$ | async"></pf-grid-context>
+<ng-template #subHeaderTemplate>
+  <div class="mb-3" >
     <pf-model-grid
       [inboundFilters]="[filter]"
       [rangeGroupId]="rangeGroupId"
       [singleRecordView]="true"
-      [page]="page"
-      [modifiedKey]="'CompanyStructures_Ranges_CompanyStructuresRanges_ID'">
+      [pageViewId]="pageViewId"
+      [modifiedKey]="'CompanyStructures_Ranges_CompanyStructuresRanges_ID'"
+      [compactGridMinHeight]="'160px'">
     </pf-model-grid>
   </div>
 </ng-template>

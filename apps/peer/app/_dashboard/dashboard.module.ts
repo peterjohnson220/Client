@@ -8,7 +8,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { UploadModule } from '@progress/kendo-angular-upload';
-import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import 'hammerjs';
 
@@ -17,6 +17,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 import { PfEntityDescriptionModule } from 'libs/features/entity-description/entity-description.module';
+import { PfReportsModule } from 'libs/features/reports/reports.module';
 
 import {
   ExchangeDashboardPageComponent, AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
@@ -25,7 +26,7 @@ import {
 } from './containers';
 import {
   ExchangeDashboardEffects, AccessExchangeRequestEffects, InviteCompanyEffects, ExchangeJobComparisonGridEffects,
-  ExchangeEffects, ExchangeDashboardTCModalEffects, UploadOrgDataEffects
+  ExchangeEffects, ExchangeDashboardTCModalEffects, UploadOrgDataEffects, PeerTrendReportEffects
 } from './effects';
 import { ExchangeExistsGuard } from '../shared/guards';
 import { reducers } from './reducers';
@@ -36,6 +37,7 @@ import { ExistingCompanySelectionFormComponent } from './containers/invite-compa
 
 import * as fromFaIcons from './fa-icons';
 import { SharedModule } from '../shared/shared.module';
+import { PeerTrendReportModalComponent } from './components';
 
 @NgModule({
   imports: [
@@ -53,7 +55,7 @@ import { SharedModule } from '../shared/shared.module';
     StoreModule.forFeature('peer_dashboard', reducers),
     EffectsModule.forFeature([
       ExchangeDashboardEffects, AccessExchangeRequestEffects, InviteCompanyEffects,
-      ExchangeJobComparisonGridEffects, ExchangeEffects, ExchangeDashboardTCModalEffects, UploadOrgDataEffects
+      ExchangeJobComparisonGridEffects, ExchangeEffects, ExchangeDashboardTCModalEffects, UploadOrgDataEffects, PeerTrendReportEffects
     ]),
     FontAwesomeModule,
 
@@ -66,15 +68,16 @@ import { SharedModule } from '../shared/shared.module';
     PfCommonModule,
     SharedModule,
     PfExchangeExplorerModule,
-    PfEntityDescriptionModule
+    PfEntityDescriptionModule,
+    PfReportsModule
   ],
   declarations: [
-// Containers
+    // Containers
     ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent, ExchangeRevenueChartComponent,
     ExchangeCompanyCountComponent, ExchangeJobCountComponent, ExchangeDashboardPageComponent,
     AccessModalComponent, ChartDetailComponent, ExchangeJobComparisonGridComponent,
     InviteCompanyModalComponent, NewCompanyFormComponent, ExistingCompanySelectionFormComponent,
-    ExchangeDashboardTCModalComponent, UploadOrgDataModalComponent
+    ExchangeDashboardTCModalComponent, UploadOrgDataModalComponent, PeerTrendReportModalComponent
   ],
   providers: [
     ExchangeExistsGuard

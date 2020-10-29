@@ -29,7 +29,6 @@ export class NotificationBadgeComponent implements OnInit {
   }
 
   markAllNotificationsAsSeen() {
-    this.store.dispatch(new fromAppNotificationsActions.ClearUserNotificationUnseenCount());
     this.userNotificationStore.dispatch(new fromLibsUserNotificationActions.MarkAllNotificationsSeen());
   }
 }

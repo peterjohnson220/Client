@@ -9,13 +9,13 @@ import { TotalRewardsApiService, TotalRewardsSearchApiService } from 'libs/data/
 import { TotalRewardsEmployeeSearchResponse } from 'libs/models/payfactors-api/total-rewards';
 import { CompanyEmployeeApiService } from 'libs/data/payfactors-api/company';
 import { PfConstants } from 'libs/models/common';
+import { TotalRewardsAssignmentService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-assignment.service';
+import { Statement, Settings } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { SaveSettingsRequest } from 'libs/features/total-rewards/total-rewards-statement/models/request-models';
 
 import * as fromTotalRewardsReducer from '../reducers';
 import * as fromStatementEditActions from '../actions';
-import { Statement, Settings } from '../../../shared/models';
-import { SaveSettingsRequest } from '../../../shared/models/request-models';
 import { SaveStatement, SaveSettings } from '../actions';
-import { TotalRewardsAssignmentService } from '../../../shared/services/total-rewards-assignment.service';
 
 @Injectable()
 export class StatementEditPageEffects {

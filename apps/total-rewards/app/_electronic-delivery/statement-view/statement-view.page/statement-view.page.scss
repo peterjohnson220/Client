@@ -1,0 +1,14 @@
+::ng-deep {
+  pf-string-editor{
+    .wrapper {
+      overflow: visible !important;
+    }
+  }
+  pf-effective-date{
+    .print-mode {
+      .field-wrapper {
+        transform: none;
+      }
+    }
+  }
+}

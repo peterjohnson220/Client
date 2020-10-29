@@ -91,8 +91,7 @@ export function getEntityChoicesForOrgLoader(shouldShowBenefits: boolean): Entit
       ToolTip: `Fields within this entity capture the subsidiary information for employee data.`,
       FileBeginsWith: 'subsidiaries',
       templateReferenceConstants: LoaderType.Subsidiaries,
-      dbName: 'Subsidiary',
-      isEnabled: false
+      dbName: 'Subsidiary'
     },
     {
       ...getDefaultEntityChoice(),
@@ -101,7 +100,7 @@ export function getEntityChoicesForOrgLoader(shouldShowBenefits: boolean): Entit
       FileBeginsWith: 'benefits',
       templateReferenceConstants: LoaderType.Benefits,
       dbName: 'Benefits',
-      isEnabled: false
+      isEnabled: shouldShowBenefits
     }
   ];
 }

@@ -3,9 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import { Field, FieldType, Filter, generateDefaultFilter, GetFilterOptionsData } from 'libs/features/formula-editor';
+
 import * as fromFiltersActions from '../../actions/filters.actions';
 import * as fromDataInsightsMainReducer from '../../reducers';
-import { Field, FieldType, Filter, generateDefaultFilter, GetFilterOptionsData } from '../../models';
 
 @Component({
   selector: 'pf-data-view-filters',

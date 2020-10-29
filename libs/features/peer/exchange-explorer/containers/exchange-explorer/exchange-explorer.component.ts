@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { PayMarket } from 'libs/models/paymarket';
-import { SearchBase } from 'libs/features/search/containers/search-base';
+import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
 import { ExchangeMapSummary } from 'libs/models/peer';
 import { ExchangeJobExchangeDetail } from 'libs/features/peer/models';
 import { SettingsService } from 'libs/state/app-context/services';
@@ -28,7 +28,7 @@ import * as fromExchangeExplorerDataCutsActions from '../../actions/exchange-dat
   templateUrl: './exchange-explorer.component.html',
   styleUrls: ['./exchange-explorer.component.scss']
 })
-export class ExchangeExplorerComponent extends SearchBase {
+export class ExchangeExplorerComponent extends SearchBaseDirective {
   @Input() companyPayMarketId: number;
   @Input() shouldShowPayMarketBoundsFilter = true;
   @Input() shouldShowExcludeIndirectJobMatchesFilter = true;
