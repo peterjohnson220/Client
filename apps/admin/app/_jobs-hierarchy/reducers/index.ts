@@ -41,17 +41,22 @@ export const getJobLevelHierachies = createSelector(
   fromJobsHierarchyReducer.getJobLevelHierachies
 );
 
-export const getJobLevelsForJobFamiliesDetails = createSelector(
-  selectJobsHierarchyState,
-  fromJobsHierarchyReducer.getJobLevelsForJobFamiliesDetails
-);
-
 export const getSelectedHierarchy = createSelector(
   selectJobsHierarchyState,
-  fromJobsHierarchyReducer.getSelectedHierachy
+  fromJobsHierarchyReducer.getSelectedHierarchy
 );
 
 export const getResetHierarchyForm = createSelector(
   selectJobsHierarchyState,
   fromJobsHierarchyReducer.getResetHierarchyForm
+);
+
+export const getDeleteJobLevelHierarchyModalOpen = createSelector(
+  selectJobsHierarchyState,
+  fromJobsHierarchyReducer.getModalOpen
+);
+
+export const getDeletingJobLevelHierarchyAsyncObj = createSelector(
+  selectJobsHierarchyState,
+  fromJobsHierarchyReducer.getDeletingJobLevelHierarchyAsyncObj
 );
