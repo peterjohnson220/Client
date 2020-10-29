@@ -411,8 +411,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy, AfterView
     employee.TDCCalculated = this.calculatedTDC;
     employee.CompanyId = this.companyId;
     employee.JobCode = this.jobCode;
-    employee.DOB = this.intlService.formatDate(employee.DOB, 'yyyy-MM-dd')
-    employee.DOH = this.intlService.formatDate(employee.DOH, 'yyyy-MM-dd')
+    employee.DOB = employee.DOB ? this.intlService.formatDate(employee.DOB, 'yyyy-MM-dd') : null;
+    employee.DOH = employee.DOH ? this.intlService.formatDate(employee.DOH, 'yyyy-MM-dd') : null;
     
     if (!!this.employee) {
       employee.CompanyEmployeeId = this.employee.CompanyEmployeeId;
