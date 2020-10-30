@@ -1,30 +1,35 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { GridDataResult } from '@progress/kendo-angular-grid';
+import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { FilterableName } from 'libs/core/interfaces';
 import { SimpleYesNoModalComponent } from 'libs/ui/common';
 import { SimpleYesNoModalOptions } from 'libs/models/common';
+import { FilterArrayByName } from 'libs/core/pipes';
 
 import * as fromViewEditActions from '../../view-edit/actions/view-edit.actions';
 import * as fromViewsListActions from '../actions/views-list.actions';
 import * as fromUpsertViewModalActions from '../actions/upsert-view-modal.actions';
 import * as fromViewsListReducer from '../reducers';
 import { JdmSettingsHelper } from '../../shared/helpers';
+import { ViewListGridItem } from '../../shared/models/view-list-grid-item';
 
 @Component({
   selector: 'pf-views-list-page',
   templateUrl: './views-list.page.html',
   styleUrls: ['./views-list.page.scss']
 })
-export class ViewsListPageComponent implements OnInit {
+export class ViewsListPageComponent implements OnDestroy, OnInit {
   @ViewChild(SimpleYesNoModalComponent, { static: true }) public deleteViewConfirmationModal: SimpleYesNoModalComponent;
 
-  viewsListAsyncObj$: Observable<AsyncStateObj<FilterableName[]>>;
-  viewsFilter: string;
+  viewsListAsyncObj$: Observable<AsyncStateObj<ViewListGridItem[]>>;
+  viewsListAsyncObjSubscription: Subscription;
+  viewsListAsyncObj: AsyncStateObj<ViewListGridItem[]>;
+
   addView = true;
   deleteViewModalOptions: SimpleYesNoModalOptions = {
     Title: 'Delete View',
@@ -33,26 +38,46 @@ export class ViewsListPageComponent implements OnInit {
     CancelText: 'No',
     IsDelete: true
   };
+
   isSystemView = JdmSettingsHelper.isSystemView;
 
+  gridView: GridDataResult;
+  gridData: ViewListGridItem[] = [];
+  sort: SortDescriptor[] = [{
+    field: 'ViewName',
+    dir: 'desc'
+  }];
+  searchValue: string;
+  templateData = [];
+
   constructor(
+    public arrayFilter: FilterArrayByName,
     private store: Store<fromViewsListReducer.State>,
     private router: Router,
-    private route: ActivatedRoute
-  ) {
+    private route: ActivatedRoute) {
     this.viewsListAsyncObj$ = this.store.pipe(select(fromViewsListReducer.getViewsListAsyncObj));
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new fromViewsListActions.LoadJobDescriptionViews());
+    this.store.dispatch(new fromViewsListActions.LoadJobDescriptionSettingsViews());
+
+    this.viewsListAsyncObjSubscription = this.viewsListAsyncObj$.subscribe((viewsList) => {
+      this.viewsListAsyncObj = viewsList;
+      this.gridData = viewsList.obj;
+      this.applySort();
+      this.refreshGridDataResult();
+
+      this.templateData = viewsList.obj.map(v => v.Templates).reduce((acc, item) => [...acc, ...item], []);
+    });
+
   }
 
-  viewsTrackByFn(index: number, view: string) {
-    return view;
+  ngOnDestroy(): void {
+    this.viewsListAsyncObjSubscription.unsubscribe();
   }
 
   handleSearchValueChanged(value: string) {
-    this.viewsFilter = value;
+    this.gridView.data = value === '' ? this.gridData : this.arrayFilter.transform(this.gridView.data, value, 'ViewName');
   }
 
   handleViewDeleteConfirmed(viewName: string) {
@@ -75,6 +100,20 @@ export class ViewsListPageComponent implements OnInit {
     this.deleteViewConfirmationModal.open(viewName);
   }
 
+  handleTemplateChanged(event) {
+    this.gridView.data = event?.TemplateId ? this.filterViewsByTemplateId(event.TemplateId) : this.gridData;
+  }
+
+  filterViewsByTemplateId(templateId) {
+    const views = this.gridView.data.filter(view => {
+      if (view.Templates.find(t => t.TemplateId === templateId)) {
+        return view;
+      }
+    });
+
+    return views;
+  }
+
   openUpsertViewModal(addView: boolean, viewName: string, event: MouseEvent) {
     event.stopPropagation();
     this.addView = addView;
@@ -84,5 +123,30 @@ export class ViewsListPageComponent implements OnInit {
       this.store.dispatch(new fromUpsertViewModalActions.SetEditingViewName({ editingViewName: viewName }));
     }
     this.store.dispatch(new fromUpsertViewModalActions.OpenUpsertViewModal());
+  }
+
+  gridSelectionChange(selection) {
+      if (selection.selectedRows && selection.selectedRows.length) {
+          const viewName = selection.selectedRows[0].dataItem.ViewName;
+          this.store.dispatch(new fromViewEditActions.EditView({viewName}));
+          this.router.navigate(['edit'], { relativeTo: this.route });
+      }
+  }
+
+  sortChange($event: SortDescriptor[]) {
+    this.sort = $event;
+    this.applySort();
+    this.refreshGridDataResult();
+  }
+
+  private applySort() {
+    this.gridData = orderBy(this.gridData, this.sort);
+  }
+
+  private refreshGridDataResult() {
+    this.gridView = {
+      data: this.gridData,
+      total: this.gridData.length
+    };
   }
 }

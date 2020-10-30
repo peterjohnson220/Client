@@ -112,7 +112,7 @@ export class UpsertViewModalEffects {
     .pipe(
       ofType(fromUpsertViewModalActions.UPDATE_VIEW_SUCCESS),
       map(() =>
-        new fromViewsListActions.LoadJobDescriptionViews()
+        new fromViewsListActions.LoadJobDescriptionSettingsViews()
       )
     );
 

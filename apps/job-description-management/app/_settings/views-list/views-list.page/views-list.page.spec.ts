@@ -35,13 +35,19 @@ describe('Job Description Management - Settings - Views List Page', () => {
         {
           provide: ActivatedRoute,
           useValue: new ActivatedRouteStub()
-        }
+        },
+        FilterArrayByName
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     fixture = TestBed.createComponent(ViewsListPageComponent);
     instance = fixture.componentInstance;
+
+    instance.gridView = {
+      data: [],
+      total: 0
+    };
 
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
@@ -50,7 +56,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
 
   it('should dispatch an action to the store to load the views upon init', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromViewListActions.LoadJobDescriptionViews();
+    const expectedAction = new fromViewListActions.LoadJobDescriptionSettingsViews();
 
     // Init
     fixture.detectChanges();
@@ -58,18 +64,25 @@ describe('Job Description Management - Settings - Views List Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should track the views by their name', () => {
-    expect(instance.viewsTrackByFn(0, 'MyView')).toBe('MyView');
+  it('should filterViewsByTemplateId when handleTemplateChanged', () => {
+    spyOn(instance, 'filterViewsByTemplateId');
+
+    const event = { TemplateId: 'mockId' };
+    instance.handleTemplateChanged(event);
+
+    expect(instance.filterViewsByTemplateId).toHaveBeenCalled();
   });
 
   it('should return true when the view is a "System View"', () => {
     expect(instance.isSystemView(JobDescriptionViewConstants.SYSTEM_VIEWS[0])).toBe(true);
   });
 
-  it('should set the views filter when handling the search value changing', () => {
-    instance.handleSearchValueChanged('New Value');
+  it('should filter by ViewName when search value changes', () => {
+    spyOn(instance.arrayFilter, 'transform');
 
-    expect(instance.viewsFilter).toBe('New Value');
+    instance.handleSearchValueChanged('Not a blank string');
+
+    expect(instance.arrayFilter.transform).toHaveBeenCalled();
   });
 
   it('should dispatch an action to the store to delete the view with the name, when handling a delete confirmation', () => {

@@ -13,6 +13,7 @@ import { LibrarySearchRequest, JobDescriptionLibraryResult, JobDescriptionLibrar
 import { UpdateViewsRequest } from '../../../models/payfactors-api/job-description-management/request';
 import { JobDescriptionViewApi } from '../../../models/payfactors-api/job-description-management/shared';
 import { ControlType } from 'libs/models';
+import { ViewListGridItem } from '../../../../apps/job-description-management/app/_settings/shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +43,10 @@ export class JobDescriptionManagementApiService {
 
   getViews(): Observable<JobDescriptionViewModel[]> {
     return this.payfactorsApiService.get<JobDescriptionViewModel[]>(`${this.endpoint}.GetViews`);
+  }
+
+  getSettingsViews(): Observable<ViewListGridItem[]> {
+    return this.payfactorsApiService.get<ViewListGridItem[]>(`${this.endpoint}.GetSettingsViews`);
   }
 
   validate(jobDescriptionValidationRequest: JobDescriptionValidationRequest): Observable<ValidateStepResultItem> {

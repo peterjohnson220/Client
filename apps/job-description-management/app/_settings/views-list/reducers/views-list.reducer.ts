@@ -1,26 +1,26 @@
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
-import { FilterableName } from 'libs/core/interfaces';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
+import { ViewListGridItem } from '../../shared/models/view-list-grid-item';
 
 import * as fromViewsListActions from '../actions/views-list.actions';
 
 export interface State {
-  viewsAsyncObj: AsyncStateObj<FilterableName[]>;
+  viewsAsyncObj: AsyncStateObj<ViewListGridItem[]>;
 }
 
 export const initialState: State = {
-  viewsAsyncObj: generateDefaultAsyncStateObj<FilterableName[]>([])
+  viewsAsyncObj: generateDefaultAsyncStateObj<ViewListGridItem[]>([])
 };
 
 export function reducer(state = initialState, action: fromViewsListActions.Actions): State {
   switch (action.type) {
-    case fromViewsListActions.LOAD_JOB_DESCRIPTION_VIEWS: {
+    case fromViewsListActions.LOAD_JOB_DESCRIPTION_SETTINGS_VIEWS: {
       return AsyncStateObjHelper.loading(state, 'viewsAsyncObj');
     }
-    case fromViewsListActions.LOAD_JOB_DESCRIPTION_VIEWS_SUCCESS: {
+    case fromViewsListActions.LOAD_JOB_DESCRIPTION_SETTINGS_VIEWS_SUCCESS: {
       return AsyncStateObjHelper.loadingSuccess(state, 'viewsAsyncObj', action.payload);
     }
-    case fromViewsListActions.LOAD_JOB_DESCRIPTION_VIEWS_ERROR: {
+    case fromViewsListActions.LOAD_JOB_DESCRIPTION_SETTINGS_VIEWS_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'viewsAsyncObj');
     }
     default: {
