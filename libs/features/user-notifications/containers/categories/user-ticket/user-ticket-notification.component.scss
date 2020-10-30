@@ -1,0 +1,20 @@
+@import "colors";
+
+.notification-container{
+  border: 1px solid $border-grey;
+  padding: 0 5px;
+  border-radius:2px;
+  box-shadow: 0px 10px 22px 5px rgb(233, 235, 243) !important;
+}
+
+.badge-unread{
+  color: $pf-brand-primary-color;
+  top:-5px;
+  left:-5px;
+}
+
+.notification-icon{
+  color: $pf-brand-secondary-color;
+}
+
+

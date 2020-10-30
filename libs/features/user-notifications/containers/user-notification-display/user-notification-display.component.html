@@ -1,0 +1,34 @@
+<div class="d-flex notification-container" >
+
+  <!-- icon and badge-->
+  <div class="align-self-center m-3">
+    <span class="fa-stack  has-badge" >
+      <fa-icon [icon]="[UserNotificationDisplay.IconPrefix, UserNotificationDisplay.IconName]" size="3x" class="notification-icon" ></fa-icon>
+     <fa-icon *ngIf="!UserNotificationDisplay.IsRead" icon="circle" class="fa-stack-1x badge-unread" size="sm"></fa-icon>
+
+    </span>
+  </div>
+
+  <!-- notification body -->
+  <div class="flex-grow-2 align-self-center m-3">
+    <div class="d-flex flex-column">
+      <div>
+        {{UserNotificationDisplay.CreateDate | date}}
+      </div>
+      <div class="font-weight-bold">
+        <h5 style="margin-bottom:0">
+          {{UserNotificationDisplay.Title}}
+        </h5>
+      </div>
+      <div [innerHTML]="UserNotificationDisplay.Message">
+
+      </div>
+    </div>
+  </div>
+
+  <!--  notification button -->
+  <div class="align-self-center m-3">
+    <a href="{{UserNotificationDisplay.BaseUrl}}" class="btn btn-secondary">{{UserNotificationDisplay.ButtonText}}</a>
+  </div>
+
+</div>
