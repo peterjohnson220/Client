@@ -8,6 +8,7 @@ import * as fromSearchReducer from 'libs/features/search/reducers';
 import { SearchBaseDirective } from 'libs/features/search/containers/search-base';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
 import * as fromAddDataReducer from '../../../reducers';
@@ -17,7 +18,7 @@ import * as fromSurveySearchReducer from 'libs/features/survey-search/reducers';
 import * as fromContextActions from 'libs/features/survey-search/actions/context.actions';
 import { disableDatacutsDragging } from 'libs/features/survey-search/helpers';
 import * as fromSurveySearchResultsActions from 'libs/features/survey-search/actions/survey-search-results.actions';
-import { staticFilters } from 'libs/features/survey-search/data';
+import { getSearchFilters } from 'libs/features/survey-search/data';
 
 @Component({
   selector: 'pf-add-survey-data-page',
@@ -30,12 +31,15 @@ export class AddSurveyDataPageComponent extends SearchBaseDirective {
   pageShown$: Observable<boolean>;
   excludeFromParticipation: boolean;
   featureImplementation = 'component';
+  matchMode: boolean;
 
   constructor(
     store: Store<fromSearchReducer.State>,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {
     super(store);
+    this.matchMode = this.featureFlagService.enabled(FeatureFlags.SurveySearchLightningMode, false);
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
     this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
@@ -51,7 +55,7 @@ export class AddSurveyDataPageComponent extends SearchBaseDirective {
   }
 
   onSetContext(payload: any) {
-    this.store.dispatch(new fromSearchFiltersActions.AddFilters(staticFilters));
+    this.store.dispatch(new fromSearchFiltersActions.AddFilters(getSearchFilters(this.matchMode)));
     this.store.dispatch(new fromContextActions.SetProjectSearchContext(payload.SearchContext));
     this.store.dispatch(new fromContextActions.SetJobContext(payload.JobContext));
     this.store.dispatch(new fromAddSurveyDataPageActions.ResetAddData());
