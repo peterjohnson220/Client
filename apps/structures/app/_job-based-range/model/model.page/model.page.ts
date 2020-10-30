@@ -154,6 +154,12 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       PaymarketId: this.metadata.PaymarketId,
       PayType: this.metadata.PayType
     }));
+    this.store.dispatch(new fromSharedActions.GetStructureHasPublishedForType({
+      RangeGroupId: this.rangeGroupId,
+      PaymarketId: this.metadata.PaymarketId,
+      DistributionTypeId: this.metadata.RangeDistributionTypeId,
+      PayType: this.metadata.PayType
+    }));
   }
 
   ngOnDestroy(): void {

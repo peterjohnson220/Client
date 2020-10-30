@@ -19,6 +19,7 @@ export interface State {
   gettingData: AsyncStateObj<any>;
   comparingModels: boolean;
   compareEnabled: boolean;
+  structureHasPublished: AsyncStateObj<number>;
 }
 
 const initialState: State = {
@@ -43,6 +44,7 @@ const initialState: State = {
   gettingData: generateDefaultAsyncStateObj<any>(null),
   comparingModels: false,
   compareEnabled: false,
+  structureHasPublished: generateDefaultAsyncStateObj<number>(null)
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -250,6 +252,40 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         gettingData: convertJobRangeDataClone
       };
     }
+    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE: {
+      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+
+      gettingHasPublishedStructureClone.loading = true;
+      gettingHasPublishedStructureClone.obj = null;
+      gettingHasPublishedStructureClone.loadingError = false;
+
+      return {
+        ...state,
+        structureHasPublished: gettingHasPublishedStructureClone
+      };
+    }
+    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_SUCCESS: {
+      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+
+      gettingHasPublishedStructureClone.loading = false;
+      gettingHasPublishedStructureClone.obj = action.payload;
+
+      return {
+        ...state,
+        structureHasPublished: gettingHasPublishedStructureClone
+      };
+    }
+    case fromSharedActions.GET_STRUCTURE_HAS_PUBLISHED_FOR_TYPE_ERROR: {
+      const gettingHasPublishedStructureClone = cloneDeep(state.structureHasPublished);
+
+      gettingHasPublishedStructureClone.loading = false;
+      gettingHasPublishedStructureClone.loadingError = true;
+
+      return {
+        ...state,
+        structureHasPublished: gettingHasPublishedStructureClone
+      };
+    }
     default:
       return state;
   }
@@ -263,6 +299,7 @@ export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
 export const getData = (state: State) => state.gettingData;
 export const getComparingModels = (state: State) => state.comparingModels;
 export const getCompareEnabled = (state: State) => state.compareEnabled;
+export const getStructureHasPublished = (state: State) => state.structureHasPublished;
 
 export const addRoundingSetting = (name: string, setting: RoundingSetting, settings: RoundingSettingsDataObj) => {
   return settings[name] = setting;

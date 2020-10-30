@@ -58,7 +58,8 @@
                  value="{{getMissingMarketDataTypeValue('UsePublishedRange')}}"
                  formControlName="Type"
                  class="control-margin"
-                 (change)="handleRadioButtonChanged($event)">
+                 (change)="handleRadioButtonChanged($event)"
+                 [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
           Use published range if no market data exists
         </label>
       </div>
@@ -69,7 +70,8 @@
                  value="{{getMissingMarketDataTypeValue('IncreaseCurrentByPercent')}}"
                  formControlName="Type"
                  class="control-margin"
-                 (change)="handleRadioButtonChanged($event)">
+                 (change)="handleRadioButtonChanged($event)"
+                 [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
           Increase midpoint by
         </label>
         <kendo-numerictextbox  class="form-control ie-fix input-percentage-field"
@@ -80,7 +82,8 @@
                                [decimals]="2"
                                [min]="0"
                                [max]="100"
-                               [autoCorrect]="true">
+                               [autoCorrect]="true"
+                               [attr.disabled]="disableAdvancedSetting ? 'disabled' : null">
         </kendo-numerictextbox> %
         <div class="text-danger"
              *ngIf="missingMarketDataTypeType.value == missingMarketDataTypesIncreaseCurrentByPercent

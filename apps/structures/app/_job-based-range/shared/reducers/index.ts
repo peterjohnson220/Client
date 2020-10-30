@@ -120,6 +120,11 @@ export const getData = createSelector(
   fromSharedReducer.getData
 );
 
+export const getStructureHasPublished = createSelector(
+  selectSharedState,
+  fromSharedReducer.getStructureHasPublished
+);
+
 export const getStructureNameSuggestionsAsyncObj = createSelector(
   selectModelSettingsModalState, fromModelSettingsModalReducer.getStructureNameSuggestionsAsyncObj
 );

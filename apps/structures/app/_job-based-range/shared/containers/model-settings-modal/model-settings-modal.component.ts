@@ -14,6 +14,7 @@ import { MissingMarketDataTypes } from 'libs/constants/structures/missing-market
 
 import * as fromMetadataActions from '../../../shared/actions/shared.actions';
 import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
+import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromModelSettingsModalActions from '../../../shared/actions/model-settings-modal.actions';
 import * as fromJobBasedRangeReducer from '../../reducers';
 import { ControlPoint, Currency } from '../../models';
@@ -189,6 +190,14 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   // Events
   handleModalSubmit() {
     if (this.modelSettingsForm.valid) {
+      if (this.metadata.PayType !== this.modelSetting.PayType) {
+        this.store.dispatch(new fromSharedJobBasedRangeActions.GetStructureHasPublishedForType({
+          RangeGroupId: this.rangeGroupId,
+          PaymarketId: this.metadata.PaymarketId,
+          DistributionTypeId: this.metadata.RangeDistributionTypeId,
+          PayType: this.modelSetting.PayType
+        }));
+      }
       this.store.dispatch(new fromModelSettingsModalActions.SaveModelSettings(
         {
           rangeGroupId: this.rangeGroupId,
