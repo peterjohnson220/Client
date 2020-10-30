@@ -8,9 +8,8 @@ import { PfSecurityModule } from 'libs/security/security.module';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
-import { JwtQueryStringAuthInterceptor } from 'libs/core/services';
+import { JwtQueryStringAuthInterceptor, UnauthorizedHttpInterceptor, SentryErrorHandler, SentryService } from 'libs/core/services';
 import { PfCommonModule } from 'libs/core';
-import { SentryErrorHandler, SentryService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -38,6 +37,7 @@ import { AppRoutingModule } from './app-routing.module';
       multi: true
     },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedHttpInterceptor, multi: true },
     SentryService
   ],
   bootstrap: [AppComponent]
