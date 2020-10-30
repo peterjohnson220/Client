@@ -55,7 +55,7 @@ export class UploadPricingFileComponent implements OnChanges, OnInit, OnDestroy 
     this.notesSheetName$ = this.store.select(fromPricingLoaderMainReducer.getPricingNotesSheetName);
     this.matchNotesSheetName$ = this.store.select(fromPricingLoaderMainReducer.getPricingMatchNotesSheetName);
     this.validationOnly$ = this.store.select(fromPricingLoaderMainReducer.getValidationOnly);
-    this.featureFlagService.bindEnabled(this.pricingMatchNoteFeatureFlag,this.unsubscribe$);
+    this.featureFlagService.bindEnabled(this.pricingMatchNoteFeatureFlag, this.unsubscribe$);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

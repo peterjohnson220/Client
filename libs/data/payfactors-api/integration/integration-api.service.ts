@@ -6,7 +6,7 @@ import { DBEntityType } from 'apps/data-management/app/_main/models/db-entitytyp
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { FileType, UserContext } from 'libs/models';
+import { FileType, PagedResponse, UserContext } from 'libs/models';
 
 import { CompositeSummaryDownloadRequest } from '../../../models/dashboard';
 import {CompositeDataLoadSearchCriteria, CompositeDataLoadViewResponse} from '../../../models/admin/loader-dashboard';
@@ -28,7 +28,7 @@ export class IntegrationApiService {
   ) { }
 
   SearchCompositeDataLoads(userContext: UserContext, payload: CompositeDataLoadSearchCriteria,
-                           companyId?: number): Observable<CompositeDataLoadViewResponse[]> {
+                           companyId?: number): Observable<PagedResponse<CompositeDataLoadViewResponse>> {
     const host = this.getAPIBase(userContext);
     let apiURL = '';
     if (!companyId) {
