@@ -158,6 +158,19 @@ export class StatementEditPageEffects {
       })
     );
 
+  @Effect()
+  getCompanyUdf$ = this.actions$
+    .pipe(
+      ofType(fromStatementEditActions.GET_COMPANY_UDF),
+      switchMap((action: fromStatementEditActions.GetCompanyUDF) => {
+        return this.totalRewardsApiService.getCompanyUdfs()
+          .pipe(
+            map((response) => new fromStatementEditActions.GetCompanyUDFSuccess(response)),
+            catchError(() => of(new fromStatementEditActions.GetCompanyUDFError()))
+        );
+      })
+    );
+
   constructor(
     private store: Store<fromTotalRewardsReducer.State>,
     private actions$: Actions,

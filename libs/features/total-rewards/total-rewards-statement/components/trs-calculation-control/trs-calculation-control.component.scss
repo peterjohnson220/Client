@@ -50,15 +50,6 @@
   white-space: nowrap;
 }
 
-.add-button {
-  border: none;
-  color: inherit;
-  opacity: .6;
-  &:hover {
-    color: white;
-  }
-}
-
 .add-comp-field-item:hover {
   cursor: pointer;
   color: $link-color !important;

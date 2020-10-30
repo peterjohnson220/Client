@@ -4,7 +4,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import { GenericNameValue } from 'libs/models/common';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 import { EmployeeRewardsData, generateMockEmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
-import { ImageControl, Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
+import { CompensationField, ImageControl, Statement, StatementModeEnum } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { TotalRewardsStatementService } from 'libs/features/total-rewards/total-rewards-statement/services/total-rewards-statement.service';
 
 import * as fromEditStatementActions from '../actions';
@@ -22,6 +22,7 @@ export interface State {
   settingsSaveError: boolean;
   employeeData: AsyncStateObj<EmployeeRewardsData>;
   assignedEmployees: AsyncStateObj<GenericNameValue<number>[]>;
+  companyUdfs: AsyncStateObj<CompensationField[]>;
 }
 
 export const initialState: State = {
@@ -36,6 +37,7 @@ export const initialState: State = {
   settingsSaveError: false,
   employeeData: generateDefaultAsyncStateObj<EmployeeRewardsData>(null),
   assignedEmployees: generateDefaultAsyncStateObj<GenericNameValue<number>[]>([]),
+  companyUdfs: generateDefaultAsyncStateObj([]),
 };
 
 export function reducer(state = initialState, action: fromEditStatementActions.StatementEditPageActions): State {
@@ -244,6 +246,37 @@ export function reducer(state = initialState, action: fromEditStatementActions.S
       return {
         ...state,
         employeeData: employeeDataAsyncClone
+      };
+    }
+    case fromEditStatementActions.GET_COMPANY_UDF: {
+      const companyUdfClone: AsyncStateObj<CompensationField[]> = cloneDeep(state.companyUdfs);
+      companyUdfClone.loading = true;
+      companyUdfClone.loadingError = false;
+
+      return {
+        ...state,
+        companyUdfs: companyUdfClone
+      };
+    }
+    case fromEditStatementActions.GET_COMPANY_UDF_SUCCESS: {
+      const companyUdfClone: AsyncStateObj<CompensationField[]> = cloneDeep(state.companyUdfs);
+      companyUdfClone.loading = false;
+      companyUdfClone.obj = action.payload;
+
+      return {
+        ...state,
+        companyUdfs: companyUdfClone
+      };
+    }
+
+    case fromEditStatementActions.GET_COMPANY_UDF_ERROR: {
+      const companyUdfClone: AsyncStateObj<CompensationField[]> = cloneDeep(state.companyUdfs);
+      companyUdfClone.loading = false;
+      companyUdfClone.loadingError = true;
+
+      return {
+        ...state,
+        companyUdfs: companyUdfClone
       };
     }
     default: {

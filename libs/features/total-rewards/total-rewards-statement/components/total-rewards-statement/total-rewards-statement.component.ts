@@ -4,6 +4,7 @@ import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards';
 
 import {
   CalculationControl,
+  CompensationField,
   DeleteImageRequest,
   SaveImageRequest,
   Statement,
@@ -28,6 +29,7 @@ export class TotalRewardsStatementComponent {
   @Input() mode: StatementModeEnum;
   @Input() employeeRewardsData: EmployeeRewardsData;
   @Input() pageBreakAfter: boolean;
+  @Input() companyUdfs: CompensationField[];
 
   // Common Outputs
   @Output() onControlTitleChange: EventEmitter<UpdateTitleRequest> = new EventEmitter();

@@ -331,35 +331,6 @@ exports[`TrsCalculationControlComponent should display the Add Field button if a
       </tbody>
     </table>
     
-    
-    <div
-      class="d-inline-block"
-      ngbdropdown=""
-    >
-      <button
-        class="btn btn-sm btn-outline-primary add-button"
-        ngbdropdowntoggle=""
-        title="Add Field"
-      >
-        <fa-icon
-          class="fa-sm"
-        />
-      </button>
-      <div
-        class="w-auto"
-        ngbdropdownmenu=""
-      >
-        
-        <div>
-          <a
-            class="add-comp-field-item"
-            ngbdropdownitem=""
-          >
-            
-          </a>
-        </div>
-      </div>
-    </div>
   </div>
 </pf-trs-calculation-control>
 `;
