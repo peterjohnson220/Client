@@ -49,6 +49,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modelNameExistsFailureSub: Subscription;
   roundingSettingsSub: Subscription;
   enableJobRangeTypesSub: Subscription;
+  waitingForFormulaValidationSub: Subscription;
+  formulaValidatingSub: Subscription;
+  formulaValidSub: Subscription;
 
   controlPointsAsyncObj: AsyncStateObj<ControlPoint[]>;
   currenciesAsyncObj: AsyncStateObj<Currency[]>;
@@ -65,6 +68,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
   modelSetting: RangeGroupMetadata;
   minSpreadTooltip: string;
   maxSpreadTooltip: string;
+  waitingForFormulaValidation = false;
+  formulaValidating = false;
+  formulaValid = false;
   structuresAdvancedModelingFeatureFlag: RealTimeFlag = { key: FeatureFlags.StructuresAdvancedModeling, value: false };
   unsubscribe$ = new Subject<void>();
 
@@ -83,6 +89,10 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.structureNameSuggestionsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getStructureNameSuggestionsAsyncObj));
     this.savingModelSettingsAsyncObj$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getSavingModelSettingsAsyncObj));
     this.modelNameExistsFailure$ = this.store.pipe(select(fromSharedJobBasedRangeReducer.getModelNameExistsFailure));
+    this.waitingForFormulaValidationSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaWaitingForValidation))
+      .subscribe(fwfv => this.waitingForFormulaValidation = fwfv);
+    this.formulaValidatingSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValidating)).subscribe(fv => this.formulaValidating = fv);
+    this.formulaValidSub = this.store.pipe(select(fromJobBasedRangeReducer.getFormulaValid)).subscribe(fv => this.formulaValid = fv);
     this.enableJobRangeTypes$ = this.settingService.selectCompanySetting<boolean>(
       CompanySettingsEnum.EnableJobRangeStructureRangeTypes
     );
@@ -190,6 +200,11 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
 
   handleModalSubmitAttempt() {
     this.attemptedSubmit = true;
+    if (this.waitingForFormulaValidation || this.formulaValidating || !this.formulaValid) {
+      this.activeTab = 'modelTab';
+      return false;
+    }
+
     this.modelSetting = this.modelSettingsForm.getRawValue();
     if (this.enableJobRangeTypes) {
       // Set value for control point, range spread min and max, pay type
@@ -226,7 +241,7 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
       if (!!setting.ControlPoint) {
         this.modelSettingsForm.controls['ControlPoint'].setValue(setting.ControlPoint);
         this.setRequired('ControlPoint');
-        if (!!this.modelSetting.RangeDistributionSetting) {
+        if (!!this.modelSetting.RangeDistributionSetting && this.modelSetting.RangeDistributionSetting.ControlPoint_Formula != null) {
           this.modelSetting.RangeDistributionSetting.ControlPoint_Formula = null;
         }
       }
@@ -352,6 +367,9 @@ export class ModelSettingsModalComponent implements OnInit, OnDestroy {
     this.modelNameExistsFailureSub.unsubscribe();
     this.roundingSettingsSub.unsubscribe();
     this.enableJobRangeTypesSub.unsubscribe();
+    this.waitingForFormulaValidationSub.unsubscribe();
+    this.formulaValidatingSub.unsubscribe();
+    this.formulaValidSub.unsubscribe();
     this.unsubscribe$.next();
   }
 

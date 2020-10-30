@@ -156,6 +156,7 @@ describe('Job Based Ranges - Model Settings Modal', () => {
   it('should set attemptedSubmit to true (but leave the activeTab alone) if form is valid', () => {
     instance.buildForm();
     instance.activeTab = '';
+    instance.formulaValid = true;
     instance.handleModalSubmitAttempt();
 
     expect(instance.attemptedSubmit).toEqual(true);

@@ -1,11 +1,10 @@
-import cloneDeep from 'lodash/cloneDeep';
-
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models/state';
 import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
 import { FieldDataType, Field, PayfactorsApiModelMapper } from 'libs/features/formula-editor';
 
 
 export interface State {
+  waitingForValidation: boolean;
   validating: boolean;
   formulaValid: boolean;
   saving: boolean;
@@ -18,6 +17,7 @@ export interface State {
 }
 
 const initialState: State = {
+  waitingForValidation: false,
   validating: false,
   formulaValid: false,
   saving: false,
@@ -31,9 +31,16 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: fromFormulaFieldActions.Actions): State {
   switch (action.type) {
+    case fromFormulaFieldActions.WAIT_FOR_FORMULA_VALIDATION: {
+      return {
+        ...state,
+        waitingForValidation: true
+      };
+    }
     case fromFormulaFieldActions.VALIDATE_FORMULA: {
       return {
         ...state,
+        waitingForValidation: false,
         validating: true,
         formulaValid: false
       };
@@ -93,6 +100,7 @@ export function reducer(state = initialState, action: fromFormulaFieldActions.Ac
   }
 }
 
+export const getWaitingForValidation = (state: State) => state.waitingForValidation;
 export const getValidating = (state: State) => state.validating;
 export const getFormulaValid = (state: State) => state.formulaValid;
 export const getSaving = (state: State) => state.saving;

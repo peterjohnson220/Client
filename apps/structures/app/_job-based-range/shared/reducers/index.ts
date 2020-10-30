@@ -165,6 +165,11 @@ export const getFormulaFieldSuggestions = createSelector(
 );
 
 // Formula Field Modal
+export const getFormulaWaitingForValidation = createSelector(
+  selectFormulaFieldState,
+  fromFormulaFieldReducer.getWaitingForValidation
+);
+
 export const getFormulaValidating = createSelector(
   selectFormulaFieldState,
   fromFormulaFieldReducer.getValidating
