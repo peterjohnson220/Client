@@ -136,12 +136,14 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     this.baseEntitySub = this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, this.pageViewId)).subscribe(be => {
-      this.baseEntity = be;
-      if (!!this.metadata.RangeDistributionSetting && !!this.metadata.RangeDistributionSetting.ControlPoint_Formula) {
-        this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({
-          formula: this.metadata.RangeDistributionSetting.ControlPoint_Formula.Formula,
-          baseEntityId: this.baseEntity.Id
-        }));
+      if (be) {
+        this.baseEntity = be;
+        if (!!this.metadata.RangeDistributionSetting && !!this.metadata.RangeDistributionSetting.ControlPoint_Formula) {
+          this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({
+            formula: this.metadata.RangeDistributionSetting.ControlPoint_Formula.Formula,
+            baseEntityId: this.baseEntity.Id
+          }));
+        }
       }
     });
   }
