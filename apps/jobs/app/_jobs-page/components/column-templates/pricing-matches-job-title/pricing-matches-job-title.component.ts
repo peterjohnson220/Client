@@ -8,9 +8,9 @@ import { filter } from 'rxjs/operators';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
-import { UpdatePricingMatchRequest, PricingUpdateStrategy, ViewField } from 'libs/models/payfactors-api';
+import { UpdatePricingMatchRequest, ViewField } from 'libs/models/payfactors-api';
 import { PermissionService } from 'libs/core';
 import { AsyncStateObj } from 'libs/models';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
@@ -26,8 +26,8 @@ import {
 import * as fromUpsertPeerActions from 'libs/features/upsert-peer-data-cut/actions';
 
 import { PageViewIds } from '../../../constants';
-import * as fromJobsPageActions from '../../../actions';
-import * as fromJobsPageReducer from '../../../reducers';
+import * as fromModifyPricingsActions from '../../../actions';
+import * as fromModifyPricingsReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-pricing-matches-job-title',
@@ -91,7 +91,7 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   constructor(
     public permissionService: PermissionService,
-    private store: Store<fromJobsPageReducer.State>,
+    private store: Store<fromModifyPricingsReducer.State>,
     private actionsSubject: ActionsSubject,
     private cdRef: ChangeDetectorRef) { }
 
@@ -106,9 +106,9 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       this.pricingMatchesCount = data?.total;
     });
 
-    this.deletingPricingMatch$ = this.store.select(fromJobsPageReducer.getDeletingPricingMatch);
+    this.deletingPricingMatch$ = this.store.select(fromModifyPricingsReducer.getDeletingPricingMatch);
     this.getDeletingPricingMatchSuccessSubscription = this.actionsSubject
-      .pipe(ofType(fromJobsPageActions.DELETING_PRICING_MATCH_SUCCESS))
+      .pipe(ofType(fromModifyPricingsActions.DELETING_PRICING_MATCH_SUCCESS))
       .subscribe(data => {
         this.showDeletePricingMatchModal.next(false);
       });
@@ -149,12 +149,11 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
             MatchAdjustment: null,
             SurveyDataId: null,
             ExchangeDataCutId: data['payload']['UserJobMatchId'],
-            PricingUpdateStrategy: PricingUpdateStrategy.ParentLinkedSlotted
           };
           const pricingId = this.dataRow['CompanyJobs_PricingsMatches_CompanyJobPricing_ID'];
           const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
 
-          this.store.dispatch(new fromJobsPageActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
+          this.store.dispatch(new fromModifyPricingsActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
         }
       });
   }
@@ -189,11 +188,11 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
 
   openDeletePricingMatchModal() {
     this.showDeletePricingMatchModal.next(true);
-    this.store.dispatch(new fromJobsPageActions.ResetErrorsForModals());
+    this.store.dispatch(new fromModifyPricingsActions.ResetModifyPricingsModals());
   }
 
   deletePricingMatch(datarow: any) {
-    this.store.dispatch(new fromJobsPageActions.DeletingPricingMatch(
+    this.store.dispatch(new fromModifyPricingsActions.DeletingPricingMatch(
       datarow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID
     ));
   }
@@ -211,14 +210,13 @@ export class PricingMatchesJobTitleComponent implements OnInit, AfterViewChecked
       MatchId: this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID,
       MatchWeight: this.weight,
       MatchAdjustment: this.adjustment,
-      SurveyDataId: null,
       ExchangeDataCutId: null,
-      PricingUpdateStrategy: PricingUpdateStrategy.Parent
+      SurveyDataId: null
     };
     const pricingId = this.dataRow.CompanyJobs_PricingsMatches_CompanyJobPricing_ID;
     const matchesGridPageViewId = `${PageViewIds.PricingMatches}_${pricingId}`;
 
-    this.store.dispatch(new fromJobsPageActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
+    this.store.dispatch(new fromModifyPricingsActions.UpdatingPricingMatch(request, pricingId, matchesGridPageViewId));
   }
 
   reScopeSurveyData() {

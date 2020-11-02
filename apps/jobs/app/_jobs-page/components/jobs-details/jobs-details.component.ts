@@ -8,10 +8,14 @@ import { Subscription, Observable } from 'rxjs';
 import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/pf-data-grid/reducers';
 import * as fromMultiMatchActions from 'libs/features/multi-match/actions';
+import * as fromNotificationActions from 'libs/features/app-notifications/actions';
+import * as fromRootReducer from 'libs/state/state';
 
 import * as fromJobsPageActions from '../../actions';
 
+
 import { PageViewIds } from '../../constants';
+import { AppNotification, NotificationType } from 'libs/features';
 
 @Component({
   selector: 'pf-jobs-details',
@@ -25,23 +29,27 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
 
   @Output() onClose = new EventEmitter();
   @Output() tabChanged = new EventEmitter();
+
   viewLoadedPayMarketSubscription: Subscription;
   viewLoadedEmployeesSubscription: Subscription;
   viewLoadedStructuresSubscription: Subscription;
   viewLoadedProjectsSubscription: Subscription;
   viewLoadedHistorySubscription: Subscription;
   recalculatePricingSubscription: Subscription;
+  recalculateRelatedPricingsSubscription: Subscription;
+  userContextSubscription: Subscription;
+
+  selectedRow$: Observable<any>;
 
   tabStatusLoaded = {};
   tabStatusOpened = {};
   activeTab: string;
 
+  userId: number;
   pageViewIds = PageViewIds;
 
-  selectedRow$: Observable<any>;
-
   constructor(private store: Store<fromPfGridReducer.State>,
-              private actionsSubject: ActionsSubject) {
+    private actionsSubject: ActionsSubject) {
     this.selectedRow$ = this.store.select(fromPfGridReducer.getSelectedRow, PageViewIds.Jobs);
 
     this.viewLoadedPayMarketSubscription = this.store.select(fromPfGridReducer.getLoading, PageViewIds.PayMarkets).subscribe((o) => {
@@ -59,8 +67,19 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
     this.viewLoadedHistorySubscription = this.store.select(fromPfGridReducer.getLoading, PageViewIds.PricingHistory).subscribe((o) => {
       this.tabStatusLoaded[PageViewIds.PricingHistory] = !o;
     });
+    this.userContextSubscription = this.store.select(fromRootReducer.getUserContext).subscribe(userContext => {
+      this.userId = userContext?.UserId;
+    });
 
-    this.recalculatePricingSubscription = this.actionsSubject.pipe(
+    this.recalculatePricingSubscription = this.actionsSubject.pipe(ofType(fromNotificationActions.ADD_NOTIFICATION))
+      .subscribe((action: fromNotificationActions.AddNotification)  => {
+        if (action.payload.From === 'Recalculate Related Pricing'
+          && action.payload.Payload.Message === this.userId.toString()) {
+          this.recalculatedRelatedPricingsHandler(action.payload.Payload.SecondaryMessage);
+        }
+      });
+
+    this.recalculateRelatedPricingsSubscription = this.actionsSubject.pipe(
       ofType(fromJobsPageActions.UPDATING_PRICING_MATCH_SUCCESS, // re scope survey data, weight/adj text boxes
         fromJobsPageActions.DELETING_PRICING_MATCH_SUCCESS,
         fromJobsPageActions.UPDATING_PRICING_SUCCESS, // composite adjustment text box on parent pricing
@@ -68,6 +87,15 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
     ).subscribe(data => {
       this.tabStatusLoaded[PageViewIds.PricingHistory] = false;
     });
+
+  }
+
+  recalculatedRelatedPricingsHandler(pricingIds: number[]) {
+    if (this.activeTab === PageViewIds.PayMarkets) {
+      this.store.dispatch(new fromJobsPageActions.RefreshLinkedPricings(pricingIds));
+    } else {
+      this.tabStatusLoaded[PageViewIds.PayMarkets] = false;
+    }
   }
 
   close() {
@@ -101,5 +129,6 @@ export class JobsDetailsComponent implements OnDestroy, OnInit {
     this.viewLoadedProjectsSubscription.unsubscribe();
     this.viewLoadedHistorySubscription.unsubscribe();
     this.recalculatePricingSubscription.unsubscribe();
+    this.recalculateRelatedPricingsSubscription.unsubscribe();
   }
 }
