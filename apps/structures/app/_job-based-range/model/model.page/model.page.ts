@@ -11,7 +11,9 @@ import { PfDataGridFilter } from 'libs/features/pf-data-grid/models';
 import * as pfDataGridActions from 'libs/features/pf-data-grid/actions';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
-import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
+import { DataViewEntity, DataViewFilter } from 'libs/models/payfactors-api/reports/request';
+import * as fromFormulaFieldActions from 'libs/features/formula-editor/actions/formula-field.actions';
+import * as fromPfDataGridReducer from 'libs/features/pf-data-grid/reducers';
 
 import * as fromSharedJobBasedRangeReducer from '../../shared/reducers';
 import * as fromModelSettingsModalActions from '../../shared/actions/model-settings-modal.actions';
@@ -44,6 +46,8 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
   comparingSub: Subscription;
   metadataSub: Subscription;
   metadata: RangeGroupMetadata;
+  baseEntity: DataViewEntity;
+  baseEntitySub: Subscription;
 
   constructor(
     private store: Store<any>,
@@ -73,9 +77,7 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       PermissionCheckEnum.Single);
 
     this.pageViewIdSubscription = this.structuresPagesService.modelPageViewId.subscribe(pv => this.pageViewId = pv);
-    this.comparingSub = this.sharedStore.select(fromSharedJobBasedRangeReducer.getComparingModels).subscribe(flag => {
-      this.comparingFlag = flag;
-    });
+    this.comparingSub = this.sharedStore.select(fromSharedJobBasedRangeReducer.getComparingModels).subscribe(flag => this.comparingFlag = flag);
     this._Permissions = Permissions;
   }
 
@@ -128,9 +130,18 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
       this.filters = cloneDeep(this.filters);
       this.filters.find(f => f.SourceName === 'CompanyStructuresRangeGroup_ID').Value = this.rangeGroupId;
     });
-    this.metadataSub = this.metaData$.subscribe( md => {
+    this.metadataSub = this.metaData$.subscribe(md => {
       if (md) {
         this.metadata = md;
+      }
+    });
+    this.baseEntitySub = this.store.pipe(select(fromPfDataGridReducer.getBaseEntity, this.pageViewId)).subscribe(be => {
+      this.baseEntity = be;
+      if (!!this.metadata.RangeDistributionSetting && !!this.metadata.RangeDistributionSetting.ControlPoint_Formula) {
+        this.store.dispatch(new fromFormulaFieldActions.ValidateFormula({
+          formula: this.metadata.RangeDistributionSetting.ControlPoint_Formula.Formula,
+          baseEntityId: this.baseEntity.Id
+        }));
       }
     });
   }
@@ -161,5 +172,6 @@ export class ModelPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pageViewIdSubscription.unsubscribe();
     this.comparingSub.unsubscribe();
     this.metadataSub.unsubscribe();
+    this.baseEntitySub.unsubscribe();
   }
 }
