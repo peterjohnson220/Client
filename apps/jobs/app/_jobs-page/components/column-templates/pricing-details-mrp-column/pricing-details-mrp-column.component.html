@@ -1,12 +1,20 @@
 <div pfEllipsisActive class="ellipsis-overflowing-text">
-  <span *ngIf="!category.includes('Pct'); else pctValue" [innerHTML]="dataRow['CompanyJobs_Pricings_' + category + 'MRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] | emptyPlaceholder"></span>
-  <small *ngIf="dataRow['CompanyJobs_Pricings_' + category + 'MRP'] != null">
+  <span *ngIf="!mrpModel.Category.includes('Pct'); else pctValue" [innerHTML]="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] | comp: dataRow[mrpModel.DataPrefix + 'Rate'] | emptyPlaceholder"></span>
+  <small *ngIf="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] != null; else mrpOverrideTemplate">
     <em class="text-muted">
-      ({{dataRow['CompanyJobs_Pricings_'+category+'_Reference_Point'] || 50}}{{percentileSuffix}})
+      ({{dataRow[mrpModel.DataPrefix + mrpModel.Category + mrpModel.DataSuffix] || 50}}{{mrpModel.PercentileSuffix}})
     </em>
   </small>
 </div>
 
+<ng-template #mrpOverrideTemplate>
+  <small *ngIf="mrpOverride !== ''">
+    <em class="text-muted">
+      ({{mrpOverride}})
+    </em>
+  </small>
+</ng-template>
+
 <ng-template #pctValue>
-  <span [innerHTML]="dataRow['CompanyJobs_Pricings_' + category + 'MRP'] | comp: dataRow['CompanyJobs_Pricings_Rate'] : 'full'| emptyPlaceholder"></span>
+  <span [innerHTML]="dataRow[mrpModel.DataPrefix + mrpModel.Category + 'MRP'] | comp: dataRow[mrpModel.DataPrefix + 'Rate'] : 'full'| emptyPlaceholder"></span>
 </ng-template>

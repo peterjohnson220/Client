@@ -41,6 +41,14 @@
   ></pf-pricing-matches-job-title>
 </ng-template>
 
+<ng-template #genericMrpColumn let-dataRow="dataRow" let-fieldName="fieldName">
+  <pf-pricing-details-mrp-column
+    [dataRow]="dataRow"
+    [fieldName]="fieldName"
+    [mrpDisplayOverrides]="mrpDisplayOverrides"
+  ></pf-pricing-details-mrp-column>
+</ng-template>
+
 <ng-template #agingColumn  let-dataRow="dataRow" let-fieldName="fieldName">
   <div class="ellipsis-overflowing-text">
     <span [innerHTML]="dataRow[fieldName] | number: '1.1-1' | emptyPlaceholder"></span>
