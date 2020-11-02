@@ -1,9 +1,9 @@
-import { CompanyDto, CompanyFormData, CompanySetting, CompanySettingsEnum } from 'libs/models/company';
+import { CompanyDto, CompanyFormData, CompanySetting, CompanySettingsEnum, CustomCompanySettingsDisplayEnum } from 'libs/models/company';
 import { CompanySettingsSaveRequest } from 'libs/models/payfactors-api/settings';
 import { CompanyTilesResponse } from 'libs/models/payfactors-api';
 import { TileNames } from 'libs/constants';
-
-import { CustomCompanySettings } from '../models';
+import { CustomCompanySetting } from '../models';
+import { CompanySettingsListType } from '../constants/settings-constants';
 
 export class CompanyPageHelper {
   static buildAddNewCompanyFormData(systemUserGroupsId: number): CompanyFormData {
@@ -101,32 +101,140 @@ export class CompanyPageHelper {
     };
   }
 
-  static buildDefaultCustomCompanySettings(): CustomCompanySettings {
-    return {
-      EnablePricingReview: false,
-      ParticipateInPeerDataExchange: true,
-      EnableLibraryForRoutedJobDescriptions: true,
-      EnableEmployeeAcknowledgement: false,
-      EnableWorkflowEmployeeResults: false,
-      RestrictWorkflowToCompanyEmployeesOnly: false,
-      HideSecondarySurveyDataFields: true,
-      EnableLiveChat: false,
-      EnableIntervalAgingFactor: false
-    };
+  static buildDefaultCustomCompanySettings(): CustomCompanySetting[] {
+    return [
+      {
+        Key: CompanySettingsEnum.EnablePricingReview,
+        Value: false,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnablePricingReview,
+        Index: 16,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.ParticipateInPeerDataExchange,
+        Value: true,
+        DisplayName: CustomCompanySettingsDisplayEnum.ParticipateInPeerDataExchange,
+        Index: 0,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableLibraryForRoutedJobDescriptions,
+        Value: true,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnableLibraryForRoutedJobDescriptions,
+        Index: 7,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableEmployeeAcknowledgement,
+        Value: false,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnableEmployeeAcknowledgement,
+        Index: 8,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableWorkflowEmployeeResults,
+        Value: false,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnableWorkflowEmployeeResults,
+        Index: 9,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.RestrictWorkflowToCompanyEmployeesOnly,
+        Value: false,
+        DisplayName: CustomCompanySettingsDisplayEnum.RestrictWorkflowToCompanyEmployeesOnly,
+        Index: 10,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.HideSecondarySurveyDataFields,
+        Value: true,
+        DisplayName: CustomCompanySettingsDisplayEnum.HideSecondarySurveyDataFields,
+        Index: 12,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableLiveChat,
+        Value: false,
+        DisplayName: CustomCompanySettingsDisplayEnum.HideSecondarySurveyDataFields,
+        Index: 19,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableIntervalAgingFactor,
+        Value: false,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnableIntervalAgingFactor,
+        Index: 15,
+        Type: CompanySettingsListType.Custom
+      }
+  ];
   }
 
-  static buildCustomCompanySettings(company: CompanyDto): CustomCompanySettings {
-    return {
-      EnablePricingReview: company.EnablePricingReview,
-      ParticipateInPeerDataExchange: company.ParticipateInPeerDataExchange,
-      EnableLibraryForRoutedJobDescriptions: company.EnableLibraryForRoutedJobDescriptions,
-      EnableEmployeeAcknowledgement: company.EnableEmployeeAcknowledgement,
-      EnableWorkflowEmployeeResults: company.EnableWorkflowEmployeeResults,
-      RestrictWorkflowToCompanyEmployeesOnly: company.RestrictWorkflowToCompanyEmployeesOnly,
-      HideSecondarySurveyDataFields: company.HideSecondarySurveyDataFields,
-      EnableLiveChat: company.EnableLiveChat,
-      EnableIntervalAgingFactor: company.EnableIntervalAgingFactor
-    };
+  static buildCustomCompanySettings(company: CompanyDto): CustomCompanySetting[] {
+    return [
+      {
+        Key: CompanySettingsEnum.ParticipateInPeerDataExchange,
+        Value: company.ParticipateInPeerDataExchange,
+        DisplayName: CustomCompanySettingsDisplayEnum.ParticipateInPeerDataExchange,
+        Index: 0,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableLibraryForRoutedJobDescriptions,
+        Value: company.EnableLibraryForRoutedJobDescriptions,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnableLibraryForRoutedJobDescriptions,
+        Index: 7,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableEmployeeAcknowledgement,
+        Value: company.EnableEmployeeAcknowledgement,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnableEmployeeAcknowledgement,
+        Index: 8,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableWorkflowEmployeeResults,
+        Value: company.EnableWorkflowEmployeeResults,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnableWorkflowEmployeeResults,
+        Index: 9,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.RestrictWorkflowToCompanyEmployeesOnly,
+        Value: company.RestrictWorkflowToCompanyEmployeesOnly,
+        DisplayName: CustomCompanySettingsDisplayEnum.RestrictWorkflowToCompanyEmployeesOnly,
+        Index: 10,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.HideSecondarySurveyDataFields,
+        Value: company.HideSecondarySurveyDataFields,
+        DisplayName: CustomCompanySettingsDisplayEnum.HideSecondarySurveyDataFields,
+        Index: 12,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableIntervalAgingFactor,
+        Value: company.EnableIntervalAgingFactor,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnableIntervalAgingFactor,
+        Index: 15,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnablePricingReview,
+        Value: company.EnablePricingReview,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnablePricingReview,
+        Index: 16,
+        Type: CompanySettingsListType.Custom
+      },
+      {
+        Key: CompanySettingsEnum.EnableLiveChat,
+        Value: company.EnableLiveChat,
+        DisplayName: CustomCompanySettingsDisplayEnum.EnableLiveChat,
+        Index: 19,
+        Type: CompanySettingsListType.Custom
+      },
+    ];
   }
 
   static getNonPeerClientTypeCompanyTiles(tiles: CompanyTilesResponse[]): CompanyTilesResponse[] {

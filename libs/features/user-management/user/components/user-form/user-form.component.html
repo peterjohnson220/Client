@@ -92,12 +92,16 @@
     <div class="form-group" *ngIf="showPassword">
       <label class="control-label" for="password">Password <span class="text-danger">*</span></label>
       <input id="user-form-password" type="password" class="form-control" formControlName="password" placeholder="Password" [maxlength]="MAX_PASSWORD_LENGTH"
-        [ngClass]="{ 'is-invalid': !f.password.valid && f.password.touched }" autocomplete="new-password">
-      <span *ngIf="f.password.errors?.required" class="invalid-feedback">Password is required</span>
-      <span *ngIf="f.password.errors?.minlength" class="invalid-feedback">Password must be at least {{MIN_PASSWORD_LENGTH}} characters</span>
-      <span *ngIf="f.password.errors?.maxlength" class="invalid-feedback">Password cannot be longer than {{MAX_PASSWORD_LENGTH}} characters</span>
-      <button type="button" class="btn btn-link" (click)="showPassword = false">Automatically generate a new password...</button>
+        [ngClass]="{ 'is-invalid': !f.password.valid && f.password.touched }" 
+        autocomplete="new-password"
+        (keyup)="validatePassword()"
+        (focus)="setPasswordFocus()">   
+      <div *ngFor="let validationRule of passwordValidationRules" class="text-danger small"> 
+        <span *ngIf="!validationRule.IsSatisfied && passwordFocused">{{ validationRule.Message }}</span>
+      </div>  
+      <button type="button" class="btn btn-link" (click)="showPassword = false">Automatically generate a new password...</button>  
     </div>
+    
     <div class="form-group" *ngIf="!showPassword">
       A new password will be automatically generated for this user.
       <button type="button" class="btn btn-link" (click)="showPassword = true">Enter password manually...</button>
