@@ -38,6 +38,5 @@ export const statementsGridFields: StatementsGridField[] = [
     DisplayName: 'Employees',
     DataType: 'int',
     Width: 120,
-    CustomClass: 'text-right'
   }
 ];
