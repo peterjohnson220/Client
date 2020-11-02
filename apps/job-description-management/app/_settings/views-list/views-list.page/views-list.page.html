@@ -1,60 +1,72 @@
 <div class="flex-column-container">
   <h4>Job Description Views</h4>
-
   <p>
     A Job Description View is a way to determine what sections and content controls a user is able to see while looking at a Job Description. Create and edit specific Job Description Views necessary for your organization.
   </p>
-
   <div class="card flex-grow-1 d-flex">
     <div class="card-header d-flex justify-content-between">
-      <div class="w-25">
-        <pf-input-debounce class="w-25"
+      <div class="search-container">
+        <pf-input-debounce class="w-150"
           [id]="'viewsFilter'"
           [placeholderText]="'Search Views'"
           [hideClearBtn]="true"
+          [value]="searchValue"
           (valueChanged)="handleSearchValueChanged($event)">
         </pf-input-debounce>
+        <kendo-combobox class="pl-3"           
+          [data]="templateData"
+          [placeholder]="'Select Template'"
+          [textField]="'TemplateName'"
+          [valueField]="'TemplateId'"
+          (valueChange)="handleTemplateChanged($event)">
+        </kendo-combobox>
       </div>
       <button (click)="openUpsertViewModal(true, '', $event)" class="btn btn-primary align-self-center">Create View</button>
     </div>
-    <div class="card-body">
-      <ng-container *ngIf="(viewsListAsyncObj$ | async) as viewsAsync">
-        <pf-async-container [smartLoadingMask]="true" [loading]="viewsAsync.loading" [loadingError]="viewsAsync.loadingError">
-          <ng-container *ngIf="(viewsAsync.obj | filterArrayByName: viewsFilter) as filteredViews">
-            <table class="table table-hover" *ngIf="filteredViews.length; else noViews">
-              <tbody>
-                <tr (click)="handleViewClicked(view.Name)" *ngFor="let view of filteredViews; trackBy: viewsTrackByFn">
-                  <td width="96%" class="align-middle">
-                    {{view.Name}}
-                  </td>
-                  <td width="4%">
-                    <div class="d-flex">
-                      <button class="btn btn-sm btn-secondary mr-2"
-                              [attr.data-qa-id]="'btn-editView'"
-                              (click)="openUpsertViewModal(false, view.Name, $event)">
-                        <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
-                      </button>
-                      <div (click)="handleDeleteViewClicked(view.Name, $event)">
-                        <button class="btn btn-sm btn-secondary"
-                                [attr.data-qa-id]="'btn-deleteView'"
-                                [disabled]="isSystemView(view.Name)">
-                          <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
-                        </button>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </ng-container>
-          <ng-template #noViews>
-            <div class="p-2">
-              No Views
-            </div>
-          </ng-template>
-        </pf-async-container>
-      </ng-container>
-    </div>
+  <div class="card-body">
+    <ng-container *ngIf="(viewsListAsyncObj$ | async) as viewsAsync">
+      <pf-async-container [loading]="viewsAsync.loading" [loadingError]="viewsAsync.loadingError">
+          <kendo-grid 
+            [data]="gridView" 
+            [selectable]="true" 
+            [sortable]="{
+              allowUnsort: true,
+              mode: 'single'
+            }"
+            [sort]="sort"
+            (sortChange)="sortChange($event)"
+            (selectionChange)="gridSelectionChange($event)">
+            <kendo-grid-column field="ViewName" title="View Name">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.ViewName}}
+            </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="Templates" title="Templates">
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <a>{{dataItem.Templates.length > 0 ? dataItem.Templates.length : "-"}}</a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="ExportSchedules" title="Bulk Export">
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <a>{{dataItem.ExportSchedules.length > 0 ? dataItem.ExportSchedules.length : "-"}}</a>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column [width]="80">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <button class="btn btn-sm btn-secondary mr-2" [attr.data-qa-id]="'btn-editView'"
+                  (click)="openUpsertViewModal(false, dataItem.ViewName, $event)">
+                  <fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>
+                </button>
+                <button class="btn btn-sm btn-secondary" [attr.data-qa-id]="'btn-deleteView'"
+                  [disabled]="isSystemView(dataItem.ViewName)"
+                  (click)="handleDeleteViewClicked(dataItem.ViewName, $event)">
+                  <fa-icon [icon]="['far', 'trash-alt']"></fa-icon>
+                </button>
+              </ng-template>
+            </kendo-grid-column>
+          </kendo-grid>
+      </pf-async-container>
+    </ng-container>
   </div>
 </div>
 
