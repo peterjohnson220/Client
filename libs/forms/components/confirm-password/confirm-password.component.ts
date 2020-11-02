@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidationRules } from './validation-rules.model';
+import { PfPasswordValidators } from 'libs/forms/validators/pf-password-validators';
 
 
 @Component({
@@ -37,74 +38,15 @@ export class ConfirmPasswordComponent implements OnInit {
   }
 
   setupValidation() {
-    const rules = [];
+    const rules = PfPasswordValidators.getPasswordValidationRules(
+      this.minLength,
+      this.allowSpaces,
+      this.numberOfRequiredUppercaseCharacters,
+      this.numberOfRequiredLowercaseCharacters,
+      this.numberOfRequiredSpecialCharacters,
+      this.numberOfRequiredNumericCharacters);
 
-    // Allow Spaces
-    if (this.allowSpaces === false) {
-      rules.push({
-        Name: 'Spaces',
-        Message: 'Must not contain spaces',
-        Rule: '(^\\S*$)',
-        IsSatisfied: false
-      });
-    }
-
-    // Min total character required
-    if (ConfirmPasswordComponent.hasPositiveNumber(this.minLength)) {
-      const minLengthRegex = '^.{' + this.minLength + ',}$';
-      rules.push({
-        Name: 'Minimum Length',
-        Message: 'Must be ' + this.minLength + ' characters or more',
-        Rule: minLengthRegex,
-        IsSatisfied: false
-      });
-    }
-
-    // Min uppercase characters required
-    if (ConfirmPasswordComponent.hasPositiveNumber(this.numberOfRequiredUppercaseCharacters )) {
-      const uppercaseRegex = '(?=(.*[A-Z]){' + this.numberOfRequiredUppercaseCharacters + '})';
-      rules.push({
-        Name: 'Uppercase',
-        Message: 'Must include ' + this.numberOfRequiredUppercaseCharacters + ' or more uppercase letters',
-        Rule: uppercaseRegex,
-        IsSatisfied: false
-      });
-    }
-
-    // Min lowercase characters required
-    if (ConfirmPasswordComponent.hasPositiveNumber(this.numberOfRequiredLowercaseCharacters)) {
-      const lowercaseRegex = '(?=(.*[a-z]){' + this.numberOfRequiredLowercaseCharacters + '})';
-      rules.push({
-        Name: 'Lowercase',
-        Message: 'Must include ' + this.numberOfRequiredLowercaseCharacters + ' or more lowercase letters',
-        Rule: lowercaseRegex,
-        IsSatisfied: false
-      });
-    }
-
-    // Min numerical characters required
-    if (ConfirmPasswordComponent.hasPositiveNumber(this.numberOfRequiredNumericCharacters)) {
-      const numericRegex = '(?=(.*[0-9]){' + this.numberOfRequiredNumericCharacters + '})';
-      rules.push({
-        Name: 'Numbers',
-        Message: 'Must include ' + this.numberOfRequiredNumericCharacters + ' or more numeric characters',
-        Rule: numericRegex,
-        IsSatisfied: false
-      });
-    }
-
-    // Min special characters required
-    if (ConfirmPasswordComponent.hasPositiveNumber(this.numberOfRequiredSpecialCharacters)) {
-      const specialCharacterRegex = '(?=(.*[!@#$%]){' + this.numberOfRequiredSpecialCharacters + '})';
-      rules.push({
-        Name: 'Special Character',
-        Message: 'Must include ' + this.numberOfRequiredSpecialCharacters + ' or more special characters (!@#$%)',
-        Rule: specialCharacterRegex,
-        IsSatisfied: false
-      });
-    }
-
-    // No username allowed
+       // No username allowed
     if (this.allowUsername) {
       const username = this.allowUsername.split('@')[0].toLowerCase();
       rules.push({

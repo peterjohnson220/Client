@@ -18,7 +18,7 @@
       </tr>
     </table>
   </div>
-  <div class="text-center mt-3">
+  <div *ngIf="!model.MarketingEnabled" class="text-center mt-3">
     <a *ngIf="model.DetailData && model.MainButtonUrl.length > 0" class="btn tile-preview-list-button p-2" [href]="model.MainButtonUrl">
       {{model.MainButtonText}}
     </a>
