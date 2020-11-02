@@ -10,7 +10,7 @@
       <fa-icon [icon]="['fal', 'tags']" class="tag-icon-center"></fa-icon>
     </button>
     <button [disabled]="(savingCompany$ | async) || submitDisabled" id="company-form-submit"
-      (click)="handleSaveClicked(companyPageTabs.customCompanySettings)"
+      (click)="handleSaveClicked(companyPageTabs.companySettings)"
       class="btn btn-primary">{{(savingCompany$ | async) ? 'Saving' : 'Save'}}
     </button>
     <button [disabled]="savingCompany$ | async" (click)="handleCancelClicked()" class="btn btn-secondary">Cancel</button>
