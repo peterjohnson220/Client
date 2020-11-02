@@ -79,7 +79,7 @@
                 [style.flex-basis]="isSplitView() ? gridContainerSplitViewWidth : null">
               <div class="flex-column-container">
                 <div class="d-flex h-100">
-                  <div class="full-size-wrapper" [style.min-height]="compactGridMinHeight ? compactGridMinHeight : null">
+                  <div [ngClass]="{'full-size-wrapper': true, 'hide-horizontal-scrollbar': compactGrid}" [style.min-height]="compactGridMinHeight ? compactGridMinHeight : null">
                     <div [ngClass]="{'grid-container' : !compactGrid, 'compact-grid-container' : compactGrid && compactGridMinHeight}">
                       <button *ngIf="this.showSplitViewToggle" class="btn btn-sm btn-secondary float-right overlayBtn" (click)="toggleSplitView()">
                         <fa-icon *ngIf="this.normalSplitViewWidth === this.gridContainerSplitViewWidth" [icon]="['fas','expand-alt']"></fa-icon>
